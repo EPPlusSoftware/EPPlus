@@ -418,8 +418,8 @@ namespace EPPlusTest.Drawing
             _pck.Workbook.ThemeManager.CreateDefaultTheme();
 
             var theme = _pck.Workbook.ThemeManager.CurrentTheme;
-            Assert.AreEqual("Calibri Light", theme.FontScheme.MajorFont[0].Typeface);
-            Assert.AreEqual("Calibri", theme.FontScheme.MinorFont[0].Typeface);
+            Assert.AreEqual("Aptos Display", theme.FontScheme.MajorFont[0].Typeface);
+            Assert.AreEqual("Aptos Narrow", theme.FontScheme.MinorFont[0].Typeface);
             theme.Name = "My custom theme";
             theme.FontScheme.MajorFont.SetLatinFont("Arial");
             theme.FontScheme.MinorFont.SetLatinFont("Arial");

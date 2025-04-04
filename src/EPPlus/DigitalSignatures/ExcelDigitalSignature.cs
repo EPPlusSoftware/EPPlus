@@ -49,7 +49,7 @@ namespace OfficeOpenXml.DigitalSignatures
 
         XmlDocument _doc;
 
-        bool wasRead = false;
+        //bool wasRead = false;
         private SignatureProperty signatureProperty;
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace OfficeOpenXml.DigitalSignatures
         /// <summary>
         /// Reason for signing the document-
         /// </summary>
-        public string PurposeForSigning = "";
+        public string PurposeForSigning { get; set; } = "";
         /// <summary>
         /// Commitment Type.
         /// </summary>
@@ -200,7 +200,7 @@ namespace OfficeOpenXml.DigitalSignatures
             string serialInFile = _qualifyingProperties.SignedProps.SignatureProps.Serial;
 
 
-            wasRead = true;
+            //wasRead = true;
         }
 
         internal ExcelDigitalSignature(ExcelWorkbook wb, XmlNamespaceManager ns, int num) : base(ns)

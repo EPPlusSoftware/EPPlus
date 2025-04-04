@@ -7,6 +7,7 @@ items:
   children:
   - OfficeOpenXml.Drawing.ExcelDrawingAsType.Chart
   - OfficeOpenXml.Drawing.ExcelDrawingAsType.Control
+  - OfficeOpenXml.Drawing.ExcelDrawingAsType.OleObject
   - OfficeOpenXml.Drawing.ExcelDrawingAsType.Picture
   - OfficeOpenXml.Drawing.ExcelDrawingAsType.Shape
   - OfficeOpenXml.Drawing.ExcelDrawingAsType.Slicer
@@ -21,11 +22,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingAsType
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -64,11 +65,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
-    startLine: 35
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -107,11 +108,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Shape
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
-    startLine: 44
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -145,11 +146,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Picture
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
-    startLine: 56
+    startLine: 57
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -183,11 +184,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Chart
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
-    startLine: 67
+    startLine: 68
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -220,11 +221,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Slicer
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
-    startLine: 83
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -257,11 +258,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Control
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
-    startLine: 101
+    startLine: 102
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -275,6 +276,44 @@ items:
       description: ''
     content.vb: Public ReadOnly Property Control As ExcelControlAsType
   overload: OfficeOpenXml.Drawing.ExcelDrawingAsType.Control*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.OleObject
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingAsType.OleObject
+  id: OleObject
+  parent: OfficeOpenXml.Drawing.ExcelDrawingAsType
+  langs:
+  - csharp
+  - vb
+  name: OleObject
+  nameWithType: ExcelDrawingAsType.OleObject
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.OleObject
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OleObject
+    path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
+    startLine: 117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHelps to cast drawings to an Ole object. If the drawing is not an Ole object null will be returned.\n"
+  example: []
+  syntax:
+    content: public ExcelOleObject OleObject { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+      description: ''
+    content.vb: Public ReadOnly Property OleObject As ExcelOleObject
+  overload: OfficeOpenXml.Drawing.ExcelDrawingAsType.OleObject*
   modifiers.csharp:
   - public
   - get
@@ -649,3 +688,19 @@ references:
   name: ExcelControlAsType
   nameWithType: ExcelControlAsType
   fullName: OfficeOpenXml.Drawing.ExcelControlAsType
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.OleObject*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingAsType.OleObject
+  name: OleObject
+  nameWithType: ExcelDrawingAsType.OleObject
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.OleObject
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+  commentId: T:OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+  parent: OfficeOpenXml.Drawing.OleObject
+  name: ExcelOleObject
+  nameWithType: ExcelOleObject
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+- uid: OfficeOpenXml.Drawing.OleObject
+  commentId: N:OfficeOpenXml.Drawing.OleObject
+  name: OfficeOpenXml.Drawing.OleObject
+  nameWithType: OfficeOpenXml.Drawing.OleObject
+  fullName: OfficeOpenXml.Drawing.OleObject

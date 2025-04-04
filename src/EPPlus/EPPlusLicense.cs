@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 
 namespace OfficeOpenXml
 {
@@ -13,14 +14,9 @@ namespace OfficeOpenXml
     /// </summary>
     public class EPPlusLicense
     {
-        //ExcelPackage _pck;
         private static ExcelPackageConfiguration _configuration = new ExcelPackageConfiguration();
         static bool _licenseSet = false;
-        //internal EPPlusLicense(ExcelPackage pck)
-        //{
-        //    _pck = pck;
-        //}
-        internal const string _versionDate = "2024-10-01";
+        internal const string _versionDate = "2025-03-28";
         /// <summary>
         /// The license key used for a commercial license.
         /// </summary>
@@ -42,7 +38,7 @@ namespace OfficeOpenXml
         /// </summary>
         public EPPlusLicenseType? LicenseType { get; private set; }
         /// <summary>
-        /// License information from the license key. If no license key has been set, this propery contains null.
+        /// License information from the license key. If no license key has been set, this property contains null.
         /// </summary>
         public EPPlusLicenseInfo LicenseInfo { get; internal set; }
         /// <summary>
@@ -71,6 +67,10 @@ namespace OfficeOpenXml
         /// <param name="fullName">Your name. This name will go into the Office Properties</param>
         public void SetNonCommercialPersonal(string fullName)
         {
+            if (ValidateName(fullName, out string msg) == false)
+            {
+                throw new LicenseInformationException(msg);
+            }
             LegalName = fullName;
             LicenseType = EPPlusLicenseType.NonCommercialPersonal;
             Source = EPPlusLicenseSource.Code;
@@ -79,13 +79,17 @@ namespace OfficeOpenXml
             _licenseSet = true;
         }
         /// <summary>
-        /// User this option if you use EPPlus within a noncommercial organization.
+        /// Use this option if you use EPPlus within a noncommercial organization.
         /// Using this option will tag all created document with the Polyform Noncommercial license. 
-        /// See https://polyformproject.org/licenses/noncommercial/1.0.0/
+        /// <see href="https://polyformproject.org/licenses/noncommercial/1.0.0/"/>
         /// </summary>
-        /// <param name="organizationName">The noncommercial organziations name</param>
+        /// <param name="organizationName">The noncommercial organizations name</param>
         public void SetNonCommercialOrganization(string organizationName)
         {
+            if (ValidateName(organizationName, out string msg) == false)
+            {
+                throw new LicenseInformationException(msg);
+            }
             LegalName = organizationName;
             LicenseType = EPPlusLicenseType.NonCommercialOrganization;
             Source = EPPlusLicenseSource.Code;
@@ -93,11 +97,34 @@ namespace OfficeOpenXml
             LicenseInfo = null;
             _licenseSet = true;
         }
+
+        private bool ValidateName(string name, out string msg)
+        {
+            if(name.Length < 3)
+            {
+                msg = "The license holder name must be at least 3 characters.";
+                return false;
+            }
+            if (name.Any(c => c=='/' || c=='\\' || c=='*' || char.IsControl(c) || c=='\t'))
+            {
+                msg = "The license holder name contains invalid characters";
+                return false;
+            }
+            if(name.Count(x=>char.IsLetter(x)) < 2)
+            {
+                msg = "The license holder name contains to few letters.";
+                return false;
+            }
+            msg = "";
+            return true;
+        }
+
         /// <summary>
         /// If you use EPPlus within a commercial organization or for commercial purposes.
         /// This requires a license for EPPlus that can be purchased at https://epplussoftware.com
         /// </summary>
-        /// <param name="licenseKey">The licens _key you recieved with your license</param>
+        /// <param name="licenseKey">The license key you received with your license.</param>
+        /// <seealso href="https://epplussoftware.com/en/Home/GettingStartedLicenseKey"/>
         public void SetCommercial(string licenseKey)
         {
             _licenseSet = LicenseHandler.ValidateLicenseKey(licenseKey, ExtendUnderRenewal, out EPPlusLicenseInfo licenseInfo, out string msg);
@@ -139,7 +166,7 @@ namespace OfficeOpenXml
                 {
                     if (s.Length == 1)
                     {
-                        throw new LicenseException("Please specify a name for the noncommercial organization in the app config file. Format noncommercialorganization:[name of your organization]");
+                        throw new LicenseInformationException("Please specify a name for the noncommercial organization in the app config file. Format noncommercialorganization:[name of your organization]");
                     }
                     v = v.Substring(v.IndexOfAny([':', ',']) + 1);
                     SetNonCommercialOrganization(v.Trim());
@@ -151,7 +178,7 @@ namespace OfficeOpenXml
                 {
                     if (s.Length == 1)
                     {
-                        throw new LicenseException("Please specify your name to be used with the license in the app config file. Format noncommercialpersonal:[your name]");
+                        throw new LicenseInformationException("Please specify your name to be used with the license in the app config file. Format noncommercialpersonal:[your name]");
                     }
                     v = v.Substring(v.IndexOfAny([':', ',']) + 1);
                     SetNonCommercialPersonal(v.Trim());

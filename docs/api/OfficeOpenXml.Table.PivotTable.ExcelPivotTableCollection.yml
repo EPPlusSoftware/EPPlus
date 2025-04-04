@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableCollection
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -75,7 +75,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -165,7 +165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -210,11 +210,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 148
+    startLine: 149
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -247,11 +247,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 160
+    startLine: 161
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -291,11 +291,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 176
+    startLine: 177
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -335,11 +335,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 194
+    startLine: 195
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -373,11 +373,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 199
+    startLine: 200
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -405,11 +405,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 208
+    startLine: 209
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -444,11 +444,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 221
+    startLine: 222
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -483,11 +483,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 234
+    startLine: 235
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -522,11 +522,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-    startLine: 271
+    startLine: 272
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable

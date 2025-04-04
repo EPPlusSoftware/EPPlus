@@ -13,6 +13,7 @@
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using System;
 
 namespace OfficeOpenXml
 {

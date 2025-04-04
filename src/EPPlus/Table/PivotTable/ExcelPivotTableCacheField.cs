@@ -156,13 +156,11 @@ namespace OfficeOpenXml.Table.PivotTable
                 AppendSharedItems(shNode);
             }
             var noTypes = GetNoOfTypes(flags);
-            if (noTypes > 1 && 
-                flags != (DataTypeFlags.Int | DataTypeFlags.Number) &&
-                flags != (DataTypeFlags.Float | DataTypeFlags.Number) &&
-                flags != (DataTypeFlags.Int | DataTypeFlags.Float | DataTypeFlags.Number) &&
-                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Empty) &&
-                flags != (DataTypeFlags.Float | DataTypeFlags.Number | DataTypeFlags.Empty) &&
-                flags != (DataTypeFlags.Int | DataTypeFlags.Float | DataTypeFlags.Number | DataTypeFlags.Empty) &&
+            var checkFlags = flags & (~(DataTypeFlags.Empty | DataTypeFlags.Error));
+            if (noTypes > 1 &&
+                checkFlags != (DataTypeFlags.Int | DataTypeFlags.Number) &&
+                checkFlags != (DataTypeFlags.Float | DataTypeFlags.Number) &&
+                checkFlags != (DataTypeFlags.Int | DataTypeFlags.Float | DataTypeFlags.Number) &&
                 SharedItems.Count > 1)
             {
                 shNode.SetAttribute("containsMixedTypes", "1");
@@ -365,7 +363,7 @@ namespace OfficeOpenXml.Table.PivotTable
             int types = 0;
             foreach (DataTypeFlags v in Enum.GetValues(typeof(DataTypeFlags)))
             {
-                if (v!=DataTypeFlags.Empty && (flags & v)==v)
+                if (v!=DataTypeFlags.Empty && v != DataTypeFlags.Error && (flags & v)==v)
                 {
                     types++;
                 }
@@ -607,7 +605,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 else if (c.LocalName == "n")
                 {
-                    if (ConvertUtil.TryParseNumericString(c.Attributes["v"].Value, out double num))
+                    if (ConvertUtil.TryParseNumericString(c.Attributes["v"].Value, out double num, CultureInfo.InvariantCulture))
                     {
                         items.Add(num);
                     }
@@ -646,7 +644,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 var key = items[items.Count - 1];
                 if (cacheLookup.TryGetValue(key, out int index))
                 {
-                    //items._list.Remove(_key);
                     _duplicateCacheItems.Add(items.Count - 1, index);
                 }
                 else

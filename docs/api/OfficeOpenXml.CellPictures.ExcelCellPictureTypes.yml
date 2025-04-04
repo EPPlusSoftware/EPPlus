@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+  commentId: T:OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+  id: ExcelCellPictureTypes
+  parent: OfficeOpenXml.CellPictures
+  children:
+  - OfficeOpenXml.CellPictures.ExcelCellPictureTypes.LocalImage
+  - OfficeOpenXml.CellPictures.ExcelCellPictureTypes.WebImage
+  langs:
+  - csharp
+  - vb
+  name: ExcelCellPictureTypes
+  nameWithType: ExcelCellPictureTypes
+  fullName: OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/CellPictures/ExcelCellPictureTypes.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelCellPictureTypes
+    path: ../src/EPPlus/CellPictures/ExcelCellPictureTypes.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.CellPictures
+  summary: "\nTypes of picture that can reside inside a cell\n"
+  example: []
+  syntax:
+    content: public enum ExcelCellPictureTypes
+    content.vb: Public Enum ExcelCellPictureTypes
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.CellPictures.ExcelCellPictureTypes.LocalImage
+  commentId: F:OfficeOpenXml.CellPictures.ExcelCellPictureTypes.LocalImage
+  id: LocalImage
+  parent: OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+  langs:
+  - csharp
+  - vb
+  name: LocalImage
+  nameWithType: ExcelCellPictureTypes.LocalImage
+  fullName: OfficeOpenXml.CellPictures.ExcelCellPictureTypes.LocalImage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/CellPictures/ExcelCellPictureTypes.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LocalImage
+    path: ../src/EPPlus/CellPictures/ExcelCellPictureTypes.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.CellPictures
+  summary: "\nLocal image\n"
+  example: []
+  syntax:
+    content: LocalImage = 0
+    return:
+      type: OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CellPictures.ExcelCellPictureTypes.WebImage
+  commentId: F:OfficeOpenXml.CellPictures.ExcelCellPictureTypes.WebImage
+  id: WebImage
+  parent: OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+  langs:
+  - csharp
+  - vb
+  name: WebImage
+  nameWithType: ExcelCellPictureTypes.WebImage
+  fullName: OfficeOpenXml.CellPictures.ExcelCellPictureTypes.WebImage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/CellPictures/ExcelCellPictureTypes.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WebImage
+    path: ../src/EPPlus/CellPictures/ExcelCellPictureTypes.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.CellPictures
+  summary: "\nImage that is retrieved via an URL.\n"
+  example: []
+  syntax:
+    content: WebImage = 1
+    return:
+      type: OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.CellPictures
+  commentId: N:OfficeOpenXml.CellPictures
+  name: OfficeOpenXml.CellPictures
+  nameWithType: OfficeOpenXml.CellPictures
+  fullName: OfficeOpenXml.CellPictures
+- uid: OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+  commentId: T:OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+  parent: OfficeOpenXml.CellPictures
+  name: ExcelCellPictureTypes
+  nameWithType: ExcelCellPictureTypes
+  fullName: OfficeOpenXml.CellPictures.ExcelCellPictureTypes

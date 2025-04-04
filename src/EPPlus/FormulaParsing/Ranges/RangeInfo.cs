@@ -420,5 +420,36 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
             return "<No address>";
         }
+        /// <summary>
+        /// Get the address adjusted inside the dimension of the worksheet.
+        /// </summary>
+        /// <param name="index">The index of the address.</param>
+        /// <returns>The address adjusted within the dimension of the worksheet.</returns>
+        public FormulaRangeAddress GetAddressDimensionAdjusted(int index=0)
+        {
+            if (index >= Addresses.Length) return null;
+            var a = Addresses[index];
+            if (Worksheet?.Dimension!=null)
+            {
+                var d = Worksheet?.Dimension;
+                if (d._fromRow > a.FromRow || d._toRow < a.ToRow ||
+                    d._fromCol > a.FromCol || d._toCol < a.ToCol)
+                {
+                    return new FormulaRangeAddress(null, 0,
+                        Math.Max(d._fromRow, a.FromRow),
+                        Math.Max(d._fromCol, a.FromCol),
+                        Math.Min(d._toRow, a.ToRow),
+                        Math.Min(d._toCol, a.ToCol));
+                }
+                else
+                {
+                    return a;
+                }
+            }
+            else
+            {
+                return a;
+            }
+        }
     }
 }

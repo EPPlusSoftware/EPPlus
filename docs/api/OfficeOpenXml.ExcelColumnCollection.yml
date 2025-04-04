@@ -17,11 +17,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumnsCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelColumnCollection
     path: ../src/EPPlus/ExcelColumnsCollection.cs
-    startLine: 17
+    startLine: 18
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -65,11 +65,13 @@ items:
   - OfficeOpenXml.ExcelRangeColumn.AutoFit
   - OfficeOpenXml.ExcelRangeColumn.AutoFit(System.Double)
   - OfficeOpenXml.ExcelRangeColumn.AutoFit(System.Double,System.Double)
+  - OfficeOpenXml.ExcelRangeColumn.GetColumn(System.Int32,System.Boolean)
   - OfficeOpenXml.ExcelRangeColumn.Range
   - OfficeOpenXml.ExcelRangeColumn.GetEnumerator
   - OfficeOpenXml.ExcelRangeColumn.System#Collections#IEnumerable#GetEnumerator
   - OfficeOpenXml.ExcelRangeColumn.MoveNext
   - OfficeOpenXml.ExcelRangeColumn.Reset
+  - OfficeOpenXml.ExcelRangeColumn.DeleteAll(System.Predicate{OfficeOpenXml.ExcelColumn})
   - OfficeOpenXml.ExcelRangeColumn.Dispose
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -98,11 +100,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumnsCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelColumnsCollection.cs
-    startLine: 34
+    startLine: 35
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -142,11 +144,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumnsCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelColumnsCollection.cs
-    startLine: 47
+    startLine: 48
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -696,6 +698,61 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelRangeColumn.GetColumn(System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeColumn.GetColumn(System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeColumn
+  isExternal: true
+  name: GetColumn(Int32, Boolean)
+  nameWithType: ExcelRangeColumn.GetColumn(Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeColumn.GetColumn(System.Int32, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeColumn.GetColumn(System.Int32,System.Boolean)
+    name: GetColumn
+    nameWithType: ExcelRangeColumn.GetColumn
+    fullName: OfficeOpenXml.ExcelRangeColumn.GetColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeColumn.GetColumn(System.Int32,System.Boolean)
+    name: GetColumn
+    nameWithType: ExcelRangeColumn.GetColumn
+    fullName: OfficeOpenXml.ExcelRangeColumn.GetColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ExcelRangeColumn.Range
   commentId: P:OfficeOpenXml.ExcelRangeColumn.Range
   parent: OfficeOpenXml.ExcelRangeColumn
@@ -813,6 +870,68 @@ references:
   - name: (
     nameWithType: (
     fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeColumn.DeleteAll(System.Predicate{OfficeOpenXml.ExcelColumn})
+  commentId: M:OfficeOpenXml.ExcelRangeColumn.DeleteAll(System.Predicate{OfficeOpenXml.ExcelColumn})
+  parent: OfficeOpenXml.ExcelRangeColumn
+  isExternal: true
+  name: DeleteAll(Predicate<ExcelColumn>)
+  nameWithType: ExcelRangeColumn.DeleteAll(Predicate<ExcelColumn>)
+  fullName: OfficeOpenXml.ExcelRangeColumn.DeleteAll(System.Predicate<OfficeOpenXml.ExcelColumn>)
+  nameWithType.vb: ExcelRangeColumn.DeleteAll(Predicate(Of ExcelColumn))
+  fullName.vb: OfficeOpenXml.ExcelRangeColumn.DeleteAll(System.Predicate(Of OfficeOpenXml.ExcelColumn))
+  name.vb: DeleteAll(Predicate(Of ExcelColumn))
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeColumn.DeleteAll(System.Predicate{OfficeOpenXml.ExcelColumn})
+    name: DeleteAll
+    nameWithType: ExcelRangeColumn.DeleteAll
+    fullName: OfficeOpenXml.ExcelRangeColumn.DeleteAll
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelColumn
+    name: ExcelColumn
+    nameWithType: ExcelColumn
+    fullName: OfficeOpenXml.ExcelColumn
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeColumn.DeleteAll(System.Predicate{OfficeOpenXml.ExcelColumn})
+    name: DeleteAll
+    nameWithType: ExcelRangeColumn.DeleteAll
+    fullName: OfficeOpenXml.ExcelRangeColumn.DeleteAll
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelColumn
+    name: ExcelColumn
+    nameWithType: ExcelColumn
+    fullName: OfficeOpenXml.ExcelColumn
+  - name: )
+    nameWithType: )
+    fullName: )
   - name: )
     nameWithType: )
     fullName: )

@@ -18,6 +18,7 @@ using System.IO;
 #if !NET35 && !NET40
 using System.Threading;
 using System.Threading.Tasks;
+using OfficeOpenXml.Interfaces.SensitivityLabels;
 #endif
 namespace OfficeOpenXml
 {
@@ -145,7 +146,7 @@ namespace OfficeOpenXml
                     using (var encrStream = RecyclableMemory.GetStream())
                     {
                         await StreamUtil.CopyStreamAsync(input, encrStream, cancellationToken).ConfigureAwait(false);
-                        var eph = new EncryptedPackageHandler();
+                        var eph = new EncryptedPackageHandler(null);
                         Encryption.Password = Password;
                         ms = eph.DecryptPackage(encrStream, Encryption);
                     }
@@ -208,6 +209,10 @@ namespace OfficeOpenXml
                 }
 
                 Workbook.Save();
+                if(_sensibilityLabels !=null)
+                {
+                    _sensibilityLabels.SaveToXml();
+                }
                 if (File == null)
                 {
                     if (Encryption.IsEncrypted)
@@ -216,11 +221,19 @@ namespace OfficeOpenXml
                         {
                             _zipPackage.Save(ms);
                             var file = ms.ToArray();
-                            var eph = new EncryptedPackageHandler();
+                            var eph = new EncryptedPackageHandler(null);
                             using (var msEnc = eph.EncryptPackage(file, Encryption))
                             {
                                 await StreamUtil.CopyStreamAsync(msEnc, _stream, cancellationToken).ConfigureAwait(false);
                             }
+                        }
+                    }
+                    else if (SensibilityLabels.Labels.Count > 0 && ExcelPackage.SensibilityLabelHandler != null)
+                    {
+                        using (var ms = RecyclableMemory.GetStream())
+                        {
+                            _zipPackage.Save(ms);
+                            _stream = await SensibilityLabels.ApplyLabel(ms.ToArray()).ConfigureAwait(false);
                         }
                     }
                     else
@@ -258,10 +271,19 @@ namespace OfficeOpenXml
                             if (Encryption.IsEncrypted)
                             {
                                 var file = stream.ToArray();
-                                var eph = new EncryptedPackageHandler();
+                                var eph = new EncryptedPackageHandler(null);
                                 using (var ms = eph.EncryptPackage(file, Encryption))
                                 {
                                     await fi.WriteAsync(ms.ToArray(), 0, (int)ms.Length, cancellationToken).ConfigureAwait(false);
+                                }
+                            }
+                            else if (SensibilityLabels.Labels.Count > 0 && ExcelPackage.SensibilityLabelHandler != null)
+                            {
+                                using (var ms = RecyclableMemory.GetStream())
+                                {
+                                    _zipPackage.Save(ms);
+                                    stream = await SensibilityLabels.ApplyLabel(ms.ToArray()).ConfigureAwait(false);
+                                    await fi.WriteAsync(stream.ToArray(), 0, (int)Stream.Length, cancellationToken).ConfigureAwait(false);
                                 }
                             }
                             else
@@ -396,6 +418,39 @@ namespace OfficeOpenXml
 
         #endregion
 
+        string _id=null;
+        internal string Id
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_id))
+                {
+                    _id=Guid.NewGuid().ToString();
+                }
+                return _id;
+            }
+        }
+
+        static ISensitivityLabelHandler _sensibilityLabelHandler = null;
+        /// <summary>
+        /// If you want your workbooks to be marked with sensibility lables, you can add a handler for authentication, encryption and decryption using the Microsoft Information Protection SDK.
+        /// For more information
+        /// </summary>
+        public static ISensitivityLabelHandler SensibilityLabelHandler
+        {
+            get
+            {
+                return _sensibilityLabelHandler;
+            }
+            set
+            {
+                if (value != null && value != _sensibilityLabelHandler)
+                {
+                    value.InitAsync().GetAwaiter().GetResult();
+                }
+                _sensibilityLabelHandler = value;
+            }
+        }
         internal async Task<byte[]> GetAsByteArrayAsync(bool save, CancellationToken cancellationToken)
         {
             CheckNotDisposed();
@@ -405,7 +460,7 @@ namespace OfficeOpenXml
                 _zipPackage.Close();
                 if (_stream is MemoryStream && _stream.Length > 0)
                 {
-                    _stream.Close();
+                    CloseStream();
 #if Standard21
                     await _stream.DisposeAsync();
 #else
@@ -423,7 +478,7 @@ namespace OfficeOpenXml
             //Encrypt Workbook?
             if (Encryption.IsEncrypted)
             {
-                var eph = new EncryptedPackageHandler();
+                var eph = new EncryptedPackageHandler(null);
                 using (var ms = eph.EncryptPackage(byRet, Encryption))
                 {
                     byRet = ms.ToArray();
@@ -431,7 +486,7 @@ namespace OfficeOpenXml
             }
 
             Stream.Seek(pos, SeekOrigin.Begin);
-            Stream.Close();
+            CloseStream();
             return byRet;
         }
 
@@ -494,7 +549,7 @@ namespace OfficeOpenXml
             {
                 if (password != null)
                 {
-                    var encrHandler = new EncryptedPackageHandler();
+                    var encrHandler = new EncryptedPackageHandler(null);
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password;
                     ms.Dispose();

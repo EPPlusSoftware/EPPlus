@@ -391,7 +391,7 @@ namespace OfficeOpenXml.Style
                         VerticalAlign = xr.GetAttribute("val").ToEnum<ExcelVerticalAlignmentFont>(ExcelVerticalAlignmentFont.None);
                         break;
                     case "sz":
-                        if (ConvertUtil.TryParseNumericString(xr.GetAttribute("val"), out double num))
+                        if (ConvertUtil.TryParseNumericString(xr.GetAttribute("val"), out double num, CultureInfo.InvariantCulture))
                         {
                             Size = Convert.ToSingle(num);
                         }

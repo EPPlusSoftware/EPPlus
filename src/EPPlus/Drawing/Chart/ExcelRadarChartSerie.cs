@@ -119,27 +119,5 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _dataPoints;
             }
         }
-
-        const string MARKERSIZE_PATH = "c:marker/c:size/@val";
-        /// <summary>
-        /// The size of a markers
-        /// </summary>
-        [Obsolete("Please use Marker.Size")]
-        public int MarkerSize
-        {
-            get
-            {
-                return GetXmlNodeInt(MARKERSIZE_PATH);
-            }
-            set
-            {
-                if (value < 2 && value > 72)
-                {
-                    throw (new ArgumentOutOfRangeException("MarkerSize out of range. Range from 2-72 allowed."));
-                }
-                SetXmlNodeString(MARKERSIZE_PATH, value.ToString(CultureInfo.InvariantCulture));
-            }
-        }
-
     }
 }

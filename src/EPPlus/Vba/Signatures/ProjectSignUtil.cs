@@ -29,7 +29,7 @@ namespace OfficeOpenXml.VBA.Signatures
             var certificate = signature.Certificate;
             if (!certificate.HasPrivateKey)
             {
-                //throw (new InvalidOperationException("The certificate doesn't have a private _key"));
+                //throw (new InvalidOperationException("The certificate doesn't have a private ekey"));
                 signature.Certificate = null;
                 return null;
             }
@@ -98,7 +98,7 @@ namespace OfficeOpenXml.VBA.Signatures
         }
 
         private static void WriteSequenceLength(BinaryWriter bw,int length)
-        {
+        {            
             int num = length;
             if(num >= 0x80)
             {

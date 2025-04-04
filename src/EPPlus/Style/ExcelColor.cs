@@ -53,7 +53,7 @@ namespace OfficeOpenXml.Style
         /// <summary>
         /// The tint value
         /// </summary>
-        public decimal Tint
+        public double Tint
         {
             get
             {
@@ -260,6 +260,43 @@ namespace OfficeOpenXml.Style
                 color = Utils.ColorConverter.ApplyTint(color, tint);
             }
 
+            return "#" + color.ToArgb().ToString("X");
+        }
+
+        internal static string LookupColor(string rgb, eThemeSchemeColor? theme, double tint, int indexed, bool auto, ExcelWorkbook wb)
+        {
+            if (indexed >= 0 && indexed < wb.Styles.IndexedColors.Length)
+            {
+                var color = wb.Styles.IndexedColors[indexed];
+                if (string.IsNullOrEmpty(color)) return "0";
+                return wb.Styles.IndexedColors[indexed];
+            }
+            else if (!string.IsNullOrEmpty(rgb))
+            {
+                return "#" + rgb;
+            }
+            else if (theme!=null)
+            {
+                return GetThemeColor(theme ?? 0, Convert.ToDouble(tint), wb);
+            }
+            else if (auto)
+            {
+                return GetThemeColor(eThemeSchemeColor.Background1, Convert.ToDouble(tint), wb);
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        internal static string GetThemeColor(eThemeSchemeColor theme, double tint, ExcelWorkbook wb)
+        {
+            var themeColor = wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(theme);
+            var color = Utils.ColorConverter.GetThemeColor(themeColor);
+            if (tint != 0)
+            {
+                color = Utils.ColorConverter.ApplyTint(color, tint);
+            }
             return "#" + color.ToArgb().ToString("X");
         }
     }

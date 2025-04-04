@@ -22,6 +22,12 @@ items:
   - OfficeOpenXml.ePanePosition
   - OfficeOpenXml.ePaneState
   - OfficeOpenXml.ePaperSize
+  - OfficeOpenXml.EPPlusCommercialLicenseType
+  - OfficeOpenXml.EPPlusLicense
+  - OfficeOpenXml.EPPlusLicenseInfo
+  - OfficeOpenXml.EPPlusLicenseSource
+  - OfficeOpenXml.EPPlusLicenseStatus
+  - OfficeOpenXml.EPPlusLicenseType
   - OfficeOpenXml.eShiftTypeDelete
   - OfficeOpenXml.eShiftTypeInsert
   - OfficeOpenXml.eSlicerSourceType
@@ -73,6 +79,7 @@ items:
   - OfficeOpenXml.ExcelRow
   - OfficeOpenXml.ExcelRowsCollection
   - OfficeOpenXml.ExcelSheetProtection
+  - OfficeOpenXml.ExcelSpillErrorValue
   - OfficeOpenXml.ExcelStyleCollection`1
   - OfficeOpenXml.ExcelStyles
   - OfficeOpenXml.ExcelTableAddress
@@ -94,11 +101,15 @@ items:
   - OfficeOpenXml.ExcelWriteProtection
   - OfficeOpenXml.FixedWidthFormatErrorStrategy
   - OfficeOpenXml.FontSize
+  - OfficeOpenXml.InvalidLicenseKeyException
   - OfficeOpenXml.JsonExportSettings
   - OfficeOpenXml.JsonRangeExportSettings
   - OfficeOpenXml.JsonTableExportSettings
   - OfficeOpenXml.LicenseContext
-  - OfficeOpenXml.LicenseException
+  - OfficeOpenXml.LicenseContextPropertyObsoleteException
+  - OfficeOpenXml.LicenseInformationException
+  - OfficeOpenXml.LicenseNotSetException
+  - OfficeOpenXml.LicenseNotValidException
   - OfficeOpenXml.NumberFormatToTextArgs
   - OfficeOpenXml.OfficeProperties
   - OfficeOpenXml.PaddingAlignmentType
@@ -202,6 +213,42 @@ references:
   name: LicenseContext
   nameWithType: LicenseContext
   fullName: OfficeOpenXml.LicenseContext
+- uid: OfficeOpenXml.EPPlusCommercialLicenseType
+  commentId: T:OfficeOpenXml.EPPlusCommercialLicenseType
+  parent: OfficeOpenXml
+  name: EPPlusCommercialLicenseType
+  nameWithType: EPPlusCommercialLicenseType
+  fullName: OfficeOpenXml.EPPlusCommercialLicenseType
+- uid: OfficeOpenXml.EPPlusLicense
+  commentId: T:OfficeOpenXml.EPPlusLicense
+  parent: OfficeOpenXml
+  name: EPPlusLicense
+  nameWithType: EPPlusLicense
+  fullName: OfficeOpenXml.EPPlusLicense
+- uid: OfficeOpenXml.EPPlusLicenseInfo
+  commentId: T:OfficeOpenXml.EPPlusLicenseInfo
+  parent: OfficeOpenXml
+  name: EPPlusLicenseInfo
+  nameWithType: EPPlusLicenseInfo
+  fullName: OfficeOpenXml.EPPlusLicenseInfo
+- uid: OfficeOpenXml.EPPlusLicenseSource
+  commentId: T:OfficeOpenXml.EPPlusLicenseSource
+  parent: OfficeOpenXml
+  name: EPPlusLicenseSource
+  nameWithType: EPPlusLicenseSource
+  fullName: OfficeOpenXml.EPPlusLicenseSource
+- uid: OfficeOpenXml.EPPlusLicenseStatus
+  commentId: T:OfficeOpenXml.EPPlusLicenseStatus
+  parent: OfficeOpenXml
+  name: EPPlusLicenseStatus
+  nameWithType: EPPlusLicenseStatus
+  fullName: OfficeOpenXml.EPPlusLicenseStatus
+- uid: OfficeOpenXml.EPPlusLicenseType
+  commentId: T:OfficeOpenXml.EPPlusLicenseType
+  parent: OfficeOpenXml
+  name: EPPlusLicenseType
+  nameWithType: EPPlusLicenseType
+  fullName: OfficeOpenXml.EPPlusLicenseType
 - uid: OfficeOpenXml.eWorkSheetHidden
   commentId: T:OfficeOpenXml.eWorkSheetHidden
   parent: OfficeOpenXml
@@ -742,11 +789,6 @@ references:
   name: eErrorType
   nameWithType: eErrorType
   fullName: OfficeOpenXml.eErrorType
-- uid: OfficeOpenXml.ExcelRichDataErrorValue
-  commentId: T:OfficeOpenXml.ExcelRichDataErrorValue
-  name: ExcelRichDataErrorValue
-  nameWithType: ExcelRichDataErrorValue
-  fullName: OfficeOpenXml.ExcelRichDataErrorValue
 - uid: OfficeOpenXml.ExcelErrorValue
   commentId: T:OfficeOpenXml.ExcelErrorValue
   parent: OfficeOpenXml
@@ -758,11 +800,42 @@ references:
   name: ExcelErrorValue.Values
   nameWithType: ExcelErrorValue.Values
   fullName: OfficeOpenXml.ExcelErrorValue.Values
-- uid: OfficeOpenXml.LicenseException
-  commentId: T:OfficeOpenXml.LicenseException
-  name: LicenseException
-  nameWithType: LicenseException
-  fullName: OfficeOpenXml.LicenseException
+- uid: OfficeOpenXml.ExcelRichDataErrorValue
+  commentId: T:OfficeOpenXml.ExcelRichDataErrorValue
+  parent: OfficeOpenXml
+  name: ExcelRichDataErrorValue
+  nameWithType: ExcelRichDataErrorValue
+  fullName: OfficeOpenXml.ExcelRichDataErrorValue
+- uid: OfficeOpenXml.ExcelSpillErrorValue
+  commentId: T:OfficeOpenXml.ExcelSpillErrorValue
+  name: ExcelSpillErrorValue
+  nameWithType: ExcelSpillErrorValue
+  fullName: OfficeOpenXml.ExcelSpillErrorValue
+- uid: OfficeOpenXml.LicenseNotSetException
+  commentId: T:OfficeOpenXml.LicenseNotSetException
+  name: LicenseNotSetException
+  nameWithType: LicenseNotSetException
+  fullName: OfficeOpenXml.LicenseNotSetException
+- uid: OfficeOpenXml.LicenseContextPropertyObsoleteException
+  commentId: T:OfficeOpenXml.LicenseContextPropertyObsoleteException
+  name: LicenseContextPropertyObsoleteException
+  nameWithType: LicenseContextPropertyObsoleteException
+  fullName: OfficeOpenXml.LicenseContextPropertyObsoleteException
+- uid: OfficeOpenXml.InvalidLicenseKeyException
+  commentId: T:OfficeOpenXml.InvalidLicenseKeyException
+  name: InvalidLicenseKeyException
+  nameWithType: InvalidLicenseKeyException
+  fullName: OfficeOpenXml.InvalidLicenseKeyException
+- uid: OfficeOpenXml.LicenseNotValidException
+  commentId: T:OfficeOpenXml.LicenseNotValidException
+  name: LicenseNotValidException
+  nameWithType: LicenseNotValidException
+  fullName: OfficeOpenXml.LicenseNotValidException
+- uid: OfficeOpenXml.LicenseInformationException
+  commentId: T:OfficeOpenXml.LicenseInformationException
+  name: LicenseInformationException
+  nameWithType: LicenseInformationException
+  fullName: OfficeOpenXml.LicenseInformationException
 - uid: OfficeOpenXml.NumberFormatToTextArgs
   commentId: T:OfficeOpenXml.NumberFormatToTextArgs
   name: NumberFormatToTextArgs

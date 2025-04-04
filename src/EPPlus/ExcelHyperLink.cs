@@ -30,19 +30,6 @@ namespace OfficeOpenXml
         {
             OriginalUri = this;
         }
-#if !Core
-        /// <summary>
-        /// A new hyperlink with the specified URI. This syntax is obsolete
-        /// </summary>
-        /// <param name="uriString">The URI</param>
-        /// <param name="dontEscape"></param>
-        [Obsolete("base constructor 'System.Uri.Uri(string, bool)' is obsolete: 'The constructor has been deprecated. Please use new ExcelHyperLink(string). The dontEscape parameter is deprecated and is always false.")]
-        public ExcelHyperLink(string uriString, bool dontEscape) :
-            base(uriString, dontEscape)
-        {
-            OriginalUri = (Uri)this;
-        }
-#endif
         /// <summary>
         /// A new hyperlink with the specified URI and kind
         /// </summary>
@@ -54,7 +41,7 @@ namespace OfficeOpenXml
             OriginalUri = this;
         }
         /// <summary>
-        /// Sheet internal reference
+        /// Sheet internal reference.
         /// </summary>
         /// <param name="referenceAddress">The address or defined name</param>
         /// <param name="display">Displayed text</param>

@@ -9,12 +9,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataPoints
   - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasDataLabel
   - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasMarker
-  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor
-  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth
   - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Marker
-  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor
-  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor
-  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize
   - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Smooth
   langs:
   - csharp
@@ -26,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelScatterChartSerie
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -57,6 +52,10 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType,System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection})
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.ErrorBars
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.HeaderAddress
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Series
@@ -64,9 +63,6 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.TrendLines
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberOfItems
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
-  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
-  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
-  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
@@ -100,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -139,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -178,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Smooth
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -215,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Marker
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -252,7 +248,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasMarker
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -287,7 +283,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataPoints
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -310,257 +306,6 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor
-  id: LineColor
-  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
-  langs:
-  - csharp
-  - vb
-  name: LineColor
-  nameWithType: ExcelScatterChartSerie.LineColor
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: fix/comments-and-warings
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: LineColor
-    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-    startLine: 161
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nLine color.\n"
-  example: []
-  syntax:
-    content: >-
-      [Obsolete("Please use Border.Fill.Color property")]
-
-      public Color LineColor { get; set; }
-    parameters: []
-    return:
-      type: System.Drawing.Color
-      description: "\nThe color of the line.\n"
-    content.vb: >-
-      <Obsolete("Please use Border.Fill.Color property")>
-
-      Public Property LineColor As Color
-  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: Please use Border.Fill.Color property
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize
-  id: MarkerSize
-  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
-  langs:
-  - csharp
-  - vb
-  name: MarkerSize
-  nameWithType: ExcelScatterChartSerie.MarkerSize
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: fix/comments-and-warings
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: MarkerSize
-    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-    startLine: 191
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nGets or sets the size of the marker.\n"
-  remarks: "\nvalue between 2 and 72.\n"
-  example: []
-  syntax:
-    content: >-
-      [Obsolete("Please use Marker.Size")]
-
-      public int MarkerSize { get; set; }
-    parameters: []
-    return:
-      type: System.Int32
-      description: "\nThe size of the marker.\n"
-    content.vb: >-
-      <Obsolete("Please use Marker.Size")>
-
-      Public Property MarkerSize As Integer
-  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: Please use Marker.Size
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor
-  id: MarkerColor
-  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
-  langs:
-  - csharp
-  - vb
-  name: MarkerColor
-  nameWithType: ExcelScatterChartSerie.MarkerColor
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: fix/comments-and-warings
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: MarkerColor
-    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-    startLine: 218
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nMarker color.\n"
-  example: []
-  syntax:
-    content: >-
-      [Obsolete("Please use Marker.Fill")]
-
-      public Color MarkerColor { get; set; }
-    parameters: []
-    return:
-      type: System.Drawing.Color
-      description: "\nThe color of the Marker.\n"
-    content.vb: >-
-      <Obsolete("Please use Marker.Fill")>
-
-      Public Property MarkerColor As Color
-  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: Please use Marker.Fill
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth
-  id: LineWidth
-  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
-  langs:
-  - csharp
-  - vb
-  name: LineWidth
-  nameWithType: ExcelScatterChartSerie.LineWidth
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: fix/comments-and-warings
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: LineWidth
-    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-    startLine: 245
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nGets or sets the width of the line in pt.\n"
-  example: []
-  syntax:
-    content: >-
-      [Obsolete("Please use Border.Width")]
-
-      public double LineWidth { get; set; }
-    parameters: []
-    return:
-      type: System.Double
-      description: "\nThe width of the line.\n"
-    content.vb: >-
-      <Obsolete("Please use Border.Width")>
-
-      Public Property LineWidth As Double
-  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: Please use Border.Width
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor
-  id: MarkerLineColor
-  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
-  langs:
-  - csharp
-  - vb
-  name: MarkerLineColor
-  nameWithType: ExcelScatterChartSerie.MarkerLineColor
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: fix/comments-and-warings
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: MarkerLineColor
-    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-    startLine: 273
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nMarker Line color.\n(not to be confused with LineColor)\n"
-  example: []
-  syntax:
-    content: >-
-      [Obsolete("Please use Marker.Border.Fill.Color")]
-
-      public Color MarkerLineColor { get; set; }
-    parameters: []
-    return:
-      type: System.Drawing.Color
-      description: "\nThe color of the Marker line.\n"
-    content.vb: >-
-      <Obsolete("Please use Marker.Border.Fill.Color")>
-
-      Public Property MarkerLineColor As Color
-  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: Please use Marker.Border.Fill.Color
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 references:
 - uid: OfficeOpenXml.Drawing.Chart
   commentId: N:OfficeOpenXml.Drawing.Chart
@@ -790,6 +535,30 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: NumberLiteralsY
+  nameWithType: ExcelChartStandardSerie.NumberLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: NumberLiteralsX
+  nameWithType: ExcelChartStandardSerie.NumberLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: StringLiteralsY
+  nameWithType: ExcelChartStandardSerie.StringLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: StringLiteralsX
+  nameWithType: ExcelChartStandardSerie.StringLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
@@ -854,24 +623,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
-  name: NumberLiteralsY
-  nameWithType: ExcelChartSerie.NumberLiteralsY
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
-  name: NumberLiteralsX
-  nameWithType: ExcelChartSerie.NumberLiteralsX
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
-  name: StringLiteralsX
-  nameWithType: ExcelChartSerie.StringLiteralsX
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
@@ -1265,48 +1016,3 @@ references:
   name: ExcelChartDataPointCollection
   nameWithType: ExcelChartDataPointCollection
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataPointCollection
-- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor*
-  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor
-  name: LineColor
-  nameWithType: ExcelScatterChartSerie.LineColor
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor
-- uid: System.Drawing.Color
-  commentId: T:System.Drawing.Color
-  parent: System.Drawing
-  isExternal: true
-  name: Color
-  nameWithType: Color
-  fullName: System.Drawing.Color
-- uid: System.Drawing
-  commentId: N:System.Drawing
-  isExternal: true
-  name: System.Drawing
-  nameWithType: System.Drawing
-  fullName: System.Drawing
-- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize*
-  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize
-  name: MarkerSize
-  nameWithType: ExcelScatterChartSerie.MarkerSize
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize
-- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor*
-  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor
-  name: MarkerColor
-  nameWithType: ExcelScatterChartSerie.MarkerColor
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor
-- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth*
-  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth
-  name: LineWidth
-  nameWithType: ExcelScatterChartSerie.LineWidth
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth
-- uid: System.Double
-  commentId: T:System.Double
-  parent: System
-  isExternal: true
-  name: Double
-  nameWithType: Double
-  fullName: System.Double
-- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor*
-  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor
-  name: MarkerLineColor
-  nameWithType: ExcelScatterChartSerie.MarkerLineColor
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor

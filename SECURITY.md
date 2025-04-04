@@ -8,9 +8,10 @@ EPPlus 5, 6 and 7 are automatically scanned for vulnerabilities and static code 
 
 | Version | Supported          | Comment            | Deprecation date |
 | ------- | ------------------ | ------------------ |----|
+| 8.x.x   | :white_check_mark: |                    ||
 | 7.x.x   | :white_check_mark: |                    ||
 | 6.x.x   | :white_check_mark: |                    |2025-12-31|
-| 5.x.x   | :white_check_mark: |                    |2024-12-31|
+| 5.x.x   | :x:                |Deprecated/unsupported versions              |2024-12-31|
 | < 4.3   | :x:                |Deprecated/unsupported versions|2020-12-31|
 
 ## Security update policy

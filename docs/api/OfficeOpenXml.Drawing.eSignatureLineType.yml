@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eSignatureLineType
+  commentId: T:OfficeOpenXml.Drawing.eSignatureLineType
+  id: eSignatureLineType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eSignatureLineType.SignatureLine
+  - OfficeOpenXml.Drawing.eSignatureLineType.Stamp
+  langs:
+  - csharp
+  - vb
+  name: eSignatureLineType
+  nameWithType: eSignatureLineType
+  fullName: OfficeOpenXml.Drawing.eSignatureLineType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/SignatureLine/eSignatureLineType.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSignatureLineType
+    path: ../src/EPPlus/Drawing/SignatureLine/eSignatureLineType.cs
+    startLine: 6
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSignature line types.\n"
+  example: []
+  syntax:
+    content: public enum eSignatureLineType
+    content.vb: Public Enum eSignatureLineType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eSignatureLineType.Stamp
+  commentId: F:OfficeOpenXml.Drawing.eSignatureLineType.Stamp
+  id: Stamp
+  parent: OfficeOpenXml.Drawing.eSignatureLineType
+  langs:
+  - csharp
+  - vb
+  name: Stamp
+  nameWithType: eSignatureLineType.Stamp
+  fullName: OfficeOpenXml.Drawing.eSignatureLineType.Stamp
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/SignatureLine/eSignatureLineType.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Stamp
+    path: ../src/EPPlus/Drawing/SignatureLine/eSignatureLineType.cs
+    startLine: 11
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSignature line stamp which contains a SignatureImage as the signature.\n"
+  example: []
+  syntax:
+    content: Stamp = 0
+    return:
+      type: OfficeOpenXml.Drawing.eSignatureLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSignatureLineType.SignatureLine
+  commentId: F:OfficeOpenXml.Drawing.eSignatureLineType.SignatureLine
+  id: SignatureLine
+  parent: OfficeOpenXml.Drawing.eSignatureLineType
+  langs:
+  - csharp
+  - vb
+  name: SignatureLine
+  nameWithType: eSignatureLineType.SignatureLine
+  fullName: OfficeOpenXml.Drawing.eSignatureLineType.SignatureLine
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/SignatureLine/eSignatureLineType.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SignatureLine
+    path: ../src/EPPlus/Drawing/SignatureLine/eSignatureLineType.cs
+    startLine: 15
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSignature line which can contain either text or an image as the signature.\n"
+  example: []
+  syntax:
+    content: SignatureLine = 1
+    return:
+      type: OfficeOpenXml.Drawing.eSignatureLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eSignatureLineType
+  commentId: T:OfficeOpenXml.Drawing.eSignatureLineType
+  parent: OfficeOpenXml.Drawing
+  name: eSignatureLineType
+  nameWithType: eSignatureLineType
+  fullName: OfficeOpenXml.Drawing.eSignatureLineType

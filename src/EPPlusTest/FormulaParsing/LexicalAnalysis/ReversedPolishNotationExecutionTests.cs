@@ -101,7 +101,6 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1"].Formula = "A1";
                 ws.Cells["B1"].Formula = "A1:B1";
-
                 var dc= RpnFormulaExecution.Execute(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
                 Assert.AreEqual(2, dc._circularReferences.Count);
                 int wsIx, row, col;
@@ -124,7 +123,6 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 Assert.AreEqual(wsIx, 0);
                 Assert.AreEqual(row, 1);
                 Assert.AreEqual(col, 2);
-
             }
         }
         [TestMethod]

@@ -10,6 +10,7 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
@@ -115,8 +116,8 @@ namespace OfficeOpenXml.ExternalReferences
                                     break;
                                 case "extLst":
 
-                                    break; 
-                                default:    
+                                    break;
+                                default:
                                     break;
                             }
                         }
@@ -157,6 +158,20 @@ namespace OfficeOpenXml.ExternalReferences
             if(extRefs?.ChildNodes.Count==0)
             {
                 extRefs.ParentNode?.RemoveChild(extRefs);
+            }
+            int eli = externalLink.Index;
+            if (externalLink.ExternalLinkType == eExternalLinkType.OleLink)
+            {
+                foreach (var ws in _wb.Worksheets)
+                {
+                    foreach (ExcelOleObject ole in ws.Drawings)
+                    {
+                        if (ole._externalLinkIndex > eli)
+                        {
+                            ole.UpdateExternalLinkIndex();
+                        }
+                    }
+                }
             }
             _list.Remove(externalLink);
         }

@@ -70,7 +70,6 @@ namespace OfficeOpenXml.Compatibility
                 if(excelPackage._workbook!=null && excelPackage._workbook._worksheets!=null)
                 {
                     excelPackage.Workbook.Worksheets.ReindexWorksheetDictionary();
-
                 }
             }
         }

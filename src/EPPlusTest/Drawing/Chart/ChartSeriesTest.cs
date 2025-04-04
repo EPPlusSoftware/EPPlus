@@ -213,5 +213,33 @@ namespace EPPlusTest.Drawing.Chart
             }
         }
         #endregion
+
+        [TestMethod]
+        public void SimpleChartDataLabels()
+        {
+            using (var p = OpenPackage("ChartDataLabels.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("newWs");
+                var table = ws.Tables.Add(ws.Cells["A1:K20"], "TestTable");
+
+                var dataRange = ws.Cells["A2:K20"];
+                dataRange.Formula = "ROW() + COLUMN()";
+
+                ws.Calculate();
+
+                var chart = ws.Drawings.AddBarChart("barChart", eBarChartType.ColumnClustered);
+
+                chart.ShowDataLabelsOverMaximum = false;
+
+                for (int i = 1; i < table.Columns.Count; i++)
+                {
+                    var series = chart.Series.Add(dataRange.TakeSingleColumn(i), dataRange.TakeRowsBetween(0, dataRange.Rows));
+                    series.DataLabel.ShowValue = true;
+                    series.DataLabel.DataLabels.Add(0).ShowValue = true;
+                }
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

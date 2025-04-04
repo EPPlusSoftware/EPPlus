@@ -40,7 +40,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartStyleManager
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleLibrary
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorsLibrary
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateEmptyStyle
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadStyles
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadStyles
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
@@ -266,7 +266,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadStyles
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
@@ -307,7 +307,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadStyles
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
@@ -348,11 +348,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadStyleXml
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 234
+    startLine: 237
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -391,11 +391,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadTemplateStyles
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 249
+    startLine: 252
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -430,11 +430,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadTemplateStyles
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 278
+    startLine: 281
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -469,11 +469,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadStyleXml
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 306
+    startLine: 309
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -514,11 +514,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetChartStyle
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 372
+    startLine: 375
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -553,11 +553,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetChartStyle
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 381
+    startLine: 384
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -592,11 +592,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetChartStyle
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 394
+    startLine: 397
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -634,11 +634,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetChartStyle
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 407
+    startLine: 410
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -676,11 +676,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetChartStyle
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 417
+    startLine: 420
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -721,11 +721,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadColorXml
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 461
+    startLine: 464
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -757,11 +757,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyStyles
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 484
+    startLine: 487
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -789,11 +789,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyStylesEx
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 562
+    startLine: 565
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -821,11 +821,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 1145
+    startLine: 1148
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -858,11 +858,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorsManager
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 1153
+    startLine: 1156
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -895,11 +895,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThemeOverride
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 1161
+    startLine: 1164
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -932,11 +932,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleXml
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 1169
+    startLine: 1172
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -969,11 +969,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorsXml
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 1173
+    startLine: 1176
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -1006,11 +1006,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThemeOverrideXml
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 1177
+    startLine: 1180
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style

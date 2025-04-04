@@ -52,10 +52,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 var lowerKey = key.ToLower(CultureInfo.InvariantCulture);
                 _functions[lowerKey] = module.Functions[key];
             }
-            //foreach (var _key in module.CustomCompilers.Keys)
-            //{
-            //    CustomCompilers[_key] = module.CustomCompilers[_key];
-            //}
             _namespaceFunctions = null;
         }
         /// <summary>
@@ -67,8 +63,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             if(!_functions.ContainsKey(name.ToLower(CultureInfo.InvariantCulture)))
             {
-                //throw new InvalidOperationException("Non supported function: " + name);
-                //throw new ExcelErrorValueException("Non supported function: " + name, ExcelErrorValue.Create(eErrorType.Name));
                 return null;
             }
             return _functions[name.ToLower(CultureInfo.InvariantCulture)];

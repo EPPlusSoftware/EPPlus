@@ -13,13 +13,14 @@
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.CompundDocument;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
-
+#if(!NET35)
+using OfficeOpenXml.SensitivityLabels;
+#endif
 namespace OfficeOpenXml.Encryption
 {
 
@@ -43,9 +44,11 @@ namespace OfficeOpenXml.Encryption
         {
             if (CompoundDocument.IsCompoundDocument(fi))
             {
-                CompoundDocument doc = new CompoundDocument(fi);
-                
-                return GetStreamFromPackage(doc, encryption);
+                var b=File.ReadAllBytes(fi.FullName);
+                using (var ms = RecyclableMemory.GetStream(b))
+                {
+                    return GetStreamFromPackage(ms, encryption);
+                }
             }
             else
             {
@@ -70,7 +73,7 @@ namespace OfficeOpenXml.Encryption
         /// <summary>
         /// Read the package from the OLE document and decrypt it using the supplied password
         /// </summary>
-        /// <param name="stream">The memory stream. </param>
+        /// <param name="stream">The memory ms. </param>
         /// <param name="encryption">The encryption object from the Package</param>
         /// <returns></returns>
         internal MemoryStream DecryptPackage(MemoryStream stream, ExcelEncryption encryption)
@@ -79,8 +82,7 @@ namespace OfficeOpenXml.Encryption
             {
                 if (CompoundDocument.IsCompoundDocument(stream))
                 {
-                    var doc = new CompoundDocument(stream);
-                    return GetStreamFromPackage(doc, encryption);
+                    return GetStreamFromPackage(stream, encryption);
                 }
                 else
                 {
@@ -109,7 +111,7 @@ namespace OfficeOpenXml.Encryption
             {
                 return EncryptPackageAgile(package, encryption);
             }
-            throw(new ArgumentException("Unsupported encryption version."));
+            throw (new ArgumentException("Unsupported encryption version."));
         }
         private const string ENCRYPTION_INFO_STREAM_NAME = "EncryptionInfo";
         private const string ENCRYPTED_PACKAGE_STREAM_NAME = "EncryptedPackage";
@@ -267,7 +269,7 @@ namespace OfficeOpenXml.Encryption
 #if (!Core)
                 case eHashAlgorithm.RIPEMD160:
                     return new HMACRIPEMD160(salt);
-#endif                
+#endif
                 case eHashAlgorithm.MD5:
                     return new HMACMD5(salt);              
                 case eHashAlgorithm.SHA1:
@@ -515,21 +517,36 @@ namespace OfficeOpenXml.Encryption
                 }
             }
         }
-        private MemoryStream GetStreamFromPackage(CompoundDocument doc, ExcelEncryption encryption)
+        private MemoryStream GetStreamFromPackage(MemoryStream ms, ExcelEncryption encryption)
         {
-            if(doc.Storage.DataStreams.ContainsKey("EncryptionInfo") &&
+            var doc = new CompoundDocument(ms, false);
+            if (doc.Storage.DataStreams.ContainsKey("EncryptionInfo") &&
                doc.Storage.DataStreams.ContainsKey("EncryptedPackage"))
             {
                 var encryptionInfo = EncryptionInfo.ReadBinary(doc.Storage.DataStreams["EncryptionInfo"].Stream);
                 
                 return DecryptDocument(doc.Storage.DataStreams["EncryptedPackage"].Stream, encryptionInfo, encryption.Password);
             }
+#if (!NET35)
+            if(doc.Directories.Exists(x=>x.Name == "\u0006DataSpaces"))
+            {
+                var handler = ExcelPackage.SensibilityLabelHandler;
+                var si = DataSpacesEncryption.ReadDataSpaceEnrcyptionInfo(doc);
+                _pck.SensibilityLabels = new ExcelSensibilityLabelCollection(_pck, si);
+                if(handler == null)
+                {
+                    throw new MissingSensibilityHandlerException($"Can not decrypt package protected by sensitivity label with id : {_pck.SensibilityLabels.Labels.FirstOrDefault(x=>x.Enabled)?.Id}. Please attach a Sensibility Label handler using the ExcelSensibilityLabels.SensibilityLabelHandler property.");
+                }
+                var ret = handler.DecryptPackageAsync(ms, _pck.Id).GetAwaiter().GetResult();
+                _pck.SensibilityLabels.ProtectionInformation = ret.ProtectionInformation;
+                return ret.PackageStream;
+            }
+#endif
             else
             {
                 throw (new InvalidDataException("Invalid or unsupported encryption. EncryptionInfo or EncryptedPackage stream is missing"));
             }
         }
-
         /// <summary>
         /// Decrypt a document
         /// </summary>
@@ -560,7 +577,13 @@ namespace OfficeOpenXml.Encryption
         readonly byte[] BlockKey_KeyValue = new byte[] { 0x14, 0x6e, 0x0b, 0xe7, 0xab, 0xac, 0xd0, 0xd6 };
         readonly byte[] BlockKey_HmacKey = new byte[] { 0x5f, 0xb2, 0xad, 0x01, 0x0c, 0xb9, 0xe1, 0xf6 };//MSOFFCRYPTO 2.3.4.14 section 3
         readonly byte[] BlockKey_HmacValue = new byte[] { 0xa0, 0x67, 0x7f, 0x02, 0xb2, 0x2c, 0x84, 0x33 };//MSOFFCRYPTO 2.3.4.14 section 5
-        
+
+        ExcelPackage _pck;
+        public EncryptedPackageHandler(ExcelPackage pck)
+        {
+            _pck = pck;
+        }
+
         private MemoryStream DecryptAgile(EncryptionInfoAgile encryptionInfo, string password, long size, byte[] encryptedData, byte[] data)
         { 
             if (encryptionInfo.KeyData.CipherAlgorithm == eCipherAlgorithm.AES)
@@ -708,7 +731,7 @@ namespace OfficeOpenXml.Encryption
 
                         var decryptedData = new byte[size];
 
-                        cryptoStream.Read(decryptedData, 0, (int)size);
+                        var r = cryptoStream.Read(decryptedData, 0, (int)size);
                         doc.Write(decryptedData, 0, (int)size);
                     }
                 }
@@ -750,7 +773,7 @@ namespace OfficeOpenXml.Encryption
                 CryptoStream cryptoStream = new CryptoStream(dataStream,
                                                               decryptor,
                                                               CryptoStreamMode.Read);
-                cryptoStream.Read(decryptedVerifier, 0, 16);
+                var r = cryptoStream.Read(decryptedVerifier, 0, 16);
             }
 
             using (dataStream = RecyclableMemory.GetStream(encryptionInfo.Verifier.EncryptedVerifierHash))
@@ -760,7 +783,7 @@ namespace OfficeOpenXml.Encryption
                                                     CryptoStreamMode.Read);
 
                 //Decrypt the verifier hash
-                cryptoStream.Read(decryptedVerifierHash, 0, 16);
+                var r = cryptoStream.Read(decryptedVerifierHash, 0, 16);
             }
             //Get the hash for the decrypted verifier
 #if (Core)

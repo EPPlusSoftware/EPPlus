@@ -1,71 +1,133 @@
 ### YamlMime:ManagedReference
 items:
-- uid: OfficeOpenXml.LicenseException
-  commentId: T:OfficeOpenXml.LicenseException
-  id: LicenseException
-  parent: OfficeOpenXml
-  children: []
+- uid: OfficeOpenXml.RichData.RichDataReference
+  commentId: T:OfficeOpenXml.RichData.RichDataReference
+  id: RichDataReference
+  parent: OfficeOpenXml.RichData
+  children:
+  - OfficeOpenXml.RichData.RichDataReference.ReferenceType
+  - OfficeOpenXml.RichData.RichDataReference.ToString
   langs:
   - csharp
   - vb
-  name: LicenseException
-  nameWithType: LicenseException
-  fullName: OfficeOpenXml.LicenseException
+  name: RichDataReference
+  nameWithType: RichDataReference
+  fullName: OfficeOpenXml.RichData.RichDataReference
   type: Class
   source:
     remote:
-      path: src/EPPlus/LicenseException.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/RichData/RichDataReference.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: LicenseException
-    path: ../src/EPPlus/LicenseException.cs
-    startLine: 21
+    id: RichDataReference
+    path: ../src/EPPlus/RichData/RichDataReference.cs
+    startLine: 22
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml
-  summary: "\nAn exception thrown when the license context of EPPlus hasn&apos;t been set.\n"
+  namespace: OfficeOpenXml.RichData
+  summary: "\nRepresents a rich value in the cell store\n"
   example: []
   syntax:
-    content: 'public class LicenseException : Exception, ISerializable'
-    content.vb: >-
-      Public Class LicenseException
-          Inherits Exception
-          Implements ISerializable
+    content: public abstract class RichDataReference
+    content.vb: Public MustInherit Class RichDataReference
   inheritance:
   - System.Object
-  - System.Exception
-  implements:
-  - System.Runtime.Serialization.ISerializable
   inheritedMembers:
-  - System.Exception.GetBaseException
-  - System.Exception.GetType
-  - System.Exception.ToString
-  - System.Exception.Data
-  - System.Exception.HelpLink
-  - System.Exception.HResult
-  - System.Exception.InnerException
-  - System.Exception.Message
-  - System.Exception.Source
-  - System.Exception.StackTrace
-  - System.Exception.TargetSite
-  - System.Exception.SerializeObjectState
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
+  - System.Object.GetType
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   modifiers.csharp:
   - public
+  - abstract
   - class
   modifiers.vb:
   - Public
+  - MustInherit
   - Class
+- uid: OfficeOpenXml.RichData.RichDataReference.ReferenceType
+  commentId: P:OfficeOpenXml.RichData.RichDataReference.ReferenceType
+  id: ReferenceType
+  parent: OfficeOpenXml.RichData.RichDataReference
+  langs:
+  - csharp
+  - vb
+  name: ReferenceType
+  nameWithType: RichDataReference.ReferenceType
+  fullName: OfficeOpenXml.RichData.RichDataReference.ReferenceType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/RichData/RichDataReference.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ReferenceType
+    path: ../src/EPPlus/RichData/RichDataReference.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.RichData
+  summary: "\nIdentifies what type of rich data being referenced\n"
+  example: []
+  syntax:
+    content: public RichDataReferenceTypes ReferenceType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.RichData.RichDataReferenceTypes
+    content.vb: Public ReadOnly Property ReferenceType As RichDataReferenceTypes
+  overload: OfficeOpenXml.RichData.RichDataReference.ReferenceType*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.RichData.RichDataReference.ToString
+  commentId: M:OfficeOpenXml.RichData.RichDataReference.ToString
+  id: ToString
+  parent: OfficeOpenXml.RichData.RichDataReference
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: RichDataReference.ToString()
+  fullName: OfficeOpenXml.RichData.RichDataReference.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/RichData/RichDataReference.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/RichData/RichDataReference.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.RichData
+  summary: "\nReturns a string that reprsents the current object\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: OfficeOpenXml.RichData.RichDataReference.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
 references:
-- uid: OfficeOpenXml
-  commentId: N:OfficeOpenXml
-  name: OfficeOpenXml
-  nameWithType: OfficeOpenXml
-  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.RichData
+  commentId: N:OfficeOpenXml.RichData
+  name: OfficeOpenXml.RichData
+  nameWithType: OfficeOpenXml.RichData
+  fullName: OfficeOpenXml.RichData
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -73,176 +135,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: System.Exception
-  commentId: T:System.Exception
-  parent: System
-  isExternal: true
-  name: Exception
-  nameWithType: Exception
-  fullName: System.Exception
-- uid: System.Runtime.Serialization.ISerializable
-  commentId: T:System.Runtime.Serialization.ISerializable
-  parent: System.Runtime.Serialization
-  isExternal: true
-  name: ISerializable
-  nameWithType: ISerializable
-  fullName: System.Runtime.Serialization.ISerializable
-- uid: System.Exception.GetBaseException
-  commentId: M:System.Exception.GetBaseException
-  parent: System.Exception
-  isExternal: true
-  name: GetBaseException()
-  nameWithType: Exception.GetBaseException()
-  fullName: System.Exception.GetBaseException()
-  spec.csharp:
-  - uid: System.Exception.GetBaseException
-    name: GetBaseException
-    nameWithType: Exception.GetBaseException
-    fullName: System.Exception.GetBaseException
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Exception.GetBaseException
-    name: GetBaseException
-    nameWithType: Exception.GetBaseException
-    fullName: System.Exception.GetBaseException
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Exception.GetType
-  commentId: M:System.Exception.GetType
-  parent: System.Exception
-  isExternal: true
-  name: GetType()
-  nameWithType: Exception.GetType()
-  fullName: System.Exception.GetType()
-  spec.csharp:
-  - uid: System.Exception.GetType
-    name: GetType
-    nameWithType: Exception.GetType
-    fullName: System.Exception.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Exception.GetType
-    name: GetType
-    nameWithType: Exception.GetType
-    fullName: System.Exception.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Exception.ToString
-  commentId: M:System.Exception.ToString
-  parent: System.Exception
-  isExternal: true
-  name: ToString()
-  nameWithType: Exception.ToString()
-  fullName: System.Exception.ToString()
-  spec.csharp:
-  - uid: System.Exception.ToString
-    name: ToString
-    nameWithType: Exception.ToString
-    fullName: System.Exception.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Exception.ToString
-    name: ToString
-    nameWithType: Exception.ToString
-    fullName: System.Exception.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Exception.Data
-  commentId: P:System.Exception.Data
-  parent: System.Exception
-  isExternal: true
-  name: Data
-  nameWithType: Exception.Data
-  fullName: System.Exception.Data
-- uid: System.Exception.HelpLink
-  commentId: P:System.Exception.HelpLink
-  parent: System.Exception
-  isExternal: true
-  name: HelpLink
-  nameWithType: Exception.HelpLink
-  fullName: System.Exception.HelpLink
-- uid: System.Exception.HResult
-  commentId: P:System.Exception.HResult
-  parent: System.Exception
-  isExternal: true
-  name: HResult
-  nameWithType: Exception.HResult
-  fullName: System.Exception.HResult
-- uid: System.Exception.InnerException
-  commentId: P:System.Exception.InnerException
-  parent: System.Exception
-  isExternal: true
-  name: InnerException
-  nameWithType: Exception.InnerException
-  fullName: System.Exception.InnerException
-- uid: System.Exception.Message
-  commentId: P:System.Exception.Message
-  parent: System.Exception
-  isExternal: true
-  name: Message
-  nameWithType: Exception.Message
-  fullName: System.Exception.Message
-- uid: System.Exception.Source
-  commentId: P:System.Exception.Source
-  parent: System.Exception
-  isExternal: true
-  name: Source
-  nameWithType: Exception.Source
-  fullName: System.Exception.Source
-- uid: System.Exception.StackTrace
-  commentId: P:System.Exception.StackTrace
-  parent: System.Exception
-  isExternal: true
-  name: StackTrace
-  nameWithType: Exception.StackTrace
-  fullName: System.Exception.StackTrace
-- uid: System.Exception.TargetSite
-  commentId: P:System.Exception.TargetSite
-  parent: System.Exception
-  isExternal: true
-  name: TargetSite
-  nameWithType: Exception.TargetSite
-  fullName: System.Exception.TargetSite
-- uid: System.Exception.SerializeObjectState
-  commentId: E:System.Exception.SerializeObjectState
-  parent: System.Exception
-  isExternal: true
-  name: SerializeObjectState
-  nameWithType: Exception.SerializeObjectState
-  fullName: System.Exception.SerializeObjectState
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -372,6 +264,37 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.Object.MemberwiseClone
   commentId: M:System.Object.MemberwiseClone
   parent: System.Object
@@ -466,9 +389,57 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: System.Runtime.Serialization
-  commentId: N:System.Runtime.Serialization
+- uid: OfficeOpenXml.RichData.RichDataReference.ReferenceType*
+  commentId: Overload:OfficeOpenXml.RichData.RichDataReference.ReferenceType
+  name: ReferenceType
+  nameWithType: RichDataReference.ReferenceType
+  fullName: OfficeOpenXml.RichData.RichDataReference.ReferenceType
+- uid: OfficeOpenXml.RichData.RichDataReferenceTypes
+  commentId: T:OfficeOpenXml.RichData.RichDataReferenceTypes
+  parent: OfficeOpenXml.RichData
+  name: RichDataReferenceTypes
+  nameWithType: RichDataReferenceTypes
+  fullName: OfficeOpenXml.RichData.RichDataReferenceTypes
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
   isExternal: true
-  name: System.Runtime.Serialization
-  nameWithType: System.Runtime.Serialization
-  fullName: System.Runtime.Serialization
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.RichData.RichDataReference.ToString*
+  commentId: Overload:OfficeOpenXml.RichData.RichDataReference.ToString
+  name: ToString
+  nameWithType: RichDataReference.ToString
+  fullName: OfficeOpenXml.RichData.RichDataReference.ToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

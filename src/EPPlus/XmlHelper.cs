@@ -1013,7 +1013,7 @@ namespace OfficeOpenXml
         {
             var tempNode = TopNode;
             TopNode = parentNode;
-            var retVal = GetXmlNodeBool(path, TopNode);
+            var retVal = GetXmlNodeBool(path);
             TopNode = tempNode;
             return retVal;
         }
@@ -1470,7 +1470,7 @@ namespace OfficeOpenXml
         {
             if (n != null)
             {
-                if (ConvertUtil.TryParseNumericString(n.Attributes["val"].Value, out double num))
+                if (ConvertUtil.TryParseNumericString(n.Attributes["val"].Value, out double num, CultureInfo.InvariantCulture))
                 {
                    return Convert.ToSingle(num);
                 }

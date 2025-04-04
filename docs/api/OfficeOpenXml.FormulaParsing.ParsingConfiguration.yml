@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml.FormulaParsing
   children:
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.AllowCircularReferences
+  - OfficeOpenXml.FormulaParsing.ParsingConfiguration.AlwaysRefreshImageFunction
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.CacheExpressions
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.DetachLogger
@@ -22,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParsingConfiguration
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -65,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowCircularReferences
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -102,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheExpressions
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -139,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrecisionAndRoundingStrategy
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -162,6 +163,43 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.AlwaysRefreshImageFunction
+  commentId: P:OfficeOpenXml.FormulaParsing.ParsingConfiguration.AlwaysRefreshImageFunction
+  id: AlwaysRefreshImageFunction
+  parent: OfficeOpenXml.FormulaParsing.ParsingConfiguration
+  langs:
+  - csharp
+  - vb
+  name: AlwaysRefreshImageFunction
+  nameWithType: ParsingConfiguration.AlwaysRefreshImageFunction
+  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.AlwaysRefreshImageFunction
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AlwaysRefreshImageFunction
+    path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIf true, EPPlus will download the images in the IMAGE function even if they exists in the package. The same URL will only be downloaded once.\nIf false(default), EPPlus will only download images that don&apos;t exist in the package.\n"
+  example: []
+  syntax:
+    content: public bool AlwaysRefreshImageFunction { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AlwaysRefreshImageFunction As Boolean
+  overload: OfficeOpenXml.FormulaParsing.ParsingConfiguration.AlwaysRefreshImageFunction*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.Logger
   commentId: P:OfficeOpenXml.FormulaParsing.ParsingConfiguration.Logger
   id: Logger
@@ -176,11 +214,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Logger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 46
+    startLine: 50
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -213,11 +251,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionRepository
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 56
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -250,11 +288,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AttachLogger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 80
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -289,11 +327,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DetachLogger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 91
+    startLine: 95
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -642,6 +680,11 @@ references:
   name: PrecisionAndRoundingStrategy
   nameWithType: PrecisionAndRoundingStrategy
   fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.AlwaysRefreshImageFunction*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingConfiguration.AlwaysRefreshImageFunction
+  name: AlwaysRefreshImageFunction
+  nameWithType: ParsingConfiguration.AlwaysRefreshImageFunction
+  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.AlwaysRefreshImageFunction
 - uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
   commentId: T:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
   parent: OfficeOpenXml.FormulaParsing.Logging

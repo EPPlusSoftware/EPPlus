@@ -29,6 +29,11 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Configuration;
 using OfficeOpenXml.EventArguments;
 
+using OfficeOpenXml.Interfaces;
+#if(!NET35)
+using OfficeOpenXml.SensitivityLabels;
+#endif
+
 #if (Core)
 using Microsoft.Extensions.Configuration;
 #endif
@@ -225,6 +230,7 @@ namespace OfficeOpenXml
         // Richdata (used in worksheet.sortstate)
         internal const string schemaRichData2 = "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata2";
         internal const string schemaDynamicArrays = "http://schemas.microsoft.com/office/spreadsheetml/2017/dynamicarray";
+        internal const string schemaMipLabelMetadata = "http://schemas.microsoft.com/office/2020/mipLabelMetadata";
 
         //Package reference
         private Packaging.ZipPackage _zipPackage;
@@ -486,11 +492,11 @@ namespace OfficeOpenXml
                     _stream = RecyclableMemory.GetStream();
 
                 var ms = RecyclableMemory.GetStream();
-                if (password != null)
+                if(CompoundDocument.IsCompoundDocument(template))
                 {
                     Encryption.IsEncrypted = true;
-                    Encryption.Password = password;
-                    var encrHandler = new EncryptedPackageHandler();
+                    Encryption.Password = password ?? "";
+                    var encrHandler = new EncryptedPackageHandler(this);
                     ms.Dispose();
                     ms = encrHandler.DecryptPackage(template, Encryption);
                     encrHandler = null;
@@ -529,17 +535,17 @@ namespace OfficeOpenXml
             if (File != null) File.Refresh();
             if (File != null && File.Exists && File.Length > 0)
             {
-                var ms = RecyclableMemory.GetStream();
-                if (password != null)
+                MemoryStream ms;
+                if(CompoundDocument.IsCompoundDocument(File))
                 {
-                    var encrHandler = new EncryptedPackageHandler();
+                    var encrHandler = new EncryptedPackageHandler(this);
                     Encryption.IsEncrypted = true;
-                    Encryption.Password = password;
-                    ms.Dispose();
+                    Encryption.Password = password??"";
                     ms = encrHandler.DecryptPackage(File, Encryption);
                 }
                 else
                 {
+                    ms = RecyclableMemory.GetStream();
                     WriteFileToStream(File.FullName, ms);
                 }
                 try
@@ -619,12 +625,11 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// to use the epplus library in debug mode a licensetype must be specified.
-        /// use licensecontext.noncommercial if you use epplus in an non commercial context.
-        /// use licensecontext.commercial if you have purchased an license to use epplus
-        /// see https://epplussoftware.com/developers/licenseexception
+        /// This property is obsolete in EPPlus 8, and will be removed in coming versions. 
+        /// Please use the <see cref="License"/> property to configure the license.
+        /// <see href="https://epplussoftware.com/developers/licensenotsetexception" />
         /// </summary>
-        [Obsolete("Please set the license using the License property from EPPlus 8 and later. For more info see http://epplussoftware.com/developers/licenseexception")]
+        [Obsolete("Please use the static 'ExcelPackage.License' property to set the required license information from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licensenotsetexception.")]
         public static LicenseContext? LicenseContext
         {
             get
@@ -633,84 +638,28 @@ namespace OfficeOpenXml
             }
             set
             {
-                throw new NotImplementedException("Please use the License Property to set the license from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licenseexception");
+                throw new LicenseContextPropertyObsoleteException("Please use the static 'ExcelPackage.License' property to set the required license information from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licensenotsetexception.");
             }
         }
 
         /// <summary>
+        /// <para>
         /// Used to set the license EPPlus uses.
+        /// </para>
+        /// <para>
+        /// For use within a commercial organization. Requires a license key which can be purchased at <see href="https://epplussoftware.com" />.<br/>
         /// <see cref="EPPlusLicense.SetCommercial(string)"/>
+        /// </para>
+        /// <para>
+        /// For use within a non-commercial organization. The document will be tagged with the Polyform Noncommercial License.<br/>
         /// <see cref="EPPlusLicense.SetNonCommercialOrganization(string)"/>
+        /// </para>
+        /// <para>
+        /// For personal non-commercial use. <br/>
         /// <see cref="EPPlusLicense.SetNonCommercialPersonal(string)"/>
+        /// </para>
         /// </summary>
-        public static EPPlusLicense License { get; } = new EPPlusLicense();
-            
-//        internal static bool IsLicenseSet(List<ExcelInitializationError> initErrors)
-//        {
-//            if (_licenseSet == true)
-//            {
-//                return true;
-//            }
-//            else
-//            {
-//                if (Debugger.IsAttached == false)   //This check is only performed if a debugger is attached. 
-//                {
-//                    _licenseSet = true;
-//                    return true;
-//                }
-//                var v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.User, _configuration, initErrors);
-//                if (string.IsNullOrEmpty(v))
-//                {
-//                    v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.Process, _configuration, initErrors);
-//                }
-//                bool inEnvironment;
-//                if (string.IsNullOrEmpty(v))
-//                {
-//#if (Core)
-//                    v = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
-
-//#else
-//                    v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
-//                    if(string.IsNullOrEmpty(v))
-//                    {
-//                        v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.LicenseContext", _configuration, initErrors);
-//                    }
-//#endif
-//                    inEnvironment = false;
-//                }
-//                else
-//                {
-//                    inEnvironment = true;
-//                }
-
-//                if (string.IsNullOrEmpty(v))
-//                {
-//                    inEnvironment = false;
-//                    return false;
-//                }
-//                else
-//                {
-//                    v = v.Trim();
-//                    if (v.Equals("commercial", StringComparison.OrdinalIgnoreCase))
-//                    {
-//                        LicenseContext = OfficeOpenXml.LicenseContext.Commercial;
-//                        _licenseSet = true;
-//                        return _licenseSet;
-//                    }
-//                    else if (v.Equals("noncommercial", StringComparison.OrdinalIgnoreCase))
-//                    {
-//                        LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-//                        _licenseSet = true;
-//                        return _licenseSet;
-//                    }
-//                }
-
-//                if (inEnvironment)
-//                    throw new LicenseException("LicenseContext is set to an invalid value in the environment variable 'EPPlusLicenseContext'. Please use Commercial or Noncommercial");
-//                else
-//                    throw new LicenseException("LicenseContext is set to an invalid value in the configuration file, Key: ExcelPackage.LicenseContext. Please use Commercial or Noncommercial");
-//            }
-//        }
+        public static EPPlusLicense License { get; } = new EPPlusLicense();            
         /// <summary>
         /// Returns a reference to the workbook component within the package.
         /// All worksheets and cells can be accessed through the workbook.
@@ -724,7 +673,7 @@ namespace OfficeOpenXml
                 {
                     if (License.IsLicenseSet(_initErrors) == false)
                     {
-                        throw (new LicenseException("Please set the license using one of the methods on the static property ExcelPackage.License. See https://epplussoftware.com/developers/licenseexception for more information"));
+                        throw (new LicenseNotSetException("Please set the license using one of the methods on the static property ExcelPackage.License. See https://epplussoftware.com/developers/licensenotsetexception for more information"));
                     }
                     var nsm = CreateDefaultNSM();
 
@@ -737,7 +686,6 @@ namespace OfficeOpenXml
                 return (_workbook);
             }
         }
-
         /// <summary>
         /// Global configuration for the ExcelPackage class
         /// </summary>
@@ -746,7 +694,6 @@ namespace OfficeOpenXml
         {
             configHandler(_configuration);
         }
-
         /// <summary>
         /// Errors that has been logged during initialization of the ExcelPackage class.
         /// </summary>
@@ -800,6 +747,7 @@ namespace OfficeOpenXml
             ns.AddNamespace("a14", schemaDrawings2010);
             ns.AddNamespace("xdr", schemaSheetDrawings);
             ns.AddNamespace("xda", schemaDynamicArrays);
+            ns.AddNamespace("clbl", schemaMipLabelMetadata);
             ns.AddNamespace("xfpb", Schemas.schemaFeaturePropertyBag);
             return ns;
         }
@@ -813,7 +761,9 @@ namespace OfficeOpenXml
         {
             Packaging.ZipPackagePart part = _zipPackage.GetPart(uri);
             var stream = part.GetStream(FileMode.Create, FileAccess.Write);
-            xmlDoc.Save(stream);
+            var xmlSettings = new XmlWriterSettings();
+            var xmlWriter = XmlWriter.Create(stream, xmlSettings);
+            xmlDoc.Save(xmlWriter);
         }
         /// <summary>
 		/// Saves the XmlDocument into the package at the specified Uri.
@@ -912,9 +862,15 @@ namespace OfficeOpenXml
                 }
 
                 Workbook.Save();
+#if (!NET35)
+                if (_sensibilityLabels != null)
+                {
+                    _sensibilityLabels.SaveToXml();
+                }
+#endif
                 if (File == null)
                 {
-                    if (Encryption.IsEncrypted)
+                    if (Encryption.IsEncrypted && (Encryption.Version == EncryptionVersion.Standard || Encryption.Version == EncryptionVersion.Agile))
                     {
                         byte[] file;
                         using (var ms = RecyclableMemory.GetStream())
@@ -922,12 +878,22 @@ namespace OfficeOpenXml
                             _zipPackage.Save(ms);
                             file = ms.ToArray();
                         }
-                        EncryptedPackageHandler eph = new EncryptedPackageHandler();
+                        EncryptedPackageHandler eph = new EncryptedPackageHandler(this);
                         using (var msEnc = eph.EncryptPackage(file, Encryption))
                         {
                             StreamUtil.CopyStream(msEnc, ref _stream);
                         }
                     }
+#if (!NET35)
+                    else if (SensibilityLabels.Labels.Count > 0 && ExcelPackage.SensibilityLabelHandler != null)
+                    {
+                        using (var ms = RecyclableMemory.GetStream())
+                        {
+                            _zipPackage.Save(ms);
+                            _stream = SensibilityLabels.ApplyLabel(ms.ToArray()).ConfigureAwait(false).GetAwaiter().GetResult(); 
+                        }
+                    }
+#endif
                     else
                     {
                         _zipPackage.Save(_stream);
@@ -956,16 +922,23 @@ namespace OfficeOpenXml
                         using (var fi = new FileStream(File.FullName, FileMode.Create))
                         {
                             //EncryptPackage
-                            if (Encryption.IsEncrypted)
+                            if (Encryption.IsEncrypted && (Encryption.Version == EncryptionVersion.Standard || Encryption.Version == EncryptionVersion.Agile))
                             {
                                 byte[] file = ((MemoryStream)Stream).ToArray();
-                                EncryptedPackageHandler eph = new EncryptedPackageHandler();
+                                EncryptedPackageHandler eph = new EncryptedPackageHandler(this);
 
                                 using (var ms = eph.EncryptPackage(file, Encryption))
                                 {
                                     fi.Write(ms.ToArray(), 0, (int)ms.Length);
                                 }
                             }
+#if (!NET35)
+                            else if (SensibilityLabels.Labels.Count > 0 && ExcelPackage.SensibilityLabelHandler != null)
+                            {
+                                var slStream = SensibilityLabels.ApplyLabel(((MemoryStream)Stream).ToArray()).ConfigureAwait(false).GetAwaiter().GetResult();
+                                fi.Write(((MemoryStream)slStream).ToArray(), 0, (int)slStream.Length);
+                            }
+#endif
                             else
                             {
                                 fi.Write(((MemoryStream)Stream).ToArray(), 0, (int)Stream.Length);
@@ -1103,7 +1076,7 @@ namespace OfficeOpenXml
                 return _stream;
             }
         }
-        #endregion
+#endregion
         /// <summary>
         /// Compression option for the package
         /// </summary>        
@@ -1158,7 +1131,7 @@ namespace OfficeOpenXml
             }
         }
 #endif
-        #region GetXmlFromUri
+#region GetXmlFromUri
         /// <summary>
         /// Get the XmlDocument from an URI
         /// </summary>
@@ -1169,7 +1142,7 @@ namespace OfficeOpenXml
 			XmlDocument xml = new XmlDocument();
 			Packaging.ZipPackagePart part = _zipPackage.GetPart(uri);
             XmlHelper.LoadXmlSafe(xml, part.GetStream()); 
-			return (xml);
+			return xml;
 		}
         #endregion
         #region GetAsByteArray
@@ -1235,12 +1208,12 @@ namespace OfficeOpenXml
             Byte[] byRet = new byte[Stream.Length];
             long pos = Stream.Position;            
             Stream.Seek(0, SeekOrigin.Begin);
-            Stream.Read(byRet, 0, (int)Stream.Length);
+            var r = Stream.Read(byRet, 0, (int)Stream.Length);
 
             //Encrypt Workbook?
             if (Encryption.IsEncrypted)
             {
-                EncryptedPackageHandler eph=new EncryptedPackageHandler();
+                EncryptedPackageHandler eph=new EncryptedPackageHandler(this);
                 using (var ms = eph.EncryptPackage(byRet, Encryption))
                 {
                     byRet = ms.ToArray();
@@ -1293,15 +1266,15 @@ namespace OfficeOpenXml
             }
             else
             {
-                Stream ms;
-                if (Password != null)
+                Stream ms = RecyclableMemory.GetStream();
+                StreamUtil.CopyStream(input, ref ms);
+                if(CompoundDocument.IsCompoundDocument((MemoryStream)ms))
                 {
-                    Stream encrStream = RecyclableMemory.GetStream();
-                    StreamUtil.CopyStream(input, ref encrStream);
-                    EncryptedPackageHandler eph = new EncryptedPackageHandler();
+                    EncryptedPackageHandler eph = new EncryptedPackageHandler(this);
                     Encryption.Password = Password;
-                    ms = eph.DecryptPackage((MemoryStream)encrStream, Encryption);
-                    encrStream.Dispose();
+                    var decrStream = eph.DecryptPackage((MemoryStream)ms, Encryption);
+                    ms.Dispose();
+                    ms = decrStream;
                 }
                 else
                 {
@@ -1316,7 +1289,7 @@ namespace OfficeOpenXml
                 }
                 catch (Exception ex)
                 {
-                    EncryptedPackageHandler eph = new EncryptedPackageHandler();
+                    EncryptedPackageHandler eph = new EncryptedPackageHandler(this);
                     if (Password == null && CompoundDocument.IsCompoundDocument((MemoryStream)_stream))
                     {
                         throw new Exception("Cannot open the package. The package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
@@ -1333,7 +1306,6 @@ namespace OfficeOpenXml
             //Clear the workbook so that it gets reinitialized next time
             this._workbook = null;
         }
-
         private void ReleaseResources()
         {
             //Release some resources:
@@ -1351,7 +1323,29 @@ namespace OfficeOpenXml
             _isExternalStream = true;
             _isDisposed = false;
         }
+#if (!NET35)
+        ExcelSensibilityLabelCollection _sensibilityLabels = null;
+        /// <summary>
+        /// Sensibility labels meta data.
+        /// <seealso cref="SensibilityLabelHandler"/>
+        /// </summary>
+        public ExcelSensibilityLabelCollection SensibilityLabels
+        {
+            get
+            {
 
+                if (_sensibilityLabels == null)
+                {
+                    _sensibilityLabels = new ExcelSensibilityLabelCollection(this);
+                }
+                return _sensibilityLabels;
+            }
+            internal set
+            {
+                _sensibilityLabels = value;
+            }
+        }
+#endif
         internal int _worksheetAdd=0;
     }
 }

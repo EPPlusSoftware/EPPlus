@@ -8,7 +8,6 @@ using OfficeOpenXml.Drawing;
 using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.DigitalSignatures;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
@@ -278,7 +277,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = package.Workbook;
 
-                var sig = wb.DigitialSignatures[0];
+                var sig = wb.DigitalSignatures[0];
 
                 SaveAndCleanup(package);
             }
@@ -302,7 +301,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var ws = wb.Worksheets[0];
 
                 var sLine = ws.SignatureLines[0];
-                var digSig = wb.DigitialSignatures[0];
+                var digSig = wb.DigitalSignatures[0];
 
                 originalImgBytes = sLine.SignatureImage.ImageBytes;
 
@@ -343,7 +342,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var ws = wb.Worksheets[0];
 
                 var aSline = ws.SignatureLines[0];
-                var digSig = wb.DigitialSignatures[0];
+                var digSig = wb.DigitalSignatures[0];
                 digSig.Certificate = GetSelfCert();
 
                 openedOnceImage = digSig.SigLnImage;
@@ -369,7 +368,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets[0];
-                var digSig = wb.DigitialSignatures[0];
+                var digSig = wb.DigitalSignatures[0];
                 var aSline = ws.SignatureLines[0];
                 digSig.Certificate = GetSelfCert();
 
@@ -391,7 +390,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets[0];
-                var digSig = wb.DigitialSignatures[0];
+                var digSig = wb.DigitalSignatures[0];
                 var aSline = ws.SignatureLines[0];
                 digSig.Certificate = GetSelfCert();
 
@@ -440,7 +439,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets[0];
-                var signature = wb.DigitialSignatures[0];
+                var signature = wb.DigitalSignatures[0];
                 var sLine = ws.SignatureLines[0];
 
                 var imageOnly = GetOutputFile(SubFolder, $"{sharedName}Image.emf");
@@ -555,7 +554,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             using (ExcelPackage package = OpenTemplatePackage("emfTextTest.xlsx"))
             {
                 var wb = package.Workbook;
-                var signature = wb.DigitialSignatures[0];
+                var signature = wb.DigitalSignatures[0];
 
                 var validOutput = GetOutputFile("", "ValidTestSignatureEmf.emf");
                 var invalidOutput = GetOutputFile("", "InvalidTestSignatureEmf.emf");
@@ -626,7 +625,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = wb.Worksheets[0];
 
-                var signatures = package.Workbook.DigitialSignatures;
+                var signatures = package.Workbook.DigitalSignatures;
 
                 DecodeAndSaveEmf(signatures[0].ValidSigLnImage, GetOutputFile("", "validStamp.emf").FullName);
                 DecodeAndSaveEmf(signatures[0].InvalidSigLnImg, GetOutputFile("", "invalidStamp.emf").FullName);
@@ -662,7 +661,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets[0];
 
-                var signature = wb.DigitialSignatures[0];
+                var signature = wb.DigitalSignatures[0];
                 var vmlDrawings = ws.VmlDrawings;
 
                 var sline = ws.SignatureLines[0];

@@ -86,7 +86,7 @@ namespace EPPlusTest.Drawing.Grouping
             var ctrl = (ExcelControlGroupBox)_ws.Drawings.AddControl("GroupBox 1", eControlType.GroupBox);
             ctrl.SetPosition(480, 80);
             ctrl.SetSize(200, 120);
-            
+
             ctrl.Group();
             ctrl.UnGroup();
         }

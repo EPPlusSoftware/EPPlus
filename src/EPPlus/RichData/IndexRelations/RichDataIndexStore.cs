@@ -137,7 +137,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
                 var pointersList = _incomingRelations[relation.To.Id];
                 if(pointersList != null && pointersList.Any())
                 {
-                    pointersList.RemoveAll(x => x.To == relation.To);
+                    pointersList.RemoveAll(x => x.Id == relation.Id);
                 }
             }
             if(_outgoingRelations.ContainsKey(relation.From.Id))
@@ -145,7 +145,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
                 var targetsList = _outgoingRelations[relation.From.Id];
                 if(targetsList != null && targetsList.Any())
                 {
-                    targetsList.RemoveAll(x => x.From == relation.From);
+                    targetsList.RemoveAll(x => x.Id == relation.Id);
                 }
             }
             return true;

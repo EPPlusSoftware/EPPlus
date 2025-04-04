@@ -1,0 +1,919 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLine
+  commentId: T:OfficeOpenXml.Drawing.ExcelSignatureLine
+  id: ExcelSignatureLine
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ExcelSignatureLine.SignatureText
+  - OfficeOpenXml.Drawing.ExcelSignatureLine.SignWithText(System.Security.Cryptography.X509Certificates.X509Certificate2,System.String)
+  langs:
+  - csharp
+  - vb
+  name: ExcelSignatureLine
+  nameWithType: ExcelSignatureLine
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLine
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/SignatureLine/ExcelSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelSignatureLine
+    path: ../src/EPPlus/Drawing/SignatureLine/ExcelSignatureLine.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSignature line which can contain either text or an image as the signature.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelSignatureLine : ExcelSignatureLineStamp'
+    content.vb: >-
+      Public Class ExcelSignatureLine
+          Inherits ExcelSignatureLineStamp
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  - OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignatureLineType
+  - OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignatureImage
+  - OfficeOpenXml.Drawing.ExcelSignatureLineStamp.DigitalSignature
+  - OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignWithImage(System.Security.Cryptography.X509Certificates.X509Certificate2,OfficeOpenXml.Drawing.ExcelImage)
+  - OfficeOpenXml.Drawing.ExcelSignatureLineStamp.AsSignatureLine
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetupID
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Signer
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Title
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Email
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SigningInstructions
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.ShowSignDate
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.AllowComments
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.From
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.To
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_PIXEL
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_POINT
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32,System.Int32)
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32)
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLine.SignatureText
+  commentId: P:OfficeOpenXml.Drawing.ExcelSignatureLine.SignatureText
+  id: SignatureText
+  parent: OfficeOpenXml.Drawing.ExcelSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: SignatureText
+  nameWithType: ExcelSignatureLine.SignatureText
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLine.SignatureText
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/SignatureLine/ExcelSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SignatureText
+    path: ../src/EPPlus/Drawing/SignatureLine/ExcelSignatureLine.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe Signature itself.\nCannot be set if IsStamp is true.\nNote that setting SignatureText will erase SignatureImage and vice-versa.\n"
+  example: []
+  syntax:
+    content: public string SignatureText { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property SignatureText As String
+  overload: OfficeOpenXml.Drawing.ExcelSignatureLine.SignatureText*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLine.SignWithText(System.Security.Cryptography.X509Certificates.X509Certificate2,System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelSignatureLine.SignWithText(System.Security.Cryptography.X509Certificates.X509Certificate2,System.String)
+  id: SignWithText(System.Security.Cryptography.X509Certificates.X509Certificate2,System.String)
+  parent: OfficeOpenXml.Drawing.ExcelSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: SignWithText(X509Certificate2, String)
+  nameWithType: ExcelSignatureLine.SignWithText(X509Certificate2, String)
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLine.SignWithText(System.Security.Cryptography.X509Certificates.X509Certificate2, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/SignatureLine/ExcelSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SignWithText
+    path: ../src/EPPlus/Drawing/SignatureLine/ExcelSignatureLine.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSign with text\n"
+  example: []
+  syntax:
+    content: public ExcelDigitalSignature SignWithText(X509Certificate2 certificate, string signatureText)
+    parameters:
+    - id: certificate
+      type: System.Security.Cryptography.X509Certificates.X509Certificate2
+      description: ''
+    - id: signatureText
+      type: System.String
+      description: Cannot be null or empty
+    return:
+      type: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+      description: ''
+    content.vb: Public Function SignWithText(certificate As X509Certificate2, signatureText As String) As ExcelDigitalSignature
+  overload: OfficeOpenXml.Drawing.ExcelSignatureLine.SignWithText*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlDrawingBase
+  nameWithType: ExcelVmlDrawingBase
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlDrawingSignatureLine
+  nameWithType: ExcelVmlDrawingSignatureLine
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+  commentId: T:OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+  parent: OfficeOpenXml.Drawing
+  name: ExcelSignatureLineStamp
+  nameWithType: ExcelSignatureLineStamp
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignatureLineType
+  commentId: P:OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignatureLineType
+  parent: OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+  name: SignatureLineType
+  nameWithType: ExcelSignatureLineStamp.SignatureLineType
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignatureLineType
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignatureImage
+  commentId: P:OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignatureImage
+  parent: OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+  name: SignatureImage
+  nameWithType: ExcelSignatureLineStamp.SignatureImage
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignatureImage
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.DigitalSignature
+  commentId: P:OfficeOpenXml.Drawing.ExcelSignatureLineStamp.DigitalSignature
+  parent: OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+  name: DigitalSignature
+  nameWithType: ExcelSignatureLineStamp.DigitalSignature
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.DigitalSignature
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignWithImage(System.Security.Cryptography.X509Certificates.X509Certificate2,OfficeOpenXml.Drawing.ExcelImage)
+  commentId: M:OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignWithImage(System.Security.Cryptography.X509Certificates.X509Certificate2,OfficeOpenXml.Drawing.ExcelImage)
+  parent: OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+  isExternal: true
+  name: SignWithImage(X509Certificate2, ExcelImage)
+  nameWithType: ExcelSignatureLineStamp.SignWithImage(X509Certificate2, ExcelImage)
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignWithImage(System.Security.Cryptography.X509Certificates.X509Certificate2, OfficeOpenXml.Drawing.ExcelImage)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignWithImage(System.Security.Cryptography.X509Certificates.X509Certificate2,OfficeOpenXml.Drawing.ExcelImage)
+    name: SignWithImage
+    nameWithType: ExcelSignatureLineStamp.SignWithImage
+    fullName: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignWithImage
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Security.Cryptography.X509Certificates.X509Certificate2
+    name: X509Certificate2
+    nameWithType: X509Certificate2
+    fullName: System.Security.Cryptography.X509Certificates.X509Certificate2
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Drawing.ExcelImage
+    name: ExcelImage
+    nameWithType: ExcelImage
+    fullName: OfficeOpenXml.Drawing.ExcelImage
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignWithImage(System.Security.Cryptography.X509Certificates.X509Certificate2,OfficeOpenXml.Drawing.ExcelImage)
+    name: SignWithImage
+    nameWithType: ExcelSignatureLineStamp.SignWithImage
+    fullName: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.SignWithImage
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Security.Cryptography.X509Certificates.X509Certificate2
+    name: X509Certificate2
+    nameWithType: X509Certificate2
+    fullName: System.Security.Cryptography.X509Certificates.X509Certificate2
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Drawing.ExcelImage
+    name: ExcelImage
+    nameWithType: ExcelImage
+    fullName: OfficeOpenXml.Drawing.ExcelImage
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.AsSignatureLine
+  commentId: P:OfficeOpenXml.Drawing.ExcelSignatureLineStamp.AsSignatureLine
+  parent: OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+  name: AsSignatureLine
+  nameWithType: ExcelSignatureLineStamp.AsSignatureLine
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLineStamp.AsSignatureLine
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetupID
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetupID
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  name: SetupID
+  nameWithType: ExcelVmlDrawingSignatureLine.SetupID
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetupID
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Signer
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Signer
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  name: Signer
+  nameWithType: ExcelVmlDrawingSignatureLine.Signer
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Signer
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Title
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Title
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  name: Title
+  nameWithType: ExcelVmlDrawingSignatureLine.Title
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Title
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Email
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Email
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  name: Email
+  nameWithType: ExcelVmlDrawingSignatureLine.Email
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Email
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SigningInstructions
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SigningInstructions
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  name: SigningInstructions
+  nameWithType: ExcelVmlDrawingSignatureLine.SigningInstructions
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SigningInstructions
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.ShowSignDate
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.ShowSignDate
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  name: ShowSignDate
+  nameWithType: ExcelVmlDrawingSignatureLine.ShowSignDate
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.ShowSignDate
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.AllowComments
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.AllowComments
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  name: AllowComments
+  nameWithType: ExcelVmlDrawingSignatureLine.AllowComments
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.AllowComments
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.From
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.From
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  name: From
+  nameWithType: ExcelVmlDrawingSignatureLine.From
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.From
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.To
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.To
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  name: To
+  nameWithType: ExcelVmlDrawingSignatureLine.To
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.To
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_PIXEL
+  commentId: F:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_PIXEL
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  name: EMU_PER_PIXEL
+  nameWithType: ExcelVmlDrawingSignatureLine.EMU_PER_PIXEL
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_PIXEL
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_POINT
+  commentId: F:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_POINT
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  name: EMU_PER_POINT
+  nameWithType: ExcelVmlDrawingSignatureLine.EMU_PER_POINT
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_POINT
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32,System.Int32)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  isExternal: true
+  name: SetSize(Int32, Int32)
+  nameWithType: ExcelVmlDrawingSignatureLine.SetSize(Int32, Int32)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32,System.Int32)
+    name: SetSize
+    nameWithType: ExcelVmlDrawingSignatureLine.SetSize
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32,System.Int32)
+    name: SetSize
+    nameWithType: ExcelVmlDrawingSignatureLine.SetSize
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  isExternal: true
+  name: SetSize(Int32)
+  nameWithType: ExcelVmlDrawingSignatureLine.SetSize(Int32)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32)
+    name: SetSize
+    nameWithType: ExcelVmlDrawingSignatureLine.SetSize
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32)
+    name: SetSize
+    nameWithType: ExcelVmlDrawingSignatureLine.SetSize
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  name: Id
+  nameWithType: ExcelVmlDrawingBase.Id
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  name: AlternativeText
+  nameWithType: ExcelVmlDrawingBase.AlternativeText
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  isExternal: true
+  name: GetStyle(String, String, String)
+  nameWithType: ExcelVmlDrawingBase.GetStyle(String, String, String)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String, System.String, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+    name: GetStyle
+    nameWithType: ExcelVmlDrawingBase.GetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+    name: GetStyle
+    nameWithType: ExcelVmlDrawingBase.GetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  isExternal: true
+  name: SetStyle(String, String, String)
+  nameWithType: ExcelVmlDrawingBase.SetStyle(String, String, String)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String, System.String, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+    name: SetStyle
+    nameWithType: ExcelVmlDrawingBase.SetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+    name: SetStyle
+    nameWithType: ExcelVmlDrawingBase.SetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLine.SignatureText*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelSignatureLine.SignatureText
+  name: SignatureText
+  nameWithType: ExcelSignatureLine.SignatureText
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLine.SignatureText
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLine.SignWithText*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelSignatureLine.SignWithText
+  name: SignWithText
+  nameWithType: ExcelSignatureLine.SignWithText
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLine.SignWithText
+- uid: System.Security.Cryptography.X509Certificates.X509Certificate2
+  commentId: T:System.Security.Cryptography.X509Certificates.X509Certificate2
+  parent: System.Security.Cryptography.X509Certificates
+  isExternal: true
+  name: X509Certificate2
+  nameWithType: X509Certificate2
+  fullName: System.Security.Cryptography.X509Certificates.X509Certificate2
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+  commentId: T:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+  parent: OfficeOpenXml.DigitalSignatures
+  name: ExcelDigitalSignature
+  nameWithType: ExcelDigitalSignature
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+- uid: System.Security.Cryptography.X509Certificates
+  commentId: N:System.Security.Cryptography.X509Certificates
+  isExternal: true
+  name: System.Security.Cryptography.X509Certificates
+  nameWithType: System.Security.Cryptography.X509Certificates
+  fullName: System.Security.Cryptography.X509Certificates
+- uid: OfficeOpenXml.DigitalSignatures
+  commentId: N:OfficeOpenXml.DigitalSignatures
+  name: OfficeOpenXml.DigitalSignatures
+  nameWithType: OfficeOpenXml.DigitalSignatures
+  fullName: OfficeOpenXml.DigitalSignatures

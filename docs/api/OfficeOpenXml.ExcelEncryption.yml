@@ -21,11 +21,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelEncryption
     path: ../src/EPPlus/ExcelEncryption.cs
-    startLine: 61
+    startLine: 68
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -64,11 +64,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEncrypted
     path: ../src/EPPlus/ExcelEncryption.cs
-    startLine: 83
+    startLine: 90
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -101,11 +101,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Password
     path: ../src/EPPlus/ExcelEncryption.cs
-    startLine: 106
+    startLine: 113
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -138,11 +138,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Algorithm
     path: ../src/EPPlus/ExcelEncryption.cs
-    startLine: 121
+    startLine: 128
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -175,11 +175,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Version
     path: ../src/EPPlus/ExcelEncryption.cs
-    startLine: 126
+    startLine: 133
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -212,11 +212,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EncryptPackage
     path: ../src/EPPlus/ExcelEncryption.cs
-    startLine: 156
+    startLine: 163
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -262,11 +262,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DecryptPackage
     path: ../src/EPPlus/ExcelEncryption.cs
-    startLine: 178
+    startLine: 185
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

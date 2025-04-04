@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingNotContainsBlanks.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingNotContainsBlanks
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingNotContainsBlanks.cs

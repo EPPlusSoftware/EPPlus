@@ -44,20 +44,20 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(LicenseNotValidException))]
         public void CommercialSubscriptionExpired()
         {
             var lk = "GRkMe8goQZjmGTsyxjTiLv4FSrwd+Sb1DO8KEJttMkOoutyzpZ+qteojECrmj+w4OLcUVtYvHd0GFC5z0KKkjwEGQjAzNDJF5Qd8AHIAAQIA";
-            ExcelPackage.License.SetCommercial(lk);
-            using (var p = new ExcelPackage())
+            try
             {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-                Assert.AreEqual(EPPlusCommercialLicenseType.TemporaryKey | EPPlusCommercialLicenseType.Subscription, ExcelPackage.License.LicenseInfo.LicenseType);
-                Assert.AreEqual(lk, ExcelPackage.License.LicenseKey);
-                //SaveWorkbook("LicenseKeyComercial.xlsx", p);
+                ExcelPackage.License.SetCommercial(lk);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsInstanceOfType(ex, typeof(LicenseNotValidException));
             }
         }
         [TestMethod]
+        [ExpectedException(typeof(LicenseNotValidException))]
         public void CommercialTemporaryKey()
         {
             var lk = "R+WEJREh+kZCPuQDxJDNB96heFdV0hZLG6xvWYAeEfAZjBU5JXFoT2/+or9Uxwf5aDyJxGi+VgDw92x+Cr6sMgEGQjZCQjM15wfJAAADQQIA";

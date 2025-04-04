@@ -17,11 +17,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/ZipPackagePartBase.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ZipPackagePartBase
     path: ../src/EPPlus/Packaging/ZipPackagePartBase.cs
-    startLine: 24
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Packaging
@@ -62,11 +62,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/ZipPackagePartBase.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _rels
     path: ../src/EPPlus/Packaging/ZipPackagePartBase.cs
-    startLine: 29
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Packaging
@@ -95,11 +95,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/ZipPackagePartBase.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateMaxRId
     path: ../src/EPPlus/Packaging/ZipPackagePartBase.cs
-    startLine: 41
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Packaging

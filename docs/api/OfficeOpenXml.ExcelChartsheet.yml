@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelChartsheet.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartsheet
     path: ../src/EPPlus/ExcelChartsheet.cs
@@ -43,7 +43,6 @@ items:
   - OfficeOpenXml.ExcelWorksheet.ClearFormulas
   - OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
   - OfficeOpenXml.ExcelWorksheet.Index
-  - OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
   - OfficeOpenXml.ExcelWorksheet.AutoFilter
   - OfficeOpenXml.ExcelWorksheet.SortState
   - OfficeOpenXml.ExcelWorksheet.View
@@ -60,6 +59,7 @@ items:
   - OfficeOpenXml.ExcelWorksheet.TabColor
   - OfficeOpenXml.ExcelWorksheet.CodeModule
   - OfficeOpenXml.ExcelWorksheet.WorksheetXml
+  - OfficeOpenXml.ExcelWorksheet.SignatureLines
   - OfficeOpenXml.ExcelWorksheet.Comments
   - OfficeOpenXml.ExcelWorksheet.ThreadedComments
   - OfficeOpenXml.ExcelWorksheet.HeaderFooter
@@ -81,7 +81,6 @@ items:
   - OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32,System.Int32)
   - OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32)
   - OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32)
-  - OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
   - OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32)
   - OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32,System.Int32)
   - OfficeOpenXml.ExcelWorksheet.GetValue(System.Int32,System.Int32)
@@ -142,7 +141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelChartsheet.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Chart
     path: ../src/EPPlus/ExcelChartsheet.cs
@@ -301,12 +300,6 @@ references:
   name: Index
   nameWithType: ExcelWorksheet.Index
   fullName: OfficeOpenXml.ExcelWorksheet.Index
-- uid: OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
-  commentId: P:OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
-  parent: OfficeOpenXml.ExcelWorksheet
-  name: AutoFilterAddress
-  nameWithType: ExcelWorksheet.AutoFilterAddress
-  fullName: OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
 - uid: OfficeOpenXml.ExcelWorksheet.AutoFilter
   commentId: P:OfficeOpenXml.ExcelWorksheet.AutoFilter
   parent: OfficeOpenXml.ExcelWorksheet
@@ -403,6 +396,12 @@ references:
   name: WorksheetXml
   nameWithType: ExcelWorksheet.WorksheetXml
   fullName: OfficeOpenXml.ExcelWorksheet.WorksheetXml
+- uid: OfficeOpenXml.ExcelWorksheet.SignatureLines
+  commentId: P:OfficeOpenXml.ExcelWorksheet.SignatureLines
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: SignatureLines
+  nameWithType: ExcelWorksheet.SignatureLines
+  fullName: OfficeOpenXml.ExcelWorksheet.SignatureLines
 - uid: OfficeOpenXml.ExcelWorksheet.Comments
   commentId: P:OfficeOpenXml.ExcelWorksheet.Comments
   parent: OfficeOpenXml.ExcelWorksheet
@@ -1104,77 +1103,6 @@ references:
     name: Int32
     nameWithType: Int32
     fullName: System.Int32
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
-  commentId: M:OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
-  parent: OfficeOpenXml.ExcelWorksheet
-  isExternal: true
-  name: DeleteRow(Int32, Int32, Boolean)
-  nameWithType: ExcelWorksheet.DeleteRow(Int32, Int32, Boolean)
-  fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32, System.Int32, System.Boolean)
-  spec.csharp:
-  - uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
-    name: DeleteRow
-    nameWithType: ExcelWorksheet.DeleteRow
-    fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
-    name: DeleteRow
-    nameWithType: ExcelWorksheet.DeleteRow
-    fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
     isExternal: true
   - name: )
     nameWithType: )

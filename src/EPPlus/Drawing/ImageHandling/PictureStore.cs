@@ -14,14 +14,11 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.Packaging;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs;
 namespace OfficeOpenXml.Drawing
 {
     internal class ImageInfo
@@ -74,12 +71,17 @@ namespace OfficeOpenXml.Drawing
 
         internal byte[] GetImageBytes(Uri imageUri)
         {
-            var part = _pck.ZipPackage.GetPart(imageUri);
-            var s = part.GetStream();
-            var ms = new MemoryStream();
-            var destStream = ms as Stream;
-            StreamUtil.CopyStream(s, ref destStream);
-            return ms.ToArray();
+            if (_pck.ZipPackage.PartExists(imageUri))
+            {
+                var part = _pck.ZipPackage.GetPart(imageUri);
+
+                var s = part.GetStream();
+                var ms = new MemoryStream();
+                var destStream = ms as Stream;
+                StreamUtil.CopyStream(s, ref destStream);
+                return ms.ToArray();
+            }
+            return null;
         }
         internal ImageInfo AddImage(byte[] image)
         {
@@ -149,15 +151,16 @@ namespace OfficeOpenXml.Drawing
                             SaveImageToPart(image, imagePart);
                         }
                     }
-                    _images.Add(hash,
-                        new ImageInfo()
-                        {
-                            Uri = uri,
-                            RefCount = 1,
-                            Hash = hash,
-                            Part = imagePart,
-                            Bounds = GetImageBounds(image, pictureType.Value, _pck)
-                        });
+                    var retVal = new ImageInfo()
+                    {
+                        Uri = uri,
+                        RefCount = 1,
+                        Hash = hash,
+                        Part = imagePart,
+                        Bounds = GetImageBounds(image, pictureType.Value, _pck)
+                    };
+                    _uriToHashIndex[uri.OriginalString] = hash;
+                    _images.Add(hash, retVal);
                 }
             }
             return _images[hash];
@@ -242,6 +245,14 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
+        internal void AddReference(Uri imageUri, byte[] imageBytes)
+        {
+            var hash = GetImageHash(imageBytes);
+            var imgInfo = GetImageInfoByHash(hash);
+            imgInfo.RefCount++;
+            _uriToHashIndex[imageUri.OriginalString] = hash;
+        }
+
         internal void RemoveReference(Uri imageUri)
         {
             var imgInfo = GetImageInfoByUri(imageUri.OriginalString, out string indexUri);
@@ -280,7 +291,7 @@ namespace OfficeOpenXml.Drawing
 
         internal ImageInfo GetImageInfoByHash(string hash)
         {
-            if (_images.ContainsKey(hash))
+            if (hash != null && _images.ContainsKey(hash))
             {
                 return _images[hash];
             }

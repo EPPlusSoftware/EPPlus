@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.ExcelPackageSettings.ApplyFiltersOnSave
   - OfficeOpenXml.ExcelPackageSettings.CultureSpecificBuildInNumberFormats
   - OfficeOpenXml.ExcelPackageSettings.DoGarbageCollectOnDispose
+  - OfficeOpenXml.ExcelPackageSettings.ImageFunctionService
   - OfficeOpenXml.ExcelPackageSettings.ImageSettings
   - OfficeOpenXml.ExcelPackageSettings.TextSettings
   langs:
@@ -20,11 +21,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPackageSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 21
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -63,11 +64,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CultureSpecificBuildInNumberFormats
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 27
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -102,11 +103,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoGarbageCollectOnDispose
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 39
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -139,11 +140,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 45
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -176,11 +177,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ImageSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 60
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -213,11 +214,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyFiltersOnSave
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 75
+    startLine: 76
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -230,6 +231,43 @@ items:
       type: System.Boolean
     content.vb: Public Property ApplyFiltersOnSave As Boolean
   overload: OfficeOpenXml.ExcelPackageSettings.ApplyFiltersOnSave*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackageSettings.ImageFunctionService
+  commentId: P:OfficeOpenXml.ExcelPackageSettings.ImageFunctionService
+  id: ImageFunctionService
+  parent: OfficeOpenXml.ExcelPackageSettings
+  langs:
+  - csharp
+  - vb
+  name: ImageFunctionService
+  nameWithType: ExcelPackageSettings.ImageFunctionService
+  fullName: OfficeOpenXml.ExcelPackageSettings.ImageFunctionService
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageSettings.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ImageFunctionService
+    path: ../src/EPPlus/ExcelPackageSettings.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThis service is used by the IMAGE function to download images over https\n"
+  example: []
+  syntax:
+    content: public IHttpsService ImageFunctionService { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Interfaces.Net.IHttpsService
+    content.vb: Public Property ImageFunctionService As IHttpsService
+  overload: OfficeOpenXml.ExcelPackageSettings.ImageFunctionService*
   modifiers.csharp:
   - public
   - get
@@ -733,3 +771,19 @@ references:
   name: ApplyFiltersOnSave
   nameWithType: ExcelPackageSettings.ApplyFiltersOnSave
   fullName: OfficeOpenXml.ExcelPackageSettings.ApplyFiltersOnSave
+- uid: OfficeOpenXml.ExcelPackageSettings.ImageFunctionService*
+  commentId: Overload:OfficeOpenXml.ExcelPackageSettings.ImageFunctionService
+  name: ImageFunctionService
+  nameWithType: ExcelPackageSettings.ImageFunctionService
+  fullName: OfficeOpenXml.ExcelPackageSettings.ImageFunctionService
+- uid: OfficeOpenXml.Interfaces.Net.IHttpsService
+  commentId: T:OfficeOpenXml.Interfaces.Net.IHttpsService
+  parent: OfficeOpenXml.Interfaces.Net
+  name: IHttpsService
+  nameWithType: IHttpsService
+  fullName: OfficeOpenXml.Interfaces.Net.IHttpsService
+- uid: OfficeOpenXml.Interfaces.Net
+  commentId: N:OfficeOpenXml.Interfaces.Net
+  name: OfficeOpenXml.Interfaces.Net
+  nameWithType: OfficeOpenXml.Interfaces.Net
+  fullName: OfficeOpenXml.Interfaces.Net

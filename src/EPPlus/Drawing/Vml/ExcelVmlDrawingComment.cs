@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Drawing.Vml
     /// <summary>
     /// Drawing object used for comments
     /// </summary>
-    public class ExcelVmlDrawingComment : ExcelVmlDrawingBase, IRangeID
+    public class ExcelVmlDrawingComment : ExcelVmlDrawingBase
     {
         internal ExcelVmlDrawingComment(XmlNode topNode, ExcelRangeBase range, XmlNamespaceManager ns) :
             base(topNode, ns)
@@ -413,21 +413,5 @@ namespace OfficeOpenXml.Drawing.Vml
                 return _fill;
             }
         }
-
-        #region IRangeID Members
-
-        ulong IRangeID.RangeID
-        {
-            get
-            {
-                return ExcelCellBase.GetCellId(Range.Worksheet.SheetId, Range.Start.Row, Range.Start.Column);
-            }
-            set
-            {
-                
-            }
-        }
-
-        #endregion
     }
 }

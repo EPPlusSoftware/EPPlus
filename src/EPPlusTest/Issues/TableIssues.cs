@@ -3,6 +3,8 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.FormulaParsing;
 using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace EPPlusTest.Issues
 {
@@ -20,7 +22,7 @@ namespace EPPlusTest.Issues
                 excelCalculationOption.AllowCircularReferences = true;
                 worksheet.Calculate(excelCalculationOption);
 
-                Assert.AreNotEqual(0, worksheet.Cells["A1"].Text);
+                Assert.AreNotEqual("0", worksheet.Cells["A1"].Text);
 
                 package.Save();
             }
@@ -51,6 +53,34 @@ namespace EPPlusTest.Issues
                 col.CreateArrayFormula(formulaStr, true);
                 SaveAndCleanup(package);
             }
+        }
+
+        [TestMethod]
+        public void sc813()
+        {
+
+            var dataTable = new DataTable();
+
+            dataTable.Columns.Add("A", typeof(string));
+            dataTable.Columns.Add("B", typeof(string));
+            dataTable.Columns.Add("C", typeof(string));
+            dataTable.Columns.Add("D", typeof(string));
+            dataTable.Columns.Add("E", typeof(string));
+
+            using var package = OpenPackage("sc813.xlsx", true);
+            var worksheet = package.Workbook.Worksheets.Add("TestSheet");
+            var range = worksheet.Cells["A2"].LoadFromDataTable(dataTable, true);
+            var table = worksheet.Tables.Add(range, "TestTable");
+            table.ShowHeader = true;
+
+            //Initial issue: Commenting either of these insert/load combos will result in a corrupted workbook
+            table.InsertRow(int.MaxValue, 5);
+            worksheet.Cells[table.Address.End.Row, table.Address.Start.Column].LoadFromArrays(new List<object[]> { new[] { "1", "2", "3", "4", "5" } });
+            table.InsertRow(int.MaxValue, 5);
+            worksheet.Cells[table.Address.End.Row, table.Address.Start.Column].LoadFromArrays(new List<object[]> { new[] { "z", "x", "y", "x", "w" } });
+
+
+            SaveAndCleanup(package);
         }
     }
 }

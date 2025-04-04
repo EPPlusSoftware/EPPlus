@@ -35,7 +35,7 @@ using System.Text;
 namespace EPPlusTest.Utils
 {
     [TestClass]
-    public class GetTypedCellValueTests
+    public class GetTypedCellValueTests : TestBase
     {
         [TestMethod]
         public void DoubleToNullableInt()
@@ -151,8 +151,10 @@ namespace EPPlusTest.Utils
         [TestMethod]
         public void StringToTimeSpan()
         {
+            SwitchToCulture();
             var expected = new TimeSpan(10, 11, 12);
             Assert.AreEqual(expected, ConvertUtil.GetTypedCellValue<TimeSpan>(expected.ToString()));
+            SwitchBackToCurrentCulture();
         }
         [TestMethod]
         public void TimeSpanToDateTime()

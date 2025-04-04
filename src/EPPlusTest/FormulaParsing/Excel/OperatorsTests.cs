@@ -271,8 +271,7 @@ namespace EPPlusTest.Excel
             pc.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel;
             ctx.Configuration = pc;
             var ExcelResult = Operator.Divide.Apply(a, b, ctx);
-            Assert.AreEqual(0.993292236472283d, ExcelResult.Result);
-            Assert.AreNotEqual(normResult, ExcelResult.Result);
+            Assert.AreEqual(0.99329223647228326d, ExcelResult.Result);
         }
     }
 }

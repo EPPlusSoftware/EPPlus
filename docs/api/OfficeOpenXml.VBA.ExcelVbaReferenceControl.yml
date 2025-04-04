@@ -7,7 +7,6 @@ items:
   children:
   - OfficeOpenXml.VBA.ExcelVbaReferenceControl.#ctor
   - OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
-  - OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal
   - OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdTwiddled
   - OfficeOpenXml.VBA.ExcelVbaReferenceControl.OriginalTypeLib
   langs:
@@ -20,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaReferenceControl
     path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
@@ -70,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
@@ -88,55 +87,6 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal
-  commentId: P:OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal
-  id: LibIdExternal
-  parent: OfficeOpenXml.VBA.ExcelVbaReferenceControl
-  langs:
-  - csharp
-  - vb
-  name: LibIdExternal
-  nameWithType: ExcelVbaReferenceControl.LibIdExternal
-  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-      branch: fix/comments-and-warings
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: LibIdExternal
-    path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-    startLine: 34
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.VBA
-  summary: "\nLibIdExternal \nFor more info check MS-OVBA 2.1.1.8 LibidReference and 2.3.4.2.2 PROJECTREFERENCES\nThis corresponds to LibIdExtended in the documentation.\n"
-  example: []
-  syntax:
-    content: >-
-      [Obsolete("Use LibIdExtended instead of this.")]
-
-      public string LibIdExternal { get; set; }
-    parameters: []
-    return:
-      type: System.String
-    content.vb: >-
-      <Obsolete("Use LibIdExtended instead of this.")>
-
-      Public Property LibIdExternal As String
-  overload: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: Use LibIdExtended instead of this.
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 - uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
   commentId: P:OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
   id: LibIdExtended
@@ -151,11 +101,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LibIdExtended
     path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-    startLine: 51
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -188,11 +138,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LibIdTwiddled
     path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-    startLine: 57
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -225,11 +175,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OriginalTypeLib
     path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-    startLine: 61
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -578,11 +528,11 @@ references:
   name: ExcelVbaReferenceControl
   nameWithType: ExcelVbaReferenceControl.ExcelVbaReferenceControl
   fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.ExcelVbaReferenceControl
-- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal*
-  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal
-  name: LibIdExternal
-  nameWithType: ExcelVbaReferenceControl.LibIdExternal
-  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
+  name: LibIdExtended
+  nameWithType: ExcelVbaReferenceControl.LibIdExtended
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -590,11 +540,6 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended*
-  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
-  name: LibIdExtended
-  nameWithType: ExcelVbaReferenceControl.LibIdExtended
-  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
 - uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdTwiddled*
   commentId: Overload:OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdTwiddled
   name: LibIdTwiddled

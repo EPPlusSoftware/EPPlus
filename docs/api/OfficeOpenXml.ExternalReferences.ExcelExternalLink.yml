@@ -20,11 +20,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalLink
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-    startLine: 23
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -68,11 +68,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalLinkType
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-    startLine: 43
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -107,11 +107,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-    startLine: 62
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -144,11 +144,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-    startLine: 70
+    startLine: 69
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -182,11 +182,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-    startLine: 80
+    startLine: 79
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -220,11 +220,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorLog
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-    startLine: 95
+    startLine: 94
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences

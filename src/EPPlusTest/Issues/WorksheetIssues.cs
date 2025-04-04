@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Core;
 using OfficeOpenXml.FormulaParsing;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reflection;
 
 namespace EPPlusTest.Issues
@@ -33,15 +35,9 @@ namespace EPPlusTest.Issues
 			{
 				ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Invoice");
 
-				//var namedStyle = p.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
-				//namedStyle.Style.Font.Name = "Arial";
-				//namedStyle.Style.Font.Size = 7;
 				var namedStyle = package.Workbook.Styles.NamedStyles[0]; // Create a default style
 				namedStyle.Style.Font.Name = "Arial";
 				namedStyle.Style.Font.Size = 7;
-
-				//"&L&\"Arial,Normal\"&8";
-
 
 				// Default font and size for spreadsheet  DOES NOT WORK
 				worksheet.Cells.Style.Font.Name = "Arial";
@@ -53,24 +49,12 @@ namespace EPPlusTest.Issues
 
 				// Set other print settings as needed
 				worksheet.PrinterSettings.Orientation = eOrientation.Portrait;
-				//worksheet.PrinterSettings.FitToPage = true;
-				//worksheet.PrinterSettings.FitToWidth = 1;
 				worksheet.PrinterSettings.FooterMargin = 5;
-
-
-
-
-				//string longText = ""; // Our long string
-				//int maxLineLength = 140; // Maximum length of each line, adjust as needed
-				//						 //var lines = SplitStringIntoLines(longText, maxLineLength);
 
 
 				// Now 'lines' contains our text split into lines.
 				// We can then concatenate these lines with a line break character for the footer.
 				//string footerText = string.Join(Environment.NewLine, lines.Take(5)); // Take only the first 5 lines
-
-
-
 
 				var footerText = "This communication is intended only for the addressed recipient(s) and may contain information which is privileged, confidential, commercially sensitive and exempt from " + // + "\n" + 
 					"disclosure under applicable codes and laws.Unauthorised copying.";// or disclosure of this communication to any other person is strictly prohibited. ";// +
@@ -82,26 +66,6 @@ namespace EPPlusTest.Issues
 
 				worksheet.HeaderFooter.OddFooter.LeftAlignedText = footerText;
 				worksheet.HeaderFooter.EvenFooter.LeftAlignedText = footerText; // We want the same for even pages
-
-
-				//worksheet.HeaderFooter.OddFooter.CenteredText = "Test Disclaimer";
-				//worksheet.HeaderFooter.EvenFooter.CenteredText = "Test Disclaimer";
-
-
-
-
-				// Populate all elements of the SS in order
-				//int startRow = 1;
-				//PopulateInvoiceHeader(worksheet, invoiceHeader, company, shipper, invoiceType, imagePath, ref startRow);
-				//PopulateInvoiceDetailLines(worksheet, invoiceHeader, ref startRow);
-				//PopulateInvoiceSummary(worksheet, invoiceHeader, invoiceType, ref startRow);
-				//PopulateInvoicenote(worksheet, invoiceHeader, ref startRow);
-				//PopulateInvoiceVATnote(worksheet, shipper, company, invoiceHeader, ref startRow);
-				//PopulateInvoiceFootnoteData(worksheet, company, invoiceHeader, ref startRow);
-				//  PopulateDisclaimer(worksheet, invoiceHeader, ref startRow);
-
-
-
 
 				// Conversion factor (assuming the default font size)
 				double conversionFactor = 0.45;
@@ -116,7 +80,6 @@ namespace EPPlusTest.Issues
 				worksheet.Column(6).Width = 24 * conversionFactor; // Column F
 				worksheet.Column(7).Width = 30 * conversionFactor; // Column G
 
-
 				SaveAndCleanup(package);
 			}
 		}
@@ -126,8 +89,6 @@ namespace EPPlusTest.Issues
 			using(var p=OpenTemplatePackage("s610.xlsx"))
 			{
 				var wTestSheet = p.Workbook.Worksheets[0];
-				//wTestSheet.Name = "Sheet2";
-				//wTestSheet.View.UnFreezePanes();
 				wTestSheet.InsertColumn(1, 2);
 				SaveAndCleanup(p);
 			}
@@ -378,7 +339,6 @@ namespace EPPlusTest.Issues
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.StackTrace);
-                    //Assert.Fail("Expected no exception, but got: " + ex.Message);
                 }
             }
         }
@@ -412,7 +372,6 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(1, worksheet.PhoneticProperties.FontId);
 
 				var formulaD2 = p.Workbook.Worksheets["Sheet2"].Cells["D2"].Formula;
-
 				p.Save();
 
 				using(var p2=new ExcelPackage(p.Stream))
@@ -488,6 +447,19 @@ namespace EPPlusTest.Issues
 
             }
         }
+	[TestMethod]
+	public void i1663()
+	{
+		using (var p1 = OpenTemplatePackage("i1663-source.xlsx"))
+		{
+			var copiedSht = p1.Workbook.Worksheets[0];
+			using (var p2 = OpenTemplatePackage("i1663-dest.xlsx"))
+			{
+				p2.Workbook.Worksheets.Add("newSht", copiedSht);
+				SaveAndCleanup(p2);
+			}
+		}
+	}
         [TestMethod]
         public void I1628()
         {
@@ -525,7 +497,7 @@ namespace EPPlusTest.Issues
 		[TestMethod]
 		public void i1742()
 		{
-			// before this fix we couldn't delete the very last coloumn on the sheet...
+			// before this fix we couldn't delete the very last column on the sheet...
 			using var package = new ExcelPackage();
 			var sheet = package.Workbook.Worksheets.Add("Sheet1");
 			var maxCol = ExcelPackage.MaxColumns;
@@ -631,7 +603,7 @@ namespace EPPlusTest.Issues
 			// and then closed without changing anything, Excel still shows a "Save changes" dialog.
 			// this seems to be related to that Excel renames the worksheet xml files.
 			// EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
-			// this bug was fixed in Github Issue 1794 /MA
+			// this bug was fixed in GitHub Issue 1794 /MA
 
 			using var p = OpenTemplatePackage("Issue1794.xltx");
             var wsTemplate = p.Workbook.Worksheets[0];
@@ -652,7 +624,7 @@ namespace EPPlusTest.Issues
             // and then closed without changing anything, Excel still shows a "Save changes" dialog.
             // this seems to be related to that Excel renames the worksheet xml files.
             // EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
-            // this bug was fixed in Github Issue 1794 /MA
+            // this bug was fixed in github Issue 1794 /MA
             using var p = OpenTemplatePackage("Issue1794.xlsx");
             var wsTemplate = p.Workbook.Worksheets[0];
 
@@ -665,5 +637,196 @@ namespace EPPlusTest.Issues
             p.Workbook.Worksheets.Delete(wsTemplate);
 			SaveWorkbook("Issue1794_2_Output.xlsx", p);
         }
+        [TestMethod]
+        public void DeletingWorksheetsWithParameters()
+        {
+            using (var p = OpenPackage("DeletingGroupOfWorksheets.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var worksheets = wb.Worksheets;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    worksheets.Add($"Data {i}");
+                }
+
+                for (int i = 0; i < 5; i++)
+                {
+                    worksheets.Add($"SomeWorksheet{i}");
+                }
+
+				for (int i=0;i<p.Workbook.Worksheets.Count;i++)
+                {
+					var ws = p.Workbook.Worksheets[i];
+                    if (ws.Name.StartsWith("Data ", StringComparison.OrdinalIgnoreCase))
+                    {
+                        p.Workbook.Worksheets.Delete(ws);
+						i--;
+                    }
+                }
+                var countWs = p.Workbook.Worksheets.Count;
+
+                Assert.AreEqual(countWs, 5);
+
+                worksheets.Delete($"SomeWorksheet2");
+
+                Assert.AreEqual(p.Workbook.Worksheets.Count, 4);
+				Assert.AreEqual("SomeWorksheet0", p.Workbook.Worksheets[0].Name);
+                Assert.AreEqual("SomeWorksheet1", p.Workbook.Worksheets[1].Name);
+                Assert.AreEqual("SomeWorksheet3", p.Workbook.Worksheets[2].Name);
+                Assert.AreEqual("SomeWorksheet4", p.Workbook.Worksheets[3].Name);
+
+                Assert.AreEqual("SomeWorksheet0", p.Workbook.Worksheets["SomeWorksheet0"].Name);
+                Assert.AreEqual("SomeWorksheet1", p.Workbook.Worksheets["SomeWorksheet1"].Name);
+                Assert.AreEqual("SomeWorksheet3", p.Workbook.Worksheets["SomeWorksheet3"].Name);
+                Assert.AreEqual("SomeWorksheet4", p.Workbook.Worksheets["SomeWorksheet4"].Name);
+
+            }
+        }
+        [TestMethod]
+        public void DeletingWorksheetsWithParameters_1Base()
+        {
+            using (var p = OpenPackage("DeletingGroupOfWorksheets.xlsx", true))
+            {
+
+                p.Compatibility.IsWorksheets1Based = true;
+                var wb = p.Workbook;
+                var worksheets = wb.Worksheets;
+
+                for (int i = 1; i <= 5; i++)
+                {
+                    worksheets.Add($"Data {i}");
+                }
+
+                for (int i = 1; i <= 5; i++)
+                {
+                    worksheets.Add($"SomeWorksheet{i}");
+                }
+
+                for (int i = 1; i <= p.Workbook.Worksheets.Count; i++)
+                {
+                    var ws = p.Workbook.Worksheets[i];
+                    if (ws.Name.StartsWith("Data ", StringComparison.OrdinalIgnoreCase))
+                    {
+                        p.Workbook.Worksheets.Delete(ws);
+                        i--;
+                    }
+                }
+                var countWs = p.Workbook.Worksheets.Count;
+
+                Assert.AreEqual(countWs, 5);
+
+                worksheets.Delete($"SomeWorksheet2");
+
+                Assert.AreEqual(p.Workbook.Worksheets.Count, 4);
+                Assert.AreEqual("SomeWorksheet1", p.Workbook.Worksheets[1].Name);
+                Assert.AreEqual("SomeWorksheet3", p.Workbook.Worksheets[2].Name);
+                Assert.AreEqual("SomeWorksheet4", p.Workbook.Worksheets[3].Name);
+                Assert.AreEqual("SomeWorksheet5", p.Workbook.Worksheets[4].Name);
+
+                Assert.AreEqual("SomeWorksheet1", p.Workbook.Worksheets["SomeWorksheet1"].Name);
+                Assert.AreEqual("SomeWorksheet3", p.Workbook.Worksheets["SomeWorksheet3"].Name);
+                Assert.AreEqual("SomeWorksheet4", p.Workbook.Worksheets["SomeWorksheet4"].Name);
+                Assert.AreEqual("SomeWorksheet5", p.Workbook.Worksheets["SomeWorksheet5"].Name);
+
+            }
+        }
+        [TestMethod]
+        public void s816()
+        {
+            using var excelPackage = OpenTemplatePackage("s816.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
+
+            // Act
+            sheet.Cells.Sort(column: 0);
+
+            var commentText = sheet.Cells["A3"].Comment.Text;
+            Assert.AreEqual("6", commentText);
+
+			excelPackage.Save();
+
+			using var loadedExcelPackage = new ExcelPackage(excelPackage.Stream);
+			var loadedSheet = loadedExcelPackage.Workbook.Worksheets.First();
+
+			var loadedCommentText = loadedSheet.Cells["A3"].Comment.Text;
+			Assert.AreEqual("6", loadedCommentText);
+		}
+        [TestMethod]
+        public void properties()
+        {
+            using (var package = OpenTemplatePackage("properties.xlsx"))
+            {
+				package.Workbook.Properties.LastModifiedBy = "";
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void s816_2()
+        {
+            using var excelPackage = OpenTemplatePackage("s816-2.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
+			var formula = sheet.Cells["B5"].Formula;
+            // Act
+            sheet.Cells.Sort(column: 0);
+
+			Assert.AreEqual(sheet.Cells["B3"].Formula, formula);
+			SaveAndCleanup(excelPackage);
+        }
+        [TestMethod]
+        public void i1870()
+		{
+            using var savedExcelPackage = OpenTemplatePackage("i1870.xlsx");
+            var sheet = savedExcelPackage.Workbook.Worksheets.First();
+
+            // Act
+            sheet.Cells["2:3"].Clear();
+            sheet.Cells["6:6"].Clear();
+            sheet.Cells.Sort(column: 0);
+
+            //Assert 1
+
+            Assert.AreEqual("2", sheet.Cells["A1"].ThreadedComment.Comments.First().Text);
+            Assert.AreEqual("3", sheet.Cells["A2"].ThreadedComment.Comments.First().Text);
+            Assert.AreEqual("2", sheet.Cells["B1"].Comment.Text);
+            Assert.AreEqual("3", sheet.Cells["B2"].Comment.Text);
+
+            //Act 2
+            SaveWorkbook("i1870-save.xlsx", savedExcelPackage);
+
+            //Assert 2
+            using var loadedExcelPackage = OpenPackage("i1870-save.xlsx");
+            var loadedSheet = loadedExcelPackage.Workbook.Worksheets.First();
+
+            Assert.AreEqual("2", loadedSheet.Cells["A1"].ThreadedComment.Comments.First().Text);
+            Assert.AreEqual("3", loadedSheet.Cells["A2"].ThreadedComment.Comments.First().Text);
+            Assert.AreEqual("2", loadedSheet.Cells["B1"].Comment.Text);
+            Assert.AreEqual("3", loadedSheet.Cells["B2"].Comment.Text);
+        }
+		[TestMethod]
+		public void i1876()
+        {
+            using (var p = OpenTemplatePackage("i1876.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];                
+				var dv = ws.DimensionByValue;
+
+				Assert.AreEqual("A1:F1", dv.Address);
+
+            }
+        }
+		[TestMethod]
+		public void i1878()
+		{
+            using (var p = OpenTemplatePackage("i1878.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.First();
+
+                var timeSpanCell = ws.GetValue<TimeSpan>(1,1);
+
+                Assert.AreEqual(timeSpanCell.Ticks, new TimeSpan(12, 30, 45).Ticks);
+            }
+        }
+
     }
 }

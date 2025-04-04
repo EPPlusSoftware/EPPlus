@@ -311,7 +311,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
             return doConvertSF;
         }
-        private static void ConvertSharedFormulaToCellFormula(ExcelWorksheet ws, SharedFormula sf, ExcelAddressBase sfAddress)
+        internal static void ConvertSharedFormulaToCellFormula(ExcelWorksheet ws, SharedFormula sf, ExcelAddressBase sfAddress)
         {
             var sr = sfAddress._fromRow;
             var sc = sfAddress._fromCol;

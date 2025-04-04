@@ -5,10 +5,12 @@ items:
   id: ExcelTextSettings
   parent: OfficeOpenXml
   children:
+  - OfficeOpenXml.ExcelTextSettings.AutofitRows
   - OfficeOpenXml.ExcelTextSettings.AutofitScaleFactor
   - OfficeOpenXml.ExcelTextSettings.FallbackTextMeasurer
   - OfficeOpenXml.ExcelTextSettings.GenericTextMeasurer
   - OfficeOpenXml.ExcelTextSettings.PrimaryTextMeasurer
+  - OfficeOpenXml.ExcelTextSettings.textLengthThreshold
   langs:
   - csharp
   - vb
@@ -19,11 +21,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTextSettings
     path: ../src/EPPlus/ExcelTextSettings.cs
-    startLine: 23
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -62,11 +64,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrimaryTextMeasurer
     path: ../src/EPPlus/ExcelTextSettings.cs
-    startLine: 66
+    startLine: 33
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -99,11 +101,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FallbackTextMeasurer
     path: ../src/EPPlus/ExcelTextSettings.cs
-    startLine: 71
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -136,11 +138,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutofitScaleFactor
     path: ../src/EPPlus/ExcelTextSettings.cs
-    startLine: 76
+    startLine: 43
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -159,6 +161,72 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ExcelTextSettings.textLengthThreshold
+  commentId: F:OfficeOpenXml.ExcelTextSettings.textLengthThreshold
+  id: textLengthThreshold
+  parent: OfficeOpenXml.ExcelTextSettings
+  langs:
+  - csharp
+  - vb
+  name: textLengthThreshold
+  nameWithType: ExcelTextSettings.textLengthThreshold
+  fullName: OfficeOpenXml.ExcelTextSettings.textLengthThreshold
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextSettings.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: textLengthThreshold
+    path: ../src/EPPlus/ExcelTextSettings.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA percentage of the widest text. Since charaters in different fonts have different widths we use this threshold remove characters from the longer string for comparing to the current text.\nThis is so we can skip obvious shorter strings and save time on calculating it&apos;s actual width.\n"
+  example: []
+  syntax:
+    content: public double textLengthThreshold
+    return:
+      type: System.Double
+    content.vb: Public textLengthThreshold As Double
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextSettings.AutofitRows
+  commentId: F:OfficeOpenXml.ExcelTextSettings.AutofitRows
+  id: AutofitRows
+  parent: OfficeOpenXml.ExcelTextSettings
+  langs:
+  - csharp
+  - vb
+  name: AutofitRows
+  nameWithType: ExcelTextSettings.AutofitRows
+  fullName: OfficeOpenXml.ExcelTextSettings.AutofitRows
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextSettings.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutofitRows
+    path: ../src/EPPlus/ExcelTextSettings.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe ammount of rows to check for when autofitting, starts from top. A value set to 0 or lower means checking all rows in the column.\n"
+  example: []
+  syntax:
+    content: public int AutofitRows
+    return:
+      type: System.Int32
+    content.vb: Public AutofitRows As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.ExcelTextSettings.GenericTextMeasurer
   commentId: P:OfficeOpenXml.ExcelTextSettings.GenericTextMeasurer
   id: GenericTextMeasurer
@@ -173,11 +241,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GenericTextMeasurer
     path: ../src/EPPlus/ExcelTextSettings.cs
-    startLine: 80
+    startLine: 56
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -527,6 +595,20 @@ references:
   name: Single
   nameWithType: Single
   fullName: System.Single
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
 - uid: OfficeOpenXml.ExcelTextSettings.GenericTextMeasurer*
   commentId: Overload:OfficeOpenXml.ExcelTextSettings.GenericTextMeasurer
   name: GenericTextMeasurer

@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationList.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationList
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
@@ -58,7 +58,6 @@ items:
   - OfficeOpenXml.DataValidation.ExcelDataValidation.PromptTitle
   - OfficeOpenXml.DataValidation.ExcelDataValidation.Prompt
   - OfficeOpenXml.DataValidation.ExcelDataValidation.As
-  - OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
   - OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
   - OfficeOpenXml.DataValidation.ExcelDataValidation.OnFormulaChanged
   - System.Object.Equals(System.Object)
@@ -88,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationList.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowsOperator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
@@ -130,7 +129,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationList.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
@@ -172,7 +171,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationList.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HideDropDown
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
@@ -212,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationList.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
@@ -436,12 +435,6 @@ references:
   name: As
   nameWithType: ExcelDataValidation.As
   fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.As
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
-  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
-  parent: OfficeOpenXml.DataValidation.ExcelDataValidation
-  name: IsStale
-  nameWithType: ExcelDataValidation.IsStale
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
   commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
   parent: OfficeOpenXml.DataValidation.ExcelDataValidation

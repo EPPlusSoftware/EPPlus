@@ -30,7 +30,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaProject
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -72,11 +72,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SystemKind
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 58
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -109,11 +109,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompatVersion
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 62
+    startLine: 65
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -146,11 +146,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 67
+    startLine: 70
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -183,11 +183,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Description
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 71
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -220,11 +220,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HelpFile1
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 75
+    startLine: 78
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -257,11 +257,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HelpFile2
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 79
+    startLine: 82
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -294,11 +294,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HelpContextID
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 83
+    startLine: 86
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -331,11 +331,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Constants
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 87
+    startLine: 90
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -368,11 +368,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CodePage
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 91
+    startLine: 94
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -405,11 +405,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: References
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 102
+    startLine: 105
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -442,11 +442,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Modules
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 106
+    startLine: 109
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -479,11 +479,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Signature
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 112
+    startLine: 115
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -516,11 +516,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Protection
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 127
+    startLine: 130
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -553,11 +553,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 1189
+    startLine: 1182
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -585,11 +585,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 1221
+    startLine: 1214
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA

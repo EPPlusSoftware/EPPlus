@@ -5,7 +5,7 @@ items:
   id: ExcelDrawingGradientFillLinearSettings
   parent: OfficeOpenXml.Drawing.Style.Fill
   children:
-  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angle
   - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Scaled
   langs:
   - csharp
@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFillLinearSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingGradientFillLinearSettings
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFillLinearSettings.cs
@@ -46,23 +46,23 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel
-  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel
-  id: Angel
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angle
+  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angle
+  id: Angle
   parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings
   langs:
   - csharp
   - vb
-  name: Angel
-  nameWithType: ExcelDrawingGradientFillLinearSettings.Angel
-  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel
+  name: Angle
+  nameWithType: ExcelDrawingGradientFillLinearSettings.Angle
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angle
   type: Property
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFillLinearSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Angel
+    id: Angle
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFillLinearSettings.cs
     startLine: 33
   assemblies:
@@ -71,12 +71,12 @@ items:
   summary: "\nThe direction of color change for the gradient.To define this angle, let its value\nbe x measured clockwise.Then( -sin x, cos x) is a vector parallel to the line of constant color in the gradient fill.\n"
   example: []
   syntax:
-    content: public double Angel { get; set; }
+    content: public double Angle { get; set; }
     parameters: []
     return:
       type: System.Double
-    content.vb: Public Property Angel As Double
-  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel*
+    content.vb: Public Property Angle As Double
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angle*
   modifiers.csharp:
   - public
   - get
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFillLinearSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Scaled
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFillLinearSettings.cs
@@ -418,11 +418,11 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel*
-  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel
-  name: Angel
-  nameWithType: ExcelDrawingGradientFillLinearSettings.Angel
-  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angle*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angle
+  name: Angle
+  nameWithType: ExcelDrawingGradientFillLinearSettings.Angle
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angle
 - uid: System.Double
   commentId: T:System.Double
   parent: System

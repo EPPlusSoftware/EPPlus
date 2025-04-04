@@ -29,9 +29,19 @@ namespace OfficeOpenXml
     {
         internal ExcelImageSettings()
         {
-            PrimaryImageHandler = new GenericImageHandler();
-            SecondaryImageHandler = null;
-            TertiaryImageHandler = null;
+            var m=new GenericImageHandler();
+            if(m.ValidForEnvironment())
+            {
+                PrimaryImageHandler = m;
+                SecondaryImageHandler = new GenericImageHandler();
+                TertiaryImageHandler = null;
+            }
+            else
+            {
+                PrimaryImageHandler = new GenericImageHandler();
+                SecondaryImageHandler = null;
+                TertiaryImageHandler = null;
+            }
         }
 
         /// <summary>

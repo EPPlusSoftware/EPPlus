@@ -50,14 +50,23 @@ namespace OfficeOpenXml.SystemDrawing.Image
         {
             try
             {
-                Bitmap bmp = new Bitmap(image);
-                width = bmp.Width;
-                height = bmp.Height;
-                horizontalResolution = bmp.HorizontalResolution;
-                verticalResolution = bmp.VerticalResolution;
-                return true;
+#pragma warning disable CA1416 // Platform compatibility warning
+                if (IsWindows())
+                {
+                    Bitmap bmp = new Bitmap(image);
+                    width = bmp.Width;
+                    height = bmp.Height;
+                    horizontalResolution = bmp.HorizontalResolution;
+                    verticalResolution = bmp.VerticalResolution;
+                    return true;
+                }
+                else
+                {
+                    throw new PlatformNotSupportedException("Unsupported Operating System for SystemDrawingImageHandler.");
+                }
+#pragma warning restore CA1416
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 width = 0;
                 height = 0;
@@ -74,8 +83,17 @@ namespace OfficeOpenXml.SystemDrawing.Image
             {
                 try
                 {
-                    var g = Graphics.FromHwnd(IntPtr.Zero); //Fails if no gdi.
-                    _validForEnvironment = true;
+#pragma warning disable CA1416 // Platform compatibility warning
+                    if (IsWindows())
+                    {
+                        var g = Graphics.FromHwnd(IntPtr.Zero); //Fails if no gdi.
+                        _validForEnvironment = true;
+                    }
+                    else
+                    {
+                        throw new PlatformNotSupportedException("Unsupported Operating System for SystemDrawingImageHandler.");
+                    }
+#pragma warning restore CA1416
                 }
                 catch
                 {

@@ -1,0 +1,1100 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  id: ExcelVmlDrawingSignatureLine
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.AllowComments
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Email
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_PIXEL
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_POINT
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.From
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32)
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32,System.Int32)
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetupID
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.ShowSignDate
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Signer
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SigningInstructions
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Title
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.To
+  langs:
+  - csharp
+  - vb
+  name: ExcelVmlDrawingSignatureLine
+  nameWithType: ExcelVmlDrawingSignatureLine
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVmlDrawingSignatureLine
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 9
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nDrawing object used for SignatureLines and SignatureLineStamps\n"
+  example: []
+  syntax:
+    content: 'public class ExcelVmlDrawingSignatureLine : ExcelVmlDrawingBase'
+    content.vb: >-
+      Public Class ExcelVmlDrawingSignatureLine
+          Inherits ExcelVmlDrawingBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  derivedClasses:
+  - OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetupID
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetupID
+  id: SetupID
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: SetupID
+  nameWithType: ExcelVmlDrawingSignatureLine.SetupID
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetupID
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetupID
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nId of signature line\n"
+  example: []
+  syntax:
+    content: public Guid SetupID { get; }
+    parameters: []
+    return:
+      type: System.Guid
+    content.vb: Public ReadOnly Property SetupID As Guid
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetupID*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Signer
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Signer
+  id: Signer
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: Signer
+  nameWithType: ExcelVmlDrawingSignatureLine.Signer
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Signer
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Signer
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe suggested signer&apos;s name.\n"
+  example: []
+  syntax:
+    content: public string Signer { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Signer As String
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Signer*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Title
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Title
+  id: Title
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: Title
+  nameWithType: ExcelVmlDrawingSignatureLine.Title
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Title
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Title
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe suggested signers role or title e.g Developer.\n"
+  example: []
+  syntax:
+    content: public string Title { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Title As String
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Title*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Email
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Email
+  id: Email
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: Email
+  nameWithType: ExcelVmlDrawingSignatureLine.Email
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Email
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Email
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nSuggested signers email.\n"
+  example: []
+  syntax:
+    content: public string Email { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Email As String
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Email*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SigningInstructions
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SigningInstructions
+  id: SigningInstructions
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: SigningInstructions
+  nameWithType: ExcelVmlDrawingSignatureLine.SigningInstructions
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SigningInstructions
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SigningInstructions
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 93
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nInstructions to the suggested signer.\n"
+  example: []
+  syntax:
+    content: public string SigningInstructions { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property SigningInstructions As String
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SigningInstructions*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.ShowSignDate
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.ShowSignDate
+  id: ShowSignDate
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: ShowSignDate
+  nameWithType: ExcelVmlDrawingSignatureLine.ShowSignDate
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.ShowSignDate
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowSignDate
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nAllow signer to add comments such as commitmenttype and a &quot;purpose&quot; string\n"
+  example: []
+  syntax:
+    content: public bool ShowSignDate { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowSignDate As Boolean
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.ShowSignDate*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.AllowComments
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.AllowComments
+  id: AllowComments
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: AllowComments
+  nameWithType: ExcelVmlDrawingSignatureLine.AllowComments
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.AllowComments
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowComments
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nDetermines if signature allows comments such as commitment type and purpose\n"
+  example: []
+  syntax:
+    content: public bool AllowComments { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowComments As Boolean
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.AllowComments*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.From
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.From
+  id: From
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: From
+  nameWithType: ExcelVmlDrawingSignatureLine.From
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.From
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: From
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 203
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nFrom position\n"
+  example: []
+  syntax:
+    content: public ExcelVmlDrawingPosition From { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+    content.vb: Public ReadOnly Property From As ExcelVmlDrawingPosition
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.From*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.To
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.To
+  id: To
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: To
+  nameWithType: ExcelVmlDrawingSignatureLine.To
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.To
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: To
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 218
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nTo position\n"
+  example: []
+  syntax:
+    content: public ExcelVmlDrawingPosition To { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+    content.vb: Public ReadOnly Property To As ExcelVmlDrawingPosition
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.To*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_PIXEL
+  commentId: F:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_PIXEL
+  id: EMU_PER_PIXEL
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: EMU_PER_PIXEL
+  nameWithType: ExcelVmlDrawingSignatureLine.EMU_PER_PIXEL
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_PIXEL
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EMU_PER_PIXEL
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 263
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe ratio between EMU and Pixels\n"
+  example: []
+  syntax:
+    content: public const int EMU_PER_PIXEL = 9525
+    return:
+      type: System.Int32
+    content.vb: Public Const EMU_PER_PIXEL As Integer = 9525
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_POINT
+  commentId: F:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_POINT
+  id: EMU_PER_POINT
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: EMU_PER_POINT
+  nameWithType: ExcelVmlDrawingSignatureLine.EMU_PER_POINT
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.EMU_PER_POINT
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EMU_PER_POINT
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 267
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe ratio between EMU and Points\n"
+  example: []
+  syntax:
+    content: public const int EMU_PER_POINT = 12700
+    return:
+      type: System.Int32
+    content.vb: Public Const EMU_PER_POINT As Integer = 12700
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32,System.Int32)
+  id: SetSize(System.Int32,System.Int32)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: SetSize(Int32, Int32)
+  nameWithType: ExcelVmlDrawingSignatureLine.SetSize(Int32, Int32)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetSize
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 392
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nSet size in pixels\nNote that resizing columns / rows after using this function will effect the size of the drawing\n"
+  example: []
+  syntax:
+    content: public void SetSize(int PixelWidth, int PixelHeight)
+    parameters:
+    - id: PixelWidth
+      type: System.Int32
+      description: Width in pixels
+    - id: PixelHeight
+      type: System.Int32
+      description: Height in pixels
+    content.vb: Public Sub SetSize(PixelWidth As Integer, PixelHeight As Integer)
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32)
+  id: SetSize(System.Int32)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  langs:
+  - csharp
+  - vb
+  name: SetSize(Int32)
+  nameWithType: ExcelVmlDrawingSignatureLine.SetSize(Int32)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetSize
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
+    startLine: 408
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nSet size in Percent.\nNote that resizing columns / rows after using this function will effect the size of the drawing\n"
+  example: []
+  syntax:
+    content: public void SetSize(int Percent)
+    parameters:
+    - id: Percent
+      type: System.Int32
+      description: ''
+    content.vb: Public Sub SetSize(Percent As Integer)
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlDrawingBase
+  nameWithType: ExcelVmlDrawingBase
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  name: Id
+  nameWithType: ExcelVmlDrawingBase.Id
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  name: AlternativeText
+  nameWithType: ExcelVmlDrawingBase.AlternativeText
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  isExternal: true
+  name: GetStyle(String, String, String)
+  nameWithType: ExcelVmlDrawingBase.GetStyle(String, String, String)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String, System.String, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+    name: GetStyle
+    nameWithType: ExcelVmlDrawingBase.GetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+    name: GetStyle
+    nameWithType: ExcelVmlDrawingBase.GetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  isExternal: true
+  name: SetStyle(String, String, String)
+  nameWithType: ExcelVmlDrawingBase.SetStyle(String, String, String)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String, System.String, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+    name: SetStyle
+    nameWithType: ExcelVmlDrawingBase.SetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+    name: SetStyle
+    nameWithType: ExcelVmlDrawingBase.SetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetupID*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetupID
+  name: SetupID
+  nameWithType: ExcelVmlDrawingSignatureLine.SetupID
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetupID
+- uid: System.Guid
+  commentId: T:System.Guid
+  parent: System
+  isExternal: true
+  name: Guid
+  nameWithType: Guid
+  fullName: System.Guid
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Signer*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Signer
+  name: Signer
+  nameWithType: ExcelVmlDrawingSignatureLine.Signer
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Signer
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Title*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Title
+  name: Title
+  nameWithType: ExcelVmlDrawingSignatureLine.Title
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Title
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Email*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Email
+  name: Email
+  nameWithType: ExcelVmlDrawingSignatureLine.Email
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.Email
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SigningInstructions*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SigningInstructions
+  name: SigningInstructions
+  nameWithType: ExcelVmlDrawingSignatureLine.SigningInstructions
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SigningInstructions
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.ShowSignDate*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.ShowSignDate
+  name: ShowSignDate
+  nameWithType: ExcelVmlDrawingSignatureLine.ShowSignDate
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.ShowSignDate
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.AllowComments*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.AllowComments
+  name: AllowComments
+  nameWithType: ExcelVmlDrawingSignatureLine.AllowComments
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.AllowComments
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.From*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.From
+  name: From
+  nameWithType: ExcelVmlDrawingSignatureLine.From
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.From
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlDrawingPosition
+  nameWithType: ExcelVmlDrawingPosition
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.To*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.To
+  name: To
+  nameWithType: ExcelVmlDrawingSignatureLine.To
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.To
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize
+  name: SetSize
+  nameWithType: ExcelVmlDrawingSignatureLine.SetSize
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine.SetSize

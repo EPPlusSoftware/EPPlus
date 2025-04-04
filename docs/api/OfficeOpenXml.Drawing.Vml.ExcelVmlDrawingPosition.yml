@@ -5,10 +5,10 @@ items:
   id: ExcelVmlDrawingPosition
   parent: OfficeOpenXml.Drawing.Vml
   children:
-  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column
   - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.ColumnOffset
-  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Load
   - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.UpdateXml
   langs:
   - csharp
   - vb
@@ -19,25 +19,30 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVmlDrawingPosition
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
-    startLine: 23
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml
-  summary: "\nThe position of a VML drawing. Used for comments\n"
+  summary: "\nThe position of a VML drawing. Used for comments and Digital Signature Lines\n"
   example: []
   syntax:
-    content: 'public class ExcelVmlDrawingPosition : XmlHelper'
+    content: 'public class ExcelVmlDrawingPosition : ExcelPositionBase'
     content.vb: >-
       Public Class ExcelVmlDrawingPosition
-          Inherits XmlHelper
+          Inherits ExcelPositionBase
   inheritance:
   - System.Object
   - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Vml.ExcelPositionBase
   inheritedMembers:
+  - OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Column
+  - OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Row
+  - OfficeOpenXml.Drawing.Vml.ExcelPositionBase.ColumnOff
+  - OfficeOpenXml.Drawing.Vml.ExcelPositionBase.RowOff
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -51,43 +56,6 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row
-  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row
-  id: Row
-  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
-  langs:
-  - csharp
-  - vb
-  name: Row
-  nameWithType: ExcelVmlDrawingPosition.Row
-  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
-      branch: fix/comments-and-warings
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Row
-    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
-    startLine: 34
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing.Vml
-  summary: "\nRow. Zero based\n"
-  example: []
-  syntax:
-    content: public int Row { get; set; }
-    parameters: []
-    return:
-      type: System.Int32
-    content.vb: Public Property Row As Integer
-  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row*
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
   commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
   id: RowOffset
@@ -102,15 +70,15 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowOffset
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
-    startLine: 48
+    startLine: 55
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml
-  summary: "\nRow offset in pixels. Zero based\n"
+  summary: "\nRow offset in pixels. Zero based\nRow Offset in EMU\n\nEMU units   1cm         =   1/360000 \n        1US inch    =   1/914400\n        1pixel      =   1/9525\n"
   example: []
   syntax:
     content: public int RowOffset { get; set; }
@@ -119,43 +87,6 @@ items:
       type: System.Int32
     content.vb: Public Property RowOffset As Integer
   overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset*
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column
-  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column
-  id: Column
-  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
-  langs:
-  - csharp
-  - vb
-  name: Column
-  nameWithType: ExcelVmlDrawingPosition.Column
-  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
-      branch: fix/comments-and-warings
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Column
-    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
-    startLine: 62
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing.Vml
-  summary: "\nColumn. Zero based\n"
-  example: []
-  syntax:
-    content: public int Column { get; set; }
-    parameters: []
-    return:
-      type: System.Int32
-    content.vb: Public Property Column As Integer
-  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column*
   modifiers.csharp:
   - public
   - get
@@ -176,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnOffset
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
@@ -184,7 +115,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml
-  summary: "\nColumn offset. Zero based\n"
+  summary: "\nColumn offset. Zero based\nColumn Offset in EMU\n\nEMU units   1cm         =   1/360000 \n        1US inch    =   1/914400\n        1pixel      =   1/9525\n"
   example: []
   syntax:
     content: public int ColumnOffset { get; set; }
@@ -199,6 +130,76 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Load
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Load
+  id: Load
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  langs:
+  - csharp
+  - vb
+  name: Load()
+  nameWithType: ExcelVmlDrawingPosition.Load()
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Load()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Load
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+    startLine: 132
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nLoad xml data\n"
+  example: []
+  syntax:
+    content: public override void Load()
+    content.vb: Public Overrides Sub Load
+  overridden: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Load
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Load*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.UpdateXml
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.UpdateXml
+  id: UpdateXml
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  langs:
+  - csharp
+  - vb
+  name: UpdateXml()
+  nameWithType: ExcelVmlDrawingPosition.UpdateXml()
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.UpdateXml()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UpdateXml
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nUpdate xml data\n"
+  example: []
+  syntax:
+    content: public override void UpdateXml()
+    content.vb: Public Overrides Sub UpdateXml
+  overridden: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.UpdateXml
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.UpdateXml*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
 references:
 - uid: OfficeOpenXml.Drawing.Vml
   commentId: N:OfficeOpenXml.Drawing.Vml
@@ -218,6 +219,36 @@ references:
   name: XmlHelper
   nameWithType: XmlHelper
   fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelPositionBase
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelPositionBase
+  nameWithType: ExcelPositionBase
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelPositionBase
+- uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Column
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Column
+  parent: OfficeOpenXml.Drawing.Vml.ExcelPositionBase
+  name: Column
+  nameWithType: ExcelPositionBase.Column
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Column
+- uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Row
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Row
+  parent: OfficeOpenXml.Drawing.Vml.ExcelPositionBase
+  name: Row
+  nameWithType: ExcelPositionBase.Row
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Row
+- uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.ColumnOff
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelPositionBase.ColumnOff
+  parent: OfficeOpenXml.Drawing.Vml.ExcelPositionBase
+  name: ColumnOff
+  nameWithType: ExcelPositionBase.ColumnOff
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.ColumnOff
+- uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.RowOff
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelPositionBase.RowOff
+  parent: OfficeOpenXml.Drawing.Vml.ExcelPositionBase
+  name: RowOff
+  nameWithType: ExcelPositionBase.RowOff
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.RowOff
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -508,11 +539,11 @@ references:
   name: OfficeOpenXml
   nameWithType: OfficeOpenXml
   fullName: OfficeOpenXml
-- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row*
-  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row
-  name: Row
-  nameWithType: ExcelVmlDrawingPosition.Row
-  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
+  name: RowOffset
+  nameWithType: ExcelVmlDrawingPosition.RowOffset
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
 - uid: System.Int32
   commentId: T:System.Int32
   parent: System
@@ -520,18 +551,74 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
-- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset*
-  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
-  name: RowOffset
-  nameWithType: ExcelVmlDrawingPosition.RowOffset
-  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
-- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column*
-  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column
-  name: Column
-  nameWithType: ExcelVmlDrawingPosition.Column
-  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column
 - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.ColumnOffset*
   commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.ColumnOffset
   name: ColumnOffset
   nameWithType: ExcelVmlDrawingPosition.ColumnOffset
   fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.ColumnOffset
+- uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Load
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Load
+  parent: OfficeOpenXml.Drawing.Vml.ExcelPositionBase
+  name: Load()
+  nameWithType: ExcelPositionBase.Load()
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Load()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Load
+    name: Load
+    nameWithType: ExcelPositionBase.Load
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Load
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Load
+    name: Load
+    nameWithType: ExcelPositionBase.Load
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.Load
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Load*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Load
+  name: Load
+  nameWithType: ExcelVmlDrawingPosition.Load
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Load
+- uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.UpdateXml
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelPositionBase.UpdateXml
+  parent: OfficeOpenXml.Drawing.Vml.ExcelPositionBase
+  name: UpdateXml()
+  nameWithType: ExcelPositionBase.UpdateXml()
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.UpdateXml()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.UpdateXml
+    name: UpdateXml
+    nameWithType: ExcelPositionBase.UpdateXml
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.UpdateXml
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.UpdateXml
+    name: UpdateXml
+    nameWithType: ExcelPositionBase.UpdateXml
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelPositionBase.UpdateXml
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.UpdateXml*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.UpdateXml
+  name: UpdateXml
+  nameWithType: ExcelVmlDrawingPosition.UpdateXml
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.UpdateXml

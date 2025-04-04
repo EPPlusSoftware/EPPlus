@@ -1,34 +1,37 @@
 ﻿![Nuget](https://img.shields.io/nuget/v/epplus)
  [![Download EPPlus from nuget](https://img.shields.io/nuget/dt/epplus?label=Nuget%20downloads)](https://www.nuget.org/packages/EPPlus/)
-[![Build status](https://ci.appveyor.com/api/projects/status/fn3lqpxfjff3jq0v?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus7)
-# EPPlus 7
+[![Build status](https://ci.appveyor.com/api/projects/status/fn3lqpxfjff3jq0v?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus8)
+# EPPlus 8
 
-## Announcement: new license model from version 5
-EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
+## License
+EPPlus 8 has a dual license model with a community license for noncommercial use: [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
 
-With the new license EPPlus is still free to use in some cases, but will require a commercial license to be used in a commercial business.
+With this license EPPlus is free to use for personal/noncommercial use, but will require a commercial license to be used in a commercial business.
 
-This is explained in more detail [here](https://www.epplussoftware.com/Home/LgplToPolyform).
+Commercial licenses, which includes support, can be purchased at (https://www.epplussoftware.com/). For more details on our licensing, see our [License FAQ](https://epplussoftware.com/en/LicenseOverview/LicenseFAQ).
 
-Commercial licenses, which includes support, can be purchased at (https://www.epplussoftware.com/).
+The source code for EPPlus is available at [EPPlus Software's github repository](https://github.com/EPPlusSoftware/EPPlus)
 
-The source code of EPPlus has moved to a [new github repository](https://github.com/EPPlusSoftware/EPPlus)
+## License parameter must be set
+Before using EPPlus 8, you must specify the license to use. This is done via the static License property of the ExcelPackage class
 
-## LicenseContext parameter must be set
-With the license change EPPlus has a new parameter that needs to be configured. If the LicenseContext is not set, EPPlus will throw a LicenseException (only in debug mode).
+For commercial use, set the ExcelPackage.License.SetCommercial(string), with your license key as argument. 
+Your license key is available on your license, under the section "My Licenses" on our website and on EPPLus license documents created after February 2025.
 
-This is a simple configuration that can be set in a few alternative ways:
+For noncommercial use, set the ExcelPackage.License.SetNonCommercialOrganization(string) or ExcelPackage.License.SetNonCommercialPersonal(string) with your name as argument. 
+When configured for noncommercial use, EPPlus will reserve the Comment and Tag field of the package for license information and add a license file within the package.
+
+You can also configure these settings in the configuration files or in an environment varialble:
 
 ### 1. Via code
 ```csharp
-// If you are a commercial business and have
-// purchased commercial licenses use the static property
-// LicenseContext of the ExcelPackage class :
-ExcelPackage.LicenseContext = LicenseContext.Commercial;
+// If you are a commercial business and have purchased a commercial license:
+ExcelPackage.License.SetCommercial("<Your License Key here>");
 
-// If you use EPPlus in a noncommercial context
-// according to the Polyform Noncommercial license:
-ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+// If you use EPPlus in a noncommercial context according to the Polyform Noncommercial license:
+ExcelPackage.License.SetNonCommercialPersonal("<Your Name>");
+// or...
+ExcelPackage.License.SetNonCommercialOrganization("<Your Noncommercial Organization>");
     
 using(var package = new ExcelPackage(new FileInfo("MyWorkbook.xlsx")))
 {
@@ -36,51 +39,54 @@ using(var package = new ExcelPackage(new FileInfo("MyWorkbook.xlsx")))
 }
 ```
 ### 2. Via appSettings.json
-```json
+For commercial use:
+```jsonc
 {
-    {
     "EPPlus": {
         "ExcelPackage": {
-            "LicenseContext": "Commercial" //The license context used
+            "License": "Commercial:<Your License Key here>" 
             }
         }
-    }
 }
 ```
+For noncommercial use:
+```jsonc
+{
+    "EPPlus": {
+        "ExcelPackage": {
+            "License": "NonCommercialPersonal:<Your Name>" //..or use "NonCommercialOrganization:<Your organizations name>" 
+            }
+        }
+}
+```
+
 ### 3. Via app/web.config
+For commercial use:
 ```xml
 <appSettings>
     <!--The license context used-->
-    <add key="EPPlus:ExcelPackage.LicenseContext" value="NonCommercial" />
+    <add key="EPPlus:ExcelPackage.License" value="Commercial:<Your License Key here>" /> 
 </appSettings>
 ```
-### 4. Set the environment variable 'EPPlusLicenseContext'
-This might be the easiest way of configuring this. Just as above, set the variable to Commercial or NonCommercial depending on your usage.
+For noncommercial use:
+```xml
+<appSettings>
+    <!--The license context used-->
+    <add key="EPPlus:ExcelPackage.License" value="NonCommercialPersonal:<Your Name>" /> <!--..or use "NonCommercialOrganization:Your organizations name" -->
+</appSettings>
+```
+### 4. Set the environment variable 'EPPlusLicense'
+This might be the easiest way of configuring this.   
+Set the variable to `Commercial:<Your License Key>`, `NonCommercialPersonal:<Your Name>` or `NonCommercialOrganization:<Your organizations name>`
 
-**Important!** The environment variable should be set at the user or process level.
+The example below set the license key using the SETX command in the Windows console on the user level, but you can set it in any way you prefer.
 
-## New features in EPPlus 7
-* Calculation engine update to support array formulas. https://epplussoftware.com/en/Developers/EPPlus7
-	* Support for calculating legacy / dynamic array formulas.
-	* Support for intersect operator.
-	* Support for implicit intersection.
-	* Support for array parameters in functions.
-	* Better support for using the colon operator with functions.
-	* Better handling of circular references
-	* 90 new functions
-	* Faster optimized calculation engine with configurable expression caching.
-	* Breaking changes: Updated calculation engine, See [Breaking Changes in EPPlus 7](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7) for more information.
-	* Conditional Formatting improvements
-	* Improved performance, xml is now read and written on load and save.
-	* Cross worksheet support formula support.
-	* Extended styling options for color scales, data bars and icon sets.
+```console
+> SETX EPPlusLicense "Commercial:<Your License Key>"
+```
 
+## New features in EPPlus 8
+See https://epplussoftware.com/en/Developers/EPPlus8
 ## Breaking Changes
-See https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7
+See https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-8
 
-## Improved documentation
-EPPlus 7 has a new web sample site available here: (https://samples.epplussoftware.com/) ,  Source code is available here: [EPPlus.WebSamples](https://github.com/EPPlusSoftware/EPPlus.WebSamples)
-There is also a new sample project for four different docker images, [EPPlus.DockerSample](https://github.com/EPPlusSoftware/EPPlus.DockerSample).  
-EPPlus also has two separate sample projects for [C#](https://github.com/EPPlusSoftware/EPPlus.Samples.CSharp) and [Visual Basic](https://github.com/EPPlusSoftware/EPPlus.Samples.VB/) respectively.  
-There is also an updated [developer wiki](https://github.com/EPPlusSoftware/EPPlus/wiki). 
-The work with improving the documentation will continue, feedback is highly appreciated!

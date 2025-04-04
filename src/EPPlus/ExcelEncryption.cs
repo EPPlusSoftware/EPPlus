@@ -52,7 +52,14 @@ namespace OfficeOpenXml
         /// Used in Excel 2010-
         /// Default.
         /// </summary>
-        Agile
+        Agile,
+#if !NET35 && !NET40
+        /// <summary>
+        /// The workbook is protected by a sensitiviy label.
+        /// For EPPlus to work with this type of encryption you need to set a <see cref="ExcelPackage.SensibilityLabelHandler"/> that handels the decryption/encryption using the Microsoft MIPS API.
+        /// </summary>
+        ProtectedBySensibilityLabel
+#endif
     }
     /// <summary>
     /// How and if the workbook is encrypted
@@ -156,7 +163,7 @@ namespace OfficeOpenXml
         /// <returns>A MemoryStream containing the encypted package</returns>
         public static MemoryStream EncryptPackage(Stream stream, string password, EncryptionVersion encryptionVersion=EncryptionVersion.Agile, EncryptionAlgorithm algorithm = EncryptionAlgorithm.AES256)
         {
-            var e = new Encryption.EncryptedPackageHandler();
+            var e = new Encryption.EncryptedPackageHandler(null);
             if(stream.CanRead==false)
             {
                 throw new InvalidOperationException("Stream must be readable");
@@ -167,7 +174,7 @@ namespace OfficeOpenXml
             }
             
             var b = new byte[stream.Length];
-            stream.Read(b, 0, (int)stream.Length);
+            var r = stream.Read(b, 0, (int)stream.Length);
             return e.EncryptPackage(b, new ExcelEncryption { Password = password, Algorithm = algorithm, Version = encryptionVersion });
         }
         /// <summary>
@@ -178,7 +185,7 @@ namespace OfficeOpenXml
         /// <returns>A memorystream with the encypted package</returns>
         public static MemoryStream DecryptPackage(Stream stream, string password)
         {
-            var e = new Encryption.EncryptedPackageHandler();
+            var e = new Encryption.EncryptedPackageHandler(null);
             if(stream==null)
             {
                 throw new ArgumentNullException("Stream must not be null");

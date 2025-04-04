@@ -20,12 +20,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddressCompileResult
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 421
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -41,6 +41,7 @@ items:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
   derivedClasses:
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults.LocalImageCompileResult
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult
   inheritedMembers:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
@@ -86,12 +87,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 429
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+    startLine: 29
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -128,12 +129,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 438
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -167,12 +168,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 446
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -203,12 +204,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 454
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+    startLine: 54
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -239,12 +240,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 461
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -279,12 +280,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 468
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/AddressCompileResult.cs
+    startLine: 68
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions

@@ -11,6 +11,7 @@ using System.IO;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Diagnostics;
+using OfficeOpenXml.Sorting;
 
 namespace EPPlusTest.Issues
 {
@@ -397,6 +398,7 @@ namespace EPPlusTest.Issues
 			}
 		}
 		[TestMethod]
+
 		public void i1540()
 		{
 			using (var p = OpenPackage("i1540.xlsx",true))
@@ -407,20 +409,20 @@ namespace EPPlusTest.Issues
                 ws.Cells["A3"].Value = "C";
                 ws.Cells["B1:B3"].FillNumber(1, 1);
                 ws.Cells["C1:C3"].FillNumber(10, 10);
-				ws.Cells["E1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";							//Should be set as an array formula
-                ws.Cells["E2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
-                ws.Cells["F1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";							//Should be set as an array formula
-                ws.Cells["F2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
-                ws.Cells["F1:F2"].UseImplicitItersection = true;
+				ws.Cells["E1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";                          //Should be set as an array formula
+				ws.Cells["E2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
+				ws.Cells["F1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";                          //Should be set as an array formula
+				ws.Cells["F2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
+				ws.Cells["F1:F2"].UseImplicitItersection = true;
 
-                ws.Cells["G1"].CreateArrayFormula("SUM(If(A:A=\"A\",B:B,C:C))", true);
+				ws.Cells["G1"].CreateArrayFormula("SUM(If(A:A=\"A\",B:B,C:C))", true);
                 ws.Cells["G2"].CreateArrayFormula("SUM(If(A1:A3=\"A\",B1:B3,C1:C3))", true);
 
 				ws.Cells["E1:G2"].Calculate();
 
-                Assert.AreEqual(51D, ws.Cells["E1"].Value); //Will be handled as a dynamic formula when calculated, not as in Excel where implicit intersections seems to be applied inside the sum.
-                Assert.AreEqual(51D, ws.Cells["E2"].Value);
-                Assert.AreEqual(6D, ws.Cells["F1"].Value);
+				Assert.AreEqual(51D, ws.Cells["E1"].Value); //Will be handled as a dynamic formula when calculated, not as in Excel where implicit intersections seems to be applied inside the sum.
+				Assert.AreEqual(51D, ws.Cells["E2"].Value);
+				Assert.AreEqual(6D, ws.Cells["F1"].Value);
                 Assert.AreEqual(60D, ws.Cells["F2"].Value);
 
                 SaveAndCleanup(p);
@@ -607,6 +609,241 @@ namespace EPPlusTest.Issues
 
             Assert.AreEqual(area, 35D);
             Assert.AreEqual(area, area2);
+        }
+
+        [TestMethod]
+        public void RedYellowGreenShouldNotCreateCorruptWorkbookReproduce()
+        {
+            using (var p = OpenPackage("RedYellowGreenUncorrupt.xlsx", true))
+            {
+				var sheet = p.Workbook.Worksheets.Add("sheet1");
+
+                sheet.Cells["D27"].Value = -1;
+                sheet.Cells["D28"].Value = 0;
+                sheet.Cells["D29"].Value = 1;
+
+                sheet.Cells["E27"].Value = "RedL";
+                sheet.Cells["E28"].Value = "YellowL";
+                sheet.Cells["E29"].Value = "GreenL";
+
+
+                sheet.Cells["F27"].Value = "RED";
+                sheet.Cells["F28"].Value = "Yellow";
+                sheet.Cells["F29"].Value = "Green";
+
+                sheet.Cells["F27:F29"].Formula = "IFS(E27=\"RedL\",\"RED\",E27=\"YellowL\",\"Yellow\",E27=\"GreenL\",\"Green\")";
+
+
+                var firstRange = sheet.Cells["D27:F30"];
+
+                var options = RangeSortOptions.Create();
+                options.SortLeftToRightBy.Row(0);
+                firstRange.Sort(options);
+
+                sheet.Calculate();
+
+                SaveAndCleanup(p);
+            }
+            using (var p = OpenPackage("RedYellowGreenUncorrupt.xlsx"))
+			{
+                var sheet = p.Workbook.Worksheets.First();
+
+                var firstRange = sheet.Cells["D27:F30"];
+
+                var options = RangeSortOptions.Create();
+                options.SortLeftToRightBy.Row(0);
+                firstRange.Sort(options);
+
+                sheet.Calculate();
+
+				var outFile = GetOutputFile("", "RedYellowGreenCorrupt.xlsx");
+				p.SaveAs(outFile.FullName);
+            }
+        }
+
+        [TestMethod]
+        public void RedYellowGreenShouldNotCreateCorruptWorkbook()
+        {
+            using (var p = OpenTemplatePackage("RedYellowGreen.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets.First();
+
+                var firstRange = sheet.Cells["D27:F30"];
+
+                var options = RangeSortOptions.Create();
+                options.SortLeftToRightBy.Row(0);
+                firstRange.Sort(options);
+
+                sheet.Calculate();
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void RedYellowGreen_NoPrevDimension()
+        {
+            using (var p = OpenPackage("RedYellowGreen_NoDim.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("NewWs");
+
+                sheet.Cells["D27"].Value = 1;
+                sheet.Cells["D28"].Value = 0;
+                sheet.Cells["D29"].Value = -1;
+
+                sheet.Cells["E27"].Value = "GreenLight";
+                sheet.Cells["E28"].Value = "YellowLight";
+                sheet.Cells["E29"].Value = "RedLight";
+
+                sheet.Cells["F27:F29"].Formula = "IFS(E27=\"RedLight\",\"Red\",E27=\"YellowLight\",\"Yellow\",E27=\"GreenLight\",\"Green\")";
+
+                var firstRange = sheet.Cells["D20:F30"];
+
+                firstRange.Sort(column: 0);
+
+				Assert.AreEqual(-1, sheet.Cells["D27"].Value, "D27 wasn't -1 as expected");
+                Assert.AreEqual(0, sheet.Cells["D28"].Value, "D28 wasn't 0 as expected");
+                Assert.AreEqual(1, sheet.Cells["D29"].Value);
+
+                Assert.AreEqual("RedLight", sheet.Cells["E27"].Value);
+                Assert.AreEqual("YellowLight", sheet.Cells["E28"].Value);
+                Assert.AreEqual("GreenLight", sheet.Cells["E29"].Value);
+
+                sheet.Calculate();
+
+				Assert.AreEqual("Red", sheet.Cells["F27"].Value);
+				Assert.AreEqual("Yellow", sheet.Cells["F28"].Value);
+				Assert.AreEqual("Green", sheet.Cells["F29"].Value);
+
+				SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void RedYellowGreen_PrevDimension()
+        {
+            using (var p = OpenPackage("RedYellowGreen_Dim.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("NewWs");
+
+				// add a random value above the sorted range
+				sheet.Cells["D14"].Value = 3;
+
+                sheet.Cells["D27"].Value = 1;
+                sheet.Cells["D28"].Value = 0;
+                sheet.Cells["D29"].Value = -1;
+
+                sheet.Cells["E27"].Value = "GreenLight";
+                sheet.Cells["E28"].Value = "YellowLight";
+                sheet.Cells["E29"].Value = "RedLight";
+
+                sheet.Cells["F27:F29"].Formula = "IFS(E27=\"RedLight\",\"Red\",E27=\"YellowLight\",\"Yellow\",E27=\"GreenLight\",\"Green\")";
+
+                var firstRange = sheet.Cells["D20:F30"];
+
+                firstRange.Sort(column: 0);
+
+                Assert.AreEqual(-1, sheet.Cells["D20"].Value, "D27 wasn't -1 as expected");
+                Assert.AreEqual(0, sheet.Cells["D21"].Value, "D28 wasn't 0 as expected");
+                Assert.AreEqual(1, sheet.Cells["D22"].Value);
+
+                Assert.AreEqual("RedLight", sheet.Cells["E20"].Value);
+                Assert.AreEqual("YellowLight", sheet.Cells["E21"].Value);
+                Assert.AreEqual("GreenLight", sheet.Cells["E22"].Value);
+
+                sheet.Calculate();
+
+				Assert.AreNotEqual("", sheet.Cells["F20"].Formula, "Formula in F20 was empty");
+                Assert.AreEqual("Red", sheet.Cells["F20"].Value);
+                Assert.AreEqual("Yellow", sheet.Cells["F21"].Value);
+                Assert.AreEqual("Green", sheet.Cells["F22"].Value);
+
+				Assert.IsNull(sheet.Cells["D27"].Value);
+                Assert.IsNull(sheet.Cells["D28"].Value);
+                Assert.IsNull(sheet.Cells["D29"].Value);
+                Assert.IsNull(sheet.Cells["E27"].Value);
+                Assert.IsNull(sheet.Cells["E28"].Value);
+                Assert.IsNull(sheet.Cells["E29"].Value);
+				Assert.AreEqual("", sheet.Cells["F27"].Formula, "Formula still set in F27");
+                Assert.AreEqual("", sheet.Cells["F28"].Formula, "Formula still set in F28");
+                Assert.AreEqual("", sheet.Cells["F29"].Formula, "Formula still set in F29");
+
+                SaveAndCleanup(p);
+            }
+        }
+
+
+        [TestMethod]
+        public void S809()
+		{
+			using(var p = OpenTemplatePackage("s809.xlsx"))
+			{
+                var sheet = p.Workbook.Worksheets.First();
+
+                sheet.Cells.Sort(column: 0);
+                sheet.Calculate();
+
+				SaveAndCleanup(p);
+            }
+		}
+
+        [TestMethod]
+        public void Sc809()
+        {
+			using var p = new ExcelPackage();
+			var sheet = p.Workbook.Worksheets.Add("Sheet1");
+			sheet.Cells["A1"].Value = 3;
+            sheet.Cells["A2"].Value = 2;
+            sheet.Cells["A3"].Value = 1;
+			sheet.Cells["B1"].Value = "All Motor";
+            sheet.Cells["B2"].Value = "All Rail";
+            sheet.Cells["B3"].Value = "All Rail";
+
+            sheet.Cells["C1:C3"].Formula = "IFS(B1=\"All Rail\",\"Rail\",B1=\"All Motor\",\"Road\",B1=\"All Barge\",\"Barge\")";
+
+            sheet.Cells.Sort(column: 0);
+            sheet.Calculate();
+			Assert.AreEqual(1, sheet.Cells["A1"].Value);
+            Assert.AreEqual(2, sheet.Cells["A2"].Value);
+            Assert.AreEqual(3, sheet.Cells["A3"].Value);
+			Assert.AreEqual("Rail", sheet.Cells["C1"].Value);
+            Assert.AreEqual("Rail", sheet.Cells["C2"].Value);
+            Assert.AreEqual("Road", sheet.Cells["C3"].Value);
+            SaveWorkbook("Sc809_Output_NotSorted.xlsx", p);
+        }
+
+		[TestMethod]
+		public void Issue1828()
+		{
+			using var p = OpenTemplatePackage("Issue1828.xlsx");
+            var sheet = p.Workbook.Worksheets.First();
+
+            sheet.Cells.Sort(column: 0);
+            sheet.Calculate();
+
+			SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void s831()
+        {
+            using var p = OpenTemplatePackage("s831.xlsx");
+            var sheet = p.Workbook.Worksheets[0];
+            var sw = new Stopwatch();
+            sw.Start();
+            p.Workbook.Calculate();
+			//p.Workbook.FormulaParser.
+			GC.Collect();
+
+            Console.WriteLine(new DateTime(sw.ElapsedTicks).ToString("HH:mm:ss"));
+        }
+        [TestMethod]
+        public void Issue1687()
+        {
+            using var p = OpenTemplatePackage("i1687.xlsx");
+            var sheet = p.Workbook.Worksheets.First();
+			sheet.Cells["D5"].ClearFormulaValues();
+            sheet.Calculate();
+			Assert.AreEqual(44D, sheet.Cells["D5"].Value);
+            SaveAndCleanup(p);
         }
     }
 }

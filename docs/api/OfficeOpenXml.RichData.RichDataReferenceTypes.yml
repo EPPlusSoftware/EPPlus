@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.RichData.RichDataReferenceTypes
+  commentId: T:OfficeOpenXml.RichData.RichDataReferenceTypes
+  id: RichDataReferenceTypes
+  parent: OfficeOpenXml.RichData
+  children:
+  - OfficeOpenXml.RichData.RichDataReferenceTypes.LocalImage
+  - OfficeOpenXml.RichData.RichDataReferenceTypes.Preserved
+  - OfficeOpenXml.RichData.RichDataReferenceTypes.WebImage
+  langs:
+  - csharp
+  - vb
+  name: RichDataReferenceTypes
+  nameWithType: RichDataReferenceTypes
+  fullName: OfficeOpenXml.RichData.RichDataReferenceTypes
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/RichData/RichDataReferenceTypes.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RichDataReferenceTypes
+    path: ../src/EPPlus/RichData/RichDataReferenceTypes.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.RichData
+  summary: "\nSpecifies the type of rich data\n"
+  example: []
+  syntax:
+    content: 'public enum RichDataReferenceTypes : short'
+    content.vb: Public Enum RichDataReferenceTypes As Short
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.RichData.RichDataReferenceTypes.Preserved
+  commentId: F:OfficeOpenXml.RichData.RichDataReferenceTypes.Preserved
+  id: Preserved
+  parent: OfficeOpenXml.RichData.RichDataReferenceTypes
+  langs:
+  - csharp
+  - vb
+  name: Preserved
+  nameWithType: RichDataReferenceTypes.Preserved
+  fullName: OfficeOpenXml.RichData.RichDataReferenceTypes.Preserved
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/RichData/RichDataReferenceTypes.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Preserved
+    path: ../src/EPPlus/RichData/RichDataReferenceTypes.cs
+    startLine: 15
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.RichData
+  summary: "\nNot identified by EPPlus, just preserved\n"
+  example: []
+  syntax:
+    content: Preserved = 0
+    return:
+      type: OfficeOpenXml.RichData.RichDataReferenceTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.RichData.RichDataReferenceTypes.LocalImage
+  commentId: F:OfficeOpenXml.RichData.RichDataReferenceTypes.LocalImage
+  id: LocalImage
+  parent: OfficeOpenXml.RichData.RichDataReferenceTypes
+  langs:
+  - csharp
+  - vb
+  name: LocalImage
+  nameWithType: RichDataReferenceTypes.LocalImage
+  fullName: OfficeOpenXml.RichData.RichDataReferenceTypes.LocalImage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/RichData/RichDataReferenceTypes.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LocalImage
+    path: ../src/EPPlus/RichData/RichDataReferenceTypes.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.RichData
+  summary: "\nLocal image (in cell picture)\n"
+  example: []
+  syntax:
+    content: LocalImage = 1
+    return:
+      type: OfficeOpenXml.RichData.RichDataReferenceTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.RichData.RichDataReferenceTypes.WebImage
+  commentId: F:OfficeOpenXml.RichData.RichDataReferenceTypes.WebImage
+  id: WebImage
+  parent: OfficeOpenXml.RichData.RichDataReferenceTypes
+  langs:
+  - csharp
+  - vb
+  name: WebImage
+  nameWithType: RichDataReferenceTypes.WebImage
+  fullName: OfficeOpenXml.RichData.RichDataReferenceTypes.WebImage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/RichData/RichDataReferenceTypes.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WebImage
+    path: ../src/EPPlus/RichData/RichDataReferenceTypes.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.RichData
+  summary: "\nWeb image (added via the IMAGE function or a complex data type connected to an external service).\n"
+  example: []
+  syntax:
+    content: WebImage = 2
+    return:
+      type: OfficeOpenXml.RichData.RichDataReferenceTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.RichData
+  commentId: N:OfficeOpenXml.RichData
+  name: OfficeOpenXml.RichData
+  nameWithType: OfficeOpenXml.RichData
+  fullName: OfficeOpenXml.RichData
+- uid: OfficeOpenXml.RichData.RichDataReferenceTypes
+  commentId: T:OfficeOpenXml.RichData.RichDataReferenceTypes
+  parent: OfficeOpenXml.RichData
+  name: RichDataReferenceTypes
+  nameWithType: RichDataReferenceTypes
+  fullName: OfficeOpenXml.RichData.RichDataReferenceTypes

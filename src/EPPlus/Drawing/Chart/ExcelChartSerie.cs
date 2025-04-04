@@ -20,6 +20,7 @@ using System.Globalization;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -42,19 +43,119 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Literals for the Y serie, if the literal values are numeric
         /// </summary>
-        public double[] NumberLiteralsY { get; protected set; } = null;
+        virtual public double[] NumberLiteralsY { get; protected set; } = null;
         /// <summary>
         /// Literals for the X serie, if the literal values are numeric
         /// </summary>
-        public double[] NumberLiteralsX { get; protected set; } = null;
+        virtual public double[] NumberLiteralsX { get; protected set; } = null;
         /// <summary>
         /// Literals for the X serie, if the literal values are strings
         /// </summary>
-        public string[] StringLiteralsX { get; protected set; } = null;
+        virtual public string[] StringLiteralsX { get; protected set; } = null;
+        /// <summary>
+        /// Literals for the Y serie, if the literal values are strings
+        /// </summary>
+        virtual public string[] StringLiteralsY { get; protected set; } = null;
         void IDrawingStyleBase.CreatespPr()
         {
             CreatespPrNode();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fromCol"></param>
+        /// <param name="columns"></param>
+        /// <param name="affectedRange"></param>
+        /// <param name="insertType">Wheter Inserting rows or columns</param>
+        internal void UpdateAddressesInsert(int fromCol, int columns, ExcelAddressBase affectedRange, eShiftTypeInsert insertType)
+        {
+            Series = UpdateAddressString(Series, fromCol, columns, affectedRange, insertType);
+            XSeries = UpdateAddressString(XSeries, fromCol, columns, affectedRange, insertType);
+
+            if(HeaderAddress != null && string.IsNullOrEmpty(HeaderAddress.FullAddress) == false)
+            {
+                var hAddress = UpdateAddressString(HeaderAddress.FullAddress, fromCol, columns, affectedRange, insertType);
+                HeaderAddress = new ExcelAddressBase(hAddress);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fromCol"></param>
+        /// <param name="columns"></param>
+        /// <param name="affectedRange"></param>
+        /// <param name="insertType">Wheter Inserting rows or columns</param>
+        internal void UpdateAddressesDelete(int fromCol, int columns, ExcelAddressBase affectedRange, eShiftTypeDelete insertType)
+        {
+            Series = UpdateAddressStringDelete(Series, fromCol, columns, affectedRange, insertType);
+            XSeries = UpdateAddressStringDelete(XSeries, fromCol, columns, affectedRange, insertType);
+
+            if (HeaderAddress != null && string.IsNullOrEmpty(HeaderAddress.FullAddress) == false)
+            {
+                var hAddress = UpdateAddressStringDelete(HeaderAddress.FullAddress, fromCol, columns, affectedRange, insertType);
+                HeaderAddress = new ExcelAddressBase(hAddress);
+            }
+        }
+
+        string UpdateAddressStringDelete(string address, int from, int numToDelete, ExcelAddressBase affectedRange, eShiftTypeDelete insertType)
+        {
+            if (string.IsNullOrEmpty(address) == false)
+            {
+                if (ExcelCellBase.IsValidAddress(address))
+                {
+                    var addressBase = new ExcelAddressBase(address);
+                    if (address != null && affectedRange.Collide(addressBase) != ExcelAddressBase.eAddressCollition.No)
+                    {
+                        if (insertType == eShiftTypeDelete.Left)
+                        {
+                            addressBase = addressBase.DeleteColumn(from, numToDelete);
+                        }
+                        else if (insertType == eShiftTypeDelete.Up)
+                        {
+                            addressBase = addressBase.DeleteRow(from, numToDelete);
+                        }
+                    }
+
+                    if(addressBase == null)
+                    {
+                        return "";
+                    }
+                    else
+                    {
+                        return addressBase.FullAddress;
+                    }
+                }
+            }
+            return address;
+        }
+
+
+        string UpdateAddressString(string address, int from, int numToAdd, ExcelAddressBase affectedRange, eShiftTypeInsert insertType)
+        {
+            if(string.IsNullOrEmpty(address) == false)
+            {
+                if (ExcelCellBase.IsValidAddress(address))
+                {
+                    var addressBase = new ExcelAddressBase(address);
+                    if (address != null && affectedRange.Collide(addressBase) != ExcelAddressBase.eAddressCollition.No)
+                    {
+                        if(insertType == eShiftTypeInsert.Right)
+                        {
+                            addressBase = addressBase.AddColumn(from, numToAdd);
+                        }
+                        else if (insertType == eShiftTypeInsert.Down)
+                        {
+                            addressBase = addressBase.AddRow(from, numToAdd);
+                        }
+                    }
+                    return addressBase.FullAddress;
+                }
+            }
+            return address;
+        }
+
         /// <summary>
         /// The header address for the serie.
         /// </summary>
@@ -147,6 +248,5 @@ namespace OfficeOpenXml.Drawing.Chart
                 return value;
             }
         }
-
     }
 }

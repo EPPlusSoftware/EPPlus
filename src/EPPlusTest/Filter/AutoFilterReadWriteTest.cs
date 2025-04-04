@@ -44,7 +44,7 @@ namespace EPPlusTest.Filter
             var ws = pck.Workbook.Worksheets.Add("Values");
             LoadTestdata(ws);
 
-            ws.AutoFilterAddress = ws.Cells["A1:D100"];
+            ws.AutoFilter.Address = ws.Cells["A1:D100"];
             var col=ws.AutoFilter.Columns.AddValueFilterColumn(1);
             col.Filters.Add("3");
             col.Filters.Add("6");
@@ -116,7 +116,7 @@ namespace EPPlusTest.Filter
             var ws = pck.Workbook.Worksheets.Add("Autofilter");
             LoadTestdata(ws);
 
-            ws.AutoFilterAddress = ws.Cells["A1:D100"];
+            ws.AutoFilter.Address = ws.Cells["A1:D100"];
             var col = ws.AutoFilter.Columns.AddCustomFilterColumn(2);            
             col.And = true;
             col.Filters.Add(new ExcelFilterCustomItem("Val*"));
@@ -148,7 +148,7 @@ namespace EPPlusTest.Filter
             /*** Bottom 12 ***/
             var ws = pck.Workbook.Worksheets.Add("Bottom12");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = ws.Cells["A1:D100"];
+            ws.AutoFilter.Address = ws.Cells["A1:D100"];
             var col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Top = false;
             col.Value = 12;
@@ -158,7 +158,7 @@ namespace EPPlusTest.Filter
             ws = pck.Workbook.Worksheets.Add("Top10");
             LoadTestdata(ws);
             SetDateValues(ws);
-            ws.AutoFilterAddress = ws.Cells["A1:D100"];
+            ws.AutoFilter.Address = ws.Cells["A1:D100"];
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 10;
             col.Top = true;
@@ -167,7 +167,7 @@ namespace EPPlusTest.Filter
             /*** Bottom 12 Percent ***/
             ws = pck.Workbook.Worksheets.Add("Bottom12Percent");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = ws.Cells["A1:D100"];
+            ws.AutoFilter.Address = ws.Cells["A1:D100"];
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 12;
             col.Percent = true;
@@ -178,7 +178,7 @@ namespace EPPlusTest.Filter
             ws = pck.Workbook.Worksheets.Add("Top10Percent");
             LoadTestdata(ws);
             SetDateValues(ws);
-            ws.AutoFilterAddress = ws.Cells["A1:D100"];
+            ws.AutoFilter.Address = ws.Cells["A1:D100"];
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 10;
             col.Top = true;
@@ -217,7 +217,7 @@ namespace EPPlusTest.Filter
             var ws = pck.Workbook.Worksheets.Add("Bottom12");
             LoadTestdata(ws, 500);
             SetDateValues(ws);
-            ws.AutoFilterAddress = ws.Cells["A1:D500"];
+            ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Top = false;
             col.Value = 12;
@@ -227,7 +227,7 @@ namespace EPPlusTest.Filter
             ws = pck.Workbook.Worksheets.Add("Top10");
             LoadTestdata(ws, 500);
             SetDateValues(ws);
-            ws.AutoFilterAddress = ws.Cells["A1:D500"];
+            ws.AutoFilter.Address = ws.Cells["A1:D500"];
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 10;
             col.Top = true;
@@ -237,7 +237,7 @@ namespace EPPlusTest.Filter
             ws = pck.Workbook.Worksheets.Add("Bottom12Percent");
             LoadTestdata(ws, 500);
             SetDateValues(ws);
-            ws.AutoFilterAddress = ws.Cells["A1:D500"];
+            ws.AutoFilter.Address = ws.Cells["A1:D500"];
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 12;
             col.Top = false;
@@ -248,7 +248,7 @@ namespace EPPlusTest.Filter
             ws = pck.Workbook.Worksheets.Add("Top10Percent");
             LoadTestdata(ws, 500);
             SetDateValues(ws);
-            ws.AutoFilterAddress = ws.Cells["A1:D500"];
+            ws.AutoFilter.Address = ws.Cells["A1:D500"];
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 10;
             col.Top = true;
@@ -288,7 +288,7 @@ namespace EPPlusTest.Filter
             var ws = pck.Workbook.Worksheets.Add("Bottom12");
             LoadTestdata(ws, 733);
             SetDateValues(ws);
-            ws.AutoFilterAddress = ws.Cells["A1:D733"];
+            ws.AutoFilter.Address = ws.Cells["A1:D733"];
             var col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 12;
             col.Top = false;
@@ -298,7 +298,7 @@ namespace EPPlusTest.Filter
             ws = pck.Workbook.Worksheets.Add("Top10");
             LoadTestdata(ws, 733);
             SetDateValues(ws);
-            ws.AutoFilterAddress = ws.Cells["A1:D733"];
+            ws.AutoFilter.Address = ws.Cells["A1:D733"];
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 10;
             ws.AutoFilter.ApplyFilter();
@@ -307,7 +307,7 @@ namespace EPPlusTest.Filter
             ws = pck.Workbook.Worksheets.Add("Bottom12Percent");
             LoadTestdata(ws, 733);
             SetDateValues(ws);
-            ws.AutoFilterAddress = ws.Cells["A1:D733"];
+            ws.AutoFilter.Address = ws.Cells["A1:D733"];
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 12;
             col.Percent = true;
@@ -318,7 +318,7 @@ namespace EPPlusTest.Filter
             ws = pck.Workbook.Worksheets.Add("Top10Percent");
             LoadTestdata(ws, 733);
             SetDateValues(ws);
-            ws.AutoFilterAddress = ws.Cells["A1:D733"];
+            ws.AutoFilter.Address = ws.Cells["A1:D733"];
             col = ws.AutoFilter.Columns.AddTop10FilterColumn(1);
             col.Value = 10;
             col.Percent = true;
@@ -355,7 +355,7 @@ namespace EPPlusTest.Filter
             /*** Bottom 12 ***/
             var ws = pck.Workbook.Worksheets.Add("ColorFilter");
             LoadTestdata(ws, 100);
-            ws.AutoFilterAddress = ws.Cells["A1:D733"];
+            ws.AutoFilter.Address = ws.Cells["A1:D733"];
             var col = ws.AutoFilter.Columns.AddColorFilterColumn(1);            
         }
         [TestMethod]
@@ -366,7 +366,7 @@ namespace EPPlusTest.Filter
             /*** Bottom 12 ***/
             var ws = pck.Workbook.Worksheets.Add("IconFilter");
             LoadTestdata(ws, 100);
-            ws.AutoFilterAddress = ws.Cells["A1:D733"];
+            ws.AutoFilter.Address = ws.Cells["A1:D733"];
             var col = ws.AutoFilter.Columns.AddIconFilterColumn(1);
             col.IconSet = OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingIconsSetType.ThreeTrafficLights1;
             col.IconId = 1;
@@ -384,7 +384,7 @@ namespace EPPlusTest.Filter
 
             ws.Cells["C3"].Value = "";
 
-            ws.AutoFilterAddress = ws.Cells["A1:D100"];
+            ws.AutoFilter.Address = ws.Cells["A1:D100"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(1);
             col.Filters.Blank = true;
 

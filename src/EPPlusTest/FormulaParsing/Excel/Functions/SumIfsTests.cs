@@ -37,7 +37,7 @@ using OfficeOpenXml;
 namespace EPPlusTest.FormulaParsing.Excel.Functions
 {
     [TestClass]
-    public class SumIfsTests
+    public class SumIfsTests : TestBase
     {
         private ExcelPackage _package;
         private ExcelWorksheet _sheet;
@@ -217,6 +217,46 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
                 Assert.AreEqual(2d, sheet.Cells["A3"].Value);
             }
-        }   
+        }
+        [TestMethod]
+        public void SumIfsShouldSumIfCircularReferenceOusideOfInCriteria()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A2:A3"].Value = "Apples";
+                sheet.Cells["A4:A5"].Value = "Artichokes";
+                sheet.Cells["A6:A7"].Value = "Bananas";
+                sheet.Cells["A8:A9"].Value = "Carrots";
+                sheet.Cells["B2,B4,B6,B8"].Value = "Mats";
+                sheet.Cells["B3,B5"].Value = "Jan";
+                sheet.Cells["B7,B9"].Value = "Ossian";
+                sheet.Cells["C2:C9"].FillNumber(10, 5);
+                sheet.Cells["C5"].Formula = "=SUMIFS(C2:C9,A2:A9,\"=A*\",B2:B9,\"Mats\")";
+
+                sheet.Calculate();
+                Assert.AreEqual(sheet.Cells["C5"].Value, 10D + 20D);
+            }
+        }
+        [TestMethod]
+        public void SumIfsShouldSumIfCircularReferenceOutsideOfInCriteriaNotEquals()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A2:A3"].Value = "Apples";
+                sheet.Cells["A4:A5"].Value = "Artichokes";
+                sheet.Cells["A6:A7"].Value = "Bananas";
+                sheet.Cells["A8:A9"].Value = "Carrots";
+                sheet.Cells["B2,B4,B6,B8"].Value = "Mats";
+                sheet.Cells["B3,B5"].Value = "Jan";
+                sheet.Cells["B7,B9"].Value = "Ossian";
+                sheet.Cells["C2:C9"].FillNumber(10, 5);
+                sheet.Cells["C5"].Formula = "=SUMIFS(C2:C9,A2:A9,\"<>A*\",B2:B9,\"Mats\")";
+
+                sheet.Calculate();
+                Assert.AreEqual(30D + 40D, sheet.Cells["C5"].Value);
+            }
+        }
     }
 }

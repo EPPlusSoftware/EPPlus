@@ -24,7 +24,6 @@ namespace OfficeOpenXml.Core.CellStore
     {
         public CellStoreValue() : base()
         {
-
         }
         internal void SetValueRange_Value(int row, int col, object[,] array)
         {
@@ -103,6 +102,7 @@ namespace OfficeOpenXml.Core.CellStore
                     return;
                 }
             }
+
             var v = new ExcelValue { _styleId = styleId };
             SetValue(Row, Column, v);
         }
@@ -135,7 +135,7 @@ namespace OfficeOpenXml.Core.CellStore
             }
             return 0;
         }
-
+              
         internal int GetLastColumn()
         {
             if(ColumnCount>0 && _columnIndex[ColumnCount - 1].PageCount > 0)

@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Erf
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
@@ -43,8 +43,6 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ConfigureArrayBehaviour(OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HandlesVariables
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.ExcelErrorValue@,System.Int32)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,System.Boolean,OfficeOpenXml.ExcelErrorValue@)
@@ -116,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgumentMinLength
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
@@ -156,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Execute
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
@@ -442,176 +440,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
-  isExternal: true
-  name: ValidateArguments(IEnumerable<FunctionArgument>, Int32, eErrorType)
-  nameWithType: ExcelFunction.ValidateArguments(IEnumerable<FunctionArgument>, Int32, eErrorType)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32, OfficeOpenXml.eErrorType)
-  nameWithType.vb: ExcelFunction.ValidateArguments(IEnumerable(Of FunctionArgument), Int32, eErrorType)
-  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32, OfficeOpenXml.eErrorType)
-  name.vb: ValidateArguments(IEnumerable(Of FunctionArgument), Int32, eErrorType)
-  spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
-    name: ValidateArguments
-    nameWithType: ExcelFunction.ValidateArguments
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-    name: FunctionArgument
-    nameWithType: FunctionArgument
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: OfficeOpenXml.eErrorType
-    name: eErrorType
-    nameWithType: eErrorType
-    fullName: OfficeOpenXml.eErrorType
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
-    name: ValidateArguments
-    nameWithType: ExcelFunction.ValidateArguments
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-    name: FunctionArgument
-    nameWithType: FunctionArgument
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: OfficeOpenXml.eErrorType
-    name: eErrorType
-    nameWithType: eErrorType
-    fullName: OfficeOpenXml.eErrorType
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
-  isExternal: true
-  name: ValidateArguments(IEnumerable<FunctionArgument>, Int32)
-  nameWithType: ExcelFunction.ValidateArguments(IEnumerable<FunctionArgument>, Int32)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32)
-  nameWithType.vb: ExcelFunction.ValidateArguments(IEnumerable(Of FunctionArgument), Int32)
-  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32)
-  name.vb: ValidateArguments(IEnumerable(Of FunctionArgument), Int32)
-  spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
-    name: ValidateArguments
-    nameWithType: ExcelFunction.ValidateArguments
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-    name: FunctionArgument
-    nameWithType: FunctionArgument
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
-    name: ValidateArguments
-    nameWithType: ExcelFunction.ValidateArguments
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-    name: FunctionArgument
-    nameWithType: FunctionArgument
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
   - name: )
     nameWithType: )
     fullName: )

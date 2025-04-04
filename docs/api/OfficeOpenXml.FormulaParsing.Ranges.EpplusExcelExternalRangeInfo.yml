@@ -12,6 +12,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.Current
   - OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.Dimension
   - OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.Dispose
+  - OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.GetAddressDimensionAdjusted(System.Int32)
   - OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.GetEnumerator
   - OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.GetNCells
   - OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.GetOffset(System.Int32,System.Int32)
@@ -39,7 +40,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EpplusExcelExternalRangeInfo
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -92,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -100,7 +101,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
-  summary: "\nThe constructor\n"
+  summary: "\nThe constructor \n"
   example: []
   syntax:
     content: public EpplusExcelExternalRangeInfo(int externalReferenceIx, int worksheetIx, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx)
@@ -146,7 +147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -188,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -225,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRef
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -264,7 +265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -303,7 +304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMulti
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -342,7 +343,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -381,7 +382,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsInMemoryRange
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -420,7 +421,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -459,7 +460,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -498,7 +499,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dimension
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -537,7 +538,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -572,7 +573,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -609,7 +610,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -646,7 +647,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -680,7 +681,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextCell
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -715,7 +716,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -753,7 +754,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -785,7 +786,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -824,7 +825,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Addresses
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -863,7 +864,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -907,7 +908,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -951,7 +952,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -1001,7 +1002,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -1027,6 +1028,47 @@ items:
   overload: OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.IsHidden*
   implements:
   - OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden(System.Int32,System.Int32)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.GetAddressDimensionAdjusted(System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.GetAddressDimensionAdjusted(System.Int32)
+  id: GetAddressDimensionAdjusted(System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo
+  langs:
+  - csharp
+  - vb
+  name: GetAddressDimensionAdjusted(Int32)
+  nameWithType: EpplusExcelExternalRangeInfo.GetAddressDimensionAdjusted(Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.GetAddressDimensionAdjusted(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAddressDimensionAdjusted
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 369
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nGet the address adjusted within the dimension of the worksheet.\n"
+  example: []
+  syntax:
+    content: public FormulaRangeAddress GetAddressDimensionAdjusted(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The address index.
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+      description: The adjusted address.
+    content.vb: Public Function GetAddressDimensionAdjusted(index As Integer) As FormulaRangeAddress
+  overload: OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.GetAddressDimensionAdjusted*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted(System.Int32)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -2283,6 +2325,50 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.GetAddressDimensionAdjusted*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.GetAddressDimensionAdjusted
+  name: GetAddressDimensionAdjusted
+  nameWithType: EpplusExcelExternalRangeInfo.GetAddressDimensionAdjusted
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.GetAddressDimensionAdjusted
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted(System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted(System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  isExternal: true
+  name: GetAddressDimensionAdjusted(Int32)
+  nameWithType: IRangeInfo.GetAddressDimensionAdjusted(Int32)
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted(System.Int32)
+    name: GetAddressDimensionAdjusted
+    nameWithType: IRangeInfo.GetAddressDimensionAdjusted
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted(System.Int32)
+    name: GetAddressDimensionAdjusted
+    nameWithType: IRangeInfo.GetAddressDimensionAdjusted
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted
+  - name: (
+    nameWithType: (
+    fullName: (
   - uid: System.Int32
     name: Int32
     nameWithType: Int32

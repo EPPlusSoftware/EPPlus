@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HtmlRangeExportSettings
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
@@ -63,6 +63,7 @@ items:
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataAttributes
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataTypes
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderConditionalFormattings
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CheckboxesEnabled
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -90,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRows
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
@@ -127,7 +128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Headers
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
@@ -164,7 +165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Css
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
@@ -201,7 +202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResetToDefault
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
@@ -233,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
@@ -418,6 +419,12 @@ references:
   name: RenderConditionalFormattings
   nameWithType: HtmlExportSettings.RenderConditionalFormattings
   fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderConditionalFormattings
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CheckboxesEnabled
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CheckboxesEnabled
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  name: CheckboxesEnabled
+  nameWithType: HtmlExportSettings.CheckboxesEnabled
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CheckboxesEnabled
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object

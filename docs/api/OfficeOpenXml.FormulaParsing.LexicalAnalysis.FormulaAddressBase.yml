@@ -17,11 +17,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaAddressBase
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 504
+    startLine: 517
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -62,11 +62,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalReferenceIx
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 511
+    startLine: 524
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -95,11 +95,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetIx
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 517
+    startLine: 530
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis

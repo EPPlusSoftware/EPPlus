@@ -20,30 +20,30 @@ items:
   assemblies:
   - EPPlus
 references:
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
-  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
-  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
-  name: CompileResultType
-  nameWithType: CompileResultType
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
-  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
-  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
-  name: CompileResultBase
-  nameWithType: CompileResultBase
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
-  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
-  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
-  name: CompileResult
-  nameWithType: CompileResult
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
   commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
   parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
   name: AddressCompileResult
   nameWithType: AddressCompileResult
   fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: CompileResult
+  nameWithType: CompileResult
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: CompileResultBase
+  nameWithType: CompileResultBase
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: CompileResultType
+  nameWithType: CompileResultType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult
   commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult
   name: DynamicArrayCompileResult

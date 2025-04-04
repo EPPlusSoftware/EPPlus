@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerieWithErrorBars.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartSerieWithErrorBars
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieWithErrorBars.cs
@@ -44,6 +44,10 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelLineChartSerie
   - OfficeOpenXml.Drawing.Chart.ExcelStockChartSerie
   inheritedMembers:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.HeaderAddress
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Series
@@ -51,9 +55,6 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.TrendLines
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberOfItems
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
-  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
-  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
-  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
@@ -85,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerieWithErrorBars.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorBars
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieWithErrorBars.cs
@@ -122,7 +123,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerieWithErrorBars.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddErrorBars
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieWithErrorBars.cs
@@ -163,7 +164,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerieWithErrorBars.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasErrorBars
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieWithErrorBars.cs
@@ -215,6 +216,30 @@ references:
   name: ExcelChartStandardSerie
   nameWithType: ExcelChartStandardSerie
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: NumberLiteralsY
+  nameWithType: ExcelChartStandardSerie.NumberLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: NumberLiteralsX
+  nameWithType: ExcelChartStandardSerie.NumberLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: StringLiteralsY
+  nameWithType: ExcelChartStandardSerie.StringLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: StringLiteralsX
+  nameWithType: ExcelChartStandardSerie.StringLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
@@ -279,24 +304,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
-  name: NumberLiteralsY
-  nameWithType: ExcelChartSerie.NumberLiteralsY
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
-  name: NumberLiteralsX
-  nameWithType: ExcelChartSerie.NumberLiteralsX
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
-  name: StringLiteralsX
-  nameWithType: ExcelChartSerie.StringLiteralsX
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie

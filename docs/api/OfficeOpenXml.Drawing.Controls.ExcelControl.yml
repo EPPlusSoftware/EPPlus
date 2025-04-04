@@ -29,11 +29,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelControl
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 31
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -116,11 +116,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ControlPropertiesXml
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 219
+    startLine: 212
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -153,11 +153,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ControlType
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 225
+    startLine: 218
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -192,11 +192,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 280
+    startLine: 273
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -232,11 +232,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AlternativeText
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 330
+    startLine: 323
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -269,11 +269,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Macro
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 344
+    startLine: 337
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -306,11 +306,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Print
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 371
+    startLine: 364
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -346,11 +346,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Locked
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 387
+    startLine: 380
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -386,11 +386,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFill
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 402
+    startLine: 395
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -423,11 +423,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoPict
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 411
+    startLine: 404
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -460,11 +460,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultSize
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 420
+    startLine: 413
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -497,11 +497,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Disabled
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 429
+    startLine: 422
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -534,11 +534,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeDEffects
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 437
+    startLine: 430
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -571,11 +571,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LinkedCell
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 477
+    startLine: 470
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -608,11 +608,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
-    startLine: 620
+    startLine: 613
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls

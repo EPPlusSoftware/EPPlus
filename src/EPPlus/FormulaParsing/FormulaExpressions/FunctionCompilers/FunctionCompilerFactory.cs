@@ -25,14 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
     internal class FunctionCompilerFactory
     {
-        //private readonly Dictionary<Type, FunctionCompiler> _specialCompilers = new Dictionary<Type, FunctionCompiler>();
         
         public FunctionCompilerFactory(FunctionRepository repository)
         {
-            //foreach (var _key in repository.CustomCompilers.Keys)
-            //{
-            //  _specialCompilers.Add(_key, repository.CustomCompilers[_key]);
-            //}
         }
 
         private FunctionCompiler GetCompilerByType(ExcelFunction function, ParsingContext context)

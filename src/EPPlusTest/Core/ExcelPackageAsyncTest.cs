@@ -112,6 +112,21 @@ namespace EPPlusTest.Core
                 Assert.AreEqual($"A1:D{noRows}", ws.Dimension.Address);
             }
         }
+
+        [TestMethod]
+        public async Task GetAsByteArray2Times()
+        {
+            AssertIfNotExists("AsyncRead.xlsx");
+            using (var pck = await OpenPackageAsync("AsyncRead.xlsx").ConfigureAwait(false))
+            {
+                var ws = TryGetWorksheet(pck, "AsyncSave");
+
+                var b = await pck.GetAsByteArrayAsync();
+                var b2 = await pck.GetAsByteArrayAsync();
+                Assert.AreEqual(b.Length, b2.Length);
+            }
+        }
+
         [TestMethod]
         public async Task GetAsByteArrayEncryptedLoadStreamEncryptedTest()
         {

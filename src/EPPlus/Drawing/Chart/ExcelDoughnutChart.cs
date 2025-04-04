@@ -47,11 +47,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Angle of the first slize
         /// </summary>
-        public decimal FirstSliceAngle
+        public double FirstSliceAngle
         {
             get
             {
-                return _chartXmlHelper.GetXmlNodeDecimal(_firstSliceAngPath);
+                return _chartXmlHelper.GetXmlNodeDouble(_firstSliceAngPath);
             }
             internal set
             {
@@ -63,11 +63,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Size of the doubnut hole
         /// </summary>
-        public decimal HoleSize
+        public double HoleSize
         {
             get
             {
-                return _chartXmlHelper.GetXmlNodeDecimal(_holeSizePath);
+                return _chartXmlHelper.GetXmlNodeDouble(_holeSizePath);
             }
             internal set
             {
