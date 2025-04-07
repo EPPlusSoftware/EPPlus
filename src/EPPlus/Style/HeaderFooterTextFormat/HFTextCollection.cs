@@ -16,13 +16,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         private List<HFText> _textCollection = new List<HFText>();
         private readonly int _defaultFontSize;
 
-        internal enum Lanes
-        {
-            Left,
-            Center,
-            Right,
-        }
-        internal readonly Lanes lane;
+        internal readonly PictureAlignment alignment;
         internal ExcelWorksheet _ws;
         internal HFTextCollection lane1;
         internal HFTextCollection lane2;
@@ -47,10 +41,10 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             }
         }
 
-        internal HFTextCollection(ExcelWorksheet ws, ExcelHeaderFooterText headerFooter, Lanes lane, int defaultFontSize)
+        internal HFTextCollection(ExcelWorksheet ws, ExcelHeaderFooterText headerFooter, PictureAlignment alignment, int defaultFontSize)
         {
             _ws = ws;
-            this.lane = lane;
+            this.alignment = alignment;
             Clear();
             _defaultFontSize = defaultFontSize;
             this.headerFooter = headerFooter;
@@ -119,12 +113,12 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         }
         public HFText AddImage(FileInfo pictureFile)
         {
-            headerFooter.InsertPicture(pictureFile, (PictureAlignment)lane);
+            headerFooter.InsertPicture(pictureFile, (PictureAlignment)alignment);
             return AddFormatCode(HFFormattingCodes.Image);
         }
         public HFText AddImage (Stream pictureStream, ePictureType pictureType)
         {
-            headerFooter.InsertPicture(pictureStream, pictureType, (PictureAlignment)lane);
+            headerFooter.InsertPicture(pictureStream, pictureType, (PictureAlignment)alignment);
             return AddFormatCode(HFFormattingCodes.Image);
         }
         private HFText AddFormatCode(HFFormattingCodes formatCode)
@@ -190,7 +184,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         }
         public HFText InsertImage(int index, FileInfo pictureFile)
         {
-            string id = headerFooter.ValidateImage((PictureAlignment)lane));
+            string id = headerFooter.ValidateImage((PictureAlignment)alignment);
             if (!pictureFile.Exists)
             {
                 throw (new FileNotFoundException(string.Format("{0} is missing", pictureFile.FullName)));
@@ -204,7 +198,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         }
         public HFText InsertImage(int index, Stream pictureStream, ePictureType pictureType)
         {
-            string id = headerFooter.ValidateImage((PictureAlignment)lane);
+            string id = headerFooter.ValidateImage((PictureAlignment)alignment);
             var imgBytes = new byte[pictureStream.Length];
             pictureStream.Seek(0, SeekOrigin.Begin);
             var r = pictureStream.Read(imgBytes, 0, imgBytes.Length);
@@ -240,6 +234,8 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
 
         internal void RemoveImage()
         {
+            headerFooter.RemoveImage(VmlDrawingPicutre);
+            VmlDrawingPicutre = null;
             //remoge hftext element from list
             //remove from ExcelVmlDrawingsCollection
             //remove from pictureStore
@@ -249,15 +245,15 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         public void Clear()
         {
             _textCollection.Clear();
-            switch (lane)
+            switch (alignment)
             {
-                case Lanes.Left:
+                case PictureAlignment.Left:
                     Add(new HFText("&L"));
                     break;
-                case Lanes.Center:
+                case PictureAlignment.Centered:
                     Add(new HFText("&C"));
                     break;
-                case Lanes.Right:
+                case PictureAlignment.Right:
                     Add(new HFText("&R"));
                     break;
             }
@@ -337,13 +333,13 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                     {
                         //Text Field
                         case 'L':
-                            if (lane != Lanes.Left) stop = true;
+                            if (alignment != PictureAlignment.Left) stop = true;
                             break;
                         case 'C':
-                            if (lane != Lanes.Center) stop = true;
+                            if (alignment != PictureAlignment.Centered) stop = true;
                             break;
                         case 'R':
-                            if (lane != Lanes.Right) stop = true;
+                            if (alignment != PictureAlignment.Right) stop = true;
                             break;
                         //Constants
                         case 'P':
@@ -376,6 +372,14 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                             break;
                         case 'G':
                             temp.FormatCode = HFFormattingCodes.Image;
+                            foreach(ExcelVmlDrawingPicture v in _ws.HeaderFooter.Pictures)
+                            {
+                                if(v.Id == alignment.ToString()[0] + headerFooter.HeaderFooterAlignment)
+                                {
+                                    VmlDrawingPicutre = v;
+                                    //Add to picture store/hash or whatever...
+                                }
+                            }
                             writeFormatCode = true;
                             break;
                         //Text Formating

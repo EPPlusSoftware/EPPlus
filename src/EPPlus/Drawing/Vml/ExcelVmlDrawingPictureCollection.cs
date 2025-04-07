@@ -94,6 +94,10 @@ namespace OfficeOpenXml.Drawing.Vml
             node.InnerXml = string.Format("<v:imagedata o:relid=\"\" o:title=\"{0}\"/><o:lock v:ext=\"edit\" rotation=\"t\"/>",  Name);
             return node;
         }
+        public void Remove(ExcelVmlDrawingPicture item)
+        {
+            _images.Remove(item);
+        }
         /// <summary>
         /// Indexer
         /// </summary>

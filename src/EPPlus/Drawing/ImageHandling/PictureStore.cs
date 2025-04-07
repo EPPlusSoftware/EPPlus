@@ -240,7 +240,6 @@ namespace OfficeOpenXml.Drawing
                     {
                         container.RelationDocument.Hashes.Remove(hash);
                     }
-                        
                 }
             }
         }

@@ -26,6 +26,7 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using EPPlusTest.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
@@ -1638,16 +1639,16 @@ namespace EPPlusTest
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var text1 = ws.HeaderFooter.OddHeader.Centered.Add("This ");
+            var text1 = ws.HeaderFooter.OddHeader.Centered.AddText("This ");
             text1.Bold = true;
-            var text2 = ws.HeaderFooter.OddHeader.Centered.Add("is ");
-            var text3 = ws.HeaderFooter.OddHeader.Centered.Add("a ");
-            var text4 = ws.HeaderFooter.OddHeader.Centered.Add("Header");
+            var text2 = ws.HeaderFooter.OddHeader.Centered.AddText("is ");
+            var text3 = ws.HeaderFooter.OddHeader.Centered.AddText("a ");
+            var text4 = ws.HeaderFooter.OddHeader.Centered.AddText("Header");
             text4.FontSize = 24;
             text4.Underline = true;
-            ws.HeaderFooter.OddHeader.Centered.Add(" ");
-            var text5 = ws.HeaderFooter.OddHeader.Centered.Add("in ");
-            var text6 = ws.HeaderFooter.OddHeader.Centered.Add("Center");
+            ws.HeaderFooter.OddHeader.Centered.AddText(" ");
+            var text5 = ws.HeaderFooter.OddHeader.Centered.AddText("in ");
+            var text6 = ws.HeaderFooter.OddHeader.Centered.AddText("Center");
             text6.Color = Color.Green;
             p.SaveAs("c:\\epplustest\\testoutput\\WriteHeaderText1.xlsx");
         }
@@ -1667,12 +1668,46 @@ namespace EPPlusTest
         [TestMethod]
         public void HeaderFooterAddImage()
         {
+            //using var p = OpenTemplatePackage("HeaderFooterPicture.xlsx");
+            //var ws = p.Workbook.Worksheets[0];
+
+            //var l = ws.HeaderFooter.OddHeader.LeftAlignedText;
+            //var c = ws.HeaderFooter.OddHeader.CenteredText;
+            //var r = ws.HeaderFooter.OddHeader.RightAlignedText;
+
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            FileInfo fi = new FileInfo("C:\\epplusTest\\OleTest\\EMF\\PNG2.png");
+            //var pic = Resources.GetOLEFileInfo("SampleIcon.bmp");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddImage(fi);
+            ws.HeaderFooter.OddHeader.Centered.AddImage(fi);
+            ws.HeaderFooter.OddHeader.RightAligned.AddImage(fi);
+
+            ws.HeaderFooter.OddFooter.LeftAligned.AddImage(fi);
+            ws.HeaderFooter.OddFooter.Centered.AddImage(fi);
+            ws.HeaderFooter.OddFooter.RightAligned.AddImage(fi);
+
+            ws.HeaderFooter.EvenHeader.LeftAligned.AddImage(fi);
+            ws.HeaderFooter.EvenHeader.Centered.AddImage(fi);
+            ws.HeaderFooter.EvenHeader.RightAligned.AddImage(fi);
+
+            ws.HeaderFooter.EvenFooter.LeftAligned.AddImage(fi);
+            ws.HeaderFooter.EvenFooter.Centered.AddImage(fi);
+            ws.HeaderFooter.EvenFooter.RightAligned.AddImage(fi);
+
+            //ws.HeaderFooter.OddFooter.LeftAligned.AddImage(pic);
+
+            p.SaveAs("c:\\epplustest\\testoutput\\hHeaderFooterImage.xlsx");
+        }
+
+        [TestMethod]
+        public void HeaderFooterRemoveImage()
+        {
             using var p = OpenTemplatePackage("HeaderFooterPicture.xlsx");
             var ws = p.Workbook.Worksheets[0];
 
-            var l = ws.HeaderFooter.OddHeader.LeftAlignedText;
-            var c = ws.HeaderFooter.OddHeader.CenteredText;
-            var r = ws.HeaderFooter.OddHeader.RightAlignedText;
+            ws.HeaderFooter.OddHeader.LeftAligned.RemoveImage();
+            SaveAndCleanup(p);
         }
 
         [TestMethod, Ignore]
