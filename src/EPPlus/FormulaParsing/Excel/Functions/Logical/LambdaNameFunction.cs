@@ -18,6 +18,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 
         public override int ArgumentMinLength => 0;
 
+        public override bool IsVolatile => true;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext ctx)
         {
             var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column);

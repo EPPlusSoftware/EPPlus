@@ -134,6 +134,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                         else
                         {
                             var arg = otherArgs[argIx];
+                            if(arg.DataType == DataType.LambdaCalculation)
+                            {
+                                var calculator = arg.ResultValue as LambdaCalculator;
+                                calculator.BeginCalculation();
+                                calculator.ResetVariables();
+                            }
                             argList.Add(new FunctionArgument(arg));
                         }
                     }

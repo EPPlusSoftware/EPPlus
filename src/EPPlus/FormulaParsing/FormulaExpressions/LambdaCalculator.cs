@@ -52,6 +52,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             CloneTokens();
         }
 
+        public void ResetVariables()
+        {
+            _nVariablesSet = 0;
+        }
+
         internal string GetDebugInfo()
         {
             if(_variables == null)
@@ -87,6 +92,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         dt = cr.DataType;
                     }
                     var tt = DataTypeToTokenType(dt, value);
+                    if (tt == TokenType.Unrecognized) tt = TokenType.StringContent;
                     var tokenValue = Convert.ToString(value, CultureInfo.CurrentCulture);
                     if(tt == TokenType.StringContent)
                     {

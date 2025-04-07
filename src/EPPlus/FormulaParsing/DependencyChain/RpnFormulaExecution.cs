@@ -1148,7 +1148,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 }
                             }
                             
-                            if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
+                            if (f._tokenIndex > 0 && (f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma || f._tokens[f._tokenIndex - 1].TokenType == TokenType.StartFunctionArguments)) //Empty function argument.
                             {
                                 f._expressionStack.Push(new EmptyExpression());                                
                             }

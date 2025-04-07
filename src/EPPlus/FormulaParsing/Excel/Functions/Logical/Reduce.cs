@@ -12,43 +12,59 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing.Ranges;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Logical,
         EPPlusVersion = "8.1",
-        Description = "Scans an array by applying a LAMBDA to each value and returns an array that has each intermediate value.",
+        Description = "Reduces an array to an accumulated value by applying a LAMBDA to each value and returning the total value in the accumulator. ",
         IntroducedInExcelVersion = "2021")]
-    internal class Scan : ExcelFunction
+    internal class Reduce : ExcelFunction
     {
-        public override int ArgumentMinLength => 2;
-
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override int ArgumentMinLength => 3;
+
+        public override bool IsVolatile => true;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var argIx = 0;
             object initialValue = null;
-            initialValue = arguments[0].Value;
-            var ivDataType = arguments[0].DataType;
+            var ivDataType = DataType.Unknown;
+            if (arguments[0].DataType != DataType.Empty)
+            {
+                initialValue = arguments[0].Value;
+                ivDataType = arguments[0].DataType;
+            }
             if (initialValue is ExcelErrorValue e) return CreateResult(e.Type);
+
+            // Last arg must be a Lambda expression
+            var lastArg = arguments.LastOrDefault();
+            if (lastArg == null)
+            {
+                return CreateResult(eErrorType.Value);
+            }
+            if (lastArg.DataType != DataType.LambdaCalculation)
+            {
+                return CreateResult(eErrorType.Value);
+            }
+            var calculator = lastArg.Value as LambdaCalculator;
+
             var range = ArgToRangeInfo(arguments, 1);
-            if (arguments[2].Value is not LambdaCalculator calculator) return CreateResult(eErrorType.Value);
             var accumulatedValue = initialValue;
-            var resultRange = new InMemoryRange(range.Size);
             for (var row = 0; row < range.Size.NumberOfRows; row++)
             {
-                for (var col = 0; col < range.Size.NumberOfCols; col++)
+                for(var col = 0; col < range.Size.NumberOfCols; col++)
                 {
                     var rangeValue = range.GetOffset(row, col);
                     var cr = CompileResultFactory.Create(rangeValue);
                     calculator.BeginCalculation();
-                    if(ivDataType == DataType.Empty) ivDataType = cr.DataType;
-                    if(ivDataType != DataType.String && accumulatedValue == null)
+                    if (ivDataType == DataType.Unknown) ivDataType = cr.DataType;
+                    if (ivDataType != DataType.String && accumulatedValue == null)
                     {
                         accumulatedValue = 0;
                     }
@@ -56,10 +72,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                     calculator.SetVariableValue(1, rangeValue, cr.DataType, context);
                     var compileResult = calculator.Execute(context);
                     accumulatedValue = compileResult.Result;
-                    resultRange.SetValue(row, col, accumulatedValue);
                 }
             }
-            return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
+
+            return CompileResultFactory.Create(accumulatedValue);
         }
     }
 }
