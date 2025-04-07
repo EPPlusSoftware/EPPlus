@@ -2319,5 +2319,38 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(p2);
             }
         }
+
+        [TestMethod]
+        public void DefaultDataBarIsNotSameAsExcel()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeMultipleOneRange");
+
+            var rule1 = ws.ConditionalFormatting.AddBetween("B2:C3");
+            rule1.Formula = "0";
+            rule1.Formula2 = "2000";
+            rule1.Style.Fill.Style = eDxfFillStyle.PatternFill;
+            rule1.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            rule1.Style.Fill.BackgroundColor.SetColor(Color.Red);
+
+            var rule2 = ws.ConditionalFormatting.AddDatabar("B2:B6", Color.Blue);
+
+            //rule2.LowValue.Type = eExcelConditionalFormattingValueObjectType.AutoMin;
+            //rule2.HighValue.Type = eExcelConditionalFormattingValueObjectType.AutoMax;
+
+            ws.Cells["B1"].Insert(eShiftTypeInsert.Down);
+
+            var formats = ws.Cells["B2"].ConditionalFormatting.GetConditionalFormattings();
+            //Assert.AreEqual(0, formats.Count);
+            ////Assert.AreEqual("A1:B4,C1:C5,D1:D4", formats[0].Address.Address);
+            //formats = ws.Cells["B3"].ConditionalFormatting.GetConditionalFormattings();
+            //Assert.AreEqual(2, formats.Count);
+
+            ws.Cells["A1:G20"].Formula = "COLUMN() + ROW()";
+
+            ws.Calculate();
+
+            var fileName = GetOutputFile("", "testCF.xlsx").FullName;
+            _pck.SaveAs(fileName);
+        }
     }
 }
