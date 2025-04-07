@@ -33,6 +33,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml;
+using System.Xml;
 
 namespace EPPlusTest.Utils
 {
@@ -262,5 +263,18 @@ namespace EPPlusTest.Utils
             }
         }
 
+        [TestMethod]
+        public void i1935DecodeEncodeString()
+        {
+            var origStr = "776iiud8fbzn1pbff2s-n13_xb36";
+
+            var decodedStr = ConvertUtil.ExcelDecodeString(origStr);
+
+            Assert.AreEqual(origStr, decodedStr);
+
+            var encoded = ConvertUtil.ExcelEncodeString(origStr);
+
+            Assert.AreEqual(origStr, encoded);
+        }
     }
 }

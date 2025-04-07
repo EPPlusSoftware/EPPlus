@@ -505,6 +505,12 @@ namespace OfficeOpenXml.Utils
                     }
                 }
             }
+
+            if (ix > 0)
+            {
+                ret.Append(t.Substring(t.Length - ix, ix));
+            }
+
             return ret.ToString();
         }
 
