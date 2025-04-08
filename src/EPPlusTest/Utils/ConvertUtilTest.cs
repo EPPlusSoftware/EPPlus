@@ -34,6 +34,14 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml;
 using System.Xml;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Xml.Serialization;
+using System.Xml.Linq;
+using System.Collections.Generic;
+using System.Linq;
+using OfficeOpenXml.ConditionalFormatting;
 
 namespace EPPlusTest.Utils
 {
@@ -275,6 +283,118 @@ namespace EPPlusTest.Utils
             var encoded = ConvertUtil.ExcelEncodeString(origStr);
 
             Assert.AreEqual(origStr, encoded);
+        }
+
+        [TestMethod]
+        public void XmlSheetRead()
+        {
+            var aFile = GetTemplateFile("sheetWithSheetRef.xml");
+            var bFile = GetTemplateFile("sharedStringsEscaped.xml");
+
+            var doc2 = XDocument.Load(bFile.FullName);
+            var elements2 = doc2.Descendants().Where(x => x.Name.LocalName == "t").ToList();
+
+            foreach(var cellValue in elements2)
+            {
+                var strVal = cellValue.Value;
+                var theValue = XmlConvert.DecodeName(cellValue.Value);
+            }
+
+            var fileStrWithoutEncoding = File.ReadAllText(aFile.FullName);
+            var fileStr = File.ReadAllText(aFile.FullName,System.Text.Encoding.UTF8);
+
+            var testStr = "ExtSheet!$A$5&gt;_x005F_x002A_";
+
+            var sb = new StringBuilder();
+
+            var someWriter = XmlWriter.Create(sb);
+
+            var docNew = new XmlDocument().CreateCDataSection(testStr);
+            var somedATA = docNew.Data;
+            var someValue = docNew.Value;
+            var toString = docNew.Value.ToString();
+            docNew.WriteContentTo(someWriter);
+
+
+
+            var strinnnng = sb.ToString();
+
+            //byte[] someBytes = { 0x53, 0x68, 0x65, 0x65, 0x74, 0x32, 0x21, 0x24, 0x42, 0x24, 0x33 };
+            ////var encoder = Encoding.UTF8.GetEncoder();
+            ////encoder.
+
+            //XmlReader reader = new XmlReader(aFile.FullName);
+
+            var doc = XDocument.Load(aFile.FullName);
+
+            var elements = doc.Descendants().Where(x=> x.Name.LocalName == "f").ToList();
+
+            var val1 = elements[0].Value;
+            var val2 = elements[1].Value;
+
+            XElement el2 = XElement.Parse($"<root>{testStr}</root>");
+            var aValue = el2.Value;
+            var decoded = XmlConvert.DecodeName(aValue);
+
+            XElement el3 = XElement.Parse($"<root>{decoded}</root>");
+            var str = el3.ToString();
+            //XElement el = new XElement("node", testStr);
+
+            //var stringBuild = new StringBuilder();
+            //stringBuild.Append(testStr);
+
+            //XmlReader.Create((TextReader)stringBuild);
+
+            //var stringBuid = new StringBuilder();
+            //var writer = XmlWriter.Create(stringBuid);
+            //writer.WriteString(testStr);
+            //XmlConvert.ToString(testStr)
+
+            //var reader = XmlReader.Create(aFile.FullName);
+
+            //var serializer = new XmlSerializer(typeof(string));
+            //var aString = serializer.Deserialize(reader);
+
+            //var convertDecode = XmlConvert.DecodeName(testStr);
+            //var convertEncode = (XmlConvert.EncodeLocalName(convertDecode));
+
+            //XmlElement el = new XmlElement()
+            //XmlConvert.EncodeNmToken
+
+            //var webDecode = WebUtility.HtmlDecode(testStr);
+            //var webEncode = WebUtility.HtmlEncode(webDecode);
+
+            //var combined = WebUtility.HtmlEncode(convertDecode);
+        }
+
+        [TestMethod]
+        public void ConvertUtilShouldDecodeEncodeDoubleUnderscoresLowerCase()
+        {
+            var excelInternalEscaped = "_x005F_x005f__x005F_x002A_SomethingElse";
+            var excelDisplayValue = "_x005f__x002A_SomethingElse";
+
+            var decodedStr = ConvertUtil.ExcelDecodeString(excelInternalEscaped);
+
+            Assert.AreEqual(excelDisplayValue, decodedStr);
+
+            var encoded = ConvertUtil.ExcelEncodeString(excelDisplayValue);
+
+            Assert.AreEqual(excelInternalEscaped, encoded);
+        }
+
+        [TestMethod]
+        public void ConvertUtilShouldDecodeEncodeDoubleUnderscoresUpperCase()
+        {
+            var excelInternalEscaped = "_x005F_x005F__x005F_x002A_SomethingElse";
+            var excelDisplayValue = "_x005F__x002A_SomethingElse";
+
+            var decodedStr = ConvertUtil.ExcelDecodeString(excelInternalEscaped);
+
+            Assert.AreEqual(excelDisplayValue, decodedStr);
+
+            var encoded = ConvertUtil.ExcelEncodeString(excelDisplayValue);
+
+            Assert.AreEqual(excelInternalEscaped, encoded);
         }
     }
 }

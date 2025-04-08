@@ -27,6 +27,11 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
+
+using System.Xml.Linq;
+using System.Security;
+using System.Net;
+
 namespace OfficeOpenXml.Utils
 {
     internal static class ConvertUtil
@@ -414,9 +419,25 @@ namespace OfficeOpenXml.Utils
         /// <returns></returns>
         internal static void ExcelEncodeString(StringBuilder sb, string t, bool encodeTabLF=false)
         {
+            //var element = new XElement("", t);
+            //var str = (element.FirstNode as XText).Value;
+            //sb.Append(str);
+            //return;
+            //var encoded = HttpUtility.HtmlDecode(t);
+            //var webDecode = WebUtility.HtmlDecode(testStr);
+            //var webEncode = WebUtility.HtmlEncode(webDecode);
+
+            //XmlCharacterData data = new XmlCharacterData();
+
+#if !NET35
+            var encodeStr = WebUtility.HtmlEncode(t);
+
+             sb.Append(encodeStr);
+#else
+
             if (Regex.IsMatch(t, "(_x[0-9A-F]{4,4}_)"))
             {
-                var matches = Regex.Matches(t, "(_x[0-9A-F]{4,4})");
+                var matches = Regex.Matches(t, "(_x[0-9A-Fa-f]{4,4})");
                 int indexAdd = 0;
                 foreach(Match m in  matches) 
                 {
@@ -441,7 +462,7 @@ namespace OfficeOpenXml.Utils
                     sb.Append(t[i]);
                 }
             }
-
+#endif
         }
         internal static string ExcelEscapeAndEncodeString(string t, bool crLfEncode = true)
         {
@@ -467,24 +488,30 @@ namespace OfficeOpenXml.Utils
         internal static string ExcelDecodeString(string t)
         {
             if (string.IsNullOrEmpty(t)) return t;
-            var ret=new StringBuilder();
+            var ret = new StringBuilder();
+
+#if !NET35
+            var decoded = WebUtility.HtmlDecode(t);
+            return decoded;
+#else
+
             var ix = 0;
-            for(var i=0;i<t.Length;i++)
+            for (var i = 0; i < t.Length; i++)
             {
                 var c = t[i];
-                if(c=='\r')
+                if (c == '\r')
                 {
                     ret.Append('\n');
-                    if (i+1 < t.Length && t[i + 1]=='\n')
+                    if (i + 1 < t.Length && t[i + 1] == '\n')
                     {
                         i++;
                     }
                 }
                 else
                 {
-                    if(Matches(c, ref ix))
+                    if (Matches(c, ref ix))
                     {
-                        if(ix==7)
+                        if (ix == 7)
                         {
                             var encoded = t.Substring(i - 4, 4);
                             ret.Append((char)int.Parse(encoded, NumberStyles.AllowHexSpecifier));
@@ -493,10 +520,18 @@ namespace OfficeOpenXml.Utils
                     }
                     else
                     {
-                        if(ix>0)
+                        if (ix > 0)
                         {
-                            ret.Append(t.Substring(i - ix, ix+1));
-                            ix = 0;
+                            //If two underscores in a row the last one should count as potentially in matches
+                            if (c == '_' && ix == 1)
+                            {
+                                ret.Append(t.Substring(i - ix, ix));
+                            }
+                            else
+                            {
+                                ret.Append(t.Substring(i - ix, ix + 1));
+                                ix = 0;
+                            }
                         }
                         else
                         {
@@ -512,6 +547,7 @@ namespace OfficeOpenXml.Utils
             }
 
             return ret.ToString();
+#endif
         }
 
         private static bool Matches(char c, ref int ix)
@@ -580,7 +616,7 @@ namespace OfficeOpenXml.Utils
                 {
                     dt = (DateTime)returnDate;
                 }
-#if(NET8_0_OR_GREATER)
+#if (NET8_0_OR_GREATER)
                 else if (value is DateOnly dateOnly)
                 {
                     dt = dateOnly.ToDateTime(TimeOnly.MinValue);
@@ -597,7 +633,7 @@ namespace OfficeOpenXml.Utils
                         return (T)(object)DateOnly.FromDateTime((DateTime)value);
                     }
                 }
-#endif  
+#endif
                 if (dt != null)
                 {
                     return (T)(object)dt;
@@ -747,7 +783,7 @@ namespace OfficeOpenXml.Utils
                 date = dt;
                 return true;
             }
-            #if(NET6_0_OR_GREATER)
+#if (NET6_0_OR_GREATER)
             if(v is DateOnly dto)
             {
                 date = dto.ToDateTime(TimeOnly.MinValue);
