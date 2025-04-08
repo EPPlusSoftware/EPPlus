@@ -11,13 +11,10 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.IO;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -27,10 +24,6 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
-
-using System.Xml.Linq;
-using System.Security;
-using System.Net;
 
 namespace OfficeOpenXml.Utils
 {
@@ -382,9 +375,9 @@ namespace OfficeOpenXml.Utils
         /// <returns></returns>
         internal static void ExcelEncodeString(StreamWriter sw, string t)
         {
-            if (Regex.IsMatch(t, "(_x[0-9A-F]{4,4}_)"))
+            if (Regex.IsMatch(t, "(_x[0-9A-Fa-f]{4,4}_)"))
             {
-                var match = Regex.Match(t, "(_x[0-9A-F]{4,4}_)");
+                var match = Regex.Match(t, "(_x[0-9A-Fa-f]{4,4}_)");
                 int indexAdd = 0;
                 while (match.Success)
                 {
@@ -419,23 +412,7 @@ namespace OfficeOpenXml.Utils
         /// <returns></returns>
         internal static void ExcelEncodeString(StringBuilder sb, string t, bool encodeTabLF=false)
         {
-            //var element = new XElement("", t);
-            //var str = (element.FirstNode as XText).Value;
-            //sb.Append(str);
-            //return;
-            //var encoded = HttpUtility.HtmlDecode(t);
-            //var webDecode = WebUtility.HtmlDecode(testStr);
-            //var webEncode = WebUtility.HtmlEncode(webDecode);
-
-            //XmlCharacterData data = new XmlCharacterData();
-
-#if !NET35
-            var encodeStr = WebUtility.HtmlEncode(t);
-
-             sb.Append(encodeStr);
-#else
-
-            if (Regex.IsMatch(t, "(_x[0-9A-F]{4,4}_)"))
+            if (Regex.IsMatch(t, "(_x[0-9A-Fa-f]{4,4}_)"))
             {
                 var matches = Regex.Matches(t, "(_x[0-9A-Fa-f]{4,4})");
                 int indexAdd = 0;
@@ -462,7 +439,6 @@ namespace OfficeOpenXml.Utils
                     sb.Append(t[i]);
                 }
             }
-#endif
         }
         internal static string ExcelEscapeAndEncodeString(string t, bool crLfEncode = true)
         {
@@ -489,11 +465,6 @@ namespace OfficeOpenXml.Utils
         {
             if (string.IsNullOrEmpty(t)) return t;
             var ret = new StringBuilder();
-
-#if !NET35
-            var decoded = WebUtility.HtmlDecode(t);
-            return decoded;
-#else
 
             var ix = 0;
             for (var i = 0; i < t.Length; i++)
@@ -547,7 +518,6 @@ namespace OfficeOpenXml.Utils
             }
 
             return ret.ToString();
-#endif
         }
 
         private static bool Matches(char c, ref int ix)
