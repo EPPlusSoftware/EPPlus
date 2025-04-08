@@ -275,6 +275,8 @@ namespace OfficeOpenXml.Core
 
         private void CopyDataValidations()
         {
+
+
             foreach (var idv in _sourceRange._worksheet.DataValidations)
             {
                 if (idv is ExcelDataValidation dv)
@@ -282,13 +284,13 @@ namespace OfficeOpenXml.Core
                     string newAddress = "";
                     if (dv.Address.Addresses == null)
                     {
-                        newAddress = HandelAddress(dv.Address);
+                        newAddress = HandleAddress(dv.Address);
                     }
                     else
                     {
                         foreach (var a in dv.Address.Addresses)
                         {
-                            var na = HandelAddress(a);
+                            var na = HandleAddress(a);
                             if (!string.IsNullOrEmpty(na))
                             {
                                 if (string.IsNullOrEmpty(newAddress))
@@ -322,29 +324,32 @@ namespace OfficeOpenXml.Core
 
         private void CopyConditionalFormatting()
         {
-            foreach(var cf in _sourceRange._worksheet.ConditionalFormatting)
+            var cf_Range = _sourceRange.ConditionalFormatting;
+            var formattings = _sourceRange.ConditionalFormatting.GetConditionalFormattings();
+
+            foreach(var cf in formattings)
             {
                 string newAddress = "";
-                if (cf.Address.Addresses==null)
+                if (cf.Address.Addresses == null)
                 {
-                    newAddress = HandelAddress(cf.Address);
+                    newAddress = HandleAddress(cf.Address);
                 }
                 else
                 {
                     foreach (var a in cf.Address.Addresses)
                     {
-                        var na = HandelAddress(a);
-                        if(!string.IsNullOrEmpty(na))
+                        var na = HandleAddress(a);
+                        if (!string.IsNullOrEmpty(na))
                         {
-                            if(string.IsNullOrEmpty(newAddress))
+                            if (string.IsNullOrEmpty(newAddress))
                             {
                                 newAddress += na;
                             }
                             else
                             {
-                                newAddress += "," + na ;
+                                newAddress += "," + na;
                             }
-                            
+
                         }
                     }
                 }
@@ -368,7 +373,7 @@ namespace OfficeOpenXml.Core
             }
         }
 
-        private string HandelAddress(ExcelAddressBase inAddress)
+        private string HandleAddress(ExcelAddressBase inAddress)
         {
             if(EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHiddenCells))
             {

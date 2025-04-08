@@ -1255,5 +1255,84 @@ namespace EPPlusTest.DataValidation
                 Assert.IsTrue(v.ShowErrorMessage);
             }
         }
+
+        [TestMethod]
+        public void DataValidationsPerformance()
+        {
+            using (var p = OpenPackage("DataValidationPerformance.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("SomeWorksheet");
+                var destinationWs = wb.Worksheets.Add("SecondaryWs");
+
+                for (var i = 1; i < 10000; i++)
+                {
+                    for (int j = 1; j < 3; j++)
+                    {
+                        var dv = ws.Cells[i, j].DataValidation.AddIntegerDataValidation();
+
+                        dv.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+                        dv.PromptTitle = "Enter a integer value here";
+                        dv.Prompt = "Value must be greater than or equal to 2";
+                        dv.ShowInputMessage = true;
+                        dv.ErrorTitle = "An invalid value was entered";
+                        dv.Error = "Value must be greater than or equal to 2";
+                        dv.ShowErrorMessage = true;
+                        dv.Operator = ExcelDataValidationOperator.greaterThanOrEqual;
+                        dv.Formula.Value = 2;
+
+                        ws.Cells[i, j].Value = i + j;
+                    }
+                }
+
+                //ws.Cells["A1:B10"].DataValidation.ClearDataValidation(true);
+                //var decVal = ws.Cells["A1:B10"].DataValidation.AddDecimalDataValidation();
+                //decVal.PromptTitle = "Enter a decimal value here";
+                //decVal.Prompt = "Decimal Value must be greater than or equal to 2";
+
+                ws.Cells["A2:A4"].Formula = "A5";
+
+                ws.Cells["H1"].Formula = "A5";
+
+                ws.Columns.Range.TakeColumnsBetween(3, 10).IsEmpty();
+
+                //ws.Columns.Range.IsEmpty(from: 3, to: 20);
+                //ws.Rows[1].Range.IsEmpty();
+
+                var row = 5;
+                var from = 6;
+                var to = 8;
+                var count = to - from;
+
+                ws.Cells[row, from, row, to].IsEmpty();
+
+                ws.Columns[from].Range.TakeColumns(to - from).IsEmpty();
+
+                //var from = 2;
+                //var to = 5 - from;
+                ws.Rows.Range.TakeRowsBetween(from, to).IsEmpty();
+
+                ws.Calculate();
+                var formula = ws._sharedFormulas[0];
+                var formulatest = formula.GetFormula(2, 1);
+                //ws.Calculate();
+
+                //ws.InsertRow(5, 1);
+                //ws.Cells["A5"].Insert(eShiftTypeInsert.Right);
+
+                //var validation = (ExcelDataValidationInt)ws.DataValidations[ws.Cells["A5"].Address];
+                //validation.Address = ws.Cells["H4"];
+
+                var cells = ws.Cells["A1:B10010"];
+                foreach (var cell in cells)
+                {
+                    cell.Copy(ws.Cells[cell.Start.Row, cell.Start.Column + 2]);
+                }
+
+                //ws.Cells["A1:B10010"].Copy(ws.Cells["D1:F10010"]);
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
