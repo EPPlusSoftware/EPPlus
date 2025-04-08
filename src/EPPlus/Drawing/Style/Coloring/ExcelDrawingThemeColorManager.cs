@@ -144,7 +144,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
         /// </summary>
         public ExcelDrawingRgbColor RgbColor { get; private set; }
         /// <summary>
-        /// A rgb precentage color.
+        /// A rgb percentage color.
         /// This property has a value when Type is set to RgbPercentage
         /// </summary>
         public ExcelDrawingRgbPercentageColor RgbPercentageColor { get; private set; }
@@ -181,11 +181,11 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
             RgbColor = new ExcelDrawingRgbColor(_nameSpaceManager, _colorNode) { Color = color };
         }
         /// <summary>
-        /// Sets a rgb precentage color
+        /// Sets a rgb percentage color
         /// </summary>
         /// <param name="redPercentage">Red percentage</param>
         /// <param name="greenPercentage">Green percentage</param>
-        /// <param name="bluePercentage">Bluepercentage</param>
+        /// <param name="bluePercentage">Blue percentage</param>
         public void SetRgbPercentageColor(double redPercentage, double greenPercentage, double bluePercentage)
         {
             ColorType = eDrawingColorType.RgbPercentage;

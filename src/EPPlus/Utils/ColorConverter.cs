@@ -29,7 +29,8 @@ namespace OfficeOpenXml.Utils
         {
             if(cm!=null && cm.ColorType==eDrawingColorType.Scheme)
             {
-                var c= GetThemeColor(theme, (eThemeSchemeColor)cm.SchemeColor.Color);
+                var newCm=theme.ColorScheme.GetColorByEnum(cm.SchemeColor.Color);
+                var c = GetThemeColor(newCm);
                 return ApplyTransforms(c, cm.Transforms);
             }
             return GetThemeColor(cm);

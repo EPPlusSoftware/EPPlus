@@ -46,6 +46,45 @@ namespace OfficeOpenXml.Drawing.Theme
                 return _dk1;
             }
         }
+        internal ExcelDrawingThemeColorManager GetColorByEnum(eSchemeColor color)
+        {
+            switch (color)
+            {
+                case eSchemeColor.Accent1:
+                    return Accent1;
+                case eSchemeColor.Accent2:
+                    return Accent2;
+                case eSchemeColor.Accent3:
+                    return Accent3;
+                case eSchemeColor.Accent4:
+                    return Accent4;
+                case eSchemeColor.Accent5:
+                    return Accent5;
+                case eSchemeColor.Accent6:
+                    return Accent6;
+                case eSchemeColor.Background1:
+                    return Light1;
+                case eSchemeColor.Background2:
+                    return Light2;
+                case eSchemeColor.Text1:
+                    return Dark1;
+                case eSchemeColor.Text2:
+                    return Dark2;
+                case eSchemeColor.Hyperlink:
+                    return Hyperlink;
+                case eSchemeColor.FollowedHyperlink:
+                    return FollowedHyperlink;
+                case eSchemeColor.Light1:
+                    return Light1;
+                case eSchemeColor.Light2:
+                    return Light2;
+                case eSchemeColor.Dark1:
+                    return Dark1;
+                case eSchemeColor.Dark2:
+                    return Dark2;
+            }
+            throw (new ArgumentOutOfRangeException($"Type {color} is unhandled."));
+        }
 
         internal ExcelDrawingThemeColorManager GetColorByEnum(eThemeSchemeColor color)
         {
@@ -74,7 +113,7 @@ namespace OfficeOpenXml.Drawing.Theme
                 case eThemeSchemeColor.Hyperlink:
                     return Hyperlink;
                 case eThemeSchemeColor.FollowedHyperlink:
-                    return FollowedHyperlink;                
+                    return FollowedHyperlink;
             }
             throw(new ArgumentOutOfRangeException($"Type {color} is unhandled."));
         }
