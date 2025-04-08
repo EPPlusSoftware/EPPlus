@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,6 +105,28 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(10d, sheet.Cells["D6"].Value);
             Assert.AreEqual(15d, sheet.Cells["E6"].Value);
             Assert.AreEqual(21d, sheet.Cells["F6"].Value);
+        }
+
+        [TestMethod]
+        public void Scan_ShouldReturnCalcErrorWhenFirstArgIsRange()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = 1;
+            sheet.Cells["B1"].Value = 2;
+            sheet.Cells["C1"].Value = 3;
+            sheet.Cells["A2"].Value = 4;
+            sheet.Cells["B2"].Value = 5;
+            sheet.Cells["C2"].Value = 6;
+
+            sheet.Cells["D5"].Formula = "SCAN(H1:I1,A1:C2,LAMBDA(a,b,a + b))";
+
+            sheet.Calculate();
+
+            Assert.IsInstanceOfType(sheet.Cells["D5"].Value, typeof(ExcelErrorValue));
+            Assert.AreEqual(DataType.ExcelError, ((ExcelErrorValue)sheet.Cells["D5"].Value).AsCompileResult.DataType);
+            var str = sheet.Cells["D5"].Value.ToString();
+            Assert.AreEqual("#CALC!", str);
         }
     }
 }

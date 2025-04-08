@@ -327,6 +327,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["scan"] = new Scan();
             Functions["map"] = new Map();
             Functions["reduce"] = new Reduce();
+            Functions["bycol"] = new ByCol();
+            Functions["byrow"] = new ByRow();
             // Reference and lookup
             Functions["address"] = new Address();
             Functions["areas"] = new Areas();

@@ -27,12 +27,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     {
         public override int ArgumentMinLength => 2;
 
-        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var argIx = 0;
             object initialValue = null;
+            if (arguments[0].IsExcelRange)
+            {
+                return CompileResult.GetDynamicArrayResultError(eErrorType.Calc);
+            }
             initialValue = arguments[0].Value;
             var ivDataType = arguments[0].DataType;
             if (initialValue is ExcelErrorValue e) return CreateResult(e.Type);

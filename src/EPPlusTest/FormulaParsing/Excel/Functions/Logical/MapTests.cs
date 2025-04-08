@@ -125,5 +125,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["F7"].Value);
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["G7"].Value);
         }
+
+
+        //[TestMethod]
     }
 }

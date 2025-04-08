@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -93,6 +94,24 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     }
                     var tt = DataTypeToTokenType(dt, value);
                     if (tt == TokenType.Unrecognized) tt = TokenType.StringContent;
+                    if(value is IRangeInfo rng)
+                    {
+                        if(rng.IsInMemoryRange)
+                        {
+                            var imRng = rng as InMemoryRange;
+                            var tokens = imRng.SerializeToTokens();
+                            var preceedingTokens = _currentTokens.Take(ix);
+                            var trailingTokens = _currentTokens.Skip(ix + 1);
+                            _currentTokens = new List<Token>(preceedingTokens);
+                            _currentTokens.AddRange(tokens);
+                            _currentTokens.AddRange(trailingTokens);
+                            return;
+                        }
+                        else
+                        {
+                            value = rng.Address.Address;
+                        }
+                    }
                     var tokenValue = Convert.ToString(value, CultureInfo.CurrentCulture);
                     if(tt == TokenType.StringContent)
                     {
