@@ -96,6 +96,7 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         public void Remove(ExcelVmlDrawingPicture item)
         {
+            VmlDrawingXml.FirstChild.RemoveChild(item.TopNode);
             _images.Remove(item);
         }
         /// <summary>

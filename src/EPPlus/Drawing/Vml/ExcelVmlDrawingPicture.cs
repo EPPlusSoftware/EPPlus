@@ -29,6 +29,10 @@ namespace OfficeOpenXml.Drawing.Vml
             base(topNode, ns)
         {
             _worksheet = ws;
+            if (ImageUri != null)
+            {
+
+            }
         }
         /// <summary>
         /// Position ID
@@ -125,7 +129,8 @@ namespace OfficeOpenXml.Drawing.Vml
                     if (pck.PartExists(ImageUri))
                     {
                         var part = pck.GetPart(ImageUri);
-                        _image.SetImage(((MemoryStream)part.GetStream()).ToArray(), PictureStore.GetPictureType(ImageUri));
+                        var ms = ((MemoryStream)part.GetStream());
+                        _image = new ExcelImage(this);
                     }
                     else
                     {

@@ -241,7 +241,6 @@ namespace OfficeOpenXml
 
         public void RemoveImage(ExcelVmlDrawingPicture item)
         {
-            _ws.Workbook._package.PictureStore.RemoveImage(item.ImageUri.ToString(), null);
             _ws.HeaderFooter.Pictures.Remove(item);
         }
 

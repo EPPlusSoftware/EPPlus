@@ -1,5 +1,7 @@
 ﻿using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Vml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +17,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
 
         private List<HFText> _textCollection = new List<HFText>();
         private readonly int _defaultFontSize;
+        private ImageInfo _imageInfo = null;
 
         internal readonly PictureAlignment alignment;
         internal ExcelWorksheet _ws;
@@ -202,9 +205,9 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             var imgBytes = new byte[pictureStream.Length];
             pictureStream.Seek(0, SeekOrigin.Begin);
             var r = pictureStream.Read(imgBytes, 0, imgBytes.Length);
-            var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, null, pictureType);
+            _imageInfo = _ws.Workbook._package.PictureStore.AddImage(imgBytes, null, pictureType);
             var hft = InsertFormatCode(index, HFFormattingCodes.Image);
-            VmlDrawingPicutre = headerFooter.AddImage(id, ii);
+            VmlDrawingPicutre = headerFooter.AddImage(id, _imageInfo);
             return hft;
         }
         private HFText InsertFormatCode(int index, HFFormattingCodes formatCode)
@@ -220,26 +223,39 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
 
         public void Remove(HFText item)
         {
-            //check if image
+            if(item.FormatCode == HFFormattingCodes.Image)
+            {
+                RemoveImage();
+                return;
+            }
             _textCollection.Remove(item);
             ValidateTextLength();
         }
 
         public void RemoveAt(int index)
         {
-            //Check if image
+            if (_textCollection[index].FormatCode == HFFormattingCodes.Image)
+            {
+                RemoveImage();
+                return;
+            }
             _textCollection.RemoveAt(index);
             ValidateTextLength();
         }
 
-        internal void RemoveImage()
+        public void RemoveImage()
         {
             headerFooter.RemoveImage(VmlDrawingPicutre);
             VmlDrawingPicutre = null;
-            //remoge hftext element from list
-            //remove from ExcelVmlDrawingsCollection
-            //remove from pictureStore
-
+            _ws.Workbook._package.PictureStore.RemoveReference(_imageInfo.Uri);
+            foreach (HFText hft in _textCollection)
+            {
+                if (hft.FormatCode == HFFormattingCodes.Image)
+                {
+                    _textCollection.Remove(hft);
+                    break;
+                }
+            }
         }
 
         public void Clear()
@@ -377,7 +393,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                                 if(v.Id == alignment.ToString()[0] + headerFooter.HeaderFooterAlignment)
                                 {
                                     VmlDrawingPicutre = v;
-                                    //Add to picture store/hash or whatever...
+                                    _imageInfo = _ws.Workbook._package.PictureStore.LoadImage(v.Image.ImageBytes, v.ImageUri, _ws._package.ZipPackage.GetPart(v.ImageUri)); //remove this line or something when picstore works
                                 }
                             }
                             writeFormatCode = true;
