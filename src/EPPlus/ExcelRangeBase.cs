@@ -1301,7 +1301,7 @@ namespace OfficeOpenXml
             {
                 if (cells.Value._value == null)
                 {
-                    if (formula && this.Worksheet.Cells[cells.CellAddress].Formula != null) return false;
+                    if (formula && !string.IsNullOrEmpty(this.Worksheet.Cells[cells.CellAddress].Formula)) return false;
                     if (comment && this.Worksheet.Cells[cells.CellAddress].Comment != null) return false;
                     if (threadedComment && this.Worksheet.Cells[cells.CellAddress].ThreadedComment != null) return false;
                     continue;

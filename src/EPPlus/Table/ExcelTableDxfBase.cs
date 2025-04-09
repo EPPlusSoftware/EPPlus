@@ -287,7 +287,7 @@ namespace OfficeOpenXml.Table
                     color.SetColor((ExcelIndexedColor)value);
                     break;
                 case eStyleProperty.Tint:
-                    color.Tint = (decimal)value;
+                    color.Tint = (double)value;
                     break;
             }
         }

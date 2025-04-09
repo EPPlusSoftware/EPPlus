@@ -37,7 +37,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPrinterSettings
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftMargin
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -96,11 +96,11 @@ items:
   summary: "\nLeft margin in inches\n"
   example: []
   syntax:
-    content: public decimal LeftMargin { get; set; }
+    content: public double LeftMargin { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property LeftMargin As Decimal
+      type: System.Double
+    content.vb: Public Property LeftMargin As Double
   overload: OfficeOpenXml.ExcelPrinterSettings.LeftMargin*
   modifiers.csharp:
   - public
@@ -122,7 +122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightMargin
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -133,11 +133,11 @@ items:
   summary: "\nRight margin in inches\n"
   example: []
   syntax:
-    content: public decimal RightMargin { get; set; }
+    content: public double RightMargin { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property RightMargin As Decimal
+      type: System.Double
+    content.vb: Public Property RightMargin As Double
   overload: OfficeOpenXml.ExcelPrinterSettings.RightMargin*
   modifiers.csharp:
   - public
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopMargin
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -170,11 +170,11 @@ items:
   summary: "\nTop margin in inches\n"
   example: []
   syntax:
-    content: public decimal TopMargin { get; set; }
+    content: public double TopMargin { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property TopMargin As Decimal
+      type: System.Double
+    content.vb: Public Property TopMargin As Double
   overload: OfficeOpenXml.ExcelPrinterSettings.TopMargin*
   modifiers.csharp:
   - public
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomMargin
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -207,11 +207,11 @@ items:
   summary: "\nBottom margin in inches\n"
   example: []
   syntax:
-    content: public decimal BottomMargin { get; set; }
+    content: public double BottomMargin { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property BottomMargin As Decimal
+      type: System.Double
+    content.vb: Public Property BottomMargin As Double
   overload: OfficeOpenXml.ExcelPrinterSettings.BottomMargin*
   modifiers.csharp:
   - public
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderMargin
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -244,11 +244,11 @@ items:
   summary: "\nHeader margin in inches\n"
   example: []
   syntax:
-    content: public decimal HeaderMargin { get; set; }
+    content: public double HeaderMargin { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property HeaderMargin As Decimal
+      type: System.Double
+    content.vb: Public Property HeaderMargin As Double
   overload: OfficeOpenXml.ExcelPrinterSettings.HeaderMargin*
   modifiers.csharp:
   - public
@@ -270,7 +270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FooterMargin
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -281,11 +281,11 @@ items:
   summary: "\nFooter margin in inches\n"
   example: []
   syntax:
-    content: public decimal FooterMargin { get; set; }
+    content: public double FooterMargin { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property FooterMargin As Decimal
+      type: System.Double
+    content.vb: Public Property FooterMargin As Double
   overload: OfficeOpenXml.ExcelPrinterSettings.FooterMargin*
   modifiers.csharp:
   - public
@@ -307,7 +307,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Orientation
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -344,7 +344,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FitToWidth
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -381,7 +381,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FitToHeight
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -418,7 +418,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Scale
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -455,7 +455,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FitToPage
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -492,7 +492,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowHeaders
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -529,7 +529,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RepeatRows
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -566,7 +566,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RepeatColumns
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -603,7 +603,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrintArea
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -640,7 +640,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowGridLines
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -677,7 +677,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalCentered
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -714,7 +714,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalCentered
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -751,7 +751,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageOrder
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -788,7 +788,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BlackAndWhite
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -825,7 +825,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Draft
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -862,7 +862,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PaperSize
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1194,13 +1194,13 @@ references:
   name: LeftMargin
   nameWithType: ExcelPrinterSettings.LeftMargin
   fullName: OfficeOpenXml.ExcelPrinterSettings.LeftMargin
-- uid: System.Decimal
-  commentId: T:System.Decimal
+- uid: System.Double
+  commentId: T:System.Double
   parent: System
   isExternal: true
-  name: Decimal
-  nameWithType: Decimal
-  fullName: System.Decimal
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
 - uid: OfficeOpenXml.ExcelPrinterSettings.RightMargin*
   commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.RightMargin
   name: RightMargin

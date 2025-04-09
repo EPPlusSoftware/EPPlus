@@ -19,6 +19,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Utils.TypeConversion;
 using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
@@ -29,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "4",
         Description = "Adds the cells in a supplied range, that satisfy a given criteria")]
-    internal class SumIf : HiddenValuesHandlingFunction
+    internal class SumIf : RangeCriteriaFunction
     {
         private ExpressionEvaluator _evaluator;
         public override int ArgumentMinLength => 2;
@@ -40,7 +41,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             config.SetArrayParameterIndexes(1);
         }
-
+        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+        {
+            if(index == 2)
+            {
+                if (args[0].Result is IRangeInfo rangeInfo)
+                {
+                    var rv = new RangeOrValue { Range = rangeInfo };
+                    var  mi=GetMatchIndexes(rv, args[1].Result, null);
+                    addresses = EnqueueMatchingAddresses(args[2].Address, mi);
+                }
+            }
+        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             _evaluator = new ExpressionEvaluator(context);
@@ -80,14 +92,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         internal static IEnumerable<string> GetCriteria(FunctionArgument criteriaArg)
         {
             var criteria = new List<string>();
-            //if (criteriaArg.IsEnumerableOfFuncArgs)
-            //{
-            //    foreach (var arg in criteriaArg.ValueAsEnumerableOfFuncArgs)
-            //    {
-            //        criteria.Add(arg.ValueFirstString);
-            //    }
-            //}
-            //else if (criteriaArg.IsExcelRange)
+
             if (criteriaArg.IsExcelRange)
             {
                 foreach (var cell in criteriaArg.ValueAsRangeInfo)
@@ -134,7 +139,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             KahanSum retVal = 0d;
             foreach (var candidate in range)
             {
-                if (IsNumeric(candidate.Value) && _evaluator.Evaluate(candidate.Value, expressions) && IsNumeric(candidate.Value))
+                if (IsNumeric(candidate.Value) && _evaluator.Evaluate(candidate.Value, expressions))
                 {
                     if (candidate.IsExcelError)
                     {
@@ -150,6 +155,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (argumentIndex == 1)
             {
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
+            }
+            else if(argumentIndex == 2)
+            {
+                return FunctionParameterInformation.AdjustParameterAddress;
             }
             return FunctionParameterInformation.Normal;
         }));

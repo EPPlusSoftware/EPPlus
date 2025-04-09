@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDrawingType
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Drawing
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Shape
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Picture
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Chart
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Slicer
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Control
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GroupShape
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OleObject
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs

@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.EPPlusLicenseStatus
+  commentId: T:OfficeOpenXml.EPPlusLicenseStatus
+  id: EPPlusLicenseStatus
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.EPPlusLicenseStatus.Expired
+  - OfficeOpenXml.EPPlusLicenseStatus.InvalidLicenseKey
+  - OfficeOpenXml.EPPlusLicenseStatus.NotValidForThisVersion
+  - OfficeOpenXml.EPPlusLicenseStatus.Valid
+  langs:
+  - csharp
+  - vb
+  name: EPPlusLicenseStatus
+  nameWithType: EPPlusLicenseStatus
+  fullName: OfficeOpenXml.EPPlusLicenseStatus
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseStatus.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EPPlusLicenseStatus
+    path: ../src/EPPlus/EPPlusLicenseStatus.cs
+    startLine: 5
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nStatus of a commercial license\n"
+  example: []
+  syntax:
+    content: public enum EPPlusLicenseStatus
+    content.vb: Public Enum EPPlusLicenseStatus
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.EPPlusLicenseStatus.Valid
+  commentId: F:OfficeOpenXml.EPPlusLicenseStatus.Valid
+  id: Valid
+  parent: OfficeOpenXml.EPPlusLicenseStatus
+  langs:
+  - csharp
+  - vb
+  name: Valid
+  nameWithType: EPPlusLicenseStatus.Valid
+  fullName: OfficeOpenXml.EPPlusLicenseStatus.Valid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseStatus.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Valid
+    path: ../src/EPPlus/EPPlusLicenseStatus.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe license key is valid for this version.\n"
+  example: []
+  syntax:
+    content: Valid = 0
+    return:
+      type: OfficeOpenXml.EPPlusLicenseStatus
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusLicenseStatus.InvalidLicenseKey
+  commentId: F:OfficeOpenXml.EPPlusLicenseStatus.InvalidLicenseKey
+  id: InvalidLicenseKey
+  parent: OfficeOpenXml.EPPlusLicenseStatus
+  langs:
+  - csharp
+  - vb
+  name: InvalidLicenseKey
+  nameWithType: EPPlusLicenseStatus.InvalidLicenseKey
+  fullName: OfficeOpenXml.EPPlusLicenseStatus.InvalidLicenseKey
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseStatus.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InvalidLicenseKey
+    path: ../src/EPPlus/EPPlusLicenseStatus.cs
+    startLine: 14
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe license key is invalid.\n"
+  example: []
+  syntax:
+    content: InvalidLicenseKey = 1
+    return:
+      type: OfficeOpenXml.EPPlusLicenseStatus
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusLicenseStatus.Expired
+  commentId: F:OfficeOpenXml.EPPlusLicenseStatus.Expired
+  id: Expired
+  parent: OfficeOpenXml.EPPlusLicenseStatus
+  langs:
+  - csharp
+  - vb
+  name: Expired
+  nameWithType: EPPlusLicenseStatus.Expired
+  fullName: OfficeOpenXml.EPPlusLicenseStatus.Expired
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseStatus.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Expired
+    path: ../src/EPPlus/EPPlusLicenseStatus.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe subscription license has expired.\n"
+  example: []
+  syntax:
+    content: Expired = 2
+    return:
+      type: OfficeOpenXml.EPPlusLicenseStatus
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusLicenseStatus.NotValidForThisVersion
+  commentId: F:OfficeOpenXml.EPPlusLicenseStatus.NotValidForThisVersion
+  id: NotValidForThisVersion
+  parent: OfficeOpenXml.EPPlusLicenseStatus
+  langs:
+  - csharp
+  - vb
+  name: NotValidForThisVersion
+  nameWithType: EPPlusLicenseStatus.NotValidForThisVersion
+  fullName: OfficeOpenXml.EPPlusLicenseStatus.NotValidForThisVersion
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseStatus.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NotValidForThisVersion
+    path: ../src/EPPlus/EPPlusLicenseStatus.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe perpetual license is valid, but requires a renewal for this version.\n"
+  example: []
+  syntax:
+    content: NotValidForThisVersion = 3
+    return:
+      type: OfficeOpenXml.EPPlusLicenseStatus
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.EPPlusLicenseStatus
+  commentId: T:OfficeOpenXml.EPPlusLicenseStatus
+  parent: OfficeOpenXml
+  name: EPPlusLicenseStatus
+  nameWithType: EPPlusLicenseStatus
+  fullName: OfficeOpenXml.EPPlusLicenseStatus

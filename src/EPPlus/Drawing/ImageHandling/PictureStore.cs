@@ -152,15 +152,16 @@ namespace OfficeOpenXml.Drawing
                             SaveImageToPart(image, imagePart);
                         }
                     }
-                    _images.Add(hash,
-                        new ImageInfo()
-                        {
-                            Uri = uri,
-                            RefCount = 1,
-                            Hash = hash,
-                            Part = imagePart,
-                            Bounds = GetImageBounds(image, pictureType.Value, _pck)
-                        });
+                    var retVal = new ImageInfo()
+                    {
+                        Uri = uri,
+                        RefCount = 1,
+                        Hash = hash,
+                        Part = imagePart,
+                        Bounds = GetImageBounds(image, pictureType.Value, _pck)
+                    };
+                    _uriToHashIndex[uri.OriginalString] = hash;
+                    _images.Add(hash, retVal);
                 }
             }
             return _images[hash];
@@ -243,6 +244,14 @@ namespace OfficeOpenXml.Drawing
                         
                 }
             }
+        }
+
+        internal void AddReference(Uri imageUri, byte[] imageBytes)
+        {
+            var hash = GetImageHash(imageBytes);
+            var imgInfo = GetImageInfoByHash(hash);
+            imgInfo.RefCount++;
+            _uriToHashIndex[imageUri.OriginalString] = hash;
         }
 
         internal void RemoveReference(Uri imageUri)

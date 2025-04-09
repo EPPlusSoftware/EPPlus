@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using OfficeOpenXml.Drawing;
 using System.Linq;
+using System.IO;
 
 namespace EPPlusTest.Drawing
 {
@@ -546,6 +547,97 @@ namespace EPPlusTest.Drawing
         }
 
         [TestMethod]
+        public void CopyImagesBetweenTwo_UnsavedWorkbooks_NamedRanges_Multiple_Worksheets()
+        {
+            string sheetName = "AWs";
+            string rangeName = "SomeName";
+            string rangeAddress = "A1:G9";
+            string wbName = "CopyPicture_mult_NamedRanges";
+
+            using (var src = OpenPackage($"{wbName}1.xlsx", true))
+            {
+                var wbFirst = src.Workbook;
+                var wsFirst = wbFirst.Worksheets.Add(sheetName);
+
+                var wsFirst2 = wbFirst.Worksheets.Add("2" + sheetName);
+                var wsFirst3 = wbFirst.Worksheets.Add("3" + sheetName);
+
+                var pic1 = wsFirst.Drawings.AddPicture("epplusPicture", GetResourceFile("EPPlus.png"));
+                var pic2 = wsFirst2.Drawings.AddPicture("epplusPicture", GetResourceFile("EPPlus.png"));
+                var pic3 = wsFirst3.Drawings.AddPicture("epplusPicture", GetResourceFile("EPPlus.png"));
+
+                wsFirst.Names.AddName(rangeName, wsFirst.Cells[rangeAddress]);
+                wsFirst2.Names.AddName(rangeName, wsFirst2.Cells[rangeAddress]);
+                wsFirst3.Names.AddName(rangeName, wsFirst3.Cells[rangeAddress]);
+
+                using (var target = OpenPackage($"{wbName}Target.xlsx", true))
+                {
+                    var wbSecond = target.Workbook;
+                    var wsSecond = wbSecond.Worksheets.Add(sheetName);
+                    var wsSecond2 = wbSecond.Worksheets.Add("2" + sheetName);
+                    var wsSecond3 = wbSecond.Worksheets.Add("3" + sheetName);
+
+                    wsSecond.Names.AddName(rangeName, wsSecond.Cells[rangeAddress]);
+                    wsSecond2.Names.AddName(rangeName, wsSecond2.Cells[rangeAddress]);
+                    wsSecond3.Names.AddName(rangeName, wsSecond3.Cells[rangeAddress]);
+
+                    CopyImagesBetweenWorkbooks(src, target, sheetName, rangeName);
+                    CopyImagesBetweenWorkbooks(src, target, "2" + sheetName, rangeName);
+                    CopyImagesBetweenWorkbooks(src, target, "3" + sheetName, rangeName);
+
+                    //ensure "normal" copying works
+                    Assert.AreEqual(1, wsSecond.Drawings.Count);
+                    Assert.AreEqual("epplusPicture", wsSecond.Drawings[0].Name);
+
+                    var pic2Target = wsSecond.Drawings.AddPicture("screenshotPicture", GetResourceFile("screenshot.PNG"));
+                    var pic2Target2 = wsSecond2.Drawings.AddPicture("screenshotPicture", GetResourceFile("screenshot.PNG"));
+                    var pic2Target3 = wsSecond3.Drawings.AddPicture("screenshotPicture", GetResourceFile("screenshot.PNG"));
+
+                    Assert.AreEqual(2, wsSecond.Drawings.Count);
+                    Assert.AreEqual("epplusPicture", wsSecond.Drawings[0].Name);
+                    Assert.AreEqual("screenshotPicture", wsSecond.Drawings[1].Name);
+
+                    CopyImagesBetweenWorkbooks(target, src, sheetName, rangeName);
+                    CopyImagesBetweenWorkbooks(target, src, "2" + sheetName, rangeName);
+                    CopyImagesBetweenWorkbooks(target, src, "3" + sheetName, rangeName);
+
+                    //Ensure nothing's changed in the workbook we are copying FROM when copying back
+                    for(int i = 0; i< 3; i++)
+                    {
+                        Assert.AreEqual(2, wbSecond.Worksheets[i].Drawings.Count);
+                        Assert.AreEqual("epplusPicture", wbSecond.Worksheets[i].Drawings[0].Name);
+                        Assert.AreEqual("screenshotPicture", wbSecond.Worksheets[i].Drawings[1].Name);
+                    }
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        //Copies the copy therefore 3
+                        Assert.AreEqual(3, wbFirst.Worksheets[i].Drawings.Count);
+                        Assert.AreEqual("epplusPicture", wbFirst.Worksheets[i].Drawings[0].Name);
+                        Assert.AreEqual("epplusPicture1", wbFirst.Worksheets[i].Drawings[1].Name);
+                        Assert.AreEqual("screenshotPicture", wbFirst.Worksheets[i].Drawings[2].Name);
+                    }
+
+                    //Check that we don't create new rels as image already exists in target
+                    Assert.AreEqual(2, wsFirst.Drawings.Part._rels.Count);
+                    Assert.AreEqual(2, wsSecond.Drawings.Part._rels.Count);
+
+                    //Ensure no missmatch of ids
+                    var relIdOriginal = wsFirst.Drawings[0].As.Picture.GetRelId();
+                    var relIdCopiedBack = wsFirst.Drawings[1].As.Picture.GetRelId();
+
+                    Assert.AreEqual(relIdOriginal, relIdCopiedBack);
+                    Assert.AreEqual("rId1", relIdOriginal);
+                    Assert.AreEqual("rId1", wsFirst.Drawings[1].As.Picture.GetRelId());
+                    Assert.AreEqual("rId2", wsFirst.Drawings[2].As.Picture.GetRelId());
+
+                    SaveAndCleanup(target);
+                }
+                SaveAndCleanup(src);
+            }
+        }
+
+        [TestMethod]
         public void CopyImagesBetweenTwo_Saved_Workbooks_NamedRanges()
         {
             string sheetName = "AWs";
@@ -666,6 +758,46 @@ namespace EPPlusTest.Drawing
             range.Copy(targetRange);
 
             target.Workbook.Worksheets.Delete(tmpWs);
+        }
+
+
+        [TestMethod]
+        public void s814CopySameImageTwiceToEmptyNamedRanges()
+        {
+            string targetPath = "s814Target.xlsx";
+            string namedRange = "Scratchpad";
+
+            using (var templatePackage = OpenTemplatePackage("s814Template.xlsx"))
+            {
+                var output = GetOutputFile("", targetPath);
+                var outputPath = GetOutputFile("", targetPath).FullName;
+
+                if (output.Exists)
+                {
+                    output.Delete();
+                }
+  
+                templatePackage.SaveAs(outputPath);
+            }
+
+            using (var sourcePackage = OpenTemplatePackage("s814Original.xlsx"))
+            using (var targetPackage = OpenPackage(targetPath))
+            {
+                for (int i = 0; i < 2 && i < sourcePackage.Workbook.Worksheets.Count; i++)
+                {
+                    var sourceWorksheet = sourcePackage.Workbook.Worksheets[i];
+
+                    Console.WriteLine($"Copying named range {namedRange} is source {sourceWorksheet.Name} to target workbook");
+
+                    var range = sourceWorksheet.Names[namedRange];
+                    var targetWorksheet = targetPackage.Workbook.Worksheets[sourceWorksheet.Name];
+                    var targetRange = targetWorksheet.Names[namedRange];
+
+                    range.Copy(targetRange);
+                }
+
+                SaveAndCleanup(targetPackage);
+            }
         }
     }
 }

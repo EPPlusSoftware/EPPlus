@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/25/2020         EPPlus Software AB       Implemented function
  *************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -108,7 +109,9 @@ After:
         /// <returns></returns>
         protected double RoundResult(double number, int sign)
         {
-            return RoundingHelper.RoundToSignificantFig(number, sign, false);
+            //return RoundingHelper.RoundToSignificantFig(number, sign, false);
+            var mult = Math.Pow(10, sign);
+            return Math.Truncate((number * mult)) / mult;
         }
     }
 }

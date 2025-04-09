@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml.FormulaParsing
   children:
   - OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted(System.Int32)
   - OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
   - OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32)
   - OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
@@ -27,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IRangeInfo
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -70,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -105,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMulti
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -140,7 +141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRef
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -175,7 +176,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsInMemoryRange
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -210,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -241,7 +242,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -276,7 +277,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -284,7 +285,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nGet the value from a cell\n"
+  summary: "\nGet the value from a cell               \n"
   example: []
   syntax:
     content: object GetValue(int row, int col)
@@ -314,7 +315,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -352,7 +353,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -396,7 +397,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -434,7 +435,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -469,7 +470,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dimension
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -477,7 +478,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nThe worksheet dimension if the range referres to an worksheet address, otherwise the size of the array.\n"
+  summary: "\nThe worksheet dimension if the range refers to an worksheet address, otherwise the size of the array.\n"
   example: []
   syntax:
     content: FormulaRangeAddress Dimension { get; }
@@ -490,6 +491,41 @@ items:
   - get
   modifiers.vb:
   - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted(System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted(System.Int32)
+  id: GetAddressDimensionAdjusted(System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  langs:
+  - csharp
+  - vb
+  name: GetAddressDimensionAdjusted(Int32)
+  nameWithType: IRangeInfo.GetAddressDimensionAdjusted(Int32)
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/IRangeInfo.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAddressDimensionAdjusted
+    path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nGet the address adjusted inside the dimension of the worksheet.\n"
+  example: []
+  syntax:
+    content: FormulaRangeAddress GetAddressDimensionAdjusted(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the address.
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+      description: The address adjusted within the dimension of the worksheet.
+    content.vb: Function GetAddressDimensionAdjusted(index As Integer) As FormulaRangeAddress
+  overload: OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted*
 references:
 - uid: OfficeOpenXml.FormulaParsing
   commentId: N:OfficeOpenXml.FormulaParsing
@@ -998,3 +1034,8 @@ references:
   name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted
+  name: GetAddressDimensionAdjusted
+  nameWithType: IRangeInfo.GetAddressDimensionAdjusted
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted

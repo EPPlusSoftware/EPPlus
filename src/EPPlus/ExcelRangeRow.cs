@@ -367,7 +367,7 @@ namespace OfficeOpenXml
         //Neccesary for if column indicies are changed during iteration
         ColumnIndex<ExcelValue> firstColIndex;
 
-        int cellStoreVersionNr;
+        //int cellStoreVersionNr;
 
         bool MoveNextRow()
         {

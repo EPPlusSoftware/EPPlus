@@ -462,7 +462,7 @@ namespace OfficeOpenXml
                 _zipPackage.Close();
                 if (_stream is MemoryStream && _stream.Length > 0)
                 {
-                    _stream.Close();
+                    CloseStream();
 #if Standard21
                     await _stream.DisposeAsync();
 #else
@@ -488,7 +488,7 @@ namespace OfficeOpenXml
             }
 
             Stream.Seek(pos, SeekOrigin.Begin);
-            Stream.Close();
+            CloseStream();
             return byRet;
         }
 

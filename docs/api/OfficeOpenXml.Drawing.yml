@@ -70,7 +70,7 @@ items:
   - OfficeOpenXml.Drawing.ExcelGroupShape
   - OfficeOpenXml.Drawing.ExcelImage
   - OfficeOpenXml.Drawing.ExcelImageInfo
-  - OfficeOpenXml.Drawing.ExcelOleObjectAsType
+  - OfficeOpenXml.Drawing.ExcelImageReadOnly
   - OfficeOpenXml.Drawing.ExcelPicture
   - OfficeOpenXml.Drawing.ExcelPosition
   - OfficeOpenXml.Drawing.ExcelShape
@@ -483,18 +483,18 @@ references:
   name: ExcelImage
   nameWithType: ExcelImage
   fullName: OfficeOpenXml.Drawing.ExcelImage
+- uid: OfficeOpenXml.Drawing.ExcelImageReadOnly
+  commentId: T:OfficeOpenXml.Drawing.ExcelImageReadOnly
+  parent: OfficeOpenXml.Drawing
+  name: ExcelImageReadOnly
+  nameWithType: ExcelImageReadOnly
+  fullName: OfficeOpenXml.Drawing.ExcelImageReadOnly
 - uid: OfficeOpenXml.Drawing.ExcelImageInfo
   commentId: T:OfficeOpenXml.Drawing.ExcelImageInfo
   parent: OfficeOpenXml.Drawing
   name: ExcelImageInfo
   nameWithType: ExcelImageInfo
   fullName: OfficeOpenXml.Drawing.ExcelImageInfo
-- uid: OfficeOpenXml.Drawing.ExcelOleObjectAsType
-  commentId: T:OfficeOpenXml.Drawing.ExcelOleObjectAsType
-  parent: OfficeOpenXml.Drawing
-  name: ExcelOleObjectAsType
-  nameWithType: ExcelOleObjectAsType
-  fullName: OfficeOpenXml.Drawing.ExcelOleObjectAsType
 - uid: OfficeOpenXml.Drawing.ExcelPicture
   commentId: T:OfficeOpenXml.Drawing.ExcelPicture
   parent: OfficeOpenXml.Drawing

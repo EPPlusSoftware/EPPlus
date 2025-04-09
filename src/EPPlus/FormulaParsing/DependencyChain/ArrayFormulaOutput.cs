@@ -102,14 +102,14 @@ namespace OfficeOpenXml.FormulaParsing
                 if (f._arrayIndex == -1)
                 {
                     f._ws.Cells[startRow, startCol, startRow, startCol].CreateArrayFormula(f._formula);
-                    ws.SetValueInner(startRow, startCol, new ExcelRichDataErrorValue(rowOff, colOff));
+                    ws.SetValueInner(startRow, startCol, new ExcelSpillErrorValue(rowOff, colOff));
                     return null;
                 }
                 else
                 {
                     var sf = ws._sharedFormulas[f._arrayIndex];
                     CleanupSharedFormulaValues(f, ws, sf, startRow, startCol);
-                    ws.SetValueInner(startRow, startCol, new ExcelRichDataErrorValue(rowOff, colOff));
+                    ws.SetValueInner(startRow, startCol, new ExcelSpillErrorValue(rowOff, colOff));
                     return new SimpleAddress[] { new SimpleAddress(startRow, startCol, sf.EndRow, sf.EndCol) };
                 }
             }

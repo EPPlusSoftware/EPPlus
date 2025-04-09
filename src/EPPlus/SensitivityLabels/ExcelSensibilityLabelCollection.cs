@@ -36,7 +36,7 @@ namespace OfficeOpenXml.SensitivityLabels
     public class ExcelSensibilityLabelCollection
     {
         ExcelPackage _pck;
-        XmlHelper _xmlHelper;
+        //XmlHelper _xmlHelper;
         XmlNamespaceManager _nsm;
         internal ExcelSensibilityLabelCollection(ExcelPackage pck)
         {

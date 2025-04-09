@@ -6,7 +6,7 @@ items:
   parent: OfficeOpenXml.DataValidation
   children:
   - OfficeOpenXml.DataValidation.ExcelTime.#ctor
-  - OfficeOpenXml.DataValidation.ExcelTime.#ctor(System.Decimal)
+  - OfficeOpenXml.DataValidation.ExcelTime.#ctor(System.Double)
   - OfficeOpenXml.DataValidation.ExcelTime.Hour
   - OfficeOpenXml.DataValidation.ExcelTime.Minute
   - OfficeOpenXml.DataValidation.ExcelTime.NumberOfDecimals
@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTime
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfDecimals
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -119,21 +119,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.DataValidation.ExcelTime.#ctor(System.Decimal)
-  commentId: M:OfficeOpenXml.DataValidation.ExcelTime.#ctor(System.Decimal)
-  id: '#ctor(System.Decimal)'
+- uid: OfficeOpenXml.DataValidation.ExcelTime.#ctor(System.Double)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelTime.#ctor(System.Double)
+  id: '#ctor(System.Double)'
   parent: OfficeOpenXml.DataValidation.ExcelTime
   langs:
   - csharp
   - vb
-  name: ExcelTime(Decimal)
-  nameWithType: ExcelTime.ExcelTime(Decimal)
-  fullName: OfficeOpenXml.DataValidation.ExcelTime.ExcelTime(System.Decimal)
+  name: ExcelTime(Double)
+  nameWithType: ExcelTime.ExcelTime(Double)
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.ExcelTime(System.Double)
   type: Constructor
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -144,12 +144,12 @@ items:
   summary: "\nConstructor\n"
   example: []
   syntax:
-    content: public ExcelTime(decimal value)
+    content: public ExcelTime(double value)
     parameters:
     - id: value
-      type: System.Decimal
+      type: System.Double
       description: An existing time for initialization
-    content.vb: Public Sub New(value As Decimal)
+    content.vb: Public Sub New(value As Double)
   overload: OfficeOpenXml.DataValidation.ExcelTime.#ctor*
   modifiers.csharp:
   - public
@@ -169,7 +169,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hour
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -206,7 +206,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Minute
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -243,7 +243,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Second
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -280,7 +280,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToExcelTime
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -291,11 +291,11 @@ items:
   summary: "\nReturns the excel decimal representation of a time.\n"
   example: []
   syntax:
-    content: public decimal ToExcelTime()
+    content: public double ToExcelTime()
     return:
-      type: System.Decimal
+      type: System.Double
       description: ''
-    content.vb: Public Function ToExcelTime As Decimal
+    content.vb: Public Function ToExcelTime As Double
   overload: OfficeOpenXml.DataValidation.ExcelTime.ToExcelTime*
   modifiers.csharp:
   - public
@@ -315,7 +315,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToExcelString
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -350,7 +350,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -653,13 +653,13 @@ references:
   name: ExcelTime
   nameWithType: ExcelTime.ExcelTime
   fullName: OfficeOpenXml.DataValidation.ExcelTime.ExcelTime
-- uid: System.Decimal
-  commentId: T:System.Decimal
+- uid: System.Double
+  commentId: T:System.Double
   parent: System
   isExternal: true
-  name: Decimal
-  nameWithType: Decimal
-  fullName: System.Decimal
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
 - uid: OfficeOpenXml.DataValidation.ExcelTime.Hour*
   commentId: Overload:OfficeOpenXml.DataValidation.ExcelTime.Hour
   name: Hour

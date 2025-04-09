@@ -21,6 +21,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.FileUtils;
@@ -423,7 +424,7 @@ namespace OfficeOpenXml.Drawing
                     {
                         ((ExcelControl)this).SetCellAnchor(value);
                     }
-                    else if(DrawingType==eDrawingType.OleObject)
+                    else if (DrawingType == eDrawingType.OleObject)
                     {
                         ((ExcelOleObject)this).SetCellAnchor(value);
                     }
@@ -774,7 +775,7 @@ namespace OfficeOpenXml.Drawing
             else
             {
                 ExcelWorksheet ws = _drawings.Worksheet;
-                decimal mdw = ws.Workbook.MaxFontWidth;
+                double mdw = ws.Workbook.MaxFontWidth;
 
                 pix = 0;
                 for (int col = 0; col < From.Column; col++)
@@ -842,15 +843,15 @@ namespace OfficeOpenXml.Drawing
             if (CellAnchor == eEditAs.TwoCell)
             {
                 ExcelWorksheet ws = _drawings.Worksheet;
-                decimal mdw = ws.Workbook.MaxFontWidth;
+                double mdw = ws.Workbook.MaxFontWidth;
 
                 pix = -From.ColumnOff / (double)EMU_PER_PIXEL;
                 for (int col = From.Column + 1; col <= To.Column; col++)
                 {
-                    pix += (double)decimal.Truncate(((256 * ws.GetColumnWidth(col) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                    pix += MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
                 }
 
-                var w = (double)decimal.Truncate(((256 * ws.GetColumnWidth(To.Column + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                var w = MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(To.Column + 1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
                 pix += Math.Min(w, Convert.ToDouble(To.ColumnOff) / EMU_PER_PIXEL);
             }
             else
@@ -913,7 +914,7 @@ namespace OfficeOpenXml.Drawing
         internal void CalcRowFromPixelTop(double pixels, out int row, out int rowOff)
         {
             ExcelWorksheet ws = _drawings.Worksheet;
-            decimal mdw = ws.Workbook.MaxFontWidth;
+            double mdw = ws.Workbook.MaxFontWidth;
             double prevPix = 0;
             double pix = ws.GetRowHeight(1) / 0.75;
             int r = 2;
@@ -956,15 +957,15 @@ namespace OfficeOpenXml.Drawing
         {
 
             ExcelWorksheet ws = _drawings.Worksheet;
-            decimal mdw = ws.Workbook.MaxFontWidth;
+            double mdw = ws.Workbook.MaxFontWidth;
             double prevPix = 0;
-            double pix = (int)decimal.Truncate(((256 * ws.GetColumnWidth(1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+            double pix = (int)MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
             int col = 2;
 
             while (pix < pixels)
             {
                 prevPix = pix;
-                pix += (int)decimal.Truncate(((256 * ws.GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                pix += (int)MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col++) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
             }
             if (pix == pixels)
             {
@@ -1041,19 +1042,19 @@ namespace OfficeOpenXml.Drawing
         internal void GetToColumnFromPixels(double pixels, out int col, out int colOff, int fromColumn = -1, int fromColumnOff = -1)
         {
             ExcelWorksheet ws = _drawings.Worksheet;
-            decimal mdw = ws.Workbook.MaxFontWidth;
+            double mdw = ws.Workbook.MaxFontWidth;
             if (fromColumn < 0)
             {
                 fromColumn = From.Column;
                 fromColumnOff = From.ColumnOff;
             }
-            double pixOff = pixels - (double)(decimal.Truncate(((256 * ws.GetColumnWidth(fromColumn + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
+            double pixOff = pixels - (MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(fromColumn + 1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
             double offset = (double)fromColumnOff / EMU_PER_PIXEL + pixels;
             col = fromColumn + 2;
             while (pixOff >= 0)
             {
                 offset = pixOff;
-                pixOff -= (double)decimal.Truncate(((256 * ws.GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                pixOff -= MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col++) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
             }
             colOff = (int)offset;
         }
@@ -1104,7 +1105,7 @@ namespace OfficeOpenXml.Drawing
             SetPixelHeight(_height);
             _doNotAdjust = false;
 
-            if(this is ExcelOleObject ole)
+            if (this is ExcelOleObject ole)
             {
                 ole.UpdateXml();
             }
@@ -1519,6 +1520,7 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Cannot ungroup this drawing. This drawing is not part of a group");
             }
+            var prevParent = _parent;
             if (ungroupThisItemOnly)
             {
                 _parent.Drawings.Remove(this);
@@ -1526,6 +1528,10 @@ namespace OfficeOpenXml.Drawing
             else
             {
                 _parent.Drawings.Clear();
+            }
+            if (prevParent.Drawings.Count <= 0)
+            {
+                prevParent.DeleteMe();
             }
         }
         /// <summary>
@@ -1607,11 +1613,16 @@ namespace OfficeOpenXml.Drawing
             TopNode.AppendChild(shapeNode);
             return shapeNode;
         }
-        internal XmlElement CreateClientData()
+        internal XmlElement CreateClientData(bool printsWithSheet = true)
         {
             XmlElement clientDataNode = TopNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings);
-            //clientDataNode.SetAttribute("fPrintsWithSheet", "0");
-            TopNode.GetChildAtPosition(2).GetChildAtPosition(0).GetChildAtPosition(0).AppendChild(clientDataNode);
+            if (printsWithSheet)
+            {
+                clientDataNode.SetAttribute("fPrintsWithSheet", "0");
+            }
+            var parentNode = TopNode.GetChildAtPosition(2).GetChildAtPosition(0).GetChildAtPosition(0);
+            parentNode.AppendChild(clientDataNode);
+            //InserAfter(top)
             TopNode.AppendChild(clientDataNode);
             return clientDataNode;
         }
@@ -1707,7 +1718,7 @@ namespace OfficeOpenXml.Drawing
                     break;
                 case eDrawingType.OleObject:
                     drawNode = CopyOleObject(worksheet, row, col, rowOffset, colOffset);
-                    return GetDrawing(worksheet._drawings, drawNode); 
+                    return GetDrawing(worksheet._drawings, drawNode);
             }
             //Set position of the drawing copy.
             var copy = GetDrawing(worksheet._drawings, drawNode);
@@ -1729,7 +1740,7 @@ namespace OfficeOpenXml.Drawing
             return drawNode;
         }
 
-        private void CopyGroupShape(ExcelChart targetChart,ExcelDrawing sourceDrawing, XmlNode targetDrawNode, ExcelGroupShape parent = null)
+        private void CopyGroupShape(ExcelChart targetChart, ExcelDrawing sourceDrawing, XmlNode targetDrawNode, ExcelGroupShape parent = null)
         {
             if (sourceDrawing is ExcelShape shape)
             {
@@ -2178,7 +2189,6 @@ namespace OfficeOpenXml.Drawing
                 {
                     var srcsRel = _drawings.Part.GetRelationship(relNode.Value);
                     ZipPackageRelationship newRel = null;
-                    bool imageExists = false;
 
                     //Copy image file to new workbook if target worksheet is in a different workbook.
                     if (targetWorkbook != _drawings.Worksheet.Workbook)
@@ -2214,14 +2224,23 @@ namespace OfficeOpenXml.Drawing
                         {
                             var relativeUri = UriHelper.GetRelativeUri(srcsRel.SourceUri, imageInfo.Uri);
                             var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.TargetUri == relativeUri).FirstOrDefault();
-                            relNode.Value = exisistingRel.Id;
+                            //Create new relation id if no relation exists. Otherwise asign the existing relationship Id
+                            if (exisistingRel == null)
+                            {
+                                newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
+                                relNode.Value = newRel.Id;
+                            }
+                            else
+                            {
+                                relNode.Value = exisistingRel.Id;
+                            }
                         }
                     }
                     else
                     {
                         //Check if relationship exists.
                         var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.TargetUri == srcsRel.TargetUri).FirstOrDefault();
-                        //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the existing relationship Id
+                        //Create new relation id if no relation exists or if it's a different worksheet. Otherwise asign the existing relationship Id
                         if (exisistingRel == null || targetWorksheet != _drawings.Worksheet)
                         {
                             newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);

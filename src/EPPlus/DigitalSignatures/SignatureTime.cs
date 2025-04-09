@@ -6,11 +6,11 @@ using System.Text;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
-    public class SignatureTime
+    internal class SignatureTime
     {
         string Format;
         DateTime Value;
-        string Id;
+        //string Id;
 
         string packagePrefix = "mdssi";
         string packageNameSpace = "http://schemas.openxmlformats.org/package/2006/digital-signature";

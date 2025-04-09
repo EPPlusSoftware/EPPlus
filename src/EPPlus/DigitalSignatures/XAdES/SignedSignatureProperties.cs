@@ -9,7 +9,7 @@ using OfficeOpenXml.Utils.EncodingUtils;
 
 namespace OfficeOpenXml.DigitalSignatures.XAdES
 {
-    internal class SignedSignatureProperites
+    internal class SignedSignatureProperties
     {
         DateTime SigningTime;
         string Prefix = "xd";
@@ -78,7 +78,7 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
             return numString.ToString();
         }
 
-        internal SignedSignatureProperites(string prefix, XmlElement SignedSignaturePropertiesNode, AdditionalSignatureInfo info)
+        internal SignedSignatureProperties(string prefix, XmlElement SignedSignaturePropertiesNode, AdditionalSignatureInfo info)
         {
             Prefix = prefix;
             TimeStr = SignedSignaturePropertiesNode.GetElementsByTagName($"{prefix}:SigningTime")[0].InnerText;
@@ -123,7 +123,7 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
             _info = info;
         }
 
-        internal SignedSignatureProperites(string prefix, X509Certificate2 cert, AdditionalSignatureInfo info)
+        internal SignedSignatureProperties(string prefix, X509Certificate2 cert, AdditionalSignatureInfo info)
         {
             Prefix = prefix;
             SigningTime = DateTime.Now;

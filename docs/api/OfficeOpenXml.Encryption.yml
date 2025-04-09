@@ -1,0 +1,22 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Encryption
+  commentId: N:OfficeOpenXml.Encryption
+  id: OfficeOpenXml.Encryption
+  children:
+  - OfficeOpenXml.Encryption.EPPlusDecryptionInfo
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Encryption
+  nameWithType: OfficeOpenXml.Encryption
+  fullName: OfficeOpenXml.Encryption
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Encryption.EPPlusDecryptionInfo
+  commentId: T:OfficeOpenXml.Encryption.EPPlusDecryptionInfo
+  name: EPPlusDecryptionInfo
+  nameWithType: EPPlusDecryptionInfo
+  fullName: OfficeOpenXml.Encryption.EPPlusDecryptionInfo

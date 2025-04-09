@@ -2597,7 +2597,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             }
 
             byte[] block = new byte[30];
-            this.ArchiveStream.Read(block, 0, block.Length);
+            var r = this.ArchiveStream.Read(block, 0, block.Length);
 
             // At this point we could verify the contents read from the local header
             // with the contents read from the central header.  We could, but don't need to.

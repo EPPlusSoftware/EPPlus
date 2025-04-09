@@ -31,6 +31,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
         public void DemoTest()
         {
             var pt = _ptWs.PivotTables[0];
+
             pt.Calculate();
 
             _ptWs.Calculate();

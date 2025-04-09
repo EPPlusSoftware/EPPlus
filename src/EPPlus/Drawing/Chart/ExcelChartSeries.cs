@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         break;
                     case eChartType.Histogram:
                     case eChartType.Pareto:
-                        if(serieElement.GetAttribute("layoutId") == "paretoLine")
+                        if (serieElement.GetAttribute("layoutId") == "paretoLine")
                         {
                             histoGramSeries.Add(serieElement);
                         }
@@ -101,8 +101,8 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         if (ConvertUtil.TryParseIntString(e.GetAttribute("ownerIdx"), out int ownerId))
                         {
-                            var serie=(ExcelHistogramChartSerie)_list.FirstOrDefault(x => ((ExcelHistogramChartSerie)x)._index == ownerId);
-                            if(serie!=null)
+                            var serie = (ExcelHistogramChartSerie)_list.FirstOrDefault(x => ((ExcelHistogramChartSerie)x)._index == ownerId);
+                            if (serie != null)
                             {
                                 serie.AddParetoLineFromSerie(e);
                             }
@@ -396,8 +396,8 @@ namespace OfficeOpenXml.Drawing.Chart
                     break;
                 case eChartType.Histogram:
                 case eChartType.Pareto:
-                    serie=new ExcelHistogramChartSerie((ExcelChartEx)_chart, _ns, serElement);
-                    if(Chart.ChartType== eChartType.Pareto)
+                    serie = new ExcelHistogramChartSerie((ExcelChartEx)_chart, _ns, serElement);
+                    if (Chart.ChartType == eChartType.Pareto)
                     {
                         ((ExcelHistogramChartSerie)serie).AddParetoLine();
                     }
@@ -426,7 +426,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_chart.StyleManager.StylePart != null)
                 {
-                    if(_chart._drawings._seriesTemplateXml != null && _chart._drawings._seriesTemplateXml.Count != 0)
+                    if (_chart._drawings._seriesTemplateXml != null && _chart._drawings._seriesTemplateXml.Count != 0)
                     {
                         //If we are here we've already applied the templateXML to the series.
                         _chart._drawings._seriesTemplateXml.RemoveAt(0);
@@ -437,7 +437,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                 }
 
-                if (_chart._legend != null && _chart._legend._entries!=null)
+                if (_chart._legend != null && _chart._legend._entries != null)
                 {
                     _chart._legend.AddNewEntry(serie);
                 }

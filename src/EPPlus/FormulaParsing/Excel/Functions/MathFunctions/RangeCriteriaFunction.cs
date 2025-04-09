@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -23,7 +25,7 @@ using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
-    internal abstract class MultipleRangeCriteriasFunction : ExcelFunction
+    internal abstract class RangeCriteriaFunction : HiddenValuesHandlingFunction
     {
         protected bool Evaluate(object obj, object expression, ParsingContext ctx, bool convertNumericString = true)
         {
@@ -32,6 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 if (obj == null) return false;
                 return obj.Equals(e);
             }
+
             if(obj is bool b1)
             {
                 if(expression is bool b2)
@@ -44,6 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 return false;
             }
+
             var expressionEvaluator = new ExpressionEvaluator(ctx);
             double? candidate = default(double?);
             if (IsNumeric(obj))
@@ -56,6 +60,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     return compResult == 0;
                 }
             }
+
             var expressionString = expression==null ? string.Empty : expression.ToString();
             if (candidate.HasValue)
             {
@@ -63,7 +68,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return expressionEvaluator.Evaluate(obj, expressionString, convertNumericString);        
         }
-
         protected List<int> GetMatchIndexes(RangeOrValue rangeOrValue, object searched, ParsingContext ctx, bool convertNumericString = true)
         {
             var expressionEvaluator = new ExpressionEvaluator(ctx);
@@ -96,5 +100,78 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return result;
         }
+        protected static Queue<FormulaRangeAddress> EnqueueMatchingAddresses(FormulaRangeAddress valueAddress, IEnumerable<int> matchIndexes)
+        {
+            Queue<FormulaRangeAddress> addresses = new Queue<FormulaRangeAddress>();
+            var pIx = int.MinValue;
+            var extRef = valueAddress.ExternalReferenceIx;
+            var wsIx = valueAddress.WorksheetIx;
+            if (valueAddress.FromCol == valueAddress.ToCol)
+            {
+                var c = valueAddress.FromCol;
+                foreach (var ix in matchIndexes)
+                {
+                    if (ix == pIx + 1)
+                    {
+                        addresses.Peek().ToRow++;
+                    }
+                    else
+                    {
+                        var r = valueAddress.FromRow + ix;
+                        addresses.Enqueue(new FormulaRangeAddress() { ExternalReferenceIx=extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c });
+                    }
+                    pIx = ix;
+                }
+            }
+            else
+            {
+                var r = valueAddress.FromRow;
+                foreach (var ix in matchIndexes)
+                {
+                    if (ix == pIx + 1)
+                    {
+                        addresses.Peek().ToCol++;
+                    }
+                    else
+                    {
+                        var c = valueAddress.FromCol + ix;
+                        addresses.Enqueue(new FormulaRangeAddress() { ExternalReferenceIx = extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c });
+                    }
+                    pIx = ix;
+                }
+            }
+
+            return addresses;
+        }
+        protected IEnumerable<int> GetMatchingIndicesFromArguments(int argStartIx, IList<CompileResult> args)
+        {
+            //Return the addresses matching the criteria in the queue
+            var argRanges = new List<RangeOrValue>();
+            var criteria = new List<object>();
+            for (var ix = argStartIx; ix < 31; ix += 2)
+            {
+                if (args.Count <= ix) break;
+                var arg = args[ix];
+                if (arg.Result is IRangeInfo rangeInfo)
+                {
+                    argRanges.Add(new RangeOrValue { Range = rangeInfo });
+                }
+                else
+                {
+                    argRanges.Add(new RangeOrValue { Value = arg.ResultValue });
+                }
+                criteria.Add(args[ix + 1].ResultValue);
+            }
+            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criteria[0], null);
+            var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
+            for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
+            {
+                var indexes = GetMatchIndexes(argRanges[ix], criteria[ix], null);
+                matchIndexes = matchIndexes.Intersect(indexes);
+            }
+
+            return matchIndexes;
+        }
+
     }
 }

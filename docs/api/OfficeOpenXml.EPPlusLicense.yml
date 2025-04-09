@@ -1,0 +1,916 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.EPPlusLicense
+  commentId: T:OfficeOpenXml.EPPlusLicense
+  id: EPPlusLicense
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.EPPlusLicense.ExtendUnderRenewal
+  - OfficeOpenXml.EPPlusLicense.LegalName
+  - OfficeOpenXml.EPPlusLicense.LicenseInfo
+  - OfficeOpenXml.EPPlusLicense.LicenseKey
+  - OfficeOpenXml.EPPlusLicense.LicenseType
+  - OfficeOpenXml.EPPlusLicense.RemoveActiveLicense
+  - OfficeOpenXml.EPPlusLicense.SetCommercial(System.String)
+  - OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization(System.String)
+  - OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal(System.String)
+  - OfficeOpenXml.EPPlusLicense.Source
+  langs:
+  - csharp
+  - vb
+  name: EPPlusLicense
+  nameWithType: EPPlusLicense
+  fullName: OfficeOpenXml.EPPlusLicense
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicense.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EPPlusLicense
+    path: ../src/EPPlus/EPPlusLicense.cs
+    startLine: 14
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRepresents a class to set the license \n"
+  example: []
+  syntax:
+    content: public class EPPlusLicense
+    content.vb: Public Class EPPlusLicense
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.EPPlusLicense.LicenseKey
+  commentId: P:OfficeOpenXml.EPPlusLicense.LicenseKey
+  id: LicenseKey
+  parent: OfficeOpenXml.EPPlusLicense
+  langs:
+  - csharp
+  - vb
+  name: LicenseKey
+  nameWithType: EPPlusLicense.LicenseKey
+  fullName: OfficeOpenXml.EPPlusLicense.LicenseKey
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicense.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LicenseKey
+    path: ../src/EPPlus/EPPlusLicense.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe license key used for a commercial license.\n"
+  example: []
+  syntax:
+    content: public string LicenseKey { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property LicenseKey As String
+  overload: OfficeOpenXml.EPPlusLicense.LicenseKey*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.EPPlusLicense.LegalName
+  commentId: P:OfficeOpenXml.EPPlusLicense.LegalName
+  id: LegalName
+  parent: OfficeOpenXml.EPPlusLicense
+  langs:
+  - csharp
+  - vb
+  name: LegalName
+  nameWithType: EPPlusLicense.LegalName
+  fullName: OfficeOpenXml.EPPlusLicense.LegalName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicense.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegalName
+    path: ../src/EPPlus/EPPlusLicense.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe name used for a commercial organization\n"
+  example: []
+  syntax:
+    content: public string LegalName { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property LegalName As String
+  overload: OfficeOpenXml.EPPlusLicense.LegalName*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.EPPlusLicense.Source
+  commentId: P:OfficeOpenXml.EPPlusLicense.Source
+  id: Source
+  parent: OfficeOpenXml.EPPlusLicense
+  langs:
+  - csharp
+  - vb
+  name: Source
+  nameWithType: EPPlusLicense.Source
+  fullName: OfficeOpenXml.EPPlusLicense.Source
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicense.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Source
+    path: ../src/EPPlus/EPPlusLicense.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe source where the license was set.\n"
+  example: []
+  syntax:
+    content: public EPPlusLicenseSource? Source { get; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.EPPlusLicenseSource}
+    content.vb: Public ReadOnly Property Source As EPPlusLicenseSource?
+  overload: OfficeOpenXml.EPPlusLicense.Source*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.EPPlusLicense.LicenseType
+  commentId: P:OfficeOpenXml.EPPlusLicense.LicenseType
+  id: LicenseType
+  parent: OfficeOpenXml.EPPlusLicense
+  langs:
+  - csharp
+  - vb
+  name: LicenseType
+  nameWithType: EPPlusLicense.LicenseType
+  fullName: OfficeOpenXml.EPPlusLicense.LicenseType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicense.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LicenseType
+    path: ../src/EPPlus/EPPlusLicense.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe type of license used.\n"
+  example: []
+  syntax:
+    content: public EPPlusLicenseType? LicenseType { get; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.EPPlusLicenseType}
+    content.vb: Public ReadOnly Property LicenseType As EPPlusLicenseType?
+  overload: OfficeOpenXml.EPPlusLicense.LicenseType*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.EPPlusLicense.LicenseInfo
+  commentId: P:OfficeOpenXml.EPPlusLicense.LicenseInfo
+  id: LicenseInfo
+  parent: OfficeOpenXml.EPPlusLicense
+  langs:
+  - csharp
+  - vb
+  name: LicenseInfo
+  nameWithType: EPPlusLicense.LicenseInfo
+  fullName: OfficeOpenXml.EPPlusLicense.LicenseInfo
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicense.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LicenseInfo
+    path: ../src/EPPlus/EPPlusLicense.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLicense information from the license key. If no license key has been set, this propery contains null.\n"
+  example: []
+  syntax:
+    content: public EPPlusLicenseInfo LicenseInfo { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.EPPlusLicenseInfo
+    content.vb: Public ReadOnly Property LicenseInfo As EPPlusLicenseInfo
+  overload: OfficeOpenXml.EPPlusLicense.LicenseInfo*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.EPPlusLicense.ExtendUnderRenewal
+  commentId: P:OfficeOpenXml.EPPlusLicense.ExtendUnderRenewal
+  id: ExtendUnderRenewal
+  parent: OfficeOpenXml.EPPlusLicense
+  langs:
+  - csharp
+  - vb
+  name: ExtendUnderRenewal
+  nameWithType: EPPlusLicense.ExtendUnderRenewal
+  fullName: OfficeOpenXml.EPPlusLicense.ExtendUnderRenewal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicense.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExtendUnderRenewal
+    path: ../src/EPPlus/EPPlusLicense.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf your subscription has expired past the <xref href=\"OfficeOpenXml.EPPlusLicenseInfo.LicenseValidTo\" data-throw-if-not-resolved=\"false\"></xref> date, you can set this flag to get a 15 additional days to renew the license.\n"
+  example: []
+  syntax:
+    content: public bool ExtendUnderRenewal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ExtendUnderRenewal As Boolean
+  overload: OfficeOpenXml.EPPlusLicense.ExtendUnderRenewal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal(System.String)
+  commentId: M:OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal(System.String)
+  id: SetNonCommercialPersonal(System.String)
+  parent: OfficeOpenXml.EPPlusLicense
+  langs:
+  - csharp
+  - vb
+  name: SetNonCommercialPersonal(String)
+  nameWithType: EPPlusLicense.SetNonCommercialPersonal(String)
+  fullName: OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicense.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetNonCommercialPersonal
+    path: ../src/EPPlus/EPPlusLicense.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nUse this license if you use EPPlus for personal noncommercial usage.\nUsing this option will tag all created document with the Polyform Noncommercial license.\nSee https://polyformproject.org/licenses/noncommercial/1.0.0/        \n"
+  example: []
+  syntax:
+    content: public void SetNonCommercialPersonal(string fullName)
+    parameters:
+    - id: fullName
+      type: System.String
+      description: Your name. This name will go into the Office Properties
+    content.vb: Public Sub SetNonCommercialPersonal(fullName As String)
+  overload: OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization(System.String)
+  commentId: M:OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization(System.String)
+  id: SetNonCommercialOrganization(System.String)
+  parent: OfficeOpenXml.EPPlusLicense
+  langs:
+  - csharp
+  - vb
+  name: SetNonCommercialOrganization(String)
+  nameWithType: EPPlusLicense.SetNonCommercialOrganization(String)
+  fullName: OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicense.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetNonCommercialOrganization
+    path: ../src/EPPlus/EPPlusLicense.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nUse this option if you use EPPlus within a noncommercial organization.\nUsing this option will tag all created document with the Polyform Noncommercial license. \n<a href=\"https://polyformproject.org/licenses/noncommercial/1.0.0/\">https://polyformproject.org/licenses/noncommercial/1.0.0/</a>\n"
+  example: []
+  syntax:
+    content: public void SetNonCommercialOrganization(string organizationName)
+    parameters:
+    - id: organizationName
+      type: System.String
+      description: The noncommercial organizations name
+    content.vb: Public Sub SetNonCommercialOrganization(organizationName As String)
+  overload: OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.EPPlusLicense.SetCommercial(System.String)
+  commentId: M:OfficeOpenXml.EPPlusLicense.SetCommercial(System.String)
+  id: SetCommercial(System.String)
+  parent: OfficeOpenXml.EPPlusLicense
+  langs:
+  - csharp
+  - vb
+  name: SetCommercial(String)
+  nameWithType: EPPlusLicense.SetCommercial(String)
+  fullName: OfficeOpenXml.EPPlusLicense.SetCommercial(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicense.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetCommercial
+    path: ../src/EPPlus/EPPlusLicense.cs
+    startLine: 127
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf you use EPPlus within a commercial organization or for commercial purposes.\nThis requires a license for EPPlus that can be purchased at https://epplussoftware.com\n"
+  example: []
+  syntax:
+    content: public void SetCommercial(string licenseKey)
+    parameters:
+    - id: licenseKey
+      type: System.String
+      description: The license key you received with your license.
+    content.vb: Public Sub SetCommercial(licenseKey As String)
+  overload: OfficeOpenXml.EPPlusLicense.SetCommercial*
+  seealso:
+  - linkType: HRef
+    linkId: https://epplussoftware.com/en/Home/GettingStartedLicenseKey
+    altText: https://epplussoftware.com/en/Home/GettingStartedLicenseKey
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.EPPlusLicense.RemoveActiveLicense
+  commentId: M:OfficeOpenXml.EPPlusLicense.RemoveActiveLicense
+  id: RemoveActiveLicense
+  parent: OfficeOpenXml.EPPlusLicense
+  langs:
+  - csharp
+  - vb
+  name: RemoveActiveLicense()
+  nameWithType: EPPlusLicense.RemoveActiveLicense()
+  fullName: OfficeOpenXml.EPPlusLicense.RemoveActiveLicense()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicense.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveActiveLicense
+    path: ../src/EPPlus/EPPlusLicense.cs
+    startLine: 233
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRemoves the active license.\n"
+  example: []
+  syntax:
+    content: public void RemoveActiveLicense()
+    content.vb: Public Sub RemoveActiveLicense
+  overload: OfficeOpenXml.EPPlusLicense.RemoveActiveLicense*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.EPPlusLicense.LicenseKey*
+  commentId: Overload:OfficeOpenXml.EPPlusLicense.LicenseKey
+  name: LicenseKey
+  nameWithType: EPPlusLicense.LicenseKey
+  fullName: OfficeOpenXml.EPPlusLicense.LicenseKey
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.EPPlusLicense.LegalName*
+  commentId: Overload:OfficeOpenXml.EPPlusLicense.LegalName
+  name: LegalName
+  nameWithType: EPPlusLicense.LegalName
+  fullName: OfficeOpenXml.EPPlusLicense.LegalName
+- uid: OfficeOpenXml.EPPlusLicense.Source*
+  commentId: Overload:OfficeOpenXml.EPPlusLicense.Source
+  name: Source
+  nameWithType: EPPlusLicense.Source
+  fullName: OfficeOpenXml.EPPlusLicense.Source
+- uid: System.Nullable{OfficeOpenXml.EPPlusLicenseSource}
+  commentId: T:System.Nullable{OfficeOpenXml.EPPlusLicenseSource}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<EPPlusLicenseSource>
+  nameWithType: Nullable<EPPlusLicenseSource>
+  fullName: System.Nullable<OfficeOpenXml.EPPlusLicenseSource>
+  nameWithType.vb: Nullable(Of EPPlusLicenseSource)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.EPPlusLicenseSource)
+  name.vb: Nullable(Of EPPlusLicenseSource)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.EPPlusLicenseSource
+    name: EPPlusLicenseSource
+    nameWithType: EPPlusLicenseSource
+    fullName: OfficeOpenXml.EPPlusLicenseSource
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.EPPlusLicenseSource
+    name: EPPlusLicenseSource
+    nameWithType: EPPlusLicenseSource
+    fullName: OfficeOpenXml.EPPlusLicenseSource
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.EPPlusLicense.LicenseType*
+  commentId: Overload:OfficeOpenXml.EPPlusLicense.LicenseType
+  name: LicenseType
+  nameWithType: EPPlusLicense.LicenseType
+  fullName: OfficeOpenXml.EPPlusLicense.LicenseType
+- uid: System.Nullable{OfficeOpenXml.EPPlusLicenseType}
+  commentId: T:System.Nullable{OfficeOpenXml.EPPlusLicenseType}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<EPPlusLicenseType>
+  nameWithType: Nullable<EPPlusLicenseType>
+  fullName: System.Nullable<OfficeOpenXml.EPPlusLicenseType>
+  nameWithType.vb: Nullable(Of EPPlusLicenseType)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.EPPlusLicenseType)
+  name.vb: Nullable(Of EPPlusLicenseType)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.EPPlusLicenseType
+    name: EPPlusLicenseType
+    nameWithType: EPPlusLicenseType
+    fullName: OfficeOpenXml.EPPlusLicenseType
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.EPPlusLicenseType
+    name: EPPlusLicenseType
+    nameWithType: EPPlusLicenseType
+    fullName: OfficeOpenXml.EPPlusLicenseType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.EPPlusLicense.LicenseInfo*
+  commentId: Overload:OfficeOpenXml.EPPlusLicense.LicenseInfo
+  name: LicenseInfo
+  nameWithType: EPPlusLicense.LicenseInfo
+  fullName: OfficeOpenXml.EPPlusLicense.LicenseInfo
+- uid: OfficeOpenXml.EPPlusLicenseInfo
+  commentId: T:OfficeOpenXml.EPPlusLicenseInfo
+  parent: OfficeOpenXml
+  name: EPPlusLicenseInfo
+  nameWithType: EPPlusLicenseInfo
+  fullName: OfficeOpenXml.EPPlusLicenseInfo
+- uid: OfficeOpenXml.EPPlusLicenseInfo.LicenseValidTo
+  commentId: P:OfficeOpenXml.EPPlusLicenseInfo.LicenseValidTo
+  isExternal: true
+- uid: OfficeOpenXml.EPPlusLicense.ExtendUnderRenewal*
+  commentId: Overload:OfficeOpenXml.EPPlusLicense.ExtendUnderRenewal
+  name: ExtendUnderRenewal
+  nameWithType: EPPlusLicense.ExtendUnderRenewal
+  fullName: OfficeOpenXml.EPPlusLicense.ExtendUnderRenewal
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal*
+  commentId: Overload:OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal
+  name: SetNonCommercialPersonal
+  nameWithType: EPPlusLicense.SetNonCommercialPersonal
+  fullName: OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal
+- uid: OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization*
+  commentId: Overload:OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization
+  name: SetNonCommercialOrganization
+  nameWithType: EPPlusLicense.SetNonCommercialOrganization
+  fullName: OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization
+- uid: OfficeOpenXml.EPPlusLicense.SetCommercial*
+  commentId: Overload:OfficeOpenXml.EPPlusLicense.SetCommercial
+  name: SetCommercial
+  nameWithType: EPPlusLicense.SetCommercial
+  fullName: OfficeOpenXml.EPPlusLicense.SetCommercial
+- uid: OfficeOpenXml.EPPlusLicense.RemoveActiveLicense*
+  commentId: Overload:OfficeOpenXml.EPPlusLicense.RemoveActiveLicense
+  name: RemoveActiveLicense
+  nameWithType: EPPlusLicense.RemoveActiveLicense
+  fullName: OfficeOpenXml.EPPlusLicense.RemoveActiveLicense

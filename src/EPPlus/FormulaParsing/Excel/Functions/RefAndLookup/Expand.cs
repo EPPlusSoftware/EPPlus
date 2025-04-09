@@ -67,7 +67,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     ||
                     rows + context.CurrentCell.Row > ExcelPackage.MaxRows)
                 {
-                    return new DynamicArrayCompileResult(new ExcelRichDataErrorValue(0, 0));
+                    return new DynamicArrayCompileResult(new ExcelSpillErrorValue(0, 0));
                 }
             }
             object padWith = ErrorValues.NAError;

@@ -73,6 +73,7 @@ namespace OfficeOpenXml.Utils.String
 
         internal static string FormatValue(object v, bool forWidthCalc, ExcelFormatTranslator nf, CultureInfo overrideCultureInfo)
         {
+            if (v == null) v = 0;
             var f = nf.GetFormatPart(v);
             string format;
             if (forWidthCalc)

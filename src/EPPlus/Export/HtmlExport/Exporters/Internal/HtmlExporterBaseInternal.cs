@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
             var ws = _range.Worksheet;
             var mdw = _range.Worksheet.Workbook.MaxFontWidth;
-            var defColWidth = ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), mdw);
+            var defColWidth = ExcelColumn.ColumnWidthToPixels(ws.DefaultColWidth, mdw);
 
             foreach (var c in _columns)
             {

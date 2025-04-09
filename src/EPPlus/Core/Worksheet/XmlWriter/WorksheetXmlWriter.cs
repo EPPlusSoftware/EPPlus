@@ -10,7 +10,6 @@
  *************************************************************************************************
   02/10/2023       EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
-using Microsoft.VisualBasic;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Constants;
@@ -20,10 +19,9 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.ExcelXMLWriter;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.XmlAccess;
@@ -41,7 +39,6 @@ using System.Security;
 using System.Text;
 using static OfficeOpenXml.ExcelWorkbook;
 using static OfficeOpenXml.ExcelWorksheet;
-using static OfficeOpenXml.RichData.Structures.Constants.SpecialKeyNames;
 
 namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 {
@@ -409,12 +406,37 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     object formula = _ws._formulas.GetValue(cse.Row, cse.Column);
                     if (hasMd)
                     {
-                        if (v is ExcelErrorValue error)
+                        if (v is ExcelRichDataErrorValue error)
                         {
                             if (error.Type == eErrorType.Spill || error.Type == eErrorType.Calc)
                             {
                                 v = ErrorValues.ValueError;
-                                _richValueErrors.SetMetaDataForError(cse, error);
+                                var md = _ws._metadataStore.GetValue(cse.Row, cse.Column);
+                                if(md.vm > 0)
+                                {
+                                    var rd = _ws._richDataStore.GetRichValue(md.vm);
+                                    if (rd != null && rd.Structure.Type == "_error")
+                                    {
+                                        var ese = RichValueErrorFactory.CreateRichValueErrorFromRichData(rd, _ws.Workbook.IndexStore, _ws.Workbook.RichData.Db);
+                                        if(ese != null && ese.ErrorType == 8 && (ese.StructureType & RichData.RichDataStructureTypes.ErrorSpill) != 0)
+                                        {
+                                            var spillError = error as ExcelSpillErrorValue;
+                                            var spe = ese.As.ErrorSpill;
+                                            if(spe.RwOffset != spillError.SpillRowOffset || spe.ColOffset != spillError.SpillColOffset)
+                                            {
+                                                _richValueErrors.SetMetaDataForError(cse, error);
+                                            }
+                                        }
+                                        else if(!(ese != null && ese.ErrorType == 13))
+                                        {
+                                            _richValueErrors.SetMetaDataForError(cse, error);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    _richValueErrors.SetMetaDataForError(cse, error);
+                                }
                                 hasRd = true;
                             }
                         }
@@ -426,12 +448,18 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             if (md.cm > 0)
                             {
                                 var ix = _ws.Workbook.Metadata.Db.CellMetadata.GetIndexById(md.cm) + 1;
-                                mdAttr = $" cm=\"{ix}\"";
+                                if(ix != null)
+                                {
+                                    mdAttr = $" cm=\"{ix}\"";
+                                }
                             }
                             if (md.vm > 0)
                             {
                                 var ix = _ws.Workbook.Metadata.Db.ValueMetadata.GetIndexById(md.vm) + 1;
-                                mdAttr += $" vm=\"{ix}\"";
+                                if (ix != null)
+                                {
+                                    mdAttr += $" vm=\"{ix}\"";
+                                }
                             }
                         }
                     }

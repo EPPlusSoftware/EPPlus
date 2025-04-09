@@ -12,6 +12,7 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.XML;
@@ -40,7 +41,16 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             _ws = ws;
             _rules = new List<ExcelConditionalFormattingRule>();
+            if(_ws.Dimension==null)
+            {
+                CfIndex = new QuadTree<IExcelConditionalFormattingRule>();
+            }
+            else
+            {
+                CfIndex = new QuadTree<IExcelConditionalFormattingRule>(_ws.Dimension);
+            }
         }
+        internal QuadTree<IExcelConditionalFormattingRule> CfIndex { get; set; }
 
         internal void ReadRegularConditionalFormattings(XmlReader xr)
         {
@@ -67,10 +77,6 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                     if (xr.LocalName == "cfRule" && xr.NodeType == XmlNodeType.Element)
                     {
-                        //if (xr.LocalName == "conditionalFormatting")
-                        //{
-                        //    xr.Read();
-                        //}
                         ExcelConditionalFormattingRule cf;
 
 						if (string.IsNullOrEmpty(address))
@@ -89,7 +95,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 						}
 						else
 						{
-							_rules.Add(cf);
+							AddToList(cf);
 						}
 					}
                     while ((xr.LocalName == "conditionalFormatting" || xr.LocalName == "cfRule") && xr.NodeType == XmlNodeType.EndElement) xr.Read();
@@ -237,7 +243,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 dataBar.NegativeBarColorSameAsPositive = negativeBarColorSameAsPositive.Value;
                             }
 
-                            _rules.Add(dataBar);
+                            AddToList(dataBar);
                             dataBar.Uid = id;
                         }
                         else if (xr.GetAttribute("type") == "iconSet")
@@ -396,7 +402,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                         {
                             var cf = ExcelConditionalFormattingRuleFactory.Create(null, _ws, xr);
                             cf.Uid = id;
-                            _rules.Add(cf);
+                            AddToList(cf);
 
                             if (cf.Address == null)
                             {
@@ -495,7 +501,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 ruleCopy.Address = address;
             }
-            _rules.Add(ruleCopy);
+            AddToList(ruleCopy);
         }
 
         IEnumerator<IExcelConditionalFormattingRule> IEnumerable<IExcelConditionalFormattingRule>.GetEnumerator()
@@ -554,6 +560,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             try
             {
                 _rules.Remove((ExcelConditionalFormattingRule)item);
+                CfIndex.Clear(item.Address, item);
             }
             catch
             {
@@ -665,10 +672,15 @@ namespace OfficeOpenXml.ConditionalFormatting
               _ws);
 
             // Add the newly created rule to the list
-            _rules.Add(cfRule);
+            AddToList(cfRule);
 
             // Return the newly created rule
             return cfRule;
+        }
+
+        private void AddToList(ExcelConditionalFormattingRule cfRule)
+        {
+            _rules.Add(cfRule);
         }
 
         internal void ClearTempExportCacheForAllCFs()
@@ -1890,6 +1902,11 @@ namespace OfficeOpenXml.ConditionalFormatting
                 }
             }
             return null;
+        }
+
+        internal List<QuadRangeItem<IExcelConditionalFormattingRule>> GetIntersectingRanges(ExcelAddress address)
+        {
+            return CfIndex.GetIntersectingRangeItems(new QuadRange(address));
         }
     }
 }

@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             else
             {
-                //Check for external Worksbook
+                //Check for external Workbook
                 int extRef, wsIx;
                 ExcelCellBase.SplitAddress(ref address, out extRef, out wsIx, context.Package);
                 var n = context.ExcelDataProvider.GetName(extRef, wsIx, address);
@@ -75,9 +75,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
 
         public override bool ReturnsReference => true;
-		/// <summary>
-		/// If the function is allowed in a pivot table calculated field
-		/// </summary>
-		public override bool IsAllowedInCalculatedPivotTableField => false;
+        public override bool IsVolatile => true;  //Indirect can return an relative name, so can not be cached in the expression cache.
+        /// <summary>
+        /// If the function is allowed in a pivot table calculated field
+        /// </summary>
+        public override bool IsAllowedInCalculatedPivotTableField => false;
 	}
 }

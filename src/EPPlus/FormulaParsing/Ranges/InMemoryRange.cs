@@ -360,5 +360,15 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
             return ir;
         }
+
+        /// <summary>
+        /// Get the address adjusted inside the dimension of the worksheet. Not applicable on InMemoryRange's, as no addresses us used.
+        /// </summary>
+        /// <param name="index">Not applicable on InMemoryRange's.</param>
+        /// <returns>The address.</returns>
+        public FormulaRangeAddress GetAddressDimensionAdjusted(int index)
+        {
+            return _address;
+        }
     }
 }

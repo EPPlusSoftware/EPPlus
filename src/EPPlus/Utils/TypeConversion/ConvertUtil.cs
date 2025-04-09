@@ -554,7 +554,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
         {
             var conversion = new TypeConvertUtil<T>(value);
 
-            if (value == null || conversion.ReturnType.IsNullable && conversion.Value.IsEmptyString)
+            if (value == null || (conversion.ReturnType.IsNullable && conversion.Value.IsEmptyString))
             {
                 return default;
             }
@@ -566,13 +566,72 @@ namespace OfficeOpenXml.Utils.TypeConversion
             {
                 return (T)conversion.ConvertToReturnType();
             }
-            else if (conversion.ReturnType.IsDateTime && conversion.TryGetDateTime(out object returnDate))
+            else if (conversion.ReturnType.IsDateTime)
             {
-                return (T)returnDate;
+                DateTime? dt = null;
+                if (conversion.TryGetDateTime(out object returnDate))
+                {
+                    dt = (DateTime)returnDate;
+                }
+#if(NET8_0_OR_GREATER)
+                else if (value is DateOnly dateOnly)
+                {
+                    dt = dateOnly.ToDateTime(TimeOnly.MinValue);
+                }
+
+                if (conversion.ReturnType.Type == typeof(DateOnly))
+                {
+                    if (dt.HasValue)
+                    {
+                        return (T)(object)DateOnly.FromDateTime(dt.Value);
+                    }
+                    else
+                    {
+                        return (T)(object)DateOnly.FromDateTime((DateTime)value);
+                    }
+                }
+#endif  
+                if (dt != null)
+                {
+                    return (T)(object)dt;
+                }
             }
-            else if (conversion.ReturnType.IsTimeSpan && conversion.TryGetTimeSpan(out object ts))
+            else if (conversion.ReturnType.IsTimeSpan)
             {
-                return (T)ts;
+                TimeSpan? ts = null;
+                if (value is DateTime dt)
+                {
+                    ts = new TimeSpan((long)(dt.ToOADate() * TimeSpan.TicksPerDay));
+                }
+#if (NET8_0_OR_GREATER)
+                else if (value is TimeOnly timeOnly)
+                {
+                    ts = timeOnly.ToTimeSpan();
+                }
+                else if (value is DateOnly dateOnly)
+                {
+                    ts=new TimeSpan((long)dateOnly.ToDateTime(TimeOnly.MinValue).ToOADate() * TimeSpan.TicksPerDay);
+                }
+#endif
+                else if (conversion.TryGetTimeSpan(out object tso))
+                {
+                    ts = (TimeSpan)tso;
+                }
+
+#if (NET8_0_OR_GREATER)
+                if (conversion.ReturnType.Type == typeof(TimeOnly))
+                {
+                    if (ts.HasValue == false && value is TimeSpan tsc)
+                    {
+                        ts = tsc;
+                    }
+                    return (T)(object)TimeOnly.FromTimeSpan(new TimeSpan(ts.Value.Ticks - ts.Value.Days*TimeSpan.TicksPerDay));
+                }
+#endif
+                if (ts.HasValue)
+                {
+                    return (T)(object)ts;
+                }
             }
             if (returnDefaultIfException)
             {
@@ -682,14 +741,14 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 return true;
             }
 
-/* Unmerged change from project 'EPPlus (net462)'
-Before:
-            #if(NET6_0_OR_GREATER)
-            if(v is DateOnly dto)
-After:
-#if (NET6_0_OR_GREATER)
-            if(v is DateOnly dto)
-*/
+            /* Unmerged change from project 'EPPlus (net462)'
+            Before:
+                        #if(NET6_0_OR_GREATER)
+                        if(v is DateOnly dto)
+            After:
+            #if (NET6_0_OR_GREATER)
+                        if(v is DateOnly dto)
+            */
 #if (NET6_0_OR_GREATER)
             if (v is DateOnly dto)
             {

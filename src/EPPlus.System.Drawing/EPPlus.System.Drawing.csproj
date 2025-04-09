@@ -19,11 +19,13 @@
     <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net35'">
+  <ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462' and '$(TargetFramework)' != 'net9.0'">
     <PackageReference Include="System.Drawing.Common" />
   </ItemGroup>
-
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+	<PackageReference Include="System.Drawing.Common" VersionOverride="9.0.1" />
+  </ItemGroup>
+	<ItemGroup>
     <None Include="EPPlusLogo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

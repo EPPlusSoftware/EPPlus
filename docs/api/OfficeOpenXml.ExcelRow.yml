@@ -14,7 +14,6 @@ items:
   - OfficeOpenXml.ExcelRow.PageBreak
   - OfficeOpenXml.ExcelRow.Phonetic
   - OfficeOpenXml.ExcelRow.Row
-  - OfficeOpenXml.ExcelRow.RowID
   - OfficeOpenXml.ExcelRow.Style
   - OfficeOpenXml.ExcelRow.StyleID
   - OfficeOpenXml.ExcelRow.StyleName
@@ -28,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRow
     path: ../src/EPPlus/ExcelRow.cs
@@ -57,53 +56,6 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.ExcelRow.RowID
-  commentId: P:OfficeOpenXml.ExcelRow.RowID
-  id: RowID
-  parent: OfficeOpenXml.ExcelRow
-  langs:
-  - csharp
-  - vb
-  name: RowID
-  nameWithType: ExcelRow.RowID
-  fullName: OfficeOpenXml.ExcelRow.RowID
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/ExcelRow.cs
-      branch: develop8
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: RowID
-    path: ../src/EPPlus/ExcelRow.cs
-    startLine: 54
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml
-  summary: "\nInternal RowID.\n"
-  example: []
-  syntax:
-    content: >-
-      [Obsolete]
-
-      public ulong RowID { get; }
-    parameters: []
-    return:
-      type: System.UInt64
-    content.vb: >-
-      <Obsolete>
-
-      Public ReadOnly Property RowID As ULong
-  overload: OfficeOpenXml.ExcelRow.RowID*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor
-    arguments: []
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: OfficeOpenXml.ExcelRow.Hidden
   commentId: P:OfficeOpenXml.ExcelRow.Hidden
   id: Hidden
@@ -118,11 +70,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 85
+    startLine: 75
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -155,11 +107,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Height
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 111
+    startLine: 101
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -192,11 +144,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomHeight
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 150
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -229,11 +181,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 176
+    startLine: 166
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -266,11 +218,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 191
+    startLine: 181
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -303,11 +255,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 206
+    startLine: 196
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -340,11 +292,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Collapsed
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 216
+    startLine: 206
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -377,11 +329,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineLevel
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 239
+    startLine: 229
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -414,11 +366,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Phonetic
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 277
+    startLine: 267
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -451,11 +403,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 301
+    startLine: 291
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -488,11 +440,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageBreak
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 311
+    startLine: 301
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -525,11 +477,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Merged
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 334
+    startLine: 324
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -846,18 +798,6 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml.ExcelRow.RowID*
-  commentId: Overload:OfficeOpenXml.ExcelRow.RowID
-  name: RowID
-  nameWithType: ExcelRow.RowID
-  fullName: OfficeOpenXml.ExcelRow.RowID
-- uid: System.UInt64
-  commentId: T:System.UInt64
-  parent: System
-  isExternal: true
-  name: UInt64
-  nameWithType: UInt64
-  fullName: System.UInt64
 - uid: OfficeOpenXml.ExcelRow.Hidden*
   commentId: Overload:OfficeOpenXml.ExcelRow.Hidden
   name: Hidden

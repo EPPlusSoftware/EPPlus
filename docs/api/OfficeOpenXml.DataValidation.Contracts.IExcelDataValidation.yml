@@ -13,7 +13,6 @@ items:
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ErrorStyle
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ErrorTitle
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
-  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Prompt
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.PromptTitle
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ShowErrorMessage
@@ -31,7 +30,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelDataValidation
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -64,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Uid
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -99,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -134,7 +133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -169,7 +168,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorStyle
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -203,7 +202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowBlank
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -237,7 +236,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowInputMessage
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -271,7 +270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowErrorMessage
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -305,7 +304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorTitle
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -339,7 +338,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Error
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -373,7 +372,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PromptTitle
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -407,7 +406,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Prompt
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -441,7 +440,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowsOperator
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -476,7 +475,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -504,7 +503,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -539,7 +538,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ImeMode
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -559,41 +558,6 @@ items:
   modifiers.csharp:
   - get
   - set
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  id: IsStale
-  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
-  langs:
-  - csharp
-  - vb
-  name: IsStale
-  nameWithType: IExcelDataValidation.IsStale
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: develop8
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: IsStale
-    path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 86
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.DataValidation.Contracts
-  summary: "\nIndicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions\n"
-  example: []
-  syntax:
-    content: bool IsStale { get; }
-    parameters: []
-    return:
-      type: System.Boolean
-    content.vb: ReadOnly Property IsStale As Boolean
-  overload: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale*
-  modifiers.csharp:
-  - get
-  modifiers.vb:
-  - ReadOnly
 references:
 - uid: OfficeOpenXml.DataValidation.Contracts
   commentId: N:OfficeOpenXml.DataValidation.Contracts
@@ -824,8 +788,3 @@ references:
   name: ExcelDataValidationImeMode
   nameWithType: ExcelDataValidationImeMode
   fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale*
-  commentId: Overload:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  name: IsStale
-  nameWithType: IExcelDataValidation.IsStale
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale

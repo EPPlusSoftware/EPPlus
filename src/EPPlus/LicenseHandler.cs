@@ -128,7 +128,7 @@ namespace OfficeOpenXml
                     return false;
                 }
             }
-            catch(Exception ex)
+            catch
             {
                 licenseInfo = new EPPlusLicenseInfo()
                 {

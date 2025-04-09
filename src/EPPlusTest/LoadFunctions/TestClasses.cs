@@ -86,4 +86,12 @@ namespace EPPlusTest.LoadFunctions
             };
         }
     }
+
+
+    public class StringListDto
+    {
+        public string Name { get; set; }
+
+        public List<string> ListOfStrings { get; set; }
+    }
 }

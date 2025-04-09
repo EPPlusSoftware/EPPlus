@@ -491,8 +491,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         {
             string[] fmt = f.FractionFormat.Split('/');
 
-            int fixedDenominator;
-            if (!int.TryParse(fmt[1], out fixedDenominator))
+            if (!int.TryParse(fmt[1], out int fixedDenominator))
             {
                 fixedDenominator = 0;
             }
@@ -759,7 +758,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             textToCheck = textToCheck.CapitalizeFirstLetter();
 
             //Indexed colors for NumberFormats only go to 56, so no need to check if there are more than 2 numbers.
-            if (textToCheck.StartsWith("Color") && text.Count() <= 7)
+            if (textToCheck.StartsWith("Color") && text.Length <= 7)
             {
                 var ConvertedNumber = Convert.ToInt32(textToCheck.Remove(0,5));
                 if (ConvertedNumber < 57)

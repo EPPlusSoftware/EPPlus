@@ -149,7 +149,7 @@ namespace OfficeOpenXml.VBA
             var stream = Part.GetStream();
             byte[] vba;
             vba = new byte[stream.Length];
-            stream.Read(vba, 0, (int)stream.Length);
+            var r = stream.Read(vba, 0, (int)stream.Length);
             Document = new CompoundDocument(vba);
 
             ReadDirStream();

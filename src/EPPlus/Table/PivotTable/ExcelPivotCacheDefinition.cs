@@ -145,7 +145,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// The source data range when the pivottable has a worksheet datasource. 
         /// The number of columns in the range must be intact if this property is changed.
-        /// The range must be in the same workbook as the pivottable.
+        /// The range must be in the same workbook as the pivot table.
         /// </summary>
         public ExcelRangeBase SourceRange
         {

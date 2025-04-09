@@ -8,7 +8,7 @@
 *************************************************************************************************
  Date               Author                       Change
 *************************************************************************************************
- 01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+ 03/13/2025         EPPlus Software AB       Initial release EPPlus 8
 *************************************************************************************************/
 namespace OfficeOpenXml
 {
@@ -17,17 +17,10 @@ namespace OfficeOpenXml
     /// </summary>
     public class ExcelRichDataErrorValue : ExcelErrorValue
     {
-        internal ExcelRichDataErrorValue(int rowOffset, int colOffset) : base(eErrorType.Spill)
+        internal ExcelRichDataErrorValue(eErrorType type) : base(type)
         {
-            SpillRowOffset = rowOffset;
-            SpillColOffset = colOffset;
+            
         }
-        internal int SpillRowOffset { get; set; }
-        internal int SpillColOffset { get; set; }
-        internal bool IsPropagated
-        {
-            get;
-            set;
-        }
+        
     }
 }

@@ -355,7 +355,7 @@ namespace OfficeOpenXml.Packaging
                     {
                         GetDirSeparator(e);
                         var uri = new Uri(GetUriKey(e.FileName), UriKind.Relative);
-                        inputStream.Read(buffer, 0, (int)e.UncompressedSize);
+                        var r = inputStream.Read(buffer, 0, (int)e.UncompressedSize);
 
                         if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
                         {

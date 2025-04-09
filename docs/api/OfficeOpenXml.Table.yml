@@ -10,6 +10,8 @@ items:
   - OfficeOpenXml.Table.ExcelTableColumn
   - OfficeOpenXml.Table.ExcelTableColumnCollection
   - OfficeOpenXml.Table.ExcelTableDxfBase
+  - OfficeOpenXml.Table.ExcelTableRow
+  - OfficeOpenXml.Table.ExcelTableRowCollection
   - OfficeOpenXml.Table.PivotTableStyles
   - OfficeOpenXml.Table.RowFunctions
   - OfficeOpenXml.Table.TableStyles
@@ -77,6 +79,18 @@ references:
   name: ExcelTableDxfBase
   nameWithType: ExcelTableDxfBase
   fullName: OfficeOpenXml.Table.ExcelTableDxfBase
+- uid: OfficeOpenXml.Table.ExcelTableRow
+  commentId: T:OfficeOpenXml.Table.ExcelTableRow
+  parent: OfficeOpenXml.Table
+  name: ExcelTableRow
+  nameWithType: ExcelTableRow
+  fullName: OfficeOpenXml.Table.ExcelTableRow
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection
+  commentId: T:OfficeOpenXml.Table.ExcelTableRowCollection
+  parent: OfficeOpenXml.Table
+  name: ExcelTableRowCollection
+  nameWithType: ExcelTableRowCollection
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection
 - uid: OfficeOpenXml.Table
   commentId: N:OfficeOpenXml.Table
   name: OfficeOpenXml.Table

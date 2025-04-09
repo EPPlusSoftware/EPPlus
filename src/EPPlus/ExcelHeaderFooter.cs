@@ -182,7 +182,7 @@ namespace OfficeOpenXml
 
             var imgBytes=new byte[PictureStream.Length];
             PictureStream.Seek(0, SeekOrigin.Begin);
-            PictureStream.Read(imgBytes,0, imgBytes.Length);
+            var r = PictureStream.Read(imgBytes,0, imgBytes.Length);
             var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, null, pictureType);
 
             return AddImage(id, ii);

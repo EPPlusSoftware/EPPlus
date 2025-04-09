@@ -1,0 +1,126 @@
+# This is a basic workflow that is manually triggered
+
+name: Update Project Items
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Person to greet'
+        # Default value if no value is explicitly provided
+        default: 'World'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+  
+jobs:
+   move-to-done:
+    name: Move Issue To Done
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get project data
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ORGANIZATION: EPPlusSoftware
+          PROJECT_NUMBER: 7
+
+        run: |
+          gh auth status
+          
+          gh project list --owner EPPlusSoftware
+          
+          gh api graphql -f query='
+            query($org: String!, $number: Int!) {
+              organization(login: $org){
+                projectV2(number: $number) {
+                  id
+                  fields(first:20) {
+                    nodes {
+                      ... on ProjectV2Field {
+                        id
+                        name
+                      }
+                      ... on ProjectV2SingleSelectField {
+                        id
+                        name
+                        options {
+                          id
+                          name
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }' -f org="EPPlusSoftware" -F number=7 > project_data.json
+
+          echo 'PROJECT_ID='$(jq '.data.organization.projectV2.id' project_data.json) >> $GITHUB_ENV
+          echo 'STATUS_FIELD_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .id' project_data.json) >> $GITHUB_ENV
+          echo 'SLATED_FOR_RELEASE_OPTION_ID'='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .options[] | select(.name=="Slated For Release") |.id' project_data.json) >> $GITHUB_ENV
+          echo 'DONE_OPTION_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .options[] | select(.name=="Done") |.id' project_data.json) >> $GITHUB_ENV
+
+      - name: Get items
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        run: |
+            gh api graphql -f query='
+            query($org: String!, $number: Int!, $statusId: String!) {
+              organization(login: $org) {
+                projectV2(number: $number) {
+                  items(first: 100) {
+                    nodes {
+                      id
+                      fieldValues(first: 20) {
+                        nodes {
+                          ... on ProjectV2ItemFieldSingleSelectValue {
+                            field {
+                              name
+                            }
+                            optionId
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }' -f org=$ORGANIZATION -F number=$PROJECT_NUMBER -F statusId=$SLATED_FOR_RELEASE_OPTION_ID > project_items.json
+
+            echo 'ITEM_IDS='$(jq '.data.organization.projectV2.items.nodes[] | select(.fieldValues.nodes[]?.optionId == $SLATED_FOR_RELEASE_OPTION_ID) | .id' project_items.json) >> $GITHUB_ENV
+            echo 'FIRST_ITEM_ID='$(echo $ITEM_IDS | awk '{print $1}') >> $GITHUB_ENV
+      
+      - name: Set fields
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+        run: |
+            gh api graphql -f query='
+              mutation (
+                $project: ID!
+                $item: ID!
+                $status_field: ID!
+                $status_value: String!
+                $date_field: ID!
+                $date_value: Date!
+              ) {
+                set_status: updateProjectV2ItemFieldValue(input: {
+                  projectId: $project
+                  itemId: $item
+                  fieldId: $status_field
+                  value: {
+                    singleSelectOptionId: $status_value
+                    }
+                }) {
+                  projectV2Item {
+                    id
+                    }
+                }
+              }' -f project=$PROJECT_ID -f item=$FIRST_ITEM_ID -f status_field=$STATUS_FIELD_ID -f status_value=${{ env.DONE_OPTION_ID }} --silent
+
+          

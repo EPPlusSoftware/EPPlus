@@ -376,7 +376,7 @@ namespace EPPlusTest.Drawing
             shape.Text = name;
             shape.TextAlignment = eTextAlignment.Center;
             shape.TextAnchoring = eTextAnchoringType.Center;
-            shape.Font.Color = Color.Black;
+            shape.Font.Fill.Color = Color.Black;
             shape.SetPosition(row, 0, col, 0);
             return shape;
         }

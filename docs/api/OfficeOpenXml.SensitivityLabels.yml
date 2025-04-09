@@ -1,0 +1,40 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.SensitivityLabels
+  commentId: N:OfficeOpenXml.SensitivityLabels
+  id: OfficeOpenXml.SensitivityLabels
+  children:
+  - OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabel
+  - OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  - OfficeOpenXml.SensitivityLabels.MissingSensibilityHandlerException
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.SensitivityLabels
+  nameWithType: OfficeOpenXml.SensitivityLabels
+  fullName: OfficeOpenXml.SensitivityLabels
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabel
+  commentId: T:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabel
+  name: ExcelSensibilityLabel
+  nameWithType: ExcelSensibilityLabel
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabel
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  commentId: T:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  parent: OfficeOpenXml.SensitivityLabels
+  name: ExcelSensibilityLabelCollection
+  nameWithType: ExcelSensibilityLabelCollection
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+- uid: OfficeOpenXml.SensitivityLabels.MissingSensibilityHandlerException
+  commentId: T:OfficeOpenXml.SensitivityLabels.MissingSensibilityHandlerException
+  name: MissingSensibilityHandlerException
+  nameWithType: MissingSensibilityHandlerException
+  fullName: OfficeOpenXml.SensitivityLabels.MissingSensibilityHandlerException
+- uid: OfficeOpenXml.SensitivityLabels
+  commentId: N:OfficeOpenXml.SensitivityLabels
+  name: OfficeOpenXml.SensitivityLabels
+  nameWithType: OfficeOpenXml.SensitivityLabels
+  fullName: OfficeOpenXml.SensitivityLabels

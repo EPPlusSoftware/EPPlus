@@ -10,18 +10,18 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Utils.TypeConversion;
 using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         EPPlusVersion = "4",
         Description = "Calculates the Average of the cells in a supplied range, that satisfy a given criteria",
         IntroducedInExcelVersion = "2007")]
-    internal class AverageIf : HiddenValuesHandlingFunction
+    internal class AverageIf : RangeCriteriaFunction
     {
         private ExpressionEvaluator _expressionEvaluator;
 
@@ -40,6 +40,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             config.SetArrayParameterIndexes(1);
         }
+        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+        {
+            if (index == 2)
+            {
+                if (args[0].Result is IRangeInfo rangeInfo)
+                {
+                    var rv = new RangeOrValue { Range = rangeInfo };
+                    var mi = GetMatchIndexes(rv, args[1].Result, null);
+                    addresses = EnqueueMatchingAddresses(args[2].Address, mi);
+                }
+            }
+        }
+
         private bool Evaluate(object obj, string expression)
         {
             double? candidate = default(double?);
@@ -85,7 +98,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 var lookupRange = ArgToRangeInfo(arguments, 2);
                 returnValue = CalculateWithLookupRange(argRange, criteria, lookupRange, context, out ExcelErrorValue eev);
-                if(eev != null)
+                if (eev != null)
                 {
                     return GetResultByObject(eev);
                 }
@@ -112,7 +125,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     var rowOffset = cell.Row - argRange.Address.FromRow;
                     var columnOffset = cell.Column - argRange.Address.FromCol;
-                    if(sumRange.Address.FromRow + rowOffset <= sumRange.Address.ToRow &&
+                    if (sumRange.Address.FromRow + rowOffset <= sumRange.Address.ToRow &&
                        sumRange.Address.FromCol + columnOffset <= sumRange.Address.ToCol)
                     {
                         var val = sumRange.GetOffset(rowOffset, columnOffset);
@@ -147,7 +160,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 if (expression != null && IsNumeric(candidate.Value) && Evaluate(candidate.Value, expression))
                 {
-                    
+
                     if (candidate.IsExcelError)
                     {
                         error = (ExcelErrorValue)candidate.Value;
@@ -173,6 +186,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (argumentIndex == 1)
             {
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
+            }
+            else if (argumentIndex == 2)
+            {
+                return FunctionParameterInformation.AdjustParameterAddress;
             }
             return FunctionParameterInformation.Normal;
         }));

@@ -11,7 +11,7 @@ namespace OfficeOpenXml.DigitalSignatures
 {
     internal class ManifestReference
     {
-        private Reference _ref;
+        //private Reference _ref;
         internal XmlElement xmlDigSig;
         internal XmlElement xmlDigSigAlt;
 
