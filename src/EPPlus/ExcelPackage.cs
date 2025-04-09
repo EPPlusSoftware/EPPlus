@@ -28,7 +28,7 @@ using System.Diagnostics;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Configuration;
 using OfficeOpenXml.EventArguments;
-
+using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Interfaces;
 
 /* Unmerged change from project 'EPPlus (net35)'
@@ -38,12 +38,9 @@ After:
 using OfficeOpenXml.Utils.FileUtils;
 #if(!NET35)
 */
-using OfficeOpenXml.Utils.FileUtils;
 
 #if (!NET35)
 using OfficeOpenXml.SensitivityLabels;
-using OfficeOpenXml.Utils.FileUtils;
-
 #endif
 
 #if (Core)
