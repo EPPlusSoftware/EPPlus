@@ -275,9 +275,10 @@ namespace OfficeOpenXml.Core
 
         private void CopyDataValidations()
         {
+            var dv_Range = _sourceRange.DataValidation;
+            var validations = dv_Range.GetDataValidations();
 
-
-            foreach (var idv in _sourceRange._worksheet.DataValidations)
+            foreach (var idv in validations)
             {
                 if (idv is ExcelDataValidation dv)
                 {
@@ -292,6 +293,7 @@ namespace OfficeOpenXml.Core
                         {
                             var na = HandleAddress(a);
                             if (!string.IsNullOrEmpty(na))
+
                             {
                                 if (string.IsNullOrEmpty(newAddress))
                                 {
@@ -324,49 +326,52 @@ namespace OfficeOpenXml.Core
 
         private void CopyConditionalFormatting()
         {
-            var cf_Range = _sourceRange.ConditionalFormatting;
-            var formattings = _sourceRange.ConditionalFormatting.GetConditionalFormattings();
-
-            foreach(var cf in formattings)
+            if(_sourceRange.Worksheet.ConditionalFormatting.Count() > 0)
             {
-                string newAddress = "";
-                if (cf.Address.Addresses == null)
-                {
-                    newAddress = HandleAddress(cf.Address);
-                }
-                else
-                {
-                    foreach (var a in cf.Address.Addresses)
-                    {
-                        var na = HandleAddress(a);
-                        if (!string.IsNullOrEmpty(na))
-                        {
-                            if (string.IsNullOrEmpty(newAddress))
-                            {
-                                newAddress += na;
-                            }
-                            else
-                            {
-                                newAddress += "," + na;
-                            }
+                var cf_Range = _sourceRange.ConditionalFormatting;
+                var formattings = _sourceRange.ConditionalFormatting.GetConditionalFormattings();
 
-                        }
-                    }
-                }
-
-                if (string.IsNullOrEmpty(newAddress) == false)
+                foreach (var cf in formattings)
                 {
-                    if (_sourceRange._worksheet == _destinationRange._worksheet)
+                    string newAddress = "";
+                    if (cf.Address.Addresses == null)
                     {
-                        cf.Address = new ExcelAddress(cf.Address + "," + newAddress);
+                        newAddress = HandleAddress(cf.Address);
                     }
                     else
                     {
-                        _destinationRange._worksheet.ConditionalFormatting.CopyRule((ExcelConditionalFormattingRule)cf, new ExcelAddress(newAddress));
-                        if (cf.Style.HasValue)
+                        foreach (var a in cf.Address.Addresses)
                         {
-                            var destRule = ((ExcelConditionalFormattingRule)_destinationRange._worksheet.ConditionalFormatting[_destinationRange._worksheet.ConditionalFormatting.Count - 1]);
-                            destRule.SetStyle((ExcelDxfStyleConditionalFormatting)cf.Style.Clone());
+                            var na = HandleAddress(a);
+                            if (!string.IsNullOrEmpty(na))
+                            {
+                                if (string.IsNullOrEmpty(newAddress))
+                                {
+                                    newAddress += na;
+                                }
+                                else
+                                {
+                                    newAddress += "," + na;
+                                }
+
+                            }
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(newAddress) == false)
+                    {
+                        if (_sourceRange._worksheet == _destinationRange._worksheet)
+                        {
+                            cf.Address = new ExcelAddress(cf.Address + "," + newAddress);
+                        }
+                        else
+                        {
+                            _destinationRange._worksheet.ConditionalFormatting.CopyRule((ExcelConditionalFormattingRule)cf, new ExcelAddress(newAddress));
+                            if (cf.Style.HasValue)
+                            {
+                                var destRule = ((ExcelConditionalFormattingRule)_destinationRange._worksheet.ConditionalFormatting[_destinationRange._worksheet.ConditionalFormatting.Count - 1]);
+                                destRule.SetStyle((ExcelDxfStyleConditionalFormatting)cf.Style.Clone());
+                            }
                         }
                     }
                 }

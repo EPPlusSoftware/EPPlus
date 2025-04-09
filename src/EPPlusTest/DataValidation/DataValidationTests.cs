@@ -26,6 +26,7 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Core.CellStore;
@@ -33,6 +34,7 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Table;
 using System;
@@ -67,7 +69,6 @@ namespace EPPlusTest.DataValidation
 
             validation.Validate();
         }
-
 
         [TestMethod]
         public void DataValidation_CanReadNoneValidation()
@@ -1290,35 +1291,17 @@ namespace EPPlusTest.DataValidation
                 //decVal.PromptTitle = "Enter a decimal value here";
                 //decVal.Prompt = "Decimal Value must be greater than or equal to 2";
 
-                ws.Cells["A2:A4"].Formula = "A5";
+                //ws.Cells["A2:A4"].Formula = "A5";
 
-                ws.Cells["H1"].Formula = "A5";
+                //ws.Cells["H1"].Formula = "A5";
 
-                ws.Columns.Range.TakeColumnsBetween(3, 10).IsEmpty();
-
-                //ws.Columns.Range.IsEmpty(from: 3, to: 20);
-                //ws.Rows[1].Range.IsEmpty();
-
-                var row = 5;
-                var from = 6;
-                var to = 8;
-                var count = to - from;
-
-                ws.Cells[row, from, row, to].IsEmpty();
-
-                ws.Columns[from].Range.TakeColumns(to - from).IsEmpty();
-
-                //var from = 2;
-                //var to = 5 - from;
-                ws.Rows.Range.TakeRowsBetween(from, to).IsEmpty();
-
-                ws.Calculate();
-                var formula = ws._sharedFormulas[0];
-                var formulatest = formula.GetFormula(2, 1);
                 //ws.Calculate();
+                //var formula = ws._sharedFormulas[0];
+                //var formulatest = formula.GetFormula(2, 1);
+                ////ws.Calculate();
 
-                //ws.InsertRow(5, 1);
-                //ws.Cells["A5"].Insert(eShiftTypeInsert.Right);
+                ////ws.InsertRow(5, 1);
+                ////ws.Cells["A5"].Insert(eShiftTypeInsert.Right);
 
                 //var validation = (ExcelDataValidationInt)ws.DataValidations[ws.Cells["A5"].Address];
                 //validation.Address = ws.Cells["H4"];
@@ -1334,5 +1317,5 @@ namespace EPPlusTest.DataValidation
                 SaveAndCleanup(p);
             }
         }
-    }
+    }    
 }

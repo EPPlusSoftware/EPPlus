@@ -14,7 +14,6 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
@@ -52,12 +51,20 @@ namespace OfficeOpenXml.DataValidation
         private List<ExcelDataValidation> _validations = new List<ExcelDataValidation>();
         private ExcelWorksheet _worksheet = null;
         internal RangeDictionary<ExcelDataValidation> _validationsRD = new RangeDictionary<ExcelDataValidation>();
-        internal QuadTree<ExcelDataValidation> dvQuadTree;
+        internal QuadTree<IExcelDataValidation> dvQuadTree;
 
         internal ExcelDataValidationCollection(ExcelWorksheet worksheet)
         {
             InternalValidationEnabled = true;
             _worksheet = worksheet;
+            if (worksheet.Dimension == null)
+            {
+                dvQuadTree = new QuadTree<IExcelDataValidation>();
+            }
+            else
+            {
+                dvQuadTree = new QuadTree<IExcelDataValidation>(worksheet.Dimension);
+            }
         }
 
         internal ExcelDataValidationCollection(XmlReader xr, ExcelWorksheet worksheet)
@@ -353,6 +360,8 @@ namespace OfficeOpenXml.DataValidation
 
                 _validationsRD.Add(individualAddress._fromRow, individualAddress._fromCol,
                                    individualAddress._toRow, individualAddress._toCol, validation);
+
+                dvQuadTree.Add(new QuadRange(internalAddress), validation);
             }
 
         }
@@ -444,6 +453,7 @@ namespace OfficeOpenXml.DataValidation
             ClearRangeDictionary(item.Address);
             var retVal = _validations.Remove((ExcelDataValidation)item);
             if (retVal) OnValidationCountChanged();
+            dvQuadTree.Clear(item.Address, item);
             return retVal;
         }
 
@@ -651,32 +661,37 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
-        internal void AlterExistingQuadRange(ExcelDataValidation validation)
-        {
-            if (dvQuadTree != null)
-            {
-                dvQuadTree.Add(new QuadRange(validation.Address), validation);
-            }
-        }
+        //internal void AlterExistingQuadRange(ExcelDataValidation validation)
+        //{
+        //    if (dvQuadTree != null)
+        //    {
+        //        dvQuadTree.Add(new QuadRange(validation.Address), validation);
+        //    }
+        //}
 
-        internal void AddNewQuadRange(ExcelDataValidation validation)
-        {
-            if (dvQuadTree == null)
-            {
-                dvQuadTree = new QuadTree<ExcelDataValidation>(validation.Address);
-            }
+        //internal void AddNewQuadRange(ExcelDataValidation validation)
+        //{
+        //    if (dvQuadTree == null)
+        //    {
+        //        dvQuadTree = new QuadTree<ExcelDataValidation>(validation.Address);
+        //    }
 
-            if (validation.Address.Addresses != null)
-            {
-                for (int i = 0; i < validation.Address.Addresses.Count; i++)
-                {
-                    dvQuadTree.Add(new QuadRange(validation.Address.Addresses[i]), validation);
-                }
-            }
-            else
-            {
-                dvQuadTree.Add(new QuadRange(validation.Address), validation);
-            }
+        //    if (validation.Address.Addresses != null)
+        //    {
+        //        for (int i = 0; i < validation.Address.Addresses.Count; i++)
+        //        {
+        //            dvQuadTree.Add(new QuadRange(validation.Address.Addresses[i]), validation);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        dvQuadTree.Add(new QuadRange(validation.Address), validation);
+        //    }
+        //}
+
+        internal List<QuadRangeItem<IExcelDataValidation>> GetIntersectingRanges(ExcelAddress address)
+        {
+            return dvQuadTree.GetIntersectingRangeItems(new QuadRange(address));
         }
     }
 }

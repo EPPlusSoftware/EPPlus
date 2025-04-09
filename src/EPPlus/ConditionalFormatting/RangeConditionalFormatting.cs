@@ -24,8 +24,8 @@ namespace OfficeOpenXml.ConditionalFormatting
       : IRangeConditionalFormatting
     {
         #region Public Properties
-        public ExcelWorksheet _worksheet;
-        public ExcelAddress _address;
+        private ExcelWorksheet _worksheet;
+        private ExcelAddress _address;
         #endregion Public Properties
 
         #region Constructors
