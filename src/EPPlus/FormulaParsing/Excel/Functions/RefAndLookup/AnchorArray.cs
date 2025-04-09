@@ -40,6 +40,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                         var sf = ws._sharedFormulas[sfIx];
                         var rangeAddress = new FormulaRangeAddress(context)
                         {
+                            WorksheetIx = sf._ws.IndexInList,
                             FromRow = sf.StartRow,
                             FromCol = sf.StartCol,
                             ToRow = sf.EndRow,

@@ -154,5 +154,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 return false;
             }
         }
+        public override bool IsVolatile => true;
     }
 }

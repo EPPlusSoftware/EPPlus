@@ -13,7 +13,6 @@
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
-using OfficeOpenXml.Style.XmlAccess;
 
 namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 {

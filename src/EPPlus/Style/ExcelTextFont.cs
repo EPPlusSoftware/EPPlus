@@ -256,7 +256,6 @@ namespace OfficeOpenXml.Style
         /// Use the Fill property for more options
         /// </remark>
         /// </summary>
-        [Obsolete("Use the Fill property for more options")]
         public Color Color
         {
             get

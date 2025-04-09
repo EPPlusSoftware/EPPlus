@@ -23,11 +23,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParsingContext
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 27
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -66,11 +66,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parser
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 42
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -103,11 +103,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameValueProvider
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 72
+    startLine: 76
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -140,11 +140,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Configuration
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 77
+    startLine: 81
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -177,11 +177,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Debug
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 81
+    startLine: 85
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -214,11 +214,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 91
+    startLine: 95
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -255,11 +255,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 106
+    startLine: 110
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -292,11 +292,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurrentCell
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 132
+    startLine: 136
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -329,11 +329,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurrentWorksheet
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 136
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing

@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotItemComparer.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableFieldItemsCollection
     path: ../src/EPPlus/Table/PivotTable/PivotItemComparer.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Contains
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetByValue
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetIndexByValue
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowAll
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDetails
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SelectSingleItem
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
@@ -296,7 +296,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Refresh
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs

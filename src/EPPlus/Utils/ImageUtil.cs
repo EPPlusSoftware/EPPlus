@@ -1,11 +1,15 @@
 ﻿using OfficeOpenXml.Drawing;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml.Utils
 {
     internal static class ImageUtil
     {
-       internal static void ResizeImageWithMaxSize(double maxWidth, double maxHeight, int width, int height, out int newWidth, out int newHeight)
+        internal static void ResizeImageWithMaxSize(double maxWidth, double maxHeight, int width, int height, out int newWidth, out int newHeight)
         {
             double xRatio = maxWidth / (double)width;
             double yRatio = maxHeight / (double)height;

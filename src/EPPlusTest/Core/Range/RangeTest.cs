@@ -33,6 +33,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -360,6 +361,16 @@ namespace EPPlusTest.Core.Range
 
             range = ws.Cells["A10:G55"];
             isEmpty = range.IsEmpty();
+            Assert.IsTrue(isEmpty);
+        }
+
+        [TestMethod]
+        public void RangeIsEmptyStyleTests()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            ws.Cells["B2"].Style.Font.Bold = true;
+            var isEmpty = ws.Cells["A1:C5"].IsEmpty();
             Assert.IsTrue(isEmpty);
         }
 

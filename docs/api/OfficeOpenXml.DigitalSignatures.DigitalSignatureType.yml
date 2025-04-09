@@ -17,14 +17,16 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/DigitalSignatureType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DigitalSignatureType
     path: ../src/EPPlus/DigitalSignatures/DigitalSignatureType.cs
-    startLine: 7
+    startLine: 10
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nDigital Signature Types\n"
+  example: []
   syntax:
     content: public enum DigitalSignatureType
     content.vb: Public Enum DigitalSignatureType
@@ -48,11 +50,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/DigitalSignatureType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Invisible
     path: ../src/EPPlus/DigitalSignatures/DigitalSignatureType.cs
-    startLine: 12
+    startLine: 15
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DigitalSignatures
@@ -82,11 +84,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/DigitalSignatureType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SignatureLine
     path: ../src/EPPlus/DigitalSignatures/DigitalSignatureType.cs
-    startLine: 16
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DigitalSignatures

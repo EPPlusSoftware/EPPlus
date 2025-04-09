@@ -15,6 +15,8 @@ using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Emit;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -45,7 +47,7 @@ namespace OfficeOpenXml.Drawing
             _groupDrawings = new List<ExcelDrawing>();
             foreach (XmlNode node in _topNode.ChildNodes)
             {
-                
+
                 if (node.LocalName != "nvGrpSpPr" && node.LocalName != "grpSpPr")
                 {
                     var grpDraw = ExcelDrawing.GetDrawingFromNode(_parent._drawings, node, (XmlElement)node, _parent, _drawingsCollectionType);
@@ -85,7 +87,7 @@ namespace OfficeOpenXml.Drawing
             ExcelGroupShape.Validate(drawing, _parent._drawings, _parent);
             AppendDrawingNode(drawing.TopNode);
             drawing._parent = _parent;
-            
+
             _groupDrawings.Add(drawing);
             _drawingNames.Add(drawing.Name, _groupDrawings.Count - 1);
         }
@@ -114,9 +116,9 @@ namespace OfficeOpenXml.Drawing
                 extNode.SetAttribute("cx", Math.Round(width * ExcelDrawing.EMU_PER_PIXEL, 0).ToString());
                 d.SetGroupChild(offNode, extNode);
             }
-            else if(d._drawings.DrawingsType == DrawingsCollectionType.chart)
+            else if (d._drawings.DrawingsType == DrawingsCollectionType.chart)
             {
-                if(d is not ExcelGroupShape)
+                if (d is not ExcelGroupShape)
                     d.RemoveFromToNodes();
             }
 
@@ -147,9 +149,8 @@ namespace OfficeOpenXml.Drawing
             XmlNode drawingNode;
             if (_parent.TopNode.ParentNode?.ParentNode?.LocalName == "AlternateContent") //Create alternat content above ungrouped drawing.
             {
-                //drawingNode = xmlDoc.CreateElement("mc", "AlternateContent", ExcelPackage.schemaMarkupCompatibility);
                 drawingNode = _parent.TopNode.ParentNode.ParentNode.CloneNode(false);
-                var choiceNode= _parent.TopNode.ParentNode.CloneNode(false);
+                var choiceNode = _parent.TopNode.ParentNode.CloneNode(false);
                 drawingNode.AppendChild(choiceNode);
                 d.TopNode.ParentNode.RemoveChild(d.TopNode);
                 choiceNode.AppendChild(d.TopNode);
@@ -161,7 +162,8 @@ namespace OfficeOpenXml.Drawing
             {
                 d.TopNode.ParentNode.RemoveChild(d.TopNode);
                 drawingNode = CreateAnchorNode(d.TopNode);
-                _parent.TopNode.ParentNode.InsertBefore(drawingNode, _parent.TopNode);
+                d.TopNode.ChildNodes[0].PrependChild(drawingNode);
+                _parent.TopNode.ParentNode.InsertBefore(d.TopNode, _parent.TopNode);
             }
             d.AdjustXPathsForGrouping(false);
             d.TopNode = drawingNode;
@@ -175,8 +177,8 @@ namespace OfficeOpenXml.Drawing
                 left = (int)(fromX * d._drawings.screenWidth);
                 top = (int)(fromY * d._drawings.screenHeight);
 
-                width = (x2-x1) * d._drawings.screenWidth;
-                height = (y2-y1) * d._drawings.screenHeight;
+                width = (x2 - x1) * d._drawings.screenWidth;
+                height = (y2 - y1) * d._drawings.screenHeight;
             }
             d.SetPosition(top, left);
             d.SetSize((int)width, (int)height);
@@ -185,7 +187,8 @@ namespace OfficeOpenXml.Drawing
         private XmlNode CreateAnchorNode(XmlNode drawingNode)
         {
             XmlNode topNode;
-            if(drawingNode.LocalName=="AlternateContent")
+            var ix = 3;
+            if (drawingNode.LocalName == "AlternateContent")
             {
                 var xmlDoc = _topNode.OwnerDocument;
                 topNode = _topNode.OwnerDocument.CreateElement("xdr", "twoCellAnchor", ExcelPackage.schemaSheetDrawings);
@@ -193,18 +196,22 @@ namespace OfficeOpenXml.Drawing
                 var to = _topNode.OwnerDocument.CreateElement("xdr", "to", ExcelPackage.schemaSheetDrawings);
                 topNode.AppendChild(from);
                 topNode.AppendChild(to);
+
+                topNode.AppendChild(drawingNode.ChildNodes[0].ChildNodes[0]);
+                drawingNode.ChildNodes[0].PrependChild(topNode);
             }
             else
             {
                 topNode = _parent.TopNode.CloneNode(false);
                 topNode.AppendChild(_parent.TopNode.GetChildAtPosition(0).CloneNode(true));
                 topNode.AppendChild(_parent.TopNode.GetChildAtPosition(1).CloneNode(true));
+                topNode.AppendChild(drawingNode);
             }
-            topNode.AppendChild(drawingNode);
-            var ix = 3;
+
             while (ix < _parent.TopNode.ChildNodes.Count)
             {
-                topNode.AppendChild(_parent.TopNode.ChildNodes[ix].CloneNode(true));
+                var nodeToAppend = _parent.TopNode.ChildNodes[ix].CloneNode(true);
+                topNode.AppendChild(nodeToAppend);
                 ix++;
             }
             return topNode;
@@ -310,7 +317,7 @@ namespace OfficeOpenXml.Drawing
         public void Clear()
         {
             CheckNotDisposed();
-            while (_groupDrawings.Count>0)
+            while (_groupDrawings.Count > 0)
             {
                 Remove(_groupDrawings[0]);
             }
@@ -333,7 +340,7 @@ namespace OfficeOpenXml.Drawing
             if (grpNode.InnerXml == "")
             {
                 Id = drawings._nextDrawingId++;
-                grpNode.InnerXml = "<" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":cNvPr name=\"\" id=\""+Id+"\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></" + NamespacePrefixes[prefixIndex] + ":cNvPr><" + NamespacePrefixes[prefixIndex] + ":cNvGrpSpPr/></" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":grpSpPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/><a:chOff x=\"0\" y=\"0\"/><a:chExt cx=\"0\" cy=\"0\"/></a:xfrm></" + NamespacePrefixes[prefixIndex] + ":grpSpPr>";
+                grpNode.InnerXml = "<" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":cNvPr name=\"\" id=\"" + Id + "\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></" + NamespacePrefixes[prefixIndex] + ":cNvPr><" + NamespacePrefixes[prefixIndex] + ":cNvGrpSpPr/></" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":grpSpPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/><a:chOff x=\"0\" y=\"0\"/><a:chExt cx=\"0\" cy=\"0\"/></a:xfrm></" + NamespacePrefixes[prefixIndex] + ":grpSpPr>";
             }
 
             switch (DrawingsType)
@@ -422,11 +429,11 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("All drawings must be in the same worksheet.");
             }
-            if (d._parent != null && d._parent!=grp)
+            if (d._parent != null && d._parent != grp)
             {
                 throw new InvalidOperationException($"The drawing {d.Name} is already in a group different from the other drawings.");
             }
-            if(d._drawings.DrawingsType != drawings.DrawingsType)
+            if (d._drawings.DrawingsType != drawings.DrawingsType)
             {
                 throw new InvalidOperationException("Drawings need to be inside the same drawings type collection.");
             }
@@ -465,7 +472,7 @@ namespace OfficeOpenXml.Drawing
             else if (drawingsCollectionType == DrawingsCollectionType.chart)
             {
                 long l = Drawings[0].Position.X, t = Drawings[0].Position.Y, r = Drawings[0].Position.X + Drawings[0].Size.Width, b = Drawings[0].Position.Y + Drawings[0].Size.Height;
-                foreach(var d in Drawings)
+                foreach (var d in Drawings)
                 {
                     l = Math.Min(l, d.Position.X);
                     t = Math.Min(t, d.Position.Y);
@@ -512,7 +519,7 @@ namespace OfficeOpenXml.Drawing
         {
             var top = GetPixelTop();
             var diff = top - prevTop;
-            if(diff!=0)
+            if (diff != 0)
             {
                 for (int i = 0; i < Drawings.Count; i++)
                 {
@@ -540,9 +547,9 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                if(_xFrmPosition==null)
+                if (_xFrmPosition == null)
                 {
-                    _xFrmPosition= new ExcelDrawingCoordinate(NameSpaceManager, GetNode(NamespacePrefixes[prefixIndex] +":grpSp/" + NamespacePrefixes[prefixIndex] + ":grpSpPr/a:xfrm/a:off")); 
+                    _xFrmPosition = new ExcelDrawingCoordinate(NameSpaceManager, GetNode(NamespacePrefixes[prefixIndex] + ":grpSp/" + NamespacePrefixes[prefixIndex] + ":grpSpPr/a:xfrm/a:off"));
                 }
                 return _xFrmPosition;
             }
@@ -554,7 +561,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_xFrmSize == null)
                 {
-                    _xFrmSize = new ExcelDrawingSize(NameSpaceManager, GetNode(NamespacePrefixes[prefixIndex] + ":grpSp/" + NamespacePrefixes[prefixIndex] + ":grpSpPr/a:xfrm/a:ext")); 
+                    _xFrmSize = new ExcelDrawingSize(NameSpaceManager, GetNode(NamespacePrefixes[prefixIndex] + ":grpSp/" + NamespacePrefixes[prefixIndex] + ":grpSpPr/a:xfrm/a:ext"));
                 }
                 return _xFrmSize;
             }
@@ -594,5 +601,5 @@ namespace OfficeOpenXml.Drawing
             }
         }
     }
-    
+
 }

@@ -19,11 +19,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRange
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 19
+    startLine: 20
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -280,11 +280,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 42
+    startLine: 43
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -324,11 +324,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 102
+    startLine: 103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -371,11 +371,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 131
+    startLine: 132
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -424,11 +424,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetFormula
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 171
+    startLine: 172
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

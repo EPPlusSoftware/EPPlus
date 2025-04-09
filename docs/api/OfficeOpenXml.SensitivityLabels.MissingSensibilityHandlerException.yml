@@ -1,34 +1,39 @@
 ### YamlMime:ManagedReference
 items:
-- uid: OfficeOpenXml.LicenseException
-  commentId: T:OfficeOpenXml.LicenseException
-  id: LicenseException
-  parent: OfficeOpenXml
+- uid: OfficeOpenXml.SensitivityLabels.MissingSensibilityHandlerException
+  commentId: T:OfficeOpenXml.SensitivityLabels.MissingSensibilityHandlerException
+  id: MissingSensibilityHandlerException
+  parent: OfficeOpenXml.SensitivityLabels
   children: []
   langs:
   - csharp
   - vb
-  name: LicenseException
-  nameWithType: LicenseException
-  fullName: OfficeOpenXml.LicenseException
+  name: MissingSensibilityHandlerException
+  nameWithType: MissingSensibilityHandlerException
+  fullName: OfficeOpenXml.SensitivityLabels.MissingSensibilityHandlerException
   type: Class
   source:
     remote:
-      path: src/EPPlus/LicenseException.cs
-      branch: develop8
+      path: src/EPPlus/SensitivityLabels/MissingSensibilityHandlerException.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: LicenseException
-    path: ../src/EPPlus/LicenseException.cs
-    startLine: 21
+    id: MissingSensibilityHandlerException
+    path: ../src/EPPlus/SensitivityLabels/MissingSensibilityHandlerException.cs
+    startLine: 20
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml
-  summary: "\nAn exception thrown when the license context of EPPlus hasn&apos;t been set.\n"
+  namespace: OfficeOpenXml.SensitivityLabels
+  summary: "\nThown if no sensibility handler is set, and a package is encrypted with a protected sensibility label.\n"
   example: []
   syntax:
-    content: 'public class LicenseException : Exception, ISerializable'
+    content: >-
+      [Serializable]
+
+      public class MissingSensibilityHandlerException : Exception, ISerializable
     content.vb: >-
-      Public Class LicenseException
+      <Serializable>
+
+      Public Class MissingSensibilityHandlerException
           Inherits Exception
           Implements ISerializable
   inheritance:
@@ -54,6 +59,10 @@ items:
   - System.Object.GetHashCode
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - class
@@ -61,11 +70,11 @@ items:
   - Public
   - Class
 references:
-- uid: OfficeOpenXml
-  commentId: N:OfficeOpenXml
-  name: OfficeOpenXml
-  nameWithType: OfficeOpenXml
-  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.SensitivityLabels
+  commentId: N:OfficeOpenXml.SensitivityLabels
+  name: OfficeOpenXml.SensitivityLabels
+  nameWithType: OfficeOpenXml.SensitivityLabels
+  fullName: OfficeOpenXml.SensitivityLabels
 - uid: System.Object
   commentId: T:System.Object
   parent: System

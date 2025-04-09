@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
@@ -86,7 +87,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             }
 
             var resultRangeDef = new RangeDefinition(maxHeight, maxWidth);
-            var resultRange = new InMemoryRange(resultRangeDef);
+            InMemoryRange resultRange;
+            if(rangeArgs.Count==1)
+            {
+                resultRange = new InMemoryRange(rangeArgs.First().Value.Address, resultRangeDef);
+            }
+            else
+            {
+               resultRange = new InMemoryRange(resultRangeDef);
+            }
             var nArgs = children.Count();
             for(var row = 0; row < resultRange.Size.NumberOfRows; row++)
             {
@@ -135,7 +144,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                     }
                 }
             }
-            return new CompileResult(resultRange, DataType.ExcelRange);
+            if (resultRange.Address?.FromRow > 0 && Function.ReturnsReference)
+            {
+                return new AddressCompileResult(resultRange, DataType.ExcelRange, resultRange.Address);
+            }
+            else
+            {
+                return new CompileResult(resultRange, DataType.ExcelRange);
+            }
         }
     }
 }

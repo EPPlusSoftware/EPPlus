@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  commentId: T:OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  id: ExcelIndexedColorNamedNumFt
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Black
+  - OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Blue
+  - OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Cyan
+  - OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Green
+  - OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Magenta
+  - OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Red
+  - OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.White
+  - OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Yellow
+  langs:
+  - csharp
+  - vb
+  name: ExcelIndexedColorNamedNumFt
+  nameWithType: ExcelIndexedColorNamedNumFt
+  fullName: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelIndexedColorNamedNumFt
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+    startLine: 8
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nGet the color index by name.\n"
+  example: []
+  syntax:
+    content: public enum ExcelIndexedColorNamedNumFt
+    content.vb: Public Enum ExcelIndexedColorNamedNumFt
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Black
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Black
+  id: Black
+  parent: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  langs:
+  - csharp
+  - vb
+  name: Black
+  nameWithType: ExcelIndexedColorNamedNumFt.Black
+  fullName: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Black
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Black
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+    startLine: 13
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nBlack\n"
+  example: []
+  syntax:
+    content: Black = 0
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.White
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.White
+  id: White
+  parent: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  langs:
+  - csharp
+  - vb
+  name: White
+  nameWithType: ExcelIndexedColorNamedNumFt.White
+  fullName: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.White
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: White
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nWhite\n"
+  example: []
+  syntax:
+    content: White = 1
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Red
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Red
+  id: Red
+  parent: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  langs:
+  - csharp
+  - vb
+  name: Red
+  nameWithType: ExcelIndexedColorNamedNumFt.Red
+  fullName: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Red
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Red
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nRed\n"
+  example: []
+  syntax:
+    content: Red = 2
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Green
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Green
+  id: Green
+  parent: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  langs:
+  - csharp
+  - vb
+  name: Green
+  nameWithType: ExcelIndexedColorNamedNumFt.Green
+  fullName: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Green
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Green
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nGreen\n"
+  example: []
+  syntax:
+    content: Green = 3
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Blue
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Blue
+  id: Blue
+  parent: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  langs:
+  - csharp
+  - vb
+  name: Blue
+  nameWithType: ExcelIndexedColorNamedNumFt.Blue
+  fullName: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Blue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Blue
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nBlue\n"
+  example: []
+  syntax:
+    content: Blue = 4
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Yellow
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Yellow
+  id: Yellow
+  parent: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  langs:
+  - csharp
+  - vb
+  name: Yellow
+  nameWithType: ExcelIndexedColorNamedNumFt.Yellow
+  fullName: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Yellow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Yellow
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nYellow\n"
+  example: []
+  syntax:
+    content: Yellow = 5
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Magenta
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Magenta
+  id: Magenta
+  parent: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  langs:
+  - csharp
+  - vb
+  name: Magenta
+  nameWithType: ExcelIndexedColorNamedNumFt.Magenta
+  fullName: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Magenta
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Magenta
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nMagenta\n"
+  example: []
+  syntax:
+    content: Magenta = 6
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Cyan
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Cyan
+  id: Cyan
+  parent: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  langs:
+  - csharp
+  - vb
+  name: Cyan
+  nameWithType: ExcelIndexedColorNamedNumFt.Cyan
+  fullName: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt.Cyan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cyan
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nCyan\n"
+  example: []
+  syntax:
+    content: Cyan = 7
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  commentId: T:OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  parent: OfficeOpenXml.Style
+  name: ExcelIndexedColorNamedNumFt
+  nameWithType: ExcelIndexedColorNamedNumFt
+  fullName: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt

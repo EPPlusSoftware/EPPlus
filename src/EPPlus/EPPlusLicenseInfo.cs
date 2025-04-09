@@ -25,7 +25,7 @@ namespace OfficeOpenXml
         public DateTime LicenseValidFrom { get; internal set; }
         /// <summary>
         /// The license valid to date.
-        /// For subsciption licenses, this date will be set to 30 days after the license periods expire date to allow the license to be renewed.
+        /// For subscription licenses, this date will be set to 30 days after the license periods expire date to allow the license to be renewed.
         /// For perpetual licenses, you will not be able to update to major/minor versions of EPPlus released after this date. 
         /// </summary>
         public DateTime LicenseValidTo { get; internal set; }

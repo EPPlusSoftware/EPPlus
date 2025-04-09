@@ -98,7 +98,7 @@ namespace OfficeOpenXml.VBA.Signatures
         }
 
         private static void WriteSequenceLength(BinaryWriter bw,int length)
-        {
+        {            
             int num = length;
             if(num >= 0x80)
             {

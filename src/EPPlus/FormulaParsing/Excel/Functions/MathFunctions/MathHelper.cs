@@ -209,7 +209,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 double nWidth = bWidth / aspect;
                 x1 = cX - nWidth / 2;
                 x2 = cX + nWidth / 2;
-                if(x1 > 0)
+                if (x1 > 0)
                 {
                     x2 -= x1;
                     x1 -= x1;
@@ -228,6 +228,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     y1 -= y1;
                 }
             }
+        public static double TruncateDouble(double value)
+        {
+            return (double)decimal.Truncate((decimal)value);
         }
     }
 }

@@ -419,6 +419,12 @@ namespace OfficeOpenXml
         {
             _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, MaximumWidth);
         }
+        /// <summary>
+        /// Gets the column.
+        /// </summary>
+        /// <param name="col"></param>
+        /// <param name="ignoreFromCol"></param>
+        /// <returns></returns>
         protected internal ExcelColumn GetColumn(int col, bool ignoreFromCol = true)
         {
             var currentCol = _worksheet.GetValueInner(0, col) as ExcelColumn;

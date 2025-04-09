@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Drawing
             {
                 ms.Position = 0;
                 var img=ExtractImage(ms.ToArray(), out ePictureType? pt);
-                return pt;
+                return pt==ePictureType.Emf ? ePictureType.Emz : pt==ePictureType.Wmf ? ePictureType.Wmz : null;
             }
             return null;
         }

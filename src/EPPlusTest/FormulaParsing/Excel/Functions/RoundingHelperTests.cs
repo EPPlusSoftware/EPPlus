@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
@@ -186,5 +187,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = RoundingHelper.Round(-1555, -1000, RoundingHelper.Direction.Nearest);
             Assert.AreEqual(-2000, result);
         }
+        [TestMethod]
+        public void BigNumbersRoundingTest()
+        {
+            using(var p=new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                ws.Cells["A1"].Formula = "3627683204550360+555487768042629000";
+                ws.Cells["A2"].Formula = "551879477094850000+71728430321556700000";
+                ws.Calculate();
+                Assert.AreEqual(559115451247179330D, (double)ws.Cells["A1"].Value);
+                Assert.AreEqual(72280309798651552000D, (double)ws.Cells["A2"].Value);
+            }
+        } 
     }
 }

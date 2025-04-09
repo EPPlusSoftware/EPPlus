@@ -110,13 +110,16 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Remove a signatureline from the collection.
         /// </summary>
-        /// <param name="signatureLine"></param>
+        /// <param name="sline">Signature line to remove.</param>
         public void Remove(ExcelSignatureLineStamp sline)
         {
             _dict.Remove(sline.SetupID);
             _list.Remove(sline);
         }
 
+        /// <summary>
+        /// Clear the signature list.
+        /// </summary>
         public void Clear()
         {
             _dict.Clear();

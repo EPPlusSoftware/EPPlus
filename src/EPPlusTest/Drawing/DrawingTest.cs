@@ -262,7 +262,8 @@ namespace EPPlusTest
             chrt.To.Column = 12;
 
             chrt.DataLabel.ShowPercent = true;
-            chrt.Legend.Font.Color = expected;
+            chrt.Legend.Font.Fill.Style = eFillStyle.SolidFill;
+            chrt.Legend.Font.Fill.SolidFill.Color.SetRgbColor(expected);
             chrt.Title.Border.Fill.Style = eFillStyle.SolidFill;
             chrt.Legend.Position = eLegendPosition.TopRight;
             Assert.IsTrue(chrt.ChartType == eChartType.Pie, "Invalid Charttype");
@@ -286,7 +287,7 @@ namespace EPPlusTest
             chrt.To.Column = 12;
 
             chrt.DataLabel.ShowPercent = true;
-            chrt.Legend.Font.Color = Color.SteelBlue;
+            chrt.Legend.Font.Fill.Color = Color.SteelBlue;
             chrt.Title.Border.Fill.Style = eFillStyle.SolidFill;
             chrt.Legend.Position = eLegendPosition.TopRight;
             Assert.IsTrue(chrt.ChartType == eChartType.BarOfPie, "Invalid Charttype");
@@ -333,7 +334,7 @@ namespace EPPlusTest
             ser.DataLabel.ShowValue = true;
             ser.DataLabel.ShowCategory = true;
             ser.DataLabel.Fill.Color = Color.BlueViolet;
-            ser.DataLabel.Font.Color = Color.White;
+            ser.DataLabel.Font.Fill.Color = Color.White;
             ser.DataLabel.Font.Italic = true;
             ser.DataLabel.Font.SetFromFont("bookman old style", 8);
             Assert.IsTrue(chrt.ChartType == eChartType.XYScatterSmoothNoMarkers, "Invalid Charttype");
@@ -484,11 +485,11 @@ namespace EPPlusTest
             chrt.Legend.Position = eLegendPosition.Top;
             chrt.Axis[0].Fill.Style = eFillStyle.SolidFill;
             chrt.Axis[0].Fill.Color = Color.Black;
-            chrt.Axis[0].Font.Color = Color.White;
+            chrt.Axis[0].Font.Fill.Color = Color.White;
 
             chrt.Axis[1].Fill.Style = eFillStyle.SolidFill;
             chrt.Axis[1].Fill.Color = Color.LightSlateGray;
-            chrt.Axis[1].Font.Color = Color.DarkRed;
+            chrt.Axis[1].Font.Fill.Color = Color.DarkRed;
 
             chrt.DataLabel.Font.Bold = true;
             chrt.DataLabel.Fill.Color = Color.LightBlue;
@@ -570,9 +571,9 @@ namespace EPPlusTest
             chrt.Border.LineStyle = eLineStyle.Dot;
             chrt.Border.Fill.Color = Color.Black;
 
-            chrt.Legend.Font.Color = Color.Red;
+            chrt.Legend.Font.Fill.Color = Color.Red;
             chrt.Legend.Font.Strike = eStrikeType.Double;
-            chrt.Title.Font.Color = Color.DarkGoldenrod;
+            chrt.Title.Font.Fill.Color = Color.DarkGoldenrod;
             chrt.Title.Font.LatinFont = "Arial";
             chrt.Title.Font.Bold = true;
             chrt.Title.Fill.Color = Color.White;
@@ -641,13 +642,13 @@ namespace EPPlusTest
             var rt = (ws.Drawings["shape1"] as ExcelShape).RichText.Add("Added formatted richtext");
             (ws.Drawings["shape1"] as ExcelShape).LockText = false;
             rt.Bold = true;
-            rt.Color = Color.Aquamarine;
+            rt.Fill.Color = Color.Aquamarine;
             rt.Italic = true;
             rt.Size = 17;
             (ws.Drawings["shape2"] as ExcelShape).TextVertical = eTextVerticalType.Vertical;
             rt = (ws.Drawings["shape2"] as ExcelShape).RichText.Add("\r\nAdded formatted richtext");
             rt.Bold = true;
-            rt.Color = Color.DarkGoldenrod;
+            rt.Fill.Color = Color.DarkGoldenrod;
             rt.SetFromFont("Times new roman", 18, false, false, true);
             rt.UnderLineColor = Color.Green;
 
@@ -663,7 +664,7 @@ namespace EPPlusTest
             (ws.Drawings["shape5"] as ExcelShape).Fill.Transparancy = 50;
 
             (ws.Drawings["shape6"] as ExcelShape).Fill.Style = eFillStyle.NoFill;
-            (ws.Drawings["shape6"] as ExcelShape).Font.Color = Color.Black;
+            (ws.Drawings["shape6"] as ExcelShape).Font.Fill.Color = Color.Black;
             (ws.Drawings["shape6"] as ExcelShape).Border.Fill.Color = Color.Black;
 
             (ws.Drawings["shape7"] as ExcelShape).Fill.Style = eFillStyle.SolidFill;
@@ -674,7 +675,7 @@ namespace EPPlusTest
             (ws.Drawings["shape7"] as ExcelShape).Border.LineCap = eLineCap.Round;
             (ws.Drawings["shape7"] as ExcelShape).Border.LineStyle = eLineStyle.LongDash;
             (ws.Drawings["shape7"] as ExcelShape).Font.UnderLineColor = Color.Blue;
-            (ws.Drawings["shape7"] as ExcelShape).Font.Color = Color.Black;
+            (ws.Drawings["shape7"] as ExcelShape).Font.Fill.Color = Color.Black;
             (ws.Drawings["shape7"] as ExcelShape).Font.Bold = true;
             (ws.Drawings["shape7"] as ExcelShape).Font.LatinFont = "Arial";
             (ws.Drawings["shape7"] as ExcelShape).Font.ComplexFont = "Arial";

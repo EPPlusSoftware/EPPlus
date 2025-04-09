@@ -721,7 +721,7 @@ namespace OfficeOpenXml
             }
         }
         #region Workbook Properties
-        decimal _standardFontWidth = decimal.MinValue;
+        double _standardFontWidth = double.MinValue;
         string _fontID = "";
         internal FormulaParser FormulaParser
         {
@@ -769,18 +769,18 @@ namespace OfficeOpenXml
         /// Max font width for the workbook, used in the calculation of column widths.
         /// <remarks>This property uses the static <see cref="FontSize.FontWidths"></see> dictionary to get the max font width /></remarks>
         /// </summary>
-        public decimal MaxFontWidth
+        public double MaxFontWidth
         {
             get
             {
-                if (_standardFontWidth == decimal.MinValue)
+                if (_standardFontWidth == double.MinValue)
                 {
                     var ix = Styles.GetNormalStyleIndex();
                     if (ix >= 0)
                     {
                         var font = Styles.NamedStyles[ix].Style.Font;
                         if (font.Index == int.MinValue) font.Index = 0;
-                        if (_standardFontWidth == decimal.MinValue || _fontID != font.Id)
+                        if (_standardFontWidth == double.MinValue || _fontID != font.Id)
                         {
                             try
                             {
@@ -894,14 +894,6 @@ namespace OfficeOpenXml
         internal ExcelSignatureLineStamp GetSignatureLineStamp(Guid id)
         {
             return _signatureLinesWorkbook[id];
-            //foreach (var sig in _signatures)
-            //{
-            //    if (sig.SignatureLine != null && sig.SignatureLine.SetupID.Equals(id))
-            //    {
-            //        return sig;
-            //    }
-            //}
-            //return null;
         }
 
         internal ExcelDigitalSignatureCollection _digSig = null;
@@ -909,7 +901,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// A collection of digital signatures for the workbook
         /// </summary>
-        public ExcelDigitalSignatureCollection DigitialSignatures
+        public ExcelDigitalSignatureCollection DigitalSignatures
         {
             get
             {
@@ -1709,7 +1701,7 @@ namespace OfficeOpenXml
             stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
             stream.PutNextEntry(fileName);
 
-            var signature = DigitialSignatures.GetSignatureByFileName(fileName);
+            var signature = DigitalSignatures.GetSignatureByFileName(fileName);
             signature.Save();
 
             var b = ((MemoryStream)signature._part.GetStream()).ToArray();
@@ -2117,7 +2109,7 @@ namespace OfficeOpenXml
 
         internal void ClearDefaultHeightsAndWidths()
         {
-            _standardFontWidth = decimal.MinValue;
+            _standardFontWidth = double.MinValue;
             foreach (var ws in Worksheets)
             {
                 if (ws.IsChartSheet == false)

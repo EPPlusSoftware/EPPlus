@@ -20,55 +20,6 @@ using System.Xml;
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// The state of the pane.
-    /// </summary>
-    public enum ePaneState
-    {
-        /// <summary>
-        /// Panes are frozen, but were not split being frozen.In this state, when the panes are unfrozen again, a single pane results, with no split. In this state, the split bars are not adjustable.
-        /// </summary>
-        Frozen,
-        /// <summary>
-        /// Frozen Split
-        /// Panes are frozen and were split before being frozen. In this state, when the panes are unfrozen again, the split remains, but is adjustable.
-        /// </summary>
-        FrozenSplit,
-        /// <summary>
-        /// Panes are split, but not frozen.In this state, the split bars are adjustable by the user.
-        /// </summary>
-        Split
-    }
-    /// <summary>
-    /// The position of the pane.
-    /// </summary>
-    public enum ePanePosition
-    {
-        /// <summary>
-        /// Bottom Left Pane.
-        /// Used when worksheet view has both vertical and horizontal splits.
-        /// Also used when the worksheet is horizontaly split only, specifying this is the bottom pane.
-        /// </summary>
-        BottomLeft,
-        /// <summary>
-        /// Bottom Right Pane. 
-        /// This property is only used when the worksheet has both vertical and horizontal splits.
-        /// </summary>
-        BottomRight,
-        /// <summary>
-        /// Top Left Pane.
-        /// Used when worksheet view has both vertical and horizontal splits.
-        /// Also used when the worksheet is horizontaly split only, specifying this is the top pane.
-        /// </summary>
-        TopLeft,
-        /// <summary>
-        /// Top Right Pane
-        /// Used when the worksheet view has both vertical and horizontal splits.
-        /// Also used when the worksheet is verticaly split only, specifying this is the right pane.
-        /// </summary>
-        TopRight
-    }
-
-    /// <summary>
     /// Represents the different view states of the worksheet
     /// </summary>
     public class ExcelWorksheetView : XmlHelper
@@ -898,10 +849,10 @@ namespace OfficeOpenXml
             }
         }
 
-        private decimal GetVisibleColumnWidth(int topCol, int cols)
+        private double GetVisibleColumnWidth(int topCol, int cols)
         {
-            decimal mdw = _worksheet.Workbook.MaxFontWidth;
-            decimal width = 0;
+            double mdw = _worksheet.Workbook.MaxFontWidth;
+            double width = 0;
             for (var c = 0; c < cols; c++)
             {
                 width += _worksheet.GetColumnWidthPixels(topCol + c, mdw);
@@ -947,6 +898,13 @@ namespace OfficeOpenXml
 
             SelectedRange = sqRef;
             ActiveCell = activeCell;
+        }
+        internal void DeletePivotTableSelection()
+        {
+            while (ExistsNode("d:pivotSelection"))
+            {
+                DeleteNode("d:pivotSelection", true);
+            }
         }
         #endregion
     }

@@ -10,107 +10,108 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Xml;
-
 namespace OfficeOpenXml.Drawing.Vml
 {
     /// <summary>
-    /// The position of a VML drawing. Used for comments and Digital Signature Lines
+    /// The position of a VML drawing. Used for comments
     /// </summary>
-    public class ExcelVmlDrawingPosition : ExcelPositionBase
+    public class ExcelVmlDrawingPosition : XmlHelper
     {
         int _startPos;
-        //int _column, _row, _columnOff, _rowOff;
-
-        const string anchorFormat = "{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}";
-
         internal ExcelVmlDrawingPosition(XmlNamespaceManager ns, XmlNode topNode, int startPos) : 
-            base(ns, topNode, null)
+            base(ns, topNode)
         {
             _startPos = startPos;
-            Load();
         }
-
-        //Hide slightly different worded otherwise public props
-        internal new int RowOff
+        /// <summary>
+        /// Row. Zero based
+        /// </summary>
+        public int Row
         {
-            get { return RowOffset; }
-            set { RowOffset = value; }
+            get
+            {
+                return GetNumber(2);
+            }
+            set
+            {
+                SetNumber(2, value);
+            } 
         }
-        internal new int ColumnOff
-        {
-            get { return ColumnOffset; }
-            set { ColumnOffset = value; }
-        }
-
         /// <summary>
         /// Row offset in pixels. Zero based
-        /// Row Offset in EMU
-        /// 
-        /// EMU units   1cm         =   1/360000 
-        ///             1US inch    =   1/914400
-        ///             1pixel      =   1/9525
         /// </summary>
         public int RowOffset
         {
             get
             {
-                return _rowOff;
+                return GetNumber(3);
             }
             set
             {
-                _rowOff = value;
+                SetNumber(3, value);
             }
         }
-
-
+        /// <summary>
+        /// Column. Zero based
+        /// </summary>
+        public int Column
+        {
+            get
+            {
+                return GetNumber(0);
+            }
+            set
+            {
+                SetNumber(0, value);
+            }
+        }
         /// <summary>
         /// Column offset. Zero based
-        /// Column Offset in EMU
-        /// 
-        /// EMU units   1cm         =   1/360000 
-        ///             1US inch    =   1/914400
-        ///             1pixel      =   1/9525
         /// </summary>
         public int ColumnOffset
         {
             get
             {
-                return _columnOff;
+                return GetNumber(1);
             }
             set
             {
-                _columnOff = value;
+                SetNumber(1, value);
             }
         }
-
-        private void SetNumbers()
+        private void SetNumber(int pos, int value)
         {
             string anchor = GetXmlNodeString("x:Anchor");
             string[] numbers = anchor.Split(',');
+            var size = numbers.Length;
+            Array.Resize<string>(ref numbers, 8);
 
-            if (numbers.Length != 8)
+            for (int i = 0; i < 8; i++)
             {
-                var size = numbers.Length;
-                Array.Resize<string>(ref numbers, 8);
-                for (int i = 0; i < 8; i++)
+                if (_startPos + pos == i)
+                {
+                    numbers[i] = value.ToString();
+                }
+                else
                 {
                     if (string.IsNullOrEmpty(numbers[i]))
                     {
                         numbers[i] = "0";
                     }
+                    else
+                    {
+                        numbers[i] = numbers[i].Trim();
+                    }
                 }
             }
 
-            numbers[_startPos] = Column.ToString();
-            numbers[_startPos + 1] = ColumnOffset.ToString();
-            numbers[_startPos + 2] = Row.ToString();
-            numbers[_startPos + 3] = RowOffset.ToString();
-
-            var outString = string.Format(anchorFormat, numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7]);
-            SetXmlNodeString("x:Anchor", outString);
+            SetXmlNodeString("x:Anchor", string.Join(", ",numbers));
         }
 
         private int GetNumber(int pos)
@@ -120,29 +121,12 @@ namespace OfficeOpenXml.Drawing.Vml
             if (numbers.Length == 8)
             {
                 int ret;
-                if (int.TryParse(numbers[_startPos + pos], NumberStyles.Number, CultureInfo.InvariantCulture, out ret))
+                if (int.TryParse(numbers[_startPos + pos], System.Globalization.NumberStyles.Number, CultureInfo.InvariantCulture, out ret))
                 {
                     return ret;
                 }
             }
             return 0;
-        }
-        /// <summary>
-        /// Load xml data
-        /// </summary>
-        public override void Load()
-        {
-            Column = GetNumber(0);
-            ColumnOffset = GetNumber(1);
-            Row = GetNumber(2);
-            RowOffset = GetNumber(3);
-        }
-        /// <summary>
-        /// Update xml data
-        /// </summary>
-        public override void UpdateXml()
-        {
-            SetNumbers();
         }
     }
 }

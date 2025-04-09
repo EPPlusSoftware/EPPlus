@@ -15,11 +15,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/StyleCollectors/StyleContracts/IStyleExport.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IStyleExport
     path: ../src/EPPlus/Export/HtmlExport/StyleCollectors/StyleContracts/IStyleExport.cs
-    startLine: 7
+    startLine: 9
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts

@@ -6,7 +6,6 @@ items:
   parent: OfficeOpenXml.Drawing.OleObject
   children:
   - OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters.DisplayAsIcon
-  - OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters.Extension
   - OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters.Icon
   - OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters.LinkToFile
   - OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters.ProgId
@@ -20,11 +19,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelOleObjectParameters
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-    startLine: 19
+    startLine: 20
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.OleObject
@@ -63,11 +62,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LinkToFile
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-    startLine: 39
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.OleObject
@@ -96,11 +95,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayAsIcon
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-    startLine: 43
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.OleObject
@@ -129,11 +128,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ProgId
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-    startLine: 47
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.OleObject
@@ -162,11 +161,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Icon
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-    startLine: 51
+    startLine: 50
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.OleObject
@@ -179,43 +178,6 @@ items:
     content.vb: Public Icon As ExcelImage
   modifiers.csharp:
   - public
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters.Extension
-  commentId: P:OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters.Extension
-  id: Extension
-  parent: OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters
-  langs:
-  - csharp
-  - vb
-  name: Extension
-  nameWithType: ExcelOleObjectParameters.Extension
-  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters.Extension
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-      branch: develop8
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Extension
-    path: ../src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-    startLine: 56
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing.OleObject
-  summary: "\nFile Extension of OLE Object.\n"
-  example: []
-  syntax:
-    content: public string Extension { get; set; }
-    parameters: []
-    return:
-      type: System.String
-    content.vb: Public Property Extension As String
-  overload: OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters.Extension*
-  modifiers.csharp:
-  - public
-  - get
-  - set
   modifiers.vb:
   - Public
 references:
@@ -541,8 +503,3 @@ references:
   name: OfficeOpenXml.Drawing
   nameWithType: OfficeOpenXml.Drawing
   fullName: OfficeOpenXml.Drawing
-- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters.Extension*
-  commentId: Overload:OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters.Extension
-  name: Extension
-  nameWithType: ExcelOleObjectParameters.Extension
-  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters.Extension

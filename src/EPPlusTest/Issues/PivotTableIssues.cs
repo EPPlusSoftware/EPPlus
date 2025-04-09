@@ -5,6 +5,7 @@ using System.Linq;
 using System;
 using System.IO;
 using OfficeOpenXml.Table.PivotTable;
+using System.Diagnostics;
 
 namespace EPPlusTest.Issues
 {
@@ -312,6 +313,33 @@ namespace EPPlusTest.Issues
                 }
 
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void PivotCacheIssue()
+        {
+            using (var package = OpenTemplatePackage("Issues\\PivotCache\\Sample.xlsx"))
+            {
+                var wb = package.Workbook;
+                foreach (var ws in wb.Worksheets)
+                {
+                    if (ws.PivotTables.Any()) Console.WriteLine(ws.Name);
+                }
+                SaveWorkbook("SampleNew.xlsx", package);
+            }
+        }
+        [TestMethod]
+        public void PivotErrorCodeIssue()
+        {
+            using (var p = OpenTemplatePackage("PivotTableIssueErrorCode.xlsx"))
+            {
+                var wb = p.Workbook;
+                foreach (var ws in wb.Worksheets)
+                {
+                    if (ws.PivotTables.Any()) 
+                        Console.WriteLine(ws.Name);
+                }
+                SaveAndCleanup(p);
             }
         }
     }

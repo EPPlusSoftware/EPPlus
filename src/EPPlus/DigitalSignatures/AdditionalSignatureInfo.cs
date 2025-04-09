@@ -7,7 +7,7 @@ using System.Text;
 namespace OfficeOpenXml.DigitalSignatures
 {
     /// <summary>
-    /// Details about the signer of a DigitalSignature, such as role, title, address etc.
+    /// Details about the signer of a digital signature, such as role, title, address etc.
     /// </summary>
     public class AdditionalSignatureInfo
     {
