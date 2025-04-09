@@ -162,8 +162,7 @@ namespace OfficeOpenXml.Drawing
             {
                 d.TopNode.ParentNode.RemoveChild(d.TopNode);
                 drawingNode = CreateAnchorNode(d.TopNode);
-                d.TopNode.ChildNodes[0].PrependChild(drawingNode);
-                _parent.TopNode.ParentNode.InsertBefore(d.TopNode, _parent.TopNode);
+                _parent.TopNode.ParentNode.InsertBefore(drawingNode, _parent.TopNode);
             }
             d.AdjustXPathsForGrouping(false);
             d.TopNode = drawingNode;

@@ -228,6 +228,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     y1 -= y1;
                 }
             }
+        }
+
         public static double TruncateDouble(double value)
         {
             return (double)decimal.Truncate((decimal)value);

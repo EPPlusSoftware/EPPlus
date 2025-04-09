@@ -1026,7 +1026,6 @@ namespace OfficeOpenXml.Drawing
         //{
         //    return AddPicture(Name, ImageFile, Hyperlink, Location,  null);
         //}
-
         internal ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, object container = null)
         {
             var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, container);
@@ -1902,7 +1901,7 @@ namespace OfficeOpenXml.Drawing
             return drawNode;
         }
 
-        internal XmlElement CreateDocumentAndTopNode(eEditAs topNodeType, bool asAlterniveContent)
+        internal XmlElement CreateDocumentAndTopNode(eEditAs topNodeType, bool asAlternativeContent)
         {
             if (DrawingXml.DocumentElement == null)
             {

@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Drawing
         internal delegate void SetWidthCallback();
         SetWidthCallback _setWidthCallback;
         internal ExcelPosition(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback, int DrawingsType = 0) :
-            base(ns, node, setWidthCallback)
+            base(ns, node)
         {
             _setWidthCallback = setWidthCallback;
             this.excelDrawingsType = DrawingsType;
@@ -35,6 +35,7 @@ namespace OfficeOpenXml.Drawing
         const string rowPath = "xdr:row";
         const string colOffPath = "xdr:colOff";
         const string rowOffPath = "xdr:rowOff";
+        internal int _column, _row, _columnOff, _rowOff;
 
         int excelDrawingsType = 0;
         double _x, _y;
@@ -62,7 +63,7 @@ namespace OfficeOpenXml.Drawing
                 _y = value;
             }
         }
-        internal int _column, _row, _columnOff, _rowOff;
+
         /// <summary>
         /// The column
         /// </summary>
