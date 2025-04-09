@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         internal ExcelHeaderFooterText headerFooter;
 
 
-        public ExcelVmlDrawingPicture VmlDrawingPicutre { get; set; } = null;
+        public ExcelVmlDrawingPicture Picture { get; set; } = null;
 
 
         public static int TextLength { get; private set; } = 0;
@@ -196,7 +196,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             var imgBytes = File.ReadAllBytes(pictureFile.FullName);
             var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, uriPic, null);
             var hft = InsertFormatCode(index, HFFormattingCodes.Image);
-            VmlDrawingPicutre = headerFooter.AddImage(id, ii);
+            Picture = headerFooter.AddImage(id, ii);
             return hft;
         }
         public HFText InsertImage(int index, Stream pictureStream, ePictureType pictureType)
@@ -207,7 +207,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             var r = pictureStream.Read(imgBytes, 0, imgBytes.Length);
             _imageInfo = _ws.Workbook._package.PictureStore.AddImage(imgBytes, null, pictureType);
             var hft = InsertFormatCode(index, HFFormattingCodes.Image);
-            VmlDrawingPicutre = headerFooter.AddImage(id, _imageInfo);
+            Picture = headerFooter.AddImage(id, _imageInfo);
             return hft;
         }
         private HFText InsertFormatCode(int index, HFFormattingCodes formatCode)
@@ -245,9 +245,9 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
 
         public void RemoveImage()
         {
-            headerFooter.RemoveImage(VmlDrawingPicutre);
-            VmlDrawingPicutre = null;
-            _ws.Workbook._package.PictureStore.RemoveReference(_imageInfo.Uri);
+            headerFooter.RemoveImage(Picture);
+            Picture = null;
+            //_ws.Workbook._package.PictureStore.RemoveReference(_imageInfo.Uri);
             foreach (HFText hft in _textCollection)
             {
                 if (hft.FormatCode == HFFormattingCodes.Image)
@@ -392,8 +392,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                             {
                                 if(v.Id == alignment.ToString()[0] + headerFooter.HeaderFooterAlignment)
                                 {
-                                    VmlDrawingPicutre = v;
-                                    _imageInfo = _ws.Workbook._package.PictureStore.LoadImage(v.Image.ImageBytes, v.ImageUri, _ws._package.ZipPackage.GetPart(v.ImageUri)); //remove this line or something when picstore works
+                                    Picture = v;
                                 }
                             }
                             writeFormatCode = true;

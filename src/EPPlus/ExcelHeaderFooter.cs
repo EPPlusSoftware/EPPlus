@@ -617,7 +617,7 @@ namespace OfficeOpenXml
                         _vmlDrawingsHF.RelId = rel.Id;
                         foreach (ExcelVmlDrawingPicture draw in _vmlDrawingsHF)
                         {
-                            rel = _vmlDrawingsHF.Part.CreateRelationship(UriHelper.GetRelativeUri(_vmlDrawingsHF.Uri, draw.ImageUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+                            rel = _vmlDrawingsHF.Part.CreateRelationship(UriHelper.GetRelativeUri(_vmlDrawingsHF.Uri, ((IPictureContainer)draw).UriPic), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
                             draw.RelId = rel.Id;
                         }
                     }
@@ -627,7 +627,7 @@ namespace OfficeOpenXml
                         {
                             if (string.IsNullOrEmpty(draw.RelId))
                             {
-                                var rel = _vmlDrawingsHF.Part.CreateRelationship(UriHelper.GetRelativeUri(_vmlDrawingsHF.Uri, draw.ImageUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+                                var rel = _vmlDrawingsHF.Part.CreateRelationship(UriHelper.GetRelativeUri(_vmlDrawingsHF.Uri, ((IPictureContainer)draw).UriPic), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
                                 draw.RelId = rel.Id;
                             }
                         }

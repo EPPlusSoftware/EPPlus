@@ -1706,7 +1706,7 @@ namespace EPPlusTest
             using var p = OpenTemplatePackage("HeaderFooterPicture.xlsx");
             var ws = p.Workbook.Worksheets[0];
 
-            ws.HeaderFooter.OddHeader.LeftAligned.RemoveImage();
+            ws.HeaderFooter.OddHeader.LeftAligned.RemoveImage();            
             SaveAndCleanup(p);
         }
 

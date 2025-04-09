@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Drawing.Vml
             {
                 var img = new ExcelVmlDrawingPicture(node, NameSpaceManager, _ws);
                 var rel = Part.GetRelationship(img.RelId);
-                img.ImageUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                ((IPictureContainer)img).UriPic = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
                 _images.Add(img);
             }
         }
@@ -79,7 +79,7 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             XmlNode node = AddImage(id, uri, name, width, height);
             var draw = new ExcelVmlDrawingPicture(node, NameSpaceManager, _ws);
-            draw.ImageUri = uri;
+            ((IPictureContainer)draw).UriPic = uri;
             _images.Add(draw);
             return draw;
         }
@@ -98,6 +98,7 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             VmlDrawingXml.FirstChild.RemoveChild(item.TopNode);
             _images.Remove(item);
+            item.Image.RemoveImage();
         }
         /// <summary>
         /// Indexer
