@@ -632,7 +632,7 @@ namespace OfficeOpenXml
                             }
                         }
                     }
-                    _vmlDrawingsHF.VmlDrawingXml.Save(_vmlDrawingsHF.Part.GetStream());
+                    _vmlDrawingsHF.VmlDrawingXml.Save(_vmlDrawingsHF.Part.GetStream(FileMode.CreateNew, FileAccess.Write));
                 }
             }
         }

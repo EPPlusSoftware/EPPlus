@@ -32,6 +32,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Vml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using OfficeOpenXml.Table;
@@ -1635,7 +1636,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void WriteHeaderText()
+        public void HeaderFooterWriteText()
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
@@ -1652,52 +1653,56 @@ namespace EPPlusTest
             text6.Color = Color.Green;
             p.SaveAs("c:\\epplustest\\testoutput\\WriteHeaderText1.xlsx");
         }
-
         [TestMethod]
-        public void OverWriteHeaderTextBuffer()
+        public void HeaderFooterReadText()
         {
+            using var p = OpenTemplatePackage("");
+            var ws = p.Workbook.Worksheets[0];
 
+            var l1 = ws.HeaderFooter.OddHeader.LeftAlignedText;
+            var l2 = ws.HeaderFooter.OddHeader.LeftAligned.Text;
+            Assert.AreEqual(l1, l2);
+            Assert.AreEqual(l2, "");
+
+            var c1 = ws.HeaderFooter.OddHeader.CenteredText;
+            var c2 = ws.HeaderFooter.OddHeader.Centered.Text;
+            Assert.AreEqual(c1, c2);
+            Assert.AreEqual(c2, "");
+
+            var r1 = ws.HeaderFooter.OddHeader.RightAlignedText;
+            var r2 = ws.HeaderFooter.OddHeader.RightAligned.Text;
+            Assert.AreEqual(r1, r2);
+            Assert.AreEqual(r2, "");
         }
 
         [TestMethod]
-        public void AddHeaderFooterFormatCodes()
+        public void HeaderFooterTextOver255()
         {
+            //check exception is thrown
+        }
+
+        [TestMethod]
+        public void HeaderFooterAddFormatCodes()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddText("Page: ");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddPageNumber();
+            ws.HeaderFooter.OddHeader.LeftAligned.AddText(" of ");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddNumberOfPages();
+
+            ws.HeaderFooter.OddHeader.Centered.AddFilePath();
+
+            ws.HeaderFooter.OddHeader.RightAligned.AddText("Time: ");
+            ws.HeaderFooter.OddHeader.RightAligned.AddCurrentTime();
+            ws.HeaderFooter.OddHeader.RightAligned.AddText(" ");
+            ws.HeaderFooter.OddHeader.RightAligned.AddCurrentDate();
 
         }
 
         [TestMethod]
         public void HeaderFooterAddImage()
         {
-            //using var p = OpenTemplatePackage("HeaderFooterPicture.xlsx");
-            //var ws = p.Workbook.Worksheets[0];
-
-            //var l = ws.HeaderFooter.OddHeader.LeftAlignedText;
-            //var c = ws.HeaderFooter.OddHeader.CenteredText;
-            //var r = ws.HeaderFooter.OddHeader.RightAlignedText;
-
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            FileInfo fi = new FileInfo("C:\\epplusTest\\OleTest\\EMF\\PNG2.png");
-            //var pic = Resources.GetOLEFileInfo("SampleIcon.bmp");
-            ws.HeaderFooter.OddHeader.LeftAligned.AddImage(fi);
-            ws.HeaderFooter.OddHeader.Centered.AddImage(fi);
-            ws.HeaderFooter.OddHeader.RightAligned.AddImage(fi);
-
-            ws.HeaderFooter.OddFooter.LeftAligned.AddImage(fi);
-            ws.HeaderFooter.OddFooter.Centered.AddImage(fi);
-            ws.HeaderFooter.OddFooter.RightAligned.AddImage(fi);
-
-            ws.HeaderFooter.EvenHeader.LeftAligned.AddImage(fi);
-            ws.HeaderFooter.EvenHeader.Centered.AddImage(fi);
-            ws.HeaderFooter.EvenHeader.RightAligned.AddImage(fi);
-
-            ws.HeaderFooter.EvenFooter.LeftAligned.AddImage(fi);
-            ws.HeaderFooter.EvenFooter.Centered.AddImage(fi);
-            ws.HeaderFooter.EvenFooter.RightAligned.AddImage(fi);
-
-            //ws.HeaderFooter.OddFooter.LeftAligned.AddImage(pic);
-
-            p.SaveAs("c:\\epplustest\\testoutput\\hHeaderFooterImage.xlsx");
         }
 
         [TestMethod]
@@ -1706,8 +1711,13 @@ namespace EPPlusTest
             using var p = OpenTemplatePackage("HeaderFooterPicture.xlsx");
             var ws = p.Workbook.Worksheets[0];
 
-            ws.HeaderFooter.OddHeader.LeftAligned.RemoveImage();            
+            ws.HeaderFooter.OddHeader.LeftAligned.RemoveImage();
             SaveAndCleanup(p);
+        }
+
+        public void HeaderFooterWriteAllHeadersAndFooters()
+        {
+
         }
 
         [TestMethod, Ignore]
