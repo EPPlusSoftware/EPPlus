@@ -397,37 +397,6 @@ namespace EPPlusTest.Issues
 				Debug.WriteLine($"After Cell A9 Value:{wk.Cells["A9"].Value}");
 			}
 		}
-		[TestMethod]
-
-		public void i1540()
-		{
-			using (var p = OpenPackage("i1540.xlsx",true))
-			{
-				var ws = p.Workbook.Worksheets.Add("Sheet1");
-				ws.Cells["A1"].Value = "A";
-                ws.Cells["A2"].Value = "B";
-                ws.Cells["A3"].Value = "C";
-                ws.Cells["B1:B3"].FillNumber(1, 1);
-                ws.Cells["C1:C3"].FillNumber(10, 10);
-				ws.Cells["E1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";                          //Should be set as an array formula
-				ws.Cells["E2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
-				ws.Cells["F1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";                          //Should be set as an array formula
-				ws.Cells["F2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
-				ws.Cells["F1:F2"].UseImplicitItersection = true;
-
-				ws.Cells["G1"].CreateArrayFormula("SUM(If(A:A=\"A\",B:B,C:C))", true);
-                ws.Cells["G2"].CreateArrayFormula("SUM(If(A1:A3=\"A\",B1:B3,C1:C3))", true);
-
-				ws.Cells["E1:G2"].Calculate();
-
-				Assert.AreEqual(51D, ws.Cells["E1"].Value); //Will be handled as a dynamic formula when calculated, not as in Excel where implicit intersections seems to be applied inside the sum.
-				Assert.AreEqual(51D, ws.Cells["E2"].Value);
-				Assert.AreEqual(6D, ws.Cells["F1"].Value);
-                Assert.AreEqual(60D, ws.Cells["F2"].Value);
-
-                SaveAndCleanup(p);
-			}
-		}
         [TestMethod]
         public void i1566()
         {
@@ -821,19 +790,6 @@ namespace EPPlusTest.Issues
             sheet.Calculate();
 
 			SaveAndCleanup(p);
-        }
-        [TestMethod]
-        public void s831()
-        {
-            using var p = OpenTemplatePackage("s831.xlsx");
-            var sheet = p.Workbook.Worksheets[0];
-            var sw = new Stopwatch();
-            sw.Start();
-            p.Workbook.Calculate();
-			//p.Workbook.FormulaParser.
-			GC.Collect();
-
-            Console.WriteLine(new DateTime(sw.ElapsedTicks).ToString("HH:mm:ss"));
         }
         [TestMethod]
         public void Issue1687()

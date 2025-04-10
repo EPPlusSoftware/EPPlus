@@ -53,14 +53,14 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     if (ix < 0)
                     {
-                        qr = new QuadTree<ulong>(1, 1, _parsingContext.Package.Workbook.Names.Count, 1);
+                        qr = new QuadTree<ulong>(Math.Min(_parsingContext.Package.Workbook.Names.Count, QuadRange.MinSize), 1);
                     }
                     else
                     {
                         var ws = _parsingContext.Package.Workbook.GetWorksheetByIndexInList(ix);
                         if (ws.Dimension == null)
                         {
-                            qr = new QuadTree<ulong>(QuadRange.MinSize, QuadRange.MinSize, QuadRange.MinSize, QuadRange.MinSize);
+                            qr = new QuadTree<ulong>(QuadRange.MinSize, QuadRange.MinSize);
                         }
                         else
                         {

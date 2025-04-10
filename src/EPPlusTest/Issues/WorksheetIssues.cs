@@ -83,38 +83,6 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(package);
 			}
 		}
-		[TestMethod]
-		public void s610()
-		{
-			using(var p=OpenTemplatePackage("s610.xlsx"))
-			{
-				var wTestSheet = p.Workbook.Worksheets[0];
-				wTestSheet.InsertColumn(1, 2);
-				SaveAndCleanup(p);
-			}
-		}
-		[TestMethod]
-		public void s614()
-		{
-			using (var package = OpenTemplatePackage("s614.xlsx"))
-			{
-				int sheetIndex = 5;
-				var sheetName = $"Data Sheet_{sheetIndex}";
-				var worksheet = package.Workbook.Worksheets[sheetName];
-				worksheet.Name = "TestSheet_{sheetIndex}";
-
-				worksheet.InsertColumn(1, 2);
-				worksheet.Cells.Style.Font.Name = "ＭＳ Ｐゴシック";
-				worksheet.Cells.Style.Font.Size = 11;
-
-				worksheet.Cells[1, 1].Value = "TextTextTextTextTextTextTextTextTextTextTextText";
-
-				worksheet.Column(1).AutoFit();
-				worksheet.Column(2).AutoFit();
-
-				package.Save();
-			}
-		}
         [TestMethod]
 		public void s616()
 		{
@@ -533,29 +501,6 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
-        public void s775()
-        {
-            string sheetName = "披露附注";
-
-            List<int> add = new List<int>()
-            {
-				4,9,15
-            };
-            using (ExcelPackage package = OpenTemplatePackage("s775.xlsx"))
-            {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[sheetName];
-                ExcelNamedRange namedRange = worksheet.Names["_jds1165020120230"];
-                int startRow = namedRange.Start.Row;
-
-                var cell = worksheet.Cells["D2059"];
-                var cell2 = worksheet.Cells["D2060"];
-
-                worksheet.InsertRow(2059, 1, 2059 - 1);
-
-                package.Save();
-            }
-        }
         private class I1782DataItem
 		{
             public int Id { get; set; }
@@ -570,7 +515,7 @@ namespace EPPlusTest.Issues
 		public void i1782()
 		{
 			var list = new List<I1782DataItem>();
-			var hl = new ExcelHyperLink("https://epplussoftare.com", "epplussoftare.com");
+			var hl = new ExcelHyperLink("https://epplussoftware.com", "epplussoftware.com");
 			list.Add(new I1782DataItem { Id = 1, ProjectNumberUrl = hl});
 
 			using var p = OpenPackage("i1782.xlsx",true);

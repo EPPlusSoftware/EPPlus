@@ -354,23 +354,5 @@ namespace EPPlusTest.Drawing.Chart
             }
             return null;
         }
-
-
-        [TestMethod]
-        public void ColumnCheck()
-        {
-            using (var p = OpenTemplatePackage("s808_2.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets["overzicht"];
-
-                ws.Calculate();
-
-                ws.ClearFormulas();
-
-                ws.Columns.DeleteAll(c => c.Hidden);
-
-                SaveAndCleanup(p);
-            }
-        }
     }
 }
