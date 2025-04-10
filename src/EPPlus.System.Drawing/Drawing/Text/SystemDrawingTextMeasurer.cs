@@ -8,6 +8,10 @@ namespace OfficeOpenXml.SystemDrawing.Text
 #pragma warning disable CA1416 // Platform compatibility warning
     public class SystemDrawingTextMeasurer : ITextMeasurer, IDisposable
     {
+        /// <summary>
+        /// If the text measurer should measure wrap text cells. 
+        /// Only CR, LF or CRLF should be considered.
+        /// </summary>
         public bool MeasureWrappedTextCells
         {
             get;
