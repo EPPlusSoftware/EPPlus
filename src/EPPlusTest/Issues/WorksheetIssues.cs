@@ -832,12 +832,9 @@ namespace EPPlusTest.Issues
             // AutoFitColumns - calculates width as if there were no line breaks.
             ws.Cells["A1:B2"].AutoFitColumns();
 
-
             p.Settings.TextSettings.MeasureWrappedTextCells = false;
-
             ws.Cells["C1"].Value = multiLineText;
             ws.Cells["C1"].Style.WrapText = true;
-
             ws.Cells["D2"].Value = multiLineText;
 
             // AutoFitColumns - calculates width as if there were no line breaks.

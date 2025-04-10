@@ -31,9 +31,9 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         /// <returns></returns>
         TextMeasurement MeasureText(string text, MeasurementFont font);
         /// <summary>
-        /// Should return true if the text measurer should measure wrap text cells. Only CR, LF or CRLF should be considered
+        /// If the text measurer should measure wrap text cells. 
+        /// Only CR, LF or CRLF should be considered.
         /// </summary>
-        /// <returns>True if the measurer can be .</returns>
         bool MeasureWrappedTextCells { get; set; }
     }
 }
