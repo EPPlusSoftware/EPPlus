@@ -2,6 +2,8 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.SystemDrawing.Image;
+using OfficeOpenXml.SystemDrawing.Text;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -795,6 +797,27 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(timeSpanCell.Ticks, new TimeSpan(12, 30, 45).Ticks);
             }
         }
+        [TestMethod]
+        public void i1951()
+        {
+            using (var p = OpenPackage("I1951.xlsx", true))
+            {
+				p.Settings.TextSettings.PrimaryTextMeasurer = new SystemDrawingTextMeasurer();
+				p.Settings.TextSettings.MeasureWrappedTextCells = true;
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
 
+                string multiLineText = "Line one" + Environment.NewLine + "Line two is longer" + "\n" + "Extra line";
+
+                ws.Cells["A1"].Value = multiLineText;
+                ws.Cells["A1"].Style.WrapText = true;
+
+                ws.Cells["B2"].Value = multiLineText;
+
+                // AutoFitColumns - calculates width as if there were no line breaks.
+                ws.Cells[ws.Dimension.Address].AutoFitColumns();
+
+                SaveAndCleanup(p);
+             }
+        }
     }
 }
