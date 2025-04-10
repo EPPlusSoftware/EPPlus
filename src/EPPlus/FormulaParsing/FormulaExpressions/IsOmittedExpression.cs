@@ -8,25 +8,22 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  06/03/2025         EPPlus Software AB       Initial release EPPlus 8
+  06/12/2024         EPPlus Software AB       Initial release EPPlus 7.3
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    internal class LetFunctionExpression : VariableFunctionExpression
+    internal class IsOmittedExpression : VariableFunctionExpression
     {
-        internal LetFunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(tokenValue, ctx, pos)
+        internal IsOmittedExpression(string tokenValue, ParsingContext ctx, int pos) 
+            : base(tokenValue, ctx, pos, false)
         {
-
         }
-
-        internal override bool IsLet => true;
 
         internal override void AddArgument(int arg)
         {
@@ -37,8 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         internal override bool IsVariableArg(int arg, bool isLastArgument)
         {
-            return arg % 2 == 0 && !isLastArgument;
+            return true;
         }
-
     }
 }

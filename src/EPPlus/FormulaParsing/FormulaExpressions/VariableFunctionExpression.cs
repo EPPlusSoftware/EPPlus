@@ -24,17 +24,30 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     {
 
 
-        internal VariableFunctionExpression(string tokenValue, VariableStorageManager variableStorage, ParsingContext ctx, int pos) : base(tokenValue, ctx, pos)
+        internal VariableFunctionExpression(string tokenValue, ParsingContext ctx, int pos, bool addVariableScope = true) : base(tokenValue, ctx, pos)
         {
-            _variableStorage = variableStorage;
-            _storageScope = _variableStorage.AddNewScope();
-            VariableScopeId = _storageScope.Id;
+            _variableStorage = ctx.VariableStorage;
+            if (addVariableScope)
+            {
+                _storageScope = _variableStorage.AddNewScope();
+                _isOutOfVariableScope = false;
+            }
+            else if(!_variableStorage.IsEmpty)
+            {
+                _storageScope = _variableStorage.Peek();
+                _isOutOfVariableScope = false;
+            }
+            else
+            {
+                _isOutOfVariableScope = true;
+            }
+            VariableScopeId = _isOutOfVariableScope ? -1 : _storageScope.Id;
         }
 
-        private readonly Dictionary<string, CompileResult> _variables = new Dictionary<string, CompileResult>();
         private string _lastDeclaredVariable;
         private readonly VariableStorageManager _variableStorage;
         private readonly VariableStorageScope _storageScope;
+        private bool _isOutOfVariableScope = false;
 
 
         internal int VariableScopeId { get; private set; }
@@ -50,6 +63,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         internal void DeclareVariable(string name)
         {
+            if (_isOutOfVariableScope) return;
             if (!_storageScope.ContainsVariable(name))
             {
                 _storageScope.SetVariableValue(name, null);
@@ -59,6 +73,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         internal bool VariableIsDeclared(string name)
         {
+            if (_isOutOfVariableScope) return false;
             if (_storageScope.ContainsVariable(name))
             {
                 return true;
@@ -68,6 +83,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         internal bool VariableIsSet(string name)
         {
+            if (_isOutOfVariableScope) return false;
             if(_storageScope.ContainsVariable(name) && _storageScope.GetVariableValue(name) != null)
             {
                 return true;
@@ -79,19 +95,25 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         internal void AddVariableValue(CompileResult value)
         {
+            if (_isOutOfVariableScope) return;
             _storageScope.SetVariableValue(_lastDeclaredVariable, value);
         }
 
         internal void AddVariableValue(string name, CompileResult value)
         {
+            if (_isOutOfVariableScope) return;
             _storageScope.SetVariableValue(name, value);
         }
 
         internal CompileResult GetVariableValue(string variableName)
         {
-            if (_storageScope.ContainsVariable(variableName) && _storageScope.GetVariableValue(variableName) != null)
+            if(_isOutOfVariableScope)
             {
-                return _storageScope.GetVariableValue(variableName);
+                return new CompileResult("oovs", DataType.Empty);
+            }
+            if (_storageScope.ContainsVariable(variableName))
+            {
+                return _storageScope.GetVariableValue(variableName) ?? CompileResult.Empty;
             }
             return CompileResult.Empty;
         }

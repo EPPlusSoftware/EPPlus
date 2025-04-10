@@ -135,7 +135,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             hasLambda = true;
                         }
                         lastCommaPos = i;
+                        if(i > 0 && tokens[i - 1].TokenType == TokenType.OpeningParenthesis)
+                        {
+                            rpnTokens.Add(new Token(TokenType.EmptyArgument));
+                        }
                         rpnTokens.Add(token);
+                        if (tokens.Count > i + 1 && (tokens[i + 1].TokenType == TokenType.ClosingParenthesis || tokens[i + 1].TokenType == TokenType.Comma))
+                        {
+                            rpnTokens.Add(new Token(TokenType.EmptyArgument));
+                        }
                         break;
                     case TokenType.OpeningBracket:
                         bracketCount++;
@@ -209,7 +217,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             var isInLambdaCalculation = false;
             LambdaTokensExpression lambdaCalculationExpression = null;
             var tokens = rpnTokens.Tokens;
-            var variableStorage = rpnFormula != null ? rpnFormula.VariableStorage : new VariableStorage.VariableStorageManager();
+            if(parsingContext.VariableStorage == null)
+            {
+                parsingContext.VariableStorage = new VariableStorage.VariableStorageManager();
+            }
             var lambdaLevel = 0;
             for (int tokenIx = 0; tokenIx < tokens.Count; tokenIx++)
             {
@@ -280,6 +291,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.StringContent:
                         expressions.Add(tokenIx, new StringExpression(t.Value, parsingContext));
+                        break;
+                    case TokenType.EmptyArgument:
+                        expressions.Add(tokenIx, new EmptyExpression());
                         break;
                     case TokenType.CellAddress:
                     case TokenType.FullColumnAddress:
@@ -367,11 +381,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         FunctionExpression func = default;
                         if(t.IsLetFunction())
                         {
-                            func = new LetFunctionExpression(t.Value, variableStorage, parsingContext, tokenIx);
+                            func = new LetFunctionExpression(t.Value, parsingContext, tokenIx);
                         }
                         else if(t.IsLambdaFunction())
                         {
-                            func = new LambdaFunctionExpression(t.Value, variableStorage, parsingContext, tokenIx);
+                            func = new LambdaFunctionExpression(t.Value, parsingContext, tokenIx);
+                        }
+                        else if(t.IsIsOmittedFunction())
+                        {
+                            func = new IsOmittedExpression(t.Value, parsingContext, tokenIx);
                         }
                         else if(t.IsBuiltInFunction(parsingContext.Configuration.FunctionRepository))
                         {
@@ -389,7 +407,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 var lambdaFormulaCandidate = name.Formula;
                                 if (!string.IsNullOrEmpty(lambdaFormulaCandidate) && lambdaFormulaCandidate.ToLower().StartsWith("lambda") || lambdaFormulaCandidate.ToLower().StartsWith("_xlfn.lambda"))
                                 {
-                                    func = new LambdaNameFunctionExpression(t.Value, lambdaFormulaCandidate, variableStorage, parsingContext, tokenIx);
+                                    func = new LambdaNameFunctionExpression(t.Value, lambdaFormulaCandidate, parsingContext, tokenIx);
                                 }
                             }
                         }
@@ -402,6 +420,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         stack.Push(func);
                         break;
                     case TokenType.Comma:
+                        //if(tokenIx == tokens.Count - 1)
+                        //{
+                        //    expressions.Add(tokenIx, new EmptyExpression());
+                        //}
                         if (stack.Count > 0)
                         {
                             stack.Peek().AddArgument(tokenIx);
@@ -409,7 +431,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.CommaLambda:
                         isInLambdaCalculation = true;
-                        lambdaCalculationExpression = new LambdaTokensExpression(parsingContext, variableStorage.AddNewScope());
+                        lambdaCalculationExpression = new LambdaTokensExpression(parsingContext);
                         expressions.Add(tokenIx, lambdaCalculationExpression);
                         if (stack.Count > 0)
                         {

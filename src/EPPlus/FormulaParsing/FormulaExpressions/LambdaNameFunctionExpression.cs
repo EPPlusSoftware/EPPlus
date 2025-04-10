@@ -11,18 +11,12 @@
   17/03/2025        EPPlus Software AB       Initial release EPPlus 8.1
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     internal class LambdaNameFunctionExpression : LambdaFunctionExpression
     {
-        internal LambdaNameFunctionExpression(string functionName, string formula, VariableStorageManager variableStorage, ParsingContext ctx, int pos) : base(functionName, variableStorage, ctx, pos)
+        internal LambdaNameFunctionExpression(string functionName, string formula, ParsingContext ctx, int pos) : base(functionName, ctx, pos)
         {
             _function = new LambdaNameFunction(formula);
         }

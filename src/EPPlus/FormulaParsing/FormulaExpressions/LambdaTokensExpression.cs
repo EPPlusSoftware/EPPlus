@@ -23,9 +23,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     [DebuggerDisplay("LambdaTokensExpression - Count: {Tokens?.Count}")]
     internal class LambdaTokensExpression : Expression
     {
-        internal LambdaTokensExpression(ParsingContext ctx, VariableStorageScope scope) : base(ctx)
+        internal LambdaTokensExpression(ParsingContext ctx) : base(ctx)
         {
-            _scope = scope;
+            _scope = ctx.VariableStorage.IsEmpty ? ctx.VariableStorage.AddNewScope() : ctx.VariableStorage.Peek();
         }
 
         private List<Token> _tokens;

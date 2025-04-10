@@ -1056,6 +1056,7 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.ParameterVariableDeclaration:
                     case TokenType.ParameterVariable:
                     case TokenType.CommaLambda:
+                    case TokenType.EmptyArgument:
                         if(leStackPos != null)
                         {
                             var exp = f._expressions[f._tokenIndex];
@@ -1069,7 +1070,7 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 s.Push(f._expressions[f._tokenIndex]);
                             }
-                            else if(cr.DataType != DataType.LambdaVariableDeclaration)
+                            else if(cr.DataType != DataType.LambdaVariableDeclaration && f.LambdaSettings.LambdaArgsAdded.Count > 0)
                             {
                                 leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), cr.Result, cr.DataType);
                                 var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
@@ -1148,10 +1149,10 @@ namespace OfficeOpenXml.FormulaParsing
                                 }
                             }
                             
-                            if (f._tokenIndex > 0 && (f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma || f._tokens[f._tokenIndex - 1].TokenType == TokenType.StartFunctionArguments)) //Empty function argument.
-                            {
-                                f._expressionStack.Push(new EmptyExpression());                                
-                            }
+                            //if (f._tokenIndex > 0 && (f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma || f._tokens[f._tokenIndex - 1].TokenType == TokenType.StartFunctionArguments || f._tokenIndex == f._tokens.Count)) //Empty function argument.
+                            //{
+                            //    f._expressionStack.Push(new EmptyExpression());                                
+                            //}
                             var pi = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos++);
                             if (EnumUtil.HasFlag(pi, FunctionParameterInformation.Condition))
                             {

@@ -178,6 +178,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal void SetTokens(RpnTokens tokens, ParsingContext context)
         {
             _tokens = tokens;
+            _variableStorage = context.VariableStorage;
             var formula = new StringBuilder();
             foreach (var token in tokens.Tokens)
             {

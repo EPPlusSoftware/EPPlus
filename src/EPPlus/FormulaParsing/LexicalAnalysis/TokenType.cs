@@ -227,5 +227,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// Represents an end parenthesis that indicates arguments to a LAMBDA call
         /// </summary>
         LambdaInvokeArgsEnd = (ulong)1 << 50,
+        /// <summary>
+        /// Represents an empty argument (i.e. between two commas or a comma and a closing parentheses).
+        /// </summary>
+        EmptyArgument = (ulong)1 << 51,
     }
 }

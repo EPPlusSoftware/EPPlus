@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal override bool HandlesVariables => true;
         private List<Token> _lambdaTokens;
         
-        internal LambdaFunctionExpression(string tokenValue, VariableStorageManager variableStorage, ParsingContext ctx, int pos) : base(tokenValue, variableStorage, ctx, pos)
+        internal LambdaFunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(tokenValue, ctx, pos)
         {
 
         }

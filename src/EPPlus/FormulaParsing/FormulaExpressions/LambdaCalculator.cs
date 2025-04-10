@@ -81,10 +81,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         public void SetVariableValue(int index, object value, DataType dt, ParsingContext ctx)
         {
             var variable = _variables[index];
+            var variableName = variable.Result.ToString();
+            _scope.SetVariableValue(variableName, CompileResultFactory.Create(value));
             foreach(var ix in _variableIndexes)
             {
                 var t = _currentTokens[ix];
-                if (string.Compare(t.Value, variable.Result.ToString(), StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Compare(t.Value, variableName, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     if(value is LambdaCalculator lc)
                     {
@@ -125,7 +127,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         public CompileResult Execute(ParsingContext ctx)
         {
-            var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column);
+            var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column, ctx.VariableStorage);
             var rpnTokens = new RpnTokens { Tokens = _currentTokens };
             formula.SetTokens(rpnTokens, ctx);
             var chain = new RpnOptimizedDependencyChain(ctx.CurrentWorksheet.Workbook, ctx.CalcOption);
@@ -159,6 +161,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     return TokenType.Decimal;
                 case DataType.ExcelRange:
                     return TokenType.ExcelAddress;
+                case DataType.Empty:
+                    return TokenType.EmptyArgument;
                 case DataType.ExcelError:
                     switch(obj.ToString().ToUpper())
                     {

@@ -30,7 +30,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            throw new NotImplementedException();
+            if (arguments[0].DataType == DataType.Empty)
+            {
+                if (arguments[0].Value != null && arguments[0].Value.ToString() == "oovs") return CreateResult(false, DataType.Boolean);
+                return CreateResult(true, DataType.Boolean);
+            }
+            return CreateResult(false, DataType.Boolean);
         }
     }
 }

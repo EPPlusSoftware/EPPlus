@@ -329,6 +329,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["reduce"] = new Reduce();
             Functions["bycol"] = new ByCol();
             Functions["byrow"] = new ByRow();
+            Functions["isomitted"] = new IsOmitted();
             // Reference and lookup
             Functions["address"] = new Address();
             Functions["areas"] = new Areas();

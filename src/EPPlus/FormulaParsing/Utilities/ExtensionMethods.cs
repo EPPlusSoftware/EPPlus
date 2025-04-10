@@ -52,6 +52,11 @@ namespace OfficeOpenXml.FormulaParsing.Utilities
             return FunctionNameMatches(token, "let");
         }
 
+        internal static bool IsIsOmittedFunction(this Token token)
+        {
+            return FunctionNameMatches(token, "isomitted");
+        }
+
         internal static bool IsBuiltInFunction(this Token token, FunctionRepository repository)
         {
             var funcName = token.Value;

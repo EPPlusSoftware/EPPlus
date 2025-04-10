@@ -82,12 +82,12 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         internal static bool IsVariableParameterFunction(string funcName)
         {
             if(string.IsNullOrEmpty(funcName)) return false;
-            switch (funcName.ToLower())
+            var fn = funcName.ToLower().Replace("_xlfn.", "");
+            switch (fn)
             {
-                case "_xlfn.let":
                 case "let":
-                case "_xlfn.lambda":
                 case "lambda":
+                case "isomitted":
                     return true;
                 default:
                     return false;
@@ -104,6 +104,8 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                     return argIndex % 2 == 0 && argIndex < argCount - 1;
                 case "lambda":
                     return argIndex < argCount;
+                case "isomitted":
+                    return true;
                 default:
                     return false;
             }
@@ -120,6 +122,12 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 
         private void ProcessVariableArguments(VariableFunction func)
         {
+            if(func.Name.ToLower() == "isomitted")
+            {
+                var variableName = _tokens[func.Start + 2].Value;
+                _tokens[func.Start + 2] = new Token(variableName, TokenType.ParameterVariableDeclaration);
+                return;
+            }
             var commaIndexes = new List<int>();
             var openParenthesis = 0;
             // 1. loop through the tokens and collect indexes of the commas until the end of the function args.
@@ -182,35 +190,38 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 }
             }
             // 3. Process variable names in the last argument (the calculation)
-            openParenthesis = 1;
-            int lastArgIx;
-            if (IsMatchingFuncName(func.Name, "lambda"))
+            if(commaIndexes != null && commaIndexes.Any())
             {
-                _tokens[commaIndexes.Last()] = new Token(",", TokenType.CommaLambda);
-            }
-            //for (lastArgIx = commaIndexes.Last(); _tokens[lastArgIx].TokenType != TokenType.ClosingParenthesis && openParenthesis == 1; lastArgIx++)
-            for (lastArgIx = commaIndexes.Last(); lastArgIx < _tokens.Count; lastArgIx++)
-            {
-                var candidate = _tokens[lastArgIx];
-                if (candidate.TokenType == TokenType.OpeningParenthesis)
+                openParenthesis = 1;
+                int lastArgIx;
+                if (IsMatchingFuncName(func.Name, "lambda"))
                 {
-                    openParenthesis++;
+                    _tokens[commaIndexes.Last()] = new Token(",", TokenType.CommaLambda);
                 }
-                else if (candidate.TokenType == TokenType.ClosingParenthesis)
+                //for (lastArgIx = commaIndexes.Last(); _tokens[lastArgIx].TokenType != TokenType.ClosingParenthesis && openParenthesis == 1; lastArgIx++)
+                for (lastArgIx = commaIndexes.Last(); lastArgIx < _tokens.Count; lastArgIx++)
                 {
-                    openParenthesis--;
-                }
-                // unresolved variable tokens will be interpreted as names
-                if (candidate.TokenType == TokenType.NameValue)
-                {
-                    var candidateVariableName = ProcessVariableToken(candidate.Value);
-                    if (func.IsGlobalVariable(candidateVariableName))
+                    var candidate = _tokens[lastArgIx];
+                    if (candidate.TokenType == TokenType.OpeningParenthesis)
                     {
-                        _tokens[lastArgIx] = new Token(candidateVariableName, TokenType.ParameterVariable);
+                        openParenthesis++;
+                    }
+                    else if (candidate.TokenType == TokenType.ClosingParenthesis)
+                    {
+                        openParenthesis--;
+                    }
+                    // unresolved variable tokens will be interpreted as names
+                    if (candidate.TokenType == TokenType.NameValue)
+                    {
+                        var candidateVariableName = ProcessVariableToken(candidate.Value);
+                        if (func.IsGlobalVariable(candidateVariableName))
+                        {
+                            _tokens[lastArgIx] = new Token(candidateVariableName, TokenType.ParameterVariable);
+                        }
                     }
                 }
+                func.End = lastArgIx;
             }
-            func.End = lastArgIx;
         }
 
         private static string ProcessVariableToken(string variableToken)
