@@ -154,6 +154,40 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             Root.Clear(range, item);
         }
 
+        internal void UpdateAddress(ExcelAddressBase addressToClear, ExcelAddressBase addressToAdd, T item)
+        {
+            if (addressToClear != null)
+            {
+                if (addressToClear.Addresses == null)
+                {
+                    Clear(addressToClear._fromRow, addressToClear._fromCol, addressToClear._toRow, addressToClear._toCol, item);
+                }
+                else
+                {
+                    foreach (var a in addressToClear.Addresses)
+                    {
+                        Clear(a._fromRow, a._fromCol, a._toRow, a._toCol, item);
+                    }
+                }
+            }
+
+            if (addressToAdd != null)
+            {
+                if (addressToAdd.Addresses == null)
+                {
+                    Add(new QuadRange(addressToAdd), item);
+                }
+                else
+                {
+                    foreach (var a in addressToAdd.Addresses)
+                    {
+                        Add(new QuadRange(a), item);
+                    }
+                }
+            }
+        }
+
+
         internal void UpdateAddress(ExcelAddress addressToClear, ExcelAddress addressToAdd, T item)
         {
             if (addressToClear != null)

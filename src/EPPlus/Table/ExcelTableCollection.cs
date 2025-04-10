@@ -13,9 +13,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 namespace OfficeOpenXml.Table
 {
@@ -26,17 +26,30 @@ namespace OfficeOpenXml.Table
     {
         List<ExcelTable> _tables = new List<ExcelTable>();
         internal Dictionary<string, int> _tableNames = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-        ExcelWorksheet _ws;        
+        ExcelWorksheet _ws;
+        internal QuadTree<ExcelTable> qtTables;
+
         internal ExcelTableCollection(ExcelWorksheet ws)
         {
             var pck = ws._package.ZipPackage;
             _ws = ws;
-            foreach(XmlElement node in ws.WorksheetXml.SelectNodes("//d:tableParts/d:tablePart", ws.NameSpaceManager))
+
+            if (_ws == null || _ws.Dimension == null)
+            {
+                qtTables = new QuadTree<ExcelTable>();
+            }
+            else
+            {
+                qtTables = new QuadTree<ExcelTable>(_ws.Dimension);
+            }
+
+            foreach (XmlElement node in ws.WorksheetXml.SelectNodes("//d:tableParts/d:tablePart", ws.NameSpaceManager))
             {
                 var rel = ws.Part.GetRelationship(node.GetAttribute("id",ExcelPackage.schemaRelationships));
                 var tbl = new ExcelTable(rel, ws);
                 _tableNames.Add(tbl.Name, _tables.Count);
                 _tables.Add(tbl);
+                qtTables.Add(new QuadRange(tbl.Address), tbl);
             }
         }
         private ExcelTable Add(ExcelTable tbl)
@@ -99,7 +112,9 @@ namespace OfficeOpenXml.Table
                 }
             }
 
-            return Add(new ExcelTable(_ws, Range, name, _ws.Workbook._nextTableID, copy));
+            var tableToAdd = new ExcelTable(_ws, Range, name, _ws.Workbook._nextTableID, copy);
+            qtTables.Add(new QuadRange(tableToAdd.Address), tableToAdd);
+            return Add(tableToAdd);
         }
 
         private void ValidateName(string name)
@@ -269,6 +284,11 @@ namespace OfficeOpenXml.Table
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return _tables.GetEnumerator();
+        }
+
+        internal List<QuadRangeItem<ExcelTable>> GetIntersectingRanges(ExcelAddress address)
+        {
+            return qtTables.GetIntersectingRangeItems(new QuadRange(address));
         }
     }
 }
