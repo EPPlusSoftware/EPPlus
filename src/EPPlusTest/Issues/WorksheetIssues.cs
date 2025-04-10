@@ -802,22 +802,46 @@ namespace EPPlusTest.Issues
         {
             using (var p = OpenPackage("I1951.xlsx", true))
             {
+                var ws = p.Workbook.Worksheets.Add("GenericTM");
+
+                AddMeasureSheet(p, ws);
+                
 				p.Settings.TextSettings.PrimaryTextMeasurer = new SystemDrawingTextMeasurer();
-				p.Settings.TextSettings.MeasureWrappedTextCells = true;
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-
-                string multiLineText = "Line one" + Environment.NewLine + "Line two is longer" + "\n" + "Extra line";
-
-                ws.Cells["A1"].Value = multiLineText;
-                ws.Cells["A1"].Style.WrapText = true;
-
-                ws.Cells["B2"].Value = multiLineText;
-
-                // AutoFitColumns - calculates width as if there were no line breaks.
-                ws.Cells[ws.Dimension.Address].AutoFitColumns();
+                ws = p.Workbook.Worksheets.Add("SystemDrawingTM");
+                AddMeasureSheet(p, ws);
 
                 SaveAndCleanup(p);
-             }
+            }
+        }
+
+        private static void AddMeasureSheet(ExcelPackage p, ExcelWorksheet ws)
+        {
+            string multiLineText = "Line one" + Environment.NewLine + "Line two is longer" + "\n" + "Extra line";
+
+            ws.Cells["A1"].Value = multiLineText;
+            ws.Cells["A1"].Style.WrapText = true;
+
+            ws.Cells["B2"].Value = multiLineText;
+
+            ws.Cells["C1"].Value = multiLineText;
+            ws.Cells["A1"].Style.WrapText = true;
+
+            ws.Cells["B2"].Value = multiLineText;
+
+            p.Settings.TextSettings.MeasureWrappedTextCells = true;
+            // AutoFitColumns - calculates width as if there were no line breaks.
+            ws.Cells["A1:B2"].AutoFitColumns();
+
+
+            p.Settings.TextSettings.MeasureWrappedTextCells = false;
+
+            ws.Cells["C1"].Value = multiLineText;
+            ws.Cells["C1"].Style.WrapText = true;
+
+            ws.Cells["D2"].Value = multiLineText;
+
+            // AutoFitColumns - calculates width as if there were no line breaks.
+            ws.Cells["C1:D2"].AutoFitColumns();
         }
     }
 }
