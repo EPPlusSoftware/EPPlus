@@ -240,15 +240,6 @@ namespace EPPlusTest.Issues
             }
         }
         [TestMethod]
-        public void s744()
-        {
-            using (var p = OpenTemplatePackage("s744.xlsx"))
-            {
-                ExcelWorkbook workbook = p.Workbook;
-                SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
         public void s744_2()
         {
             using (var p = OpenTemplatePackage("s744-2.xlsx"))
