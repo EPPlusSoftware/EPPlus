@@ -28,6 +28,8 @@ using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using System.Linq;
+using OfficeOpenXml.Core.RangeQuadTree;
+
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -265,6 +267,11 @@ namespace OfficeOpenXml.Table
             }
             internal set
             {
+                if(_address != null && WorkSheet != null)
+                {
+                    WorkSheet.Tables.qtTables.UpdateAddress(_address, value, this);
+                }
+
                 _address = value;
                 if(value!=null)
                 {
