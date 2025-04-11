@@ -1,9 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Table;
 using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 namespace EPPlusTest.LongRunning
 {
@@ -154,6 +157,75 @@ namespace EPPlusTest.LongRunning
                 var pt = p.Workbook.Worksheets[0].PivotTables[0];
                 p.Workbook.Calculate();
                 SaveWorkbook("PivotTest_calculated_columns.xlsx", p);
+            }
+        }
+        #endregion
+        #region HtmlExport
+        [TestMethod]
+        public async Task WriteAdvancedWs()
+        {
+            string _htmlOutput;
+            _htmlOutput = _worksheetPath + "\\html\\";
+            if (Directory.Exists(_htmlOutput) == false)
+            {
+                Directory.CreateDirectory(_htmlOutput);
+            }
+
+            using (var p = OpenTemplatePackage("s610.xlsx"))
+            {
+                var sheet1 = p.Workbook.Worksheets[0];
+                var exporterRange = p.Workbook.CreateHtmlExporter(sheet1.Cells["A1:BL7868"]);
+                exporterRange.Settings.SetColumnWidth = true;
+                exporterRange.Settings.SetRowHeight = true;
+                exporterRange.Settings.Minify = false;
+                exporterRange.Settings.TableStyle = eHtmlRangeTableInclude.Include;
+                exporterRange.Settings.Pictures.Include = ePictureInclude.Include;
+                var htmlAsync = await exporterRange.GetSinglePageAsync();
+
+                File.WriteAllText($"{_htmlOutput}RangeAndThreeTables.html", htmlAsync);
+            }
+        }
+        #endregion
+        #region PivotCacheStoreTests
+        [TestMethod]
+        public void s789_charts()
+        {
+            using (var pck = OpenTemplatePackage("s789_charts_justOne.xlsx"))
+            {
+                var wb = pck.Workbook;
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void s789_orignals()
+        {
+            using (var pck = OpenTemplatePackage("s789_original_issue.xlsx"))
+            {
+                var wb = pck.Workbook;
+
+                var ws = wb.Worksheets.GetByName("PivotTables");
+                var table = ws.PivotTables[0];
+
+                SaveAndCleanup(pck);
+            }
+        }
+        #endregion
+        #region chartInsertTests
+        [TestMethod]
+        public void ColumnCheck()
+        {
+            using (var p = OpenTemplatePackage("s808_2.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["overzicht"];
+
+                ws.Calculate();
+
+                ws.ClearFormulas();
+
+                ws.Columns.DeleteAll(c => c.Hidden);
+
+                SaveAndCleanup(p);
             }
         }
         #endregion

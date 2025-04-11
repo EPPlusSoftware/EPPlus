@@ -50,6 +50,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Core.RangeQuadTree;
 
 namespace OfficeOpenXml
 {
