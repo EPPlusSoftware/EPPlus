@@ -1118,17 +1118,5 @@ namespace OfficeOpenXml.Drawing.Chart
 
 
         private ExcelChartDrawings _chartDrawings = null;
-
-        public ExcelChartDrawings Drawings
-        {
-            get
-            {
-                if (_chartDrawings == null)
-                {
-                    _chartDrawings = new ExcelChartDrawings(this);
-                }
-                return _chartDrawings;
-            }
-        }
     }
 }

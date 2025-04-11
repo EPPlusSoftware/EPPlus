@@ -2540,7 +2540,7 @@ namespace OfficeOpenXml
 
         private static void HandleSaveForIndividualDrawings(ExcelDrawing d, bool hasLoadedPivotTables)
         {
-            if (d is ExcelChart c)
+            if (d is ExcelChartStandard c)
             {
                 var chartStream = c.Part.GetStream(FileMode.Create, FileAccess.Write);
                 c.ChartXml.PreserveWhitespace = true;

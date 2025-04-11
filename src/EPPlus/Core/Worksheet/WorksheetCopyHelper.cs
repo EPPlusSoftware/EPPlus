@@ -633,7 +633,7 @@ namespace OfficeOpenXml.Core.Worksheet
             StreamWriter streamChart = new StreamWriter(chartPart.GetStream(FileMode.Create, FileAccess.Write));
             streamChart.Write(xml);
             streamChart.Flush();
-            //Now create the new relationship to the copied chart xml
+            //Now create the new relationship to the copied Chart xml
             XmlNode relNode;
             if (chart._isChartEx)
             {
@@ -718,18 +718,18 @@ namespace OfficeOpenXml.Core.Worksheet
                         uri = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/charts/colors{0}.xml");
                         chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartColorStyle, chart.StyleManager.ColorsXml.OuterXml);
                     }
-                    else if (relCopy.RelationshipType == ExcelPackage.schemaRelationships + "/chartUserShapes")
+                    else if (relCopy.RelationshipType == ExcelPackage.schemaRelationships + "/chartUserShapes" && chart is ExcelChartStandard chartStandard)
                     {
                         uri = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/drawings/drawing{0}.xml");
-                        var part = chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartDrawing, chart.Drawings.DrawingXml.OuterXml);
+                        var part = chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartDrawing, chartStandard.Drawings.DrawingXml.OuterXml);
                         //update rel in chart xml
-                        //create relations for pictures in chart drawing
-                        string xml = chart.Drawings.DrawingXml.OuterXml;
+                        //create relations for pictures in Chart drawing
+                        string xml = chartStandard.Drawings.DrawingXml.OuterXml;
                         XmlDocument drawXml = new XmlDocument();
                         drawXml.LoadXml(xml);
-                        for (int i = 0; i < chart.Drawings.Count; i++)
+                        for (int i = 0; i < chartStandard.Drawings.Count; i++)
                         {
-                            var draw = chart.Drawings[i];
+                            var draw = chartStandard.Drawings[i];
                             CopyDrawingRels(draw, added._package, added, part, ref drawXml);
                         }
                     }
@@ -847,7 +847,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyVmlRelations(ExcelWorksheet Copy, ExcelWorksheet added)
         {
-            //Excel does not copy signature lines we shouldn'te either.
+            //Excel does not copy signature lines we shouldn't either.
             if (added.SignatureLines.Count() > 0)
             {
                 added.SignatureLines.Clear();

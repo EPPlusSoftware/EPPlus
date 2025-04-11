@@ -41,8 +41,8 @@ namespace OfficeOpenXml.Drawing
 
     internal enum DrawingsCollectionType
     {
-        excel = 0,
-        chart = 1,
+        Worksheet = 0,
+        Chart = 1,
     }
 
     /// <summary>
@@ -107,17 +107,17 @@ namespace OfficeOpenXml.Drawing
 
 
 
-        internal DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel;
-        internal double screenWidth;
-        internal double screenHeight;
+        internal DrawingsCollectionType _collectionType = DrawingsCollectionType.Worksheet;
+        internal double _screenWidth;
+        internal double _screenHeight;
         internal ExcelDrawings(ExcelPackage xlPackage, ExcelChart excelChart)
         {
-            screenWidth = excelChart._width;
-            screenHeight = excelChart._height;
+            _screenWidth = excelChart._width;
+            _screenHeight = excelChart._height;
 
             _package = xlPackage;
             Worksheet = excelChart.WorkSheet;
-            DrawingsType = DrawingsCollectionType.chart;
+            _collectionType = DrawingsCollectionType.Chart;
             _drawingsXml = new XmlDocument();
             _drawingsXml.PreserveWhitespace = true;
             _drawingsList = new List<ExcelDrawing>();
@@ -156,13 +156,13 @@ namespace OfficeOpenXml.Drawing
         private void AddDrawings()
         {
             XmlNodeList list;
-            switch (DrawingsType)
+            switch (_collectionType)
             {
 
-                case DrawingsCollectionType.chart:
+                case DrawingsCollectionType.Chart:
                     list = _drawingsXml.SelectNodes("//*[self::cdr:relSizeAnchor]", NameSpaceManager);
                     break;
-                case DrawingsCollectionType.excel:
+                case DrawingsCollectionType.Worksheet:
                 default:
                     list = _drawingsXml.SelectNodes("//*[self::xdr:oneCellAnchor or self::xdr:twoCellAnchor or self::xdr:absoluteAnchor]", NameSpaceManager);
                     break;
@@ -176,7 +176,7 @@ namespace OfficeOpenXml.Drawing
                     case "twoCellAnchor":
                     case "absoluteAnchor":
                     case "relSizeAnchor":
-                        dr = ExcelDrawing.GetDrawing(this, node, DrawingsType);
+                        dr = ExcelDrawing.GetDrawing(this, node, _collectionType);
                         break;
                     default:
                         dr = null;
@@ -381,7 +381,7 @@ namespace OfficeOpenXml.Drawing
                 throw new InvalidOperationException("Chart Worksheets can't have more than one chart");
             }
 
-            if (DrawingsType == DrawingsCollectionType.chart)
+            if (_collectionType == DrawingsCollectionType.Chart)
             {
                 throw new InvalidOperationException("Chart cannot contain a chart.");
             }
@@ -991,12 +991,12 @@ namespace OfficeOpenXml.Drawing
         private ExcelPicture BaseAddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, object container = null)
         {
             XmlElement drawNode;
-            switch (DrawingsType)
+            switch (_collectionType)
             {
-                case DrawingsCollectionType.chart:
+                case DrawingsCollectionType.Chart:
                     drawNode = CreateDrawingXmlChartDrawings(container as ExcelChart);
                     break;
-                case DrawingsCollectionType.excel:
+                case DrawingsCollectionType.Worksheet:
                 default:
                     drawNode = CreateDrawingXml(eEditAs.OneCell);
                     break;
@@ -1005,7 +1005,7 @@ namespace OfficeOpenXml.Drawing
 
             bool hasLink = (Location & PictureLocation.Link) == PictureLocation.Link;
 
-            var pic = new ExcelPicture(this, drawNode, Hyperlink, type, Location, DrawingsType);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, type, Location, _collectionType);
 
             if (hasLink)
             {
@@ -1062,10 +1062,10 @@ namespace OfficeOpenXml.Drawing
 
         internal ExcelPicture AddPicture(string Name, Stream pictureStream, Uri Hyperlink, object container = null)
         {
-            return AddImageInternal(Name, pictureStream, null, Hyperlink, DrawingsType, container);
+            return AddImageInternal(Name, pictureStream, null, Hyperlink, _collectionType, container);
         }
 
-        private ExcelPicture AddImageInternal(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink, DrawingsCollectionType drawingsCollectionType = DrawingsCollectionType.excel, object container = null)
+        private ExcelPicture AddImageInternal(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink, DrawingsCollectionType drawingsCollectionType = DrawingsCollectionType.Worksheet, object container = null)
         {
             if (pictureStream == null)
             {
@@ -1080,10 +1080,10 @@ namespace OfficeOpenXml.Drawing
             XmlElement drawNode;
             switch (drawingsCollectionType)
             {
-                case DrawingsCollectionType.chart:
+                case DrawingsCollectionType.Chart:
                     drawNode = CreateDrawingXmlChartDrawings(container as ExcelChart);
                     break;
-                case DrawingsCollectionType.excel:
+                case DrawingsCollectionType.Worksheet:
                 default:
                     drawNode = CreateDrawingXml(eEditAs.OneCell);
                     break;
@@ -1094,20 +1094,20 @@ namespace OfficeOpenXml.Drawing
             return pic;
         }
 
-        internal ExcelGroupShape AddGroupDrawing(DrawingsCollectionType drawingsType = DrawingsCollectionType.excel)
+        internal ExcelGroupShape AddGroupDrawing(DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet)
         {
             XmlElement drawNode;
-            switch (drawingsType)
+            switch (collectionType)
             {
-                case DrawingsCollectionType.chart:
+                case DrawingsCollectionType.Chart:
                     drawNode = CreateDrawingXmlChartDrawings(null);
                     break;
-                case DrawingsCollectionType.excel:
+                case DrawingsCollectionType.Worksheet:
                 default:
                     drawNode = CreateDrawingXml(eEditAs.OneCell);
                     break;
             }
-            var grp = new ExcelGroupShape(this, drawNode, null, drawingsType);
+            var grp = new ExcelGroupShape(this, drawNode, null, collectionType);
             grp.Name = $"Group {grp.Id}";
             _drawingsList.Add(grp);
             _drawingNames.Add(grp.Name, _drawingsList.Count - 1);
@@ -1419,18 +1419,18 @@ namespace OfficeOpenXml.Drawing
                 throw new Exception("Name already exists in the drawings collection");
             }
             XmlElement drawNode;
-            switch (DrawingsType)
+            switch (_collectionType)
             {
-                case DrawingsCollectionType.chart:
+                case DrawingsCollectionType.Chart:
                     drawNode = CreateDrawingXmlChartDrawings(container as ExcelChart);
                     break;
-                case DrawingsCollectionType.excel:
+                case DrawingsCollectionType.Worksheet:
                 default:
                     drawNode = CreateDrawingXml();
                     break;
             }
 
-            ExcelShape shape = new ExcelShape(this, drawNode, Style, DrawingsType);
+            ExcelShape shape = new ExcelShape(this, drawNode, Style, _collectionType);
             shape.Name = Name;
             shape.Id = _nextDrawingId++;
             _drawingsList.Add(shape);
@@ -1544,7 +1544,7 @@ namespace OfficeOpenXml.Drawing
             XmlElement drawNode = CreateDrawingXml();
             drawNode.InnerXml = Source.TopNode.InnerXml;
 
-            ExcelShape shape = new ExcelShape(this, drawNode, null, DrawingsType);
+            ExcelShape shape = new ExcelShape(this, drawNode, null, _collectionType);
             shape.Name = Name;
             shape.Id = _nextDrawingId++;
             shape.Style = Source.Style;
@@ -1571,7 +1571,7 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new ArgumentException("Name already exists in the drawings collection");
             }
-            if (DrawingsType == DrawingsCollectionType.chart)
+            if (_collectionType == DrawingsCollectionType.Chart)
             {
                 throw new InvalidOperationException("Chart cannot contain controlls.");
             }
@@ -1731,7 +1731,7 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new ArgumentException("Name already exists in the drawings collection", "name");
             }
-            if (DrawingsType == DrawingsCollectionType.chart)
+            if (_collectionType == DrawingsCollectionType.Chart)
             {
                 throw new InvalidOperationException("Chart cannot contain OLE objects.");
             }
@@ -1808,7 +1808,7 @@ namespace OfficeOpenXml.Drawing
             XmlElement drawNode = CreateDocumentAndTopNodeChartDrawings(container);
 
             double x1 = 0, y1 = 0, x2 = 0.1, y2 = 0.1;
-            MathHelper.AdjustAspectRatio(screenWidth, screenHeight, ref x1, ref y1, ref x2, ref y2);
+            MathHelper.AdjustAspectRatio(_screenWidth, _screenHeight, ref x1, ref y1, ref x2, ref y2);
 
             //Add from position Element;
             XmlElement fromNode = _drawingsXml.CreateElement("cdr", "from", ExcelPackage.schemaChartDrawing);

@@ -1251,5 +1251,21 @@ namespace OfficeOpenXml.Drawing.Chart
                 base.YAxis = value;
             }
         }
+        private ExcelChartDrawings _chartDrawings = null;
+        /// <summary>
+        /// A collection of drawings inside the chart. Allows shapes and pictures
+        /// </summary>
+        public ExcelChartDrawings Drawings
+        {
+            get
+            {
+                if (_chartDrawings == null)
+                {
+                    _chartDrawings = new ExcelChartDrawings(this);
+                }
+                return _chartDrawings;
+            }
+        }
+
     }
 }

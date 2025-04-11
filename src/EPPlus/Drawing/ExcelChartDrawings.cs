@@ -5,6 +5,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing
 {
+    /// <summary>
+    /// Collection of drawings inside a chart
+    /// </summary>
     public class ExcelChartDrawings
     {
         internal ExcelDrawings _drawings = null;
@@ -27,13 +30,13 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        internal ExcelChartDrawings(ExcelChart chart)
+        internal ExcelChartDrawings(ExcelChartStandard chart)
         {
             _chart = chart;
             LoadDrawings(chart);
         }
 
-        internal void LoadDrawings(ExcelChart chart)
+        internal void LoadDrawings(ExcelChartStandard chart)
         {
             if (_drawings == null)
             {
@@ -41,42 +44,81 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
+        /// <summary>
+        /// Adds a shape to the chart
+        /// </summary>
+        /// <param name="Name">The name of the shape</param>
+        /// <param name="Style">The type of shape</param>
+        /// <returns>The shape</returns>
         public ExcelShape AddShape(string Name, eShapeStyle Style)
         {
             return _drawings.AddShape(Name, Style, _chart);
         }
 
-        //String
-
+        /// <summary>
+        /// Adds a picture to the chart
+        /// </summary>
+        /// <param name="Name">The name of the shape</param>
+        /// <param name="ImagePath">The path to the image file.</param>
+        /// <returns>The shape</returns>
         public ExcelPicture AddPicture(string Name, string ImagePath)
         {
             return AddPicture(Name, new FileInfo(ImagePath), null);
         }
+        /// <summary>
+        /// Adds a picture to the chart
+        /// </summary>
+        /// <param name="Name">The name of the shape</param>
+        /// <param name="ImagePath">The path to the image file.</param>
+        /// <param name="HyperLink">A hyperlink for the shape</param>
+        /// <returns>The shape</returns>
         public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink HyperLink)
         {
             return AddPicture(Name, new FileInfo(ImagePath), HyperLink);
         }
 
-        //FileInfo
-
-        public ExcelPicture AddPicture(string Name, FileInfo ImagePath)
+        /// <summary>
+        /// Adds a picture to the chart
+        /// </summary>
+        /// <param name="Name">The name of the shape</param>
+        /// <param name="ImageFile">The image file.</param>
+        /// <returns>The shape</returns>
+        public ExcelPicture AddPicture(string Name, FileInfo ImageFile)
         {
-            return AddPicture(Name, ImagePath, null);
+            return AddPicture(Name, ImageFile, null);
         }
-        public ExcelPicture AddPicture(string Name, FileInfo ImagePath, Uri HyperLink)
+        /// <summary>
+        /// Adds a picture to the chart
+        /// </summary>
+        /// <param name="Name">The name of the shape</param>
+        /// <param name="ImageFile">The image file.</param>
+        /// <param name="HyperLink">A hyperlink for the shape</param>
+        /// <returns>The shape</returns>
+        public ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri HyperLink)
         {
-            return _drawings.AddPicture(Name, ImagePath, HyperLink, PictureLocation.Embed, _chart);
+            return _drawings.AddPicture(Name, ImageFile, HyperLink, PictureLocation.Embed, _chart);
         }
 
-        //Stream
-
-        public ExcelPicture AddPicture(string Name, Stream ImagePath)
+        /// <summary>
+        /// Adds a picture to the chart
+        /// </summary>
+        /// <param name="Name">The name of the shape</param>
+        /// <param name="ImageStream">The stream containing image file.</param>
+        /// <returns>The shape</returns>
+        public ExcelPicture AddPicture(string Name, Stream ImageStream)
         {
-            return AddPicture(Name, ImagePath, null);
+            return AddPicture(Name, ImageStream, null);
         }
-        public ExcelPicture AddPicture(string Name, Stream ImagePath, Uri HyperLink)
+        /// <summary>
+        /// Adds a picture to the chart
+        /// </summary>
+        /// <param name="Name">The name of the shape</param>
+        /// <param name="ImageStream">The stream containing image file.</param>
+        /// <param name="HyperLink">A hyperlink for the shape</param>
+        /// <returns>The shape</returns>
+        public ExcelPicture AddPicture(string Name, Stream ImageStream, Uri HyperLink)
         {
-            return _drawings.AddPicture(Name, ImagePath, HyperLink, _chart);
+            return _drawings.AddPicture(Name, ImageStream, HyperLink, _chart);
         }
 
         internal void AddDrawingInternal(ExcelDrawing dr)
@@ -104,7 +146,7 @@ namespace OfficeOpenXml.Drawing
         /// Returns the drawing at the specified position.  
         /// </summary>
         /// <param name="PositionID">The position of the drawing. 0-base</param>
-        /// <returns></returns>
+        /// <returns>The drawing</returns>
         public ExcelDrawing this[int PositionID]
         {
             get
@@ -115,8 +157,8 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Returns the drawing matching the specified name
         /// </summary>
-        /// <param name="Name">The name of the worksheet</param>
-        /// <returns></returns>
+        /// <param name="Name">The name of the drawing</param>
+        /// <returns>The drawing</returns>
         public ExcelDrawing this[string Name]
         {
             get

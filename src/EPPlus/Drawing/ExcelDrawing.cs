@@ -71,16 +71,16 @@ namespace OfficeOpenXml.Drawing
         internal bool _doNotAdjust = false;
 
         internal static string[] NamespacePrefixes = { "xdr", "cdr" };
-        internal readonly int prefixIndex = 0;
-        internal readonly DrawingsCollectionType drawingsCollectionType;
+        internal readonly int _prefixIndex = 0;
+        internal readonly DrawingsCollectionType _collectionType;
 
-        internal ExcelDrawing(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
+        internal ExcelDrawing(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent = null, DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet) :
             base(drawings.NameSpaceManager, node)
         {
             _drawings = drawings;
             _parent = parent;
-            prefixIndex = (int)DrawingsType;
-            drawingsCollectionType = DrawingsType;
+            _prefixIndex = (int)collectionType;
+            _collectionType = collectionType;
             TopNode = node;
             AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ", "grpSp", "nvSpPr", "nvCxnSpPr", "nvGraphicFramePr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
             _topPathUngrouped = topPath;
@@ -199,10 +199,10 @@ namespace OfficeOpenXml.Drawing
 
         private void SetPositionPropertiesTopDrawing(ExcelDrawings drawings, XmlNode node)
         {
-            XmlNode posNode = node.SelectSingleNode(NamespacePrefixes[prefixIndex] + ":from", drawings.NameSpaceManager);
+            XmlNode posNode = node.SelectSingleNode(NamespacePrefixes[_prefixIndex] + ":from", drawings.NameSpaceManager);
             if (posNode != null)
             {
-                From = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize, prefixIndex);
+                From = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize, _prefixIndex);
             }
             else
             {
@@ -212,10 +212,10 @@ namespace OfficeOpenXml.Drawing
                     Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, posNode, GetPositionSize);
                 }
             }
-            posNode = node.SelectSingleNode(NamespacePrefixes[prefixIndex] + ":to", drawings.NameSpaceManager);
+            posNode = node.SelectSingleNode(NamespacePrefixes[_prefixIndex] + ":to", drawings.NameSpaceManager);
             if (posNode != null)
             {
-                To = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize, prefixIndex);
+                To = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize, _prefixIndex);
             }
             else
             {
@@ -236,15 +236,15 @@ namespace OfficeOpenXml.Drawing
             }
             if (node.LocalName == "grpSp")
             {
-                return node.SelectSingleNode($"{NamespacePrefixes[prefixIndex]}:grpSpPr/a:xfrm/{child}", NameSpaceManager);
+                return node.SelectSingleNode($"{NamespacePrefixes[_prefixIndex]}:grpSpPr/a:xfrm/{child}", NameSpaceManager);
             }
             else if (node.LocalName == "graphicFrame")
             {
-                return node.SelectSingleNode($"{NamespacePrefixes[prefixIndex]}:xfrm/{child}", NameSpaceManager);
+                return node.SelectSingleNode($"{NamespacePrefixes[_prefixIndex]}:xfrm/{child}", NameSpaceManager);
             }
             else
             {
-                return node.SelectSingleNode($"{NamespacePrefixes[prefixIndex]}:spPr/a:xfrm/{child}", NameSpaceManager);
+                return node.SelectSingleNode($"{NamespacePrefixes[_prefixIndex]}:spPr/a:xfrm/{child}", NameSpaceManager);
             }
         }
 
@@ -476,7 +476,7 @@ namespace OfficeOpenXml.Drawing
         }
         /// <summary>
         /// Top Left position, if the shape is of the one- or two- cell anchor type
-        /// Otherwise this propery is set to null
+        /// Otherwise this property is set to null
         /// </summary>
         public ExcelPosition From
         {
@@ -566,14 +566,14 @@ namespace OfficeOpenXml.Drawing
         /// <param name="drawings">The drawing collection</param>
         /// <param name="node">Xml top node</param>
         /// <returns>The Drawing object</returns>
-        internal static ExcelDrawing GetDrawing(ExcelDrawings drawings, XmlNode node, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel)
+        internal static ExcelDrawing GetDrawing(ExcelDrawings drawings, XmlNode node, DrawingsCollectionType DrawingsType = DrawingsCollectionType.Worksheet)
         {
             if (node.ChildNodes.Count < 3) return null; //Invalid formatted anchor node, ignore
             XmlElement drawNode = (XmlElement)node.GetChildAtPosition(2);
             return GetDrawingFromNode(drawings, node, drawNode, null, DrawingsType);
         }
 
-        internal static ExcelDrawing GetDrawingFromNode(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel)
+        internal static ExcelDrawing GetDrawingFromNode(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.Worksheet)
         {
             switch (drawNode.LocalName)
             {
@@ -634,9 +634,9 @@ namespace OfficeOpenXml.Drawing
             return new ExcelDrawing(drawings, node, "", "");
         }
 
-        private static ExcelDrawing GetShapeOrControl(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel)
+        private static ExcelDrawing GetShapeOrControl(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent, DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet)
         {
-            var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager, DrawingsType);
+            var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager, collectionType);
             var control = drawings.Worksheet.Controls.GetControlByShapeId(shapeId);
             var oleObject = control == null ? drawings.Worksheet.OleObjects.GetOleObjectByShapeId(shapeId) : null;
             if (control != null)
@@ -649,13 +649,13 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                return new ExcelShape(drawings, node, parent, DrawingsType);
+                return new ExcelShape(drawings, node, parent, collectionType);
             }
         }
 
-        private static int GetControlShapeId(XmlElement drawNode, XmlNamespaceManager nameSpaceManager, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel)
+        private static int GetControlShapeId(XmlElement drawNode, XmlNamespaceManager nameSpaceManager, DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet)
         {
-            var idNode = drawNode.SelectSingleNode(NamespacePrefixes[(int)DrawingsType] + ":nvSpPr/" + NamespacePrefixes[(int)DrawingsType] + ":cNvPr/@id", nameSpaceManager);
+            var idNode = drawNode.SelectSingleNode(NamespacePrefixes[(int)collectionType] + ":nvSpPr/" + NamespacePrefixes[(int)collectionType] + ":cNvPr/@id", nameSpaceManager);
             if (idNode != null)
             {
                 return int.Parse(idNode.Value);
@@ -755,7 +755,7 @@ namespace OfficeOpenXml.Drawing
         internal int GetPixelLeft()
         {
             int pix = 0;
-            if (drawingsCollectionType == DrawingsCollectionType.chart)
+            if (_collectionType == DrawingsCollectionType.Chart)
             {
                 var off = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:off", NameSpaceManager);
                 if (off == null)
@@ -789,7 +789,7 @@ namespace OfficeOpenXml.Drawing
         internal int GetPixelTop()
         {
             int pix = 0;
-            if (drawingsCollectionType == DrawingsCollectionType.chart)
+            if (_collectionType == DrawingsCollectionType.Chart)
             {
                 var off = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:off", NameSpaceManager);
                 if (off == null)
@@ -827,7 +827,7 @@ namespace OfficeOpenXml.Drawing
         internal double GetPixelWidth()
         {
             double pix = 0;
-            if (drawingsCollectionType == DrawingsCollectionType.chart)
+            if (_collectionType == DrawingsCollectionType.Chart)
             {
                 var ext = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
                 if (ext == null)
@@ -862,7 +862,7 @@ namespace OfficeOpenXml.Drawing
         internal double GetPixelHeight()
         {
             double pix = 0;
-            if (drawingsCollectionType == DrawingsCollectionType.chart)
+            if (_collectionType == DrawingsCollectionType.Chart)
             {
                 var ext = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
                 if (ext == null)
@@ -1067,7 +1067,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="PixelLeft">Left pixel</param>
         public void SetPosition(int PixelTop, int PixelLeft)
         {
-            if (_drawings.DrawingsType == DrawingsCollectionType.chart)
+            if (_drawings._collectionType == DrawingsCollectionType.Chart)
             {
                 SetPositionChartShapes(PixelTop, PixelLeft);
             }
@@ -1114,11 +1114,11 @@ namespace OfficeOpenXml.Drawing
 
         private void SetPositionChartShapes(int PixelTop, int PixelLeft)
         {
-            var y = PixelTop / (_drawings.screenHeight);
-            var x = PixelLeft / (_drawings.screenWidth);
+            var y = PixelTop / (_drawings._screenHeight);
+            var x = PixelLeft / (_drawings._screenWidth);
             AdjustFromXYToXY(x, y);
-            var left = (int)(From.X * _drawings.screenWidth) * EMU_PER_PIXEL;
-            var top = (int)(From.Y * _drawings.screenHeight) * EMU_PER_PIXEL;
+            var left = (int)(From.X * _drawings._screenWidth) * EMU_PER_PIXEL;
+            var top = (int)(From.Y * _drawings._screenHeight) * EMU_PER_PIXEL;
             Position.X = left;
             Position.Y = top;
             UpdatePositionAndSizeXml();
@@ -1172,8 +1172,8 @@ namespace OfficeOpenXml.Drawing
         //        var off = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:off", NameSpaceManager);
         //        off.Attributes["x"].Value = ((int)PercentLeft).ToString();
         //        off.Attributes["y"].Value = ((int)PercentTop).ToString();
-        //        PercentTop = PercentTop / this._drawings.screenHeight;
-        //        PercentLeft = PercentLeft / this._drawings.screenWidth;
+        //        PercentTop = PercentTop / this._drawings._screenHeight;
+        //        PercentLeft = PercentLeft / this._drawings._screenWidth;
         //    }
 
         //    if (PercentTop < 0)
@@ -1242,7 +1242,7 @@ namespace OfficeOpenXml.Drawing
             SetSize(width, height);
         }
         /// <summary>
-        /// This will change the cell anchor type without modifiying the position and size.
+        /// This will change the cell anchor type without modifying the position and size.
         /// </summary>
         /// <param name="type">The cell anchor type to change to</param>
         public void ChangeCellAnchor(eEditAs type)
@@ -1254,6 +1254,10 @@ namespace OfficeOpenXml.Drawing
             else if (DrawingType == eDrawingType.OleObject)
             {
                 throw new InvalidOperationException("Ole Objects can't change CellAnchor. Must be TwoCell anchor. Please use EditAs property instead.");
+            }
+            else if (_collectionType==DrawingsCollectionType.Chart)
+            {
+                throw new InvalidOperationException("Drawings inside charts can't change CellAnchor. Must be TwoCell anchor. Please use EditAs property instead.");
             }
 
             GetPositionSize();
@@ -1341,8 +1345,8 @@ namespace OfficeOpenXml.Drawing
         /// <param name="ColumnOffsetPixels">Offset in pixels</param>
         public void SetPosition(int Row, int RowOffsetPixels, int Column, int ColumnOffsetPixels)
         {
-            //Throw exception if shape in chart
-            if (drawingsCollectionType == DrawingsCollectionType.chart)
+            //Throw exception if shape in Chart
+            if (_collectionType == DrawingsCollectionType.Chart)
             {
                 throw new InvalidOperationException("Shapes in chart does not contain row or column attributes. Use SetPosition(int PixelTop, int PixelLeft) instead.");
             }
@@ -1377,7 +1381,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Percent"></param>
         public virtual void SetSize(int Percent)
         {
-            if (_drawings.DrawingsType == DrawingsCollectionType.chart)
+            if (_drawings._collectionType == DrawingsCollectionType.Chart)
             {
                 var pixelWidth = (Size.Width / EMU_PER_PIXEL) * ((double)Percent / 100);
                 var pixelHeight = (Size.Height / EMU_PER_PIXEL) * ((double)Percent / 100);
@@ -1406,8 +1410,8 @@ namespace OfficeOpenXml.Drawing
         {
             var right = Position.X / EMU_PER_PIXEL + PixelWidth;
             var bottom = Position.Y / EMU_PER_PIXEL + PixelHeight;
-            var x = right / (_drawings.screenWidth);
-            var y = bottom / (_drawings.screenHeight);
+            var x = right / (_drawings._screenWidth);
+            var y = bottom / (_drawings._screenHeight);
             To.Y = y;
             To.X = x;
             AdjustFromXYToXY(From.X, From.Y);
@@ -1423,7 +1427,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="PixelHeight">Height in pixels</param>
         public void SetSize(int PixelWidth, int PixelHeight)
         {
-            if (_drawings.DrawingsType == DrawingsCollectionType.chart)
+            if (_drawings._collectionType == DrawingsCollectionType.Chart)
             {
                 SetSizeChartShape(PixelWidth, PixelHeight);
             }
@@ -1470,7 +1474,7 @@ namespace OfficeOpenXml.Drawing
             }
             if (grp == null)
             {
-                grp = _drawings.AddGroupDrawing(_drawings.DrawingsType);
+                grp = _drawings.AddGroupDrawing(_drawings._collectionType);
             }
 
             grp.Drawings.AddDrawing(this);
@@ -1493,15 +1497,15 @@ namespace OfficeOpenXml.Drawing
 
             if (node.LocalName == "sp" || node.LocalName == "pic" || node.LocalName == "cxnSp")
             {
-                return (XmlElement)CreateNode(node, NamespacePrefixes[prefixIndex] + ":spPr/a:xfrm");
+                return (XmlElement)CreateNode(node, NamespacePrefixes[_prefixIndex] + ":spPr/a:xfrm");
             }
             else if (node.LocalName == "grpSp")
             {
-                return (XmlElement)CreateNode(node, NamespacePrefixes[prefixIndex] + ":grpSpPr/a:xfrm");
+                return (XmlElement)CreateNode(node, NamespacePrefixes[_prefixIndex] + ":grpSpPr/a:xfrm");
             }
             else if (node.LocalName == "graphicFrame")
             {
-                return (XmlElement)CreateNode(node, NamespacePrefixes[prefixIndex] + ":xfrm");
+                return (XmlElement)CreateNode(node, NamespacePrefixes[_prefixIndex] + ":xfrm");
             }
             return null;
         }
@@ -1597,12 +1601,12 @@ namespace OfficeOpenXml.Drawing
         internal XmlElement CreateShapeNode()
         {
             XmlElement shapeNode;
-            switch (_drawings.DrawingsType)
+            switch (_drawings._collectionType)
             {
-                case DrawingsCollectionType.chart:
+                case DrawingsCollectionType.Chart:
                     shapeNode = TopNode.OwnerDocument.CreateElement("cdr", "sp", ExcelPackage.schemaChartDrawing);
                     break;
-                case DrawingsCollectionType.excel:
+                case DrawingsCollectionType.Worksheet:
                 default:
                     shapeNode = TopNode.OwnerDocument.CreateElement("xdr", "sp", ExcelPackage.schemaSheetDrawings);
                     break;
@@ -1626,7 +1630,7 @@ namespace OfficeOpenXml.Drawing
             return clientDataNode;
         }
 
-        public void Copy(ExcelChart targetChart, int PixelTop = -1, int PixelLeft = -1)
+        public void Copy(ExcelChartStandard targetChart, int PixelTop = -1, int PixelLeft = -1)
         {
             if (this is ExcelShape || this is ExcelPicture || this is ExcelGroupShape)
             {
@@ -1643,11 +1647,14 @@ namespace OfficeOpenXml.Drawing
                         drawNode = CopyGroupShape(targetChart);
                         break;
                 }
-                var copy = GetDrawing(targetChart.Drawings._drawings, drawNode, DrawingsCollectionType.chart);
-                targetChart.Drawings.AddDrawingInternal(copy);
-                if (PixelTop > 0 || PixelLeft > 0)
+                if (targetChart is ExcelChartStandard chartStandard)
                 {
-                    copy.SetPosition(PixelTop, PixelLeft);
+                    var copy = GetDrawing(chartStandard.Drawings._drawings, drawNode, DrawingsCollectionType.Chart);
+                    chartStandard.Drawings.AddDrawingInternal(copy);
+                    if (PixelTop > 0 || PixelLeft > 0)
+                    {
+                        copy.SetPosition(PixelTop, PixelLeft);
+                    }
                 }
             }
             else
@@ -1664,7 +1671,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="row">The top row where the drawing will be placed.</param>
         /// <param name="col">The left column where the drawing will be placed.</param>
         /// <param name="rowOffset">Row offset in pixels from the row start positions. int.MinValue </param>
-        /// <param name="colOffset">Column offset in pixels fromp the column start position</param>
+        /// <param name="colOffset">Column offset in pixels from the column start position</param>
         public ExcelDrawing Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = int.MinValue, int colOffset = int.MinValue)
         {
             XmlNode drawNode = null;
@@ -1731,7 +1738,7 @@ namespace OfficeOpenXml.Drawing
             return copy;
         }
 
-        private XmlNode CopyGroupShape(ExcelChart targetChart)
+        private XmlNode CopyGroupShape(ExcelChartStandard targetChart)
         {
             var drawNode = targetChart.Drawings.CreateDocumentAndTopNodeChartDrawings(targetChart);
             drawNode.InnerXml = TopNode.InnerXml;
@@ -1739,7 +1746,7 @@ namespace OfficeOpenXml.Drawing
             return drawNode;
         }
 
-        private void CopyGroupShape(ExcelChart targetChart, ExcelDrawing sourceDrawing, XmlNode targetDrawNode, ExcelGroupShape parent = null)
+        private void CopyGroupShape(ExcelChartStandard targetChart, ExcelDrawing sourceDrawing, XmlNode targetDrawNode, ExcelGroupShape parent = null)
         {
             if (sourceDrawing is ExcelShape shape)
             {
@@ -2123,7 +2130,7 @@ namespace OfficeOpenXml.Drawing
             return drawNode;
         }
 
-        private XmlNode CopyPicture(ExcelChart targetChart, bool isGroupShape = false, XmlNode groupDrawNode = null)
+        private XmlNode CopyPicture(ExcelChartStandard targetChart, bool isGroupShape = false, XmlNode groupDrawNode = null)
         {
             XmlNode drawNode = null;
             if (isGroupShape && groupDrawNode != null)
@@ -2149,7 +2156,7 @@ namespace OfficeOpenXml.Drawing
             }
             if (!isGroupShape)
             {
-                var targetPic = GetDrawing(targetChart.Drawings._drawings, drawNode, DrawingsCollectionType.chart) as ExcelPicture;
+                var targetPic = GetDrawing(targetChart.Drawings._drawings, drawNode, DrawingsCollectionType.Chart) as ExcelPicture;
                 targetPic.Id = ++targetChart.Drawings._nextDrawingId;
                 targetPic.Name = targetChart._drawings.GetUniqueDrawingName(this.Name);
             }
@@ -2262,7 +2269,7 @@ namespace OfficeOpenXml.Drawing
             return drawNode;
         }
 
-        private XmlNode CopyShape(ExcelChart targetChart, bool isGroupShape = false, XmlNode groupDrawNode = null)
+        private XmlNode CopyShape(ExcelChartStandard targetChart, bool isGroupShape = false, XmlNode groupDrawNode = null)
         {
             XmlNode drawNode = null;
             if (isGroupShape && groupDrawNode != null)
@@ -2275,7 +2282,7 @@ namespace OfficeOpenXml.Drawing
             {
                 drawNode = targetChart.Drawings.CreateDrawingXmlChartDrawings(targetChart);
                 drawNode.InnerXml = TopNode.InnerXml;
-                var targetShape = GetDrawing(targetChart.Drawings._drawings, drawNode, DrawingsCollectionType.chart) as ExcelShape;
+                var targetShape = GetDrawing(targetChart.Drawings._drawings, drawNode, DrawingsCollectionType.Chart) as ExcelShape;
                 targetShape.Id = ++targetChart.Drawings._nextDrawingId;
                 targetShape.Name = targetChart.Drawings.GetUniqueDrawingName(this.Name);
             }
