@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -155,10 +156,11 @@ namespace EPPlusTest.ThreadedComments
                 var c13 = tComment2.AddComment(person.Id, "Personally I am good.");
                 var c23 = tComment2.AddComment(person2.Id, "I am also good.");
 
-
                 var tComment3 = sheetToCopy.Cells["C4"].AddThreadedComment();
                 var c14 = tComment3.AddComment(person.Id, "Personally I am bad.");
                 var c24 = tComment3.AddComment(person2.Id, "I am also bad.");
+                var c34 = tComment3.AddComment(person2.Id, "But not so bad.");
+                var c44 = tComment3.AddComment(person2.Id, "Mostly I'm rad.");
 
                 sheetToCopy.ThreadedComments.Remove(tComment);
 
@@ -169,7 +171,7 @@ namespace EPPlusTest.ThreadedComments
                     var copy = pck2.Workbook.Worksheets.Add("WorksheetCopy_Desc", sheetToCopy);
                     thread = copy.Cells["A1:D5"].ThreadedComment;
 
-                    Assert.AreEqual(3, thread.Comments.Count);
+                    Assert.AreEqual(3, copy.ThreadedComments.Count());
                     Assert.AreEqual("A1", thread.Comments[0].Ref);
                     Assert.AreEqual("A1", thread.Comments[1].Ref);
                     Assert.AreEqual("Hello @Jane Doe, how are you?", c2.Text);
