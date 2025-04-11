@@ -134,5 +134,50 @@ namespace EPPlusTest.ThreadedComments
                 }
             }
         }
+
+        [TestMethod]
+        public void ShouldCopyWorksheetWithThreadedCommentToNewPackageMany()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheetToCopy = p.Workbook.Worksheets.Add("WorksheetCopy_Source");
+                var person = sheetToCopy.ThreadedComments.Persons.Add("John Doe");
+                var person2 = sheetToCopy.ThreadedComments.Persons.Add("Jane Doe");
+                var thread = sheetToCopy.Cells["A1"].AddThreadedComment();
+                var c1 = thread.AddComment(person2.Id, "Hello");
+                var c2 = thread.AddComment(person.Id, "Hello {0}, how are you?", person2);
+
+                var tComment = sheetToCopy.Cells["C3"].AddThreadedComment();
+                var c12 = tComment.AddComment(person2.Id, "Goodbye");
+                var c22 = tComment.AddComment(person.Id, "Goodbye {0}, I don't care what you think.", person2);
+
+                var tComment2 = sheetToCopy.Cells["B1"].AddThreadedComment();
+                var c13 = tComment2.AddComment(person.Id, "Personally I am good.");
+                var c23 = tComment2.AddComment(person2.Id, "I am also good.");
+
+
+                var tComment3 = sheetToCopy.Cells["C4"].AddThreadedComment();
+                var c14 = tComment3.AddComment(person.Id, "Personally I am bad.");
+                var c24 = tComment3.AddComment(person2.Id, "I am also bad.");
+
+                sheetToCopy.ThreadedComments.Remove(tComment);
+
+                SaveWorkbook("ThreadedCommentWorksheetCopy_NewPackageManyOriginal.xlsx", p);
+
+                using (var pck2 = new ExcelPackage())
+                {
+                    var copy = pck2.Workbook.Worksheets.Add("WorksheetCopy_Desc", sheetToCopy);
+                    thread = copy.Cells["A1:D5"].ThreadedComment;
+
+                    Assert.AreEqual(3, thread.Comments.Count);
+                    Assert.AreEqual("A1", thread.Comments[0].Ref);
+                    Assert.AreEqual("A1", thread.Comments[1].Ref);
+                    Assert.AreEqual("Hello @Jane Doe, how are you?", c2.Text);
+                    Assert.AreEqual(1, thread.Comments[1].Mentions.Count());
+
+                    SaveWorkbook("ThreadedCommentWorksheetCopy_NewPackageMany.xlsx", pck2);
+                }
+            }
+        }
     }
 }
