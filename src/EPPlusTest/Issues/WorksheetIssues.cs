@@ -2,6 +2,8 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.SystemDrawing.Image;
+using OfficeOpenXml.SystemDrawing.Text;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -772,6 +774,48 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(timeSpanCell.Ticks, new TimeSpan(12, 30, 45).Ticks);
             }
         }
+        [TestMethod]
+        public void i1951()
+        {
+            using (var p = OpenPackage("I1951.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("GenericTM");
 
+                AddMeasureSheet(p, ws);
+                
+				p.Settings.TextSettings.PrimaryTextMeasurer = new SystemDrawingTextMeasurer();
+                ws = p.Workbook.Worksheets.Add("SystemDrawingTM");
+                AddMeasureSheet(p, ws);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        private static void AddMeasureSheet(ExcelPackage p, ExcelWorksheet ws)
+        {
+            string multiLineText = "Line one" + Environment.NewLine + "Line two is longer" + "\n" + "Extra line";
+
+            ws.Cells["A1"].Value = multiLineText;
+            ws.Cells["A1"].Style.WrapText = true;
+
+            ws.Cells["B2"].Value = multiLineText;
+
+            ws.Cells["C1"].Value = multiLineText;
+            ws.Cells["A1"].Style.WrapText = true;
+
+            ws.Cells["B2"].Value = multiLineText;
+
+            p.Settings.TextSettings.MeasureWrappedTextCells = true;
+            // AutoFitColumns - calculates width as if there were no line breaks.
+            ws.Cells["A1:B2"].AutoFitColumns();
+
+            p.Settings.TextSettings.MeasureWrappedTextCells = false;
+            ws.Cells["C1"].Value = multiLineText;
+            ws.Cells["C1"].Style.WrapText = true;
+            ws.Cells["D2"].Value = multiLineText;
+
+            // AutoFitColumns - calculates width as if there were no line breaks.
+            ws.Cells["C1:D2"].AutoFitColumns();
+        }
     }
 }
