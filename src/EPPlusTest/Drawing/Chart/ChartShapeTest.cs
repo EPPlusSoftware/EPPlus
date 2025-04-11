@@ -113,7 +113,6 @@ namespace EPPlusTest.Drawing.Chart
             Assert.IsTrue(chart.Drawings.Count == 0);
             var shape = chart.Drawings.AddShape("Shape 2", eShapeStyle.DownArrow);            
             shape.SetPosition(5, 10);
-            shape.ChangeCellAnchor(eEditAs.OneCell);
             Assert.IsTrue(chart.Drawings.Count == 1);
             SaveWorkbook("ChartShape.xlsx", p);
         }
@@ -138,6 +137,7 @@ namespace EPPlusTest.Drawing.Chart
                 chart.Drawings.AddPicture("Picture 4", fileStream);
             }
             Assert.IsTrue(chart.Drawings.Count == 3);
+            SaveWorkbook("ChartPicture.xlsx", p); 
         }
 
         [TestMethod]
