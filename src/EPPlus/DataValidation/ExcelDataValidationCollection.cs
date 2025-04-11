@@ -641,54 +641,6 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
-        internal void AddToQuadTree(ExcelDataValidation validation)
-        {
-            var internalAddress = new ExcelAddress(validation.Address.Address.Replace(" ", ","));
-
-            foreach (var individualAddress in internalAddress.GetAllAddresses())
-            {
-                //dvQuadTree.
-
-                //if (dvQuadTree.in(individualAddress._fromRow, individualAddress._fromCol,
-                //          individualAddress._toRow, individualAddress._toCol))
-                //{
-                //    throw new InvalidOperationException($"A DataValidation already exists at {validation.Address.Address}" +
-                //    $" If using ClearDataValidation this may be because the sheet you're reading has multiple dataValidations on one cell.");
-                //}
-
-                //_validationsRD.Add(individualAddress._fromRow, individualAddress._fromCol,
-                //                   individualAddress._toRow, individualAddress._toCol, validation);
-            }
-        }
-
-        //internal void AlterExistingQuadRange(ExcelDataValidation validation)
-        //{
-        //    if (dvQuadTree != null)
-        //    {
-        //        dvQuadTree.Add(new QuadRange(validation.Address), validation);
-        //    }
-        //}
-
-        //internal void AddNewQuadRange(ExcelDataValidation validation)
-        //{
-        //    if (dvQuadTree == null)
-        //    {
-        //        dvQuadTree = new QuadTree<ExcelDataValidation>(validation.Address);
-        //    }
-
-        //    if (validation.Address.Addresses != null)
-        //    {
-        //        for (int i = 0; i < validation.Address.Addresses.Count; i++)
-        //        {
-        //            dvQuadTree.Add(new QuadRange(validation.Address.Addresses[i]), validation);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        dvQuadTree.Add(new QuadRange(validation.Address), validation);
-        //    }
-        //}
-
         internal List<QuadRangeItem<IExcelDataValidation>> GetIntersectingRanges(ExcelAddress address)
         {
             return dvQuadTree.GetIntersectingRangeItems(new QuadRange(address));

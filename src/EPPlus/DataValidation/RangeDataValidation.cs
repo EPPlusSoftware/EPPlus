@@ -132,7 +132,6 @@ namespace OfficeOpenXml.DataValidation
                     hs.Add(v);
                 }
             }
-            //return hs.OrderBy(x => x.Priority).ToList();
             return hs.ToList();
         }
     }

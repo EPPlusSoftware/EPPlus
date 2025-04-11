@@ -1286,33 +1286,11 @@ namespace EPPlusTest.DataValidation
                     }
                 }
 
-                //ws.Cells["A1:B10"].DataValidation.ClearDataValidation(true);
-                //var decVal = ws.Cells["A1:B10"].DataValidation.AddDecimalDataValidation();
-                //decVal.PromptTitle = "Enter a decimal value here";
-                //decVal.Prompt = "Decimal Value must be greater than or equal to 2";
-
-                //ws.Cells["A2:A4"].Formula = "A5";
-
-                //ws.Cells["H1"].Formula = "A5";
-
-                //ws.Calculate();
-                //var formula = ws._sharedFormulas[0];
-                //var formulatest = formula.GetFormula(2, 1);
-                ////ws.Calculate();
-
-                ////ws.InsertRow(5, 1);
-                ////ws.Cells["A5"].Insert(eShiftTypeInsert.Right);
-
-                //var validation = (ExcelDataValidationInt)ws.DataValidations[ws.Cells["A5"].Address];
-                //validation.Address = ws.Cells["H4"];
-
                 var cells = ws.Cells["A1:B10010"];
                 foreach (var cell in cells)
                 {
                     cell.Copy(ws.Cells[cell.Start.Row, cell.Start.Column + 2]);
                 }
-
-                //ws.Cells["A1:B10010"].Copy(ws.Cells["D1:F10010"]);
 
                 SaveAndCleanup(p);
             }
