@@ -290,6 +290,8 @@ namespace OfficeOpenXml.Drawing
                     return eEditAs.OneCell;
                 case "absoluteAnchor":
                     return eEditAs.Absolute;
+                case "relSizeAnchor":
+                    return eEditAs.RelSize;
                 default:
                     return eEditAs.TwoCell;
             }

@@ -351,7 +351,7 @@ namespace OfficeOpenXml.Drawing
         {
             var prevEdit = EditAs;
 
-            if (EditAs != eEditAs.Absolute)
+            if (EditAs != eEditAs.Absolute && _collectionType == DrawingsCollectionType.Worksheet)
             {
                 EditAs = eEditAs.OneCell;
             }
