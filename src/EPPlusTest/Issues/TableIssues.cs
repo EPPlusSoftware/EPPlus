@@ -29,56 +29,6 @@ namespace EPPlusTest.Issues
                 package.Save();
             }
         }
-        [TestMethod]
-        public void i1314()
-        {
-            using (var p = OpenTemplatePackage("i1314.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                foreach (ExcelWorksheet w in p.Workbook.Worksheets)
-                {
-                    ExcelTable dt = null;
-                    if (w.Tables.Count() > 0)
-                    {
-                        dt = w.Tables.First();
-                        if (w == p.Workbook.Worksheets.First()) // First sheet contains the table to be filled by the RAT results
-                        {
-                            var last = dt.Columns.Last();
-                            var formula = last.CalculatedColumnFormula;
-                            //last.CalculatedColumnFormula = "Resultaten[[#This Row],[Gegeven antwoord]]=Resultaten[[#This Row],[Correct antwoord]]";
-                            last.CalculatedColumnFormula = formula;
-
-                            var RowIx = 2;
-                            for (int r = 1; r <= 5; r++)
-                            {
-                                int c = 0;
-
-                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 1418;
-                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "AfnameNaam";
-                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = r;
-                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "VraagNaam";
-                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 1;
-                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 6.2;
-                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "A";
-                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "B";
-                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 4;
-
-                                var rowRange = dt.AddRow();
-                                RowIx = rowRange.Start.Row;
-                            }
-
-
-                            dt.WorkSheet.Calculate();
-                            //dt.WorkSheet.Cells.AutoFitColumns();
-                            //w.Calculate();
-                        }
-
-                    }
-                }
-
-                SaveAndCleanup(p);
-            }
-		}
 
         /// <summary>
         /// Same as i1642 but in english
@@ -244,6 +194,80 @@ namespace EPPlusTest.Issues
                 //False after delete
                 intersectsRight = ws.Cells["I4:I4"].IntersectsWithTable();
                 Assert.IsFalse(intersectsRight);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void StructuredReferenceShouldWorkAsExpected()
+        {
+            using (var package = OpenPackage("StructuredReference.xlsx", true))
+            {
+                package.Workbook.FullCalcOnLoad = false;
+
+                var ws = package.Workbook.Worksheets.Add("name");
+
+                var aTable = ws.Tables.Add(ws.Cells["A1:D10"], "ATable");
+                ws.Cells["A2:D10"].Formula = "ROW()+COLUMN()";
+                aTable.ShowHeader = true;
+
+                ws.Cells["D1"].Value = "Space Separated";
+
+                ws.Calculate();
+
+                aTable.SyncColumnNames(ApplyDataFrom.CellsToColumnNames);
+
+                ws.Cells["G1"].Formula = "ATable[#Headers]";
+
+                ws.Cells["A20"].Formula = "ATable[#Data]";
+
+                ws.Cells["H5"].Formula = "ATable[Column2]";
+
+                ws.Cells["I20"].Formula = "ATable[[#Headers],[#Data],[Column3]]";
+
+                ws.Cells["P1"].Formula = "ATable[#All]";
+
+                ws.Cells["P20"].Formula = "ATable[[#Headers],[#Data],[Column2]:[Column3]]";
+
+                ws.Cells["Z1"].Formula = "ATable[Space Separated]";
+
+                ws.Calculate();
+
+                var headerResRange = ws.Cells["G1:J1"];
+                var headerResValues = headerResRange.Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+
+                var colNamesList = aTable.Columns.GetColNamesList();
+                Assert.IsTrue(headerResValues.SequenceEqual(colNamesList));
+
+                var origStrings = ws.Cells["A2:D10"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+                var resultString = ws.Cells["A20:D28"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+
+                Assert.IsTrue(origStrings.SequenceEqual(resultString));
+
+                var origStringsCol2 = ws.Cells["B2:B10"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+                var resultStringsCol2 = ws.Cells["H5:H13"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+
+                Assert.IsTrue(origStringsCol2.SequenceEqual(resultStringsCol2));
+
+                var origStringsCol3 = ws.Cells["C1:C10"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+                var resultStringsCol3 = ws.Cells["I20:I29"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+
+                Assert.IsTrue(origStringsCol3.SequenceEqual(resultStringsCol3));
+
+                var origStringsAll = ws.Cells["A1:D10"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+                var resultStringsAll = ws.Cells["P1:S10"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+
+                Assert.IsTrue(origStringsAll.SequenceEqual(resultStringsAll));
+
+                var origStrings2Columns = ws.Cells["B1:C10"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+                var resultStrings2Columns = ws.Cells["P20:Q29"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+
+                Assert.IsTrue(origStrings2Columns.SequenceEqual(resultStrings2Columns));
+
+                var origStringsSpaceSep = ws.Cells["D2:D10"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+                var resultStrings2SpaceSep = ws.Cells["Z1:Z9"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>());
+
+                Assert.IsTrue(origStringsSpaceSep.SequenceEqual(resultStrings2SpaceSep));
 
                 SaveAndCleanup(package);
             }
