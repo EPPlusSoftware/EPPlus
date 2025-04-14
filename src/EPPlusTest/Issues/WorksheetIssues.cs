@@ -501,29 +501,6 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
-        public void s775()
-        {
-            string sheetName = "披露附注";
-
-            List<int> add = new List<int>()
-            {
-				4,9,15
-            };
-            using (ExcelPackage package = OpenTemplatePackage("s775.xlsx"))
-            {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[sheetName];
-                ExcelNamedRange namedRange = worksheet.Names["_jds1165020120230"];
-                int startRow = namedRange.Start.Row;
-
-                var cell = worksheet.Cells["D2059"];
-                var cell2 = worksheet.Cells["D2060"];
-
-                worksheet.InsertRow(2059, 1, 2059 - 1);
-
-                package.Save();
-            }
-        }
         private class I1782DataItem
 		{
             public int Id { get; set; }

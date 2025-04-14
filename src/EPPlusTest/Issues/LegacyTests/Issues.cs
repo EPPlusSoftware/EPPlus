@@ -4707,15 +4707,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void s463()
-        {
-            using (var p = OpenTemplatePackage("SRK2016.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
         public void s466()
         {
             using (var package = OpenTemplatePackage("s466.xlsx"))
@@ -5851,24 +5842,6 @@ namespace EPPlusTest
             Destinationpackage.Workbook.Worksheets.Add(destSheet, Sourceworksheet);
 
             SaveAndCleanup(Destinationpackage);
-        }
-        [TestMethod]
-        public void s569()
-        {
-            var sheetName = "披露表(国资)";
-
-            using (var p = OpenTemplatePackage("s569source.xlsx"))
-            {
-                var SourceWB = p.Workbook;
-                using (var tP = OpenTemplatePackage("s569target.xlsm"))
-                {
-                    var tBook = tP.Workbook;
-                    var sSheet = p.Workbook.Worksheets.GetByName(sheetName);
-                    tBook.Worksheets.Add(sheetName, sSheet);
-
-                    SaveAndCleanup(tP);
-                }
-            }
         }
         [TestMethod]
         public void I1216()

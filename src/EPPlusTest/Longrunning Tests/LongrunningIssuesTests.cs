@@ -362,5 +362,146 @@ namespace EPPlusTest.LongRunning
             }
         }
 
+        [TestMethod]
+        public void s463()
+        {
+            using (var p = OpenTemplatePackage("SRK2016.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void s569()
+        {
+            var sheetName = "披露表(国资)";
+
+            using (var p = OpenTemplatePackage("s569source.xlsx"))
+            {
+                var SourceWB = p.Workbook;
+                using (var tP = OpenTemplatePackage("s569target.xlsm"))
+                {
+                    var tBook = tP.Workbook;
+                    var sSheet = p.Workbook.Worksheets.GetByName(sheetName);
+                    tBook.Worksheets.Add(sheetName, sSheet);
+
+                    SaveAndCleanup(tP);
+                }
+            }
+        }
+
+        #region ConditionalFormatting Issues
+        [TestMethod]
+        public void s725()
+        {
+            using (var p1 = OpenTemplatePackage("s725.xlsx"))
+            {
+                var sheet = p1.Workbook.Worksheets[6];
+                if (p1.Workbook.Worksheets.Count > 0)
+                {
+                    p1.Save();
+                }
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    var sheet2 = p2.Workbook.Worksheets[6];
+                    SaveWorkbook("s725-secondsaveorig.xlsx", p2);
+                }
+            }
+        }
+        [TestMethod]
+        public void s782()
+        {
+            using (var package = OpenTemplatePackage("s782.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets["披露附注"];
+
+                string areaStr = "E247:E256";
+                worksheet.Cells[areaStr].Insert(eShiftTypeInsert.Right);
+
+                SaveAndCleanup(package);
+            }
+        }
+        #endregion
+        #region PivotTableIssues
+        [TestMethod]
+        public void s744()
+        {
+            using (var p = OpenTemplatePackage("s744.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                SaveAndCleanup(p);
+            }
+        }
+        #endregion
+        #region DefinedNameIssues
+        [TestMethod]
+        public void I1238()
+        {
+            using (var p = OpenTemplatePackage("I1238SlowWorkbook.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["A1"].Value = 1;
+                SaveAndCleanup(p);
+            }
+        }
+        #endregion
+        #region FormulaCalculationIssues
+        [TestMethod]
+        public void i1540()
+        {
+            using (var p = OpenPackage("i1540.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "A";
+                ws.Cells["A2"].Value = "B";
+                ws.Cells["A3"].Value = "C";
+                ws.Cells["B1:B3"].FillNumber(1, 1);
+                ws.Cells["C1:C3"].FillNumber(10, 10);
+                ws.Cells["E1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";                          //Should be set as an array formula
+                ws.Cells["E2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
+                ws.Cells["F1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";                          //Should be set as an array formula
+                ws.Cells["F2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
+                ws.Cells["F1:F2"].UseImplicitItersection = true;
+
+                ws.Cells["G1"].CreateArrayFormula("SUM(If(A:A=\"A\",B:B,C:C))", true);
+                ws.Cells["G2"].CreateArrayFormula("SUM(If(A1:A3=\"A\",B1:B3,C1:C3))", true);
+
+                ws.Cells["E1:G2"].Calculate();
+
+                Assert.AreEqual(51D, ws.Cells["E1"].Value); //Will be handled as a dynamic formula when calculated, not as in Excel where implicit intersections seems to be applied inside the sum.
+                Assert.AreEqual(51D, ws.Cells["E2"].Value);
+                Assert.AreEqual(6D, ws.Cells["F1"].Value);
+                Assert.AreEqual(60D, ws.Cells["F2"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+        #endregion
+        #region WorksheetIssues
+        [TestMethod]
+        public void s775()
+        {
+            string sheetName = "披露附注";
+
+            List<int> add = new List<int>()
+            {
+                4,9,15
+            };
+            using (ExcelPackage package = OpenTemplatePackage("s775.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[sheetName];
+                ExcelNamedRange namedRange = worksheet.Names["_jds1165020120230"];
+                int startRow = namedRange.Start.Row;
+
+                var cell = worksheet.Cells["D2059"];
+                var cell2 = worksheet.Cells["D2060"];
+
+                worksheet.InsertRow(2059, 1, 2059 - 1);
+
+                package.Save();
+            }
+        }
+        #endregion
     }
 }

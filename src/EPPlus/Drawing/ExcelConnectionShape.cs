@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public sealed class ExcelConnectionShape : ExcelShapeBase
     {
-        internal ExcelConnectionShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent=null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
+        internal ExcelConnectionShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent=null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.Worksheet) :
             base(drawings, node, NamespacePrefixes[(int)DrawingsType] +":cxnSp", NamespacePrefixes[(int)DrawingsType] +":nvCxnSpPr/"+ NamespacePrefixes[(int)DrawingsType] +":cNvPr", parent, DrawingsType)
         {
             Init(drawings, node);
@@ -46,8 +46,8 @@ namespace OfficeOpenXml.Drawing
 
         private void Init(ExcelDrawings drawings, XmlNode node)
         {
-            ConnectionStart = new ExcelDrawingConnectionPoint(drawings, node, NamespacePrefixes[prefixIndex], "a:stCxn", SchemaNodeOrder);
-            ConnectionEnd = new ExcelDrawingConnectionPoint(drawings, node, NamespacePrefixes[prefixIndex], "a:endCxn", SchemaNodeOrder);
+            ConnectionStart = new ExcelDrawingConnectionPoint(drawings, node, NamespacePrefixes[_prefixIndex], "a:stCxn", SchemaNodeOrder);
+            ConnectionEnd = new ExcelDrawingConnectionPoint(drawings, node, NamespacePrefixes[_prefixIndex], "a:endCxn", SchemaNodeOrder);
         }
         #region "Public methods"
         #endregion

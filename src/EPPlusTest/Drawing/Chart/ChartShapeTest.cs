@@ -4,6 +4,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using System.IO;
 using System.Drawing;
+using EPPlusTest.Properties;
 
 namespace EPPlusTest.Drawing.Chart
 {
@@ -15,7 +16,7 @@ namespace EPPlusTest.Drawing.Chart
         {
             using var p = OpenTemplatePackage("ShapeInChart.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            var chart = ws.Drawings[0] as ExcelChart;
+            var chart = ws.Drawings[0] as ExcelChartStandard;
             var cdr = chart.Drawings[1];
             cdr.SetSize(200);
             var cdr2 = chart.Drawings[4];
@@ -32,7 +33,7 @@ namespace EPPlusTest.Drawing.Chart
             chartShape2.SetPosition(10000, 10000);
             chartShape2.SetSize(30);
 
-            var chartPic = chart.Drawings.AddPicture("MyPic", @"C:\epplusTest\epplusobject.png");
+            var chartPic = chart.Drawings.AddPicture("MyPic", Resources.GetImageFullFileName("epplusobject.png"));
             chartPic.SetPosition(0, 5000);
             chartPic.SetSize(200);
 
@@ -58,7 +59,7 @@ namespace EPPlusTest.Drawing.Chart
             group2.SetPosition(0, 0);
             shp4.UnGroup();
             shp4.Copy(chart);
-            var chart2 = ws.Drawings.AddChart("Chart 3", eChartType.Line);
+            var chart2 = (ExcelChartStandard)ws.Drawings.AddChart("Chart 3", eChartType.Line);
             chart2.Series.Add(ws.Cells["B2:B6"], ws.Cells["C2:C6"]);
             chart2.SetSize(480, 288);
             chart2.Drawings.AddShape("hsp", eShapeStyle.Can);
@@ -71,7 +72,7 @@ namespace EPPlusTest.Drawing.Chart
             chart.Copy(ws, 20, 0);
             chart.Drawings.Remove(shp4);
 
-            p.SaveAs(@"c:\epplustest\testoutput\shapeInChartTest.xlsx");
+            SaveWorkbook(@"shapeInChartTest.xlsx", p);
         }
 
         private void CreateChartData(ExcelWorksheet ws)
@@ -106,13 +107,15 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
 
             Assert.IsTrue(chart.Drawings.Count == 0);
-            chart.Drawings.AddShape("Shape 2", eShapeStyle.DownArrow);
+            var shape = chart.Drawings.AddShape("Shape 2", eShapeStyle.DownArrow);            
+            shape.SetPosition(5, 10);
             Assert.IsTrue(chart.Drawings.Count == 1);
+            SaveWorkbook("ChartShape.xlsx", p);
         }
         [TestMethod]
         public void AddPicture()
@@ -120,7 +123,7 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
             var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
@@ -135,6 +138,7 @@ namespace EPPlusTest.Drawing.Chart
                 chart.Drawings.AddPicture("Picture 4", fileStream);
             }
             Assert.IsTrue(chart.Drawings.Count == 3);
+            SaveWorkbook("ChartPicture.xlsx", p); 
         }
 
         [TestMethod]
@@ -143,7 +147,7 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
 
@@ -162,7 +166,7 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
 
@@ -188,7 +192,7 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
 
@@ -208,7 +212,7 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
 
@@ -232,7 +236,7 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
             var cshape = chart.Drawings.AddShape("Shape 2", eShapeStyle.DownArrow);
@@ -246,7 +250,7 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
             var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
@@ -261,7 +265,7 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
             var cshape1 = chart.Drawings.AddShape("Shape 2", eShapeStyle.DownArrow);
@@ -279,7 +283,7 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
             var cshape1 = chart.Drawings.AddShape("Shape 2", eShapeStyle.DownArrow);
@@ -291,7 +295,7 @@ namespace EPPlusTest.Drawing.Chart
 
             var ws2 = p.Workbook.Worksheets.Add("Sheet 2");
             CreateChartData(ws2);
-            var chart2 = ws2.Drawings.AddChart("Chart 3", eChartType.Pie);
+            var chart2 = (ExcelChartStandard)ws2.Drawings.AddChart("Chart 3", eChartType.Pie);
             AddDataToChart(ws2 , chart2);
             group.Copy(chart2);
             Assert.IsTrue(chart2.Drawings.Count == 1);
@@ -302,7 +306,7 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
             var cshape = chart.Drawings.AddShape("Shape 2", eShapeStyle.DownArrow);
@@ -316,7 +320,7 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
             var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
@@ -331,7 +335,7 @@ namespace EPPlusTest.Drawing.Chart
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             CreateChartData(ws);
-            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            var chart = (ExcelChartStandard)ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
 

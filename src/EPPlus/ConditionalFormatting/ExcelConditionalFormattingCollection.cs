@@ -36,6 +36,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         int LastPriority = 1;
         //A dict for those conditionalFormattings that are Ext, have been read in locally but not yet read in their ExtLst parts.
         internal Dictionary<string, ExcelConditionalFormattingRule> localAndExtDict = new Dictionary<string, ExcelConditionalFormattingRule>();
+        internal QuadTree<IExcelConditionalFormattingRule> CfIndex { get; set; }
 
         internal ExcelConditionalFormattingCollection(ExcelWorksheet ws)
         {
@@ -50,7 +51,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                 CfIndex = new QuadTree<IExcelConditionalFormattingRule>(_ws.Dimension);
             }
         }
-        internal QuadTree<IExcelConditionalFormattingRule> CfIndex { get; set; }
 
         internal void ReadRegularConditionalFormattings(XmlReader xr)
         {
