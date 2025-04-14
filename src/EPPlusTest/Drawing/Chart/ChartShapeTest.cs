@@ -4,6 +4,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using System.IO;
 using System.Drawing;
+using EPPlusTest.Properties;
 
 namespace EPPlusTest.Drawing.Chart
 {
@@ -32,7 +33,7 @@ namespace EPPlusTest.Drawing.Chart
             chartShape2.SetPosition(10000, 10000);
             chartShape2.SetSize(30);
 
-            var chartPic = chart.Drawings.AddPicture("MyPic", @"C:\epplusTest\epplusobject.png");
+            var chartPic = chart.Drawings.AddPicture("MyPic", Resources.GetImageFullFileName("epplusobject.png"));
             chartPic.SetPosition(0, 5000);
             chartPic.SetSize(200);
 

@@ -1014,18 +1014,6 @@ namespace OfficeOpenXml.Drawing
             return pic;
         }
 
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="ImageFile">The image file</param>
-        /// <param name="Hyperlink">Picture Hyperlink</param>
-        /// <param name="Location">Location to access the image from</param>
-        /// <returns>A picture object</returns>
-        //public ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
-        //{
-        //    return AddPicture(Name, ImageFile, Hyperlink, Location,  null);
-        //}
         internal ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, object container = null)
         {
             var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, container);
