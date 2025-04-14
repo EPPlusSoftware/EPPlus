@@ -2540,11 +2540,18 @@ namespace OfficeOpenXml
 
         private static void HandleSaveForIndividualDrawings(ExcelDrawing d, bool hasLoadedPivotTables)
         {
-            if (d is ExcelChart c)
+            if (d is ExcelChartStandard c)
             {
                 var chartStream = c.Part.GetStream(FileMode.Create, FileAccess.Write);
                 c.ChartXml.PreserveWhitespace = true;
                 c.ChartXml.Save(chartStream);
+
+                if (c.Drawings.Part != null)
+                {
+                    var xrd = new XmlTextWriter(c.Drawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
+                    xrd.Formatting = Formatting.None;
+                    c.Drawings.DrawingXml.Save(xrd);
+                }
             }
             else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
             {
