@@ -271,7 +271,7 @@ namespace OfficeOpenXml.Sorting
             {
                 var i = wsd.Comments[addr];
                 _worksheet._commentsStore.SetValue(row, col, i);
-                var comment = _worksheet._comments._list[i];
+                var comment = _worksheet._comments.GetByListIndex(i);
                 comment.Reference = ExcelCellBase.GetAddress(row, col);
             }
             else
@@ -286,7 +286,7 @@ namespace OfficeOpenXml.Sorting
             {
                 var i = wsd.ThreadedComments[addr];
                 _worksheet._threadedCommentsStore.SetValue(row, col, i);
-                var threadedComment = _worksheet._threadedComments._threads[i];
+                var threadedComment = _worksheet._threadedComments.GetByListIndex(i);
                 threadedComment.SetAddress(ExcelCellBase.GetAddress(row, col));
             }
         }

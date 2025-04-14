@@ -366,7 +366,7 @@ namespace OfficeOpenXml.Core
                     };
                     _copiedCells.Add(cellId, cell);
                 }
-                cell.Comment = worksheet._comments[cse.Value];
+                cell.Comment = worksheet._comments.GetByListIndex(cse.Value);
             }
         }
         private void AddThreadedComments(ExcelWorksheet worksheet)
@@ -392,7 +392,7 @@ namespace OfficeOpenXml.Core
                     };
                     _copiedCells.Add(cellId, cell);
                 }
-                cell.ThreadedComment = worksheet._threadedComments[cse.Value];
+                cell.ThreadedComment = worksheet._threadedComments.GetByListIndex(cse.Value);
             }
         }
         private void CopyValuesToDestination()
