@@ -5,6 +5,8 @@ using OfficeOpenXml.FormulaParsing;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using OfficeOpenXml.Table;
 
 namespace EPPlusTest.Issues
 {
@@ -33,13 +35,80 @@ namespace EPPlusTest.Issues
             using (var p = OpenTemplatePackage("i1314.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                var tbl = ws.Tables[0];
-                tbl.InsertRow(1,1);
-				tbl.AddRow(1);
+                foreach (ExcelWorksheet w in p.Workbook.Worksheets)
+                {
+                    ExcelTable dt = null;
+                    if (w.Tables.Count() > 0)
+                    {
+                        dt = w.Tables.First();
+                        if (w == p.Workbook.Worksheets.First()) // First sheet contains the table to be filled by the RAT results
+                        {
+                            var last = dt.Columns.Last();
+                            //var formula = last.CalculatedColumnFormula;
 
-				SaveAndCleanup(p);
+                            //last.CalculatedColumnFormula = "Resultaten[[#This Row],[Gegeven antwoord]]=Resultaten[[#This Row],[Correct antwoord]]";
+
+                            var RowIx = 2;
+                            for (int r = 1; r <= 5; r++)
+                            {
+                                int c = 0;
+
+                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 1418;
+                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "AfnameNaam";
+                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = r;
+                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "VraagNaam";
+                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 1;
+                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 6.2;
+                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "A";
+                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "B";
+                                w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 4;
+                                var rowRange = dt.AddRow();
+                                RowIx = rowRange.Start.Row;
+                            }
+
+
+                            dt.WorkSheet.Calculate();
+                            dt.WorkSheet.Cells.AutoFitColumns();
+                            w.Calculate();
+                        }
+
+                    }
+                }
+
+                SaveAndCleanup(p);
             }
 		}
+
+        /// <summary>
+        /// Same as i1642 but in english
+        /// </summary>
+        [TestMethod]
+        public void TableFormulaTest()
+        {
+            using (var package = OpenTemplatePackage("tableArrayTest.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets["Sheet1"];
+                var excelTable = worksheet.Tables[0];
+
+                var aForm = worksheet.Cells["G2"].FormulaR1C1;
+                worksheet.Cells["G2:G5"].FormulaR1C1 = aForm;
+
+                Assert.AreEqual(2d, worksheet.Cells["G2"].Value);
+                Assert.AreEqual(4d, worksheet.Cells["G3"].Value);
+                Assert.AreEqual(6d, worksheet.Cells["G4"].Value);
+                Assert.AreEqual(8d, worksheet.Cells["G5"].Value);
+
+                Assert.AreEqual("Table1[[#This Row]+M2", worksheet.Cells["K2"].Formula);
+                Assert.AreEqual("Table1[[#This Row]+M3", worksheet.Cells["K3"].Formula);
+                Assert.AreEqual("Table1[[#This Row]+M4", worksheet.Cells["K4"].Formula);
+                Assert.AreEqual("Table1[[#This Row]+M5", worksheet.Cells["K5"].Formula);
+
+                worksheet.Calculate();
+
+                SaveAndCleanup(package);
+            }
+        }
+
         [TestMethod]
         public void i1642()
         {
@@ -50,7 +119,22 @@ namespace EPPlusTest.Issues
                 
                 var col = excelTable.Range.Offset(0, 10).TakeSingleColumn(0).SkipRows(1);
                 var formulaStr = col.TakeSingleCell(0, 0).Formula;
-                col.CreateArrayFormula(formulaStr, true);
+                col.ClearFormulaValues();
+                col.ClearFormulas();
+                col.Formula = formulaStr;
+
+                worksheet.Calculate();
+
+                Assert.AreEqual(2d, worksheet.Cells["K2"].Value);
+                Assert.AreEqual(4d, worksheet.Cells["K3"].Value);
+                Assert.AreEqual(6d, worksheet.Cells["K4"].Value);
+                Assert.AreEqual(8d, worksheet.Cells["K5"].Value);
+
+                Assert.AreEqual("表1[[#This Row],[列5]]+M2", worksheet.Cells["K2"].Formula);
+                Assert.AreEqual("表1[[#This Row],[列5]]+M3", worksheet.Cells["K3"].Formula);
+                Assert.AreEqual("表1[[#This Row],[列5]]+M4", worksheet.Cells["K4"].Formula);
+                Assert.AreEqual("表1[[#This Row],[列5]]+M5", worksheet.Cells["K5"].Formula);
+
                 SaveAndCleanup(package);
             }
         }
@@ -58,7 +142,6 @@ namespace EPPlusTest.Issues
         [TestMethod]
         public void sc813()
         {
-
             var dataTable = new DataTable();
 
             dataTable.Columns.Add("A", typeof(string));

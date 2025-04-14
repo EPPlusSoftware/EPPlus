@@ -29,6 +29,8 @@ using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using static OfficeOpenXml.ExcelWorksheet;
+using System.Linq;
 
 namespace OfficeOpenXml
 {
@@ -937,7 +939,7 @@ namespace OfficeOpenXml
                     {
                         Set_Formula(this, value, _fromRow, _fromCol);
                     }
-                    else if (HasOffSheetReference(value))
+                    else if (HasTableOrOffWorksheetReference(value))
                     {
                         Set_Formula_Range(this, value);
                     }
@@ -998,17 +1000,21 @@ namespace OfficeOpenXml
             }
         }
 
-        private bool HasOffSheetReference(string value)
+        private bool HasTableOrOffWorksheetReference(string value)
         {
             var tokenizer = SourceCodeTokenizer.Default;
             var tokens = tokenizer.Tokenize(value, WorkSheetName);
             foreach (var t in tokens)
             {
-                if (t.TokenTypeIsSet(TokenType.WorksheetNameContent))
+                if (t.TokenTypeIsSet(TokenType.WorksheetNameContent) || t.TokenType == TokenType.TableName)
                 {
-                    if (string.IsNullOrEmpty(t.Value) == false && Worksheet.Name.Equals(t.Value, StringComparison.OrdinalIgnoreCase) == false)
+                    if (string.IsNullOrEmpty(t.Value) == false)
                     {
-                        return true;
+                        if ((Worksheet.Name.Equals(t.Value, StringComparison.OrdinalIgnoreCase) == false) ||
+                             Worksheet.Tables._tableNames.ContainsKey(t.Value))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -1042,7 +1048,7 @@ namespace OfficeOpenXml
                     {
                         Set_Formula(this, formula, _fromRow, _fromCol);
                     }
-                    else if (HasOffSheetReference(formula))
+                    else if (HasTableOrOffWorksheetReference(formula))
                     {
                         Set_Formula_Range(this, formula);
                     }
