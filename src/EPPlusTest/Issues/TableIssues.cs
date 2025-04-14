@@ -44,9 +44,9 @@ namespace EPPlusTest.Issues
                         if (w == p.Workbook.Worksheets.First()) // First sheet contains the table to be filled by the RAT results
                         {
                             var last = dt.Columns.Last();
-                            //var formula = last.CalculatedColumnFormula;
-
+                            var formula = last.CalculatedColumnFormula;
                             //last.CalculatedColumnFormula = "Resultaten[[#This Row],[Gegeven antwoord]]=Resultaten[[#This Row],[Correct antwoord]]";
+                            last.CalculatedColumnFormula = formula;
 
                             var RowIx = 2;
                             for (int r = 1; r <= 5; r++)
@@ -62,14 +62,15 @@ namespace EPPlusTest.Issues
                                 w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "A";
                                 w.Cells[RowIx, dt.Address.Start.Column + c++].Value = "B";
                                 w.Cells[RowIx, dt.Address.Start.Column + c++].Value = 4;
+
                                 var rowRange = dt.AddRow();
                                 RowIx = rowRange.Start.Row;
                             }
 
 
                             dt.WorkSheet.Calculate();
-                            dt.WorkSheet.Cells.AutoFitColumns();
-                            w.Calculate();
+                            //dt.WorkSheet.Cells.AutoFitColumns();
+                            //w.Calculate();
                         }
 
                     }
