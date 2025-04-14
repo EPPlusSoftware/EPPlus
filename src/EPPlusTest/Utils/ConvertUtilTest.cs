@@ -262,5 +262,48 @@ namespace EPPlusTest.Utils
             }
         }
 
+        [TestMethod]
+        public void i1935DecodeEncodeString()
+        {
+            var origStr = "776iiud8fbzn1pbff2s-n13_xb36";
+
+            var decodedStr = ConvertUtil.ExcelDecodeString(origStr);
+
+            Assert.AreEqual(origStr, decodedStr);
+
+            var encoded = ConvertUtil.ExcelEncodeString(origStr);
+
+            Assert.AreEqual(origStr, encoded);
+        }
+
+        [TestMethod]
+        public void ConvertUtilShouldDecodeEncodeDoubleUnderscoresLowerCase()
+        {
+            var excelInternalEscaped = "_x005F_x005f__x005F_x002A_SomethingElse";
+            var excelDisplayValue = "_x005f__x002A_SomethingElse";
+
+            var decodedStr = ConvertUtil.ExcelDecodeString(excelInternalEscaped);
+
+            Assert.AreEqual(excelDisplayValue, decodedStr);
+
+            var encoded = ConvertUtil.ExcelEncodeString(excelDisplayValue);
+
+            Assert.AreEqual(excelInternalEscaped, encoded);
+        }
+
+        [TestMethod]
+        public void ConvertUtilShouldDecodeEncodeDoubleUnderscoresUpperCase()
+        {
+            var excelInternalEscaped = "_x005F_x005F__x005F_x002A_SomethingElse";
+            var excelDisplayValue = "_x005F__x002A_SomethingElse";
+
+            var decodedStr = ConvertUtil.ExcelDecodeString(excelInternalEscaped);
+
+            Assert.AreEqual(excelDisplayValue, decodedStr);
+
+            var encoded = ConvertUtil.ExcelEncodeString(excelDisplayValue);
+
+            Assert.AreEqual(excelInternalEscaped, encoded);
+        }
     }
 }
