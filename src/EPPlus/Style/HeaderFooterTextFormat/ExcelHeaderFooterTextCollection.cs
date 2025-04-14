@@ -11,28 +11,39 @@ using System.Linq;
 using System.Text;
 namespace OfficeOpenXml.Style.HeaderFooterTextFormat
 {
-    public class HFTextCollection : IEnumerable<HFText>
+    /// <summary>
+    /// The collection of ExcelHeaderFooterTextItems.
+    /// </summary>
+    public class ExcelHeaderFooterTextCollection : IEnumerable<ExcelHeaderFooterTextItem>
     {
         const string ARG_TO_LONG_EXCEPTION_TEXT = "Header and Footer texts cannot exceed 255 characters.";
 
-        private List<HFText> _textCollection = new List<HFText>();
+        private List<ExcelHeaderFooterTextItem> _textCollection = new List<ExcelHeaderFooterTextItem>();
         private readonly int _defaultFontSize;
         private ImageInfo _imageInfo = null;
 
         internal readonly PictureAlignment alignment;
         internal ExcelWorksheet _ws;
-        internal HFTextCollection lane1;
-        internal HFTextCollection lane2;
+        internal ExcelHeaderFooterTextCollection lane1;
+        internal ExcelHeaderFooterTextCollection lane2;
         internal ExcelHeaderFooterText headerFooter;
 
-
+        /// <summary>
+        /// The drawing vml reference to inserted picture.
+        /// </summary>
         public ExcelVmlDrawingPicture Picture { get; set; } = null;
 
-
+        /// <summary>
+        /// The length of the text.
+        /// </summary>
         public static int TextLength { get; private set; } = 0;
 
-
-        public HFText this[int index]
+        /// <summary>
+        /// Returns the ExcelHeaderFooterTextItem at index
+        /// </summary>
+        /// <param name="index">the index of item to return.</param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem this[int index]
         {
             get
             {
@@ -44,7 +55,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             }
         }
 
-        internal HFTextCollection(ExcelWorksheet ws, ExcelHeaderFooterText headerFooter, PictureAlignment alignment, int defaultFontSize)
+        internal ExcelHeaderFooterTextCollection(ExcelWorksheet ws, ExcelHeaderFooterText headerFooter, PictureAlignment alignment, int defaultFontSize)
         {
             _ws = ws;
             this.alignment = alignment;
@@ -66,22 +77,36 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             TextLength = length;
         }
 
-        public void Add(HFText textItem)
+        /// <summary>
+        /// Add an ExcelHeaderFooterTextItem to the end of the collection.
+        /// </summary>
+        /// <param name="textItem"></param>
+        public void Add(ExcelHeaderFooterTextItem textItem)
         {
             _textCollection.Add(textItem);
             ValidateTextLength();
         }
-        public HFText AddText(string text)
+        /// <summary>
+        /// Add a string to the end of the collection.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem AddText(string text)
         {
-            HFText hfText = new HFText(text);
+            ExcelHeaderFooterTextItem hfText = new ExcelHeaderFooterTextItem(text);
             _textCollection.Add(hfText);
             ValidateTextLength();
             return hfText;
         }
-        public HFText AddPageNumber(int number = 0)
+        /// <summary>
+        /// Add the page number to the end of the collection.
+        /// </summary>
+        /// <param name="number">Amount to offset the page number with. Default is 0.</param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem AddPageNumber(int number = 0)
         {
-            HFText hft = new HFText();
-            hft.FormatCode = HFFormattingCodes.PageNumber;
+            ExcelHeaderFooterTextItem hft = new ExcelHeaderFooterTextItem();
+            hft.FormatCode = ExcelHeaderFooterFormattingCodes.PageNumber;
             if (number > 0 || number < 0)
             {
                 hft.PageNumberSuffix = number >= 0 ? "+" : "-";
@@ -90,69 +115,124 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             Add(hft);
             return hft;
         }
-        public HFText AddNumberOfPages()
+        /// <summary>
+        /// Add the number of pages to the end of the collection.
+        /// </summary>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem AddNumberOfPages()
         {
-            return AddFormatCode(HFFormattingCodes.NumberOfPages);
+            return AddFormatCode(ExcelHeaderFooterFormattingCodes.NumberOfPages);
         }
-        public HFText AddSheetName()
+        /// <summary>
+        /// Add the sheet name to the end of the collection.
+        /// </summary>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem AddSheetName()
         {
-            return AddFormatCode(HFFormattingCodes.SheetName);
+            return AddFormatCode(ExcelHeaderFooterFormattingCodes.SheetName);
         }
-        public HFText AddFilePath()
+        /// <summary>
+        /// Add the file path to the end of the collection.
+        /// </summary>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem AddFilePath()
         {
-            return AddFormatCode(HFFormattingCodes.FilePath);
+            return AddFormatCode(ExcelHeaderFooterFormattingCodes.FilePath);
         }
-        public HFText AddFileName()
+        /// <summary>
+        /// Add the file name to the end of the collection.
+        /// </summary>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem AddFileName()
         {
-            return AddFormatCode(HFFormattingCodes.FileName);
+            return AddFormatCode(ExcelHeaderFooterFormattingCodes.FileName);
         }
-        public HFText AddCurrentDate()
+        /// <summary>
+        /// Add the current date to the end of the collection.
+        /// </summary>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem AddCurrentDate()
         {
-            return AddFormatCode(HFFormattingCodes.CurrentDate);
+            return AddFormatCode(ExcelHeaderFooterFormattingCodes.CurrentDate);
         }
-        public HFText AddCurrentTime()
+        /// <summary>
+        /// Add the current time to the end of the collection.
+        /// </summary>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem AddCurrentTime()
         {
-            return AddFormatCode(HFFormattingCodes.CurrentTime);
+            return AddFormatCode(ExcelHeaderFooterFormattingCodes.CurrentTime);
         }
-        public HFText AddImage(FileInfo pictureFile)
+        /// <summary>
+        /// Add a picture to the end of the collection.
+        /// </summary>
+        /// <param name="pictureFile">The FileInfo object for the picture.</param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem AddImage(FileInfo pictureFile)
         {
             headerFooter.InsertPicture(pictureFile, (PictureAlignment)alignment);
-            return AddFormatCode(HFFormattingCodes.Image);
+            return AddFormatCode(ExcelHeaderFooterFormattingCodes.Image);
         }
-        public HFText AddImage (Stream pictureStream, ePictureType pictureType)
+        /// <summary>
+        /// Add the file path to the end of the collection using a stream.
+        /// </summary>
+        /// <param name="pictureStream">The picture stream.</param>
+        /// <param name="pictureType">The file type of the picture.</param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem AddImage (Stream pictureStream, ePictureType pictureType)
         {
             headerFooter.InsertPicture(pictureStream, pictureType, (PictureAlignment)alignment);
-            return AddFormatCode(HFFormattingCodes.Image);
+            return AddFormatCode(ExcelHeaderFooterFormattingCodes.Image);
         }
-        private HFText AddFormatCode(HFFormattingCodes formatCode)
+        private ExcelHeaderFooterTextItem AddFormatCode(ExcelHeaderFooterFormattingCodes formatCode)
         {
-            HFText hft = new HFText();
+            ExcelHeaderFooterTextItem hft = new ExcelHeaderFooterTextItem();
             hft.FormatCode = formatCode;
             Add(hft);
             return hft;
         }
 
-        public void Insert(int index, HFText item)
+        /// <summary>
+        /// Insert an ExcelHeaderFooterTextItem at specified position in the collection.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="item"></param>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public void Insert(int index, ExcelHeaderFooterTextItem item)
         {
             if (index < 0 || index >= _textCollection.Count) throw new IndexOutOfRangeException("index was out of range.");
             if (item == null) throw new ArgumentException("Item can't be null", "item");
             _textCollection.Insert(index, item);
             ValidateTextLength();
         }
-        public HFText InsertText(int index, string text)
+        /// <summary>
+        /// Insert a string at specified position in the collection.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public ExcelHeaderFooterTextItem InsertText(int index, string text)
         {
             if (index < 0 || index >= _textCollection.Count) throw new IndexOutOfRangeException("index was out of range.");
             if (text == null) throw new ArgumentException("Text can't be null", "text");
-            HFText hFText = new HFText(text);
+            ExcelHeaderFooterTextItem hFText = new ExcelHeaderFooterTextItem(text);
             _textCollection.Insert(index, hFText);
             ValidateTextLength();
             return hFText;
         }
-        //Insert pagenumber, date...
-        public HFText InsertPageNumber(int index, int number = 0)
+        /// <summary>
+        /// Insert the page number at specified position in the collection.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem InsertPageNumber(int index, int number = 0)
         {
-            HFText hft = new HFText();
-            hft.FormatCode = HFFormattingCodes.PageNumber;
+            ExcelHeaderFooterTextItem hft = new ExcelHeaderFooterTextItem();
+            hft.FormatCode = ExcelHeaderFooterFormattingCodes.PageNumber;
             if (number > 0 || number < 0)
             {
                 hft.PageNumberSuffix = number >= 0 ? "+" : "-";
@@ -161,31 +241,67 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             Insert(index, hft);
             return hft;
         }
-        public HFText InsertNumberOfPages(int index)
+        /// <summary>
+        /// Insert the number of pages at specified position in the collection.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem InsertNumberOfPages(int index)
         {
-            return InsertFormatCode(index, HFFormattingCodes.NumberOfPages);
+            return InsertFormatCode(index, ExcelHeaderFooterFormattingCodes.NumberOfPages);
         }
-        public HFText InsertSheetName(int index)
+        /// <summary>
+        /// Insert the sheet name at specified position in the collection.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem InsertSheetName(int index)
         {
-            return InsertFormatCode(index, HFFormattingCodes.SheetName);
+            return InsertFormatCode(index, ExcelHeaderFooterFormattingCodes.SheetName);
         }
-        public HFText InsertFilePath(int index)
+        /// <summary>
+        /// Insert the file path at specified position in the collection.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem InsertFilePath(int index)
         {
-            return InsertFormatCode(index, HFFormattingCodes.FilePath);
+            return InsertFormatCode(index, ExcelHeaderFooterFormattingCodes.FilePath);
         }
-        public HFText InsertFileName(int index)
+        /// <summary>
+        /// Insert the file name at specified position in the collection.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem InsertFileName(int index)
         {
-            return InsertFormatCode(index, HFFormattingCodes.FileName);
+            return InsertFormatCode(index, ExcelHeaderFooterFormattingCodes.FileName);
         }
-        public HFText InsertCurrentDate(int index)
+        /// <summary>
+        /// Insert the current date at specified position in the collection.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem InsertCurrentDate(int index)
         {
-            return InsertFormatCode(index, HFFormattingCodes.CurrentDate);
+            return InsertFormatCode(index, ExcelHeaderFooterFormattingCodes.CurrentDate);
         }
-        public HFText InsertCurrentTime(int index)
+        /// <summary>
+        /// Insert the current time at specified position in the collection.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem InsertCurrentTime(int index)
         {
-            return InsertFormatCode(index, HFFormattingCodes.CurrentTime);
+            return InsertFormatCode(index, ExcelHeaderFooterFormattingCodes.CurrentTime);
         }
-        public HFText InsertImage(int index, FileInfo pictureFile)
+        /// <summary>
+        /// Insert a picture at specified position in the collection.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="pictureFile"></param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem InsertImage(int index, FileInfo pictureFile)
         {
             string id = headerFooter.ValidateImage((PictureAlignment)alignment);
             if (!pictureFile.Exists)
@@ -195,90 +311,113 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             var uriPic = XmlHelper.GetNewUri(_ws._package.ZipPackage, "/xl/media/" + pictureFile.Name.Substring(0, pictureFile.Name.Length - pictureFile.Extension.Length) + "{0}" + pictureFile.Extension);
             var imgBytes = File.ReadAllBytes(pictureFile.FullName);
             var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, uriPic, null);
-            var hft = InsertFormatCode(index, HFFormattingCodes.Image);
+            var hft = InsertFormatCode(index, ExcelHeaderFooterFormattingCodes.Image);
             Picture = headerFooter.AddImage(id, ii);
             return hft;
         }
-        public HFText InsertImage(int index, Stream pictureStream, ePictureType pictureType)
+        /// <summary>
+        /// Insert a picture at specified position in the collection using a stream.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="pictureStream"></param>
+        /// <param name="pictureType"></param>
+        /// <returns></returns>
+        public ExcelHeaderFooterTextItem InsertImage(int index, Stream pictureStream, ePictureType pictureType)
         {
             string id = headerFooter.ValidateImage((PictureAlignment)alignment);
             var imgBytes = new byte[pictureStream.Length];
             pictureStream.Seek(0, SeekOrigin.Begin);
             var r = pictureStream.Read(imgBytes, 0, imgBytes.Length);
             _imageInfo = _ws.Workbook._package.PictureStore.AddImage(imgBytes, null, pictureType);
-            var hft = InsertFormatCode(index, HFFormattingCodes.Image);
+            var hft = InsertFormatCode(index, ExcelHeaderFooterFormattingCodes.Image);
             Picture = headerFooter.AddImage(id, _imageInfo);
             return hft;
         }
-        private HFText InsertFormatCode(int index, HFFormattingCodes formatCode)
+        private ExcelHeaderFooterTextItem InsertFormatCode(int index, ExcelHeaderFooterFormattingCodes formatCode)
         {
             if (index < 0 || index >= _textCollection.Count) throw new IndexOutOfRangeException("index was out of range.");
-            if (formatCode == HFFormattingCodes.Text) throw new ArgumentException("HFFormattingCode cannot be Text", "formatcode");
-            HFText hFText = new HFText();
+            if (formatCode == ExcelHeaderFooterFormattingCodes.Text) throw new ArgumentException("HFFormattingCode cannot be Text", "formatcode");
+            ExcelHeaderFooterTextItem hFText = new ExcelHeaderFooterTextItem();
             hFText.FormatCode = formatCode;
             _textCollection.Insert(index, hFText);
             ValidateTextLength();
             return hFText;
         }
 
-        public void Remove(HFText item)
+        /// <summary>
+        /// Remove the specified item from the collection.
+        /// </summary>
+        /// <param name="item"></param>
+        public void Remove(ExcelHeaderFooterTextItem item)
         {
-            if(item.FormatCode == HFFormattingCodes.Image)
+            if(item.FormatCode == ExcelHeaderFooterFormattingCodes.Image)
             {
-                RemoveImage();
+                RemovePicture();
                 return;
             }
             _textCollection.Remove(item);
             ValidateTextLength();
         }
-
+        /// <summary>
+        /// Remove the specified item at index in collection.
+        /// </summary>
+        /// <param name="index"></param>
         public void RemoveAt(int index)
         {
-            if (_textCollection[index].FormatCode == HFFormattingCodes.Image)
+            if (_textCollection[index].FormatCode == ExcelHeaderFooterFormattingCodes.Image)
             {
-                RemoveImage();
+                RemovePicture();
                 return;
             }
             _textCollection.RemoveAt(index);
             ValidateTextLength();
         }
-
-        public void RemoveImage()
+        /// <summary>
+        /// Remove the picture from the header or footer.
+        /// </summary>
+        public void RemovePicture()
         {
             headerFooter.RemoveImage(Picture);
             Picture = null;
             //_ws.Workbook._package.PictureStore.RemoveReference(_imageInfo.Uri);
-            foreach (HFText hft in _textCollection)
+            foreach (ExcelHeaderFooterTextItem hft in _textCollection)
             {
-                if (hft.FormatCode == HFFormattingCodes.Image)
+                if (hft.FormatCode == ExcelHeaderFooterFormattingCodes.Image)
                 {
                     _textCollection.Remove(hft);
                     break;
                 }
             }
         }
-
+        /// <summary>
+        /// Clear the collection.
+        /// </summary>
         public void Clear()
         {
             _textCollection.Clear();
             switch (alignment)
             {
                 case PictureAlignment.Left:
-                    Add(new HFText("&L"));
+                    Add(new ExcelHeaderFooterTextItem("&L"));
                     break;
                 case PictureAlignment.Centered:
-                    Add(new HFText("&C"));
+                    Add(new ExcelHeaderFooterTextItem("&C"));
                     break;
                 case PictureAlignment.Right:
-                    Add(new HFText("&R"));
+                    Add(new ExcelHeaderFooterTextItem("&R"));
                     break;
             }
         }
+        /// <summary>
+        /// The number of objects in the collection.
+        /// </summary>
         public int Count
         {
             get { return _textCollection.Count; }
         }
-
+        /// <summary>
+        /// Get the raw text of the collection.
+        /// </summary>
         public string Text
         {
             get
@@ -335,7 +474,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
 
         internal void ReadHeaderFooterFormat(string hfText)
         {
-            HFText temp = new HFText();
+            ExcelHeaderFooterTextItem temp = new ExcelHeaderFooterTextItem();
             bool quoteTag = false;
             bool stop = false;
             bool writeFormatCode = false;
@@ -359,35 +498,35 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                             break;
                         //Constants
                         case 'P':
-                            temp.FormatCode = HFFormattingCodes.PageNumber;
+                            temp.FormatCode = ExcelHeaderFooterFormattingCodes.PageNumber;
                             writeFormatCode = true;
                             break;
                         case 'N':
-                            temp.FormatCode = HFFormattingCodes.NumberOfPages;
+                            temp.FormatCode = ExcelHeaderFooterFormattingCodes.NumberOfPages;
                             writeFormatCode = true;
                             break;
                         case 'A':
-                            temp.FormatCode = HFFormattingCodes.SheetName;
+                            temp.FormatCode = ExcelHeaderFooterFormattingCodes.SheetName;
                             writeFormatCode = true;
                             break;
                         case 'Z':
-                            temp.FormatCode = HFFormattingCodes.FilePath;
+                            temp.FormatCode = ExcelHeaderFooterFormattingCodes.FilePath;
                             writeFormatCode = true;
                             break;
                         case 'F':
-                            temp.FormatCode = HFFormattingCodes.FileName;
+                            temp.FormatCode = ExcelHeaderFooterFormattingCodes.FileName;
                             writeFormatCode = true;
                             break;
                         case 'D':
-                            temp.FormatCode = HFFormattingCodes.CurrentDate;
+                            temp.FormatCode = ExcelHeaderFooterFormattingCodes.CurrentDate;
                             writeFormatCode = true;
                             break;
                         case 'T':
-                            temp.FormatCode = HFFormattingCodes.CurrentTime;
+                            temp.FormatCode = ExcelHeaderFooterFormattingCodes.CurrentTime;
                             writeFormatCode = true;
                             break;
                         case 'G':
-                            temp.FormatCode = HFFormattingCodes.Image;
+                            temp.FormatCode = ExcelHeaderFooterFormattingCodes.Image;
                             foreach(ExcelVmlDrawingPicture v in _ws.HeaderFooter.Pictures)
                             {
                                 if(v.Id == alignment.ToString()[0] + headerFooter.HeaderFooterAlignment)
@@ -503,7 +642,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                             }
                         }
                     }
-                    else if(writeFormatCode && temp.FormatCode == HFFormattingCodes.PageNumber)
+                    else if(writeFormatCode && temp.FormatCode == ExcelHeaderFooterFormattingCodes.PageNumber)
                     {
                         if (hfText[i] == '+' || hfText[i] == '-')
                         {
@@ -516,7 +655,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                             i++;
                         }
                     }
-                    HFText newText = new HFText
+                    ExcelHeaderFooterTextItem newText = new ExcelHeaderFooterTextItem
                     {
                         Text = temp.Text,
                         Bold = temp.Bold,
@@ -538,11 +677,11 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                     };
                     _textCollection.Add(newText);
                     writeFormatCode = false;
-                    temp.FormatCode = HFFormattingCodes.Text;
+                    temp.FormatCode = ExcelHeaderFooterFormattingCodes.Text;
                     temp.Text = "";
                     if (quoteTag)
                     {
-                        temp = new HFText();
+                        temp = new ExcelHeaderFooterTextItem();
                         quoteTag = false;
                     }
                 }
@@ -550,7 +689,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             }
             if (writeFormatCode)
             {
-                HFText newText = new HFText
+                ExcelHeaderFooterTextItem newText = new ExcelHeaderFooterTextItem
                 {
                     Text = temp.Text,
                     Bold = temp.Bold,
@@ -584,13 +723,13 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             return hfstring;
         }
 
-        private string WriteHeaderFooter2(HFText current, HFText prev)
+        private string WriteHeaderFooter2(ExcelHeaderFooterTextItem current, ExcelHeaderFooterTextItem prev)
         {
             string hfstring = "";
 
             if (!(current.FontName == prev.FontName && current.Bold == prev.Bold && current.Italic == prev.Italic))
             {
-                var fontParts = new List<string> { current.FontName ?? "-" };
+                var fontParts = new List<string> { string.IsNullOrEmpty(current.FontName) ? "-" : current.FontName };
 
                 if (current.Bold && current.Italic) fontParts.Add("Bold Italic");
                 else if (current.Bold) fontParts.Add("Bold");
@@ -648,33 +787,33 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
 
             switch (current.FormatCode)
             {
-                case HFFormattingCodes.PageNumber:
+                case ExcelHeaderFooterFormattingCodes.PageNumber:
                     hfstring += "&P" + current.PageNumberSuffix;
                     break;
-                case HFFormattingCodes.NumberOfPages:
+                case ExcelHeaderFooterFormattingCodes.NumberOfPages:
                     hfstring += "&N";
                     break;
-                case HFFormattingCodes.SheetName:
+                case ExcelHeaderFooterFormattingCodes.SheetName:
                     hfstring += "&A";
                     break;
-                case HFFormattingCodes.FilePath:
+                case ExcelHeaderFooterFormattingCodes.FilePath:
                     hfstring += "&Z";
                     break;
-                case HFFormattingCodes.FileName:
+                case ExcelHeaderFooterFormattingCodes.FileName:
                     hfstring += "&F";
                     break;
-                case HFFormattingCodes.CurrentDate:
+                case ExcelHeaderFooterFormattingCodes.CurrentDate:
                     hfstring += "&D";
                     break;
-                case HFFormattingCodes.CurrentTime:
+                case ExcelHeaderFooterFormattingCodes.CurrentTime:
                     hfstring += "&T";
                     break;
-                case HFFormattingCodes.Image:
+                case ExcelHeaderFooterFormattingCodes.Image:
                     hfstring += "&G";
                     if (current.Text == "&") hfstring += "&";
                     hfstring += current.Text;
                     break;
-                case HFFormattingCodes.Text:
+                case ExcelHeaderFooterFormattingCodes.Text:
                     if (current.Text == "&") hfstring += "&";
                     hfstring += current.Text;
                     break;
@@ -688,7 +827,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             return _textCollection.GetEnumerator();
         }
 
-        IEnumerator<HFText> IEnumerable<HFText>.GetEnumerator()
+        IEnumerator<ExcelHeaderFooterTextItem> IEnumerable<ExcelHeaderFooterTextItem>.GetEnumerator()
         {
             return _textCollection.GetEnumerator();
         }

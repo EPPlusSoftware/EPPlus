@@ -1608,7 +1608,7 @@ namespace EPPlusTest
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
 
 
-            HFText t = new HFText();
+            ExcelHeaderFooterTextItem t = new ExcelHeaderFooterTextItem();
             t.Text = "anotherString";
             t.Italic = true;
 
@@ -1711,7 +1711,7 @@ namespace EPPlusTest
             using var p = OpenTemplatePackage("HeaderFooterPicture.xlsx");
             var ws = p.Workbook.Worksheets[0];
 
-            ws.HeaderFooter.OddHeader.LeftAligned.RemoveImage();
+            ws.HeaderFooter.OddHeader.LeftAligned.RemovePicture();
             SaveAndCleanup(p);
         }
 

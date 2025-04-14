@@ -94,6 +94,11 @@ namespace OfficeOpenXml.Drawing.Vml
             node.InnerXml = string.Format("<v:imagedata o:relid=\"\" o:title=\"{0}\"/><o:lock v:ext=\"edit\" rotation=\"t\"/>",  Name);
             return node;
         }
+
+        /// <summary>
+        /// Remove the specified picture item from the collection.
+        /// </summary>
+        /// <param name="item">The picture object to remove.</param>
         public void Remove(ExcelVmlDrawingPicture item)
         {
             VmlDrawingXml.FirstChild.RemoveChild(item.TopNode);

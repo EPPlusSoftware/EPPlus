@@ -92,14 +92,17 @@ namespace OfficeOpenXml
                     break;
             }
         }
-        private HFTextCollection _leftAligned = null;
-        public HFTextCollection LeftAligned
+        private ExcelHeaderFooterTextCollection _leftAligned = null;
+        /// <summary>
+        /// The text collection of the left part of the header or footer.
+        /// </summary>
+        public ExcelHeaderFooterTextCollection LeftAligned
         {
             get
             {
                 if(_leftAligned == null)
                 {
-                    _leftAligned = new HFTextCollection(_ws, this, PictureAlignment.Left, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
+                    _leftAligned = new ExcelHeaderFooterTextCollection(_ws, this, PictureAlignment.Left, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
                     _leftAligned.lane1 = _centered;
                     _leftAligned.lane2 = _rightAligned;
                 }
@@ -125,14 +128,19 @@ namespace OfficeOpenXml
                 _leftAlignedText = LeftAligned.WriteHeaderFooterFormat();
             }
         }
-        private HFTextCollection _centered = null;
-        public HFTextCollection Centered
+
+        private ExcelHeaderFooterTextCollection _centered = null;
+
+        /// <summary>
+        /// The text collection of the centered part of the header or footer.
+        /// </summary>
+        public ExcelHeaderFooterTextCollection Centered
         {
             get
             {
                 if (_centered == null)
                 {
-                    _centered = new HFTextCollection(_ws, this, PictureAlignment.Centered, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
+                    _centered = new ExcelHeaderFooterTextCollection(_ws, this, PictureAlignment.Centered, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
                     _centered.lane1 = _leftAligned;
                     _centered.lane2 = _rightAligned;
                 }
@@ -159,14 +167,17 @@ namespace OfficeOpenXml
                 _centeredText = Centered.WriteHeaderFooterFormat();
             }
 		}
-        private HFTextCollection _rightAligned = null;
-        public HFTextCollection RightAligned
+        private ExcelHeaderFooterTextCollection _rightAligned = null;
+        /// <summary>
+        /// The text collection of the right part of the header or footer.
+        /// </summary>
+        public ExcelHeaderFooterTextCollection RightAligned
         {
             get
             {
                 if (_rightAligned == null)
                 {
-                    _rightAligned = new HFTextCollection(_ws, this, PictureAlignment.Right, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
+                    _rightAligned = new ExcelHeaderFooterTextCollection(_ws, this, PictureAlignment.Right, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
                     _rightAligned.lane1 = _leftAligned;
                     _rightAligned.lane2 = _centered;
                 }
@@ -239,6 +250,10 @@ namespace OfficeOpenXml
             return _ws.HeaderFooter.Pictures.Add(id, ii.Uri, "", width, height);
         }
 
+        /// <summary>
+        /// Remove the specified item from the collection.
+        /// </summary>
+        /// <param name="item">The item to remove.</param>
         public void RemoveImage(ExcelVmlDrawingPicture item)
         {
             _ws.HeaderFooter.Pictures.Remove(item);
