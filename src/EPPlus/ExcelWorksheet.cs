@@ -264,6 +264,11 @@ namespace OfficeOpenXml
             #endregion
             internal void Clear(ExcelAddressBase Destination)
             {
+                if(_cells.ColumnCount <= 0)
+                {
+                    return;
+                }
+
                 var cse = new CellStoreEnumerator<int>(_cells, Destination._fromRow, Destination._fromCol, Destination._toRow, Destination._toCol);
                 var used = new HashSet<int>();
                 while (cse.Next())

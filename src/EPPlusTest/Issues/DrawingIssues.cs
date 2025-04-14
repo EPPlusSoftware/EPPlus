@@ -151,7 +151,6 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(package);
         }
-
     }
 }
 

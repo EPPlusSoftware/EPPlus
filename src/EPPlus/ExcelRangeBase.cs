@@ -1902,7 +1902,8 @@ namespace OfficeOpenXml
         {
             get
             {
-                return new RangeConditionalFormatting(_worksheet, new ExcelAddress(Address));
+               return new RangeConditionalFormatting(_worksheet, this);
+               //return new RangeConditionalFormatting(_worksheet, new ExcelAddress(Address));
             }
         }
 #endregion
@@ -1914,7 +1915,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return new RangeDataValidation(_worksheet, Address);
+                return new RangeDataValidation(_worksheet, this);
             }
         }
 #endregion

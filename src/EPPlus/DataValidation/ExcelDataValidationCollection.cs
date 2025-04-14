@@ -11,9 +11,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
@@ -51,11 +51,20 @@ namespace OfficeOpenXml.DataValidation
         private List<ExcelDataValidation> _validations = new List<ExcelDataValidation>();
         private ExcelWorksheet _worksheet = null;
         internal RangeDictionary<ExcelDataValidation> _validationsRD = new RangeDictionary<ExcelDataValidation>();
+        internal QuadTree<IExcelDataValidation> dvQuadTree;
 
         internal ExcelDataValidationCollection(ExcelWorksheet worksheet)
         {
             InternalValidationEnabled = true;
             _worksheet = worksheet;
+            if (worksheet.Dimension == null)
+            {
+                dvQuadTree = new QuadTree<IExcelDataValidation>();
+            }
+            else
+            {
+                dvQuadTree = new QuadTree<IExcelDataValidation>(worksheet.Dimension);
+            }
         }
 
         internal ExcelDataValidationCollection(XmlReader xr, ExcelWorksheet worksheet)
@@ -351,6 +360,8 @@ namespace OfficeOpenXml.DataValidation
 
                 _validationsRD.Add(individualAddress._fromRow, individualAddress._fromCol,
                                    individualAddress._toRow, individualAddress._toCol, validation);
+
+                dvQuadTree.Add(new QuadRange(internalAddress), validation);
             }
 
         }
@@ -442,6 +453,7 @@ namespace OfficeOpenXml.DataValidation
             ClearRangeDictionary(item.Address);
             var retVal = _validations.Remove((ExcelDataValidation)item);
             if (retVal) OnValidationCountChanged();
+            dvQuadTree.Clear(item.Address, item);
             return retVal;
         }
 
@@ -627,6 +639,11 @@ namespace OfficeOpenXml.DataValidation
             {
                 _validationsRD.DeleteRow(address._fromRow, address.Rows, address._fromCol, address._toCol);
             }
+        }
+
+        internal List<QuadRangeItem<IExcelDataValidation>> GetIntersectingRanges(ExcelAddress address)
+        {
+            return dvQuadTree.GetIntersectingRangeItems(new QuadRange(address));
         }
     }
 }
