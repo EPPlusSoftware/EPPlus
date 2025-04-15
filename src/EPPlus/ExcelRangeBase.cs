@@ -1362,6 +1362,11 @@ namespace OfficeOpenXml
             _changePropMethod(this, _setIsRichTextDelegate, value);
         }
 
+        internal bool IntersectsWithTable()
+        {
+            return _worksheet.Tables.GetIntersectingRanges(this).Count > 0;
+        }
+
         /// <summary>
         /// Insert cells into the worksheet and shift the cells to the selected direction.
         /// </summary>
@@ -1897,7 +1902,8 @@ namespace OfficeOpenXml
         {
             get
             {
-                return new RangeConditionalFormatting(_worksheet, new ExcelAddress(Address));
+               return new RangeConditionalFormatting(_worksheet, this);
+               //return new RangeConditionalFormatting(_worksheet, new ExcelAddress(Address));
             }
         }
 #endregion
@@ -1909,7 +1915,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return new RangeDataValidation(_worksheet, Address);
+                return new RangeDataValidation(_worksheet, this);
             }
         }
 #endregion
@@ -2122,6 +2128,17 @@ namespace OfficeOpenXml
             {
                 throw (new Exception("An array formula cannot have more than one address"));
             }
+
+            if(IntersectsWithTable())
+            {
+                //Array formulas are only allowed in tables as CalculatedColumn formula
+                //Or single-cell. Excel does not allow multi-cell array formulas in tables.
+                if(Start.Address != End.Address)
+                {
+                    throw (new InvalidOperationException("Multi-Cell array formulas are not allowed in tables."));
+                }
+            }
+
             Set_SharedFormula(this, ArrayFormula, this, true, isDynamic);
         }
         /// <summary>

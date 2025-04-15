@@ -106,6 +106,7 @@ items:
   - OfficeOpenXml.JsonRangeExportSettings
   - OfficeOpenXml.JsonTableExportSettings
   - OfficeOpenXml.LicenseContext
+  - OfficeOpenXml.LicenseContextPropertyObsoleteException
   - OfficeOpenXml.LicenseInformationException
   - OfficeOpenXml.LicenseNotSetException
   - OfficeOpenXml.LicenseNotValidException
@@ -815,6 +816,11 @@ references:
   name: LicenseNotSetException
   nameWithType: LicenseNotSetException
   fullName: OfficeOpenXml.LicenseNotSetException
+- uid: OfficeOpenXml.LicenseContextPropertyObsoleteException
+  commentId: T:OfficeOpenXml.LicenseContextPropertyObsoleteException
+  name: LicenseContextPropertyObsoleteException
+  nameWithType: LicenseContextPropertyObsoleteException
+  fullName: OfficeOpenXml.LicenseContextPropertyObsoleteException
 - uid: OfficeOpenXml.InvalidLicenseKeyException
   commentId: T:OfficeOpenXml.InvalidLicenseKeyException
   name: InvalidLicenseKeyException

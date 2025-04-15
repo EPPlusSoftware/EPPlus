@@ -50,33 +50,5 @@ namespace EPPlusTest.Issues
                 pck.Dispose();
             }
         }
-
-        [TestMethod]
-        public void s725()
-        {
-            using (var p1 = OpenTemplatePackage("s725.xlsx"))
-            {
-                var sheet = p1.Workbook.Worksheets[6];
-                SaveAndCleanup(p1, false);
-                using (var p2 = new ExcelPackage(p1.Stream))
-                {
-                    var sheet2 = p2.Workbook.Worksheets[6];
-                    SaveWorkbook("s725-secondsaveorig.xlsx", p2);
-                }
-            }
-        }
-        [TestMethod]
-        public void s782()
-        {
-            using (var package = OpenTemplatePackage("s782.xlsx"))
-            {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets["披露附注"];
-
-                string areaStr = "E247:E256";
-                worksheet.Cells[areaStr].Insert(eShiftTypeInsert.Right);
-
-                SaveAndCleanup(package);
-            }
-        }
     }
 }

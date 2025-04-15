@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Xml;
 using System.IO;
 using OfficeOpenXml.Table.PivotTable;
@@ -25,6 +24,7 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing.Chart
         #region "Constructors"
         internal ExcelChart(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent, string drawingPath= "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(drawings, node, drawingPath, nvPrPath, parent)
-        {            
+        {
         }
         internal ExcelChart(ExcelDrawings drawings, XmlNode drawingsNode, XmlDocument chartXml = null, ExcelGroupShape parent=null, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(drawings, drawingsNode, drawingPath, nvPrPath, parent)
@@ -353,10 +353,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Package internal URI
         /// </summary>
         internal Uri UriChart { get; set; }
-        internal new string Id
-        {
-            get { return ""; }
-        }
+
         #endregion
         #region "Chart type functions
         /// <summary>
@@ -1118,5 +1115,8 @@ namespace OfficeOpenXml.Drawing.Chart
         ZipPackagePart IPictureRelationDocument.RelatedPart => Part;
 
         Uri IPictureRelationDocument.RelatedUri => UriChart;
+
+
+        private ExcelChartDrawings _chartDrawings = null;
     }
 }

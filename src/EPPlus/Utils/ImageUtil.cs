@@ -1,9 +1,5 @@
-﻿using OfficeOpenXml.Drawing.Style.Coloring;
+﻿using OfficeOpenXml.Drawing;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml.Utils
 {
@@ -19,6 +15,7 @@ namespace OfficeOpenXml.Utils
             newWidth = Convert.ToInt32(width * ratio);
             newHeight = Convert.ToInt32(height * ratio);
         }
+
         internal static void CalculateDPI(ExcelImage Image, float Standard_DPI, ref double horizontalResoluton, ref double verticalResolution)
         {
             var horizontalDpi = Image.Bounds.HorizontalResolution == 0 ? Standard_DPI : Image.Bounds.HorizontalResolution;
@@ -26,8 +23,9 @@ namespace OfficeOpenXml.Utils
             horizontalResoluton = Image.Bounds.Width / (horizontalDpi / Standard_DPI);
             verticalResolution = Image.Bounds.Height / (verticalDpi / Standard_DPI);
         }
+
         /// <summary>
-        /// Converts from pixels to points at a specified DPI (usually 72)
+        /// Converts from pixels to points at a specified DPI (usually 72 DPI)
         /// </summary>
         /// <param name="pixelValue"></param>
         /// <param name="standard_DPI"></param>

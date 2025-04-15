@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRowCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableRowCollection
     path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRowCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRowCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNewRow
     path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRowCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNewRows
     path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRowCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertNewRow
     path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
@@ -239,7 +239,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRowCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertNewRows
     path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
@@ -284,7 +284,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRowCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteRows
     path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
@@ -323,7 +323,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRowCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
@@ -361,7 +361,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRowCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
@@ -393,7 +393,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRowCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Table/ExcelTableRowCollection.cs

@@ -614,7 +614,7 @@ namespace OfficeOpenXml.Core.Worksheet
             return oleShapeId;
         }
 
-        internal static void CopyChartRelations(ExcelChart chart, ExcelWorksheet target, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet source)
+        internal static void CopyChartRelations(ExcelChart chart, ExcelWorksheet target, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet source, XmlNode drawNode = null)
         {
             var xml = chart.ChartXml.InnerXml;
             Uri uriChart;
@@ -633,7 +633,7 @@ namespace OfficeOpenXml.Core.Worksheet
             StreamWriter streamChart = new StreamWriter(chartPart.GetStream(FileMode.Create, FileAccess.Write));
             streamChart.Write(xml);
             streamChart.Flush();
-            //Now create the new relationship to the copied chart xml
+            //Now create the new relationship to the copied Chart xml
             XmlNode relNode;
             if (chart._isChartEx)
             {
@@ -652,8 +652,20 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 string prevRelID = relNode?.Value;
                 var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(partDraw.Uri, uriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chart");
-                XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//c:chart/@r:id[.='{0}']", prevRelID), source.Drawings.NameSpaceManager) as XmlAttribute;
-                relAtt.Value = rel.Id;
+                if (drawNode == null)
+                {
+                    XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//c:chart/@r:id[.='{0}']", prevRelID), source.Drawings.NameSpaceManager) as XmlAttribute;
+                    relAtt.Value = rel.Id;
+                }
+                else
+                {
+                    var drawNodeRel = drawNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", source.Drawings.NameSpaceManager);
+                    if (drawNodeRel == null)
+                    {
+                        drawNodeRel = drawNode.SelectSingleNode("a:graphic/a:graphicData/c:chart/@r:id", source.Drawings.NameSpaceManager);
+                    }
+                    drawNodeRel.Value = rel.Id;
+                }
             }
             CopyChartRelations(source, target, chart, chartPart);
         }
@@ -698,7 +710,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (relCopy.RelationshipType == ExcelPackage.schemaChartStyleRelationships)
                     {
-                        uri=XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/charts/style{0}.xml");
+                        uri = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/charts/style{0}.xml");
                         chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartStyle, chart.StyleManager.StyleXml.OuterXml);
                     }
                     else if (relCopy.RelationshipType == ExcelPackage.schemaChartColorStyleRelationships)
@@ -706,13 +718,28 @@ namespace OfficeOpenXml.Core.Worksheet
                         uri = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/charts/colors{0}.xml");
                         chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartColorStyle, chart.StyleManager.ColorsXml.OuterXml);
                     }
-                    else if(added.Workbook != copy.Workbook)
+                    else if (relCopy.RelationshipType == ExcelPackage.schemaRelationships + "/chartUserShapes" && chart is ExcelChartStandard chartStandard)
+                    {
+                        uri = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/drawings/drawing{0}.xml");
+                        var part = chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartDrawing, chartStandard.Drawings.DrawingXml.OuterXml);
+                        //update rel in chart xml
+                        //create relations for pictures in Chart drawing
+                        string xml = chartStandard.Drawings.DrawingXml.OuterXml;
+                        XmlDocument drawXml = new XmlDocument();
+                        drawXml.LoadXml(xml);
+                        for (int i = 0; i < chartStandard.Drawings.Count; i++)
+                        {
+                            var draw = chartStandard.Drawings[i];
+                            CopyDrawingRels(draw, added._package, added, part, ref drawXml);
+                        }
+                    }
+                    else if (added.Workbook != copy.Workbook)
                     {
                         if (relCopy.RelationshipType == ExcelPackage.schemaRelationships + "/image")
                         {
-                            if (added._package.ZipPackage.PartExists(uri)==false)
+                            if (added._package.ZipPackage.PartExists(uri) == false)
                             {
-                                var destImgUri=copy._package.ZipPackage.GetPart(uri);
+                                var destImgUri = copy._package.ZipPackage.GetPart(uri);
                                 var v = added._package.ZipPackage.CreatePart(uri, destImgUri);
                             }
                         }
@@ -820,7 +847,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyVmlRelations(ExcelWorksheet Copy, ExcelWorksheet added)
         {
-            //Excel does not copy signature lines we shouldn'te either.
+            //Excel does not copy signature lines we shouldn't either.
             if (added.SignatureLines.Count() > 0)
             {
                 added.SignatureLines.Clear();

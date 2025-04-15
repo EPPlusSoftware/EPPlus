@@ -1,23 +1,23 @@
 # Features / Fixed issues - EPPlus 8
-## Version 8.0.0-rc
+## Version 8.0.1
+### Important information
+EPPlus 8 will require a license key for commercial licenses.
 ### Features
-* EPPlus 8 will require a license key for commercial licenses.
 * Support for OLE objects (Linked or Embedded files).
 * Support for digital signing workbooks and signature lines.
 * In-cell pictures / support for the IMAGE function.
 * Sensitivity Label API to integrate with MIP (Microsoft Information Protection SDK).
 
 ### Minor features
-* Autofit columns optimaiztion.
+* Autofit columns optimization.
 * The Range Copy method now supports fills and the option to copy visible cells only.
-* EPPlus now rounds decimal numbers more true to Excels precision.
+* Reduced memory consumption when calculating formulas.
 * Added ExcelRange.IsEmpty method.
 * Shape adjustments points support.
 * ExcelRangeBase.BorderAround now override borders for adjacent cells.
 * InsertRange now returnes the new inserted range.
-* In-cell checkboxes now renders in the HTML export.
+* In-cell checkboxes now render in the HTML export.
 * Improved API for Tables to access data via column names.
-* Added a new rounding that is more true to Excels precision. You can switch between .Net and Excel precision with ParsingContext.
 * Added IsEmpty() method on ExcelRange. Can test for value, comments, threaded comments and formulas.
 * Override borders in Adjacent cells in BorderAround method.
 
@@ -28,7 +28,7 @@
 	* Fixed PERCENTRANKS functions.
 	* Fixed array handling in the IF function.
 	* Fixed some issues in the IMAGE function.
-	* Fixed an issue in the COUNTIF function when comparing numbers
+	* Fixed an issue in the COUNTIF function when comparing numbers.
 * Ole objects
 	* Added new properties ProgId, ExternalLink and Image to the ExcelOleObject
 	* Removed Removed ExcelOleObjectParameters.Extension and use extension from the file name.
@@ -46,8 +46,8 @@
 * Ensured SetImage method did not swap width and height when switching between .svg and .png.
 * Inserting and deleting cells now updates chart references. Ensuring charts continue pointing to the moved cells.
 * Fixed numerous issues with array formulas and CalculatedColumnFormulas in tables related to inserting and deleting.
+* Renamed missspelled DigitialSignatures to DigitalSignatures.
  
-
 # Features / Fixed issues - EPPlus 7
 ## Version 7.7.0
 * Reverted System.* and Microsoft.* references to 8.0.x for all target frameworks except .NET 9.

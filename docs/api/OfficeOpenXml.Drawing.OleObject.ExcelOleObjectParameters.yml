@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelOleObjectParameters
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LinkToFile
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
@@ -95,7 +95,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayAsIcon
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ProgId
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Icon
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObjectParameters.cs

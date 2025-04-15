@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RichData/RichDataReference.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RichDataReference
     path: ../src/EPPlus/RichData/RichDataReference.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RichData/RichDataReference.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReferenceType
     path: ../src/EPPlus/RichData/RichDataReference.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RichData/RichDataReference.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/RichData/RichDataReference.cs

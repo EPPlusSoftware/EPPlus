@@ -358,7 +358,7 @@ namespace OfficeOpenXml.Drawing
                     }
                     else
                     {
-                        horizontalResolution = verticalResolution = 1;
+                        horizontalResolution = verticalResolution = 0;
                     }
 
                     return true;

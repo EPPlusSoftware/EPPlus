@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -14,6 +15,7 @@ namespace OfficeOpenXml.DataValidation
     public class ExcelDatavalidationAddress : ExcelAddress
     {
         ExcelDataValidation _val;
+        ExcelAddress addressBeforeChange;
 
         internal ExcelDatavalidationAddress(string address, ExcelDataValidation val) : base(address) 
         {
@@ -25,6 +27,7 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         internal protected override void BeforeChangeAddress()
         {
+            addressBeforeChange = _val.Address;
             _val._ws.DataValidations.ClearRangeDictionary(_val.Address);
         }
 
@@ -33,6 +36,7 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         internal protected override void ChangeAddress()
         {
+            _val._ws.DataValidations.dvQuadTree.UpdateAddress(addressBeforeChange, _val.Address, _val);
             _val._ws.DataValidations.AddToRangeDictionary(_val);
         }
     }

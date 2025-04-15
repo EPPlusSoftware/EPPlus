@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IRangeInfo
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMulti
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -141,7 +141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRef
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -176,7 +176,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsInMemoryRange
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -242,7 +242,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -277,7 +277,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -315,7 +315,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -353,7 +353,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -397,7 +397,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -435,7 +435,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -470,7 +470,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dimension
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -505,21 +505,25 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddressDimensionAdjusted
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 93
+    startLine: 98
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nGet the address adjusted inside the dimension of the worksheet.\n"
+  example: []
   syntax:
     content: FormulaRangeAddress GetAddressDimensionAdjusted(int index)
     parameters:
     - id: index
       type: System.Int32
+      description: The index of the address.
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+      description: The address adjusted within the dimension of the worksheet.
     content.vb: Function GetAddressDimensionAdjusted(index As Integer) As FormulaRangeAddress
   overload: OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted*
 references:

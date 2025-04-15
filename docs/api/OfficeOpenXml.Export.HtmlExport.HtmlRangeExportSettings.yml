@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HtmlRangeExportSettings
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
@@ -91,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRows
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Headers
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
@@ -165,7 +165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Css
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
@@ -202,7 +202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResetToDefault
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
@@ -234,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlRangeExportSettings.cs

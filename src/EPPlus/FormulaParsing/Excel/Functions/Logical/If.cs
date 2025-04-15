@@ -42,63 +42,64 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             
             var arg0 = arguments[0].Value;
             var arg1 = arguments[1];
-            var arg2 = arguments.Count < 3 ? new FunctionArgument(false,DataType.Boolean) : arguments[2];
+            var arg2 = arguments.Count < 3 ? new FunctionArgument(false,DataType.Boolean) : arguments[2];            
             if (arg0 is IRangeInfo ri)
             {
-
-                if((ri.Size.NumberOfRows > 1 || ri.Size.NumberOfCols > 1) && 
-                    ((context.CurrentWorksheet._flags.GetFlagValue(context.CurrentCell.Row, context.CurrentCell.Column, CellFlags.CanBeDynamicArray|CellFlags.ArrayFormula)) ||
-                    ri.Address!=null && ri.Address.FromRow == 0))
+                if (ri.Size.NumberOfRows == 1 && ri.Size.NumberOfCols==1)
                 {
-                    return If_DynamicArrayFormula(arg1, arg2, ri);
+                    arg0 = ri.GetOffset(0, 0);
                 }
                 else
                 {
-                    return If_ImplicitInterection(arguments[0], arg1, arg2, ri, context.CurrentCell);
+                    if (((context.CurrentWorksheet._flags.GetFlagValue(context.CurrentCell.Row, context.CurrentCell.Column, CellFlags.CanBeDynamicArray | CellFlags.ArrayFormula)) ||
+                        ri.Address != null && ri.Address.FromRow == 0))
+                    {
+                        return If_DynamicArrayFormula(arg1, arg2, ri);
+                    }
+                    else
+                    {
+                        return If_ImplicitInterection(arguments[0], arg1, arg2, ri, context.CurrentCell);
+                    }
+                }
+            }
+            var condition = ConvertUtil.GetValueBool(arg0);
+            if (condition.HasValue)
+            {
+                if (arguments.Count < 3)
+                {
+                    if (arg1.Address == null)
+                    {
+                        return condition.Value ? new CompileResult(arg1.Value, arg1.DataType) : CompileResultFactory.Create(false, null);
+                    }
+                    else
+                    {
+                        return condition.Value ? new AddressCompileResult(arg1.Value, arg1.DataType, arg1.Address) : CompileResultFactory.Create(false, null);
+                    }
+                }
+                else
+                {
+                    var secondStatement = arguments[2];
+                    return condition.Value ?
+                        arg1.Address == null ?
+                            new CompileResult(arg1.Value, arg1.DataType) :
+                            new AddressCompileResult(arg1.Value, arg1.DataType, arg1.Address) :
+                        secondStatement.Address == null ?
+                            new CompileResult(secondStatement.Value, secondStatement.DataType) :
+                            new AddressCompileResult(secondStatement.Value, secondStatement.DataType, secondStatement.Address);
                 }
             }
             else
             {
-                var condition = ConvertUtil.GetValueBool(arg0);
-                if (condition.HasValue)
+                if (arg0 is ExcelErrorValue error)
                 {
-                    if (arguments.Count < 3)
-                    {
-                        if (arg1.Address == null)
-                        {
-                            return condition.Value ? new CompileResult(arg1.Value, arg1.DataType) : CompileResultFactory.Create(false, null);
-                        }
-                        else
-                        {
-                            return condition.Value ? new AddressCompileResult(arg1.Value, arg1.DataType, arg1.Address) : CompileResultFactory.Create(false, null);
-                        }
-                    }
-                    else
-                    {
-                        var secondStatement = arguments[2];
-                        return condition.Value ?
-                            arg1.Address == null ?
-                                new CompileResult(arg1.Value, arg1.DataType) :
-                                new AddressCompileResult(arg1.Value, arg1.DataType, arg1.Address) :
-                            secondStatement.Address == null ?
-                                new CompileResult(secondStatement.Value, secondStatement.DataType) :
-                                new AddressCompileResult(secondStatement.Value, secondStatement.DataType, secondStatement.Address);
-                    }
+                    return CompileResult.GetErrorResult(error.Type);
                 }
                 else
                 {
-                    if (arg0 is ExcelErrorValue error)
-                    {
-                        return CompileResult.GetErrorResult(error.Type);
-                    }
-                    else
-                    {
-                        return CompileResult.GetErrorResult(eErrorType.Value);
-                    }
+                    return CompileResult.GetErrorResult(eErrorType.Value);
                 }
             }
         }
-
         private CompileResult If_DynamicArrayFormula(FunctionArgument arg1, FunctionArgument arg2, IRangeInfo ri)
         {
             var arg1Type = GetType(arg1.Value);

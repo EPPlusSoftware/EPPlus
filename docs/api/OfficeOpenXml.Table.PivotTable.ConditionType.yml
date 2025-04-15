@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ConditionType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConditionType
     path: ../src/EPPlus/Table/PivotTable/enums/ConditionType.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ConditionType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Table/PivotTable/enums/ConditionType.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ConditionType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: All
     path: ../src/EPPlus/Table/PivotTable/enums/ConditionType.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ConditionType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/Table/PivotTable/enums/ConditionType.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ConditionType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/Table/PivotTable/enums/ConditionType.cs

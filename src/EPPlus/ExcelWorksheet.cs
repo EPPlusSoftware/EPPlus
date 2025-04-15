@@ -50,6 +50,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Core.RangeQuadTree;
 
 namespace OfficeOpenXml
 {
@@ -263,6 +264,11 @@ namespace OfficeOpenXml
             #endregion
             internal void Clear(ExcelAddressBase Destination)
             {
+                if(_cells.ColumnCount <= 0)
+                {
+                    return;
+                }
+
                 var cse = new CellStoreEnumerator<int>(_cells, Destination._fromRow, Destination._fromCol, Destination._toRow, Destination._toCol);
                 var used = new HashSet<int>();
                 while (cse.Next())
@@ -546,7 +552,7 @@ namespace OfficeOpenXml
         {
             if (this is ExcelChartsheet)
             {
-                throw (new NotSupportedException("This property or method is not supported for a Chartsheet"));
+                throw (new NotSupportedException("This property or method is not supported for a chart sheet"));
             }
             if(_positionId==-1 && _values==null)
             {
@@ -2539,11 +2545,18 @@ namespace OfficeOpenXml
 
         private static void HandleSaveForIndividualDrawings(ExcelDrawing d, bool hasLoadedPivotTables)
         {
-            if (d is ExcelChart c)
+            if (d is ExcelChartStandard c)
             {
                 var chartStream = c.Part.GetStream(FileMode.Create, FileAccess.Write);
                 c.ChartXml.PreserveWhitespace = true;
                 c.ChartXml.Save(chartStream);
+
+                if (c.Drawings.Part != null)
+                {
+                    var xrd = new XmlTextWriter(c.Drawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
+                    xrd.Formatting = Formatting.None;
+                    c.Drawings.DrawingXml.Save(xrd);
+                }
             }
             else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
             {
@@ -2875,6 +2888,7 @@ namespace OfficeOpenXml
             {
                 pt.Save();
             }
+            View.DeletePivotTableSelection();
         }
 
         private static string GetTotalFunction(ExcelTableColumn col, string funcNum)
@@ -4061,7 +4075,6 @@ namespace OfficeOpenXml
         {
             return Workbook.Styles.RoundValueFromNumberFormat(c);
         }
-
         #endregion
     }  // END class Worksheet
 }

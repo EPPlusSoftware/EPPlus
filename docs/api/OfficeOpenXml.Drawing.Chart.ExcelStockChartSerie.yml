@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelStockChartSerie
     path: ../src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
@@ -132,7 +132,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
@@ -171,7 +171,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Smooth
     path: ../src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
@@ -208,7 +208,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Marker
     path: ../src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
@@ -245,7 +245,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasMarker
     path: ../src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
@@ -280,7 +280,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataPoints
     path: ../src/EPPlus/Drawing/Chart/ExcelStockChartSerie.cs

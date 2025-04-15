@@ -5,21 +5,13 @@ using System.Linq;
 using System;
 using System.IO;
 using OfficeOpenXml.Table.PivotTable;
+using System.Diagnostics;
 
 namespace EPPlusTest.Issues
 {
     [TestClass]
     public class PivotTableIssues : TestBase
     {
-        [TestMethod]
-        public void s688()
-        {
-            using (ExcelPackage package = OpenTemplatePackage("s688.xlsx"))
-            {
-                package.Workbook.Worksheets[0].PivotTables[0].Calculate(false);
-                SaveAndCleanup(package);
-            }
-        }
         [TestMethod]
         public void s692()
         {
@@ -248,15 +240,6 @@ namespace EPPlusTest.Issues
             }
         }
         [TestMethod]
-        public void s744()
-        {
-            using (var p = OpenTemplatePackage("s744.xlsx"))
-            {
-                ExcelWorkbook workbook = p.Workbook;
-                SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
         public void s744_2()
         {
             using (var p = OpenTemplatePackage("s744-2.xlsx"))
@@ -273,25 +256,6 @@ namespace EPPlusTest.Issues
                 ExcelWorkbook workbook = p.Workbook;
                 p.Workbook.Worksheets[0].PivotTables[0].Calculate();
                 SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
-        public void s789()
-        {
-            using (var package = OpenTemplatePackage("s789.xlsx"))
-            {
-                var wb = package.Workbook;
-                foreach (var ws in package.Workbook.Worksheets)
-                {
-                    foreach (var pTable in ws.PivotTables)
-                    {
-                        foreach (var field in pTable.Fields)
-                        {
-                        }
-                    }
-                }
-
-                SaveAndCleanup(package);
             }
         }
         [TestMethod]
@@ -325,6 +289,20 @@ namespace EPPlusTest.Issues
                     if (ws.PivotTables.Any()) Console.WriteLine(ws.Name);
                 }
                 SaveWorkbook("SampleNew.xlsx", package);
+            }
+        }
+        [TestMethod]
+        public void PivotErrorCodeIssue()
+        {
+            using (var p = OpenTemplatePackage("PivotTableIssueErrorCode.xlsx"))
+            {
+                var wb = p.Workbook;
+                foreach (var ws in wb.Worksheets)
+                {
+                    if (ws.PivotTables.Any()) 
+                        Console.WriteLine(ws.Name);
+                }
+                SaveAndCleanup(p);
             }
         }
     }

@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicense.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EPPlusLicense
     path: ../src/EPPlus/EPPlusLicense.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicense.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseKey
     path: ../src/EPPlus/EPPlusLicense.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicense.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegalName
     path: ../src/EPPlus/EPPlusLicense.cs
@@ -142,7 +142,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicense.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Source
     path: ../src/EPPlus/EPPlusLicense.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicense.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseType
     path: ../src/EPPlus/EPPlusLicense.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicense.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseInfo
     path: ../src/EPPlus/EPPlusLicense.cs
@@ -253,7 +253,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicense.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExtendUnderRenewal
     path: ../src/EPPlus/EPPlusLicense.cs
@@ -290,7 +290,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicense.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetNonCommercialPersonal
     path: ../src/EPPlus/EPPlusLicense.cs
@@ -326,7 +326,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicense.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetNonCommercialOrganization
     path: ../src/EPPlus/EPPlusLicense.cs
@@ -334,14 +334,14 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nUser this option if you use EPPlus within a noncommercial organization.\nUsing this option will tag all created document with the Polyform Noncommercial license. \nSee https://polyformproject.org/licenses/noncommercial/1.0.0/\n"
+  summary: "\nUse this option if you use EPPlus within a noncommercial organization.\nUsing this option will tag all created document with the Polyform Noncommercial license. \n<a href=\"https://polyformproject.org/licenses/noncommercial/1.0.0/\">https://polyformproject.org/licenses/noncommercial/1.0.0/</a>\n"
   example: []
   syntax:
     content: public void SetNonCommercialOrganization(string organizationName)
     parameters:
     - id: organizationName
       type: System.String
-      description: The noncommercial organziations name
+      description: The noncommercial organizations name
     content.vb: Public Sub SetNonCommercialOrganization(organizationName As String)
   overload: OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization*
   modifiers.csharp:
@@ -362,11 +362,11 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicense.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCommercial
     path: ../src/EPPlus/EPPlusLicense.cs
-    startLine: 126
+    startLine: 127
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -377,9 +377,13 @@ items:
     parameters:
     - id: licenseKey
       type: System.String
-      description: The licens key you recieved with your license
+      description: The license key you received with your license.
     content.vb: Public Sub SetCommercial(licenseKey As String)
   overload: OfficeOpenXml.EPPlusLicense.SetCommercial*
+  seealso:
+  - linkType: HRef
+    linkId: https://epplussoftware.com/en/Home/GettingStartedLicenseKey
+    altText: https://epplussoftware.com/en/Home/GettingStartedLicenseKey
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -398,11 +402,11 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicense.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveActiveLicense
     path: ../src/EPPlus/EPPlusLicense.cs
-    startLine: 232
+    startLine: 233
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCellPicture
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalAddress
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
@@ -111,7 +111,7 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PictureType
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetImage
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
@@ -186,7 +186,7 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetImageBytes
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
@@ -221,7 +221,7 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FileName
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
@@ -258,7 +258,7 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AltText
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
@@ -295,7 +295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellAddress
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs

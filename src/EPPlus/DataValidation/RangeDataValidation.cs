@@ -17,21 +17,22 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace OfficeOpenXml.DataValidation
 {
     internal class RangeDataValidation : IRangeDataValidation
     {
-        public RangeDataValidation(ExcelWorksheet worksheet, string address)
+        public RangeDataValidation(ExcelWorksheet worksheet, ExcelAddress address)
         {
             Require.Argument(worksheet).IsNotNull("worksheet");
-            Require.Argument(address).IsNotNullOrEmpty("address");
+            Require.Argument(address.Address).IsNotNullOrEmpty("address");
             _worksheet = worksheet;
             _address = address;
         }
 
         ExcelWorksheet _worksheet;
-        string _address;
+        ExcelAddress _address;
 
         /// <summary>
         ///  Used to remove all dataValidations in cell or cellrange
@@ -40,8 +41,7 @@ namespace OfficeOpenXml.DataValidation
         /// <exception cref="InvalidOperationException"></exception>
         public void ClearDataValidation(bool deleteIfEmpty = false)
         {
-            var address = new ExcelAddress(_address);
-            var validations = _worksheet.DataValidations._validationsRD.GetValuesFromRange(address._fromRow, address._fromCol, address._toRow, address._toCol);
+            var validations = _worksheet.DataValidations._validationsRD.GetValuesFromRange(_address._fromRow, _address._fromCol, _address._toRow, _address._toCol);
 
             foreach( var validation in validations)
             {
@@ -52,7 +52,7 @@ namespace OfficeOpenXml.DataValidation
 
                 foreach (var validationAddress in addresses)
                 {
-                    var nullOrAddress = validationAddress.IntersectReversed(address);
+                    var nullOrAddress = validationAddress.IntersectReversed(_address);
                     
                     if (nullOrAddress != null)
                     {
@@ -82,42 +82,57 @@ namespace OfficeOpenXml.DataValidation
 
         public IExcelDataValidationAny AddAnyDataValidation()
         {
-            return _worksheet.DataValidations.AddAnyValidation(_address);
+            return _worksheet.DataValidations.AddAnyValidation(_address.Address);
         }
 
         public Contracts.IExcelDataValidationInt AddIntegerDataValidation()
         {
-            return _worksheet.DataValidations.AddIntegerValidation(_address);
+            return _worksheet.DataValidations.AddIntegerValidation(_address.Address);
         }
 
         public IExcelDataValidationDecimal AddDecimalDataValidation()
         {
-            return _worksheet.DataValidations.AddDecimalValidation(_address);
+            return _worksheet.DataValidations.AddDecimalValidation(_address.Address);
         }
 
         public IExcelDataValidationDateTime AddDateTimeDataValidation()
         {
-            return _worksheet.DataValidations.AddDateTimeValidation(_address);
+            return _worksheet.DataValidations.AddDateTimeValidation(_address.Address);
         }
 
         public IExcelDataValidationList AddListDataValidation()
         {
-            return _worksheet.DataValidations.AddListValidation(_address);
+            return _worksheet.DataValidations.AddListValidation(_address.Address);
         }
 
         public Contracts.IExcelDataValidationInt AddTextLengthDataValidation()
         {
-            return _worksheet.DataValidations.AddTextLengthValidation(_address);
+            return _worksheet.DataValidations.AddTextLengthValidation(_address.Address);
         }
 
         public IExcelDataValidationTime AddTimeDataValidation()
         {
-            return _worksheet.DataValidations.AddTimeValidation(_address);
+            return _worksheet.DataValidations.AddTimeValidation(_address.Address);
         }
 
         public IExcelDataValidationCustom AddCustomDataValidation()
         {
-            return _worksheet.DataValidations.AddCustomValidation(_address);
+            return _worksheet.DataValidations.AddCustomValidation(_address.Address);
+        }
+
+        public List<ExcelDataValidation> GetDataValidations()
+        {
+            var hs = new HashSet<ExcelDataValidation>();
+            var l = _worksheet.DataValidations.GetIntersectingRanges(_address);
+            foreach (var i in l)
+            {
+                var v = (ExcelDataValidation)i.Value;
+                if (!hs.Contains(v))
+                {
+                    hs.Add(v);
+                }
+            }
+            return hs.ToList();
         }
     }
 }

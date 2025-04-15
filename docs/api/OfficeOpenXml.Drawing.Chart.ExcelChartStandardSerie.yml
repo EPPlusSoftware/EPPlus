@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartStandardSerie
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -82,7 +82,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberLiteralsY
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberLiteralsX
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -166,7 +166,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StringLiteralsY
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -208,7 +208,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StringLiteralsX
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -250,7 +250,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Header
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -290,7 +290,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderAddress
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -330,7 +330,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -370,7 +370,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XSeries
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -410,11 +410,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TrendLines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 515
+    startLine: 540
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -450,11 +450,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfItems
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 529
+    startLine: 554
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -490,11 +490,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateCache
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 549
+    startLine: 574
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart

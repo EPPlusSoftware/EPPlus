@@ -2,6 +2,8 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.SystemDrawing.Image;
+using OfficeOpenXml.SystemDrawing.Text;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -81,38 +83,6 @@ namespace EPPlusTest.Issues
 				worksheet.Column(7).Width = 30 * conversionFactor; // Column G
 
 				SaveAndCleanup(package);
-			}
-		}
-		[TestMethod]
-		public void s610()
-		{
-			using(var p=OpenTemplatePackage("s610.xlsx"))
-			{
-				var wTestSheet = p.Workbook.Worksheets[0];
-				wTestSheet.InsertColumn(1, 2);
-				SaveAndCleanup(p);
-			}
-		}
-		[TestMethod]
-		public void s614()
-		{
-			using (var package = OpenTemplatePackage("s614.xlsx"))
-			{
-				int sheetIndex = 5;
-				var sheetName = $"Data Sheet_{sheetIndex}";
-				var worksheet = package.Workbook.Worksheets[sheetName];
-				worksheet.Name = "TestSheet_{sheetIndex}";
-
-				worksheet.InsertColumn(1, 2);
-				worksheet.Cells.Style.Font.Name = "ＭＳ Ｐゴシック";
-				worksheet.Cells.Style.Font.Size = 11;
-
-				worksheet.Cells[1, 1].Value = "TextTextTextTextTextTextTextTextTextTextTextText";
-
-				worksheet.Column(1).AutoFit();
-				worksheet.Column(2).AutoFit();
-
-				package.Save();
 			}
 		}
         [TestMethod]
@@ -447,6 +417,19 @@ namespace EPPlusTest.Issues
 
             }
         }
+	[TestMethod]
+	public void i1663()
+	{
+		using (var p1 = OpenTemplatePackage("i1663-source.xlsx"))
+		{
+			var copiedSht = p1.Workbook.Worksheets[0];
+			using (var p2 = OpenTemplatePackage("i1663-dest.xlsx"))
+			{
+				p2.Workbook.Worksheets.Add("newSht", copiedSht);
+				SaveAndCleanup(p2);
+			}
+		}
+	}
         [TestMethod]
         public void I1628()
         {
@@ -520,29 +503,6 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
-        public void s775()
-        {
-            string sheetName = "披露附注";
-
-            List<int> add = new List<int>()
-            {
-				4,9,15
-            };
-            using (ExcelPackage package = OpenTemplatePackage("s775.xlsx"))
-            {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[sheetName];
-                ExcelNamedRange namedRange = worksheet.Names["_jds1165020120230"];
-                int startRow = namedRange.Start.Row;
-
-                var cell = worksheet.Cells["D2059"];
-                var cell2 = worksheet.Cells["D2060"];
-
-                worksheet.InsertRow(2059, 1, 2059 - 1);
-
-                package.Save();
-            }
-        }
         private class I1782DataItem
 		{
             public int Id { get; set; }
@@ -557,7 +517,7 @@ namespace EPPlusTest.Issues
 		public void i1782()
 		{
 			var list = new List<I1782DataItem>();
-			var hl = new ExcelHyperLink("https://epplussoftare.com", "epplussoftare.com");
+			var hl = new ExcelHyperLink("https://epplussoftware.com", "epplussoftware.com");
 			list.Add(new I1782DataItem { Id = 1, ProjectNumberUrl = hl});
 
 			using var p = OpenPackage("i1782.xlsx",true);
@@ -814,6 +774,48 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(timeSpanCell.Ticks, new TimeSpan(12, 30, 45).Ticks);
             }
         }
+        [TestMethod]
+        public void i1951()
+        {
+            using (var p = OpenPackage("I1951.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("GenericTM");
 
+                AddMeasureSheet(p, ws);
+                
+				p.Settings.TextSettings.PrimaryTextMeasurer = new SystemDrawingTextMeasurer();
+                ws = p.Workbook.Worksheets.Add("SystemDrawingTM");
+                AddMeasureSheet(p, ws);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        private static void AddMeasureSheet(ExcelPackage p, ExcelWorksheet ws)
+        {
+            string multiLineText = "Line one" + Environment.NewLine + "Line two is longer" + "\n" + "Extra line";
+
+            ws.Cells["A1"].Value = multiLineText;
+            ws.Cells["A1"].Style.WrapText = true;
+
+            ws.Cells["B2"].Value = multiLineText;
+
+            ws.Cells["C1"].Value = multiLineText;
+            ws.Cells["A1"].Style.WrapText = true;
+
+            ws.Cells["B2"].Value = multiLineText;
+
+            p.Settings.TextSettings.MeasureWrappedTextCells = true;
+            // AutoFitColumns - calculates width as if there were no line breaks.
+            ws.Cells["A1:B2"].AutoFitColumns();
+
+            p.Settings.TextSettings.MeasureWrappedTextCells = false;
+            ws.Cells["C1"].Value = multiLineText;
+            ws.Cells["C1"].Style.WrapText = true;
+            ws.Cells["D2"].Value = multiLineText;
+
+            // AutoFitColumns - calculates width as if there were no line breaks.
+            ws.Cells["C1:D2"].AutoFitColumns();
+        }
     }
 }

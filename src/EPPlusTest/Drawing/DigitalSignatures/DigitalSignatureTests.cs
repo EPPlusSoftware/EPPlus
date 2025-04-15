@@ -83,7 +83,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var test = package.Workbook.FullCalcOnLoad;
 
-                var digSig = ws.Workbook.DigitialSignatures.Add(cert);
+                var digSig = ws.Workbook.DigitalSignatures.Add(cert);
                 digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
                 digSig.PurposeForSigning = "TestingSignatureLine";
 
@@ -104,7 +104,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets[0];
-                var digSig = wb.DigitialSignatures[0];
+                var digSig = wb.DigitalSignatures[0];
                 digSig.Certificate = cert;
 
                 var info = digSig.Details;
@@ -130,7 +130,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = package.Workbook;
 
-                var digSig = wb.DigitialSignatures[0];
+                var digSig = wb.DigitalSignatures[0];
                 digSig.Certificate = GetSelfCert();
                 Assert.AreEqual(CommitmentType.Approved, digSig.CommitmentTyping);
                 Assert.AreEqual("MyPurposeIsMyOwn", digSig.PurposeForSigning);
@@ -147,7 +147,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = package.Workbook;
 
-                var digSig = wb.DigitialSignatures[0];
+                var digSig = wb.DigitalSignatures[0];
                 digSig.Certificate = GetSelfCert();
 
                 Assert.AreEqual(CommitmentType.None, digSig.CommitmentTyping);
@@ -207,7 +207,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("newWs");
 
-                wb.DigitialSignatures.Add(GetSelfCert());
+                wb.DigitalSignatures.Add(GetSelfCert());
 
                 SaveAndCleanup(package);
             }
@@ -216,7 +216,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = package.Workbook;
 
-                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                var digSig = wb.DigitalSignatures.Add(GetSelfCert());
                 digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
                 digSig.PurposeForSigning = "DoubleSigning";
 
@@ -229,7 +229,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 //Ensure both are valid and tests enumerator.
                 int i = 0;
-                foreach (var sig in wb.DigitialSignatures)
+                foreach (var sig in wb.DigitalSignatures)
                 {
                     Assert.IsTrue(sig.IsValid);
                     i += 1;
@@ -249,7 +249,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("newWs");
 
-                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                var digSig = wb.DigitalSignatures.Add(GetSelfCert());
                 digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
                 digSig.PurposeForSigning = "Counter-signing";
 
@@ -263,7 +263,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 ws.Cells["A1"].Value = 5;
 
-                var sig = wb.DigitialSignatures[0];
+                var sig = wb.DigitalSignatures[0];
                 sig.Certificate = GetSelfCert();
 
                 SaveAndCleanup(package);
@@ -284,7 +284,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var sLine = ws.SignatureLines.Add();
                 sLine.Signer = "ASigner";
 
-                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                var digSig = wb.DigitalSignatures.Add(GetSelfCert());
                 digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
                 digSig.PurposeForSigning = "TestingSignatureLine";
 
@@ -345,7 +345,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 wb.Calculate();
 
-                var digSig = wb.DigitialSignatures.Add(cert);
+                var digSig = wb.DigitalSignatures.Add(cert);
 
                 SaveAndCleanup(pck);
             }
@@ -368,7 +368,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 wb.FullCalcOnLoad = false;
 
                 var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.Add(cert);
+                var digSig = wb.DigitalSignatures.Add(cert);
 
                 pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
@@ -388,7 +388,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 wb.FullCalcOnLoad = false;
 
                 var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.Add(cert);
+                var digSig = wb.DigitalSignatures.Add(cert);
 
                 pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
@@ -406,7 +406,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 wb.FullCalcOnLoad = false;
 
                 var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.Add(cert);
+                var digSig = wb.DigitalSignatures.Add(cert);
 
                 pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
@@ -431,97 +431,12 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var sigLine = ws.SignatureLines.Add();
                 sigLine.SignWithText(cert, "ASigner");
 
-                var test = wb.DigitialSignatures[0].Certificate.GetRSAPrivateKey();
-                var test2 = wb.DigitialSignatures[0].Certificate.GetRSAPrivateKey();
+                var test = wb.DigitalSignatures[0].Certificate.GetRSAPrivateKey();
+                var test2 = wb.DigitalSignatures[0].Certificate.GetRSAPrivateKey();
 
                 SaveAndCleanup(pck);
             }
         }
-
-        [TestMethod]
-        public void SignAndVerifySigningInformation()
-        {
-            var title = "A Title";
-            var address = "Some";
-            var address2 = "Where";
-            var ZIPorPostalCode = "Over";
-            var city = "The";
-            var CountryOrRegion = "Rainbow";
-            var StateOrProvince = "WayUpHigh";
-
-            string fileName = $"combineddatareport.xlsx";
-
-            using (var pck = OpenTemplatePackage(fileName))
-            {
-                var wb = pck.Workbook;
-
-                wb.FullCalcOnLoad = false;
-
-                var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.Add(cert);
-                var info = digSig.Details;
-
-                info.SignerRoleTitle = title;
-                info.Address1 = address;
-                info.Address2 = address2;
-                info.ZipOrPostalCode = ZIPorPostalCode;
-                info.City = city;
-                info.CountryOrRegion = CountryOrRegion;
-                info.StateOrProvince = StateOrProvince;
-
-                pck.SaveAs(GetOutputFile(SubFolder, fileName));
-            }
-            using (var pck = OpenPackage($"{SubFolder}{fileName}"))
-            {
-                var wb = pck.Workbook;
-                var signerInformation = wb.DigitialSignatures[0].Details;
-                Assert.AreEqual(title, signerInformation.SignerRoleTitle);
-                Assert.AreEqual(address, signerInformation.Address1);
-                Assert.AreEqual(address2, signerInformation.Address2);
-                Assert.AreEqual(ZIPorPostalCode, signerInformation.ZipOrPostalCode);
-                Assert.AreEqual(city, signerInformation.City);
-                Assert.AreEqual(CountryOrRegion, signerInformation.CountryOrRegion);
-                Assert.AreEqual(StateOrProvince, signerInformation.StateOrProvince);
-            }
-        }
-
-        [TestMethod]
-        public void SignSaveFileWithLOTSOfData()
-        {
-            string fileName = $"s350.xlsm";
-
-            using (var pck = OpenTemplatePackage(fileName))
-            {
-                var wb = pck.Workbook;
-
-                wb.FullCalcOnLoad = false;
-
-                var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.Add(cert);
-
-                pck.SaveAs(GetOutputFile(SubFolder, fileName));
-            }
-        }
-
-        //Interestingly enough. Excel gets invalid signature when EXCEL tries to save this.
-        //We do too
-        [TestMethod]
-        public void SignSaveFileWithLOTSOfData2()
-        {
-            using (var pck = OpenTemplatePackage("S610.xlsx"))
-            {
-                var wb = pck.Workbook;
-
-                wb.FullCalcOnLoad = false;
-
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                var digSig = wb.DigitialSignatures.Add(store.Certificates[1]);
-
-                SaveAndCleanup(pck);
-            }
-        }
-
 
         [TestMethod]
         public void SignSaveFileWithData()
@@ -535,7 +450,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 wb.FullCalcOnLoad = false;
 
                 var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.Add(cert);
+                var digSig = wb.DigitalSignatures.Add(cert);
 
                 pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
@@ -566,7 +481,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var sLine = ws.SignatureLines.Add();
                 sLine.Signer = "ASigner";
 
-                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                var digSig = wb.DigitalSignatures.Add(GetSelfCert());
                 digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
                 digSig.PurposeForSigning = "TestingSignatureLine";
 
@@ -596,7 +511,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = package.Workbook;
 
-                var digSig = wb.DigitialSignatures[0];
+                var digSig = wb.DigitalSignatures[0];
 
                 //Ensure it is read correctly:
                 Assert.AreEqual(signatureMethod, digSig._signatureMethod);
@@ -638,10 +553,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureWs");
 
-                var signature = wb.DigitialSignatures.Add(GetSelfCert());
+                var signature = wb.DigitalSignatures.Add(GetSelfCert());
                 signature.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA384);
 
-                var signature2 = wb.DigitialSignatures.Add(GetSelfCert());
+                var signature2 = wb.DigitalSignatures.Add(GetSelfCert());
                 signature2.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA512);
 
                 SaveAndCleanup(package);
@@ -659,7 +574,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureWs");
 
-                var signature = wb.DigitialSignatures.Add(GetSelfCert());
+                var signature = wb.DigitalSignatures.Add(GetSelfCert());
                 signature.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA384);
 
                 var sLine = ws.SignatureLines.Add();
@@ -730,7 +645,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 sLine.SigningInstructions = symbols;
                 sLine.AllowComments = true;
 
-                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                var digSig = wb.DigitalSignatures.Add(GetSelfCert());
                 digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
                 digSig.PurposeForSigning = symbols;
 
@@ -780,12 +695,12 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("emptySignatures");
 
-                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                var digSig = wb.DigitalSignatures.Add(GetSelfCert());
                 digSig.Details.Address1 = "SomeAddress";
 
                 ws.Cells["A1"].Value = "53";
 
-                wb.DigitialSignatures.Remove(digSig);
+                wb.DigitalSignatures.Remove(digSig);
 
                 SaveAndCleanup(package);
             }
@@ -801,12 +716,12 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("emptySignatures");
 
-                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                var digSig = wb.DigitalSignatures.Add(GetSelfCert());
                 digSig.Details.Address1 = "SomeAddress";
 
                 ws.Cells["A1"].Value = "53";
 
-                wb.DigitialSignatures.Remove(digSig);
+                wb.DigitalSignatures.Remove(digSig);
 
                 SaveAndCleanup(package);
             }
@@ -816,7 +731,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var wb = pck.Workbook;
                 var ws = pck.Workbook.Worksheets[0];
-                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                var digSig = wb.DigitalSignatures.Add(GetSelfCert());
 
                 SaveAndCleanup(pck);
             }
@@ -832,17 +747,17 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("emptySignatures");
 
-                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                var digSig = wb.DigitalSignatures.Add(GetSelfCert());
                 digSig.Details.Address1 = "SomeAddress";
 
                 ws.Cells["A1"].Value = "53";
 
-                wb.DigitialSignatures.Remove(digSig);
+                wb.DigitalSignatures.Remove(digSig);
 
-                var digSigNew = wb.DigitialSignatures.Add(GetSelfCert());
+                var digSigNew = wb.DigitalSignatures.Add(GetSelfCert());
                 digSigNew.Details.Address1 = "Another address";
 
-                var digSigRead = wb.DigitialSignatures[0];
+                var digSigRead = wb.DigitalSignatures[0];
 
                 Assert.AreEqual("Another address", digSigRead.Details.Address1);
 
@@ -857,7 +772,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("emptySignatures");
-                var digSigCollection = wb.DigitialSignatures;
+                var digSigCollection = wb.DigitalSignatures;
             }
         }
     }

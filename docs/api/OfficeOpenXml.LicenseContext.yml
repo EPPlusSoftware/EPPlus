@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseContext
     path: ../src/EPPlus/Enums.cs
@@ -25,15 +25,15 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nObsolete: Specified the license EPPlus is used in versions prior to EPPlus 8.\nLicensetype must be specified in order to use the library\n<xref href=\"OfficeOpenXml.ExcelPackage.LicenseContext\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nObsolete: Specified the license EPPlus is used in versions prior to EPPlus 8.\nLicense type must be specified in order to use the library\n<xref href=\"OfficeOpenXml.ExcelPackage.LicenseContext\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: >-
-      [Obsolete("Used in version Prior to EPPlus 8. Will be removed in coming versions.d")]
+      [Obsolete("Used in versions prior to EPPlus 8. Will be removed in coming versions.")]
 
       public enum LicenseContext
     content.vb: >-
-      <Obsolete("Used in version Prior to EPPlus 8. Will be removed in coming versions.d")>
+      <Obsolete("Used in versions prior to EPPlus 8. Will be removed in coming versions.")>
 
       Public Enum LicenseContext
   attributes:
@@ -41,7 +41,7 @@ items:
     ctor: System.ObsoleteAttribute.#ctor(System.String)
     arguments:
     - type: System.String
-      value: Used in version Prior to EPPlus 8. Will be removed in coming versions.d
+      value: Used in versions prior to EPPlus 8. Will be removed in coming versions.
   modifiers.csharp:
   - public
   - enum
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NonCommercial
     path: ../src/EPPlus/Enums.cs
@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Commercial
     path: ../src/EPPlus/Enums.cs

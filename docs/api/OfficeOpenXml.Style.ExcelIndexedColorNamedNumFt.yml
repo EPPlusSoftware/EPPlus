@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelIndexedColorNamedNumFt
     path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Black
     path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: White
     path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Red
     path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Green
     path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Blue
     path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Yellow
     path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Magenta
     path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cyan
     path: ../src/EPPlus/Style/enums/ExcelIndexedColorNamedNumFt.cs

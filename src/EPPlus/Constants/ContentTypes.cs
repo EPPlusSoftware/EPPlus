@@ -25,7 +25,8 @@ namespace OfficeOpenXml.Constants
         internal const string contentTypeTheme = @"application/vnd.openxmlformats-officedocument.theme+xml";
         //Chart
         internal const string contentTypeChartStyle = "application/vnd.ms-office.chartstyle+xml";
-        internal const string contentTypeChartColorStyle = "application/vnd.ms-office.chartcolorstyle+xml";        
+        internal const string contentTypeChartColorStyle = "application/vnd.ms-office.chartcolorstyle+xml";
+        internal const string contentTypeChartDrawing = "application/vnd.openxmlformats-officedocument.drawingml.chartshapes+xml";
 
         //Pivottables
         internal const string contentTypePivotTable = @"application/vnd.openxmlformats-officedocument.spreadsheetml.pivotTable+xml";

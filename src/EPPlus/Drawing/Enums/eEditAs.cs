@@ -28,6 +28,10 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// The Drawing will move and resize when rows and columns are resized. 
         /// </summary>
-        TwoCell
+        TwoCell,
+        /// <summary>
+        /// The Drawing will move and resize according to it's parent chart. 
+        /// </summary>
+        RelSize
     }
 }

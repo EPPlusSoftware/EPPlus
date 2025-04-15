@@ -29,23 +29,23 @@ namespace OfficeOpenXml.Core.CellStore
         /// <returns></returns>
         internal static int OptimizedBinarySearch(IndexItem[] store, int pos, int length)
         {
-                if (length == 0) return -1;
-                int low = 0, high = length - 1, mid;
+            if (length == 0) return -1;
+            int low = 0, high = length - 1, mid;
 
-                while (low <= high)
-                {
-                    mid = (low + high) >> 1;
+            while (low <= high)
+            {
+                mid = (low + high) >> 1;
 
-                    if (pos < store[mid].Index)
-                        high = mid - 1;
+                if (pos < store[mid].Index)
+                    high = mid - 1;
 
-                    else if (pos > store[mid].Index)
-                        low = mid + 1;
+                else if (pos > store[mid].Index)
+                    low = mid + 1;
 
-                    else
-                        return mid;
-                }
-                return ~low;
+                else
+                    return mid;
+            }
+            return ~low;
         }
         internal static int OptimizedBinarySearch(IndexBase[] store, int pos, int length)
         {

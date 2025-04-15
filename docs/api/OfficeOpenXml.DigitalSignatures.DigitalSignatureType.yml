@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/DigitalSignatureType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DigitalSignatureType
     path: ../src/EPPlus/DigitalSignatures/DigitalSignatureType.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/DigitalSignatureType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Invisible
     path: ../src/EPPlus/DigitalSignatures/DigitalSignatureType.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/DigitalSignatureType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SignatureLine
     path: ../src/EPPlus/DigitalSignatures/DigitalSignatureType.cs
