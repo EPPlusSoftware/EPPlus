@@ -22,6 +22,7 @@ using System.Linq;
 using System.Globalization;
 using OfficeOpenXml.Utils.Image;
 using OfficeOpenXml.Utils.FileUtils;
+
 #if NETFULL
 using System.Drawing.Imaging;
 using System.Xml.Linq;
@@ -88,12 +89,12 @@ namespace OfficeOpenXml.Drawing
         }
 
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.Worksheet) :
-            base(drawings, node, shape==null ? NamespacePrefixes[(int)DrawingsType] +":pic/" : "", NamespacePrefixes[(int)DrawingsType] + ":nvPicPr/"+ NamespacePrefixes[(int)DrawingsType] +":cNvPr", shape, DrawingsType)
+            base(drawings, node, shape == null ? NamespacePrefixes[(int)DrawingsType] + ":pic/" : "", NamespacePrefixes[(int)DrawingsType] + ":nvPicPr/" + NamespacePrefixes[(int)DrawingsType] + ":cNvPr", shape, DrawingsType)
         {
             Init();
             XmlNode picNode = node.SelectSingleNode($"{_topPath}{NamespacePrefixes[_prefixIndex]}:blipFill/a:blip", drawings.NameSpaceManager);
 
-            if(picNode != null)
+            if (picNode != null)
             {
 
                 var embedAttr = picNode.Attributes["embed", ExcelPackage.schemaRelationships];
@@ -141,13 +142,13 @@ namespace OfficeOpenXml.Drawing
 
                 var linkAttr = picNode.Attributes["link", ExcelPackage.schemaRelationships];
 
-                if (linkAttr != null && string.IsNullOrEmpty(linkAttr.Value) == false )
+                if (linkAttr != null && string.IsNullOrEmpty(linkAttr.Value) == false)
                 {
                     LocationType = LocationType | PictureLocation.Link;
                     LinkedImageRel = drawings.Part.GetRelationship(linkAttr.Value);
                     IPictureContainer container = this;
 
-                    if(container.RelPic == null && container.UriPic == null)
+                    if (container.RelPic == null && container.UriPic == null)
                     {
                         container.RelPic = LinkedImageRel;
                         Image = new ExcelImage(this);
@@ -162,9 +163,9 @@ namespace OfficeOpenXml.Drawing
             _lockAspectRatioPath = $"{_topPath}{NamespacePrefixes[_prefixIndex]}:nvPicPr/{NamespacePrefixes[_prefixIndex]}:cNvPicPr/a:picLocks/@noChangeAspect";
             _preferRelativeResizePath = $"{_topPath}{NamespacePrefixes[_prefixIndex]}:nvPicPr/{NamespacePrefixes[_prefixIndex]}:cNvPicPr/@preferRelativeResize";
             _rotationPath = string.Format(_rotationPath, _topPath, NamespacePrefixes[_prefixIndex]);
-			_horizontalFlipPath = string.Format(_horizontalFlipPath, _topPath, NamespacePrefixes[_prefixIndex]);
-			_verticalFlipPath = string.Format(_verticalFlipPath, _topPath, NamespacePrefixes[_prefixIndex]);
-		}
+            _horizontalFlipPath = string.Format(_horizontalFlipPath, _topPath, NamespacePrefixes[_prefixIndex]);
+            _verticalFlipPath = string.Format(_verticalFlipPath, _topPath, NamespacePrefixes[_prefixIndex]);
+        }
 
         internal string GetRelId()
         {
@@ -173,7 +174,7 @@ namespace OfficeOpenXml.Drawing
             return blip.GetAttribute("embed", ExcelPackage.schemaRelationships);
         }
 
-		internal void SetRelId(XmlNode node, ePictureType type, string relID, string attribute = "embed")
+        internal void SetRelId(XmlNode node, ePictureType type, string relID, string attribute = "embed")
         {
             XmlElement blip = (XmlElement)node.SelectSingleNode($"{_topPath}{NamespacePrefixes[_prefixIndex]}:blipFill/a:blip", NameSpaceManager);
             XmlElement blipSvg = null;
@@ -204,7 +205,7 @@ namespace OfficeOpenXml.Drawing
             await stream.ReadAsync(img, 0, (int)stream.Length).ConfigureAwait(false);
 
             SaveImageToPackage(type, img);
-        }        
+        }
 #endif
         internal void LoadImage(Stream stream, ePictureType type)
         {
@@ -243,7 +244,7 @@ namespace OfficeOpenXml.Drawing
 
         internal void LoadImageLinked(FileInfo ImageFile)
         {
-            var uri = new Uri($"file:///{string.Format(ImageFile.FullName,CultureInfo.InvariantCulture)}");
+            var uri = new Uri($"file:///{string.Format(ImageFile.FullName, CultureInfo.InvariantCulture)}");
             var type = PictureStore.GetPictureType(ImageFile.Extension);
             if (ImageFile.Exists)
             {
@@ -252,7 +253,7 @@ namespace OfficeOpenXml.Drawing
 
             ContentType = PictureStore.GetContentType(type.ToString());
             LinkedImageRel = _drawings.Part._rels.FirstOrDefault(x => x.TargetUri.OriginalString == uri.OriginalString);
-            if(LinkedImageRel == null)
+            if (LinkedImageRel == null)
             {
                 LinkedImageRel = _drawings.Part.CreateRelationship(uri, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
             }
@@ -266,7 +267,7 @@ namespace OfficeOpenXml.Drawing
                type == ePictureType.Wmz)
             {
                 img = ImageReader.ExtractImage(img, out ePictureType? pt);
-                if(pt==null)
+                if (pt == null)
                 {
                     throw (new InvalidDataException($"Invalid image of type {type}"));
                 }
@@ -276,9 +277,9 @@ namespace OfficeOpenXml.Drawing
             ContentType = PictureStore.GetContentType(type.ToString());
             var newUri = GetNewUri(package, "/xl/media/image{0}." + type.ToString());
             var store = _drawings._package.PictureStore;
-            var pc = _drawings as IPictureRelationDocument;            
+            var pc = _drawings as IPictureRelationDocument;
             var ii = store.AddImage(img, newUri, type);
-            
+
             IPictureContainer container = this;
             container.UriPic = ii.Uri;
             string relId;
@@ -319,7 +320,7 @@ namespace OfficeOpenXml.Drawing
         internal void RecalcWidthHeight()
         {
             //Ensure image has a size.width and size.height based on 100% orignal image
-            if(Image != null && Image.ImageBytes != null)
+            if (Image != null && Image.ImageBytes != null)
             {
                 //Recalculates width/height and bounds to 100% width/height relative to original image size
                 Image.Bounds = PictureStore.GetImageBounds(Image.ImageBytes, Image.Type.Value, _drawings._package);
@@ -346,7 +347,7 @@ namespace OfficeOpenXml.Drawing
             newPic.relID = relID;
             //_drawings._pics.Add(newPic);
         }
-#endregion
+        #endregion
         private void SetPosDefaults(float width, float height)
         {
             var prevEdit = EditAs;
@@ -377,7 +378,7 @@ namespace OfficeOpenXml.Drawing
             xml.AppendFormat("<{0}:nvPicPr>", NamespacePrefixes[_prefixIndex]);
             xml.AppendFormat("<{1}:cNvPr id=\"{0}\" descr=\"\" />", Id, NamespacePrefixes[_prefixIndex]);
             xml.AppendFormat("<{0}:cNvPicPr><a:picLocks noChangeAspect=\"1\" /></{0}:cNvPicPr></{0}:nvPicPr><{0}:blipFill>", NamespacePrefixes[_prefixIndex]);
-            if(type==ePictureType.Svg)
+            if (type == ePictureType.Svg)
             {
                 xml.Append($"<a:blip xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:{attribute}=\"\" cstate=\"print\"><a:extLst><a:ext uri=\"{{28A0092B-C50C-407E-A947-70E740481C1C}}\"><a14:useLocalDpi xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" val=\"0\"/></a:ext><a:ext uri=\"{{96DAC541-7B7A-43D3-8B79-37D633B846F1}}\"><asvg:svgBlip xmlns:asvg=\"http://schemas.microsoft.com/office/drawing/2016/SVG/main\" r:{attribute}=\"\"/></a:ext></a:extLst></a:blip>");
             }
@@ -478,7 +479,7 @@ namespace OfficeOpenXml.Drawing
         /// Relative to original picture size
         /// </summary>
         public bool PreferRelativeResize
-        { 
+        {
             get
             {
                 return GetXmlNodeBool(_preferRelativeResizePath);
@@ -536,7 +537,7 @@ namespace OfficeOpenXml.Drawing
                 if (hi.RefCount <= 1)
                 {
                     relDoc.Package.PictureStore.RemoveImage(container.ImageHash, this);
-                    if(container.RelPic != null)
+                    if (container.RelPic != null)
                     {
                         relDoc.RelatedPart.DeleteRelationship(container.RelPic.Id);
                     }
@@ -557,9 +558,9 @@ namespace OfficeOpenXml.Drawing
             if (Image.Type == ePictureType.Svg)
             {
                 var node = TopNode.SelectSingleNode($"{_topPath}{NamespacePrefixes[_prefixIndex]}:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager);
-                if(node == null)
+                if (node == null)
                 {
-                    var newNode = TopNode.OwnerDocument.CreateElement("a","extLst", "http://schemas.openxmlformats.org/drawingml/2006/main");
+                    var newNode = TopNode.OwnerDocument.CreateElement("a", "extLst", "http://schemas.openxmlformats.org/drawingml/2006/main");
                     picNode.AppendChild(newNode);
                     newNode.InnerXml = $"<a:ext uri=\"{{28A0092B-C50C-407E-A947-70E740481C1C}}\"><a14:useLocalDpi xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" val=\"0\"/></a:ext><a:ext uri=\"{{96DAC541-7B7A-43D3-8B79-37D633B846F1}}\"><asvg:svgBlip xmlns:asvg=\"http://schemas.microsoft.com/office/drawing/2016/SVG/main\" r:embed=\"{relId}\"/></a:ext>";
                 }
@@ -570,7 +571,7 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                if(picNode.HasChildNodes)
+                if (picNode.HasChildNodes)
                 {
                     picNode.InnerXml = "";
                 }
@@ -591,55 +592,55 @@ namespace OfficeOpenXml.Drawing
         Uri IPictureContainer.UriPic { get; set; }
         Packaging.ZipPackageRelationship IPictureContainer.RelPic { get; set; }
         IPictureRelationDocument IPictureContainer.RelationDocument => _drawings;
-        string _rotationPath= "{0}{1}:spPr/a:xfrm/@rot";
-		/// <summary>
-		/// Rotation angle in degrees. Positive angles are clockwise. Negative angles are counter-clockwise.
-		/// Note that EPPlus will not size the image depending on the rotation, so some angles will reqire the <see cref="ExcelDrawing.From"/> and <see cref="ExcelDrawing.To"/> coordinates to be set accordingly.
-		/// </summary>
-		public double Rotation
-		{
-			get
-			{
-				return GetXmlNodeAngle(_rotationPath);
-			}
-			set
-			{
-				SetXmlNodeAngle(_rotationPath, value, "Rotation", -100000, 100000);
-			}
-		}
-		string _horizontalFlipPath = "{0}{1}:spPr/a:xfrm/@flipH";
-		/// <summary>
-		/// If true, flips the picture horizontal about the center of its bounding box.
-		/// </summary>
-		public bool HorizontalFlip
-		{
-			get
-			{
-				return GetXmlNodeBool(_horizontalFlipPath);
-			}
-			set
-			{
-				SetXmlNodeBool(_horizontalFlipPath, value, false);
-			}
-		}
-		string _verticalFlipPath = "{0}{1}:spPr/a:xfrm/@flipV";
-		/// <summary>
-		/// If true, flips the picture vertical about the center of its bounding box.
-		/// </summary>
-		public bool VerticalFlip
-		{
-			get
-			{
-				return GetXmlNodeBool(_verticalFlipPath);
-			}
-			set
-			{
-				SetXmlNodeBool(_verticalFlipPath, value, false);
-			}
-		}
+        string _rotationPath = "{0}{1}:spPr/a:xfrm/@rot";
+        /// <summary>
+        /// Rotation angle in degrees. Positive angles are clockwise. Negative angles are counter-clockwise.
+        /// Note that EPPlus will not size the image depending on the rotation, so some angles will reqire the <see cref="ExcelDrawing.From"/> and <see cref="ExcelDrawing.To"/> coordinates to be set accordingly.
+        /// </summary>
+        public double Rotation
+        {
+            get
+            {
+                return GetXmlNodeAngle(_rotationPath);
+            }
+            set
+            {
+                SetXmlNodeAngle(_rotationPath, value, "Rotation", -100000, 100000);
+            }
+        }
+        string _horizontalFlipPath = "{0}{1}:spPr/a:xfrm/@flipH";
+        /// <summary>
+        /// If true, flips the picture horizontal about the center of its bounding box.
+        /// </summary>
+        public bool HorizontalFlip
+        {
+            get
+            {
+                return GetXmlNodeBool(_horizontalFlipPath);
+            }
+            set
+            {
+                SetXmlNodeBool(_horizontalFlipPath, value, false);
+            }
+        }
+        string _verticalFlipPath = "{0}{1}:spPr/a:xfrm/@flipV";
+        /// <summary>
+        /// If true, flips the picture vertical about the center of its bounding box.
+        /// </summary>
+        public bool VerticalFlip
+        {
+            get
+            {
+                return GetXmlNodeBool(_verticalFlipPath);
+            }
+            set
+            {
+                SetXmlNodeBool(_verticalFlipPath, value, false);
+            }
+        }
 
         internal PictureLocation LocationType = PictureLocation.None;
 
         internal ZipPackageRelationship LinkedImageRel = null;
-	}
+    }
 }

@@ -44,11 +44,11 @@ namespace OfficeOpenXml.Drawing.Chart
         protected internal XmlHelper _chartXmlHelper;
         internal ExcelChart _topChart = null;
         #region "Constructors"
-        internal ExcelChart(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent, string drawingPath= "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
+        internal ExcelChart(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(drawings, node, drawingPath, nvPrPath, parent)
         {
         }
-        internal ExcelChart(ExcelDrawings drawings, XmlNode drawingsNode, XmlDocument chartXml = null, ExcelGroupShape parent=null, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
+        internal ExcelChart(ExcelDrawings drawings, XmlNode drawingsNode, XmlDocument chartXml = null, ExcelGroupShape parent = null, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(drawings, drawingsNode, drawingPath, nvPrPath, parent)
         {
             Init(drawings, chartXml);
@@ -124,7 +124,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         {
                             throw (new Exception("Pie charts do not support axis"));
                         }
-                        else if(_isChartEx)
+                        else if (_isChartEx)
                         {
                             throw (new InvalidOperationException("Extentions charts don't support secondary axis"));
                         }
@@ -197,8 +197,8 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                
-                if(_title==null)
+
+                if (_title == null)
                 {
                     _title = GetTitle();
                 }
@@ -281,7 +281,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_legend == null)
                 {
-                    if(_isChartEx)
+                    if (_isChartEx)
                     {
                         _legend = new ExcelChartExLegend(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace/cx:chart/cx:legend", NameSpaceManager));
                     }
@@ -363,7 +363,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <returns>True if the chart is a 3D chart</returns>
         internal static bool IsType3D(eChartType chartType)
         {
-            return  chartType == eChartType.Area3D ||
+            return chartType == eChartType.Area3D ||
                     chartType == eChartType.AreaStacked3D ||
                     chartType == eChartType.AreaStacked1003D ||
                     chartType == eChartType.BarClustered3D ||
@@ -403,9 +403,9 @@ namespace OfficeOpenXml.Drawing.Chart
                     chartType == eChartType.SurfaceWireframe;
         }
 
-        internal void ApplyStyleOnPart(IDrawingStyleBase chartPart, ExcelChartStyleEntry section, bool applyChartEx=false)
+        internal void ApplyStyleOnPart(IDrawingStyleBase chartPart, ExcelChartStyleEntry section, bool applyChartEx = false)
         {
-            if((applyChartEx==false && _isChartEx) || section == null) return;
+            if ((applyChartEx == false && _isChartEx) || section == null) return;
             _styleManager.ApplyStyle(chartPart, section);
         }
 
@@ -468,7 +468,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <returns>True if the chart is a scatter chart</returns>
         protected internal bool IsTypeArea()
         {
-            return  ChartType == eChartType.Area ||
+            return ChartType == eChartType.Area ||
                     ChartType == eChartType.AreaStacked ||
                     ChartType == eChartType.AreaStacked100 ||
                     ChartType == eChartType.AreaStacked1003D ||
@@ -674,7 +674,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Formatting for the backwall of a 3D chart. 
         /// <note type="note">This property is null for non 3D charts</note>
         /// </summary>
-        public ExcelChartSurface BackWall { get; protected set; } = null; 
+        public ExcelChartSurface BackWall { get; protected set; } = null;
         internal override void DeleteMe()
         {
             try
@@ -729,7 +729,7 @@ namespace OfficeOpenXml.Drawing.Chart
         internal static ExcelChart GetChart(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null)
         {
             XmlNode chartNode;
-            if (parent==null)
+            if (parent == null)
             {
                 chartNode = node.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart", drawings.NameSpaceManager);
             }
@@ -737,7 +737,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 chartNode = node.SelectSingleNode("a:graphic/a:graphicData/c:chart", drawings.NameSpaceManager);
             }
-            
+
             if (chartNode != null)
             {
                 var drawingRelation = drawings.Part.GetRelationship(chartNode.Attributes["r:id"].Value);
@@ -756,8 +756,8 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         internal static ExcelChartEx GetChartEx(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null)
         {
-			XmlNode chartDrawingNode = node.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", drawings.NameSpaceManager);
-			if (chartDrawingNode != null)
+            XmlNode chartDrawingNode = node.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", drawings.NameSpaceManager);
+            if (chartDrawingNode != null)
             {
                 var drawingRelation = drawings.Part.GetRelationship(chartDrawingNode.Attributes["r:id"].Value);
                 var uriChart = UriHelper.ResolvePartUri(drawings.UriDrawing, drawingRelation.TargetUri);
@@ -768,7 +768,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
                 var chartNode = chartXml.SelectSingleNode("cx:chartSpace/cx:chart", drawings.NameSpaceManager);
                 var layoutId = chartNode.SelectSingleNode("cx:plotArea/cx:plotAreaRegion/cx:series[1]/@layoutId", drawings.NameSpaceManager);
-                if(layoutId==null)
+                if (layoutId == null)
                 {
                     return new ExcelTreemapChart(drawings, node, uriChart, part, chartXml, chartNode);
                 }
@@ -982,7 +982,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        if(topChart is ExcelStockChart chart)
+                        if (topChart is ExcelStockChart chart)
                         {
                             return chart;
                         }

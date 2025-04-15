@@ -16,6 +16,7 @@ using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static OfficeOpenXml.ExcelAddressBase;
 
 namespace OfficeOpenXml.Core
@@ -87,7 +88,7 @@ namespace OfficeOpenXml.Core
             if (normalFont.Strike) fontStyle |= MeasurementFontStyles.Strikeout;
             var normalSize = Convert.ToSingle(FontSize.GetWidthPixels(normalFont.Name, normalFont.Size));
 
-            //Get any autofilter to widen these columns
+            //Get any auto filter to widen these columns
             var afAddr = new List<ExcelAddressBase>();
             if (worksheet.AutoFilter.Address != null)
             {
@@ -108,6 +109,7 @@ namespace OfficeOpenXml.Core
                     afAddr[afAddr.Count - 1]._ws = _range.WorkSheetName;
                 }
             }
+ 
             for (int col = fromCol; col <= toCol; col++)
             {
                 if (worksheet.Column(col).Hidden)    //Issue 15338
@@ -132,7 +134,8 @@ namespace OfficeOpenXml.Core
                 foreach (var cell in worksheet.Cells[fromRow, col, toRow, col])
                 {
                     var cellStyleId = styles.CellXfs[cell.StyleID];
-                    if (cell.Merge == true || cellStyleId.WrapText) continue;
+                    if (cell.Merge == true) continue;
+                    if (cellStyleId.WrapText && _textSettings.MeasureWrappedTextCells == false) continue;
                     currentMaxWidth = GetTextLength(cell, textLengthCache, styles, cellStyleId, normalSize, MaximumWidth, currentMaxWidth);
                     if (currentMaxWidth >= MaximumWidth)
                     {
@@ -173,16 +176,21 @@ namespace OfficeOpenXml.Core
                 };
                 _fontCache.Add(fontID, measurementFont);
             }
+
             var indent = cellStyleId.Indent;
             var textForWidth = cell.TextForWidth;
             var text = textForWidth + (indent > 0 && !string.IsNullOrEmpty(textForWidth) ? new string('_', indent) : "");
             if (text.Length > 32000) { text = text.Substring(0, 32000); } //Issue
+            
+            if(cell.Style.WrapText==false)
+            {
+                text = text.Replace("\r","").Replace("\n","");
+            }
 
             if (textLengthCache.ContainsKey(measurementFont) && text.Length < textLengthCache[measurementFont] * _textSettings.textLengthThreshold)
             {
                 return currentMaxWidth;
             }
-
             var size = MeasureString(text, fontID, measureCache);
 
             double width;

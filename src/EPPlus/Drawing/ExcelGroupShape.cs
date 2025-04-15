@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.XML;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;

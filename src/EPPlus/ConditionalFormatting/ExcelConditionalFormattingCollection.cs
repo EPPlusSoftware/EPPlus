@@ -1906,7 +1906,14 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal List<QuadRangeItem<IExcelConditionalFormattingRule>> GetIntersectingRanges(ExcelAddress address)
         {
-            return CfIndex.GetIntersectingRangeItems(new QuadRange(address));
+            if(_rules.Count > 0)
+            {
+                return CfIndex.GetIntersectingRangeItems(new QuadRange(address));
+            }
+            else
+            {
+                return new List<QuadRangeItem<IExcelConditionalFormattingRule>>();
+            }
         }
     }
 }

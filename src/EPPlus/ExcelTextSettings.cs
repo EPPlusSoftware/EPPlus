@@ -27,28 +27,49 @@ namespace OfficeOpenXml
             PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
             AutofitScaleFactor = 1f;
         }
-
+        ITextMeasurer _primaryTextMeasurer = null;
+        ITextMeasurer _fallbackTextMeasurer = null;
         /// <summary>
         /// This is the primary text measurer
         /// </summary>
-        public ITextMeasurer PrimaryTextMeasurer { get; set; }
-
+        public ITextMeasurer PrimaryTextMeasurer 
+        { 
+            get 
+            {
+                return _primaryTextMeasurer;
+            } 
+            set 
+            { 
+                _primaryTextMeasurer = value;
+                _primaryTextMeasurer.MeasureWrappedTextCells = _measureWrappedTextCells;
+            } 
+        }
         /// <summary>
         /// If the primary text measurer fails to measure the text, this one will be used.
         /// </summary>
-        public ITextMeasurer FallbackTextMeasurer { get; set; }
-
+        public ITextMeasurer FallbackTextMeasurer
+        {
+            get
+            {
+                return _fallbackTextMeasurer;
+            }
+            set
+            {
+                _fallbackTextMeasurer = value;
+                _fallbackTextMeasurer.MeasureWrappedTextCells = _measureWrappedTextCells;
+            }
+        }
         /// <summary>
         /// All measurements of texts will be multiplied with this value. Default is 1.
         /// </summary>
         public float AutofitScaleFactor { get; set; }
         /// <summary>
-        /// A percentage of the widest text. Since charaters in different fonts have different widths we use this threshold remove characters from the longer string for comparing to the current text.
+        /// A percentage of the widest text. Since characters in different fonts have different widths we use this threshold remove characters from the longer string for comparing to the current text.
         /// This is so we can skip obvious shorter strings and save time on calculating it's actual width.
         /// </summary>
         public double textLengthThreshold = 0.5d;
         /// <summary>
-        /// The ammount of rows to check for when autofitting, starts from top. A value set to 0 or lower means checking all rows in the column.
+        /// The amount of rows to check for when autofitting, starts from top. A value set to 0 or lower means checking all rows in the column.
         /// </summary>
         public int AutofitRows = 5000;
         /// <summary>
@@ -66,5 +87,23 @@ namespace OfficeOpenXml
         /// Measures a text with default settings when there is no other option left...
         /// </summary>
         internal DefaultTextMeasurer DefaultTextMeasurer { get; set; }
+        /// <summary>
+        /// Should return true if the text measurer should measure wrap text cells. Only CR, LF or CRLF should be considered
+        /// </summary>
+        /// <returns>True if the measurer can be .</returns>
+        bool _measureWrappedTextCells=false;
+        internal bool MeasureWrappedTextCells 
+        { 
+            get
+            {
+                return _measureWrappedTextCells;
+            }
+            set
+            {
+                _measureWrappedTextCells = value;
+                PrimaryTextMeasurer.MeasureWrappedTextCells = value;
+                if (FallbackTextMeasurer != null) FallbackTextMeasurer.MeasureWrappedTextCells = value;
+            }
+        }
     }
 }
