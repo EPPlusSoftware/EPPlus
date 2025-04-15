@@ -16,7 +16,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
     /// </summary>
     public class ExcelHeaderFooterTextCollection : IEnumerable<ExcelHeaderFooterTextItem>
     {
-        const string ARG_TO_LONG_EXCEPTION_TEXT = "Header and Footer texts cannot exceed 255 characters.";
+        internal const string ARG_TO_LONG_EXCEPTION_TEXT = "Header and Footer texts cannot exceed 255 characters.";
 
         private List<ExcelHeaderFooterTextItem> _textCollection = new List<ExcelHeaderFooterTextItem>();
         private readonly int _defaultFontSize;
@@ -34,9 +34,9 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         public ExcelVmlDrawingPicture Picture { get; set; } = null;
 
         /// <summary>
-        /// The length of the text.
+        /// The length of the text of left, center and right header footer fields.
         /// </summary>
-        public static int TextLength { get; private set; } = 0;
+        public int TextLength { get; internal set; } = 0;
 
         /// <summary>
         /// Returns the ExcelHeaderFooterTextItem at index
@@ -73,6 +73,14 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             if (length > 255)
             {
                 throw new ArgumentOutOfRangeException(ARG_TO_LONG_EXCEPTION_TEXT);
+            }
+            if (lane1 != null)
+            {
+                lane1.TextLength = length;
+            }
+            if (lane2 != null)
+            {
+                lane2.TextLength = length;
             }
             TextLength = length;
         }
@@ -451,6 +459,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                 {
                     this[0].Text = value;
                 }
+                ValidateTextLength();
             }
         }
 

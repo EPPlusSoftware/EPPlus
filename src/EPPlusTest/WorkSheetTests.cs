@@ -1676,9 +1676,49 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void HeaderFooterTextOver255()
         {
-            //check exception is thrown
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            try
+            {
+                ws.HeaderFooter.OddFooter.RightAligned.Text = "1234567890" +
+                                                              "1234567890" +
+                                                              "1234567890" +
+                                                              "1234567890" +
+                                                              "1234567890" +
+                                                              "1234567890" +
+                                                              "1234567890" +
+                                                              "1234567890" +
+                                                              "1234567890" +
+                                                              "1234567890";
+                ws.HeaderFooter.OddFooter.Centered.Text = "1234567890" +
+                                                          "1234567890" +
+                                                          "1234567890" +
+                                                          "1234567890" +
+                                                          "1234567890" +
+                                                          "1234567890" +
+                                                          "1234567890" +
+                                                          "1234567890" +
+                                                          "1234567890" +
+                                                          "1234567890";
+                ws.HeaderFooter.OddFooter.LeftAligned.Text = "1234567890" +
+                                                             "1234567890" +
+                                                             "1234567890" +
+                                                             "1234567890" +
+                                                             "1234567890" +
+                                                             "1234567890" +
+                                                             "1234567890" +
+                                                             "1234567890" +
+                                                             "1234567890" +
+                                                             "1234567890";
+                Assert.Fail("Did not throw expected exception");
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual("Specified argument was out of the range of valid values. (Parameter '" + ExcelHeaderFooterTextCollection.ARG_TO_LONG_EXCEPTION_TEXT + "')", ex.Message);
+            }
         }
 
         [TestMethod]
@@ -1697,12 +1737,28 @@ namespace EPPlusTest
             ws.HeaderFooter.OddHeader.RightAligned.AddCurrentTime();
             ws.HeaderFooter.OddHeader.RightAligned.AddText(" ");
             ws.HeaderFooter.OddHeader.RightAligned.AddCurrentDate();
-
+            SaveWorkbook("HeaderFooterFormatCodes.xlsx", p);
         }
 
         [TestMethod]
         public void HeaderFooterAddImage()
         {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddText("Page: ");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddPageNumber();
+            ws.HeaderFooter.OddHeader.LeftAligned.AddText(" of ");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddNumberOfPages();
+
+            ws.HeaderFooter.OddHeader.Centered.AddFilePath();
+            //FileInfo pic = Resources.GetImageFullFileName()
+            //ws.HeaderFooter.OddHeader.Centered.AddImage();
+
+            ws.HeaderFooter.OddHeader.RightAligned.AddText("Time: ");
+            ws.HeaderFooter.OddHeader.RightAligned.AddCurrentTime();
+            ws.HeaderFooter.OddHeader.RightAligned.AddText(" ");
+            ws.HeaderFooter.OddHeader.RightAligned.AddCurrentDate();
+            SaveWorkbook("HeaderFooterImage.xlsx", p);
         }
 
         [TestMethod]
@@ -1717,7 +1773,51 @@ namespace EPPlusTest
 
         public void HeaderFooterWriteAllHeadersAndFooters()
         {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
 
+            //Fill Odd Header
+            ws.HeaderFooter.OddHeader.LeftAligned.AddText("Page: ");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddPageNumber();
+            ws.HeaderFooter.OddHeader.LeftAligned.AddText(" of ");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddNumberOfPages();
+
+            ws.HeaderFooter.OddHeader.Centered.AddFilePath();
+            //FileInfo pic = Resources.GetImageFullFileName()
+            //ws.HeaderFooter.OddHeader.Centered.AddImage();
+
+            ws.HeaderFooter.OddHeader.RightAligned.AddText("Time: ");
+            ws.HeaderFooter.OddHeader.RightAligned.AddCurrentTime();
+            ws.HeaderFooter.OddHeader.RightAligned.AddText(" ");
+            ws.HeaderFooter.OddHeader.RightAligned.AddCurrentDate();
+
+            //Fill Odd Footer
+            ws.HeaderFooter.OddFooter.LeftAligned.AddText("this is text in ");
+
+            ws.HeaderFooter.OddFooter.Centered.AddSheetName();
+
+            ws.HeaderFooter.OddFooter.RightAligned.AddSheetName();
+            ws.HeaderFooter.OddFooter.RightAligned.AddSheetName();
+
+            //Fill Even Header
+            ws.HeaderFooter.EvenHeader.LeftAligned.AddSheetName();
+            ws.HeaderFooter.EvenHeader.Centered.AddSheetName();
+            ws.HeaderFooter.EvenHeader.RightAligned.AddSheetName();
+            //Fill Even Footer
+            ws.HeaderFooter.EvenFooter.LeftAligned.AddSheetName();
+            ws.HeaderFooter.EvenFooter.Centered.AddSheetName();
+            ws.HeaderFooter.EvenFooter.RightAligned.AddSheetName();
+
+            //Fill First Header
+            ws.HeaderFooter.FirstHeader.LeftAligned.AddSheetName();
+            ws.HeaderFooter.FirstHeader.Centered.AddSheetName();
+            ws.HeaderFooter.FirstHeader.RightAligned.AddSheetName();
+            //Fill First Footer
+            ws.HeaderFooter.FirstFooter.LeftAligned.AddSheetName();
+            ws.HeaderFooter.FirstFooter.Centered.AddSheetName();
+            ws.HeaderFooter.FirstFooter.RightAligned.AddSheetName();
+
+            SaveWorkbook("HeaderFooterImage.xlsx", p);
         }
 
         [TestMethod, Ignore]
