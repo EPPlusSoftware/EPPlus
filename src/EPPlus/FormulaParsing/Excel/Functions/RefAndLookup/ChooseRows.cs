@@ -24,19 +24,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "7",
         Description = "Returns the specified rows from an array.")]
-    internal class ChooseRows : ExcelFunction
+    internal class ChooseRows : ChooseFunction
     {
-        public override string NamespacePrefix => "_xlfn.";
-        public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var firstArg = arguments[0];
-            var rows = new List<int>();
-            for (var x = 1; x < arguments.Count; x++)
+            var rows = GetChooseColumns(arguments, out eErrorType? et);
+            if (et.HasValue)
             {
-                var r = ArgToInt(arguments, x, out ExcelErrorValue e1);
-                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-                rows.Add(r);
+                return CompileResult.GetDynamicArrayResultError(et.Value);
             }
             if (firstArg.IsExcelRange)
             {
@@ -73,9 +69,5 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
         }
-		/// <summary>
-		/// If the function is allowed in a pivot table calculated field
-		/// </summary>
-		public override bool IsAllowedInCalculatedPivotTableField => false;
 	}
 }

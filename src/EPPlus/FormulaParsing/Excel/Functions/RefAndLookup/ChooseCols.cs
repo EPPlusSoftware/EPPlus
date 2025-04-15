@@ -13,6 +13,7 @@
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,21 +25,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "7",
         Description = "Returns the specified columns from an array.")]
-    internal class ChooseCols : ExcelFunction
+    internal class ChooseCols : ChooseFunction
     {
-        public override string NamespacePrefix => "_xlfn.";
-        public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var firstArg = arguments.First();
-            var cols = new List<int>();
-            for(var x = 1; x < arguments.Count(); x++)
+            var cols = GetChooseColumns(arguments, out eErrorType? et);
+            if (et.HasValue)
             {
-                var c = ArgToInt(arguments, x, out ExcelErrorValue e1);
-                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-                cols.Add(c);
+                return CompileResult.GetDynamicArrayResultError(et.Value);
             }
-            if(firstArg.IsExcelRange)
+            if (firstArg.IsExcelRange)
             {
                 var source = firstArg.ValueAsRangeInfo;
                 if (cols.Any(c => Math.Abs(c - 1) > source.Size.NumberOfCols || c == 0))
@@ -48,9 +45,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var nRows = source.Size.NumberOfRows;
                 var resultRange = new InMemoryRange(new RangeDefinition(nRows, (short)cols.Count));
                 var cIx = 0;
-                foreach(var col in cols)
+                foreach (var col in cols)
                 {
-                    for(var row = 0; row < nRows; row++)
+                    for (var row = 0; row < nRows; row++)
                     {
                         var sourceIx = col > 0 ? col - 1 : source.Size.NumberOfCols + col;
 
@@ -61,11 +58,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
                 return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
             }
-            else if(!cols.Any(x => x > 1))
+            else if (!cols.Any(x => x > 1))
             {
                 var resultRange = new InMemoryRange(new RangeDefinition(1, (short)cols.Count));
                 var cIx = 0;
-                foreach(var col in cols)
+                foreach (var col in cols)
                 {
                     resultRange.SetValue(0, cIx++, firstArg.Value);
                 }
@@ -73,9 +70,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
         }
-		/// <summary>
-		/// If the function is allowed in a pivot table calculated field
-		/// </summary>
-		public override bool IsAllowedInCalculatedPivotTableField => false;
-	}
+
+    }
 }

@@ -262,7 +262,6 @@ namespace OfficeOpenXml.Style
 
             return "#" + color.ToArgb().ToString("X");
         }
-
         internal static string LookupColor(string rgb, eThemeSchemeColor? theme, double tint, int indexed, bool auto, ExcelWorkbook wb)
         {
             if (indexed >= 0 && indexed < wb.Styles.IndexedColors.Length)
@@ -275,7 +274,7 @@ namespace OfficeOpenXml.Style
             {
                 return "#" + rgb;
             }
-            else if (theme!=null)
+            else if (theme != null)
             {
                 return GetThemeColor(theme ?? 0, Convert.ToDouble(tint), wb);
             }
