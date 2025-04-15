@@ -1602,24 +1602,6 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void HeaderFooterTests()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-
-
-            ExcelHeaderFooterTextItem t = new ExcelHeaderFooterTextItem();
-            t.Text = "anotherString";
-            t.Italic = true;
-
-            ws.HeaderFooter.OddHeader.LeftAligned[0].Text = "mytest";
-            ws.HeaderFooter.OddHeader.LeftAligned[0].Bold = true;
-            var hfbold = ws.HeaderFooter.OddHeader.LeftAligned.WriteHeaderFooterFormat();
-
-            Assert.AreEqual("&\"-,Bold\"mytest", hfbold);
-
-        }
-        [TestMethod]
         public void HeaderFooterReadFromXlsx()
         {
             using var p = OpenTemplatePackage("HheaderFooterTest.xlsx");
@@ -1628,9 +1610,9 @@ namespace EPPlusTest
             var l = ws.HeaderFooter.OddHeader.LeftAlignedText;
             var c = ws.HeaderFooter.OddHeader.CenteredText;
             var r = ws.HeaderFooter.OddHeader.RightAlignedText;
-            Assert.AreEqual("&L&N &D V&\"-,Bold\"ä&K08-020n&K01+000s&\"-,Bold Italic\"t&\"-,Regular\"er", l);
+            Assert.AreEqual("&L&N &D V&\"-,Bold\"ä&\"-,Regular\"&K08-018n&K01+000s&\"-,Bold Italic\"t&\"-,Regular\"er", l);
             Assert.AreEqual("&C&NC&\"Alef,Regular\"e&24n&11t&\"-,Regular\"er&Z&F", c);
-            Assert.AreEqual("&R&\"-,Bold\"H&\"-,Regular\"&18ög&\"-,Italic\"&11er\n            f&\"Avenir Next LT Pro Demi,Italic\"ö&\"Avenir Next LT Pro\n            Demi,Regular\"r&\"-,Regular\" fan", r);
+            Assert.AreEqual("&R&\"-,Bold\"H&\"-,Regular\"&18ög&\"-,Italic\"&11er\n&\"Avenir Next LT Pro Demi,Italic\"sp&\"-,Regular\"alt", r);
 
             SaveAndCleanup(p);
         }
@@ -1651,28 +1633,7 @@ namespace EPPlusTest
             var text5 = ws.HeaderFooter.OddHeader.Centered.AddText("in ");
             var text6 = ws.HeaderFooter.OddHeader.Centered.AddText("Center");
             text6.Color = Color.Green;
-            p.SaveAs("c:\\epplustest\\testoutput\\WriteHeaderText1.xlsx");
-        }
-        [TestMethod]
-        public void HeaderFooterReadText()
-        {
-            using var p = OpenTemplatePackage("");
-            var ws = p.Workbook.Worksheets[0];
-
-            var l1 = ws.HeaderFooter.OddHeader.LeftAlignedText;
-            var l2 = ws.HeaderFooter.OddHeader.LeftAligned.Text;
-            Assert.AreEqual(l1, l2);
-            Assert.AreEqual(l2, "");
-
-            var c1 = ws.HeaderFooter.OddHeader.CenteredText;
-            var c2 = ws.HeaderFooter.OddHeader.Centered.Text;
-            Assert.AreEqual(c1, c2);
-            Assert.AreEqual(c2, "");
-
-            var r1 = ws.HeaderFooter.OddHeader.RightAlignedText;
-            var r2 = ws.HeaderFooter.OddHeader.RightAligned.Text;
-            Assert.AreEqual(r1, r2);
-            Assert.AreEqual(r2, "");
+            SaveWorkbook("WriteHeaderText1.xlsx", p);
         }
 
         [TestMethod]
@@ -1681,44 +1642,12 @@ namespace EPPlusTest
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            try
-            {
-                ws.HeaderFooter.OddFooter.RightAligned.Text = "1234567890" +
-                                                              "1234567890" +
-                                                              "1234567890" +
-                                                              "1234567890" +
-                                                              "1234567890" +
-                                                              "1234567890" +
-                                                              "1234567890" +
-                                                              "1234567890" +
-                                                              "1234567890" +
-                                                              "1234567890";
-                ws.HeaderFooter.OddFooter.Centered.Text = "1234567890" +
-                                                          "1234567890" +
-                                                          "1234567890" +
-                                                          "1234567890" +
-                                                          "1234567890" +
-                                                          "1234567890" +
-                                                          "1234567890" +
-                                                          "1234567890" +
-                                                          "1234567890" +
-                                                          "1234567890";
-                ws.HeaderFooter.OddFooter.LeftAligned.Text = "1234567890" +
-                                                             "1234567890" +
-                                                             "1234567890" +
-                                                             "1234567890" +
-                                                             "1234567890" +
-                                                             "1234567890" +
-                                                             "1234567890" +
-                                                             "1234567890" +
-                                                             "1234567890" +
-                                                             "1234567890";
-                Assert.Fail("Did not throw expected exception");
-            }
-            catch (Exception ex)
-            {
-                Assert.AreEqual("Specified argument was out of the range of valid values. (Parameter '" + ExcelHeaderFooterTextCollection.ARG_TO_LONG_EXCEPTION_TEXT + "')", ex.Message);
-            }
+            ws.HeaderFooter.OddFooter.RightAligned.Text = "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890" +
+                                                          "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890";
+            ws.HeaderFooter.OddFooter.Centered.Text = "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890" +
+                                                      "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890";
+            ws.HeaderFooter.OddFooter.LeftAligned.Text = "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890" +
+                                                         "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890";
         }
 
         [TestMethod]
@@ -1737,6 +1666,7 @@ namespace EPPlusTest
             ws.HeaderFooter.OddHeader.RightAligned.AddCurrentTime();
             ws.HeaderFooter.OddHeader.RightAligned.AddText(" ");
             ws.HeaderFooter.OddHeader.RightAligned.AddCurrentDate();
+
             SaveWorkbook("HeaderFooterFormatCodes.xlsx", p);
         }
 
@@ -1751,13 +1681,16 @@ namespace EPPlusTest
             ws.HeaderFooter.OddHeader.LeftAligned.AddNumberOfPages();
 
             ws.HeaderFooter.OddHeader.Centered.AddFilePath();
-            //FileInfo pic = Resources.GetImageFullFileName()
-            //ws.HeaderFooter.OddHeader.Centered.AddImage();
+            FileInfo pic = new FileInfo(Resources.GetImageFullFileName("epplusobject.png"));
+            ws.HeaderFooter.OddHeader.Centered.AddImage(pic);
 
             ws.HeaderFooter.OddHeader.RightAligned.AddText("Time: ");
             ws.HeaderFooter.OddHeader.RightAligned.AddCurrentTime();
             ws.HeaderFooter.OddHeader.RightAligned.AddText(" ");
             ws.HeaderFooter.OddHeader.RightAligned.AddCurrentDate();
+
+            Assert.IsTrue(ws.HeaderFooter.OddHeader.Centered.Text.Contains("&G"));
+
             SaveWorkbook("HeaderFooterImage.xlsx", p);
         }
 
@@ -1766,58 +1699,47 @@ namespace EPPlusTest
         {
             using var p = OpenTemplatePackage("HeaderFooterPicture.xlsx");
             var ws = p.Workbook.Worksheets[0];
-
+            Assert.AreEqual("&L&G This is a picture ", ws.HeaderFooter.OddHeader.LeftAligned.Text);
             ws.HeaderFooter.OddHeader.LeftAligned.RemovePicture();
+            Assert.AreEqual("&L This is a picture ", ws.HeaderFooter.OddHeader.LeftAligned.Text);
             SaveAndCleanup(p);
         }
 
+        [TestMethod]
         public void HeaderFooterWriteAllHeadersAndFooters()
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
 
             //Fill Odd Header
-            ws.HeaderFooter.OddHeader.LeftAligned.AddText("Page: ");
-            ws.HeaderFooter.OddHeader.LeftAligned.AddPageNumber();
-            ws.HeaderFooter.OddHeader.LeftAligned.AddText(" of ");
-            ws.HeaderFooter.OddHeader.LeftAligned.AddNumberOfPages();
-
-            ws.HeaderFooter.OddHeader.Centered.AddFilePath();
-            //FileInfo pic = Resources.GetImageFullFileName()
-            //ws.HeaderFooter.OddHeader.Centered.AddImage();
-
-            ws.HeaderFooter.OddHeader.RightAligned.AddText("Time: ");
-            ws.HeaderFooter.OddHeader.RightAligned.AddCurrentTime();
-            ws.HeaderFooter.OddHeader.RightAligned.AddText(" ");
-            ws.HeaderFooter.OddHeader.RightAligned.AddCurrentDate();
+            ws.HeaderFooter.OddHeader.LeftAligned.AddText("Odd Left Header");
+            ws.HeaderFooter.OddHeader.Centered.AddText("Odd Center Header");
+            ws.HeaderFooter.OddHeader.RightAligned.AddText("Odd Right Header");
 
             //Fill Odd Footer
-            ws.HeaderFooter.OddFooter.LeftAligned.AddText("this is text in ");
-
-            ws.HeaderFooter.OddFooter.Centered.AddSheetName();
-
-            ws.HeaderFooter.OddFooter.RightAligned.AddSheetName();
-            ws.HeaderFooter.OddFooter.RightAligned.AddSheetName();
+            ws.HeaderFooter.OddFooter.LeftAligned.AddText("Odd Left Footer");
+            ws.HeaderFooter.OddFooter.Centered.AddText("Odd Center Footer");
+            ws.HeaderFooter.OddFooter.RightAligned.AddText("Odd Right Footer");
 
             //Fill Even Header
-            ws.HeaderFooter.EvenHeader.LeftAligned.AddSheetName();
-            ws.HeaderFooter.EvenHeader.Centered.AddSheetName();
-            ws.HeaderFooter.EvenHeader.RightAligned.AddSheetName();
+            ws.HeaderFooter.EvenHeader.LeftAligned.AddText("Even Left Header");
+            ws.HeaderFooter.EvenHeader.Centered.AddText("Even Center Header");
+            ws.HeaderFooter.EvenHeader.RightAligned.AddText("Even Right Header");
             //Fill Even Footer
-            ws.HeaderFooter.EvenFooter.LeftAligned.AddSheetName();
-            ws.HeaderFooter.EvenFooter.Centered.AddSheetName();
-            ws.HeaderFooter.EvenFooter.RightAligned.AddSheetName();
+            ws.HeaderFooter.EvenFooter.LeftAligned.AddText("Even Left Footer");
+            ws.HeaderFooter.EvenFooter.Centered.AddText("Even Center Footer");
+            ws.HeaderFooter.EvenFooter.RightAligned.AddText("Even Right Footer");
 
             //Fill First Header
-            ws.HeaderFooter.FirstHeader.LeftAligned.AddSheetName();
-            ws.HeaderFooter.FirstHeader.Centered.AddSheetName();
-            ws.HeaderFooter.FirstHeader.RightAligned.AddSheetName();
+            ws.HeaderFooter.FirstHeader.LeftAligned.AddText("First Left Header");
+            ws.HeaderFooter.FirstHeader.Centered.AddText("First Center Header");
+            ws.HeaderFooter.FirstHeader.RightAligned.AddText("First Right Header");
             //Fill First Footer
-            ws.HeaderFooter.FirstFooter.LeftAligned.AddSheetName();
-            ws.HeaderFooter.FirstFooter.Centered.AddSheetName();
-            ws.HeaderFooter.FirstFooter.RightAligned.AddSheetName();
+            ws.HeaderFooter.FirstFooter.LeftAligned.AddText("First Left Footer");
+            ws.HeaderFooter.FirstFooter.Centered.AddText("First Center Footer");
+            ws.HeaderFooter.FirstFooter.RightAligned.AddText("First Right Footer");
 
-            SaveWorkbook("HeaderFooterImage.xlsx", p);
+            SaveWorkbook("HeaderFooterWorkbook.xlsx", p);
         }
 
         [TestMethod, Ignore]

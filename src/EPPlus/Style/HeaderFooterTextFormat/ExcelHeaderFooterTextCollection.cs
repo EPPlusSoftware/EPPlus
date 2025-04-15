@@ -430,12 +430,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         {
             get
             {
-                StringBuilder sb = new StringBuilder();
-                foreach (var item in _textCollection)
-                {
-                    sb.Append(item.Text);
-                }
-                return sb.ToString();
+                return WriteHeaderFooterFormat();
             }
             set
             {
@@ -484,7 +479,6 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         internal void ReadHeaderFooterFormat(string hfText)
         {
             ExcelHeaderFooterTextItem temp = new ExcelHeaderFooterTextItem();
-            bool quoteTag = false;
             bool stop = false;
             bool writeFormatCode = false;
             int i = 0;
@@ -587,19 +581,14 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                             i++;
                             continue;
                         case '"':
-                            quoteTag = true;
                             int end = hfText.IndexOf('"', i+1);
                             if(end > i)
                             {
                                 string tag = hfText.Substring(i + 1, end - i - 1);
                                 string[] parts = tag.Split(',');
-                                if(parts.Length > 0 && parts[0] != "-")
+                                if(parts.Length > 0)
                                 {
-                                    temp.FontName = parts[0];
-                                }
-                                else if (parts[0] == "-")
-                                {
-                                    temp.FontName = "-";
+                                    temp.FontName = parts[0] == "-" ? string.Empty : parts[0];
                                 }
                                 for(int j = 1; j< parts.Length; j++)
                                 {
@@ -688,11 +677,6 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                     writeFormatCode = false;
                     temp.FormatCode = ExcelHeaderFooterFormattingCodes.Text;
                     temp.Text = "";
-                    if (quoteTag)
-                    {
-                        temp = new ExcelHeaderFooterTextItem();
-                        quoteTag = false;
-                    }
                 }
                 if (stop) break;
             }
@@ -727,12 +711,12 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             string hfstring = _textCollection[0].Text;
             for(int i = 1; i < _textCollection.Count; i++)
             {
-                hfstring += WriteHeaderFooter2(_textCollection[i], _textCollection[i - 1]);
+                hfstring += ParseToHeaderFooterFormat(_textCollection[i], _textCollection[i - 1]);
             }
             return hfstring;
         }
 
-        private string WriteHeaderFooter2(ExcelHeaderFooterTextItem current, ExcelHeaderFooterTextItem prev)
+        private string ParseToHeaderFooterFormat(ExcelHeaderFooterTextItem current, ExcelHeaderFooterTextItem prev)
         {
             string hfstring = "";
 
