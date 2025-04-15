@@ -568,6 +568,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="drawings">The drawing collection</param>
         /// <param name="node">Xml top node</param>
+        /// <param name="DrawingsType">The type of collection the drawing belongs to.</param>
         /// <returns>The Drawing object</returns>
         internal static ExcelDrawing GetDrawing(ExcelDrawings drawings, XmlNode node, DrawingsCollectionType DrawingsType = DrawingsCollectionType.Worksheet)
         {
@@ -1633,6 +1634,13 @@ namespace OfficeOpenXml.Drawing
             return clientDataNode;
         }
 
+        /// <summary>
+        /// Create a copy of target chart.
+        /// </summary>
+        /// <param name="targetChart"></param>
+        /// <param name="PixelTop"></param>
+        /// <param name="PixelLeft"></param>
+        /// <exception cref="NotSupportedException"></exception>
         public void Copy(ExcelChartStandard targetChart, int PixelTop = -1, int PixelLeft = -1)
         {
             if (this is ExcelShape || this is ExcelPicture || this is ExcelGroupShape)
