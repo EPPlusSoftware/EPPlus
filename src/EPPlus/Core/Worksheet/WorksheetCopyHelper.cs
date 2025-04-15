@@ -1104,7 +1104,7 @@ namespace OfficeOpenXml.Core.Worksheet
             added.Part.CreateRelationship(tcUri, Packaging.TargetMode.Internal, ExcelPackage.schemaThreadedComment);
 
             added.LoadThreadedComments();
-            foreach (var t in added.ThreadedComments._threads)
+            foreach (var t in added.ThreadedComments)
             {
                 for (int i = 0; i < t.Comments.Count; i++)
                 {

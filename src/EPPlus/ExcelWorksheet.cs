@@ -3188,7 +3188,7 @@ namespace OfficeOpenXml
         }
         internal ExcelPivotTableCollection _pivotTables = null;
         /// <summary>
-        /// Pivottables defined in the worksheet.
+        /// Pivot tables defined in the worksheet.
         /// </summary>
         public ExcelPivotTableCollection PivotTables
         {

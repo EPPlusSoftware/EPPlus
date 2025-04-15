@@ -1430,7 +1430,7 @@ namespace OfficeOpenXml
                 {
                     if (_worksheet._commentsStore.Exists(_fromRow, _fromCol, ref i))
                     {
-                        return _worksheet._comments._list[i];
+                        return _worksheet._comments.GetByListIndex(i);
                     }
                 }
                 return null;
@@ -1449,7 +1449,7 @@ namespace OfficeOpenXml
                 {
                     if (_worksheet._threadedCommentsStore.Exists(_fromRow, _fromCol, ref i))
                     {
-                        return _worksheet._threadedComments._threads[i];
+                        return _worksheet._threadedComments.GetByListIndex(i);
                     }
                 }
                 return null;
@@ -2207,7 +2207,7 @@ namespace OfficeOpenXml
             }
             foreach (var i in deleted)
             {
-                _worksheet.Comments.Remove(_worksheet.Comments._list[i]);
+                _worksheet.Comments.Remove(_worksheet.Comments.GetByListIndex(i));
             }
         }
         private void DeleteThreadedComments(ExcelAddressBase Range)
@@ -2220,7 +2220,7 @@ namespace OfficeOpenXml
             }
             foreach (var i in deleted)
             {
-                _worksheet.ThreadedComments.Remove(_worksheet.ThreadedComments._threads[i]);
+                _worksheet.ThreadedComments.Remove(_worksheet.ThreadedComments.GetByListIndex(i));
             }
         }
 
