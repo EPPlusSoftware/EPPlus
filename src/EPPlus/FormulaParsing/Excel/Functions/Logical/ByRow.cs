@@ -13,14 +13,10 @@
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
-
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Logical,
         EPPlusVersion = "8.1",
@@ -29,6 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     internal class ByRow : ExcelFunction
     {
         public override int ArgumentMinLength => 2;
+
+        public override string NamespacePrefix => "_xlfn.";
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
@@ -46,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 var result = calculator.Execute(context);
                 resultRange.SetValue(row, 0, result.ResultValue);
             }
-            return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
+            return CreateDynamicArrayResult(resultRange, DataType.ExcelRange, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
         }
     }
 }

@@ -746,6 +746,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return new DynamicArrayCompileResult(result, dataType);
         }
         /// <summary>
+        /// Use this method to create a result to return from Excel functions. 
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="dataType"></param>
+        /// <param name="compileResultType"></param>
+        /// <returns></returns>
+        protected CompileResult CreateDynamicArrayResult(object result, DataType dataType, CompileResultType compileResultType)
+        {
+            var validator = _compileResultValidators.GetValidator(dataType);
+            validator.Validate(result);
+            return new DynamicArrayCompileResult(result, dataType, null, compileResultType);
+        }
+        /// <summary>
         /// Use this method to create a result to return from Excel functions.
         /// </summary>
         /// <param name="result"></param>
@@ -757,6 +770,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var validator = _compileResultValidators.GetValidator(dataType);
             validator.Validate(result);
             return new DynamicArrayCompileResult(result, dataType, address);
+        }
+        /// <summary>
+        /// Use this method to create a result to return from Excel functions.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="dataType"></param>
+        /// <param name="address"></param>
+        /// <param name="compileResultType"></param>
+        /// <returns></returns>
+        protected CompileResult CreateDynamicArrayResult(object result, DataType dataType, FormulaRangeAddress address, CompileResultType compileResultType)
+        {
+            var validator = _compileResultValidators.GetValidator(dataType);
+            validator.Validate(result);
+            return new DynamicArrayCompileResult(result, dataType, address, compileResultType);
         }
         /// <summary>
         /// Use this method to create a result to return from Excel functions. 

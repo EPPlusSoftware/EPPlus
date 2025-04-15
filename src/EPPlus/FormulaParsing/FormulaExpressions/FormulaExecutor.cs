@@ -11,6 +11,7 @@
   11/07/2022         EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.DependencyChain;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
@@ -202,13 +203,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             //var TokenList = new List<Token>();
         }
 
-        public static Dictionary<int, Expression> CompileExpressions(ref RpnTokens rpnTokens, ParsingContext parsingContext)
-        {
-            return CompileExpressions(null, ref rpnTokens, parsingContext);
-        }
+        //public static Dictionary<int, Expression> CompileExpressions(ref RpnTokens rpnTokens, ParsingContext parsingContext)
+        //{
+        //    return CompileExpressions(null, ref rpnTokens, parsingContext);
+        //}
 
 
-        public static Dictionary<int, Expression> CompileExpressions(RpnFormula rpnFormula, ref RpnTokens rpnTokens, ParsingContext parsingContext)
+        public static Dictionary<int, Expression> CompileExpressions(ref LambdaFormulaSettings lambdaSettings, ref RpnTokens rpnTokens, ParsingContext parsingContext)
         {
             short extRefIx = short.MinValue;
             int wsIx = int.MinValue;
@@ -231,10 +232,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     if(isLambdaToken && t.TokenType == TokenType.StartFunctionArguments)
                     {
                         lambdaLevel++;
-                        if (rpnFormula != null)
+                        if (lambdaSettings == null)
                         {
-                            rpnFormula.LambdaSettings.AddLambdaToken(tokenIx);
+                            lambdaSettings = new LambdaFormulaSettings();
                         }
+                        lambdaSettings.AddLambdaToken(tokenIx);
                         lambdaCalculationExpression.AddLambdaToken(t);
                         continue;
                     }
@@ -242,10 +244,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     {
                         if(lambdaLevel > 0)
                         {
-                            if (rpnFormula != null)
+                            if (lambdaSettings == null)
                             {
-                                rpnFormula.LambdaSettings.AddLambdaToken(tokenIx);
+                                lambdaSettings = new LambdaFormulaSettings();
                             }
+                            lambdaSettings.AddLambdaToken(tokenIx);
                             lambdaCalculationExpression.AddLambdaToken(t);
                             lambdaLevel--;
                             continue;
@@ -253,10 +256,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     }
                     else if (!(t.TokenType == TokenType.Function && isLambdaToken) || lambdaLevel > 0)
                     {
-                        if (rpnFormula != null)
+                        if (lambdaSettings == null)
                         {
-                            rpnFormula.LambdaSettings.AddLambdaToken(tokenIx);
+                            lambdaSettings = new LambdaFormulaSettings();
                         }
+                        lambdaSettings.AddLambdaToken(tokenIx);
                         lambdaCalculationExpression.AddLambdaToken(t);
                         continue;
                     }  
@@ -298,20 +302,21 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     case TokenType.CellAddress:
                     case TokenType.FullColumnAddress:
                     case TokenType.FullRowAddress:
-                        if (tokenIx > 1 && tokens[tokenIx - 1].TokenTypeIsAddress && tokens[tokenIx + 1].Value == ":" && tokens[tokenIx + 1].TokenType == TokenType.Operator)
-                        {
-                            //We have a two cell addresses with with a colon. Remove tokens and replace with full column address, for example A1:C2.
-                            var e = expressions[tokenIx - 1];
-                            e.MergeAddress(t.Value);
-                            tokens.RemoveAt(tokenIx - 1);
-                            tokens.RemoveAt(tokenIx);
-                            tokenIx--;
-                            tokens[tokenIx] = new Token(e.GetAddress()[0].WorksheetAddress, TokenType.ExcelAddress);
-                        }
-                        else
-                        {
-                            expressions.Add(tokenIx, new RangeExpression(t.Value, parsingContext, extRefIx, wsIx));
-                        }
+                        //if (tokenIx > 1 && tokens[tokenIx - 1].TokenTypeIsAddress && tokens[tokenIx + 1].Value == ":" && tokens[tokenIx + 1].TokenType == TokenType.Operator)
+                        //{
+                        //    //We have a two cell addresses with with a colon. Remove tokens and replace with full column address, for example A1:C2.
+                        //    var e = expressions[tokenIx - 1];
+                        //    e.MergeAddress(t.Value);
+                        //    tokens.RemoveAt(tokenIx - 1);
+                        //    tokens.RemoveAt(tokenIx);
+                        //    tokenIx--;
+                        //    tokens[tokenIx] = new Token(e.GetAddress()[0].WorksheetAddress, TokenType.ExcelAddress);
+                        //}
+                        //else
+                        //{
+                        //    expressions.Add(tokenIx, new RangeExpression(t.Value, parsingContext, extRefIx, wsIx));
+                        //}
+                        expressions.Add(tokenIx, new RangeExpression(t.Value, parsingContext, extRefIx, wsIx));
                         extRefIx = short.MinValue;
                         wsIx = int.MinValue;
                         break;

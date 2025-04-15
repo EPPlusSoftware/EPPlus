@@ -130,9 +130,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column, ctx.VariableStorage);
             var rpnTokens = new RpnTokens { Tokens = _currentTokens };
             formula.SetTokens(rpnTokens, ctx);
-            var chain = new RpnOptimizedDependencyChain(ctx.CurrentWorksheet.Workbook, ctx.CalcOption);
-            var result = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
-            return CompileResultFactory.Create(result);
+            var chain = ctx.DependencyChain;
+            var compileResult = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
+            
+            return CompileResultFactory.CreateDynamicArrayResult(compileResult.Result, compileResult.Address, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
         }
 
         private void CloneTokens()

@@ -26,6 +26,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     {
         public override int ArgumentMinLength => 2;
 
+        public override string NamespacePrefix => "_xlfn.";
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var range = ArgToRangeInfo(arguments, 0);
@@ -42,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 var result = calculator.Execute(context);
                 resultRange.SetValue(0, col, result.ResultValue);
             }
-            return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
+            return CreateDynamicArrayResult(resultRange, DataType.ExcelRange, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
         }
     }
 }

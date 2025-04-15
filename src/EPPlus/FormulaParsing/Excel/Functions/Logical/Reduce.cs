@@ -31,6 +31,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 
         public override bool IsVolatile => true;
 
+        public override string NamespacePrefix => "_xlfn.";
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             object initialValue = null;
@@ -75,7 +77,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 }
             }
 
-            return CompileResultFactory.Create(accumulatedValue);
+            var accResult = CompileResultFactory.Create(accumulatedValue);
+            return CreateDynamicArrayResult(accumulatedValue, accResult.DataType, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
         }
     }
 }

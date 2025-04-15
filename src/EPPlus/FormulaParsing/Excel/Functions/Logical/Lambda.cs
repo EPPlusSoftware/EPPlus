@@ -30,6 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         public override int ArgumentMinLength => 2;
         public override bool IsVolatile => true;
 
+        public override string NamespacePrefix => "_xlfn.";
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             // just add the variables here

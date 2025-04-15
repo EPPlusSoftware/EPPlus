@@ -27,8 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             var rpnTokens = new RpnTokens { Tokens = tokens };
             var chain = new RpnOptimizedDependencyChain(ctx.CurrentWorksheet.Workbook, ctx.CalcOption);
             formula.SetFormula(_formula, chain);
-            var result = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
-            var calculator = result as LambdaCalculator;
+            var cr = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
+            if (cr.DataType != DataType.LambdaCalculation) return CompileResult.GetErrorResult(eErrorType.Value);
+            var calculator = cr.Result as LambdaCalculator;
             calculator.BeginCalculation();
             for(var argIx = 0; argIx < arguments.Count || argIx < calculator.NumberOfVariables; argIx++)
             {

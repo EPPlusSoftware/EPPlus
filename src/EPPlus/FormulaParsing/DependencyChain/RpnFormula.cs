@@ -89,6 +89,10 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 return _lambdaSettings;
             }
+            set
+            {
+                _lambdaSettings = value;
+            }
         }
 
         internal bool HasLambdaSettings => _lambdaSettings != null;
@@ -167,12 +171,12 @@ namespace OfficeOpenXml.FormulaParsing
                     depChain._tokenizer.Tokenize(formula));
 
             _formula = formula;
-            _expressions = FormulaExecutor.CompileExpressions(this, ref _tokens, depChain._parsingContext);
+            _expressions = FormulaExecutor.CompileExpressions(ref _lambdaSettings, ref _tokens, depChain._parsingContext);
         }
 		internal void SetFormula(IList<Token> tokens, RpnOptimizedDependencyChain depChain)
 		{
 			_tokens = FormulaExecutor.CreateRPNTokens(tokens);
-			_expressions = FormulaExecutor.CompileExpressions(ref _tokens, depChain._parsingContext);
+			_expressions = FormulaExecutor.CompileExpressions(ref _lambdaSettings, ref _tokens, depChain._parsingContext);
 		}
 
         internal void SetTokens(RpnTokens tokens, ParsingContext context)
@@ -185,7 +189,7 @@ namespace OfficeOpenXml.FormulaParsing
                 formula.Append(token.Value);
             }
             _formula = formula.ToString();
-            _expressions = FormulaExecutor.CompileExpressions(this, ref _tokens, context);
+            _expressions = FormulaExecutor.CompileExpressions(ref _lambdaSettings, ref _tokens, context);
         }
 
         public override string ToString()

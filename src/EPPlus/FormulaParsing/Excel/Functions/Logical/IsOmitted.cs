@@ -28,6 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     {
         public override int ArgumentMinLength => 1;
 
+        public override string NamespacePrefix => "_xlfn.";
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (arguments[0].DataType == DataType.Empty)

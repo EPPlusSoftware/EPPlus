@@ -169,6 +169,8 @@ namespace OfficeOpenXml.FormulaParsing
         /// Calculation options/parameters set for the Calculate call.
         /// </summary>
         public ExcelCalculationOption CalcOption { get; set; }
+
+        internal RpnOptimizedDependencyChain DependencyChain { get; set; }
     }
 
 }

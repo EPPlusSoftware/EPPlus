@@ -28,6 +28,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             _tokenizer = SourceCodeTokenizer.Default;
             _parsingContext = wb.FormulaParser.ParsingContext;
+            _parsingContext.DependencyChain = this;
             _parsingContext.CalcOption = options;
             _formulaExecutor = new FormulaExecutor(_parsingContext);
             var parser = wb.FormulaParser;

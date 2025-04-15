@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.DependencyChain;
+using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
@@ -52,7 +54,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(9, rpnTokens.LambdaRefs.First().Value);
 
             var ctx = ParsingContext.Create();
-            var exp = FormulaExecutor.CompileExpressions(null, ref rpnTokens, ctx);
+            var lambdaSettings = default(LambdaFormulaSettings);
+            var exp = FormulaExecutor.CompileExpressions(ref lambdaSettings, ref rpnTokens, ctx);
             Assert.AreEqual(6, exp.Count);
             Assert.AreEqual(ExpressionType.Function, exp[0].ExpressionType);
             Assert.IsInstanceOfType(exp[1], typeof(VariableExpression));
@@ -73,7 +76,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(9, rpnTokens.LambdaRefs.First().Value);
 
             var ctx = ParsingContext.Create();
-            var exp = FormulaExecutor.CompileExpressions(null, ref rpnTokens, ctx);
+            var lambdaSettings = default(LambdaFormulaSettings);
+            var exp = FormulaExecutor.CompileExpressions(ref lambdaSettings, ref rpnTokens, ctx);
             Assert.AreEqual(6, exp.Count);
             Assert.AreEqual(ExpressionType.Function, exp[0].ExpressionType);
             Assert.IsInstanceOfType(exp[1], typeof(VariableExpression));
@@ -94,7 +98,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(11, rpnTokens.LambdaRefs.First().Value);
 
             var ctx = ParsingContext.Create();
-            var exp = FormulaExecutor.CompileExpressions(null, ref rpnTokens, ctx);
+            LambdaFormulaSettings lambdaSettings = default;
+            var exp = FormulaExecutor.CompileExpressions(ref lambdaSettings, ref rpnTokens, ctx);
             Assert.AreEqual(4, exp.Count);
         }
 
@@ -165,6 +170,38 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Cells["A1"].Formula = "LET(x,LAMBDA(x,y,x+1)(1,2),x+1)";
             sheet.Calculate();
             Assert.AreEqual(3d, sheet.Cells["A1"].Value);
+        }
+
+
+        [TestMethod]
+        public void LambdaAddressTest1()
+        {
+            using var p = new ExcelPackage();
+            var sheet = p.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = 1;
+            sheet.Cells["A2"].Value = 2;
+            sheet.Cells["A3"].Value = 3;
+            sheet.Cells["B1"].Formula = "LAMBDA(a,a)(A1):A3";
+            sheet.Calculate();
+            var a1 = sheet.Cells["A1"].Value;
+            var a2 = sheet.Cells["A2"].Value;
+            var a3 = sheet.Cells["A3"].Value;
+            Assert.AreEqual(1, a1);
+            Assert.AreEqual(2, a2);
+            Assert.AreEqual(3, a3);
+        }
+
+
+        [TestMethod, ExpectedException(typeof(CircularReferenceException))]
+        public void LambdaCircularReferenceTest()
+        {
+            using var p = new ExcelPackage();
+            var sheet = p.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = 1;
+            sheet.Cells["A2"].Formula = "B1";
+            sheet.Cells["A3"].Value = 3;
+            sheet.Cells["B1"].Formula = "LAMBDA(a,a)(A1):A3";
+            sheet.Calculate();
         }
     }
 }

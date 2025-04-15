@@ -60,6 +60,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 
         public override int ArgumentMinLength => 2;
 
+        public override string NamespacePrefix => "_xlfn.";
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var lastArg = arguments.LastOrDefault();
@@ -131,7 +133,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                     resultRange.SetValue(row, col, compileResult.ResultValue);
                 }
             }
-            return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
+            return CreateDynamicArrayResult(resultRange, DataType.ExcelRange, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
         }
     }
 }

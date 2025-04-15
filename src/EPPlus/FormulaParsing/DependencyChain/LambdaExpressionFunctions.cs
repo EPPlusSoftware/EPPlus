@@ -41,6 +41,11 @@ namespace OfficeOpenXml.FormulaParsing.DependencyChain
                 var cr = stackPos.Expression.Compile();
                 var calculator = cr.Result as LambdaCalculator;
                 compileResult = calculator.Execute(ctx);
+                if (compileResult.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
+                {
+                    f._flags |= FormulaFlags.IsAlwaysDynamic;
+                }
+
                 s.Pop();
                 f.LambdaSettings.CurrentLambdaExpressions.Pop();
                 f.LambdaSettings.LambdaArgsAdded.Pop();
