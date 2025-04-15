@@ -6322,5 +6322,19 @@ namespace EPPlusTest
 
             SaveAndCleanup(p);
         }
+
+        [TestMethod]
+        public void s842()
+        {
+            using var p = OpenTemplatePackage("sapreport broken.xlsx");
+            p.Workbook.CalcMode = ExcelCalcMode.Automatic;
+            var opt = new OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+            {
+                PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel
+            };
+            p.Workbook.Calculate();
+            var ws = p.Workbook.Worksheets.First();
+            var val = ws.Cells["A1"].Value;
+        }
     }
 }
