@@ -14,23 +14,19 @@ using System;
 using System.Xml;
 using System.IO;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Packaging.Ionic.Zlib;
-using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Encryption;
 using OfficeOpenXml.Utils.CompundDocument;
 using OfficeOpenXml.Compatibility;
 using System.Text;
 using OfficeOpenXml.Packaging;
-using System.Diagnostics;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Configuration;
 using OfficeOpenXml.EventArguments;
+using OfficeOpenXml.Utils.FileUtils;
 
-using OfficeOpenXml.Interfaces;
-#if(!NET35)
+#if (!NET35)
 using OfficeOpenXml.SensitivityLabels;
 #endif
 

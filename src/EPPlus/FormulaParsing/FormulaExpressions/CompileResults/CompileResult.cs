@@ -17,6 +17,7 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml;
 using System;
 using System.Linq;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {

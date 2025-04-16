@@ -11,17 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Packaging.Ionic;
 using System.Drawing;
-using System.Xml;
-using OfficeOpenXml.Utils.Extensions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System.Globalization;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Drawing.Style.Coloring;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using System.Text;
-using System;
 
 namespace OfficeOpenXml.Style
 {

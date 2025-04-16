@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
 using OfficeOpenXml.VBA;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Packaging.Ionic.Zip;
@@ -41,6 +40,10 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.Utils.XML;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml
 {
@@ -628,7 +631,7 @@ namespace OfficeOpenXml
         {
             foreach (var rel in Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/pivotCacheDefinition"))
             {
-                if (cacheDefinitionUri == OfficeOpenXml.Utils.UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri))
+                if (cacheDefinitionUri == UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri))
                 {
                     return GetXmlNodeInt($"d:pivotCaches/d:pivotCache[@r:id='{rel.Id}']/@cacheId");
                 }

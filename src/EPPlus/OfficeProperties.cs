@@ -14,10 +14,10 @@ using System;
 using System.Xml;
 using System.IO;
 using System.Globalization;
-using OfficeOpenXml.Utils;
 using System.Linq;
-using OfficeOpenXml.Utils.Extensions;
 using System.Collections.Generic;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml
 {
@@ -67,7 +67,7 @@ namespace OfficeOpenXml
             foreach (XmlElement node in CustomPropertiesXml.SelectNodes("ctp:Properties/ctp:property", NameSpaceManager))
             {
                 _customProperties.Add(node.GetAttribute("name"), node);
-                if (Utils.ConvertUtil.TryParseIntString(node.GetAttribute("pid"), out int pid))
+                if (Utils.TypeConversion.ConvertUtil.TryParseIntString(node.GetAttribute("pid"), out int pid))
                 {
                     if (pid > _maxPid)
                     {

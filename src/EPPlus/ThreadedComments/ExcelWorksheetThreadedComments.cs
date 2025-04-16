@@ -13,6 +13,7 @@
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;

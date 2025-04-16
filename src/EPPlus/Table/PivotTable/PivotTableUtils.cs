@@ -10,7 +10,7 @@
  *************************************************************************************************
   14/1/2025         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 
 namespace OfficeOpenXml.Table.PivotTable

@@ -3,7 +3,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 
 using OfficeOpenXml.Style.XmlAccess;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.String;
 using System;
 using System.Collections.Generic;
 using System.Linq;

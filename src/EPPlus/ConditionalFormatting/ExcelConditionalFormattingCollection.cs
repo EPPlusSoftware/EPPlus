@@ -14,7 +14,8 @@
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections;
 using System.Collections.Generic;

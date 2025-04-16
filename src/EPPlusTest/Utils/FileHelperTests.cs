@@ -1,14 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace EPPlusTest.Utils
 {
-	[TestClass]
+    [TestClass]
 	public class FileHelperTests
 
 	{

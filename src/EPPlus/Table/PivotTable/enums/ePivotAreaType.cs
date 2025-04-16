@@ -10,8 +10,6 @@
  *************************************************************************************************
   12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
  *************************************************************************************************/
-using OfficeOpenXml.Utils.Extensions;
-
 namespace OfficeOpenXml.Table.PivotTable
 {
     /// <summary>

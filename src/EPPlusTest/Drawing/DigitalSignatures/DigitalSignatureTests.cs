@@ -8,9 +8,9 @@ using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using System.Text;
-using OfficeOpenXml.Utils;
 using System.Runtime.ConstrainedExecution;
 using System.IO;
+using OfficeOpenXml.Utils.EncodingUtils;
 
 //REMEMBER:
 //1. Cannonize

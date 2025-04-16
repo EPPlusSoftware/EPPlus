@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +20,9 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Xml;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.AttributesUtils;
 
 namespace OfficeOpenXml.ExternalReferences
 {

@@ -14,11 +14,11 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Collections;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Core.CellStore;
 using System.Linq;
 using OfficeOpenXml.Core;
 using System.Threading;
+using OfficeOpenXml.Utils.FileUtils;
 namespace OfficeOpenXml
 {
     /// <summary>

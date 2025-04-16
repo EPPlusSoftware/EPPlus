@@ -66,13 +66,13 @@ namespace OfficeOpenXml.Filter
         {
             if(Top)
             {
-                if (Utils.ConvertUtil.IsNumericOrDate(value))
-                    return Utils.ConvertUtil.GetValueDouble(value) >= FilterValue;
+                if (Utils.TypeConversion.ConvertUtil.IsNumericOrDate(value))
+                    return Utils.TypeConversion.ConvertUtil.GetValueDouble(value) >= FilterValue;
             }
             else
             {
-                if (Utils.ConvertUtil.IsNumericOrDate(value))
-                    return Utils.ConvertUtil.GetValueDouble(value) <= FilterValue;
+                if (Utils.TypeConversion.ConvertUtil.IsNumericOrDate(value))
+                    return Utils.TypeConversion.ConvertUtil.GetValueDouble(value) <= FilterValue;
             }
             return false;
         }
@@ -93,9 +93,9 @@ namespace OfficeOpenXml.Filter
             for (int row= address._fromRow + 1; row <= address._toRow; row++)
             {
                 var v = worksheet.GetValue(row, col);
-                if (Utils.ConvertUtil.IsNumericOrDate(v))
+                if (Utils.TypeConversion.ConvertUtil.IsNumericOrDate(v))
                 {
-                    items.Add(Utils.ConvertUtil.GetValueDouble(v));
+                    items.Add(Utils.TypeConversion.ConvertUtil.GetValueDouble(v));
                 }
             }
             items.Sort();

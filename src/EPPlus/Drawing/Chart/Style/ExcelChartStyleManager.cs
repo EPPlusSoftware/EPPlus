@@ -18,7 +18,7 @@ using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;

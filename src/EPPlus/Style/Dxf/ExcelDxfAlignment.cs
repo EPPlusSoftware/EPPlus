@@ -10,7 +10,7 @@
  *************************************************************************************************
   11/29/2023         EPPlus Software AB       Added
  *************************************************************************************************/
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

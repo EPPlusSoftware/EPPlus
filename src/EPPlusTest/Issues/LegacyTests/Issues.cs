@@ -97,7 +97,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue15031()
         {
-            var d = OfficeOpenXml.Utils.ConvertUtil.GetValueDouble(new TimeSpan(35, 59, 1));
+            var d = OfficeOpenXml.Utils.TypeConversion.ConvertUtil.GetValueDouble(new TimeSpan(35, 59, 1));
             using (var package = new ExcelPackage())
             {
                 var ws = package.Workbook.Worksheets.Add("Test");

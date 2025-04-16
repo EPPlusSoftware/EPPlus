@@ -1,4 +1,4 @@
-﻿using OfficeOpenXml.Utils;
+﻿using OfficeOpenXml.Utils.TypeConversion;
 using System.Text;
 using System.Xml;
 

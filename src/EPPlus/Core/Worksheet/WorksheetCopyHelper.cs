@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using OfficeOpenXml.Packaging;
 using System.IO;
 using System.Xml;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Vml;
@@ -38,6 +37,7 @@ using System.Xml.Linq;
 using OfficeOpenXml.Utils.CompundDocument;
 using System.Security.Cryptography.X509Certificates;
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Core.Worksheet
 {

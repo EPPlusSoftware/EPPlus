@@ -22,7 +22,7 @@ using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.ThreadedComments;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -10,7 +10,7 @@
  *************************************************************************************************
   09/05/2022         EPPlus Software AB       EPPlus 6.1
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.VBA;
 using OfficeOpenXml.VBA;
 using System;
 using System.Collections.Generic;

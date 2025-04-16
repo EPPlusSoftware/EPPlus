@@ -28,9 +28,8 @@ using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using System.Linq;
-using OfficeOpenXml.Core.RangeQuadTree;
-
-
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.FileUtils;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif

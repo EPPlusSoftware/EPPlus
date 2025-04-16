@@ -14,6 +14,8 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.Memory;
 using System;
 using System.IO;
 using System.Linq;

@@ -13,7 +13,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
 using static OfficeOpenXml.Drawing.OleObject.Structures.OleObjectDataStructures;
 
 namespace OfficeOpenXml.Drawing.OleObject.Structures

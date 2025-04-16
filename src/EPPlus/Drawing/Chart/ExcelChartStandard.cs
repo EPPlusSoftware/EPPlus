@@ -17,13 +17,13 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Constants;
 using System.Linq;
+using OfficeOpenXml.Utils.FileUtils;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>

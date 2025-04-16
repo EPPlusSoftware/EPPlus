@@ -14,6 +14,9 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Utils.TypeConversion;
+using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 using System;
@@ -95,7 +98,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 var lookupRange = ArgToRangeInfo(arguments, 2);
                 returnValue = CalculateWithLookupRange(argRange, criteria, lookupRange, context, out ExcelErrorValue eev);
-                if(eev != null)
+                if (eev != null)
                 {
                     return GetResultByObject(eev);
                 }
@@ -122,7 +125,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     var rowOffset = cell.Row - argRange.Address.FromRow;
                     var columnOffset = cell.Column - argRange.Address.FromCol;
-                    if(sumRange.Address.FromRow + rowOffset <= sumRange.Address.ToRow &&
+                    if (sumRange.Address.FromRow + rowOffset <= sumRange.Address.ToRow &&
                        sumRange.Address.FromCol + columnOffset <= sumRange.Address.ToCol)
                     {
                         var val = sumRange.GetOffset(rowOffset, columnOffset);
@@ -157,7 +160,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 if (expression != null && IsNumeric(candidate.Value) && Evaluate(candidate.Value, expression))
                 {
-                    
+
                     if (candidate.IsExcelError)
                     {
                         error = (ExcelErrorValue)candidate.Value;

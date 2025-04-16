@@ -19,6 +19,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 
@@ -75,7 +76,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     argRanges.Add(new RangeOrValue { Value = arg.Value });
                 }
-                criterias.Add(arguments[ix+1].ValueFirst);
+                criterias.Add(arguments[ix + 1].ValueFirst);
             }
             IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
@@ -102,12 +103,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     count++;
                 }
             }
-            if(count == 0)
+            if (count == 0)
             {
                 return CompileResult.GetErrorResult(eErrorType.Div0);
-            }   
+            }
 
-            return CreateResult(sum.Get()/count, DataType.Decimal);
+            return CreateResult(sum.Get() / count, DataType.Decimal);
         }
     }
 }

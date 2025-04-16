@@ -41,6 +41,10 @@ namespace OfficeOpenXml.Drawing
         double _x, _y;
         const string xPath = "cdr:x";
         const string yPath = "cdr:y";
+
+        /// <summary>
+        /// X coordinate for shapes in charts.
+        /// </summary>
         public double X
         {
             get
@@ -52,6 +56,9 @@ namespace OfficeOpenXml.Drawing
                 _x = value;
             }
         }
+        /// <summary>
+        /// Y coordinate for shapes in charts.
+        /// </summary>
         public double Y
         {
             get

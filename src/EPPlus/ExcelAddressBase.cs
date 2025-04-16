@@ -840,7 +840,7 @@ namespace OfficeOpenXml
                     SetAddress(ref fullAddress, ref second, ref hasSheet);
                     return true;
                 }
-                else if (Utils.ConvertUtil._invariantCompareInfo.IsPrefix(fullAddress, "!"))
+                else if (Utils.TypeConversion.ConvertUtil._invariantCompareInfo.IsPrefix(fullAddress, "!"))
                 {
                     // invalid address!
                     return false;

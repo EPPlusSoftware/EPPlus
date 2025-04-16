@@ -14,8 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Drawing.Theme
 {

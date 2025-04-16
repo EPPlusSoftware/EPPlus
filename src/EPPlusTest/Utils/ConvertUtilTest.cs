@@ -30,13 +30,13 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace EPPlusTest.Utils
 {
-	[TestClass]
+    [TestClass]
 	public class ConvertUtilTest : TestBase
 	{
 		[TestMethod]
