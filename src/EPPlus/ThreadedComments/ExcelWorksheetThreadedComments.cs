@@ -14,6 +14,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace OfficeOpenXml.ThreadedComments
     /// <summary>
     /// Accessor for <see cref="ExcelThreadedComment"/>s on a <see cref="ExcelWorksheet"/>
     /// </summary>
-    public class ExcelWorksheetThreadedComments
+    public class ExcelWorksheetThreadedComments : IEnumerable<ExcelThreadedCommentThread>
     {
         internal ExcelWorksheetThreadedComments(ExcelThreadedCommentPersonCollection persons, ExcelWorksheet worksheet)
         {
@@ -38,7 +39,7 @@ namespace OfficeOpenXml.ThreadedComments
 
         private readonly ExcelWorksheet _worksheet;
         private readonly ExcelPackage _package;
-        internal readonly List<ExcelThreadedCommentThread> _threads = new List<ExcelThreadedCommentThread>();
+        private readonly List<ExcelThreadedCommentThread> _threads = new List<ExcelThreadedCommentThread>();
         private readonly List<int> _threadsIndex = new List<int>();
         internal int _nextId = 0;
         /// <summary>
@@ -337,6 +338,25 @@ namespace OfficeOpenXml.ThreadedComments
         public override string ToString()
         {
             return "Count = " + _threadsIndex.Count;
+        }
+
+        internal ExcelThreadedCommentThread GetByListIndex(int ix)
+        {
+            return _threads[ix];
+        }
+
+        /// <summary>
+        /// Returns the enumerator
+        /// </summary>
+        /// <returns>Returns an enumeration of <see cref="ExcelThreadedCommentThread"/></returns>
+        public IEnumerator<ExcelThreadedCommentThread> GetEnumerator()
+        {
+            return _threads.Where(x=>x!=null).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _threads.Where(x => x != null).GetEnumerator();
         }
     }
 }

@@ -772,6 +772,18 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(timeSpanCell.Ticks, new TimeSpan(12, 30, 45).Ticks);
             }
         }
+        [TestMethod]
+        public void s843()
+		{
+            using var excelPackage = OpenTemplatePackage("s843.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
 
+            sheet.Cells.Sort(0);
+
+            var existingThread = sheet.ThreadedComments.Threads.Single();
+            sheet.ThreadedComments.Remove(existingThread);
+
+            sheet.Cells["C3"].AddComment("Test"); // NullReferenceException 
+        }
     }
 }
