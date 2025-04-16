@@ -1261,7 +1261,7 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Operator:
                         ApplyOperator(depChain._parsingContext, t, f);
 
-                        if (s.Count > 0 && s.Peek().Status == ExpressionStatus.IsAddress && ShouldIgnoreAddress(f._funcStack.Peek()) == false)
+                        if (s.Count > 0 && s.Peek().Status == ExpressionStatus.IsAddress && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
                         {
                             var cr = s.Peek().Compile();
                             if (cr.Address != null)
@@ -1449,7 +1449,7 @@ namespace OfficeOpenXml.FormulaParsing
 
             if (OperatorsDict.AllOperators.TryGetValue(opToken.Value, out IOperator op))
             {
-                var result = op.Apply(c2, c1, context);
+                var result = op.Apply(c2, c1, context, true);
                 if (result.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
                 {
                     f._flags |= FormulaFlags.IsAlwaysDynamic;

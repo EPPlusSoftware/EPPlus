@@ -82,7 +82,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             var variable = _variables[index];
             var variableName = variable.Result.ToString();
-            _scope.SetVariableValue(variableName, CompileResultFactory.Create(value));
+            var compileResult = new CompileResult(value, dt);
+            _scope.SetVariableValue(variableName, compileResult);
             foreach(var ix in _variableIndexes)
             {
                 var t = _currentTokens[ix];

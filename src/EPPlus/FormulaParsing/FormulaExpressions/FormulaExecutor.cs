@@ -318,7 +318,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         //}
                         expressions.Add(tokenIx, new RangeExpression(t.Value, parsingContext, extRefIx, wsIx));
                         extRefIx = short.MinValue;
-                        wsIx = int.MinValue;
+                        //wsIx = int.MinValue;
                         break;
                     case TokenType.ExcelAddress:
                         var a = new ExcelAddressBase(t.Value);
@@ -433,6 +433,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         {
                             stack.Peek().AddArgument(tokenIx);
                         }
+                        wsIx = int.MinValue;
                         break;
                     case TokenType.CommaLambda:
                         isInLambdaCalculation = true;
@@ -454,6 +455,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.InvalidReference:
                         expressions.Add(tokenIx, ErrorExpression.RefError);
+                        wsIx = int.MinValue;
+                        break;
+                    case TokenType.ClosingParenthesis:
                         wsIx = int.MinValue;
                         break;
                 }

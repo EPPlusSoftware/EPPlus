@@ -76,17 +76,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <param name="ctx"></param>
+        /// <param name="ignoreErrors"></param>
         /// <returns></returns>
-        public CompileResult Apply(CompileResult left, CompileResult right, ParsingContext ctx)
+        public CompileResult Apply(CompileResult left, CompileResult right, ParsingContext ctx, bool ignoreErrors = false)
         {
-            if (left.Result is ExcelErrorValue)
+            if(!ignoreErrors)
             {
-                return new CompileResult(left.Result, DataType.ExcelError);
+                if (left.Result is ExcelErrorValue)
+                {
+                    return new CompileResult(left.Result, DataType.ExcelError);
+                }
+                else if (right.Result is ExcelErrorValue)
+                {
+                    return new CompileResult(right.Result, DataType.ExcelError);
+                }
             }
-            else if (right.Result is ExcelErrorValue)
-            {
-                return new CompileResult(right.Result, DataType.ExcelError);
-            }
+            
             return _implementation(left, right, ctx);
         }
 
