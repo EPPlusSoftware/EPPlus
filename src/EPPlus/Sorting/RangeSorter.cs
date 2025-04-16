@@ -270,13 +270,15 @@ namespace OfficeOpenXml.Sorting
             if (wsd.Comments.ContainsKey(addr))
             {
                 var i = wsd.Comments[addr];
-                _worksheet._commentsStore.SetValue(row, col, i);
                 var comment = _worksheet._comments.GetByListIndex(i);
+                _worksheet._commentsStore.SetValue(row, col, i);
+                _worksheet.VmlDrawings._drawingsCellStore.SetValue(row, col, comment._vmlIx);
                 comment.Reference = ExcelCellBase.GetAddress(row, col);
             }
             else
             {
                 _worksheet._commentsStore.Clear(row, col, 1, 1);
+                _worksheet.VmlDrawings._drawingsCellStore.Clear(row, col, 1, 1);
             }
         }
 
@@ -288,6 +290,10 @@ namespace OfficeOpenXml.Sorting
                 _worksheet._threadedCommentsStore.SetValue(row, col, i);
                 var threadedComment = _worksheet._threadedComments.GetByListIndex(i);
                 threadedComment.SetAddress(ExcelCellBase.GetAddress(row, col));
+            }
+            else
+            {
+                _worksheet._threadedCommentsStore.Clear(row, col, 1, 1);
             }
         }
 
