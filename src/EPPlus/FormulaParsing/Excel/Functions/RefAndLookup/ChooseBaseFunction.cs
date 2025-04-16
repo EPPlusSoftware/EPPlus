@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  22/3/2023         EPPlus Software AB           EPPlus v7
+  14/4/2025         EPPlus Software AB           EPPlus v8.02
  *************************************************************************************************/
 using OfficeOpenXml.Utils;
 using System;
@@ -17,7 +17,7 @@ using System.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
-    internal abstract class ChooseFunction : ExcelFunction
+    internal abstract class ChooseBaseFunction : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 2;

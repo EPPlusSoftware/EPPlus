@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "7",
         Description = "Returns the specified columns from an array.")]
-    internal class ChooseCols : ChooseFunction
+    internal class ChooseCols : ChooseBaseFunction
     {
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
