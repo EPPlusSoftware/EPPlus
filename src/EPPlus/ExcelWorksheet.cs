@@ -974,10 +974,10 @@ namespace OfficeOpenXml
                 if (col == "")
                 {
                     double tint = GetXmlNodeDouble(tabColorPath + "/@tint");
-                    eThemeSchemeColor theme = (eThemeSchemeColor)GetXmlNodeInt(tabColorPath + "/@theme");
+                    eThemeSchemeColor? theme = (eThemeSchemeColor?)GetXmlNodeIntNull(tabColorPath + "/@theme");
                     int indexed = GetXmlNodeInt(tabColorPath + "/@indexed");
                     bool auto = GetXmlNodeBool(tabColorPath + "/@auto");
-                    if (tint == double.NaN)
+                    if (double.IsNaN(tint))
                     {
                         return Color.Empty;
                     }
@@ -3199,7 +3199,7 @@ namespace OfficeOpenXml
         }
         internal ExcelPivotTableCollection _pivotTables = null;
         /// <summary>
-        /// Pivottables defined in the worksheet.
+        /// Pivot tables defined in the worksheet.
         /// </summary>
         public ExcelPivotTableCollection PivotTables
         {
