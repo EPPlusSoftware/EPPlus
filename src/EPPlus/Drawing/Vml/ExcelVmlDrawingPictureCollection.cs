@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Drawing.Vml
             {
                 var img = new ExcelVmlDrawingPicture(node, NameSpaceManager, _ws);
                 var rel = Part.GetRelationship(img.RelId);
-                img.ImageUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                ((IPictureContainer)img).UriPic = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
                 _images.Add(img);
             }
         }
@@ -79,7 +79,7 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             XmlNode node = AddImage(id, uri, name, width, height);
             var draw = new ExcelVmlDrawingPicture(node, NameSpaceManager, _ws);
-            draw.ImageUri = uri;
+            ((IPictureContainer)draw).UriPic = uri;
             _images.Add(draw);
             return draw;
         }
@@ -93,6 +93,17 @@ namespace OfficeOpenXml.Drawing.Vml
 
             node.InnerXml = string.Format("<v:imagedata o:relid=\"\" o:title=\"{0}\"/><o:lock v:ext=\"edit\" rotation=\"t\"/>",  Name);
             return node;
+        }
+
+        /// <summary>
+        /// Remove the specified picture item from the collection.
+        /// </summary>
+        /// <param name="item">The picture object to remove.</param>
+        public void Remove(ExcelVmlDrawingPicture item)
+        {
+            VmlDrawingXml.FirstChild.RemoveChild(item.TopNode);
+            _images.Remove(item);
+            item.Image.RemoveImage();
         }
         /// <summary>
         /// Indexer

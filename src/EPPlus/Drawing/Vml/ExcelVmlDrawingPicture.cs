@@ -16,6 +16,8 @@ using System.Xml;
 using System.Globalization;
 using System.Drawing;
 using System.IO;
+using System.ComponentModel;
+using OfficeOpenXml.Packaging;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -120,12 +122,14 @@ namespace OfficeOpenXml.Drawing.Vml
             {
                 if(_image==null)
                 {                    
-                    _image = new ExcelImage(this, new ePictureType[] { ePictureType.Svg, ePictureType.Ico, ePictureType.WebP });
                     var pck = _worksheet._package.ZipPackage;
-                    if (pck.PartExists(ImageUri))
+                    var container = (IPictureContainer)this;
+                    if (pck.PartExists(container.UriPic))
                     {
-                        var part = pck.GetPart(ImageUri);
-                        _image.SetImage(((MemoryStream)part.GetStream()).ToArray(), PictureStore.GetPictureType(ImageUri));
+                        var part = pck.GetPart(container.UriPic);
+                        container.RelPic = RelationDocument.RelatedPart.GetRelationship(RelId);
+                        _image = PictureStore.LoadAndAddImageFromContainer(container, part);
+                        _image.SetRestrictedTypes(new ePictureType[] { ePictureType.Svg, ePictureType.Ico, ePictureType.WebP });
                     }
                     else
                     {
@@ -134,11 +138,6 @@ namespace OfficeOpenXml.Drawing.Vml
                 }
                 return _image;
             }
-        }
-        internal Uri ImageUri
-        {
-            get;
-            set;
         }
         internal string RelId
         {
@@ -347,10 +346,6 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
 
-        string ImageHash { get; set; }
-        Uri UriPic { get; set; }
-        Packaging.ZipPackageRelationship RelPic { get; set; }
-
         IPictureRelationDocument IPictureContainer.RelationDocument => _worksheet.HeaderFooter._vmlDrawingsHF;
 
         string IPictureContainer.ImageHash { get; set; }
@@ -359,7 +354,24 @@ namespace OfficeOpenXml.Drawing.Vml
 
         void IPictureContainer.RemoveImage()
         {
-            
+            IPictureContainer container = this;
+            var relDoc = container.RelationDocument;
+            if (relDoc.Hashes.TryGetValue(container.ImageHash, out HashInfo hi))
+            {
+                if (hi.RefCount <= 1)
+                {
+                    relDoc.Package.PictureStore.RemoveImage(container.ImageHash, this);
+                    if (container.RelPic != null)
+                    {
+                        relDoc.RelatedPart.DeleteRelationship(container.RelPic.Id);
+                    }
+                    relDoc.Hashes.Remove(container.ImageHash);
+                }
+                else
+                {
+                    hi.RefCount--;
+                }
+            }
         }
 
         void IPictureContainer.SetNewImage()

@@ -1350,7 +1350,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     else
                     {
-                        item = added.HeaderFooter.Pictures.Add(pic.Id, pic.ImageUri, pic.Title, pic.Width, pic.Height);
+                        item = added.HeaderFooter.Pictures.Add(pic.Id, ((IPictureContainer)pic).UriPic, pic.Title, pic.Width, pic.Height);
                     }
                     foreach (XmlAttribute att in pic.TopNode.Attributes)
                     {
