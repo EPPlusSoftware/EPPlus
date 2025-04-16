@@ -116,28 +116,7 @@ namespace OfficeOpenXml.Drawing
                     }
                     ContentType = Part.ContentType;
 
-                    var ms = ((MemoryStream)Part.GetStream());
-                    Image = new ExcelImage(this);
-
-                    var type = PictureStore.GetPictureTypeByContentType(ContentType);
-                    if (type == null)
-                    {
-                        type = ImageReader.GetPictureType(ms, false);
-                    }
-                    Image.Type = type.Value;
-                    byte[] iby = ms.ToArray();
-                    Image.ImageBytes = iby;
-                    var ii = _drawings._package.PictureStore.LoadImage(iby, container.UriPic, Part);
-                    var pd = (IPictureRelationDocument)_drawings;
-                    if (pd.Hashes.ContainsKey(ii.Hash))
-                    {
-                        pd.Hashes[ii.Hash].RefCount++;
-                    }
-                    else
-                    {
-                        pd.Hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id) { RefCount = 1 });
-                    }
-                    container.ImageHash = ii.Hash;
+                    Image = PictureStore.LoadAndAddImageFromContainer(container, Part);
                 }
 
                 var linkAttr = picNode.Attributes["link", ExcelPackage.schemaRelationships];
@@ -158,6 +137,7 @@ namespace OfficeOpenXml.Drawing
                 }
             }
         }
+
         private void Init()
         {
             _lockAspectRatioPath = $"{_topPath}{NamespacePrefixes[_prefixIndex]}:nvPicPr/{NamespacePrefixes[_prefixIndex]}:cNvPicPr/a:picLocks/@noChangeAspect";

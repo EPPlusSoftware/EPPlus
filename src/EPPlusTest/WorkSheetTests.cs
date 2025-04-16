@@ -26,12 +26,15 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using EPPlusTest.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Vml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -1581,7 +1584,7 @@ namespace EPPlusTest
 
             Assert.AreEqual(img.Width, 426);
             img.Width /= 4;
-            Assert.AreEqual(img.Height, 49.5);
+            Assert.AreEqual(img.Height, 49.5); 
             img.Height /= 4;
             Assert.AreEqual(img.Left, 0);
             Assert.AreEqual(img.Top, 0);
@@ -1597,6 +1600,148 @@ namespace EPPlusTest
 
             _pck.Workbook.Worksheets.Copy(ws.Name, "Copied HeaderImage");
         }
+
+        [TestMethod]
+        public void HeaderFooterReadFromXlsx()
+        {
+            using var p = OpenTemplatePackage("HheaderFooterTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+
+            var l = ws.HeaderFooter.OddHeader.LeftAlignedText;
+            var c = ws.HeaderFooter.OddHeader.CenteredText;
+            var r = ws.HeaderFooter.OddHeader.RightAlignedText;
+            Assert.AreEqual("&L&N &D V&\"-,Bold\"ä&\"-,Regular\"&K08-018n&K01+000s&\"-,Bold Italic\"t&\"-,Regular\"er", l);
+            Assert.AreEqual("&C&NC&\"Alef,Regular\"e&24n&11t&\"-,Regular\"er&Z&F", c);
+            Assert.AreEqual("&R&\"-,Bold\"H&\"-,Regular\"&18ög&\"-,Italic\"&11er\n&\"Avenir Next LT Pro Demi,Italic\"sp&\"-,Regular\"alt", r);
+
+            SaveAndCleanup(p);
+        }
+
+        [TestMethod]
+        public void HeaderFooterWriteText()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var text1 = ws.HeaderFooter.OddHeader.Centered.AddText("This ");
+            text1.Bold = true;
+            var text2 = ws.HeaderFooter.OddHeader.Centered.AddText("is ");
+            var text3 = ws.HeaderFooter.OddHeader.Centered.AddText("a ");
+            var text4 = ws.HeaderFooter.OddHeader.Centered.AddText("Header");
+            text4.FontSize = 24;
+            text4.Underline = true;
+            ws.HeaderFooter.OddHeader.Centered.AddText(" ");
+            var text5 = ws.HeaderFooter.OddHeader.Centered.AddText("in ");
+            var text6 = ws.HeaderFooter.OddHeader.Centered.AddText("Center");
+            text6.Color = Color.Green;
+            SaveWorkbook("WriteHeaderText1.xlsx", p);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void HeaderFooterTextOver255()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            ws.HeaderFooter.OddFooter.RightAligned.Text = "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890" +
+                                                          "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890";
+            ws.HeaderFooter.OddFooter.Centered.Text = "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890" +
+                                                      "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890";
+            ws.HeaderFooter.OddFooter.LeftAligned.Text = "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890" +
+                                                         "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890";
+        }
+
+        [TestMethod]
+        public void HeaderFooterAddFormatCodes()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddText("Page: ");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddPageNumber();
+            ws.HeaderFooter.OddHeader.LeftAligned.AddText(" of ");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddNumberOfPages();
+
+            ws.HeaderFooter.OddHeader.Centered.AddFilePath();
+
+            ws.HeaderFooter.OddHeader.RightAligned.AddText("Time: ");
+            ws.HeaderFooter.OddHeader.RightAligned.AddCurrentTime();
+            ws.HeaderFooter.OddHeader.RightAligned.AddText(" ");
+            ws.HeaderFooter.OddHeader.RightAligned.AddCurrentDate();
+
+            SaveWorkbook("HeaderFooterFormatCodes.xlsx", p);
+        }
+
+        [TestMethod]
+        public void HeaderFooterAddImage()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddText("Page: ");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddPageNumber();
+            ws.HeaderFooter.OddHeader.LeftAligned.AddText(" of ");
+            ws.HeaderFooter.OddHeader.LeftAligned.AddNumberOfPages();
+
+            ws.HeaderFooter.OddHeader.Centered.AddFilePath();
+            FileInfo pic = new FileInfo(Resources.GetImageFullFileName("epplusobject.png"));
+            ws.HeaderFooter.OddHeader.Centered.AddImage(pic);
+
+            ws.HeaderFooter.OddHeader.RightAligned.AddText("Time: ");
+            ws.HeaderFooter.OddHeader.RightAligned.AddCurrentTime();
+            ws.HeaderFooter.OddHeader.RightAligned.AddText(" ");
+            ws.HeaderFooter.OddHeader.RightAligned.AddCurrentDate();
+
+            Assert.IsTrue(ws.HeaderFooter.OddHeader.Centered.Text.Contains("&G"));
+
+            SaveWorkbook("HeaderFooterImage.xlsx", p);
+        }
+
+        [TestMethod]
+        public void HeaderFooterRemoveImage()
+        {
+            using var p = OpenTemplatePackage("HeaderFooterPicture.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            Assert.AreEqual("&L&G This is a picture ", ws.HeaderFooter.OddHeader.LeftAligned.Text);
+            ws.HeaderFooter.OddHeader.LeftAligned.RemovePicture();
+            Assert.AreEqual("&L This is a picture ", ws.HeaderFooter.OddHeader.LeftAligned.Text);
+            SaveAndCleanup(p);
+        }
+
+        [TestMethod]
+        public void HeaderFooterWriteAllHeadersAndFooters()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            //Fill Odd Header
+            ws.HeaderFooter.OddHeader.LeftAligned.AddText("Odd Left Header");
+            ws.HeaderFooter.OddHeader.Centered.AddText("Odd Center Header");
+            ws.HeaderFooter.OddHeader.RightAligned.AddText("Odd Right Header");
+
+            //Fill Odd Footer
+            ws.HeaderFooter.OddFooter.LeftAligned.AddText("Odd Left Footer");
+            ws.HeaderFooter.OddFooter.Centered.AddText("Odd Center Footer");
+            ws.HeaderFooter.OddFooter.RightAligned.AddText("Odd Right Footer");
+
+            //Fill Even Header
+            ws.HeaderFooter.EvenHeader.LeftAligned.AddText("Even Left Header");
+            ws.HeaderFooter.EvenHeader.Centered.AddText("Even Center Header");
+            ws.HeaderFooter.EvenHeader.RightAligned.AddText("Even Right Header");
+            //Fill Even Footer
+            ws.HeaderFooter.EvenFooter.LeftAligned.AddText("Even Left Footer");
+            ws.HeaderFooter.EvenFooter.Centered.AddText("Even Center Footer");
+            ws.HeaderFooter.EvenFooter.RightAligned.AddText("Even Right Footer");
+
+            //Fill First Header
+            ws.HeaderFooter.FirstHeader.LeftAligned.AddText("First Left Header");
+            ws.HeaderFooter.FirstHeader.Centered.AddText("First Center Header");
+            ws.HeaderFooter.FirstHeader.RightAligned.AddText("First Right Header");
+            //Fill First Footer
+            ws.HeaderFooter.FirstFooter.LeftAligned.AddText("First Left Footer");
+            ws.HeaderFooter.FirstFooter.Centered.AddText("First Center Footer");
+            ws.HeaderFooter.FirstFooter.RightAligned.AddText("First Right Footer");
+
+            SaveWorkbook("HeaderFooterWorkbook.xlsx", p);
+        }
+
         [TestMethod, Ignore]
         public void NamedStyles()
         {
