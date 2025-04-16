@@ -850,16 +850,6 @@ namespace OfficeOpenXml
                 address = address.Substring(address.LastIndexOf('!') + 1);
             }
             if (string.IsNullOrEmpty(address.Trim())) return false;
-
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-            address = Utils.ConvertUtil._invariantTextInfo.ToUpper(address);
-            var addrs = address.Split(',');
-After:
-            address = ConvertUtil._invariantTextInfo.ToUpper(address);
-            var addrs = address.Split(',');
-*/
             address = Utils.TypeConversion.ConvertUtil._invariantTextInfo.ToUpper(address);
             var addrs = address.Split(',');
             foreach (var a in addrs)
