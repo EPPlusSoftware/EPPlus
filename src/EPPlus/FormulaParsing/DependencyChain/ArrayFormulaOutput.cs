@@ -179,7 +179,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else if (endRow > sf.EndRow)
             {
-                SetDynamicFormulaIndex(ws, sf.EndRow + 1, sf.StartCol, endRow, sf.EndCol, f._arrayIndex);
+                SetDynamicFormulaIndex(ws, sf.EndRow + 1, sf.StartCol, endRow, endCol, f._arrayIndex);
             }
             if (endCol < sf.EndCol)
             {
@@ -187,7 +187,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                SetDynamicFormulaIndex(ws, sf.StartRow, sf.StartCol + 1, sf.EndRow, sf.EndCol, f._arrayIndex);
+                SetDynamicFormulaIndex(ws, sf.StartRow, sf.EndCol + 1, endRow, endCol, f._arrayIndex);
             }
         }
 
@@ -195,15 +195,17 @@ namespace OfficeOpenXml.FormulaParsing
         {
             if(prevToRow == 0) prevToRow = fromRow;
             if(prevToCol == 0) prevToCol = fromCol;
-            if(prevToRow == toRow && prevToCol == toCol)
+            if (prevToRow == toRow && prevToCol == toCol)
             {
                 return new SimpleAddress[0];
             }
-            else if(prevToRow != toRow && prevToCol != toCol)
+            else if (prevToRow != toRow && prevToCol != toCol)
             {
-                var a1 = new SimpleAddress(fromRow, Math.Min(prevToCol+1, toCol), Math.Min(prevToRow, toRow), Math.Max(prevToCol, toCol));
-                var a2 = new SimpleAddress(Math.Min(prevToRow+1, toRow), fromCol, Math.Max(prevToRow, toRow), Math.Max(prevToCol, toCol));
-                return new SimpleAddress[] { a1, a2 };
+                return new SimpleAddress[]
+                {
+                    new SimpleAddress(fromRow, Math.Min(prevToCol+1, toCol+1), Math.Min(prevToRow, toRow), Math.Max(prevToCol, toCol)),
+                    new SimpleAddress(Math.Min(prevToRow + 1, toRow + 1), fromCol, Math.Max(prevToRow, toRow), Math.Max(prevToCol, toCol))
+                };            
             }
             else if(prevToRow != toRow)
             {
