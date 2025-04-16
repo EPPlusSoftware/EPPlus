@@ -23,15 +23,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var numbers = new List<double>();
             foreach (var cell in refArg.ValueAsRangeInfo)
             {
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                var cellValue = Utils.ConvertUtil.GetValueDouble(cell.Value, false, true);
-                if (!double.IsNaN(cellValue))
-After:
-                var cellValue = ConvertUtil.GetValueDouble(cell.Value, false, true);
-                if (!double.IsNaN(cellValue))
-*/
                 var cellValue = Utils.TypeConversion.ConvertUtil.GetValueDouble(cell.Value, false, true);
                 if (!double.IsNaN(cellValue))
                 {

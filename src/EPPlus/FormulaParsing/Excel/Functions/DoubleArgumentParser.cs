@@ -42,15 +42,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 return r == null ? 0 : r.ValueDouble;
             }
             if (obj is double) return obj;
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-            if (obj.IsNumeric()) return Util.ConvertUtil.GetValueDouble(obj);
-            var str = obj != null ? obj.ToString() : string.Empty;
-After:
-            if (obj.IsNumeric()) return ConvertUtil.GetValueDouble(obj);
-            var str = obj != null ? obj.ToString() : string.Empty;
-*/
             if (obj.IsNumeric()) return Util.TypeConversion.ConvertUtil.GetValueDouble(obj);
             var str = obj != null ? obj.ToString() : string.Empty;
             try

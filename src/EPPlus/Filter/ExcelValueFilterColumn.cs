@@ -97,15 +97,6 @@ namespace OfficeOpenXml.Filter
             {
                 if(filter is ExcelFilterDateGroupItem d)
                 {
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                    var valueDate = Utils.ConvertUtil.GetValueDate(value);
-                    match = valueDate.HasValue && d.Match(valueDate.Value);                    
-After:
-                    var valueDate = ConvertUtil.GetValueDate(value);
-                    match = valueDate.HasValue && d.Match(valueDate.Value);                    
-*/
                     var valueDate = Utils.TypeConversion.ConvertUtil.GetValueDate(value);
                     match = valueDate.HasValue && d.Match(valueDate.Value);                    
                 }

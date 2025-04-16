@@ -28,23 +28,8 @@ using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using System.Linq;
-using OfficeOpenXml.Core.RangeQuadTree;
-
-
-/* Unmerged change from project 'EPPlus (net35)'
-Added:
 using OfficeOpenXml.Utils.TypeConversion;
-*/
-using OfficeOpenXml.Utils.TypeConversion;
-
-/* Unmerged change from project 'EPPlus (net35)'
-Added:
 using OfficeOpenXml.Utils.FileUtils;
-*/
-using OfficeOpenXml.Utils.FileUtils;
-
-
-
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif

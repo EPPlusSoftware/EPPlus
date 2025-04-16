@@ -18,14 +18,6 @@ using System.Xml;
 using System.Collections.Generic;
 using OfficeOpenXml.Utils;
 using System.Threading;
-
-/* Unmerged change from project 'EPPlus (net35)'
-Before:
-#if !NET35
-After:
-using OfficeOpenXml.Utils.FileUtils;
-#if !NET35
-*/
 using OfficeOpenXml.Utils.FileUtils;
 
 #if !NET35

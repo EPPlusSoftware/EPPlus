@@ -10,40 +10,16 @@
  *************************************************************************************************
   07/16/2020         EPPlus Software AB       EPPlus 5.2.1
  *************************************************************************************************/
-using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using OfficeOpenXml.LoadFunctions.Params;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.Attributes;
-using System.IO;
-
-/* Unmerged change from project 'EPPlus (net35)'
-Before:
-#if !NET35
-After:
-using OfficeOpenXml.Utils.Attribute;
-#if !NET35
-*/
-
-/* Unmerged change from project 'EPPlus (net35)'
-Added:
-using OfficeOpenXml.Utils;
-*/
-
-/* Unmerged change from project 'EPPlus (net35)'
-Added:
 using OfficeOpenXml.Utils.AttributesUtils;
-*/
-using OfficeOpenXml.Utils.AttributesUtils;
-
-
-
 #if !NET35
 using System.ComponentModel.DataAnnotations;
 #endif

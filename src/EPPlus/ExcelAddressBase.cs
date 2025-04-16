@@ -840,15 +840,6 @@ namespace OfficeOpenXml
                     SetAddress(ref fullAddress, ref second, ref hasSheet);
                     return true;
                 }
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                else if (Utils.ConvertUtil._invariantCompareInfo.IsPrefix(fullAddress, "!"))
-                {
-After:
-                else if (ConvertUtil._invariantCompareInfo.IsPrefix(fullAddress, "!"))
-                {
-*/
                 else if (Utils.TypeConversion.ConvertUtil._invariantCompareInfo.IsPrefix(fullAddress, "!"))
                 {
                     // invalid address!

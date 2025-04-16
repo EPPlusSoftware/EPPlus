@@ -33,15 +33,6 @@ namespace OfficeOpenXml.Filter
         public ExcelFilterValueItem(string value)
         {
             Value = value;
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-            Utils.ConvertUtil.TryParseNumericString(value, out _valueDouble, CultureInfo.InvariantCulture);
-        }
-After:
-            ConvertUtil.TryParseNumericString(value, out _valueDouble, CultureInfo.InvariantCulture);
-        }
-*/
             Utils.TypeConversion.ConvertUtil.TryParseNumericString(value, out _valueDouble, CultureInfo.InvariantCulture);
         }
         /// <summary>

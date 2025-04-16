@@ -740,15 +740,6 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 date = dt;
                 return true;
             }
-
-            /* Unmerged change from project 'EPPlus (net462)'
-            Before:
-                        #if(NET6_0_OR_GREATER)
-                        if(v is DateOnly dto)
-            After:
-            #if (NET6_0_OR_GREATER)
-                        if(v is DateOnly dto)
-            */
 #if (NET6_0_OR_GREATER)
             if (v is DateOnly dto)
             {

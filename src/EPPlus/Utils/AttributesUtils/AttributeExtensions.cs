@@ -10,21 +10,10 @@
  *************************************************************************************************
   12/10/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-using OfficeOpenXml.Utils.Attribute;
-After:
-using OfficeOpenXml;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Attribute;
-*/
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace OfficeOpenXml.Utils.AttributesUtils
 {

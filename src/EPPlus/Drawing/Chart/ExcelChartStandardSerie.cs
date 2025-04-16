@@ -647,28 +647,10 @@ namespace OfficeOpenXml.Drawing.Chart
                 var v = cse.Value._value;
                 if (v != null)
                 {
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                    var d = Utils.ConvertUtil.GetValueDouble(v);
-                    var ptNode = node.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
-After:
-                    var d = ConvertUtil.GetValueDouble(v);
-                    var ptNode = node.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
-*/
                     var d = Utils.TypeConversion.ConvertUtil.GetValueDouble(v);
                     var ptNode = node.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
                     node.AppendChild(ptNode);
                     ptNode.SetAttribute("idx", (cse.Row - startRow).ToString(CultureInfo.InvariantCulture));
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                    ptNode.InnerXml = $"<c:v>{Utils.ConvertUtil.GetValueForXml(d, range.Worksheet.Workbook.Date1904)}</c:v>";
-                    items++;
-After:
-                    ptNode.InnerXml = $"<c:v>{ConvertUtil.GetValueForXml(d, range.Worksheet.Workbook.Date1904)}</c:v>";
-                    items++;
-*/
                     ptNode.InnerXml = $"<c:v>{Utils.TypeConversion.ConvertUtil.GetValueForXml(d, range.Worksheet.Workbook.Date1904)}</c:v>";
                     items++;
                 }
@@ -692,28 +674,10 @@ After:
                 var v = cse.Value;
                 if (v != null)
                 {
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                    var d = Utils.ConvertUtil.GetValueDouble(v);
-                    var ptNode = node.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
-After:
-                    var d = ConvertUtil.GetValueDouble(v);
-                    var ptNode = node.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
-*/
                     var d = Utils.TypeConversion.ConvertUtil.GetValueDouble(v);
                     var ptNode = node.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
                     node.AppendChild(ptNode);
                     ptNode.SetAttribute("idx", (cse.Row - startRow).ToString(CultureInfo.InvariantCulture));
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                    ptNode.InnerXml = $"<c:v>{Utils.ConvertUtil.GetValueForXml(d, er._wb.Date1904)}</c:v>";
-                    items++;
-After:
-                    ptNode.InnerXml = $"<c:v>{ConvertUtil.GetValueForXml(d, er._wb.Date1904)}</c:v>";
-                    items++;
-*/
                     ptNode.InnerXml = $"<c:v>{Utils.TypeConversion.ConvertUtil.GetValueForXml(d, er._wb.Date1904)}</c:v>";
                     items++;
                 }
@@ -785,19 +749,9 @@ After:
                         v = range.FirstOrDefault()?.Value;
                     }
                 }
-                
 
                 string cachePath;
                 bool isNum;
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                if(Utils.ConvertUtil.IsNumericOrDate(v) || v is null)
-                {
-After:
-                if(ConvertUtil.IsNumericOrDate(v) || v is null)
-                {
-*/
                 if(Utils.TypeConversion.ConvertUtil.IsNumericOrDate(v) || v is null)
                 {
                     cachePath = string.Format("{0}/c:numRef/c:numCache", seriesTopPath);

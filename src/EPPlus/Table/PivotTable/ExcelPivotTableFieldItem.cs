@@ -214,15 +214,6 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             if(!string.IsNullOrEmpty(Text))
             {
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                sb.AppendFormat(" n=\"{0}\"", OfficeOpenXml.Utils.ConvertUtil.ExcelEscapeString(Text));
-            }
-After:
-                sb.AppendFormat(" n=\"{0}\"", ConvertUtil.ExcelEscapeString(Text));
-            }
-*/
                 sb.AppendFormat(" n=\"{0}\"", Utils.TypeConversion.ConvertUtil.ExcelEscapeString(Text));
             }
             sb.Append("/>");

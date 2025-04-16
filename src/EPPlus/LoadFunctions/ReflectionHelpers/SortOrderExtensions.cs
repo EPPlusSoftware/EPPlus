@@ -11,34 +11,10 @@
   12/7/2023         EPPlus Software AB       EPPlus 7.0.4
  *************************************************************************************************/
 using OfficeOpenXml.Attributes;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-
-/* Unmerged change from project 'EPPlus (net35)'
-Before:
-#if !NET35
-After:
-using OfficeOpenXml.Utils.Attribute;
-#if !NET35
-*/
-
-/* Unmerged change from project 'EPPlus (net35)'
-Added:
-using OfficeOpenXml.Utils;
-*/
-
-/* Unmerged change from project 'EPPlus (net35)'
-Added:
 using OfficeOpenXml.Utils.AttributesUtils;
-*/
-using OfficeOpenXml.Utils.AttributesUtils;
-
-
-
 #if !NET35
 using System.ComponentModel.DataAnnotations;
 #endif

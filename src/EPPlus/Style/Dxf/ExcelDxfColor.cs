@@ -250,29 +250,11 @@ namespace OfficeOpenXml.Style.Dxf
             else if (Theme.HasValue)
             {
                 var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(Theme.Value);
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                return Utils.ColorConverter.GetThemeColor(themeColor);
-            }
-After:
-                return ColorConverter.GetThemeColor(themeColor);
-            }
-*/
                 return Utils.TypeConversion.ColorConverter.GetThemeColor(themeColor);
             }
             else if (Auto.HasValue)
             {
                 var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(eThemeSchemeColor.Background1);
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                return Utils.ColorConverter.GetThemeColor(themeColor);
-            }
-After:
-                return ColorConverter.GetThemeColor(themeColor);
-            }
-*/
                 return Utils.TypeConversion.ColorConverter.GetThemeColor(themeColor);
             }
             else if(whiteAsDefault)
@@ -319,27 +301,9 @@ After:
         private string GetThemeColor(eThemeSchemeColor theme, double tint)
         {
             var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(theme);
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-            var color = Utils.ColorConverter.GetThemeColor(themeColor);
-            if (tint != 0)
-After:
-            var color = ColorConverter.GetThemeColor(themeColor);
-            if (tint != 0)
-*/
             var color = Utils.TypeConversion.ColorConverter.GetThemeColor(themeColor);
             if (tint != 0)
             {
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                color = Utils.ColorConverter.ApplyTint(color, tint);
-            }
-After:
-                color = ColorConverter.ApplyTint(color, tint);
-            }
-*/
                 color = Utils.TypeConversion.ColorConverter.ApplyTint(color, tint);
             }
 

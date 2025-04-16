@@ -394,42 +394,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             if (arg.DataType == DataType.Boolean)
             {
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                return arg.Address == null ? Utils.ConvertUtil.GetValueDouble(arg.Value) : default;
-            }
-After:
-                return arg.Address == null ? ConvertUtil.GetValueDouble(arg.Value) : default;
-            }
-*/
                 return arg.Address == null ? Utils.TypeConversion.ConvertUtil.GetValueDouble(arg.Value) : default;
             }
             else if (arg.DataType == DataType.String || arg.DataType == DataType.Unknown)
             {
                 if (arg.Address != null) return default; //If the value reference a cell address, we ignore strings.
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                if (Utils.ConvertUtil.TryParseNumericString(arg.Value.ToString(), out double number))
-                {
-After:
-                if (ConvertUtil.TryParseNumericString(arg.Value.ToString(), out double number))
-                {
-*/
                 if (Utils.TypeConversion.ConvertUtil.TryParseNumericString(arg.Value.ToString(), out double number))
                 {
                     return number;
                 }
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                else if (Utils.ConvertUtil.TryParseDateString(arg.Value.ToString(), out DateTime date))
-                {
-After:
-                else if (ConvertUtil.TryParseDateString(arg.Value.ToString(), out DateTime date))
-                {
-*/
                 else if (Utils.TypeConversion.ConvertUtil.TryParseDateString(arg.Value.ToString(), out DateTime date))
                 {
                     return date.ToOADate();
@@ -441,15 +414,6 @@ After:
             }
             else
             {
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                return Utils.ConvertUtil.GetValueDouble(arg.Value);
-            }
-After:
-                return ConvertUtil.GetValueDouble(arg.Value);
-            }
-*/
                 return Utils.TypeConversion.ConvertUtil.GetValueDouble(arg.Value);
             }
         }

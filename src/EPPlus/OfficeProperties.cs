@@ -67,15 +67,6 @@ namespace OfficeOpenXml
             foreach (XmlElement node in CustomPropertiesXml.SelectNodes("ctp:Properties/ctp:property", NameSpaceManager))
             {
                 _customProperties.Add(node.GetAttribute("name"), node);
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-                if (Utils.ConvertUtil.TryParseIntString(node.GetAttribute("pid"), out int pid))
-                {
-After:
-                if (ConvertUtil.TryParseIntString(node.GetAttribute("pid"), out int pid))
-                {
-*/
                 if (Utils.TypeConversion.ConvertUtil.TryParseIntString(node.GetAttribute("pid"), out int pid))
                 {
                     if (pid > _maxPid)

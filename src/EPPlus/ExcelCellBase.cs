@@ -160,16 +160,6 @@ namespace OfficeOpenXml
                 fixedFromRow = fixedFromColumn = fixedToRow = fixedToColumn = false;
                 return false;
             }
-
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-            CellAddress = Utils.ConvertUtil._invariantTextInfo.ToUpper(CellAddress);
-            //This one can be removed when the worksheet Select format is fixed
-After:
-            CellAddress = ConvertUtil._invariantTextInfo.ToUpper(CellAddress);
-            //This one can be removed when the worksheet Select format is fixed
-*/
             CellAddress = Utils.TypeConversion.ConvertUtil._invariantTextInfo.ToUpper(CellAddress);
             //This one can be removed when the worksheet Select format is fixed
             if (CellAddress.IndexOf(' ') > 0)
@@ -425,16 +415,6 @@ After:
             row = 0;
             fixedRow = false;
             fixedCol = false;
-
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-            if (Utils.ConvertUtil._invariantCompareInfo.IsSuffix(address, "#REF!"))
-            {
-After:
-            if (ConvertUtil._invariantCompareInfo.IsSuffix(address, "#REF!"))
-            {
-*/
             if (Utils.TypeConversion.ConvertUtil._invariantCompareInfo.IsSuffix(address, "#REF!"))
             {
                 row = 0;
@@ -447,15 +427,6 @@ After:
             {
                 start = sheetNameSeparator + 1;
             }
-
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-            address = Utils.ConvertUtil._invariantTextInfo.ToUpper(address);
-            for (int i = start; i < address.Length; i++)
-After:
-            address = ConvertUtil._invariantTextInfo.ToUpper(address);
-            for (int i = start; i < address.Length; i++)
-*/
             address = Utils.TypeConversion.ConvertUtil._invariantTextInfo.ToUpper(address);
             for (int i = start; i < address.Length; i++)
             {

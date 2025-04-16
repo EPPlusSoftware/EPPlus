@@ -31,14 +31,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             if (arg == null)
                 arg = string.Empty;
 
-/* Unmerged change from project 'EPPlus (netstandard2.0)'
-Before:
-            return CreateResult(Utils.ConvertUtil._invariantTextInfo.ToUpper(arg), DataType.String);
-        }
-After:
-            return CreateResult(ConvertUtil._invariantTextInfo.ToUpper(arg), DataType.String);
-        }
-*/
             return CreateResult(Utils.TypeConversion.ConvertUtil._invariantTextInfo.ToUpper(arg), DataType.String);
         }
     }
