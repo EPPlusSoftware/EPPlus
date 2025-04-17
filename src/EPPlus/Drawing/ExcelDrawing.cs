@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -21,13 +22,190 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Drawing
 {
+    enum PathDrawingType
+    {
+        MoveTo,
+        LineTo,
+        ArcTo,
+        CubicBezTo,
+        Close
+    }
+    enum PathFillMode
+    {
+        /// <summary>
+        /// The corresponding path should have a darker shaded color applied to it’s fill.
+        /// </summary>
+        Darken,
+        /// <summary>
+        /// The corresponding path should have a slightly darker shaded color applied to it’s fill.
+        /// </summary>
+        DarkenLess,
+        /// <summary>
+        /// The corresponding path should have a lightly shaded color applied to it’s fill.
+        /// </summary>
+        Lighten,
+        /// <summary>
+        /// The corresponding path should have a slightly lighter shaded color applied to it’s fill.
+        /// </summary>
+        LightenLess,
+        /// <summary>
+        /// The corresponding path should have no fill.
+        /// </summary>
+        None,
+        /// <summary>
+        /// The corresponding path should have a normally shaded color applied to it’s fill
+        /// </summary>
+        Norm
+    }
+    internal struct DrawCoordinate
+    {
+        public DrawCoordinate(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+        public int X { get; set; }
+        public int Y { get; set; }
+    }
+    internal abstract class PathsBase
+    {
+        public abstract PathDrawingType Type { get;  }
+    }
+    internal abstract class PathWithCoordinates : PathsBase
+    {
+        protected PathWithCoordinates(XmlElement e)
+        {
+            foreach (var cn in e.ChildNodes)
+            {
+                if (cn is XmlElement ce)
+                {
+                    Coordinates.Add(new DrawCoordinate(int.Parse(ce.GetAttribute("x")), int.Parse(ce.GetAttribute("y"))));
+                    break;
+                }
+            }
+        }
+        public List<DrawCoordinate> Coordinates { get; set; } = new List<DrawCoordinate>();
+    }
+    internal class MoveTo : PathWithCoordinates
+    {
+        public MoveTo(XmlElement e) : base(e)
+        {
+        }
+        public override PathDrawingType Type => PathDrawingType.MoveTo;
+        public DrawCoordinate Coordinate { get; set; }
+    }
+    internal class LineTo : PathWithCoordinates
+    {
+        public LineTo(XmlElement e):base(e)
+        {
+
+        }
+        public override PathDrawingType Type => PathDrawingType.LineTo;
+        public DrawCoordinate Coordinate { get; set; }
+    }
+    internal class ClosePath : PathsBase
+    {
+        public ClosePath()
+        {
+            
+        }
+        public override PathDrawingType Type => PathDrawingType.Close;
+    }
+    internal class QuadBezerTo : PathWithCoordinates
+    {
+        public QuadBezerTo(XmlElement e) : base(e)
+        {
+            
+        }
+        public override PathDrawingType Type => PathDrawingType.Close;
+        public DrawCoordinate Coordinate1 { get; set; }
+        public DrawCoordinate Coordinate2 { get; set; }
+    }
+
+    internal class CubicBezerTo : PathWithCoordinates
+    {
+        public CubicBezerTo(XmlElement e) : base(e)
+        {
+
+        }
+        public override PathDrawingType Type => PathDrawingType.CubicBezTo;
+    }
+    internal class ArcTo : PathsBase
+    {
+        public ArcTo(XmlElement e)
+        {
+            HeightRadius = int.Parse(e.GetAttribute("hR"));
+            WidthRadius = int.Parse(e.GetAttribute("wR"));
+            SwingAngle = int.Parse(e.GetAttribute("swAng"));
+            StartAngle = int.Parse(e.GetAttribute("stAng"));
+        }
+        public override PathDrawingType Type => PathDrawingType.ArcTo;
+        public int HeightRadius { get; set; }
+        public int StartAngle { get; set; }
+        public int SwingAngle { get; set; }
+        public int WidthRadius { get; set; }
+    }
+    internal class DrawingPath
+    {
+        public DrawingPath()
+        {
+                
+        }
+        public DrawingPath(XmlElement topNode, XmlNamespaceManager nsm)
+        {
+            Width = int.Parse(topNode.GetAttribute("w"));
+            Height = int.Parse(topNode.GetAttribute("h"));
+            var s = topNode.GetAttribute("fill");
+            if (string.IsNullOrEmpty(s) == false)
+            {
+                Fill = (PathFillMode)Enum.Parse(typeof(PathFillMode), s, true);
+            }
+            Stroke = ConvertUtil.ToBooleanString(topNode.GetAttribute("stroke"), true);
+            ExtrusionOk = ConvertUtil.ToBooleanString(topNode.GetAttribute("extrusionOk"), true); 
+            foreach (var child in topNode.ChildNodes)
+            {
+                if (child is XmlElement e)
+                {
+                    switch (e.LocalName)
+                    {
+                        case "moveTo":
+                            Paths.Add(new MoveTo(e));
+                            break;
+                        case "lnTo":
+                            Paths.Add(new LineTo(e)) ;
+                            break;
+                        case "cubicBezTo":
+                            Paths.Add(new CubicBezerTo(e));
+                            break;
+                        case "quadBezTo":
+                            Paths.Add(new CubicBezerTo(e));
+                            break;
+                        case "arcTo":
+                            Paths.Add(new ArcTo(e));
+                            break;
+                        case "close":
+                            Paths.Add(new ClosePath());
+                            break;
+                    }
+                }
+            }
+        }
+        public bool Stroke { get; set; }
+        public bool ExtrusionOk { get; set; }        
+        public PathFillMode Fill { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public List<PathsBase> Paths { get; set; } = new List<PathsBase>();
+    }
     /// <summary>
     /// Base class for drawings. 
     /// Drawings are Charts, Shapes and Pictures.
@@ -74,7 +252,7 @@ namespace OfficeOpenXml.Drawing
         {
             _drawings = drawings;
             _parent = parent;
-            if (node != null)   //No drawing, chart xml only. This currently happends when created from a chart template
+            if (node != null)   //No drawing, chart xml only. This currently happens when created from a chart template
             {
                 TopNode = node;
 
@@ -132,8 +310,20 @@ namespace OfficeOpenXml.Drawing
                     SetPositionProperties(drawings, node);
                     GetPositionSize();                                  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
                 }
-            }   
+                var pathNode = node.SelectSingleNode("xdr:sp/xdr:spPr/a:custGeom/a:pathLst", NameSpaceManager);
+                if(pathNode!=null)
+                {
+                    foreach(var cn in pathNode.ChildNodes)
+                    {
+                        if(cn is XmlElement e)
+                        {
+                            DrawingPaths.Add(new DrawingPath(e, NameSpaceManager));
+                        }
+                    }
+                }
+            }
         }
+        internal List<DrawingPath> DrawingPaths { get; } = new List<DrawingPath>();
 
         internal virtual void AdjustXPathsForGrouping(bool group)
         {

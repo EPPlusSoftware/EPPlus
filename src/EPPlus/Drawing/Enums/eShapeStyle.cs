@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         ActionButtonBackPrevious,
         /// <summary>
-        /// Action button: Begining |&lt;
+        /// Action button: Beginning |&lt;
         /// </summary>
         ActionButtonBeginning,
         /// <summary>
@@ -198,7 +198,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         Corner,
         /// <summary>
-        /// Cornder Tabs: Triangle in the corners.
+        /// Corner Tabs: Triangle in the corners.
         /// </summary>
         CornerTabs,
         /// <summary>
@@ -274,11 +274,11 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         Ellipse,
         /// <summary>
-        /// Elipse ribbon: point up
+        /// Ellipse ribbon: point up
         /// </summary>
         EllipseRibbon,
         /// <summary>
-        /// Elipse ribbon: point down   
+        /// Ellipse ribbon: point down   
         /// </summary>
         EllipseRibbon2,
         /// <summary>
@@ -346,7 +346,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         FlowChartMerge,
         /// <summary>
-        /// Flow chart: Multidocument
+        /// Flow chart: Multi document
         /// </summary>
         FlowChartMultidocument,
         /// <summary>
@@ -474,7 +474,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         LeftRightArrow,
         /// <summary>
-        /// Callout: Left rigth arrow
+        /// Callout: Left rightd arrow
         /// </summary>
         LeftRightArrowCallout,
         /// <summary>
@@ -764,6 +764,10 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Vertical scroll
         /// </summary>
-        VerticalScroll
+        VerticalScroll,
+        /// <summary>
+        /// This is a custom shape defined by in the <see cref="DrawingPath"/>
+        /// </summary>
+        CustomShape
     }
 }

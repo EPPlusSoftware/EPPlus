@@ -101,13 +101,17 @@ namespace OfficeOpenXml.Drawing
             get
             {
                 string v = GetXmlNodeString(_shapeStylePath);
+                if(string.IsNullOrEmpty(v))
+                {
+                    return eShapeStyle.CustomShape;
+                }
                 try
                 {
                     return (eShapeStyle)Enum.Parse(typeof(eShapeStyle), v, true);
                 }
                 catch
                 {
-                    throw (new Exception(string.Format("Invalid shapetype {0}", v)));
+                    throw (new Exception(string.Format("Invalid shape type {0}", v)));
                 }
             }
             set
