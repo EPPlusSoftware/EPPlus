@@ -90,6 +90,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             return new RangeExpression(_cachedCompileResult.Negate(), Context);
         }
+
+        public FormulaRangeAddress AddressInfo => _addressInfo;
+
         internal override ExpressionStatus Status
         {
             get;
