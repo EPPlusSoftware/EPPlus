@@ -553,6 +553,28 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             ToCol = toCol;
         }
         internal int FromRow, FromCol, ToRow,ToCol;
+        internal SimpleAddress Intersect(SimpleAddress address)
+        {
+            if (address.FromRow > ToRow || ToRow < address.FromRow ||
+               address.FromCol > ToCol || ToCol < address.FromCol)
+            {
+                return default;
+            }
+
+            var fromRow = Math.Max(address.FromRow, FromRow);
+            var toRow = Math.Min(address.ToRow, ToRow);
+            var fromCol = Math.Max(address.FromCol, FromCol);
+            var toCol = Math.Min(address.ToCol, ToCol);
+
+            return new SimpleAddress
+            {
+                FromRow = fromRow,
+                FromCol = fromCol,
+                ToRow = toRow,
+                ToCol = toCol
+            };
+        }
+
     }
     /// <summary>
     /// Represents a range address

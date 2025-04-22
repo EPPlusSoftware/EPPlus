@@ -28,6 +28,7 @@ namespace OfficeOpenXml
     {
         internal XmlHelper _commentHelper;
         private string _text;
+        internal int _vmlIx;
         internal ExcelComment(XmlNamespaceManager ns, XmlNode commentTopNode, ExcelRangeBase cell)
             : base(null, cell, cell.Worksheet.VmlDrawings.NameSpaceManager)
         {
@@ -39,9 +40,14 @@ namespace OfficeOpenXml
                 textElem = commentTopNode.OwnerDocument.CreateElement("text", ExcelPackage.schemaMain);
                 commentTopNode.AppendChild(textElem);
             }
-            if (!cell.Worksheet._vmlDrawings.ContainsKey(cell.Start.Row, cell.Start.Column))
+            if (cell.Worksheet._vmlDrawings.ContainsKey(cell.Start.Row, cell.Start.Column))
+            {
+                _vmlIx = cell.Worksheet._vmlDrawings._drawingsCellStore.GetValue(cell.Start.Row, cell.Start.Column);
+            }
+            else
             {
                 cell.Worksheet._vmlDrawings.AddComment(cell);
+                _vmlIx = cell.Worksheet._vmlDrawings.Count - 1;
             }
 
             TopNode = cell.Worksheet.VmlDrawings[cell.Start.Row, cell.Start.Column].TopNode;

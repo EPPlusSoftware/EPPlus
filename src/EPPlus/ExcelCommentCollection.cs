@@ -27,7 +27,7 @@ namespace OfficeOpenXml
     public class ExcelCommentCollection : IEnumerable, IDisposable
     {
         //internal RangeCollection _comments;
-        internal List<ExcelComment> _list=new List<ExcelComment>();
+        List<ExcelComment> _list=new List<ExcelComment>();
         List<int> _listIndex = new List<int>();
 
         internal ExcelCommentCollection(ExcelPackage pck, ExcelWorksheet ws, XmlNamespaceManager ns)
@@ -343,6 +343,11 @@ namespace OfficeOpenXml
             {
                 RemoveAt(0);
             }
+        }
+
+        internal ExcelComment GetByListIndex(int ix)
+        {
+            return _list[ix];
         }
     }
 }

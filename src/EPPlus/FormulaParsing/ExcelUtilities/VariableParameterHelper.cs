@@ -130,6 +130,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             var commaIndexes = new List<int>();
             var openParenthesis = 0;
+            var openBrackets = 0;
             // 1. loop through the tokens and collect indexes of the commas until the end of the function args.
             for (var cIx = func.Start + 1; !(_tokens[cIx].TokenType == TokenType.ClosingParenthesis && openParenthesis == 1); cIx++)
             {
@@ -142,7 +143,15 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 {
                     openParenthesis--;
                 }
-                if (_tokens[cIx].TokenType == TokenType.Comma && openParenthesis == 1)
+                else if (t.TokenType == TokenType.OpeningBracket)
+                {
+                    openBrackets++;
+                }
+                else if (t.TokenType == TokenType.ClosingBracket)
+                {
+                    openBrackets--;
+                }
+                if (_tokens[cIx].TokenType == TokenType.Comma && openParenthesis == 1 && openBrackets==0)
                 {
                     commaIndexes.Add(cIx);
                 }

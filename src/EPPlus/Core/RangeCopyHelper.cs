@@ -477,9 +477,10 @@ namespace OfficeOpenXml.Core
 
                 if (includeFormulas && worksheet._formulas.Exists(sourceRow, sourceCol, ref o) && o != null)
                 {
+                    string f;
                     if (o is int)
                     {
-                        cell.Formula = worksheet.GetFormula(cse.Row, cse.Column);
+                        f= worksheet.GetFormula(cse.Row, cse.Column);
                         if (worksheet._flags.GetFlagValue(cse.Row, cse.Column, CellFlags.ArrayFormula))
                         {
                             _destinationRange._worksheet._flags.SetFlagValue(cse.Row, cse.Column, true, CellFlags.ArrayFormula);
@@ -488,11 +489,11 @@ namespace OfficeOpenXml.Core
                     }
                     else
                     {
-                        //cell.Formula = o;
-                        var colDiff = (sourceCol - _sourceRange._fromCol) - (cell.Column - _destinationRange._fromCol);
-                        var rowDiff = (sourceRow - _sourceRange._fromRow) - (cell.Row - _destinationRange._fromRow);
-                        cell.Formula = ExcelRangeBase.UpdateFormulaReferences(o.ToString(), _destinationRange._fromRow - _sourceRange._fromRow - rowDiff, _destinationRange._fromCol - _sourceRange._fromCol - colDiff, 0, 0, _destinationRange.WorkSheetName, _destinationRange.WorkSheetName, true, true);
+                        f = o.ToString();
                     }
+                    var colDiff = (sourceCol - _sourceRange._fromCol) - (cell.Column - _destinationRange._fromCol);
+                    var rowDiff = (sourceRow - _sourceRange._fromRow) - (cell.Row - _destinationRange._fromRow);
+                    cell.Formula = ExcelRangeBase.UpdateFormulaReferences(f, _destinationRange._fromRow - _sourceRange._fromRow - rowDiff, _destinationRange._fromCol - _sourceRange._fromCol - colDiff, 0, 0, _destinationRange.WorkSheetName, _destinationRange.WorkSheetName, true, true);
                 }
 
                 if (includeStyles && worksheet.ExistsStyleInner(sourceRow, sourceCol, ref styleId))
@@ -611,7 +612,7 @@ namespace OfficeOpenXml.Core
                     };
                     _copiedCells.Add(cellId, cell);
                 }
-                cell.Comment = worksheet._comments[cse.Value];
+                cell.Comment = worksheet._comments.GetByListIndex(cse.Value);
             }
         }
         private void AddThreadedComments(ExcelWorksheet worksheet)
@@ -643,7 +644,7 @@ namespace OfficeOpenXml.Core
                     };
                     _copiedCells.Add(cellId, cell);
                 }
-                cell.ThreadedComment = worksheet._threadedComments[cse.Value];
+                cell.ThreadedComment = worksheet._threadedComments.GetByListIndex(cse.Value);
             }
         }
 

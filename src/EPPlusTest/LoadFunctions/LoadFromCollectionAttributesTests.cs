@@ -186,5 +186,19 @@ namespace EPPlusTest.LoadFunctions
 
             }
         }
+
+        [TestMethod]
+        public void I1395_ShouldHandleDisplayAttributeWithoutOrder()
+        {
+            var coll = new List<Issue1395Dto>
+            {
+                new Issue1395Dto { Name = "foo" }
+            };
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Test");
+            sheet.Cells["A1"].LoadFromCollection(coll, true);
+            Assert.AreEqual("Testing", sheet.Cells["A1"].Value);
+            Assert.AreEqual("foo", sheet.Cells["A2"].Value);
+        }
     }
 }

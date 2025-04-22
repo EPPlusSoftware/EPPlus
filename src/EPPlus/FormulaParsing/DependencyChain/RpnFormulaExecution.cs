@@ -703,7 +703,6 @@ namespace OfficeOpenXml.FormulaParsing
             }
             f._ws._metadataStore.Clear(f._row, f._column, 1, 1);
         }
-
         private static void SetValueToWorkbook(RpnOptimizedDependencyChain depChain, RpnFormula f, RangeHashset rd, CompileResult cr)
         {
             //Set the value.
