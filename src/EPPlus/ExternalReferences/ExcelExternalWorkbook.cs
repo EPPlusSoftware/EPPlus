@@ -42,7 +42,7 @@ namespace OfficeOpenXml.ExternalReferences
             CachedNames = new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>();
             CacheStatus = eExternalWorkbookCacheStatus.NotUpdated;
             SetPackage(p, false);
-       }
+        }
         internal ExcelExternalWorkbook(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement)  : base(wb, reader, part, workbookElement)
         {
             var rId = reader.GetAttribute("id", ExcelPackage.schemaRelationships);
@@ -384,7 +384,7 @@ namespace OfficeOpenXml.ExternalReferences
         }
         private void SetPackage(FileInfo file)
         {
-            if (_wb._package.File.Name.Equals(file.Name, StringComparison.CurrentCultureIgnoreCase))
+            if (_wb._package.File != null && _wb._package.File.Name.Equals(file.Name, StringComparison.CurrentCultureIgnoreCase))
             {
                 _package = _wb._package;
                 return;

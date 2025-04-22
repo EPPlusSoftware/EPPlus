@@ -1534,7 +1534,14 @@ namespace OfficeOpenXml
                     var uri = GetNewUri(_package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml");
                     ewb.Part = _package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
                     var extFile = ((ExcelExternalWorkbook)er).File;
-                    ewb.Relation = er.Part.CreateRelationship(FileHelper.GetRelativeFile(packageFile, extFile), TargetMode.External, ExcelPackage.schemaRelationships + "/externalLinkPath");
+                    if (ewb.IsPathRelative)
+                    {
+                        ewb.Relation = er.Part.CreateRelationship(FileHelper.GetRelativeFile(packageFile, extFile), TargetMode.External, ExcelPackage.schemaRelationships + "/externalLinkPath");
+                    }
+                    else
+                    {
+                        ewb.Relation = er.Part.CreateRelationship(FileHelper.GetRelativeFile(null, extFile, true), TargetMode.External, ExcelPackage.schemaRelationships + "/externalLinkPath");
+                    }
 
                     var wbRel = Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
                     var wbExtRefElement = (XmlElement)CreateNode("d:externalReferences/d:externalReference", false, true);

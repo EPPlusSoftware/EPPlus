@@ -470,5 +470,32 @@ namespace EPPlusTest.Core
                 SaveWorkbook("WorkBookCalculated.xlsx", package);
             }
         }
+
+        [TestMethod]
+        public void AddExternalLinkWithAbsoluteLink()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet 1");
+
+            var p2 = OpenTemplatePackage("CopyFillTest.xlsx");
+
+            wb.ExternalLinks.AddExternalWorkbook(p2.File);
+            SaveWorkbook("AbsolutePathTest.xlsx", p);
+        }
+
+        [TestMethod]
+        public void AddExternalLinkWithAbsoluteLink2()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet 1");
+
+            var ewb = wb.ExternalLinks.AddExternalWorkbook(new FileInfo(_testInputPathOptional + "CopyFillTest.xlsx"));
+            ewb.IsPathRelative = false;
+
+            SaveWorkbook("AbsolutePathTest2.xlsx", p);
+
+        }
     }
 }
