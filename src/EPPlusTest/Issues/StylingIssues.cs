@@ -109,6 +109,23 @@ namespace EPPlusTest
 
 			SwitchBackToCurrentCulture();
         }
+
+        [TestMethod]
+        public void Issue1964()
+        {
+            ExcelPackageSettings.CultureSpecificBuildInNumberFormats.Add("zh-CN",
+                new Dictionary<int, string>()
+                {
+                    {31, "yyyy\"年\"m\"月\"d\"日\"" }
+                });
+            SwitchToCulture("zh-CN");
+            using var p = OpenTemplatePackage("Issue1964.xlsx");
+            var cell = p.Workbook.Worksheets[0].Cells["A1"];
+            var value = cell.Text;
+            Assert.AreEqual("2021年12月31日", value);
+            SwitchBackToCurrentCulture();
+        }
+
         [TestMethod]
         public void Issue1493()
         {
