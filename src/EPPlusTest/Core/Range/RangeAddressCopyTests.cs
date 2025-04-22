@@ -31,6 +31,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Drawing;
 using OfficeOpenXml.DataValidation;
+using Castle.Components.DictionaryAdapter.Xml;
 
 namespace EPPlusTest.Core.Range
 {
@@ -1073,8 +1074,8 @@ namespace EPPlusTest.Core.Range
             a1b2.Copy(a1b2Dest3, ExcelRangeCopyOptionFlags.Fill);
             SaveAndCleanup(p);
         }
-        [TestMethod]
 
+        [TestMethod]
         public void InCellPicture_CopyBecomesLeftAlign()
         {
             using (var package = OpenPackage("PicturesInCellRef.xlsx", true))
@@ -1090,6 +1091,77 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual(1, wsOther.Cells["A2"].Value);
                 Assert.AreEqual("A2", wsOther.Cells["C3"].Formula);
                 Assert.IsTrue(wsOther.Cells["D4"].Picture.Exists);
+            }
+        }
+
+        [TestMethod]
+        public void RangeBaseCopyColumnWidth()
+        {
+            using (var package = OpenPackage("ColumnWidthCopy.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewSheet");
+
+                ws.Cells["D3:G15"].EntireColumn.Width = 20;
+
+                ws.Cells["D3:D5"].Copy(ws.Cells["I1:I3"]);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void RangeBaseCopyRowHeight()
+        {
+            using (var package = OpenPackage("RowHeight.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewSheet");
+
+                ws.Cells["D3:G15"].EntireRow.Height = 20;
+               
+                //Check merge cells
+                ws.Cells["D5:E6"].Merge = true;
+
+                ws.Cells["D3:D7"].Copy(ws.Cells["I1:I3"]);
+
+                ws.Cells["D3:D5,F20:F25"].Formula = "ROW()";
+                ws.Calculate();
+                ws.Cells["D3:D5,F20:F25"].ClearFormulas();
+
+                ws.Cells["B1:B2"].EntireRow.Height = 2;
+
+                ws.Cells["D3:D7,F20:F25"].Copy(ws.Cells["L1:L3"]);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void CopyRangeColumn()
+        {
+            using (var package = OpenPackage("CopyColsIteration.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewSheet");
+
+                var srcRange = ws.Cells["D3:F10"];
+
+                var destRange = ws.Cells["J3:L5"];
+
+                srcRange.Formula = "ROW()+COLUMN()";
+                ws.Calculate();
+                srcRange.ClearFormulas();
+
+                srcRange.EntireColumn.Width = 20;
+
+                var cols = ws.Columns[srcRange.Start.Column, srcRange.End.Column];
+
+                var destCols = ws.Columns[destRange.Start.Column, destRange.End.Column];
+
+                cols.Copy(destCols);
+
+                SaveAndCleanup(package);
             }
         }
     }

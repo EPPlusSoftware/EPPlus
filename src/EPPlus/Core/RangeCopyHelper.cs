@@ -867,6 +867,7 @@ namespace OfficeOpenXml.Core
                     else
                     {
                         //Partial merge of the address ignore.
+                        //TODO: Excel does not ignore partial merge.
                         copiedMergedCells.Add(csem.Value, null);
                     }
                 }
@@ -896,6 +897,18 @@ namespace OfficeOpenXml.Core
                     _destinationRange.Worksheet.Column(_destinationRange.Start.Column + col).OutlineLevel = _sourceRange.Worksheet.Column(_sourceRange._fromCol + col).OutlineLevel;
                 }
             }
+
+            //What happens with split addresses? We want to do per row/per column of actual addresses.
+            var sourceRowOrig = _sourceRange._fromRow;
+            var destRowOrig = _destinationRange._fromRow;
+
+            for (int i = 0; i < _sourceRange.Rows; i++)
+            {
+                var sourceRow = _sourceRange.Worksheet.Row(sourceRowOrig + i);
+                var destRow = _destinationRange.Worksheet.Row(destRowOrig + i);
+
+                destRow.Height = sourceRow.Height;
+            }
         }
 
         private void CopyFullColumn()
@@ -906,6 +919,17 @@ namespace OfficeOpenXml.Core
                 {
                     _destinationRange.Worksheet.Row(_destinationRange.Start.Row + row).OutlineLevel = _sourceRange.Worksheet.Row(_sourceRange._fromRow + row).OutlineLevel;
                 }
+            }
+
+            var destColOrig = _destinationRange._fromCol;
+            var sourceColOrig = _sourceRange._fromCol;
+
+            for(int i = 0; i < _sourceRange.Columns; i++)
+            {
+                var sourceCol = _sourceRange.Worksheet.Column(sourceColOrig + i);
+                var destCol = _destinationRange.Worksheet.Column(destColOrig + i);
+
+                destCol.Width = sourceCol.Width;
             }
         }
     }

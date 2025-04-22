@@ -4,6 +4,7 @@ using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml
 {
@@ -700,6 +701,41 @@ namespace OfficeOpenXml
                     }
                 }
             }
+        }
+
+        public void Copy(ExcelRange destinationAddress)
+        {
+            Range.Copy(destinationAddress);
+        }
+
+        public void Copy(ExcelRangeColumn destinationColumnRange)
+        {
+            var destWs = destinationColumnRange._worksheet;
+            var startColNum = destinationColumnRange.StartColumn;
+
+            int i = 0;
+            foreach (var col in this)
+            {
+                var srcCol = _worksheet.Column(col.StartColumn);
+                var destCol = destWs.Column(startColNum + i);
+                destWs.CopyColumn(srcCol, startColNum + i, destCol.ColumnMax);
+                i++;
+            }
+
+            //Range.Copy(destinationColumnRange.Range);
+
+            //var startColNum = destinationColumnRange.StartColumn;
+            //int i = 0;
+            //foreach (var col in this)
+            //{
+            //    if(startColNum + i > destinationColumnRange._worksheet.Columns.EndColumn)
+            //    {
+            //        destinationColumnRange._worksheet.InsertColumn(destinationColumnRange._worksheet.Columns.EndColumn, 1);
+            //    }
+
+            //    _worksheet.Column(col.StartColumn).Clone(destinationColumnRange._worksheet, startColNum + i);
+            //    i++;
+            //}
         }
 
         /// <summary>
