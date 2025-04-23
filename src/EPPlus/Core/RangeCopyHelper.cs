@@ -845,8 +845,22 @@ namespace OfficeOpenXml.Core
                 {
                     var adr = new ExcelAddress(worksheet.Name, worksheet.MergedCells._list[csem.Value]);
                     var collideResult = _sourceRange.Collide(adr);
-                    if (collideResult == eAddressCollition.Inside || collideResult == eAddressCollition.Equal)
+                    if (collideResult != eAddressCollition.No)
                     {
+                        if(collideResult == eAddressCollition.Partly)
+                        {
+                            //Partial merge of the address take only if more than one cell intersects.
+                            var intersectingCells = _sourceRange.Intersect(adr);
+                            if (intersectingCells.IsSingleCell)
+                            {
+                                //Is only one cell. Ignore.
+                                copiedMergedCells.Add(csem.Value, null);
+                                continue;
+                            }
+           
+                            adr = new ExcelAddress(intersectingCells.Address);
+                        }
+
                         if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose))
                         {
                             copiedMergedCells.Add(csem.Value, new ExcelAddress(
@@ -863,12 +877,6 @@ namespace OfficeOpenXml.Core
                                 _destinationRange._fromRow + (adr.End.Row - _sourceRange._fromRow),
                                 _destinationRange._fromCol + (adr.End.Column - _sourceRange._fromCol)));
                         }
-                    }
-                    else
-                    {
-                        //Partial merge of the address ignore.
-                        //TODO: Excel does not ignore partial merge.
-                        copiedMergedCells.Add(csem.Value, null);
                     }
                 }
             }
@@ -898,7 +906,6 @@ namespace OfficeOpenXml.Core
                 }
             }
 
-            //What happens with split addresses? We want to do per row/per column of actual addresses.
             var sourceRowOrig = _sourceRange._fromRow;
             var destRowOrig = _destinationRange._fromRow;
 
