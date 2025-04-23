@@ -77,11 +77,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 var rangeInfo = rangeOrValue.Range;
                 var address = rangeInfo.GetAddressDimensionAdjusted(0).Address;
-                //var toRow = rangeInfo.Address.ToRow;
-                //if (rangeInfo.Worksheet.Dimension.End.Row < toRow)
-                //{
-                //    toRow = rangeInfo.Worksheet.Dimension.End.Row;
-                //}
                 for (var row = address.FromRow; row <= address.ToRow; row++)
                 {
                     for (var col = address.FromCol; col <= address.ToCol; col++)
