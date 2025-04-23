@@ -1,11 +1,9 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Globalization;
 using System.Linq;
 

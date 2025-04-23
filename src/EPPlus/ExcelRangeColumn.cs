@@ -717,35 +717,6 @@ namespace OfficeOpenXml
             var srcCellValues = _worksheet.Cells[1, StartColumn, _worksheet.Dimension.End.Row, EndColumn];
             var destCellValues = destWs.Cells[1, destinationColumnRange.StartColumn, _worksheet.Dimension.End.Row, destinationColumnRange.EndColumn];
             srcCellValues.Copy(destCellValues, ExcelRangeCopyOptionFlags.IncludeFullColumn);
-
-            //int i = 0;
-            //foreach (var srcColRange in this)
-            //{
-            //    var srcCol = _worksheet.Column(srcColRange.StartColumn);
-            //    var destCol = destWs.Column(startColNum + i);
-            //    destWs.CopyColumn(srcCol, startColNum + i, destCol.ColumnMax);
-
-            //    //Start and end column should arguably be the same here.
-            //    var srcCellValues = _worksheet.Cells[1, srcColRange.StartColumn, _worksheet.Dimension.End.Row, srcColRange.EndColumn];
-            //    var destCellValues = destWs.Cells[1, destCol.ColumnMin, _worksheet.Dimension.End.Row, destCol.ColumnMax];
-            //    srcCellValues.Copy(destCellValues);
-            //    i++;
-            //}
-
-            ////Range.Copy(destinationColumnRange.Range);
-
-            ////var startColNum = destinationColumnRange.StartColumn;
-            ////int i = 0;
-            ////foreach (var col in this)
-            ////{
-            ////    if(startColNum + i > destinationColumnRange._worksheet.Columns.EndColumn)
-            ////    {
-            ////        destinationColumnRange._worksheet.InsertColumn(destinationColumnRange._worksheet.Columns.EndColumn, 1);
-            ////    }
-
-            ////    _worksheet.Column(col.StartColumn).Clone(destinationColumnRange._worksheet, startColNum + i);
-            ////    i++;
-            ////}
         }
 
         /// <summary>
