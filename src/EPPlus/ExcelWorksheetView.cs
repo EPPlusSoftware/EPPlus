@@ -659,8 +659,11 @@ namespace OfficeOpenXml
                 PaneSettings.TopNode.RemoveAll();
             }
 
-            if (Column > 1) PaneSettings.XSplit = Column - 1;
-            if (Row > 1) PaneSettings.YSplit = Row - 1;
+            var hiddenRows = _worksheet.Rows.Where(x => x.Hidden == true).ToList().Count;
+            var hiddenCols = _worksheet.Columns.Where(x => x.Hidden == true).ToList().Count;
+
+            if (Column > 1) PaneSettings.XSplit = Column - 1 - hiddenCols;
+            if (Row > 1) PaneSettings.YSplit = Row - 1 - hiddenRows;
             PaneSettings.TopLeftCell = ExcelCellBase.GetAddress(Row, Column);
             PaneSettings.State = isSplit ? ePaneState.FrozenSplit : ePaneState.Frozen;
 
