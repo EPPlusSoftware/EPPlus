@@ -30,7 +30,6 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             _formulaExecutor = new FormulaExecutor(_parsingContext);
             _tokenizer = SourceCodeTokenizer.Default;
             
-            
             SetUpWorksheet1();
             SetUpWorksheet2();
             _package.Workbook.Names.AddName("SumRange1", _package.Workbook.Worksheets["Sheet1"].Cells["A1:A100"]);
@@ -101,28 +100,11 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1"].Formula = "A1";
                 ws.Cells["B1"].Formula = "A1:B1";
-                var dc= RpnFormulaExecution.Execute(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
+
+                var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
                 Assert.AreEqual(2, dc._circularReferences.Count);
-                int wsIx, row, col;
-                ExcelCellBase.SplitCellId(dc._circularReferences[0].FromCell, out wsIx, out row, out col);
-                Assert.AreEqual(wsIx, 0);
-                Assert.AreEqual(row, 1);
-                Assert.AreEqual(col, 1);
-
-                ExcelCellBase.SplitCellId(dc._circularReferences[0].ToCell, out wsIx, out row, out col);
-                Assert.AreEqual(wsIx, 0);
-                Assert.AreEqual(row, 1);
-                Assert.AreEqual(col, 1);
-
-                ExcelCellBase.SplitCellId(dc._circularReferences[1].FromCell, out wsIx, out row, out col);
-                Assert.AreEqual(wsIx, 0);
-                Assert.AreEqual(row, 1);
-                Assert.AreEqual(col, 2);
-
-                ExcelCellBase.SplitCellId(dc._circularReferences[1].ToCell, out wsIx, out row, out col);
-                Assert.AreEqual(wsIx, 0);
-                Assert.AreEqual(row, 1);
-                Assert.AreEqual(col, 2);
+                Assert.IsTrue(dc._circularReferences.Contains(new CircularReference(ExcelCellBase.GetCellId(0, 1, 1), ExcelCellBase.GetCellId(0, 1, 1))));
+                Assert.IsTrue(dc._circularReferences.Contains(new CircularReference(ExcelCellBase.GetCellId(0, 1, 2), ExcelCellBase.GetCellId(0, 1, 2))));
             }
         }
         [TestMethod]
@@ -137,16 +119,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 
                 var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
                 Assert.AreEqual(1, dc._circularReferences.Count);
-                int wsIx, row, col;
-                ExcelCellBase.SplitCellId(dc._circularReferences[0].FromCell, out wsIx, out row, out col);
-                Assert.AreEqual(wsIx, 0);
-                Assert.AreEqual(row, 1);
-                Assert.AreEqual(col, 3);
-
-                ExcelCellBase.SplitCellId(dc._circularReferences[0].ToCell, out wsIx, out row, out col);
-                Assert.AreEqual(wsIx, 0);
-                Assert.AreEqual(row, 1);
-                Assert.AreEqual(col, 1);
+                Assert.IsTrue(dc._circularReferences.Contains(new CircularReference(ExcelCellBase.GetCellId(0, 1, 3), ExcelCellBase.GetCellId(0, 1, 1))));
             }
         }
         [TestMethod]
@@ -161,36 +134,9 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 
                 var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
                 Assert.AreEqual(3, dc._circularReferences.Count);
-                int wsIx, row, col;
-                ExcelCellBase.SplitCellId(dc._circularReferences[0].FromCell, out wsIx, out row, out col);
-                Assert.AreEqual(wsIx, 0);
-                Assert.AreEqual(row, 1);
-                Assert.AreEqual(col, 3);
-
-                ExcelCellBase.SplitCellId(dc._circularReferences[0].ToCell, out wsIx, out row, out col);
-                Assert.AreEqual(wsIx, 0);
-                Assert.AreEqual(row, 1);
-                Assert.AreEqual(col, 3);
-
-                ExcelCellBase.SplitCellId(dc._circularReferences[1].FromCell, out wsIx, out row, out col);
-                Assert.AreEqual(wsIx, 0);
-                Assert.AreEqual(row, 1);
-                Assert.AreEqual(col, 3);
-
-                ExcelCellBase.SplitCellId(dc._circularReferences[1].ToCell, out wsIx, out row, out col);
-                Assert.AreEqual(wsIx, 0);
-                Assert.AreEqual(row, 1);
-                Assert.AreEqual(col, 2);
-
-                ExcelCellBase.SplitCellId(dc._circularReferences[2].FromCell, out wsIx, out row, out col);
-                Assert.AreEqual(wsIx, 0);
-                Assert.AreEqual(row, 1);
-                Assert.AreEqual(col, 3);
-
-                ExcelCellBase.SplitCellId(dc._circularReferences[2].ToCell, out wsIx, out row, out col);
-                Assert.AreEqual(wsIx, 0);
-                Assert.AreEqual(row, 1);
-                Assert.AreEqual(col, 1);
+                Assert.IsTrue(dc._circularReferences.Contains(new CircularReference(ExcelCellBase.GetCellId(0, 1, 3), ExcelCellBase.GetCellId(0, 1, 3))));
+                Assert.IsTrue(dc._circularReferences.Contains(new CircularReference(ExcelCellBase.GetCellId(0, 1, 3), ExcelCellBase.GetCellId(0, 1, 2))));
+                Assert.IsTrue(dc._circularReferences.Contains(new CircularReference(ExcelCellBase.GetCellId(0, 1, 3), ExcelCellBase.GetCellId(0, 1, 1))));
             }
         }
         [TestMethod]

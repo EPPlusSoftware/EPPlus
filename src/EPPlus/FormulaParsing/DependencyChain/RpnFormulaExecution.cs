@@ -1002,9 +1002,11 @@ namespace OfficeOpenXml.FormulaParsing
         {
             if (options.AllowCircularReferences)
             {
-                //var refFormula = depChain._formulaStack.Peek();
-                var fromCell = ExcelCellBase.GetCellId(f._ws.IndexInList, f._row, f._column);
-                depChain._circularReferences.Add(new CircularReference(fromCell, toCell));
+                var cr = new CircularReference(ExcelCellBase.GetCellId(f._ws.IndexInList, f._row, f._column), toCell);
+                if (depChain._circularReferences.Contains(cr)==false)
+                {
+                    depChain._circularReferences.Add(cr);
+                }
             }
             else
             {
