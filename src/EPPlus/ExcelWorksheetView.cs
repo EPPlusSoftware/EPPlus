@@ -659,8 +659,8 @@ namespace OfficeOpenXml
                 PaneSettings.TopNode.RemoveAll();
             }
 
-            var hiddenRows = _worksheet.Rows.Where(x => x.Hidden == true).ToList().Count;
-            var hiddenCols = _worksheet.Columns.Where(x => x.Hidden == true).ToList().Count;
+            var hiddenRows = _worksheet.Rows.Where(x => x.Hidden == true).Count();
+            var hiddenCols = _worksheet.Columns.Where(x => x.Hidden == true).Count();
 
             if (Column > 1) PaneSettings.XSplit = Column - 1 - hiddenCols;
             if (Row > 1) PaneSettings.YSplit = Row - 1 - hiddenRows;
