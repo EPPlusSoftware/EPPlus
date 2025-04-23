@@ -76,14 +76,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (rangeOrValue.Range != null)
             {
                 var rangeInfo = rangeOrValue.Range;
-                var toRow = rangeInfo.Address.ToRow;
-                if (rangeInfo.Worksheet.Dimension.End.Row < toRow)
+                var address = rangeInfo.GetAddressDimensionAdjusted(0).Address;
+                //var toRow = rangeInfo.Address.ToRow;
+                //if (rangeInfo.Worksheet.Dimension.End.Row < toRow)
+                //{
+                //    toRow = rangeInfo.Worksheet.Dimension.End.Row;
+                //}
+                for (var row = address.FromRow; row <= address.ToRow; row++)
                 {
-                    toRow = rangeInfo.Worksheet.Dimension.End.Row;
-                }
-                for (var row = rangeInfo.Address.FromRow; row <= toRow; row++)
-                {
-                    for (var col = rangeInfo.Address.FromCol; col <= rangeInfo.Address.ToCol; col++)
+                    for (var col = address.FromCol; col <= address.ToCol; col++)
                     {
                         var candidate = rangeInfo.GetValue(row, col);
                         if (searched != null && Evaluate(candidate, searched, ctx, convertNumericString))
