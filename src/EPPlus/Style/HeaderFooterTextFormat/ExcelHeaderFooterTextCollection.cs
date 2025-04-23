@@ -464,10 +464,10 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             {
                 theme = (eThemeSchemeColor)int.Parse(""+c[0] + c[1]);
                 var themeColor = _ws.Workbook.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum((eThemeSchemeColor)theme);
-                var color = Utils.ColorConverter.GetThemeColor(themeColor);
+                var color = Utils.TypeConversion.ColorConverter.GetThemeColor(themeColor);
                 tint = double.Parse((""+c[3] + c[4] + c[5]));
                 tint = c[2] == '-' ? -(tint/100) : tint / 100;
-                return Utils.ColorConverter.ApplyTint(color, (double)tint);
+                return Utils.TypeConversion.ColorConverter.ApplyTint(color, (double)tint);
             }
             else
             {
