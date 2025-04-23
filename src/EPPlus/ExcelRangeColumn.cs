@@ -703,6 +703,7 @@ namespace OfficeOpenXml
             }
         }
 
+        //Remove? makes for "weird" results if destination is on same columns as source.
         public void Copy(ExcelRange destinationAddress)
         {
             Range.Copy(destinationAddress);
@@ -713,23 +714,23 @@ namespace OfficeOpenXml
             var destWs = destinationColumnRange._worksheet;
             var startColNum = destinationColumnRange.StartColumn;
 
-            //var srcCellValues = _worksheet.Cells[1, StartColumn, _worksheet.Dimension.End.Row, EndColumn];
-            //var destCellValues = destWs.Cells[1, destinationColumnRange.StartColumn, _worksheet.Dimension.End.Row, destinationColumnRange.EndColumn];
-            //srcCellValues.Copy(destCellValues);
+            var srcCellValues = _worksheet.Cells[1, StartColumn, _worksheet.Dimension.End.Row, EndColumn];
+            var destCellValues = destWs.Cells[1, destinationColumnRange.StartColumn, _worksheet.Dimension.End.Row, destinationColumnRange.EndColumn];
+            srcCellValues.Copy(destCellValues, ExcelRangeCopyOptionFlags.IncludeFullColumn);
 
-            int i = 0;
-            foreach (var srcColRange in this)
-            {
-                var srcCol = _worksheet.Column(srcColRange.StartColumn);
-                var destCol = destWs.Column(startColNum + i);
-                destWs.CopyColumn(srcCol, startColNum + i, destCol.ColumnMax);
+            //int i = 0;
+            //foreach (var srcColRange in this)
+            //{
+            //    var srcCol = _worksheet.Column(srcColRange.StartColumn);
+            //    var destCol = destWs.Column(startColNum + i);
+            //    destWs.CopyColumn(srcCol, startColNum + i, destCol.ColumnMax);
 
-                //Start and end column should arguably be the same here.
-                var srcCellValues = _worksheet.Cells[1, srcColRange.StartColumn, _worksheet.Dimension.End.Row, srcColRange.EndColumn];
-                var destCellValues = destWs.Cells[1, destCol.ColumnMin, _worksheet.Dimension.End.Row, destCol.ColumnMax];
-                srcCellValues.Copy(destCellValues);
-                i++;
-            }
+            //    //Start and end column should arguably be the same here.
+            //    var srcCellValues = _worksheet.Cells[1, srcColRange.StartColumn, _worksheet.Dimension.End.Row, srcColRange.EndColumn];
+            //    var destCellValues = destWs.Cells[1, destCol.ColumnMin, _worksheet.Dimension.End.Row, destCol.ColumnMax];
+            //    srcCellValues.Copy(destCellValues);
+            //    i++;
+            //}
 
             ////Range.Copy(destinationColumnRange.Range);
 

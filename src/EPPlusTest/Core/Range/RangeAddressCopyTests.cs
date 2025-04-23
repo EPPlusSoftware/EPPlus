@@ -32,6 +32,7 @@ using OfficeOpenXml.Style;
 using System.Drawing;
 using OfficeOpenXml.DataValidation;
 using Castle.Components.DictionaryAdapter.Xml;
+using System.Linq;
 
 namespace EPPlusTest.Core.Range
 {
@@ -1095,23 +1096,29 @@ namespace EPPlusTest.Core.Range
         }
 
         [TestMethod]
-        public void RangeBaseCopyColumnWidth()
+        public void EnsureColumnWidthUncopied()
         {
-            using (var package = OpenPackage("ColumnWidthCopy.xlsx", true))
+            using (var package = OpenPackage("UncopiedColumnWidth.xlsx", true))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("NewSheet");
 
+                ws.Cells["D3:F10"].Formula = "ROW()+COLUMN()";
+                ws.Cells["D3:F10"].Calculate();
+                ws.Cells["D3:F10"].ClearFormulas();
+
                 ws.Cells["D3:G15"].EntireColumn.Width = 20;
 
-                ws.Cells["D3:D5"].Copy(ws.Cells["I1:I3"]);
+                ws.Cells["D3:F10"].Copy(ws.Cells["I1:I3"]);
+
+                Assert.AreNotEqual(20, ws.Column(9).Width);
 
                 SaveAndCleanup(package);
             }
         }
 
         [TestMethod]
-        public void RangeBaseCopyRowHeight()
+        public void EnsureRowHeightUncopied()
         {
             using (var package = OpenPackage("RowHeight.xlsx", true))
             {
@@ -1119,21 +1126,34 @@ namespace EPPlusTest.Core.Range
                 var ws = wb.Worksheets.Add("NewSheet");
 
                 ws.Cells["D3:G15"].EntireRow.Height = 20;
-               
-                //Check merge cells
-                ws.Cells["D5:E6"].Merge = true;
 
                 ws.Cells["D3:D7"].Copy(ws.Cells["I1:I3"]);
 
-                ws.Cells["D3:D5,F20:F25"].Formula = "ROW()";
+                ws.Cells["D3:D5"].Formula = "ROW()";
                 ws.Calculate();
-                ws.Cells["D3:D5,F20:F25"].ClearFormulas();
+                ws.Cells["D3:D5"].ClearFormulas();
 
                 ws.Cells["B1:B2"].EntireRow.Height = 2;
 
-                ws.Cells["D3:D7,F20:F25"].Copy(ws.Cells["L1:L3"]);
+                ws.Cells["D3:D7"].Copy(ws.Cells["L1:L3"]);
 
+                Assert.AreNotEqual(20, ws.Row(1).Height);
+                Assert.AreNotEqual(20, ws.Row(2).Height);
                 SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void EnsurePartialMergedCellsAreCopied()
+        {
+            using (var package = OpenPackage("MergedCells.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("NewWs");
+                //Check merge cells
+                ws.Cells["D5:E6"].Merge = true;
+                ws.Cells["D3:D7"].Copy(ws.Cells["L1:L3"]);
+
+                Assert.IsTrue(ws.Cells["L3:L4"].Merge);
             }
         }
 
@@ -1156,10 +1176,54 @@ namespace EPPlusTest.Core.Range
                 srcRange.EntireColumn.Width = 20;
 
                 var cols = ws.Columns[srcRange.Start.Column, srcRange.End.Column];
-
                 var destCols = ws.Columns[destRange.Start.Column, destRange.End.Column];
 
                 cols.Copy(destCols);
+
+                Assert.AreEqual(20, destCols.Width);
+                Assert.AreEqual(20, destRange.EntireColumn.Width);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void CopyRangeRow()
+        {
+            using (var package = OpenPackage("CopyRowIteration.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("RowIt");
+
+                var srcRange = ws.Cells["D3:F10"];
+                var destRange = ws.Cells["D20:L25"];
+
+                srcRange.Formula = "ROW()+COLUMN()";
+                ws.Calculate();
+                srcRange.ClearFormulas();
+
+                srcRange.EntireRow.Height = 20;
+
+                var rows = ws.Rows[srcRange.Start.Row, srcRange.End.Row];
+                var destRows = ws.Rows[destRange.Start.Row, destRange.End.Row];
+
+                rows.Copy(destRows);
+
+                Assert.AreEqual(20, destRows.Height);
+                Assert.AreEqual(20, destRange.EntireRow.Height);
+
+                //test that values are copied when to the same rows
+                var sameRows = ws.Cells["J3:L10"];
+                //var sameRangeRows = sameRange.EntireRow;
+
+                rows.Copy(sameRows);
+                //rows.Copy(sameRangeRows);
+
+                var srcList = srcRange.ToCollection<double>();
+                //var offset = ws.Cells["J3:L10"].Offset(0, srcRange.Start.Column);
+                //var sameRangeList = offset.ToCollection<double>();
+
+                //Assert.IsTrue(srcList.SequenceEqual(sameRangeList));
 
                 SaveAndCleanup(package);
             }

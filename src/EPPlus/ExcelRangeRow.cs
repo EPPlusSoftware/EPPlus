@@ -576,6 +576,24 @@ namespace OfficeOpenXml
             }
         }
 
+        //Remove? makes for "weird" results if on same rows as source.
+        //Since it essentially copies the entire range of rows and then places them starting from destination.
+        //Meaning if e.g. B3 is copied to position D3 it will end up at E3. This since the Cells from A3 is put at D3
+        public void Copy(ExcelRange destinationAddress)
+        {
+            Range.Copy(destinationAddress);
+        }
+
+        public void Copy(ExcelRangeRow destinationRowRange)
+        {
+            var destWs = destinationRowRange._worksheet;
+            var startColNum = destinationRowRange.StartRow;
+
+            var srcCellValues = _worksheet.Cells[StartRow, 1, EndRow, _worksheet.Dimension.End.Column];
+            var destCellValues = destWs.Cells[destinationRowRange.StartRow, 1, destinationRowRange.EndRow, destinationRowRange._worksheet.Dimension.End.Column];
+            srcCellValues.Copy(destCellValues, ExcelRangeCopyOptionFlags.IncludeFullRow);
+        }
+
         private RowInternal GetRow(int row)
         {
             if (row < 1 || row > ExcelPackage.MaxRows) return null;

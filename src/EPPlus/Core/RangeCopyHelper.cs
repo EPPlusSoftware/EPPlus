@@ -906,15 +906,18 @@ namespace OfficeOpenXml.Core
                 }
             }
 
-            var sourceRowOrig = _sourceRange._fromRow;
-            var destRowOrig = _destinationRange._fromRow;
-
-            for (int i = 0; i < _sourceRange.Rows; i++)
+            if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.IncludeFullRow))
             {
-                var sourceRow = _sourceRange.Worksheet.Row(sourceRowOrig + i);
-                var destRow = _destinationRange.Worksheet.Row(destRowOrig + i);
+                var sourceRowOrig = _sourceRange._fromRow;
+                var destRowOrig = _destinationRange._fromRow;
 
-                destRow.Height = sourceRow.Height;
+                for (int i = 0; i < _sourceRange.Rows; i++)
+                {
+                    var sourceRow = _sourceRange.Worksheet.Row(sourceRowOrig + i);
+                    var destRow = _destinationRange.Worksheet.Row(destRowOrig + i);
+
+                    destRow.Height = sourceRow.Height;
+                }
             }
         }
 
@@ -928,15 +931,18 @@ namespace OfficeOpenXml.Core
                 }
             }
 
-            var destColOrig = _destinationRange._fromCol;
-            var sourceColOrig = _sourceRange._fromCol;
-
-            for(int i = 0; i < _sourceRange.Columns; i++)
+            if(EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.IncludeFullColumn))
             {
-                var sourceCol = _sourceRange.Worksheet.Column(sourceColOrig + i);
-                var destCol = _destinationRange.Worksheet.Column(destColOrig + i);
+                var destColOrig = _destinationRange._fromCol;
+                var sourceColOrig = _sourceRange._fromCol;
 
-                destCol.Width = sourceCol.Width;
+                for (int i = 0; i < _sourceRange.Columns; i++)
+                {
+                    var sourceCol = _sourceRange.Worksheet.Column(sourceColOrig + i);
+                    var destCol = _destinationRange.Worksheet.Column(destColOrig + i);
+
+                    destCol.Width = sourceCol.Width;
+                }
             }
         }
     }
