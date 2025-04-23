@@ -682,7 +682,7 @@ namespace OfficeOpenXml.ExternalReferences
                         }
                     }
                 }
-            }            
+            }
         }
 
         /// <summary>
