@@ -213,3 +213,6 @@ Renaming worksheet's will now change the formula correctly to include single quo
 `ExcelSparklineColor.Tint` from `decimal` to `double`.
 `ExcelColorXml.Tint` from `decimal` to `double`.
 `ExcelColor.Tint` from `decimal` to `double`.
+
+### 8.0.2
+* Removed base class from ExcelVmlDrawingPosition and with that the Load, UpdateXml methods and the RowOff and ColOff properties as they were duplicates.
