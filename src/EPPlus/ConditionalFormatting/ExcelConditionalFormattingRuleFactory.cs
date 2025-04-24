@@ -13,7 +13,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Xml;
 

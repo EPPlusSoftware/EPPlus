@@ -11,13 +11,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Text;
 using OfficeOpenXml.Style.XmlAccess;
 using System.Drawing;
 using OfficeOpenXml.Drawing;
-using System.Globalization;
-using System.Security.Principal;
 
 namespace OfficeOpenXml.Style
 {
@@ -254,10 +250,10 @@ namespace OfficeOpenXml.Style
         private string GetThemeColor(eThemeSchemeColor theme, double tint)
         {
             var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(theme);
-            var color = Utils.ColorConverter.GetThemeColor(themeColor);
+            var color = Utils.TypeConversion.ColorConverter.GetThemeColor(themeColor);
             if (tint != 0)
             {
-                color = Utils.ColorConverter.ApplyTint(color, tint);
+                color = Utils.TypeConversion.ColorConverter.ApplyTint(color, tint);
             }
 
             return "#" + color.ToArgb().ToString("X");
@@ -291,10 +287,10 @@ namespace OfficeOpenXml.Style
         internal static string GetThemeColor(eThemeSchemeColor theme, double tint, ExcelWorkbook wb)
         {
             var themeColor = wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(theme);
-            var color = Utils.ColorConverter.GetThemeColor(themeColor);
+            var color = Utils.TypeConversion.ColorConverter.GetThemeColor(themeColor);
             if (tint != 0)
             {
-                color = Utils.ColorConverter.ApplyTint(color, tint);
+                color = Utils.TypeConversion.ColorConverter.ApplyTint(color, tint);
             }
             return "#" + color.ToArgb().ToString("X");
         }

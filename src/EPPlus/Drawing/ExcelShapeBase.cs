@@ -28,56 +28,56 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public class ExcelShapeBase : ExcelDrawing
     {
-        internal string _shapeStylePath = "{0}xdr:spPr/a:prstGeom/@prst";
-        private string _fillPath = "{0}xdr:spPr";
-        private string _borderPath = "{0}xdr:spPr/a:ln";
-        private string _effectPath = "{0}xdr:spPr/a:effectLst";
-		private string _rotationPath = "{0}xdr:spPr/a:xfrm/@rot";
-		private string _horizontalFlipPath = "{0}xdr:spPr/a:xfrm/@flipH";
-		private string _verticalFlipPath = "{0}xdr:spPr/a:xfrm/@flipV";
-		private string _headEndPath = "{0}xdr:spPr/a:ln/a:headEnd";
-        private string _tailEndPath = "{0}xdr:spPr/a:ln/a:tailEnd";
-        private string _textPath = "{0}xdr:txBody/a:p/a:r/a:t";
+        internal string _shapeStylePath = "{0}{1}:spPr/a:prstGeom/@prst";
+        private string _fillPath = "{0}{1}:spPr";
+        private string _borderPath = "{0}{1}:spPr/a:ln";
+        private string _effectPath = "{0}{1}:spPr/a:effectLst";
+		private string _rotationPath = "{0}{1}:spPr/a:xfrm/@rot";
+		private string _horizontalFlipPath = "{0}{1}:spPr/a:xfrm/@flipH";
+		private string _verticalFlipPath = "{0}{1}:spPr/a:xfrm/@flipV";
+		private string _headEndPath = "{0}{1}:spPr/a:ln/a:headEnd";
+        private string _tailEndPath = "{0}{1}:spPr/a:ln/a:tailEnd";
+        private string _textPath = "{0}{1}:txBody/a:p/a:r/a:t";
         private string _lockTextPath = "{0}@fLocksText";
-        private string _textAnchoringPath = "{0}xdr:txBody/a:bodyPr/@anchor";
-        private string _textAnchoringCtlPath = "{0}xdr:txBody/a:bodyPr/@anchorCtr";
-        private string _paragraphPath = "{0}xdr:txBody/a:p";
-        private string _textAlignPath = "{0}xdr:txBody/a:p/a:pPr/@algn";
-        private string _indentAlignPath = "{0}xdr:txBody/a:p/a:pPr/@lvl";
-        private string _textVerticalPath = "{0}xdr:txBody/a:bodyPr/@vert";
-        private string _fontPath = "{0}xdr:txBody/a:p/a:pPr/a:defRPr";
-        private string _textBodyPath = "{0}xdr:txBody/a:bodyPr";
-        private string _presetGeometryPath = "{0}xdr:spPr/a:prstGeom/a:avLst";
+        private string _textAnchoringPath = "{0}{1}:txBody/a:bodyPr/@anchor";
+        private string _textAnchoringCtlPath = "{0}{1}:txBody/a:bodyPr/@anchorCtr";
+        private string _paragraphPath = "{0}{1}:txBody/a:p";
+        private string _textAlignPath = "{0}{1}:txBody/a:p/a:pPr/@algn";
+        private string _indentAlignPath = "{0}{1}:txBody/a:p/a:pPr/@lvl";
+        private string _textVerticalPath = "{0}{1}:txBody/a:bodyPr/@vert";
+        private string _fontPath = "{0}{1}:txBody/a:p/a:pPr/a:defRPr";
+        private string _textBodyPath = "{0}{1}:txBody/a:bodyPr";
+        private string _presetGeometryPath = "{0}{1}:spPr/a:prstGeom/a:avLst";
 
         private Dictionary<string, ShapeGuidePoint> _adjustmentPoints = null;
 
-        internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null) :
-            base(drawings, node, topPath, nvPrPath, parent)
+        internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.Worksheet) :
+            base(drawings, node, topPath, nvPrPath, parent, DrawingsType)
         {
             Init(string.IsNullOrEmpty(_topPath) ? "" : _topPath + "/");
         }
         private void Init(string topPath)
         {
-            _shapeStylePath = string.Format(_shapeStylePath, topPath);
-            _fillPath = string.Format(_fillPath, topPath);
-            _borderPath = string.Format(_borderPath, topPath);
-            _effectPath = string.Format(_effectPath, topPath);
-			_rotationPath = string.Format(_rotationPath, topPath);
-			_horizontalFlipPath = string.Format(_horizontalFlipPath, topPath);
-			_verticalFlipPath = string.Format(_verticalFlipPath, topPath);
-			_headEndPath = string.Format(_headEndPath, topPath);
-            _tailEndPath = string.Format(_tailEndPath, topPath);
-            _textPath = string.Format(_textPath, topPath);
-            _lockTextPath = string.Format(_lockTextPath, topPath);
-            _textAnchoringPath = string.Format(_textAnchoringPath, topPath);
-            _textAnchoringCtlPath = string.Format(_textAnchoringCtlPath, topPath);
-            _paragraphPath = string.Format(_paragraphPath, topPath);
-            _textAlignPath = string.Format(_textAlignPath, topPath);
-            _indentAlignPath = string.Format(_indentAlignPath, topPath);
-            _textVerticalPath = string.Format(_textVerticalPath, topPath);
-            _fontPath = string.Format(_fontPath, topPath);
-            _textBodyPath = string.Format(_textBodyPath, topPath);
-            _presetGeometryPath = string.Format(_presetGeometryPath, topPath);
+            _shapeStylePath       = string.Format(_shapeStylePath,       topPath, NamespacePrefixes[_prefixIndex]);
+            _fillPath             = string.Format(_fillPath,             topPath, NamespacePrefixes[_prefixIndex]);
+            _borderPath           = string.Format(_borderPath,           topPath, NamespacePrefixes[_prefixIndex]);
+            _effectPath           = string.Format(_effectPath,           topPath, NamespacePrefixes[_prefixIndex]);
+			_rotationPath         = string.Format(_rotationPath,         topPath, NamespacePrefixes[_prefixIndex]);
+			_horizontalFlipPath   = string.Format(_horizontalFlipPath,   topPath, NamespacePrefixes[_prefixIndex]);
+			_verticalFlipPath     = string.Format(_verticalFlipPath,     topPath, NamespacePrefixes[_prefixIndex]);
+			_headEndPath          = string.Format(_headEndPath,          topPath, NamespacePrefixes[_prefixIndex]);
+            _tailEndPath          = string.Format(_tailEndPath,          topPath, NamespacePrefixes[_prefixIndex]);
+            _textPath             = string.Format(_textPath,             topPath, NamespacePrefixes[_prefixIndex]);
+            _lockTextPath         = string.Format(_lockTextPath,         topPath, NamespacePrefixes[_prefixIndex]);
+            _textAnchoringPath    = string.Format(_textAnchoringPath,    topPath, NamespacePrefixes[_prefixIndex]);
+            _textAnchoringCtlPath = string.Format(_textAnchoringCtlPath, topPath, NamespacePrefixes[_prefixIndex]);
+            _paragraphPath        = string.Format(_paragraphPath,        topPath, NamespacePrefixes[_prefixIndex]);
+            _textAlignPath        = string.Format(_textAlignPath,        topPath, NamespacePrefixes[_prefixIndex]);
+            _indentAlignPath      = string.Format(_indentAlignPath,      topPath, NamespacePrefixes[_prefixIndex]);
+            _textVerticalPath     = string.Format(_textVerticalPath,     topPath, NamespacePrefixes[_prefixIndex]);
+            _fontPath             = string.Format(_fontPath,             topPath, NamespacePrefixes[_prefixIndex]);
+            _textBodyPath         = string.Format(_textBodyPath,         topPath, NamespacePrefixes[_prefixIndex]);
+            _presetGeometryPath   = string.Format(_presetGeometryPath,   topPath, NamespacePrefixes[_prefixIndex]);
             AddSchemaNodeOrder(SchemaNodeOrder, new string[] { "nvSpPr", "spPr", "txSp", "style", "txBody", "hlinkClick", "hlinkHover", "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "blipFill", "gradFill", "pattFill", "grpFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d", "pPr", "r", "br", "fld", "endParaRPr", "lnRef", "fillRef", "effectRef", "fontRef" });
         }
         /// <summary>
@@ -131,7 +131,7 @@ namespace OfficeOpenXml.Drawing
         }
         ExcelDrawingBorder _border = null;
         /// <summary>
-        /// Access to Border propesties
+        /// Access to Border properties
         /// </summary>
         public ExcelDrawingBorder Border
         {

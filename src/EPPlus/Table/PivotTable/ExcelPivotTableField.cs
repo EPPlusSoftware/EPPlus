@@ -16,14 +16,15 @@ using System.Xml;
 using System.Globalization;
 using OfficeOpenXml.Drawing.Slicer;
 using System.Linq;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing;
 using System.Text;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Table.PivotTable.Filter;
-using OfficeOpenXml.Utils.Extensions;
 using System.Diagnostics;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.Compare;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.Table.PivotTable
 {

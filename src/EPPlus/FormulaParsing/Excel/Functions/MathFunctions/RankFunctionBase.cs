@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var numbers = new List<double>();
             foreach (var cell in refArg.ValueAsRangeInfo)
             {
-                var cellValue = Utils.ConvertUtil.GetValueDouble(cell.Value, false, true);
+                var cellValue = Utils.TypeConversion.ConvertUtil.GetValueDouble(cell.Value, false, true);
                 if (!double.IsNaN(cellValue))
                 {
                     numbers.Add(cellValue);

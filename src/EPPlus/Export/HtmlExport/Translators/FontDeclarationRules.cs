@@ -11,9 +11,9 @@
   03/14/2024         EPPlus Software AB           Epplus 7.1
  *************************************************************************************************/
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {

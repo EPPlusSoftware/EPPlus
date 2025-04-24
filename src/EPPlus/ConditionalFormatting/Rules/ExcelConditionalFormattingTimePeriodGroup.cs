@@ -15,14 +15,14 @@ using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Utilities;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-  /// <summary>
-  /// ExcelConditionalFormattingTimePeriodGroup
-  /// </summary>
-  internal class ExcelConditionalFormattingTimePeriodGroup: ExcelConditionalFormattingRule,
+    /// <summary>
+    /// ExcelConditionalFormattingTimePeriodGroup
+    /// </summary>
+    internal class ExcelConditionalFormattingTimePeriodGroup: ExcelConditionalFormattingRule,
     IExcelConditionalFormattingTimePeriodGroup
   {
     /****************************************************************************************/

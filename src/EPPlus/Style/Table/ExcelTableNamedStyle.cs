@@ -10,15 +10,6 @@
  *************************************************************************************************
   01/08/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
  *************************************************************************************************/
-using OfficeOpenXml.Core;
-using OfficeOpenXml.Packaging.Ionic.Zip;
-using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Table;
-using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Utils.Extensions;
-using System;
-using System.IO;
-using System.Reflection;
 using System.Xml;
 
 namespace OfficeOpenXml.Style.Table

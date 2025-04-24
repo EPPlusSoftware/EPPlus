@@ -20,6 +20,8 @@ using System.Text.RegularExpressions;
 using OfficeOpenXml.Utils.CompundDocument;
 using OfficeOpenXml.Constants;
 using System.Collections.Generic;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.VBA;
 
 namespace OfficeOpenXml.VBA
 {

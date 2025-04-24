@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using System.Xml;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>

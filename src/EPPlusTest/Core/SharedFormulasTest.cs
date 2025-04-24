@@ -8,19 +8,14 @@ namespace OfficeOpenXml.FormulaParsing
     [TestClass]
     public class SharedFormulasTest
     {
-        private static ExcelPackage _package;
-        private static ExcelWorksheet _ws;
 
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            _package = new ExcelPackage();
-            _ws = _package.Workbook.Worksheets.Add("Sheet1");
         }
         [ClassCleanup]
         public static void Cleanup()
         {
-            _package.Dispose();
         }
         [TestMethod]
         public void SharedFormulasShouldNotEffectFullColumn()

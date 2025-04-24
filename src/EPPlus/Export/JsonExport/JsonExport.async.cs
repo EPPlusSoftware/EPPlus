@@ -1,5 +1,5 @@
 ﻿using OfficeOpenXml.Export.HtmlExport;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.String;
 using System;
 using System.IO;
 using System.Text;

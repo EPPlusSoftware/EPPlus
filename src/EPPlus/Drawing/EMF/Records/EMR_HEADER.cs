@@ -14,9 +14,9 @@ using System.IO;
 using System.Collections.Generic;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using System.Text;
-using OfficeOpenXml.Utils;
 using System;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Drawing.EMF
 {

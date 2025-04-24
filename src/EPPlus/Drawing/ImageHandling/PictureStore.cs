@@ -19,6 +19,7 @@ using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.Packaging;
 using System.Linq;
+using OfficeOpenXml.Utils.FileUtils;
 namespace OfficeOpenXml.Drawing
 {
     internal class ImageInfo
@@ -165,6 +166,32 @@ namespace OfficeOpenXml.Drawing
             }
             return _images[hash];
         }
+        internal static ExcelImage LoadAndAddImageFromContainer(IPictureContainer container, ZipPackagePart picturePart)
+        {
+            var image = new ExcelImage(container);
+
+            var ms = ((MemoryStream)picturePart.GetStream());
+            var type = PictureStore.GetPictureTypeByContentType(picturePart.ContentType);
+            if (type == null)
+            {
+                type = ImageReader.GetPictureType(ms, false);
+            }
+            image.Type = type.Value;
+            byte[] iby = ms.ToArray();
+            image.ImageBytes = iby;
+            var pd = container.RelationDocument;
+            var ii = pd.Package.PictureStore.LoadImage(iby, container.UriPic, picturePart);
+            if (pd.Hashes.ContainsKey(ii.Hash))
+            {
+                pd.Hashes[ii.Hash].RefCount++;
+            }
+            else
+            {
+                pd.Hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id) { RefCount = 1 });
+            }
+            container.ImageHash = ii.Hash;
+            return image;
+        }
 
         private static void SaveImageToPart(byte[] image, ZipPackagePart imagePart)
         {
@@ -240,7 +267,6 @@ namespace OfficeOpenXml.Drawing
                     {
                         container.RelationDocument.Hashes.Remove(hash);
                     }
-                        
                 }
             }
         }

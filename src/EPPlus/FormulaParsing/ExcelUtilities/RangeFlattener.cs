@@ -10,6 +10,7 @@
  *************************************************************************************************
   21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils;
 using System;
@@ -28,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// <param name="r1"></param>
         /// <param name="addNullifEmpty"></param>
         /// <returns></returns>
-        public static List<double?> FlattenRange(IRangeInfo r1, bool addNullifEmpty=true)
+        public static List<double?> FlattenRange(IRangeInfo r1, bool addNullifEmpty = true)
         {
             var result = new List<double?>();
 
@@ -44,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 
                         result.Add(yNum);
                     }
-                    else if(addNullifEmpty)
+                    else if (addNullifEmpty)
                     {
                         result.Add(null);
                     }
@@ -73,7 +74,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// <param name="dataPointsEqual"></param>
         /// <param name="l1">a list containing all numeric values from <paramref name="r1"/> that has a corresponding value in <paramref name="r2"/></param>
         /// <param name="l2">a list containing all numeric values from <paramref name="r2"/> that has a corresponding value in <paramref name="r1"/></param>
-        public static void GetNumericPairLists(IRangeInfo r1  , IRangeInfo r2, bool dataPointsEqual,  out List<double> l1, out List<double> l2)
+        public static void GetNumericPairLists(IRangeInfo r1, IRangeInfo r2, bool dataPointsEqual, out List<double> l1, out List<double> l2)
         {
             if (dataPointsEqual)
             {
@@ -88,7 +89,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 l2 = new List<double>();
                 for (var i = 0; i < rangeValues1.Count; i++)
                 {
-                    if ( rangeValues1[i].HasValue && rangeValues2[i].HasValue)
+                    if (rangeValues1[i].HasValue && rangeValues2[i].HasValue)
                     {
                         l1.Add(rangeValues1[i].Value);
                         l2.Add(rangeValues2[i].Value);

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.VBA;
 using OfficeOpenXml.VBA;
 using OfficeOpenXml.VBA.ContentHash;
 using OfficeOpenXml.VBA.Signatures;

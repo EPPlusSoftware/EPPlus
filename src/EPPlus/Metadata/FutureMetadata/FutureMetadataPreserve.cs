@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections.Generic;
 using System.IO;

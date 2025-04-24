@@ -18,7 +18,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.LoadFunctions.ReflectionHelpers;
 using OfficeOpenXml.Table.PivotTable.Calculation;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -27,7 +27,7 @@ using System.Net;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
-	internal class PivotTableColumnCalculation
+    internal class PivotTableColumnCalculation
 	{
 		ExcelPivotTable _tbl;
 		List<PivotCalculationStore> _calcItems;

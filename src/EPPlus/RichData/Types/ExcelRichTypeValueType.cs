@@ -11,7 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.Encryption;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.AttributesUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;

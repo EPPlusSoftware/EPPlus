@@ -250,12 +250,12 @@ namespace OfficeOpenXml.Style.Dxf
             else if (Theme.HasValue)
             {
                 var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(Theme.Value);
-                return Utils.ColorConverter.GetThemeColor(themeColor);
+                return Utils.TypeConversion.ColorConverter.GetThemeColor(themeColor);
             }
             else if (Auto.HasValue)
             {
                 var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(eThemeSchemeColor.Background1);
-                return Utils.ColorConverter.GetThemeColor(themeColor);
+                return Utils.TypeConversion.ColorConverter.GetThemeColor(themeColor);
             }
             else if(whiteAsDefault)
             {
@@ -301,10 +301,10 @@ namespace OfficeOpenXml.Style.Dxf
         private string GetThemeColor(eThemeSchemeColor theme, double tint)
         {
             var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(theme);
-            var color = Utils.ColorConverter.GetThemeColor(themeColor);
+            var color = Utils.TypeConversion.ColorConverter.GetThemeColor(themeColor);
             if (tint != 0)
             {
-                color = Utils.ColorConverter.ApplyTint(color, tint);
+                color = Utils.TypeConversion.ColorConverter.ApplyTint(color, tint);
             }
 
             return "#" + color.ToArgb().ToString("X");

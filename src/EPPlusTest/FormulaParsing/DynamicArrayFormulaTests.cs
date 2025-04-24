@@ -4,7 +4,7 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System.Drawing;
 
 namespace EPPlusTest.FormulaParsing

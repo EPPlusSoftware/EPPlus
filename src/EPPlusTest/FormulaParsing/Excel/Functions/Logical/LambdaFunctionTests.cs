@@ -14,10 +14,6 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 {
-    /*
-     * Status 2025-02-21: The functionality in the tokenizer/RPN tokens that concatenated comma-separated
-     * Excel addresses is disabled. We need unit tests for this, see line 76 in FormulaExecutor.CreateRpnTokens.
-     */
     [TestClass]
     public class LambdaFunctionTests
     {

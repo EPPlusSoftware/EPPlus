@@ -15,11 +15,11 @@ using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.CssCollections;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using System.Xml;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {

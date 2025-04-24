@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.DataValidation.Contracts;
 using System;
+using System.Collections.Generic;
 namespace OfficeOpenXml.DataValidation
 {
     /// <summary>
@@ -63,6 +64,11 @@ namespace OfficeOpenXml.DataValidation
         /// <returns>A <see cref="IExcelDataValidationCustom"/> that can be configured for custom validation</returns>
         IExcelDataValidationCustom AddCustomDataValidation();
 
+        /// <summary>
+        /// Get a list of DataValidations within the supplied range
+        /// </summary>
+        /// <returns></returns>
+        List<ExcelDataValidation> GetDataValidations();
         /// <summary>
         /// Removes validation from the cell/range
         /// </summary>

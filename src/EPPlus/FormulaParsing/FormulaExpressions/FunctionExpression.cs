@@ -17,7 +17,7 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.EnumUtils;
 using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions

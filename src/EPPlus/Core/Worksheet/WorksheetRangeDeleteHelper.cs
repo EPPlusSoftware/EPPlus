@@ -645,32 +645,32 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static ExcelAddressBase DeleteSplitIndividualAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeDelete shift)
+        private static ExcelAddressBase DeleteSplitIndividualAddress(ExcelAddressBase address, ExcelAddressBase deleteRange, ExcelAddressBase affectedAddress, eShiftTypeDelete shift)
         {
-            if (address.CollideFullRowOrColumn(range))
+            if (address.CollideFullRowOrColumn(deleteRange))
             {
-                if (range.IsFullColumn)
+                if (deleteRange.IsFullColumn)
                 {
                     if (address.IsFullRow == false)
                     {
-                        return address.DeleteColumn(range._fromCol, range.Columns);
+                        return address.DeleteColumn(deleteRange._fromCol, deleteRange.Columns);
                     }
                 }
                 else
                 {
                     if (address.IsFullColumn == false)
                     {
-                        return address.DeleteRow(range._fromRow, range.Rows);
+                        return address.DeleteRow(deleteRange._fromRow, deleteRange.Rows);
                     }
                 }
             }
             else
             {
-                var collide = effectedAddress.Collide(address);
+                var collide = affectedAddress.Collide(address);
                 if (collide == ExcelAddressBase.eAddressCollition.Partly)
                 {
-                    var addressToShift = effectedAddress.Intersect(address);
-                    var shiftedAddress = ShiftAddress(addressToShift, range, shift);
+                    var addressToShift = ShiftAddress(address, affectedAddress, deleteRange, shift);
+
                     var newAddress = "";
                     if (address._fromRow < addressToShift._fromRow)
                     {
@@ -682,16 +682,16 @@ namespace OfficeOpenXml.Core.Worksheet
                         newAddress += ExcelCellBase.GetAddress(fromRow, address._fromCol, address._toRow, addressToShift._fromCol - 1) + ",";
                     }
 
-                    if (shiftedAddress != null)
+                    if (addressToShift != null)
                     {
-                        newAddress += $"{shiftedAddress.Address},";
+                        newAddress += $"{addressToShift.Address},";
                     }
 
-                    if (address._toRow > addressToShift._toRow)
+                    if (address._toRow > affectedAddress._toRow)
                     {
                         newAddress += ExcelCellBase.GetAddress(addressToShift._toRow + 1, address._fromCol, address._toRow, address._toCol) + ",";
                     }
-                    if (address._toCol > addressToShift._toCol)
+                    if (address._toCol > affectedAddress._toCol)
                     {
                         newAddress += ExcelCellBase.GetAddress(address._fromRow, addressToShift._toCol + 1, address._toRow, address._toCol) + ",";
                     }
@@ -699,21 +699,24 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else if (collide != ExcelAddressBase.eAddressCollition.No)
                 {
-                    return ShiftAddress(address, range, shift);
+                    return ShiftAddress(address, affectedAddress, deleteRange, shift);
                 }
             }
             return address;
         }
 
-        private static ExcelAddressBase ShiftAddress(ExcelAddressBase address, ExcelAddressBase range, eShiftTypeDelete shift)
+        private static ExcelAddressBase ShiftAddress(ExcelAddressBase address, ExcelAddressBase affectedAddress, ExcelAddressBase range, eShiftTypeDelete shift)
         {
+            var addressToShift = affectedAddress.Intersect(address);
             if (shift == eShiftTypeDelete.Up)
             {
-                return address.DeleteRow(range._fromRow, range.Rows);
+                addressToShift._fromRow = address._fromRow;
+                return addressToShift.DeleteRow(range._fromRow, range.Rows);
             }
             else
             {
-                return address.DeleteColumn(range._fromCol, range.Columns);
+                addressToShift._fromCol = address._fromCol;
+                return addressToShift.DeleteColumn(range._fromCol, range.Columns);
             }
         }
         private static void DeletePivottableAddresses(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeDelete shift, ExcelAddressBase effectedAddress)

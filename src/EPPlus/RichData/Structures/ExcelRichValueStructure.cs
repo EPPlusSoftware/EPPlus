@@ -13,7 +13,7 @@
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.RichData.Structures.Constants;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.AttributesUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

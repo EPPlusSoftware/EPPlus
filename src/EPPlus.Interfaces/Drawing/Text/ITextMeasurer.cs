@@ -30,5 +30,10 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         /// <param name="font">The <see cref="MeasurementFont">font</see> to measure</param>
         /// <returns></returns>
         TextMeasurement MeasureText(string text, MeasurementFont font);
+        /// <summary>
+        /// If the text measurer should measure wrap text cells. 
+        /// Only CR, LF or CRLF should be considered.
+        /// </summary>
+        bool MeasureWrappedTextCells { get; set; }
     }
 }

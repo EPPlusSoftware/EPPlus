@@ -1,7 +1,6 @@
 ﻿using EPPlusTest.Table.PivotTable;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +9,7 @@ using System.Security;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Table.PivotTable
 {

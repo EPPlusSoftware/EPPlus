@@ -20,6 +20,15 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
     internal class GenericFontMetricsTextMeasurer : GenericFontMetricsTextMeasurerBase, ITextMeasurer
     {
         /// <summary>
+        /// If the text measurer should measure wrap text cells. 
+        /// Only CR, LF or CRLF should be considered.
+        /// </summary>
+        public bool MeasureWrappedTextCells 
+{
+            get; 
+            set; 
+        }
+        /// <summary>
         /// Measures the supplied text
         /// </summary>
         /// <param name="text">The text to measure</param>
@@ -29,7 +38,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         {
             var fontKey = GetKey(font.FontFamily, font.Style);
             if (!IsValidFont(fontKey)) return TextMeasurement.Empty;
-            return MeasureTextInternal(text, fontKey, font.Style, font.Size);
+            return MeasureTextInternal(text, fontKey, font.Style, font.Size, MeasureWrappedTextCells);
         }
 
         public bool ValidForEnvironment()

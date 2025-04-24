@@ -414,16 +414,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             if (arg.DataType == DataType.Boolean)
             {
-                return arg.Address == null ? Utils.ConvertUtil.GetValueDouble(arg.Value) : default;
+                return arg.Address == null ? Utils.TypeConversion.ConvertUtil.GetValueDouble(arg.Value) : default;
             }
             else if (arg.DataType == DataType.String || arg.DataType == DataType.Unknown)
             {
                 if (arg.Address != null) return default; //If the value reference a cell address, we ignore strings.
-                if (Utils.ConvertUtil.TryParseNumericString(arg.Value.ToString(), out double number))
+                if (Utils.TypeConversion.ConvertUtil.TryParseNumericString(arg.Value.ToString(), out double number))
                 {
                     return number;
                 }
-                else if (Utils.ConvertUtil.TryParseDateString(arg.Value.ToString(), out DateTime date))
+                else if (Utils.TypeConversion.ConvertUtil.TryParseDateString(arg.Value.ToString(), out DateTime date))
                 {
                     return date.ToOADate();
                 }
@@ -434,7 +434,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             else
             {
-                return Utils.ConvertUtil.GetValueDouble(arg.Value);
+                return Utils.TypeConversion.ConvertUtil.GetValueDouble(arg.Value);
             }
         }
         /// <summary>

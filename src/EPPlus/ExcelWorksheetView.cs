@@ -11,7 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -659,8 +659,11 @@ namespace OfficeOpenXml
                 PaneSettings.TopNode.RemoveAll();
             }
 
-            if (Column > 1) PaneSettings.XSplit = Column - 1;
-            if (Row > 1) PaneSettings.YSplit = Row - 1;
+            var hiddenRows = _worksheet.Rows.Where(x => x.Hidden == true).Count();
+            var hiddenCols = _worksheet.Columns.Where(x => x.Hidden == true).Count();
+
+            if (Column > 1) PaneSettings.XSplit = Column - 1 - hiddenCols;
+            if (Row > 1) PaneSettings.YSplit = Row - 1 - hiddenRows;
             PaneSettings.TopLeftCell = ExcelCellBase.GetAddress(Row, Column);
             PaneSettings.State = isSplit ? ePaneState.FrozenSplit : ePaneState.Frozen;
 
