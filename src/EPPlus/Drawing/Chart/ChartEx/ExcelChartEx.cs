@@ -117,7 +117,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 
             StreamWriter streamChart = new StreamWriter(Part.GetStream(FileMode.Create, FileAccess.Write));
             ChartXml.Save(streamChart);
-            streamChart.Close();
+            //streamChart.Close();
             package.Flush();
 
             var chartRelation = drawings.Part.CreateRelationship(UriHelper.GetRelativeUri(drawings.UriDrawing, UriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaChartExRelationships);
