@@ -888,6 +888,18 @@ namespace EPPlusTest.Issues
             var ws = p.Workbook.Worksheets.First();
             var val = ws.Cells["A1"].Value;
         }
+		[TestMethod]
+		public void s846()
+		{
+			using var p = OpenTemplatePackage("s846.xlsx");
+			p.Workbook.Calculate();
+			var ws = p.Workbook.Worksheets["Calculation sheet"];
+			ws.Calculate();
+			Assert.AreEqual(321732.45, ws.Cells["H11"].Value);
+            var ws2 = p.Workbook.Worksheets["aico data"];
+            ws2.Calculate();
+            Assert.AreEqual(93515.9075 , ws2.Cells["D32"].Value);
+        }
     }
 }
 
