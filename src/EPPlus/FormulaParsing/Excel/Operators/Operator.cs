@@ -341,9 +341,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                           {
                                   return new AddressCompileResult(eErrorType.Value);
                           }
+                          if(result.Address.ExternalReferenceIx > 0)
+                          {
+                              return new AddressCompileResult(new EpplusExcelExternalRangeInfo(result.Address.ExternalReferenceIx, result.Address.WorksheetIx, result.FromRow, result.FromCol, result.ToRow, result.ToCol, ctx), DataType.ExcelRange, result);
+                          }
 
                           return new AddressCompileResult(new RangeInfo(result), DataType.ExcelRange,result);
-                          throw new ExcelErrorValueException(eErrorType.Ref);
                       });
                 }
                 return _colon;

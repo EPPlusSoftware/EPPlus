@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -840,5 +842,32 @@ namespace EPPlusTest.Issues
 
             sheet.Cells["C3"].AddComment("Test"); // NullReferenceException 
         }
+
+		[TestMethod]
+		public void I1963()
+		{
+			using var p = OpenPackage("Issue1963.xlsx", true);
+			var sheet = p.Workbook.Worksheets.Add("Sheet1");
+			var filePath = "file:///c:\\Temp\\TestPic.png";
+			var fileUri = new Uri(filePath);
+			
+			// 1. Use System.Uri
+			sheet.Cells["A1"].Hyperlink = fileUri;
+			// 2. Use OfficeOpenXml.ExcelHyperLink
+			var hl = new ExcelHyperLink(filePath);
+			hl.Display = "My Hyperlink";
+			sheet.Cells["A2"].Hyperlink = hl;
+			// 3. Use The SetHyperlink method
+			sheet.Cells["A3"].SetHyperlink(fileUri);
+
+			// style the hyperlink
+			var ns = p.Workbook.Styles.CreateNamedStyle("HyperLink");
+			ns.BuildInId = 8; //This is the id for the build in hyper link style.
+			ns.Style.Font.UnderLine = true;
+			ns.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0xFF, 0x05, 0x63, 0xC1));
+			sheet.Cells["A1:A3"].StyleName = "HyperLink";
+
+            SaveWorkbook("Issue1963.xlsx", p);
+		}
     }
 }
