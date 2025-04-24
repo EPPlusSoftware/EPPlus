@@ -94,5 +94,18 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void i1945()
+        {
+            using (var p = OpenPackage("i1945.xlsx", true))
+            {
+                var ws=p.Workbook.Worksheets.Add("Sheet1");
+                var comment = ws.Cells["A1"].AddComment("Test"); // Range1 = A1
+                ws.Comments.Remove(comment);
+                ws.Cells["A1"].AddComment("Test");
+                ws.Cells["A1"].Copy(ws.Cells["A2"]);
+            }
+        }
+
     }
 }

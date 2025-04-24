@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>8.0.1.0</AssemblyVersion>
-		<FileVersion>8.0.1.0</FileVersion>
-		<Version>8.0.1</Version>
+		<AssemblyVersion>8.0.2.0</AssemblyVersion>
+		<FileVersion>8.0.2.0</FileVersion>
+		<Version>8.0.2</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 8.0.1
+			EPPlus 8.0.2
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non
@@ -35,6 +35,9 @@
 			* In-cell pictures / support for the IMAGE function.
 			* Sensitivity Label API to integrate with MIP (Microsoft Information Protection SDK).
 			* Bug fixes
+
+			## Version 7.7.1
+			* Minor bug fixes.
 
 			## Version 7.7.0
 			* Fixed referenced packages versioning.
@@ -519,8 +522,9 @@
 			https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
-			8.0.1 20250328 Digital Signatures, Ole objects, in-cell pictures.
-			https://epplussoftware.com/en/Developers/EPPlus8
+			8.0.2			20250415 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			7.7.1			20250414 Minor bug fixes.
+			8.0.1			20250328 Digital Signatures, Ole objects, in-cell pictures. 
 			8.0.0-rc 20250321 Digital Signatures, Ole objects, in-cell pictures.
 			7.7.0 20250317 Fixed referenced packages versioning. Minor bug fixes.
 			8.0.0-beta 20250214 Digital Signatures, Ole objects, in-cell pictures.
@@ -532,7 +536,7 @@
 			7.5.0 20241115 Signed dll's and nuget package. Minor features and bug fixes.
 			7.4.2 20241028 Minor features and bug fixes.
 			7.4.1 20241011 Updated System.Text.Json
-			7.4.0 20241002 Conditional Formatting's in Pivot tables. Linked image files in Pictures.
+			7.4.0			20241002 Conditional Formatting's in Pivot tables. Linked image files in Pictures. 
 			See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 			7.3.2 20240917 Minor features and bug fixes.
 			7.3.1 20240905 Minor features and bug fixes.

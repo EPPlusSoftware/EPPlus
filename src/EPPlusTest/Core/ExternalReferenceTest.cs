@@ -490,12 +490,18 @@ namespace EPPlusTest.Core
             var p = new ExcelPackage();
             var wb = p.Workbook;
             var ws = wb.Worksheets.Add("Sheet 1");
+            var fi = new FileInfo(_testInputPathOptional + "CopyFillTest.xlsx");
+            if(!fi.Exists)
+            {
+                Assert.Inconclusive("CopyFillTest.xlsx file was not available");
+            }
+            else
+            {
+                var ewb = wb.ExternalLinks.AddExternalWorkbook(fi);
+                ewb.IsPathRelative = false;
 
-            var ewb = wb.ExternalLinks.AddExternalWorkbook(new FileInfo(_testInputPathOptional + "CopyFillTest.xlsx"));
-            ewb.IsPathRelative = false;
-
-            SaveWorkbook("AbsolutePathTest2.xlsx", p);
-
+                SaveWorkbook("AbsolutePathTest2.xlsx", p);
+            }
         }
     }
 }

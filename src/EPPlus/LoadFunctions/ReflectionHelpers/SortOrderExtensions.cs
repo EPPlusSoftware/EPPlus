@@ -63,7 +63,7 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 #if !NET35
             else if(member.HasAttributeOfType(out DisplayAttribute displayAttr))
             {
-                sortOrder = displayAttr.Order;
+                sortOrder = displayAttr.GetOrder();
             }
 #endif
             if(sortOrder.HasValue)

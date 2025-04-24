@@ -6060,7 +6060,7 @@ namespace EPPlusTest
             var ws3 = p.Workbook.Worksheets.Add("Blue");
             ws3.TabColor = Color.Blue;
 
-            p.SaveAs("C:\\epplusTest\\Testoutput\\tabcolor830.xlsx");
+           SaveWorkbook("tabcolor830.xlsx", p);
         }
 
         [TestMethod]

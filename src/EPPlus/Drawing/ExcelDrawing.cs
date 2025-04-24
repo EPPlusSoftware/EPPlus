@@ -587,7 +587,12 @@ namespace OfficeOpenXml.Drawing
                     var aPic = new ExcelPicture(drawings, node, parent, DrawingsType);
                     return aPic;
                 case "graphicFrame":
-                    return ExcelChart.GetChart(drawings, node, parent);
+                    var c= ExcelChart.GetChart(drawings, node, parent);
+                    if(c!=null) //If null, the drawing is not a chart. Might be a smart art, diagram or 3d model. We return a standard drawing to retain the drawing. 
+                    {
+                        return c;
+                    }
+                    break;
                 case "grpSp":
                     return new ExcelGroupShape(drawings, node, parent, DrawingsType);
                 case "cxnSp":

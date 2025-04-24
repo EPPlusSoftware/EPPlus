@@ -89,7 +89,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
             var sumRange = RangeFlattener.FlattenRangeObject(valueRange);
-            KahanSum result = 0d;
+            KahanSum result = 0d;            
             foreach (var index in matchIndexes)
             {
                 var obj = sumRange[index];

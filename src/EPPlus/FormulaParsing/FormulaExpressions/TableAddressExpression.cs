@@ -19,7 +19,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         public override CompileResult Compile()
         {
-            if (_addressInfo.FromRow < 1)
+            if (_addressInfo.FromRow < 1 || _addressInfo.FromCol < 1 ||
+                _addressInfo.ToRow < 1 || _addressInfo.ToCol < 1)
             {
                 return new CompileResult(eErrorType.Ref);
             }
@@ -49,5 +50,27 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         { 
             return [_addressInfo.Clone()];
         }
+        internal override Expression CloneWithOffset(int row, int col)
+        {
+            if (row == 0 && col == 0)
+            {
+                return this;
+            }
+            var ai = new FormulaRangeAddress(Context)
+            {
+                ExternalReferenceIx = _addressInfo.ExternalReferenceIx,
+                WorksheetIx = _addressInfo.WorksheetIx,
+                FromRow = (_addressInfo.FixedFlag & FixedFlag.FromRowFixed) == FixedFlag.FromRowFixed ? _addressInfo.FromRow : _addressInfo.FromRow + row,
+                ToRow = (_addressInfo.FixedFlag & FixedFlag.ToRowFixed) == FixedFlag.ToRowFixed ? _addressInfo.ToRow : _addressInfo.ToRow + row,
+                FromCol = (_addressInfo.FixedFlag & FixedFlag.FromColFixed) == FixedFlag.FromColFixed ? _addressInfo.FromCol : _addressInfo.FromCol + col,
+                ToCol = (_addressInfo.FixedFlag & FixedFlag.ToColFixed) == FixedFlag.ToColFixed ? _addressInfo.ToCol : _addressInfo.ToCol + col,
+            };
+            return new RangeExpression(ai)
+            {
+                Status = Status,
+                Operator = Operator
+            };
+        }
+
     }
 }

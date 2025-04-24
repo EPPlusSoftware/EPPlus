@@ -792,6 +792,19 @@ namespace EPPlusTest.Issues
 			SaveAndCleanup(p);
         }
         [TestMethod]
+        public void s831()
+        {
+            using var p = OpenTemplatePackage("s831.xlsx");
+            var sheet = p.Workbook.Worksheets[0];
+            var sw = new Stopwatch();
+            sw.Start();
+            p.Workbook.Calculate();
+			//p.Workbook.FormulaParser.
+			GC.Collect();
+
+            Console.WriteLine(new DateTime(sw.ElapsedTicks).ToString("HH:mm:ss"));
+        }
+        [TestMethod]
         public void Issue1687()
         {
             using var p = OpenTemplatePackage("i1687.xlsx");
@@ -800,6 +813,62 @@ namespace EPPlusTest.Issues
             sheet.Calculate();
 			Assert.AreEqual(44D, sheet.Cells["D5"].Value);
             SaveAndCleanup(p);
+
+        }
+        public void i1930()
+        {
+            using var p = OpenPackage("i1930.xlsx");
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            LoadTestdata(ws);
+
+            ws.Cells["G1"].Formula = "LET(var1,Table1[[#This Row],[Col1]],var2, Table1[[#This Row],[Col2]],var1 + var2);";
+
+        }
+        [TestMethod]
+        public void LetTwice()
+        {
+            using (var pck = OpenPackage("LetFunction_Twice.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("LET params");
+                var table = sheet.Tables.Add(sheet.Cells["D1:E10"], "Table1");
+                sheet.Cells["D2:D10"].FillNumber(1, 1);
+                sheet.Cells["E2:E10"].FillNumber(2, 2);
+                table.SyncColumnNames(OfficeOpenXml.Table.ApplyDataFrom.ColumnNamesToCells);
+                sheet.Cells["A2"].Formula = "LET(var1, Table1[[#This Row],[Column1]], var2, Table1[[#This Row],[Column2]], var1 + var2)";
+                sheet.Cells["A3"].Formula = "LET(var1, Table1[[#This Row],[Column1]], var2, Table1[[#This Row],[Column2]], var1 + var2)";
+                sheet.Calculate();
+                Assert.AreEqual(3D, sheet.Cells["A2"].Value);
+                Assert.AreEqual(6D, sheet.Cells["A3"].Value);
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void s842()
+        {
+            using var p = OpenTemplatePackage("sapreport broken.xlsx");
+            p.Workbook.CalcMode = ExcelCalcMode.Automatic;
+            var opt = new OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+            {
+                PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel
+            };
+            p.Workbook.Calculate();
+            var ws = p.Workbook.Worksheets.First();
+            var val = ws.Cells["A1"].Value;
+        }
+		[TestMethod]
+		public void s846()
+		{
+			using var p = OpenTemplatePackage("s846.xlsx");
+			p.Workbook.Calculate();
+			var ws = p.Workbook.Worksheets["Calculation sheet"];
+			ws.Calculate();
+			Assert.AreEqual(321732.45, ws.Cells["H11"].Value);
+            var ws2 = p.Workbook.Worksheets["aico data"];
+            ws2.Calculate();
+            Assert.AreEqual(93515.9075 , ws2.Cells["D32"].Value);
         }
     }
 }
+

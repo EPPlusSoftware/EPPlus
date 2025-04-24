@@ -1,4 +1,17 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.0.2
+* Copy shared formulas do not update addresses to the new worksheet position.
+* The CHOOSECOLS and CHOOSEROWS functions did not support ranges as row/col selection argument.
+* When reading a string with _xb36 from a cell, a string error was returned.
+* Pivot selection in the worksheet view was not removed when a pivot table was refreshed, sometime causing the pivot table to become corrupt.
+* The SUMIFS and COUNTIFS functions did not consider the criteria range when checking for circular references.
+* Removed base class from ExcelVmlDrawingPosition and with that the Load, UpdateXml, methods and the RowOff and ColOff as they were duplicates.
+* Copying a cell after deleting and adding a comment sometimes caused an exception.
+* The LET function did not handle multiple table style addresses as arguments.
+* Setting the Display attribute without setting the Order attribute in LoadFromCollection caused an Exception.
+* Setting TabColor to Color.Empty now removes the TabColor.
+* ExcelParagraph.Text threw an ArgumentOutOfRangeException if the text was empty.
+
 ## Version 8.0.1
 ### Important information
 EPPlus 8 will require a license key for commercial licenses.
