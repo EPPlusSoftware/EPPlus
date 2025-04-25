@@ -106,6 +106,30 @@ namespace EPPlusTest.Issues
                 ws.Cells["A1"].Copy(ws.Cells["A2"]);
             }
         }
+        [TestMethod]
+        public void i1656PasteSpecial_Formulas()
+        {
+            using (var p = OpenPackage("i1656.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var srcCell = ws.Cells["D3"];
+                var comment = srcCell.AddComment("Test");
 
+                var testFormula = "ROW()+COLUMN()";
+                srcCell.Formula = testFormula;
+
+                ws.Calculate();
+
+                var destCell = ws.Cells["F5"];
+                srcCell.Copy(destCell, ExcelRangePasteSpecialFlags.Formulas);
+
+                Assert.AreEqual(testFormula, destCell.Formula);
+                Assert.AreEqual(7d, destCell.Value);
+
+                ws.Calculate();
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

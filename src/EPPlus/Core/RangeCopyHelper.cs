@@ -436,7 +436,7 @@ namespace OfficeOpenXml.Core
             var includeValues = EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeValues);
             var includeFormulas = EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeFormulas);
             var includeHyperlinks = EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHyperLinks);
-            if (includeValues == false && includeHyperlinks == false && includeFormulas == false) return;
+            if (includeValues == false && includeHyperlinks == false && includeFormulas == false && includeStyles == false) return;
             var excludeHiddenCells = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHiddenCells);
             var cse = new CellStoreEnumerator<ExcelValue>(worksheet._values,  _sourceRange._fromRow, _sourceRange._fromCol, _sourceRange._toRow, _sourceRange._toCol);
             int pRow = _sourceRange._fromRow;

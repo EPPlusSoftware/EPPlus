@@ -90,4 +90,50 @@ namespace OfficeOpenXml
         /// </summary>
         ExcludeWebPictures = 0x10000,
     }
+    [Flags]
+    //Change name to PasteOnly or CopyOnly?
+    public enum ExcelRangePasteSpecialFlags : int
+    {
+        None = ExcelRangeCopyOptionFlags.ExcludeFormulas |
+               ExcelRangeCopyOptionFlags.ExcludeValues | 
+               ExcelRangeCopyOptionFlags.ExcludeStyles |
+               ExcelRangeCopyOptionFlags.ExcludeComments |
+               ExcelRangeCopyOptionFlags.ExcludeThreadedComments |
+               ExcelRangeCopyOptionFlags.ExcludeHyperLinks |
+               ExcelRangeCopyOptionFlags.ExcludeMergedCells |
+               ExcelRangeCopyOptionFlags.ExcludeDataValidations |
+               ExcelRangeCopyOptionFlags.ExcludeConditionalFormatting |
+               ExcelRangeCopyOptionFlags.ExcludeTables |
+               ExcelRangeCopyOptionFlags.ExcludePivotTables |
+               ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures |
+               ExcelRangeCopyOptionFlags.ExcludeWebPictures,
+        /// <summary>
+        /// Paste only formulas.
+        /// </summary>
+        Formulas = (None & ~ExcelRangeCopyOptionFlags.ExcludeFormulas) & ~ExcelRangeCopyOptionFlags.ExcludeValues,
+        /// <summary>
+        /// Paste only values
+        /// </summary>
+        Values = None & ~ExcelRangeCopyOptionFlags.ExcludeValues,
+        /// <summary>
+        /// Paste only formatting
+        /// </summary>
+        Formats = (None & ~ExcelRangeCopyOptionFlags.ExcludeConditionalFormatting) & ~ExcelRangeCopyOptionFlags.ExcludeStyles,
+        /// <summary>
+        /// Paste only Comments and Threaded Comments
+        /// </summary>
+        Comments = (None & ~ExcelRangeCopyOptionFlags.ExcludeComments) & ~ExcelRangeCopyOptionFlags.ExcludeThreadedComments,
+        /// <summary>
+        /// Paste only validation
+        /// </summary>
+        Validation = None & ~ExcelRangeCopyOptionFlags.ExcludeDataValidations,
+
+        //TODO:
+        //All using source theme
+        //All except borders
+        //Column Widths
+        //Formulas and number formats
+        //Values and number formats
+        //All merging conditional formats
+    }
 }

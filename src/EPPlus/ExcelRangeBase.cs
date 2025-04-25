@@ -2049,6 +2049,13 @@ namespace OfficeOpenXml
             var helper = new RangeCopyHelper(this, Destination, flags);
             helper.Copy();
         }
+
+        public void Copy(ExcelRangeBase Destination, ExcelRangePasteSpecialFlags flag)
+        {
+            var CopOpFlags = (ExcelRangeCopyOptionFlags)flag;
+            var helper = new RangeCopyHelper(this, Destination, CopOpFlags);
+            helper.Copy();
+        }
         /// <summary>
         /// Copies the range of cells to another range of cells. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
         /// </summary>
