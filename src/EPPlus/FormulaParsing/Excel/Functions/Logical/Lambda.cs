@@ -10,13 +10,10 @@
  *************************************************************************************************
   05/27/2024         EPPlus Software AB       Initial release EPPlus 8.0
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using System;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
