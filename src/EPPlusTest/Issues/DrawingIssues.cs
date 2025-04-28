@@ -151,6 +151,20 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(package);
         }
+        [TestMethod]
+        public void s838()
+        {
+            using var p = OpenTemplatePackage("s838.xlsx");
+            Assert.AreEqual(2, p.Workbook.Worksheets[0].Drawings.Count);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void ThreeDModel()
+        {
+            using var p = OpenTemplatePackage("3dmodel.xlsx");
+            Assert.AreEqual(1, p.Workbook.Worksheets[0].Drawings.Count);
+            SaveAndCleanup(p);
+        }
     }
 }
 

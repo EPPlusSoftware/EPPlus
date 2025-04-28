@@ -92,17 +92,17 @@ namespace OfficeOpenXml
                 var r = GetRowInternal();
                 r.Hidden=value;
             }
-        }        
-		#endregion
+        }
+        #endregion
 
-		#region ExcelRow Height
+        #region ExcelRow Height
         /// <summary>
-		/// Sets the height of the row
-		/// </summary>
-		public double Height
+        /// Sets the height of the row
+        /// </summary>
+        public double Height
         {
-			get
-			{
+            get
+            {
                 var r = (RowInternal)_worksheet.GetValueInner(Row, 0);
                 if (r == null || r.Height<0)
                 {

@@ -1115,8 +1115,5 @@ namespace OfficeOpenXml.Drawing.Chart
         ZipPackagePart IPictureRelationDocument.RelatedPart => Part;
 
         Uri IPictureRelationDocument.RelatedUri => UriChart;
-
-
-        private ExcelChartDrawings _chartDrawings = null;
     }
 }

@@ -985,10 +985,10 @@ namespace OfficeOpenXml
                 if (col == "")
                 {
                     double tint = GetXmlNodeDouble(tabColorPath + "/@tint");
-                    eThemeSchemeColor theme = (eThemeSchemeColor)GetXmlNodeInt(tabColorPath + "/@theme");
+                    eThemeSchemeColor? theme = (eThemeSchemeColor?)GetXmlNodeIntNull(tabColorPath + "/@theme");
                     int indexed = GetXmlNodeInt(tabColorPath + "/@indexed");
                     bool auto = GetXmlNodeBool(tabColorPath + "/@auto");
-                    if (tint == double.NaN)
+                    if (double.IsNaN(tint))
                     {
                         return Color.Empty;
                     }
@@ -2550,17 +2550,17 @@ namespace OfficeOpenXml
 
         private static void HandleSaveForIndividualDrawings(ExcelDrawing d, bool hasLoadedPivotTables)
         {
-            if (d is ExcelChartStandard c)
+            if (d is ExcelChart c)
             {
                 var chartStream = c.Part.GetStream(FileMode.Create, FileAccess.Write);
                 c.ChartXml.PreserveWhitespace = true;
                 c.ChartXml.Save(chartStream);
 
-                if (c.Drawings.Part != null)
+                if (c is ExcelChartStandard cs && cs.Drawings.Part != null)
                 {
-                    var xrd = new XmlTextWriter(c.Drawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
+                    var xrd = new XmlTextWriter(cs.Drawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
                     xrd.Formatting = Formatting.None;
-                    c.Drawings.DrawingXml.Save(xrd);
+                    cs.Drawings.DrawingXml.Save(xrd);
                 }
             }
             else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
@@ -3217,7 +3217,7 @@ namespace OfficeOpenXml
         }
         internal ExcelPivotTableCollection _pivotTables = null;
         /// <summary>
-        /// Pivottables defined in the worksheet.
+        /// Pivot tables defined in the worksheet.
         /// </summary>
         public ExcelPivotTableCollection PivotTables
         {

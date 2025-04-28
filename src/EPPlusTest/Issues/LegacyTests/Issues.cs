@@ -2546,6 +2546,23 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void FreezePanes()
+        {
+            using var p = OpenTemplatePackage("Freeze.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.View.FreezePanes(3, 3);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void FreezePanes2()
+        {
+            using var p = OpenTemplatePackage("Freeze2.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.View.FreezePanes(15, 11);
+            SaveAndCleanup(p);
+        }
+
+        [TestMethod]
         public void CopyWorksheetWithBlipFillObjects()
         {
             using (var p1 = OpenTemplatePackage("BlipFills.xlsx"))
@@ -6043,7 +6060,7 @@ namespace EPPlusTest
             var ws3 = p.Workbook.Worksheets.Add("Blue");
             ws3.TabColor = Color.Blue;
 
-            p.SaveAs("C:\\epplusTest\\Testoutput\\tabcolor830.xlsx");
+           SaveWorkbook("tabcolor830.xlsx", p);
         }
 
         [TestMethod]

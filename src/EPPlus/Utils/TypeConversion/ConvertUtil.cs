@@ -11,13 +11,10 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.IO;
 using OfficeOpenXml.Compatibility;
 using System.Xml;
@@ -26,6 +23,7 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
+
 namespace OfficeOpenXml.Utils.TypeConversion
 {
     internal static class ConvertUtil
@@ -376,9 +374,9 @@ namespace OfficeOpenXml.Utils.TypeConversion
         /// <returns></returns>
         internal static void ExcelEncodeString(StreamWriter sw, string t)
         {
-            if (Regex.IsMatch(t, "(_x[0-9A-F]{4,4}_)"))
+            if (Regex.IsMatch(t, "(_x[0-9A-Fa-f]{4,4}_)"))
             {
-                var match = Regex.Match(t, "(_x[0-9A-F]{4,4}_)");
+                var match = Regex.Match(t, "(_x[0-9A-Fa-f]{4,4}_)");
                 int indexAdd = 0;
                 while (match.Success)
                 {
@@ -413,9 +411,9 @@ namespace OfficeOpenXml.Utils.TypeConversion
         /// <returns></returns>
         internal static void ExcelEncodeString(StringBuilder sb, string t, bool encodeTabLF = false)
         {
-            if (Regex.IsMatch(t, "(_x[0-9A-F]{4,4}_)"))
+            if (Regex.IsMatch(t, "(_x[0-9A-Fa-f]{4,4}_)"))
             {
-                var matches = Regex.Matches(t, "(_x[0-9A-F]{4,4})");
+                var matches = Regex.Matches(t, "(_x[0-9A-Fa-f]{4,4})");
                 int indexAdd = 0;
                 foreach (Match m in matches)
                 {
@@ -440,7 +438,6 @@ namespace OfficeOpenXml.Utils.TypeConversion
                     sb.Append(t[i]);
                 }
             }
-
         }
         internal static string ExcelEscapeAndEncodeString(string t, bool crLfEncode = true)
         {
@@ -467,6 +464,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
         {
             if (string.IsNullOrEmpty(t)) return t;
             var ret = new StringBuilder();
+
             var ix = 0;
             for (var i = 0; i < t.Length; i++)
             {
@@ -494,8 +492,16 @@ namespace OfficeOpenXml.Utils.TypeConversion
                     {
                         if (ix > 0)
                         {
+                            //If two underscores in a row the last one should count as potentially in matches
+                            if (c == '_' && ix == 1)
+                            {
+                                ret.Append(t.Substring(i - ix, ix));
+                            }
+                            else
+                            {
                             ret.Append(t.Substring(i - ix, ix + 1));
-                            ix = 0;
+                                ix = 0;
+                            }
                         }
                         else
                         {
@@ -504,6 +510,12 @@ namespace OfficeOpenXml.Utils.TypeConversion
                     }
                 }
             }
+
+            if (ix > 0)
+            {
+                ret.Append(t.Substring(t.Length - ix, ix));
+            }
+
             return ret.ToString();
         }
 
@@ -573,7 +585,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 {
                     dt = (DateTime)returnDate;
                 }
-#if(NET8_0_OR_GREATER)
+#if (NET8_0_OR_GREATER)
                 else if (value is DateOnly dateOnly)
                 {
                     dt = dateOnly.ToDateTime(TimeOnly.MinValue);
@@ -590,7 +602,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
                         return (T)(object)DateOnly.FromDateTime((DateTime)value);
                     }
                 }
-#endif  
+#endif
                 if (dt != null)
                 {
                     return (T)(object)dt;

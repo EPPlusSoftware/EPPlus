@@ -443,7 +443,6 @@ namespace EPPlusTest.Core.Range
                 }
             }
         }
-
         [TestMethod]
         public void CopyComments()
         {
@@ -1226,6 +1225,29 @@ namespace EPPlusTest.Core.Range
                 //Assert.IsTrue(srcList.SequenceEqual(sameRangeList));
 
                 SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void CopySharedFormulaShouldAdjustFormulaAddresses()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                //Column
+                ws.Cells["B6:B7"].Formula = "$A6";
+                ws.Cells["B6:B7"].Copy(ws.Cells["B8"]);
+
+                Assert.AreEqual("$A8", ws.Cells["B8"].Formula);
+                Assert.AreEqual("$A9", ws.Cells["B9"].Formula);
+
+                ws.Cells["B10:C10"].Formula = "A$6";
+                ws.Cells["B10:C10"].Copy(ws.Cells["D10"]);
+
+                Assert.AreEqual("C$6", ws.Cells["D10"].Formula);
+                Assert.AreEqual("D$6", ws.Cells["E10"].Formula);
+
+                SaveWorkbook("s841.xlsx", p);
             }
         }
     }
