@@ -38,6 +38,8 @@ using OfficeOpenXml.Utils.CompundDocument;
 using System.Security.Cryptography.X509Certificates;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using System.Threading;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -918,6 +920,56 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 newName.NameComment = name.NameComment;
             }
+
+            foreach (var name in Copy.Workbook.Names)
+            {
+                ExcelNamedRange wbName;
+                if (name.Worksheet == Copy)
+                {
+                    wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                    wbName.NameComment = name.NameComment;
+                }
+            }
+
+            var t = Copy._formulaTokens;
+            var numerato = new CellStoreEnumerator<object>(Copy._formulas);
+            while(numerato.Next())
+            {
+                var v = numerato.Value;
+                if(v is int)
+                {
+                    //shared formula
+                }
+                else
+                {
+                    var form = v.ToString();
+                    var tokens = SourceCodeTokenizer.Default.Tokenize(form);
+                    foreach (var token in tokens)
+                    {
+                        if(token.TokenType == TokenType.NameValue)
+                        {
+                            foreach(var name in Copy.Workbook.Names)
+                            {
+                                if(token.Value == name.Name)
+                                {
+                                    if(name.Worksheet == Copy || name.Worksheet == null)
+                                    {
+                                        ExcelNamedRange wbName;
+                                        if (name.AddressAbsolute != "#REF!")
+                                            wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                                        else if (name.Formula != null)
+                                            wbName = added.Workbook.Names.AddFormula(name.Name, name.Formula);
+                                        else
+                                            wbName = added.Workbook.Names.AddValue(name.Name, name.Value);
+                                        wbName.NameComment = name.NameComment;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            var f = Copy._formulas.GetValue;
         }
 
 		private static bool HasExternalReference(string formula)

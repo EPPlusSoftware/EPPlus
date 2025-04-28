@@ -867,6 +867,22 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void CopyWorksheetDefinedNames()
+        {
+            using var p = OpenTemplatePackage("CopyWorksheetNames.xlsx");
+            var wb = p.Workbook;
+            var ws = p.Workbook.Worksheets[0];
+            var wbNames = wb.Names;
+            var wsNames = ws.Names;
+
+            using var p2 = new ExcelPackage();
+            var ws2 = p2.Workbook.Worksheets.Add("CopyNames", ws);
+
+            SaveWorkbook("CopyWorksheetNames2.xlsx", p2);
+
+        }
+
+        [TestMethod]
         public void LoadFromCollectionTest()
         {
             var ws = _pck.Workbook.Worksheets.Add("LoadFromCollection");
