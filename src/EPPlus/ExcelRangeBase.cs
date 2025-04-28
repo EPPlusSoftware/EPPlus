@@ -2167,7 +2167,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="Destination"></param>
         /// <param name="fillOrTranspose">Fill or transpose options</param>
-        public void CopyFormulas(ExcelRangeBase Destination, FillTranspose fillOrTranspose = 0)
+        public void CopyFormulas(ExcelRangeBase Destination, CopyOperations fillOrTranspose = 0)
         {
             ExcelRangeCopyOptionFlags[] flags = { (ExcelRangeCopyOptionFlags)fillOrTranspose };
             CopyWithParams(Destination, flags, (ExcelRangeCopyOptionFlags)ExcelRangeCopyOnly.Formulas);
@@ -2187,7 +2187,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="Destination"></param>
         /// <param name="fillOrTranspose">Fill or transpose options</param>
-        public void CopyValues(ExcelRangeBase Destination, FillTranspose fillOrTranspose = 0)
+        public void CopyValues(ExcelRangeBase Destination, CopyOperations fillOrTranspose = 0)
         {
             ExcelRangeCopyOptionFlags[] flags = { (ExcelRangeCopyOptionFlags)fillOrTranspose };
             CopyWithParams(Destination, flags, (ExcelRangeCopyOptionFlags)ExcelRangeCopyOnly.Values);

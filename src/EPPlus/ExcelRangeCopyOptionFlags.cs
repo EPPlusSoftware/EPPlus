@@ -120,10 +120,10 @@ namespace OfficeOpenXml
     }
 
     /// <summary>
-    /// Simplified enum for Fill and Transpose from ExcelRangeCopyOptionFlags
+    /// Simplified enum for operations e.g Fill and Transpose from ExcelRangeCopyOptionFlags
     /// </summary>
     [Flags]
-    public enum FillTranspose : int
+    public enum ExcelRangeCopyOperations : int
     {
         /// <summary>
         /// Fill range with repeated data. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
