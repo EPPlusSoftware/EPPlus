@@ -14,8 +14,9 @@ using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Events;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
-
+using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;

@@ -13,6 +13,7 @@
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.Pkcs;

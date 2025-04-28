@@ -1,23 +1,24 @@
-﻿    /*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
+﻿/*************************************************************************************************
+Required Notice: Copyright (C) EPPlus Software AB. 
+This software is licensed under PolyForm Noncommercial License 1.0.0 
+and may only be used for noncommercial purposes 
+https://polyformproject.org/licenses/noncommercial/1.0.0/
 
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
-  07/07/2023         EPPlus Software AB       Epplus 7
- *************************************************************************************************/
+A commercial license to use this software can be purchased at https://epplussoftware.com
+*************************************************************************************************
+Date               Author                       Change
+*************************************************************************************************
+01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+07/07/2023         EPPlus Software AB       Epplus 7
+*************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -35,7 +36,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// </summary>
         public eExcelConditionalFormattingRuleType Type { get; set; }
 
-        internal ExcelAddress _address = null;
+        private ExcelAddress _address = null;
 
         /// <summary>
         /// <para>The range over which these conditional formatting rules apply.</para>
@@ -47,12 +48,10 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
             set
             {
+                _ws.ConditionalFormatting.CfIndex.UpdateAddress(_address, value, this);
                 _address = value;
             }
         }
-
-        //internal QuadRange QuadRange { get; private set; }
-        //internal QuadItem<ExcelConditionalFormattingRule> QuadItem { get; private set; }
 
         internal int _priority = 1;
 

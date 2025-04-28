@@ -20,17 +20,54 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public sealed class ExcelShape : ExcelShapeBase
     {
-        internal ExcelShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape=null) :
-            base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", shape)
+        internal ExcelShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape=null, DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet) :
+            base(drawings, node, NamespacePrefixes[(int)collectionType] + ":sp", NamespacePrefixes[(int)collectionType] + ":nvSpPr/" + NamespacePrefixes[(int)collectionType] + ":cNvPr", shape, collectionType)
         {
+            if (collectionType == DrawingsCollectionType.Chart)
+            {
+                var offNode = (XmlElement)node.SelectSingleNode("cdr:sp/cdr:spPr/a:xfrm/a:off", NameSpaceManager);
+                var extNode = (XmlElement)node.SelectSingleNode("cdr:sp/cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
+                Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
+                Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
+            }
         }
-        internal ExcelShape(ExcelDrawings drawings, XmlNode node, eShapeStyle style) :
-            base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr")
+        internal ExcelShape(ExcelDrawings drawings, XmlNode node, eShapeStyle style, DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet) :
+            base(drawings, node, NamespacePrefixes[(int)collectionType] + ":sp", NamespacePrefixes[(int)collectionType] + ":nvSpPr/" + NamespacePrefixes[(int)collectionType] + ":cNvPr", null, collectionType)
         {
+            if (collectionType == DrawingsCollectionType.Chart)
+            {
+                node.OwnerDocument.DocumentElement.SetAttribute("xmlns:cdr", ExcelPackage.schemaChartDrawing);
+                node.OwnerDocument.DocumentElement.SetAttribute("xmlns:a", ExcelPackage.schemaDrawings);
+            }
             XmlElement shapeNode = CreateShapeNode();
-
             shapeNode.InnerXml = ShapeStartXml();
-            node.AppendChild(shapeNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings));
+            switch(collectionType)
+            {
+                case DrawingsCollectionType.Chart:
+                    int x = (int)(_drawings._screenWidth * EMU_PER_PIXEL * (From.X));
+                    int y = (int)(_drawings._screenHeight * EMU_PER_PIXEL * (From.Y));
+                    int cx = (int)(_drawings._screenWidth * EMU_PER_PIXEL * (To.X - From.X));
+                    int cy = (int)(_drawings._screenHeight * EMU_PER_PIXEL * (To.Y - From.Y));
+                    XmlElement xFrmNode = GetXfrmNode(shapeNode);
+                    if (xFrmNode.ChildNodes.Count == 0)
+                    {
+                        CreateNode(xFrmNode, "a:off");
+                        CreateNode(xFrmNode, "a:ext");
+                    }
+                    var offNode = (XmlElement)xFrmNode.SelectSingleNode("a:off", NameSpaceManager);
+                    offNode.SetAttribute("x", x.ToString());
+                    offNode.SetAttribute("y", y.ToString());
+                    var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext", NameSpaceManager);
+                    extNode.SetAttribute("cx", cx.ToString());
+                    extNode.SetAttribute("cy", cy.ToString());
+                    Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
+                    Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
+                    break;
+                case DrawingsCollectionType.Worksheet:
+                default:
+                    node.AppendChild(shapeNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings));
+                    break;
+            }
             Style = style;
         }
 
@@ -38,9 +75,10 @@ namespace OfficeOpenXml.Drawing
         private string ShapeStartXml()
         {
             StringBuilder xml = new StringBuilder();
-            xml.AppendFormat("<xdr:nvSpPr><xdr:cNvPr id=\"{0}\" name=\"{1}\" /><xdr:cNvSpPr /></xdr:nvSpPr><xdr:spPr><a:prstGeom prst=\"rect\"><a:avLst /></a:prstGeom></xdr:spPr><xdr:style><a:lnRef idx=\"2\"><a:schemeClr val=\"accent1\"><a:shade val=\"50000\" /></a:schemeClr></a:lnRef><a:fillRef idx=\"1\"><a:schemeClr val=\"accent1\" /></a:fillRef><a:effectRef idx=\"0\"><a:schemeClr val=\"accent1\" /></a:effectRef><a:fontRef idx=\"minor\"><a:schemeClr val=\"lt1\" /></a:fontRef></xdr:style><xdr:txBody><a:bodyPr vertOverflow=\"clip\" rtlCol=\"0\" anchor=\"ctr\" /><a:lstStyle /><a:p></a:p></xdr:txBody>", _id, Name);
+            xml.AppendFormat("<{2}:nvSpPr><{2}:cNvPr id=\"{0}\" name=\"{1}\" /><{2}:cNvSpPr /></{2}:nvSpPr><{2}:spPr><a:xfrm/><a:prstGeom prst=\"rect\"><a:avLst /></a:prstGeom></{2}:spPr><{2}:style><a:lnRef idx=\"2\"><a:schemeClr val=\"accent1\"><a:shade val=\"50000\" /></a:schemeClr></a:lnRef><a:fillRef idx=\"1\"><a:schemeClr val=\"accent1\" /></a:fillRef><a:effectRef idx=\"0\"><a:schemeClr val=\"accent1\" /></a:effectRef><a:fontRef idx=\"minor\"><a:schemeClr val=\"lt1\" /></a:fontRef></{2}:style><{2}:txBody><a:bodyPr vertOverflow=\"clip\" rtlCol=\"0\" anchor=\"ctr\" /><a:lstStyle /><a:p></a:p></{2}:txBody>", Id, Name, NamespacePrefixes[(int)_drawings._collectionType]);
             return xml.ToString();
         }
+
         #endregion
         internal override void DeleteMe()
         {

@@ -14,23 +14,19 @@ using System;
 using System.Xml;
 using System.IO;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Packaging.Ionic.Zlib;
-using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Encryption;
 using OfficeOpenXml.Utils.CompundDocument;
 using OfficeOpenXml.Compatibility;
 using System.Text;
 using OfficeOpenXml.Packaging;
-using System.Diagnostics;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Configuration;
 using OfficeOpenXml.EventArguments;
+using OfficeOpenXml.Utils.FileUtils;
 
-using OfficeOpenXml.Interfaces;
-#if(!NET35)
+#if (!NET35)
 using OfficeOpenXml.SensitivityLabels;
 #endif
 
@@ -185,6 +181,8 @@ namespace OfficeOpenXml
         internal const string schemaThemeRelationships = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme";
         internal const string schemaMetadata = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/sheetMetadata";
         internal const string schemaChartStyle = "http://schemas.microsoft.com/office/drawing/2012/chartStyle";
+        internal const string schemaChartDrawing = @"http://schemas.openxmlformats.org/drawingml/2006/chartDrawing";
+
 
         //Chart styling
         internal const string schemaChartStyleRelationships = "http://schemas.microsoft.com/office/2011/relationships/chartStyle";

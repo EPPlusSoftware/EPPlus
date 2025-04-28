@@ -10,7 +10,7 @@
  *************************************************************************************************
     11/24/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.Drawing.Controls
 {

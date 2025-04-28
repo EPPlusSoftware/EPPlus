@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             }
             else if (c.Theme.HasValue)
             {
-                ret = Utils.ColorConverter.GetThemeColor(theme, c.Theme.Value);
+                ret = Utils.TypeConversion.ColorConverter.GetThemeColor(theme, c.Theme.Value);
             }
             else if (c.Indexed >= 0)
             {
@@ -86,7 +86,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             }
             if (c.Tint != 0)
             {
-                ret = Utils.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
+                ret = Utils.TypeConversion.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
             }
             return "#" + ret.ToArgb().ToString("x8").Substring(2);
         }
@@ -100,7 +100,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             }
             else if (c.Theme.HasValue)
             {
-                ret = Utils.ColorConverter.GetThemeColor(theme, c.Theme.Value);
+                ret = Utils.TypeConversion.ColorConverter.GetThemeColor(theme, c.Theme.Value);
             }
             else if (c.Index != null)
             {
@@ -121,7 +121,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
             if (c.Tint != 0)
             {
-                ret = Utils.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
+                ret = Utils.TypeConversion.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
             }
 
             return "#" + ret.ToArgb().ToString("x8").Substring(2);

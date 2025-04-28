@@ -11,7 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting

@@ -11,13 +11,13 @@
   22/11/2024         EPPlus Software AB           EPPlus v8
  *************************************************************************************************/
 using OfficeOpenXml.CellPictures;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.Core
 {

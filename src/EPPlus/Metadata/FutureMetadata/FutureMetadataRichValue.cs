@@ -14,7 +14,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections.Generic;
 using System.IO;

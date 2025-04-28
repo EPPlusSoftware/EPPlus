@@ -8,9 +8,10 @@ using OfficeOpenXml.Core.CellStore;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Linq;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System.Diagnostics;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {

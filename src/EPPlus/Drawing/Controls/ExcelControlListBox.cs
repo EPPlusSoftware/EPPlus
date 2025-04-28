@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Globalization;
 using System.Linq;

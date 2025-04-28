@@ -4,8 +4,8 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml.Utils;
 using System;
+using OfficeOpenXml.Utils.EncodingUtils;
 
 namespace OfficeOpenXml.DigitalSignatures
 {

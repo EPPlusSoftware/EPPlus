@@ -13,7 +13,8 @@
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -10,7 +10,7 @@
  *************************************************************************************************
   01/01/2025         EPPlus Software AB           Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
 using System.IO;
 using System.Text;
 

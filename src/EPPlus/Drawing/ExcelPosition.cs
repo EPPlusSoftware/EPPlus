@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Vml;
+using System.Globalization;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -22,18 +23,54 @@ namespace OfficeOpenXml.Drawing
     {
         internal delegate void SetWidthCallback();
         SetWidthCallback _setWidthCallback;
-        internal ExcelPosition(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback) :
+        internal ExcelPosition(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback, int DrawingsType = 0) :
             base(ns, node)
         {
             _setWidthCallback = setWidthCallback;
+            this.excelDrawingsType = DrawingsType;
             Load();
         }
+
         const string colPath = "xdr:col";
         const string rowPath = "xdr:row";
         const string colOffPath = "xdr:colOff";
         const string rowOffPath = "xdr:rowOff";
-
         internal int _column, _row, _columnOff, _rowOff;
+
+        int excelDrawingsType = 0;
+        double _x, _y;
+        const string xPath = "cdr:x";
+        const string yPath = "cdr:y";
+
+        /// <summary>
+        /// X coordinate for shapes in charts.
+        /// </summary>
+        public double X
+        {
+            get
+            {
+                return _x;
+            }
+            set
+            {
+                _x = value;
+            }
+        }
+        /// <summary>
+        /// Y coordinate for shapes in charts.
+        /// </summary>
+        public double Y
+        {
+            get
+            {
+                return _y;
+            }
+            set
+            {
+                _y = value;
+            }
+        }
+
         /// <summary>
         /// The column
         /// </summary>
@@ -110,20 +147,36 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         public void Load()
         {
-            _column = GetXmlNodeInt(colPath);
-            _columnOff = GetXmlNodeInt(colOffPath);
-            _row = GetXmlNodeInt(rowPath);
-            _rowOff = GetXmlNodeInt(rowOffPath);
+            if (excelDrawingsType == 0)
+            {
+                _column = GetXmlNodeInt(colPath);
+                _columnOff = GetXmlNodeInt(colOffPath);
+                _row = GetXmlNodeInt(rowPath);
+                _rowOff = GetXmlNodeInt(rowOffPath);
+            }
+            else if (excelDrawingsType == 1)
+            {
+                _x = GetXmlNodeDouble(xPath);
+                _y = GetXmlNodeDouble(yPath);
+            }
         }
         /// <summary>
         /// Update xml data
         /// </summary>
         public void UpdateXml()
         {
-            SetXmlNodeString(colPath, _column.ToString());
-            SetXmlNodeString(colOffPath, _columnOff.ToString());
-            SetXmlNodeString(rowPath, _row.ToString());
-            SetXmlNodeString(rowOffPath, _rowOff.ToString());
+            if (excelDrawingsType == 0)
+            {
+                SetXmlNodeString(colPath, _column.ToString());
+                SetXmlNodeString(colOffPath, _columnOff.ToString());
+                SetXmlNodeString(rowPath, _row.ToString());
+                SetXmlNodeString(rowOffPath, _rowOff.ToString());
+            }
+            else if (excelDrawingsType == 1)
+            {
+                SetXmlNodeString(yPath, _y.ToString(CultureInfo.InvariantCulture));
+                SetXmlNodeString(xPath, _x.ToString(CultureInfo.InvariantCulture));
+            }
         }
     }
 }

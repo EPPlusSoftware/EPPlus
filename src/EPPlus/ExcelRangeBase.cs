@@ -20,7 +20,6 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
@@ -29,6 +28,11 @@ using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.String;
+using OfficeOpenXml.Utils.Cell;
+using static OfficeOpenXml.ExcelWorksheet;
+using System.Linq;
 
 namespace OfficeOpenXml
 {
@@ -46,7 +50,7 @@ namespace OfficeOpenXml
         private delegate void _setValue(ExcelRangeBase range, object value, int row, int col);
         private _changeProp _changePropMethod;
         private int _styleID;
-        private static SourceCodeTokenizer _tokenizer=new SourceCodeTokenizer(null, null, false, true);
+        private static SourceCodeTokenizer _tokenizer = new SourceCodeTokenizer(null, null, false, true);
         private FunctionRepository _functions;
         private readonly ExcelRangePicture _rangePicture;
         #region Constructors
@@ -57,7 +61,7 @@ namespace OfficeOpenXml
             _workbook = _worksheet.Workbook;
             _rangePicture = new ExcelRangePicture(this);
             SetDelegate();
-            _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;            
+            _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;
         }
 
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet, string address) :
@@ -77,7 +81,7 @@ namespace OfficeOpenXml
             Init(xlWorksheet);
             SetRCFromTable(wb._package, null);
             _workbook = wb;
-            if(_worksheet != null)
+            if (_worksheet != null)
             {
                 _rangePicture = new ExcelRangePicture(this);
             }
@@ -255,7 +259,7 @@ namespace OfficeOpenXml
             string formula = (value == null ? string.Empty : value.ToString());
             if (formula == string.Empty)
             {
-                range._worksheet._formulas.Clear(row, col, 1,1);
+                range._worksheet._formulas.Clear(row, col, 1, 1);
             }
             else
             {
@@ -301,15 +305,15 @@ namespace OfficeOpenXml
                 {
                     ws._formulas.SetValue(row, col, f.Index);
                     var flags = CellFlags.ArrayFormula;
-                    if(isDynamic)
+                    if (isDynamic)
                     {
-                        flags |= CellFlags.CanBeDynamicArray;                        
+                        flags |= CellFlags.CanBeDynamicArray;
                     }
                     ws._flags.SetFlagValue(row, col, true, flags);
                     ws.SetValueInner(row, col, null);
-                    if(isDynamic)
+                    if (isDynamic)
                     {
-                        var md=ws._metadataStore.GetValue(row, col);
+                        var md = ws._metadataStore.GetValue(row, col);
                         md.cm = diId;
                         ws._metadataStore.SetValue(row, col, md);
                     }
@@ -324,11 +328,11 @@ namespace OfficeOpenXml
                 range._worksheet._hyperLinks.SetValue(row, col, (Uri)value);
 
                 if (value is ExcelHyperLink hl)
-                {                    
+                {
                     if (string.IsNullOrEmpty(hl.Display))
                     {
                         var v = range._worksheet.GetValueInner(row, col);
-                        if(v == null)
+                        if (v == null)
                         {
                             range._worksheet.SetValueInner(row, col, hl.ReferenceAddress);
                         }
@@ -937,7 +941,7 @@ namespace OfficeOpenXml
                     {
                         Set_Formula(this, value, _fromRow, _fromCol);
                     }
-                    else if (HasOffSheetReference(value))
+                    else if (HasTableOrOffWorksheetReference(value))
                     {
                         Set_Formula_Range(this, value);
                     }
@@ -998,17 +1002,21 @@ namespace OfficeOpenXml
             }
         }
 
-        private bool HasOffSheetReference(string value)
+        private bool HasTableOrOffWorksheetReference(string value)
         {
             var tokenizer = SourceCodeTokenizer.Default;
             var tokens = tokenizer.Tokenize(value, WorkSheetName);
             foreach (var t in tokens)
             {
-                if (t.TokenTypeIsSet(TokenType.WorksheetNameContent))
+                if (t.TokenTypeIsSet(TokenType.WorksheetNameContent) || t.TokenType == TokenType.TableName)
                 {
-                    if (string.IsNullOrEmpty(t.Value) == false && Worksheet.Name.Equals(t.Value, StringComparison.OrdinalIgnoreCase) == false)
+                    if (string.IsNullOrEmpty(t.Value) == false)
                     {
-                        return true;
+                        if ((Worksheet.Name.Equals(t.Value, StringComparison.OrdinalIgnoreCase) == false) ||
+                             Worksheet.Tables._tableNames.ContainsKey(t.Value))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -1042,7 +1050,7 @@ namespace OfficeOpenXml
                     {
                         Set_Formula(this, formula, _fromRow, _fromCol);
                     }
-                    else if (HasOffSheetReference(formula))
+                    else if (HasTableOrOffWorksheetReference(formula))
                     {
                         Set_Formula_Range(this, formula);
                     }
@@ -1320,14 +1328,14 @@ namespace OfficeOpenXml
                 var isRt = _worksheet._flags.GetFlagValue(_fromRow, _fromCol, CellFlags.RichText);
                 if (isRt)
                 {
-					_rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
-                    return _rtc.Count>0;
-				}
-				return isRt;
+                    _rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
+                    return _rtc.Count > 0;
+                }
+                return isRt;
             }
             set
             {
-                if(value == true &&( Value == null || Value.ToString() == string.Empty))
+                if (value == true && (Value == null || Value.ToString() == string.Empty))
                 {
                     if (_rtc == null)
                     {
@@ -1362,6 +1370,11 @@ namespace OfficeOpenXml
             _changePropMethod(this, _setIsRichTextDelegate, value);
         }
 
+        internal bool IntersectsWithTable()
+        {
+            return _worksheet.Tables.GetIntersectingRanges(this).Count > 0;
+        }
+
         /// <summary>
         /// Insert cells into the worksheet and shift the cells to the selected direction.
         /// </summary>
@@ -1386,7 +1399,7 @@ namespace OfficeOpenXml
                 if (shift == eShiftTypeInsert.Down)
                     return this.Offset((_toRow - _fromRow) + 1, 0);
                 else if (shift == eShiftTypeInsert.Right)
-                    return this.Offset(0, (_toCol - _fromCol) + 1); 
+                    return this.Offset(0, (_toCol - _fromCol) + 1);
             }
             return null;
         }
@@ -1544,8 +1557,8 @@ namespace OfficeOpenXml
                 return fullAddress;
             }
         }
-#endregion
-#region Private Methods
+        #endregion
+        #region Private Methods
         /// <summary>
         /// Set the value without altering the richtext property
         /// </summary>
@@ -1610,7 +1623,7 @@ namespace OfficeOpenXml
                         int id = (int)f;
                         if (id >= 0 && !formulas.Contains(id))
                         {
-                            if (_worksheet._sharedFormulas[id].FormulaType==FormulaType.Array &&
+                            if (_worksheet._sharedFormulas[id].FormulaType == FormulaType.Array &&
                                     Collide(_worksheet.Cells[_worksheet._sharedFormulas[id].Address]) == eAddressCollition.Partly) //If the formula is an array formula and its on the inside the overwriting range throw an exception
                             {
                                 throw (new InvalidOperationException("Cannot overwrite a part of an array-formula"));
@@ -1787,7 +1800,7 @@ namespace OfficeOpenXml
                             bool hasValue = false;
                             while (formulaCells.Next())
                             {
-                                if (formulaCells.Value != null && 
+                                if (formulaCells.Value != null &&
                                     formulaCells.Value.ToString().Equals(col.CalculatedColumnFormula, StringComparison.OrdinalIgnoreCase))
                                 {
                                     hasValue = true;
@@ -1887,9 +1900,9 @@ namespace OfficeOpenXml
                 }
             }
         }
-#endregion
-#region Public Methods
-#region ConditionalFormatting
+        #endregion
+        #region Public Methods
+        #region ConditionalFormatting
         /// <summary>
         /// Conditional Formatting for this range.
         /// </summary>
@@ -1897,11 +1910,12 @@ namespace OfficeOpenXml
         {
             get
             {
-                return new RangeConditionalFormatting(_worksheet, new ExcelAddress(Address));
+                return new RangeConditionalFormatting(_worksheet, this);
+                //return new RangeConditionalFormatting(_worksheet, new ExcelAddress(Address));
             }
         }
-#endregion
-#region DataValidation
+        #endregion
+        #region DataValidation
         /// <summary>
         /// Data validation for this range.
         /// </summary>
@@ -1909,11 +1923,11 @@ namespace OfficeOpenXml
         {
             get
             {
-                return new RangeDataValidation(_worksheet, Address);
+                return new RangeDataValidation(_worksheet, this);
             }
         }
-#endregion
-#region GetValue
+        #endregion
+        #region GetValue
 
         /// <summary>
         ///     Convert cell value to desired type, including nullable structs.
@@ -1942,7 +1956,7 @@ namespace OfficeOpenXml
         {
             return ConvertUtil.GetTypedCellValue<T>(Value);
         }
-#endregion
+        #endregion
         /// <summary>
         /// Get a range with an offset from the top left cell.
         /// The new range has the same dimensions as the current range
@@ -2194,12 +2208,23 @@ namespace OfficeOpenXml
         /// If you calculate the formula this flag will be overwritten with the value the EPPlus decides for the formula.
         /// Also see <see cref="CalculationExtension.Calculate(ExcelWorkbook)" />, <seealso cref="CalculationExtension.Calculate(ExcelWorksheet)"/>, <seealso cref="CalculationExtension.Calculate(ExcelRangeBase)"/>
         /// </param>
-        public void CreateArrayFormula(string ArrayFormula, bool isDynamic=false)
+        public void CreateArrayFormula(string ArrayFormula, bool isDynamic = false)
         {
             if (Addresses != null)
             {
                 throw (new Exception("An array formula cannot have more than one address"));
             }
+
+            if (IntersectsWithTable())
+            {
+                //Array formulas are only allowed in tables as CalculatedColumn formula
+                //Or single-cell. Excel does not allow multi-cell array formulas in tables.
+                if (Start.Address != End.Address)
+                {
+                    throw (new InvalidOperationException("Multi-Cell array formulas are not allowed in tables."));
+                }
+            }
+
             Set_SharedFormula(this, ArrayFormula, this, true, isDynamic);
         }
         /// <summary>
@@ -2233,12 +2258,12 @@ namespace OfficeOpenXml
                 }
             }
         }
-        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues = true, bool clearFormulas = true, bool clearFlags = true, bool clearMergedCells = true, bool clearHyperLinks = true, bool clearComments = true, bool clearThreadedComments=true, bool clearStyles = true)
+        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues = true, bool clearFormulas = true, bool clearFlags = true, bool clearMergedCells = true, bool clearHyperLinks = true, bool clearComments = true, bool clearThreadedComments = true, bool clearStyles = true)
         {
 
             //First find the start cell
             FormulaDataTableValidation.HasPartlyFormulaDataTable(_worksheet, Range, false, "Can't clear a part of a data table function");
-            
+
             int fromRow, fromCol;
             var d = Worksheet.Dimension;
             if (d != null && Range._fromRow <= d._fromRow && Range._toRow >= d._toRow) //EntireRow?
@@ -2367,8 +2392,8 @@ namespace OfficeOpenXml
             }
         }
 
-#endregion
-#region IDisposable Members
+        #endregion
+        #region IDisposable Members
         /// <summary>
         /// Disposes the object
         /// </summary>
@@ -2377,8 +2402,8 @@ namespace OfficeOpenXml
             //_worksheet = null;            
         }
 
-#endregion
-#region "Enumerator"
+        #endregion
+        #region "Enumerator"
         CellStoreEnumerator<ExcelValue> cellEnum;
         /// <summary>
         /// Gets the enumerator for the collection
@@ -2471,7 +2496,7 @@ namespace OfficeOpenXml
             _enumAddressIx = 0;
             cellEnum = new CellStoreEnumerator<ExcelValue>(_worksheet._values, _fromRow, _fromCol, _toRow, _toCol);
         }
-#endregion
+        #endregion
 
         /// <summary>
         /// Sort the range by value of the first column, Ascending.
@@ -2715,7 +2740,7 @@ namespace OfficeOpenXml
             {
                 return _worksheet.GetValue<T>(_fromRow + rowOffset, _fromCol + columnOffset);
             }
-        } 
+        }
         /// <summary>
         /// Sets the value of a cell using an offset from the top-left cell in the range.
         /// </summary>
@@ -2729,15 +2754,15 @@ namespace OfficeOpenXml
                 ExcelNamedRange n;
                 if (_worksheet == null)
                 {
-                    n=_workbook._names[_address];
+                    n = _workbook._names[_address];
                 }
                 else
                 {
-                    
-                    n=_worksheet.Names[_address];
-                }                
+
+                    n = _worksheet.Names[_address];
+                }
                 var a = new ExcelAddressBase(n.Address);
-                if (a._fromRow>0 && a._fromCol>0)
+                if (a._fromRow > 0 && a._fromCol > 0)
                 {
                     _worksheet.SetValue(a._fromRow + rowOffset, a._fromCol + columnOffset, value);
                 }

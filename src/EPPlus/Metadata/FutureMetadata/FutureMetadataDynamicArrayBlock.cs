@@ -11,7 +11,8 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.RichData.IndexRelations;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections.Generic;
 using System.IO;

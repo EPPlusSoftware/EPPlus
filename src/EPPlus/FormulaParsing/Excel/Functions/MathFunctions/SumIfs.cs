@@ -19,6 +19,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 
@@ -35,13 +36,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             config.IgnoreNumberOfArgsFromStart = 1;
             config.ArrayArgInterval = 1;
-            
+
         }
 
         public override int ArgumentMinLength => 3;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            if(argumentIndex==0)
+            if (argumentIndex == 0)
             {
                 return FunctionParameterInformation.AdjustParameterAddress;
             }
@@ -53,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         }));
         public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
         {
-            if(index == 0)
+            if (index == 0)
             {
                 IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args);
                 addresses = EnqueueMatchingAddresses(args[0].Address, matchIndexes);
@@ -69,7 +70,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 if (arguments.Count <= ix) break;
                 var arg = arguments[ix];
-                if(arg.IsExcelRange)
+                if (arg.IsExcelRange)
                 {
                     var rangeInfo = arg.ValueAsRangeInfo;
                     argRanges.Add(new RangeOrValue { Range = rangeInfo });
@@ -78,7 +79,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     argRanges.Add(new RangeOrValue { Value = arg.Value });
                 }
-                criterias.Add(arguments[ix+1].ValueFirst);
+                criterias.Add(arguments[ix + 1].ValueFirst);
             }
             IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
@@ -101,7 +102,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     result += ConvertUtil.GetValueDouble(obj);
                 }
             }
-            
+
             return CreateResult(result.Get(), DataType.Decimal);
         }
     }

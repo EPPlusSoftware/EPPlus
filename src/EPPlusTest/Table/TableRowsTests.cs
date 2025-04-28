@@ -1,8 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Core.Worksheet.XmlWriter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 
 namespace EPPlusTest.Table
@@ -320,6 +322,56 @@ namespace EPPlusTest.Table
             var tbl = sheet.Tables.Add(sheet.Cells["A1:B2"], "Table1");
             var newRow = tbl.DataRows.AddNewRow();
             newRow.SetValues(new int[] { 3, 4, 5 });
+        }
+        [TestMethod]
+        public void EnsureDataRowsWorksWithCustomColumnNames()
+        {
+            using (var p = OpenPackage("tablePackage.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("AWs");
+
+                var table = ws.Tables.Add(ws.Cells["A1:D10"], "SomeTable");
+                table.ShowHeader = true;
+
+                for (int i = 1; i < 5; i++)
+                {
+                    ws.Cells[1, i].Value = $"CustomColumn{i}";
+                }
+
+                ws.Cells["A2:D10"].Formula = "COLUMN() + ROW()";
+
+                ws.Calculate();
+
+                table.DataRows[0].SetValue("Column4", 75);
+
+                table.SyncColumnNames(OfficeOpenXml.Table.ApplyDataFrom.CellsToColumnNames);
+
+                foreach (var col in table.Columns.Where(col => col.Name == "CustomColumn1" || col.Name == "CustomColumn3"))
+                {
+                    foreach (var row in table.DataRows)
+                    {
+                        table.DataRows[0].SetValue(col.Name, 367);
+
+                        table.DataRows[3].SetValue(col.Name, 333);
+                    }
+                }
+
+                //Ensure data rows are accurate
+                Assert.AreEqual(367, ws.Cells["A2"].Value);
+                Assert.AreEqual(367, ws.Cells["C2"].Value);
+                Assert.AreEqual(333, ws.Cells["A5"].Value);
+                Assert.AreEqual(333, ws.Cells["C5"].Value);
+                Assert.AreEqual(75, ws.Cells["D2"].Value);
+
+                //Ensure calculated values between set values have not been set
+                Assert.AreEqual(4d, ws.Cells["B2"].Value);
+                Assert.AreEqual(7d, ws.Cells["B5"].Value);
+                Assert.AreEqual(7d, ws.Cells["D3"].Value);
+                Assert.AreEqual(9d, ws.Cells["D5"].Value);
+
+                SaveAndCleanup(p);
+            }
         }
     }
 }

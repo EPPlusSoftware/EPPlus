@@ -12,8 +12,8 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections.Generic;
 using System.IO;

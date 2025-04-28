@@ -12,7 +12,8 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Export.ToCollection.Exceptions;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.String;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Reflection;

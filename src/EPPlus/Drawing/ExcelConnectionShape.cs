@@ -11,11 +11,8 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Xml;
 
@@ -26,8 +23,8 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public sealed class ExcelConnectionShape : ExcelShapeBase
     {
-        internal ExcelConnectionShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent=null) :
-            base(drawings, node, "xdr:cxnSp", "xdr:nvCxnSpPr/xdr:cNvPr", parent)
+        internal ExcelConnectionShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent=null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.Worksheet) :
+            base(drawings, node, NamespacePrefixes[(int)DrawingsType] +":cxnSp", NamespacePrefixes[(int)DrawingsType] +":nvCxnSpPr/"+ NamespacePrefixes[(int)DrawingsType] +":cNvPr", parent, DrawingsType)
         {
             Init(drawings, node);
         }
@@ -49,8 +46,8 @@ namespace OfficeOpenXml.Drawing
 
         private void Init(ExcelDrawings drawings, XmlNode node)
         {
-            ConnectionStart = new ExcelDrawingConnectionPoint(drawings, node, "a:stCxn", SchemaNodeOrder);
-            ConnectionEnd = new ExcelDrawingConnectionPoint(drawings, node, "a:endCxn", SchemaNodeOrder);
+            ConnectionStart = new ExcelDrawingConnectionPoint(drawings, node, NamespacePrefixes[_prefixIndex], "a:stCxn", SchemaNodeOrder);
+            ConnectionEnd = new ExcelDrawingConnectionPoint(drawings, node, NamespacePrefixes[_prefixIndex], "a:endCxn", SchemaNodeOrder);
         }
         #region "Public methods"
         #endregion
@@ -58,7 +55,7 @@ namespace OfficeOpenXml.Drawing
         private string ShapeStartXml()
         {
             StringBuilder xml = new StringBuilder();
-            xml.AppendFormat("<xdr:nvCxnSpPr><xdr:cNvPr id=\"{0}\" name=\"{1}\" /></xdr:nvCxnSpPr><xdr:spPr><a:prstGeom prst=\"rect\"><a:avLst /></a:prstGeom></xdr:spPr><xdr:style><a:lnRef idx=\"2\"><a:schemeClr val=\"accent1\"><a:shade val=\"50000\" /></a:schemeClr></a:lnRef><a:fillRef idx=\"1\"><a:schemeClr val=\"accent1\" /></a:fillRef><a:effectRef idx=\"0\"><a:schemeClr val=\"accent1\" /></a:effectRef><a:fontRef idx=\"minor\"><a:schemeClr val=\"lt1\" /></a:fontRef></xdr:style>", _id, Name);
+            xml.AppendFormat("<xdr:nvCxnSpPr><xdr:cNvPr id=\"{0}\" name=\"{1}\" /></xdr:nvCxnSpPr><xdr:spPr><a:prstGeom prst=\"rect\"><a:avLst /></a:prstGeom></xdr:spPr><xdr:style><a:lnRef idx=\"2\"><a:schemeClr val=\"accent1\"><a:shade val=\"50000\" /></a:schemeClr></a:lnRef><a:fillRef idx=\"1\"><a:schemeClr val=\"accent1\" /></a:fillRef><a:effectRef idx=\"0\"><a:schemeClr val=\"accent1\" /></a:effectRef><a:fontRef idx=\"minor\"><a:schemeClr val=\"lt1\" /></a:fontRef></xdr:style>", Id, Name);
             return xml.ToString();
         }
         #endregion

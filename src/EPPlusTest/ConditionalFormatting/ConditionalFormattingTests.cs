@@ -33,7 +33,6 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -46,6 +45,7 @@ using System.Xml.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Style;
 using FakeItEasy;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace EPPlusTest.ConditionalFormatting
 {

@@ -11,7 +11,7 @@
   10/04/2022         EPPlus Software AB       Initial release EPPlus 6.1
  *************************************************************************************************/
 using OfficeOpenXml.Attributes;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.AttributesUtils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

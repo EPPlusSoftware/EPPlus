@@ -11,7 +11,6 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using OfficeOpenXml.Utils.Extensions;
 using Draw = System.Drawing;
 using System.Xml;
 

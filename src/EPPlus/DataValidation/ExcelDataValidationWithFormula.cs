@@ -13,7 +13,8 @@
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Xml;
 using static OfficeOpenXml.ExcelWorksheet;
