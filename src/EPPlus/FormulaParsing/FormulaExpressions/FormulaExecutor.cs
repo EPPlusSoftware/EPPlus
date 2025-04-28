@@ -74,17 +74,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 noOperator = false;
                             }
 
-                            //if (noOperator && lastOpeningParanthesesPos > -1 && lastCommaPos > -1 && rpnTokens.Count - lastOpeningParanthesesPos > 1) // Handle comma separated addresses to become one expression. For Example SUM( (A1,A3) ,A5) where A1,A3 should become one argument to the SUM function.
-                            //{
-                            //    var sb = new StringBuilder();
-                            //    while(rpnTokens.Count > lastOpeningParanthesesPos)
-                            //    {
-                            //        sb.Append(rpnTokens[lastOpeningParanthesesPos].Value);
-                            //        rpnTokens.RemoveAt(lastOpeningParanthesesPos);
-                            //    }
-                            //    rpnTokens.Add(new Token(sb.ToString(), TokenType.ExcelAddress));
-
-                            //}
                             lastOpeningParanthesesPos = -1;
                             lastCommaPos = -1;
                         }
@@ -196,17 +185,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 }
             }
             rpnTokens.LambdaRefs = lambdaRefs;
-
-            // TODO: create a new list and loop through the existing tokens
-            // move tokens from the Lambda invoke parenthesis to after the corresponding
-            // variable and use the new Assign operator... /MA
-            //var TokenList = new List<Token>();
         }
-
-        //public static Dictionary<int, Expression> CompileExpressions(ref RpnTokens rpnTokens, ParsingContext parsingContext)
-        //{
-        //    return CompileExpressions(null, ref rpnTokens, parsingContext);
-        //}
 
 
         public static Dictionary<int, Expression> CompileExpressions(ref LambdaFormulaSettings lambdaSettings, ref RpnTokens rpnTokens, ParsingContext parsingContext)
