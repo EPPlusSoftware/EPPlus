@@ -14,7 +14,6 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
