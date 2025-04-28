@@ -112,10 +112,30 @@ namespace OfficeOpenXml
     }
 
     /// <summary>
-    /// <para>Flags to only copy certain parts of a range.</para>
-    /// This provides the options of Excel's "Paste Special"
+    /// Simplified enum for Fill and Transpose from ExcelRangeCopyOptionFlags
     /// </summary>
     [Flags]
+    public enum FillTranspose : int
+    {
+        /// <summary>
+        /// Fill range with repeated data. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
+        /// </summary>
+        Fill = ExcelRangeCopyOptionFlags.Fill,
+        /// <summary>
+        /// Transpose the copied data
+        /// </summary>
+        Transpose = ExcelRangeCopyOptionFlags.Transpose,
+        /// <summary>
+        /// Add flag for both of previous options
+        /// </summary>
+        FillAndTranspose = Fill | Transpose
+    }
+
+/// <summary>
+/// <para>Flags to only copy certain parts of a range.</para>
+/// This provides the options of Excel's "Paste Special"
+/// </summary>
+[Flags]
     public enum ExcelRangeCopyOnly : int
     {
         //CLARIFICATRION:
@@ -143,7 +163,7 @@ namespace OfficeOpenXml
         /// </summary>
         Validations = Exclude.All & ~ExcelRangeCopyOptionFlags.ExcludeDataValidations,
 
-        //TODO:
+        //TODO?:
         //All using source theme
         //All except borders
         //Column Widths

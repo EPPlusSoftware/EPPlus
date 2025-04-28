@@ -2166,10 +2166,11 @@ namespace OfficeOpenXml
         /// Note: Like Excel "Paste Special", also copies underlying cell values.
         /// </summary>
         /// <param name="Destination"></param>
-        /// <param name="excelRangeCopyOptionFlags">Intended only for Fill/Transpose in this case</param>
-        public void CopyFormulas(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
+        /// <param name="fillOrTranspose">Fill or transpose options</param>
+        public void CopyFormulas(ExcelRangeBase Destination, FillTranspose fillOrTranspose = 0)
         {
-            CopyWithParams(Destination, excelRangeCopyOptionFlags, (ExcelRangeCopyOptionFlags)ExcelRangeCopyOnly.Formulas);
+            ExcelRangeCopyOptionFlags[] flags = { (ExcelRangeCopyOptionFlags)fillOrTranspose };
+            CopyWithParams(Destination, flags, (ExcelRangeCopyOptionFlags)ExcelRangeCopyOnly.Formulas);
         }
 
         /// <summary>
@@ -2185,10 +2186,11 @@ namespace OfficeOpenXml
         /// Copy only cell values from source range to destination range.
         /// </summary>
         /// <param name="Destination"></param>
-        /// <param name="excelRangeCopyOptionFlags">Intended only for Fill/Transpose in this case</param>
-        public void CopyValues(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
+        /// <param name="fillOrTranspose">Fill or transpose options</param>
+        public void CopyValues(ExcelRangeBase Destination, FillTranspose fillOrTranspose = 0)
         {
-            CopyWithParams(Destination, excelRangeCopyOptionFlags, (ExcelRangeCopyOptionFlags)ExcelRangeCopyOnly.Values);
+            ExcelRangeCopyOptionFlags[] flags = { (ExcelRangeCopyOptionFlags)fillOrTranspose };
+            CopyWithParams(Destination, flags, (ExcelRangeCopyOptionFlags)ExcelRangeCopyOnly.Values);
         }
 
         /// <summary>
