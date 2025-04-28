@@ -106,6 +106,5 @@ namespace EPPlusTest.Issues
                 ws.Cells["A1"].Copy(ws.Cells["A2"]);
             }
         }
-
     }
 }

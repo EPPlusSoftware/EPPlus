@@ -1,11 +1,9 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Globalization;
 using System.Linq;
 
@@ -574,6 +572,21 @@ namespace OfficeOpenXml
                     }
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Copy this range of rows to the destination rowRange
+        /// </summary>
+        /// <param name="destinationRowRange"></param>
+        public void Copy(ExcelRangeRow destinationRowRange)
+        {
+            var destWs = destinationRowRange._worksheet;
+            var startColNum = destinationRowRange.StartRow;
+
+            var srcCellValues = _worksheet.Cells[StartRow, 1, EndRow, _worksheet.Dimension.End.Column];
+            var destCellValues = destWs.Cells[destinationRowRange.StartRow, 1, destinationRowRange.EndRow, destinationRowRange._worksheet.Dimension.End.Column];
+            srcCellValues.Copy(destCellValues, ExcelRangeCopyOptionFlags.IncludeFullRow);
         }
 
         private RowInternal GetRow(int row)
