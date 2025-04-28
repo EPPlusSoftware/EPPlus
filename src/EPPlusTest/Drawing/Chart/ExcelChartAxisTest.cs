@@ -39,7 +39,7 @@ using System.Xml;
 namespace EPPlusTest.Drawing.Chart
 {
     [TestClass]
-    public class ExcelChartAxisTest
+    public class ExcelChartAxisTest : TestBase
     {
         private ExcelChartAxis axis;
         
@@ -141,6 +141,33 @@ namespace EPPlusTest.Drawing.Chart
   
             Assert.IsTrue(axis.ExistsNode("c:majorGridlines"));
             Assert.IsFalse(axis.ExistsNode("c:minorGridlines"));
+        }
+
+        [TestMethod]
+        public void ChangingAxisOfChart()
+        {
+            using(var p = OpenPackage("ChartAxisChange.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = p.Workbook.Worksheets.Add("ChartWs");
+
+                ws.Cells["A1:A10"].Formula = "ROW()+ 5";
+                ws.Cells["C1:C10"].Formula = "COLUMN() + ROW() - 5";
+
+                ws.Calculate();
+
+                var barChart = ws.Drawings.AddBarChart("testChart", eBarChartType.ColumnClustered);
+
+                var series = barChart.Series.Add("C1:C10");
+                series.XSeries = ws.Cells["A1:A10"].Address;
+
+
+                ws.Cells["A1:A10"].Formula = "\"Category\" & ROW()";
+
+                barChart.Axis[0].ChangeAxisType(eAxisType.Cat);
+
+                SaveAndCleanup(p);
+            }
         }
     }
 }
