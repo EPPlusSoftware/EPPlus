@@ -18,8 +18,6 @@ using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.XML;
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Xml;
 
 namespace OfficeOpenXml.DataValidation

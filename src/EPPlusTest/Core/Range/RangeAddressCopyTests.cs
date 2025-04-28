@@ -1427,7 +1427,9 @@ namespace EPPlusTest.Core.Range
 
                 Assert.AreEqual(null, destCell.Comment);
 
-                Assert.IsTrue(ws.DataValidations[0].Address.Addresses.Where(x => x.Address == destCell.Address).Count() > 0);
+                var validations = ws.DataValidations[0].Address.Addresses.Where(x => x.Address == destCell.Address).Select(y => y);
+
+                Assert.IsNotNull(validations);
 
                 SaveAndCleanup(p);
             }
