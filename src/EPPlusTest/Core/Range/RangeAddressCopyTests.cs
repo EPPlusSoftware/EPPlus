@@ -1211,18 +1211,19 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual(20, destRows.Height);
                 Assert.AreEqual(20, destRange.EntireRow.Height);
 
-                //test that values are copied when to the same rows
-                var sameRows = ws.Cells["J3:L10"];
-                //var sameRangeRows = sameRange.EntireRow;
+                //test that values are copied when to overlapping rows
+                var overlappingRows = ws.Cells["J2:L11"];
 
-                rows.Copy(sameRows);
-                //rows.Copy(sameRangeRows);
+                var origFirstRow = ws.Cells["D3:F3"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>()).ToList();
+                var origSeventRow = ws.Cells["D10:F10"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>()).ToList();
 
-                var srcList = srcRange.ToCollection<double>();
-                //var offset = ws.Cells["J3:L10"].Offset(0, srcRange.Start.Column);
-                //var sameRangeList = offset.ToCollection<double>();
+                rows.Copy(overlappingRows.EntireRow);
 
-                //Assert.IsTrue(srcList.SequenceEqual(sameRangeList));
+                var destFirstRow = ws.Cells["D2:F2"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>()).ToList();
+                var destSeventhRow = ws.Cells["D9:F9"].Where(x => x.Value != null).Select(y => y.GetCellValue<string>()).ToList();
+
+                Assert.IsTrue(origFirstRow.SequenceEqual(destFirstRow));
+                Assert.IsTrue(origSeventRow.SequenceEqual(destSeventhRow));
 
                 SaveAndCleanup(package);
             }

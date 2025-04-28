@@ -703,12 +703,10 @@ namespace OfficeOpenXml
             }
         }
 
-        //Remove? makes for "weird" results if destination is on same columns as source.
-        public void Copy(ExcelRange destinationAddress)
-        {
-            Range.Copy(destinationAddress);
-        }
-
+        /// <summary>
+        /// Copies this RangeColumn to destinationColumnRange
+        /// </summary>
+        /// <param name="destinationColumnRange"></param>
         public void Copy(ExcelRangeColumn destinationColumnRange)
         {
             var destWs = destinationColumnRange._worksheet;
