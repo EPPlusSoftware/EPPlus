@@ -18,6 +18,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.Utils;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace OfficeOpenXml.Style.XmlAccess
 {
@@ -133,44 +134,58 @@ namespace OfficeOpenXml.Style.XmlAccess
         internal static void AddBuildIn(XmlNamespaceManager NameSpaceManager, ExcelStyleCollection<ExcelNumberFormatXml> NumberFormats)
         {
             var customFormats = ExcelPackageSettings.CultureSpecificBuildInNumberFormats.ContainsKey(CultureInfo.CurrentCulture.Name) ? ExcelPackageSettings.CultureSpecificBuildInNumberFormats[CultureInfo.CurrentCulture.Name] : null;
+            var builtInFormats = new HashSet<int>();
 
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 0, "General");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 1, "0");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 2,"0.00");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 3, "#,##0");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 4, "#,##0.00");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 9, "0%");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 10, "0.00%");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 11, "0.00E+00");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 12, "# ?/?");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 13, "# ??/??");
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 0, "General", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 1, "0", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 2,"0.00", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 3, "#,##0", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 4, "#,##0.00", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 9, "0%", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 10, "0.00%", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 11, "0.00E+00", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 12, "# ?/?", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 13, "# ??/??", ref builtInFormats);
 
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 14, "mm-dd-yy");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 15, "d-mmm-yy");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 16, "d-mmm");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 17, "mmm-yy");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 18, "h:mm AM/PM");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 19, "h:mm:ss AM/PM");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 20, "h:mm");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 21, "h:mm:ss");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 22, "m/d/yy h:mm");
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 14, "mm-dd-yy", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 15, "d-mmm-yy", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 16, "d-mmm", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 17, "mmm-yy", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 18, "h:mm AM/PM", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 19, "h:mm:ss AM/PM", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 20, "h:mm", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 21, "h:mm:ss", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 22, "m/d/yy h:mm", ref builtInFormats);
 
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 37, "#,##0 ;(#,##0)");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 38, "#,##0 ;[Red](#,##0)");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 39, "#,##0.00;(#,##0.00)");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 40, "#,##0.00;[Red](#,##0.00)");
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 37, "#,##0 ;(#,##0)", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 38, "#,##0 ;[Red](#,##0)", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 39, "#,##0.00;(#,##0.00)", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 40, "#,##0.00;[Red](#,##0.00)", ref builtInFormats);
 
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 45, "mm:ss");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 46, "[h]:mm:ss");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 47, "mmss.0");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 48,"##0.0E+0");
-            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 49, "@");
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 45, "mm:ss", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 46, "[h]:mm:ss", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 47, "mmss.0", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 48,"##0.0E+0", ref builtInFormats);
+            AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, 49, "@", ref builtInFormats);
 
             NumberFormats.NextId = 164; //Start for custom customFormats.
+
+            if (customFormats != null && customFormats.Count > 0)
+            {
+                var numbers = customFormats.Where(x => !builtInFormats.Contains(x.Key)).Select(x => x.Key);
+                foreach (var formatId in numbers)
+                {
+                    AddLocalizedFormat(NameSpaceManager, NumberFormats, customFormats, formatId, customFormats[formatId], ref builtInFormats);
+                }
+            }
         }
 
-        private static void AddLocalizedFormat(XmlNamespaceManager nameSpaceManager, ExcelStyleCollection<ExcelNumberFormatXml> numberFormats, Dictionary<int, string> customFormats, int numFmtId, string format)
+        private static void AddLocalizedFormat(XmlNamespaceManager nameSpaceManager, ExcelStyleCollection<ExcelNumberFormatXml> numberFormats, Dictionary<int, string> customFormats, int numFmtId, string format, ref HashSet<int> addedFormatIds)
         {
+            if (addedFormatIds != null && !addedFormatIds.Contains(numFmtId))
+            {
+                addedFormatIds.Add(numFmtId);
+            }
             if (customFormats != null && customFormats.TryGetValue(numFmtId, out string customFormat))
             {
                 numberFormats.Add(customFormat, new ExcelNumberFormatXml(nameSpaceManager, true, numFmtId, customFormat));
