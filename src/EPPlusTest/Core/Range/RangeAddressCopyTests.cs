@@ -1145,8 +1145,6 @@ namespace EPPlusTest.Core.Range
 
             //Add conditional formatting
             var cf = srcCell.ConditionalFormatting.AddDatabar(Color.Blue);
-            //cf.Formula = "2478";
-            //cf.Style.Fill.BackgroundColor.SetColor(Color.DarkSlateBlue);
 
             //Add DataValidation
             var aValidation = ws.DataValidations.AddAnyValidation(srcCell.Address);
@@ -1156,8 +1154,6 @@ namespace EPPlusTest.Core.Range
 
             //Add comment
             var comment = srcCell.AddComment("Test");
-            ////Add threaded comment
-            //var tComment = srcCell.AddThreadedComment("Test");
 
         }
 
@@ -1183,7 +1179,7 @@ namespace EPPlusTest.Core.Range
                 srcCell.Formula = "ROW()+COLUMN()";
 
                 var destCell = ws.Cells["F5"];
-                srcCell.Copy(destCell, ExcelRangePasteSpecialFlags.Formulas);
+                srcCell.Copy(destCell, ExcelRangeCopyOnly.Formulas);
 
                 Assert.AreEqual("ROW()+COLUMN()", destCell.Formula);
                 Assert.AreEqual(null, destCell.Value);
@@ -1209,7 +1205,7 @@ namespace EPPlusTest.Core.Range
                 srcCell.Value = 2478d;
 
                 var destCell = ws.Cells["G5"];
-                srcCell.Copy(destCell, ExcelRangePasteSpecialFlags.Values);
+                srcCell.Copy(destCell, ExcelRangeCopyOnly.Values);
 
                 Assert.AreEqual("", destCell.Formula);
                 Assert.AreEqual(2478d, destCell.Value);
@@ -1232,7 +1228,7 @@ namespace EPPlusTest.Core.Range
                 var srcCell = ws.Cells["D3"];
 
                 var destCell = ws.Cells["H5"];
-                srcCell.Copy(destCell, ExcelRangePasteSpecialFlags.Formats);
+                srcCell.Copy(destCell, ExcelRangeCopyOnly.Formats);
 
                 Assert.AreEqual("", destCell.Formula);
                 Assert.AreEqual(null, destCell.Value);
@@ -1259,7 +1255,7 @@ namespace EPPlusTest.Core.Range
                 var srcCell = ws.Cells["D3"];
 
                 var destCell = ws.Cells["I5"];
-                srcCell.Copy(destCell, ExcelRangePasteSpecialFlags.Comments);
+                srcCell.Copy(destCell, ExcelRangeCopyOnly.Comments);
 
                 Assert.AreEqual("", destCell.Formula);
                 Assert.AreEqual(null, destCell.Value);
@@ -1283,7 +1279,7 @@ namespace EPPlusTest.Core.Range
                 var srcCell = ws.Cells["D3"];
 
                 var destCell = ws.Cells["I5"];
-                srcCell.Copy(destCell, ExcelRangePasteSpecialFlags.Validation);
+                srcCell.Copy(destCell, ExcelRangeCopyOnly.Validations);
 
                 Assert.AreEqual("", destCell.Formula);
                 Assert.AreEqual(null, destCell.Value);

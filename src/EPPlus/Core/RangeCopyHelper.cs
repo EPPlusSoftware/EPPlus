@@ -81,66 +81,78 @@ namespace OfficeOpenXml.Core
             {
                 copiedMergedCells = null;
             }
-            
-            ClearDestination();
 
-            int rowAdder = 0, colAdder = 0;
-            int rowIncrement = _sourceRange.Rows;
-            int colIncrement = _sourceRange.Columns;
-            int rowRepeat = 1, colRepeat = 1;
-            if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Fill))
-                CalculateRepeat(ref rowRepeat, ref colRepeat);
 
-            for (int i = 0; i < colRepeat; i++)
-            {
-                for (int j = 0; j < rowRepeat; j++)
+            //var origDestRange = _destinationRange;
+            //var addressList = origDestRange.GetAllAddresses();
+
+            //for (int h = 0; h < addressList.Count; h++)
+            //{
+            //    //_destinationRange.Address = addressList[h].Address;
+            //    _destinationRange.SetAddress(addressList[h].Address, _destinationRange._workbook, _destinationRange.WorkSheetName);
+
+                ClearDestination();
+
+                int rowAdder = 0, colAdder = 0;
+                int rowIncrement = _sourceRange.Rows;
+                int colIncrement = _sourceRange.Columns;
+                int rowRepeat = 1, colRepeat = 1;
+                if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Fill))
+                    CalculateRepeat(ref rowRepeat, ref colRepeat);
+
+                for (int i = 0; i < colRepeat; i++)
                 {
-                    CopyValuesToDestination(rowAdder, colAdder);
-                    rowAdder += rowIncrement;
+                    for (int j = 0; j < rowRepeat; j++)
+                    {
+                        CopyValuesToDestination(rowAdder, colAdder);
+                        rowAdder += rowIncrement;
+                    }
+                    rowAdder = 0;
+                    colAdder += colIncrement;
                 }
-                rowAdder = 0;
-                colAdder += colIncrement;
-            }
-            if(!EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures) || !EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeWebPictures))
-            {
-                var richDataHelper = new RichDataCopyHelper(_sourceRange, _destinationRange);
-                richDataHelper.Copy(_copyOptions);
-            }
-           
-            
-            if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeDataValidations))
-            {
-                CopyDataValidations();
-            }
 
-            if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeConditionalFormatting))
-            {
-                CopyConditionalFormatting();
-            }
 
-            if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeMergedCells))
-            {
-                CopyMergedCells(copiedMergedCells);
-            }
+                if (!EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures) || !EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeWebPictures))
+                {
+                    var richDataHelper = new RichDataCopyHelper(_sourceRange, _destinationRange);
+                    richDataHelper.Copy(_copyOptions);
+                }
 
-            if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeDrawings))
-            {
-                CopyDrawings();
-            }
 
-            if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeTables))
-            {
-                CopyTables();
-            }
+                if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeDataValidations))
+                {
+                    CopyDataValidations();
+                }
 
-            if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludePivotTables))
-            {
-                CopyPivotTables();
-            }
+                if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeConditionalFormatting))
+                {
+                    CopyConditionalFormatting();
+                }
 
-            CopyFullColumn();
-            CopyFullRow();
-        }
+                if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeMergedCells))
+                {
+                    CopyMergedCells(copiedMergedCells);
+                }
+
+                if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeDrawings))
+                {
+                    CopyDrawings();
+                }
+
+                if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeTables))
+                {
+                    CopyTables();
+                }
+
+                if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludePivotTables))
+                {
+                    CopyPivotTables();
+                }
+
+                CopyFullColumn();
+                CopyFullRow();
+            }
+       // }
 
         private void CalculateRepeat(ref int rowRepeat, ref int colRepeat)
         {

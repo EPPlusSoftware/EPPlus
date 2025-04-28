@@ -121,10 +121,36 @@ namespace EPPlusTest.Issues
                 ws.Calculate();
 
                 var destCell = ws.Cells["F5"];
-                srcCell.Copy(destCell, ExcelRangePasteSpecialFlags.Formulas);
+                srcCell.Copy(destCell, ExcelRangeCopyOnly.Formulas);
 
                 Assert.AreEqual(testFormula, destCell.Formula);
                 Assert.AreEqual(7d, destCell.Value);
+
+                ws.Calculate();
+
+                SaveAndCleanup(p);
+            }
+        }
+        //One cell/range can be copied to multiple comma-separated ranges
+        [TestMethod]
+        public void i1656PasteSpecial_Formulas_OneToMany()
+        {
+            using (var p = OpenPackage("i1656_Many.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var srcCell = ws.Cells["D3"];
+                var comment = srcCell.AddComment("Test");
+
+                var testFormula = "ROW()+COLUMN()";
+                srcCell.Formula = testFormula;
+
+                ws.Calculate();
+
+                var destRangeDiscontinous = ws.Cells["J15:J20,G11:G20"];
+                srcCell.Copy(destRangeDiscontinous, (ExcelRangeCopyOptionFlags)ExcelRangeCopyOnly.Formulas, ExcelRangeCopyOptionFlags.Fill);
+
+                Assert.AreEqual(testFormula, ws.Cells["J15:J20"].Formula);
+                Assert.AreEqual(testFormula, ws.Cells["G11:G20"].Formula);
 
                 ws.Calculate();
 

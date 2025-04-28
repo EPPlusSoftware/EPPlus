@@ -90,43 +90,58 @@ namespace OfficeOpenXml
         /// </summary>
         ExcludeWebPictures = 0x10000,
     }
-    [Flags]
-    //Change name to PasteOnly or CopyOnly?
-    public enum ExcelRangePasteSpecialFlags : int
+
+    /// <summary>
+    /// Util const for getting only all exclude flags. Without special options like Fill, Transpose etc.
+    /// </summary>
+    internal struct Exclude
     {
-        None = ExcelRangeCopyOptionFlags.ExcludeFormulas |
-               ExcelRangeCopyOptionFlags.ExcludeValues | 
-               ExcelRangeCopyOptionFlags.ExcludeStyles |
-               ExcelRangeCopyOptionFlags.ExcludeComments |
-               ExcelRangeCopyOptionFlags.ExcludeThreadedComments |
-               ExcelRangeCopyOptionFlags.ExcludeHyperLinks |
-               ExcelRangeCopyOptionFlags.ExcludeMergedCells |
-               ExcelRangeCopyOptionFlags.ExcludeDataValidations |
-               ExcelRangeCopyOptionFlags.ExcludeConditionalFormatting |
-               ExcelRangeCopyOptionFlags.ExcludeTables |
-               ExcelRangeCopyOptionFlags.ExcludePivotTables |
-               ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures |
-               ExcelRangeCopyOptionFlags.ExcludeWebPictures,
+        internal const ExcelRangeCopyOptionFlags All = ExcelRangeCopyOptionFlags.ExcludeFormulas |
+           ExcelRangeCopyOptionFlags.ExcludeValues |
+           ExcelRangeCopyOptionFlags.ExcludeStyles |
+           ExcelRangeCopyOptionFlags.ExcludeComments |
+           ExcelRangeCopyOptionFlags.ExcludeThreadedComments |
+           ExcelRangeCopyOptionFlags.ExcludeHyperLinks |
+           ExcelRangeCopyOptionFlags.ExcludeMergedCells |
+           ExcelRangeCopyOptionFlags.ExcludeDataValidations |
+           ExcelRangeCopyOptionFlags.ExcludeConditionalFormatting |
+           ExcelRangeCopyOptionFlags.ExcludeTables |
+           ExcelRangeCopyOptionFlags.ExcludePivotTables |
+           ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures |
+           ExcelRangeCopyOptionFlags.ExcludeWebPictures;
+    }
+
+    /// <summary>
+    /// <para>Flags to only copy certain parts of a range.</para>
+    /// This provides the options of Excel's "Paste Special"
+    /// </summary>
+    [Flags]
+    public enum ExcelRangeCopyOnly : int
+    {
+        //CLARIFICATRION:
+        //Uses bitwise `& ~(SomeFlag)` to remove an ExcludeFlag from Exclude All.
+        //Meaning only that option is copied.
+
         /// <summary>
         /// Paste only formulas.
         /// </summary>
-        Formulas = (None & ~ExcelRangeCopyOptionFlags.ExcludeFormulas) & ~ExcelRangeCopyOptionFlags.ExcludeValues,
+        Formulas = (Exclude.All & ~ExcelRangeCopyOptionFlags.ExcludeFormulas) & ~ExcelRangeCopyOptionFlags.ExcludeValues,
         /// <summary>
         /// Paste only values
         /// </summary>
-        Values = None & ~ExcelRangeCopyOptionFlags.ExcludeValues,
+        Values = Exclude.All & ~ExcelRangeCopyOptionFlags.ExcludeValues,
         /// <summary>
         /// Paste only formatting
         /// </summary>
-        Formats = (None & ~ExcelRangeCopyOptionFlags.ExcludeConditionalFormatting) & ~ExcelRangeCopyOptionFlags.ExcludeStyles,
+        Formats = (Exclude.All & ~ExcelRangeCopyOptionFlags.ExcludeConditionalFormatting) & ~ExcelRangeCopyOptionFlags.ExcludeStyles,
         /// <summary>
         /// Paste only Comments and Threaded Comments
         /// </summary>
-        Comments = (None & ~ExcelRangeCopyOptionFlags.ExcludeComments) & ~ExcelRangeCopyOptionFlags.ExcludeThreadedComments,
+        Comments = (Exclude.All & ~ExcelRangeCopyOptionFlags.ExcludeComments) & ~ExcelRangeCopyOptionFlags.ExcludeThreadedComments,
         /// <summary>
         /// Paste only validation
         /// </summary>
-        Validation = None & ~ExcelRangeCopyOptionFlags.ExcludeDataValidations,
+        Validations = Exclude.All & ~ExcelRangeCopyOptionFlags.ExcludeDataValidations,
 
         //TODO:
         //All using source theme
