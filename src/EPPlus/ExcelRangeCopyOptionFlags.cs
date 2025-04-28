@@ -120,7 +120,7 @@ namespace OfficeOpenXml
     }
 
     /// <summary>
-    /// Simplified enum for operations e.g Fill and Transpose from ExcelRangeCopyOptionFlags
+    /// Simplified enum for oper Fill and Transpose from ExcelRangeCopyOptionFlags
     /// </summary>
     [Flags]
     public enum ExcelRangeCopyOperations : int
