@@ -849,8 +849,22 @@ namespace OfficeOpenXml.Core
                 {
                     var adr = new ExcelAddress(worksheet.Name, worksheet.MergedCells._list[csem.Value]);
                     var collideResult = _sourceRange.Collide(adr);
-                    if (collideResult == eAddressCollition.Inside || collideResult == eAddressCollition.Equal)
+                    if (collideResult != eAddressCollition.No)
                     {
+                        if(collideResult == eAddressCollition.Partly)
+                        {
+                            //Partial merge of the address take only if more than one cell intersects.
+                            var intersectingCells = _sourceRange.Intersect(adr);
+                            if (intersectingCells.IsSingleCell)
+                            {
+                                //Is only one cell. Ignore.
+                                copiedMergedCells.Add(csem.Value, null);
+                                continue;
+                            }
+           
+                            adr = new ExcelAddress(intersectingCells.Address);
+                        }
+
                         if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose))
                         {
                             copiedMergedCells.Add(csem.Value, new ExcelAddress(
@@ -867,11 +881,6 @@ namespace OfficeOpenXml.Core
                                 _destinationRange._fromRow + (adr.End.Row - _sourceRange._fromRow),
                                 _destinationRange._fromCol + (adr.End.Column - _sourceRange._fromCol)));
                         }
-                    }
-                    else
-                    {
-                        //Partial merge of the address ignore.
-                        copiedMergedCells.Add(csem.Value, null);
                     }
                 }
             }
@@ -900,6 +909,20 @@ namespace OfficeOpenXml.Core
                     _destinationRange.Worksheet.Column(_destinationRange.Start.Column + col).OutlineLevel = _sourceRange.Worksheet.Column(_sourceRange._fromCol + col).OutlineLevel;
                 }
             }
+
+            if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.IncludeFullRow))
+            {
+                var sourceRowOrig = _sourceRange._fromRow;
+                var destRowOrig = _destinationRange._fromRow;
+
+                for (int i = 0; i < _sourceRange.Rows; i++)
+                {
+                    var sourceRow = _sourceRange.Worksheet.Row(sourceRowOrig + i);
+                    var destRow = _destinationRange.Worksheet.Row(destRowOrig + i);
+
+                    destRow.Height = sourceRow.Height;
+                }
+            }
         }
 
         private void CopyFullColumn()
@@ -909,6 +932,20 @@ namespace OfficeOpenXml.Core
                 for (int row = 0; row < _sourceRange.Rows; row++)
                 {
                     _destinationRange.Worksheet.Row(_destinationRange.Start.Row + row).OutlineLevel = _sourceRange.Worksheet.Row(_sourceRange._fromRow + row).OutlineLevel;
+                }
+            }
+
+            if(EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.IncludeFullColumn))
+            {
+                var destColOrig = _destinationRange._fromCol;
+                var sourceColOrig = _sourceRange._fromCol;
+
+                for (int i = 0; i < _sourceRange.Columns; i++)
+                {
+                    var sourceCol = _sourceRange.Worksheet.Column(sourceColOrig + i);
+                    var destCol = _destinationRange.Worksheet.Column(destColOrig + i);
+
+                    destCol.Width = sourceCol.Width;
                 }
             }
         }
