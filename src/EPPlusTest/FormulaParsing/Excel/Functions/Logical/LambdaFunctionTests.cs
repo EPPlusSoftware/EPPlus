@@ -220,6 +220,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 
         //We have issues reading and then saving ANCHORARRAY or # operator formulas
         //The "Resaved" file does not output an array but only the first value
+        //Also see next test
         [TestMethod]
         public void ArrayAnchorReduce_Resave()
         {
@@ -243,6 +244,37 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
                 ws.Calculate();
 
                 var newName = GetOutputFile("", "Reduce_ArrayAnchor_Resaved.xlsx").FullName;
+                p.SaveAs(newName);
+            }
+        }
+
+        //All array input/output looks to have issues when reading a file.
+        //At least if double lambda
+        [TestMethod]
+        public void MakingLambda_FillDown_RESAVE()
+        {
+            using (var p = OpenPackage("LambdaFillDown_Generated.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = p.Workbook.Worksheets.Add("FillDown");
+
+                ws.Cells["C3:D4"].Formula = "ROW()+COLUMN()";
+                ws.Cells["G3"].Formula = "LAMBDA(range, SCAN(\"\", range, LAMBDA(a,v, IF(v = \"\", a, v))))(C3:D4)";
+
+                ws.Calculate();
+                //Output file looks like expected.
+                SaveAndCleanup(p);
+            }
+
+            using (var p = OpenPackage("LambdaFillDown_Generated.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.ClearFormulaValues();
+
+                ws.Calculate();
+
+                //Re-read file does not.
+                var newName = GetOutputFile("", "LambdaFillDown_Generated_Resaved.xlsx").FullName;
                 p.SaveAs(newName);
             }
         }
