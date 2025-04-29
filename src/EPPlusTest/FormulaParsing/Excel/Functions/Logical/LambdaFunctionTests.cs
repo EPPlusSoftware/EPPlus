@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 {
     [TestClass]
-    public class LambdaFunctionTests
+    public class LambdaFunctionTests : TestBase
     {
         [TestMethod]
         public void LambdaSelfInvokeSingleArg()
@@ -198,6 +198,53 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Cells["A3"].Value = 3;
             sheet.Cells["B1"].Formula = "LAMBDA(a,a)(A1):A3";
             sheet.Calculate();
+        }
+
+
+        //Curiously, no issues in release, Crashes in debug.
+        [TestMethod]
+        public void ArrayAnchorReduce()
+        {
+            using (var p = OpenPackage("Reduce_ArrayAnchor.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("ReduceSheet");
+
+                ws.Cells["A1"].Formula = "SEQUENCE(2)";
+                ws.Cells["C1"].Formula = "LAMBDA(x,REDUCE(\"\",x,LAMBDA(a,v,SORT(x,,1,TRUE))))(ANCHORARRAY(A1))";
+
+                ws.Calculate();
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        //We have issues reading and then saving ANCHORARRAY or # operator formulas
+        //The "Resaved" file does not output an array but only the first value
+        [TestMethod]
+        public void ArrayAnchorReduce_Resave()
+        {
+            using (var p = OpenPackage("Reduce_ArrayAnchor_Original.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("ReduceSheet");
+
+                ws.Cells["A1"].Formula = "SEQUENCE(2)";
+                ws.Cells["C1"].Formula = "LAMBDA(x,REDUCE(\"\",x,LAMBDA(a,v,SORT(x,,1,TRUE))))(ANCHORARRAY(A1))";
+
+                ws.Calculate();
+
+                SaveAndCleanup(p);
+            }
+
+            using (var p = OpenPackage("Reduce_ArrayAnchor_Original.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.ClearFormulaValues();
+
+                ws.Calculate();
+
+                var newName = GetOutputFile("", "Reduce_ArrayAnchor_Resaved.xlsx").FullName;
+                p.SaveAs(newName);
+            }
         }
     }
 }
