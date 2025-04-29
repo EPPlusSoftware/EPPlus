@@ -881,6 +881,7 @@ namespace OfficeOpenXml.Core.Worksheet
         private static void CopySheetNames(ExcelWorksheet Copy, ExcelWorksheet added)
         {
             var sameWorkbook = Copy.Workbook == added.Workbook;
+            Token tempToken;
             foreach (var name in Copy.Names)
             {
                 ExcelNamedRange newName;
@@ -908,12 +909,23 @@ namespace OfficeOpenXml.Core.Worksheet
                     if(sameWorkbook==false && HasExternalReference(name.Formula))
                     {
                         continue;
-					}
+                    }
                     else
                     {
-						newName = added.Names.AddFormulaNoValidation(name.Name, name.Formula);
-					}
-				}
+                        var ftokens = SourceCodeTokenizer.Default.Tokenize(name.Formula);
+                        for (int i = 0; i < ftokens.Count; i++)
+                        {
+                            if (ftokens[i].TokenType == TokenType.WorksheetNameContent && Copy.Name == ftokens[i].Value)
+                            {
+                                tempToken = ftokens[i];
+                                tempToken.Value = added.Name;
+                                ftokens[i] = tempToken;
+                            }
+                        }
+                        string updatedFormula = string.Concat(ftokens.Select(t => t.Value));
+                        newName = added.Names.AddFormulaNoValidation(name.Name, updatedFormula);
+                    }
+                }
                 else
                 {
                     newName = added.Names.AddValue(name.Name, name.Value);
@@ -921,6 +933,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 newName.NameComment = name.NameComment;
             }
 
+            //Copy names.
             foreach (var name in Copy.Workbook.Names)
             {
                 ExcelNamedRange wbName;
@@ -930,40 +943,79 @@ namespace OfficeOpenXml.Core.Worksheet
                     wbName.NameComment = name.NameComment;
                 }
             }
-
+            //Copy names from formulas.
             var t = Copy._formulaTokens;
-            var numerato = new CellStoreEnumerator<object>(Copy._formulas);
-            while(numerato.Next())
+            var formulaEnumerator = new CellStoreEnumerator<object>(Copy._formulas);
+            var nameLookup = Copy.Workbook.Names.Where(name => name != null).ToDictionary(name => name.Name, name => name);
+            while (formulaEnumerator.Next())
             {
-                var v = numerato.Value;
-                if(v is int)
+                var v = formulaEnumerator.Value;
+                if (v is int a)
                 {
                     //shared formula
+                    Copy._sharedFormulas.TryGetValue(a, out SharedFormula sharedFormula);
+                    var sformula = sharedFormula.Formula;
+                    var stokens = SourceCodeTokenizer.Default.Tokenize(sformula);
+
+                    foreach (var token in stokens)
+                    {
+                        if (token.TokenType == TokenType.NameValue && nameLookup.TryGetValue(token.Value, out var name))
+                        {
+                            if (name.Worksheet == Copy || name.Worksheet == null)
+                            {
+                                var ftokens = SourceCodeTokenizer.Default.Tokenize(name.Formula);
+                                for (int i = 0; i < ftokens.Count; i++)
+                                {
+                                    if (ftokens[i].TokenType == TokenType.WorksheetNameContent && Copy.Name == ftokens[i].Value)
+                                    {
+                                        tempToken = ftokens[i];
+                                        tempToken.Value = added.Name;
+                                        ftokens[i] = tempToken;
+                                    }
+                                }
+                                string updatedFormula = string.Concat(ftokens.Select(t => t.Value));
+                                ExcelNamedRange wbName;
+                                if (name.AddressAbsolute != "#REF!")
+                                {
+                                    wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                                }
+                                else if (name.Formula != null)
+                                {
+                                    wbName = added.Workbook.Names.AddFormula(name.Name, updatedFormula);
+                                }
+                                else
+                                {
+                                    wbName = added.Workbook.Names.AddValue(name.Name, name.Value);
+                                }
+                                wbName.NameComment = name.NameComment;
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    var form = v.ToString();
-                    var tokens = SourceCodeTokenizer.Default.Tokenize(form);
+                    var formula = v.ToString();
+                    var tokens = SourceCodeTokenizer.Default.Tokenize(formula);
                     foreach (var token in tokens)
                     {
-                        if(token.TokenType == TokenType.NameValue)
+                        if (token.TokenType == TokenType.NameValue && nameLookup.TryGetValue(token.Value, out var name))
                         {
-                            foreach(var name in Copy.Workbook.Names)
+                            if (name.Worksheet == Copy || name.Worksheet == null)
                             {
-                                if(token.Value == name.Name)
+                                ExcelNamedRange wbName;
+                                if (name.AddressAbsolute != "#REF!")
                                 {
-                                    if(name.Worksheet == Copy || name.Worksheet == null)
-                                    {
-                                        ExcelNamedRange wbName;
-                                        if (name.AddressAbsolute != "#REF!")
-                                            wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
-                                        else if (name.Formula != null)
-                                            wbName = added.Workbook.Names.AddFormula(name.Name, name.Formula);
-                                        else
-                                            wbName = added.Workbook.Names.AddValue(name.Name, name.Value);
-                                        wbName.NameComment = name.NameComment;
-                                    }
+                                    wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
                                 }
+                                else if (name.Formula != null)
+                                {
+                                    wbName = added.Workbook.Names.AddFormula(name.Name, name.Formula);
+                                }
+                                else
+                                {
+                                    wbName = added.Workbook.Names.AddValue(name.Name, name.Value);
+                                }
+                                wbName.NameComment = name.NameComment;
                             }
                         }
                     }
