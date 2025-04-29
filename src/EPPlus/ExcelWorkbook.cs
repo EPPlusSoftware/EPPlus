@@ -1552,7 +1552,7 @@ namespace OfficeOpenXml
             {
                 foreach (var cache in info.PivotCaches)
                 {
-                    if (cache._pivotTables.Count == 0)
+                    if (cache._pivotTables.Count == 0)  
                     {
                         cache.Delete();
                         continue;

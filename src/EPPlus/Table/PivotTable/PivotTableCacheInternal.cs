@@ -11,6 +11,7 @@ using System.Text;
 using System.Xml;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.ConditionalFormatting;
+using System.Xml.XPath;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -244,11 +245,11 @@ namespace OfficeOpenXml.Table.PivotTable
         internal void RefreshFields()
         {
             UpdatePageFieldValues();
-            //var tableFields = GetTableFields();
             var fields = new List<ExcelPivotTableCacheField>();
             var r = SourceRange;
             bool cacheUpdated=false;
             var  movedFields = new List<int>();
+            var fieldsNode = GetNode("d:cacheFields");
             for (int col = r._fromCol; col <= r._toCol; col++)
             {
                 var ix = col - r._fromCol;
@@ -261,7 +262,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     var ws = r.Worksheet;
                     var name = ws.GetValue(r._fromRow, col)?.ToString().Trim();
                     ExcelPivotTableCacheField field;
-                    if (_fields==null || ix>=_fields?.Count || _fields[ix].Name != name)
+                    if (_fields==null || ix >= _fields?.Count || _fields[ix].Name != name)
                     {
                         if (string.IsNullOrEmpty(name))
                         {
@@ -308,6 +309,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         if(field._cacheLookup!=null) field._cacheLookup.Clear();
                         if (cacheUpdated == false && string.IsNullOrEmpty(name)==false && !field.Name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) cacheUpdated=true;
                     }
+
                     var shNode = field.TopNode.SelectSingleNode("d:sharedItems", NameSpaceManager);
                     if (shNode.HasChildNodes)
                     {
@@ -315,9 +317,30 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
 
                     if (!string.IsNullOrEmpty(name) && !field.Name.StartsWith(name)) field.Name = name;
+
+                    if (cacheUpdated)
+                    {
+                        fieldsNode.RemoveChild(field.TopNode);
+                        if (fields.Count == 0)
+                        {
+                            fieldsNode.PrependChild(field.TopNode);
+                        }
+                        else
+                        {
+                            fieldsNode.InsertAfter(field.TopNode, fields[fields.Count - 1].TopNode);
+                        }
+                    }
+
                     fields.Add(field);
                 }
             }
+            //Add non-database fields in the end.
+            var i = _fields.Count - 1;
+            while (i >= 0 && _fields[i].DatabaseField == false)
+            {
+                fields.Add(_fields[i--]);
+            }
+
             if (cacheUpdated)
             {
                 UpdateAndRemoveFields(fields, movedFields);
@@ -344,6 +367,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         var node = pt.Fields[i].TopNode;
                         node.ParentNode.RemoveChild(node);
                     }
+                    _fields[i].TopNode.ParentNode.RemoveChild(_fields[i].TopNode);
                 }
             }
             _fields = fields;
@@ -382,12 +406,12 @@ namespace OfficeOpenXml.Table.PivotTable
                         {
                             field.Index = i;
                             field.BaseIndex = i;
-                            field.Cache = null;
+                            field.Cache = null;                            
                             field.TopNode.ParentNode.RemoveChild(field.TopNode);
                             var prevNode = i == 0 ? null : list[i - 1].TopNode;
                             if(prevNode==null)
                             {
-                                prevNode.ParentNode.PrependChild(field.TopNode);
+                                parentNode.PrependChild(field.TopNode);
                             }
                             else
                             {
@@ -409,73 +433,43 @@ namespace OfficeOpenXml.Table.PivotTable
 
         private void UpdateFieldReferences(List<ExcelPivotTableCacheField> fields, List<int> movedFields)
         {
-            var fieldIndex = movedFields.Where(x => x >= 0).ToDictionary(x => x, x => movedFields.IndexOf(x));
+            var oldIndex = movedFields.Where(x => x >= 0).ToDictionary(x => movedFields.IndexOf(x), x => x);
             foreach (var pt in _pivotTables)
             {
+                //Update data field index
                 foreach (var df in pt.DataFields)
                 {
-                    if (fieldIndex.TryGetValue(df.Index, out int newIx))
+                    if (df.Index != df.Field.Index)
                     {
-                        df.Index = newIx;
-                        df.Field.Index = newIx;
+                        df.Index = df.Field.Index;
                     }
                 }
 
+                //Update column field index
                 foreach (var cf in pt.ColumnFields)
                 {
-                    if (fieldIndex.TryGetValue(cf.Index, out int newIx))
-                    {
-                        var node = pt.GetNode($"d:colFields/d:field[@x={cf.Index}]") as XmlElement;
-                        if (node != null)
-                        {
-                            node.SetAttribute("x", $"{newIx}");
-                        }
-                    }
-                    if (fieldIndex.TryGetValue(cf.BaseIndex, out newIx))
-                    {
-                        cf.BaseIndex = newIx;
-                    }
-                    
+                    UpdateRowColPathFieldXml(oldIndex, pt, cf, "d:colFields/d:field[@x={0}]", "x");
                 }
 
+                //Update row field index
                 foreach (var rf in pt.RowFields)
                 {
-                    if (fieldIndex.TryGetValue(rf.Index, out int newIx))
-                    {
-                        var node = pt.GetNode($"d:rowFields/d:field[@x={rf.Index}]") as XmlElement;
-                        if (node != null)
-                        {
-                            node.SetAttribute("x",$"{newIx}");
-                        }
-                    }
-                    if (fieldIndex.TryGetValue(rf.BaseIndex, out newIx))
-                    {
-                        rf.BaseIndex = newIx;
-                    }
+                    UpdateRowColPathFieldXml(oldIndex, pt, rf, "d:rowFields/d:field[@x={0}]", "x");
                 }
 
+                //Update page field index
                 foreach (var pf in pt.PageFields)
                 {
-                    if (fieldIndex.TryGetValue(pf.Index, out int newIx))
-                    {
-                        var node = pt.GetNode($"d:pageFields/d:field[@x={pf.Index}]") as XmlElement;
-                        if (node != null)
-                        {
-                            node.SetAttribute("x", $"{newIx}");
-                        }
-                    }
-                    if (fieldIndex.TryGetValue(pf.BaseIndex, out newIx))
-                    {
-                        pf.BaseIndex = newIx;
-                    }
-
+                    UpdateRowColPathFieldXml(oldIndex, pt, pf, "d:pageFields/d:pageField[@fld={0}]", "fld");
                 }
 
+                //Update styles
+                var newIndex = movedFields.Where(x => x >= 0).ToDictionary(x => x, x => movedFields.IndexOf(x));
                 foreach (ExcelPivotTableAreaStyle s in pt.Styles)
                 {
-                    if (s.FieldIndex.HasValue && s.FieldIndex.Value>=0)
+                    if(s.FieldIndex.HasValue && s.FieldIndex.Value>=0)
                     {
-                        if (fieldIndex.TryGetValue(s.FieldIndex.Value, out int newIx))
+                        if (newIndex.TryGetValue(s.FieldIndex.Value, out int newIx))
                         {
                             s.FieldIndex = newIx;
                         }
@@ -484,14 +478,26 @@ namespace OfficeOpenXml.Table.PivotTable
                             //Remove
                         }
                     }
+
+                    foreach (var f in s.Conditions.Fields)
+                    {
+                        if (newIndex.TryGetValue(f.Field.Index, out int newIx))
+                        {
+                            f.FieldIndex = newIx;
+                        }
+                    }
+
+                    s.Conditions.UpdateXml();
                 }
+
+                //Update conditional formatting
                 foreach (var fs in pt.ConditionalFormattings)
                 {
                     foreach (var a in fs.Areas)
                     {
                         if (a.FieldIndex.HasValue && a.FieldIndex.Value >= 0)
                         {
-                            if (fieldIndex.TryGetValue(a.FieldIndex.Value, out int newIx))
+                            if (newIndex.TryGetValue(a.FieldIndex.Value, out int newIx))
                             {
                                 a.FieldIndex = newIx;
                             }
@@ -499,6 +505,46 @@ namespace OfficeOpenXml.Table.PivotTable
                             {
                                 //Remove
                             }
+                        }
+                        foreach (var f in a.Conditions.Fields)
+                        {
+                            if (newIndex.TryGetValue(f.Field.Index, out int newIx))
+                            {
+                                f.FieldIndex = newIx;
+                            }
+                        }
+
+                        a.Conditions.UpdateXml();
+                    }
+                }
+            }
+        }
+
+        private static void UpdateRowColPathFieldXml(Dictionary<int, int> oldIndex, ExcelPivotTable pt, ExcelPivotTableField ptf, string xpath, string attributeName)
+        {
+            if (ptf.Index >= 0)
+            {
+                if (oldIndex.TryGetValue(ptf.Index, out int oldIx))
+                {
+                    if (ptf.Index != oldIx)
+                    {
+                        var node = pt.GetNode(string.Format(xpath, oldIx)) as XmlElement;
+                        if (node != null)
+                        {
+                            node.SetAttribute(attributeName, $"{ptf.Index}");
+                        }
+                    }
+                }
+                else
+                {
+                    var node = pt.GetNode(string.Format(xpath, ptf.Index)) as XmlElement;
+                    if (node != null)
+                    {
+                        var parent = node.ParentNode;
+                        parent.RemoveChild(node);
+                        if (parent.ChildNodes.Count == 0)
+                        {
+                            parent.ParentNode.RemoveChild(parent);
                         }
                     }
                 }
@@ -517,168 +563,6 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                 }
             }
-        }
-
-        //private void RemoveDeletedFields(ExcelRangeBase r)
-        //{
-        //    for (int i = 0; i < _pivotTables.Count; i++)
-        //    {
-        //        var pt = _pivotTables[i];
-        //        for (int p = r.Columns; p < pt.Fields.Count; p++)
-        //        {
-        //            if (pt.Fields[p].Cache.DatabaseField)
-        //            {
-        //                pt.Fields.RemoveAt(pt.Fields.Count - 1);
-        //                p--;
-        //            }
-        //        }
-        //    }
-
-        //    var removedFields = _fields.Count;
-        //    var calcFields = 0;
-
-        //    while (r.Columns + calcFields < _fields.Count)
-        //    {
-        //        var f = _fields[_fields.Count - 1];
-        //        if (f.DatabaseField)
-        //        {
-        //            f.TopNode.ParentNode.RemoveChild(f.TopNode);
-        //            _fields.Remove(f);
-        //        }
-        //        else
-        //        {
-        //            calcFields++;
-        //        }
-        //    }
-        //}
-
-        //private void UpdateRowColumnPageFields(List<ExcelPivotTableCacheField> fields, List<List<string>> tableFields)
-        //{
-        //    for(int tblIx=0;tblIx<_pivotTables.Count;tblIx++)
-        //    {
-
-        //        var l = tableFields[tblIx];
-        //        var tbl = _pivotTables[tblIx];
-        //        tbl.PageFields._list.ForEach(x => { x.IsPageField = false; x.Axis = ePivotFieldAxis.None; });
-        //        tbl.ColumnFields._list.ForEach(x => { x.IsColumnField = false; x.Axis = ePivotFieldAxis.None; });
-        //        tbl.RowFields._list.ForEach(x => { x.IsRowField = false; x.Axis = ePivotFieldAxis.None; });
-        //        tbl.DataFields._list.ForEach(x => { x.Field.IsDataField = false; x.Field.Axis = ePivotFieldAxis.None; });
-
-        //        ChangeIndex(tbl.PageFields, l);
-        //        ChangeIndex(tbl.ColumnFields, l);
-        //        ChangeIndex(tbl.RowFields, l);
-
-        //        RemoveEmptyFieldsElement(tbl.PageFields);
-        //        RemoveEmptyFieldsElement(tbl.ColumnFields);
-        //        RemoveEmptyFieldsElement(tbl.RowFields);
-
-        //        for (int i = 0; i < tbl.DataFields.Count; i++)
-        //        {
-        //            var df = tbl.DataFields[i];
-        //            var prevName = l[df.Index];
-        //            var newIx = _fields.FindIndex(x => x.Name.Equals(prevName, StringComparison.CurrentCultureIgnoreCase));
-        //            if (newIx >= 0)
-        //            {
-        //                df.Index = newIx;
-        //                df.Field = tbl.Fields[newIx];
-        //                df.Field.IsDataField = true;
-        //            }
-        //            else
-        //            {
-        //                tbl.DataFields.Remove(df);
-        //                i--;
-        //            }
-
-        //            foreach (ExcelPivotTableAreaStyle s in tbl.Styles)
-        //            {
-        //                if (s.FieldIndex == df.Index)
-        //                {
-        //                    s.FieldIndex = newIx;
-        //                }
-        //                foreach (ExcelPivotAreaReference c in s.Conditions.Fields)
-        //                {
-        //                    if (c.FieldIndex == df.Index)
-        //                    {
-        //                        c.FieldIndex = newIx;
-        //                    }
-        //                }
-
-        //                if (s.Conditions.DataFields.FieldIndex == df.Index)
-        //                {
-        //                    s.Conditions.DataFields.FieldIndex = newIx;
-        //                }
-        //            }
-        //        }
-
-        //        if (tbl.DataFields.Count == 0)
-        //        {
-        //            tbl.DeleteNode("d:dataFields");
-        //        }
-        //    }
-        //}
-
-        //private static void RemoveEmptyFieldsElement(ExcelPivotTableRowColumnFieldCollection col)
-        //{
-        //    if (col.Count == 0)
-        //    {
-        //        var node = col._table.GetNode("d:" + col._topNode);
-        //        if (node != null)
-        //        {
-        //            node.ParentNode.RemoveChild(node);
-        //        }
-        //    }
-        //}
-        //private void ChangeIndex(ExcelPivotTableRowColumnFieldCollection fields, List<string> prevFields)
-        //{
-        //    var newFields = new List<ExcelPivotTableField>();
-        //    for (int i = 0; i < fields.Count; i++)
-        //    {
-        //        var f = fields[i];
-        //        var prevName = prevFields[f.Index];
-        //        var ix = _fields.FindIndex(x => x.Name.Equals(prevName, StringComparison.CurrentCultureIgnoreCase));
-        //        if (ix>=0)
-        //        {
-        //            var fld = fields._table.Fields[ix];
-
-        //            newFields.Add(fld);
-        //            if(fld.PageFieldSettings!=null)
-        //            {
-        //                fld.PageFieldSettings.Index = ix;
-        //                fld.PageFieldSettings._field = fld;
-        //            }
-        //            foreach(ExcelPivotTableAreaStyle s in f.PivotTable.Styles)
-        //            {
-        //                if(s.FieldIndex==f.Index)
-        //                {
-        //                    s.FieldIndex = ix;
-        //                }
-        //                foreach(ExcelPivotAreaReference c in s.Conditions.Fields)
-        //                {
-        //                    if(c.FieldIndex == f.Index)
-        //                    {
-        //                        c.FieldIndex = ix;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }            
-        //    fields.Clear();
-        //    newFields.ForEach(x=>fields.Add(x));
-        //}
-
-        private List<List<string>> GetTableFields()
-        {
-            var tableFields = new List<List<string>>();
-            foreach(var tbl in _pivotTables)
-            {
-                var l = new List<string>();
-                tableFields.Add(l);
-                foreach(var field in tbl.Fields.OrderBy(x=>x.Index))
-                {
-                    l.Add(field.Name.ToLower());
-                }
-            }
-            return tableFields;
         }
 
         private void RefreshPivotTableItems()

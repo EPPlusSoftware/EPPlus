@@ -1093,12 +1093,13 @@ namespace EPPlusTest.Table.PivotTable
         [TestMethod]
         public void s690()
         {
-            using(ExcelPackage pck = OpenTemplatePackage("s690.xlsm"))
+            using (ExcelPackage pck = OpenTemplatePackage("s690.xlsm"))
             {
                 SaveAndCleanup(pck);
             }
         }
         [TestMethod]
+
         public void VerifyPivotTableSaveWithDateGroupAndMilliseconds()
         {
 
@@ -1268,6 +1269,33 @@ namespace EPPlusTest.Table.PivotTable
                 field.InsertBlankRow = true;
             }
             //p.SaveAs(@"C:\epplustest\testoutput\pivot_filldown.xlsx");
-        }        
+        }
+        [TestMethod]
+        public void RefreshTemplateWithChangedColumns()
+        {
+            using var p = OpenTemplatePackage("PivotTableRefreshFields.xlsx");
+            foreach(var ws in p.Workbook.Worksheets)
+            {
+                foreach(var pt in ws.PivotTables)
+                {
+                    
+                }
+            }
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void RefreshTemplateWithChangedColumns_ClearData()
+        {
+            using var p = OpenTemplatePackage("PivotTableRefreshFields.xlsx");
+            foreach (var ws in p.Workbook.Worksheets)
+            {
+                foreach (var pt in ws.PivotTables)
+                {
+
+                }
+            }
+            p.Workbook.Worksheets[0].Cells["A2:J20"].Clear();
+            SaveAndCleanup(p);
+        }
     }
 }
