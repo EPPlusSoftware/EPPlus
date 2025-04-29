@@ -736,7 +736,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// Add numberic grouping to the field
+        /// Add numeric grouping to the field
         /// </summary>
         /// <param name="Start">Start value</param>
         /// <param name="End">End value</param>

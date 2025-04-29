@@ -1382,13 +1382,8 @@ namespace OfficeOpenXml
 
             if (loadPivotTable)
             {
-                //Updates the Workbook Xml, so must be before saving the wookbook part 
+                //Updates the Workbook Xml, so must be before saving the workbook part 
                 SavePivotTableCaches();
-            }
-
-            if (_externalLinks != null)
-            {
-                SaveExternalLinks();
             }
 
             // save the workbook
@@ -1434,6 +1429,11 @@ namespace OfficeOpenXml
                 }
                 worksheet.Save(loadPivotTable);
                 worksheet.Part.SaveHandler = worksheet.SaveHandler;
+            }
+
+            if (_externalLinks != null)
+            {
+                SaveExternalLinks();
             }
 
             // Issue 15252: save SharedStrings only once
@@ -1557,7 +1557,7 @@ namespace OfficeOpenXml
                         cache.Delete();
                         continue;
                     }
-                    //Rewrite the pivottable address again if any rows or columns have been inserted or deleted
+                    //Rewrite the pivot table address again if any rows or columns have been inserted or deleted
                     var r = cache.SourceRange;
                     if (r != null && r.Worksheet != null)              //Source does not exist
                     {
