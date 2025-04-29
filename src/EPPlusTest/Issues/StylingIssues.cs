@@ -109,6 +109,50 @@ namespace EPPlusTest
 
 			SwitchBackToCurrentCulture();
         }
+
+        [TestMethod]
+        public void Issue1964_Epplus()
+        {
+            SwitchToCulture("zh-CN");
+            //using var p = OpenTemplatePackage("Issue1964.xlsx");
+            using var p = OpenPackage("i1964_Epplus.xlsx", true);
+
+            ExcelPackageSettings.CultureSpecificBuildInNumberFormats.Add("zh-CN",
+               new Dictionary<int, string>()
+                {
+                   {31, "yyyy\"年\"m\"月\"d\"日\"" }
+                });
+
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("AWs");
+
+            //Setting styling as Original wb
+            ws.Cells["A1"].Style.WrapText = true;
+            ws.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            var font = ws.Cells["A1"].Style.Font;
+            font.Name = "宋体";
+            font.Family = 3;
+            font.Charset = 134;
+            font.Charset = 134;
+            font.Size = 9;
+
+            ws.PhoneticProperties.FontId = 2;
+            ws.PhoneticProperties.PhoneticType = ePhoneticType.NoConversion;
+
+            ws.Cells["A1"].Value = 44561d;
+            ws.Cells["A1"].Style.Numberformat.Format = "yyyy\"年\"m\"月\"d\"日\"";
+            ws.Column(1).Width = 15;
+
+            var cell = ws.Cells["A1"];
+            var value = cell.Text;
+            Assert.AreEqual("2021年12月31日", value);
+            Assert.AreEqual(31, ws.Cells["A1"].Style.Numberformat.NumFmtID);
+            SaveAndCleanup(p);
+
+            SwitchBackToCurrentCulture();
+        }
+
         [TestMethod]
         public void Issue1493()
         {
