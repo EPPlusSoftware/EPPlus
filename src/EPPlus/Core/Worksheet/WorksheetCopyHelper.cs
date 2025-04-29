@@ -970,7 +970,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         else if (name.Formula != null)
                         {
                             var updatedFormula = UpdateFormulaStringWithNewWorksheetName(name.Formula, added, Copy);
-                            wbName = added.Workbook.Names.AddFormula(name.Name, updatedFormula);
+                            wbName = added.Workbook.Names.AddFormulaNoValidation(name.Name, updatedFormula);
                         }
                         else
                         {
