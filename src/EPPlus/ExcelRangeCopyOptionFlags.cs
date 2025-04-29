@@ -89,5 +89,13 @@ namespace OfficeOpenXml
         /// Exclude any web pictures (i.e. added via the IMAGE function) within the range.
         /// </summary>
         ExcludeWebPictures = 0x10000,
+        /// <summary>
+        /// Copy attributes of the column e.g. width of the column
+        /// </summary>
+        IncludeFullColumn = 0x20000,
+        /// <summary>
+        /// Copy attributes of the row e.g. height of the row
+        /// </summary>
+        IncludeFullRow = 0x40000,
     }
 }
