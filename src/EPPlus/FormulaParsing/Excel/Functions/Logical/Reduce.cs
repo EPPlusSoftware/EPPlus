@@ -53,27 +53,39 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 return CreateResult(eErrorType.Value);
             }
             var calculator = lastArg.Value as LambdaCalculator;
-
-            var range = ArgToRangeInfo(arguments, 1);
             var accumulatedValue = initialValue;
-            for (var row = 0; row < range.Size.NumberOfRows; row++)
+            if (arguments[1].DataType == DataType.ExcelRange)
             {
-                for(var col = 0; col < range.Size.NumberOfCols; col++)
+                var range = ArgToRangeInfo(arguments, 1);
+                
+                for (var row = 0; row < range.Size.NumberOfRows; row++)
                 {
-                    var rangeValue = range.GetOffset(row, col);
-                    var cr = CompileResultFactory.Create(rangeValue);
-                    calculator.BeginCalculation();
-                    if (ivDataType == DataType.Unknown) ivDataType = cr.DataType;
-                    if (ivDataType != DataType.String && accumulatedValue == null)
+                    for (var col = 0; col < range.Size.NumberOfCols; col++)
                     {
-                        accumulatedValue = 0;
+                        var rangeValue = range.GetOffset(row, col);
+                        var cr = CompileResultFactory.Create(rangeValue);
+                        calculator.BeginCalculation();
+                        if (ivDataType == DataType.Unknown) ivDataType = cr.DataType;
+                        if (ivDataType != DataType.String && accumulatedValue == null)
+                        {
+                            accumulatedValue = 0;
+                        }
+                        calculator.SetVariableValue(0, accumulatedValue, ivDataType, context);
+                        calculator.SetVariableValue(1, rangeValue, cr.DataType, context);
+                        var compileResult = calculator.Execute(context);
+                        accumulatedValue = compileResult.Result;
                     }
-                    calculator.SetVariableValue(0, accumulatedValue, ivDataType, context);
-                    calculator.SetVariableValue(1, rangeValue, cr.DataType, context);
-                    var compileResult = calculator.Execute(context);
-                    accumulatedValue = compileResult.Result;
                 }
             }
+            else
+            {
+                calculator.BeginCalculation();
+                calculator.SetVariableValue(0, initialValue, ivDataType, context);
+                calculator.SetVariableValue(1, arguments[1].Value, arguments[1].DataType, context);
+                var compileResult = calculator.Execute(context);
+                accumulatedValue = compileResult.Result;
+            }
+           
 
             var accResult = CompileResultFactory.Create(accumulatedValue);
             return CreateDynamicArrayResult(accumulatedValue, accResult.DataType, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
