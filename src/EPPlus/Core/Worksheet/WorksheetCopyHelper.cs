@@ -939,9 +939,9 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 var v = formulaEnumerator.Value;
                 string formula;
-                if (v is int a)
+                if (v is int vkey)
                 {
-                    Copy._sharedFormulas.TryGetValue(a, out SharedFormula sharedFormula);
+                    Copy._sharedFormulas.TryGetValue(vkey, out SharedFormula sharedFormula);
                     formula = sharedFormula.Formula;
                     CopyWorkbookNames(formula, nameLookup, added, Copy);
                 }
