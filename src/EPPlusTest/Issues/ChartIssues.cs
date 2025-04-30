@@ -385,9 +385,9 @@ namespace EPPlusTest.Issues
 			}
 		}
 
-        [TestMethod]
-        public void CreateStringLitterals()
-        {
+		[TestMethod]
+		public void CreateStringLitterals()
+		{
 			using (var package = OpenPackage("LitteralsSetting.xlsx", true))
 			{
 				var wb = package.Workbook;
@@ -397,8 +397,65 @@ namespace EPPlusTest.Issues
 
 				var serie = numLitChart.Series.Add("{10,20,50}");
 				serie.XSeries = "{'col1','col2','col3'}";
-                SaveAndCleanup(package);
-            }
-        }
-    }
+				SaveAndCleanup(package);
+			}
+		}
+
+		[TestMethod]
+		public void ChartLoadDirty()
+		{
+			using (var package = OpenPackage("ChartLoadDirty.xlsx", true))
+			{
+				//Create workbook
+				var workbook = package.Workbook;
+				var ws = workbook.Worksheets.Add("LineChartWithMarkers");
+
+				ws.Cells["A1"].Value = "Time";
+				ws.Cells["B1"].Value = "Performance";
+
+				ws.Cells["A2:D10"].Formula = "ROW()+COLUMN()";
+
+				var fullRange = ws.Cells["A1:D10"];
+
+				//Skip headers
+				var range = fullRange.SkipRows(1);
+
+				//add line chart
+				var markersChart = ws.Drawings.AddLineChart("MarkersChart", eLineChartType.LineMarkers);
+
+				var serie = markersChart.Series.Add(range.TakeSingleColumn(1), range.TakeSingleColumn(0));
+
+				//-------Start Set style properties
+
+				markersChart.StyleManager.SetChartStyle(ePresetChartStyle.ColumnChartStyle10);
+				markersChart.PlotArea.CreateDataTable();
+
+				serie.Header = "Performance";
+				markersChart.SetPosition(0, 0, 6, 0);
+				markersChart.SetSize(1200, 400);
+				markersChart.Title.Text = "Line Chart With Markers";
+				markersChart.Axis[0].AddTitle("Performance");
+
+				markersChart.Legend.Remove();
+
+				markersChart.PlotArea.DataTable.Fill.Color = Color.LightSteelBlue;
+				markersChart.Series[0].Fill.Color = Color.DarkRed;
+				markersChart.Title.Font.Bold = true;
+				markersChart.Title.Font.Italic = true;
+
+				//----End Set style properties
+
+				//Get outerxml as string.
+
+				var outerXml = markersChart.ChartXml.OuterXml;
+
+				//Set up data
+				var newRange = ws.Cells["G2:M10"];
+				newRange.Formula = "ROW()+COLUMN()+100";
+				newRange.Calculate();
+
+             
+			}
+		}
+	}
 }
