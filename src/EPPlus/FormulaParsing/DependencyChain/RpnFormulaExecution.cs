@@ -1101,13 +1101,13 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.FullRowAddress:
                         var e = f._expressions[f._tokenIndex];
                         s.Push(e);
-                        if(leStackPos != null)
-                        {
-                            var cr = e.Compile();
-                            leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), t.Value, DataType.ExcelRange);
-                            var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
-                            f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
-                        }
+                        //if(leStackPos != null)
+                        //{
+                        //    //var cr = e.Compile();
+                        //    leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), t.Value, DataType.ExcelRange);
+                        //    var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
+                        //    f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
+                        //}
                         if (returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
                         {
                             //if (IsSingleAddress(f))

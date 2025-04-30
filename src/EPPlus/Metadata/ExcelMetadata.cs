@@ -298,8 +298,9 @@ namespace OfficeOpenXml.Metadata
         }
         internal void GetDynamicArrayId(out uint cmId)
         {
-            if(!DynamicArrayTypeId.HasValue)
+            if(!DynamicArrayTypeId.HasValue || !Db.CellMetadata.Any(x => x.Id == DynamicArrayTypeId.Value && !x.Deleted))
             {
+                Db.CellMetadata.ReIndex();
                 CreateDefaultXmlDynamicArray();
             }
             cmId  = DynamicArrayTypeId.Value;

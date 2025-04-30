@@ -72,8 +72,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 calculator.BeginCalculation();
                 calculator.SetVariableValue(0, initialValue, arguments[0].DataType, context);
                 calculator.SetVariableValue(1, arguments[1].Value, arguments[1].DataType, context);
-                var compileReuslt = calculator.Execute(context);
-                resultRange.SetValue(0, 0, compileReuslt.Result);
+                var compileResult = calculator.Execute(context);
+                resultRange.SetValue(0, 0, compileResult.Result);
             }
            
             return CreateDynamicArrayResult(resultRange, DataType.ExcelRange, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);

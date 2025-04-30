@@ -248,6 +248,38 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             }
         }
 
+        [TestMethod]
+        public void LambdaRangeArg_Simple()
+        {
+            using var p = OpenPackage("LambdaFillDown_Generated_Simple.xlsx", true);
+            var sheet = p.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["C3"].Value = 7d;
+            sheet.Cells["C4"].Value = 8d;
+            sheet.Cells["D3"].Value = 7d;
+            sheet.Cells["D4"].Value = 9d;
+
+            //sheet.Cells["G3"].Formula = "LAMBDA(range, SCAN(\"\", range, LAMBDA(a,v, IF(v = \"\", a, v))))(C3:D4)";
+            sheet.Cells["G3"].Formula = "LAMBDA(range,range)(C3:D4)";
+            sheet.Calculate();
+            Assert.AreEqual(7d, sheet.Cells["G3"].Value, "G3 was not 6 as expected");
+            Assert.AreEqual(8d, sheet.Cells["G4"].Value, "G4 was not 7 as expected");
+            Assert.AreEqual(7d, sheet.Cells["H3"].Value);
+            Assert.AreEqual(9d, sheet.Cells["H4"].Value);
+
+            SaveAndCleanup(p);
+            p.Dispose();
+
+            using var p2 = OpenPackage("LambdaFillDown_Generated_Simple.xlsx", false);
+            var ws = p2.Workbook.Worksheets[0];
+            ws.ClearFormulaValues();
+
+            ws.Calculate();
+
+            var newName = GetOutputFile("", "LambdaFillDown_Generated_Simple_Resaved.xlsx").FullName;
+            p2.SaveAs(newName);
+
+        }
+
         //All array input/output looks to have issues when reading a file.
         //At least if double lambda
         [TestMethod]
@@ -263,6 +295,10 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 
                 ws.Calculate();
                 //Output file looks like expected.
+                Assert.AreEqual(6d, ws.Cells["G3"].Value, "G3 was not 6 as expected");
+                Assert.AreEqual(7d, ws.Cells["G4"].Value, "G4 was not 7 as expected");
+                Assert.AreEqual(7d, ws.Cells["H3"].Value, "H3 was not 7 as expected");
+                Assert.AreEqual(8d, ws.Cells["H4"].Value, "H4 was not 8 as ");
                 SaveAndCleanup(p);
             }
 
