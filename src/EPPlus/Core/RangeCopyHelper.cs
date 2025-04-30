@@ -65,8 +65,8 @@ namespace OfficeOpenXml.Core
 			_copyOptions = copyOptions;
         }
         internal void Copy()
-        {            
-            if(EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHiddenCells))
+        {
+            if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHiddenCells))
             {
                 UpdateHiddenDictionaries();
             }
@@ -81,7 +81,8 @@ namespace OfficeOpenXml.Core
             {
                 copiedMergedCells = null;
             }
-            
+
+
             ClearDestination();
 
             int rowAdder = 0, colAdder = 0;
@@ -101,13 +102,15 @@ namespace OfficeOpenXml.Core
                 rowAdder = 0;
                 colAdder += colIncrement;
             }
-            if(!EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures) || !EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeWebPictures))
+
+
+            if (!EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures) || !EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeWebPictures))
             {
                 var richDataHelper = new RichDataCopyHelper(_sourceRange, _destinationRange);
                 richDataHelper.Copy(_copyOptions);
             }
-           
-            
+
+
             if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeDataValidations))
             {
                 CopyDataValidations();
@@ -446,7 +449,7 @@ namespace OfficeOpenXml.Core
             var includeValues = EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeValues);
             var includeFormulas = EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeFormulas);
             var includeHyperlinks = EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHyperLinks);
-            if (includeValues == false && includeHyperlinks == false && includeFormulas == false) return;
+            if (includeValues == false && includeHyperlinks == false && includeFormulas == false && includeStyles == false) return;
             var excludeHiddenCells = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHiddenCells);
             var cse = new CellStoreEnumerator<ExcelValue>(worksheet._values,  _sourceRange._fromRow, _sourceRange._fromCol, _sourceRange._toRow, _sourceRange._toCol);
             int pRow = _sourceRange._fromRow;

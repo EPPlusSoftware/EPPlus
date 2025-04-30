@@ -31,7 +31,6 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Drawing;
 using OfficeOpenXml.DataValidation;
-using Castle.Components.DictionaryAdapter.Xml;
 using System.Linq;
 
 namespace EPPlusTest.Core.Range
@@ -39,6 +38,20 @@ namespace EPPlusTest.Core.Range
     [TestClass]
     public class RangeAddressCopyTests : TestBase
     {
+        [TestInitialize]
+        public void DoInitialize()
+        {
+            var p = OpenPackage("PasteSpecial.xlsx", true);
+            SetUpPasteSpecial(p);
+            SaveAndCleanup(p);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+
+        }
+
         [TestMethod]
         public void ValidateCopyFormulasRow()
         {
@@ -1249,6 +1262,176 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual("D$6", ws.Cells["E10"].Formula);
 
                 SaveWorkbook("s841.xlsx", p);
+            }
+        }
+
+        void FillCellWithData(ExcelRange srcCell, ExcelWorksheet ws)
+        {
+            //Add formula
+            var testFormula = "ROW()+COLUMN()";
+            srcCell.SetFormula(testFormula);
+
+            //Add styles
+            srcCell.Style.Border.BorderAround(ExcelBorderStyle.Dashed);
+            srcCell.Style.Font.Bold = true;
+            srcCell.Style.Fill.PatternType = ExcelFillStyle.LightUp;
+
+            //Add numberformat
+            srcCell.Style.Numberformat.Format = "# ##0,00 kr;-# ##0,00 kr";
+
+            //Add conditional formatting
+            var cf = srcCell.ConditionalFormatting.AddDatabar(Color.Blue);
+
+            //Add DataValidation
+            var aValidation = ws.DataValidations.AddAnyValidation(srcCell.Address);
+            aValidation.ShowInputMessage = true;
+            aValidation.Prompt = "A prompt text";
+            aValidation.PromptTitle = "A prompt title";
+
+            //Add comment
+            var comment = srcCell.AddComment("Test");
+
+        }
+
+        void SetUpPasteSpecial(ExcelPackage p)
+        {
+            //Set up wb + cell
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            var srcCell = ws.Cells["D3"];
+
+            FillCellWithData(srcCell, ws);
+
+            ws.Calculate();
+        }
+
+        [TestMethod]
+        public void PasteSpecial_Formulas()
+        {
+            using (var p = OpenPackage("PasteSpecial.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var srcCell = ws.Cells["D3"];
+
+                srcCell.Formula = "ROW()+COLUMN()";
+
+                var destCell = ws.Cells["F5"];
+                srcCell.Copy(destCell, ExcelRangeCopyOnly.Formulas);
+
+                Assert.AreEqual("ROW()+COLUMN()", destCell.Formula);
+                Assert.AreEqual(null, destCell.Value);
+
+                ws.Calculate();
+
+                Assert.AreEqual("ROW()+COLUMN()", destCell.Formula);
+                Assert.AreNotEqual(2478d, destCell.Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void PasteSpecial_Values()
+        {
+            using (var p = OpenPackage("PasteSpecial.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var srcCell = ws.Cells["D3"];
+
+                //Add a value
+                srcCell.Value = 2478d;
+
+                var destCell = ws.Cells["G5"];
+                srcCell.Copy(destCell, ExcelRangeCopyOnly.Values);
+
+                Assert.AreEqual("", destCell.Formula);
+                Assert.AreEqual(2478d, destCell.Value);
+
+                ws.Calculate();
+
+                Assert.AreEqual("", destCell.Formula);
+                Assert.AreEqual(2478d, destCell.Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void PasteSpecial_Formats()
+        {
+            using (var p = OpenPackage("PasteSpecial.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var srcCell = ws.Cells["D3"];
+
+                var destCell = ws.Cells["H5"];
+                srcCell.Copy(destCell, ExcelRangeCopyOnly.Formats);
+
+                Assert.AreEqual("", destCell.Formula);
+                Assert.AreEqual(null, destCell.Value);
+                Assert.AreEqual(ExcelFillStyle.LightUp, destCell.Style.Fill.PatternType);
+                Assert.AreEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Right.Style);
+                Assert.AreEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Left.Style);
+                Assert.AreEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Top.Style);
+                Assert.AreEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Bottom.Style);
+                Assert.AreEqual(ws.ConditionalFormatting[0],destCell.ConditionalFormatting.GetConditionalFormattings()[0]);
+
+                Assert.AreEqual("", destCell.Formula);
+                Assert.AreEqual(null, destCell.Value);
+                Assert.AreEqual(null, destCell.Comment);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void PasteSpecial_Comments()
+        {
+            using (var p = OpenPackage("PasteSpecial.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var srcCell = ws.Cells["D3"];
+
+                var destCell = ws.Cells["I5"];
+                srcCell.Copy(destCell, ExcelRangeCopyOnly.Comments);
+
+                Assert.AreEqual("", destCell.Formula);
+                Assert.AreEqual(null, destCell.Value);
+                Assert.AreNotEqual(ExcelFillStyle.LightUp, destCell.Style.Fill.PatternType);
+                Assert.AreNotEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Right.Style);
+                Assert.AreNotEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Left.Style);
+                Assert.AreNotEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Top.Style);
+                Assert.AreNotEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Bottom.Style);
+
+                Assert.AreEqual(srcCell.Comment.Text, destCell.Comment.Text);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void PasteSpecial_Validation()
+        {
+            using (var p = OpenPackage("PasteSpecial.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var srcCell = ws.Cells["D3"];
+
+                var destCell = ws.Cells["I5"];
+                srcCell.Copy(destCell, ExcelRangeCopyOnly.Validations);
+
+                Assert.AreEqual("", destCell.Formula);
+                Assert.AreEqual(null, destCell.Value);
+                Assert.AreNotEqual(ExcelFillStyle.LightUp, destCell.Style.Fill.PatternType);
+                Assert.AreNotEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Right.Style);
+                Assert.AreNotEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Left.Style);
+                Assert.AreNotEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Top.Style);
+                Assert.AreNotEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Bottom.Style);
+
+                Assert.AreEqual(null, destCell.Comment);
+
+                var validations = ws.DataValidations[0].Address.Addresses.Where(x => x.Address == destCell.Address).Select(y => y);
+
+                Assert.IsNotNull(validations);
+
+                SaveAndCleanup(p);
             }
         }
     }

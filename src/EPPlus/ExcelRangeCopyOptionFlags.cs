@@ -98,4 +98,85 @@ namespace OfficeOpenXml
         /// </summary>
         IncludeFullRow = 0x40000,
     }
+
+    /// <summary>
+    /// Util const for getting only all exclude flags. Without special options like Fill, Transpose etc.
+    /// </summary>
+    internal struct Exclude
+    {
+        internal const ExcelRangeCopyOptionFlags All = ExcelRangeCopyOptionFlags.ExcludeFormulas |
+           ExcelRangeCopyOptionFlags.ExcludeValues |
+           ExcelRangeCopyOptionFlags.ExcludeStyles |
+           ExcelRangeCopyOptionFlags.ExcludeComments |
+           ExcelRangeCopyOptionFlags.ExcludeThreadedComments |
+           ExcelRangeCopyOptionFlags.ExcludeHyperLinks |
+           ExcelRangeCopyOptionFlags.ExcludeMergedCells |
+           ExcelRangeCopyOptionFlags.ExcludeDataValidations |
+           ExcelRangeCopyOptionFlags.ExcludeConditionalFormatting |
+           ExcelRangeCopyOptionFlags.ExcludeTables |
+           ExcelRangeCopyOptionFlags.ExcludePivotTables |
+           ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures |
+           ExcelRangeCopyOptionFlags.ExcludeWebPictures;
+    }
+
+    /// <summary>
+    /// Simplified enum for oper Fill and Transpose from ExcelRangeCopyOptionFlags
+    /// </summary>
+    [Flags]
+    public enum ExcelRangeCopyOperations : int
+    {
+        /// <summary>
+        /// Fill range with repeated data. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
+        /// </summary>
+        Fill = ExcelRangeCopyOptionFlags.Fill,
+        /// <summary>
+        /// Transpose the copied data
+        /// </summary>
+        Transpose = ExcelRangeCopyOptionFlags.Transpose,
+        /// <summary>
+        /// Add flag for both of previous options
+        /// </summary>
+        FillAndTranspose = Fill | Transpose
+    }
+
+/// <summary>
+/// <para>Flags to only copy certain parts of a range.</para>
+/// This provides the options of Excel's "Paste Special"
+/// </summary>
+[Flags]
+    public enum ExcelRangeCopyOnly : int
+    {
+        //CLARIFICATRION:
+        //Uses bitwise `& ~(SomeFlag)` to remove an ExcludeFlag from Exclude All.
+        //Meaning only that option is copied.
+
+        /// <summary>
+        /// Paste only formulas.
+        /// </summary>
+        Formulas = (Exclude.All & ~ExcelRangeCopyOptionFlags.ExcludeFormulas) & ~ExcelRangeCopyOptionFlags.ExcludeValues,
+        /// <summary>
+        /// Paste only values
+        /// </summary>
+        Values = Exclude.All & ~ExcelRangeCopyOptionFlags.ExcludeValues,
+        /// <summary>
+        /// Paste only formatting
+        /// </summary>
+        Formats = (Exclude.All & ~ExcelRangeCopyOptionFlags.ExcludeConditionalFormatting) & ~ExcelRangeCopyOptionFlags.ExcludeStyles,
+        /// <summary>
+        /// Paste only Comments and Threaded Comments
+        /// </summary>
+        Comments = (Exclude.All & ~ExcelRangeCopyOptionFlags.ExcludeComments) & ~ExcelRangeCopyOptionFlags.ExcludeThreadedComments,
+        /// <summary>
+        /// Paste only validation
+        /// </summary>
+        Validations = Exclude.All & ~ExcelRangeCopyOptionFlags.ExcludeDataValidations,
+
+        //TODO?:
+        //All using source theme
+        //All except borders
+        //Column Widths
+        //Formulas and number formats
+        //Values and number formats
+        //All merging conditional formats
+    }
 }
