@@ -454,7 +454,23 @@ namespace EPPlusTest.Issues
 				newRange.Formula = "ROW()+COLUMN()+100";
 				newRange.Calculate();
 
-             
+                //Add second line chart
+                var partialChartCopy = ws.Drawings.AddLineChart("MarkersChart2", eLineChartType.LineMarkers);
+
+                //Load previous chart for all style settings etc.
+                partialChartCopy.ChartXml.LoadXml(outerXml);
+
+                //Delete old series and add new one
+                partialChartCopy.Series.Add(newRange.TakeSingleColumn(1), newRange.TakeSingleColumn(0));
+                partialChartCopy.Series.Delete(0);
+
+                //Expected: new series with old styling in chart2
+                //Actual: partialChartCopy does not change at all after loadXml operation.
+
+                //This as TopNode/ChartNode is never updated and ChartXML is written directly to file with no update.
+				//There is no apparent public way to update TopNode.
+
+                SaveAndCleanup(package);
 			}
 		}
 	}
