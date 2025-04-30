@@ -315,6 +315,39 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             }
         }
 
+
+        [TestMethod]
+        public void DaWizard_Generated()
+        {
+            using (var p = OpenPackage("DaWizard_Generated.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("MageSheet");
+
+                ws.Cells["A1"].Value = "Input";
+                ws.Cells["C1"].Value = "A lizard mage, deals damage by using it's image. Such Imagination.";
+
+                ws.Cells["F2"].Value = "FROM";
+                ws.Cells["G2"].Value = "TO";
+
+                var fromValues = new List<string>(["mage", "image", "damage", "imagination", "Lizard"]);
+                var toValues = new List<string>(["wizard", "iwizard", "dawizard", "iwizardnation", "Gizzard"]);
+
+                ws.Cells["F3:F7"].LoadFromCollection(fromValues);
+                ws.Cells["G3:G7"].LoadFromCollection(toValues);
+                ws.Cells["A3"].Value = "Output";
+
+                ws.Cells["C3"].Formula = "LAMBDA(OriginalText,WordSwapTable, LET( A,\"  \"&OriginalText&\"  \", B, TRIM(WordSwapTable), Prefix , {\"-\",\"\"\"\",\"'\",\" \"}, Suffix, {\"-\",\"\"\"\",\"'\",\" \",\".\",\",\",\":\",\";\",\"=\",\"?\",\"!\"}, Frm_1,  TOCOL(Prefix & TOCOL(CHOOSECOLS(B, 1) & Suffix)), Frm_2,  VSTACK(UPPER(Frm_1), LOWER(Frm_1), PROPER(Frm_1)), To_1, TOCOL(Prefix & TOCOL(CHOOSECOLS(B, 2) & Suffix)), To_2, VSTACK(UPPER(To_1), LOWER(To_1), PROPER(To_1)), Output, REDUCE(A, SEQUENCE(ROWS(To_2)), LAMBDA(X,Y, SUBSTITUTE(X, INDEX(Frm_2, Y), INDEX(To_2, Y)))), TRIM(Output)))(C1,F3:G7)";
+
+                ws.Calculate();
+
+                var val = ws.GetValueInner(ws.Cells["C3"].Start.Row, ws.Cells["C3"].Start.Column);
+
+                Assert.AreEqual("A gizzard wizard, deals dawizard by using it's iwizard. Such Iwizardnation.", val);
+
+                SaveAndCleanup(p);
+            }
+        }
+
         [TestMethod]
         public void ALotOfParametersForLamda()
         {
