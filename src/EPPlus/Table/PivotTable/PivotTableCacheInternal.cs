@@ -12,6 +12,7 @@ using System.Xml;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.ConditionalFormatting;
 using System.Xml.XPath;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -242,8 +243,12 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        internal void RefreshFields()
+        internal void RefreshFields(bool checkSourceValid)
         {
+            if(checkSourceValid && IsSourceValid()==false) //If the source is not valid on save, skip refresh.
+            {
+                return;
+            }
             UpdatePageFieldValues();
             var fields = new List<ExcelPivotTableCacheField>();
             var r = SourceRange;
@@ -336,12 +341,12 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             //Add non-database fields in the end.
             var i = _fields.Count - 1;
-            while (i >= 0 && _fields[i].DatabaseField == false)
+            while (i >= 0 && i < _fields.Count && _fields[i].DatabaseField == false)
             {
                 fields.Add(_fields[i--]);
             }
 
-            if (cacheUpdated)
+            if (cacheUpdated || i >= fields.Count)
             {
                 UpdateAndRemoveFields(fields, movedFields);
             }
@@ -818,6 +823,22 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
 
             }
+        }
+
+        public bool IsSourceValid()
+        {
+            var r = SourceRange;
+            for (int col = r._fromCol; col <= r._toCol; col++)
+            {
+                var ix = col - r._fromCol;
+                var ws = r.Worksheet;
+                var name = ws.GetValue(r._fromRow, col)?.ToString().Trim();
+                if (string.IsNullOrEmpty(name))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void RemoveRecordsXml()
