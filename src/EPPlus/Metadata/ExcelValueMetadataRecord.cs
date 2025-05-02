@@ -89,6 +89,7 @@ namespace OfficeOpenXml.Metadata
             get
             {
                 var bk = _metadataDb.FutureMetadataRichValueBlocks.Get(ValueId);
+                if (bk == null) return default;
                 var fmType = bk.GetFirstIncomingRelByType<FutureMetadataBase>();
                 if (fmType == null) return null;
                 return fmType.Blocks.GetZeroBasedIndex(ValueId);

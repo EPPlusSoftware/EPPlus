@@ -21,6 +21,7 @@ using OfficeOpenXml.Utils;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
@@ -85,13 +86,15 @@ namespace OfficeOpenXml.Metadata
                             break;
                         case "metadataStrings":
                             //Currently not used. Preserve.
-                            _metadataStringsXml = xr.ReadInnerXml();
+                            //_metadataStringsXml = xr.ReadInnerXml();
+                            _metadataStringsXml = ReadElementContentAsString(xr);
                             _metadataStringCount = xr.GetAttribute("count");
                             break;
                         case "mdxMetadata":
                             //Currently not used. Preserve.
-                            _mdxMetadataXml = xr.ReadInnerXml();
+                            //_mdxMetadataXml = xr.ReadInnerXml();
                             _mdxMetadataCount = xr.GetAttribute("count");
+                            ReadMdxMetadataItems(xr);
                             break;
                         case "futureMetadata":
                             ReadFutureMetadata(xr);
@@ -111,6 +114,25 @@ namespace OfficeOpenXml.Metadata
             }
         }
 
+
+        private string ReadElementContentAsString(XmlReader xr)
+        {
+            if (xr.NodeType != XmlNodeType.Element)
+                throw new InvalidOperationException("Current node is not an element.");
+
+            var elementName = xr.Name;
+            var sb = new StringBuilder();
+            while (xr.Read())
+            {
+                if (xr.NodeType == XmlNodeType.EndElement && xr.Name == elementName)
+                    break;
+
+                sb.Append(xr.ReadOuterXml());
+            }
+            return sb.ToString();
+        }
+
+
         private void ReadCellMetadataItems(XmlReader xr)
         {
             xr.Read();
@@ -127,6 +149,19 @@ namespace OfficeOpenXml.Metadata
                 xr.Read();
             }
             SetDynamicArrayIdIfExists();
+        }
+
+        private void ReadMdxMetadataItems(XmlReader xr)
+        {
+            xr.Read();
+            while (xr.IsEndElementWithName("mdxMetadata") == false && xr.EOF == false)
+            {
+                if (xr.IsElementWithName("mdx"))
+                {
+                    Db.MdxMetadata.Add(new MdxMetadata(xr, _wb.IndexStore));
+                }
+                //xr.Read();
+            }
         }
 
         private void SetDynamicArrayIdIfExists()
