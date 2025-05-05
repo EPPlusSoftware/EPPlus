@@ -86,13 +86,11 @@ namespace OfficeOpenXml.Metadata
                             break;
                         case "metadataStrings":
                             //Currently not used. Preserve.
-                            //_metadataStringsXml = xr.ReadInnerXml();
                             _metadataStringCount = xr.GetAttribute("count");
                             _metadataStringsXml = ReadElementContentAsString(xr);
                             break;
                         case "mdxMetadata":
                             //Currently not used. Preserve.
-                            //_mdxMetadataXml = xr.ReadInnerXml();
                             _mdxMetadataCount = xr.GetAttribute("count");
                             ReadMdxMetadataItems(xr);
                             break;
@@ -163,7 +161,6 @@ namespace OfficeOpenXml.Metadata
                 {
                     Db.MdxMetadata.Add(new MdxMetadata(xr, _wb.IndexStore));
                 }
-                //xr.Read();
             }
         }
 
@@ -448,11 +445,6 @@ namespace OfficeOpenXml.Metadata
         }
         private void WriteMdxMetadata(StreamWriter sw)
         {
-            if (!string.IsNullOrEmpty(_mdxMetadataXml))
-            {
-                //sw.Write($"<mdxMetadata count=\"{_mdxMetadataCount}\">{_mdxMetadataXml}</metadataStrings>");
-               
-            }
             if (Db.MdxMetadata != null && Db.MdxMetadata.Count > 0)
             {
                 sw.Write($"<mdxMetadata count=\"{Db.MdxMetadata.Count}\">");
