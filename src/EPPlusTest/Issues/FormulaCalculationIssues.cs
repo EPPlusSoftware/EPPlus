@@ -900,6 +900,30 @@ namespace EPPlusTest.Issues
             ws2.Calculate();
             Assert.AreEqual(93515.9075 , ws2.Cells["D32"].Value);
         }
+        [TestMethod]
+        public void s851()
+		{
+            using var excelPackage = OpenTemplatePackage("s851.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
+
+            // Act
+            sheet.Cells.Sort(column: 0); // NullReferenceException
+
+            // Assert 1
+            Assert.AreEqual("VLOOKUP(B2,B1:C1,1,FALSE)", sheet.Cells["C2"].Formula);
+        }
+        [TestMethod]
+        public void s851_desc()
+        {
+            using var excelPackage = OpenTemplatePackage("s851.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
+
+            // Act
+            sheet.Cells.Sort(column: 0, true); // NullReferenceException
+
+            // Assert 1
+            Assert.AreEqual("VLOOKUP(B1,#REF!,1,FALSE)", sheet.Cells["C1"].Formula);
+        }
     }
 }
 
