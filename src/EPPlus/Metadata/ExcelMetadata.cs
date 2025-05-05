@@ -371,12 +371,12 @@ namespace OfficeOpenXml.Metadata
         private void WriteValueMetadataItems(StreamWriter sw, string element, ValueMetadataBlockCollection collection)
         {
             if (collection.Count == 0) return;
-            sw.Write($"<{element} count=\"{collection.Count(x => !x.Deleted && x.Records.Any(x => x.MetadataTypeIndex != null && (x.FutureMetadataBlockIndex != null || x.MdxValueMetadataIndex != null)))}\">");
+            sw.Write($"<{element} count=\"{collection.Count(x => !x.Deleted && x.Records.Any(x => x.IsValid))}\">");
             foreach (var item in collection)
             {
                 if (item.Deleted) continue;
                 var records = item.Records.Where(x => !x.Deleted);
-                if (records.Any(x => x.MetadataTypeIndex != null && (x.FutureMetadataBlockIndex != null || x.MdxValueMetadataIndex != null)))
+                if (records.Any(x => x.IsValid))
                 {
                     sw.Write("<bk>");
                     foreach (var r in records)

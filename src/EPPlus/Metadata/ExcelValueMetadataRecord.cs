@@ -109,6 +109,15 @@ namespace OfficeOpenXml.Metadata
             }
         }
 
+
+        public bool IsValid
+        {
+            get
+            {
+                return !Deleted && MetadataTypeIndex.HasValue && MetadataTypeIndex.Value > 0 && (FutureMetadataBlockIndex.HasValue || MdxValueMetadataIndex.HasValue);
+            }
+        }
+
         public override void DeleteMe(RelationDeletions relDeletions = null)
         {
             base.DeleteMe(relDeletions);
