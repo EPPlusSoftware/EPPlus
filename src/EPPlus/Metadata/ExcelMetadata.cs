@@ -87,8 +87,8 @@ namespace OfficeOpenXml.Metadata
                         case "metadataStrings":
                             //Currently not used. Preserve.
                             //_metadataStringsXml = xr.ReadInnerXml();
-                            _metadataStringsXml = ReadElementContentAsString(xr);
                             _metadataStringCount = xr.GetAttribute("count");
+                            _metadataStringsXml = ReadElementContentAsString(xr);
                             break;
                         case "mdxMetadata":
                             //Currently not used. Preserve.
@@ -122,12 +122,15 @@ namespace OfficeOpenXml.Metadata
 
             var elementName = xr.Name;
             var sb = new StringBuilder();
-            while (xr.Read())
+            var readNext = true;
+            while(true)
             {
+                if (readNext) xr.Read();
                 if (xr.NodeType == XmlNodeType.EndElement && xr.Name == elementName)
                     break;
 
                 sb.Append(xr.ReadOuterXml());
+                readNext = false;
             }
             return sb.ToString();
         }
@@ -371,18 +374,18 @@ namespace OfficeOpenXml.Metadata
         private void WriteValueMetadataItems(StreamWriter sw, string element, ValueMetadataBlockCollection collection)
         {
             if (collection.Count == 0) return;
-            sw.Write($"<{element} count=\"{collection.Count(x => !x.Deleted && x.Records.Any(x => x.MetadataTypeIndex != null && x.FutureMetadataBlockIndex != null))}\">");
+            sw.Write($"<{element} count=\"{collection.Count(x => !x.Deleted && x.Records.Any(x => x.MetadataTypeIndex != null && (x.FutureMetadataBlockIndex != null || x.MdxValueMetadataIndex != null)))}\">");
             foreach (var item in collection)
             {
                 if (item.Deleted) continue;
                 var records = item.Records.Where(x => !x.Deleted);
-                if (records.Any(x => x.MetadataTypeIndex != null && x.FutureMetadataBlockIndex != null))
+                if (records.Any(x => x.MetadataTypeIndex != null && (x.FutureMetadataBlockIndex != null || x.MdxValueMetadataIndex != null)))
                 {
                     sw.Write("<bk>");
                     foreach (var r in records)
                     {
                         var mtIx = r.MetadataTypeIndex;
-                        var fmbIx = r.FutureMetadataBlockIndex;
+                        var fmbIx = r.FutureMetadataBlockIndex ?? r.MdxValueMetadataIndex;
                         if (mtIx == null || fmbIx == null) continue;
                         sw.Write($"<rc t=\"{mtIx}\" v=\"{fmbIx}\"/>");
                     }
@@ -447,7 +450,19 @@ namespace OfficeOpenXml.Metadata
         {
             if (!string.IsNullOrEmpty(_mdxMetadataXml))
             {
-                sw.Write($"<mdxMetadata count=\"{_mdxMetadataCount}\">{_mdxMetadataXml}</metadataStrings>");
+                //sw.Write($"<mdxMetadata count=\"{_mdxMetadataCount}\">{_mdxMetadataXml}</metadataStrings>");
+               
+            }
+            if (Db.MdxMetadata != null && Db.MdxMetadata.Count > 0)
+            {
+                sw.Write($"<mdxMetadata count=\"{Db.MdxMetadata.Count}\">");
+                foreach (var mdx in Db.MdxMetadata)
+                {
+                    if (mdx.Deleted) continue;
+                    mdx.Write(sw);
+
+                }
+                sw.Write("</mdxMetadata>");
             }
         }
 

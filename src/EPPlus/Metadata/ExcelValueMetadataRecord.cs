@@ -96,6 +96,19 @@ namespace OfficeOpenXml.Metadata
             }
         }
 
+        public int? MdxValueMetadataIndex
+        {
+            get
+            {
+                var type = _metadataDb.MetadataTypes[(int)TypeId - 1];
+                if(type.Name == "XLMDX")
+                {
+                    return (int)ValueId;
+                }
+                return null;
+            }
+        }
+
         public override void DeleteMe(RelationDeletions relDeletions = null)
         {
             base.DeleteMe(relDeletions);
