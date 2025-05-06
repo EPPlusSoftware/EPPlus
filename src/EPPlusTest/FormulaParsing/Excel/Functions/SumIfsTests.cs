@@ -338,5 +338,36 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 Assert.IsNull(sheet.Cells["E8"].Value);
             }
         }
+        [TestMethod]
+        public void SumIfsShouldHandleArraysWithMultipleCriteria()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                LoadItemData(sheet);
+                sheet.Cells["A2"].Value = "Crowbar";
+                sheet.Cells["A3"].Value = "Hammer";
+                sheet.Cells["A4"].Value = "Saw";
+                sheet.Cells["A5"].Value = "Monkey Wrench";
+                sheet.Cells["B2"].Value = "Hardware";
+                sheet.Cells["B3"].Value = "Software";
+                sheet.Cells["B4"].Value = "Hardware";
+
+                sheet.Cells["C2"].Formula = "SUMIFS(N2:N11,K2:K11,A2:A5,L2:L11,B2:B4)";
+                sheet.Cells["D2"].Formula = "SUMIFS(N2:N11,K2:K11,A2:A5,N2:N11,\">50\")";
+
+                sheet.Calculate();
+
+                Assert.AreEqual("D2:D5", sheet.Cells["D2"].FormulaRange.Address);
+                Assert.AreEqual(258.4, (double)sheet.Cells["D2"].Value, 0.000001);
+                Assert.AreEqual(72.7D, sheet.Cells["D3"].Value);
+                Assert.AreEqual(0D, sheet.Cells["D4"].Value);
+                Assert.AreEqual(0D, sheet.Cells["D5"].Value);
+                Assert.IsNull(sheet.Cells["D6"].Value);
+
+                SaveWorkbook("SumIfsMultiArray.xlsx", package);
+            }
+        }
+
     }
 }
