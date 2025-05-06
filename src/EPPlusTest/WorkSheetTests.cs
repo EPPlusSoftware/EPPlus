@@ -42,6 +42,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace EPPlusTest
@@ -866,6 +867,104 @@ namespace EPPlusTest
                 Assert.AreEqual(6, ws.Comments.Count);
             }
         }
+        [TestMethod]
+        public void NameChangeValueToRange()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+            ws.Cells["C3"].Value = 3;
+
+            var name = wb.Names.AddValue("Text", 9);
+            Assert.AreEqual(9, name.Value);
+
+            name.SetRange(ws.Cells["C3"]);
+            Assert.AreEqual(3, name.Value);
+
+            //SaveWorkbook("DefinedNames1315.xlsx", p);
+        }
+        [TestMethod]
+        public void NameChangeValueToFormula()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+            ws.Cells["C3"].Value = 3;
+
+            var name = wb.Names.AddValue("Text", 9);
+            Assert.AreEqual("", name.Formula);
+
+            name.SetFormula("SUM(7+C3)");
+            Assert.AreEqual("SUM(7 + C3)", name.Formula);
+
+            //SaveWorkbook("DefinedNames1315.xlsx", p);
+        }
+        [TestMethod]
+        public void NameChangeRangeToValue()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+            ws.Cells["C3"].Value = 3;
+
+            var name = wb.Names.AddRange("Text", ws.Cells["C3"]);
+            Assert.AreEqual(3, name.Value);
+
+            name.SetValue(9);
+            Assert.AreEqual(9, name.Value);
+
+            //SaveWorkbook("DefinedNames1315.xlsx", p);
+        }
+        [TestMethod]
+        public void NameChangeRangeToFormula()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+            ws.Cells["C3"].Value = 3;
+
+            var name = wb.Names.AddRange("Text", ws.Cells["C3"]);
+            Assert.AreEqual("", name.Formula);
+
+            name.SetFormula("SUM(7+C3)");
+            Assert.AreEqual("SUM(7+C3)", name.Formula);
+
+            //SaveWorkbook("DefinedNames1315.xlsx", p);
+        }
+        [TestMethod]
+        public void NameChangeFormulaToValue()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+            ws.Cells["C3"].Value = 3;
+
+            var name = wb.Names.AddFormula("Text", "SUM(7+C3)");
+            Assert.AreEqual("SUM(7+C3)", name.Formula);
+
+            name.SetValue(9);
+            Assert.AreEqual("", name.Formula);
+
+            //SaveWorkbook("DefinedNames1315.xlsx", p);
+        }
+        [TestMethod]
+        public void NameChangeFormulaToRange()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+            ws.Cells["C3"].Value = 3;
+
+            var name = wb.Names.AddFormula("Text", "SUM(7+C3)");
+            Assert.AreEqual("SUM(7+C3)", name.Formula);
+
+            name.SetRange(ws.Cells["C3"]);
+            Assert.AreEqual("", name.Formula);
+            Assert.AreEqual(3, name.Value);
+
+            //SaveWorkbook("DefinedNames1315.xlsx", p);
+        }
+
         [TestMethod]
         public void LoadFromCollectionTest()
         {

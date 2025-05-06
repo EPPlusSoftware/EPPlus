@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing;
+using System.Runtime.CompilerServices;
 
 namespace OfficeOpenXml
 {
@@ -146,7 +147,80 @@ namespace OfficeOpenXml
         {
             get;
             set;
-        }        
+        }
+        /// <inheritdoc/>
+        protected internal override void BeforeChangeAddress(string value)
+        {
+            if(!string.IsNullOrEmpty(value) && !value.Contains("!") && Worksheet == null)
+            {
+                throw new InvalidOperationException("Workbook name needs a worksheet in the address.");
+            }
+
+        }
+        /// <inheritdoc/>
+        protected internal override void ChangeAddress(string value)
+        {
+
+        }
+
+        /// <summary>
+        /// Set a range for this name. Will remove exsisting formula and value.
+        /// </summary>
+        /// <param name="range"></param>
+        public void SetRange(ExcelRangeBase range, bool allowRelativeAddress = false)
+        {
+            ResetObject();
+            NameFormula = null;
+            NameValue = null;
+
+            _workbook = range._workbook;
+            _worksheet = range._worksheet;
+            if (allowRelativeAddress)
+            {
+                Address = range.FullAddress;
+            }
+            else
+            {
+                Address = range.FullAddressAbsolute;
+            }
+            Value = range.Value;
+        }
+
+        /// <summary>
+        /// Set a formula for this name. Will remove exsisting range and value.
+        /// </summary>
+        /// <param name="formula"></param>
+        public void SetFormula(string formula)
+        {
+            ResetObject();
+            NameFormula = formula;
+            NameValue = null;
+        }
+
+        /// <summary>
+        /// Set a value for this name. Will remove exsisting range and formula.
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetValue(object value)
+        {
+            ResetObject();
+            NameFormula = null;
+            NameValue = value;
+            Value = value;
+        }
+
+        private void ResetObject()
+        {
+            Init(Name, _sheet, Index, AllowRelativeAddress);
+            _address = Name;
+            _fromCol = -1;
+            _fromRow = -1;
+            _toCol = -1;
+            _toRow = -1;
+            _start = null;
+            _end = null;
+        }
+
         string _r1c1Formula = "";
         internal string GetRelativeFormula(int row, int col)
         {
@@ -305,7 +379,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    var values = NameValue as Dictionary<ulong, object>;                    
+                    var values = NameValue as Dictionary<ulong, object>;
                     if(values!=null)
                     {
                         if(values.ContainsKey(currentCell.CellId))

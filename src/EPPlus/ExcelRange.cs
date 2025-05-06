@@ -67,7 +67,7 @@ namespace OfficeOpenXml
                         }
                     }
                     SetAddress(Address, _workbook, _worksheet.Name);
-                    ChangeAddress();
+                    ChangeAddress(_address);
                 }
                 if((_fromRow < 1 || _fromCol < 1) && Address.Equals("#REF!", StringComparison.InvariantCultureIgnoreCase)==false)
                 {
@@ -118,7 +118,7 @@ namespace OfficeOpenXml
                 _end = null;
                 _addresses = null;
                 _address = GetAddress(_fromRow, _fromCol);
-                ChangeAddress();
+                ChangeAddress(_address);
                 return this;
             }
         }
@@ -148,7 +148,7 @@ namespace OfficeOpenXml
                 _end = null;
                 _addresses = null;
                 _address = GetAddress(_fromRow, _fromCol, _toRow, _toCol);
-                ChangeAddress();
+                ChangeAddress(_address);
                 return this;
             }
         }

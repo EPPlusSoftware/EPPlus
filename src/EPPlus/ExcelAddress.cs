@@ -104,10 +104,10 @@ namespace OfficeOpenXml
             }
             set
             {
-                BeforeChangeAddress();
+                BeforeChangeAddress(value);
                 SetAddress(value, null, null);
-                ChangeAddress();
+                ChangeAddress(value);
             }
-        }        
+        }
     }
 }
