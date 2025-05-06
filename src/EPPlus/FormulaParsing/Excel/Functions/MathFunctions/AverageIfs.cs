@@ -20,6 +20,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
@@ -31,11 +32,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         IntroducedInExcelVersion = "2007")]
     internal class AverageIfs : RangeCriteriaFunction
     {
-        private object GetCriteraFromArgsByIndex(IList<FunctionArgument> arguments, int index)
-        {
-            return arguments[index + 1].Value != null ? arguments[index + 1].Value.ToString() : null;
-        }
-
         public override int ArgumentMinLength => 3;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
@@ -60,32 +56,50 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var valueRange = arguments[0].ValueAsRangeInfo;
-            var argRanges = new List<RangeOrValue>();
-            var criterias = new List<object>();
-            for (var ix = 1; ix < 31; ix += 2)
+            GetArguments(context, arguments, out List<RangeOrValue> argRanges, out List<RangeOrValue> criteria, out int cols, out int rows, 1);
+
+            if (cols == 1 && rows == 1)
             {
-                if (arguments.Count <= ix) break;
-                var arg = arguments[ix];
-                if (arg.IsExcelRange)
+                var result = GetAvgValue(context, valueRange, argRanges, criteria, 0, 0, out ExcelErrorValue ev);
+                if (double.IsNaN(result) && ev != null)
                 {
-                    var rangeInfo = arg.ValueAsRangeInfo;
-                    argRanges.Add(new RangeOrValue { Range = rangeInfo });
+                    return CreateResult(ev, DataType.ExcelError);
                 }
                 else
                 {
-                    argRanges.Add(new RangeOrValue { Value = arg.Value });
+                    return CreateResult(result, DataType.Decimal);
                 }
-                criterias.Add(arguments[ix+1].ValueFirst);
             }
-            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context);
+            else
+            {
+                var retRange = new InMemoryRange(rows, (short)cols);
+                for (var r = 0; r < rows; r++)
+                {
+                    for (int c = 0; c < cols; c++)
+                    {
+                        var result = GetAvgValue(context, valueRange, argRanges, criteria, r, c, out ExcelErrorValue ev);
+                        if (double.IsNaN(result) && ev != null)
+                        {
+                            retRange.SetValue(r, c, ev);
+                        }
+                        else
+                        {
+                            retRange.SetValue(r, c, result);
+                        }
+                    }
+                }
+                return CreateDynamicArrayResult(retRange, DataType.ExcelRange);
+            }
+        }
+        private double GetAvgValue(ParsingContext context, IRangeInfo valueRange, List<RangeOrValue> argRanges, List<RangeOrValue> criteria, int row, int col, out ExcelErrorValue ev)
+        {
+            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], GetCriteriaValue(criteria[0], row, col), context, false);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
             for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
             {
-                var indexes = GetMatchIndexes(argRanges[ix], criterias[ix], context, false);
+                var indexes = GetMatchIndexes(argRanges[ix], GetCriteriaValue(criteria[ix], row, col), context, false);
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
-
-            if (matchIndexes.Count() == 0) return CreateResult(eErrorType.Div0);
             var sumRange = RangeFlattener.FlattenRangeObject(valueRange);
             KahanSum sum = 0d;
             var count = 0;
@@ -94,7 +108,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 var obj = sumRange[index];
                 if (obj is ExcelErrorValue e1)
                 {
-                    return e1.AsCompileResult;
+                    ev = e1;
+                    return double.NaN;
                 }
                 if (ConvertUtil.IsNumericOrDate(obj))
                 {
@@ -102,12 +117,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     count++;
                 }
             }
-            if(count == 0)
+            if (count == 0)
             {
-                return CompileResult.GetErrorResult(eErrorType.Div0);
-            }   
-
-            return CreateResult(sum.Get()/count, DataType.Decimal);
+                ev = ErrorValues.Div0Error;;
+                return double.NaN;
+            }
+            ev = null;
+            return sum / count;
         }
+
     }
 }

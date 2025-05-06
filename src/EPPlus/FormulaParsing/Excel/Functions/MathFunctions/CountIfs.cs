@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,39 +44,37 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var argRanges = new List<RangeOrValue>();
-            var criteria = new List<object>();
-            for (var ix = 0; ix < 30; ix +=2)
+            GetArguments(context, arguments, out List<RangeOrValue> argRanges, out List<RangeOrValue> criteria, out int cols, out int rows, 0);
+            if (cols == 1 && rows == 1)
             {
-                if (arguments.Count <= ix) break;
-                var arg = arguments[ix];
-                if (arg.DataType == DataType.ExcelError) continue;
-                var rangeInfo = arg.ValueAsRangeInfo;
-                if(rangeInfo == null && arg.Address !=null)
-                {
-                    var wsIx = arg.Address.WorksheetIx < 0 ? context.CurrentCell.WorksheetIx : arg.Address.WorksheetIx;
-                    rangeInfo = context.ExcelDataProvider.GetRange(wsIx, arg.Address.FromRow, arg.Address.FromCol);
-                    argRanges.Add(new RangeOrValue { Range = rangeInfo });
-                }
-                else if(rangeInfo != null)
-                {
-                    argRanges.Add(new RangeOrValue { Range = rangeInfo});
-                }
-                else
-                {
-                    argRanges.Add(new RangeOrValue { Value = arg.Value });
-                }
-                criteria.Add(arguments[ix + 1].ValueFirst);
+                var result = GetCountValue(context, argRanges, criteria, 0, 0);
+                return CreateResult(result, DataType.Decimal);
             }
-            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criteria[0], context, false);
+            else
+            {
+                var retRange = new InMemoryRange(rows, (short)cols);
+                for (var r = 0; r < rows; r++)
+                {
+                    for (int c = 0; c < cols; c++)
+                    {
+                        var result = GetCountValue(context, argRanges, criteria, r, c);
+                        return CreateResult(result, DataType.Decimal);
+                    }
+                }
+                return CreateDynamicArrayResult(retRange, DataType.ExcelRange);
+            }
+        }
+
+        private double GetCountValue(ParsingContext context, List<RangeOrValue> argRanges, List<RangeOrValue> criteria, int row, int col)
+        {
+            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], GetCriteriaValue(criteria[0], row, col), context, false);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
             for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
             {
-                var indexes = GetMatchIndexes(argRanges[ix], criteria[ix], context, false);
+                var indexes = GetMatchIndexes(argRanges[ix], GetCriteriaValue(criteria[ix], row, col), context, false);
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
-            
-            return CreateResult((double)matchIndexes.Count(), DataType.Integer);
+            return (double)matchIndexes.Count();
         }
     }
 }

@@ -46,7 +46,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
                 sheet.Cells[2, 2].Value = new ExcelErrorValue(eErrorType.Ref); 
                 sheet.Cells[3, 2].Value = 3;
 
-                sheet.Cells[4, 1].Formula = "AVERAGEIFS(A1:A3,B1:B3, #REF!)";
+                sheet.Cells[4, 1].Formula = "AVERAGEIFS(A1:A3, B1:B3, #REF!)";
                 sheet.Calculate();
                 var val = sheet.Cells[4, 1].Value;
                 Assert.AreEqual(4d, val);
