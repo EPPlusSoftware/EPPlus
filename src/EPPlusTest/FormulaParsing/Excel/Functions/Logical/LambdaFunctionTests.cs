@@ -368,5 +368,53 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             var result = ws.Cells["C1"].Value;
             SaveWorkbook("DumbLambdaSum.xlsx", p);
         }
+
+        //Excel Calculates correctly. Epplus gets Value! error
+        //Solve first
+        [TestMethod]
+        public void RecursiveFormulaSimple()
+        {
+            using (var p = OpenPackage("RecursiveSimple.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                //Add own Lambda Factorial function via Let and IF
+                ws.Names.AddFormula("Factorial2", "LAMBDA(input, LET(n, input, IF(n = 0, 1, n * Sheet1!Factorial2(n - 1))))");
+
+                ws.Cells["A1"].Formula = "Factorial2(4)";
+
+                ws.Calculate();
+
+                var epplusValue = ws.Cells["A1"].Value;
+
+                SaveAndCleanup(p);
+
+                Assert.AreEqual(24d, epplusValue);
+            }
+        }
+
+        //Same as RecursiveFormulaSimple but without "Sheet1!" specifed. Name error in both epplus and excel
+        //If Formula is set in Excel it automatically adds "Sheet1!" in workbook.xml. Epplus should also realise this.
+        [TestMethod]
+        public void RecursiveFormulaSimple_SheetUnspecified()
+        {
+            using (var p = OpenPackage("RecursiveSimple_Unspecifed.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                //Add own Lambda Factorial function via Let and IF
+                ws.Names.AddFormula("Factorial2", "LAMBDA(input, LET(n, input, IF(n = 0, 1, n * Factorial2(n - 1))))");
+
+                ws.Cells["A1"].Formula = "Factorial2(4)";
+
+                ws.Calculate();
+
+                var epplusValue = ws.Cells["A1"].Value;
+
+                SaveAndCleanup(p);
+
+                Assert.AreEqual(24d, epplusValue);
+            }
+        }
     }
 }
