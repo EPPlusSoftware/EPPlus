@@ -16,6 +16,7 @@ using System.Text;
 using System.Collections;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml
 {
@@ -166,18 +167,17 @@ namespace OfficeOpenXml
         {
         if (!ExcelAddressUtil.IsValidName(Name))
         {
-        throw (new ArgumentException("Name contains invalid characters or is not valid."));
+            throw (new ArgumentException("Name contains invalid characters or is not valid."));
         }
-
-        return AddFormulaNoValidation(Name, Formula);
+            return AddFormulaNoValidation(Name, Formula);
         }
 
         internal ExcelNamedRange AddFormulaNoValidation(string Name, string Formula)
         {
-        var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
-        item.NameFormula = Formula;
-        AddName(Name, item);
-        return item;
+            var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
+            item.NameFormula = Formula;
+            AddName(Name, item);
+            return item;
         }
         internal void Insert(int rowFrom, int colFrom, int rows, int cols, int lowerLimint = 0, int upperLimit = int.MaxValue)
         {

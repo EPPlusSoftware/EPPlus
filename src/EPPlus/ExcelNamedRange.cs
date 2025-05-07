@@ -22,6 +22,9 @@ using System.Text;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing;
 using System.Runtime.CompilerServices;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System.ComponentModel;
+using OfficeOpenXml.FormulaParsing.Exceptions;
 
 namespace OfficeOpenXml
 {
@@ -87,6 +90,54 @@ namespace OfficeOpenXml
                 _fromRowFixed = _toRowFixed = _fromColFixed = _toColFixed = true;
                 ResetAddress(_address);
             }
+        }
+
+        internal static string ValidateFormula(string formula, ExcelWorksheet ws, bool allowRelativeAddress = false)
+        {
+            bool isWsNull = ws == null ? true : false;
+            var tokens = SourceCodeTokenizer.Default.Tokenize(formula);
+            Dictionary<int, Token> addresses = new Dictionary<int, Token>();
+            List<Token> fixedTokens = new List<Token>();
+            //Collect tokens
+            for(int i=0; i<tokens.Count; i++)
+            {
+                if (tokens[i].TokenType == TokenType.CellAddress)
+                {
+                    if (isWsNull) throw new InvalidFormulaException("Formula with cell address must have a worksheet.");
+                    if(i==0)
+                    {
+                        addresses.Add(i, tokens[i]);
+                    }
+                    else if(tokens[i-1].TokenType != TokenType.WorksheetName)
+                    {
+                        addresses.Add(i, tokens[i]);
+                    }
+                }
+            }
+            //if no cell address tokens found we can quite early
+            if (addresses.Count == 0)
+            {
+                return formula;
+            }
+            //Update tokens
+            for(int i=0; i<tokens.Count; i++)
+            {
+                if(addresses.ContainsKey(i))
+                {
+                    string fullAddress = allowRelativeAddress ? ws.Cells[addresses[i].Value].FullAddress : ws.Cells[addresses[i].Value].FullAddressAbsolute;
+                    var addressTokens = SourceCodeTokenizer.Default.Tokenize(fullAddress);
+                    for(int j=0; j<addressTokens.Count; j++)
+                    {
+                        fixedTokens.Add(addressTokens[j]);
+                    }
+                }
+                else
+                {
+                    fixedTokens.Add(tokens[i]);
+                }
+            }
+            //Create new formula string.
+            return string.Concat(fixedTokens.Select(t => t.Value));
         }
 
         /// <summary>
@@ -167,8 +218,15 @@ namespace OfficeOpenXml
         /// Set a range for this name. Will remove exsisting formula and value.
         /// </summary>
         /// <param name="range"></param>
+        /// <param name="allowRelativeAddress"></param>
         public void SetRange(ExcelRangeBase range, bool allowRelativeAddress = false)
         {
+            if (range.Worksheet != _worksheet)
+            {
+                range.Worksheet.Names.AddRange(Name, range, allowRelativeAddress);
+                _worksheet.Names.Remove(Name);
+                return;
+            }
             ResetObject();
             NameFormula = null;
             NameValue = null;
@@ -189,11 +247,20 @@ namespace OfficeOpenXml
         /// <summary>
         /// Set a formula for this name. Will remove exsisting range and value.
         /// </summary>
-        /// <param name="formula"></param>
-        public void SetFormula(string formula)
+        /// <param name="formula">The formula for this name.</param>
+        /// <param name="worksheet">The worksheet the name should be stored in. Set to null store in workbook. DEFAULT value is null.</param>
+        public void SetFormula(string formula, ExcelWorksheet worksheet = null)
         {
+            if (worksheet != _worksheet)
+            {
+                worksheet.Names.AddFormula(Name, formula);
+                _worksheet.Names.Remove(Name);
+                return;
+            }
             ResetObject();
+            _worksheet = worksheet;
             NameFormula = formula;
+            this.Formula = formula;
             NameValue = null;
         }
 
@@ -201,9 +268,17 @@ namespace OfficeOpenXml
         /// Set a value for this name. Will remove exsisting range and formula.
         /// </summary>
         /// <param name="value"></param>
-        public void SetValue(object value)
+        /// <param name="worksheet">The worksheet the name should be stored in. Set to null store in workbook. DEFAULT value is null.</param>
+        public void SetValue(object value, ExcelWorksheet worksheet = null)
         {
+            if (worksheet != _worksheet)
+            {
+                worksheet.Names.AddValue(Name, value);
+                _worksheet.Names.Remove(Name);
+                return;
+            }
             ResetObject();
+            _worksheet = worksheet;
             NameFormula = null;
             NameValue = value;
             Value = value;

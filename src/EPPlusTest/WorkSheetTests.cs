@@ -892,10 +892,12 @@ namespace EPPlusTest
             ws.Cells["C3"].Value = 3;
 
             var name = wb.Names.AddValue("Text", 9);
-            Assert.AreEqual("", name.Formula);
+            Assert.AreEqual(9, name.Value);
+            Assert.AreEqual(null, name.Formula);
 
             name.SetFormula("SUM(7+C3)");
-            Assert.AreEqual("SUM(7 + C3)", name.Formula);
+            Assert.AreEqual(null, name.Value);
+            Assert.AreEqual("SUM(7+C3)", name.Formula);
 
             //SaveWorkbook("DefinedNames1315.xlsx", p);
         }
@@ -929,7 +931,7 @@ namespace EPPlusTest
             name.SetFormula("SUM(7+C3)");
             Assert.AreEqual("SUM(7+C3)", name.Formula);
 
-            //SaveWorkbook("DefinedNames1315.xlsx", p);
+            SaveWorkbook("DefinedNames1315.xlsx", p);
         }
         [TestMethod]
         public void NameChangeFormulaToValue()
@@ -940,11 +942,12 @@ namespace EPPlusTest
             ws.Cells["C3"].Value = 3;
 
             var name = wb.Names.AddFormula("Text", "SUM(7+C3)");
+            Assert.AreEqual(null, name.Value);
             Assert.AreEqual("SUM(7+C3)", name.Formula);
 
             name.SetValue(9);
-            Assert.AreEqual("", name.Formula);
-
+            Assert.AreEqual(9, name.Value);
+            Assert.AreEqual(null, name.Formula);
             //SaveWorkbook("DefinedNames1315.xlsx", p);
         }
         [TestMethod]
@@ -964,6 +967,42 @@ namespace EPPlusTest
 
             //SaveWorkbook("DefinedNames1315.xlsx", p);
         }
+        [TestMethod]
+        public void NameChangeToOtherWorksheet()
+        {
+            var p = new ExcelPackage();
+            var ws1 = p.Workbook.Worksheets.Add("Sheet 1");
+            var name1 = ws1.Names.AddFormula("myFormula", "SUM(7+C3)");
+            var name2 = ws1.Names.AddRange("myRange", ws1.Cells["C3"]);
+            var name3 = ws1.Names.AddValue("myValue", 10);
+            Assert.AreEqual(3, ws1.Names.Count);
+
+            var ws2 = p.Workbook.Worksheets.Add("Sheet 2");
+            name1.SetRange(ws2.Cells[2, 2]);
+            name2.SetValue(11, ws2);
+            name3.SetFormula("SUM(B2+4)", ws2);
+            ws2.Names.AddFormula("fomr", "SUM(B2+4)");
+            //Assert.AreEqual(0, ws1.Names.Count);
+            //Assert.AreEqual(3, ws2.Names.Count);
+            SaveWorkbook("DefinedNamesChange.xlsx", p);
+        }
+
+        [TestMethod]
+        public void ValidateFormula()
+        {
+            var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            var f1 = ExcelNamedRange.ValidateFormula("SUM(B2+3)", ws);
+            var f2 = ExcelNamedRange.ValidateFormula("SUM(B2+AS123+3+D20)", ws);
+            var f3 = ExcelNamedRange.ValidateFormula("SUM('Sheet 1'!$B$2+3)", ws); //Needs fixing.
+            var f4 = ExcelNamedRange.ValidateFormula("SUM(3+2)", ws);
+            var f5 = ExcelNamedRange.ValidateFormula("A2*SUM(3+2)", ws);
+        }
+
+        //COPY NAME; MOVE NAME; SET NAME;
+        //TOKEN CHECK FORMULA
+
 
         [TestMethod]
         public void LoadFromCollectionTest()
