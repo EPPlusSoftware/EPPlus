@@ -46,7 +46,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 return CreateResult(result, DataType.String);
             }
         }
-
         private static string ReplaceFirst(string text, string search, string replace, int instanceNumber)
         {
             int pos = -1;

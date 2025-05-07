@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class CountIfs : RangeCriteriaFunction
     {
         public override int ArgumentMinLength => 2;
-        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        //public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             if (argumentIndex % 2 == 1)
@@ -58,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     for (int c = 0; c < cols; c++)
                     {
                         var result = GetCountValue(context, argRanges, criteria, r, c);
-                        return CreateResult(result, DataType.Decimal);
+                        retRange.SetValue(r, c, result);
                     }
                 }
                 return CreateDynamicArrayResult(retRange, DataType.ExcelRange);

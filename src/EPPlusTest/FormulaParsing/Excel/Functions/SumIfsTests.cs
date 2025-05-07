@@ -368,6 +368,5 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 SaveWorkbook("SumIfsMultiArray.xlsx", package);
             }
         }
-
     }
 }
