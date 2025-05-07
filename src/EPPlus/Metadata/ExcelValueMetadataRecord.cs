@@ -89,9 +89,32 @@ namespace OfficeOpenXml.Metadata
             get
             {
                 var bk = _metadataDb.FutureMetadataRichValueBlocks.Get(ValueId);
+                if (bk == null) return default;
                 var fmType = bk.GetFirstIncomingRelByType<FutureMetadataBase>();
                 if (fmType == null) return null;
                 return fmType.Blocks.GetZeroBasedIndex(ValueId);
+            }
+        }
+
+        public int? MdxValueMetadataIndex
+        {
+            get
+            {
+                var type = _metadataDb.MetadataTypes[(int)TypeId - 1];
+                if(type.Name == "XLMDX")
+                {
+                    return (int)ValueId;
+                }
+                return null;
+            }
+        }
+
+
+        public bool IsValid
+        {
+            get
+            {
+                return !Deleted && MetadataTypeIndex.HasValue && MetadataTypeIndex.Value > 0 && (FutureMetadataBlockIndex.HasValue || MdxValueMetadataIndex.HasValue);
             }
         }
 
