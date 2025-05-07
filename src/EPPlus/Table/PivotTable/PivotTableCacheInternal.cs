@@ -358,7 +358,7 @@ namespace OfficeOpenXml.Table.PivotTable
             RefreshPivotTableItems();
             if (Records == null) Records = new PivotTableCacheRecords(this);
             Records.CreateRecords();
-        }
+         }
 
         private void UpdateAndRemoveFields(List<ExcelPivotTableCacheField> fields, List<int> movedFields)
         {

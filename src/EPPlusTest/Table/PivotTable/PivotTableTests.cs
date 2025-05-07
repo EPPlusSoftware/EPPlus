@@ -1294,8 +1294,8 @@ namespace EPPlusTest.Table.PivotTable
 
                 }
             }
-            p.Workbook.Worksheets[0].Cells["A2:J20"].Clear();
-            SaveAndCleanup(p);
+            p.Workbook.Worksheets[0].Cells["A2:P20"].Clear();
+            SaveWorkbook("PivotTableRefreshFields-ClearData.xlsx", p);
         }
     }
 }
