@@ -245,6 +245,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             return (lSize.NumberOfCols == 1 && lSize.NumberOfRows == 1) || (rSize.NumberOfCols == 1 && rSize.NumberOfRows == 1);
         }
 
+        private static bool SingleRowSingleCol(RangeDefinition lSize, RangeDefinition rSize)
+        {
+            return (lSize.NumberOfRows == 1 && rSize.NumberOfCols == 1) || (lSize.NumberOfCols == 1 && rSize.NumberOfCols == 1);
+        }
+
         private static bool AddressIsNotAvailable(RangeDefinition lSize, RangeDefinition rSize, int row, int col)
         {
             if(row >= lSize.NumberOfRows || row >=rSize.NumberOfRows)
@@ -334,6 +339,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             var shouldUseSingleCol = ShouldUseSingleCol(lr.Size, rr.Size);
             var shouldUseSingleRow = ShouldUseSingleRow(lr.Size, rr.Size);
             var shouldUseSingleCell = ShouldUseSingleCell(lr.Size, rr.Size);
+            var singleRowSingleCol = SingleRowSingleCol(lr.Size, rr.Size);
             for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
             {
                 for (var col = 0; col < resultRange.Size.NumberOfCols; col++)
@@ -380,6 +386,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         {
                             var leftVal = GetCellValue(lr, row, col);
                             var rightVal = GetCellValue(rr, 0, 0);
+                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
+                        }
+                    }
+                    else if (singleRowSingleCol)
+                    {
+                        if (lr.Size.NumberOfRows == 1)
+                        {
+                            var leftVal = GetCellValue(lr, 0, col);
+                            var rightVal = GetCellValue(rr, row, 0);
+                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
+                        }
+                        else
+                        {
+                            var leftVal = GetCellValue(lr, row, 0);
+                            var rightVal = GetCellValue(rr, 0, col);
                             SetValue(op, resultRange, row, col, leftVal, rightVal, context);
                         }
                     }

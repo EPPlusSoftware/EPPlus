@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/14/2024         EPPlus Software AB       Initial release EPPlus 7.3
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,7 +30,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             IsDeclaration = isDeclaration;
         }
 
+        public VariableExpression(string variableName, VariableStorageManager storageManager, bool isDeclaration)
+        {
+            Name = variableName;
+            _storageManager = storageManager;
+            IsDeclaration = isDeclaration;
+        }
+
         private readonly VariableFunctionExpression _variableFunctionExpression;
+        private readonly VariableStorageManager _storageManager;
         private bool _negate = false;
 
 
@@ -50,14 +59,25 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             get
             {
-                return _variableFunctionExpression.GetVariableValue(Name);
+                if (_storageManager != null && !_storageManager.IsEmpty)
+                {
+                    _storageManager.Peek().GetVariableValue(Name);
+                }
+                else if(_variableFunctionExpression != null)
+                {
+                    return _variableFunctionExpression.GetVariableValue(Name);
+                }
+                return CompileResult.Empty;
             }
 
         }
 
         internal void SetValue(string variableName, CompileResult value)
         {
-            _variableFunctionExpression.AddVariableValue(variableName, value);
+            if(_variableFunctionExpression != null)
+            {
+                _variableFunctionExpression.AddVariableValue(variableName, value);
+            }
         }
 
 

@@ -362,6 +362,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         expressions.Add(tokenIx, new VariableExpression(t.Value, variableFunction, true));
                         break;
                     case TokenType.ParameterVariable:
+                        var paramHandled = false;
                         foreach(var exp in stack)
                         {
                             if(exp is VariableFunctionExpression vfeExp)
@@ -369,8 +370,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 if(vfeExp.VariableIsDeclared(t.Value) && !expressions.ContainsKey(tokenIx))
                                 {
                                     expressions.Add(tokenIx, new VariableExpression(t.Value, vfeExp, false));
+                                    paramHandled = true;
                                 }
                             }
+                        }
+                        if(!paramHandled)
+                        {
+                            expressions.Add(tokenIx, new VariableExpression(t.Value, parsingContext.VariableStorage, false));
                         }
                         break;
                     case TokenType.StartFunctionArguments:
@@ -393,7 +399,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         }
                         else if (parsingContext.Package.Workbook.Names.ContainsKey(t.Value) || parsingContext.CurrentWorksheet.Names.ContainsKey(t.Value))
                         {
-                            var name = parsingContext.Package.Workbook.Names[t.Value];
+                            var wbNames = parsingContext.Package.Workbook.Names;
+                            var name = wbNames.ContainsKey(t.Value) ? wbNames[t.Value] : null;
                             if (name == null)
                             {
                                 name = parsingContext.CurrentWorksheet.Names[t.Value];
