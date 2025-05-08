@@ -192,7 +192,8 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if ((flags & DataTypeFlags.String) != DataTypeFlags.String &&
                     (flags & DataTypeFlags.Empty) != DataTypeFlags.Empty &&
-                    (flags & DataTypeFlags.Boolean) != DataTypeFlags.Boolean)
+                    (flags & DataTypeFlags.Boolean) != DataTypeFlags.Boolean &&
+                    (flags & DataTypeFlags.Error) != DataTypeFlags.Error)
                 {
                     shNode.SetAttribute("containsSemiMixedTypes", "0");
                     shNode.SetAttribute("containsString", "0");

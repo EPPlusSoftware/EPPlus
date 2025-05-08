@@ -367,5 +367,17 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(p);
         }
+        [TestMethod]
+        public void i1968_2_del()
+        {
+            using var p = OpenTemplatePackage("i1968-2-del.xlsx");
+            var wb = p.Workbook;
+            foreach (var ws in wb.Worksheets)
+            {
+                if (ws.PivotTables.Any()) Console.WriteLine(ws.Name);
+            }
+
+            SaveAndCleanup(p);
+        }
     }
 }

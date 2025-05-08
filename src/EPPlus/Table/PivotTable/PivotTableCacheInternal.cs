@@ -341,9 +341,10 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             //Add non-database fields in the end.
             var i = _fields.Count - 1;
+            var pos = fields.Count;
             while (i >= 0 && i < _fields.Count && _fields[i].DatabaseField == false)
             {
-                fields.Add(_fields[i--]);
+                fields.Insert(pos, _fields[i--]);
             }
 
             if (cacheUpdated || i >= fields.Count)
