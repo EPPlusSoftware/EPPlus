@@ -44,6 +44,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using OfficeOpenXml.Utils.Formula;
 
 namespace EPPlusTest
 {
@@ -971,16 +972,21 @@ namespace EPPlusTest
         public void NameChangeToOtherWorksheet()
         {
             var p = new ExcelPackage();
+            var wb1 = p.Workbook;
             var ws1 = p.Workbook.Worksheets.Add("Sheet 1");
             var name1 = ws1.Names.AddFormula("myFormula", "SUM(7+C3)");
             var name2 = ws1.Names.AddRange("myRange", ws1.Cells["C3"]);
             var name3 = ws1.Names.AddValue("myValue", 10);
+
+            var name4 = wb1.Names.AddFormula("myFormula", "SUM(7+C3)");
+            var name5 = wb1.Names.AddRange("myRange", ws1.Cells["C3"]);
+            var name6 = wb1.Names.AddValue("myValue", 10);
             Assert.AreEqual(3, ws1.Names.Count);
 
             var ws2 = p.Workbook.Worksheets.Add("Sheet 2");
             name1.SetRange(ws2.Cells[2, 2]);
-            name2.SetValue(11, ws2);
-            name3.SetFormula("SUM(B2+4)", ws2);
+            name2.SetValue(11);
+            name3.SetFormula("SUM(B2+4)");
             ws2.Names.AddFormula("fomr", "SUM(B2+4)");
             //Assert.AreEqual(0, ws1.Names.Count);
             //Assert.AreEqual(3, ws2.Names.Count);
@@ -988,21 +994,57 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void ValidateFormula()
+        public void SetNamesTest()
+        {
+
+        }
+        [TestMethod]
+        public void MoveNamesTest()
+        {
+
+        }
+        [TestMethod]
+        public void CopyNamesTest()
+        {
+            var p1 = new ExcelPackage();
+            var p2 = new ExcelPackage();
+
+            var wb1 = p1.Workbook;
+            var wb2 = p2.Workbook;
+
+            var ws1a = p1.Workbook.Worksheets.Add("Sheet A");
+            var ws1b = p1.Workbook.Worksheets.Add("Sheet B");
+            var ws2 = p2.Workbook.Worksheets.Add("Sheet 1");
+
+            //Copy name from A To B
+            //Copy name from wb To A
+            //Copy name from A to wb
+            //Copy name from A to wb2
+
+            SaveWorkbook("DefinedNamesCopyP1.xlsx", p1);
+            SaveWorkbook("DefinedNamesCopyP2.xlsx", p2);
+        }
+
+        [TestMethod]
+        public void AddWorksheetReferenceToFormulaTests()
         {
             var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
 
-            var f1 = ExcelNamedRange.ValidateFormula("SUM(B2+3)", ws);
-            var f2 = ExcelNamedRange.ValidateFormula("SUM(B2+AS123+3+D20)", ws);
-            var f3 = ExcelNamedRange.ValidateFormula("SUM('Sheet 1'!$B$2+3)", ws); //Needs fixing.
-            var f4 = ExcelNamedRange.ValidateFormula("SUM(3+2)", ws);
-            var f5 = ExcelNamedRange.ValidateFormula("A2*SUM(3+2)", ws);
+            var f1 = FormulaUtils.AddWorksheetReferenceToFormula("SUM(B2+3)", ws);
+            var f2 = FormulaUtils.AddWorksheetReferenceToFormula("SUM(B2+AS123+3+D20)", ws);
+            var f3 = FormulaUtils.AddWorksheetReferenceToFormula("SUM('Sheet 1'!$B$2+3)", ws);
+            var f4 = FormulaUtils.AddWorksheetReferenceToFormula("SUM(3+2)", ws);
+            var f5 = FormulaUtils.AddWorksheetReferenceToFormula("A2*SUM(3+2)", ws);
+            var f6 = FormulaUtils.AddWorksheetReferenceToFormula("SUM(B2+3)", ws, true);
+
+            Assert.AreEqual("SUM('Sheet 1'!$B$2+3)", f1);
+            Assert.AreEqual("SUM('Sheet 1'!$B$2+'Sheet 1'!$AS$123+3+'Sheet 1'!$D$20)", f2);
+            Assert.AreEqual("SUM('Sheet 1'!$B$2+3)", f3);
+            Assert.AreEqual("SUM(3+2)", f4);
+            Assert.AreEqual("'Sheet 1'!$A$2*SUM(3+2)", f5);
+            Assert.AreEqual("SUM('Sheet 1'!B2+3)", f6);
         }
-
-        //COPY NAME; MOVE NAME; SET NAME;
-        //TOKEN CHECK FORMULA
-
 
         [TestMethod]
         public void LoadFromCollectionTest()
