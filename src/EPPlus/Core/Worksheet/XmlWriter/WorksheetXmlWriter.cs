@@ -1652,7 +1652,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             }
             else if (icon.Value != double.NaN)
             {
-                cache.Append($"val=\"{icon.Value}\" ");
+                cache.Append($"val=\"{icon.Value.ToString(CultureInfo.InvariantCulture)}\" ");
             }
 
             if (icon.GreaterThanOrEqualTo == false && gteCheck == true)

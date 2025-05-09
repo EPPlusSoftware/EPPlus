@@ -1,7 +1,7 @@
 ﻿using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections;
 using System.Collections.Generic;

@@ -71,6 +71,14 @@ namespace OfficeOpenXml.DataValidation
             : this(worksheet)
         {
             InternalValidationEnabled = true;
+            if (worksheet.Dimension == null)
+            {
+                dvQuadTree = new QuadTree<IExcelDataValidation>();
+            }
+            else
+            {
+                dvQuadTree = new QuadTree<IExcelDataValidation>(worksheet.Dimension);
+            }
             ReadDataValidations(xr);
         }
         /// <summary>
@@ -99,12 +107,14 @@ namespace OfficeOpenXml.DataValidation
                         {
                             _validationsRD.Merge(validation.Address.Addresses[i]._fromRow, validation.Address.Addresses[i]._fromCol,
                                 validation.Address.Addresses[i]._toRow, validation.Address.Addresses[i]._toCol, validation);
+                            dvQuadTree.Add(new QuadRange(validation.Address), validation);
                         }
                     }
                     else
                     {
                         _validationsRD.Merge(validation.Address._fromRow, validation.Address._fromCol,
                             validation.Address._toRow, validation.Address._toCol, validation);
+                        dvQuadTree.Add(new QuadRange(validation.Address), validation);
                     }
                     _validations.Add(validation);
                 }

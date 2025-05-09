@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     internal class Substitute : ExcelFunction
     {
         public override int ArgumentMinLength => 3;
-
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var text = ArgToString(arguments, 0);
@@ -46,7 +46,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 return CreateResult(result, DataType.String);
             }
         }
-
         private static string ReplaceFirst(string text, string search, string replace, int instanceNumber)
         {
             int pos = -1;

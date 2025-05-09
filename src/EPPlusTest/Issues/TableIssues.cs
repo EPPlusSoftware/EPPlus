@@ -44,17 +44,17 @@ namespace EPPlusTest.Issues
                 var aForm = worksheet.Cells["G2"].FormulaR1C1;
                 worksheet.Cells["G2:G5"].FormulaR1C1 = aForm;
 
+                worksheet.Calculate();
+
                 Assert.AreEqual(2d, worksheet.Cells["G2"].Value);
                 Assert.AreEqual(4d, worksheet.Cells["G3"].Value);
                 Assert.AreEqual(6d, worksheet.Cells["G4"].Value);
                 Assert.AreEqual(8d, worksheet.Cells["G5"].Value);
 
-                Assert.AreEqual("Table1[[#This Row]+M2", worksheet.Cells["K2"].Formula);
-                Assert.AreEqual("Table1[[#This Row]+M3", worksheet.Cells["K3"].Formula);
-                Assert.AreEqual("Table1[[#This Row]+M4", worksheet.Cells["K4"].Formula);
-                Assert.AreEqual("Table1[[#This Row]+M5", worksheet.Cells["K5"].Formula);
-
-                worksheet.Calculate();
+                Assert.AreEqual("Table1[[#This Row],[Column3]]+M2", worksheet.Cells["G2"].Formula);
+                Assert.AreEqual("Table1[[#This Row],[Column3]]+M3", worksheet.Cells["G3"].Formula);
+                Assert.AreEqual("Table1[[#This Row],[Column3]]+M4", worksheet.Cells["G4"].Formula);
+                Assert.AreEqual("Table1[[#This Row],[Column3]]+M5", worksheet.Cells["G5"].Formula);
 
                 SaveAndCleanup(package);
             }

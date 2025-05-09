@@ -2028,40 +2028,85 @@ namespace OfficeOpenXml
             return _worksheet.ThreadedComments[new ExcelCellAddress(_fromRow, _fromCol)];
         }
 
+        private void CopyBase(ExcelRangeBase Destination, ExcelRangeCopyOptionFlags excelRangeCopyOptionFlags = 0)
+        {
+            if(Addresses == null)
+            {
+                var allDestinations = Destination.GetAllAddresses();
+                foreach (var currDest in allDestinations)
+                {
+                    //arguably this is unnecesary as it should not be possible.
+                    if (currDest.Addresses == null)
+                    {
+                        var helper = new RangeCopyHelper(this, new ExcelRangeBase(Destination.Worksheet, currDest.Address), excelRangeCopyOptionFlags);
+                        helper.Copy();
+                    }
+                }
+            }
+            else
+            {
+                //Arguably throw 'This action won't work on multiple selections' error like Excel?
+                var helper = new RangeCopyHelper(this, Destination, excelRangeCopyOptionFlags);
+                helper.Copy();
+            }
+        }
+
+        /// <summary>
+        /// Copies user and internal params
+        /// </summary>
+        private void CopyWithParams(ExcelRangeBase Destination, ExcelRangeCopyOptionFlags[] userFlags, params ExcelRangeCopyOptionFlags[] internalFlags)
+        {
+            ExcelRangeCopyOptionFlags flags = 0;
+            foreach (var c in userFlags)
+            {
+                flags |= c;
+            }
+
+            foreach (var c in internalFlags)
+            {
+                flags |= c;
+            }
+
+            CopyBase(Destination, flags);
+        }
+
         /// <summary>
         /// Copies the range of cells to another range. 
         /// </summary>
         /// <param name="Destination">The top-left cell where the range will be copied.</param>
         public void Copy(ExcelRangeBase Destination)
         {
-            var helper = new RangeCopyHelper(this, Destination, 0);
-            helper.Copy();
+            CopyBase(Destination);
         }
 
         /// <summary>
         /// Copies the range of cells to an other range
         /// </summary>
         /// <param name="Destination">The start cell where the range will be copied.</param>
-        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied.</param>
+        /// <param name="excelRangeCopyOptionFlags">Options for copying.</param>
         public void Copy(ExcelRangeBase Destination, ExcelRangeCopyOptionFlags? excelRangeCopyOptionFlags)
         {
-            var helper = new RangeCopyHelper(this, Destination, excelRangeCopyOptionFlags ?? 0);
-            helper.Copy();
+            CopyBase(Destination, excelRangeCopyOptionFlags ?? 0);
         }
         /// <summary>
         /// Copies the range of cells to an other range
         /// </summary>
         /// <param name="Destination">The start cell where the range will be copied.</param>
-        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied.</param>
+        /// <param name="excelRangeCopyOptionFlags">Options for copying.</param>
         public void Copy(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
         {
-            ExcelRangeCopyOptionFlags flags = 0;
-            foreach (var c in excelRangeCopyOptionFlags)
-            {
-                flags |= c;
-            }
-            var helper = new RangeCopyHelper(this, Destination, flags);
-            helper.Copy();
+            CopyWithParams(Destination, excelRangeCopyOptionFlags);
+        }
+
+        /// <summary>
+        /// Copy only the properties specifed
+        /// </summary>
+        /// <param name="Destination"></param>
+        /// <param name="flag"></param>
+        public void Copy(ExcelRangeBase Destination, ExcelRangeCopyOnly flag)
+        {
+            var CopOpFlags = (ExcelRangeCopyOptionFlags)flag;
+            CopyBase(Destination, CopOpFlags);
         }
         /// <summary>
         /// Copies the range of cells to another range of cells. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
@@ -2069,19 +2114,16 @@ namespace OfficeOpenXml
         /// <param name="Destination">The range of cells to copy into.</param>
         public void CopyFill(ExcelRangeBase Destination)
         {
-            var helper = new RangeCopyHelper(this, Destination, ExcelRangeCopyOptionFlags.Fill);
-            helper.Copy();
+            CopyBase(Destination, ExcelRangeCopyOptionFlags.Fill);
         }
         /// <summary>
         /// Copies the range of cells to another range of cells. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
         /// </summary>
         /// <param name="Destination">The range of cells to copy into.</param>
-        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied. Fill property will be set.</param>
+        /// <param name="excelRangeCopyOptionFlags">Options for copying. Fill property will be set.</param>
         public void CopyFill(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
         {
-            ExcelRangeCopyOptionFlags flags = 0;
-            flags |= ExcelRangeCopyOptionFlags.Fill;
-            Copy(Destination, flags);
+            CopyWithParams(Destination, excelRangeCopyOptionFlags, ExcelRangeCopyOptionFlags.Fill);
         }
         /// <summary>
         /// Copies the range of cells to another range of cells transposed.
@@ -2089,19 +2131,16 @@ namespace OfficeOpenXml
         /// <param name="Destination">The range of cells to copy into.</param>
         public void CopyTranspose(ExcelRangeBase Destination)
         {
-            var helper = new RangeCopyHelper(this, Destination, ExcelRangeCopyOptionFlags.Transpose);
-            helper.Copy();
+            CopyBase(Destination, ExcelRangeCopyOptionFlags.Transpose);
         }
         /// <summary>
         /// Copies the range of cells to another range of cells transposed.
         /// </summary>
         /// <param name="Destination">The range of cells to copy into.</param>
-        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied. Transpose property will be set.</param>
+        /// <param name="excelRangeCopyOptionFlags">Options for copying. Transpose property will be set.</param>
         public void CopyTranspose(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
         {
-            ExcelRangeCopyOptionFlags flags = 0;
-            flags |= ExcelRangeCopyOptionFlags.Transpose;
-            Copy(Destination, flags);
+            CopyWithParams(Destination, excelRangeCopyOptionFlags, ExcelRangeCopyOptionFlags.Transpose);
         }
         /// <summary>
         /// Copy the styles from the source range to the destination range.
@@ -2113,6 +2152,47 @@ namespace OfficeOpenXml
             var helper = new RangeCopyStylesHelper(this, Destination);
             helper.CopyStyles();
         }
+        /// <summary>
+        /// Copy formulas from source range to destination range.
+        /// Note: Like Excel "Paste Special", also copies underlying cell values.
+        /// </summary>
+        /// <param name="Destination"></param>
+        public void CopyFormulas(ExcelRangeBase Destination)
+        {
+            Copy(Destination, ExcelRangeCopyOnly.Formulas);
+        }
+        /// <summary>
+        /// Copy only formulas from source range to destination range.
+        /// Note: Like Excel "Paste Special", also copies underlying cell values.
+        /// </summary>
+        /// <param name="Destination"></param>
+        /// <param name="fillOrTranspose">Fill or transpose options</param>
+        public void CopyFormulas(ExcelRangeBase Destination, ExcelRangeCopyOperations fillOrTranspose = 0)
+        {
+            ExcelRangeCopyOptionFlags[] flags = { (ExcelRangeCopyOptionFlags)fillOrTranspose };
+            CopyWithParams(Destination, flags, (ExcelRangeCopyOptionFlags)ExcelRangeCopyOnly.Formulas);
+        }
+
+        /// <summary>
+        /// Copy only cell values from source range to destination range.
+        /// </summary>
+        /// <param name="Destination"></param>
+        public void CopyValues(ExcelRangeBase Destination)
+        {
+            Copy(Destination, ExcelRangeCopyOnly.Values);
+        }
+
+        /// <summary>
+        /// Copy only cell values from source range to destination range.
+        /// </summary>
+        /// <param name="Destination"></param>
+        /// <param name="fillOrTranspose">Fill or transpose options</param>
+        public void CopyValues(ExcelRangeBase Destination, ExcelRangeCopyOperations fillOrTranspose = 0)
+        {
+            ExcelRangeCopyOptionFlags[] flags = { (ExcelRangeCopyOptionFlags)fillOrTranspose };
+            CopyWithParams(Destination, flags, (ExcelRangeCopyOptionFlags)ExcelRangeCopyOnly.Values);
+        }
+
         /// <summary>
         /// Clear all cells
         /// </summary>
