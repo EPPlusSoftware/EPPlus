@@ -37,6 +37,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         RichDataArrayValue,
         SubRelations,
         WebImage,
-        MetaDataReference
+        MetaDataReference,
+        MdxMetadata
     }
 }
