@@ -14,6 +14,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Ranges
@@ -21,6 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
     /// <summary>
     /// EPPlus implementation of a range that keeps its data in memory
     /// </summary>
+    [DebuggerDisplay("{Size}")]
     public class InMemoryRange : IRangeInfo
     {
         /// <summary>

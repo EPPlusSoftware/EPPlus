@@ -247,7 +247,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 
         private static bool SingleRowSingleCol(RangeDefinition lSize, RangeDefinition rSize)
         {
-            return (lSize.NumberOfRows == 1 && rSize.NumberOfCols == 1) || (lSize.NumberOfCols == 1 && rSize.NumberOfCols == 1);
+            return (lSize.NumberOfRows == 1 && rSize.NumberOfCols == 1) || (lSize.NumberOfCols == 1 && rSize.NumberOfRows == 1);
         }
 
         private static bool AddressIsNotAvailable(RangeDefinition lSize, RangeDefinition rSize, int row, int col)
@@ -286,16 +286,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 
         private static object GetCellValue(IRangeInfo range, int rowOffset, int colOffset)
         {
-            if(range.IsInMemoryRange || range.Address == null)
+            try
             {
-                return range.GetOffset(rowOffset, colOffset);
+                if (range.IsInMemoryRange || range.Address == null)
+                {
+                    return range.GetOffset(rowOffset, colOffset);
+                }
+                else
+                {
+                    var col = range.Address.FromCol + colOffset;
+                    var row = range.Address.FromRow + rowOffset;
+                    return range.GetValue(row, col);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                var col = range.Address.FromCol + colOffset;
-                var row = range.Address.FromRow + rowOffset;
-                return range.GetValue(row, col);
+                throw ex;
             }
+           
         }
 
         public static InMemoryRange ApplySingleValueRight(CompileResult left, CompileResult right, Operators op, ParsingContext context)

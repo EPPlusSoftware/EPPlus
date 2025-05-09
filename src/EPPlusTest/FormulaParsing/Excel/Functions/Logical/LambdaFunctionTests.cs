@@ -352,20 +352,59 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             //sheet.Cells["A1"].Formula = "LAMBDA(Text_to_Change, Substitution_table, LET(x, Text_to_Change, x))(E11, J12:J16)";
             //sheet.Cells["A1"].Formula = "LAMBDA(Text_to_Change, Substitution_table, LET(A, Text_to_Change, B, TRIM(Substitution_table), A))(E11, J12:K16)";
             //sheet.Cells["O22"].Formula = "LAMBDA(Text_to_Change, Substitution_table, LET(A, \" \" & Text_to_Change & \" \", B, TRIM(Substitution_table),Prefix,{\"-\";\"\"\"\";\"'\";\" \"}, Suffix, {\"-\";\"\"\"\";\"'\";\" \";\".\";\",\";\":\";\";\";\"=\";\"?\";\"!\"},Frm_1, TOCOL(Prefix & TOCOL(CHOOSECOLS(B, 1) & Suffix)), Frm_1))(E11, J12:K16)";
+            //sheet.Cells["O22"].Formula = GetLetFormula3();
             //var tkns = SourceCodeTokenizer.Default.Tokenize(sheet.Cells["O22"].Formula);
 
-            sheet.Cells["V3"].Formula = "{\"-\",\"\"\"\",\"'\",\" \"} & _xlfn.TOCOL(_xlfn.CHOOSECOLS(J12:K16, 1))";
+            //sheet.Cells["V3"].Formula = "{\"-\",\"\"\"\",\"'\",\" \"} & _xlfn.TOCOL(_xlfn.CHOOSECOLS(J12:K16, 1))";
 
 
             sheet.Cells["E11"].Value = "A lizard mage, deals damage by using it's image. Such Imagination.";
             sheet.Calculate();
             //Assert.AreEqual("-mage-", sheet.Cells["O22"].Value);
-            Assert.AreEqual("-mage", sheet.Cells["V3"].Value);
-            Assert.AreEqual("-image", sheet.Cells["V4"].Value);
-            Assert.AreEqual("\"mage", sheet.Cells["W3"].Value);
+            Assert.AreEqual("mage-", sheet.Cells["O22"].Value);
+            Assert.AreEqual("mage\"", sheet.Cells["O23"].Value);
+            Assert.AreEqual("mage'", sheet.Cells["O24"].Value);
 
-            Assert.IsNotNull(sheet.Cells["O241"].Value);
-            Assert.IsNull(sheet.Cells["O242"].Value);
+        }
+
+        private string GetLetFormula1()
+        {
+            var sb = new StringBuilder();
+            sb.Append("LAMBDA(Text_to_Change,Substitution_table,");
+            sb.Append("LET(A, \" \" & Text_to_Change & \" \",");
+            sb.Append("B, TRIM(Substitution_table),");
+            sb.Append("Prefix, {\"-\",\"\"\"\",\"'\",\" \"},");
+            sb.Append("Suffix, {\"-\",\"\"\"\",\"'\",\" \",\".\",\",\",\":\",\";\",\"=\",\"?\",\"!\"},");
+            sb.Append("Frm_1, TOCOL(CHOOSECOLS(B, 1)),");
+            sb.Append("Frm_1))(E11, J12:K16)");
+            return sb.ToString();
+        }
+
+        private string GetLetFormula2()
+        {
+            var sb = new StringBuilder();
+            sb.Append("LAMBDA(Text_to_Change,Substitution_table,");
+            sb.Append("LET(A, \" \" & Text_to_Change & \" \",");
+            sb.Append("B, TRIM(Substitution_table),");
+            sb.Append("Prefix, {\"-\",\"\"\"\",\"'\",\" \"},");
+            sb.Append("Suffix, {\"-\",\"\"\"\",\"'\",\" \",\".\",\",\",\":\",\";\",\"=\",\"?\",\"!\"},");
+            sb.Append("Frm_1, TOCOL(CHOOSECOLS(B, 1) & Suffix),");
+            sb.Append("Frm_1))(E11, J12:K16)");
+            return sb.ToString();
+        }
+
+
+        private string GetLetFormula3()
+        {
+            var sb = new StringBuilder();
+            sb.Append("LAMBDA(Text_to_Change,Substitution_table,");
+            sb.Append("LET(A, \" \" & Text_to_Change & \" \",");
+            sb.Append("B, TRIM(Substitution_table),");
+            sb.Append("Prefix, {\"-\",\"\"\"\",\"'\",\" \"},");
+            sb.Append("Suffix, {\"-\",\"\"\"\",\"'\",\" \",\".\",\",\",\":\",\";\",\"=\",\"?\",\"!\"},");
+            sb.Append("Frm_1,  TOCOL(Prefix & TOCOL(CHOOSECOLS(B, 1) & Suffix)),");
+            sb.Append("Frm_1))(E11, J12:K16)");
+            return sb.ToString();
         }
 
         [TestMethod]

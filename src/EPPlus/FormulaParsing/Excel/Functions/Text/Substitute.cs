@@ -26,7 +26,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     internal class Substitute : ExcelFunction
     {
         public override int ArgumentMinLength => 3;
-        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
+        {
+            config.SetArrayParameterIndexes(0, 1, 2);
+        }
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var text = ArgToString(arguments, 0);
