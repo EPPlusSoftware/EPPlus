@@ -1602,7 +1602,8 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         si.Status |= ExpressionStatus.FunctionArgument;
                     }
-                    list.Insert(0, si.Compile());
+                    var cr = si.Compile();
+                    list.Insert(0, cr);
                 }
             }
 

@@ -61,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 if (_storageManager != null && !_storageManager.IsEmpty)
                 {
-                    _storageManager.Peek().GetVariableValue(Name);
+                    return _storageManager.Peek().GetVariableValue(Name);
                 }
                 else if(_variableFunctionExpression != null)
                 {
