@@ -139,14 +139,13 @@ namespace OfficeOpenXml
                         return false;
                     }
                 }
-                catch (PlatformNotSupportedException ex)
+                catch (PlatformNotSupportedException)
                 {
                     return ValidateLicenseDates(licenseInfo, out msg);
                 }
             }
             catch
             {
-                throw;
                 licenseInfo = new EPPlusLicenseInfo()
                 {
                     Status = EPPlusLicenseStatus.InvalidLicenseKey

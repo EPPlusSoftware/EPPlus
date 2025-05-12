@@ -27,6 +27,83 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
     internal abstract class RangeCriteriaFunction : HiddenValuesHandlingFunction
     {
+        protected static void GetArguments(ParsingContext context, IList<FunctionArgument> arguments, out List<RangeOrValue> argRanges, out List<RangeOrValue> criteria, out int cols, out int rows, int startIndex)
+        {
+            argRanges = new List<RangeOrValue>();
+            criteria = new List<RangeOrValue>();
+            cols = 1;
+            rows = 1;
+            for (var ix = startIndex; ix < 30 + startIndex; ix += 2)
+            {
+                if (arguments.Count <= ix) break;
+                var arg = arguments[ix];
+                if (arg.IsExcelRange)
+                {
+                    var rangeInfo = arg.ValueAsRangeInfo;
+                    argRanges.Add(new RangeOrValue { Range = rangeInfo });
+                }
+                else
+                {
+                    if(arg.Address!=null && arg.Address.FromRow!=arg.Address.ToRow && arg.Address.FromCol != arg.Address.ToCol)
+                    {
+                        var wsIx = arg.Address.WorksheetIx < 0 ? context.CurrentCell.WorksheetIx : arg.Address.WorksheetIx;
+                        var rangeInfo = context.ExcelDataProvider.GetRange(wsIx, arg.Address.FromRow, arg.Address.FromCol);
+                        argRanges.Add(new RangeOrValue { Range = rangeInfo });
+                    }
+                    else
+                    {
+                        argRanges.Add(new RangeOrValue { Value = arg.Value });
+                    }
+                }
+                var argCriteria = arguments[ix + 1];
+                if (argCriteria.IsExcelRange)
+                {
+                    var rangeInfo = argCriteria.ValueAsRangeInfo;
+                    criteria.Add(new RangeOrValue { Range = rangeInfo });
+                    if (rangeInfo.GetNCells() > 1)
+                    {
+                        if (cols < rangeInfo.Size.NumberOfCols)
+                        {
+                            cols = rangeInfo.Size.NumberOfCols;
+                        }
+                        if (rows < rangeInfo.Size.NumberOfRows)
+                        {
+                            rows = rangeInfo.Size.NumberOfRows;
+                        }
+                    }
+                }
+                else
+                {
+                    criteria.Add(new RangeOrValue { Value = argCriteria.Value });
+                }
+            }
+        }
+
+        protected static object GetCriteriaValue(RangeOrValue rangeOrValue, int row, int col)
+        {
+            if (rangeOrValue.Range == null)
+            {
+                return rangeOrValue.Value;
+            }
+            else
+            {
+                var range = rangeOrValue.Range;
+                if (range.Size.NumberOfRows == 1)
+                {
+                    return range.Size.NumberOfCols > col ? range.GetOffset(0, col) : null;
+                }
+                if (range.Size.NumberOfCols == 1)
+                {
+                    return range.Size.NumberOfRows > row ? range.GetOffset(row, 0) : null;
+                }
+                else if (range.Size.NumberOfCols > col && range.Size.NumberOfCols > col)
+                {
+                    return range.GetOffset(row, col);
+                }
+                return null;
+            }
+        }
+
         protected bool Evaluate(object obj, object expression, ParsingContext ctx, bool convertNumericString = true)
         {
             if(expression is ExcelErrorValue e)

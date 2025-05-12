@@ -20,6 +20,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
@@ -35,13 +36,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             config.IgnoreNumberOfArgsFromStart = 1;
             config.ArrayArgInterval = 1;
-            
+
         }
 
         public override int ArgumentMinLength => 3;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            if(argumentIndex==0)
+            if (argumentIndex == 0)
             {
                 return FunctionParameterInformation.AdjustParameterAddress;
             }
@@ -53,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         }));
         public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
         {
-            if(index == 0)
+            if (index == 0)
             {
                 IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args);
                 addresses = EnqueueMatchingAddresses(args[0].Address, matchIndexes);
@@ -62,47 +63,69 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var valueRange = arguments[0].ValueAsRangeInfo;
-            var argRanges = new List<RangeOrValue>();
-            var criterias = new List<object>();
-            for (var ix = 1; ix < 31; ix += 2)
+            var valueRange = arguments[0].ValueAsRangeInfo;           
+            GetArguments(context, arguments, out List<RangeOrValue> argRanges, out List<RangeOrValue> criteria, out int cols, out int rows, 1);
+            
+            if (cols == 1 && rows == 1)
             {
-                if (arguments.Count <= ix) break;
-                var arg = arguments[ix];
-                if(arg.IsExcelRange)
+                var result = GetSumValue(context, valueRange, argRanges, criteria, 0, 0, out ExcelErrorValue ev);
+                if (double.IsNaN(result) && ev != null)
                 {
-                    var rangeInfo = arg.ValueAsRangeInfo;
-                    argRanges.Add(new RangeOrValue { Range = rangeInfo });
+                    return CreateResult(ev, DataType.ExcelError);
                 }
                 else
                 {
-                    argRanges.Add(new RangeOrValue { Value = arg.Value });
+                    return CreateResult(result, DataType.Decimal);
                 }
-                criterias.Add(arguments[ix+1].ValueFirst);
             }
-            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context);
+            else
+            {
+                var retRange = new InMemoryRange(rows, (short)cols);
+                for (var r = 0; r < rows; r++)
+                {
+                    for (int c = 0; c < cols; c++)
+                    {
+                        var result = GetSumValue(context, valueRange, argRanges, criteria, r, c, out ExcelErrorValue ev);
+                        if (double.IsNaN(result) && ev != null)
+                        {
+                            retRange.SetValue(r, c, ev);
+                        }
+                        else
+                        {
+                            retRange.SetValue(r, c, result);
+                        }
+                    }
+                }
+                return CreateDynamicArrayResult(retRange, DataType.ExcelRange);
+            }
+        }
+
+        private double GetSumValue(ParsingContext context, IRangeInfo valueRange, List<RangeOrValue> argRanges, List<RangeOrValue> criterias, int row, int col, out ExcelErrorValue ev)
+        {
+            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], GetCriteriaValue(criterias[0], row, col), context);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
             for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
             {
-                var indexes = GetMatchIndexes(argRanges[ix], criterias[ix], context);
+                var indexes = GetMatchIndexes(argRanges[ix], GetCriteriaValue(criterias[ix], row, col), context);
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
             var sumRange = RangeFlattener.FlattenRangeObject(valueRange);
-            KahanSum result = 0d;            
+            KahanSum result = 0d;
             foreach (var index in matchIndexes)
             {
                 var obj = sumRange[index];
                 if (obj is ExcelErrorValue e1)
                 {
-                    return e1.AsCompileResult;
+                    ev = e1;
+                    return double.NaN;
                 }
                 if (ConvertUtil.IsNumericOrDate(obj))
                 {
                     result += ConvertUtil.GetValueDouble(obj);
                 }
             }
-            
-            return CreateResult(result.Get(), DataType.Decimal);
+            ev = null;
+            return result;
         }
     }
 }
