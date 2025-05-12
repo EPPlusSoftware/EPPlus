@@ -442,13 +442,33 @@ namespace OfficeOpenXml.Table.PivotTable
             var oldIndex = movedFields.Where(x => x >= 0).ToDictionary(x => movedFields.IndexOf(x), x => x);
             foreach (var pt in _pivotTables)
             {
+                var rmDfFields = new List<ExcelPivotTableDataField>();
                 //Update data field index
                 foreach (var df in pt.DataFields)
                 {
-                    if (df.Index != df.Field.Index)
+                    int ix;
+                    if (movedFields.Count > df.Index)
+                    {
+                        ix = movedFields[df.Index];
+                    }
+                    else
+                    {
+                        ix = -1;
+                    }
+                    if(ix<0)
+                    {
+                        rmDfFields.Add(df);
+                    }
+                    else if (df.Index != df.Field.Index)
                     {
                         df.Index = df.Field.Index;
                     }
+                }
+
+                rmDfFields.ForEach(df => { df.Field.IsDataField = false; pt.DataFields.Remove(df); });
+                if(pt.DataFields.Count==0)
+                {
+                    pt.DeleteNode("d:dataFields");
                 }
 
                 //Update column field index
