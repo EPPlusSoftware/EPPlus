@@ -121,7 +121,7 @@ namespace OfficeOpenXml.ExternalReferences
                             }
                         }
                     }
-                    //xr.Close();
+                    xr.Close();
                 }
             }
         }
