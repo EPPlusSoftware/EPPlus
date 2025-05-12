@@ -11,20 +11,13 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Core;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing;
-using System.Runtime.CompilerServices;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System.ComponentModel;
-using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.Utils.Formula;
 
 namespace OfficeOpenXml
 {
@@ -146,10 +139,26 @@ namespace OfficeOpenXml
             set; 
         }
         IList<Token> _tokens = null;
+        /// <summary>
+        /// Set to true to validate and update formulas with cell references.
+        /// </summary>
+        public static bool ValidateCellAddressInFormulas = true;
+        private string _nameFormula;
         internal string NameFormula
         {
-            get;
-            set;
+            get
+            {
+                return _nameFormula;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _nameFormula = value;
+                    return;
+                }
+                _nameFormula = ValidateCellAddressInFormulas ? FormulaUtils.AddWorksheetReferenceToFormula(value, _worksheet, AllowRelativeAddress) : value;
+            }
         }
         /// <inheritdoc/>
         protected internal override void BeforeChangeAddress(string value)
@@ -175,9 +184,7 @@ namespace OfficeOpenXml
         {
             if (range.Worksheet != _worksheet)
             {
-                range.Worksheet.Names.AddRange(Name, range, allowRelativeAddress);
-                _worksheet.Names.Remove(Name);
-                return;
+                throw new InvalidOperationException($"Cannot change range to another worksheet or set a range to a workbook name: {Name}. Either create a new name or move current name first.");
             }
             ResetObject();
             NameFormula = null;
@@ -204,7 +211,7 @@ namespace OfficeOpenXml
         {
             ResetObject();
             NameFormula = formula;
-            this.Formula = formula;
+            this.Formula = NameFormula;
             NameValue = null;
         }
 
@@ -223,11 +230,13 @@ namespace OfficeOpenXml
         /// Move this defined name to a target worksheet.
         /// </summary>
         /// <param name="worksheet">Worksheet to move this name to.</param>
+        /// /// <param name="name">Optional new name for the defined name.</param>
         /// <returns>This name.</returns>
         /// <exception cref="InvalidOperationException">If this name does not contain a formula, value or range, this exception occurs.</exception>
-        public ExcelNamedRange Move(ExcelWorksheet worksheet)
+        public ExcelNamedRange Move(ExcelWorksheet worksheet, string name = null)
         {
             ExcelNamedRange enr = null;
+            name = name == null ? Name : name;
             //Detect if formula, value or range
             if (NameFormula != null)
                 enr = worksheet.Names.AddFormula(Name, NameFormula);
@@ -236,18 +245,25 @@ namespace OfficeOpenXml
             else if (LocalAddress != "#REF!")
                 enr = worksheet.Names.AddRange(Name, worksheet.Cells[Address]);
             if (enr == null) throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
-            _worksheet.Names.Remove(Name);
+            if(_worksheet != null)
+                _worksheet.Names.Remove(Name);
+            else if(_workbook != null)
+                _workbook.Names.Remove(Name);
+            else
+                throw new InvalidOperationException($"No workbook or worksheet has been set for this name: {Name}");
             return enr;
         }
         /// <summary>
         /// Move this defined name to target workbook.
         /// </summary>
         /// <param name="workbook">Workbook to move this name to.</param>
+        /// <param name="name">Optional new name for the defined name.</param>
         /// <returns>This name.</returns>
         /// <exception cref="InvalidOperationException">If this name does not contain a formula, value or range, this exception occurs.</exception>
-        public ExcelNamedRange Move(ExcelWorkbook workbook)
+        public ExcelNamedRange Move(ExcelWorkbook workbook, string name = null)
         {
             ExcelNamedRange enr = null;
+            name = name == null ? Name : name;
             //Detect if formula, value or range
             if (NameFormula != null)
                 enr = workbook.Names.AddFormula(Name, NameFormula);
@@ -256,7 +272,12 @@ namespace OfficeOpenXml
             else if (LocalAddress != "#REF!")
                 enr = workbook.Names.AddRange(Name, _worksheet.Cells[Address]);
             if(enr == null) throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
-            _worksheet.Names.Remove(Name);
+            if (_worksheet != null)
+                _worksheet.Names.Remove(Name);
+            else if (_workbook != null)
+                _workbook.Names.Remove(Name);
+            else
+                throw new InvalidOperationException($"No workbook or worksheet has been set for this name: {Name}");
             return enr;
         }
         /// <summary>

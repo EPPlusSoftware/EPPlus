@@ -876,7 +876,7 @@ namespace EPPlusTest
             var ws = wb.Worksheets.Add("Sheet1");
             ws.Cells["C3"].Value = 3;
 
-            var name = wb.Names.AddValue("Text", 9);
+            var name = ws.Names.AddValue("Text", 9);
             Assert.AreEqual(9, name.Value);
 
             name.SetRange(ws.Cells["C3"]);
@@ -892,13 +892,13 @@ namespace EPPlusTest
             var ws = wb.Worksheets.Add("Sheet1");
             ws.Cells["C3"].Value = 3;
 
-            var name = wb.Names.AddValue("Text", 9);
+            var name = ws.Names.AddValue("Text", 9);
             Assert.AreEqual(9, name.Value);
             Assert.AreEqual(null, name.Formula);
 
             name.SetFormula("SUM(7+C3)");
             Assert.AreEqual(null, name.Value);
-            Assert.AreEqual("SUM(7+C3)", name.Formula);
+            Assert.AreEqual("SUM(7+Sheet1!$C$3)", name.Formula);
 
             //SaveWorkbook("DefinedNames1315.xlsx", p);
         }
@@ -910,7 +910,7 @@ namespace EPPlusTest
             var ws = wb.Worksheets.Add("Sheet1");
             ws.Cells["C3"].Value = 3;
 
-            var name = wb.Names.AddRange("Text", ws.Cells["C3"]);
+            var name = ws.Names.AddRange("Text", ws.Cells["C3"]);
             Assert.AreEqual(3, name.Value);
 
             name.SetValue(9);
@@ -926,11 +926,11 @@ namespace EPPlusTest
             var ws = wb.Worksheets.Add("Sheet1");
             ws.Cells["C3"].Value = 3;
 
-            var name = wb.Names.AddRange("Text", ws.Cells["C3"]);
+            var name = ws.Names.AddRange("Text", ws.Cells["C3"]);
             Assert.AreEqual("", name.Formula);
 
             name.SetFormula("SUM(7+C3)");
-            Assert.AreEqual("SUM(7+C3)", name.Formula);
+            Assert.AreEqual("SUM(7+Sheet1!$C$3)", name.Formula);
 
             SaveWorkbook("DefinedNames1315.xlsx", p);
         }
@@ -942,9 +942,9 @@ namespace EPPlusTest
             var ws = wb.Worksheets.Add("Sheet1");
             ws.Cells["C3"].Value = 3;
 
-            var name = wb.Names.AddFormula("Text", "SUM(7+C3)");
+            var name = ws.Names.AddFormula("Text", "SUM(7+C3)");
             Assert.AreEqual(null, name.Value);
-            Assert.AreEqual("SUM(7+C3)", name.Formula);
+            Assert.AreEqual("SUM(7+Sheet1!$C$3)", name.Formula);
 
             name.SetValue(9);
             Assert.AreEqual(9, name.Value);
@@ -959,8 +959,8 @@ namespace EPPlusTest
             var ws = wb.Worksheets.Add("Sheet1");
             ws.Cells["C3"].Value = 3;
 
-            var name = wb.Names.AddFormula("Text", "SUM(7+C3)");
-            Assert.AreEqual("SUM(7+C3)", name.Formula);
+            var name = ws.Names.AddFormula("Text", "SUM(7+C3)");
+            Assert.AreEqual("SUM(7+Sheet1!$C$3)", name.Formula);
 
             name.SetRange(ws.Cells["C3"]);
             Assert.AreEqual("", name.Formula);
@@ -968,40 +968,50 @@ namespace EPPlusTest
 
             //SaveWorkbook("DefinedNames1315.xlsx", p);
         }
-        [TestMethod]
-        public void NameChangeToOtherWorksheet()
-        {
-            var p = new ExcelPackage();
-            var wb1 = p.Workbook;
-            var ws1 = p.Workbook.Worksheets.Add("Sheet 1");
-            var name1 = ws1.Names.AddFormula("myFormula", "SUM(7+C3)");
-            var name2 = ws1.Names.AddRange("myRange", ws1.Cells["C3"]);
-            var name3 = ws1.Names.AddValue("myValue", 10);
 
-            var name4 = wb1.Names.AddFormula("myFormula", "SUM(7+C3)");
-            var name5 = wb1.Names.AddRange("myRange", ws1.Cells["C3"]);
-            var name6 = wb1.Names.AddValue("myValue", 10);
-            Assert.AreEqual(3, ws1.Names.Count);
-
-            var ws2 = p.Workbook.Worksheets.Add("Sheet 2");
-            name1.SetRange(ws2.Cells[2, 2]);
-            name2.SetValue(11);
-            name3.SetFormula("SUM(B2+4)");
-            ws2.Names.AddFormula("fomr", "SUM(B2+4)");
-            //Assert.AreEqual(0, ws1.Names.Count);
-            //Assert.AreEqual(3, ws2.Names.Count);
-            SaveWorkbook("DefinedNamesChange.xlsx", p);
-        }
-
-        [TestMethod]
-        public void SetNamesTest()
-        {
-
-        }
         [TestMethod]
         public void MoveNamesTest()
         {
+            var p1 = new ExcelPackage();
+            var p2 = new ExcelPackage();
 
+            var wb1 = p1.Workbook;
+            var wb2 = p2.Workbook;
+
+            var ws1a = p1.Workbook.Worksheets.Add("Sheet A");
+            var ws1b = p1.Workbook.Worksheets.Add("Sheet B");
+            var ws2 = p2.Workbook.Worksheets.Add("Sheet 1");
+
+            var AB = ws1a.Names.Add("MoveMeToB", ws1a.Cells["A1"]);
+            var WbA = wb1.Names.Add("MoveMeToA", 77);
+            var AWb = ws1a.Names.Add("MoveMeToWB", "SUM(45+45+45)");
+
+            //Move name from A To B
+            Assert.AreEqual(0, ws1b.Names.Count);
+            Assert.AreEqual(2, ws1a.Names.Count);
+            AB.Move(ws1b);
+            Assert.AreEqual(1, ws1b.Names.Count);
+            Assert.AreEqual(1, ws1a.Names.Count);
+
+            //Move name from wb To A
+            Assert.AreEqual(1, ws1a.Names.Count);
+            Assert.AreEqual(1, wb1.Names.Count);
+            var moved = WbA.Move(ws1a);
+            Assert.AreEqual(2, ws1a.Names.Count);
+            Assert.AreEqual(0, wb1.Names.Count);
+
+            //Move name from A to wb
+            Assert.AreEqual(0, wb1.Names.Count);
+            AWb.Move(wb1);
+            Assert.AreEqual(1, wb1.Names.Count);
+
+            //Move name from A to wb2
+            Assert.AreEqual(0, wb2.Names.Count);
+            moved.Move(wb2);
+            Assert.AreEqual(1, wb2.Names.Count);
+
+            //SaveWorkbook("DefinedNamesCopyP1.xlsx", p1);
+            //SaveWorkbook("DefinedNamesCopyP2.xlsx", p2);
         }
         [TestMethod]
         public void CopyNamesTest()
@@ -1016,13 +1026,32 @@ namespace EPPlusTest
             var ws1b = p1.Workbook.Worksheets.Add("Sheet B");
             var ws2 = p2.Workbook.Worksheets.Add("Sheet 1");
 
-            //Copy name from A To B
-            //Copy name from wb To A
-            //Copy name from A to wb
-            //Copy name from A to wb2
+            var AB =  ws1a.Names.Add("CopyMeToB", ws1a.Cells["A1"]);
+            var WbA = wb1.Names.Add("CopyMeToA", 77);
+            var AWb = ws1a.Names.Add("CopyMeToWB", "SUM(45+45+45)");
 
-            SaveWorkbook("DefinedNamesCopyP1.xlsx", p1);
-            SaveWorkbook("DefinedNamesCopyP2.xlsx", p2);
+            //Copy name from A To B
+            Assert.AreEqual(0, ws1b.Names.Count);
+            AB.Copy(ws1b, "FromA");
+            Assert.AreEqual(1, ws1b.Names.Count);
+
+            //Copy name from wb To A
+            Assert.AreEqual(2, ws1a.Names.Count);
+            WbA.Copy(ws1a, "FromWb");
+            Assert.AreEqual(3, ws1a.Names.Count);
+
+            //Copy name from A to wb
+            Assert.AreEqual(1, wb1.Names.Count);
+            AWb.Copy(wb1, "FromA");
+            Assert.AreEqual(2, wb1.Names.Count);
+
+            //Copy name from A to wb2
+            Assert.AreEqual(0, wb2.Names.Count);
+            AWb.Copy(wb2, "FromA");
+            Assert.AreEqual(1, wb2.Names.Count);
+
+            //SaveWorkbook("DefinedNamesCopyP1.xlsx", p1);
+            //SaveWorkbook("DefinedNamesCopyP2.xlsx", p2);
         }
 
         [TestMethod]

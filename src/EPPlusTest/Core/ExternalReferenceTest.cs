@@ -84,7 +84,7 @@ namespace EPPlusTest.Core
         public void OpenAndCalculateExternalLinkFromPackage()
         {
             var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
-
+            ExcelNamedRange.ValidateCellAddressInFormulas = false;
             p.Workbook.ExternalLinks.Directories.Add(new DirectoryInfo(_testInputPathOptional));
             p.Workbook.ExternalLinks.LoadWorkbooks();
             p.Workbook.ExternalLinks[0].As.ExternalWorkbook.Package.Workbook.Calculate();
@@ -275,8 +275,8 @@ namespace EPPlusTest.Core
         {
             var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
-            
-            
+
+            ExcelNamedRange.ValidateCellAddressInFormulas = false;
             var er = p.Workbook.ExternalLinks[0].As.ExternalWorkbook;
             var excelCache = GetExternalCache(er);
 
@@ -312,6 +312,7 @@ namespace EPPlusTest.Core
         public void AddExternalLinkShouldBeSameAsExcel()
         {
             var p = OpenPackage("AddedExtRef.xlsx", true);
+            ExcelNamedRange.ValidateCellAddressInFormulas = false;
             var ws1=CreateWorksheet1(p);
             var ws2 = p.Workbook.Worksheets.Add("Sheet2");
             
@@ -342,6 +343,7 @@ namespace EPPlusTest.Core
         public void AddExternalWorkbookNoUpdate()
         {
             var p = OpenPackage("AddedExtRefNoUpdate.xlsx", true);
+            ExcelNamedRange.ValidateCellAddressInFormulas = false;
             var ws1 = CreateWorksheet1(p);
             var ws2 = p.Workbook.Worksheets.Add("Sheet2");
 
@@ -368,6 +370,7 @@ namespace EPPlusTest.Core
         public void AddExternalWorkbookWithChartCache()
         {
             var p = OpenPackage("AddedExtRefChart.xlsx", true);
+            ExcelNamedRange.ValidateCellAddressInFormulas = false;
             var ws = p.Workbook.Worksheets.Add("SheetWithChart");
 
             var er = p.Workbook.ExternalLinks.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
