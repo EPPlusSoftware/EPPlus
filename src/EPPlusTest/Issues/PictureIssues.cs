@@ -3,6 +3,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 namespace EPPlusTest.Issues
 {
@@ -34,5 +35,21 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(p);
 			}
 		}
-	}
+        [TestMethod]
+        public void i1982()
+        {
+            using (var p = OpenTemplatePackage("PictureRead.xlsx"))
+            {
+				var ws1 = p.Workbook.Worksheets[0];
+				foreach(var d in ws1.Drawings)
+				{
+                    var pic = d.As.Picture;
+					Assert.IsNotNull(pic.Image.Bounds);
+					var pic2 = new ExcelImage();
+                }
+
+                SaveAndCleanup(p);
+            }
+        }
+    }
 }

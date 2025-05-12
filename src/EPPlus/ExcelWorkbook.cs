@@ -1386,11 +1386,6 @@ namespace OfficeOpenXml
                 SavePivotTableCaches();
             }
 
-            if (_externalLinks != null)
-            {
-                SaveExternalLinks();
-            }
-
             // save the workbook
             if (_workbookXml != null)
             {
@@ -1434,6 +1429,11 @@ namespace OfficeOpenXml
                 }
                 worksheet.Save(loadPivotTable);
                 worksheet.Part.SaveHandler = worksheet.SaveHandler;
+            }
+
+            if (_externalLinks != null)
+            {
+                SaveExternalLinks();
             }
 
             // Issue 15252: save SharedStrings only once
