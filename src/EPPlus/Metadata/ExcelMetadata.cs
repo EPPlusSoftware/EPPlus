@@ -88,7 +88,6 @@ namespace OfficeOpenXml.Metadata
                             break;
                         case "mdxMetadata":
                             //Currently not used. Preserve.
-                            _mdxMetadataCount = xr.GetAttribute("count");
                             ReadMdxMetadataItems(xr);
                             break;
                         case "futureMetadata":
