@@ -165,21 +165,37 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 shNode.SetAttribute("containsMixedTypes", "1");
                 SetFlags(shNode, flags);
-                
-                //Grouped fields need to have the max and min values set.
-                if (Grouping != null)
+            }
+            else
+            {
+                if ((flags & DataTypeFlags.String) != DataTypeFlags.String &&
+                    (flags & DataTypeFlags.Empty) != DataTypeFlags.Empty &&
+                    (flags & DataTypeFlags.Boolean) != DataTypeFlags.Boolean &&
+                    (flags & DataTypeFlags.Error) != DataTypeFlags.Error)
                 {
-                    if (flags == DataTypeFlags.DateTime)
+                    shNode.SetAttribute("containsSemiMixedTypes", "0");
+                    shNode.SetAttribute("containsString", "0");
+                }
+                SetFlags(shNode, flags);
+            }
+
+            //Grouped fields need to have the max and min values set.
+            if (Grouping != null)
+            {
+                if ((flags == DataTypeFlags.DateTime || flags == (DataTypeFlags.DateTime | DataTypeFlags.Empty)) && Grouping is ExcelPivotTableFieldDateGroup)
+                {
+                    var min = (DateTime)SharedItems.Where(x => x != null && !x.Equals(ExcelPivotTable.PivotNullValue)).Min();
+                    shNode.SetAttribute("minDate", GetDateString(min));
+                    var max = (DateTime)SharedItems.Where(x => x != null && !x.Equals(ExcelPivotTable.PivotNullValue)).Max();
+                    shNode.SetAttribute("maxDate", GetDateString(max));
+                }
+                else if (Grouping is ExcelPivotTableFieldNumericGroup)
+                {
+                    var validFlags = (DataTypeFlags.Number | DataTypeFlags.Int | DataTypeFlags.Float | DataTypeFlags.Empty);
+                    if ((flags & validFlags) != 0 && (flags & ~validFlags) == 0 && flags != DataTypeFlags.Empty) // Check that source data is numeric
                     {
-                        var min = (DateTime)SharedItems.Min();
-                        shNode.SetAttribute("minDate", GetDateString(min));
-                        var max = (DateTime)SharedItems.Max();
-                        shNode.SetAttribute("maxDate", GetDateString(max));
-                    }
-                    else if ((int)(flags & DataTypeFlags.Number | flags & DataTypeFlags.Int | DataTypeFlags.Float) != 0)
-                    {
-                        var min = ConvertUtil.GetValueDouble(SharedItems.Min(), true, true);
-                        var max = ConvertUtil.GetValueDouble(SharedItems.Max(), true, true);
+                        var min = ConvertUtil.GetValueDouble(SharedItems.Where(x => x != null && !x.Equals(ExcelPivotTable.PivotNullValue)).Min(), true, true);
+                        var max = ConvertUtil.GetValueDouble(SharedItems.Where(x => x != null && !x.Equals(ExcelPivotTable.PivotNullValue)).Max(), true, true);
                         if (!(double.IsNaN(min) || double.IsNaN(max)))
                         {
                             shNode.SetAttribute("minValue", min.ToString(CultureInfo.InvariantCulture));
@@ -187,17 +203,6 @@ namespace OfficeOpenXml.Table.PivotTable
                         }
                     }
                 }
-			}
-            else
-            {
-                if ((flags & DataTypeFlags.String) != DataTypeFlags.String &&
-                    (flags & DataTypeFlags.Empty) != DataTypeFlags.Empty &&
-                    (flags & DataTypeFlags.Boolean) != DataTypeFlags.Boolean)
-                {
-                    shNode.SetAttribute("containsSemiMixedTypes", "0");
-                    shNode.SetAttribute("containsString", "0");
-                }
-                SetFlags(shNode, flags);
             }
         }
         internal bool IsRowColumnOrPage
@@ -333,7 +338,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
  
                 shNode.SetAttribute("containsDate", "1");
-                if(flags == DataTypeFlags.DateTime)
+                if(flags == DataTypeFlags.DateTime || flags == (DataTypeFlags.DateTime | DataTypeFlags.Empty))
                 {
 					shNode.SetAttribute("containsNonDate", "0");
 				}

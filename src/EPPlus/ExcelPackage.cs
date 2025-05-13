@@ -705,7 +705,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Automaticlly adjust drawing size when column width/row height are adjusted, depending on the drawings editBy property.
+        /// Automatically adjust drawing size when column width/row height are adjusted, depending on the drawings editBy property.
         /// Default True
         /// </summary>
         public bool DoAdjustDrawings
