@@ -1382,7 +1382,7 @@ namespace OfficeOpenXml
 
             if (loadPivotTable)
             {
-                //Updates the Workbook Xml, so must be before saving the wookbook part 
+                //Updates the Workbook Xml, so must be before saving the workbook part 
                 SavePivotTableCaches();
             }
 
@@ -1552,12 +1552,12 @@ namespace OfficeOpenXml
             {
                 foreach (var cache in info.PivotCaches)
                 {
-                    if (cache._pivotTables.Count == 0)
+                    if (cache._pivotTables.Count == 0)  
                     {
                         cache.Delete();
                         continue;
                     }
-                    //Rewrite the pivottable address again if any rows or columns have been inserted or deleted
+                    //Rewrite the pivot table address again if any rows or columns have been inserted or deleted
                     var r = cache.SourceRange;
                     if (r != null && r.Worksheet != null)              //Source does not exist
                     {
@@ -1580,7 +1580,7 @@ namespace OfficeOpenXml
         }
         private void FixFieldNamesAndUpdateSharedItems(PivotTableCacheInternal cache, ExcelTable t, XmlNodeList fields)
         {
-            cache.RefreshFields();
+            cache.RefreshFields(true);
             int ix = 0;
             var flds = new HashSet<string>();
             var sourceRange = cache.SourceRange;

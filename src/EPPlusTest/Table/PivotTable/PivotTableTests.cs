@@ -307,7 +307,46 @@ namespace EPPlusTest.Table.PivotTable
             pt.DataFields.Add(pt.Fields[2]);
 
             pt.DataOnRows = true;
+        }
+        [TestMethod]
+        public void Pivot_GroupDateNull()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Pivot-Group Date null");
+            LoadItemData(ws);
 
+            var pt = ws.PivotTables.Add(ws.Cells["A30"], ws.Cells["K1:O15"], "Pivottable8_2");
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.RowFields.Add(pt.Fields[4]);
+            pt.Fields[4].AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Months | eDateGroupBy.Days | eDateGroupBy.Quarters, new DateTime(2010, 01, 31), new DateTime(2010, 11, 30));
+            pt.RowHeaderCaption = "År";
+            pt.Fields[4].Name = "Dag";
+            pt.Fields[4].Items[0].Hidden = true;
+            pt.Fields[5].Name = "Månad";
+            pt.Fields[5].Items[0].Hidden = true;
+            pt.Fields[6].Name = "Kvartal";
+            pt.Fields[6].Items[0].Hidden = true;
+            pt.GrandTotalCaption = "Totalt";
+
+            pt.DataFields.Add(pt.Fields[3]);
+            pt.DataFields.Add(pt.Fields[2]);
+            pt.DataOnRows = true;
+
+            pt = ws.PivotTables.Add(ws.Cells["H30"], ws.Cells["K1:O15"], "Pivottable10_2");
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.RowFields.Add(pt.Fields[4]);
+            pt.Fields[4].AddDateGrouping(7, new DateTime(2010, 01, 31), new DateTime(2010, 11, 30));
+            pt.RowHeaderCaption = "Veckor";
+            pt.GrandTotalCaption = "Totalt";
+
+            pt = ws.PivotTables.Add(ws.Cells["A90"], ws.Cells["K1:O15"], "Pivottable11_2");
+            pt.RowFields.Add(pt.Fields["Category"]);
+            pt.RowFields.Add(pt.Fields["Item"]);
+            pt.RowFields.Add(pt.Fields[4]);
+
+            pt.DataFields.Add(pt.Fields[3]);
+            pt.DataFields.Add(pt.Fields[2]);
+
+            pt.DataOnRows = true;            
         }
         [TestMethod]
         public void Pivot_GroupNumber()
@@ -326,6 +365,21 @@ namespace EPPlusTest.Table.PivotTable
             pt.DataOnRows = false;
             pt.PivotTableStyle = PivotTableStyles.Medium14;
         }
+        [TestMethod]
+        public void Pivot_GroupNumberNull()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Pivot-Group Number-Null");
+            LoadItemData(ws);
+            ws.Cells["N11"].Value = null;
+            var pt = ws.PivotTables.Add(ws.Cells["A3"], ws.Cells["K1:N11"], "Pivottable9_null");
+            pt.PageFields.Add(pt.Fields[1]);
+            pt.RowFields.Add(pt.Fields[3]);
+            pt.RowFields[0].AddNumericGrouping(-3.3, 5.5, 4.0);
+            pt.DataFields.Add(pt.Fields[2]);
+            pt.DataOnRows = false;
+            pt.PivotTableStyle = PivotTableStyles.Medium14;
+        }
+
         [TestMethod]
         public void Pivot_ManyRowFields()
         {
@@ -1093,12 +1147,13 @@ namespace EPPlusTest.Table.PivotTable
         [TestMethod]
         public void s690()
         {
-            using(ExcelPackage pck = OpenTemplatePackage("s690.xlsm"))
+            using (ExcelPackage pck = OpenTemplatePackage("s690.xlsm"))
             {
                 SaveAndCleanup(pck);
             }
         }
         [TestMethod]
+
         public void VerifyPivotTableSaveWithDateGroupAndMilliseconds()
         {
 
@@ -1124,7 +1179,7 @@ namespace EPPlusTest.Table.PivotTable
                 var rowField = pt.RowFields.Add(pt.Fields["Date"]);
 
                 rowField.AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Quarters);
-                rowField.Name = "Quarters"; //We rename the field OrderDate to Quarters.
+                rowField.Name = "Quarters";                     //We rename the field OrderDate to Quarters.
                 var dataField = pt.DataFields.Add(pt.Fields["Value"]);
                 dataField.Format = "#,##0";
                 pt.DataOnRows = false;
@@ -1268,6 +1323,33 @@ namespace EPPlusTest.Table.PivotTable
                 field.InsertBlankRow = true;
             }
             //p.SaveAs(@"C:\epplustest\testoutput\pivot_filldown.xlsx");
-        }        
+        }
+        [TestMethod]
+        public void RefreshTemplateWithChangedColumns()
+        {
+            using var p = OpenTemplatePackage("PivotTableRefreshFields.xlsx");
+            foreach(var ws in p.Workbook.Worksheets)
+            {
+                foreach(var pt in ws.PivotTables)
+                {
+                    
+                }
+            }
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void RefreshTemplateWithChangedColumns_ClearData()
+        {
+            using var p = OpenTemplatePackage("PivotTableRefreshFields.xlsx");
+            foreach (var ws in p.Workbook.Worksheets)
+            {
+                foreach (var pt in ws.PivotTables)
+                {
+
+                }
+            }
+            p.Workbook.Worksheets[0].Cells["A2:P20"].Clear();
+            SaveWorkbook("PivotTableRefreshFields-ClearData.xlsx", p);
+        }
     }
 }
