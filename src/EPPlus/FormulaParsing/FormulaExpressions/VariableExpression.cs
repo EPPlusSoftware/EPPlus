@@ -59,17 +59,26 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             get
             {
-                if (_storageManager != null && !_storageManager.IsEmpty)
-                {
-                    return _storageManager.Peek().GetVariableValue(Name);
-                }
-                else if(_variableFunctionExpression != null)
-                {
-                    return _variableFunctionExpression.GetVariableValue(Name);
-                }
-                return CompileResult.Empty;
+                return GetValue(out bool hasValue);
             }
+        }
 
+        private CompileResult GetValue(out bool hasValue)
+        {
+            hasValue = false;
+            if (_storageManager != null && !_storageManager.IsEmpty)
+            {
+                var v = _storageManager.Peek().GetVariableValue(Name);
+                hasValue = v.DataType != DataType.Empty && v.ResultValue != null;
+                return v;
+            }
+            else if (_variableFunctionExpression != null)
+            {
+                var v =  _variableFunctionExpression.GetVariableValue(Name);
+                hasValue = v.DataType != DataType.Empty && v.ResultValue != null;
+                return v;
+            }
+            return CompileResult.Empty;
         }
 
         internal void SetValue(string variableName, CompileResult value)
@@ -88,7 +97,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             if ((Status & ExpressionStatus.IsLambdaVariableDeclaration) == ExpressionStatus.IsLambdaVariableDeclaration)
             {
-                return new CompileResult(Name, DataType.LambdaVariableDeclaration);
+                var val = GetValue(out bool hasValue);
+                if(!hasValue)
+                {
+                    return new CompileResult(Name, DataType.LambdaVariableDeclaration);
+                }
+               
             }
             return _negate ? Value.Negate() : Value;
         }

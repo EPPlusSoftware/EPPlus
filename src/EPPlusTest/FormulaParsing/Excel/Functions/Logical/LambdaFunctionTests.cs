@@ -280,6 +280,37 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 
         }
 
+        [TestMethod]
+        public void LambdaClearExpressionStack1()
+        {
+            using var p = new ExcelPackage();
+            var sheet = p.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LAMBDA(x, x + 1)(1) & \"2\"";
+            sheet.Calculate();
+            Assert.AreEqual("22", sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void LambdaClearExpressionStack2()
+        {
+            using var p = new ExcelPackage();
+            var sheet = p.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LAMBDA(x, x + 1)(1) & \"2\"";
+            sheet.Calculate();
+            Assert.AreEqual("22", sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void LetClearExpressionStack()
+        {
+            using var p = new ExcelPackage();
+            var sheet = p.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LET(x,1, x)";
+            sheet.Calculate();
+            Assert.AreEqual(1d, sheet.Cells["A1"].Value);
+
+        }
+
         //All array input/output looks to have issues when reading a file.
         //At least if double lambda
         [TestMethod]
@@ -352,7 +383,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             //sheet.Cells["A1"].Formula = "LAMBDA(Text_to_Change, Substitution_table, LET(x, Text_to_Change, x))(E11, J12:J16)";
             //sheet.Cells["A1"].Formula = "LAMBDA(Text_to_Change, Substitution_table, LET(A, Text_to_Change, B, TRIM(Substitution_table), A))(E11, J12:K16)";
             //sheet.Cells["O22"].Formula = "LAMBDA(Text_to_Change, Substitution_table, LET(A, \" \" & Text_to_Change & \" \", B, TRIM(Substitution_table),Prefix,{\"-\";\"\"\"\";\"'\";\" \"}, Suffix, {\"-\";\"\"\"\";\"'\";\" \";\".\";\",\";\":\";\";\";\"=\";\"?\";\"!\"},Frm_1, TOCOL(Prefix & TOCOL(CHOOSECOLS(B, 1) & Suffix)), Frm_1))(E11, J12:K16)";
-            sheet.Cells["O22"].Formula = GetLetFormula7();
+            sheet.Cells["O22"].Formula = GetLetFormula7();// + " & \"x\"";
             //var tkns = SourceCodeTokenizer.Default.Tokenize(sheet.Cells["O22"].Formula);
 
             //sheet.Cells["V3"].Formula = "{\"-\",\"\"\"\",\"'\",\" \"} & _xlfn.TOCOL(_xlfn.CHOOSECOLS(J12:K16, 1))";
@@ -385,6 +416,40 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             //Assert.IsNull(sheet.Cells["O682"].Value);
 
             Assert.AreEqual("A gizzard wizard, deals dawizard by using it's iwizard. Such Iwizardnation.", sheet.Cells["O22"].Value);
+        }
+
+
+        [TestMethod]
+        public void LambdaWithConcat()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            //var f1 = GetLetFormula7();
+            var f2 = GetLetFormula7() + " & A2";
+            //var t1 = SourceCodeTokenizer.Default.Tokenize(f1);
+            //var t2 = SourceCodeTokenizer.Default.Tokenize(f2);
+            //Assert.AreEqual(193, t1.Count);
+            //Assert.AreEqual(195, t2.Count);
+            //for(var x = 0; x < t1.Count;x++)
+            //{
+            //    Assert.AreEqual(t1[x].TokenType, t2[x].TokenType, "Not equal at pos " + x);
+            //}
+
+            //var ctx = ParsingContext.Create();
+            //var rpnt1 = FormulaExecutor.CreateRPNTokens(t1);
+            //var rpnt2 = FormulaExecutor.CreateRPNTokens(t2);
+            //LambdaFormulaSettings lambdaSettings = default;
+            //var exp1 = FormulaExecutor.CompileExpressions(ref lambdaSettings, ref rpnt1, ctx);
+            //var exp2 = FormulaExecutor.CompileExpressions(ref lambdaSettings, ref rpnt2, ctx);
+
+            // Felet här beror på att & A2 konkateneras ihop med den tomma
+            // rangen J12:K16 innan den tilldelas. Vi måste hitta en lösning på att 
+            // parenteserna försvinner när tokens görs om till RPN tokens.
+
+            ws.Cells["A1"].Formula = f2;
+            ws.Cells["A2"].Value = "x";
+            ws.Calculate();
+            var result = ws.Cells["A1"].Value;
         }
 
         private string GetLetFormula1()
@@ -488,6 +553,24 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sb.Append("Output, REDUCE(A, SEQUENCE(ROWS(To_2)), LAMBDA(X,Y,");
             sb.Append("SUBSTITUTE(X, INDEX(Frm_2, Y), INDEX(To_2, Y)))),");
             sb.Append("TRIM(Output)))(E11, J12:K16)");
+            return sb.ToString();
+        }
+
+        private string GetLetFormula8()
+        {
+            var sb = new StringBuilder();
+            sb.Append("LAMBDA(Text_to_Change,Substitution_table,");
+            sb.Append("LET(A, \" \" & Text_to_Change & \" \",");
+            sb.Append("B, TRIM(Substitution_table),");
+            sb.Append("Prefix, {\"-\",\"\"\"\",\"'\",\" \"},");
+            sb.Append("Suffix, {\"-\",\"\"\"\",\"'\",\" \",\".\",\",\",\":\",\";\",\"=\",\"?\",\"!\"},");
+            sb.Append("Frm_1,  TOCOL(Prefix & TOCOL(CHOOSECOLS(B, 1) & Suffix)),");
+            sb.Append("Frm_2,  VSTACK(UPPER(Frm_1), LOWER(Frm_1), PROPER(Frm_1)),");
+            sb.Append("To_1,   TOCOL(Prefix & TOCOL(CHOOSECOLS(B, 2) & Suffix)),");
+            sb.Append("To_2,   VSTACK(UPPER(To_1), LOWER(To_1), PROPER(To_1)),");
+            sb.Append("Output, REDUCE(A, SEQUENCE(ROWS(To_2)), LAMBDA(X,Y,");
+            sb.Append("SUBSTITUTE(X, INDEX(Frm_2, Y), INDEX(To_2, Y)))),");
+            sb.Append("TRIM(Output)))(E11, J12:K16) & A2");
             return sb.ToString();
         }
 

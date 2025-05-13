@@ -485,7 +485,8 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                     else
                     {
-                        cr = f._expressionStack.Pop().Compile();
+                        var e = f._expressionStack.Pop();
+                        cr = e.Compile();
                         if(cr.DataType == DataType.LambdaCalculation && cr.Result is LambdaCalculator lambdaCalc && lambdaCalc.IsReadyForCalc)
                         {
                             cr = lambdaCalc.Execute(depChain._parsingContext);
@@ -1153,12 +1154,13 @@ namespace OfficeOpenXml.FormulaParsing
                             if(fexp.IsLet && f.CurrentLambdaArgsAdded == 0 && f._expressionStack.Count > 1 && !(f._expressionStack.First() is VariableExpression varExp && varExp.IsDeclaration))
                             {
                                 var exp1 = f._expressionStack.Pop();
-                                var exp2 = f._expressionStack.Pop();
-                                f._expressionStack.Push(exp2);
+                                var exp2 = f._expressionStack.Peek();
                                 f._expressionStack.Push(exp1);
                                 if (exp2 is VariableExpression vfe && vfe.IsDeclaration)
                                 {
                                     ((VariableFunctionExpression)fexp).AddVariableValue(vfe.Name, exp1.Compile());
+                                    f._expressionStack.Pop();
+                                    //f._expressionStack.Pop();
                                 }
                             }
 

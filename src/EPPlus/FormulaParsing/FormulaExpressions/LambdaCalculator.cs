@@ -81,6 +81,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         public void SetVariableValue(int index, object value, DataType dt, ParsingContext ctx)
         {
             var variable = _variables[index];
+            if (variable.Result == null) return;
             var variableName = variable.Result.ToString();
             var compileResult = new CompileResult(value, dt);
             _scope.SetVariableValue(variableName, compileResult);
