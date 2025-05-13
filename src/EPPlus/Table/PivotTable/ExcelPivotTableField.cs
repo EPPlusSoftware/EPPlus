@@ -584,7 +584,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// The numberformat to use for the column
+        /// The number format to use for the column
         /// </summary>
         public string Format { get; set; }
         #region Private & internal Methods
