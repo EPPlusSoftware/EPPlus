@@ -26,9 +26,12 @@
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
+			## Version 8.0.4
+			* Minor bug fixes.
+
 			## Version 8.0.3
 			* Minor bug fixes.
-			
+
 			## Version 8.0.2
 			* Minor bug fixes.
 
@@ -492,8 +495,9 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
-			8.0.3			20250430 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-			8.0.2			20250415 Minor bug fixes. 
+			8.0.4			20250514 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			8.0.3			20250430 Minor bug fixes.
+			8.0.2			20250415 Minor bug fixes.
 			7.7.1			20250414 Minor bug fixes.
 			8.0.1			20250328 Digital Signatures, Ole objects, in-cell pictures.
 			8.0.0-rc		20250321 Digital Signatures, Ole objects, in-cell pictures.
