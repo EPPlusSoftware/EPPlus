@@ -1,6 +1,6 @@
 ﻿![Nuget](https://img.shields.io/nuget/v/epplus)
  [![Download EPPlus from nuget](https://img.shields.io/nuget/dt/epplus?label=Nuget%20downloads)](https://www.nuget.org/packages/EPPlus/)
-[![Build status](https://ci.appveyor.com/api/projects/status/fn3lqpxfjff3jq0v?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus8)
+[![Build status](https://ci.appveyor.com/api/projects/status/qw2hvjk7yfxv7vrv?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus8)
 # EPPlus 8
 
 ## License
