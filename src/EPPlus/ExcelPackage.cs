@@ -1276,11 +1276,6 @@ namespace OfficeOpenXml
                     ms.Dispose();
                     ms = decrStream;
                 }
-                else
-                {
-                    ms = RecyclableMemory.GetStream();
-                    StreamUtil.CopyStream(input, ref ms);
-                }
 
                 try
                 {
