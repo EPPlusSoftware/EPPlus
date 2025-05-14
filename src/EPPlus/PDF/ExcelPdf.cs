@@ -9,7 +9,7 @@ namespace OfficeOpenXml.PDF
     public class ExcelPdf
     {
         string header = "%PDF-1.7\n";
-        List<PdfBody> body = new List<PdfBody>();
+        List<PdfObject> body = new List<PdfObject>();
         List<PdfCrossRefTable> crossRefTable = new List<PdfCrossRefTable>();
         List<PdfTrailer> trailer = new List<PdfTrailer>();
 
