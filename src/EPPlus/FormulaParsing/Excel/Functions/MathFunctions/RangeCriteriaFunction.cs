@@ -179,6 +179,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var pIx = int.MinValue;
             var extRef = valueAddress.ExternalReferenceIx;
             var wsIx = valueAddress.WorksheetIx;
+            FormulaRangeAddress currentAddress=null;
             if (valueAddress.FromCol == valueAddress.ToCol)
             {
                 var c = valueAddress.FromCol;
@@ -186,12 +187,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     if (ix == pIx + 1)
                     {
-                        addresses.Peek().ToRow++;
+                        currentAddress.ToRow++;
                     }
                     else
                     {
                         var r = valueAddress.FromRow + ix;
-                        addresses.Enqueue(new FormulaRangeAddress() { ExternalReferenceIx=extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c });
+                        currentAddress = new FormulaRangeAddress() { ExternalReferenceIx = extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c };
+                        addresses.Enqueue(currentAddress);
                     }
                     pIx = ix;
                 }
@@ -203,12 +205,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     if (ix == pIx + 1)
                     {
-                        addresses.Peek().ToCol++;
+                        currentAddress.ToCol++;
                     }
                     else
                     {
                         var c = valueAddress.FromCol + ix;
-                        addresses.Enqueue(new FormulaRangeAddress() { ExternalReferenceIx = extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c });
+                        currentAddress = new FormulaRangeAddress() { ExternalReferenceIx = extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c };
+                        addresses.Enqueue(currentAddress);
                     }
                     pIx = ix;
                 }
