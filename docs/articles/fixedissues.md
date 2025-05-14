@@ -1,4 +1,17 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.0.4
+* SUMIFS, AVERAGEIFS and COUNTIFS sometimes miscalculate due to returning the incorrect addresses to the dependency chain.
+* Range.Sort did not sort update formula addresses in some cases.
+* Fixes array support for the SUBSTITUTE, SUMIFS, AVERAGEIFS and COUNTIFS functions.
+* Incorrect handing of meta data strings caused a corrupt workbook in some situations.
+* License key validation did not work in Blazor WASM.
+* The ExcelPicture.Image.Bounds was not set when loading drawings.
+* Pivot cache fields containing error values only, caused a corrupt workbook.
+* Pivot table date and number grouping can now handle empty cells.
+* Pivot table caches did not always reflect renamed/deleted fields in a source range when refreshing.
+* Concatenating two arrays or results of array formulas with the "&" operator sometimes yielded unexpected results.
+* A default options variable for RecyclableMemoryStream was initiated even when UseRecyclableMemory was set to false.
+
 ## Version 8.0.3
 * Added custom number formats where the formatId is not a built-in format.
 * SUMIFS and AVERAGEIFS sometimes miscalculated with multiple arguments.
