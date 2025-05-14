@@ -22,6 +22,8 @@ using System.Linq;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.ComponentModel;
+using System.Xml.Linq;
+
 
 #if NETFULL
 using System.Drawing.Imaging;
@@ -93,6 +95,16 @@ namespace OfficeOpenXml.Drawing
                     Image.Type = type.Value;
                     byte[] iby = ms.ToArray();
                     Image.ImageBytes = iby;
+                    using (var picMs = new MemoryStream(iby))
+                    {
+                        if (drawings._package.Settings.ImageSettings.GetImageBounds(picMs, type.Value, out double width, out double height, out double horizontalResolution, out double verticalResolution))
+                        {
+                            Image.Bounds.Width = width;
+                            Image.Bounds.Height = height;
+                            Image.Bounds.HorizontalResolution = horizontalResolution;
+                            Image.Bounds.VerticalResolution = verticalResolution;
+                        }
+                    }
                     var ii = _drawings._package.PictureStore.LoadImage(iby, container.UriPic, Part);
                     var pd = (IPictureRelationDocument)_drawings;
                     if (pd.Hashes.ContainsKey(ii.Hash))

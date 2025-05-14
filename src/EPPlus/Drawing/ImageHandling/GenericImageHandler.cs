@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Drawing
         public Exception LastException { get; private set; } = null;
 
         /// <summary>
-        /// Retreives the image bounds and resolution for an image
+        /// Retrieves the image bounds and resolution for an image
         /// </summary>
         /// <param name="image">The image data</param>
         /// <param name="type">Type type of image</param>
@@ -42,7 +42,16 @@ namespace OfficeOpenXml.Drawing
             {
                 width = 0;
                 height = 0;
-                return ImageReader.TryGetImageBounds(type, image, ref width, ref height, out horizontalResolution, out verticalResolution);
+                var ret = ImageReader.TryGetImageBounds(type, image, ref width, ref height, out horizontalResolution, out verticalResolution);
+                if (ret == false)
+                {
+                    var t = ImageReader.GetPictureType(image, false);
+                    if (t.HasValue)
+                    {
+                        return ImageReader.TryGetImageBounds(t.Value, image, ref width, ref height, out horizontalResolution, out verticalResolution);
+                    }
+                }
+                return ret;
             }
             catch (Exception ex)
             {
@@ -56,7 +65,7 @@ namespace OfficeOpenXml.Drawing
         }
 
         /// <summary>
-        /// Returns if the handler is valid for the enviornment. 
+        /// Returns if the handler is valid for the environment. 
         /// The generic image handler is valid in all environments, so it will always return true.
         /// </summary>
         /// <returns></returns>

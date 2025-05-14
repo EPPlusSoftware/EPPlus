@@ -349,7 +349,7 @@ namespace EPPlusTest.Issues
         {
             using var p = OpenTemplatePackage("i1968-1.xlsx");
             var wb = p.Workbook;
-            
+
             foreach (var ws in wb.Worksheets)
             {
                 if (ws.PivotTables.Any()) Console.WriteLine(ws.Name);
@@ -381,6 +381,7 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(p);
         }
+
         [TestMethod]
         public void i820()
         {
