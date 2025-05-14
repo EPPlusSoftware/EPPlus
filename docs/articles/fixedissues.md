@@ -1,4 +1,11 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.7.1
+* Copying a cell after deleting and adding a comment sometimes caused an exception
+* The LET function did not handle multiple table style addresses as arguments.
+* Setting the Display attribute without setting the Order attribute in LoadFromCollection caused an Exception.
+* Setting TabColor to Color.Empty now removes the TabColor.
+* ExcelParagraph.Text throw an ArgumentOutOfRangeException if the text was empty.
+
 ## Version 7.7.0
 * Reverted System.* and Microsoft.* references to 8.0.x for all target frameworks except .NET 9.
 * LoadFromArray and LoadFromDataTable of the ExcelRangeBase class did not clear existing formulas before populating the range.
