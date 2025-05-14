@@ -45,6 +45,8 @@ namespace OfficeOpenXml.FormulaParsing
         internal int _enumeratorWorksheetIx;
         internal CellStoreEnumerator<object> _formulaEnumerator;
         internal int _tokenIndex = 0;
+        internal short _openParenthesis = 0;
+        internal short _closedParenthesis = 0;
         internal Stack<Expression> _expressionStack;
         internal Stack<FunctionExpression> _funcStack;
         internal int _arrayIndex = -1;
@@ -147,6 +149,18 @@ namespace OfficeOpenXml.FormulaParsing
                 return _lambdaSettings.CurrentLambdaArgsAdded;
             }
         }
+
+        internal void OpenParenthesis()
+        {
+            _openParenthesis++;
+        }
+
+        internal void CloseParenthesis()
+        {
+            _openParenthesis--;
+        }
+
+        internal int ParenthesisLevel => _openParenthesis;
 
         internal string GetAddress()
         {

@@ -39,7 +39,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal static RpnTokens CreateRPNTokens(IList<Token> tokens)
         {
             var bracketCount = 0;
-            var lastOpeningParanthesesPos = -1;
             var lastCommaPos=-1;
             var operators = OperatorsDict.AllOperators;
             Stack<Token> operatorStack = new Stack<Token>();
@@ -52,29 +51,26 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 switch (token.TokenType)
                 {
                     case TokenType.OpeningParenthesis:
-                        lastOpeningParanthesesPos = rpnTokens.Count;
                         operatorStack.Push(token);
+                        rpnTokens.Add(token);
                         break;
                     case TokenType.ClosingParenthesis:
                         if (operatorStack.Count > 0)
                         {                            
                             var o = operatorStack.Pop();
-                            var noOperator = true;
                             while (o.TokenType != TokenType.OpeningParenthesis)
                             {
                                 rpnTokens.Add(o);
                                 if (operatorStack.Count == 0) throw new InvalidOperationException("No closing parenthesis");
                                 o = operatorStack.Pop();
-                                noOperator = false;
                             }
+                            rpnTokens.Add(token);
 
                             if (operatorStack.Count > 0 && operatorStack.Peek().TokenType == TokenType.Function)
                             {
                                 rpnTokens.Add(operatorStack.Pop());
-                                noOperator = false;
                             }
 
-                            lastOpeningParanthesesPos = -1;
                             lastCommaPos = -1;
                         }
                         break;

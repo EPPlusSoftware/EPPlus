@@ -425,7 +425,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet1");
             //var f1 = GetLetFormula7();
-            var f2 = GetLetFormula7() + " & A2";
+            //var f2 = GetLetFormula7() + " & A2";
             //var t1 = SourceCodeTokenizer.Default.Tokenize(f1);
             //var t2 = SourceCodeTokenizer.Default.Tokenize(f2);
             //Assert.AreEqual(193, t1.Count);
@@ -446,10 +446,18 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             // rangen J12:K16 innan den tilldelas. Vi måste hitta en lösning på att 
             // parenteserna försvinner när tokens görs om till RPN tokens.
 
-            ws.Cells["A1"].Formula = f2;
-            ws.Cells["A2"].Value = "x";
+            // Ett mindre komplext enhetstest skulle kunna se ut typ så här:
+
+            // A2:A4 innehåller 1,2,3
+            // LAMBDA(x;SUM(x))(Z20:Z22) & "x"
+            // Korrekt svar är 6x
+
+            ws.Cells["A1"].Formula = "LAMBDA(x,SUM(x))(B1:B2) & \"x\"";
+            ws.Cells["B1"].Value = 1;
+            ws.Cells["B2"].Value = 2;
             ws.Calculate();
             var result = ws.Cells["A1"].Value;
+            Assert.AreEqual("3x", ws.Cells["A1"].Value);
         }
 
         private string GetLetFormula1()

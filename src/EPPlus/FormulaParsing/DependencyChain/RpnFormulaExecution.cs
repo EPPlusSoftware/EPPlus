@@ -1296,6 +1296,13 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Null:
                         s.Push(ErrorExpression.NullError);
                         break;
+                    case TokenType.OpeningParenthesis:
+                        f.OpenParenthesis();
+                        break;
+                    case TokenType.ClosingParenthesis:
+                        f.CloseParenthesis();
+                        // invoka lambda här?
+                        break;
                 }
 
                 f._tokenIndex++;
@@ -1434,8 +1441,11 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     args.Add(f._expressionStack.Pop());
                 }
-                var cr = args.First().Compile();
-                lc.SetVariableValue(0, cr.Result, cr.DataType, context);
+                if(args.Any())
+                {
+                    var cr = args.First().Compile();
+                    lc.SetVariableValue(0, cr.Result, cr.DataType, context);
+                }
                 c2 = lc.Execute(context);
                 if(c2.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
                 {
