@@ -1,13 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Chart;
-using System.Drawing;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Xml.Linq;
 namespace EPPlusTest.Issues
 {
-	[TestClass]
+    [TestClass]
 	public class PictureIssues : TestBase
 
 	{

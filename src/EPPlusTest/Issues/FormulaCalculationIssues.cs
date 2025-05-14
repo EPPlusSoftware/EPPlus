@@ -942,6 +942,22 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(12273.13, sheet.Cells["AI61"].Value);
 			Assert.AreEqual(-472.69, sheet.Cells["AI70"].Value);
         }
+        [TestMethod]
+        public void s858()
+        {
+            using var p1 = OpenTemplatePackage("s858-1.xlsx");
+            var ws1 = p1.Workbook.Worksheets["Aico Data"];
+            ws1.Calculate();
+            var result1 = ws1.Cells["D55"].Value;
+            Assert.AreEqual(265509.38, result1);
+
+            using var p2 = OpenTemplatePackage("s858-2.xlsx");
+            var ws2 = p2.Workbook.Worksheets["Aico data"];
+            ws2.Calculate();
+            var result2 = ws2.Cells["E55"].Value;
+
+            Assert.AreEqual(12977661.57, result2);
+        }
     }
 }
 
