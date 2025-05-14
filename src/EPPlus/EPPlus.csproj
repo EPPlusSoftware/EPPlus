@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net9.0;net8.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>7.7.1.0</AssemblyVersion>
-		<FileVersion>7.7.1.0</FileVersion>
-		<Version>7.7.1</Version>
+		<AssemblyVersion>7.7.2.0</AssemblyVersion>
+		<FileVersion>7.7.2.0</FileVersion>
+		<Version>7.7.2</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 7.7.1
+			EPPlus 7.7.2
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -461,6 +461,7 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
+			7.7.2			20250514 Minor bug fixes.
 			7.7.1			20250415 Minor bug fixes.
 			7.7.0			20250317 Fixed referenced packages versioning. Minor bug fixes.
 			7.6.1			20250304 Minor bug fixes.

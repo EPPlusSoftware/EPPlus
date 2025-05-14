@@ -1,4 +1,9 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.7.2
+* Sorting a range with threaded comments, remove and the add a threaded comment sometimes throws an exception.
+* Added custom number formats where the formatId is not a built-in format.
+* Using LoadFromCollection with transpose=true and a table style with one line in the output caused a corrupt workbook.
+
 ## Version 7.7.1
 * Copying a cell after deleting and adding a comment sometimes caused an exception
 * The LET function did not handle multiple table style addresses as arguments.
