@@ -44,8 +44,8 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         /// <summary>
-        /// This can be an address, function or litterals.
-        /// Litternals are formatted as a comma separated list surrounded by curly brackets, for example {1.0,2.0,3}. Please use a dot(.) as decimal sign.
+        /// This can be an address, function or literals.
+        /// Literals are formatted as a comma separated list surrounded by curly brackets, for example {1.0,2.0,3}. Please use a dot(.) as decimal sign.
         /// </summary>
         public string ValuesSource
         {

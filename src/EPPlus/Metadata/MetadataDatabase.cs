@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Metadata
             FutureMetadata = new FutureMetadataCollection(store);
             FutureMetadataRichValueBlocks = new FutureMetadataRichValueBlockCollection(store);
             FutureMetadataDynamicArrayBlocks = new FutureMetadataDynamicArrayBlockCollection(store);
-            
+            MdxMetadata = new MdxMetadataCollection(store);
         }
 
         internal RichDataIndexStore IndexStore { get; private set; }
@@ -51,5 +51,7 @@ namespace OfficeOpenXml.Metadata
         internal FutureMetadataRichValueBlockCollection FutureMetadataRichValueBlocks { get; }
 
         internal FutureMetadataDynamicArrayBlockCollection FutureMetadataDynamicArrayBlocks { get; }
+
+        internal MdxMetadataCollection MdxMetadata { get; }
     }
 }

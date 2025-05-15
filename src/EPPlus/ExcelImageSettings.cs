@@ -66,12 +66,15 @@ namespace OfficeOpenXml
                 return true;
             }
             if (SecondaryImageHandler != null && 
+                SecondaryImageHandler != PrimaryImageHandler &&
                 SecondaryImageHandler.SupportedTypes.Contains(type) && 
                 SecondaryImageHandler.GetImageBounds(ms, type, out width, out height, out horizontalResolution, out verticalResolution))
             {
                 return true;
             }
             if (TertiaryImageHandler != null &&
+                TertiaryImageHandler != PrimaryImageHandler &&
+                TertiaryImageHandler != SecondaryImageHandler &&
                 TertiaryImageHandler.SupportedTypes.Contains(type) &&
                 TertiaryImageHandler.GetImageBounds(ms, type, out width, out height, out horizontalResolution, out verticalResolution))
             {

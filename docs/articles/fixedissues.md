@@ -1,4 +1,36 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.0.4
+* SUMIFS, AVERAGEIFS and COUNTIFS sometimes miscalculate due to returning the incorrect addresses to the dependency chain.
+* Range.Sort did not sort update formula addresses in some cases.
+* Fixes array support for the SUBSTITUTE, SUMIFS, AVERAGEIFS and COUNTIFS functions.
+* Incorrect handing of meta data strings caused a corrupt workbook in some situations.
+* License key validation did not work in Blazor WASM.
+* The ExcelPicture.Image.Bounds was not set when loading drawings.
+* Pivot cache fields containing error values only, caused a corrupt workbook.
+* Pivot table date and number grouping can now handle empty cells.
+* Pivot table caches did not always reflect renamed/deleted fields in a source range when refreshing.
+* Concatenating two arrays or results of array formulas with the "&" operator sometimes yielded unexpected results.
+* A default options variable for RecyclableMemoryStream was initiated even when UseRecyclableMemory was set to false.
+
+## Version 8.0.3
+* Added custom number formats where the formatId is not a built-in format.
+* SUMIFS and AVERAGEIFS sometimes miscalculated with multiple arguments.
+* Sorting a range with threaded comments, remove and the add a threaded comment sometimes throws an exception.
+* Cell meta data loaded from a workbook was cleared on formula calculation, causing some dynamic array formulas to become legacy array formulas.
+
+## Version 8.0.2
+* Copy shared formulas do not update addresses to the new worksheet position.
+* The CHOOSECOLS and CHOOSEROWS functions did not support ranges as row/col selection argument.
+* When reading a string with _xb36 from a cell, a string error was returned.
+* Pivot selection in the worksheet view was not removed when a pivot table was refreshed, sometime causing the pivot table to become corrupt.
+* The SUMIFS and COUNTIFS functions did not consider the criteria range when checking for circular references.
+* Removed base class from ExcelVmlDrawingPosition and with that the Load, UpdateXml, methods and the RowOff and ColOff as they were duplicates.
+* Copying a cell after deleting and adding a comment sometimes caused an exception.
+* The LET function did not handle multiple table style addresses as arguments.
+* Setting the Display attribute without setting the Order attribute in LoadFromCollection caused an Exception.
+* Setting TabColor to Color.Empty now removes the TabColor.
+* ExcelParagraph.Text threw an ArgumentOutOfRangeException if the text was empty.
+
 ## Version 8.0.1
 ### Important information
 EPPlus 8 will require a license key for commercial licenses.

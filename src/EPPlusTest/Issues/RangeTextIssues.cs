@@ -54,5 +54,16 @@ namespace EPPlusTest.Issues
                     Debug.Assert(cell == "{\"any_orange_frag\" : 700, \"any_purple_frag\" : 800,\"any_blue_frag\" : 1200, \"any_green_frag\":2500}");
             }
         }
+        [TestMethod]
+        public void i1964()
+        {
+            using (var package = OpenTemplatePackage("WrongText-copy.xlsx"))
+            {
+                ExcelWorkbook workbook = package.Workbook;
+                ExcelWorksheet worksheet = workbook.Worksheets[0];
+                var cell = worksheet.Cells["A1"].Text;
+                Assert.AreEqual("2021-12-31", cell);
+            }
+        }
     }
 }

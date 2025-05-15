@@ -6,6 +6,8 @@ using System;
 using System.IO;
 using OfficeOpenXml.Table.PivotTable;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace EPPlusTest.Issues
 {
@@ -305,5 +307,90 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i1968_1()
+        {
+            using var p = OpenTemplatePackage("i1968-1.xlsx");
+            var wb = p.Workbook;
+
+            foreach (var ws in wb.Worksheets)
+            {
+                if (ws.PivotTables.Any()) Console.WriteLine(ws.Name);
+            }
+
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void i1968_2()
+        {
+            using var p = OpenTemplatePackage("i1968-2.xlsx");
+            var wb = p.Workbook;
+            foreach (var ws in wb.Worksheets)
+            {
+                if (ws.PivotTables.Any()) Console.WriteLine(ws.Name);
+            }
+
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void i1968_2_del()
+        {
+            using var p = OpenTemplatePackage("i1968-2-del.xlsx");
+            var wb = p.Workbook;
+            foreach (var ws in wb.Worksheets)
+            {
+                if (ws.PivotTables.Any()) Console.WriteLine(ws.Name);
+            }
+
+            SaveAndCleanup(p);
+        }
+
+        [TestMethod]
+        public void i820()
+        {
+            var table = new List<Shown>();
+            for (int i = 0; i < 200; i++)
+            {
+                table.Add(new Shown { Date = DateTime.Today.AddDays(i), Amount = i % 5 == 0 ? 0 : (decimal)10000 });
+            }
+
+            using (var pck = OpenPackage("i820.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("data");
+
+                var aa = sheet.Cells["A1"].LoadFromCollection(table, true);
+                sheet.Cells["B194"].Value = null;
+                sheet.Cells[2, 2, aa.End.Row, 2].Style.Numberformat.Format = DateTimeFormatInfo.CurrentInfo.ShortDatePattern;
+                sheet.Cells[2, 1, aa.End.Row, 1].Style.Numberformat.Format = "#,##0.00";
+
+                var dataRange = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
+
+                CreatePivotTableWithDataGrouping(pck, dataRange);
+
+                pck.Save();
+            }
+        }
+        private static void CreatePivotTableWithDataGrouping(ExcelPackage pck, ExcelRangeBase dataRange)
+        {
+            var wsPivot = pck.Workbook.Worksheets.Add("PivotDateGrp");
+            var pt = wsPivot.PivotTables.Add(wsPivot.Cells["B3"], dataRange, "Report");
+
+            //Add a row field
+            var rowField = pt.RowFields.Add(pt.Fields["Date"]);
+            rowField.AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Months);
+
+            //Add the data fields and format them
+            ExcelPivotTableDataField dataField = pt.DataFields.Add(pt.Fields["Amount"]);
+            dataField.Format = "#,##0.00";
+            dataField.Name = "Sum of Amount";
+
+            //We want the data fields to appear in columns
+            pt.DataOnRows = false;
+        }
+    }
+    public class Shown
+    {
+        public decimal? Amount { get; set; }
+        public DateTime? Date { get; set; }
     }
 }

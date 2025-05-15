@@ -87,12 +87,13 @@ namespace OfficeOpenXml.LoadFunctions
         {
             var nRows = PrintHeaders ? GetNumberOfRows() + 1 : GetNumberOfRows();
             var nCols = GetNumberOfColumns();
-            var values = new object[transpose ? nCols : nRows, transpose ? nRows : nCols];
-
-            //if(Range.Worksheet._values.Capacity < values.Length)
-            //{
-            //    Range.Worksheet._values.Capacity = values.Length;
-            //}
+            if (transpose)
+            {
+                var t = nRows;
+                nRows = nCols;
+                nCols = t;
+            }
+            var values = new object[nRows, nCols];
 
             LoadInternal(values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int, string> columnFormats);
             var ws = Range.Worksheet;
@@ -122,7 +123,7 @@ namespace OfficeOpenXml.LoadFunctions
                 return null;
             }
 
-            var r = transpose ? ws.Cells[Range._fromRow, Range._fromCol, Range._fromRow + nCols - 1, Range._fromCol + nRows - 1] : ws.Cells[Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1];
+            var r = ws.Cells[Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1];
 
             if (TableStyle.HasValue)
             {

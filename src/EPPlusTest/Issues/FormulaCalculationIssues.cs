@@ -857,6 +857,76 @@ namespace EPPlusTest.Issues
             var ws = p.Workbook.Worksheets.First();
             var val = ws.Cells["A1"].Value;
         }
+		[TestMethod]
+		public void s846()
+		{
+			using var p = OpenTemplatePackage("s846.xlsx");
+			p.Workbook.Calculate();
+			var ws = p.Workbook.Worksheets["Calculation sheet"];
+			ws.Calculate();
+			Assert.AreEqual(321732.45, ws.Cells["H11"].Value);
+            var ws2 = p.Workbook.Worksheets["aico data"];
+            ws2.Calculate();
+            Assert.AreEqual(93515.9075 , ws2.Cells["D32"].Value);
+        }
+        [TestMethod]
+        public void s851()
+		{
+            using var excelPackage = OpenTemplatePackage("s851.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
+
+            // Act
+            sheet.Cells.Sort(column: 0); // NullReferenceException
+
+            // Assert 1
+            Assert.AreEqual("VLOOKUP(B2,B1:C1,1,FALSE)", sheet.Cells["C2"].Formula);
+        }
+        [TestMethod]
+        public void s851_desc()
+        {
+            using var excelPackage = OpenTemplatePackage("s851.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
+
+            // Act
+            sheet.Cells.Sort(column: 0, true); // NullReferenceException
+
+            // Assert 1
+            Assert.AreEqual("VLOOKUP(B1,#REF!,1,FALSE)", sheet.Cells["C1"].Formula);
+        }
+        [TestMethod]
+        public void s853()
+        {
+            using var excelPackage = OpenTemplatePackage("s853.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets["Aico data"];
+
+			// Act
+			sheet.Cells["AH61"].Calculate();
+			Assert.AreEqual("AH61:AH221", sheet.Cells["AH61"].FormulaRange.Address);
+			Assert.AreEqual("DBDBEUR2", sheet.Cells["AH61"].Value);
+			Assert.AreEqual("255007727", sheet.Cells["AH70"].Value);
+
+			sheet.Cells["AI61"].Calculate();
+
+            Assert.AreEqual("AI61:AI221", sheet.Cells["AI61"].FormulaRange.Address);
+            Assert.AreEqual(12273.13, sheet.Cells["AI61"].Value);
+			Assert.AreEqual(-472.69, sheet.Cells["AI70"].Value);
+        }
+        [TestMethod]
+        public void s858()
+        {
+            using var p1 = OpenTemplatePackage("s858-1.xlsx");
+            var ws1 = p1.Workbook.Worksheets["Aico Data"];
+            ws1.Calculate();
+            var result1 = ws1.Cells["D55"].Value;
+            Assert.AreEqual(265509.38, result1);
+
+            using var p2 = OpenTemplatePackage("s858-2.xlsx");
+            var ws2 = p2.Workbook.Worksheets["Aico data"];
+            ws2.Calculate();
+            var result2 = ws2.Cells["E55"].Value;
+
+            Assert.AreEqual(12977661.57, result2);
+        }
     }
 }
 

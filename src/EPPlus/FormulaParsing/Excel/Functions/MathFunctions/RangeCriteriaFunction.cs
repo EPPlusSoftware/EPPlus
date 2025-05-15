@@ -27,6 +27,83 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
     internal abstract class RangeCriteriaFunction : HiddenValuesHandlingFunction
     {
+        protected static void GetArguments(ParsingContext context, IList<FunctionArgument> arguments, out List<RangeOrValue> argRanges, out List<RangeOrValue> criteria, out int cols, out int rows, int startIndex)
+        {
+            argRanges = new List<RangeOrValue>();
+            criteria = new List<RangeOrValue>();
+            cols = 1;
+            rows = 1;
+            for (var ix = startIndex; ix < 30 + startIndex; ix += 2)
+            {
+                if (arguments.Count <= ix) break;
+                var arg = arguments[ix];
+                if (arg.IsExcelRange)
+                {
+                    var rangeInfo = arg.ValueAsRangeInfo;
+                    argRanges.Add(new RangeOrValue { Range = rangeInfo });
+                }
+                else
+                {
+                    if(arg.Address!=null && arg.Address.FromRow!=arg.Address.ToRow && arg.Address.FromCol != arg.Address.ToCol)
+                    {
+                        var wsIx = arg.Address.WorksheetIx < 0 ? context.CurrentCell.WorksheetIx : arg.Address.WorksheetIx;
+                        var rangeInfo = context.ExcelDataProvider.GetRange(wsIx, arg.Address.FromRow, arg.Address.FromCol);
+                        argRanges.Add(new RangeOrValue { Range = rangeInfo });
+                    }
+                    else
+                    {
+                        argRanges.Add(new RangeOrValue { Value = arg.Value });
+                    }
+                }
+                var argCriteria = arguments[ix + 1];
+                if (argCriteria.IsExcelRange)
+                {
+                    var rangeInfo = argCriteria.ValueAsRangeInfo;
+                    criteria.Add(new RangeOrValue { Range = rangeInfo });
+                    if (rangeInfo.GetNCells() > 1)
+                    {
+                        if (cols < rangeInfo.Size.NumberOfCols)
+                        {
+                            cols = rangeInfo.Size.NumberOfCols;
+                        }
+                        if (rows < rangeInfo.Size.NumberOfRows)
+                        {
+                            rows = rangeInfo.Size.NumberOfRows;
+                        }
+                    }
+                }
+                else
+                {
+                    criteria.Add(new RangeOrValue { Value = argCriteria.Value });
+                }
+            }
+        }
+
+        protected static object GetCriteriaValue(RangeOrValue rangeOrValue, int row, int col)
+        {
+            if (rangeOrValue.Range == null)
+            {
+                return rangeOrValue.Value;
+            }
+            else
+            {
+                var range = rangeOrValue.Range;
+                if (range.Size.NumberOfRows == 1)
+                {
+                    return range.Size.NumberOfCols > col ? range.GetOffset(0, col) : null;
+                }
+                if (range.Size.NumberOfCols == 1)
+                {
+                    return range.Size.NumberOfRows > row ? range.GetOffset(row, 0) : null;
+                }
+                else if (range.Size.NumberOfCols > col && range.Size.NumberOfCols > col)
+                {
+                    return range.GetOffset(row, col);
+                }
+                return null;
+            }
+        }
+
         protected bool Evaluate(object obj, object expression, ParsingContext ctx, bool convertNumericString = true)
         {
             if(expression is ExcelErrorValue e)
@@ -76,14 +153,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (rangeOrValue.Range != null)
             {
                 var rangeInfo = rangeOrValue.Range;
-                var toRow = rangeInfo.Address.ToRow;
-                if (rangeInfo.Worksheet.Dimension.End.Row < toRow)
+                var address = rangeInfo.GetAddressDimensionAdjusted(0).Address;
+                for (var row = address.FromRow; row <= address.ToRow; row++)
                 {
-                    toRow = rangeInfo.Worksheet.Dimension.End.Row;
-                }
-                for (var row = rangeInfo.Address.FromRow; row <= toRow; row++)
-                {
-                    for (var col = rangeInfo.Address.FromCol; col <= rangeInfo.Address.ToCol; col++)
+                    for (var col = address.FromCol; col <= address.ToCol; col++)
                     {
                         var candidate = rangeInfo.GetValue(row, col);
                         if (searched != null && Evaluate(candidate, searched, ctx, convertNumericString))
@@ -106,6 +179,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var pIx = int.MinValue;
             var extRef = valueAddress.ExternalReferenceIx;
             var wsIx = valueAddress.WorksheetIx;
+            FormulaRangeAddress currentAddress=null;
             if (valueAddress.FromCol == valueAddress.ToCol)
             {
                 var c = valueAddress.FromCol;
@@ -113,12 +187,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     if (ix == pIx + 1)
                     {
-                        addresses.Peek().ToRow++;
+                        currentAddress.ToRow++;
                     }
                     else
                     {
                         var r = valueAddress.FromRow + ix;
-                        addresses.Enqueue(new FormulaRangeAddress() { ExternalReferenceIx=extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c });
+                        currentAddress = new FormulaRangeAddress() { ExternalReferenceIx = extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c };
+                        addresses.Enqueue(currentAddress);
                     }
                     pIx = ix;
                 }
@@ -130,12 +205,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     if (ix == pIx + 1)
                     {
-                        addresses.Peek().ToCol++;
+                        currentAddress.ToCol++;
                     }
                     else
                     {
                         var c = valueAddress.FromCol + ix;
-                        addresses.Enqueue(new FormulaRangeAddress() { ExternalReferenceIx = extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c });
+                        currentAddress = new FormulaRangeAddress() { ExternalReferenceIx = extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c };
+                        addresses.Enqueue(currentAddress);
                     }
                     pIx = ix;
                 }
