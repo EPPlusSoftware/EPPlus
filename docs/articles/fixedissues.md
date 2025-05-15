@@ -1,4 +1,7 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.0.5
+* Fix for external links not getting saved in EPPlus 8.0.4
+
 ## Version 8.0.4
 * SUMIFS, AVERAGEIFS and COUNTIFS sometimes miscalculate due to returning the incorrect addresses to the dependency chain.
 * Range.Sort did not sort update formula addresses in some cases.
