@@ -34,12 +34,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         {
             var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column);
             var tokens = SourceCodeTokenizer.Default.Tokenize(_formula).ToList();
-            var rpnTokens = new RpnTokens { Tokens = tokens };
+            var tokensRpn = FormulaExecutor.CreateRPNTokens(tokens);
+            var rpnTokens = new RpnTokens { Tokens = tokensRpn.Tokens };
             var chain = new RpnOptimizedDependencyChain(ctx.CurrentWorksheet.Workbook, ctx.CalcOption);
             formula.SetFormula(_formula, chain);
-            var cr = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
-            if (cr.DataType != DataType.LambdaCalculation) return CompileResult.GetErrorResult(eErrorType.Value);
-            var calculator = cr.Result as LambdaCalculator;
+            //var cr = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
+            //if (cr.DataType != DataType.LambdaCalculation) return CompileResult.GetErrorResult(eErrorType.Value);
+            //var calculator = cr.Result as LambdaCalculator;
+            var calculator = new LambdaCalculator(tokensRpn.Tokens, ctx.VariableStorage.AddNewScope());
+            calculator.SetVariables(arguments.Select(a => new CompileResult(a.Value, a.DataType)).ToList());
             calculator.BeginCalculation();
             for(var argIx = 0; argIx < arguments.Count || argIx < calculator.NumberOfVariables; argIx++)
             {

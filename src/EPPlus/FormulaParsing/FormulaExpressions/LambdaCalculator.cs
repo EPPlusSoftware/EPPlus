@@ -80,10 +80,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         public void SetVariableValue(int index, object value, DataType dt, ParsingContext ctx)
         {
+            SetVariableValue(index, value, dt, ctx, null);
+        }
+
+        public void SetVariableValue(int index, object value, DataType dt, ParsingContext ctx, FormulaRangeAddress address)
+        {
             var variable = _variables[index];
             if (variable.Result == null) return;
             var variableName = variable.Result.ToString();
-            var compileResult = new CompileResult(value, dt);
+            var val = address != null ? address.Address : value;
+            dt = address != null ? DataType.ExcelRange : dt;
+            var compileResult = new CompileResult(val, dt);
             _scope.SetVariableValue(variableName, compileResult);
             foreach(var ix in _variableIndexes)
             {
@@ -96,9 +103,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         value = cr.Result;
                         dt = cr.DataType;
                     }
-                    var tt = DataTypeToTokenType(dt, value);
+                    var tt = DataTypeToTokenType(dt, val);
                     if (tt == TokenType.Unrecognized) tt = TokenType.StringContent;
-                    if(value is IRangeInfo rng)
+                    if(val is IRangeInfo rng)
                     {
                         if(rng.IsInMemoryRange)
                         {
@@ -116,7 +123,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             value = rng.Address.Address;
                         }
                     }
-                    var tokenValue = Convert.ToString(value, CultureInfo.CurrentCulture);
+                    var tokenValue = Convert.ToString(val, CultureInfo.CurrentCulture);
                     if(tt == TokenType.StringContent)
                     {
                         tokenValue = $"\"{tokenValue}\"";

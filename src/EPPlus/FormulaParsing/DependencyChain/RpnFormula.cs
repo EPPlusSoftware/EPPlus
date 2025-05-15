@@ -17,6 +17,7 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 
@@ -46,7 +47,6 @@ namespace OfficeOpenXml.FormulaParsing
         internal CellStoreEnumerator<object> _formulaEnumerator;
         internal int _tokenIndex = 0;
         internal short _openParenthesis = 0;
-        internal short _closedParenthesis = 0;
         internal Stack<Expression> _expressionStack;
         internal Stack<FunctionExpression> _funcStack;
         internal int _arrayIndex = -1;
@@ -152,12 +152,26 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal void OpenParenthesis()
         {
-            _openParenthesis++;
+            if(_expressionStack.Any() && _expressionStack.Peek().ExpressionType == ExpressionType.LambdaCalculation)
+            {
+                LambdaSettings.InvokeLambdaAt.Push(_openParenthesis++);
+            }
+            else
+            {
+                _openParenthesis++;
+            }
         }
 
-        internal void CloseParenthesis()
+        internal void CloseParenthesis(out bool shouldInvokeLambda)
         {
-            _openParenthesis--;
+            shouldInvokeLambda = false;
+            //_openParenthesis = _openParenthesis > 0 ? _openParenthesis - 1 : 0;
+            _openParenthesis = _openParenthesis > (short)0 ? (short)(_openParenthesis - 1) : (short)0;
+            if(_lambdaSettings?.InvokeLambdaAt != null && _lambdaSettings.InvokeLambdaAt.Any() && _openParenthesis == _lambdaSettings.InvokeLambdaAt.Peek())
+            {
+                shouldInvokeLambda = true;
+                _lambdaSettings.InvokeLambdaAt.Pop();
+            }
         }
 
         internal int ParenthesisLevel => _openParenthesis;

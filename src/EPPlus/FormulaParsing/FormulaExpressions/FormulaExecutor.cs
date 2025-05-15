@@ -156,7 +156,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             };
             if (hasLambda)
             {
-                ProcessLambda(result);
+               ProcessLambda(result);
             }
             return result;
         }
@@ -176,7 +176,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     }
                     else
                     {
-                        lambdaRefs[lStack.Pop()] = i + 1;
+                        lambdaRefs[lStack.Pop()] = i;
                     }
                 }
             }

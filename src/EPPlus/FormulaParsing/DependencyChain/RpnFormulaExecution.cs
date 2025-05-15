@@ -1052,7 +1052,7 @@ namespace OfficeOpenXml.FormulaParsing
                     leStackPos = f.GetCurrentLambdaExpressionStackPosition();
                 }
                 var t = f._tokens[f._tokenIndex];
-                switch (t.TokenType)
+                 switch (t.TokenType)
                 {
                     case TokenType.Boolean:
                     case TokenType.Integer:
@@ -1076,7 +1076,7 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 s.Push(f._expressions[f._tokenIndex]);
                             }
-                            else if(cr.DataType != DataType.LambdaVariableDeclaration && f.LambdaSettings.LambdaArgsAdded.Count > 0)
+                            else if (cr.DataType != DataType.LambdaVariableDeclaration && f.LambdaSettings.LambdaArgsAdded.Count > 0)
                             {
                                 leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), cr.Result, cr.DataType);
                                 var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
@@ -1102,13 +1102,13 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.FullRowAddress:
                         var e = f._expressions[f._tokenIndex];
                         s.Push(e);
-                        //if(leStackPos != null)
-                        //{
-                        //    //var cr = e.Compile();
-                        //    leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), t.Value, DataType.ExcelRange);
-                        //    var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
-                        //    f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
-                        //}
+                        if (leStackPos != null)
+                        {
+                            //var cr = e.Compile();
+                            leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), t.Value, DataType.ExcelRange);
+                            var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
+                            f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
+                        }
                         if (returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
                         {
                             //if (IsSingleAddress(f))
@@ -1300,8 +1300,12 @@ namespace OfficeOpenXml.FormulaParsing
                         f.OpenParenthesis();
                         break;
                     case TokenType.ClosingParenthesis:
-                        f.CloseParenthesis();
-                        // invoka lambda här?
+                        f.CloseParenthesis(out bool shouldInvokeLambda);
+                        if(shouldInvokeLambda)
+                        {
+                            var cr = LambdaInvoker.InvokeLambdaFunction(depChain, f);
+                            PushResult(depChain._parsingContext, f, cr);
+                        }
                         break;
                 }
 

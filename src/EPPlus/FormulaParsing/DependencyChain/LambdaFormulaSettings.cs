@@ -26,6 +26,8 @@ namespace OfficeOpenXml.FormulaParsing.DependencyChain
 
         internal Stack<short> LambdaArgsAdded { get; set; } = new Stack<short>();
 
+        internal Stack<short> InvokeLambdaAt { get; set; } = new Stack<short>();
+
         internal short CurrentLambdaArgsAdded
         {
             get

@@ -53,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             for (var i = 0; i < _lambdaArguments.Count; i++)
             {
                 var arg = _lambdaArguments[i];
-                calculator.SetVariableValue(i, arg.Result, arg.DataType, Context);
+                calculator.SetVariableValue(i, arg.Result, arg.DataType, Context, arg.Address);
             }
             return calculator.Execute(Context);
         }
