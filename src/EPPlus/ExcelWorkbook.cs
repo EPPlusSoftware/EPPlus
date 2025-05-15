@@ -1397,7 +1397,6 @@ namespace OfficeOpenXml
                         View.FirstSheet = ix;
                     }
                 }
-                _package.SavePart(WorkbookUri, _workbookXml);
             }
 
             // save the properties of the workbook
@@ -1434,6 +1433,12 @@ namespace OfficeOpenXml
             if (_externalLinks != null)
             {
                 SaveExternalLinks();
+            }
+
+            //Save workbook xml
+            if (_workbookXml != null)
+            {
+                _package.SavePart(WorkbookUri, _workbookXml);
             }
 
             // Issue 15252: save SharedStrings only once
