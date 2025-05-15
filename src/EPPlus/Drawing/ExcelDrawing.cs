@@ -86,10 +86,9 @@ namespace OfficeOpenXml.Drawing
         {
             foreach (var cn in e.ChildNodes)
             {
-                if (cn is XmlElement ce)
+                if (cn is XmlElement ce && ce.LocalName=="pt")
                 {
                     Coordinates.Add(new DrawCoordinate(int.Parse(ce.GetAttribute("x")), int.Parse(ce.GetAttribute("y"))));
-                    break;
                 }
             }
         }
@@ -310,20 +309,13 @@ namespace OfficeOpenXml.Drawing
                     SetPositionProperties(drawings, node);
                     GetPositionSize();                                  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
                 }
-                var pathNode = node.SelectSingleNode("xdr:sp/xdr:spPr/a:custGeom/a:pathLst", NameSpaceManager);
-                if(pathNode!=null)
+                var custGeomNode = GetNode("xdr:sp/xdr:spPr/a:custGeom");
+                if(custGeomNode!=null)
                 {
-                    foreach(var cn in pathNode.ChildNodes)
-                    {
-                        if(cn is XmlElement e)
-                        {
-                            DrawingPaths.Add(new DrawingPath(e, NameSpaceManager));
-                        }
-                    }
+                    CustomGeom = new ExcelDrawingCustomGeometry(this, NameSpaceManager, custGeomNode);
                 }
             }
         }
-        internal List<DrawingPath> DrawingPaths { get; } = new List<DrawingPath>();
 
         internal virtual void AdjustXPathsForGrouping(bool group)
         {
@@ -1489,6 +1481,9 @@ namespace OfficeOpenXml.Drawing
                 return _parent;
             }
         }
+
+        internal ExcelDrawingCustomGeometry CustomGeom { get; private set; }
+
         internal virtual void DeleteMe()
         {
             TopNode.ParentNode.RemoveChild(TopNode);            
