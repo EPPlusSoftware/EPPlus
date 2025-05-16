@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -26,6 +27,7 @@ namespace OfficeOpenXml.LoadFunctions
         protected ExcelWorksheet _worksheet;
         protected ExcelRangeBase _range;
         protected string _text;
+        protected FileInfo _textFile;
         protected T _format;
 
         public LoadFromTextBase(ExcelRangeBase range, string text, T format)
@@ -33,6 +35,14 @@ namespace OfficeOpenXml.LoadFunctions
             _range = range;
             _worksheet = range.Worksheet;
             _text = text;
+            _format = format;
+        }
+
+        public LoadFromTextBase(ExcelRangeBase range, FileInfo textFile, T format)
+        {
+            _range = range;
+            _worksheet = range.Worksheet;
+            _textFile = textFile;
             _format = format;
         }
 

@@ -11,10 +11,13 @@
   07/16/2020         EPPlus Software AB       EPPlus 5.2.1
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.LoadFunctions.Params;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -25,6 +28,68 @@ namespace OfficeOpenXml.LoadFunctions
         public LoadFromText(ExcelRangeBase range, string text, LoadFromTextParams parameters)
             : base(range, text, parameters.Format)
         {
+        }
+
+        public LoadFromText(ExcelRangeBase range, FileInfo textFile, LoadFromTextParams parameters)
+            : base(range, textFile, parameters.Format)
+        {
+        }
+
+        int dataTypeRowsCheck = 200;
+
+        public ExcelRangeBase LoadFile()
+        {
+            //check file exsists
+            if(_textFile == null || !File.Exists(_textFile.FullName))
+            {
+                var r = _worksheet.Cells[_range._fromRow, _range._fromCol];
+                r.Value = "";
+                return r;
+            }
+            string line;
+            int row = 0;
+            int col = 0;
+            int maxCol = col;
+            int lineNo = 1;
+            bool isText = false;
+            using (var reader = new StreamReader(_textFile.FullName))
+            {
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (_format.ShouldUseRow != null && _format.ShouldUseRow.Invoke(line) == false)
+                    {
+                        continue;
+                    }
+                    if (lineNo > _format.SkipLinesBeginning)
+                    {
+                        //do something with qualifier
+                        //Transpose
+
+                        string[] items = line.Split(_format.Delimiter);
+                        col = items.Length;
+                        if(col > maxCol) maxCol = col;
+                        for (int i = 0; i < items.Length; i++)
+                        {
+                            var converted = row < 200 ? ConvertData(_format, _format.DataTypes, items[i], i, isText) : items[i];
+
+                            var currentCol = _range._fromCol + i;
+                            _worksheet.SetValueInner(_range._fromRow + row, currentCol, converted);
+                        }
+                    }
+                    row++;
+                    lineNo++;
+                }
+                _worksheet._formulas.Clear(_range._fromRow + row, _range._fromCol, _range._fromRow + row, _range._fromCol + maxCol);
+            }
+            if (row <= 0)
+            {
+                return null;
+            }
+            if (_format.Transpose)
+            {
+                return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + maxCol, _range._fromCol + row - 1];
+            }
+            return _worksheet.Cells[_range._fromRow, _range._fromCol, _range._fromRow + row - 1, _range._fromCol + maxCol];
         }
 
         public override ExcelRangeBase Load()

@@ -695,6 +695,24 @@ namespace OfficeOpenXml
             return r;
         }
 
+        private ExcelRangeBase LoadFromTextStream(FileInfo textFile, ExcelTextFormat format, TableStyles? TableStyle, bool FirstRowIsHeader)
+        {
+            var parameters = new LoadFromTextParams
+            {
+                Format = format,
+            };
+            var func = new LoadFromText(this, textFile, parameters);
+            var r = func.LoadFile();
+
+            if (r != null && TableStyle.HasValue)
+            {
+                var tbl = _worksheet.Tables.Add(r, "");
+                tbl.ShowHeader = FirstRowIsHeader;
+                tbl.TableStyle = TableStyle.Value;
+            }
+            return r;
+        }
+
         /// <summary>
         /// Loads a CSV file into a range starting from the top left cell using ASCII Encoding.
         /// </summary>
@@ -702,7 +720,9 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public ExcelRangeBase LoadFromText(FileInfo TextFile)
         {
-            return LoadFromText(File.ReadAllText(TextFile.FullName, Encoding.ASCII));
+            var format = new ExcelTextFormat();
+            return LoadFromTextStream(TextFile, format, format.TableStyle, format.FirstRowIsHeader);
+            //return LoadFromText(File.ReadAllText(TextFile.FullName, Encoding.ASCII));
         }
         /// <summary>
         /// Loads a CSV file into a range starting from the top left cell.

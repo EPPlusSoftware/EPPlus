@@ -64,6 +64,63 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void LoadBigCSV()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            FileInfo fi = new FileInfo("c:\\epplustest\\bigcsv.txt");
+            var start = DateTime.Now;
+            ws.Cells["A1"].LoadFromText(fi);
+            var end = DateTime.Now;
+            TimeSpan span = end - start; //current time is 18min.
+            SaveWorkbook("bigcsv.xlsx", p);
+        }
+
+        [TestMethod]
+        public void CreateCSV()
+        {
+            var filePath = "C:\\epplustest\\bigcsv.txt";
+            int rowCount = 12000;
+            int columnCount = 1000;
+
+            // Optional: Use StringBuilder for performance
+            StringBuilder sb = new StringBuilder(10_000_000); // Preallocate capacity
+
+            // Write header
+            for (int col = 0; col < columnCount; col++)
+            {
+                sb.Append($"Column{col + 1}");
+                if (col < columnCount - 1)
+                    sb.Append(",");
+            }
+            sb.AppendLine();
+
+            // Write data rows
+            for (int row = 0; row < rowCount; row++)
+            {
+                for (int col = 0; col < columnCount; col++)
+                {
+                    sb.Append($"R{row + 1}C{col + 1}");
+                    if (col < columnCount - 1)
+                        sb.Append(",");
+                }
+                sb.AppendLine();
+
+                // Periodically flush to disk for memory efficiency
+                if ((row + 1) % 1000 == 0)
+                {
+                    File.AppendAllText(filePath, sb.ToString());
+                    sb.Clear();
+                    Console.WriteLine($"Written {row + 1} rows...");
+                }
+            }
+
+            // Write remaining data
+            if (sb.Length > 0)
+                File.AppendAllText(filePath, sb.ToString());
+        }
+
+        [TestMethod]
         public void ShouldLoadCsvFormatWithDelimiter()
         {
             AddLine("a;b;c");
