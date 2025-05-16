@@ -21,6 +21,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     {
         public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 2;
+
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
+        {
+            if (argumentIndex == 0)
+            {
+                return FunctionParameterInformation.IgnoreAddress;
+            }
+            return FunctionParameterInformation.Normal;
+        }));
+
         protected List<int> GetChooseColumns(IList<FunctionArgument> arguments, out eErrorType? ev)
         {
             var cols = new List<int>();

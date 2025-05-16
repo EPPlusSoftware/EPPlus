@@ -958,6 +958,24 @@ namespace EPPlusTest.Issues
 
             Assert.AreEqual(12977661.57, result2);
         }
+
+		[TestMethod]
+		public void Issue864()
+		{
+			using var p1 = new ExcelPackage(@"C:\Temp\EPPlus Supportcases\Supportcase864\Test.xlsx");
+			var sheet = p1.Workbook.Worksheets["Aico data"];
+			try
+			{
+                sheet.Calculate(o => o.AllowCircularReferences = true);
+            }
+			catch(Exception ex)
+			{
+				int i = 0;
+			}
+			
+			var f = sheet.Cells["C42"].Formula;
+			var v = sheet.Cells["C42"].Value;
+		}
     }
 }
 
