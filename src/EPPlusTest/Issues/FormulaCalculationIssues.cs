@@ -962,7 +962,7 @@ namespace EPPlusTest.Issues
 		[TestMethod]
 		public void Issue864()
 		{
-			using var p1 = new ExcelPackage(@"C:\Temp\EPPlus Supportcases\Supportcase864\Test.xlsx");
+			using var p1 = OpenTemplatePackage(@"sc864.xlsx");
 			var sheet = p1.Workbook.Worksheets["Aico data"];
 			try
 			{
