@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfGraphics
 {
-    internal class PdfColor
+    public class PdfColor
     {
         public static PdfColor Black => new(0, 0, 0);
         public static PdfColor Red => new(1, 0, 0);

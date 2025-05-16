@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.PDF;
+using OfficeOpenXml.PDF.PdfGraphics;
 
 namespace EPPlusTest.PDF
 {
@@ -19,11 +20,16 @@ namespace EPPlusTest.PDF
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
             var cell = ws.Cells["A1"];
-            cell.Value = "I want to be a pdffile";
+            cell.Value = "If this works then great job.";
 
 
             ExcelPdf pedeef = new ExcelPdf();
-            pedeef.WritePdf(cell.Value.ToString());
+
+            pedeef.AddFont("Helvetica");
+            pedeef.AddText(cell.Value.ToString(), pedeef.fontResources[1], 24, 100, 700);
+            pedeef.AddRectangle(100, 600, 200, 200, PdfColor.Black, PdfColor.Green);
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FirstPdfStructure.pdf");
+
         }
 
 

@@ -23,7 +23,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
         public void AddText(string fontResourceName, int fontSize, float x, float y, string text)
         {
             commands.Add("BT");
-            commands.Add($"/{fontResourceName}{fontSize} Tf");
+            commands.Add($"/{fontResourceName} {fontSize} Tf");
             commands.Add($"{x} {y} Td");
             commands.Add($"({FixEscapeCharacters(text)}) Tj");
             commands.Add("ET");
@@ -33,11 +33,11 @@ namespace OfficeOpenXml.PDF.PdfObjects
         {
             if (stroke != false && strokeColor != null)
             {
-                strokeColor.ToStrokeCommand();
+                commands.Add(strokeColor.ToStrokeCommand());
             }
             if (fill != false && fillColor != null)
             {
-                fillColor.ToFillCommand();
+                commands.Add(fillColor.ToFillCommand());
             }
             commands.Add($"{x} {y} {width} {height} re");
             if (fill && stroke)
@@ -58,9 +58,8 @@ namespace OfficeOpenXml.PDF.PdfObjects
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
             var bytes = Encoding.ASCII.GetBytes(content);
-            return $"{objectNumber} {version} obj\n" +
-                   $"<< /Length {bytes.Length} >>\n" +
-                   $"stream\n{content}endstream\nendobj\n";
+            return $"<< /Length {bytes.Length} >>\n" +
+                   $"stream\n{content}endstream\n";
         }
 
         private string FixEscapeCharacters(string text)
