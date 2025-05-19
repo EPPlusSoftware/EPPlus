@@ -48,6 +48,10 @@ namespace OfficeOpenXml.FormulaParsing
             QuadTree<ulong> qr;
             foreach (var address in addresses)
             {
+                if(address.ExternalReferenceIx > 0)
+                {
+                    return;
+                }
                 var ix = address.WorksheetIx; ;
                 if (FormulaRangeReferences.TryGetValue(ix, out qr) == false)
                 {
