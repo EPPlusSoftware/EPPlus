@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.PDF;
 using OfficeOpenXml.PDF.PdfGraphics;
+using OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes;
 
 namespace EPPlusTest.PDF
 {
@@ -17,18 +18,12 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void TestWritePdf()
         {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var cell = ws.Cells["A1"];
-            cell.Value = "If this works then great job.";
-
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
 
             ExcelPdf pedeef = new ExcelPdf();
 
-            pedeef.AddFont("Helvetica");
-            pedeef.AddText(cell.Value.ToString(), pedeef.fontResources[1], 24, 100, 700);
-            pedeef.AddRectangle(100, 600, 200, 200, PdfColor.Black, PdfColor.Green);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FirstPdfStructure.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest.pdf", ws);
 
         }
 

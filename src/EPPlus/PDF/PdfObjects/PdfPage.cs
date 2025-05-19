@@ -1,5 +1,7 @@
-﻿using System;
+﻿using OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -10,13 +12,15 @@ namespace OfficeOpenXml.PDF.PdfObjects
         private readonly int parentObjectNumber;
         internal readonly List<int> contentObjectNumbers;
         internal readonly Dictionary<int, string> fontResources;
+        internal PdfPageSize Size;
 
-        public PdfPage(int objectNumber, int parentObjectNumber, List<int> contentObjectNumbers, Dictionary<int, string> fontResources, int version = 0)
+        public PdfPage(int objectNumber, int parentObjectNumber, List<int> contentObjectNumbers, PdfPageSize size, Dictionary<int, string> fontResources, int version = 0)
             : base(objectNumber, version)
         {
             this.parentObjectNumber = parentObjectNumber;
             this.contentObjectNumbers = contentObjectNumbers;
             this.fontResources = fontResources;
+            Size = size;
         }
 
         internal override string RenderDictionary()
@@ -27,7 +31,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
             return $"<< /Type /Page\n" +
                    $"   /Parent {parentObjectNumber} 0 R\n" +
                    $"   /Resources << /Font << {fonts} >> >>\n" +
-                   $"   /MediaBox [0 0 595 842]\n" + // A4 page
+                   $"   /MediaBox [0 0 {Size.WidthPoints} {Size.HeightPoints}]\n" +
                    $"   /Contents [ {string.Join(" ", contentEntries)} ]>>";
         }
     }

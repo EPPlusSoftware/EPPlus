@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.PdfObjects;
+using OfficeOpenXml.PDF.PdfPageSettings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,13 +13,22 @@ namespace OfficeOpenXml.PDF
     {
         string header = "%PDF-1.7\n";
         List<PdfObject> body = new List<PdfObject>();
-        List<PdfCrossRefTable> crossRefTable = new List<PdfCrossRefTable>();
-        List<PdfTrailer> trailer = new List<PdfTrailer>();
+        PdfCrossRefTable crossRefTable;
 
         public readonly Dictionary<int, string> fontResources = new Dictionary<int, string>();
 
+
+        PdfPageSettings.PdfPageSettings PageSettings;
+
         public ExcelPdf()
         {
+            PageSettings = new PdfPageSettings.PdfPageSettings();
+        }
+
+
+        public ExcelPdf(PdfPageSettings.PdfPageSettings pageSettings)
+        {
+            PageSettings = pageSettings;
         }
 
         public void AddFont(string fontName = "Helvetica")
@@ -43,9 +53,9 @@ namespace OfficeOpenXml.PDF
         }
 
         //create page
-        private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers)
+        private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfPageSettings.PdfPageSettings settings)
         {
-            var page = new PdfPage(body.Count + 1, pagesObjectNumber, contentObjectNumbers, fontResources);
+            var page = new PdfPage(body.Count + 1, pagesObjectNumber, contentObjectNumbers, settings.PageSize, fontResources);
             body.Add(page);
             return page;
         }
@@ -64,116 +74,88 @@ namespace OfficeOpenXml.PDF
             return catalog;
         }
 
-        public void CreatePdf(string Filename)
+
+        private void AddWorksheetCells(ExcelWorksheet ws, PdfContentBounds bounds)
         {
-            var pages = AddPages();
-            List<int> contentObjectNumbers = new List<int>();
-            contentObjectNumbers = body.OfType<PdfContentStream>().Select(con => con.objectNumber).ToList();
-            var page = AddPage(pages.objectNumber, contentObjectNumbers);
-            pages.pageObjectNumbers.Add(page.objectNumber);
-            var catalog = AddCatalog(pages.objectNumber);
-            using (var fs = new FileStream(Filename, FileMode.Create, FileAccess.Write))
+            AddFont();
+            float prevWidth = 0;
+            float prevHeight = 0;
+            var x = 0f;
+            var y = bounds.Y + bounds.Height;
+
+            for (int i = ws.Dimension._fromRow; i <= ws.Dimension._toRow; i++)
             {
-                var xrefPositions = new List<long>();
-
-                // We'll use a BinaryWriter for precise control of bytes
-                using (var writer = new BinaryWriter(fs, Encoding.ASCII))
+                for (int j = ws.Dimension._fromCol; j <= ws.Dimension._toCol; j++)
                 {
-                    //Write header
-                    writer.Write(Encoding.ASCII.GetBytes(header));
-                    //Write body
-                    foreach (var pdfobj in body)
-                    {
-                        xrefPositions.Add(fs.Position);
-                        writer.Write(pdfobj.ToPdfBytes());
+                    var cell = ws.Cells[i,j];
 
-                    }
-                    //Write CrossReference
-                    long xrefStart = fs.Position;
-                    writer.Write(Encoding.ASCII.GetBytes("xref\n"));
-                    writer.Write(Encoding.ASCII.GetBytes($"0 {body.Count + 1}\n"));
-                    writer.Write(Encoding.ASCII.GetBytes("0000000000 65535 f \n")); // Object 0 is always free
-                    foreach (long pos in xrefPositions)
+                    x = bounds.X + prevWidth;
+                    y = bounds.Y + bounds.Height - prevHeight;
+                    if (x >= bounds.Width)
                     {
-                        writer.Write(Encoding.ASCII.GetBytes(pos.ToString("D10") + " 00000 n \n"));
+                        prevHeight += (float)cell.Worksheet.Row(1).Height;
+                        prevWidth = 0;
+                        x = bounds.X + prevWidth;
+                        y = bounds.Y + bounds.Height - prevHeight;
+                        if (y < bounds.Height)
+                        {
+                            //new page..
+                            break;
+                        }
                     }
-                    // Write trailer
-                    writer.Write(Encoding.ASCII.GetBytes("trailer\n"));
-                    writer.Write(Encoding.ASCII.GetBytes($"<< /Size {body.Count + 1} /Root {catalog.objectNumber} 0 R >>\n"));
-                    writer.Write(Encoding.ASCII.GetBytes("startxref\n"));
-                    writer.Write(Encoding.ASCII.GetBytes($"{xrefStart}\n"));
-                    writer.Write(Encoding.ASCII.GetBytes("%%EOF\n"));
+                    if(cell.Value != null)
+                        AddText(cell.Value.ToString(), "F1", (int)cell.Style.Font.Size, x, y);
+
+                    prevWidth += (float)PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width);
                 }
             }
         }
 
+        public void CreatePdf(string Filename, ExcelWorksheet worksheet, PdfPageSettings.PdfPageSettings pageSettings = null)
+        {
+            if(pageSettings != null)
+                PageSettings = pageSettings;
 
-        //public void WritePdf(string text)
-        //{
-        //    string outputPath = "HelloWorld.pdf";
-        //    using (var fs = new FileStream(outputPath, FileMode.Create, FileAccess.Write))
-        //    {
-        //        var xrefPositions = new List<long>();
-        //        int objNumber = 1;
+            PdfContentBounds bounds = new PdfContentBounds(PageSettings.Margins, PageSettings.PageSize);
 
-        //        // We'll use a BinaryWriter for precise control of bytes
-        //        using (var writer = new BinaryWriter(fs, Encoding.ASCII))
-        //        {
-        //            // Write PDF Header
-        //            writer.Write(Encoding.ASCII.GetBytes(header));
+            AddWorksheetCells(worksheet, bounds);
 
-        //            // Object 1: Font
-        //            xrefPositions.Add(fs.Position);
-        //            WriteObject(writer, objNumber++, "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
+            var pages = AddPages();
+            List<int> contentObjectNumbers = new List<int>();
+            contentObjectNumbers = body.OfType<PdfContentStream>().Select(con => con.objectNumber).ToList();
+            var page = AddPage(pages.objectNumber, contentObjectNumbers, PageSettings);
+            pages.pageObjectNumbers.Add(page.objectNumber);
+            var catalog = AddCatalog(pages.objectNumber);
 
-        //            // Object 2: Content stream (text drawing)
-        //            string content = $"BT /F1 24 Tf 100 700 Td ({text}) Tj ET";
-        //            byte[] contentBytes = Encoding.ASCII.GetBytes(content);
-        //            xrefPositions.Add(fs.Position);
-        //            writer.Write(Encoding.ASCII.GetBytes($"{objNumber} 0 obj\n"));
-        //            writer.Write(Encoding.ASCII.GetBytes($"<< /Length {contentBytes.Length} >>\nstream\n"));
-        //            writer.Write(contentBytes);
-        //            writer.Write(Encoding.ASCII.GetBytes("\nendstream\nendobj\n"));
-        //            objNumber++;
+            crossRefTable = new PdfCrossRefTable();
 
-        //            // Object 3: Page
-        //            xrefPositions.Add(fs.Position);
-        //            WriteObject(writer, objNumber++, "<< /Type /Page /Parent 4 0 R /Resources << /Font << /F1 1 0 R >> >> /Contents 2 0 R /MediaBox [0 0 595 842] >>");
-
-        //            // Object 4: Pages
-        //            xrefPositions.Add(fs.Position);
-        //            WriteObject(writer, objNumber++, "<< /Type /Pages /Kids [3 0 R] /Count 1 >>");
-
-        //            // Object 5: Catalog
-        //            xrefPositions.Add(fs.Position);
-        //            WriteObject(writer, objNumber++, "<< /Type /Catalog /Pages 4 0 R >>");
-
-        //            // Save xref offset
-        //            long xrefStart = fs.Position;
-
-        //            // Write XREF table
-        //            writer.Write(Encoding.ASCII.GetBytes("xref\n"));
-        //            writer.Write(Encoding.ASCII.GetBytes($"0 {objNumber}\n"));
-        //            writer.Write(Encoding.ASCII.GetBytes("0000000000 65535 f \n")); // Object 0 is always free
-        //            foreach (long pos in xrefPositions)
-        //            {
-        //                writer.Write(Encoding.ASCII.GetBytes(pos.ToString("D10") + " 00000 n \n"));
-        //            }
-
-        //            // Write trailer
-        //            writer.Write(Encoding.ASCII.GetBytes("trailer\n"));
-        //            writer.Write(Encoding.ASCII.GetBytes($"<< /Size {objNumber} /Root 5 0 R >>\n"));
-        //            writer.Write(Encoding.ASCII.GetBytes("startxref\n"));
-        //            writer.Write(Encoding.ASCII.GetBytes($"{xrefStart}\n"));
-        //            writer.Write(Encoding.ASCII.GetBytes("%%EOF\n"));
-        //        }
-        //    }
-
-        //    static void WriteObject(BinaryWriter writer, int objNumber, string content)
-        //    {
-        //        writer.Write(Encoding.ASCII.GetBytes($"{objNumber} 0 obj\n"));
-        //        writer.Write(Encoding.ASCII.GetBytes(content));
-        //        writer.Write(Encoding.ASCII.GetBytes("\nendobj\n"));
-        //    }
+            //start wring pdf binary
+            using (var fs = new FileStream(Filename, FileMode.Create, FileAccess.Write))
+            {
+                using (var bw = new BinaryWriter(fs, Encoding.ASCII))
+                {
+                    //Write header
+                    bw.Write(Encoding.ASCII.GetBytes(header));
+                    //Write body
+                    foreach (var pdfobj in body)
+                    {
+                        crossRefTable.AddPosition(fs.Position);
+                        bw.Write(pdfobj.ToPdfBytes());
+                    }
+                    //Write CrossReference
+                    crossRefTable.Write(bw, fs.Position, body.Count);
+                    // Write trailer
+                    PdfTrailer.Write(bw, body.Count, catalog.objectNumber, crossRefTable.StartPosition);
+                }
+            }
+        }
     }
 }
+
+
+/* TODO:
+ * Print workbook
+ * Print worksheets
+ * print selected range
+ 
+ */
