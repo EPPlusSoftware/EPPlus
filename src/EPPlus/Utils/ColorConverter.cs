@@ -49,14 +49,38 @@ namespace OfficeOpenXml.Utils
                 switch(t.Type)
                 {
                     case eColorTransformType.Shade:
-                        //ApplyShade(ref r, ref g,ref b, t); 
-                        return ApplyTint(c, -t.Value/100);
+                        return ApplyTint(c, -(1-(t.Value/100)));
                     case eColorTransformType.Tint:
                         return ApplyTint(c, t.Value/100);
+                    case eColorTransformType.LumMod:
+                        return ApplyLumMod(c, t.Value);
+                    case eColorTransformType.LumOff:
+                        return ApplyLumMod(c, 1, t.Value);
                 }
             }
             
             return Color.FromArgb(r, g, b);
+        }
+
+        internal static Color ApplyLumMod(Color c, double lumMod=1, double lumOff=0)
+        {
+            ExcelDrawingRgbColor.GetHslColor(c, out double h, out double s, out double l);
+
+            l = Math.Max(0, Math.Min(1, l * lumMod + lumOff));
+            var ret = ExcelDrawingHslColor.GetRgb(h, s, l);
+            return ret;
+        }
+        internal static Color ApplySatMod(Color c, double satMod = 1, double satOff = 0)
+        {
+            var h = c.GetHue();
+            var s = c.GetSaturation();
+            var l = c.GetBrightness();
+
+            ExcelDrawingRgbColor.GetHslColor(c, out double h2, out double s2, out double l2);
+
+            var ret1 = ExcelDrawingHslColor.GetRgb(h, s* satMod + satOff, l);
+            var ret2 = ExcelDrawingHslColor.GetRgb(h2, s2 * satMod + satOff, l2);
+            return ret2;
         }
 
         public static Color GetThemeColor(ExcelDrawingThemeColorManager cm)

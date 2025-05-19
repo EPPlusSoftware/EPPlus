@@ -42,6 +42,10 @@ namespace OfficeOpenXml.Drawing
     enum PathFillMode
     {
         /// <summary>
+        /// The corresponding path should have a normally shaded color applied to it’s fill
+        /// </summary>
+        Norm,
+        /// <summary>
         /// The corresponding path should have a darker shaded color applied to it’s fill.
         /// </summary>
         Darken,
@@ -60,11 +64,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// The corresponding path should have no fill.
         /// </summary>
-        None,
-        /// <summary>
-        /// The corresponding path should have a normally shaded color applied to it’s fill
-        /// </summary>
-        Norm
+        None
     }
     internal struct DrawCoordinate
     {
