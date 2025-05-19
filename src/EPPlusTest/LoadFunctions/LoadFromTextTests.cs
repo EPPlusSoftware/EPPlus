@@ -72,7 +72,7 @@ namespace EPPlusTest.LoadFunctions
             var start = DateTime.Now;
             ws.Cells["A1"].LoadFromText(fi);
             var end = DateTime.Now;
-            TimeSpan span = end - start; //current time is 18min.
+            TimeSpan span = end - start; //current time is 18min. 1000 colums, 12000 rows.
             SaveWorkbook("bigcsv.xlsx", p);
         }
 
