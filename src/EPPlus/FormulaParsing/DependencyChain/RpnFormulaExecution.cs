@@ -489,6 +489,7 @@ namespace OfficeOpenXml.FormulaParsing
                         cr = e.Compile();
                         if(cr.DataType == DataType.LambdaCalculation && cr.Result is LambdaCalculator lambdaCalc && lambdaCalc.IsReadyForCalc)
                         {
+                            lambdaCalc.BeginCalculation();
                             cr = lambdaCalc.Execute(depChain._parsingContext);
                             if(cr.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
                             {

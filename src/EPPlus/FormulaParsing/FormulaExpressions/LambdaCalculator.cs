@@ -46,7 +46,18 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         public short NumberOfVariables => _variables != null ? Convert.ToInt16(_variables.Count()) : (short)0;
 
-        public bool IsReadyForCalc => _nVariablesSet >= NumberOfVariables;
+        public bool IsReadyForCalc
+        {
+            get
+            {
+                foreach(var variable in _variables)
+                {
+                    if (_scope.ContainsVariable(variable.Result.ToString())) continue;
+                    return false;
+                }
+                return true;
+            }    
+        }
 
         public void BeginCalculation()
         {

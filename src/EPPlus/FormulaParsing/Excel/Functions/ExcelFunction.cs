@@ -119,7 +119,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 }
             }
 
-            return Execute(arguments, context);
+             return Execute(arguments, context);
         }
 
         /// <summary>
