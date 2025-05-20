@@ -242,6 +242,53 @@ namespace EPPlusTest.Drawing.Chart
         }
 
         [TestMethod]
+        public void LoadFromCollectionDateTime()
+        {
+            using (var p = OpenPackage("LoadFromCollectionDateTime.xlsx", true))
+            {
+                var now = DateTime.Now;
+
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                var dateRange = ws.Cells["$A$2:$A$4"];
+
+                var dList = new List<DateTime> { now, now.AddDays(1), now.AddDays(2) };
+
+                dList.Add(DateTime.Today);
+
+                var retRange = ws.Cells["A2"].LoadFromCollection(dList);
+
+                Assert.AreEqual("A2:A5", retRange.Address);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void FillListFirstRow()
+        {
+            using (var p = OpenPackage("FillListFirstRow.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                var headers = new List<string> { "Dates", "Sales total", "Spending Total", "Day total" };
+
+                var headRange = ws.Cells["A1:D1"];
+                headRange.FillList(headers, x =>
+                {
+                    x.Direction = eFillDirection.Row;
+                });
+
+                Assert.AreEqual(ws.Cells["A1"].Text, headers[0]);
+                Assert.AreEqual(ws.Cells["B1"].Text, headers[1]);
+                Assert.AreEqual(ws.Cells["C1"].Text, headers[2]);
+                Assert.AreEqual(ws.Cells["D1"].Text, headers[3]);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
         public void TestLineChartSimpleChange()
         {
             using (var p = OpenPackage("EpplusLineChartSimple.xlsx", true))
@@ -250,46 +297,36 @@ namespace EPPlusTest.Drawing.Chart
 
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
 
-                //var headers = new List<string> { "Dates", "Sales total", "Spending Total", "Day total"};
+                var headers = new List<string> { "Dates", "Sales total", "Spending Total", "Day total" };
 
-                //for (int i = 0; i < headers.Count; i++)
-                //{
-                //    ws.Cells[1, i + 1].Value = headers[i];
-                //}
-
-                var dateRange = ws.Cells["$A$2:$A$4"];
+                var headRange = ws.Cells["A1:D1"];
+                headRange.FillList(headers, x =>
+                {
+                    x.Direction = eFillDirection.Row;
+                });
 
                 var dList = new List<DateTime> { now, now.AddDays(1), now.AddDays(2) };
 
-                var retRange = ws.Cells["A1"].LoadFromCollection(dList);
+                var dateRange = ws.Cells["$A$2:$A$4"].LoadFromCollection(dList);
 
-                //var headers = new List<string> { "Item Type", "Date Sold", "Amount Sold", "Shop Name" };
+                var salesRange = ws.Cells["B2:B4"].LoadFromCollection(new List<double> { 0d, 500d, 1500d });
+                var spendRange = ws.Cells["C2:C4"].LoadFromCollection(new List<double> { 200d, 10d, 400d });
+                var totalRange = ws.Cells["D2:D4"];
+                totalRange.Formula = "B2-C2";
+                totalRange.Calculate();
 
-                //var headRange = ws.Cells["A1:D1"];
+                ws.Cells["B2:D4"].Style.Numberformat.Format = "#,##0kr";
+                ws.Cells["A2:A4"].Style.Numberformat.Format = "dd/mm/yyyy";
 
-                //var retRange = headRange.LoadFromCollection(headers);
+                var lineChart = ws.Drawings.AddLineChart("testLineChart", eLineChartType.Line);
 
-                var testRetRange = dateRange.LoadFromCollection(new List<DateTime> { now, now.AddDays(1), now.AddDays(2) });
-
-
-                //var salesRange = ws.Cells["B2:B4"].LoadFromCollection(new List<double> { 0d, 500d, 1500d });
-                //var spendRange = ws.Cells["C2:C4"].LoadFromCollection(new List<double> { 200d, 10d, 400d });
-                //var totalRange = ws.Cells["D2:D4"];
-                //totalRange.Formula = "B2-C2";
-                //totalRange.Calculate();
-
-                //ws.Cells["B2:D4"].Style.Numberformat.Format = "#,##0kr";
-                //ws.Cells["A2:A4"].Style.Numberformat.Format = "dd/mm/yyyy";
-
-                //var lineChart = ws.Drawings.AddLineChart("testLineChart", eLineChartType.Line);
-
-                //var ser1 = lineChart.Series.Add(salesRange, dateRange);
-                //ser1.HeaderAddress = ws.Cells["B1"];
-                //var ser2 = lineChart.Series.Add(spendRange, dateRange);
-                //ser2.HeaderAddress = ws.Cells["C1"];
-                //var ser3 = lineChart.Series.Add(totalRange, dateRange);
-                //ser3.HeaderAddress = ws.Cells["D1"];
-                ////lineChart.XAxis.ChangeAxisTypeReal(eAxisType.Date);
+                var ser1 = lineChart.Series.Add(salesRange, dateRange);
+                ser1.HeaderAddress = ws.Cells["B1"];
+                var ser2 = lineChart.Series.Add(spendRange, dateRange);
+                ser2.HeaderAddress = ws.Cells["C1"];
+                var ser3 = lineChart.Series.Add(totalRange, dateRange);
+                ser3.HeaderAddress = ws.Cells["D1"];
+                //lineChart.XAxis.ChangeAxisTypeReal(eAxisType.Date);
 
                 SaveAndCleanup(p);
             }
