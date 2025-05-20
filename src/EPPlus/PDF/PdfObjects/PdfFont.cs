@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfObjects
 {
-    internal enum PdfFontSubType
+    public enum PdfFontSubType
     {
         /*TODO*/Type0,      //Used for Asian fonts
         Type1,      //Used for built-in fonts
@@ -13,13 +13,20 @@ namespace OfficeOpenXml.PDF.PdfObjects
         /*TODO*/TrueType,   //For embedding fonts
     }
 
+    public enum PdfFontEncoding
+    {
+        None,
+        WinAnsiEncoding,
+        MacRomanEncoding,
+    }
+
     internal class PdfFont : PdfObject
     {
         private readonly string fontName;
         private readonly PdfFontSubType subType;
-        private readonly string encoding;
+        private readonly PdfFontEncoding encoding;
 
-        public PdfFont(int objectNumber, string fontName = "Helvetica", PdfFontSubType subType = PdfFontSubType.Type1, string encoding = "WinAnsiEncoding")
+        public PdfFont(int objectNumber, string fontName = "Helvetica", PdfFontSubType subType = PdfFontSubType.Type1, PdfFontEncoding encoding = PdfFontEncoding.WinAnsiEncoding)
             : base(objectNumber, 0)
         {
             this.fontName = fontName;
@@ -29,10 +36,17 @@ namespace OfficeOpenXml.PDF.PdfObjects
 
         internal override string RenderDictionary()
         {
-            return $"<< /Type /Font\n" +
+            var sb = new StringBuilder();
+            sb.AppendFormat($"<< /Type /Font\n" +
                    $"   /Subtype /{subType}\n" +
-                   $"   /BaseFont /{fontName}\n" +
-                   $"   /Encoding /{encoding} >>";
+                   $"   /BaseFont /{fontName}");
+            if (encoding == PdfFontEncoding.None)
+            {
+                sb.Append(" >>");
+                return sb.ToString();
+            }
+            sb.AppendFormat($"\n   /Encoding /{encoding} >>");
+            return sb.ToString();
         }
     }
 }

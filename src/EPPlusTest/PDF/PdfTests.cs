@@ -23,7 +23,7 @@ namespace EPPlusTest.PDF
 
             ExcelPdf pedeef = new ExcelPdf();
 
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest.pdf", ws);
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest2.pdf", ws);
 
         }
 

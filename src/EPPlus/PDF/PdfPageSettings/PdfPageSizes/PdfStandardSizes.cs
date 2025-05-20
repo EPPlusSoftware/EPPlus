@@ -7,19 +7,19 @@ namespace OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes
 
         public static Dictionary<string, PdfRect> PageFormat = new Dictionary<string, PdfRect>()
         {
-            { "A5", new PdfRect{ X = 0f, Y = 0f, Width = 148f, Height = 210f } },
-            { "A4", new PdfRect{ X = 0f, Y = 0f, Width = 210f, Height = 297f } },
-            { "A3", new PdfRect{ X = 0f, Y = 0f, Width = 297f, Height = 420f } },
+            { "A5", new PdfRect{ X = 0d, Y = 0d, Width = 148d, Height = 210d } },
+            { "A4", new PdfRect{ X = 0d, Y = 0d, Width = 210d, Height = 297d } },
+            { "A3", new PdfRect{ X = 0d, Y = 0d, Width = 297d, Height = 420d } },
 
-            { "B5", new PdfRect{ X = 0f, Y = 0f, Width = 182f, Height = 257f } },
-            { "B4", new PdfRect{ X = 0f, Y = 0f, Width = 257f, Height = 364f } },
+            { "B5", new PdfRect{ X = 0d, Y = 0d, Width = 182d, Height = 257d } },
+            { "B4", new PdfRect{ X = 0d, Y = 0d, Width = 257d, Height = 364d } },
 
-            { "Letter", new PdfRect{ X = 0f, Y = 0f, Width = 215.9f, Height = 279.4f } },
-            { "Legal", new PdfRect{ X = 0f, Y = 0f, Width = 215.9f, Height = 355.6f } },
-            { "Statement", new PdfRect{ X = 0f, Y = 0f, Width = 139.7f, Height = 215.9f } },
-            { "Executive", new PdfRect{ X = 0f, Y = 0f, Width = 184.2f, Height = 266.7f } },
+            { "Letter", new PdfRect{ X = 0d, Y = 0d, Width = 215.9d, Height = 279.4d } },
+            { "Legal", new PdfRect{ X = 0d, Y = 0d, Width = 215.9d, Height = 355.6d } },
+            { "Statement", new PdfRect{ X = 0d, Y = 0d, Width = 139.7d, Height = 215.9d } },
+            { "Executive", new PdfRect{ X = 0d, Y = 0d, Width = 184.2d, Height = 266.7d } },
 
-            { "11x17", new PdfRect{ X = 0f, Y = 0f, Width = 279.4f, Height = 431.8f } },
+            { "11x17", new PdfRect{ X = 0d, Y = 0d, Width = 279.4d, Height = 431.8d } },
 
         };
     }

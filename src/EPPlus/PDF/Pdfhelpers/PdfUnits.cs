@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OfficeOpenXml.PDF.PdfPageSettings
+namespace OfficeOpenXml.PDF.Pdfhelpers
 {
     internal class PdfUnits
     {

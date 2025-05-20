@@ -11,9 +11,9 @@ namespace OfficeOpenXml.PDF.PdfPageSettings
         public PdfContentBounds(PdfMargins margins, PdfPageSize pageSize)
         {
             X = margins.LeftPoints;
-            Y = margins.BottomPoints;
+            Y = margins.BottomPoints + margins.FooterPoints;
             Width = pageSize.WidthPoints - margins.LeftPoints - margins.RightPoints;
-            Height = pageSize.HeightPoints - margins.TopPoints - margins.BottomPoints;
+            Height = pageSize.HeightPoints - margins.TopPoints - margins.HeaderPoints;
         }
     }
 }

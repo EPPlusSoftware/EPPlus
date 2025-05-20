@@ -1,4 +1,8 @@
-﻿using OfficeOpenXml.PDF.PdfGraphics;
+﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
+using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.PDF.PdfGraphics;
+using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfObjects;
 using OfficeOpenXml.PDF.PdfPageSettings;
 using System;
@@ -6,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OfficeOpenXml.PDF
 {
@@ -37,8 +42,14 @@ namespace OfficeOpenXml.PDF
             body.Add(font);
             fontResources.Add(body.IndexOf(font) + 1, "F" + (fontResources.Count + 1));
         }
+        public void AddFont(string fontName = "Helvetica", PdfFontSubType fontSubType = PdfFontSubType.Type1, PdfFontEncoding encoding = PdfFontEncoding.WinAnsiEncoding)
+        {
+            var font = new PdfFont(body.Count + 1, fontName, fontSubType, encoding);
+            body.Add(font);
+            fontResources.Add(body.IndexOf(font) + 1, "F" + (fontResources.Count + 1));
+        }
 
-        public void AddText(string text, string fontResourceName, int size, float x, float y)
+        public void AddText(string text, string fontResourceName, float size, double x, double y)
         {
             var content = new PdfContentStream(body.Count + 1);
             content.AddText(fontResourceName, size, x, y, text);
@@ -77,10 +88,10 @@ namespace OfficeOpenXml.PDF
 
         private void AddWorksheetCells(ExcelWorksheet ws, PdfContentBounds bounds)
         {
-            AddFont();
-            float prevWidth = 0;
-            float prevHeight = 0;
-            var x = 0f;
+            AddFont("AptosNarrow", PdfFontSubType.TrueType, PdfFontEncoding.None);
+            double prevWidth = 0;
+            double prevHeight = 0;
+            var x = 0d;
             var y = bounds.Y + bounds.Height;
 
             for (int i = ws.Dimension._fromRow; i <= ws.Dimension._toRow; i++)
@@ -90,23 +101,50 @@ namespace OfficeOpenXml.PDF
                     var cell = ws.Cells[i,j];
 
                     x = bounds.X + prevWidth;
-                    y = bounds.Y + bounds.Height - prevHeight;
+                    y = 775 - prevHeight; //bounds.Y + bounds.Height - prevHeight;
                     if (x >= bounds.Width)
                     {
-                        prevHeight += (float)cell.Worksheet.Row(1).Height;
+                        prevHeight += cell.Worksheet.Row(1).Height + 0.25d;
                         prevWidth = 0;
                         x = bounds.X + prevWidth;
-                        y = bounds.Y + bounds.Height - prevHeight;
-                        if (y < bounds.Height)
+                        y = 775 - prevHeight;//bounds.Y + bounds.Height - prevHeight;
+                        if (y < bounds.Y)
                         {
                             //new page..
-                            break;
                         }
                     }
-                    if(cell.Value != null)
-                        AddText(cell.Value.ToString(), "F1", (int)cell.Style.Font.Size, x, y);
+                    if (cell.Value != null)
+                    {
+                        if (cell.Style.HorizontalAlignment == Style.ExcelHorizontalAlignment.General)
+                        {
+                            if (double.TryParse(cell.Value.ToString(), out double value))
+                            {
+                                //calculate new x
+                                GenericFontMetricsTextMeasurer tm = new GenericFontMetricsTextMeasurer();
+                                MeasurementFont font = new MeasurementFont();
+                                font.FontFamily = cell.Style.Font.Name;
+                                font.Size = cell.Style.Font.Size;
+                                font.Style = MeasurementFontStyles.Regular;
 
-                    prevWidth += (float)PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width);
+                                var values = tm.MeasureIndividualCharacters(cell.Value.ToString(), font, 72);
+
+                                uint sum = 0;
+
+                                foreach (uint val in values)
+                                {
+                                    sum += val;
+                                }
+                                var result = tm.MeasureText(cell.Value.ToString(), font);
+                                //convert result to points
+                                var strWidth = (sum / 1000.0/*units per em*/) * font.Size;
+
+                                x = x + PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width) - ((double)result.Width - sum);
+                            }
+                        }
+                        AddText(cell.Value.ToString(), "F1", cell.Style.Font.Size, x, y);
+                    }
+
+                    prevWidth += PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width);
                 }
             }
         }

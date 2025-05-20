@@ -2,9 +2,9 @@
 {
     internal class PdfRect
     {
-        internal float X;
-        internal float Y;
-        internal float Width;
-        internal float Height;
+        internal double X;
+        internal double Y;
+        internal double Width;
+        internal double Height;
     }
 }

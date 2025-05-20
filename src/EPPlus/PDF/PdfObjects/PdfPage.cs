@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes;
+﻿using OfficeOpenXml.PDF.Pdfhelpers;
+using OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -31,7 +32,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
             return $"<< /Type /Page\n" +
                    $"   /Parent {parentObjectNumber} 0 R\n" +
                    $"   /Resources << /Font << {fonts} >> >>\n" +
-                   $"   /MediaBox [0 0 {Size.WidthPoints} {Size.HeightPoints}]\n" +
+                   $"   /MediaBox [0 0 {PdfString.Convert(Size.WidthPoints)} {PdfString.Convert(Size.HeightPoints)}]\n" +
                    $"   /Contents [ {string.Join(" ", contentEntries)} ]>>";
         }
     }

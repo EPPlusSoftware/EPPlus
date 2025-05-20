@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.PDF.PdfGraphics;
+using OfficeOpenXml.PDF.Pdfhelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,16 +21,16 @@ namespace OfficeOpenXml.PDF.PdfObjects
             commands.Add(command);
         }
 
-        public void AddText(string fontResourceName, int fontSize, float x, float y, string text)
+        public void AddText(string fontResourceName, double fontSize, double x, double y, string text)
         {
             commands.Add("BT");
-            commands.Add($"/{fontResourceName} {fontSize} Tf");
-            commands.Add($"{x} {y} Td");
+            commands.Add($"/{fontResourceName} {PdfString.Convert(fontSize)} Tf");
+            commands.Add($"{PdfString.Convert(x)} {PdfString.Convert(y)} Td");
             commands.Add($"({FixEscapeCharacters(text)}) Tj");
             commands.Add("ET");
         }
 
-        public void AddRectangle(float x, float y, float width, float height, bool stroke = false, bool fill = false, PdfColor strokeColor = null, PdfColor fillColor = null)
+        public void AddRectangle(double x, double y, double width, double height, bool stroke = false, bool fill = false, PdfColor strokeColor = null, PdfColor fillColor = null)
         {
             if (stroke != false && strokeColor != null)
             {

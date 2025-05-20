@@ -22,14 +22,6 @@ namespace OfficeOpenXml.PDF
             var sb = new StringBuilder();
             sb.AppendFormat("{0} {1} obj\n", objectNumber, version);
             sb.Append(RenderDictionary());
-
-            //if (HasStream && StreamData != null)
-            //{
-            //    sb.Append("stream\n");
-            //    sb.Append(Encoding.ASCII.GetString(StreamData));
-            //    sb.Append("\nendstream\n");
-            //}
-
             sb.Append("endobj\n");
             return Encoding.ASCII.GetBytes(sb.ToString());
         }
