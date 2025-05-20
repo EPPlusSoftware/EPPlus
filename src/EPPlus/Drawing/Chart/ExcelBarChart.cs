@@ -161,6 +161,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         #endregion
         #region "Properties"
+
         string _directionPath = "c:barDir/@val";
         /// <summary>
         /// Direction, Bar or columns

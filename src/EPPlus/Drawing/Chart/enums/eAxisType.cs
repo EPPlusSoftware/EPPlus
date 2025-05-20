@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         Date,
         /// <summary>
-        /// Series axis
+        /// Series axis (Type of Category axis usually in 3D charts)
         /// </summary>
         Serie
     }

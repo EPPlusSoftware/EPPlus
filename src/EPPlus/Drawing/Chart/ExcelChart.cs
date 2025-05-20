@@ -155,6 +155,17 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         #region "Properties"
+
+        //struct DefaultAxises()
+        //{
+
+        //}
+
+        internal virtual void SetDefaultAxes()
+        {
+            
+        }
+
         /// <summary>
         /// Reference to the worksheet
         /// </summary>
@@ -646,6 +657,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         #endregion
+
         internal void InitChartTheme(int fallBackStyleId)
         {
             var styleId = fallBackStyleId + 100;
@@ -754,6 +766,16 @@ namespace OfficeOpenXml.Drawing.Chart
                 return null;
             }
         }
+
+        //public void SwitchRowColumn()
+        //{
+        //    using()
+        //    foreach(var serie in Series)
+        //    {
+
+        //    }
+        //}
+
         internal static ExcelChartEx GetChartEx(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null)
         {
             XmlNode chartDrawingNode = node.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", drawings.NameSpaceManager);

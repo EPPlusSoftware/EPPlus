@@ -15,6 +15,9 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.Utils.EnumUtils;
+using System;
+using System.Reflection.Emit;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -47,6 +50,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
         }
+
         /// <summary>
         /// Get or Sets the major tick marks for the axis. 
         /// </summary>
@@ -141,8 +145,8 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         /// <summary>
-                 /// The Position of the labels
-                 /// </summary>
+        /// The Position of the labels
+        /// </summary>
         public abstract eTickLabelPosition LabelPosition
         {
             get;
@@ -526,6 +530,49 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             var children = XmlHelper.CopyToSchemaNodeOrder(ExcelChartAxisStandard._schemaNodeOrderDateShared, ExcelChartAxisStandard._schemaNodeOrderDate);
             RenameNode(TopNode, "c", "dateAx", children);            
+        }
+
+        /// <summary>
+        /// Change type of axis. Can only change Value axis to Date axis and vice-versa
+        /// Or Category Axis to Serie Axis and vice versa.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <exception cref="InvalidOperationException"></exception>
+        internal void ChangeAxisTypeLimited(eAxisType type)
+        {
+            if(AxisType == eAxisType.Val || AxisType == eAxisType.Date)
+            {
+                if(type == eAxisType.Val || type == eAxisType.Date)
+                {
+                    ChangeAxisTypeReal(type);
+                    return;
+                }
+            }
+            else if(AxisType == eAxisType.Cat || AxisType == eAxisType.Serie)
+            {
+                if (type == eAxisType.Cat || type == eAxisType.Serie)
+                {
+                    ChangeAxisTypeReal(type);
+                    return;
+                }
+            }
+            throw new InvalidOperationException($"Cannot change ValueAxis to CatAxis Original Axis type: {AxisType.ToString()}  New Axis type: {type.ToString()}");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        internal void ChangeAxisTypeReal(eAxisType type)
+        {
+            var children = XmlHelper.CopyToSchemaNodeOrder(ExcelChartAxisStandard._schemaNodeOrderDateShared, ExcelChartAxisStandard._schemaNodeOrderDate);
+            var eString = type.ToEnumString();
+            if(type == eAxisType.Serie)
+            {
+                eString = "ser";
+            }
+            RenameNode(TopNode, "c", eString + "Ax", children);
+            SetXmlNodeBool("c:auto/@val", false);
         }
         #endregion
         internal XmlNode AddTitleNode()
