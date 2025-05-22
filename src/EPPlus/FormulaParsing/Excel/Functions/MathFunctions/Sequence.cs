@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             }
             var start = 1d;
-            if(argCount > 2)
+            if(argCount > 2 && arguments[2].DataType != DataType.Empty)
             {
                 start = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
                 if (e3 != null) return CompileResult.GetErrorResult(e3.Type);

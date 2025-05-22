@@ -26,6 +26,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     internal class Rept : ExcelFunction
     {
         public override int ArgumentMinLength => 2;
+
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
+        {
+            config.SetArrayParameterIndexes(0, 1);
+        }
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var str = ArgToString(arguments, 0);
