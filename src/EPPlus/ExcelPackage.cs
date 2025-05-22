@@ -14,22 +14,16 @@ using System;
 using System.Xml;
 using System.IO;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Packaging.Ionic.Zlib;
-using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Encryption;
 using OfficeOpenXml.Utils.CompundDocument;
 using OfficeOpenXml.Compatibility;
 using System.Text;
 using OfficeOpenXml.Packaging;
-using System.Diagnostics;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Configuration;
 using OfficeOpenXml.EventArguments;
-
-using OfficeOpenXml.Interfaces;
 #if(!NET35)
 using OfficeOpenXml.SensitivityLabels;
 #endif
@@ -851,7 +845,7 @@ namespace OfficeOpenXml
                 {
                     //Close any open memory stream and "renew" them. This can occure if the package is saved twice. 
                     //The stream is left open on save to enable the user to read the stream-property.
-                    //Non-memorystream streams will leave the closing to the user before saving a second time.
+                    //Non-MemoryStream streams will leave the closing to the user before saving a second time.
                     CloseStream();
                 }
 

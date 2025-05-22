@@ -170,7 +170,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         ChartStar,
         /// <summary>
-        /// A x within a rectagle
+        /// A x within a rectangle
         /// </summary>
         ChartX,
         /// <summary>

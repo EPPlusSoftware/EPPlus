@@ -144,7 +144,13 @@ namespace OfficeOpenXml.Drawing
             IPictureContainer pic = fill.BlipFill;
 
         }
-
+        internal bool IsEmpty
+        {
+            get
+            {
+                return _fillTypeNode==null;
+            }
+        }
         internal string GetFromXml()
         {
             return _fillTypeNode.OuterXml;
