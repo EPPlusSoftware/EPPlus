@@ -146,6 +146,208 @@ namespace EPPlusTest.Drawing.Chart
         }
 
         [TestMethod]
+        public void LineChartChangeToDateAxis()
+        {
+            using (var p = OpenPackage("EpplusLineChartSimple.xlsx", true))
+            {
+                var now = DateTime.Now;
+
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                var headers = new List<string> { "Dates", "Sales", "Spending", "Net Profit" };
+
+                var headRange = ws.Cells["A1:D1"];
+                headRange.FillList(headers, x =>
+                {
+                    x.Direction = eFillDirection.Row;
+                });
+
+                var dList = new List<DateTime> { now, now.AddDays(1), now.AddDays(2) };
+
+                var dateRange = ws.Cells["$A$2:$A$4"].LoadFromCollection(dList);
+
+                var salesRange = ws.Cells["B2:B4"].LoadFromCollection(new List<double> { 0d, 500d, 1500d });
+                var spendRange = ws.Cells["C2:C4"].LoadFromCollection(new List<double> { 200d, 10d, 400d });
+                var totalRange = ws.Cells["D2:D4"];
+                totalRange.Formula = "B2-C2";
+                totalRange.Calculate();
+
+                ws.Cells["B2:D4"].Style.Numberformat.Format = "#,##0kr";
+                ws.Cells["A2:A4"].Style.Numberformat.Format = "dd/mm/yyyy";
+
+                var lineChart = ws.Drawings.AddLineChart("testLineChart", eLineChartType.Line);
+
+                var ser1 = lineChart.Series.Add(salesRange, dateRange);
+                ser1.HeaderAddress = ws.Cells["B1"];
+                var ser2 = lineChart.Series.Add(spendRange, dateRange);
+                ser2.HeaderAddress = ws.Cells["C1"];
+                var ser3 = lineChart.Series.Add(totalRange, dateRange);
+                ser3.HeaderAddress = ws.Cells["D1"];
+
+                ws.Cells.AutoFitColumns();
+
+                lineChart.XAxis.ChangeAxisTypeLimited(eAxisType.Date);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void BarChartChangeToDateAxisThenResave()
+        {
+            //Create simple category Bar Chart with Epplus
+            using (var p = OpenPackage("SimpleBarChart.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "Categories";
+                var header1Address = ws.Cells["B1"];
+                var header2Address = ws.Cells["C1"];
+
+                header1Address.Value = "Col1";
+                header2Address.Value = "Col2";
+
+                var dataRange = ws.Cells["B2:C3"];
+                dataRange.Formula = "ROW() + COLUMN()";
+
+                var catRange = ws.Cells["A2:A3"];
+
+                catRange.Formula = "\"Row \" & (ROW()-1)";
+
+                ws.Calculate();
+
+                var barChart = ws.Drawings.AddBarChart("testChart", eBarChartType.ColumnClustered);
+
+                var ser = barChart.Series.Add(dataRange.TakeSingleColumn(0), catRange);
+                ser.HeaderAddress = header1Address;
+                var ser2 = barChart.Series.Add(dataRange.TakeSingleColumn(1), catRange);
+                ser2.HeaderAddress = header2Address;
+                ws.Calculate();
+
+                SaveAndCleanup(p);
+            }
+
+            //Read the file again and change axis type and data in the category column appropriately.
+            using (var p = OpenPackage("SimpleBarChart.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var barChartRead = ws.Drawings[0].As.Chart.BarChart;
+
+                barChartRead.XAxis.ChangeAxisTypeLimited(eAxisType.Date);
+
+                var dataRange = ws.Cells["A2:A3"];
+
+                dataRange.ClearFormulas();
+
+                var dtNow = DateTime.Now;
+
+                ws.Cells["A2"].Value = dtNow;
+                ws.Cells["A3"].Value = dtNow.AddDays(1);
+
+                dataRange.Style.Numberformat.Format = "d-mmm";
+
+                var outFile = GetOutputFile("", "SimpleBarChart_Resaved.xlsx").FullName;
+
+                p.SaveAs(outFile);
+            }
+        }
+
+        [TestMethod]
+        public void MultipleCategoriesOnAxesColumn()
+        {
+            using (var p = OpenPackage("CreateEmployeesAndSales.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var headers = new List<string> { "Hire Date", "Employee Name", "Employee Position", "Sales This Year" };
+
+                var headRange = ws.Cells["A1:D1"];
+                headRange.FillList(headers, x =>
+                {
+                    x.Direction = eFillDirection.Row;
+                });
+
+                var dtNow = DateTime.Now;
+
+                ws.Cells["A2"].Value = dtNow;
+                ws.Cells["A3"].Value = dtNow.AddDays(1);
+
+                ws.Cells["B2"].Value = "Ossian";
+                ws.Cells["B3"].Value = "Mats";
+
+                ws.Cells["C2"].Value = "Grunt";
+                ws.Cells["C3"].Value = "Senior Developer";
+
+                ws.Cells["D2"].Value = 5200d;
+                ws.Cells["D3"].Value = 100d;
+  
+                ws.Cells["A2:A3"].Style.Numberformat.Format = "dd/mm/yyyy";
+                ws.Cells["D2:D3"].Style.Numberformat.Format = "###,###0kr";
+
+                var colChart = ws.Drawings.AddBarChart("colChart", eBarChartType.ColumnClustered);
+
+                var ser = colChart.Series.Add(ws.Cells["D2:D3"], ws.Cells["A2:C3"]);
+                ser.HeaderAddress = ws.Cells["D1"];
+                var xSer = ser.XSeries;
+
+                ws.Cells.Calculate();
+                ws.Cells.AutoFitColumns();
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void CatToValLine()
+        {
+            using (var p = OpenPackage("CatToValLine.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("SomeSheet");
+
+                var headers = new List<string> { "Categories", "Sales" };
+                ws.Cells["A1:B1"].FillList(headers, x =>
+                {
+                    x.Direction = eFillDirection.Row;
+                });
+
+                var catRange = ws.Cells["A2:A3"];
+                ws.Cells["A2"].Value = "Cat1";
+                ws.Cells["A3"].Value = "Cat2";
+
+                var valueRange = ws.Cells["B2:B3"];
+                valueRange.Formula = "75 * 2 * ROW()";
+                valueRange.Calculate();
+
+                catRange.Formula = "ROW()+5";
+                catRange.Calculate();
+
+                var lChart = ws.Drawings.AddLineChart("lineChartOne", eLineChartType.Line);
+
+                var ser = lChart.Series.Add(valueRange, ws.Cells["A2:A3"]);
+                ser.HeaderAddress = ws.Cells["B1"];
+
+                var axis = lChart.XAxis;
+                axis.ChangeAxisTypeLimited(eAxisType.Date);
+                //axis.ChangeAxisTypeLimited(eAxisType.Val);
+                axis.CrossBetween = eCrossBetween.MidCat;
+                lChart.DisplayBlanksAs = eDisplayBlanksAs.Gap;
+                lChart.ShowDataLabelsOverMaximum = false;
+
+                var xyScatter = ws.Drawings.AddScatterChart("xyChart1", eScatterChartType.XYScatter);
+
+                var ser2 = xyScatter.Series.Add(valueRange, ws.Cells["A2:A3"]);
+                ser2.HeaderAddress = ws.Cells["B1"];
+
+                var axis2 = xyScatter.XAxis;
+                axis2.ChangeAxisTypeLimited(eAxisType.Date);
+                axis2.CrossBetween = eCrossBetween.MidCat;
+                xyScatter.DisplayBlanksAs = eDisplayBlanksAs.Gap;
+                xyScatter.ShowDataLabelsOverMaximum = false;
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
         public void LoadChartTest()
         {
             using (var p = OpenTemplatePackage("testAxisLabels.xlsx"))
@@ -170,18 +372,27 @@ namespace EPPlusTest.Drawing.Chart
             using (var p = OpenPackage("EpplusAxisCase1.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ws.Cells["A1"].Value = "Col1";
-                ws.Cells["B1"].Value = "Col2";
 
-                var datRange = ws.Cells["A2:B3"];
+                var headers = new List<string> { "Categories", "Sales" };
+                ws.Cells["A1:B1"].FillList(headers);
 
-                datRange.Formula = "ROW() + COLUMN()";
+                ws.Cells["A1"].Value = "Categories";
+                ws.Cells["B1"].Value = "Col1";
+                ws.Cells["C1"].Value = "Col2";
+
+                var dataRange = ws.Cells["B2:C3"];
+                dataRange.Formula = "ROW() + COLUMN()";
+
+                var catRange = ws.Cells["A2:A3"];
+
+                catRange.Formula = "\"Row \" & (ROW()-1)";
 
                 ws.Calculate();
 
                 var barChart = ws.Drawings.AddBarChart("testChart", eBarChartType.ColumnClustered);
 
-                barChart.Series.Add(datRange.TakeSingleColumn(0), ws.Cells["A1:B1"]);
+                barChart.Series.Add(dataRange.TakeSingleColumn(0), catRange);
+                barChart.Series.Add(dataRange.TakeSingleColumn(1), catRange);
 
                 ws.Calculate();
 
@@ -283,50 +494,6 @@ namespace EPPlusTest.Drawing.Chart
                 Assert.AreEqual(ws.Cells["B1"].Text, headers[1]);
                 Assert.AreEqual(ws.Cells["C1"].Text, headers[2]);
                 Assert.AreEqual(ws.Cells["D1"].Text, headers[3]);
-
-                SaveAndCleanup(p);
-            }
-        }
-
-        [TestMethod]
-        public void TestLineChartSimpleChange()
-        {
-            using (var p = OpenPackage("EpplusLineChartSimple.xlsx", true))
-            {
-                var now = DateTime.Now;
-
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-
-                var headers = new List<string> { "Dates", "Sales total", "Spending Total", "Day total" };
-
-                var headRange = ws.Cells["A1:D1"];
-                headRange.FillList(headers, x =>
-                {
-                    x.Direction = eFillDirection.Row;
-                });
-
-                var dList = new List<DateTime> { now, now.AddDays(1), now.AddDays(2) };
-
-                var dateRange = ws.Cells["$A$2:$A$4"].LoadFromCollection(dList);
-
-                var salesRange = ws.Cells["B2:B4"].LoadFromCollection(new List<double> { 0d, 500d, 1500d });
-                var spendRange = ws.Cells["C2:C4"].LoadFromCollection(new List<double> { 200d, 10d, 400d });
-                var totalRange = ws.Cells["D2:D4"];
-                totalRange.Formula = "B2-C2";
-                totalRange.Calculate();
-
-                ws.Cells["B2:D4"].Style.Numberformat.Format = "#,##0kr";
-                ws.Cells["A2:A4"].Style.Numberformat.Format = "dd/mm/yyyy";
-
-                var lineChart = ws.Drawings.AddLineChart("testLineChart", eLineChartType.Line);
-
-                var ser1 = lineChart.Series.Add(salesRange, dateRange);
-                ser1.HeaderAddress = ws.Cells["B1"];
-                var ser2 = lineChart.Series.Add(spendRange, dateRange);
-                ser2.HeaderAddress = ws.Cells["C1"];
-                var ser3 = lineChart.Series.Add(totalRange, dateRange);
-                ser3.HeaderAddress = ws.Cells["D1"];
-                //lineChart.XAxis.ChangeAxisTypeReal(eAxisType.Date);
 
                 SaveAndCleanup(p);
             }
@@ -472,69 +639,5 @@ namespace EPPlusTest.Drawing.Chart
                 SaveAndCleanup(p);
             }
         }
-
-        //[TestMethod]
-        //public void TryDisableRecyclable()
-        //{
-        //    using (FileStream fStream = File.OpenRead("C:\\epplusTest\\Workbooks\\SimpleSortTest.xlsx"))
-        //    {
-        //        //Set up a memory stream from existing file without using epplus
-        //        MemoryStream ms = new MemoryStream();
-        //        ms.SetLength(fStream.Length);
-        //        var msBuff = ms.GetBuffer();
-        //        fStream.Read(msBuff, 0, (int)fStream.Length);
-
-        //        ms.Seek(0, SeekOrigin.Begin);
-
-        //        //Start using epplus
-        //        ExcelPackage.MemorySettings.UseRecyclableMemory = false;
-
-        //        //ExcelPackageSettings settings = new ExcelPackageSettings() { }
-
-        //        var ms3 = new MemoryStream();
-        //        var ms2 = new MemoryStream();
-
-        //        var aPackage = new ExcelPackage(new FileInfo("C:\\epplusTest\\Workbooks\\SimpleSortTest.xlsx"), false);
-
-        //        using (var p = new ExcelPackage(ms2,"Epplus"))
-        //        {
-        //            var someWs = p.Workbook.Worksheets.Add("TestWs");
-
-        //            someWs.Cells["A1"].Value = "123";
-
-        //            //Input your destination filepath here instead
-        //            p.SaveAs(@"C:/temp/NoRecyclable.xlsx");
-        //        }
-        //    }
-
-
-        //    //ExcelPackage.MemorySettings.UseRecyclableMemory = false;
-
-        //    //var byteArr = File.ReadAllBytes("SimpleSortTest.xlsx");
-        //    //var ms = new MemoryStream()
-
-        //    //using (var ms = new MemoryStream())
-        //    //{
-        //    //    using (var p = new ExcelPackage(ms))
-        //    //    {
-        //    //        var someWs = p.Workbook.Worksheets.Add("TestWs");
-
-        //    //        someWs.Cells["A1"].Value = "123";
-
-        //    //        //Input your destination filepath here instead
-        //    //        p.SaveAs(@"C:/temp/NoRecyclable.xlsx");
-        //    //    }
-        //    //}
-
-        //    //using (var p = new ExcelPackage())
-        //    //{
-        //    //    var someWs = p.Workbook.Worksheets.Add("TestWs");
-
-        //    //    someWs.Cells["A1"].Value = "123";
-
-        //    //    var name = GetOutputFile("", "SomePackage.xlsx").FullName;
-        //    //    p.SaveAs(name);
-        //    //}
-        //}
     }
 }

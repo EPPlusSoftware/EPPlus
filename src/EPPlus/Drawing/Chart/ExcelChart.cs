@@ -163,7 +163,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
         internal virtual void SetDefaultAxes()
         {
-            
+
         }
 
         /// <summary>
@@ -1137,5 +1137,25 @@ namespace OfficeOpenXml.Drawing.Chart
         ZipPackagePart IPictureRelationDocument.RelatedPart => Part;
 
         Uri IPictureRelationDocument.RelatedUri => UriChart;
+
+        internal virtual bool IsAxisTypeSupported(eAxisType type, ExcelChartAxis axis)
+        {
+            var currentType = axis.AxisType;
+
+            if (currentType == eAxisType.Val || currentType == eAxisType.Date)
+            {
+                if (type == eAxisType.Val || type == eAxisType.Date)
+                {
+                    return true;
+                }
+            }
+            else if (currentType == eAxisType.Cat || currentType == eAxisType.Serie)
+            {
+                return true;
+            }
+
+            throw new InvalidOperationException($"Cannot change ValueAxis to CatAxis. Original Axis type: {currentType.ToString()}  New Axis type: {type.ToString()}");
+            return false;
+        }
     }
 }

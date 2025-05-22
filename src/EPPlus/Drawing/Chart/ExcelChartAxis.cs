@@ -537,24 +537,31 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Or Category Axis to Serie Axis and vice versa.
         /// </summary>
         /// <param name="type"></param>
+        /// <param name="throwWarning">Set to false to allow axisTypes with unexpected behaviour</param>
         /// <exception cref="InvalidOperationException"></exception>
-        internal void ChangeAxisTypeLimited(eAxisType type)
+        /// <exception cref="InvalidOperationException"></exception>
+        internal void ChangeAxisTypeLimited(eAxisType type, bool throwWarning = true)
         {
-            if(AxisType == eAxisType.Val || AxisType == eAxisType.Date)
+            if (throwWarning && _chart.IsAxisTypeSupported(type, this) == false)
             {
-                if(type == eAxisType.Val || type == eAxisType.Date)
+                throw new InvalidOperationException($"Chart Name:{_chart.Name} of Type: {_chart.ChartType.ToEnumString()} " +
+                    $"Cannot change axis with ID:{this.Id} from AxisType:{AxisType} To Type: {type.ToString()}. Data would be missrepresented in chart.");
+            }
+
+            ChangeAxisTypeReal(type);
+
+            if (AxisType == eAxisType.Val || AxisType == eAxisType.Date)
+            {
+                if (type == eAxisType.Val || type == eAxisType.Date)
                 {
                     ChangeAxisTypeReal(type);
                     return;
                 }
             }
-            else if(AxisType == eAxisType.Cat || AxisType == eAxisType.Serie)
+            else if (AxisType == eAxisType.Cat || AxisType == eAxisType.Serie)
             {
-                if (type == eAxisType.Cat || type == eAxisType.Serie)
-                {
-                    ChangeAxisTypeReal(type);
-                    return;
-                }
+                ChangeAxisTypeReal(type);
+                return;
             }
             throw new InvalidOperationException($"Cannot change ValueAxis to CatAxis Original Axis type: {AxisType.ToString()}  New Axis type: {type.ToString()}");
         }
