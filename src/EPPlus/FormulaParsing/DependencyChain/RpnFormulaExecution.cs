@@ -2,6 +2,7 @@
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
@@ -915,16 +916,25 @@ namespace OfficeOpenXml.FormulaParsing
         private static void CheckCircularReferences(RpnOptimizedDependencyChain depChain, RpnFormula f, FormulaRangeAddress address, ExcelCalculationOption options)
         {
             if (f._ws == null) return;
-            if(f._arrayIndex>=0)
+            var wsIx = f._ws?.IndexInList ?? ushort.MaxValue;
+            if (f._arrayIndex>=0)
             {
                 var sf = f._ws._sharedFormulas[f._arrayIndex];
                 var fa = new FormulaRangeAddress(depChain._parsingContext) { FromRow = sf.StartRow, ToRow = sf.EndRow, FromCol = sf.StartCol, ToCol = sf.EndCol, WorksheetIx = f._ws.IndexInList };
                 if (fa.CollidesWith(address) != eAddressCollition.No)
                 {
-                    throw new CircularReferenceException($"Circular reference in array formula: {fa.Address}");
+                    if(!options.AllowCircularReferences)
+                    {
+                        throw new CircularReferenceException($"Circular reference in array formula: {fa.Address}");
+                    }
+                    else
+                    {
+                        var toCell = ExcelCellBase.GetCellId(wsIx, sf.StartRow, sf.StartCol);
+                        var fromCell = ExcelCellBase.GetCellId(f._ws.IndexInList, f._row, f._column);
+                        depChain._circularReferences.Add(new CircularReference(fromCell, toCell));
+                    }
                 }
             }
-            var wsIx=f._ws?.IndexInList ?? ushort.MaxValue;
             if (address.CollidesWith(wsIx, f._row, f._column))
             {
                 var fId = ExcelCellBase.GetCellId(f._ws.IndexInList, f._row, f._column);

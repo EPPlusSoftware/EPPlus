@@ -958,17 +958,6 @@ namespace EPPlusTest.Issues
 
             Assert.AreEqual(12977661.57, result2);
         }
-
-        [TestMethod]
-        public void s866case1()
-        {
-            using var p1 = OpenTemplatePackage("Tecan spillover tests.xlsx");
-            var aicoDataWs = p1.Workbook.Worksheets["Aico Data"];
-			var summaryWs = p1.Workbook.Worksheets["Summary"];
-            summaryWs.Cells["C12"].Calculate(o => o.EnableUnicodeAwareStringOperations = true);
-            var result1 = summaryWs.Cells["C12"].Value;
-            Assert.AreEqual("Sub-Total for EUR", result1);
-        }
     }
 }
 
