@@ -77,5 +77,17 @@ namespace OfficeOpenXml.Drawing.Chart
         /// The series for the Area Chart
         /// </summary>s
         public new ExcelChartSeries<ExcelAreaChartSerie> Series { get; } = new ExcelChartSeries<ExcelAreaChartSerie>();
+
+        internal override bool IsAxisTypeSupported(eAxisType type, ExcelChartAxis axis)
+        {
+            if (axis == XAxis)
+            {
+                if (type == eAxisType.Val)
+                {
+                    return false;
+                }
+            }
+            return base.IsAxisTypeSupported(type, axis);
+        }
     }
 }

@@ -182,5 +182,18 @@ namespace OfficeOpenXml.Drawing.Chart
         /// A collection of series for a Scatter Chart
         /// </summary>
         public new ExcelChartSeries<ExcelScatterChartSerie> Series { get; } = new ExcelChartSeries<ExcelScatterChartSerie>();
+
+        internal override bool IsAxisTypeSupported(eAxisType type, ExcelChartAxis axis)
+        {
+            //if (axis == XAxis)
+            //{
+            //    if (type == eAxisType.Val)
+            //    {
+            //        return false;
+            //    }
+            //}
+            //return base.IsAxisTypeSupported(type, axis);
+            return true;
+        }
     }
 }

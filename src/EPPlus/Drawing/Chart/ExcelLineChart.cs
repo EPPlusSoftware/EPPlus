@@ -375,6 +375,11 @@ namespace OfficeOpenXml.Drawing.Chart
                     return false;
                 }
             }
+            if (ChartType != eChartType.Line3D && type == eAxisType.Serie)
+            {
+                //Only supported on 3D charts
+                return false;
+            }
             return base.IsAxisTypeSupported(type, axis);
         }
     }

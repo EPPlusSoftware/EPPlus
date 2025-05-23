@@ -26,16 +26,11 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace EPPlusTest.Drawing.Chart
@@ -44,6 +39,8 @@ namespace EPPlusTest.Drawing.Chart
     public class ExcelChartAxisTest : TestBase
     {
         private ExcelChartAxis axis;
+        private ExcelPackage p;
+        private ExcelWorksheet axisWsDates;
 
         [TestInitialize]
         public void Initialize()
@@ -56,6 +53,40 @@ namespace EPPlusTest.Drawing.Chart
             var node = xmlDoc.CreateElement("axis");
             xmlDoc.DocumentElement.AppendChild(node);
             axis = new ExcelChartAxisStandard(null, xmlNsm, node, "c");
+
+            p = OpenPackage("AxisDataSheet.xlsx", true);
+            
+            var now = DateTime.Now;
+
+            axisWsDates = p.Workbook.Worksheets.Add("Sheet1");
+
+            var headers = new List<string> { "Dates", "Sales", "Spending", "Net Profit" };
+
+            var headRange = axisWsDates.Cells["A1:D1"];
+            headRange.FillList(headers, x =>
+            {
+                x.Direction = eFillDirection.Row;
+            });
+
+            var dList = new List<DateTime> { now, now.AddDays(1), now.AddDays(2) };
+
+            var dateRange = axisWsDates.Cells["$A$2:$A$4"].LoadFromCollection(dList);
+
+            var salesRange = axisWsDates.Cells["B2:B4"].LoadFromCollection(new List<double> { 0d, 500d, 1500d });
+            var spendRange = axisWsDates.Cells["C2:C4"].LoadFromCollection(new List<double> { 200d, 10d, 400d });
+            var totalRange = axisWsDates.Cells["D2:D4"];
+
+            totalRange.Formula = "B2-C2";
+            totalRange.Calculate();
+
+            axisWsDates.Cells["B2:D4"].Style.Numberformat.Format = "#,##0kr";
+            axisWsDates.Cells["A2:A4"].Style.Numberformat.Format = "dd/mm/yyyy";
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            SaveAndCleanup(p);
         }
 
         [TestMethod]
@@ -150,30 +181,13 @@ namespace EPPlusTest.Drawing.Chart
         {
             using (var p = OpenPackage("EpplusLineChartSimple.xlsx", true))
             {
-                var now = DateTime.Now;
+                var ws = axisWsDates;
 
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var dateRange = axisWsDates.Cells["$A$2:$A$4"];
 
-                var headers = new List<string> { "Dates", "Sales", "Spending", "Net Profit" };
-
-                var headRange = ws.Cells["A1:D1"];
-                headRange.FillList(headers, x =>
-                {
-                    x.Direction = eFillDirection.Row;
-                });
-
-                var dList = new List<DateTime> { now, now.AddDays(1), now.AddDays(2) };
-
-                var dateRange = ws.Cells["$A$2:$A$4"].LoadFromCollection(dList);
-
-                var salesRange = ws.Cells["B2:B4"].LoadFromCollection(new List<double> { 0d, 500d, 1500d });
-                var spendRange = ws.Cells["C2:C4"].LoadFromCollection(new List<double> { 200d, 10d, 400d });
-                var totalRange = ws.Cells["D2:D4"];
-                totalRange.Formula = "B2-C2";
-                totalRange.Calculate();
-
-                ws.Cells["B2:D4"].Style.Numberformat.Format = "#,##0kr";
-                ws.Cells["A2:A4"].Style.Numberformat.Format = "dd/mm/yyyy";
+                var salesRange = axisWsDates.Cells["B2:B4"];
+                var spendRange = axisWsDates.Cells["C2:C4"];
+                var totalRange = axisWsDates.Cells["D2:D4"];
 
                 var lineChart = ws.Drawings.AddLineChart("testLineChart", eLineChartType.Line);
 
@@ -187,8 +201,6 @@ namespace EPPlusTest.Drawing.Chart
                 ws.Cells.AutoFitColumns();
 
                 lineChart.XAxis.ChangeAxisTypeLimited(eAxisType.Date);
-
-                SaveAndCleanup(p);
             }
         }
 
@@ -345,6 +357,149 @@ namespace EPPlusTest.Drawing.Chart
 
                 SaveAndCleanup(p);
             }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void LineShouldNotAllowSeriesNon3D()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("sheetTest");
+                var chart = ws.Drawings.AddLineChart("non3DLine", eLineChartType.LineStacked100);
+
+                chart.XAxis.ChangeAxisTypeLimited(eAxisType.Serie);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void LineChartShouldNotAllowVal()
+        {
+            using (var p = OpenPackage("CatToValException.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("SomeSheet");
+
+                var headers = new List<string> { "Categories", "Sales" };
+                ws.Cells["A1:B1"].FillList(headers, x =>
+                {
+                    x.Direction = eFillDirection.Row;
+                });
+
+                var catRange = ws.Cells["A2:A3"];
+                ws.Cells["A2"].Value = "Cat1";
+                ws.Cells["A3"].Value = "Cat2";
+
+                var valueRange = ws.Cells["B2:B3"];
+                valueRange.Formula = "75 * 2 * ROW()";
+                valueRange.Calculate();
+
+                catRange.Formula = "ROW()+5";
+                catRange.Calculate();
+
+                var lChart = ws.Drawings.AddLineChart("lineChartOne", eLineChartType.Line);
+
+                var ser = lChart.Series.Add(valueRange, ws.Cells["A2:A3"]);
+                ser.HeaderAddress = ws.Cells["B1"];
+
+                //We throw on val axisType. For Linecharts
+                lChart.XAxis.ChangeAxisTypeLimited(eAxisType.Val);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ColumnBarChartShouldNotAllowValX()
+        {
+            //Create simple category Bar Chart with Epplus
+            using (var p = OpenPackage("ColumnBarCharts.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "Categories";
+                var header1Address = ws.Cells["B1"];
+                var header2Address = ws.Cells["C1"];
+
+                header1Address.Value = "Col1";
+                header2Address.Value = "Col2";
+
+                var dataRange = ws.Cells["B2:C3"];
+                dataRange.Formula = "ROW() + COLUMN()";
+
+                var catRange = ws.Cells["A2:A3"];
+
+                catRange.Formula = "\"Row \" & (ROW()-1)";
+
+                ws.Calculate();
+
+                var barChart = ws.Drawings.AddBarChart("testChart", eBarChartType.BarClustered);
+
+                var ser = barChart.Series.Add(dataRange.TakeSingleColumn(0), catRange);
+                ser.HeaderAddress = header1Address;
+                var ser2 = barChart.Series.Add(dataRange.TakeSingleColumn(1), catRange);
+                ser2.HeaderAddress = header2Address;
+                ws.Calculate();
+
+                ws.Cells["A2:A3"].Formula = "ROW()+20";
+                ws.Calculate();
+
+                barChart.XAxis.ChangeAxisTypeLimited(eAxisType.Val);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AreaChart()
+        {
+            var ws = axisWsDates;
+
+            var dateRange = axisWsDates.Cells["$A$2:$A$4"];
+
+            var salesRange = axisWsDates.Cells["B2:B4"];
+            var spendRange = axisWsDates.Cells["C2:C4"];
+            var totalRange = axisWsDates.Cells["D2:D4"];
+
+            var anArea = ws.Drawings.AddAreaChart("AnAreaChart", eAreaChartType.Area);
+
+            var ser1 = anArea.Series.Add(salesRange, dateRange);
+            ser1.HeaderAddress = ws.Cells["B1"];
+            var ser2 = anArea.Series.Add(spendRange, dateRange);
+            ser2.HeaderAddress = ws.Cells["C1"];
+            var ser3 = anArea.Series.Add(totalRange, dateRange);
+            ser3.HeaderAddress = ws.Cells["D1"];
+
+            anArea.XAxis.ChangeAxisTypeLimited(eAxisType.Val);
+        }
+
+        [TestMethod]
+        public void XYChart()
+        {
+            var ws = axisWsDates;
+
+            var dateRange = axisWsDates.Cells["$A$2:$A$4"];
+
+            var salesRange = axisWsDates.Cells["B2:B4"];
+            var spendRange = axisWsDates.Cells["C2:C4"];
+            var totalRange = axisWsDates.Cells["D2:D4"];
+
+            var xyChart = ws.Drawings.AddScatterChart("ScatterChart", eScatterChartType.XYScatter);
+
+            //var ser1 = xyChart.Series.Add(salesRange, dateRange);
+            //ser1.HeaderAddress = ws.Cells["B1"];
+            var ser2 = xyChart.Series.Add(dateRange, spendRange);
+            ser2.HeaderAddress = ws.Cells["C1"];
+            //var ser3 = xyChart.Series.Add(totalRange, dateRange);
+            //ser3.HeaderAddress = ws.Cells["D1"];
+
+            //dateRange["A2"].Value = "SomeValue";
+            //dateRange["A3"].Value = "Some2Value";
+            //dateRange["A4"].Value = "Some3Value";
+
+            xyChart.XAxis.ChangeAxisTypeLimited(eAxisType.Val);
+            xyChart.YAxis.ChangeAxisTypeLimited(eAxisType.Val);
+            ws.Calculate();
+            //xyChart.XAxis.ChangeAxisTypeLimited(eAxisType.Cat);
         }
 
         [TestMethod]
