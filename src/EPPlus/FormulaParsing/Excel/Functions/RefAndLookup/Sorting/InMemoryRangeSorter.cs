@@ -38,24 +38,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                 }
                 columns.Add(rows);
             }
-            //var colIx = colIndex - 1;
-            //var colToSortList = columns[colIx].ToList();
-            //var sortedList = colToSortList.Where(x => x.Value != null).ToList();
-            //sortedList.Sort((a, b) => _comparer.Compare(a.Value, b.Value, sortOrder));
-            //var nullValues = colToSortList.Where(x => x.Value == null);
-            //sortedList.AddRange(nullValues);
-            //for (var row = 0; row < sortedList.Count; row++)
-            //{
-            //    var sortedColItem = sortedList[row];
-            //    sortedRange.SetValue(row, colIx, sortedColItem.Value);
-            //    for (var col = 0; col < columns.Count; col++)
-            //    {
-            //        if (col == colIx) continue;
-            //        var colItem = columns[col].GetByOriginalIndex(sortedColItem.OriginalIndex);
-            //        sortedRange.SetValue(row, col, colItem.Value);
-
-            //    }
-            //}
             columns.Sort((a, b) =>
             {
                 foreach (var rowIx in rowIndexes)
@@ -106,22 +88,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                 }
                 rows.Add(cols);
             }
-            //var rowIx = rowIndex - 1;
-            //var rowToSortList = rows[rowIx].ToList();
-            //rowToSortList.Sort((a, b) => _comparer.Compare(a.Value, b.Value, sortOrder));
-            //for (var col = 0; col < rowToSortList.Count; col++)
-            //{
-            //    var sortedRowItem = rowToSortList[col];
-            //    sortedRange.SetValue(rowIx, col, sortedRowItem.Value);
-            //    for (var row = 0; row < rows.Count; row++)
-            //    {
-            //        if (row == rowIx) continue;
-            //        var colItem = rows[row].GetByOriginalIndex(sortedRowItem.OriginalIndex);
-            //        sortedRange.SetValue(row, col, colItem.Value);
-
-            //    }
-            //}
-
             rows.Sort((a, b) => 
             { 
                 foreach(var colIx in colIndexes)
@@ -154,45 +120,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                 rowIx++;
             }
             return sortedRange;
-        }
-
-        static int CompareExcelStyle(string s1, string s2)
-        {
-            // Konvertera strängarna till fullständiga Unicode-koder
-            var s1Codes = EnumerateRunes(s1).ToArray();
-            var s2Codes = EnumerateRunes(s2).ToArray();
-
-            // Jämför tecken för tecken baserat på deras Unicode-värden
-            int minLength = Math.Min(s1Codes.Length, s2Codes.Length);
-            for (int i = 0; i < minLength; i++)
-            {
-                if (s1Codes[i] != s2Codes[i])
-                    return s1Codes[i].CompareTo(s2Codes[i]);
-            }
-
-            // Om strängarna är identiska upp till minLength, jämför längden
-            return s1Codes.Length.CompareTo(s2Codes.Length);
-        }
-
-        static IEnumerable<int> EnumerateRunes(string input)
-        {
-            for (int i = 0; i < input.Length; i++)
-            {
-                char c = input[i];
-
-                // Kontrollera om det är en högställig surrogat (starten på ett par)
-                if (char.IsHighSurrogate(c) && i + 1 < input.Length && char.IsLowSurrogate(input[i + 1]))
-                {
-                    // Kombinera högställig och lågställig surrogat till en fullständig Unicode-kodpunkt
-                    yield return char.ConvertToUtf32(c, input[i + 1]);
-                    i++; // Hoppa över nästa tecken eftersom det är en del av surrogatparet
-                }
-                else
-                {
-                    // Enskilt tecken
-                    yield return c;
-                }
-            }
         }
     }
 }

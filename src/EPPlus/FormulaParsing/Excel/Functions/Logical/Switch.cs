@@ -32,6 +32,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         }
         public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 3;
+
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var expression = arguments[0].ValueFirst;
