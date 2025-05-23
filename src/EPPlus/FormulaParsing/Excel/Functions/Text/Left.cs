@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
@@ -38,6 +39,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             }
             if (str.Length < length)
                 length = str.Length;
+            if(context.Configuration.EnableUnicodeAwareStringOperations)
+            {
+                return CreateResult(str.UnitcodeSubstring(length), DataType.String);
+            }
             return CreateResult(str.Substring(0, length), DataType.String);
         }
     }
