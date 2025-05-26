@@ -840,5 +840,21 @@ namespace EPPlusTest.Issues
 
             sheet.Cells["C3"].AddComment("Test"); // NullReferenceException 
         }
+
+		[TestMethod]
+		public void s871()
+		{
+			using (var p = OpenTemplatePackage("s871.xlsx"))
+			{
+				p.Workbook.FullPrecision = true;
+
+				var sumSheet = p.Workbook.Worksheets["Summary"];
+				sumSheet.Calculate();
+
+				var AVal = sumSheet.Cells["G12"].Value;
+
+				SaveAndCleanup(p);
+			}
+		}
     }
 }
