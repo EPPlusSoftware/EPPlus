@@ -107,7 +107,7 @@ namespace EPPlusTest.Drawing.Chart
             var minor = axis.MinorGridlines;
             minor.Width = 1;
             Assert.IsTrue(axis.ExistsNode("c:minorGridlines")); 
-        } 
+        }
   
         [TestMethod] 
         public void Gridlines_Remove_IsNull()

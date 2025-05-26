@@ -1,13 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
-using OfficeOpenXml;
-using System.IO;
-using System.Drawing;
-using System.Text;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Security.Principal;
+using System.Text;
 
 namespace EPPlusTest.Issues
 {
@@ -399,6 +401,180 @@ namespace EPPlusTest.Issues
 				serie.XSeries = "{'col1','col2','col3'}";
                 SaveAndCleanup(package);
             }
+        }
+
+
+        [TestMethod]
+        public void SC870_ALT()
+		{
+			using (var package = OpenTemplatePackage("s870.xlsx"))
+			{
+				var wb = package.Workbook;
+
+				wb.FullCalcOnLoad = false;
+
+				var worksheet = package.Workbook.Worksheets["MASTER"];
+
+				var originalFormulaPart = "VLOOKUP(B11, Salgsfragt!B:C, 2, TRUE)";
+				var changedFormulaPart = "VLOOKUP(B11, Salgsfragt!B6:C65, 2, TRUE)";
+
+				var cellC19 = worksheet.Cells["C19"];
+
+
+				var cellC25 = worksheet.Cells["C25"];
+				cellC25.Formula = $"IF(B7=\"Denmark\", IF(VLOOKUP(B10, Produkter!A:Q, 13, FALSE)=\"PL2\", Salgsfragt!F6 * B11, ({changedFormulaPart} * B11) + IF(VLOOKUP(B10, Produkter!A:Q, 13, FALSE)=\"PT7\", VLOOKUP(\"PT7\", Salgsfragt!E:G, 2, FALSE) * B11, 0) + IF(Kalkulator!C52=\"Ja\", Salgsfragt!F5 * B11, 0)), Kalkulator!F21)";
+
+				cellC19.Formula = $"IF(B7=\"Denmark\", IF(VLOOKUP(B10, Produkter!A:Q, 13, FALSE)=\"PL2\", Salgsfragt!F6 * B11, ({changedFormulaPart} * B11) + IF(VLOOKUP(B10, Produkter!A:Q, 13, FALSE)=\"PT7\", VLOOKUP(\"PT7\", Salgsfragt!E:G, 2, FALSE) * B11, 0) + IF(Kalkulator!C52=\"Ja\", Salgsfragt!F5 * B11, 0)), Kalkulator!F21)/7.46";
+
+				//Alternative Slightly more efficent solution:
+				//cellC19.Formula = "C25/7.46";
+				//Since repeating the formula should be unnecesary.
+
+				wb.Calculate();
+
+				var val = cellC19.Value;
+				var val2 = cellC25.Value;
+
+				//Save workbook
+
+                SaveAndCleanup(package);
+            }
+		}
+
+
+			[TestMethod]
+		public void SC870_EpplusOnly()
+		{
+using(var p = new ExcelPackage())
+{
+	var wb = p.Workbook;
+	var ws = wb.Worksheets.Add("VLookupTest");
+	List<int> col1Values = new List<int>{ 1, 2, 4, 7, 11, 16, 21, 27 };
+    List<int> col2Values = new List<int> {  400, 365, 315, 280, 250, 215, 200, 170};
+
+    ws.Cells["B6:B13"].LoadFromCollection(col1Values);
+    ws.Cells["C6:C13"].LoadFromCollection(col2Values);
+
+	ws.Cells["A11"].Value = 1;
+
+	ws.Cells["F5"].Formula = "VLOOKUP(A11, B:C, 2, TRUE)";
+
+	ws.Calculate();
+
+	//Epplus returns N/A here but it appears to calculate correctly in excel. Why?
+    var outputValue = ws.Cells["F5"].Value;
+
+	//Save Workbook
+}
+        }
+
+        [TestMethod]
+        public void SC870()
+        {
+			using (var package = OpenTemplatePackage("s870.xlsx"))
+			{
+				var wb = package.Workbook;
+
+                var worksheet = package.Workbook.Worksheets[0];
+
+				worksheet.Cells["B7"].Value = "Denmark";
+				worksheet.Cells["B8"].Value = (int)9000;
+				worksheet.Cells["B10"].Value = "18L BIOBED bioactive bedding ORGANIC (full pallet)";
+				worksheet.Cells["B11"].Value = (int)1;
+
+				foreach (var sheet in package.Workbook.Worksheets)
+				{
+					sheet.Hidden = eWorkSheetHidden.Visible;
+					//sheet.Calculate();
+				}
+
+                //package.Workbook.Calculate();
+
+                //wb.wo
+                //"B6:C13"
+                //worksheet.Cells["F15"].Formula = "VLOOKUP(B11, Salgsfragt!B6:C13, 2, TRUE)";
+
+
+
+                worksheet.Cells["F15"].Formula = "VLOOKUP(B11, Salgsfragt!B:C, 2, TRUE)";
+
+				var sWs = package.Workbook.Worksheets.GetByName("Salgsfragt");
+				sWs.Cells["B4"].Value = null;
+                sWs.Cells["B2"].Value = null;
+
+
+                // Output from the logger will be written to the following file
+                var logfile = new FileInfo(@"c:\temp\logfile.txt");
+                // Attach the logger before the calculation is performed.
+                package.Workbook.FormulaParserManager.AttachLogger(logfile);
+				worksheet.Cells["F15"].Calculate();
+                package.Workbook.FormulaParserManager.DetachLogger();
+
+                var errorText = worksheet.Cells["D8"].Text;
+
+                //// Output from the logger will be written to the following file
+                //var logfile = new FileInfo(@"c:\temp\logfile.txt");
+                //// Attach the logger before the calculation is performed.
+                //package.Workbook.FormulaParserManager.AttachLogger(logfile);
+                //worksheet.Cells["C19"].Calculate();
+                //// The following method removes any logger attached to the workbook.
+                //package.Workbook.FormulaParserManager.DetachLogger();
+
+                //var transportPriceVal = worksheet.Cells["C19"].Value;
+
+                //if (!string.IsNullOrEmpty(errorText))
+                //{
+                //	return BadRequest(new List<string>() { errorText });
+                //}
+
+                // Save
+
+                SaveAndCleanup(package);
+				//var savePath = Path.Combine(Directory.GetCurrentDirectory(), "PriceData", "calculator_result.xlsx");
+				//package.SaveAs(new FileInfo(savePath));
+
+				//var totalM3Text = worksheet.Cells["B14"].Text;
+				//var expectedTransitTime = worksheet.Cells["B15"].Text;
+				//var itemPriceEurText = worksheet.Cells["C18"].Value.ToString();
+				//var transportPriceEurText = worksheet.Cells["C19"].Value.ToString();
+				//var totalPriceEurText = worksheet.Cells["C20"].Value.ToString();
+
+				//double? totalM3 = null;
+				//double? itemPriceEur = null;
+				//double? transportPriceEur = null;
+				//double? totalPriceEur = null;
+
+				//if (!string.IsNullOrEmpty(totalM3Text))
+				//{
+				//	totalM3 = double.Parse(totalM3Text.Replace(",", "."), CultureInfo.InvariantCulture);
+				//}
+
+				//if (!string.IsNullOrEmpty(itemPriceEurText))
+				//{
+				//	itemPriceEur = double.Parse(itemPriceEurText.Replace(",", "."), CultureInfo.InvariantCulture);
+				//}
+
+				//if (!string.IsNullOrEmpty(transportPriceEurText))
+				//{
+				//	transportPriceEur = double.Parse(transportPriceEurText.Replace(",", "."),
+				//		CultureInfo.InvariantCulture);
+				//}
+
+				//if (!string.IsNullOrEmpty(totalPriceEurText))
+				//{
+				//	totalPriceEur = double.Parse(totalPriceEurText.Replace(",", "."), CultureInfo.InvariantCulture);
+				//}
+
+				//return Ok(new
+				//{
+				//	TotalM3 = totalM3,
+				//	ExpectedTransitTime = expectedTransitTime,
+				//	ItemPriceEur = itemPriceEur,
+				//	TransportPriceEur = transportPriceEur,
+				//	TotalPriceEur = totalPriceEur,
+				//	ItemName = worksheet.Cells["B10"].Text,
+				//});
+			}
         }
     }
 }
