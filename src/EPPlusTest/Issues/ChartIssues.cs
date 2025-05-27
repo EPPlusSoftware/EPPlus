@@ -474,7 +474,6 @@ namespace EPPlusTest.Issues
 			using (var package = OpenTemplatePackage("s870.xlsx"))
 			{
 				var wb = package.Workbook;
-
                 var worksheet = package.Workbook.Worksheets[0];
 
 				worksheet.Cells["B7"].Value = "Denmark";
@@ -499,7 +498,6 @@ namespace EPPlusTest.Issues
 				var sWs = package.Workbook.Worksheets.GetByName("Salgsfragt");
 				sWs.Cells["B4"].Value = null;
                 sWs.Cells["B2"].Value = null;
-
 
                 // Output from the logger will be written to the following file
                 var logfile = new FileInfo(@"c:\temp\logfile.txt");

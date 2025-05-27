@@ -2803,5 +2803,90 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        internal ExcelRangeBase FirstValueCell()
+        {
+            var fromRow = _fromRow;
+            var fromCol = _fromCol;
+
+            if (Worksheet._values.GetValue(fromRow, fromCol)._value == null)
+            {
+                while (Worksheet._values.NextCell(ref fromRow, ref fromCol, _fromRow, _fromCol + 1, _toRow, _toCol + 1))
+                {
+                    if (Worksheet._values.GetValue(fromRow, fromCol)._value != null)
+                    {
+                        return Worksheet.Cells[fromRow, fromCol];
+                    }
+                }
+                return null;
+            }
+            return Worksheet.Cells[fromRow, fromCol];
+        }
+
+        internal ExcelRangeBase LastValueCell()
+        {
+            var toRow = _toRow - 1;
+            var toCol = _toCol;
+            if (Worksheet._values.GetValue(toRow, toCol)._value == null)
+            {
+                while (Worksheet._values.PrevCell(ref toRow, ref toCol, _fromRow, _fromCol + 1, _toRow, _toCol + 1) && toRow > 0)
+                {
+                    if (toCol > 0 && Worksheet._values.GetValue(toRow, toCol)._value != null)
+                    {
+                        return Worksheet.Cells[toRow, toCol];
+                    }
+                }
+                return null;
+            }
+            return Worksheet.Cells[toRow, toCol];
+        }
+
+        internal ExcelRangeBase RangeByValue()
+        {
+            var fvc = FirstValueCell();
+            var lvc = LastValueCell();
+
+            var fromRow = fvc._fromRow;
+            var toRow = lvc._toRow;
+            int fromCol, toCol;
+
+            if (fvc._fromCol == _fromRow)
+            {
+                fromCol = fvc._fromCol;
+            }
+            else
+            {
+                int r = fromRow, c = _fromCol;
+                while (Worksheet._values.NextCellByColumn(ref r, ref c, fromRow, toRow, Columns))
+                {
+                    if (Worksheet._values.GetValue(r, c)._value != null)
+                    {
+                        break;
+                    }
+                    r++;
+                }
+                fromCol = c;
+            }
+
+            if (lvc._toCol == _toCol)
+            {
+                toCol = lvc._toCol;
+            }
+            else
+            {
+                int r = toRow, c = _toCol;
+                while (Worksheet._values.PrevCellByColumn(ref r, ref c, fromRow, toRow, Columns))
+                {
+                    if (Worksheet._values.GetValue(r, c)._value != null)
+                    {
+                        break;
+                    }
+                    r--;
+                }
+                toCol = c;
+            }
+
+            return Worksheet.Cells[Math.Min(fromRow, toRow), Math.Min(fromCol, toCol), Math.Max(fromRow, toRow), Math.Max(fromCol, toCol)];
+        }
     }
 }
