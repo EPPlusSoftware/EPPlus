@@ -9,8 +9,11 @@ namespace OfficeOpenXml.PDF.PdfObjects
     {
         /*TODO*/Type0,      //Used for Asian fonts
         Type1,      //Used for built-in fonts
+        MMType1,
         /*TODO*/Type3,      //Custom front
         /*TODO*/TrueType,   //For embedding fonts
+        /*TODO*/CIDFontType0,     //
+        /*TODO*/CIDFontType2,     //
     }
 
     public enum PdfFontEncoding
@@ -22,14 +25,19 @@ namespace OfficeOpenXml.PDF.PdfObjects
 
     internal class PdfFont : PdfObject
     {
-        private readonly string fontName;
+        private readonly string baseFont;
         private readonly PdfFontSubType subType;
         private readonly PdfFontEncoding encoding;
+        private readonly int firstChar;
+        private readonly int lastChar;
+        private readonly int widthObjectNumber;
+        private readonly int fontDescriptorObjectNumber;
+
 
         public PdfFont(int objectNumber, string fontName = "Helvetica", PdfFontSubType subType = PdfFontSubType.Type1, PdfFontEncoding encoding = PdfFontEncoding.WinAnsiEncoding)
             : base(objectNumber, 0)
         {
-            this.fontName = fontName;
+            this.baseFont = fontName;
             this.subType = subType;
             this.encoding = encoding;
         }
@@ -39,7 +47,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Font\n" +
                    $"   /Subtype /{subType}\n" +
-                   $"   /BaseFont /{fontName}");
+                   $"   /BaseFont /{baseFont}");
             if (encoding == PdfFontEncoding.None)
             {
                 sb.Append(" >>");

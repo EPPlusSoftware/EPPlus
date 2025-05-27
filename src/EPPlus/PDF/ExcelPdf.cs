@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.PDF.PdfFontData;
 using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfObjects;
@@ -20,8 +21,8 @@ namespace OfficeOpenXml.PDF
         List<PdfObject> body = new List<PdfObject>();
         PdfCrossRefTable crossRefTable;
 
-        public readonly Dictionary<int, string> fontResources = new Dictionary<int, string>();
-
+        public readonly Dictionary<string, Dictionary<int, string>> fontResources = new Dictionary<string, Dictionary<int, string>>();
+        private static Dictionary<uint, PdfFontProperties> _fonts;
 
         PdfPageSettings.PdfPageSettings PageSettings;
 
@@ -36,23 +37,33 @@ namespace OfficeOpenXml.PDF
             PageSettings = pageSettings;
         }
 
-        public void AddFont(string fontName = "Helvetica")
-        {
-            var font = new PdfFont(body.Count + 1, fontName);
-            body.Add(font);
-            fontResources.Add(body.IndexOf(font) + 1, "F" + (fontResources.Count + 1));
-        }
         public void AddFont(string fontName = "Helvetica", PdfFontSubType fontSubType = PdfFontSubType.Type1, PdfFontEncoding encoding = PdfFontEncoding.WinAnsiEncoding)
         {
-            var font = new PdfFont(body.Count + 1, fontName, fontSubType, encoding);
-            body.Add(font);
-            fontResources.Add(body.IndexOf(font) + 1, "F" + (fontResources.Count + 1));
+            if (!fontResources.ContainsKey(fontName))
+            {
+                if(_fonts == null)
+                    _fonts =  PdfFontMetricsLoader.LoadFontMetrics();
+
+                //_fonts[26]
+
+                var fontDescriptor = new PdfFontDescriptor(body.Count + 1, fontName, -1, null, -1, -1, -1, -1, -1);
+                body.Add(fontDescriptor);
+
+                var Width = new PdfFontWidths(body.Count + 1, [-1], -1,-1);
+
+                var font = new PdfFont(body.Count + 1, fontName, fontSubType, encoding); //add fontDescritorObjectNumner, widthObjectNumber,
+                body.Add(font);
+                fontResources.Add(fontName, new Dictionary<int, string> { { body.IndexOf(font) + 1, "F" + (fontResources.Count + 1) } });
+            }
         }
 
-        public void AddText(string text, string fontResourceName, float size, double x, double y)
+        public void AddText(string text, string cellFontname, float size, double x, double y)
         {
+            //check fontname ang get resource name
+            AddFont();
+
             var content = new PdfContentStream(body.Count + 1);
-            content.AddText(fontResourceName, size, x, y, text);
+            content.AddText(fontResources[cellFontname].Values.First(), size, x, y, text);
             body.Add(content);
         }
 
@@ -88,7 +99,6 @@ namespace OfficeOpenXml.PDF
 
         private void AddWorksheetCells(ExcelWorksheet ws, PdfContentBounds bounds)
         {
-            AddFont("AptosNarrow", PdfFontSubType.TrueType, PdfFontEncoding.None);
             double prevWidth = 0;
             double prevHeight = 0;
             var x = 0d;
@@ -141,7 +151,7 @@ namespace OfficeOpenXml.PDF
                                 x = x + PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width) - ((double)result.Width - sum);
                             }
                         }
-                        AddText(cell.Value.ToString(), "F1", cell.Style.Font.Size, x, y);
+                        AddText(cell.Value.ToString(), cell.Style.Font.Name, cell.Style.Font.Size, x, y);
                     }
 
                     prevWidth += PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width);
