@@ -445,27 +445,27 @@ namespace EPPlusTest.Issues
 			[TestMethod]
 		public void SC870_EpplusOnly()
 		{
-using(var p = new ExcelPackage())
-{
-	var wb = p.Workbook;
-	var ws = wb.Worksheets.Add("VLookupTest");
-	List<int> col1Values = new List<int>{ 1, 2, 4, 7, 11, 16, 21, 27 };
-    List<int> col2Values = new List<int> {  400, 365, 315, 280, 250, 215, 200, 170};
+			using(var p = new ExcelPackage())
+			{
+				var wb = p.Workbook;
+				var ws = wb.Worksheets.Add("VLookupTest");
+				List<int> col1Values = new List<int>{ 1, 2, 4, 7, 11, 16, 21, 27 };
+				List<int> col2Values = new List<int> {  400, 365, 315, 280, 250, 215, 200, 170};
 
-    ws.Cells["B6:B13"].LoadFromCollection(col1Values);
-    ws.Cells["C6:C13"].LoadFromCollection(col2Values);
+				ws.Cells["B6:B13"].LoadFromCollection(col1Values);
+				ws.Cells["C6:C13"].LoadFromCollection(col2Values);
 
-	ws.Cells["A11"].Value = 1;
+				ws.Cells["A11"].Value = 1;
 
-	ws.Cells["F5"].Formula = "VLOOKUP(A11, B:C, 2, TRUE)";
+				ws.Cells["F5"].Formula = "VLOOKUP(A11, B:C, 2, TRUE)";
 
-	ws.Calculate();
+				ws.Calculate();
 
-	//Epplus returns N/A here but it appears to calculate correctly in excel. Why?
-    var outputValue = ws.Cells["F5"].Value;
+				//Epplus returns N/A here but it appears to calculate correctly in excel. Why?
+				var outputValue = ws.Cells["F5"].Value;
 
-	//Save Workbook
-}
+				//Save Workbook
+			}
         }
 
         [TestMethod]
@@ -494,8 +494,6 @@ using(var p = new ExcelPackage())
                 //"B6:C13"
                 //worksheet.Cells["F15"].Formula = "VLOOKUP(B11, Salgsfragt!B6:C13, 2, TRUE)";
 
-
-
                 worksheet.Cells["F15"].Formula = "VLOOKUP(B11, Salgsfragt!B:C, 2, TRUE)";
 
 				var sWs = package.Workbook.Worksheets.GetByName("Salgsfragt");
@@ -510,7 +508,18 @@ using(var p = new ExcelPackage())
 				worksheet.Cells["F15"].Calculate();
                 package.Workbook.FormulaParserManager.DetachLogger();
 
+				var someVal = worksheet.Cells["F15"].Value;
+
                 var errorText = worksheet.Cells["D8"].Text;
+
+                var cellC19 = worksheet.Cells["C19"];
+                var cellC25 = worksheet.Cells["C25"];
+
+				worksheet.Calculate();
+
+				var val1 = cellC19.Value;
+				var val2 = cellC25.Value;
+
 
                 //// Output from the logger will be written to the following file
                 //var logfile = new FileInfo(@"c:\temp\logfile.txt");

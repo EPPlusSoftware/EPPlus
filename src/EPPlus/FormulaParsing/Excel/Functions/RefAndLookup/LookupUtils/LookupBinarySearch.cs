@@ -11,6 +11,7 @@
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,84 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
     {
         private static int SearchAsc(object s, IRangeInfo lookupRange, IComparer<object> comparer, LookupRangeDirection? direction = null)
         {
+            //var firstCol = lookupRange.Worksheet.Column(lookupRange.Address.FromCol);
 
-            var nRows = lookupRange.Size.NumberOfRows;
             var nCols = lookupRange.Size.NumberOfCols;
-            if (nRows == 0 && nCols == 0) return -1;
+            var nRows = lookupRange.Size.NumberOfRows;
+
+            var colValueLists = new List<List<Object>> ();
+
+            var largestRowCount = 0;
+
+            //If not numeric is assumed string
+            bool searchIsNumeric = s.IsNumeric();
+
+            for (int i = 0; i < nCols; i++)
+            {
+                var columnValues = lookupRange.Worksheet._values.GetColumnIndex(lookupRange.Address.FromCol + i);
+
+                var actualValues = new List<Object>();
+
+                //Copy only actual values. Not Null values.
+                foreach (var someCellValue in columnValues._values)
+                {
+                    if(someCellValue._value != null)
+                    {
+                        if(searchIsNumeric && someCellValue._value.IsNumeric())
+                        {
+                            actualValues.Add(someCellValue._value);
+                        }
+                        else if(!searchIsNumeric && someCellValue._value is string)
+                        {
+                            //If not numeric 's' is assumed string
+                            actualValues.Add(someCellValue._value);
+                        }
+                    }
+                }
+
+                //Amount of values == amount of rows for the column
+                var rowCount = actualValues.Count();
+                if (largestRowCount < rowCount)
+                {
+                    largestRowCount = rowCount;
+                }
+                colValueLists.Add(actualValues);
+            }
+
+            nRows = largestRowCount;
+
+
+
+            //var wstest = lookupRange.Worksheet.Cells[lookupRange.Address.WorksheetAddress];
+            //var someValue = wstest.Value;
+
+
+            //someValues.column
+
+            //lookupRange.Worksheet.Column(lookupRange.Address.FromCol);
+
+            //var nCells = lookupRange.GetNCells();
+            //var cols = lookupRange.Worksheet.Columns[lookupRange.Address.FromCol, lookupRange.Address.ToCol];
+            //var firstCol = cols.col;
+            //fir
+            ////var adjusted = lookupRange.GetAddressDimensionAdjusted(0);
+            //var anAddress = lookupRange.Worksheet[lookupRange.Address.FromCol];
+
+
+
+            //var startCol = lookupRange.Worksheet.GetColumn(lookupRange.Address.FromCol);
+            //startCol.
+
+            //anAddress.
+            //lookupRange.Worksheet.Cells[lookupRange.Address]
+            //lookupRange.Address
+
+            //var nRows = lookupRange.Size.NumberOfRows;
+            //var nCols = lookupRange.Size.NumberOfCols;
+
+            //var valList = cellValues._values;
+            //var nRows = valList.Count();
+
             int low = 0, high = nCols > nRows ? nCols : nRows, mid;
             if (direction.HasValue)
             {
@@ -44,117 +119,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     row = direction.Value == LookupRangeDirection.Vertical ? mid : 0;
                 }
 
-                //Row and col are 0-based if equal we will be past the last value due to GetOffset
-                if (row == nRows || col == nCols)
-                {
-                    break;
-                }
-
-                var val = lookupRange.GetOffset(row, col);
+                var val = colValueLists[col][row];
 
                 var result = comparer.Compare(s, val);
 
                 if (result < 0)
-                    high = mid - 1;
+                    high = mid;
 
                 else if (result > 0)
-                    low = mid + 1;
+                    low = mid;
 
                 else
                     return mid;
             }
-
-            return ~low;
-
-            ////var firstCol = lookupRange.Worksheet.Column(lookupRange.Address.FromCol);
-
-            //var nCols = lookupRange.Size.NumberOfCols;
-            //var nRows = lookupRange.Size.NumberOfRows;
-
-            //var colValueLists = new List<ColumnIndex<ExcelValue>>();
-
-            //var largestCount = 0;
-
-            //for(int i = 0; i< nCols; i++)
-            //{
-            //    var columnValues = lookupRange.Worksheet._values.GetColumnIndex(lookupRange.Address.FromCol + i);
-            //    var valCount = columnValues._values.Count();
-            //    if (largestCount < valCount)
-            //    {
-            //        largestCount = valCount;
-            //    }
-            //    colValueLists.Add(columnValues);
-            //}
-
-            //nRows = largestCount;
-
-            ////var wstest = lookupRange.Worksheet.Cells[lookupRange.Address.WorksheetAddress];
-            ////var someValue = wstest.Value;
-
-
-            ////someValues.column
-
-            ////lookupRange.Worksheet.Column(lookupRange.Address.FromCol);
-
-            ////var nCells = lookupRange.GetNCells();
-            ////var cols = lookupRange.Worksheet.Columns[lookupRange.Address.FromCol, lookupRange.Address.ToCol];
-            ////var firstCol = cols.col;
-            ////fir
-            //////var adjusted = lookupRange.GetAddressDimensionAdjusted(0);
-            ////var anAddress = lookupRange.Worksheet[lookupRange.Address.FromCol];
-
-
-
-            ////var startCol = lookupRange.Worksheet.GetColumn(lookupRange.Address.FromCol);
-            ////startCol.
-
-            ////anAddress.
-            ////lookupRange.Worksheet.Cells[lookupRange.Address]
-            ////lookupRange.Address
-
-            ////var nRows = lookupRange.Size.NumberOfRows;
-            ////var nCols = lookupRange.Size.NumberOfCols;
-
-            ////var valList = cellValues._values;
-            ////var nRows = valList.Count();
-
-            //int low = 0, high = nCols > nRows ? nCols : nRows, mid;
-            //if (direction.HasValue)
-            //{
-            //    high = direction.Value == LookupRangeDirection.Vertical ? nRows : nCols;
-            //}
-
-            //while (low <= high)
-            //{
-            //    mid = low + high >> 1;
-
-            //    var col = nRows >= nCols ? 0 : mid;
-            //    var row = nRows >= nCols ? mid : 0;
-            //    if (direction.HasValue)
-            //    {
-            //        col = direction.Value == LookupRangeDirection.Vertical ? 0 : mid;
-            //        row = direction.Value == LookupRangeDirection.Vertical ? mid : 0;
-            //    }
-
-            //    //Row and col are 0-based if equal we will be past the last value due to GetOffset
-            //    if (row == nRows || col == nCols)
-            //    {
-            //        break;
-            //    }
-
-            //    var val = colValueLists[col]._values[row]._value;
-
-            //    var result = comparer.Compare(s, val);
-
-            //    if (result < 0)
-            //        high = mid - 1;
-
-            //    else if (result > 0)
-            //        low = mid + 1;
-
-            //    else
-            //        return mid;
-            //}
 
             //var nRows = lookupRange.Size.NumberOfRows;
             //var nCols = lookupRange.Size.NumberOfCols;
