@@ -34,12 +34,16 @@ namespace OfficeOpenXml.PDF.PdfObjects
         private readonly int fontDescriptorObjectNumber;
 
 
-        public PdfFont(int objectNumber, string fontName = "Helvetica", PdfFontSubType subType = PdfFontSubType.Type1, PdfFontEncoding encoding = PdfFontEncoding.WinAnsiEncoding)
+        public PdfFont(int objectNumber, string fontName = "Helvetica", PdfFontSubType subType = PdfFontSubType.Type1, int firstChar = -1, int lastChar = -1, int widthObjectNumber = -1, int fontDescObjectNumner = -1, PdfFontEncoding encoding = PdfFontEncoding.WinAnsiEncoding)
             : base(objectNumber, 0)
         {
             this.baseFont = fontName;
             this.subType = subType;
             this.encoding = encoding;
+            this.firstChar = firstChar;
+            this.lastChar = lastChar;
+            this.widthObjectNumber = widthObjectNumber;
+            this.fontDescriptorObjectNumber = fontDescObjectNumner;
         }
 
         internal override string RenderDictionary()
@@ -47,13 +51,33 @@ namespace OfficeOpenXml.PDF.PdfObjects
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Font\n" +
                    $"   /Subtype /{subType}\n" +
-                   $"   /BaseFont /{baseFont}");
+                   $"   /BaseFont /{baseFont.Replace(" ", "")}");
             if (encoding == PdfFontEncoding.None)
             {
                 sb.Append(" >>");
                 return sb.ToString();
             }
-            sb.AppendFormat($"\n   /Encoding /{encoding} >>");
+            else
+            {
+                sb.Append("\n");
+            }
+            if (firstChar > -1)
+            {
+                sb.AppendFormat($"   /FirstChar {firstChar}\n");
+            }
+            if(lastChar > -1)
+            {
+                sb.AppendFormat($"   /LastChar {lastChar}\n");
+            }
+            if (widthObjectNumber > -1)
+            {
+                sb.AppendFormat($"   /Widths {widthObjectNumber } 0 R\n");
+            }
+            if (fontDescriptorObjectNumber > -1)
+            {
+                sb.AppendFormat($"   /FontDescriptor {fontDescriptorObjectNumber} 0 R\n");
+            }
+            sb.AppendFormat($"   /Encoding /{encoding} >>");
             return sb.ToString();
         }
     }

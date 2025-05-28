@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
+﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
+using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.PDF.PdfFontData;
@@ -21,6 +22,9 @@ namespace OfficeOpenXml.PDF
         List<PdfObject> body = new List<PdfObject>();
         PdfCrossRefTable crossRefTable;
 
+        /// <summary>
+        /// Key is the font name. Value is a dict where key is font object number and value is the name to use in a text.
+        /// </summary>
         public readonly Dictionary<string, Dictionary<int, string>> fontResources = new Dictionary<string, Dictionary<int, string>>();
         private static Dictionary<uint, PdfFontProperties> _fonts;
 
@@ -46,21 +50,39 @@ namespace OfficeOpenXml.PDF
 
                 //_fonts[26]
 
-                var fontDescriptor = new PdfFontDescriptor(body.Count + 1, fontName, -1, null, -1, -1, -1, -1, -1);
-                body.Add(fontDescriptor);
+                if (Enum.IsDefined(typeof(FontMetricsFamilies), fontName.Replace(" ", "")))
+                {
+                    //var fi = (FontMetricsFamilies)Enum.Parse(typeof(FontMetricsFamilies), fontName.Replace(" ", ""));
+                    uint fi = 1703936;
+                    var defaults = _fonts[fi].DefaultWidthClass;
+                    var fontDescriptor = new PdfFontDescriptor(body.Count + 1, fontName,
+                        _fonts[fi].flags,
+                        _fonts[fi].fontBBox,
+                        _fonts[fi].italicAngle,
+                        _fonts[fi].ascent, _fonts[fi].descent,
+                        _fonts[fi].stemV,
+                        _fonts[fi].capheight);
+                    body.Add(fontDescriptor);
 
-                var Width = new PdfFontWidths(body.Count + 1, [-1], -1,-1);
+                    var Width = new PdfFontWidths(body.Count + 1, _fonts[fi].ClassWidths, _fonts[fi].CharMetrics);
+                    body.Add(Width);
 
-                var font = new PdfFont(body.Count + 1, fontName, fontSubType, encoding); //add fontDescritorObjectNumner, widthObjectNumber,
-                body.Add(font);
-                fontResources.Add(fontName, new Dictionary<int, string> { { body.IndexOf(font) + 1, "F" + (fontResources.Count + 1) } });
+                    var font = new PdfFont(body.Count + 1, fontName, fontSubType, _fonts[fi].firstChar, _fonts[fi].lastChar,Width.objectNumber, fontDescriptor.objectNumber, encoding);
+                    body.Add(font);
+                    fontResources.Add(fontName, new Dictionary<int, string> { { body.IndexOf(font) + 1, "F" + (fontResources.Count + 1) } });
+                }
+                else
+                {
+                    //should do fallback font here. Maybe a user setting to throw or use fallback.
+                    throw new Exception("This is a temporary exception");
+                }
             }
         }
 
         public void AddText(string text, string cellFontname, float size, double x, double y)
         {
             //check fontname ang get resource name
-            AddFont();
+            AddFont(cellFontname);
 
             var content = new PdfContentStream(body.Count + 1);
             content.AddText(fontResources[cellFontname].Values.First(), size, x, y, text);

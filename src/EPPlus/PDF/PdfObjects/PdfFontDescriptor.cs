@@ -25,13 +25,13 @@ namespace OfficeOpenXml.PDF.PdfObjects
         private readonly string fontName; //Same as PdfFont.BaseFont
         private readonly int flags;
         private readonly PdfRect fontBBox;
-        private readonly int italicAngle;
+        private readonly double italicAngle;
         private readonly int ascent;
         private readonly int descent;
-        private readonly int stemV;
+        private readonly double stemV;
         private readonly int capheight;
 
-        public PdfFontDescriptor(int objectNumber, string fontName, int flags, PdfRect fontBBox, int italicAngle, int ascent, int descent, int stemV, int capHeight, int version = 0)
+        public PdfFontDescriptor(int objectNumber, string fontName, int flags, PdfRect fontBBox, double italicAngle, int ascent, int descent, double stemV, int capHeight, int version = 0)
             : base(objectNumber, version)
         {
             this.fontName = fontName;
@@ -46,14 +46,15 @@ namespace OfficeOpenXml.PDF.PdfObjects
 
         internal override string RenderDictionary()
         {
-            return $"<< /Type /FontDescriptor\n" +
-                    $"   /FontName /{fontName}\n" +
+            return $"<<  /Type /FontDescriptor\n" +
+                    $"   /FontName /{fontName.Replace(" ", "")}\n" +
+                    $"   /Flags {flags}\n" +
                     $"   /FontBBox [{fontBBox.X + fontBBox.Width} {fontBBox.Y} {fontBBox.X+fontBBox.Width} {fontBBox.Y + fontBBox.Height}]\n" +
                     $"   /Ascent {ascent}\n" +
                     $"   /Descent {descent}\n" +
                     $"   /CapHeight {capheight}\n" +
-                    $"   /ItalicAngle {italicAngle}\n" +
-                    $"   /StemV {stemV} >>";
+                    $"   /ItalicAngle {(int)italicAngle}\n" +
+                    $"   /StemV {(int)stemV} >>";
         }
     }
 }

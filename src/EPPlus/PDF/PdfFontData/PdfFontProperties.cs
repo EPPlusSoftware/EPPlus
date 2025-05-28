@@ -49,12 +49,10 @@ namespace OfficeOpenXml.PDF.PdfFontData
         public double italicAngle;
         public int ascent;
         public int descent;
-        public int stemV;
+        public double stemV;
         public short capheight;
         public int firstChar;
         public int lastChar;
-
-        private readonly int widthObjectNumber;//this is an array of font width for the pdffontwidths object. We already have this read in classwidth most likely. Make a property that reads classwidths proprerty and returns an array for pdfwidths object.
 
         public static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)
         {

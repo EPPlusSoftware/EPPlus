@@ -74,11 +74,10 @@ namespace OfficeOpenXml.PDF.PdfFontData
                 metrics.descent = reader.ReadInt16();
                 metrics.capheight = reader.ReadInt16();
                 metrics.flags = reader.ReadInt32();
+                metrics.stemV = reader.ReadDouble();
 
-                metrics.stemV = 1;
-                metrics.firstChar = 1;
-                metrics.lastChar = 1;
-                
+                metrics.firstChar = 32;
+                metrics.lastChar = 255;
 
                 return metrics;
             }

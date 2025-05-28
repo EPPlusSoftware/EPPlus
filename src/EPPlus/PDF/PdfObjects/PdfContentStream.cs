@@ -60,7 +60,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
             var content = string.Join("\n", commands.ToArray()) + "\n";
             var bytes = Encoding.ASCII.GetBytes(content);
             return $"<< /Length {bytes.Length} >>\n" +
-                   $"stream\n{content}endstream\n";
+                   $"stream\n{content}endstream";
         }
 
         private string FixEscapeCharacters(string text)

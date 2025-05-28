@@ -22,7 +22,7 @@ namespace OfficeOpenXml.PDF
             var sb = new StringBuilder();
             sb.AppendFormat("{0} {1} obj\n", objectNumber, version);
             sb.Append(RenderDictionary());
-            sb.Append("endobj\n");
+            sb.Append("\nendobj\n");
             return Encoding.ASCII.GetBytes(sb.ToString());
         }
 

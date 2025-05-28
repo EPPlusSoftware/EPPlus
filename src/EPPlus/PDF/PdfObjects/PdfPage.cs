@@ -33,7 +33,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
                    $"   /Parent {parentObjectNumber} 0 R\n" +
                    $"   /Resources << /Font << {fonts} >> >>\n" +
                    $"   /MediaBox [0 0 {PdfString.Convert(Size.WidthPoints)} {PdfString.Convert(Size.HeightPoints)}]\n" +
-                   $"   /Contents [ {string.Join(" ", contentEntries)} ]>>";
+                   $"   /Contents [ {string.Join(" ", contentEntries)} ] >>";
         }
     }
 }
