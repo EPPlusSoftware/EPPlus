@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,14 +39,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             }
             var tokenResult = arguments.Last().Value as LambdaTokensResult;
             var calculator = new LambdaCalculator(tokenResult.Tokens, tokenResult.Scope);
-            var variables = new List<CompileResult>();
+            var variables = new List<VariableCompileResult>();
             for(var i = 0; i < arguments.Count -1; i++)
             {
                 var arg = arguments[i];
-                var cr = new CompileResult(arg.Value, arg.DataType);
-                variables.Add(cr);
+                if(arg.IsVariableResult)
+                {
+                    variables.Add(arg.ValueAsVariableCompileResult);
+                }
+                else if(arg.DataType == DataType.LambdaVariableDeclaration)
+                {
+                    variables.Add(new VariableCompileResult(arg.Value.ToString(), null, DataType.LambdaVariableDeclaration));
+                }
             }
-            calculator.SetVariables(variables);
+            calculator.SetVariables(variables, context);
             return new CompileResult(calculator, DataType.LambdaCalculation);
         }
     }

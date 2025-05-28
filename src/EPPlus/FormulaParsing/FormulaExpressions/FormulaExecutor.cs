@@ -442,6 +442,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         f._endPos= tokenIx;
                         if (f.IsLambda && isInLambdaCalculation)
                         {
+                            if(lambdaCalculationExpression != null && lambdaCalculationExpression.Tokens.Last().TokenType == TokenType.ClosingParenthesis)
+                            {
+                                lambdaCalculationExpression.Tokens.RemoveAt(lambdaCalculationExpression.Tokens.Count - 1);
+                            }
                             lambdaCalculationExpression = null;
                             isInLambdaCalculation = false;
                         }

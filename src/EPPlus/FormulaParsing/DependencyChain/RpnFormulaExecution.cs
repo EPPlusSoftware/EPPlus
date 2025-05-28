@@ -496,6 +496,10 @@ namespace OfficeOpenXml.FormulaParsing
                                 f._flags |= FormulaFlags.IsAlwaysDynamic;
                             }
                         }
+                        else
+                        {
+                            f._expressionStack.Push(e);
+                        }
                     }
                 }
 
@@ -1077,7 +1081,7 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 s.Push(f._expressions[f._tokenIndex]);
                             }
-                            else if (cr.DataType != DataType.LambdaVariableDeclaration && f.LambdaSettings.LambdaArgsAdded.Count > 0)
+                            else if (cr.DataType != DataType.LambdaVariableDeclaration && f.LambdaSettings.LambdaArgsAdded.Count > 0 && f.LambdaSettings.LambdaArgsAdded.Peek() < f.GetNumberOfLambdaVariables())
                             {
                                 leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), cr.Result, cr.DataType);
                                 var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
@@ -1103,14 +1107,30 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.FullRowAddress:
                         var e = f._expressions[f._tokenIndex];
                         s.Push(e);
+                        var localReturnAddress = true;
                         if (leStackPos != null)
                         {
-                            //var cr = e.Compile();
-                            leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), t.Value, DataType.ExcelRange);
-                            var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
-                            f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
+                            var addVariable = true;
+                            if(t.TokenType == TokenType.CellAddress)
+                            {
+                                var tIx = f._tokenIndex + 1;
+                                while(tIx < f._tokens.Count - 1 && f._tokens[tIx].TokenType == TokenType.CellAddress)
+                                {
+                                    addVariable = false;
+                                    localReturnAddress = false;
+                                    s.Push(f._expressions[tIx]);
+                                    f._tokenIndex++;
+                                    tIx++;
+                                }
+                            }
+                            if(addVariable)
+                            {
+                                leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), t.Value, DataType.ExcelRange);
+                                var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
+                                f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
+                            }
                         }
-                        if (returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
+                        if (localReturnAddress && returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
                         {
                             //if (IsSingleAddress(f))
                             //{
@@ -1305,7 +1325,18 @@ namespace OfficeOpenXml.FormulaParsing
                         if(shouldInvokeLambda)
                         {
                             var cr = LambdaInvoker.InvokeLambdaFunction(depChain, f);
-                            PushResult(depChain._parsingContext, f, cr);
+                            if(f.LambdaSettings.NumberOfLambdaVariables.Count > 0)
+                            {
+                                f.LambdaSettings.NumberOfLambdaVariables.Pop();
+                            }
+                            if (f.LambdaSettings.LambdaArgsAdded.Count > 0)
+                            {
+                                f.LambdaSettings.LambdaArgsAdded.Pop();
+                            }
+                            if(cr != null)
+                            {
+                                PushResult(depChain._parsingContext, f, cr);
+                            }
                         }
                         break;
                 }

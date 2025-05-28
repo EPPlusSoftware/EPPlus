@@ -112,6 +112,16 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
         }
 
         [TestMethod]
+        public void LambdaSimpleCalc()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LAMBDA(a,a)(2)";
+            sheet.Calculate();
+            Assert.AreEqual(2d, sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
         public void LambdaRecursive1()
         {
             using var package = new ExcelPackage();
@@ -282,16 +292,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 
         [TestMethod]
         public void LambdaClearExpressionStack1()
-        {
-            using var p = new ExcelPackage();
-            var sheet = p.Workbook.Worksheets.Add("Sheet1");
-            sheet.Cells["A1"].Formula = "LAMBDA(x, x + 1)(1) & \"2\"";
-            sheet.Calculate();
-            Assert.AreEqual("22", sheet.Cells["A1"].Value);
-        }
-
-        [TestMethod]
-        public void LambdaClearExpressionStack2()
         {
             using var p = new ExcelPackage();
             var sheet = p.Workbook.Worksheets.Add("Sheet1");

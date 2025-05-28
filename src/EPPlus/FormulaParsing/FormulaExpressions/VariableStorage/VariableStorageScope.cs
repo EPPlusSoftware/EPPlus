@@ -12,11 +12,13 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
 {
+    [DebuggerDisplay("NumberOfVariables: {NumberOfVariables}, Id: {Id}")]
     internal class VariableStorageScope
     {
         public VariableStorageScope(VariableStorageManager storageManager)
@@ -40,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
 
         public VariableStorageManager VariableStorage => _storageManager;
 
-        public int NumberOfVariables => _variables.Count + _parentScope?.NumberOfVariables ?? 0;
+        public int NumberOfVariables => _variables.Count;
 
 
 
@@ -53,16 +55,21 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
 
         public CompileResult GetVariableValue(string name)
         {
+            CompileResult result = CompileResult.Empty;
             if( _variables.ContainsKey(name))
-                return _variables[name];
-            if (_parentScope.ContainsVariable(name))
-                return _parentScope.GetVariableValue(name);
-            return CompileResult.Empty;
+                result = _variables[name];
+            if (_parentScope != null && _parentScope.ContainsVariable(name))
+                result = _parentScope.GetVariableValue(name);
+            return result ?? CompileResult.Empty;
         }
 
         public void SetVariableValue(string name, CompileResult value)
         {
             if(_variables.ContainsKey(name)) _variables.Remove(name);
+            if(_parentScope != null && _parentScope.ContainsVariable(name))
+            {
+                _parentScope.SetVariableValue(name, value);
+            }
             _variables[name] = value;
         }
     }

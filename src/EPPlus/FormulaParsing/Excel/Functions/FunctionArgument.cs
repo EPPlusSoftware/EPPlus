@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 
@@ -108,6 +109,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         public ExcelErrorValue ValueAsExcelErrorValue
         {
             get { return ExcelErrorValue.Parse(_result.Result.ToString()); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsVariableResult
+        {
+            get { return _result is VariableCompileResult; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public VariableCompileResult ValueAsVariableCompileResult
+        {
+            get { return _result as VariableCompileResult; }
         }
 
         /// <summary>

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.DependencyChain
 {
@@ -22,6 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.DependencyChain
         internal static CompileResult InvokeLambdaFunction(RpnOptimizedDependencyChain depChain, RpnFormula f)
         {
             var lambdaArgs = new List<CompileResult>();
+            if (!f._expressionStack.Any(x => x.ExpressionType == ExpressionType.LambdaCalculation)) return null;
             CompileResult result = default;
             while (f._expressionStack.Count > 0)
             {
@@ -44,6 +46,10 @@ namespace OfficeOpenXml.FormulaParsing.DependencyChain
                         }
                         result = lie.Compile();
                         break;
+                    }
+                    else if(exp != null)
+                    {
+                        result = exp.Compile();
                     }
                     else
                     {

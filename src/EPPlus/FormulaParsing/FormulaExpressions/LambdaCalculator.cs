@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
@@ -38,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         }
 
         private List<int> _variableIndexes = new List<int>();
-        private List<CompileResult> _variables;
+        private List<VariableCompileResult> _variables = new List<VariableCompileResult>();
         private VariableStorageScope _scope;
         private readonly List<Token> _originalTokens;
         private List<Token> _currentTokens;
@@ -52,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 foreach(var variable in _variables)
                 {
-                    if (_scope.ContainsVariable(variable.Result.ToString())) continue;
+                    if (_scope.ContainsVariable(variable.VariableName)) continue;
                     return false;
                 }
                 return true;
@@ -84,9 +85,36 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             return sb.ToString();
         }
 
-        public void SetVariables(List<CompileResult> variables)
+        public List<Token> GetCurrentTokens()
         {
-            _variables = variables;
+            return _currentTokens;
+        }
+
+        public void SetVariables(List<VariableCompileResult> variables, ParsingContext ctx)
+        {
+            if (variables == null || !variables.Any()) return;
+            for(var i = 0; i < variables.Count; i++)
+            {
+                if (!_variables.Any(x => x.VariableName == variables[i].VariableName))
+                {
+                    _variables.Add(variables[i]);
+                }
+                if (variables[i].DataType != DataType.LambdaVariableDeclaration && variables[i].DataType != DataType.Variable)
+                {
+                    SetVariableValue(i, variables[i].ResultValue, variables[i].DataType, ctx);
+                }
+            }
+            //for(var i = 0; i < _variables.Count; i++)
+            //{
+            //    if(i < variables.Count && variables[i].DataType == DataType.Variable)
+            //    {
+            //        var name = _variables[i].GetResultValue();
+            //        var variableValue = variables[i].ResultValue;
+            //        var dt = variables[i].DataType;
+            //        _variables[i] = new CompileResult(name, dt);
+            //        _scope.SetVariableValue(name, new CompileResult(variableValue, dt));
+            //    }
+            //}
         }
 
         public void SetVariableValue(int index, object value, DataType dt, ParsingContext ctx)
@@ -97,51 +125,50 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         public void SetVariableValue(int index, object value, DataType dt, ParsingContext ctx, FormulaRangeAddress address)
         {
             var variable = _variables[index];
-            if (variable.Result == null) return;
-            var variableName = variable.Result.ToString();
+            var variableName = variable.VariableName;
             var val = address != null ? address.Address : value;
             dt = address != null ? DataType.ExcelRange : dt;
             var compileResult = new CompileResult(val, dt);
             _scope.SetVariableValue(variableName, compileResult);
-            foreach(var ix in _variableIndexes)
-            {
-                var t = _currentTokens[ix];
-                if (string.Compare(t.Value, variableName, StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    if(value is LambdaCalculator lc)
-                    {
-                        var cr = lc.Execute(ctx);
-                        value = cr.Result;
-                        dt = cr.DataType;
-                    }
-                    var tt = DataTypeToTokenType(dt, val);
-                    if (tt == TokenType.Unrecognized) tt = TokenType.StringContent;
-                    if(val is IRangeInfo rng)
-                    {
-                        if(rng.IsInMemoryRange)
-                        {
-                            var imRng = rng as InMemoryRange;
-                            var tokens = imRng.SerializeToTokens();
-                            var preceedingTokens = _currentTokens.Take(ix);
-                            var trailingTokens = _currentTokens.Skip(ix + 1);
-                            _currentTokens = new List<Token>(preceedingTokens);
-                            _currentTokens.AddRange(tokens);
-                            _currentTokens.AddRange(trailingTokens);
-                            return;
-                        }
-                        else
-                        {
-                            value = rng.Address.Address;
-                        }
-                    }
-                    var tokenValue = Convert.ToString(val, CultureInfo.CurrentCulture);
-                    if(tt == TokenType.StringContent)
-                    {
-                        tokenValue = $"\"{tokenValue}\"";
-                    }
-                    _currentTokens[ix] = new Token(tokenValue, tt);
-                }
-            }
+            //foreach(var ix in _variableIndexes)
+            //{
+            //    var t = _currentTokens[ix];
+            //    if (string.Compare(t.Value, variableName, StringComparison.OrdinalIgnoreCase) == 0)
+            //    {
+            //        if(value is LambdaCalculator lc)
+            //        {
+            //            var cr = lc.Execute(ctx);
+            //            value = cr.Result;
+            //            dt = cr.DataType;
+            //        }
+            //        var tt = DataTypeToTokenType(dt, val);
+            //        if (tt == TokenType.Unrecognized) tt = TokenType.StringContent;
+            //        if(val is IRangeInfo rng)
+            //        {
+            //            if(rng.IsInMemoryRange)
+            //            {
+            //                var imRng = rng as InMemoryRange;
+            //                var tokens = imRng.SerializeToTokens();
+            //                var preceedingTokens = _currentTokens.Take(ix);
+            //                var trailingTokens = _currentTokens.Skip(ix + 1);
+            //                _currentTokens = new List<Token>(preceedingTokens);
+            //                _currentTokens.AddRange(tokens);
+            //                _currentTokens.AddRange(trailingTokens);
+            //                return;
+            //            }
+            //            else
+            //            {
+            //                value = rng.Address.Address;
+            //            }
+            //        }
+            //        var tokenValue = Convert.ToString(val, CultureInfo.CurrentCulture);
+            //        if(tt == TokenType.StringContent)
+            //        {
+            //            tokenValue = $"\"{tokenValue}\"";
+            //        }
+            //        _currentTokens[ix] = new Token(tokenValue, tt);
+            //    }
+            //}
             _nVariablesSet++;
         }
 

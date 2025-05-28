@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/14/2024         EPPlus Software AB       Initial release EPPlus 7.3
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using System;
 using System.Collections.Generic;
@@ -70,15 +71,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 var v = _storageManager.Peek().GetVariableValue(Name);
                 hasValue = v.DataType != DataType.Empty && v.ResultValue != null;
-                return v;
+                return new VariableCompileResult(Name, v.ResultValue, v.DataType);
             }
             else if (_variableFunctionExpression != null)
             {
                 var v =  _variableFunctionExpression.GetVariableValue(Name);
                 hasValue = v.DataType != DataType.Empty && v.ResultValue != null;
-                return v;
+                return new VariableCompileResult(Name, v.ResultValue, v.DataType);
             }
-            return CompileResult.Empty;
+            return new VariableCompileResult(Name, null, DataType.Empty);
         }
 
         internal void SetValue(string variableName, CompileResult value)

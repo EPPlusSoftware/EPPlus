@@ -372,6 +372,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             get { return Address != null; }
         }
+
+        /// <summary>
+        /// Returns true if the compile result from a variable
+        /// </summary>
+        public virtual bool IsVariableResult
+        {
+            get;
+        } = false;
         /// <summary>
         /// Range address
         /// </summary>
