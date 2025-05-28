@@ -23,129 +23,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
     {
         private static int SearchAsc(object s, IRangeInfo lookupRange, IComparer<object> comparer, LookupRangeDirection? direction = null)
         {
-            ////var firstCol = lookupRange.Worksheet.Column(lookupRange.Address.FromCol);
-
-            //var nCols = lookupRange.Size.NumberOfCols;
-            //var nRows = lookupRange.Size.NumberOfRows;
-
-            //var colValueLists = new List<List<Object>> ();
-
-            //var largestRowCount = 0;
-
-            ////If not numeric is assumed string
-            //bool searchIsNumeric = s.IsNumeric();
-
-            //for (int i = 0; i < nCols; i++)
-            //{
-            //    var columnValues = lookupRange.Worksheet._values.GetColumnIndex(lookupRange.Address.FromCol + i);
-
-            //    var actualValues = new List<Object>();
-
-            //    //Copy only actual values. Not Null values.
-            //    foreach (var someCellValue in columnValues._values)
-            //    {
-            //        if(someCellValue._value != null)
-            //        {
-            //            if(searchIsNumeric && someCellValue._value.IsNumeric())
-            //            {
-            //                actualValues.Add(someCellValue._value);
-            //            }
-            //            else if(!searchIsNumeric && someCellValue._value is string)
-            //            {
-            //                //If not numeric 's' is assumed string
-            //                actualValues.Add(someCellValue._value);
-            //            }
-            //        }
-            //    }
-
-            //    //Amount of values == amount of rows for the column
-            //    var rowCount = actualValues.Count();
-            //    if (largestRowCount < rowCount)
-            //    {
-            //        largestRowCount = rowCount;
-            //    }
-            //    colValueLists.Add(actualValues);
-            //}
-
-            //nRows = largestRowCount;
-
-
-
-            ////var wstest = lookupRange.Worksheet.Cells[lookupRange.Address.WorksheetAddress];
-            ////var someValue = wstest.Value;
-
-
-            ////someValues.column
-
-            ////lookupRange.Worksheet.Column(lookupRange.Address.FromCol);
-
-            ////var nCells = lookupRange.GetNCells();
-            ////var cols = lookupRange.Worksheet.Columns[lookupRange.Address.FromCol, lookupRange.Address.ToCol];
-            ////var firstCol = cols.col;
-            ////fir
-            //////var adjusted = lookupRange.GetAddressDimensionAdjusted(0);
-            ////var anAddress = lookupRange.Worksheet[lookupRange.Address.FromCol];
-
-
-
-            ////var startCol = lookupRange.Worksheet.GetColumn(lookupRange.Address.FromCol);
-            ////startCol.
-
-            ////anAddress.
-            ////lookupRange.Worksheet.Cells[lookupRange.Address]
-            ////lookupRange.Address
-
-            ////var nRows = lookupRange.Size.NumberOfRows;
-            ////var nCols = lookupRange.Size.NumberOfCols;
-
-            ////var valList = cellValues._values;
-            ////var nRows = valList.Count();
-
-            //int low = 0, high = nCols > nRows ? nCols : nRows, mid;
-            //if (direction.HasValue)
-            //{
-            //    high = direction.Value == LookupRangeDirection.Vertical ? nRows : nCols;
-            //}
-
-            //while (low <= high)
-            //{
-            //    mid = low + high >> 1;
-
-            //    var col = nRows >= nCols ? 0 : mid;
-            //    var row = nRows >= nCols ? mid : 0;
-            //    if (direction.HasValue)
-            //    {
-            //        col = direction.Value == LookupRangeDirection.Vertical ? 0 : mid;
-            //        row = direction.Value == LookupRangeDirection.Vertical ? mid : 0;
-            //    }
-
-            //    var val = colValueLists[col][row];
-
-            //    var result = comparer.Compare(s, val);
-
-            //    if (result < 0)
-            //        high = mid;
-
-            //    else if (result > 0)
-            //        low = mid;
-
-            //    else
-            //        return mid;
-            //}
-
-            //var someValue = lookupRange.Dimension;
-
             var cells = lookupRange.Worksheet.Cells[lookupRange.Address.WorksheetAddress];
             var rangesByValue = cells.RangeByValue();
-
-            //var someOtherValue = lookupRange.GetAddressDimensionAdjusted(0);
-            //var anotherOne = lookupRange.Worksheet.DimensionByValue;
-
-            //var valTest = lookupRange.Worksheet._values;
-
-            //lookupRange.Worksheet._values._columnIndex
-
-            //var rangeWithoutNull = lookupRange.Worksheet.Cells[lookupRange.Address.WorksheetAddress].SkipWhile(x => x.Value == null);
 
             var nRows = rangesByValue.Rows;
             var nCols = rangesByValue.Columns;
@@ -174,9 +53,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     break;
                 }
 
-                var val = rangesByValue.Offset(row, col);
+                //if (_values == null) return null;
+                //return _ws.GetValue(_addresses[0].FromRow + rowOffset, _addresses[0].FromCol + colOffset);
+                var val = rangesByValue.TakeSingleCell(row, col).Value;
                 //var val = lookupRange.GetOffset(row, col);
-               
+                //var val = formRange.GetOffset(row, col);
+
                 var result = comparer.Compare(s, val);
 
                 if (result < 0)
@@ -186,10 +68,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     low = mid + 1;
 
                 else
-                    return mid;
+                    return rangesByValue.Start.Row - 1 + mid;
             }
 
-            return ~low;
+            return rangesByValue.Start.Row - 1 + ~low;
         }
 
         private static int SearchDesc(object s, IRangeInfo lookupRange, IComparer<object> comparer)

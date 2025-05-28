@@ -484,14 +484,7 @@ namespace EPPlusTest.Issues
 				foreach (var sheet in package.Workbook.Worksheets)
 				{
 					sheet.Hidden = eWorkSheetHidden.Visible;
-					//sheet.Calculate();
 				}
-
-                //package.Workbook.Calculate();
-
-                //wb.wo
-                //"B6:C13"
-                //worksheet.Cells["F15"].Formula = "VLOOKUP(B11, Salgsfragt!B6:C13, 2, TRUE)";
 
                 worksheet.Cells["F15"].Formula = "VLOOKUP(B11, Salgsfragt!B:C, 2, TRUE)";
 
@@ -499,88 +492,31 @@ namespace EPPlusTest.Issues
 				sWs.Cells["B4"].Value = null;
                 sWs.Cells["B2"].Value = null;
 
-                // Output from the logger will be written to the following file
-                var logfile = new FileInfo(@"c:\temp\logfile.txt");
-                // Attach the logger before the calculation is performed.
-                package.Workbook.FormulaParserManager.AttachLogger(logfile);
 				worksheet.Cells["F15"].Calculate();
-                package.Workbook.FormulaParserManager.DetachLogger();
 
 				var someVal = worksheet.Cells["F15"].Value;
-
                 var errorText = worksheet.Cells["D8"].Text;
 
-                var cellC19 = worksheet.Cells["C19"];
-                var cellC25 = worksheet.Cells["C25"];
+                var cellEuItemPrice = worksheet.Cells["C18"];
+                var cellEuTransportPrice = worksheet.Cells["C19"];
+                var cellEuTotal = worksheet.Cells["C20"];
 
-				worksheet.Calculate();
+                var cellDKItemPrice = worksheet.Cells["C24"];
+                var cellDKTransportPrice = worksheet.Cells["C25"];
+                var cellDKTotal = worksheet.Cells["C26"];
 
-				var val1 = cellC19.Value;
-				var val2 = cellC25.Value;
+                worksheet.Calculate();
+				decimal tolerance = 0.1M;
 
+				Assert.AreEqual(301.01M, (decimal)cellEuItemPrice.GetCellValue<double>(), tolerance);
+                Assert.AreEqual(53.62M, (decimal)cellEuTransportPrice.GetCellValue<double>(), tolerance);
+                Assert.AreEqual(354.62M, (decimal)cellEuTotal.GetCellValue<double>(), tolerance);
 
-                //// Output from the logger will be written to the following file
-                //var logfile = new FileInfo(@"c:\temp\logfile.txt");
-                //// Attach the logger before the calculation is performed.
-                //package.Workbook.FormulaParserManager.AttachLogger(logfile);
-                //worksheet.Cells["C19"].Calculate();
-                //// The following method removes any logger attached to the workbook.
-                //package.Workbook.FormulaParserManager.DetachLogger();
-
-                //var transportPriceVal = worksheet.Cells["C19"].Value;
-
-                //if (!string.IsNullOrEmpty(errorText))
-                //{
-                //	return BadRequest(new List<string>() { errorText });
-                //}
-
-                // Save
+                Assert.AreEqual(2245.50M, (decimal)cellDKItemPrice.GetCellValue<double>(), tolerance);
+                Assert.AreEqual(400M, (decimal)cellDKTransportPrice.GetCellValue<double>(), tolerance);
+                Assert.AreEqual(2645.50M, (decimal)cellDKTotal.GetCellValue<double>(), tolerance);
 
                 SaveAndCleanup(package);
-				//var savePath = Path.Combine(Directory.GetCurrentDirectory(), "PriceData", "calculator_result.xlsx");
-				//package.SaveAs(new FileInfo(savePath));
-
-				//var totalM3Text = worksheet.Cells["B14"].Text;
-				//var expectedTransitTime = worksheet.Cells["B15"].Text;
-				//var itemPriceEurText = worksheet.Cells["C18"].Value.ToString();
-				//var transportPriceEurText = worksheet.Cells["C19"].Value.ToString();
-				//var totalPriceEurText = worksheet.Cells["C20"].Value.ToString();
-
-				//double? totalM3 = null;
-				//double? itemPriceEur = null;
-				//double? transportPriceEur = null;
-				//double? totalPriceEur = null;
-
-				//if (!string.IsNullOrEmpty(totalM3Text))
-				//{
-				//	totalM3 = double.Parse(totalM3Text.Replace(",", "."), CultureInfo.InvariantCulture);
-				//}
-
-				//if (!string.IsNullOrEmpty(itemPriceEurText))
-				//{
-				//	itemPriceEur = double.Parse(itemPriceEurText.Replace(",", "."), CultureInfo.InvariantCulture);
-				//}
-
-				//if (!string.IsNullOrEmpty(transportPriceEurText))
-				//{
-				//	transportPriceEur = double.Parse(transportPriceEurText.Replace(",", "."),
-				//		CultureInfo.InvariantCulture);
-				//}
-
-				//if (!string.IsNullOrEmpty(totalPriceEurText))
-				//{
-				//	totalPriceEur = double.Parse(totalPriceEurText.Replace(",", "."), CultureInfo.InvariantCulture);
-				//}
-
-				//return Ok(new
-				//{
-				//	TotalM3 = totalM3,
-				//	ExpectedTransitTime = expectedTransitTime,
-				//	ItemPriceEur = itemPriceEur,
-				//	TransportPriceEur = transportPriceEur,
-				//	TotalPriceEur = totalPriceEur,
-				//	ItemName = worksheet.Cells["B10"].Text,
-				//});
 			}
         }
     }

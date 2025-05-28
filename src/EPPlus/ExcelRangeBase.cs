@@ -2811,11 +2811,11 @@ namespace OfficeOpenXml
 
             if (Worksheet._values.GetValue(fromRow, fromCol)._value == null)
             {
-                while (Worksheet._values.NextCell(ref fromRow, ref fromCol, _fromRow, _fromCol + 1, _toRow, _toCol + 1))
+                while (Worksheet._values.NextCell(ref fromRow, ref fromCol, _fromRow, _fromCol, _toRow, _toCol))
                 {
                     if (Worksheet._values.GetValue(fromRow, fromCol)._value != null)
                     {
-                        return Worksheet.Cells[fromRow, fromCol];
+                        return Worksheet.Cells[fromRow, fromCol-1];
                     }
                 }
                 return null;
