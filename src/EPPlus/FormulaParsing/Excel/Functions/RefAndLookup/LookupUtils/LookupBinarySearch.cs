@@ -10,12 +10,7 @@
  *************************************************************************************************
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.FormulaParsing.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
@@ -28,8 +23,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 
             var nRows = rangesByValue.Rows;
             var nCols = rangesByValue.Columns;
+
             if (nRows == 0 && nCols == 0) return -1;
             int low = 0, high = nCols > nRows ? nCols : nRows, mid;
+
             if (direction.HasValue)
             {
                 high = direction.Value == LookupRangeDirection.Vertical ? nRows : nCols;
@@ -53,12 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     break;
                 }
 
-                //if (_values == null) return null;
-                //return _ws.GetValue(_addresses[0].FromRow + rowOffset, _addresses[0].FromCol + colOffset);
                 var val = rangesByValue.TakeSingleCell(row, col).Value;
-                //var val = lookupRange.GetOffset(row, col);
-                //var val = formRange.GetOffset(row, col);
-
                 var result = comparer.Compare(s, val);
 
                 if (result < 0)

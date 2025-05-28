@@ -2842,45 +2842,6 @@ namespace OfficeOpenXml
                 return null;
             }
             return Worksheet.Cells[toRow, toCol];
-
-            //var toRow = _toRow;
-            //var toCol = _toCol;
-
-            //if (Worksheet._values.GetValue(toRow, toCol)._value == null)
-            //{
-            //    while (Worksheet._values.PrevCell(ref toRow, ref toCol))
-            //    {
-            //        if (toCol > 0 && Worksheet._values.GetValue(toRow, toCol)._value != null)
-            //        {
-            //            return Worksheet.Cells[toRow, toCol];
-            //        }
-            //    }
-            //    return null;
-            //}
-
-            //return Worksheet.Cells[toRow, toCol];
-            ////var toRowStart = _toRow < 0 ? 1 : _toRow;
-            ////toRowStart = _toRow == 1048576 ? toRowStart - 1 : toRowStart;
-
-            ////var toCol = _toCol;
-
-            ////var toRow = toRowStart;
-
-            //////0 based colPos does mean we still have to +1
-            ////var fromColPos = Worksheet._values.GetColumnPosition(_fromCol) + 1;
-            ////var toColPos = Worksheet._values.GetColumnPosition(_toCol) + 1;
-            ////if (Worksheet._values.GetValue(toRow, toCol)._value == null)
-            ////{
-            ////    while (Worksheet._values.PrevCell(ref toRow, ref toCol, _fromRow, fromColPos, toRowStart, toColPos) && toRow > 0)
-            ////    {
-            ////        if (toCol > 0 && Worksheet._values.GetValue(toRow, toCol)._value != null)
-            ////        {
-            ////            return Worksheet.Cells[toRow, toCol];
-            ////        }
-            ////    }
-            ////    return null;
-            ////}
-            ////return Worksheet.Cells[toRow, toCol];
         }
 
         internal ExcelRangeBase RangeByValue()
