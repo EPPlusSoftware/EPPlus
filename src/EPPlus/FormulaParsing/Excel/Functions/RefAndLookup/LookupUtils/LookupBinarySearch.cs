@@ -71,7 +71,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     return rangesByValue.Start.Row - 1 + mid;
             }
 
-            return rangesByValue.Start.Row - 1 + ~low;
+            return ~low;
         }
 
         private static int SearchDesc(object s, IRangeInfo lookupRange, IComparer<object> comparer)
