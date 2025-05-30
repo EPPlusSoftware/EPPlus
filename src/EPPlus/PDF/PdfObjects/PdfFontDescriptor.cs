@@ -49,7 +49,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
             return $"<<  /Type /FontDescriptor\n" +
                     $"   /FontName /{fontName.Replace(" ", "")}\n" +
                     $"   /Flags {flags}\n" +
-                    $"   /FontBBox [{fontBBox.X + fontBBox.Width} {fontBBox.Y} {fontBBox.X+fontBBox.Width} {fontBBox.Y + fontBBox.Height}]\n" +
+                    $"   /FontBBox [{fontBBox.X} {fontBBox.Y} {fontBBox.Width} {fontBBox.Height}]\n" +
                     $"   /Ascent {ascent}\n" +
                     $"   /Descent {descent}\n" +
                     $"   /CapHeight {capheight}\n" +

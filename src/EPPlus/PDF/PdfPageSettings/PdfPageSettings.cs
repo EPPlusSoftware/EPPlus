@@ -11,6 +11,7 @@ namespace OfficeOpenXml.PDF.PdfPageSettings
     {
         public PdfPageSize PageSize = PdfPageSize.A4;
         public PdfMargins Margins = new PdfMargins();
+        public bool ShowGridLines = false;
 
         internal PdfContentBounds ContentBounds;
 

@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.PDF.PdfFontData;
 using OfficeOpenXml.PDF.PdfGraphics;
@@ -9,6 +10,7 @@ using OfficeOpenXml.PDF.PdfObjects;
 using OfficeOpenXml.PDF.PdfPageSettings;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -89,7 +91,7 @@ namespace OfficeOpenXml.PDF
             body.Add(content);
         }
 
-        public void AddRectangle(float x, float y, float width, float height, PdfColor stroke = null, PdfColor fill = null)
+        public void AddRectangle(double x, double y, double width, double height, PdfColor stroke = null, PdfColor fill = null)
         {
             var content = new PdfContentStream(body.Count + 1);
             content.AddRectangle(x, y, width, height, stroke != null ? true : false, fill != null ? true : false, stroke, fill);
@@ -130,8 +132,8 @@ namespace OfficeOpenXml.PDF
             {
                 for (int j = ws.Dimension._fromCol; j <= ws.Dimension._toCol; j++)
                 {
+                    bool textWasAdded = false;
                     var cell = ws.Cells[i,j];
-
                     x = bounds.X + prevWidth;
                     y = 775 - prevHeight; //bounds.Y + bounds.Height - prevHeight;
                     if (x >= bounds.Width)
@@ -147,6 +149,8 @@ namespace OfficeOpenXml.PDF
                     }
                     if (cell.Value != null)
                     {
+                        var textX = x;
+                        var textY = y;
                         if (cell.Style.HorizontalAlignment == Style.ExcelHorizontalAlignment.General)
                         {
                             if (double.TryParse(cell.Value.ToString(), out double value))
@@ -170,12 +174,31 @@ namespace OfficeOpenXml.PDF
                                 //convert result to points
                                 var strWidth = (sum / 1000.0/*units per em*/) * font.Size;
 
-                                x = x + PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width) - ((double)result.Width - sum);
+                                textX = x + PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width) - ((double)result.Width - sum);
                             }
                         }
-                        AddText(cell.Value.ToString(), cell.Style.Font.Name, cell.Style.Font.Size, x, y);
+                        AddText(cell.Value.ToString(), cell.Style.Font.Name, cell.Style.Font.Size, textX, textY);
+                        textWasAdded = true;
                     }
-
+                    if (PageSettings.ShowGridLines)
+                    {
+                        //get cell width
+                        var width = PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width);
+                        var height = cell.Worksheet.Row(1).Height + 0.25d;
+                        var rectY = y - (height / 4d); //move rectnagle in y one fourth up to center text insice grid rectangle
+                        var rectX = x + 2; //hardcoded 2. Should probably calculate padding based on cell width.
+                        if (textWasAdded)
+                        {
+                            var textObj = (PdfContentStream)body.Last();
+                            textObj.AddCommand(PdfColor.Black.ToStrokeCommand());
+                            textObj.AddCommand($"{rectX.ToString("F", CultureInfo.InvariantCulture)} {rectY.ToString("F", CultureInfo.InvariantCulture)} {width.ToString("F", CultureInfo.InvariantCulture)} {height.ToString("F", CultureInfo.InvariantCulture)} re");
+                            textObj.AddCommand("S");
+                        }
+                        else
+                        {
+                            AddRectangle(rectX, rectY, width, height, PdfColor.Black);
+                        }
+                    }
                     prevWidth += PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width);
                 }
             }

@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.PDF;
 using OfficeOpenXml.PDF.PdfGraphics;
+using OfficeOpenXml.PDF.PdfPageSettings;
 using OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes;
 
 namespace EPPlusTest.PDF
@@ -21,9 +22,12 @@ namespace EPPlusTest.PDF
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var ws = p.Workbook.Worksheets[0];
 
-            ExcelPdf pedeef = new ExcelPdf();
+            PdfPageSettings pageSettings = new PdfPageSettings();
+            pageSettings.ShowGridLines = true;
 
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest4.pdf", ws);
+            ExcelPdf pedeef = new ExcelPdf(pageSettings);
+
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest5.pdf", ws);
 
         }
 

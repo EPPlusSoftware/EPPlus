@@ -2,6 +2,7 @@
 using OfficeOpenXml.PDF.Pdfhelpers;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -40,7 +41,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
             {
                 commands.Add(fillColor.ToFillCommand());
             }
-            commands.Add($"{x} {y} {width} {height} re");
+            commands.Add($"{x.ToString("F", CultureInfo.InvariantCulture)} {y.ToString("F", CultureInfo.InvariantCulture)} {width.ToString("F", CultureInfo.InvariantCulture)} {height.ToString("F", CultureInfo.InvariantCulture)} re");
             if (fill && stroke)
             {
                 commands.Add("B");
