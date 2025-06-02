@@ -40,7 +40,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             }
             else
             {
+                if (x != null && y == null) return -1;
+                if (x == null && y != null) return 1;
                 v = ComparerUtil.CompareObjects(x, y);
+            }
+            return v * (sortOrder > -1 ? 1 : -1);
+        }
+
+        public virtual int Compare(object x, object y, int sortOrder, ParsingContext context)
+        {
+            int v = 0;
+            if (_matchMode == LookupMatchMode.Wildcard || _matchMode == LookupMatchMode.ExactMatchWithWildcard)
+            {
+                v = _vm.IsMatch(x, y);
+            }
+            else
+            {
+                v = ComparerUtil.CompareObjects(x, y, context);
             }
             return v * (sortOrder > -1 ? 1 : -1);
         }

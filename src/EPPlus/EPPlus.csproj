@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>8.0.4.0</AssemblyVersion>
-		<FileVersion>8.0.4.0</FileVersion>
-		<Version>8.0.4</Version>
+		<AssemblyVersion>8.0.5.0</AssemblyVersion>
+		<FileVersion>8.0.5.0</FileVersion>
+		<Version>8.0.5</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -18,13 +18,16 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 8.0.4
+			EPPlus 8.0.5
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 			EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
+
+			## Version 8.0.5
+			* Fix for external links not getting saved in EPPlus 8.0.4
 
 			## Version 8.0.4
 			* Minor bug fixes.
@@ -495,7 +498,8 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
-			8.0.4			20250514 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			8.0.5			20250515 Fix for external links issue in 8.0.4. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			8.0.4			20250514 Minor bug fixes.
 			8.0.3			20250430 Minor bug fixes.
 			8.0.2			20250415 Minor bug fixes.
 			7.7.1			20250414 Minor bug fixes.

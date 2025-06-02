@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
     internal class InMemoryRangeSorter
     {
         private readonly LookupComparer _comparer = new LookupComparer(LookupMatchMode.ExactMatch);
-        public InMemoryRange SortByRow(IRangeInfo sourceRange, int colIndex, int sortOrder)
+        public InMemoryRange SortByCol(IRangeInfo sourceRange, List<int> rowIndexes, int sortOrder, ParsingContext context)
         {
             var rangeDef = new RangeDefinition(sourceRange.Size.NumberOfRows, sourceRange.Size.NumberOfCols);
             var sortedRange = new InMemoryRange(rangeDef);
@@ -38,28 +38,41 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                 }
                 columns.Add(rows);
             }
-            var colIx = colIndex - 1;
-            var colToSortList = columns[colIx].ToList();
-            var sortedList = colToSortList.Where(x => x.Value != null).ToList();
-            sortedList.Sort((a, b) => _comparer.Compare(a.Value, b.Value, sortOrder));
-            var nullValues = colToSortList.Where(x => x.Value == null);
-            sortedList.AddRange(nullValues);
-            for (var row = 0; row < sortedList.Count; row++)
+            columns.Sort((a, b) =>
             {
-                var sortedColItem = sortedList[row];
-                sortedRange.SetValue(row, colIx, sortedColItem.Value);
-                for (var col = 0; col < columns.Count; col++)
+                foreach (var rowIx in rowIndexes)
                 {
-                    if (col == colIx) continue;
-                    var colItem = columns[col].GetByOriginalIndex(sortedColItem.OriginalIndex);
-                    sortedRange.SetValue(row, col, colItem.Value);
-                    
+                    var aColVal = a.GetByOriginalIndex(rowIx - 1);
+                    var bColVal = b.GetByOriginalIndex(rowIx - 1);
+                    if (aColVal.Value == null)
+                    {
+                        if (bColVal.Value == null) return 0;
+                        return 1;
+                    }
+                    else if (bColVal.Value == null)
+                    {
+                        return -1;
+                    }
+                    var res = _comparer.Compare(aColVal.Value, bColVal.Value, sortOrder, context);
+                    if (res != 0) return res;
                 }
+                return 0;
+            });
+            var colIx = 0;
+            foreach (var col in columns)
+            {
+                var cellIx = 0;
+                foreach (var cell in col.ToList())
+                {
+                    sortedRange.SetValue(cellIx, colIx, cell.Value);
+                    cellIx++;
+                }
+                colIx++;
             }
             return sortedRange;
         }
 
-        public InMemoryRange SortByCol(IRangeInfo sourceRange, int rowIndex, int sortOrder)
+        public InMemoryRange SortByRow(IRangeInfo sourceRange, List<int> colIndexes, int sortOrder, ParsingContext context)
         {
             var rangeDef = new RangeDefinition(sourceRange.Size.NumberOfRows, sourceRange.Size.NumberOfCols);
             var sortedRange = new InMemoryRange(rangeDef);
@@ -75,20 +88,36 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                 }
                 rows.Add(cols);
             }
-            var rowIx = rowIndex - 1;
-            var rowToSortList = rows[rowIx].ToList();
-            rowToSortList.Sort((a, b) => _comparer.Compare(a.Value, b.Value, sortOrder));
-            for (var col = 0; col < rowToSortList.Count; col++)
-            {
-                var sortedRowItem = rowToSortList[col];
-                sortedRange.SetValue(rowIx, col, sortedRowItem.Value);
-                for (var row = 0; row < rows.Count; row++)
+            rows.Sort((a, b) => 
+            { 
+                foreach(var colIx in colIndexes)
                 {
-                    if (row == rowIx) continue;
-                    var colItem = rows[row].GetByOriginalIndex(sortedRowItem.OriginalIndex);
-                    sortedRange.SetValue(row, col, colItem.Value);
-
+                    var aColVal = a.GetByOriginalIndex(colIx - 1);
+                    var bColVal = b.GetByOriginalIndex(colIx - 1);
+                    if(aColVal.Value == null)
+                    {
+                        if (bColVal.Value == null) return 0;
+                        return 1;
+                    }
+                    else if(bColVal.Value == null)
+                    {
+                        return -1;
+                    }
+                    var res = _comparer.Compare(aColVal.Value, bColVal.Value, sortOrder, context);
+                    if (res != 0) return res;
                 }
+                return 0;
+            });
+            var rowIx = 0;
+            foreach(var row in rows)
+            {
+                var cellIx = 0;
+                foreach(var cell in row.ToList())
+                {
+                    sortedRange.SetValue(rowIx, cellIx, cell.Value);
+                    cellIx++;
+                }
+                rowIx++;
             }
             return sortedRange;
         }

@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.VBA;
+using System.Collections.Generic;
 using System.Text;
 
 namespace OfficeOpenXml.Utils
@@ -42,6 +43,16 @@ namespace OfficeOpenXml.Utils
                 }
             }
             return true;
+        }
+
+        internal static string UnitcodeSubstring(this string s, int length)
+        {
+            return StringUtil.UnicodeSubstring(s, length);
+        }
+
+        internal static string UnitcodeSubstring(this string s, int start, int length)
+        {
+            return StringUtil.UnicodeSubstring(s, start, length);
         }
     }
 }

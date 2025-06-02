@@ -27,10 +27,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
 
         public override int Compare(object x, object y)
         {
-            return Compare(x, y, 1);
+            if (x == null && y != null)
+            {
+                return 1;
+            }
+            else if (x != null && y == null)
+            {
+                return -1;
+            }
+            return ComparerUtil.CompareObjects(x, y) * 1;
         }
 
-        public override int Compare(object x, object y, int sortOrder)
+        public override int Compare(object x, object y, int sortOrder, ParsingContext context)
         {
             // null values should always be sorted last
             if(x == null && y != null)
@@ -41,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
             {
                 return -1;
             }
-            return ComparerUtil.CompareObjects(x, y) * sortOrder;
+            return ComparerUtil.CompareObjects(x, y, context) * sortOrder;
         }
     }
 }

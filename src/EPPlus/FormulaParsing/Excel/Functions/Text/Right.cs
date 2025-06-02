@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
@@ -36,6 +37,35 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var startIx = str.Length - length;
             if (startIx < 0)
                 startIx = 0;
+
+            int startIndex = str.Length;
+            if(context.Configuration.EnableUnicodeAwareStringOperations)
+            {
+                int unicodeLength = 0;
+                for (int i = str.Length - 1; i >= 0; i--)
+                {
+                    char c = str[i];
+
+                    // Handle surrogate pairs correctly
+                    if (char.IsLowSurrogate(c) && i > 0 && char.IsHighSurrogate(str[i - 1]))
+                    {
+                        i--; // Move past the high surrogate
+                    }
+
+                    unicodeLength++;
+
+                    if (unicodeLength == length)
+                    {
+                        startIndex = i; // Set the correct start position
+                        break;
+                    }
+                }
+            }
+            if (context.Configuration.EnableUnicodeAwareStringOperations)
+            {
+                var res = str.UnitcodeSubstring(startIndex, str.Length - startIx);
+                return CreateResult(res, DataType.String);
+            }
             return CreateResult(str.Substring(startIx, str.Length - startIx), DataType.String);
         }
     }
