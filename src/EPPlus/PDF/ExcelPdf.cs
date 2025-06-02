@@ -2,6 +2,8 @@
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.PDF.PdfFontData;
 using OfficeOpenXml.PDF.PdfGraphics;
@@ -128,6 +130,10 @@ namespace OfficeOpenXml.PDF
             var x = 0d;
             var y = bounds.Y + bounds.Height;
 
+            PdfRect contentRect = new PdfRect();
+            contentRect.X = bounds.X;
+            contentRect.Y = 775;
+
             for (int i = ws.Dimension._fromRow; i <= ws.Dimension._toRow; i++)
             {
                 for (int j = ws.Dimension._fromCol; j <= ws.Dimension._toCol; j++)
@@ -138,10 +144,12 @@ namespace OfficeOpenXml.PDF
                     y = 775 - prevHeight; //bounds.Y + bounds.Height - prevHeight;
                     if (x >= bounds.Width)
                     {
-                        prevHeight += cell.Worksheet.Row(1).Height + 0.25d;
+                        prevHeight += cell.Worksheet.Row(i).Height + 0.25d;
+                        contentRect.Height = prevHeight;
                         prevWidth = 0;
                         x = bounds.X + prevWidth;
                         y = 775 - prevHeight;//bounds.Y + bounds.Height - prevHeight;
+
                         if (y < bounds.Y)
                         {
                             //new page..
@@ -184,23 +192,34 @@ namespace OfficeOpenXml.PDF
                     {
                         //get cell width
                         var width = PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width);
-                        var height = cell.Worksheet.Row(1).Height + 0.25d;
+                        var height = cell.Worksheet.Row(i).Height + 0.25d;
                         var rectY = y - (height / 4d); //move rectnagle in y one fourth up to center text insice grid rectangle
-                        var rectX = x + 2; //hardcoded 2. Should probably calculate padding based on cell width.
+                        var rectX = x; //hardcoded 2. Should probably calculate padding based on cell width.
                         if (textWasAdded)
                         {
                             var textObj = (PdfContentStream)body.Last();
-                            textObj.AddCommand(PdfColor.Black.ToStrokeCommand());
+                            textObj.AddCommand(PdfColor.LightGray.ToStrokeCommand());
                             textObj.AddCommand($"{rectX.ToString("F", CultureInfo.InvariantCulture)} {rectY.ToString("F", CultureInfo.InvariantCulture)} {width.ToString("F", CultureInfo.InvariantCulture)} {height.ToString("F", CultureInfo.InvariantCulture)} re");
                             textObj.AddCommand("S");
                         }
                         else
                         {
-                            AddRectangle(rectX, rectY, width, height, PdfColor.Black);
+                            AddRectangle(rectX, rectY, width, height, PdfColor.LightGray);
+                        }
+                        if (i == ws.Dimension._fromRow && j == ws.Dimension._fromCol)
+                        {
+                            contentRect.X = rectX;
+                            contentRect.Y = rectY + ws.Row(ws.Dimension._fromRow).Height + 0.25d; ;
                         }
                     }
                     prevWidth += PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width);
+                    contentRect.Width = prevWidth;
                 }
+            }
+            if (PageSettings.ShowGridLines)
+            {
+                contentRect.Height += ws.Row(ws.Dimension._fromRow).Height + 0.25d; //First row is skipped in algorithm when calculating so we add it here.
+                AddRectangle(contentRect.X, contentRect.Y - contentRect.Height, contentRect.Width, contentRect.Height, PdfColor.Black);
             }
         }
 
@@ -211,7 +230,13 @@ namespace OfficeOpenXml.PDF
 
             PdfContentBounds bounds = new PdfContentBounds(PageSettings.Margins, PageSettings.PageSize);
 
-            AddWorksheetCells(worksheet, bounds);
+            //AddWorksheetCells(worksheet, bounds);
+
+            //Debug
+            if (PageSettings.Debug)
+            {
+                DrawMarginAndHeaderLines(bounds);
+            }
 
             var pages = AddPages();
             List<int> contentObjectNumbers = new List<int>();
@@ -242,6 +267,63 @@ namespace OfficeOpenXml.PDF
                 }
             }
         }
+
+
+
+        #region DEBUG
+
+
+        internal void DrawMarginAndHeaderLines(PdfContentBounds bounds)
+        {
+            //Bottom line
+            DrawLine(PdfColor.Black, 0, bounds.Bottom, PageSettings.PageSize.WidthPu, bounds.Bottom);
+            DrawLine(new PdfColor(1, 0, 1), bounds.X, bounds.Bottom, bounds.X + bounds.Width, bounds.Bottom);
+            //Top line
+            DrawLine(PdfColor.Black, 0, bounds.Top, PageSettings.PageSize.WidthPu, bounds.Top);
+            DrawLine(new PdfColor(1, 0, 1), bounds.X, bounds.Top, bounds.X + bounds.Width, bounds.Top);
+            //Left line
+            DrawLine(PdfColor.Black, bounds.Left, 0, bounds.Left, PageSettings.PageSize.HeightPu);
+            DrawLine(new PdfColor(1, 0, 1), bounds.Left, bounds.Y, bounds.Left, bounds.Y + bounds.Height);
+            //Right line
+            DrawLine(PdfColor.Black, bounds.Right, 0, bounds.Right, PageSettings.PageSize.HeightPu);
+            DrawLine(new PdfColor(1, 0, 1), bounds.Right, bounds.Y, bounds.Right, bounds.Y + bounds.Height);
+            //Header line
+            DrawLine(new PdfColor(1, 0, 1), bounds.Right, bounds.HeaderY, bounds.Left, bounds.HeaderY);
+            DrawLine(new PdfColor(1, 0, 1), bounds.CenterHeaderX, bounds.HeaderY, bounds.CenterHeaderX, bounds.Top);
+            DrawLine(new PdfColor(1, 0, 1), bounds.RightHeaderX, bounds.HeaderY, bounds.RightHeaderX, bounds.Top);
+            //Footer line
+            DrawLine(new PdfColor(1, 0, 1), bounds.Right, bounds.FooterY, bounds.Left, bounds.FooterY);
+            DrawLine(new PdfColor(1, 0, 1), bounds.CenterFooterX, bounds.FooterY, bounds.CenterFooterX, bounds.Bottom);
+            DrawLine(new PdfColor(1, 0, 1), bounds.RightFooterX, bounds.FooterY, bounds.RightFooterX, bounds.Bottom);
+        }
+
+        //Might use this for drawing grid later. so might move this.
+        internal void DrawLine(PdfColor color, double x1, double y1, double x2, double y2)
+        {
+            var content = new PdfContentStream(body.Count + 1);
+            content.AddCommand(color.ToStrokeCommand());
+            content.AddCommand($"{x1.ToPdfString()} {y1.ToPdfString()} m");
+            content.AddCommand($"{x2.ToPdfString()} {y2.ToPdfString()} l");
+            content.AddCommand("S");
+            body.Add(content);
+        }
+
+        internal void DrawCrossHair(PdfColor color, double x, double y, double size = 2)
+        {
+            var half = size / 2d;
+            var content = new PdfContentStream(body.Count + 1);
+            content.AddCommand(color.ToStrokeCommand());
+            content.AddCommand($"{x.ToPdfString()} {(y - half).ToPdfString()} m");
+            content.AddCommand($"{x.ToPdfString()} {(y + half).ToPdfString()} l");
+            content.AddCommand($"{(x - half).ToPdfString()}   {y.ToPdfString()} m");
+            content.AddCommand($"{(x + half).ToPdfString()}   {y.ToPdfString()} l");
+            content.AddCommand("S");
+            body.Add(content);
+        }
+
+
+        #endregion
+
     }
 }
 

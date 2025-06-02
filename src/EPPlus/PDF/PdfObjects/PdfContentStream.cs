@@ -25,8 +25,8 @@ namespace OfficeOpenXml.PDF.PdfObjects
         public void AddText(string fontResourceName, double fontSize, double x, double y, string text)
         {
             commands.Add("BT");
-            commands.Add($"/{fontResourceName} {PdfString.Convert(fontSize)} Tf");
-            commands.Add($"{PdfString.Convert(x)} {PdfString.Convert(y)} Td");
+            commands.Add($"/{fontResourceName} {fontSize.ToPdfString()} Tf");
+            commands.Add($"{x.ToPdfString()} {y.ToPdfString()} Td");
             commands.Add($"({FixEscapeCharacters(text)}) Tj");
             commands.Add("ET");
         }
@@ -41,7 +41,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
             {
                 commands.Add(fillColor.ToFillCommand());
             }
-            commands.Add($"{x.ToString("F", CultureInfo.InvariantCulture)} {y.ToString("F", CultureInfo.InvariantCulture)} {width.ToString("F", CultureInfo.InvariantCulture)} {height.ToString("F", CultureInfo.InvariantCulture)} re");
+            commands.Add($"{x.ToPdfString()} {y.ToPdfString()} {width.ToPdfString()} {height.ToPdfString()} re");
             if (fill && stroke)
             {
                 commands.Add("B");

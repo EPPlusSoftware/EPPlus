@@ -8,9 +8,9 @@ namespace OfficeOpenXml.PDF.Pdfhelpers
 {
     internal static class PdfString
     {
-        internal static string Convert(double val)
+        internal static string ToPdfString(this double val)
         {
-            return val.ToString("0.###", CultureInfo.InvariantCulture);
+            return val.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

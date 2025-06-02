@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Linq;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml;
 using OfficeOpenXml.PDF;
-using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.PdfPageSettings;
 using OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes;
 
@@ -19,15 +13,18 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void TestWritePdf()
         {
-            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            using var p = OpenTemplatePackage("PDFTest2.xlsx");
             var ws = p.Workbook.Worksheets[0];
 
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.ShowGridLines = true;
-
+            pageSettings.PageSize = PdfPageSize.B5;
+            pageSettings.Orientation = Orientations.Landscape;
+            pageSettings.Margins = PdfMargins.Wide;
+            pageSettings.Debug = true;
             ExcelPdf pedeef = new ExcelPdf(pageSettings);
 
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest5.pdf", ws);
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest8.pdf", ws);
 
         }
 

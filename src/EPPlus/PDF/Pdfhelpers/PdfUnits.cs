@@ -2,7 +2,7 @@
 
 namespace OfficeOpenXml.PDF.Pdfhelpers
 {
-    internal class PdfUnits
+    internal static class PdfUnits
     {
         public const double PointsPerInch = 72.0;
         public const double MmPerInch = 25.4;

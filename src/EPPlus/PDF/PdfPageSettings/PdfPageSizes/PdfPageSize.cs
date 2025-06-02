@@ -11,16 +11,16 @@ namespace OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes
         public double Width { get; }
         public double Height { get; }
 
-        public double WidthPoints { get; }
-        public double HeightPoints { get; }
+        public double WidthPu { get; }
+        public double HeightPu { get; }
 
 
         public PdfPageSize(double width, double height)
         {
             Width = width;
             Height = height;
-            WidthPoints = Math.Round( PdfUnits.MmToPoints(width));
-            HeightPoints = Math.Round( PdfUnits.MmToPoints(height));
+            WidthPu = Math.Round( PdfUnits.MmToPoints(width));
+            HeightPu = Math.Round( PdfUnits.MmToPoints(height));
         }
 
         public static PdfPageSize A5 => new PdfPageSize(148d, 210d);
