@@ -10,6 +10,8 @@
  *************************************************************************************************
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
+
+using OfficeOpenXml.Utils;
 using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
@@ -18,15 +20,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
     {
         private static int SearchAsc(object s, IRangeInfo lookupRange, IComparer<object> comparer, LookupRangeDirection? direction = null)
         {
-            var cells = lookupRange.Worksheet.Cells[lookupRange.Address.WorksheetAddress];
-            var rangesByValue = cells.RangeByValue();
+            //Only look at relevant values. We use this to omit null values above and below actual values
+            var valueRange = ValueFinder.RangeByValue(lookupRange.Worksheet, lookupRange.Address);
 
-            var nRows = rangesByValue.Rows;
-            var nCols = rangesByValue.Columns;
-
+            var nRows = valueRange.Rows;
+            var nCols = valueRange.Columns;
             if (nRows == 0 && nCols == 0) return -1;
             int low = 0, high = nCols > nRows ? nCols : nRows, mid;
-
             if (direction.HasValue)
             {
                 high = direction.Value == LookupRangeDirection.Vertical ? nRows : nCols;
@@ -50,7 +50,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     break;
                 }
 
-                var val = rangesByValue.TakeSingleCell(row, col).Value;
+                var val = lookupRange.GetValue(valueRange.Start.Row + row, valueRange.Start.Column + col);
+
                 var result = comparer.Compare(s, val);
 
                 if (result < 0)
@@ -60,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     low = mid + 1;
 
                 else
-                    return rangesByValue.Start.Row - 1 + mid;
+                    return valueRange.Start.Row - 1 + mid;
             }
 
             return ~low;

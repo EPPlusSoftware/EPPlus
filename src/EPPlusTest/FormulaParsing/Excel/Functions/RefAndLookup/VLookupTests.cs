@@ -343,17 +343,17 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 ws.Cells["A11"].Value = 1;
 
                 //Testing that VLookup (or rather binary search lookup) can handle values of 'null' in a range above and below target.
-                ws.Cells["F5"].Formula = "VLOOKUP(A11, B:C, 2, TRUE)";
+                ws.Cells["F6"].Formula = "VLOOKUP(A11, B:C, 2, TRUE)";
 
                 ws.Calculate();
 
-                var outputValue = ws.Cells["F5"].Value;
+                var outputValue = ws.Cells["F6"].Value;
                 Assert.AreEqual(400, outputValue);
 
                 //Ensure it works for each of the values
                 for (int i = 1; i < searchValues.Count; i++)
                 {
-                    var formulaCell = ws.Cells[5 + i, 6];
+                    var formulaCell = ws.Cells[6 + i, 6];
                     formulaCell.Formula = $"VLOOKUP({searchValues[i]}, B:C, 2, TRUE)";
                     formulaCell.Calculate();
                     Assert.AreEqual(resultValues[i], formulaCell.Value);
