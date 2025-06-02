@@ -88,6 +88,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                 }
                 rows.Add(cols);
             }
+
+            //var ws = context.CurrentWorksheet.Workbook.Worksheets.Add("Rows_Unsorted");
+            //var rowIx1 = 0;
+            //foreach (var row in rows)
+            //{
+            //    var cellIx1 = 0;
+            //    foreach (var cell in row.ToList())
+            //    {
+            //        ws.SetValue(rowIx1+1, cellIx1+1, cell.Value);
+            //        cellIx1++;
+            //    }
+            //    rowIx1++;
+            //}
+
             rows.Sort((a, b) => 
             { 
                 foreach(var colIx in colIndexes)
