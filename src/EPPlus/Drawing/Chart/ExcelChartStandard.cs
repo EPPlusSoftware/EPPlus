@@ -1225,6 +1225,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         /// <summary>
         /// The X Axis
+        /// (Usually Category Axis)
         /// </summary>
         public new ExcelChartAxisStandard XAxis
         {
@@ -1239,6 +1240,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         /// <summary>
         /// The Y Axis
+        /// (Usually Value Axis)
         /// </summary>
         public new ExcelChartAxisStandard YAxis
         {

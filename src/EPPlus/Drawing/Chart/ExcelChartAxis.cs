@@ -15,6 +15,9 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.Utils.EnumUtils;
+using System;
+using System.Reflection.Emit;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -47,6 +50,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
         }
+
         /// <summary>
         /// Get or Sets the major tick marks for the axis. 
         /// </summary>
@@ -141,8 +145,8 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         /// <summary>
-                 /// The Position of the labels
-                 /// </summary>
+        /// The Position of the labels
+        /// </summary>
         public abstract eTickLabelPosition LabelPosition
         {
             get;
@@ -518,14 +522,37 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             DeleteNode($"{_nsPrefix}:title");
         }
+
         /// <summary>
-        /// 
+        /// Change type of axis. Can only change Value axis to Date axis and vice-versa
+        /// Or Category Axis to Serie Axis and vice versa.
         /// </summary>
         /// <param name="type"></param>
-        internal void ChangeAxisType(eAxisType type)
+        /// <param name="throwWarning">Set to false to allow axisTypes with unexpected behaviour</param>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        public void ChangeAxisType(eAxisType type, bool throwWarning = true)
+        {
+            if (throwWarning && _chart.IsAxisTypeSupported(type, this) == false)
+            {
+                throw new InvalidOperationException($"Chart Name:{_chart.Name} of Type: {_chart.ChartType.ToEnumString()} " +
+                    $"Cannot change axis with ID:{this.Id} from AxisType:{AxisType} To Type: {type.ToString()}. Data would be missrepresented in chart.");
+            }
+
+            ChangeAxisTypeInner(type);
+            return;
+        }
+
+        internal void ChangeAxisTypeInner(eAxisType type)
         {
             var children = XmlHelper.CopyToSchemaNodeOrder(ExcelChartAxisStandard._schemaNodeOrderDateShared, ExcelChartAxisStandard._schemaNodeOrderDate);
-            RenameNode(TopNode, "c", "dateAx", children);            
+            var eString = type.ToEnumString();
+            if(type == eAxisType.Serie)
+            {
+                eString = "ser";
+            }
+            RenameNode(TopNode, "c", eString + "Ax", children);
+            SetXmlNodeBool("c:auto/@val", false);
         }
         #endregion
         internal XmlNode AddTitleNode()
