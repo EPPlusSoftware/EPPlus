@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Utils
             return new List<int> { toRow, toCol };
         }
 
-        internal static ExcelAddressBase RangeByValue(ExcelWorksheet sheet, FormulaRangeAddress address)
+        internal static SimpleAddress RangeByValue(ExcelWorksheet sheet, FormulaRangeAddress address)
         {
             var fvc = FirstValueCell(sheet, address);
             var lvc = LastValueCell(sheet, address);
@@ -96,8 +96,8 @@ namespace OfficeOpenXml.Utils
                 toCol = c;
             }
 
-            var subrange = new ExcelAddressBase(Math.Min(fromRow, toRow), Math.Min(fromCol, toCol), Math.Max(fromRow, toRow), Math.Max(fromCol, toCol));
-            return subrange;
+            SimpleAddress subRange = new SimpleAddress { FromRow = Math.Min(fromRow, toRow), FromCol = Math.Min(fromCol, toCol), ToRow = Math.Max(fromRow, toRow), ToCol = Math.Max(fromCol, toCol) };
+            return subRange;
         }
     }
 }

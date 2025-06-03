@@ -23,8 +23,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             //Only look at relevant values. We use this to omit null values above and below actual values
             var valueRange = ValueFinder.RangeByValue(lookupRange.Worksheet, lookupRange.Address);
 
-            var nRows = valueRange.Rows;
-            var nCols = valueRange.Columns;
+            var nRows = valueRange.FromRow - valueRange.ToRow;
+            var nCols = valueRange.FromCol - valueRange.ToCol;
             if (nRows == 0 && nCols == 0) return -1;
             int low = 0, high = nCols > nRows ? nCols : nRows, mid;
             if (direction.HasValue)
@@ -50,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     break;
                 }
 
-                var val = lookupRange.GetValue(valueRange.Start.Row + row, valueRange.Start.Column + col);
+                var val = lookupRange.GetValue(valueRange.FromRow + row, valueRange.FromCol + col);
 
                 var result = comparer.Compare(s, val);
 
@@ -61,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     low = mid + 1;
 
                 else
-                    return valueRange.Start.Row - 1 + mid;
+                    return valueRange.FromRow - 1 + mid;
             }
 
             return ~low;
