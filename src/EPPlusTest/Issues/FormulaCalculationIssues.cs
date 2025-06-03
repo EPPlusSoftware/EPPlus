@@ -1077,6 +1077,39 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(pck);
 			}
 		}
+		public void s871()
+		{
+            using var epplusCalculated = OpenTemplatePackage("s871.xlsx");
+            using var excelCalculated = OpenTemplatePackage("s871.xlsx");
+
+            ExcelPackage.MemorySettings.UseRecyclableMemory = false;
+
+            Console.WriteLine("Calculating...");
+
+            var wbEPPlus = epplusCalculated.Workbook;
+            wbEPPlus.CalcMode = ExcelCalcMode.Manual;
+
+			epplusCalculated.Workbook.Calculate(new OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+			{
+				PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel,
+				AllowCircularReferences = true,
+				EnableUnicodeAwareStringOperations = true,
+			});
+
+			var trackCol = 7;
+            var trackRow = 12;
+
+			var sheet = wbEPPlus.Worksheets["Summary"];
+
+            object o;
+
+            o = sheet.Cells[trackRow, trackCol].Formula;
+
+            Assert.AreEqual(6384484.31, (double)sheet.Cells["G9"].Value); 
+            Assert.AreEqual(174125.25, (double)sheet.Cells["G10"].Value); 
+            Assert.AreEqual(71467.24, (double)sheet.Cells["G11"].Value);                       
+            Assert.AreEqual(32018.5, (double)sheet.Cells["G12"].Value);
+        }
     }
 }
 
