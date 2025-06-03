@@ -522,15 +522,6 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             DeleteNode($"{_nsPrefix}:title");
         }
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="type"></param>
-        //internal void ChangeAxisType(eAxisType type)
-        //{
-        //    var children = XmlHelper.CopyToSchemaNodeOrder(ExcelChartAxisStandard._schemaNodeOrderDateShared, ExcelChartAxisStandard._schemaNodeOrderDate);
-        //    RenameNode(TopNode, "c", "dateAx", children);            
-        //}
 
         /// <summary>
         /// Change type of axis. Can only change Value axis to Date axis and vice-versa
@@ -548,15 +539,11 @@ namespace OfficeOpenXml.Drawing.Chart
                     $"Cannot change axis with ID:{this.Id} from AxisType:{AxisType} To Type: {type.ToString()}. Data would be missrepresented in chart.");
             }
 
-            ChangeAxisTypeReal(type);
+            ChangeAxisTypeInner(type);
             return;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        internal void ChangeAxisTypeReal(eAxisType type)
+        internal void ChangeAxisTypeInner(eAxisType type)
         {
             var children = XmlHelper.CopyToSchemaNodeOrder(ExcelChartAxisStandard._schemaNodeOrderDateShared, ExcelChartAxisStandard._schemaNodeOrderDate);
             var eString = type.ToEnumString();

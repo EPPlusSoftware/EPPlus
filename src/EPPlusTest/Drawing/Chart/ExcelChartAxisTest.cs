@@ -495,7 +495,7 @@ namespace EPPlusTest.Drawing.Chart
 
                 var strLits = chart1.Series[4].StringLiteralsX;
 
-                chart1.YAxis.ChangeAxisTypeReal(eAxisType.Date);
+                chart1.YAxis.ChangeAxisTypeInner(eAxisType.Date);
 
                 SaveAndCleanup(p);
             }
@@ -560,7 +560,7 @@ namespace EPPlusTest.Drawing.Chart
                 var ser2 = barChart.Series.Add(ws.Cells["A3:B3"], ws.Cells["A1:B1"]);
                 ser2.Header = "Ser2";
 
-                barChart.XAxis.ChangeAxisTypeReal(eAxisType.Date);
+                barChart.XAxis.ChangeAxisTypeInner(eAxisType.Date);
 
                 SaveAndCleanup(p);
             }
@@ -666,7 +666,7 @@ namespace EPPlusTest.Drawing.Chart
 
                 //Changing to date type is still allowed.
                 //TODO: Why is XAxis actually the YAxis visually?
-                barChart.XAxis.ChangeAxisTypeReal(eAxisType.Date);
+                barChart.XAxis.ChangeAxisType(eAxisType.Date);
 
                 SaveAndCleanup(p);
             }
@@ -701,75 +701,11 @@ namespace EPPlusTest.Drawing.Chart
 
                 ws.Calculate();
 
-                barChart.YAxis.ChangeAxisTypeReal(eAxisType.Cat);
-                barChart.XAxis.ChangeAxisTypeReal(eAxisType.Val);
+                barChart.YAxis.ChangeAxisType(eAxisType.Cat);
+                barChart.XAxis.ChangeAxisType(eAxisType.Val);
 
                 barChart.Series.Delete(0);
                 barChart.Series.Add(datRange.TakeSingleColumn(0), ws.Cells["A1:B1"]);
-
-                SaveAndCleanup(p);
-            }
-        }
-
-        [TestMethod]
-        public void ChangingAxisOfChart()
-        {
-            using (var p = OpenPackage("ChartAxisChange.xlsx", true))
-            {
-                var wb = p.Workbook;
-                var ws = p.Workbook.Worksheets.Add("ChartWs");
-
-                ws.Cells["A1:A10"].Formula = "ROW()+ 5";
-                ws.Cells["C1:C10"].Formula = "COLUMN() + ROW() - 5";
-                ws.Cells["D1:D10"].Formula = "COLUMN() + ROW() + 10";
-
-
-                ws.Calculate();
-
-                var barChart = ws.Drawings.AddBarChart("testChart", eBarChartType.ColumnClustered);
-
-                var series = barChart.Series.Add("C1:C10");
-                series.XSeries = ws.Cells["A1:A10"].Address;
-
-                barChart.Title.Text = "OriginalChart";
-
-                ws.Cells["A1:A10"].Formula = "\"Category\" & ROW()";
-
-                var copiedChartDrawing = barChart.Copy(ws, 2, 2);
-                var copiedChart = copiedChartDrawing.As.Chart.BarChart;
-
-                ws.Calculate();
-
-                //barChart.Axis[0].AxisType; 
-
-                //copiedChart.
-
-                copiedChart.Title.Text = "CopiedChart";
-
-                //var someAxis = copiedChart.Axis[0];
-                //copiedChart.Axis[0] = copiedChart.Axis[1];
-                //copiedChart.Axis[1] = someAxis;
-
-                //ws.Cells["A1"].SetCellValue(0, 0, "123");
-
-                var axisType1 = barChart.Axis[0].AxisType;
-                var axisType2 = barChart.Axis[1].AxisType;
-
-                var barChart3D = ws.Drawings.AddBarChart("testChart3D", eBarChartType.ColumnClustered3D);
-
-                var series2 = barChart3D.Series.Add("C1:C10");
-                series2.XSeries = ws.Cells["A1:A10"].Address;
-
-                barChart3D.Series.Add("D1:D10");
-
-                //copiedChart.YAxis.ChangeAxisTypeReal(eAxisType.Serie);
-
-                //copiedChart.Axis[0].ChangeAxisType(axisType2);
-                //copiedChart.Axis[1].ChangeAxisType(axisType1);
-
-                //copiedChart.Series.Delete(0);
-                //var series2 = copiedChart.Series.Add("A1:A10");
-                //series2.XSeries = ws.Cells["C1:C10"].Address;
 
                 SaveAndCleanup(p);
             }

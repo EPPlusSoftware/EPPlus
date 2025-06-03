@@ -156,16 +156,6 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         #region "Properties"
 
-        //struct DefaultAxises()
-        //{
-
-        //}
-
-        internal virtual void SetDefaultAxes()
-        {
-
-        }
-
         /// <summary>
         /// Reference to the worksheet
         /// </summary>
@@ -766,15 +756,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 return null;
             }
         }
-
-        //public void SwitchRowColumn()
-        //{
-        //    using()
-        //    foreach(var serie in Series)
-        //    {
-
-        //    }
-        //}
 
         internal static ExcelChartEx GetChartEx(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null)
         {
