@@ -10,13 +10,9 @@
  *************************************************************************************************
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Ranges;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
 {
@@ -60,11 +56,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                     }
                     var res = _comparer.Compare(aColVal.Value, bColVal.Value, sortOrder, context);
                     if (res != 0) return res;
-
-                    var resIndex = _comparer.Compare(originalColNum[a], originalColNum[b], sortOrder, context);
-                    return resIndex;
                 }
-                return 0;
+                var resIndex = _comparer.Compare(originalColNum[a], originalColNum[b], sortOrder, context);
+                return resIndex;
             });
             var colIx = 0;
             foreach (var col in columns)
@@ -118,11 +112,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                     }
                     var res = _comparer.Compare(aColVal.Value, bColVal.Value, sortOrder, context);
                     if (res != 0) return res;
-
-                    var resIndex = _comparer.Compare(originalRowNum[a], originalRowNum[b], sortOrder, context);
-                    return resIndex;
                 }
-                return 0;
+                var resIndex = _comparer.Compare(originalRowNum[a], originalRowNum[b], sortOrder, context);
+                return resIndex;
             });
 
             var rowIx = 0;
