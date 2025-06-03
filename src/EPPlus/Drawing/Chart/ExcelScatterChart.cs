@@ -185,14 +185,11 @@ namespace OfficeOpenXml.Drawing.Chart
 
         internal override bool IsAxisTypeSupported(eAxisType type, ExcelChartAxis axis)
         {
-            //if (axis == XAxis)
-            //{
-            //    if (type == eAxisType.Val)
-            //    {
-            //        return false;
-            //    }
-            //}
-            //return base.IsAxisTypeSupported(type, axis);
+            //Anything but value axis seems to break chart. To handle dates, format the values
+            if (type != eAxisType.Val)
+            {
+                return false;
+            }
             return true;
         }
     }

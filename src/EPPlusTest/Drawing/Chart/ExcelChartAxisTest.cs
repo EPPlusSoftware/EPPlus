@@ -200,7 +200,7 @@ namespace EPPlusTest.Drawing.Chart
 
                 ws.Cells.AutoFitColumns();
 
-                lineChart.XAxis.ChangeAxisTypeLimited(eAxisType.Date);
+                lineChart.XAxis.ChangeAxisType(eAxisType.Date);
             }
         }
 
@@ -245,7 +245,7 @@ namespace EPPlusTest.Drawing.Chart
 
                 var barChartRead = ws.Drawings[0].As.Chart.BarChart;
 
-                barChartRead.XAxis.ChangeAxisTypeLimited(eAxisType.Date);
+                barChartRead.XAxis.ChangeAxisType(eAxisType.Date);
 
                 var dataRange = ws.Cells["A2:A3"];
 
@@ -338,22 +338,11 @@ namespace EPPlusTest.Drawing.Chart
                 ser.HeaderAddress = ws.Cells["B1"];
 
                 var axis = lChart.XAxis;
-                axis.ChangeAxisTypeLimited(eAxisType.Date);
+                axis.ChangeAxisType(eAxisType.Date);
                 //axis.ChangeAxisTypeLimited(eAxisType.Val);
                 axis.CrossBetween = eCrossBetween.MidCat;
                 lChart.DisplayBlanksAs = eDisplayBlanksAs.Gap;
                 lChart.ShowDataLabelsOverMaximum = false;
-
-                var xyScatter = ws.Drawings.AddScatterChart("xyChart1", eScatterChartType.XYScatter);
-
-                var ser2 = xyScatter.Series.Add(valueRange, ws.Cells["A2:A3"]);
-                ser2.HeaderAddress = ws.Cells["B1"];
-
-                var axis2 = xyScatter.XAxis;
-                axis2.ChangeAxisTypeLimited(eAxisType.Date);
-                axis2.CrossBetween = eCrossBetween.MidCat;
-                xyScatter.DisplayBlanksAs = eDisplayBlanksAs.Gap;
-                xyScatter.ShowDataLabelsOverMaximum = false;
 
                 SaveAndCleanup(p);
             }
@@ -368,7 +357,7 @@ namespace EPPlusTest.Drawing.Chart
                 var ws = p.Workbook.Worksheets.Add("sheetTest");
                 var chart = ws.Drawings.AddLineChart("non3DLine", eLineChartType.LineStacked100);
 
-                chart.XAxis.ChangeAxisTypeLimited(eAxisType.Serie);
+                chart.XAxis.ChangeAxisType(eAxisType.Serie);
             }
         }
 
@@ -403,7 +392,7 @@ namespace EPPlusTest.Drawing.Chart
                 ser.HeaderAddress = ws.Cells["B1"];
 
                 //We throw on val axisType. For Linecharts
-                lChart.XAxis.ChangeAxisTypeLimited(eAxisType.Val);
+                lChart.XAxis.ChangeAxisType(eAxisType.Val);
             }
         }
 
@@ -442,7 +431,7 @@ namespace EPPlusTest.Drawing.Chart
                 ws.Cells["A2:A3"].Formula = "ROW()+20";
                 ws.Calculate();
 
-                barChart.XAxis.ChangeAxisTypeLimited(eAxisType.Val);
+                barChart.XAxis.ChangeAxisType(eAxisType.Val);
 
                 SaveAndCleanup(p);
             }
@@ -469,10 +458,11 @@ namespace EPPlusTest.Drawing.Chart
             var ser3 = anArea.Series.Add(totalRange, dateRange);
             ser3.HeaderAddress = ws.Cells["D1"];
 
-            anArea.XAxis.ChangeAxisTypeLimited(eAxisType.Val);
+            anArea.XAxis.ChangeAxisType(eAxisType.Val);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void XYChart()
         {
             var ws = axisWsDates;
@@ -485,21 +475,11 @@ namespace EPPlusTest.Drawing.Chart
 
             var xyChart = ws.Drawings.AddScatterChart("ScatterChart", eScatterChartType.XYScatter);
 
-            //var ser1 = xyChart.Series.Add(salesRange, dateRange);
-            //ser1.HeaderAddress = ws.Cells["B1"];
             var ser2 = xyChart.Series.Add(dateRange, spendRange);
             ser2.HeaderAddress = ws.Cells["C1"];
-            //var ser3 = xyChart.Series.Add(totalRange, dateRange);
-            //ser3.HeaderAddress = ws.Cells["D1"];
 
-            //dateRange["A2"].Value = "SomeValue";
-            //dateRange["A3"].Value = "Some2Value";
-            //dateRange["A4"].Value = "Some3Value";
-
-            xyChart.XAxis.ChangeAxisTypeLimited(eAxisType.Val);
-            xyChart.YAxis.ChangeAxisTypeLimited(eAxisType.Val);
+            xyChart.YAxis.ChangeAxisType(eAxisType.Cat);
             ws.Calculate();
-            //xyChart.XAxis.ChangeAxisTypeLimited(eAxisType.Cat);
         }
 
         [TestMethod]

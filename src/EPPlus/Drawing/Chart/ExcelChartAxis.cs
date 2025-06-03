@@ -522,15 +522,15 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             DeleteNode($"{_nsPrefix}:title");
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        internal void ChangeAxisType(eAxisType type)
-        {
-            var children = XmlHelper.CopyToSchemaNodeOrder(ExcelChartAxisStandard._schemaNodeOrderDateShared, ExcelChartAxisStandard._schemaNodeOrderDate);
-            RenameNode(TopNode, "c", "dateAx", children);            
-        }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="type"></param>
+        //internal void ChangeAxisType(eAxisType type)
+        //{
+        //    var children = XmlHelper.CopyToSchemaNodeOrder(ExcelChartAxisStandard._schemaNodeOrderDateShared, ExcelChartAxisStandard._schemaNodeOrderDate);
+        //    RenameNode(TopNode, "c", "dateAx", children);            
+        //}
 
         /// <summary>
         /// Change type of axis. Can only change Value axis to Date axis and vice-versa
@@ -540,7 +540,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <param name="throwWarning">Set to false to allow axisTypes with unexpected behaviour</param>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        internal void ChangeAxisTypeLimited(eAxisType type, bool throwWarning = true)
+        internal void ChangeAxisType(eAxisType type, bool throwWarning = true)
         {
             if (throwWarning && _chart.IsAxisTypeSupported(type, this) == false)
             {
@@ -549,21 +549,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
 
             ChangeAxisTypeReal(type);
-
-            if (AxisType == eAxisType.Val || AxisType == eAxisType.Date)
-            {
-                if (type == eAxisType.Val || type == eAxisType.Date)
-                {
-                    ChangeAxisTypeReal(type);
-                    return;
-                }
-            }
-            else if (AxisType == eAxisType.Cat || AxisType == eAxisType.Serie)
-            {
-                ChangeAxisTypeReal(type);
-                return;
-            }
-            throw new InvalidOperationException($"Cannot change ValueAxis to CatAxis Original Axis type: {AxisType.ToString()}  New Axis type: {type.ToString()}");
+            return;
         }
 
         /// <summary>
