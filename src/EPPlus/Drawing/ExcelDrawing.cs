@@ -230,7 +230,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         public const int EMU_PER_CM = 360000;
         /// <summary>
-        /// The ratio between EMU and milimeters
+        /// The ratio between EMU and millimeters
         /// </summary>
         public const int EMU_PER_MM = 3600000;
         /// <summary>
