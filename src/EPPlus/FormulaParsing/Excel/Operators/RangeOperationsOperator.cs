@@ -208,7 +208,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 
         private static void SetValue(Operators op, InMemoryRange resultRange, int row, int col, object leftVal, object rightVal, ParsingContext context)
         {
-            if (IsNumeric(leftVal??0D) && IsNumeric(rightVal??0))
+            if (IsNumeric(leftVal??0D) && IsNumeric(rightVal??0) && op != Operators.Concat)
             {
                 var l = ConvertUtil.GetValueDouble(leftVal, false, false, true);
                 var r = ConvertUtil.GetValueDouble(rightVal, false, false, true);

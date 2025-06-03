@@ -1,4 +1,10 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.0.3
+* Added custom number formats where the formatId is not a built-in format.
+* SUMIFS and AVERAGEIFS sometimes miscalculated with multiple arguments.
+* Sorting a range with threaded comments, remove and the add a threaded comment sometimes throws an exception.
+* Cell meta data loaded from a workbook was cleared on formula calculation, causing some dynamic array formulas to become legacy array formulas.
+
 ## Version 8.0.2
 * Copy shared formulas do not update addresses to the new worksheet position.
 * The CHOOSECOLS and CHOOSEROWS functions did not support ranges as row/col selection argument.
