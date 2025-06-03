@@ -958,7 +958,34 @@ namespace EPPlusTest.Issues
 
             Assert.AreEqual(12977661.57, result2);
         }
+		[TestMethod]
+		public void i2012_Alt_Minimized_Col()
+		{
+			using (var pck = OpenTemplatePackage("SortColumn.xlsx"))
+			{
+				var ws = pck.Workbook.Worksheets[0];
 
+				ws.Cells["A13"].Formula = "SORT(A1:BB4,2,1,TRUE)";
+
+                ws.Cells["A13"].Calculate();
+				ws.ClearFormulas();
+
+                List<string> cellValues = new();
+                foreach (var cell in ws.Cells["A7:BB10"])
+                {
+                    cellValues.Add(cell.Text);
+                }
+
+                int i = 0;
+                foreach (var cell in ws.Cells["A13:BB16"])
+                {
+                    Assert.AreEqual(cell.Text, cellValues[i]);
+                    i++;
+                }
+
+                SaveAndCleanup(pck);
+            }
+		}
 		[TestMethod]
 		public void i2012_Alt_Minimized()
 		{
@@ -971,12 +998,26 @@ namespace EPPlusTest.Issues
 
                 ws.Calculate();
 				ws.ClearFormulas();
-				SaveAndCleanup(pck);
+
+				ws.Cells["G1:J8"].CopyTranspose(ws.Cells["L1"]);
+
+                ws.Cells["U1"].Formula = "SORT(L1:S4,3,1,TRUE)";
+				//ws.Cells["U1"].IsArrayFormula = false;
+
+                ws.Calculate();
+                ws.ClearFormulas();
+
+                ws.Cells["AH1"].Formula = "SORT(L1:S4,3,1,TRUE)";
+
+                ws.Calculate();
+
+                //ws.Cells["U7"].ClearFormulas();
+
+                SaveAndCleanup(pck);
             }
 		}
 
-                //Epplusexample.xlsx
-                [TestMethod]
+        [TestMethod]
 		public void i2012_Alt()
 		{
 			using (var pck = OpenTemplatePackage("BrokeOutProblem.xlsx"))
@@ -1011,11 +1052,9 @@ namespace EPPlusTest.Issues
 			using (var pck = OpenTemplatePackage("i2012.xlsx"))
 			{
 				var ws = pck.Workbook.Worksheets["Summary by Contract"];
-
 				var str = ws.Cells["A12"].Formula;
 
 				List<string> cellValues = new();
-
                 foreach (var cell in ws.Cells["D12:D100"])
 				{
 					cellValues.Add(cell.Text);
@@ -1024,83 +1063,19 @@ namespace EPPlusTest.Issues
 				ws.Cells["A12:D200"].Clear();
 
 				ws.Cells["A12"].Formula = "IF('Contract Details'!F12 = \"[none]\", {\"[none]\",\"\",\"\",\"\"},\r\n _xlfn.VSTACK(\r\n_xlfn._xlws.SORT(_xlfn.VSTACK(\r\n_xlfn.HSTACK(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!A12),_xlfn.ANCHORARRAY('Contract Details'!B12))), REPT(name_Account_GL_Current,_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)), REPT(\"Current\",_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0))),\r\n_xlfn.HSTACK(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!A12),_xlfn.ANCHORARRAY('Contract Details'!B12))), REPT(name_Account_GL_NonCurrent,_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)), REPT(\"Non-Current\",_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0))),\r\n_xlfn.HSTACK(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!A12),_xlfn.ANCHORARRAY('Contract Details'!B12))), REPT(name_Account_GL_Total,_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)), REPT(\"🔼 Sub-Total\",_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)))\r\n), 2,1,FALSE),\r\n_xlfn.HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_Current,\"Current\"),\r\n_xlfn.HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_NonCurrent,\"Non-Current\"),\r\n_xlfn.HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_Total,\"🔼 Total\")\r\n))";
-
-				//var testws = pck.Workbook.Worksheets.Add("SomeTestTempWs");
-
-    //            testws.Cells["A12"].Formula = "IF('Contract Details'!F12 = \"[none]\", {\"[none]\",\"\",\"\",\"\"},\r\n _xlfn.VSTACK(\r\n_xlfn._xlws.SORT(_xlfn.VSTACK(\r\n_xlfn.HSTACK(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!A12),_xlfn.ANCHORARRAY('Contract Details'!B12))), REPT(name_Account_GL_Current,_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)), REPT(\"Current\",_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0))),\r\n_xlfn.HSTACK(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!A12),_xlfn.ANCHORARRAY('Contract Details'!B12))), REPT(name_Account_GL_NonCurrent,_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)), REPT(\"Non-Current\",_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0))),\r\n_xlfn.HSTACK(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!A12),_xlfn.ANCHORARRAY('Contract Details'!B12))), REPT(name_Account_GL_Total,_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)), REPT(\"🔼 Sub-Total\",_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)))\r\n), 2,1,FALSE),\r\n_xlfn.HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_Current,\"Current\"),\r\n_xlfn.HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_NonCurrent,\"Non-Current\"),\r\n_xlfn.HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_Total,\"Total\")\r\n))";
-				//testws.Calculate();
-
-				//var someOtherValue = testws.Cells["A12"].Value;
-
-                //ws.Cells["A12"].Formula = "IF('Contract Details'!F12 = \"[none]\", {\"[none]\",\"\",\"\",\"\"},\r\n _xlfn.VSTACK(\r\n_xlfn._xlws.SORT(_xlfn.VSTACK(\r\n_xlfn.HSTACK(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!A12),_xlfn.ANCHORARRAY('Contract Details'!B12))), REPT(name_Account_GL_Current,_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)), REPT(\"Current\",_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0))),\r\n_xlfn.HSTACK(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!A12),_xlfn.ANCHORARRAY('Contract Details'!B12))), REPT(name_Account_GL_NonCurrent,_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)), REPT(\"Non-Current\",_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0))),\r\n_xlfn.HSTACK(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!A12),_xlfn.ANCHORARRAY('Contract Details'!B12))), REPT(name_Account_GL_Total,_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)), REPT(\"🔼 Sub-Total\",_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)))\r\n), {2,4} ,1,FALSE),\r\n_xlfn.HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_Current,\"Current\"),\r\n_xlfn.HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_NonCurrent,\"Non-Current\"),\r\n_xlfn.HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_Total,\"🔼 Total\")\r\n))";
-
-                //            var smallResultRangePre = ws.Cells["D12:D26"];
-
-                //ws.Cells["A12"].Formula = "IF('Contract Details'!F12 = \"[none]\", {\"[none]\",\"\",\"\",\"\"}," +
-                //	" VSTACK(SORT(VSTACK(" +
-                //	"HSTACK(UNIQUE(HSTACK('Contract Details'!A12#,'Contract Details'!B12#)), REPT(name_Account_GL_Current,SEQUENCE(COUNTA(UNIQUE(HSTACK('Contract Details'!B12#))),1,1,0)), REPT(\"Current\",SEQUENCE(COUNTA(UNIQUE(HSTACK('Contract Details'!B12#))),1,1,0)))," +
-                //	"HSTACK(UNIQUE(HSTACK('Contract Details'!A12#,'Contract Details'!B12#)), REPT(name_Account_GL_NonCurrent,SEQUENCE(COUNTA(UNIQUE(HSTACK('Contract Details'!B12#))),1,1,0)), REPT(\"Non-Current\",SEQUENCE(COUNTA(UNIQUE(HSTACK('Contract Details'!B12#))),1,1,0)))," +
-                //	"HSTACK(UNIQUE(HSTACK('Contract Details'!A12#,'Contract Details'!B12#)), REPT(name_Account_GL_Total,SEQUENCE(COUNTA(UNIQUE(HSTACK('Contract Details'!B12#))),1,1,0)), REPT(\"🔼 Sub-Total\",SEQUENCE(COUNTA(UNIQUE(HSTACK('Contract Details'!B12#))),1,1,0)))" +
-                //	"), {2,4},1,FALSE)," +
-                //	"HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_Current,\"Current\")," +
-                //	"HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_NonCurrent,\"Non-Current\")," +
-                //	"HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_Total,\"🔼 Total\")))";
-
                 ws.Cells["A12"].Calculate();
 
                 List<string> cellValuesAfter = new();
 				int i = 0;
                 foreach (var cell in ws.Cells["D12:D100"])
                 {
-					if(cell.Text != cellValues[i])
-					{
-						string test = "Something wrong";
-					}
+					Assert.AreEqual(cell.Text, cellValues[i]);
 					i++;
                 }
 
-
-
                 ws.ClearFormulas();
-				//testws.ClearFormulas();
-
                 SaveAndCleanup(pck);
 			}
-
-			//    using var epplusCalculated = OpenTemplatePackage("i2012.xlsx");
-
-			//    using var excelCalculated = OpenTemplatePackage("i2012.xlsx");
-
-			//    epplusCalculated.Workbook.CalcMode = ExcelCalcMode.Manual;
-
-			//    epplusCalculated.Workbook.Calculate(new OfficeOpenXml.FormulaParsing.ExcelCalculationOption
-
-			//    {
-
-			//        PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel,
-
-			//        AllowCircularReferences = true,
-
-			//    });
-
-
-			//    foreach (var wsEpplusCalculated in epplusCalculated.Workbook.Worksheets)
-			//    {
-			//        var wsExcelCalculated = excelCalculated.Workbook.Worksheets[wsEpplusCalculated.Name];
-			//        for (int row = 1; row <= wsEpplusCalculated.Dimension.End.Row; row++)
-			//        {
-			//            for (int col = 1; col <= wsEpplusCalculated.Dimension.End.Column; col++)
-			//            {
-			//                var cellEPPlusCalculated = wsEpplusCalculated.Cells[row, col];
-			//                var cellExcelCalculated = wsExcelCalculated.Cells[row, col];
-
-			//                if (cellEPPlusCalculated.Value?.ToString() != cellExcelCalculated.Value?.ToString())
-			//                    Console.WriteLine($"Cell value mismatch in worksheet '{wsEpplusCalculated.Name}' at {cellEPPlusCalculated.Address}. Expected: '{cellExcelCalculated.Value?.ToString()}' Actual '{cellEPPlusCalculated.Value?.ToString()}'");
-
-			//            }
-			//        }
-			//    }
-			//}
 		}
     }
 }
