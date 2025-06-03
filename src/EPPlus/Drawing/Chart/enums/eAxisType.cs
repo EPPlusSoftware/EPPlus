@@ -12,7 +12,10 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Drawing.Chart
 {
-    internal enum eAxisType
+    /// <summary>
+    /// Axis type
+    /// </summary>
+    public enum eAxisType
     {
         /// <summary>
         /// Value axis

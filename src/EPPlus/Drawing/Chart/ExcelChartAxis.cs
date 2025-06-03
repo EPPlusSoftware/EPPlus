@@ -540,7 +540,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <param name="throwWarning">Set to false to allow axisTypes with unexpected behaviour</param>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        internal void ChangeAxisType(eAxisType type, bool throwWarning = true)
+        public void ChangeAxisType(eAxisType type, bool throwWarning = true)
         {
             if (throwWarning && _chart.IsAxisTypeSupported(type, this) == false)
             {
