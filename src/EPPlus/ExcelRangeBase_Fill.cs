@@ -158,7 +158,7 @@ namespace OfficeOpenXml
         #endregion
         #region FillList
         /// <summary>
-        /// Fills the range columnwise using the values in the list. 
+        /// Fills the range columnwise (Down) using the values in the list. 
         /// </summary>
         /// <typeparam name="T">Type used in the list.</typeparam>
         /// <param name="list">The list to use.</param>

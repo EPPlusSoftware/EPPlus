@@ -470,7 +470,17 @@ namespace OfficeOpenXml
                 }
                 return range;
             }
-            return LoadFromCollection<T>(Collection, false, null, BindingFlags.Public | BindingFlags.Instance, null);
+
+            MemberInfo[] info = null;
+
+            if (type == typeof(DateTime))
+            {
+                info = type.GetMember("Date");
+            }
+
+            var retRange = LoadFromCollection<T>(Collection, false, null, BindingFlags.Public | BindingFlags.Instance, info);
+
+            return retRange;
         }
         /// <summary>
         /// Load a collection of T into the worksheet starting from the top left row of the range.
