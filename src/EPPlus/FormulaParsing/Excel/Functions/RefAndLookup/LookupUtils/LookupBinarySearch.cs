@@ -23,8 +23,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             //Only look at relevant values. We use this to omit null values above and below actual values
             var valueRange = ValueFinder.RangeByValue(lookupRange.Worksheet, lookupRange.Address);
 
-            var nRows = valueRange.FromRow - valueRange.ToRow;
-            var nCols = valueRange.FromCol - valueRange.ToCol;
+            var nRows = valueRange.ToRow - valueRange.FromRow + 1;
+            var nCols = valueRange.ToCol - valueRange.FromCol + 1;
+
             if (nRows == 0 && nCols == 0) return -1;
             int low = 0, high = nCols > nRows ? nCols : nRows, mid;
             if (direction.HasValue)
