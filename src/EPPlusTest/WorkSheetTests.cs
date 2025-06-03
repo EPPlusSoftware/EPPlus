@@ -1073,6 +1073,62 @@ namespace EPPlusTest
             Assert.AreEqual("SUM(3+2)", f4);
             Assert.AreEqual("'Sheet 1'!$A$2*SUM(3+2)", f5);
             Assert.AreEqual("SUM('Sheet 1'!B2+3)", f6);
+        public void CopyWorksheetDefinedNames()
+        {
+            using var p = OpenTemplatePackage("CopyWorksheetNames.xlsx");
+            var wb = p.Workbook;
+            var ws = p.Workbook.Worksheets[0];
+            var wbNames = wb.Names;
+            var wsNames = ws.Names;
+
+            using var p2 = new ExcelPackage();
+            var ws2 = p2.Workbook.Worksheets.Add("CopyNames", ws);
+
+            SaveWorkbook("CopyWorksheetNames2.xlsx", p2);
+
+        }
+
+        [TestMethod]
+        public void CopyWorksheetDefinedNamesEpplusOnly()
+        {
+            using (var p = OpenPackage("CopyNamesEpplus_src.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = p.Workbook.Worksheets.Add("SrcWs");
+                wb.Names.Add("AWorkbookRange", ws.Cells["A1:C50"]);
+                wb.Names.AddFormula("AWorkbookFormula", "SUM(4,6)");
+                wb.Names.AddValue("AWorkbookValueNum", 75);
+                wb.Names.AddValue("AWorkbookValueStr", "AWBString");
+                ws.Names.AddValue("AWorkbookValueNumAsString", "10");
+
+                ws.Names.Add("AWorksheetRange", ws.Cells["A1:C50"]);
+                ws.Names.AddFormula("AWorksheetFormula", "SUM(3,2)");
+                ws.Names.AddValue("AWorksheetValueNum", 57);
+                ws.Names.AddValue("AWorksheetValueStr", "AWsString");
+                ws.Names.AddValue("AWorksheetValueNumAsString", "20");
+
+                SaveAndCleanup(p);
+            }
+
+            //Read values and copy them.
+            using (var p = OpenPackage("CopyNamesEpplus_src.xlsx"))
+            {
+                var wb = p.Workbook;
+                var ws = p.Workbook.Worksheets[0];
+
+                using (var p2 = OpenPackage("CopyNamesEpplus_copied.xlsx",true))
+                {
+                    var wb2 = p2.Workbook;
+                    var ws2 = wb2.Worksheets.Add("CopyWs", ws);
+                    var ws3 = wb2.Worksheets.Add("CopyWs2", ws);
+
+                    //To be fixed in PR 1999
+                    Assert.AreEqual(5,wb2.Names.Count());
+                    Assert.AreEqual(wb2.Names[2].Value, wb.Names[2].Value);
+                    SaveAndCleanup(p2);
+                }
+                SaveAndCleanup(p);
+            }
         }
 
         [TestMethod]
