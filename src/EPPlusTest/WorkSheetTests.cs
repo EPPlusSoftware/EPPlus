@@ -1073,6 +1073,8 @@ namespace EPPlusTest
             Assert.AreEqual("SUM(3+2)", f4);
             Assert.AreEqual("'Sheet 1'!$A$2*SUM(3+2)", f5);
             Assert.AreEqual("SUM('Sheet 1'!B2+3)", f6);
+        }
+
         public void CopyWorksheetDefinedNames()
         {
             using var p = OpenTemplatePackage("CopyWorksheetNames.xlsx");
