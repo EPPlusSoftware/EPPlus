@@ -293,41 +293,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         //}
 
         [TestMethod]
-        public void SC870_ALT()
-        {
-            using (var package = OpenTemplatePackage("s870.xlsx"))
-            {
-                var wb = package.Workbook;
-
-                wb.FullCalcOnLoad = false;
-
-                var worksheet = package.Workbook.Worksheets["MASTER"];
-
-                var originalFormulaPart = "VLOOKUP(B11, Salgsfragt!B:C, 2, TRUE)";
-                var changedFormulaPart = "VLOOKUP(B11, Salgsfragt!B6:C65, 2, TRUE)";
-
-                var cellC19 = worksheet.Cells["C19"];
-                var cellC25 = worksheet.Cells["C25"];
-
-                cellC25.Formula = $"IF(B7=\"Denmark\", IF(VLOOKUP(B10, Produkter!A:Q, 13, FALSE)=\"PL2\", Salgsfragt!F6 * B11, ({changedFormulaPart} * B11) + IF(VLOOKUP(B10, Produkter!A:Q, 13, FALSE)=\"PT7\", VLOOKUP(\"PT7\", Salgsfragt!E:G, 2, FALSE) * B11, 0) + IF(Kalkulator!C52=\"Ja\", Salgsfragt!F5 * B11, 0)), Kalkulator!F21)";
-                cellC19.Formula = $"IF(B7=\"Denmark\", IF(VLOOKUP(B10, Produkter!A:Q, 13, FALSE)=\"PL2\", Salgsfragt!F6 * B11, ({changedFormulaPart} * B11) + IF(VLOOKUP(B10, Produkter!A:Q, 13, FALSE)=\"PT7\", VLOOKUP(\"PT7\", Salgsfragt!E:G, 2, FALSE) * B11, 0) + IF(Kalkulator!C52=\"Ja\", Salgsfragt!F5 * B11, 0)), Kalkulator!F21)/7.46";
-
-                //Alternative Slightly more efficent solution:
-                //cellC19.Formula = "C25/7.46";
-                //Since repeating the formula should be unnecesary.
-
-                wb.Calculate();
-
-                var val = cellC19.Value;
-                var val2 = cellC25.Value;
-
-                //Save workbook
-                SaveAndCleanup(package);
-            }
-        }
-
-
-        [TestMethod]
         public void SC870_EpplusOnly()
         {
             using (var p = OpenPackage("EpplusNullAboveAndBelow.xlsx", true))
@@ -371,11 +336,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 var wb = package.Workbook;
                 var worksheet = package.Workbook.Worksheets[0];
-
-                worksheet.Cells["B7"].Value = "Denmark";
-                worksheet.Cells["B8"].Value = (int)9000;
-                worksheet.Cells["B10"].Value = "18L BIOBED bioactive bedding ORGANIC (full pallet)";
-                worksheet.Cells["B11"].Value = (int)1;
 
                 foreach (var sheet in package.Workbook.Worksheets)
                 {
