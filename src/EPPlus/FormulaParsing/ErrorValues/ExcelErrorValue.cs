@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.Linq;
 using System.Text;
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OfficeOpenXml
 {
@@ -22,7 +24,7 @@ namespace OfficeOpenXml
     /// Represents an Excel error.
     /// </summary>
     /// <seealso cref="eErrorType"/>
-    public class ExcelErrorValue
+    public class ExcelErrorValue : IEqualityComparer<ExcelErrorValue>
     {
         /// <summary>
         /// Handles the convertion between <see cref="eErrorType"/> and the string values
@@ -237,8 +239,11 @@ namespace OfficeOpenXml
         /// <returns>True if equals</returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is ExcelErrorValue)) return false;
-            return ((ExcelErrorValue)obj).ToString() == this.ToString();
+            if(obj is ExcelErrorValue e) 
+            {
+                return e.Type == Type;
+            }
+            return false;
         }
 
         /// <summary>
@@ -247,7 +252,18 @@ namespace OfficeOpenXml
         /// <returns>A hash code for the current object</returns>
         public override int GetHashCode()
         {
-           return base.GetHashCode();
+           return (int)Type;
+        }
+
+        public bool Equals(ExcelErrorValue x, ExcelErrorValue y)
+        {
+            return x.Type==y.Type;
+        }
+
+        public int GetHashCode(ExcelErrorValue obj)
+        {
+            if (obj == null) return -1;
+            return (int)obj.Type;
         }
     }
 }

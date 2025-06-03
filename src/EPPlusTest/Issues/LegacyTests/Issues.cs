@@ -6073,5 +6073,20 @@ namespace EPPlusTest
 
             SaveAndCleanup(p);
         }
+
+        [TestMethod]
+        public void s849()
+        {
+            using (var p = OpenTemplatePackage("s849.xlsx"))
+            {
+                var wb = p.Workbook;
+                foreach (var ws in wb.Worksheets)
+                {
+                    if (ws.PivotTables.Any())
+                        Console.WriteLine(ws.Name);
+                }
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

@@ -22,6 +22,7 @@ using OfficeOpenXml.Utils.XML;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
@@ -86,13 +87,13 @@ namespace OfficeOpenXml.Metadata
                             break;
                         case "metadataStrings":
                             //Currently not used. Preserve.
-                            _metadataStringsXml = xr.ReadInnerXml();
                             _metadataStringCount = xr.GetAttribute("count");
+                            _metadataStringsXml = ReadElementContentAsString(xr);
                             break;
                         case "mdxMetadata":
                             //Currently not used. Preserve.
-                            _mdxMetadataXml = xr.ReadInnerXml();
                             _mdxMetadataCount = xr.GetAttribute("count");
+                            ReadMdxMetadataItems(xr);
                             break;
                         case "futureMetadata":
                             ReadFutureMetadata(xr);
@@ -112,6 +113,28 @@ namespace OfficeOpenXml.Metadata
             }
         }
 
+
+        private string ReadElementContentAsString(XmlReader xr)
+        {
+            if (xr.NodeType != XmlNodeType.Element)
+                throw new InvalidOperationException("Current node is not an element.");
+
+            var elementName = xr.Name;
+            var sb = new StringBuilder();
+            var readNext = true;
+            while(true)
+            {
+                if (readNext) xr.Read();
+                if (xr.NodeType == XmlNodeType.EndElement && xr.Name == elementName)
+                    break;
+
+                sb.Append(xr.ReadOuterXml());
+                readNext = false;
+            }
+            return sb.ToString();
+        }
+
+
         private void ReadCellMetadataItems(XmlReader xr)
         {
             xr.Read();
@@ -128,6 +151,18 @@ namespace OfficeOpenXml.Metadata
                 xr.Read();
             }
             SetDynamicArrayIdIfExists();
+        }
+
+        private void ReadMdxMetadataItems(XmlReader xr)
+        {
+            xr.Read();
+            while (xr.IsEndElementWithName("mdxMetadata") == false && xr.EOF == false)
+            {
+                if (xr.IsElementWithName("mdx"))
+                {
+                    Db.MdxMetadata.Add(new MdxMetadata(xr, _wb.IndexStore));
+                }
+            }
         }
 
         private void SetDynamicArrayIdIfExists()
@@ -337,18 +372,18 @@ namespace OfficeOpenXml.Metadata
         private void WriteValueMetadataItems(StreamWriter sw, string element, ValueMetadataBlockCollection collection)
         {
             if (collection.Count == 0) return;
-            sw.Write($"<{element} count=\"{collection.Count(x => !x.Deleted && x.Records.Any(x => x.MetadataTypeIndex != null && x.FutureMetadataBlockIndex != null))}\">");
+            sw.Write($"<{element} count=\"{collection.Count(x => !x.Deleted && x.Records.Any(x => x.IsValid))}\">");
             foreach (var item in collection)
             {
                 if (item.Deleted) continue;
                 var records = item.Records.Where(x => !x.Deleted);
-                if (records.Any(x => x.MetadataTypeIndex != null && x.FutureMetadataBlockIndex != null))
+                if (records.Any(x => x.IsValid))
                 {
                     sw.Write("<bk>");
                     foreach (var r in records)
                     {
                         var mtIx = r.MetadataTypeIndex;
-                        var fmbIx = r.FutureMetadataBlockIndex;
+                        var fmbIx = r.FutureMetadataBlockIndex ?? r.MdxValueMetadataIndex;
                         if (mtIx == null || fmbIx == null) continue;
                         sw.Write($"<rc t=\"{mtIx}\" v=\"{fmbIx}\"/>");
                     }
@@ -411,9 +446,16 @@ namespace OfficeOpenXml.Metadata
         }
         private void WriteMdxMetadata(StreamWriter sw)
         {
-            if (!string.IsNullOrEmpty(_mdxMetadataXml))
+            if (Db.MdxMetadata != null && Db.MdxMetadata.Count > 0)
             {
-                sw.Write($"<mdxMetadata count=\"{_mdxMetadataCount}\">{_mdxMetadataXml}</metadataStrings>");
+                sw.Write($"<mdxMetadata count=\"{Db.MdxMetadata.Count}\">");
+                foreach (var mdx in Db.MdxMetadata)
+                {
+                    if (mdx.Deleted) continue;
+                    mdx.Write(sw);
+
+                }
+                sw.Write("</mdxMetadata>");
             }
         }
 

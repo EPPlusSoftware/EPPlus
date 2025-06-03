@@ -869,6 +869,48 @@ namespace EPPlusTest.Issues
             ws2.Calculate();
             Assert.AreEqual(93515.9075 , ws2.Cells["D32"].Value);
         }
+        [TestMethod]
+        public void s851()
+		{
+            using var excelPackage = OpenTemplatePackage("s851.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
+
+            // Act
+            sheet.Cells.Sort(column: 0); // NullReferenceException
+
+            // Assert 1
+            Assert.AreEqual("VLOOKUP(B2,B1:C1,1,FALSE)", sheet.Cells["C2"].Formula);
+        }
+        [TestMethod]
+        public void s851_desc()
+        {
+            using var excelPackage = OpenTemplatePackage("s851.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
+
+            // Act
+            sheet.Cells.Sort(column: 0, true); // NullReferenceException
+
+            // Assert 1
+            Assert.AreEqual("VLOOKUP(B1,#REF!,1,FALSE)", sheet.Cells["C1"].Formula);
+        }
+        [TestMethod]
+        public void s853()
+        {
+            using var excelPackage = OpenTemplatePackage("s853.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets["Aico data"];
+
+			// Act
+			sheet.Cells["AH61"].Calculate();
+			Assert.AreEqual("AH61:AH221", sheet.Cells["AH61"].FormulaRange.Address);
+			Assert.AreEqual("DBDBEUR2", sheet.Cells["AH61"].Value);
+			Assert.AreEqual("255007727", sheet.Cells["AH70"].Value);
+
+			sheet.Cells["AI61"].Calculate();
+
+            Assert.AreEqual("AI61:AI221", sheet.Cells["AI61"].FormulaRange.Address);
+            Assert.AreEqual(12273.13, sheet.Cells["AI61"].Value);
+			Assert.AreEqual(-472.69, sheet.Cells["AI70"].Value);
+        }
     }
 }
 

@@ -115,17 +115,34 @@ namespace OfficeOpenXml
                 };
 
                 var tb = GetLicenseData(version, licenseNo, fromDate, toDate, (byte)licenseType, numberOfLicenses);
-                var rsaClient = new RSACryptoServiceProvider();
-                rsaClient.FromXmlString(_key);
-                if (rsaClient.VerifyData(tb, "2.16.840.1.101.3.4.2.1", signature))
+                try
+                {
+#if NET35
+                    var rsaClient = new RSACryptoServiceProvider();
+#else
+                    var rsaClient = RSA.Create();
+#endif
+
+                    var rsa2 = RSA.Create();
+                    rsaClient.FromXmlString(_key);
+#if NET35
+                    if (rsaClient.VerifyData(tb, "2.16.840.1.101.3.4.2.1", signature))
+#else
+                    if (rsaClient.VerifyData(tb, signature, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1))
+#endif
+                    {
+                        return ValidateLicenseDates(licenseInfo, out msg);
+                    }
+                    else
+                    {
+                        licenseInfo.Status = EPPlusLicenseStatus.InvalidLicenseKey;
+                        msg = "The license key is not valid. Please use the license key as stated on your license document or as displayed on your account at https://epplussoftware.com";
+                        return false;
+                    }
+                }
+                catch (PlatformNotSupportedException)
                 {
                     return ValidateLicenseDates(licenseInfo, out msg);
-                }
-                else
-                {
-                    licenseInfo.Status = EPPlusLicenseStatus.InvalidLicenseKey;
-                    msg="The license key is not valid. Please use the license key as stated on your license document or as displayed on your account at https://epplussoftware.com";
-                    return false;
                 }
             }
             catch

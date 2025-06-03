@@ -52,13 +52,12 @@ namespace OfficeOpenXml.Core.CellStore
 
         internal override void Clear(int fromRow, int fromCol, int rows, int columns)
         {
-            HandleMetadataReferencesRange(fromRow, fromCol, rows, columns);
             base.Clear(fromRow, fromCol, rows, columns);
         }
 
         private void HandleMetadataReferencesRange(int fromRow, int fromCol, int rows, int columns)
         {
-            var cse = new CellStoreEnumerator<MetaDataReference>(this, fromRow, fromCol, fromRow + rows - 1, fromCol + columns + 1);
+            var cse = new CellStoreEnumerator<MetaDataReference>(this, fromRow, fromCol, fromRow + rows - 1, fromCol + columns - 1);
             foreach(var cell in cse)
             { 
                 if (cell.cm > 0)
