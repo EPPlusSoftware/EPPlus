@@ -1,4 +1,4 @@
-﻿namespace OfficeOpenXml.PDF.PdfPageSettings
+﻿namespace OfficeOpenXml.PDF.PdfSettings
 {
     internal class PdfRect
     {

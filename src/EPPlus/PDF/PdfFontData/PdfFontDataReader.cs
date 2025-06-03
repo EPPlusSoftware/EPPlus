@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.PDF.PdfPageSettings;
+using OfficeOpenXml.PDF.PdfSettings;
 
 namespace OfficeOpenXml.PDF.PdfFontData
 {

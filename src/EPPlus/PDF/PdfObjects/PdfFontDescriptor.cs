@@ -1,4 +1,4 @@
-﻿using OfficeOpenXml.PDF.PdfPageSettings;
+﻿using OfficeOpenXml.PDF.PdfSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

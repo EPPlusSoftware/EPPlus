@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes
+namespace OfficeOpenXml.PDF.PdfSettings.PdfPageSizes
 {
     public class PdfPageSize
     {

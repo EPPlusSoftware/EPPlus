@@ -2,8 +2,8 @@
 using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.PDF;
-using OfficeOpenXml.PDF.PdfPageSettings;
-using OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes;
+using OfficeOpenXml.PDF.PdfSettings;
+using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
 
 namespace EPPlusTest.PDF
 {
@@ -18,9 +18,9 @@ namespace EPPlusTest.PDF
 
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.ShowGridLines = true;
-            pageSettings.PageSize = PdfPageSize.B5;
-            pageSettings.Orientation = Orientations.Landscape;
-            pageSettings.Margins = PdfMargins.Wide;
+            pageSettings.PageSize = PdfPageSize.A4;
+            pageSettings.Orientation = Orientations.Portrait;
+            pageSettings.Margins = PdfMargins.Normal;
             pageSettings.Debug = true;
             ExcelPdf pedeef = new ExcelPdf(pageSettings);
 

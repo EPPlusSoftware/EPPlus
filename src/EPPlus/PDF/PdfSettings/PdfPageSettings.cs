@@ -1,11 +1,11 @@
-﻿using OfficeOpenXml.PDF.PdfPageSettings;
-using OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes;
+﻿using OfficeOpenXml.PDF.PdfSettings;
+using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.PDF.PdfPageSettings
+namespace OfficeOpenXml.PDF.PdfSettings
 {
     public enum Orientations
     {
@@ -22,7 +22,24 @@ namespace OfficeOpenXml.PDF.PdfPageSettings
 
     public class PdfPageSettings
     {
+        /// <summary>
+        /// Add additional folders to search for fonts.
+        /// </summary>
+        public List<string> FontDirectories = new List<string>();
+        /// <summary>
+        /// If true, epplus will look for fonts in the system directories for installed fonts.  c:\windows\fonts
+        /// </summary>
+        public bool SearchSystemDirectories = true;
+
+        /// <summary>
+        /// Set the page margins.
+        /// </summary>
+        public PdfMargins Margins = PdfMargins.Normal;
+
         PdfPageSize _pageSize = PdfPageSize.A4;
+        /// <summary>
+        /// Set the size of pages.
+        /// </summary>
         public PdfPageSize PageSize
         {
             get
@@ -44,6 +61,9 @@ namespace OfficeOpenXml.PDF.PdfPageSettings
         }
 
         private Orientations _orientation = Orientations.Portrait;
+        /// <summary>
+        /// Set the orientation of the pages.
+        /// </summary>
         public Orientations Orientation
         {
             get
@@ -71,14 +91,10 @@ namespace OfficeOpenXml.PDF.PdfPageSettings
             }
         }
 
-        public PdfMargins Margins = PdfMargins.Normal;
 
         public bool ShowGridLines = false;
         public GridLineTypes GridLineType = GridLineTypes.Solid;
-
         public bool ShowHeadings = false;
-
-
 
         internal PdfContentBounds ContentBounds;
         internal bool Debug = false;

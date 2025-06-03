@@ -1,5 +1,5 @@
 ﻿using OfficeOpenXml.PDF.Pdfhelpers;
-using OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes;
+using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

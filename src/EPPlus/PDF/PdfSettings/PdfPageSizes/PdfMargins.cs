@@ -1,6 +1,6 @@
 ﻿using OfficeOpenXml.PDF.Pdfhelpers;
 
-namespace OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes
+namespace OfficeOpenXml.PDF.PdfSettings.PdfPageSizes
 {
     public class PdfMargins
     {

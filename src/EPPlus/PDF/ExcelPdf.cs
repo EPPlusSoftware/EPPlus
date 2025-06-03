@@ -9,7 +9,8 @@ using OfficeOpenXml.PDF.PdfFontData;
 using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfObjects;
-using OfficeOpenXml.PDF.PdfPageSettings;
+using OfficeOpenXml.PDF.PdfSettings;
+using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -32,15 +33,15 @@ namespace OfficeOpenXml.PDF
         public readonly Dictionary<string, Dictionary<int, string>> fontResources = new Dictionary<string, Dictionary<int, string>>();
         private static Dictionary<uint, PdfFontProperties> _fonts;
 
-        PdfPageSettings.PdfPageSettings PageSettings;
+        private PdfPageSettings PageSettings;
 
         public ExcelPdf()
         {
-            PageSettings = new PdfPageSettings.PdfPageSettings();
+            PageSettings = new PdfPageSettings();
         }
 
 
-        public ExcelPdf(PdfPageSettings.PdfPageSettings pageSettings)
+        public ExcelPdf(PdfPageSettings pageSettings)
         {
             PageSettings = pageSettings;
         }
@@ -101,7 +102,7 @@ namespace OfficeOpenXml.PDF
         }
 
         //create page
-        private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfPageSettings.PdfPageSettings settings)
+        private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfPageSettings settings)
         {
             var page = new PdfPage(body.Count + 1, pagesObjectNumber, contentObjectNumbers, settings.PageSize, fontResources);
             body.Add(page);
@@ -223,7 +224,7 @@ namespace OfficeOpenXml.PDF
             }
         }
 
-        public void CreatePdf(string Filename, ExcelWorksheet worksheet, PdfPageSettings.PdfPageSettings pageSettings = null)
+        public void CreatePdf(string Filename, ExcelWorksheet worksheet, PdfPageSettings pageSettings = null)
         {
             if(pageSettings != null)
                 PageSettings = pageSettings;
@@ -231,6 +232,12 @@ namespace OfficeOpenXml.PDF
             PdfContentBounds bounds = new PdfContentBounds(PageSettings.Margins, PageSettings.PageSize);
 
             //AddWorksheetCells(worksheet, bounds);
+
+            //draw cell contents and headings
+            //draw grid
+            //draw drawings
+            //Draw header and footer
+            //
 
             //Debug
             if (PageSettings.Debug)

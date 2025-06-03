@@ -1,6 +1,6 @@
-﻿using OfficeOpenXml.PDF.PdfPageSettings.PdfPageSizes;
+﻿using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
 
-namespace OfficeOpenXml.PDF.PdfPageSettings
+namespace OfficeOpenXml.PDF.PdfSettings
 {
     internal class PdfContentBounds : PdfRect
     {
