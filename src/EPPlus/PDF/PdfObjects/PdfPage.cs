@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.PDF.Pdfhelpers;
+﻿using OfficeOpenXml.PDF.PdfFontData;
+using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,10 @@ namespace OfficeOpenXml.PDF.PdfObjects
     {
         private readonly int parentObjectNumber;
         internal readonly List<int> contentObjectNumbers;
-        internal readonly Dictionary<string, Dictionary<int, string>> fontResources;
+        internal readonly Dictionary<string, PdfFontResource> fontResources;
         internal PdfPageSize Size;
 
-        public PdfPage(int objectNumber, int parentObjectNumber, List<int> contentObjectNumbers, PdfPageSize size, Dictionary<string, Dictionary<int, string>> fontResources, int version = 0)
+        public PdfPage(int objectNumber, int parentObjectNumber, List<int> contentObjectNumbers, PdfPageSize size, Dictionary<string, PdfFontResource> fontResources, int version = 0)
             : base(objectNumber, version)
         {
             this.parentObjectNumber = parentObjectNumber;
@@ -26,7 +27,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
 
         internal override string RenderDictionary()
         {
-            var fontEntries = fontResources.Select(fr => $"/{fr.Value.First().Value} {fr.Value.First().Key} 0 R").ToArray();
+            var fontEntries = fontResources.Select(fr => $"/{fr.Value.label} {fr.Value.fontObjectNumber} 0 R").ToArray();
             var contentEntries = contentObjectNumbers.Select(con => $"{con} 0 R").ToArray();
             var fonts = string.Join(" ", fontEntries);
             return $"<< /Type /Page\n" +

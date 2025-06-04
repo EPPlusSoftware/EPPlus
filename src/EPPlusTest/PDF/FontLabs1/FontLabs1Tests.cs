@@ -13,7 +13,7 @@ namespace EPPlusTest.PDF.FontLabs1
         {
             PdfPageSettings pageSettings = new PdfPageSettings();
             //TtfFont arialData = GenericFonts.GetFontData("Arial");
-            TtfFont aptosData = GenericFonts.GetFontData(pageSettings, "Aptos Narrow", "");
+            TtfFont aptosData = GenericFonts.GetFontData(pageSettings, "Aptos Narrow");
         }
     }
 }

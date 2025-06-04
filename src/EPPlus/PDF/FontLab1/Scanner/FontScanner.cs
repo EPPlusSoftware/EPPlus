@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -23,9 +24,21 @@ namespace FontLab1.Scanner
             }
         }
 
+        internal static string[] TryGetFiles(string folder)
+        {
+            try
+            {
+                return Directory.GetFiles(folder);
+            }
+            catch (UnauthorizedAccessException) {}
+            catch (DirectoryNotFoundException) {}
+            catch (IOException) {}
+            return new string[0];
+        }
+
         internal static IScannedFont ScanFor(string fontDirectoryPath, string fontFamily, string subFamily)
         {
-            var files = Directory.GetFiles(fontDirectoryPath).Where(x => Path.GetExtension(x).ToLower() == ".ttf" || Path.GetExtension(x).ToLower() == ".ttc" || Path.GetExtension(x).ToLower() == ".otf");
+            var files = TryGetFiles(fontDirectoryPath).Where(x => Path.GetExtension(x).ToLower() == ".ttf" || Path.GetExtension(x).ToLower() == ".ttc" || Path.GetExtension(x).ToLower() == ".otf");
             if (!files.Any())
             {
                 return default(IScannedFont);

@@ -13,7 +13,7 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void TestWritePdf()
         {
-            using var p = OpenTemplatePackage("PDFTest2.xlsx");
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
             var ws = p.Workbook.Worksheets[0];
 
             PdfPageSettings pageSettings = new PdfPageSettings();
@@ -24,7 +24,7 @@ namespace EPPlusTest.PDF
             pageSettings.Debug = true;
             ExcelPdf pedeef = new ExcelPdf(pageSettings);
 
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest8.pdf", ws);
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest9.pdf", ws);
 
         }
 

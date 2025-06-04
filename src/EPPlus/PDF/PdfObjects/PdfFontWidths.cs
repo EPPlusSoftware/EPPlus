@@ -10,6 +10,12 @@ namespace OfficeOpenXml.PDF.PdfObjects
     {
         internal readonly int[] widths;
 
+        public PdfFontWidths(int objectNumber, List<int> widths, int version = 0)
+            : base(objectNumber, version)
+        {
+            this.widths = widths.ToArray();
+        }
+
         public PdfFontWidths(int objectNumber, Dictionary<FontMetricsClass, float> w, Dictionary<char, FontMetricsClass> m, int version = 0)
             : base(objectNumber, version)
         {
