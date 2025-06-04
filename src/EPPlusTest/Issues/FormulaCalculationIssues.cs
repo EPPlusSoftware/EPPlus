@@ -1012,13 +1012,6 @@ namespace EPPlusTest.Issues
 			var sheet1 = wbEPPlus.Worksheets["FTE_BSTM"];
             var sheet2 = wbEPPlus.Worksheets["Aico Data"];
 
-			//sheet1.Cells["I51"].Calculate(new ExcelCalculationOption
-   //         {
-   //             PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel,
-   //             AllowCircularReferences = true,
-   //             EnableUnicodeAwareStringOperations = true,
-   //         });
-
             Assert.AreEqual("CHF", sheet1.Cells["I51"].Value);
             Assert.AreEqual("CHF", sheet1.Cells["I52"].Value);
             Assert.AreEqual("0280",sheet2.Cells["A77"].Value);
