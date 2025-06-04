@@ -992,6 +992,55 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(71467.24, (double)sheet.Cells["G11"].Value);                       
             Assert.AreEqual(32018.5, (double)sheet.Cells["G12"].Value);
         }
+        [TestMethod]
+        public void s871_2()
+        {
+            using var p = OpenTemplatePackage("s871-2.xlsx");
+
+            Console.WriteLine("Calculating...");
+
+            var wbEPPlus = p.Workbook;
+
+			p.Workbook.Calculate(new ExcelCalculationOption
+			{
+				PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel,
+				AllowCircularReferences = true,
+				EnableUnicodeAwareStringOperations = true,
+			});
+
+
+			var sheet1 = wbEPPlus.Worksheets["FTE_BSTM"];
+            var sheet2 = wbEPPlus.Worksheets["Aico Data"];
+
+			//sheet1.Cells["I51"].Calculate(new ExcelCalculationOption
+   //         {
+   //             PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel,
+   //             AllowCircularReferences = true,
+   //             EnableUnicodeAwareStringOperations = true,
+   //         });
+
+            Assert.AreEqual("CHF", sheet1.Cells["I51"].Value);
+            Assert.AreEqual("CHF", sheet1.Cells["I52"].Value);
+            Assert.AreEqual("0280",sheet2.Cells["A77"].Value);
+            Assert.AreEqual("CHF", sheet2.Cells["H77"].Value);
+        }
+        [TestMethod]
+
+        public void s875()
+        {
+            using (var p = OpenTemplatePackage("s875.xlsx"))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets["List of Orders"];
+				wb.Calculate();
+				Assert.AreEqual("", ws.Cells["A13"].Value);
+                Assert.AreEqual("Total", ws.Cells["F13"].Value);
+                Assert.AreEqual("[varioius]", ws.Cells["G13"].Value);
+                Assert.AreEqual(5505974.18, (double)ws.Cells["N13"].Value, 0.0001);
+                Assert.AreEqual(-4101976.8, (double)ws.Cells["O13"].Value, 0.0001);
+                Assert.AreEqual(-1083371.20, (double)ws.Cells["P13"].Value, 0.0001);
+            }
+        }
     }
 }
 
