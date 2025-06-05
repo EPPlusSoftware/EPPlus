@@ -31,5 +31,6 @@ namespace FontLab1.Tables.Cmap
         public GlyphMapping[] Mappings { get; set; }
 
         public IDictionary<ushort, char> GlyphIndexToCharMappings { get; internal set; }
+        public IDictionary<char, ushort> CharMappingsToGlyphIndex { get; internal set; }
     }
 }

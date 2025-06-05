@@ -39,6 +39,7 @@ namespace FontLab1.Tables.Cmap
                     var subtable = new CmapSubtable4(_reader);
                     enc.Mappings = subtable.GlyphMappingArray;
                     enc.GlyphIndexToCharMappings = subtable.GlyphIndexToCharMappings;
+                    enc.CharMappingsToGlyphIndex = subtable.CharMappingsToGlyphIndex;
                 }
                 else if(format == 6)
                 {

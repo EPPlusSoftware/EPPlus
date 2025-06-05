@@ -27,7 +27,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
 
         internal override string RenderDictionary()
         {
-            var fontEntries = fontResources.Select(fr => $"/{fr.Value.label} {fr.Value.fontObjectNumber} 0 R").ToArray();
+            var fontEntries = fontResources.Select(fr => $"/{fr.Value.Label} {fr.Value.fontObjectNumber} 0 R").ToArray();
             var contentEntries = contentObjectNumbers.Select(con => $"{con} 0 R").ToArray();
             var fonts = string.Join(" ", fontEntries);
             return $"<< /Type /Page\n" +

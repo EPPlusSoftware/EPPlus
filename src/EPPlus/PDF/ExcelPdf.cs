@@ -88,7 +88,7 @@ namespace OfficeOpenXml.PDF
         public void AddText(string text, string cellFontname, float size, double x, double y)
         {
             var content = new PdfContentStream(body.Count + 1);
-            content.AddText(fontResources[cellFontname].labelPrefix + fontResources[cellFontname].label , size, x, y, text);
+            content.AddText(fontResources[cellFontname].labelPrefix + fontResources[cellFontname].labelNumber , size, x, y, text);
             body.Add(content);
         }
 
@@ -125,10 +125,19 @@ namespace OfficeOpenXml.PDF
         {
             if(!fontResources.ContainsKey(fontName))
             {
-                PdfFontResource fr = new PdfFontResource(fontName, subFamily, fontResources.Last().Value.label, PageSettings);
-                body.Add(fr.GetFontDescriptorObject(body.Count+1));
-                body.Add(fr.GetWidthsObject(body.Count + 1));
+                int label = 1;
+                if(fontResources.Count > 0)
+                {
+                    label = fontResources.Last().Value.labelNumber + 1;
+                }
+                PdfFontResource fr = new PdfFontResource(fontName, subFamily, label, PageSettings);
+                if (fontName != "Courier New")
+                {
+                    body.Add(fr.GetFontDescriptorObject(body.Count + 1));
+                    body.Add(fr.GetWidthsObject(body.Count + 1));
+                }
                 body.Add(fr.GetFontObject(body.Count + 1));
+                fontResources.Add(fontName, fr);
                 return fontResources[fontName].MeasureText(text, fontSize);
             }
             else
@@ -146,6 +155,14 @@ namespace OfficeOpenXml.PDF
             PdfRect contentRect = new PdfRect();
             contentRect.X = bounds.X;
             contentRect.Y = bounds.Y;
+
+            /*
+             tänk om denna del. antingen tar vi ut en stor range som vi går igenom likadant som denna.
+            eller addedar vi ihop kolumners längder tills vi når mållängden, gör samma för rader. och sedan går vi cell för cell som nedan. sparar den rad och kolumn vi är på och repeterar sedan därifrån vid ny sida.
+            eller så kikar vi bara de celler vi har värden i. om cellen är t ex d4 så räknar vi från den cellen antalet celler innan kolumnvis och adderar deras bredder och sedan samma för rader.
+             
+             */
+
             for (int i = ws.Dimension._fromRow; i <= ws.Dimension._toRow; i++)
             {
                 for (int j = ws.Dimension._fromCol; j <= ws.Dimension._toCol; j++)
@@ -172,13 +189,13 @@ namespace OfficeOpenXml.PDF
                         var textY = y;
                         //check and measure content:
                         string subFamily = cell.Style.Font.Bold ? (cell.Style.Font.Italic ? "Bold Italic" : "Bold") : (cell.Style.Font.Italic ? "Italic" : "Regular");
-                        var textLength = MeasureString(cell.Value.ToString(), cell.Style.Font.Name, subFamily, cell.Style.Font.Size);
+                        var textLength = MeasureString(cell.Value.ToString(), cell.Style.Font.Name, "Regular", cell.Style.Font.Size);
 
                         if (cell.Style.HorizontalAlignment == Style.ExcelHorizontalAlignment.General)
                         {
                             if (double.TryParse(cell.Value.ToString(), out double value))
                             {
-                                ////calculate new x
+                                //calculate new x
                                 //GenericFontMetricsTextMeasurer tm = new GenericFontMetricsTextMeasurer();
                                 //MeasurementFont font = new MeasurementFont();
                                 //font.FontFamily = cell.Style.Font.Name;
@@ -196,8 +213,9 @@ namespace OfficeOpenXml.PDF
                                 //var result = tm.MeasureText(cell.Value.ToString(), font);
                                 ////convert result to points
                                 //var strWidth = (sum / 1000.0/*units per em*/) * font.Size;
+                                //var len = ((double)result.Width - sum)
 
-                                //textX = x + PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width) - ((double)result.Width - sum);
+                                textX = x + PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width) - textLength;
                             }
                         }
                         AddText(cell.Value.ToString(), cell.Style.Font.Name, cell.Style.Font.Size, textX, textY);

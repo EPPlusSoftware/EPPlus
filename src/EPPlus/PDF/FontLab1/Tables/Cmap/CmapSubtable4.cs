@@ -12,11 +12,16 @@ namespace FontLab1.Tables.Cmap
     internal class CmapSubtable4
     {
         private Dictionary<ushort, char> _glyphIndextoCharMappings = new Dictionary<ushort, char>();
+        private Dictionary<char, ushort> _CharMappingstoglyphIndex = new Dictionary<char, ushort>();
         private void OnMappingDone(char c, ushort gIx)
         {
             if(!_glyphIndextoCharMappings.ContainsKey(gIx))
             {
                 _glyphIndextoCharMappings.Add(gIx, c);
+            }
+            if(!_CharMappingstoglyphIndex.ContainsKey(c))
+            {
+                _CharMappingstoglyphIndex.Add(c, gIx);
             }
         }
 
@@ -61,7 +66,7 @@ namespace FontLab1.Tables.Cmap
             {
                 var rangeOffset = idRangeOffsets[seg];
                 var delta = idDeltas[seg];
-                for(var cc = startCodes[seg]; cc < endCodes[seg]; cc++)
+                for(var cc = startCodes[seg]; cc <= endCodes[seg]; cc++)
                 {
                     if(rangeOffset == 0)
                     {
@@ -121,5 +126,6 @@ namespace FontLab1.Tables.Cmap
         public GlyphMapping[] GlyphMappingArray { get; set; }
 
         public IDictionary<ushort, char> GlyphIndexToCharMappings => _glyphIndextoCharMappings;
+        public IDictionary<char, ushort> CharMappingsToGlyphIndex => _CharMappingstoglyphIndex;
     }
 }

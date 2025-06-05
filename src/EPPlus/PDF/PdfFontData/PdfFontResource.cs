@@ -1,10 +1,13 @@
 ﻿using FontLab1;
 using FontLab1.GenericMeasurements;
+using FontLab1.Tables.Cmap;
+using FontLab1.Tables.Kern;
 using Microsoft.VisualBasic;
 using OfficeOpenXml.PDF.PdfObjects;
 using OfficeOpenXml.PDF.PdfSettings;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace OfficeOpenXml.PDF.PdfFontData
@@ -13,10 +16,17 @@ namespace OfficeOpenXml.PDF.PdfFontData
     {
         internal string fontName;
         internal string labelPrefix = "F";
-        internal int label;
-        internal int fontObjectNumber;
-        internal int descObjectNumber;
-        internal int widthObjectNumber;
+        internal int labelNumber;
+        internal string Label
+        { 
+            get 
+            { 
+                return labelPrefix + labelNumber; 
+            }
+        }
+        internal int fontObjectNumber = -1;
+        internal int descObjectNumber = -1;
+        internal int widthObjectNumber = -1;
         internal TtfFont fontData;
 
         private int firstChar = 32;
@@ -25,7 +35,7 @@ namespace OfficeOpenXml.PDF.PdfFontData
         public PdfFontResource(string fontName, string subFamily, int label, PdfPageSettings pageSettings)
         {
             this.fontName = fontName;
-            this.label = label;
+            this.labelNumber = label;
             fontData = GenericFonts.GetFontData(pageSettings, fontName, subFamily);
         }
 
@@ -77,6 +87,7 @@ namespace OfficeOpenXml.PDF.PdfFontData
             fontBBox.Y = fontData.HeadTable.Ymin;
             fontBBox.Width = fontData.HeadTable.Xmax;
             fontBBox.Height = fontData.HeadTable.Ymax;
+            descObjectNumber = objectNumber;
             return new PdfFontDescriptor
             (
                 objectNumber, 
@@ -98,7 +109,7 @@ namespace OfficeOpenXml.PDF.PdfFontData
             int fallbackWidth = fontData.Os2Table.xAvgCharWidth;
             for (int c = firstChar; c <= lastChar; c++)
             {
-                ushort gi = fontData.CmapTable.EncodingRecords[0].Mappings[c].GlyphIndex;
+                fontData.CmapTable.EncodingRecords[0].CharMappingsToGlyphIndex.TryGetValue((char)c, out ushort gi);
                 if (gi == 0 && c != 0)
                 {
                     int normalizedWidth = (int)Math.Round((fallbackWidth / (double)fontData.HeadTable.UnitsPerEm) * 1000);
@@ -112,21 +123,56 @@ namespace OfficeOpenXml.PDF.PdfFontData
                     widths.Add(normalizedWidth);
                 }
             }
+            widthObjectNumber = objectNumber;
             return new PdfFontWidths(objectNumber, widths, version);
         }
 
         internal PdfFont GetFontObject(int objectNumber, int version = 0)
         {
-            return new PdfFont(objectNumber, fontName, PdfFontSubType.Type3, firstChar, lastChar, widthObjectNumber, descObjectNumber, PdfFontEncoding.WinAnsiEncoding);
+            fontObjectNumber = objectNumber;
+            return new PdfFont(objectNumber, fontName, PdfFontSubType.Type1, firstChar, lastChar, widthObjectNumber, descObjectNumber, PdfFontEncoding.WinAnsiEncoding);
         }
 
         internal double MeasureText(string text, double fontSize)
         {
-            double totalAdvanceWidth = 0;
+            //double totalAdvanceWidth = 0;
 
-            foreach (char c in text)
+            //foreach (char c in text)
+            //{
+            //    ushort gi = fontData.CmapTable.EncodingRecords[0].Mappings[c].GlyphIndex;
+            //    int advanceWidth;
+            //    if (gi == 0 && c != 0)
+            //    {
+            //        advanceWidth = fontData.Os2Table.xAvgCharWidth;
+            //    }
+            //    else
+            //    {
+            //        var hhMetric = fontData.HmtxTable.hMetrics[gi];
+            //        advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
+            //    }
+            //    totalAdvanceWidth += advanceWidth;
+            //}
+            //return (totalAdvanceWidth / fontData.HeadTable.UnitsPerEm) * fontSize;
+
+            double totalAdvanceWidth = 0;
+            ushort lastGlyphIndex = 0;
+            bool firstChar = true;
+
+            for (int i = 0; i < text.Length; i++)
             {
-                ushort gi = fontData.CmapTable.EncodingRecords[0].Mappings[c].GlyphIndex;
+                char c = text[i];
+                var encodingRecord = fontData.CmapTable.EncodingRecords.FirstOrDefault(er => er.PlatformId == Platforms.Windows && er.EncodingId == 1);
+
+                if (encodingRecord == null)
+                    throw new Exception("Could not find Microsoft Unicode cmap (PlatformID 3, EncodingID 1).");
+
+                GlyphMapping[] mappings = encodingRecord.Mappings;
+
+
+
+                encodingRecord.CharMappingsToGlyphIndex.TryGetValue(c, out ushort gi);
+
+                //ushort gi = fontData.CmapTable.EncodingRecords[0].Mappings[c].GlyphIndex;
                 int advanceWidth;
                 if (gi == 0 && c != 0)
                 {
@@ -138,8 +184,48 @@ namespace OfficeOpenXml.PDF.PdfFontData
                     advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
                 }
                 totalAdvanceWidth += advanceWidth;
+
+                // Kerning adjustment
+                if (!firstChar)
+                {
+                    int kerning = GetKerningAdjustment(lastGlyphIndex, gi);
+                    totalAdvanceWidth += kerning;
+                }
+
+                lastGlyphIndex = gi;
+                firstChar = false;
             }
-            return (totalAdvanceWidth / fontData.HeadTable.UnitsPerEm) * fontSize;
+
+            // Convert to points
+            return (totalAdvanceWidth / (double)fontData.HeadTable.UnitsPerEm) * fontSize;
+        }
+
+        int GetKerningAdjustment(ushort left, ushort right)
+        {
+            foreach (var subtable in fontData.KernTable.SubTables)
+            {
+                if (subtable.Format0Subtable == null)
+                    continue;
+
+                // Format 0 only
+                int format = subtable.coverage._coverage >> 8;
+                bool isHorizontal = (subtable.coverage._coverage & 0x1) == 1;
+
+                if (format != 0 || !isHorizontal)
+                    continue;
+
+                KerningPair[] pairs = subtable.Format0Subtable.Pairs;
+                if (pairs == null)
+                    continue;
+
+                for (int i = 0; i < pairs.Length; i++)
+                {
+                    if (pairs[i].left == left && pairs[i].right == right)
+                        return pairs[i].value;
+                }
+            }
+
+            return 0;
         }
 
     }
