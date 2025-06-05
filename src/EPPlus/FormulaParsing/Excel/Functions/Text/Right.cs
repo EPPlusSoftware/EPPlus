@@ -38,8 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             if (startIx < 0)
                 startIx = 0;
 
-            int startIndex = str.Length;
-            if(context.Configuration.EnableUnicodeAwareStringOperations)
+            if (context.Configuration.EnableUnicodeAwareStringOperations)
             {
                 int unicodeLength = 0;
                 for (int i = str.Length - 1; i >= 0; i--)
@@ -56,14 +55,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
                     if (unicodeLength == length)
                     {
-                        startIndex = i; // Set the correct start position
+                        startIx = i; // Set the correct start position
                         break;
                     }
                 }
-            }
-            if (context.Configuration.EnableUnicodeAwareStringOperations)
-            {
-                var res = str.UnitcodeSubstring(startIndex, str.Length - startIx);
+                var res = str.UnitcodeSubstring(startIx, str.Length - startIx);
                 return CreateResult(res, DataType.String);
             }
             return CreateResult(str.Substring(startIx, str.Length - startIx), DataType.String);

@@ -1736,7 +1736,7 @@ namespace OfficeOpenXml
                             _formulas.SetValue(address._fromRow, address._fromCol, sfIndex);
                             SetValueInner(address._fromRow, address._fromCol, null);
                             string fAddress = xr.GetAttribute("ref");
-                            string formula =xr.ReadElementContentAsString();
+                            string formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
                             if (formula != "")
                             {
                                 _sharedFormulas.Add(sfIndex, new SharedFormula(this, row, col, fAddress, formula) { Index = sfIndex, FormulaType=FormulaType.Shared });
@@ -1750,7 +1750,7 @@ namespace OfficeOpenXml
                     else if (t == "array") 
                     {
                         string refAddress = xr.GetAttribute("ref");
-                        string formula = xr.ReadElementContentAsString();
+                        string formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
                         var afIndex = GetMaxShareFunctionIndex(true);
                         if (!string.IsNullOrEmpty(refAddress))
                         {
@@ -1771,7 +1771,7 @@ namespace OfficeOpenXml
                         var dt2D = GetBoolFromString(xr.GetAttribute("dt2D"));
                         var r1 = xr.GetAttribute("r1") ?? "";
                         var r2 = xr.GetAttribute("r2") ?? "";
-                        var formula = xr.ReadElementContentAsString();
+                        var formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
 
                         var f = new SharedFormula(this, row, col, refAddress, formula)
                         {
