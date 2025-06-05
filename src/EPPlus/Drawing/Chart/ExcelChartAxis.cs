@@ -528,12 +528,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Or Category Axis to Serie Axis and vice versa.
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="throwWarning">Set to false to allow axisTypes with unexpected behaviour</param>
+        /// <param name="throwException">Set to false to allow axisTypes with unexpected behaviour</param>
         /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        public void ChangeAxisType(eAxisType type, bool throwWarning = true)
+        public void ChangeAxisType(eAxisType type, bool throwException = true)
         {
-            if (throwWarning && _chart.IsAxisTypeSupported(type, this) == false)
+            if (throwException && _chart.IsAxisTypeSupported(type, this) == false)
             {
                 throw new InvalidOperationException($"Chart Name:{_chart.Name} of Type: {_chart.ChartType.ToEnumString()} " +
                     $"Cannot change axis with ID:{this.Id} from AxisType:{AxisType} To Type: {type.ToString()}. Data would be missrepresented in chart.");

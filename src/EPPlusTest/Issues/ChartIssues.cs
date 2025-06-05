@@ -1,13 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
-using OfficeOpenXml;
-using System.IO;
-using System.Drawing;
-using System.Text;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Security.Principal;
+using System.Text;
 
 namespace EPPlusTest.Issues
 {
@@ -386,9 +388,9 @@ namespace EPPlusTest.Issues
 		}
 
         [TestMethod]
-        public void CreateStringLitterals()
+        public void CreateStringLiterals()
         {
-			using (var package = OpenPackage("LitteralsSetting.xlsx", true))
+			using (var package = OpenPackage("LiteralsSetting.xlsx", true))
 			{
 				var wb = package.Workbook;
 				var ws = wb.Worksheets.Add("NewWork");

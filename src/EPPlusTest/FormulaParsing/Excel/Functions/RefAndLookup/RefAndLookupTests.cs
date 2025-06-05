@@ -370,7 +370,6 @@ namespace EPPlusTest.Excel.Functions
                 sheet.Calculate();
                 var result = sheet.Cells["D1"].Value;
                 Assert.AreEqual("B", result);
-
             }
         }
 
