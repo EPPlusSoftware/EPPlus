@@ -12,10 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Ranges;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
 {
@@ -27,7 +24,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
             var rangeDef = new RangeDefinition(sourceRange.Size.NumberOfRows, sourceRange.Size.NumberOfCols);
             var sortedRange = new InMemoryRange(rangeDef);
             var columns = new List<SortedColOrRow>();
-            for(var col = 0; col < rangeDef.NumberOfCols; col++)
+
+            var originalColNum = new Dictionary<SortedColOrRow, int>();
+
+            for (var col = 0; col < rangeDef.NumberOfCols; col++)
             {
                 var rows = new SortedColOrRow();
                 for(var row = 0; row < rangeDef.NumberOfRows; row++)
@@ -37,6 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                     rows.AddItem(row, si);
                 }
                 columns.Add(rows);
+                originalColNum.Add(rows, col);
             }
             columns.Sort((a, b) =>
             {
@@ -56,7 +57,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                     var res = _comparer.Compare(aColVal.Value, bColVal.Value, sortOrder, context);
                     if (res != 0) return res;
                 }
-                return 0;
+                var resIndex = _comparer.Compare(originalColNum[a], originalColNum[b], sortOrder, context);
+                return resIndex;
             });
             var colIx = 0;
             foreach (var col in columns)
@@ -77,6 +79,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
             var rangeDef = new RangeDefinition(sourceRange.Size.NumberOfRows, sourceRange.Size.NumberOfCols);
             var sortedRange = new InMemoryRange(rangeDef);
             var rows = new List<SortedColOrRow>();
+
+            var originalRowNum = new Dictionary<SortedColOrRow, int>();
+
             for (var row = 0; row < rangeDef.NumberOfRows; row++)
             {
                 var cols = new SortedColOrRow();
@@ -87,7 +92,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                     cols.AddItem(col, si);
                 }
                 rows.Add(cols);
+                originalRowNum.Add(cols, row);
             }
+
             rows.Sort((a, b) => 
             { 
                 foreach(var colIx in colIndexes)
@@ -106,8 +113,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                     var res = _comparer.Compare(aColVal.Value, bColVal.Value, sortOrder, context);
                     if (res != 0) return res;
                 }
-                return 0;
+                var resIndex = _comparer.Compare(originalRowNum[a], originalRowNum[b], sortOrder, context);
+                return resIndex;
             });
+
             var rowIx = 0;
             foreach(var row in rows)
             {
