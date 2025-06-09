@@ -2889,16 +2889,6 @@ namespace OfficeOpenXml
 
         private void EnsureIgnorablesAreCorrect()
         {
-            //Ensure namespace exist
-            //var mcPrefix = NameSpaceManager.LookupPrefix(ExcelPackage.schemaMarkupCompatibility);
-            //if(mcPrefix == null)
-            //{
-            //    WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
-            //}
-            if (DataValidations != null && DataValidations.Count != 0 ||
-            ConditionalFormatting != null && ConditionalFormatting.Count != 0)
-            { }
-
             WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
             WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
 
