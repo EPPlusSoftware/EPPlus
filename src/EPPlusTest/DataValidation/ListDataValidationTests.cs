@@ -245,6 +245,18 @@ namespace EPPlusTest.DataValidation
             }
         }
 
+        [TestMethod]
+        public void SaveCheckIgnorable()
+        {
+            using(var package = OpenPackage("IgnorableTest.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("SomeWs");
+                ws.Cells["A1"].DataValidation.AddAnyDataValidation();
+                ws.Cells["A2"].ConditionalFormatting.AddDatabar(System.Drawing.Color.OldLace);
+                SaveAndCleanup(package);
+            }
+        }
+
         //s664
         [TestMethod]
         public void BoolParsing()

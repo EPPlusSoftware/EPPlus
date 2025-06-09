@@ -207,6 +207,9 @@ namespace OfficeOpenXml
         internal const string schemaMainXm = "http://schemas.microsoft.com/office/excel/2006/main";
         internal const string schemaXr = "http://schemas.microsoft.com/office/spreadsheetml/2014/revision";
         internal const string schemaXr2 = "http://schemas.microsoft.com/office/spreadsheetml/2015/revision2";
+        internal const string schemaXr3 = "http://schemas.microsoft.com/office/spreadsheetml/2016/revision3";
+
+        internal const string schemaX14AlternateContent = @"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac";
 
         //Chart Ex
         internal const string schemaMc2006 = "http://schemas.openxmlformats.org/markup-compatibility/2006";
@@ -450,6 +453,8 @@ namespace OfficeOpenXml
             WorksheetValueMetadataRead?.Invoke(this, e);
         }
 
+        internal List<string> IgnorableNamespaceUris;
+
         /// <summary>
         /// Init values here
         /// </summary>
@@ -471,6 +476,8 @@ namespace OfficeOpenXml
                     Compatibility.IsWorksheets1Based = value;
                 }
             }
+
+            IgnorableNamespaceUris = new() { schemaX14AlternateContent, schemaXr, schemaXr2, schemaXr3, };
         }
 
         /// <summary>
