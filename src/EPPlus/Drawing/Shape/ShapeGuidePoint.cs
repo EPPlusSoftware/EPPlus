@@ -14,6 +14,15 @@ namespace OfficeOpenXml.Drawing.Shape
 {
     internal class ShapeGuidePoint
     {
+        public static implicit operator ShapeGuidePoint(int value)
+        {
+            return new ShapeGuidePoint(value);
+        }
+        public static implicit operator int(ShapeGuidePoint value)
+        {
+            return value.Value;
+        }
+
         internal static string valuePrefix = "val ";
         private int _value;
         internal string fmlaValue
@@ -23,7 +32,7 @@ namespace OfficeOpenXml.Drawing.Shape
         }
         internal int Value
         {
-            private get { return _value; }
+            get { return _value; }
             set { _value = value; }
         }
 

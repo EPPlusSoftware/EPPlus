@@ -499,7 +499,12 @@ namespace OfficeOpenXml.Drawing
             strings._list = _adjustmentPoints.Keys.ToList();
             return strings;
         }
-
+        public EPPlusReadOnlyList<int> GetAdjustmentPointsList()
+        {
+            var l = new EPPlusReadOnlyList<int>();
+            l._list = ShapeGuidesFactory.GetAdjustmentPointList(Style);
+            return l;
+        }
         /// <summary>
         /// Adjust the named point with value.
         /// </summary>
