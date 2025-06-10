@@ -196,22 +196,22 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     if (fromRow - 1 == row)
                     {
-                        rows[ix] = ((row - 1) << 20) | ((long)toRow - 1);
+                        rows[ix] = (((long)row - 1) << 20) | ((long)toRow - 1);
                     }
                     else if (toRow + 1 == row)
                     {
-                        rows[ix] = (((long)fromRow - 1) << 20) | (row - 1);
+                        rows[ix] = (((long)fromRow - 1) << 20) | ((long)row - 1);
                     }
                     else
                     {
                         if(row > toRow)
                         {
-                            rows.Insert(ix + 1, ((row - 1) << 20) | (row - 1));
+                            rows.Insert(ix + 1, (((long)row - 1) << 20) | ((long)row - 1));
                             MergeWithNext(rows, ix+ 1);
                         }
                         else
                         {
-                            rows.Insert(ix, ((row - 1) << 20) | (row - 1));
+                            rows.Insert(ix, (((long)row - 1) << 20) | ((long)row - 1));
                             MergeWithNext(rows, ix);
                         }
                     }
@@ -289,7 +289,7 @@ namespace OfficeOpenXml.Core.CellStore
                 var toRow2 = (int)(rows[ix + 1] & 0xFFFFF) + 1;
                 if (toRow1 + 1 >= fromRow2)
                 {
-                    rows[ix] = ((fromRow1 - 1) << 20) | (toRow2 - 1);
+                    rows[ix] = (((long)fromRow1 - 1) << 20) | ((long)toRow2 - 1);
                     rows.Remove(rows[ix + 1]);
                 }
                 else
@@ -405,27 +405,11 @@ namespace OfficeOpenXml.Core.CellStore
 
             if (newAddress.FromRow > toRow)
             {
-                //if (newAddress.FromRow - 1 == toRow) //Next to each other: Merge
-                //{
-                //    rows[ix] = ((long)fromRow - 1 << 20) | (long)(newAddress.ToRow - 1);
-                //}
-                //else
-                //{
-                //    rows.Insert(ix + 1, rowSpan);
-                //}
                 spillRanges.Add(rowSpan);
                 return 1;
             }
             else if (newAddress.ToRow < fromRow)
             {
-                //if (newAddress.ToRow + 1 == fromRow)   //Next to each other: Merge
-                //{
-                //    rows[ix] = ((long)newAddress.FromRow - 1 << 20) | ((long)toRow - 1);
-                //}
-                //else
-                //{
-                //    rows.Insert(ix, rowSpan);
-                //}
                 spillRanges.Add(rowSpan);
                 return 1;
             }
@@ -441,7 +425,6 @@ namespace OfficeOpenXml.Core.CellStore
                     if (newAddress.FromRow < fromRow && newAddress.ToRow <= toRow)
                     {
                         spillRanges.Add((((long)newAddress.FromRow - 1) << 20) | ((long)fromRow - 2));
-                        //rows[ix] = (((long)newAddress.FromRow - 1) << 20) | ((long)toRow - 1);
                     }
                     if (newAddress.FromRow >= fromRow && newAddress.ToRow > toRow)
                     {
@@ -452,13 +435,11 @@ namespace OfficeOpenXml.Core.CellStore
                         else
                         {
                             spillRanges.Add(((long)toRow << 20) | ((long)newAddress.ToRow - 1));
-                            //rows[ix] = (((long)fromRow - 1) << 20) | ((long)newAddress.ToRow - 1);
                         }
                     }
                     if (newAddress.FromRow < fromRow && newAddress.ToRow > toRow)
                     {
                         spillRanges.Add(-2);
-                        //rows[ix] = (((long)newAddress.FromRow - 1) << 20) | ((long)newAddress.ToRow - 1);
                     }
                     return 1;
                 }

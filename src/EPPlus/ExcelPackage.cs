@@ -703,7 +703,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Automaticlly adjust drawing size when column width/row height are adjusted, depending on the drawings editBy property.
+        /// Automatically adjust drawing size when column width/row height are adjusted, depending on the drawings editBy property.
         /// Default True
         /// </summary>
         public bool DoAdjustDrawings
@@ -1273,11 +1273,6 @@ namespace OfficeOpenXml
                     var decrStream = eph.DecryptPackage((MemoryStream)ms, Encryption);
                     ms.Dispose();
                     ms = decrStream;
-                }
-                else
-                {
-                    ms = RecyclableMemory.GetStream();
-                    StreamUtil.CopyStream(input, ref ms);
                 }
 
                 try

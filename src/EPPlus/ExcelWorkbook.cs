@@ -1385,13 +1385,8 @@ namespace OfficeOpenXml
 
             if (loadPivotTable)
             {
-                //Updates the Workbook Xml, so must be before saving the wookbook part 
+                //Updates the Workbook Xml, so must be before saving the workbook part 
                 SavePivotTableCaches();
-            }
-
-            if (_externalLinks != null)
-            {
-                SaveExternalLinks();
             }
 
             // save the workbook
@@ -1405,7 +1400,6 @@ namespace OfficeOpenXml
                         View.FirstSheet = ix;
                     }
                 }
-                _package.SavePart(WorkbookUri, _workbookXml);
             }
 
             // save the properties of the workbook
@@ -1437,6 +1431,17 @@ namespace OfficeOpenXml
                 }
                 worksheet.Save(loadPivotTable);
                 worksheet.Part.SaveHandler = worksheet.SaveHandler;
+            }
+
+            if (_externalLinks != null)
+            {
+                SaveExternalLinks();
+            }
+
+            //Save workbook xml
+            if (_workbookXml != null)
+            {
+                _package.SavePart(WorkbookUri, _workbookXml);
             }
 
             // Issue 15252: save SharedStrings only once
@@ -1562,12 +1567,12 @@ namespace OfficeOpenXml
             {
                 foreach (var cache in info.PivotCaches)
                 {
-                    if (cache._pivotTables.Count == 0)
+                    if (cache._pivotTables.Count == 0)  
                     {
                         cache.Delete();
                         continue;
                     }
-                    //Rewrite the pivottable address again if any rows or columns have been inserted or deleted
+                    //Rewrite the pivot table address again if any rows or columns have been inserted or deleted
                     var r = cache.SourceRange;
                     if (r != null && r.Worksheet != null)              //Source does not exist
                     {
@@ -1590,7 +1595,7 @@ namespace OfficeOpenXml
         }
         private void FixFieldNamesAndUpdateSharedItems(PivotTableCacheInternal cache, ExcelTable t, XmlNodeList fields)
         {
-            cache.RefreshFields();
+            cache.RefreshFields(true);
             int ix = 0;
             var flds = new HashSet<string>();
             var sourceRange = cache.SourceRange;
