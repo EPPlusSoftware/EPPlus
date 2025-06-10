@@ -3684,7 +3684,7 @@ namespace OfficeOpenXml
         }
         internal void SetValueRow_Value(int row, int col, object[] array)
         {
-            _formulas.Clear(row, col, row, col + array.Length - 1);
+            _formulas.Clear(row, col, 1, array.Length);
             for (int c = 0; c < array.Length; c++)
             {
                 if (array[c] == DBNull.Value)
@@ -3699,7 +3699,7 @@ namespace OfficeOpenXml
         }
         internal void SetValueRow_ValueTransposed(int row, int col, object[] array)
         {
-            _formulas.Clear(row, col, row+array.Length-1, col);
+            _formulas.Clear(row, col, array.Length, 1);
             for (int c = 0; c < array.Length; c++)
             {
                 if (array[c] == DBNull.Value)
