@@ -33,6 +33,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         /// Minimum arguments
         /// </summary>
         public override int ArgumentMinLength => 1;
+
+        /// <summary>
+        /// First arg could be a range
+        /// </summary>
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         /// <summary>
         /// Execute function
         /// </summary>

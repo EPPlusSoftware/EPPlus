@@ -12,22 +12,22 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Ranges;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
 {
     internal class InMemoryRangeSorter
     {
         private readonly LookupComparer _comparer = new LookupComparer(LookupMatchMode.ExactMatch);
-        public InMemoryRange SortByRow(IRangeInfo sourceRange, int colIndex, int sortOrder)
+        public InMemoryRange SortByCol(IRangeInfo sourceRange, List<int> rowIndexes, int sortOrder, ParsingContext context)
         {
             var rangeDef = new RangeDefinition(sourceRange.Size.NumberOfRows, sourceRange.Size.NumberOfCols);
             var sortedRange = new InMemoryRange(rangeDef);
             var columns = new List<SortedColOrRow>();
-            for(var col = 0; col < rangeDef.NumberOfCols; col++)
+
+            var originalColNum = new Dictionary<SortedColOrRow, int>();
+
+            for (var col = 0; col < rangeDef.NumberOfCols; col++)
             {
                 var rows = new SortedColOrRow();
                 for(var row = 0; row < rangeDef.NumberOfRows; row++)
@@ -37,33 +37,51 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                     rows.AddItem(row, si);
                 }
                 columns.Add(rows);
+                originalColNum.Add(rows, col);
             }
-            var colIx = colIndex - 1;
-            var colToSortList = columns[colIx].ToList();
-            var sortedList = colToSortList.Where(x => x.Value != null).ToList();
-            sortedList.Sort((a, b) => _comparer.Compare(a.Value, b.Value, sortOrder));
-            var nullValues = colToSortList.Where(x => x.Value == null);
-            sortedList.AddRange(nullValues);
-            for (var row = 0; row < sortedList.Count; row++)
+            columns.Sort((a, b) =>
             {
-                var sortedColItem = sortedList[row];
-                sortedRange.SetValue(row, colIx, sortedColItem.Value);
-                for (var col = 0; col < columns.Count; col++)
+                foreach (var rowIx in rowIndexes)
                 {
-                    if (col == colIx) continue;
-                    var colItem = columns[col].GetByOriginalIndex(sortedColItem.OriginalIndex);
-                    sortedRange.SetValue(row, col, colItem.Value);
-                    
+                    var aColVal = a.GetByOriginalIndex(rowIx - 1);
+                    var bColVal = b.GetByOriginalIndex(rowIx - 1);
+                    if (aColVal.Value == null)
+                    {
+                        if (bColVal.Value == null) return 0;
+                        return 1;
+                    }
+                    else if (bColVal.Value == null)
+                    {
+                        return -1;
+                    }
+                    var res = _comparer.Compare(aColVal.Value, bColVal.Value, sortOrder, context);
+                    if (res != 0) return res;
                 }
+                var resIndex = _comparer.Compare(originalColNum[a], originalColNum[b], sortOrder, context);
+                return resIndex;
+            });
+            var colIx = 0;
+            foreach (var col in columns)
+            {
+                var cellIx = 0;
+                foreach (var cell in col.ToList())
+                {
+                    sortedRange.SetValue(cellIx, colIx, cell.Value);
+                    cellIx++;
+                }
+                colIx++;
             }
             return sortedRange;
         }
 
-        public InMemoryRange SortByCol(IRangeInfo sourceRange, int rowIndex, int sortOrder)
+        public InMemoryRange SortByRow(IRangeInfo sourceRange, List<int> colIndexes, int sortOrder, ParsingContext context)
         {
             var rangeDef = new RangeDefinition(sourceRange.Size.NumberOfRows, sourceRange.Size.NumberOfCols);
             var sortedRange = new InMemoryRange(rangeDef);
             var rows = new List<SortedColOrRow>();
+
+            var originalRowNum = new Dictionary<SortedColOrRow, int>();
+
             for (var row = 0; row < rangeDef.NumberOfRows; row++)
             {
                 var cols = new SortedColOrRow();
@@ -74,21 +92,41 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                     cols.AddItem(col, si);
                 }
                 rows.Add(cols);
+                originalRowNum.Add(cols, row);
             }
-            var rowIx = rowIndex - 1;
-            var rowToSortList = rows[rowIx].ToList();
-            rowToSortList.Sort((a, b) => _comparer.Compare(a.Value, b.Value, sortOrder));
-            for (var col = 0; col < rowToSortList.Count; col++)
-            {
-                var sortedRowItem = rowToSortList[col];
-                sortedRange.SetValue(rowIx, col, sortedRowItem.Value);
-                for (var row = 0; row < rows.Count; row++)
-                {
-                    if (row == rowIx) continue;
-                    var colItem = rows[row].GetByOriginalIndex(sortedRowItem.OriginalIndex);
-                    sortedRange.SetValue(row, col, colItem.Value);
 
+            rows.Sort((a, b) => 
+            { 
+                foreach(var colIx in colIndexes)
+                {
+                    var aColVal = a.GetByOriginalIndex(colIx - 1);
+                    var bColVal = b.GetByOriginalIndex(colIx - 1);
+                    if(aColVal.Value == null)
+                    {
+                        if (bColVal.Value == null) return 0;
+                        return 1;
+                    }
+                    else if(bColVal.Value == null)
+                    {
+                        return -1;
+                    }
+                    var res = _comparer.Compare(aColVal.Value, bColVal.Value, sortOrder, context);
+                    if (res != 0) return res;
                 }
+                var resIndex = _comparer.Compare(originalRowNum[a], originalRowNum[b], sortOrder, context);
+                return resIndex;
+            });
+
+            var rowIx = 0;
+            foreach(var row in rows)
+            {
+                var cellIx = 0;
+                foreach(var cell in row.ToList())
+                {
+                    sortedRange.SetValue(rowIx, cellIx, cell.Value);
+                    cellIx++;
+                }
+                rowIx++;
             }
             return sortedRange;
         }

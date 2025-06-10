@@ -250,62 +250,60 @@ namespace OfficeOpenXml.Drawing
         }
         private static bool IsJpg(MemoryStream ms, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution)
         {
-            using (var br = new BinaryReader(ms))
-            {
-                if(IsJpg(br))
-                { 
-                    float xDensity=1, yDensity=1;
-                    while (ms.Position < ms.Length)
+            var br = new BinaryReader(ms);
+            if(IsJpg(br))
+            { 
+                float xDensity=1, yDensity=1;
+                while (ms.Position < ms.Length)
+                {
+                    var id = GetUInt16BigEndian(br);
+                    var length = (int)GetUInt16BigEndian(br);
+                    switch (id)
                     {
-                        var id = GetUInt16BigEndian(br);
-                        var length = (int)GetUInt16BigEndian(br);
-                        switch (id)
-                        {
-                            case 0xFFE0:
-                                var identifier = br.ReadBytes(5); //JFIF\0
-                                var version = br.ReadBytes(2);
-                                var unit = br.ReadByte();
-                                xDensity = (int)GetInt16BigEndian(br);
-                                yDensity = (int)GetInt16BigEndian(br);
+                        case 0xFFE0:
+                            var identifier = br.ReadBytes(5); //JFIF\0
+                            var version = br.ReadBytes(2);
+                            var unit = br.ReadByte();
+                            xDensity = (int)GetInt16BigEndian(br);
+                            yDensity = (int)GetInt16BigEndian(br);
                                 
-                                if (unit == 1)
-                                {
-                                    horizontalResolution = xDensity;
-                                    verticalResolution = yDensity;
-                                }
-                                else if (unit == 2)
-                                {
-                                    horizontalResolution = xDensity * CM_TO_INCH;
-                                    verticalResolution = yDensity * CM_TO_INCH;
-                                }
+                            if (unit == 1)
+                            {
+                                horizontalResolution = xDensity;
+                                verticalResolution = yDensity;
+                            }
+                            else if (unit == 2)
+                            {
+                                horizontalResolution = xDensity * CM_TO_INCH;
+                                verticalResolution = yDensity * CM_TO_INCH;
+                            }
 
-                                ms.Position += length-14;
-                                break;
-                            case 0xFFE1:
-                                var pos = ms.Position;
-                                identifier = br.ReadBytes(6); //EXIF\0\0 or //EXIF\FF\FF
-                                double w = 0, h = 0;
-                                ReadTiffHeader(br, ref w, ref h, ref horizontalResolution, ref verticalResolution);
-                                ms.Position = pos + length - 2;
-                                break;
-                            case 0xFFC0:
-                            case 0xFFC1:
-                            case 0xFFC2:
-                                var precision = br.ReadByte(); //Bits
-                                height = GetUInt16BigEndian(br);
-                                width = GetUInt16BigEndian(br);
-                                br.Close();
-                                return true;
-                            case 0xFFD9:
-                                return height != 0 && width != 0;
-                            default:
-                                ms.Position += length - 2;
-                                break;
-                        }
+                            ms.Position += length-14;
+                            break;
+                        case 0xFFE1:
+                            var pos = ms.Position;
+                            identifier = br.ReadBytes(6); //EXIF\0\0 or //EXIF\FF\FF
+                            double w = 0, h = 0;
+                            ReadTiffHeader(br, ref w, ref h, ref horizontalResolution, ref verticalResolution);
+                            ms.Position = pos + length - 2;
+                            break;
+                        case 0xFFC0:
+                        case 0xFFC1:
+                        case 0xFFC2:
+                            var precision = br.ReadByte(); //Bits
+                            height = GetUInt16BigEndian(br);
+                            width = GetUInt16BigEndian(br);
+                            br.Close();
+                            return true;
+                        case 0xFFD9:
+                            return height != 0 && width != 0;
+                        default:
+                            ms.Position += length - 2;
+                            break;
                     }
                 }
-                return false;
             }
+            return false;
         }
 
         private static bool IsJpg(BinaryReader br)
@@ -317,15 +315,13 @@ namespace OfficeOpenXml.Drawing
 
         private static bool IsGif(MemoryStream ms, ref double width, ref double height)
         {
-            using (var br = new BinaryReader(ms))
+            var br = new BinaryReader(ms);
+            if (IsGif(br))
             {
-                if (IsGif(br))
-                {
-                    width = br.ReadUInt16();
-                    height = br.ReadUInt16();
-                    br.Close();
-                    return true;
-                }
+                width = br.ReadUInt16();
+                height = br.ReadUInt16();
+                br.Close();
+                return true;
             }
             return false;
         }
@@ -339,32 +335,30 @@ namespace OfficeOpenXml.Drawing
 
         private static bool IsBmp(MemoryStream ms, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution)
         {
-            using (var br = new BinaryReader(ms))
+            var br = new BinaryReader(ms);
+            if (IsBmp(br, out string sign))
             {
-                if (IsBmp(br, out string sign))
+                var size = br.ReadInt32();
+                var reserved = br.ReadBytes(4);
+                var offsetData = br.ReadInt32();
+
+                //Info Header
+                var ihSize = br.ReadInt32(); //Should be 40
+                width = br.ReadInt32();
+                height = br.ReadInt32();
+
+                if (sign == "BM")
                 {
-                    var size = br.ReadInt32();
-                    var reserved = br.ReadBytes(4);
-                    var offsetData = br.ReadInt32();
-
-                    //Info Header
-                    var ihSize = br.ReadInt32(); //Should be 40
-                    width = br.ReadInt32();
-                    height = br.ReadInt32();
-
-                    if (sign == "BM")
-                    {
-                        br.ReadBytes(12);
-                        horizontalResolution = br.ReadInt32() / M_TO_INCH;
-                        verticalResolution = br.ReadInt32() / M_TO_INCH;
-                    }
-                    else
-                    {
-                        horizontalResolution = verticalResolution = 0;
-                    }
-
-                    return true;
+                    br.ReadBytes(12);
+                    horizontalResolution = br.ReadInt32() / M_TO_INCH;
+                    verticalResolution = br.ReadInt32() / M_TO_INCH;
                 }
+                else
+                {
+                    horizontalResolution = verticalResolution = 1;
+                }
+
+                return true;
             }
             return false;
         }
@@ -387,33 +381,31 @@ namespace OfficeOpenXml.Drawing
 #region Ico
         private static bool IsIcon(MemoryStream ms, ref double width, ref double height)
         {
-            using (var br = new BinaryReader(ms))
+            var br = new BinaryReader(ms);
+            if(IsIco(br))
             {
-                if(IsIco(br))
-                {
-                    var imageCount = br.ReadInt16();
-                    width = br.ReadByte();
-                    if (width == 0) width = 256;
-                    height = br.ReadByte();
-                    if (height == 0) height = 256;
+                var imageCount = br.ReadInt16();
+                width = br.ReadByte();
+                if (width == 0) width = 256;
+                height = br.ReadByte();
+                if (height == 0) height = 256;
 
-                    //Icons will currently use the size from the icon and will not read the actual image size from the bmp or png. 
+                //Icons will currently use the size from the icon and will not read the actual image size from the bmp or png. 
 
-                    //br.ReadBytes(6); //Ignore
-                    //var fileSize = br.ReadInt32();
-                    //if (fileSize > 0)
-                    //{
-                    //    var offset = br.ReadInt32();
-                    //    br.BaseStream.Position = offset;
+                //br.ReadBytes(6); //Ignore
+                //var fileSize = br.ReadInt32();
+                //if (fileSize > 0)
+                //{
+                //    var offset = br.ReadInt32();
+                //    br.BaseStream.Position = offset;
 
-                    //    IsPng(br, ref width, ref height, offset+fileSize);
-                    //}
-                    br.Close();
-                    return true;
-                }
+                //    IsPng(br, ref width, ref height, offset+fileSize);
+                //}
                 br.Close();
-                return false;
+                return true;
             }
+            br.Close();
+            return false;
         }
         internal static bool IsIco(BinaryReader br)
         {
@@ -428,35 +420,33 @@ namespace OfficeOpenXml.Drawing
         {
             width = height = 0;
             horizontalResolution = verticalResolution = ExcelDrawing.STANDARD_DPI * (1+1/3); //Excel seems to render webp at 1 1/3 size.
-            using (var br = new BinaryReader(ms))
+            var br = new BinaryReader(ms);
+            if(IsWebP(br))
             {
-                if(IsWebP(br))
+                var vp8= Encoding.ASCII.GetString(br.ReadBytes(4));
+                switch(vp8)
                 {
-                    var vp8= Encoding.ASCII.GetString(br.ReadBytes(4));
-                    switch(vp8)
-                    {
-                        case "VP8 ":
-                            var b = br.ReadBytes(10);
-                            var w = br.ReadInt16();
-                            width = w & 0x3FFF;
-                            var hScale = w >> 14;
-                            var h = br.ReadInt16();
-                            height = h & 0x3FFF;
-                            hScale = h >> 14;
-                            break;
-                        case "VP8X":
-                            br.ReadBytes(8);
-                            b = br.ReadBytes(6);
-                            width = BitConverter.ToInt32(new byte[] { b[0], b[1], b[2], 0 }, 0) + 1;
-                            height = BitConverter.ToInt32(new byte[] { b[3], b[4], b[5], 0 }, 0) + 1;
-                            break;
-                        case "VP8L":
-                            br.ReadBytes(5);
-                            b=br.ReadBytes(4);
-                            width = (b[0] | (b[1] & 0x3F) << 8) + 1;
-                            height = (b[1] >> 6 | b[2] << 2 | (b[3] & 0x0F) << 10) + 1;
-                            break;
-                    }
+                    case "VP8 ":
+                        var b = br.ReadBytes(10);
+                        var w = br.ReadInt16();
+                        width = w & 0x3FFF;
+                        var hScale = w >> 14;
+                        var h = br.ReadInt16();
+                        height = h & 0x3FFF;
+                        hScale = h >> 14;
+                        break;
+                    case "VP8X":
+                        br.ReadBytes(8);
+                        b = br.ReadBytes(6);
+                        width = BitConverter.ToInt32(new byte[] { b[0], b[1], b[2], 0 }, 0) + 1;
+                        height = BitConverter.ToInt32(new byte[] { b[3], b[4], b[5], 0 }, 0) + 1;
+                        break;
+                    case "VP8L":
+                        br.ReadBytes(5);
+                        b=br.ReadBytes(4);
+                        width = (b[0] | (b[1] & 0x3F) << 8) + 1;
+                        height = (b[1] >> 6 | b[2] << 2 | (b[3] & 0x0F) << 10) + 1;
+                        break;
                 }
             }
             return width!=0 && height!=0;
@@ -481,10 +471,8 @@ namespace OfficeOpenXml.Drawing
 #region Tiff
         private static bool IsTif(MemoryStream ms, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution)
         {
-            using (var br = new BinaryReader(ms))
-            {
-                return ReadTiffHeader(br, ref width, ref height, ref horizontalResolution, ref verticalResolution);
-            }
+            var br = new BinaryReader(ms);
+            return ReadTiffHeader(br, ref width, ref height, ref horizontalResolution, ref verticalResolution);
         }
 
         private static bool ReadTiffHeader(BinaryReader br, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution)
@@ -610,63 +598,61 @@ namespace OfficeOpenXml.Drawing
 #region Emf
         private static bool IsEmf(MemoryStream ms, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution)
         {
-            using (var br = new BinaryReader(ms))
+            var br = new BinaryReader(ms);
+            if (IsEmf(br))
             {
-                if (IsEmf(br))
+                var length = br.ReadInt32();
+                var bounds = new int[4];
+                bounds[0] = br.ReadInt32();
+                bounds[1] = br.ReadInt32();
+                bounds[2] = br.ReadInt32();
+                bounds[3] = br.ReadInt32();
+                var frame = new int[4];
+                frame[0] = br.ReadInt32();
+                frame[1] = br.ReadInt32();
+                frame[2] = br.ReadInt32();
+                frame[3] = br.ReadInt32();
+
+                var signatureBytes = br.ReadBytes(4);
+                var signature = Encoding.ASCII.GetString(signatureBytes);
+                if (signature.Trim() == "EMF")
                 {
-                    var length = br.ReadInt32();
-                    var bounds = new int[4];
-                    bounds[0] = br.ReadInt32();
-                    bounds[1] = br.ReadInt32();
-                    bounds[2] = br.ReadInt32();
-                    bounds[3] = br.ReadInt32();
-                    var frame = new int[4];
-                    frame[0] = br.ReadInt32();
-                    frame[1] = br.ReadInt32();
-                    frame[2] = br.ReadInt32();
-                    frame[3] = br.ReadInt32();
+                    var version = br.ReadUInt32();
+                    var size = br.ReadUInt32();
+                    var records = br.ReadUInt32();
+                    var handles = br.ReadUInt16();
+                    var reserved = br.ReadUInt16();
 
-                    var signatureBytes = br.ReadBytes(4);
-                    var signature = Encoding.ASCII.GetString(signatureBytes);
-                    if (signature.Trim() == "EMF")
-                    {
-                        var version = br.ReadUInt32();
-                        var size = br.ReadUInt32();
-                        var records = br.ReadUInt32();
-                        var handles = br.ReadUInt16();
-                        var reserved = br.ReadUInt16();
+                    var nDescription = br.ReadUInt32();
+                    var offDescription = br.ReadUInt32();
+                    var nPalEntries = br.ReadUInt32();
+                    var device = new uint[2];
+                    device[0]= br.ReadUInt32();
+                    device[1] = br.ReadUInt32();
 
-                        var nDescription = br.ReadUInt32();
-                        var offDescription = br.ReadUInt32();
-                        var nPalEntries = br.ReadUInt32();
-                        var device = new uint[2];
-                        device[0]= br.ReadUInt32();
-                        device[1] = br.ReadUInt32();
+                    var mm= new uint[2];
+                    mm[0] = br.ReadUInt32();
+                    mm[1] = br.ReadUInt32();
+                    //Extension 1
+                    var cbPixelFormat = br.ReadUInt32();
+                    var offPixelFormat = br.ReadUInt32();
+                    var bOpenGL = br.ReadUInt32();
 
-                        var mm= new uint[2];
-                        mm[0] = br.ReadUInt32();
-                        mm[1] = br.ReadUInt32();
-                        //Extension 1
-                        var cbPixelFormat = br.ReadUInt32();
-                        var offPixelFormat = br.ReadUInt32();
-                        var bOpenGL = br.ReadUInt32();
-
-                        //Extension 2
-                        var hr = br.ReadUInt32();
-                        var vr = br.ReadUInt32();
+                    //Extension 2
+                    var hr = br.ReadUInt32();
+                    var vr = br.ReadUInt32();
 
 
-                        var id = br.ReadInt32();
-                        var size2 = br.ReadInt32();
+                    var id = br.ReadInt32();
+                    var size2 = br.ReadInt32();
 
-                        width = (bounds[2] - bounds[0] + 1);
-                        height = (bounds[3] - bounds[1] + 1);
+                    width = (bounds[2] - bounds[0] + 1);
+                    height = (bounds[3] - bounds[1] + 1);
 
-                        horizontalResolution = width / ((frame[2] - frame[0]) * HUNDREDTH_TH_MM_TO_INCH * ExcelDrawing.STANDARD_DPI) * ExcelDrawing.STANDARD_DPI;
-                        verticalResolution = height / ((frame[3] - frame[1]) * HUNDREDTH_TH_MM_TO_INCH * ExcelDrawing.STANDARD_DPI) * ExcelDrawing.STANDARD_DPI;
+                    horizontalResolution = width / ((frame[2] - frame[0]) * HUNDREDTH_TH_MM_TO_INCH * ExcelDrawing.STANDARD_DPI) * ExcelDrawing.STANDARD_DPI;
+                    verticalResolution = height / ((frame[3] - frame[1]) * HUNDREDTH_TH_MM_TO_INCH * ExcelDrawing.STANDARD_DPI) * ExcelDrawing.STANDARD_DPI;
 
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;
@@ -685,27 +671,25 @@ namespace OfficeOpenXml.Drawing
         private const double DEFAULT_TWIPS = 1440D;
         private static bool IsWmf(MemoryStream ms, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution)
         {
-            using (var br = new BinaryReader(ms))
+            var br = new BinaryReader(ms);
+            if (IsWmf(br))
             {
-                if (IsWmf(br))
-                {
-                    var HWmf = br.ReadInt16();
-                    var bounds = new ushort[4];
-                    bounds[0] = br.ReadUInt16();
-                    bounds[1] = br.ReadUInt16();
-                    bounds[2] = br.ReadUInt16();
-                    bounds[3] = br.ReadUInt16();
+                var HWmf = br.ReadInt16();
+                var bounds = new ushort[4];
+                bounds[0] = br.ReadUInt16();
+                bounds[1] = br.ReadUInt16();
+                bounds[2] = br.ReadUInt16();
+                bounds[3] = br.ReadUInt16();
 
-                    var inch = br.ReadInt16();
-                    width = bounds[2] - bounds[0];
-                    height = bounds[3] - bounds[1];
-                    if (inch != 0)
-                    {
-                        width *= (DEFAULT_TWIPS / inch) * PIXELS_PER_TWIPS;
-                        height *= (DEFAULT_TWIPS / inch) * PIXELS_PER_TWIPS;
-                    }
-                    return width != 0 && height != 0;
+                var inch = br.ReadInt16();
+                width = bounds[2] - bounds[0];
+                height = bounds[3] - bounds[1];
+                if (inch != 0)
+                {
+                    width *= (DEFAULT_TWIPS / inch) * PIXELS_PER_TWIPS;
+                    height *= (DEFAULT_TWIPS / inch) * PIXELS_PER_TWIPS;
                 }
+                return width != 0 && height != 0;
             }
             return false;
         }
@@ -719,10 +703,8 @@ namespace OfficeOpenXml.Drawing
 #region Png
         private static bool IsPng(MemoryStream ms, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution)
         {
-            using (var br = new BinaryReader(ms))
-            {
-                return IsPng(br, ref width, ref height, ref horizontalResolution, ref verticalResolution);
-            }
+            var br = new BinaryReader(ms);
+            return IsPng(br, ref width, ref height, ref horizontalResolution, ref verticalResolution);
         }
         private static bool IsPng(BinaryReader br, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution, long fileEndPosition=long.MinValue)
         {
@@ -786,45 +768,43 @@ namespace OfficeOpenXml.Drawing
         {
             try
             {
-                using (var reader = new XmlTextReader(ms))
+                var reader = new XmlTextReader(ms);
+                while (reader.Read())
                 {
-                    while (reader.Read())
+                    if (reader.LocalName == "svg" && reader.NodeType == XmlNodeType.Element)
                     {
-                        if (reader.LocalName == "svg" && reader.NodeType == XmlNodeType.Element)
+                        var w = reader.GetAttribute("width");
+                        var h = reader.GetAttribute("height");
+                        var vb = reader.GetAttribute("viewBox");
+                        reader.Close();
+                        if (w == null || h == null)
                         {
-                            var w = reader.GetAttribute("width");
-                            var h = reader.GetAttribute("height");
-                            var vb = reader.GetAttribute("viewBox");
-                            reader.Close();
-                            if (w == null || h == null)
+                            if (vb == null)
                             {
-                                if (vb == null)
-                                {
-                                    return false;
-                                }
-                                var bounds = vb.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                if (bounds.Length < 4)
-                                {
-                                    return false;
-                                }
-                                if (string.IsNullOrEmpty(w))
-                                {
-                                    w = bounds[2];
-                                }
-                                if (string.IsNullOrEmpty(h))
-                                {
-                                    h = bounds[3];
-                                }
+                                return false;
                             }
-                            width = GetSvgUnit(w);
-                            if (double.IsNaN(width)) return false;
-                            height = GetSvgUnit(h);
-                            if (double.IsNaN(height)) return false;
-                            return true;
+                            var bounds = vb.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (bounds.Length < 4)
+                            {
+                                return false;
+                            }
+                            if (string.IsNullOrEmpty(w))
+                            {
+                                w = bounds[2];
+                            }
+                            if (string.IsNullOrEmpty(h))
+                            {
+                                h = bounds[3];
+                            }
                         }
+                        width = GetSvgUnit(w);
+                        if (double.IsNaN(width)) return false;
+                        height = GetSvgUnit(h);
+                        if (double.IsNaN(height)) return false;
+                        return true;
                     }
-                    return false;
                 }
+                return false;
             }
             catch
             {

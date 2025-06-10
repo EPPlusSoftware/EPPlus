@@ -47,5 +47,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         {
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }));
+        public override bool IsErrorHandlingFunction => true;
     }
 }

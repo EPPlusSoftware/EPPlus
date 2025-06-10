@@ -254,12 +254,22 @@ namespace OfficeOpenXml
         {
            return (int)Type;
         }
-
+        /// <summary>
+        /// Determines whether the specified <see cref="ExcelErrorValue"/> are equal.
+        /// </summary>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The first object to compare.</param>
+        /// <returns>true if the specified objects are equal; otherwise, false.</returns>
         public bool Equals(ExcelErrorValue x, ExcelErrorValue y)
         {
             return x.Type==y.Type;
         }
 
+        /// <summary>
+        /// Returns a hash code for the specified object.
+        /// </summary>
+        /// <param name="obj">The <see cref="ExcelErrorValue"/> for which a hash code is to be returned</param>
+        /// <returns>A hash code for the specified object.</returns>
         public int GetHashCode(ExcelErrorValue obj)
         {
             if (obj == null) return -1;

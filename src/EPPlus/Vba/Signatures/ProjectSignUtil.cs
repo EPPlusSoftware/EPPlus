@@ -83,11 +83,11 @@ namespace OfficeOpenXml.VBA.Signatures
                 bw.Write(1);// format
             }
             bw.Write((byte)0x30); //Constructed Type (DigestInfo)
-            bw.Write((byte)0x20); //Length DigestInfo
+            bw.Write((byte)(hashAlgorithmBytes.Length + 6)); //Length DigestInfo
             bw.Write((byte)0x30); //Constructed Type (Algorithm)
-            bw.Write((byte)(hashAlgorithmBytes.Length+7)); //length AlgorithmIdentifier
+            bw.Write((byte)(hashAlgorithmBytes.Length + 2)); //length AlgorithmIdentifier
 
-            WriteOid(bw, hashAlgorithmBytes); //Hash Algorithem
+            WriteOid(bw, hashAlgorithmBytes); //Hash Algorithm
             
             bw.Write((byte)0x05);   //Null type identifier
             bw.Write((byte)0x00);   //Null length

@@ -45,6 +45,16 @@ namespace OfficeOpenXml.FormulaParsing
         /// If false(default), EPPlus will only download images that don't exist in the package.
         /// </summary>
         public bool AlwaysRefreshImageFunction { get; set; } = false;
+
+        /// <summary>
+        /// Enables Unicode-aware string operations, ensuring correct handling of surrogate pairs for comparisons, substrings, and sorting within the library.
+        /// </summary>
+        public bool EnableUnicodeAwareStringOperations
+        {
+            get; 
+            set;
+        } = false;
+
         /// <summary>
         /// The <see cref="IFormulaParserLogger"/> of the parser
         /// </summary>

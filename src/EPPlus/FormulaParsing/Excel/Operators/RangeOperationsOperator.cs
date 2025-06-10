@@ -60,7 +60,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             }
         }
 
-        private static object ApplyOperator(string l, string r, Operators op, out bool error)
+        private static object ApplyOperator(string l, string r, Operators op, out bool error, ParsingContext context)
         {
             error = false;
             switch(op)
@@ -78,7 +78,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
                         return false;
-                    return string.Compare(l, r, StringComparison.InvariantCultureIgnoreCase) < 0;
+                    return StringUtil.Compare(l, r, StringComparison.CurrentCultureIgnoreCase, context) < 0;
                 case Operators.LessThanOrEqual:
                     if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
                     {
@@ -90,7 +90,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
                         return true;
-                    return string.Compare(l, r, StringComparison.InvariantCultureIgnoreCase) <= 0;
+                    return StringUtil.Compare(l, r, StringComparison.CurrentCultureIgnoreCase, context) <= 0;
                 case Operators.GreaterThan:
                     if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
                     {
@@ -102,7 +102,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
                         return false;
-                    return string.Compare(l, r, StringComparison.InvariantCultureIgnoreCase) > 0;
+                    return StringUtil.Compare(l, r, StringComparison.CurrentCultureIgnoreCase, context) > 0;
                 case Operators.GreaterThanOrEqual:
                     if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
                     {
@@ -114,7 +114,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
                         return true;
-                    return string.Compare(l, r, StringComparison.InvariantCultureIgnoreCase) >= 0;
+                    return StringUtil.Compare(l, r, StringComparison.CurrentCultureIgnoreCase, context) >= 0;
                 case Operators.Equals:
                     if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
                     {
@@ -126,7 +126,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
                         return true;
-                    return string.Compare(l, r, StringComparison.InvariantCultureIgnoreCase) == 0;
+                    return StringUtil.Compare(l, r, StringComparison.CurrentCultureIgnoreCase, context) == 0;
                 case Operators.NotEqualTo:
                     if (string.IsNullOrEmpty(l)==true && string.IsNullOrEmpty(r)==false)
                     {
@@ -138,7 +138,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
                         return false;
-                    return string.Compare(l, r, StringComparison.InvariantCultureIgnoreCase) != 0;
+                    return StringUtil.Compare(l, r, StringComparison.CurrentCultureIgnoreCase, context) != 0;
                 default:
                     error = true;
                     return null;
@@ -217,7 +217,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             }
             else
             {
-                var sResult = ApplyOperator(leftVal?.ToString(), rightVal?.ToString(), op, out bool error);
+                var sResult = ApplyOperator(leftVal?.ToString(), rightVal?.ToString(), op, out bool error, context);
                 SetValue(resultRange, row, col, sResult, error);
             }
         }
