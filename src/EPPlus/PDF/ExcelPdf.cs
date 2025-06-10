@@ -35,6 +35,7 @@ namespace OfficeOpenXml.PDF
         private static Dictionary<uint, PdfFontProperties> _fonts;
 
         private PdfPageSettings PageSettings;
+        private double cellMargin = 0.2d;
 
         public ExcelPdf()
         {
@@ -146,10 +147,57 @@ namespace OfficeOpenXml.PDF
             }
         }
 
+        private void CalculateGridLayout(ExcelWorksheet ws, PdfContentBounds bounds)
+        {
+
+
+
+            List<ExcelRangeBase> PagesRange = new List<ExcelRangeBase>();
+            if (PageSettings.PageOrders == PageOrders.DownThenOver)
+            {
+                var y = bounds.Height;
+                var rowStart = 1;
+                for (int i = rowStart; i <= ws.Dimension._toRow; i++)
+                {
+                    var sp = y - ws.Row(i).Height;
+
+                    if (sp <= 0)
+                    {
+                        PagesRange.Add(new ExcelRangeBase(ws, rowStart + ":" + i));
+                        rowStart = i + 1;
+                        y = bounds.Height;
+                    }
+                    else
+                    {
+                        y = sp;
+                    }
+
+                    if (i == ws.Dimension._toRow)
+                    {
+                        PagesRange.Add(new ExcelRangeBase(ws, rowStart + ":" + i));
+                    }
+
+                }
+
+
+
+
+
+
+                for (int j = 1; j <= ws.Dimension._toCol; j++)
+                {
+                    //check col width vs page layout
+                }
+            }
+            else if (PageSettings.PageOrders == PageOrders.OverThenDown)
+            {
+            }
+        }
+
         private void AddWorksheetCells(ExcelWorksheet ws, PdfContentBounds bounds)
         {
             double prevWidth = 0;
-            double prevHeight = 0;
+            double prevHeight = ws.Row(1).Height + cellMargin;
             var x = 0d;
             var y = bounds.Y + bounds.Height;
             PdfRect contentRect = new PdfRect();
@@ -173,7 +221,7 @@ namespace OfficeOpenXml.PDF
                     y = bounds.Top - prevHeight; //bounds.Y + bounds.Height - prevHeight;
                     if (x >= bounds.Width)
                     {
-                        prevHeight += cell.Worksheet.Row(i).Height + 0.25d;
+                        prevHeight += cell.Worksheet.Row(i).Height + cellMargin;
                         contentRect.Height = prevHeight;
                         prevWidth = 0;
                         x = bounds.X + prevWidth;
@@ -262,6 +310,8 @@ namespace OfficeOpenXml.PDF
                 PageSettings = pageSettings;
 
             PdfContentBounds bounds = new PdfContentBounds(PageSettings.Margins, PageSettings.PageSize);
+
+            CalculateGridLayout(worksheet, bounds);
 
             AddWorksheetCells(worksheet, bounds);
 

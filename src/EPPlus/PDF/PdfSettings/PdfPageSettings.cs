@@ -20,6 +20,12 @@ namespace OfficeOpenXml.PDF.PdfSettings
         Lines,
     }
 
+    public enum PageOrders
+    {
+        DownThenOver,
+        OverThenDown,
+    }
+
     public class PdfPageSettings
     {
         /// <summary>
@@ -35,6 +41,11 @@ namespace OfficeOpenXml.PDF.PdfSettings
         /// Set the page margins.
         /// </summary>
         public PdfMargins Margins = PdfMargins.Normal;
+
+        /// <summary>
+        /// The order in how to create pages.
+        /// </summary>
+        public PageOrders PageOrders = PageOrders.DownThenOver;
 
         PdfPageSize _pageSize = PdfPageSize.A4;
         /// <summary>
@@ -90,6 +101,7 @@ namespace OfficeOpenXml.PDF.PdfSettings
                 }
             }
         }
+
 
 
         public bool ShowGridLines = false;
