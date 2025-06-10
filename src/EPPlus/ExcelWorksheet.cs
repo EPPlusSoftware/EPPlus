@@ -2897,7 +2897,7 @@ namespace OfficeOpenXml
             foreach(var uri in Workbook._package.IgnorableNamespaceUris)
             {
                 var prefix = WorksheetXml.DocumentElement.GetPrefixOfNamespace(uri);
-                if (prefix != null)
+                if (string.IsNullOrEmpty(prefix) == false)
                 {
                     mcIgnorables.Add(prefix + " ");
                 }

@@ -7,7 +7,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
-		<PackageLicenseFile>license.md</PackageLicenseFile>		
+		<PackageLicenseExpression>PolyForm-Noncommercial-1.0.0</PackageLicenseExpression>
 		<Company>EPPlus Software AB</Company>
 		<Product>EPPlus</Product>
 		<Description>A spreadsheet library for .NET framework and .NET core</Description>
