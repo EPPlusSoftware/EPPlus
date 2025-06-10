@@ -11,6 +11,7 @@
   14/1/2025         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;

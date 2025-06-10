@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.String;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
