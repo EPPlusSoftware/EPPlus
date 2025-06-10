@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using System.Collections.Generic;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -290,6 +291,91 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
         //    }
         //}
+
+        [TestMethod]
+        public void SC870_EpplusOnly()
+        {
+            using (var p = OpenPackage("EpplusNullAboveAndBelow.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("VLookupTest");
+                List<int> searchValues = new List<int> { 1, 2, 4, 7, 11, 16, 21, 27 };
+                List<int> resultValues = new List<int> { 400, 365, 315, 280, 250, 215, 200, 170 };
+
+                ws.Cells["B6:B13"].LoadFromCollection(searchValues);
+                ws.Cells["C6:C13"].LoadFromCollection(resultValues);
+
+                ws.Cells["A11"].Value = 1;
+
+                //Testing that VLookup (or rather binary search lookup) can handle values of 'null' in a range above and below target.
+                ws.Cells["F6"].Formula = "VLOOKUP(A11, B:C, 2, TRUE)";
+
+                ws.Calculate();
+
+                var outputValue = ws.Cells["F6"].Value;
+                Assert.AreEqual(400, outputValue);
+
+                //Ensure it works for each of the values
+                for (int i = 1; i < searchValues.Count; i++)
+                {
+                    var formulaCell = ws.Cells[6 + i, 6];
+                    formulaCell.Formula = $"VLOOKUP({searchValues[i]}, B:C, 2, TRUE)";
+                    formulaCell.Calculate();
+                    Assert.AreEqual(resultValues[i], formulaCell.Value);
+                }
+
+                //Save Workbook
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void SC870()
+        {
+            using (var package = OpenTemplatePackage("s870.xlsx"))
+            {
+                var wb = package.Workbook;
+                var worksheet = package.Workbook.Worksheets[0];
+
+                foreach (var sheet in package.Workbook.Worksheets)
+                {
+                    sheet.Hidden = eWorkSheetHidden.Visible;
+                }
+
+                worksheet.Cells["F15"].Formula = "VLOOKUP(B11, Salgsfragt!B:C, 2, TRUE)";
+
+                var sWs = package.Workbook.Worksheets.GetByName("Salgsfragt");
+                sWs.Cells["B4"].Value = null;
+                sWs.Cells["B2"].Value = null;
+
+                worksheet.Cells["F15"].Calculate();
+
+                var someVal = worksheet.Cells["F15"].Value;
+                var errorText = worksheet.Cells["D8"].Text;
+
+                var cellEuItemPrice = worksheet.Cells["C18"];
+                var cellEuTransportPrice = worksheet.Cells["C19"];
+                var cellEuTotal = worksheet.Cells["C20"];
+
+                var cellDKItemPrice = worksheet.Cells["C24"];
+                var cellDKTransportPrice = worksheet.Cells["C25"];
+                var cellDKTotal = worksheet.Cells["C26"];
+
+                worksheet.Calculate();
+                decimal tolerance = 0.1M;
+
+                Assert.AreEqual(301.01M, (decimal)cellEuItemPrice.GetCellValue<double>(), tolerance);
+                Assert.AreEqual(53.62M, (decimal)cellEuTransportPrice.GetCellValue<double>(), tolerance);
+                Assert.AreEqual(354.62M, (decimal)cellEuTotal.GetCellValue<double>(), tolerance);
+
+                Assert.AreEqual(2245.50M, (decimal)cellDKItemPrice.GetCellValue<double>(), tolerance);
+                Assert.AreEqual(400M, (decimal)cellDKTransportPrice.GetCellValue<double>(), tolerance);
+                Assert.AreEqual(2645.50M, (decimal)cellDKTotal.GetCellValue<double>(), tolerance);
+
+                SaveAndCleanup(package);
+            }
+        }
+
         [TestMethod]
         public void PriorAddressExpressionWorksheetShouldBeCleared()
         {

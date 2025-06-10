@@ -1175,7 +1175,6 @@ namespace OfficeOpenXml.Core.CellStore
 
         internal bool NextCell(ref int row, ref int col)
         {
-
             return NextCell(ref row, ref col, 0, 0, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
         }
         internal bool NextCell(ref int row, ref int col, int minRow, int minColPos, int maxRow, int maxColPos)
@@ -1590,7 +1589,7 @@ namespace OfficeOpenXml.Core.CellStore
                         }
                         else
                         {
-                            return GetPrevCell(ref colPos, ref row, startRow, startColPos, endColPos);
+                            return GetPrevCell(ref row, ref colPos, startRow, startColPos, endColPos);
                         }
                     }
                 }

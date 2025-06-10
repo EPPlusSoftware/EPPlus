@@ -10,10 +10,9 @@
  *************************************************************************************************
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
-using System;
+
+using OfficeOpenXml.Utils;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
@@ -21,11 +20,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
     {
         private static int SearchAsc(object s, IRangeInfo lookupRange, IComparer<object> comparer, LookupRangeDirection? direction = null)
         {
-            var nRows = lookupRange.Size.NumberOfRows;
-            var nCols = lookupRange.Size.NumberOfCols;
+            //Only look at relevant values. We use this to omit null values above and below actual values
+            var valueRange = ValueFinder.RangeByValue(lookupRange.Worksheet, lookupRange.Address);
+
+            var nRows = valueRange.ToRow - valueRange.FromRow + 1;
+            var nCols = valueRange.ToCol - valueRange.FromCol + 1;
+
             if (nRows == 0 && nCols == 0) return -1;
             int low = 0, high = nCols > nRows ? nCols : nRows, mid;
-            if(direction.HasValue)
+            if (direction.HasValue)
             {
                 high = direction.Value == LookupRangeDirection.Vertical ? nRows : nCols;
             }
@@ -38,18 +41,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                 var row = nRows >= nCols ? mid : 0;
                 if (direction.HasValue)
                 {
-                    
                     col = direction.Value == LookupRangeDirection.Vertical ? 0 : mid;
                     row = direction.Value == LookupRangeDirection.Vertical ? mid : 0;
                 }
 
                 //Row and col are 0-based if equal we will be past the last value due to GetOffset
-                if(row == nRows || col == nCols)
+                if (row == nRows || col == nCols)
                 {
                     break;
                 }
-                
-                var val = lookupRange.GetOffset(row, col);
+
+                var val = lookupRange.GetValue(valueRange.FromRow + row, valueRange.FromCol + col);
 
                 var result = comparer.Compare(s, val);
 
@@ -60,8 +62,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     low = mid + 1;
 
                 else
-                    return mid;
+                    return valueRange.FromRow - 1 + mid;
             }
+
             return ~low;
         }
 

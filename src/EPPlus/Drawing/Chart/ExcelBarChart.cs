@@ -161,6 +161,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         #endregion
         #region "Properties"
+
         string _directionPath = "c:barDir/@val";
         /// <summary>
         /// Direction, Bar or columns
@@ -509,5 +510,20 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Series for a bar chart
         /// </summary>
         public new ExcelChartSeries<ExcelBarChartSerie> Series { get; } = new ExcelChartSeries<ExcelBarChartSerie>();
+
+        internal override bool IsAxisTypeSupported(eAxisType type, ExcelChartAxis axis)
+        {
+            //Currently (22/05/2025) both column and bar charts have the XAxis as Category Axis.
+            //Despite it being the vertical(Y) axis on bar charts. (likely because only the direction variable changes)
+            //Therefore same for both. Otherwise we'd have to handle it differently.
+            if (axis == XAxis)
+            {
+                if (type == eAxisType.Val)
+                {
+                    return false;
+                }
+            }
+            return base.IsAxisTypeSupported(type, axis);
+        }
     }
 }

@@ -38,6 +38,8 @@ using OfficeOpenXml.Utils.CompundDocument;
 using System.Security.Cryptography.X509Certificates;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using System.Threading;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -906,18 +908,93 @@ namespace OfficeOpenXml.Core.Worksheet
                     if(sameWorkbook==false && HasExternalReference(name.Formula))
                     {
                         continue;
-					}
+                    }
                     else
                     {
-						newName = added.Names.AddFormulaNoValidation(name.Name, name.Formula);
-					}
-				}
+                        var updatedFormula = UpdateFormulaStringWithNewWorksheetName(name.Formula, added, Copy);
+                        newName = added.Names.AddFormulaNoValidation(name.Name, updatedFormula);
+                    }
+                }
                 else
                 {
                     newName = added.Names.AddValue(name.Name, name.Value);
                 }
                 newName.NameComment = name.NameComment;
             }
+
+            //Copy relevant names from workbook.
+            foreach (var name in Copy.Workbook.Names)
+            {
+                ExcelNamedRange wbName;
+                if (name.Worksheet == Copy)
+                {
+                    wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                    wbName.NameComment = name.NameComment;
+                }
+            }
+            //Copy names from formulas.
+            var formulaEnumerator = new CellStoreEnumerator<object>(Copy._formulas);
+            var nameLookup = Copy.Workbook.Names.Where(name => name != null).ToDictionary(name => name.Name, name => name);
+            while (formulaEnumerator.Next())
+            {
+                var v = formulaEnumerator.Value;
+                string formula;
+                if (v is int vkey)
+                {
+                    Copy._sharedFormulas.TryGetValue(vkey, out SharedFormula sharedFormula);
+                    formula = sharedFormula.Formula;
+                    CopyWorkbookNames(formula, nameLookup, added, Copy);
+                }
+                else
+                {
+                    formula = v.ToString();
+                    CopyWorkbookNames(formula, nameLookup, added, Copy);
+                }
+            }
+        }
+
+        private static void CopyWorkbookNames(string formula, Dictionary<string, ExcelNamedRange> nameLookup, ExcelWorksheet added, ExcelWorksheet Copy)
+        {
+            var tokens = SourceCodeTokenizer.Default.Tokenize(formula);
+            foreach (var token in tokens)
+            {
+                if (token.TokenType == TokenType.NameValue && nameLookup.TryGetValue(token.Value, out var name))
+                {
+                    if (name.Worksheet == Copy || name.Worksheet == null)
+                    {
+                        ExcelNamedRange wbName;
+                        if (name.AddressAbsolute != "#REF!")
+                        {
+                            wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                        }
+                        else if (name.Formula != null)
+                        {
+                            var updatedFormula = UpdateFormulaStringWithNewWorksheetName(name.Formula, added, Copy);
+                            wbName = added.Workbook.Names.AddFormulaNoValidation(name.Name, updatedFormula);
+                        }
+                        else
+                        {
+                            wbName = added.Workbook.Names.AddValue(name.Name, name.Value);
+                        }
+                        wbName.NameComment = name.NameComment;
+                    }
+                }
+            }
+        }
+        private static string UpdateFormulaStringWithNewWorksheetName(string formula, ExcelWorksheet added, ExcelWorksheet Copy)
+        {
+            var ftokens = SourceCodeTokenizer.Default.Tokenize(formula);
+            Token tempToken;
+            for (int i = 0; i < ftokens.Count; i++)
+            {
+                if (ftokens[i].TokenType == TokenType.WorksheetNameContent && Copy.Name == ftokens[i].Value)
+                {
+                    tempToken = ftokens[i];
+                    tempToken.Value = added.Name;
+                    ftokens[i] = tempToken;
+                }
+            }
+            return string.Concat(ftokens.Select(t => t.Value));
         }
 
 		private static bool HasExternalReference(string formula)

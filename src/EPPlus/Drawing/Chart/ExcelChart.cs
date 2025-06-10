@@ -155,6 +155,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         #region "Properties"
+
         /// <summary>
         /// Reference to the worksheet
         /// </summary>
@@ -646,6 +647,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         #endregion
+
         internal void InitChartTheme(int fallBackStyleId)
         {
             var styleId = fallBackStyleId + 100;
@@ -754,6 +756,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 return null;
             }
         }
+
         internal static ExcelChartEx GetChartEx(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null)
         {
             XmlNode chartDrawingNode = node.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", drawings.NameSpaceManager);
@@ -1115,5 +1118,25 @@ namespace OfficeOpenXml.Drawing.Chart
         ZipPackagePart IPictureRelationDocument.RelatedPart => Part;
 
         Uri IPictureRelationDocument.RelatedUri => UriChart;
+
+        internal virtual bool IsAxisTypeSupported(eAxisType type, ExcelChartAxis axis)
+        {
+            var currentType = axis.AxisType;
+
+            if (currentType == eAxisType.Val || currentType == eAxisType.Date)
+            {
+                if (type == eAxisType.Val || type == eAxisType.Date)
+                {
+                    return true;
+                }
+            }
+            else if (currentType == eAxisType.Cat || currentType == eAxisType.Serie)
+            {
+                return true;
+            }
+
+            throw new InvalidOperationException($"Cannot change ValueAxis to CatAxis. Original Axis type: {currentType.ToString()}  New Axis type: {type.ToString()}");
+            return false;
+        }
     }
 }
