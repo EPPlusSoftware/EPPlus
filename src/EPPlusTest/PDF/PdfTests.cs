@@ -22,12 +22,73 @@ namespace EPPlusTest.PDF
             pageSettings.Orientation = Orientations.Portrait;
             pageSettings.Margins = PdfMargins.Normal;
             pageSettings.Debug = true;
-            ExcelPdf pedeef = new ExcelPdf(pageSettings);
+            ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
 
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest9.pdf", ws);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest10.pdf", ws);
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest10.pdf");
 
         }
+
+        [TestMethod]
+        public void CalculateGridLayoutTest()
+        {
+            using var p = OpenTemplatePackage("PdfGrids\\1 Page Full.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ExcelPdf pdf = new ExcelPdf(ws);
+            pdf.CalculateGridLayout();
+        }
+        [TestMethod]
+        public void CalculateGridLayoutTest2()
+        {
+            using var p = OpenTemplatePackage("PdfGrids\\1 Page Small.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ExcelPdf pdf = new ExcelPdf(ws);
+            pdf.CalculateGridLayout();
+        }
+        [TestMethod]
+        public void CalculateGridLayoutTest3()
+        {
+            using var p = OpenTemplatePackage("PdfGrids\\2 Page Down.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ExcelPdf pdf = new ExcelPdf(ws);
+            pdf.CalculateGridLayout();
+        }
+        [TestMethod]
+        public void CalculateGridLayoutTest4()
+        {
+            using var p = OpenTemplatePackage("PdfGrids\\2 Page Over.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ExcelPdf pdf = new ExcelPdf(ws);
+            pdf.CalculateGridLayout();
+        }
+        [TestMethod]
+        public void CalculateGridLayoutTest5()
+        {
+            using var p = OpenTemplatePackage("PdfGrids\\3 2 Page.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ExcelPdf pdf = new ExcelPdf(ws);
+            pdf.CalculateGridLayout();
+        }
+        [TestMethod]
+        public void CalculateGridLayoutTest6()
+        {
+            using var p = OpenTemplatePackage("PdfGrids\\3 2 Page.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            PdfPageSettings pageSettings = new PdfPageSettings();
+            pageSettings.PageOrders = PageOrders.OverThenDown;
+            ExcelPdf pdf = new ExcelPdf(ws, pageSettings);
+            pdf.CalculateGridLayout();
+        }
+        [TestMethod]
+        public void CalculateGridLayoutTest7()
+        {
+            using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            PdfPageSettings pageSettings = new PdfPageSettings();
+            pageSettings.PageOrders = PageOrders.OverThenDown;
+            ExcelPdf pdf = new ExcelPdf(ws, pageSettings);
+            pdf.CalculateGridLayout();
+        }
+
 
 
 
