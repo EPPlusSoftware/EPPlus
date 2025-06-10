@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         public void Refresh()
         {
-            _cacheReference.RefreshFields();
+            _cacheReference.RefreshFields(false);
         }
 
         internal Packaging.ZipPackagePart Part

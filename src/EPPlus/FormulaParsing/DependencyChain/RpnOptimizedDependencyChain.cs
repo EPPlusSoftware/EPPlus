@@ -39,6 +39,7 @@ namespace OfficeOpenXml.FormulaParsing
                 config.CacheExpressions = options.CacheExpressions;
                 config.PrecisionAndRoundingStrategy = options.PrecisionAndRoundingStrategy;
                 config.AlwaysRefreshImageFunction = options.AlwaysRefreshImageFunction;
+                config.EnableUnicodeAwareStringOperations = options.EnableUnicodeAwareStringOperations;
             });
 
         }
@@ -48,6 +49,10 @@ namespace OfficeOpenXml.FormulaParsing
             QuadTree<ulong> qr;
             foreach (var address in addresses)
             {
+                if(address.ExternalReferenceIx > 0)
+                {
+                    return;
+                }
                 var ix = address.WorksheetIx; ;
                 if (FormulaRangeReferences.TryGetValue(ix, out qr) == false)
                 {

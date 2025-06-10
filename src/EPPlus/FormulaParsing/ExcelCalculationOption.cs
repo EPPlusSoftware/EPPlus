@@ -106,6 +106,14 @@ namespace OfficeOpenXml.FormulaParsing
         {
             get; 
             set; 
-        } = false; 
+        } = false;
+
+        /// <summary>
+        /// Enables Unicode-aware string operations, ensuring correct handling of surrogate pairs for comparisons, substrings, and sorting within the library.
+        /// </summary>
+        public bool EnableUnicodeAwareStringOperations
+        {
+            get; set;
+        } = false;
     }
 }

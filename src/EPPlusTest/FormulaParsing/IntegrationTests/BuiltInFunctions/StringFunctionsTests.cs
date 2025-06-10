@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
  * You may amend and distribute as you like, but don't remove this header!
  *
  * Required Notice: Copyright (C) EPPlus Software AB. 
@@ -100,6 +100,24 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         {
             var result = _parser.Parse("RIGHT(\"abacd\", 2)");
             Assert.AreEqual("cd", result);
+        }
+
+        [TestMethod]
+        public void RightShouldReturnSubstringFromRight_WithUnicodeFlagSet()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Formula = "RIGHT(\"abacd\", 2)";
+            ws.Cells["A2"].Formula = "RIGHT(\"abacd🔼\", 2)";
+            p.Workbook.Calculate(new ExcelCalculationOption
+            {
+                PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel,
+                AllowCircularReferences = true,
+                EnableUnicodeAwareStringOperations = true,
+            });
+
+            Assert.AreEqual("cd", ws.Cells["A1"].Value);
+            Assert.AreEqual("d🔼", ws.Cells["A2"].Value);
         }
 
         [TestMethod]
