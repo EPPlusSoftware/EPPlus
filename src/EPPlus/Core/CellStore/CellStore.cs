@@ -1590,7 +1590,7 @@ namespace OfficeOpenXml.Core.CellStore
                         }
                         else
                         {
-                            return GetPrevCell(ref colPos, ref row, startRow, startColPos, endColPos);
+                            return GetPrevCell(ref row, ref colPos, startRow, startColPos, endColPos);
                         }
                     }
                 }
