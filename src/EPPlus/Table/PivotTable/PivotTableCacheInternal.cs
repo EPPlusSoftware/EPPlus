@@ -12,6 +12,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.ConditionalFormatting;
 using System.Xml.XPath;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Table.PivotTable
 {

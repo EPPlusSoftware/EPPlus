@@ -190,6 +190,16 @@ namespace OfficeOpenXml.Drawing
                 pd.Hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id) { RefCount = 1 });
             }
             container.ImageHash = ii.Hash;
+            using (var picMs = new MemoryStream(iby))
+            {
+                if (pd.Package.Settings.ImageSettings.GetImageBounds(picMs, type.Value, out double width, out double height, out double horizontalResolution, out double verticalResolution))
+                {
+                    image.Bounds.Width = width;
+                    image.Bounds.Height = height;
+                    image.Bounds.HorizontalResolution = horizontalResolution;
+                    image.Bounds.VerticalResolution = verticalResolution;
+                }
+            }
             return image;
         }
 

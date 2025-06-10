@@ -119,16 +119,7 @@ namespace OfficeOpenXml.Drawing
                     ContentType = Part.ContentType;
 
                     Image = PictureStore.LoadAndAddImageFromContainer(container, Part);
-                    using (var picMs = new MemoryStream(iby))
-                    {
-                        if (drawings._package.Settings.ImageSettings.GetImageBounds(picMs, type.Value, out double width, out double height, out double horizontalResolution, out double verticalResolution))
-                        {
-                            Image.Bounds.Width = width;
-                            Image.Bounds.Height = height;
-                            Image.Bounds.HorizontalResolution = horizontalResolution;
-                            Image.Bounds.VerticalResolution = verticalResolution;
-                        }
-                    }
+                   
                 }
 
                 var linkAttr = picNode.Attributes["link", ExcelPackage.schemaRelationships];
