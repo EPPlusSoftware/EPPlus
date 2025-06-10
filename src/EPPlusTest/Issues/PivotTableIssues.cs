@@ -8,6 +8,7 @@ using OfficeOpenXml.Table.PivotTable;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Data;
 
 namespace EPPlusTest.Issues
 {
@@ -381,6 +382,11 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(p);
         }
+        public class Shown
+        {
+            public decimal? Amount { get; set; }
+            public DateTime? Date { get; set; }
+        }
 
         [TestMethod]
         public void i820()
@@ -424,10 +430,32 @@ namespace EPPlusTest.Issues
             //We want the data fields to appear in columns
             pt.DataOnRows = false;
         }
-    }
-    public class Shown
-    {
-        public decimal? Amount { get; set; }
-        public DateTime? Date { get; set; }
+        [TestMethod]
+        public void s877()
+        {
+            using (var package = OpenTemplatePackage("s877.xlsx"))
+            {
+                var workbook = package.Workbook;
+
+                var table = new DataTable();
+                table.Columns.Add("id", typeof(int));
+                table.Columns.Add("Type1", typeof(string));
+                table.Columns.Add("Type2", typeof(string));
+
+                table.Rows.Add(4, "c", "z");
+                table.Rows.Add(5, "c", "z");
+                table.Rows.Add(6, "b", "t");
+                table.Rows.Add(7, "b", "t");
+
+                var worksheet = workbook.Worksheets["Sheet1"];
+                worksheet.Cells["A5"].LoadFromDataTable(table);
+
+                SaveAndCleanup(package, false);
+
+                //Commenting out this second save results in the expected output
+                SaveWorkbook("s877-2.xlsx", package);
+            }
+        }
+
     }
 }
