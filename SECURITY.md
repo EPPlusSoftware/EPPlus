@@ -1,10 +1,10 @@
 # Security Policy
 
-_Last updated: 2024-08-14_
+_Last updated: 2025-06-10_
 
 ## Supported Versions
 
-EPPlus 5, 6 and 7 are automatically scanned for vulnerabilities and static code analysis is performed as part of the CI. 
+EPPlus 6, 7 and 8 are automatically scanned for vulnerabilities and static code analysis is performed as part of the CI. 
 
 | Version | Supported          | Comment            | Deprecation date |
 | ------- | ------------------ | ------------------ |----|
