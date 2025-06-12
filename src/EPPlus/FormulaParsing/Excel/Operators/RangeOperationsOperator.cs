@@ -35,6 +35,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 case Operators.Multiply:
                     return context.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel ? RoundingHelper.GetSignificantFigures(l * r, 15) : l * r;
                 case Operators.Divide:
+                    var divRes = l / r;
+                    if(double.IsInfinity(divRes))
+                    {
+                        return ExcelErrorValue.Create(eErrorType.Div0);
+                    }
                     return context.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel ? RoundingHelper.GetSignificantFigures(l / r, 15) : l / r;
                 case Operators.LessThan:
                     return l < r;
