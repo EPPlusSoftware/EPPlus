@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.Core.Worksheet;
@@ -31,7 +32,7 @@ using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Drawing
 {
-    enum PathDrawingType
+    public enum PathDrawingType
     {
         MoveTo,
         LineTo,
@@ -39,7 +40,10 @@ namespace OfficeOpenXml.Drawing
         CubicBezTo,
         Close
     }
-    enum PathFillMode
+    /// <summary>
+    /// How a shape path is filled.
+    /// </summary>
+    public enum PathFillMode
     {
         /// <summary>
         /// The corresponding path should have a normally shaded color applied to it’s fill
@@ -68,15 +72,34 @@ namespace OfficeOpenXml.Drawing
     }
     internal struct DrawCoordinate
     {
-        public DrawCoordinate(int x, int y)
+        public DrawCoordinate(object x, object y)
         {
-            X = x;
-            Y = y;
+            if(x is long xi)
+            {
+                x = xi;
+            }
+            else
+            {
+                XName = x.ToString();
+                X = null;
+            }
+            if (y is long yi)
+            {
+                y = yi;
+            }
+            else
+            {
+                YName = y.ToString();
+                y = null;
+            }
+
         }
-        public int X { get; set; }
-        public int Y { get; set; }
+        public long? X { get; set; }
+        public long? Y { get; set; }
+        public string XName { get; set; }
+        public string YName { get; set; }
     }
-    internal abstract class PathsBase
+    public abstract class PathsBase
     {
         public abstract PathDrawingType Type { get;  }
     }
@@ -88,10 +111,36 @@ namespace OfficeOpenXml.Drawing
             {
                 if (cn is XmlElement ce && ce.LocalName=="pt")
                 {
-                    Coordinates.Add(new DrawCoordinate(int.Parse(ce.GetAttribute("x")), int.Parse(ce.GetAttribute("y"))));
+                    Coordinates.Add(new DrawCoordinate(GetNameOrNumber(ce.GetAttribute("x")), GetNameOrNumber(ce.GetAttribute("y"))));
                 }
             }
         }
+
+        private object GetNameOrNumber(string s)
+        {
+            if(long.TryParse(s, out var l))
+            {
+                return l;
+            }
+            return s;
+        }
+
+        protected PathWithCoordinates(XmlReader xr)
+        {
+            var name = xr.LocalName;
+            while(xr.Read())
+            {
+                if (xr.LocalName == "pt" && xr.NodeType == XmlNodeType.Element)
+                {
+                    Coordinates.Add(new DrawCoordinate(GetNameOrNumber(xr.GetAttribute("x")), GetNameOrNumber(xr.GetAttribute("y"))));
+                }
+                else if(xr.IsEndElementWithName(name))
+                {
+                    break;
+                }
+            }
+        }
+
         public List<DrawCoordinate> Coordinates { get; set; } = new List<DrawCoordinate>();
     }
     internal class MoveTo : PathWithCoordinates
@@ -99,11 +148,19 @@ namespace OfficeOpenXml.Drawing
         public MoveTo(XmlElement e) : base(e)
         {
         }
+        public MoveTo(XmlReader xr) : base(xr)
+        {
+        }
         public override PathDrawingType Type => PathDrawingType.MoveTo;
         public DrawCoordinate Coordinate { get; set; }
     }
     internal class LineTo : PathWithCoordinates
     {
+        public LineTo(XmlReader xr) : base(xr)
+        {
+
+        }
+
         public LineTo(XmlElement e):base(e)
         {
 
@@ -121,17 +178,23 @@ namespace OfficeOpenXml.Drawing
     }
     internal class QuadBezerTo : PathWithCoordinates
     {
+        public QuadBezerTo(XmlReader xr) : base(xr)
+        {
+
+        }
         public QuadBezerTo(XmlElement e) : base(e)
         {
             
         }
         public override PathDrawingType Type => PathDrawingType.Close;
-        public DrawCoordinate Coordinate1 { get; set; }
-        public DrawCoordinate Coordinate2 { get; set; }
     }
 
     internal class CubicBezerTo : PathWithCoordinates
     {
+        public CubicBezerTo(XmlReader xr) : base(xr)
+        {
+
+        }
         public CubicBezerTo(XmlElement e) : base(e)
         {
 
@@ -140,36 +203,141 @@ namespace OfficeOpenXml.Drawing
     }
     internal class ArcTo : PathsBase
     {
+        public ArcTo(XmlReader xr)
+        {
+            if (long.TryParse(xr.GetAttribute("hR"), out var hrv))
+            {
+                HeightRadius = hrv;
+            }
+            else
+            {
+                HeightRadiusName = xr.GetAttribute("hR");
+            }
+
+            if (long.TryParse(xr.GetAttribute("wR"), out var wrv))
+            {
+                WidthRadius = wrv;
+            }
+            else
+            {
+                WidthRadiusName = xr.GetAttribute("wR");
+            }
+
+            if (long.TryParse(xr.GetAttribute("swAng"), out var swAng))
+            {
+                SwingAngle = swAng;
+            }
+            else
+            {
+                SwingAngleName = xr.GetAttribute("swAng");
+            }
+
+            if (long.TryParse(xr.GetAttribute("stAng"), out var stAng))
+            {
+                StartAngle = stAng;
+            }
+            else
+            {
+                StartAngleName = xr.GetAttribute("stAng");
+            }
+        }
         public ArcTo(XmlElement e)
         {
-            HeightRadius = int.Parse(e.GetAttribute("hR"));
-            WidthRadius = int.Parse(e.GetAttribute("wR"));
-            SwingAngle = int.Parse(e.GetAttribute("swAng"));
-            StartAngle = int.Parse(e.GetAttribute("stAng"));
+            if(long.TryParse(e.GetAttribute("hR"), out var hrv))
+            {
+                HeightRadius = hrv;
+            }
+            else
+            {
+                HeightRadiusName = e.GetAttribute("hR");
+            }
+
+            if (long.TryParse(e.GetAttribute("wR"), out var wrv))
+            {
+                WidthRadius = wrv;
+            }
+            else
+            {
+                WidthRadiusName = e.GetAttribute("wR");
+            }
+
+            if (long.TryParse(e.GetAttribute("swAng"), out var swAng))
+            {
+                SwingAngle = swAng;
+            }
+            else
+            {
+                SwingAngleName = e.GetAttribute("swAng");
+            }
+
+            if (long.TryParse(e.GetAttribute("stAng"), out var stAng))
+            {
+                StartAngle = stAng;
+            }
+            else
+            {
+                StartAngleName = e.GetAttribute("stAng");
+            }
         }
         public override PathDrawingType Type => PathDrawingType.ArcTo;
-        public int HeightRadius { get; set; }
-        public int StartAngle { get; set; }
-        public int SwingAngle { get; set; }
-        public int WidthRadius { get; set; }
+        public long? HeightRadius { get; set; }
+        public long? StartAngle { get; set; }
+        public long? SwingAngle { get; set; }
+        public long? WidthRadius { get; set; }
+        public string HeightRadiusName { get; set; }
+        public string StartAngleName { get; set; }
+        public string SwingAngleName { get; set; }
+        public string WidthRadiusName { get; set; }
     }
     internal class DrawingPath
     {
-        public DrawingPath()
+        public DrawingPath(XmlReader xr)
         {
-                
+            Width = ConvertUtil.GetValueLongNull(xr.GetAttribute("w"));
+            Height = ConvertUtil.GetValueLongNull(xr.GetAttribute("h"));
+            Fill = GetFill(xr.GetAttribute("fill"));
+            Stroke = ConvertUtil.ToBooleanString(xr.GetAttribute("stroke"), true);
+            ExtrusionOk = ConvertUtil.ToBooleanString(xr.GetAttribute("extrusionOk"), false);
+            while (xr.Read())
+            {
+                if (xr.NodeType == XmlNodeType.Element)
+                {
+                    switch (xr.LocalName)
+                    {
+                        case "moveTo":
+                            Paths.Add(new MoveTo(xr));
+                            break;
+                        case "lnTo":
+                            Paths.Add(new LineTo(xr));
+                            break;
+                        case "cubicBezTo":
+                            Paths.Add(new CubicBezerTo(xr));
+                            break;
+                        case "quadBezTo":
+                            Paths.Add(new CubicBezerTo(xr));
+                            break;
+                        case "arcTo":
+                            Paths.Add(new ArcTo(xr));
+                            break;
+                        case "close":
+                            Paths.Add(new ClosePath());
+                            break;
+                    }
+                }
+                else if(xr.LocalName =="path" && xr.NodeType == XmlNodeType.EndElement)
+                {
+                    break;
+                }
+            }
         }
+
         public DrawingPath(XmlElement topNode, XmlNamespaceManager nsm)
         {
             Width = int.Parse(topNode.GetAttribute("w"));
             Height = int.Parse(topNode.GetAttribute("h"));
-            var s = topNode.GetAttribute("fill");
-            if (string.IsNullOrEmpty(s) == false)
-            {
-                Fill = (PathFillMode)Enum.Parse(typeof(PathFillMode), s, true);
-            }
+            Fill = GetFill(topNode.GetAttribute("fill"));
             Stroke = ConvertUtil.ToBooleanString(topNode.GetAttribute("stroke"), true);
-            ExtrusionOk = ConvertUtil.ToBooleanString(topNode.GetAttribute("extrusionOk"), true); 
+            ExtrusionOk = ConvertUtil.ToBooleanString(topNode.GetAttribute("extrusionOk"), true);
             foreach (var child in topNode.ChildNodes)
             {
                 if (child is XmlElement e)
@@ -180,7 +348,7 @@ namespace OfficeOpenXml.Drawing
                             Paths.Add(new MoveTo(e));
                             break;
                         case "lnTo":
-                            Paths.Add(new LineTo(e)) ;
+                            Paths.Add(new LineTo(e));
                             break;
                         case "cubicBezTo":
                             Paths.Add(new CubicBezerTo(e));
@@ -198,11 +366,21 @@ namespace OfficeOpenXml.Drawing
                 }
             }
         }
+
+        private PathFillMode GetFill(string s)
+        {
+            if (string.IsNullOrEmpty(s) == false)
+            {
+                return (PathFillMode)Enum.Parse(typeof(PathFillMode), s, true);
+            }
+            return PathFillMode.Norm;
+        }
+
         public bool Stroke { get; set; }
         public bool ExtrusionOk { get; set; }        
         public PathFillMode Fill { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public long? Width { get; set; }
+        public long? Height { get; set; }
         public List<PathsBase> Paths { get; set; } = new List<PathsBase>();
     }
     /// <summary>

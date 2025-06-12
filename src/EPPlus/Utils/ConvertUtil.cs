@@ -196,7 +196,16 @@ namespace OfficeOpenXml.Utils
             result = 0;
             return false;
         }
-
+        internal static int? GetValueIntNull(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return null;
+            return int.Parse(s, CultureInfo.InvariantCulture);
+        }
+        internal static long? GetValueLongNull(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return null;
+            return long.Parse(s, CultureInfo.InvariantCulture);
+        }
         /// <summary>
         /// Tries to parse a <see cref="DateTime"/> from the specified <paramref name="candidateString"/> which is expected to be a string value.
         /// </summary>

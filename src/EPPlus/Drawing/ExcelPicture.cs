@@ -20,16 +20,7 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
 using System.Linq;
 using System.Globalization;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using System.ComponentModel;
-using System.Xml.Linq;
 
-
-#if NETFULL
-using System.Drawing.Imaging;
-using System.Xml.Linq;
-
-#endif
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
