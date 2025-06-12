@@ -1,4 +1,6 @@
-﻿namespace FontLab1.Tables.Os2
+﻿using System;
+
+namespace FontLab1.Tables.Os2
 {
     internal class Os2Table
     {
@@ -118,6 +120,23 @@
         /// See https://docs.microsoft.com/en-us/typography/opentype/spec/os2#fss
         /// </summary>
         public ushort fsSelection { get; set; }
+        [Flags]
+        public enum FsSelectionFlags : ushort
+        {
+            Italic = 1 << 0,            // Bit 0
+            Underscore = 1 << 1,        // Bit 1
+            Negative = 1 << 2,          // Bit 2
+            Outlined = 1 << 3,          // Bit 3
+            Strikeout = 1 << 4,         // Bit 4
+            Bold = 1 << 5,              // Bit 5
+            Regular = 1 << 6,           // Bit 6
+            UseTypoMetrics = 1 << 7,    // Bit 7
+            WWS = 1 << 8,               // Bit 8
+            Oblique = 1 << 9            // Bit 9
+                                        // Bits 10-15 are reserved
+        }
+        public FsSelectionFlags SelectionFlags => (FsSelectionFlags)fsSelection;
+
 
         /// <summary>
         /// The minimum Unicode index (character code) in this font, according to the 'cmap' subtable for 

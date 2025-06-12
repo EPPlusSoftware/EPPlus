@@ -159,7 +159,7 @@ namespace OfficeOpenXml.PDF
             List<string> RowPages = new List<string>();
             List<string> ColPages = new List<string>();
             List<ExcelRangeBase> RangePages = new List<ExcelRangeBase>();
-            var y = bounds.Height;
+            var y = 0d;
             var x = 0d;
             var rowStart = 1;
             var colStart = 1;
@@ -173,13 +173,13 @@ namespace OfficeOpenXml.PDF
                 var nextRow = i + 1;
                 var rowHeight = _ws.Row(i).Hidden ? 0d : _ws.Row(i).Height;
                 var nextRowHeight = _ws.Row(i).Hidden ? 0d : _ws.Row(nextRow).Height;
-                var currentHeight = y - rowHeight;
-                var nextHeight = currentHeight - nextRowHeight;
-                if (nextHeight <= 0)
+                var currentHeight = y + rowHeight;
+                var nextHeight = currentHeight + nextRowHeight;
+                if (nextHeight >= bounds.Height)
                 {
                     RowPages.Add(rowStart + ":" + i);
                     rowStart = nextRow;
-                    y = bounds.Height;
+                    y = 0;
                 }
                 else
                 {

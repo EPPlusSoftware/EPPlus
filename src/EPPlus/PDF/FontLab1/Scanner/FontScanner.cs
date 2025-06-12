@@ -56,17 +56,23 @@ namespace FontLab1.Scanner
                     {
                         foreach(var subFont in sf.SubFonts)
                         {
-                            if (!string.IsNullOrEmpty(subFont.FontFamilyName) && subFont.FontFamilyName.ToLower() == fontFamily.ToLower() && subFont.FontSubFamilyName.ToLower() == subFamily.ToLower())
+                            if (!string.IsNullOrEmpty(subFont.FontFamilyName) && subFont.FontFamilyName.ToLower() == fontFamily.ToLower())
                             {
-                                return sf;
+                                if ((subFamily.ToLower() == "regular" || subFamily.ToLower() == "normal") && (sf.FontSubFamilyName.ToLower() == "regular" || sf.FontSubFamilyName.ToLower() == "normal"))
+                                {
+                                    return sf;
+                                }
                             }
                         }
                     }
                     else
                     {
-                        if (!string.IsNullOrEmpty(sf.FontFamilyName) && sf.FontFamilyName.ToLower() == fontFamily.ToLower() && sf.FontSubFamilyName.ToLower() == subFamily.ToLower())
+                        if (!string.IsNullOrEmpty(sf.FontFamilyName) && sf.FontFamilyName.ToLower() == fontFamily.ToLower())
                         {
-                            return sf;
+                            if ((subFamily.ToLower() == "regular" || subFamily.ToLower() == "normal") && (sf.FontSubFamilyName.ToLower() == "regular" || sf.FontSubFamilyName.ToLower() == "normal"))
+                            {
+                                return sf;
+                            }
                         }
                     }
                 }
