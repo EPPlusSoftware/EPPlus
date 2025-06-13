@@ -54,6 +54,7 @@ namespace OfficeOpenXml.Utils
                 case TypeCode.Empty:
                 case TypeCode.Object:
                 case TypeCode.Boolean:
+                case TypeCode.DBNull:
                     return obj;
                 case TypeCode.String:
                 case TypeCode.Char:
