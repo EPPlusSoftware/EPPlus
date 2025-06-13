@@ -114,25 +114,28 @@ namespace EPPlusTest.PDF.FontLabs1
             {
                 if (font.HheaTable.lineGap == 0)
                 {
-                    calcType = 3;
-                    double max = font.HheaTable.ascender;
-                    double min = font.HheaTable.descender;
-                    if (font.HeadTable.Ymax > max)
+                    if ((font.Os2Table.sTypoLineGap == 0))
                     {
-                        calcType = 5;
-                        max = font.HeadTable.Ymax;
+                        calcType = 3;
+                        double max = font.HheaTable.ascender;
+                        double min = font.HheaTable.descender;
+                        if (font.HeadTable.Ymax > max)
+                        {
+                            calcType = 5;
+                            max = font.HeadTable.Ymax;
+                        }
+                        if (font.HeadTable.Ymin < min)
+                        {
+                            calcType = calcType == 5 ? 10 : 7;
+                            min = font.HeadTable.Ymin;
+                        }
+                        lineHeight = max - min + font.Os2Table.sTypoLineGap;
                     }
-                    if (font.HeadTable.Ymin < min)
-                    {
-                        calcType = calcType == 5 ? 10 : 7;
-                        min = font.HeadTable.Ymin;
-                    }
-                    lineHeight = max - min;
                 }
                 else
                 {
                     calcType = 1;
-                    lineHeight = font.HheaTable.ascender - font.HheaTable.descender + font.Os2Table.sTypoLineGap;
+                    lineHeight = font.HheaTable.ascender - font.HheaTable.descender + font.HheaTable.lineGap;
                 }
             }
 
@@ -145,7 +148,7 @@ namespace EPPlusTest.PDF.FontLabs1
             var lineHeightPt = lineHeight * (size / (double)font.HeadTable.UnitsPerEm);
 
 
-            var cellHeight = (double)lineHeightPt + (size/10d);
+            var cellHeight = (double)lineHeightPt + 1d;
 
             var rows = 734d / cellHeight;
             return new double[5] { calcType , rows, lineHeight, lineHeightPt, cellHeight };
