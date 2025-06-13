@@ -840,5 +840,17 @@ namespace EPPlusTest.Issues
 
             sheet.Cells["C3"].AddComment("Test"); // NullReferenceException 
         }
+        [TestMethod]
+        public void DimensionByValueIssue()
+        {
+            using (var p = OpenTemplatePackage("DimensionByValueError.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Technical"];
+                var dv = ws.DimensionByValue;
+                Assert.AreEqual("C3", dv.Start.Address);
+                Assert.AreEqual("J60", dv.End.Address);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
