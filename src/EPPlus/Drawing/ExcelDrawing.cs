@@ -38,6 +38,7 @@ namespace OfficeOpenXml.Drawing
         LineTo,
         ArcTo,
         CubicBezTo,
+        QuadBezerTo,
         Close
     }
     /// <summary>
@@ -70,8 +71,16 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         None
     }
-    internal struct DrawCoordinate
+    internal class DrawCoordinate
     {
+        public DrawCoordinate(DrawCoordinate c) 
+        {
+            X = c.X;
+            Y = c.Y;
+            XName = c.XName;
+            YName = c.YName;
+        }
+
         public DrawCoordinate(object x, object y)
         {
             if(x is long xi)
@@ -102,6 +111,8 @@ namespace OfficeOpenXml.Drawing
     public abstract class PathsBase
     {
         public abstract PathDrawingType Type { get;  }
+
+        internal abstract PathsBase Clone();
     }
     internal abstract class PathWithCoordinates : PathsBase
     {
@@ -141,10 +152,21 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
+        protected PathWithCoordinates(PathWithCoordinates clone) 
+        {
+            foreach(var c in clone.Coordinates)
+            {
+                Coordinates.Add(new DrawCoordinate(c));
+            }
+        }
         public List<DrawCoordinate> Coordinates { get; set; } = new List<DrawCoordinate>();
     }
     internal class MoveTo : PathWithCoordinates
     {
+        public MoveTo(MoveTo clone) : base(clone)
+        {
+
+        }
         public MoveTo(XmlElement e) : base(e)
         {
         }
@@ -153,9 +175,18 @@ namespace OfficeOpenXml.Drawing
         }
         public override PathDrawingType Type => PathDrawingType.MoveTo;
         public DrawCoordinate Coordinate { get; set; }
+
+        internal override PathsBase Clone()
+        {
+            return new MoveTo(this);
+        }
     }
     internal class LineTo : PathWithCoordinates
     {
+        public LineTo(LineTo clone) : base(clone)
+        {
+
+        }
         public LineTo(XmlReader xr) : base(xr)
         {
 
@@ -167,6 +198,10 @@ namespace OfficeOpenXml.Drawing
         }
         public override PathDrawingType Type => PathDrawingType.LineTo;
         public DrawCoordinate Coordinate { get; set; }
+        internal override PathsBase Clone()
+        {
+            return new LineTo(this);
+        }
     }
     internal class ClosePath : PathsBase
     {
@@ -175,9 +210,17 @@ namespace OfficeOpenXml.Drawing
             
         }
         public override PathDrawingType Type => PathDrawingType.Close;
+        internal override PathsBase Clone()
+        {
+            return new ClosePath();
+        }
     }
     internal class QuadBezerTo : PathWithCoordinates
     {
+        public QuadBezerTo(QuadBezerTo clone) : base(clone)
+        {
+
+        }
         public QuadBezerTo(XmlReader xr) : base(xr)
         {
 
@@ -186,11 +229,20 @@ namespace OfficeOpenXml.Drawing
         {
             
         }
-        public override PathDrawingType Type => PathDrawingType.Close;
+        public override PathDrawingType Type => PathDrawingType.QuadBezerTo;
+        internal override PathsBase Clone()
+        {
+            return new QuadBezerTo(this);
+        }
+
     }
 
     internal class CubicBezerTo : PathWithCoordinates
     {
+        public CubicBezerTo(CubicBezerTo clone) : base(clone)
+        {
+            
+        }
         public CubicBezerTo(XmlReader xr) : base(xr)
         {
 
@@ -199,8 +251,14 @@ namespace OfficeOpenXml.Drawing
         {
 
         }
+
         public override PathDrawingType Type => PathDrawingType.CubicBezTo;
+        internal override PathsBase Clone()
+        {
+            return new CubicBezerTo(this);
+        }
     }
+
     internal class ArcTo : PathsBase
     {
         public ArcTo(XmlReader xr)
@@ -288,9 +346,39 @@ namespace OfficeOpenXml.Drawing
         public string StartAngleName { get; set; }
         public string SwingAngleName { get; set; }
         public string WidthRadiusName { get; set; }
+        private ArcTo()
+        {
+            
+        }
+        internal override PathsBase Clone()
+        {
+            return new ArcTo()
+            {
+                HeightRadius = HeightRadius,
+                StartAngle = StartAngle,
+                SwingAngle = SwingAngle,
+                WidthRadius = WidthRadius,
+                HeightRadiusName = HeightRadiusName,
+                StartAngleName = StartAngleName,
+                SwingAngleName = SwingAngleName,
+                WidthRadiusName = WidthRadiusName
+            };
+        }
     }
     internal class DrawingPath
     {
+        public DrawingPath(DrawingPath clone)
+        {
+            Width = clone.Width;
+            Height = clone.Height;
+            Fill = clone.Fill;
+            Stroke = clone.Stroke;
+            ExtrusionOk = clone.ExtrusionOk;
+            foreach(var p in clone.Paths)
+            {
+                Paths.Add(p.Clone());
+            }
+        }
         public DrawingPath(XmlReader xr)
         {
             Width = ConvertUtil.GetValueLongNull(xr.GetAttribute("w"));
@@ -375,6 +463,8 @@ namespace OfficeOpenXml.Drawing
             }
             return PathFillMode.Norm;
         }
+
+        internal DrawingPath Clone() => new DrawingPath(this);
 
         public bool Stroke { get; set; }
         public bool ExtrusionOk { get; set; }        
