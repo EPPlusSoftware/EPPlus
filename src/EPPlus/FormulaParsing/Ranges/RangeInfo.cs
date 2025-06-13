@@ -68,7 +68,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public RangeInfo(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx, int extRef = -1)
         {
             var address = new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
-            address._ws = ws.Name;
+            address._ws = ws?.Name;
             SetAddress(ws, address, ctx);
             _addresses[0].ExternalReferenceIx = extRef;
         }
