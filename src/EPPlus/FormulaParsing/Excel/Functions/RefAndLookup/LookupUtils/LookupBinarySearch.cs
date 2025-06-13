@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         private static int SearchAsc(object s, IRangeInfo lookupRange, IComparer<object> comparer, LookupRangeDirection? direction = null)
         {
             //Only look at relevant values. We use this to omit null values above and below actual values
-            var valueRange = ValueFinder.RangeByValue(lookupRange.Worksheet, lookupRange.Address);
+            var valueRange = ValueFinder.RangeByValue(lookupRange);
 
             var nRows = valueRange.ToRow - valueRange.FromRow + 1;
             var nCols = valueRange.ToCol - valueRange.FromCol + 1;

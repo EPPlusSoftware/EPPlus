@@ -5146,6 +5146,19 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void s514_FullCols()
+        {
+            using (var package = OpenTemplatePackage("ExternalVLookupFullCols.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                ws.Calculate();
+                Assert.AreEqual(1d, ws.Cells["A1"].Value);
+                Assert.AreEqual(2d, ws.Cells["A2"].Value);
+                Assert.AreEqual(3d, ws.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
         public void i519()
         {
             using (var package = OpenPackage("AutoFilterErasing.xlsx", true))
