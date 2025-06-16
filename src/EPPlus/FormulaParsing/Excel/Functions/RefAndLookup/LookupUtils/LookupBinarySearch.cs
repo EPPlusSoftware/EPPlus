@@ -25,8 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             //Only look at relevant values. We use this to omit null values above and below actual values
             //var valueRange = ValueFinder.RangeByValue(lookupRange.Worksheet, lookupRange.Address);
 
-            var searchRange = LookupRangeReader.GetLookupRange(lookupRange, out LookupRangeDirection dir);
-            direction = dir;
+            var searchRange = LookupRangeReader.GetLookupRange(lookupRange, ref direction);
 
             var nRows = direction == LookupRangeDirection.Vertical ? searchRange.Count : 1;
             var nCols = direction == LookupRangeDirection.Horizontal ? searchRange.Count : 1;
@@ -35,12 +34,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             //var nCols = lookupRange.Address.ToCol - lookupRange.Address.FromCol + 1;
 
             if (nRows == 0 && nCols == 0) return -1;
-            int low = 0, high = nCols > nRows ? nCols : nRows, mid;
+            int low = 0, high = nCols > nRows ? nCols - 1 : nRows - 1, mid;
 
             if (direction.HasValue)
             {
                 high = direction.Value == LookupRangeDirection.Vertical ? nRows : nCols;
             }
+
+            high = high - 1;
 
             while (low <= high)
             {
@@ -89,9 +90,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                 //else
                 //    return lookupRange.Address.FromRow - 1 + mid;
             }
-            var res = searchRange.Last().Index + 1;
-            return ~res;
-            //return ~low;
+            //var res = lFound ? searchRange[low].Index : low;
+            //return ~res;
+            return ~low;
         }
 
         private static int SearchDesc(object s, IRangeInfo lookupRange, IComparer<object> comparer)

@@ -16,16 +16,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             public int Index { get; set; }
         }
 
-        public static List<LookupRangeCell> GetLookupRange(IRangeInfo range, out LookupRangeDirection direction)
+        public static List<LookupRangeCell> GetLookupRange(IRangeInfo range, ref LookupRangeDirection? direction)
         {
             var result = new List<LookupRangeCell>();
-            if(range.Size.NumberOfRows > range.Size.NumberOfCols)
+            if(!direction.HasValue)
             {
-                direction = LookupRangeDirection.Vertical;
+                direction = range.Size.NumberOfRows >= range.Size.NumberOfCols ? LookupRangeDirection.Vertical : LookupRangeDirection.Horizontal;
+            }
+            if(direction == LookupRangeDirection.Vertical)
+            {
+                
                 for(var row = 0; row < range.Size.NumberOfRows; row++)
                 {
                     var val = range.GetOffset(row, 0);
-                    if (val is ExcelErrorValue) continue;
+                    if (val is ExcelErrorValue || val == null) continue;
                     result.Add(new LookupRangeCell { Value = val, Index = row });
                 }
             }
@@ -35,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                 for(var col = 0; col < range.Size.NumberOfCols; col++)
                 {
                     var val = range.GetOffset(0, col);
-                    if (val is ExcelErrorValue) continue;
+                    if (val is ExcelErrorValue || val == null) continue;
                     result.Add(new LookupRangeCell { Value = val, Index = col });
                 }
             }
