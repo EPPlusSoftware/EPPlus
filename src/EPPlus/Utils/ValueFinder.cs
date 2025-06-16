@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 
 
 namespace OfficeOpenXml.Utils
@@ -44,7 +43,7 @@ namespace OfficeOpenXml.Utils
             var valueStart = values.GetValue(fromRow, fromCol);
             if (valueStart == null)
             {
-                while (values.NextCell(ref fromRow, ref fromCol, address.FromRow, address.FromCol, address.ToRow, address.ToCol))
+                while (values.NextCell(ref fromRow, ref fromCol, address.FromRow, address.ToCol - address.FromCol, address.ToRow, address.ToCol))
                 {
                     if (values.GetValue(fromRow, fromCol) != null)
                     {
@@ -95,7 +94,7 @@ namespace OfficeOpenXml.Utils
             return new List<int> { toRow, toCol };
         }
 
-        internal static SimpleAddress RangeByValue(IRangeInfo rInfo)
+        internal static IRangeInfo RangeByValue(IRangeInfo rInfo)
         {
             //int fromRow = -1;
             //int fromCol = -1;
@@ -108,14 +107,27 @@ namespace OfficeOpenXml.Utils
             var sheet = rInfo.Worksheet;
             var address = rInfo.Address;
 
+            CellStore<object> csValues;
+
             var baseAddress = rInfo.Address.ToExcelAddressBase();
             if (baseAddress.IsExternal)
             {
                 var extRangeInfo = (EpplusExcelExternalRangeInfo)rInfo;
                 
                 var cellValues = extRangeInfo?._externalWs.CellValues._values;
-                fvc = FirstValueCell(rInfo.Address, cellValues);
-                lvc = LastValueCell(rInfo.Address, cellValues);
+                var rAddress = rInfo.Address;
+
+                if (extRangeInfo._externalWs != null)
+                {
+                    var dimension = extRangeInfo._externalWs.GetDimension();
+                    rAddress.ToRow = dimension._toRow < address.ToRow ? dimension._toRow : address.ToRow;
+                    rAddress.ToCol = dimension._toCol < address.ToCol ? dimension._toCol : address.ToCol;
+                }
+
+                fvc = FirstValueCell(rAddress, cellValues);
+                lvc = LastValueCell(rAddress, cellValues);
+
+                csValues = cellValues;
                 //rInfo.GetOffset(rInfo.Address.FromRow, rInfo.Address.FromCol);
             }
             else
@@ -128,6 +140,9 @@ namespace OfficeOpenXml.Utils
 
                 fvc = FirstValueCell(sheet, rInfo.Address);
                 lvc = LastValueCell(sheet, rInfo.Address);
+
+                CellStore<object> cellStore = (CellStore<object>)Convert.ChangeType(sheet._values, typeof(CellStore<object>));
+                csValues = cellStore;
             }
 
             //var baseValueAddresses = new List<ExcelAddressBase>();
@@ -187,9 +202,9 @@ namespace OfficeOpenXml.Utils
             else
             {
                 int r = fromRow, c = address.FromCol;
-                while (sheet._values.NextCellByColumn(ref r, ref c, fromRow, toRow, address.ToCol - address.FromCol))
+                while (csValues.NextCellByColumn(ref r, ref c, fromRow, toRow, address.ToCol - address.FromCol))
                 {
-                    if (sheet._values.GetValue(r, c)._value != null)
+                    if (csValues.GetValue(r, c) != null)
                     {
                         break;
                     }
@@ -205,9 +220,9 @@ namespace OfficeOpenXml.Utils
             else
             {
                 int r = toRow, c = address.ToCol;
-                while (sheet._values.PrevCellByColumn(ref r, ref c, fromRow, toRow, address.ToCol - address.FromCol))
+                while (csValues.PrevCellByColumn(ref r, ref c, fromRow, toRow, address.ToCol - address.FromCol))
                 {
-                    if (sheet._values.GetValue(r, c)._value != null)
+                    if (csValues.GetValue(r, c) != null)
                     {
                         break;
                     }
@@ -216,8 +231,16 @@ namespace OfficeOpenXml.Utils
                 toCol = c;
             }
 
-            SimpleAddress subRange = new SimpleAddress { FromRow = Math.Min(fromRow, toRow), FromCol = Math.Min(fromCol, toCol), ToRow = Math.Max(fromRow, toRow), ToCol = Math.Max(fromCol, toCol) };
+            var offsetFromRow = Math.Min(fromRow, toRow) - rInfo.Address.FromRow;
+            var offsetFromCol = Math.Min(fromCol, toCol) - rInfo.Address.FromCol;
+            var offsetToRow =  Math.Max(fromRow, toRow) - rInfo.Address.FromRow;
+            var offsetToCol = Math.Max(fromRow, toCol) - rInfo.Address.ToCol;
+
+            var subRange = rInfo.GetOffset(offsetFromRow, offsetFromCol, offsetToRow, offsetToCol);
             return subRange;
+
+            //SimpleAddress subRange = new SimpleAddress { FromRow = Math.Min(fromRow, toRow), FromCol = Math.Min(fromCol, toCol), ToRow = Math.Max(fromRow, toRow), ToCol = Math.Max(fromCol, toCol) };
+            //return subRange;
         }
     }
 }

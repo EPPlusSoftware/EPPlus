@@ -5152,9 +5152,11 @@ namespace EPPlusTest
             {
                 var ws = package.Workbook.Worksheets[0];
                 ws.Calculate();
-                Assert.AreEqual(1d, ws.Cells["A1"].Value);
-                Assert.AreEqual(2d, ws.Cells["A2"].Value);
-                Assert.AreEqual(3d, ws.Cells["A3"].Value);
+                Assert.AreEqual(6d, ws.Cells["A1"].Value);
+                Assert.AreEqual(7d, ws.Cells["A2"].Value);
+                Assert.AreEqual(8d, ws.Cells["A3"].Value);
+                Assert.AreEqual(10d, ws.Cells["A4"].Value);
+                Assert.AreEqual(13d, ws.Cells["A5"].Value);
             }
         }
 

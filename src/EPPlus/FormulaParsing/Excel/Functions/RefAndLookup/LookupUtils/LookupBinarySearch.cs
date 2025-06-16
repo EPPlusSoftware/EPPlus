@@ -22,10 +22,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         private static int SearchAsc(object s, IRangeInfo lookupRange, IComparer<object> comparer, LookupRangeDirection? direction = null)
         {
             //Only look at relevant values. We use this to omit null values above and below actual values
-            var valueRange = ValueFinder.RangeByValue(lookupRange);
+            var valueSubRange = ValueFinder.RangeByValue(lookupRange);
 
-            var nRows = valueRange.ToRow - valueRange.FromRow + 1;
-            var nCols = valueRange.ToCol - valueRange.FromCol + 1;
+
+            //            lookupRange.GetOffset(lookupRange.Address.FromRow - valueRange.FromRow, loo)
+
+            //var nRows = valueRange.ToRow - valueRange.FromRow + 1;
+            //            var nCols = valueRange.ToCol - valueRange.FromCol + 1;
+
+            //var nRows = valueRange.ToRow - valueRange.FromRow + 1;
+            //var nCols = valueRange.ToCol - valueRange.FromCol + 1;
+
+            ////Calculate local fromRow and fromCol of subrange
+            //var fromRow = valueRange.FromRow - lookupRange.Address.FromRow;
+            //var fromCol = valueRange.FromCol - lookupRange.Address.FromCol;
+
+            var nRows = valueSubRange.Size.NumberOfRows;
+            var nCols = valueSubRange.Size.NumberOfCols;
 
             if (nRows == 0 && nCols == 0) return -1;
             int low = 0, high = nCols > nRows ? nCols : nRows, mid;
@@ -53,7 +66,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     break;
                 }
 
-                var val = lookupRange.GetValue(valueRange.FromRow + row, valueRange.FromCol + col);
+                var val = valueSubRange.GetOffset(row, col);
 
                 var result = comparer.Compare(s, val);
 
@@ -64,10 +77,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     low = mid + 1;
 
                 else
-                    return valueRange.FromRow - 1 + mid;
+                    return valueSubRange.Address.FromRow - 1 + mid;
             }
 
-            return ~low;
+            return ~(low + valueSubRange.Address.FromRow + 1);
         }
 
         private static int SearchDesc(object s, IRangeInfo lookupRange, IComparer<object> comparer)

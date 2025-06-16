@@ -12,6 +12,8 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 
 namespace OfficeOpenXml.ExternalReferences
@@ -65,6 +67,24 @@ namespace OfficeOpenXml.ExternalReferences
         public override string ToString()
         {
             return Name;
+        }
+        /// <summary>
+        /// Dimension address for the worksheet for cells with a value or a style set. 
+        /// Top left cell to Bottom right.
+        /// If the worksheet has no cells, null is returned        
+        /// </summary>
+        public ExcelAddressBase GetDimension()
+        {
+            //CheckSheetTypeAndNotDisposed();
+            int fromRow, fromCol, toRow, toCol;
+            if (CellValues._values.GetDimension(out fromRow, out fromCol, out toRow, out toCol))
+            {
+                return new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
