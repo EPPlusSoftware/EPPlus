@@ -6337,5 +6337,60 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void s880()
+        {
+            using var p = OpenTemplatePackage("Module Completion Percentage Report 2024-03-06.xlsx");
+            var ws = p.Workbook.Worksheets["Raw Data"];
+
+            ws.Cells[2, 1].Value = "123456";
+            ws.Cells[2, 2].Value = "Doe";
+            ws.Cells[2, 3].Value = "John";
+            ws.Cells[2, 4].Value = "Example Module";
+            ws.Cells[2, 5].Value = Convert.ToDateTime("1/1/2024");
+            ws.Cells[2, 6].Value = Convert.ToDateTime("1/1/2025");
+            ws.Cells[2, 7].Value = DBNull.Value;
+            ws.Cells[2, 8].Value = "Not Registered";
+            ws.Cells[2, 9].Value = "Yes";
+            //Skip 10 since it's a formula column
+            ws.Cells[2, 11].Value = "Example Division";
+            ws.Cells[2, 12].Value = "123456 - 111 Main Street";
+            ws.Cells[2, 13].Value = "123456 - Job Title";
+            ws.Cells[2, 14].Value = DBNull.Value;
+
+
+            ws.Cells[3, 1].Value = "1234567";
+            ws.Cells[3, 2].Value = "Doe";
+            ws.Cells[3, 3].Value = "Jane";
+            ws.Cells[3, 4].Value = "Example Module";
+            ws.Cells[3, 5].Value = Convert.ToDateTime("1/1/2024");
+            ws.Cells[3, 6].Value = Convert.ToDateTime("1/1/2025");
+            ws.Cells[3, 7].Value = DBNull.Value;
+            ws.Cells[3, 8].Value = "Not Registered";
+            ws.Cells[3, 9].Value = "Yes";
+            //Skip 10 since it's a formula column
+            ws.Cells[3, 11].Value = "Example Division";
+            ws.Cells[3, 12].Value = "123456 - 111 Main Street";
+            ws.Cells[3, 13].Value = "123456 - Job Title";
+            ws.Cells[3, 14].Value = "Example Department";
+
+
+            var headerRow = 1;
+            var firstDataRow = 2;
+            var totalDataRows = 2;
+            int firstRowToDelete = totalDataRows + headerRow + 1;
+            int deleteCount = ExcelPackage.MaxRows - firstRowToDelete + 1;
+            if (deleteCount > 0)
+            {
+                ws.DeleteRow(firstRowToDelete, deleteCount);
+            }
+
+
+            p.GetAsByteArray();
+
+        }
+
+
     }
 }
