@@ -62,58 +62,75 @@ namespace EPPlusTest.PDF.FontLabs1
             TtfFont CalibriLight = GenericFonts.GetFontData(pageSettings, "Calibri Light");
             TtfFont CalistoMT = GenericFonts.GetFontData(pageSettings, "Calisto MT");
             TtfFont CenturySchoolbook = GenericFonts.GetFontData(pageSettings, "Century Schoolbook");
+            TtfFont Arial = GenericFonts.GetFontData(pageSettings, "Arial");
+            TtfFont Candara = GenericFonts.GetFontData(pageSettings, "Candara");
+            TtfFont FranklinGothicBook = GenericFonts.GetFontData(pageSettings, "Franklin Gothic Book");
+            TtfFont Georgia = GenericFonts.GetFontData(pageSettings, "Georgia");
+            TtfFont TimesNewRoman = GenericFonts.GetFontData(pageSettings, "Times New Roman");
+            TtfFont Constantia = GenericFonts.GetFontData(pageSettings, "Constantia");
+            TtfFont PalatinoLinotype = GenericFonts.GetFontData(pageSettings, "Palatino Linotype");
+            TtfFont Verdana = GenericFonts.GetFontData(pageSettings, "Verdana");
 
-            //  |    Excel Data            |           HHea           |                          OS/2                                         |   Head   |
-            //  |Font             Size Rows|Ascender Descender LineGap|UseTypoMetrics winAscent WinDecent Ascender Descender LineGap CapHeight|UnitsPerEm|
-            //  |Aptos Narrow       11   48|    1923      -577       0|             1      2068       563     1923      -577       0      1346|      2048|
-            //  |Calibri            11   50|    1536      -512     452|             0      1950       550     1536      -512     452      1294|      2048|
-            //  |Trebuchet MS       11   49|    1923      -455       0|             0      1923       455     1510      -420       0      1465|      2048|
-            //  |Gill Sans MT       11   44|    1903      -472       0|             0      1903       472     1415      -471     305         0|      2048|
-            //  |Tw Cen MT          11   54|    1753      -477       0|             0      1753       477     1413      -387     391         0|      2048|
-            //  |Century Gothic     11   51|    2060      -451       0|             0      1989       451     1536      -426     229         0|      2048|
-            //  |Garamond           11   55|    1765      -539       0|             0      1765       539     1339      -539     313      1536|      2048|
-            //  |Corbel             11   50|    1523      -525     425|             0      1950       550     1523      -525     425      1338|      2048|
-            //  |Rockwell           11   55|    1937      -468       0|             0      1937       468     1419      -456     316         0|      2048|
-            //  |Impact             11   51|    2066      -432       0|             0      2066       432     1619      -229     343      1619|      2048|
-            //  |Calibri Light      11   50|    1536      -512     452|             0      1950       550     1536      -512     452      1294|      2048|
-            //  |Calisto MT         11   53|    1894      -470       0|             0      1894       470     1459      -430     302         0|      2048|
-            //  |Century Schoolbook 11   51|    2019      -443       0|             0      2019       442     1516      -399     276         0|      2048|
+            //  |      Excel Data            |           HHea           |                          OS/2                                         |             Head   |
+            //  |Font               Size Rows|Ascender Descender LineGap|UseTypoMetrics winAscent WinDecent Ascender Descender LineGap CapHeight|Ymax Ymin UnitsPerEm|
+            //  |Aptos Narrow         11   48|    1923      -577       0|             1      2068       563     1923      -577       0      1346|2068 -564       2048|
+            //  |Calibri              11   50|    1536      -512     452|             0      1950       550     1536      -512     452      1294|2102 -640       2048|
+            //  |Trebuchet MS         11   49|    1923      -455       0|             0      1923       455     1510      -420       0      1465|2017 -537       2048|
+            //  |Gill Sans MT         11   44|    1903      -472       0|             0      1903       472     1415      -471     305         0|1880 -578       2048|
+            //  |Tw Cen MT            11   54|    1753      -477       0|             0      1753       477     1413      -387     391         0|1878 -569       2048|
+            //  |Century Gothic       11   51|    2060      -451       0|             0      1989       451     1536      -426     229         0|2170 -628       2048|
+            //  |Garamond             11   55|    1765      -539       0|             0      1765       539     1339      -539     313      1536|2020 -628       2048|
+            //  |Corbel               11   50|    1523      -525     425|             0      1950       550     1523      -525     425      1338|1949 -490       2048|
+            //  |Rockwell             11   55|    1937      -468       0|             0      1937       468     1419      -456     316         0|1869 -560       2048|
+            //  |Impact               11   51|    2066      -432       0|             0      2066       432     1619      -229     343      1619|2392 -677       2048|
+            //  |Calibri Light        11   50|    1536      -512     452|             0      1950       550     1536      -512     452      1294|1950 -550       2048|
+            //  |Calisto MT           11   53|    1894      -470       0|             0      1894       470     1459      -430     302         0|1884 -442       2048|
+            //  |Century Schoolbook   11   51|    2019      -443       0|             0      2019       442     1516      -399     276         0|2460 -628       2048|
+            //  |Arial                11   53|    1854      -434      67|             -      1854       434     1491      -431     307         -|2129 -665       2048|
+            //  |Candara              11   50|    1484      -564     452|             -      1950       550     1484      -564     452         -|1950 -581       2048|
+            //  |Franklin Gothic Book 11   49|    1877      -445       0|             -      1877       445     1434      -389     368         -|1954 -677       2048|
+            //  |Georgia              11   53|    1878      -449       0|             -      1878       449     1549      -444     198         -|1945 -621       2048|
+            //  |Times New Roman      11   52|    1825      -443      87|             -      1825       443     1420      -442     307         -|2129 -628       2048|
+            //  |Constantia           11   50|    1538      -510     452|             -      1950       550     1538      -510     452         -|2088 -513       2048|
+            //  |Palatino Linotype    11   44|    1499      -582     682|             -      2150       613     1499      -582     682         -|2150 -597       2048|
+            //  |Verdana              11   49|    2059      -430       0|             -      2059       430     1566      -423     202         -|2152 -621       2048|
 
             var AptosNarrow_Cell = CalculateCellHeight2(AptosNarrow, 11);                //                               Os2 Win NoGap, Os2 Win Gap, Ymaxmin NoGap, Ymaxmin Gap,  48, 1 padding, on
             var Calibri_Cell = CalculateCellHeight2(Calibri, 11);                        //            Hhea Gap, Os2 Gap, Os2 Win NoGap,                                           50, 1 padding, on
             var TrebuchetMS_Cell = CalculateCellHeight2(TrebuchetMS, 11);                //                                                           Ymaxmin NoGap, Ymaxmin Gap,  49, 1 padding, on
             var GillSansMT_Cell = CalculateCellHeight2(GillSansMT, 11);                  //                                                                          Ymaxmin Gap,  46, 1 padding, off +2
-            var TwCenMT_Cell = CalculateCellHeight2(TwCenMT, 11);                        //Hhea NoGap, Hhea gap,                                                                   56, 1 padding, off +2
-            var CenturyGothic_Cell = CalculateCellHeight2(CenturyGothic, 11);            //Hhea NoGap, Hhea Gap,                                                                   50, 1 padding, off -1,
+            var TwCenMT_Cell = CalculateCellHeight2(TwCenMT, 11);                        //Hhea NoGap, Hhea gap,          Os2 Win NoGap                                            56, 1 padding, off +2 //fit: windesc+abs(windesc-ymin)
+            var CenturyGothic_Cell = CalculateCellHeight2(CenturyGothic, 11);            //Hhea NoGap, Hhea Gap,          -------------                                            50, 1 padding, off -1,
                                                                                    //****//                               Os2 Win NoGap,                                           52, 1 padding, off +1
             var Garamond_Cell = CalculateCellHeight2(Garamond, 11);                      //Hhea NoGap, Hhea Gap,          Os2 Win NoGap,                                           54, 1 padding, off -1
             var Corbel_Cell = CalculateCellHeight2(Corbel, 11);                          //                               Os2 Win NoGap,                                           50, 1 padding, on
             var Rockwell_Cell = CalculateCellHeight2(Rockwell, 11);                      //                      Os2 Gap,                                                          57, 1 padding, off +2
-            var Impact_Cell = CalculateCellHeight2(Impact, 11);                          //Hhea NoGap, Hhea Gap,                                                                   50, 1 padding, off -1
+            var Impact_Cell = CalculateCellHeight2(Impact, 11);                          //Hhea NoGap, Hhea Gap,          Os2 Win NoGap                                            50, 1 padding, off -1 //can be rounded up for fit
             var CalibriLight_Cell = CalculateCellHeight2(CalibriLight, 11);              //            Hhea Gap, Os2 Gap, Os2 Win NoGap,              Ymaxmin Nogap,               50, 1 padding, on
             var CalistoMT_Cell = CalculateCellHeight2(CalistoMT, 11);                    //Hhea NoGap, Hhea Gap,          Os2 Win NoGap,                                           53, 1 padding, on
             var CenturySchoolbook_Cell = CalculateCellHeight2(CenturySchoolbook, 11);    //Hhea NoGap, Hhea Gap,          Os2 Win NoGap,                                           51, 1 padding, on
+            var Arial_Cell = CalculateCellHeight2(Arial, 11);                            //
+            var Candara_Cell = CalculateCellHeight2(Candara, 11);                        //
+            var FranklinGothicBook_Cell = CalculateCellHeight2(FranklinGothicBook, 11);  //
+            var Georgia_Cell = CalculateCellHeight2(Georgia, 11);                        //
+            var TimesNewRoman_Cell = CalculateCellHeight2(TimesNewRoman, 11);            //
+            var Constantia_Cell = CalculateCellHeight2(Constantia, 11);                  //
+            var PalatinoLinotype_Cell = CalculateCellHeight2(PalatinoLinotype, 11);      //
+            var Verdana_Cell = CalculateCellHeight2(Verdana, 11);                        //
         }
 
         private List<string[]> CalculateCellHeight2(TtfFont font, double size)
         {
             List<string[]> strings = new List<string[]>();
             strings.Add(calc("HHea No Gap", font.HheaTable.ascender, font.HheaTable.descender, 0, size, font.HeadTable.UnitsPerEm));
-
             strings.Add(calc("HHea Gap", font.HheaTable.ascender, font.HheaTable.descender, font.HheaTable.lineGap, size, font.HeadTable.UnitsPerEm));
-
             strings.Add(calc("Os2 No Gap", font.Os2Table.sTypoAscender, font.Os2Table.sTypoDescender, 0, size, font.HeadTable.UnitsPerEm));
-
             strings.Add(calc("Os2 Gap", font.Os2Table.sTypoAscender, font.Os2Table.sTypoDescender, font.Os2Table.sTypoLineGap, size, font.HeadTable.UnitsPerEm));
-
             strings.Add(calc("Os2 Win No Gap", font.Os2Table.usWinAscent, font.Os2Table.usWinDescent, 0, size, font.HeadTable.UnitsPerEm));
-
             strings.Add(calc("Os2 Win Gap", font.Os2Table.usWinAscent, font.Os2Table.usWinDescent, font.Os2Table.sTypoLineGap, size, font.HeadTable.UnitsPerEm));
-
             strings.Add(calc("Ymaxmin No Gap", font.HeadTable.Ymax, font.HeadTable.Ymin, 0, size, font.HeadTable.UnitsPerEm));
-
             strings.Add(calc("Ymaxmin Gap", font.HeadTable.Ymax, font.HeadTable.Ymin, font.Os2Table.sTypoLineGap, size, font.HeadTable.UnitsPerEm));
-            return strings;
+            return strings; 
         }
 
         private string[] calc(string CalcMethod, double asc,double desc, double gap, double size, double em)
@@ -121,7 +138,7 @@ namespace EPPlusTest.PDF.FontLabs1
             var lineHeight = asc + Math.Abs( desc) + gap;
             var lineHeightPt = lineHeight * (size / em);
             var rows = 734d / lineHeightPt;
-            var lineHeightPad = lineHeightPt + 1d;
+            var lineHeightPad = lineHeightPt + 1.1d;
             var rows2 = 734d / lineHeightPad;
             return new string[] {CalcMethod, lineHeight.ToString(), lineHeightPt.ToString(), rows.ToString(), lineHeightPad.ToString(), rows2.ToString() };
         }
