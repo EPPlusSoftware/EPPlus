@@ -42,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                 high = direction.Value == LookupRangeDirection.Vertical ? nRows : nCols;
             }
 
-            while (low <= high - 1)
+            while (low <= high)
             {
                 mid = low + high >> 1;
 
@@ -58,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                 }
                 else
                 {
-                    return searchRangeCell.Index + 1;
+                    return searchRangeCell.Index;
                 }
 
                 //var col = nRows >= nCols ? 0 : mid;
