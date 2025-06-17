@@ -125,9 +125,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                             }
                             else
                             {
-                                resultRange.SetValue(row, col, ErrorValues.NAError);
-                                isError = true;
-                                continue;
+                                if (Function.IsErrorHandlingFunction)
+                                {
+                                    argList.Add(new FunctionArgument(ErrorValues.NAError));
+                                }
+                                else
+                                {
+                                    resultRange.SetValue(row, col, ErrorValues.NAError);
+                                    isError = true;
+                                    continue;
+                                }
                             }
                             
                         }
