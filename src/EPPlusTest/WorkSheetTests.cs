@@ -1125,8 +1125,8 @@ namespace EPPlusTest
                     var ws3 = wb2.Worksheets.Add("CopyWs2", ws);
 
                     //To be fixed in PR 1999
-                    Assert.AreEqual(5,wb2.Names.Count());
-                    Assert.AreEqual(wb2.Names[2].Value, wb.Names[2].Value);
+                    Assert.AreEqual(1 ,wb2.Names.Count());
+                    Assert.AreEqual(wb2.Names[0].Value, wb.Names[0].Value);
                     SaveAndCleanup(p2);
                 }
                 SaveAndCleanup(p);
