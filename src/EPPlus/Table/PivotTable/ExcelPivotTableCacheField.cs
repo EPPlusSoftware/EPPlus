@@ -1073,7 +1073,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The new value</returns>
         internal static object GetShareItemValue(object v)
         {
-            if (v == null)
+            if (v == null || v == DBNull.Value)
             {
                 v = ExcelPivotTable.PivotNullValue;
             }
