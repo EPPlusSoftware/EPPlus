@@ -272,8 +272,8 @@ namespace EPPlusTest.Excel.Functions
                 sheet.Cells[2, 1].Value = 3;
                 sheet.Cells[2, 2].Value = 5;
                 sheet.Calculate();
-                var expectedResult = ExcelErrorValue.Create(eErrorType.NA);
-                Assert.AreEqual(expectedResult, sheet.Cells["F1"].Value);
+                var naError = ExcelErrorValue.Create(eErrorType.NA);
+                Assert.AreEqual(naError, sheet.Cells["F1"].Value);
             }
         }
 
