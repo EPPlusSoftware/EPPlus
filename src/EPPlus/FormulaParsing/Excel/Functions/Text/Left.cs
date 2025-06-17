@@ -42,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 length = str.Length;
             if(context.Configuration.EnableUnicodeAwareStringOperations)
             {
-                return CreateResult(str.UnitcodeSubstring(length), DataType.String);
+                return CreateResult(str.UnicodeSubstring(length), DataType.String);
             }
             return CreateResult(str.Substring(0, length), DataType.String);
         }

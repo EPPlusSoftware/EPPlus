@@ -60,7 +60,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                         break;
                     }
                 }
-                var res = str.UnitcodeSubstring(startIx, str.Length - startIx);
+                var res = str.UnicodeSubstring(startIx, str.Length - startIx);
                 return CreateResult(res, DataType.String);
             }
             return CreateResult(str.Substring(startIx, str.Length - startIx), DataType.String);
