@@ -361,6 +361,11 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             return ir;
         }
 
+        internal ICellInfo GetCellInfoCopy()
+        {
+            return (ICellInfo)_cells.Clone();
+        }
+
         /// <summary>
         /// Get the address adjusted inside the dimension of the worksheet. Not applicable on InMemoryRange's, as no addresses us used.
         /// </summary>

@@ -6103,5 +6103,44 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void GetPrevCellAtLastCell()
+        {
+            using(var p = OpenPackage("GetPrevPck.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("Ws1");
+                ws.Cells["A3"].Value = "A Value";
+                ws.Cells["C3"].Value = "C Value";
+
+                //int row1 = 1;
+                //int col1 = 1;
+                //var wasFound = ws._values.GetNextCell(ref row1, ref col1, 1, 1, 5);
+
+                int row = 1048576;
+                int col = 0;
+                var someVal = ws._values.GetPrevCell(ref row, ref col, 0, 0, 0);
+
+                Assert.IsTrue(someVal);
+                Assert.AreEqual(0, col);
+                Assert.AreEqual(3, row);
+            }
+        }
+
+        [TestMethod]
+        public void VlookupMemoryRange()
+        {
+            using (var p = OpenPackage("MemRange.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Ws1");
+                //ws.Cells["A1:A10"].Formula = "ROW()+1";
+                //ws.Cells["B1:B10"].Formula = "ROW()";
+                ws.Cells["C1"].Formula = "VLOOKUP(\"b\",TRANSPOSE({\"a\",\"b\",\"c\";1,2,3}),2)";
+                ws.Calculate();
+
+                Assert.AreEqual(2, ws.Cells["C1"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

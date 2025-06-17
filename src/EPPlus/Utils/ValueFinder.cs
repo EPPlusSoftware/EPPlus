@@ -2,7 +2,6 @@
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
@@ -95,46 +94,8 @@ namespace OfficeOpenXml.Utils
             return new List<int> { toRow, toCol };
         }
 
-        internal static IRangeInfo RangeByValue(IRangeInfo rInfo, out CellStore<object> Values)
+        internal static SimpleAddress IterateColumns<T>(List<int> fvc, List<int> lvc, FormulaRangeAddress address, CellStore<T> csValues)
         {
-            List<int> fvc;
-            List<int> lvc;
-
-            var sheet = rInfo.Worksheet;
-            var address = rInfo.Address;
-
-            CellStore<object> csValues;
-
-            var baseAddress = rInfo.Address.ToExcelAddressBase();
-            if (baseAddress.IsExternal)
-            {
-                var extRangeInfo = (EpplusExcelExternalRangeInfo)rInfo;
-                
-                var cellValues = extRangeInfo?._externalWs.CellValues._values;
-
-                var rAddress = rInfo.Address;
-
-                if (extRangeInfo._externalWs != null)
-                {
-                    var dimension = extRangeInfo._externalWs.GetDimension();
-                    rAddress.ToRow = dimension._toRow < address.ToRow ? dimension._toRow : address.ToRow;
-                    rAddress.ToCol = dimension._toCol < address.ToCol ? dimension._toCol : address.ToCol;
-                }
-
-                fvc = FirstValueCell(rAddress, cellValues);
-                lvc = LastValueCell(rAddress, cellValues);
-
-                csValues = cellValues;
-            }
-            else
-            {
-                fvc = FirstValueCell(sheet, rInfo.Address);
-                lvc = LastValueCell(sheet, rInfo.Address);
-
-                CellStore<object> cellStore = (CellStore<object>)Convert.ChangeType(sheet._values, typeof(CellStore<object>));
-                csValues = cellStore;
-            }
-
             var fromRow = fvc[0];
             var toRow = lvc[0];
             int fromCol, toCol;
@@ -175,14 +136,74 @@ namespace OfficeOpenXml.Utils
                 toCol = c;
             }
 
-            Values = csValues;
+            var offsetFromRow = Math.Min(fromRow, toRow) - address.FromRow;
+            var offsetFromCol = Math.Min(fromCol, toCol) - address.FromCol;
+            var offsetToRow = Math.Max(fromRow, toRow) - address.FromRow;
+            var offsetToCol = Math.Max(fromRow, toCol) - address.Address.ToCol;
 
-            var offsetFromRow = Math.Min(fromRow, toRow) - rInfo.Address.FromRow;
-            var offsetFromCol = Math.Min(fromCol, toCol) - rInfo.Address.FromCol;
-            var offsetToRow =  Math.Max(fromRow, toRow) - rInfo.Address.FromRow;
-            var offsetToCol = Math.Max(fromRow, toCol) - rInfo.Address.ToCol;
+            return new SimpleAddress(offsetFromRow, offsetFromCol, offsetToRow, offsetToCol);
+        }
 
-            var subRange = rInfo.GetOffset(offsetFromRow, offsetFromCol, offsetToRow, offsetToCol);
+        internal static IRangeInfo RangeByValue(IRangeInfo rInfo)
+        {
+            List<int> fvc;
+            List<int> lvc;
+
+            ExcelWorksheet sheet = null;
+            FormulaRangeAddress address = null;
+            ExcelAddressBase baseAddress = null;
+            CellStore<object> csValues;
+            SimpleAddress subrangeAddress;
+
+            baseAddress = rInfo.Address.ToExcelAddressBase();
+
+            if (rInfo.IsInMemoryRange)
+            {
+                var memRange = rInfo as InMemoryRange;
+                return rInfo;
+                //var cellInfocpy = memRange.GetCellInfoCopy();
+
+
+                //var str = "What";
+
+                //fvc = FirstValueCell(sheet, rInfo.Address);
+                //lvc = LastValueCell(sheet, rInfo.Address);
+
+                //CellStore<object> cellStore = (CellStore<object>)Convert.ChangeType(sheet._values, typeof(CellStore<object>));
+                //csValues = cellStore;
+            }
+            else if (baseAddress.IsExternal)
+            {
+                var extRangeInfo = (EpplusExcelExternalRangeInfo)rInfo;
+
+                var cellValues = extRangeInfo?._externalWs.CellValues._values;
+
+                var rAddress = rInfo.Address;
+                address = rInfo.Address;
+
+                if (extRangeInfo._externalWs != null)
+                {
+                    var dimension = extRangeInfo._externalWs.GetDimension();
+                    rAddress.ToRow = dimension._toRow < address.ToRow ? dimension._toRow : address.ToRow;
+                    rAddress.ToCol = dimension._toCol < address.ToCol ? dimension._toCol : address.ToCol;
+                }
+
+                fvc = FirstValueCell(rAddress, cellValues);
+                lvc = LastValueCell(rAddress, cellValues);
+
+                subrangeAddress = IterateColumns(fvc, lvc, address, cellValues);
+            }
+            else
+            {
+                sheet = rInfo.Worksheet;
+                address = rInfo.Address;
+                fvc = FirstValueCell(sheet, rInfo.Address);
+                lvc = LastValueCell(sheet, rInfo.Address);
+
+                subrangeAddress = IterateColumns(fvc, lvc, address, sheet._values);
+            }
+
+            var subRange = rInfo.GetOffset(subrangeAddress.FromRow, subrangeAddress.FromCol, subrangeAddress.ToRow, subrangeAddress.ToCol);
             return subRange;
         }
     }

@@ -25,34 +25,34 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         private static int SearchAsc(object s, IRangeInfo lookupRange, IComparer<object> comparer, LookupRangeDirection? direction = null)
         {
             //Only look at relevant values. We use this to omit null values above and below actual values
-            var valueSubRange = ValueFinder.RangeByValue(lookupRange, out CellStore<object> CsValues);
+            var valueSubRange = ValueFinder.RangeByValue(lookupRange);
 
-            List<List<object>> objects = new();
+            //List<List<object>> objects = new();
 
-            if(lookupRange.IsInMemoryRange)
-            {
+            //if(lookupRange.IsInMemoryRange)
+            //{
 
-            }
-            else 
-            {
-                if(lookupRange.Address.ToExcelAddressBase().IsExternal)
-                {
-                    var extRange = (EpplusExcelExternalRangeInfo)lookupRange;
-                    for(int i =0; i< lookupRange.Size.NumberOfCols; i++)
-                    {
-                        objects.Add(extRange._externalWs.CellValues._values._columnIndex[i]._values);
-                    }
-                }
-                else
-                {
-                    //Non-external address
-                    var range = (EpplusExcelExternalRangeInfo)lookupRange;
-                    for (int i = 0; i < lookupRange.Size.NumberOfCols; i++)
-                    {
-                        objects.Add(range._externalWs.CellValues._values._columnIndex[i]._values);
-                    }
-                }
-            }
+            //}
+            //else 
+            //{
+            //    if(lookupRange.Address.ToExcelAddressBase().IsExternal)
+            //    {
+            //        var extRange = (EpplusExcelExternalRangeInfo)lookupRange;
+            //        for(int i =0; i< lookupRange.Size.NumberOfCols; i++)
+            //        {
+            //            objects.Add(extRange._externalWs.CellValues._values._columnIndex[i]._values);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        //Non-external address
+            //        var range = (EpplusExcelExternalRangeInfo)lookupRange;
+            //        for (int i = 0; i < lookupRange.Size.NumberOfCols; i++)
+            //        {
+            //            objects.Add(range.ws.CellValues._values._columnIndex[i]._values);
+            //        }
+            //    }
+            //}
             
 
             var nRows = valueSubRange.Size.NumberOfRows;
@@ -85,18 +85,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                 }
 
                 var val = valueSubRange.GetOffset(row, col);
-                if (val == null)
-                {
-                    var currRow = valueSubRange.Address.FromRow + row;
-                    var currCol = valueSubRange.Address.FromCol + col;
-                    var exists = CsValues.NextCell(ref currRow, ref currCol);
+                //if (val == null)
+                //{
+                //    var currRow = valueSubRange.Address.FromRow + row;
+                //    var currCol = valueSubRange.Address.FromCol + col;
+                //    var exists = CsValues.NextCell(ref currRow, ref currCol);
 
-                    row = currRow - valueSubRange.Address.FromRow;
-                    col = currCol - valueSubRange.Address.FromCol;
+                //    row = currRow - valueSubRange.Address.FromRow;
+                //    col = currCol - valueSubRange.Address.FromCol;
 
-                    low = mid + 1;
-                    continue;
-                }
+                //    low = mid + 1;
+                //    continue;
+                //}
                 var result = comparer.Compare(s, val);
 
                 if (result < 0)
