@@ -984,7 +984,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     if (!existingItems.Contains(c))
                     {
-                        list.Insert(list.Count - hasSubTotalSubt, new ExcelPivotTableFieldItem() { Value = c, Hidden=hasFilter });
+                        list.Insert(list.Count - hasSubTotalSubt, new ExcelPivotTableFieldItem() { Value = c, Hidden=hasFilter && ptField.IncludeNewItemsInFilter==false});
                     }
                 }
 
