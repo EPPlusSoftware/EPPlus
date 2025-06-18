@@ -391,8 +391,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
 
             var subrangeAddress = ValueFinder.IterateColumns(fvc, lvc, address, cellValues);
 
-            var subRange = GetOffset(subrangeAddress.FromRow, subrangeAddress.FromCol, subrangeAddress.ToRow, subrangeAddress.ToCol);
-            return subRange;
+            return GetOffset(subrangeAddress.FromRow, subrangeAddress.FromCol, subrangeAddress.ToRow, subrangeAddress.ToCol);
         }
     }
     /// <summary>

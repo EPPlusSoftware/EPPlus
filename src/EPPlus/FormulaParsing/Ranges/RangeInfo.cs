@@ -462,17 +462,12 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
 
         public IRangeInfo GetRangeInfoByValue()
         {
-            if (ValueSubrange != null)
-            {
+            var fvc = ValueFinder.FirstValueCell(Worksheet, Address);
+            var lvc = ValueFinder.LastValueCell(Worksheet, Address);
+            ValueFinder.IterateColumns(fvc, lvc, Address, Worksheet._values);
+            var subrangeAddress = ValueFinder.IterateColumns(fvc, lvc, Address, Worksheet._values);
 
-                var fvc = ValueFinder.FirstValueCell(Worksheet, Address);
-                var lvc = ValueFinder.LastValueCell(Worksheet, Address);
-                ValueFinder.IterateColumns(fvc, lvc, Address, Worksheet._values);
-                var subrangeAddress = ValueFinder.IterateColumns(fvc, lvc, Address, Worksheet._values);
-
-                ValueSubrange = GetOffset(subrangeAddress.FromRow, subrangeAddress.FromCol, subrangeAddress.ToRow, subrangeAddress.ToCol);
-            }
-            return ValueSubrange;
+            return GetOffset(subrangeAddress.FromRow, subrangeAddress.FromCol, subrangeAddress.ToRow, subrangeAddress.ToCol);
         }
     }
 }
