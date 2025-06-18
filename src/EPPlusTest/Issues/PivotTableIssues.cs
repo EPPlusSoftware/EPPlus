@@ -8,6 +8,7 @@ using OfficeOpenXml.Table.PivotTable;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Data;
 
 namespace EPPlusTest.Issues
 {
@@ -381,6 +382,11 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(p);
         }
+        public class Shown
+        {
+            public decimal? Amount { get; set; }
+            public DateTime? Date { get; set; }
+        }
 
         [TestMethod]
         public void i820()
@@ -407,6 +413,57 @@ namespace EPPlusTest.Issues
                 pck.Save();
             }
         }
+        [TestMethod]
+        public void s880()
+        {
+            using var p = OpenTemplatePackage("s880.xlsx");
+            var ws = p.Workbook.Worksheets["Raw Data"];
+
+            ws.Cells[2, 1].Value = "123456";
+            ws.Cells[2, 2].Value = "Doe";
+            ws.Cells[2, 3].Value = "John";
+            ws.Cells[2, 4].Value = "Example Module";
+            ws.Cells[2, 5].Value = Convert.ToDateTime("1/1/2024");
+            ws.Cells[2, 6].Value = Convert.ToDateTime("1/1/2025");
+            ws.Cells[2, 7].Value = DBNull.Value;
+            ws.Cells[2, 8].Value = "Not Registered";
+            ws.Cells[2, 9].Value = "Yes";
+            //Skip 10 since it's a formula column
+            ws.Cells[2, 11].Value = "Example Division";
+            ws.Cells[2, 12].Value = "123456 - 111 Main Street";
+            ws.Cells[2, 13].Value = "123456 - Job Title";
+            ws.Cells[2, 14].Value = DBNull.Value;
+
+
+            ws.Cells[3, 1].Value = "1234567";
+            ws.Cells[3, 2].Value = "Doe";
+            ws.Cells[3, 3].Value = "Jane";
+            ws.Cells[3, 4].Value = "Example Module";
+            ws.Cells[3, 5].Value = Convert.ToDateTime("1/1/2024");
+            ws.Cells[3, 6].Value = Convert.ToDateTime("1/1/2025");
+            ws.Cells[3, 7].Value = DBNull.Value;
+            ws.Cells[3, 8].Value = "Not Registered";
+            ws.Cells[3, 9].Value = "Yes";
+            //Skip 10 since it's a formula column
+            ws.Cells[3, 11].Value = "Example Division";
+            ws.Cells[3, 12].Value = "123456 - 111 Main Street";
+            ws.Cells[3, 13].Value = "123456 - Job Title";
+            ws.Cells[3, 14].Value = "Example Department";
+
+
+            var headerRow = 1;
+            var firstDataRow = 2;
+            var totalDataRows = 2;
+            int firstRowToDelete = totalDataRows + headerRow + 1;
+            int deleteCount = ExcelPackage.MaxRows - firstRowToDelete + 1;
+            if (deleteCount > 0)
+            {
+                ws.DeleteRow(firstRowToDelete, deleteCount);
+            }
+
+            SaveAndCleanup(p);
+        }
+
         private static void CreatePivotTableWithDataGrouping(ExcelPackage pck, ExcelRangeBase dataRange)
         {
             var wsPivot = pck.Workbook.Worksheets.Add("PivotDateGrp");
@@ -424,10 +481,32 @@ namespace EPPlusTest.Issues
             //We want the data fields to appear in columns
             pt.DataOnRows = false;
         }
-    }
-    public class Shown
-    {
-        public decimal? Amount { get; set; }
-        public DateTime? Date { get; set; }
+        [TestMethod]
+        public void s877()
+        {
+            using (var package = OpenTemplatePackage("s877.xlsx"))
+            {
+                var workbook = package.Workbook;
+
+                var table = new DataTable();
+                table.Columns.Add("id", typeof(int));
+                table.Columns.Add("Type1", typeof(string));
+                table.Columns.Add("Type2", typeof(string));
+
+                table.Rows.Add(4, "c", "z");
+                table.Rows.Add(5, "c", "z");
+                table.Rows.Add(6, "b", "t");
+                table.Rows.Add(7, "b", "t");
+
+                var worksheet = workbook.Worksheets["Sheet1"];
+                worksheet.Cells["A5"].LoadFromDataTable(table);
+
+                SaveAndCleanup(package, false);
+
+                //Commenting out this second save results in the expected output
+                SaveWorkbook("s877-2.xlsx", package);
+            }
+        }
+
     }
 }

@@ -110,13 +110,13 @@ namespace EPPlusTest
         /// Saves and disposes a package
         /// </summary>
         /// <param name="pck"></param>
-        protected static void SaveAndCleanup(ExcelPackage pck)
+        protected static void SaveAndCleanup(ExcelPackage pck, bool dispose=true)
         {
             if (pck.Workbook.Worksheets.Count > 0)
             {
                 pck.Save();
             }
-            pck.Dispose();
+            if(dispose) pck.Dispose();
         }
 
         protected static bool ExistsPackage(string name)
