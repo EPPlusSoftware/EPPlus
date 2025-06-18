@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.Core.Worksheet;
@@ -83,23 +82,23 @@ namespace OfficeOpenXml.Drawing
 
         public DrawCoordinate(object x, object y)
         {
-            if(x is long xi)
+            if(x is long xl)
             {
-                x = xi;
+                X = xl;
             }
             else
             {
                 XName = x.ToString();
                 X = null;
             }
-            if (y is long yi)
+            if (y is long yl)
             {
-                y = yi;
+                Y = yl;
             }
             else
             {
                 YName = y.ToString();
-                y = null;
+                Y = null;
             }
 
         }
@@ -113,6 +112,8 @@ namespace OfficeOpenXml.Drawing
         public abstract PathDrawingType Type { get;  }
 
         internal abstract PathsBase Clone();
+        public abstract float EndX { get; }
+        public abstract float EndY { get; }
     }
     internal abstract class PathWithCoordinates : PathsBase
     {
@@ -129,7 +130,7 @@ namespace OfficeOpenXml.Drawing
 
         private object GetNameOrNumber(string s)
         {
-            if(long.TryParse(s, out var l))
+            if(long.TryParse(s, NumberStyles.Number , CultureInfo.InvariantCulture, out var l))
             {
                 return l;
             }
@@ -160,6 +161,8 @@ namespace OfficeOpenXml.Drawing
             }
         }
         public List<DrawCoordinate> Coordinates { get; set; } = new List<DrawCoordinate>();
+        public override float EndX => Coordinates.Count > 0 ? (float)Coordinates[Coordinates.Count-1].X : 0F;
+        public override float EndY => Coordinates.Count > 0 ? (float)Coordinates[Coordinates.Count - 1].Y : 0F;
     }
     internal class MoveTo : PathWithCoordinates
     {
@@ -214,6 +217,8 @@ namespace OfficeOpenXml.Drawing
         {
             return new ClosePath();
         }
+        public override float EndX => float.MinValue;
+        public override float EndY => float.MinValue;
     }
     internal class QuadBezerTo : PathWithCoordinates
     {
@@ -259,7 +264,7 @@ namespace OfficeOpenXml.Drawing
         }
     }
 
-    internal class ArcTo : PathsBase
+    internal class  ArcTo : PathsBase
     {
         public ArcTo(XmlReader xr)
         {
@@ -364,6 +369,14 @@ namespace OfficeOpenXml.Drawing
                 WidthRadiusName = WidthRadiusName
             };
         }
+        float _endX, _endY;
+        internal void SetEndCoordinates(float x, float y)
+        {
+            _endX = x;
+            _endY = y;
+        }
+        public override float EndX => _endX;
+        public override float EndY => _endY;
     }
     internal class DrawingPath
     {
@@ -402,7 +415,7 @@ namespace OfficeOpenXml.Drawing
                             Paths.Add(new CubicBezerTo(xr));
                             break;
                         case "quadBezTo":
-                            Paths.Add(new CubicBezerTo(xr));
+                            Paths.Add(new QuadBezerTo(xr));
                             break;
                         case "arcTo":
                             Paths.Add(new ArcTo(xr));
