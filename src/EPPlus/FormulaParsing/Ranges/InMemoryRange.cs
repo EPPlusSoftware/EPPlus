@@ -370,5 +370,10 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             return _address;
         }
+
+        public IRangeInfo GetRangeInfoByValue()
+        {
+            return this;
+        }
     }
 }
