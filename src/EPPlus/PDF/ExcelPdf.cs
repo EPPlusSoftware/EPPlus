@@ -1,25 +1,17 @@
-﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
-using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
-using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+﻿using FontLab1.GenericMeasurements;
+using FontLab1;
 using OfficeOpenXml.PDF.PdfFontData;
 using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfObjects;
 using OfficeOpenXml.PDF.PdfSettings;
-using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
-using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
+using OfficeOpenXml.PDF.PdfSettings.FontData;
+using FontLab1.Tables.Os2;
 
 namespace OfficeOpenXml.PDF
 {
@@ -154,6 +146,37 @@ namespace OfficeOpenXml.PDF
             }
         }
 
+        internal double CalculateDefaultRowHeight(ExcelWorksheet ws)
+        {
+            var fontName = ws.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
+            TtfFont font = GenericFonts.GetFontData(PageSettings, fontName);
+            double ascender=0, descender=0, lineGap=0, size = 11, em=font.HeadTable.UnitsPerEm;
+            if (PdfExcelFontDataLookup.excelFontData.ContainsKey(font.FullName))
+            {
+                
+            }
+            else
+            {
+                if ((font.Os2Table.SelectionFlags & Os2Table.FsSelectionFlags.UseTypoMetrics) != 0)
+                {
+                    ascender = font.Os2Table.sTypoAscender;
+                    descender = font.Os2Table.sTypoDescender;
+                    lineGap = font.Os2Table.sTypoLineGap;
+                }
+                else
+                {
+                    ascender = font.Os2Table.usWinAscent;
+                    descender = font.Os2Table.usWinDescent;
+                    lineGap = 0;
+                }
+            }
+
+            var lineHeight = ascender + Math.Abs(descender) + lineGap;
+            var lineHeightPt = lineHeight * (size / em);
+            var lineHeightPad = lineHeightPt + 1d;
+            return lineHeightPad;
+        }
+
         internal List<ExcelRangeBase> CalculateGridLayout()
         {
             List<string> RowPages = new List<string>();
@@ -163,6 +186,7 @@ namespace OfficeOpenXml.PDF
             var x = 0d;
             var rowStart = 1;
             var colStart = 1;
+
             for (int i = rowStart; i <= _ws.Dimension._toRow; i++)
             {
                 if (i == _ws.Dimension._toRow)
@@ -367,6 +391,14 @@ namespace OfficeOpenXml.PDF
             
 
             CalculateGridLayout();
+            //Need
+            //range of cells for page
+            //dimensions of cells for page
+            //grid length and height
+            //grid position
+            //position for each grid divider
+            //position of text relative to cell coordinates
+            //
 
             AddWorksheetCells();
 
