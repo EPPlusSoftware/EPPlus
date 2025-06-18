@@ -986,7 +986,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     if (!existingItems.Contains(c))
                     {
-                        list.Insert(list.Count - hasSubTotalSubt, new ExcelPivotTableFieldItem() { Value = c, Hidden=hasFilter });
+                        list.Insert(list.Count - hasSubTotalSubt, new ExcelPivotTableFieldItem() { Value = c, Hidden=hasFilter && ptField.IncludeNewItemsInFilter==false});
                     }
                 }
 
@@ -1075,7 +1075,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The new value</returns>
         internal static object GetShareItemValue(object v)
         {
-            if (v == null)
+            if (v == null || v == DBNull.Value)
             {
                 v = ExcelPivotTable.PivotNullValue;
             }

@@ -31,6 +31,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Contracts;
+using System;
 using System.IO;
 using System.Xml;
 
@@ -242,6 +243,25 @@ namespace EPPlusTest.DataValidation
 
                 var stream2 = new MemoryStream();
                 pck.SaveAs(stream2);
+            }
+        }
+
+        [TestMethod]
+        public void SaveCheckIgnorable()
+        {
+            using(var package = OpenPackage("IgnorableTest.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("SomeWs");
+                ws.Cells["A1"].DataValidation.AddAnyDataValidation();
+                ws.Cells["A2"].ConditionalFormatting.AddDatabar(System.Drawing.Color.OldLace);
+                SaveAndCleanup(package);
+            }
+
+            using (var package = OpenPackage("IgnorableTest.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                var existingIgnorables = ws.WorksheetXml.DocumentElement.GetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility);
+                Assert.AreEqual("xr ", existingIgnorables);
             }
         }
 

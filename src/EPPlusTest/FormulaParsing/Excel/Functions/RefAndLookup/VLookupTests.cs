@@ -414,5 +414,45 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 #endregion
             }
         }
+        [TestMethod]
+        public void VlookupMemoryRange()
+        {
+            using (var p = OpenPackage("MemRange.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Ws1");
+                //ws.Cells["A1:A10"].Formula = "ROW()+1";
+                //ws.Cells["B1:B10"].Formula = "ROW()";
+                ws.Cells["C1"].Formula = "VLOOKUP(\"b\",TRANSPOSE({\"a\",\"b\",\"c\";1,2,3}),2)";
+                ws.Calculate();
+
+                Assert.AreEqual(2, ws.Cells["C1"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void FullCols()
+        {
+            using (var package = OpenTemplatePackage("ExternalVLookupFullCols.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                ws.Calculate();
+                Assert.AreEqual(6d, ws.Cells["A1"].Value);
+                Assert.AreEqual(7d, ws.Cells["A2"].Value);
+                Assert.AreEqual(8d, ws.Cells["A3"].Value);
+                Assert.AreEqual(10d, ws.Cells["A4"].Value);
+                Assert.AreEqual(13d, ws.Cells["A5"].Value);
+            }
+        }
+        //[TestMethod]
+        //public void LookupTest()
+        //{
+        //    using (var p = OpenTemplatePackage("LookupTest.xlsx"))
+        //    {
+        //        var ws = p.Workbook.Worksheets[0];
+        //        ws.Calculate();
+        //        Assert.AreEqual(19, ws.Cells["C1"].Value);
+        //    }
+        //}
     }
 }
