@@ -11,12 +11,18 @@
   05/31/2022         EPPlus Software AB           EPPlus 6.1
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
+using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 
 namespace OfficeOpenXml.FormulaParsing.Ranges
 {
@@ -450,6 +456,18 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             {
                 return a;
             }
+        }
+
+        IRangeInfo ValueSubrange = null;
+
+        public IRangeInfo GetRangeInfoByValue()
+        {
+            var fvc = ValueFinder.FirstValueCell(Worksheet, Address);
+            var lvc = ValueFinder.LastValueCell(Worksheet, Address);
+            ValueFinder.IterateColumns(fvc, lvc, Address, Worksheet._values);
+            var subrangeAddress = ValueFinder.IterateColumns(fvc, lvc, Address, Worksheet._values);
+
+            return GetOffset(subrangeAddress.FromRow, subrangeAddress.FromCol, subrangeAddress.ToRow, subrangeAddress.ToCol);
         }
     }
 }
