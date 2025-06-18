@@ -7,9 +7,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
-		<PropertyGroup>
-			<PackageLicenseFile>license.md</PackageLicenseFile>
-		</PropertyGroup>
+		<PackageLicenseFile>license.md</PackageLicenseFile>
 		<Company>EPPlus Software AB</Company>
 		<Product>EPPlus</Product>
 		<Description>A spreadsheet library for .NET framework and .NET core</Description>
@@ -631,6 +629,10 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<None Include="license.md" Pack="true" PackagePath="license.md"/>
 	</ItemGroup>
 	
 	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
