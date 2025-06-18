@@ -652,6 +652,12 @@ namespace EPPlusTest
             rt.SetFromFont("Times new roman", 18, false, false, true);
             rt.UnderLineColor = Color.Green;
 
+            var line = ws.Drawings.AddShape("ArrowLine", eShapeStyle.Line);
+            line.TailEnd.Style = eEndStyle.Triangle;
+            line.HeadEnd.Style = eEndStyle.Triangle;
+            line.TailEnd.Height = eEndSize.Small;
+            line.HeadEnd.Width = eEndSize.Small;
+
 
             (ws.Drawings["shape3"] as ExcelShape).TextAnchoring = eTextAnchoringType.Bottom;
             (ws.Drawings["shape3"] as ExcelShape).TextAnchoringControl = true;
@@ -706,7 +712,7 @@ namespace EPPlusTest
                 if (ws == null) Assert.Inconclusive("Shapes worksheet is missing");
 
                 var wsShapes = pck.Workbook.Worksheets.Add("Copy Shapes", ws);
-                Assert.AreEqual(187, wsShapes.Drawings.Count);
+                Assert.AreEqual(188, wsShapes.Drawings.Count);
 
                 ws = pck.Workbook.Worksheets["Scatter"];
                 if (ws == null) Assert.Inconclusive("Scatter worksheet is missing");

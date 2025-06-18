@@ -56,48 +56,73 @@ namespace OfficeOpenXml.Utils
             var fvc = FirstValueCell(sheet, address);
             var lvc = LastValueCell(sheet, address);
 
-            var fromRow = fvc[0];
-            var toRow = lvc[0];
-            int fromCol, toCol;
+            var dimValStart = sheet.DimensionByValue.Start;
+            var dimValEnd = sheet.DimensionByValue.End;
 
-            if (fvc[1] == address.FromRow)
+            var startRow = address.FromRow;
+            var endRow = address.ToRow;
+            if (dimValStart.Row > startRow)
             {
-                fromCol = fvc[1];
+                startRow = dimValStart.Row;
             }
-            else
+            if (dimValEnd.Row < endRow)
             {
-                int r = fromRow, c = address.FromCol;
-                while (sheet._values.NextCellByColumn(ref r, ref c, fromRow, toRow, address.ToCol - address.FromCol))
-                {
-                    if (sheet._values.GetValue(r, c)._value != null)
-                    {
-                        break;
-                    }
-                    r++;
-                }
-                fromCol = c;
+                endRow = dimValEnd.Row;
             }
+            var startCol = address.FromCol;
+            var endCol = address.ToCol;
+            if(dimValStart.Column > startCol)
+            {
+                startCol = dimValStart.Column;
+            }
+            if(dimValEnd.Column < endCol)
+            {
+                endCol = dimValEnd.Column;
+            }
+            return new SimpleAddress { FromRow = Math.Min(startRow, endRow), ToRow = Math.Max(startRow, endRow), FromCol = Math.Min(startCol, endCol), ToCol = Math.Max(startCol, endCol) };
 
-            if (lvc[1] == address.ToCol)
-            {
-                toCol = lvc[1];
-            }
-            else
-            {
-                int r = toRow, c = address.ToCol;
-                while (sheet._values.PrevCellByColumn(ref r, ref c, fromRow, toRow, address.ToCol - address.FromCol))
-                {
-                    if (sheet._values.GetValue(r, c)._value != null)
-                    {
-                        break;
-                    }
-                    r--;
-                }
-                toCol = c;
-            }
+            //var fromRow = fvc[0];
+            //var toRow = lvc[0];
+            //int fromCol, toCol;
 
-            SimpleAddress subRange = new SimpleAddress { FromRow = Math.Min(fromRow, toRow), FromCol = Math.Min(fromCol, toCol), ToRow = Math.Max(fromRow, toRow), ToCol = Math.Max(fromCol, toCol) };
-            return subRange;
+            //if (fvc[1] == address.FromRow)
+            //{
+            //    fromCol = fvc[1];
+            //}
+            //else
+            //{
+            //    int r = fromRow, c = address.FromCol;
+            //    while (sheet._values.NextCellByColumn(ref r, ref c, fromRow, toRow, address.ToCol - address.FromCol))
+            //    {
+            //        if (sheet._values.GetValue(r, c)._value != null)
+            //        {
+            //            break;
+            //        }
+            //        r++;
+            //    }
+            //    fromCol = c;
+            //}
+
+            //if (lvc[1] == address.ToCol)
+            //{
+            //    toCol = lvc[1];
+            //}
+            //else
+            //{
+            //    int r = toRow, c = address.ToCol;
+            //    while (sheet._values.PrevCellByColumn(ref r, ref c, fromRow, toRow, address.ToCol - address.FromCol))
+            //    {
+            //        if (sheet._values.GetValue(r, c)._value != null)
+            //        {
+            //            break;
+            //        }
+            //        r--;
+            //    }
+            //    toCol = c;
+            //}
+
+            //SimpleAddress subRange = new SimpleAddress { FromRow = Math.Min(fromRow, toRow), FromCol = Math.Min(fromCol, toCol), ToRow = Math.Max(fromRow, toRow), ToCol = Math.Max(fromCol, toCol) };
+            //return subRange;
         }
     }
 }
