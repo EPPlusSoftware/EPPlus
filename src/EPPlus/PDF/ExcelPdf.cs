@@ -392,12 +392,17 @@ namespace OfficeOpenXml.PDF
 
             CalculateGridLayout();
             //Need
-            //range of cells for page
-            //dimensions of cells for page
-            //grid length and height
-            //grid position
-            //position for each grid divider
-            //position of text relative to cell coordinates
+            //range of cells for page                       //ExcelRange for all cells in a page
+            //dimensions of cells for page                  //ExcelRange that starts at first cell in page and goes to the last with data.
+            //grid length and height                        //calculated from dimensions
+            //grid Y position                               //calulated based on height and check if start from top or place in middle from PageSettings
+            //position for each grid divider                //dictionary for containgn column and row as key and value for position
+            //position of text relative to cell coordinates //A padding value for all cells to place text.
+            //
+            //How to handle merged cell?
+            //Drawings are drawn on top
+            //Borders
+            //in cell pictures
             //
 
             AddWorksheetCells();
