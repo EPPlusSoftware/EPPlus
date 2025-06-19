@@ -214,6 +214,14 @@ namespace OfficeOpenXml
             this.Formula = NameFormula;
             NameValue = null;
         }
+        /// <summary>
+        /// Get a formula for this name.
+        /// </summary>
+        /// <param name="formula">The formula for this name.</param>
+        public string GetFormula()
+        {
+            return NameFormula;
+        }
 
         /// <summary>
         /// Set a value for this name. Will remove exsisting range and formula.
@@ -226,6 +234,15 @@ namespace OfficeOpenXml
             NameValue = value;
             Value = value;
         }
+        /// <summary>
+        /// Get a value for this name.
+        /// </summary>
+        /// <param name="value"></param>
+        public object GetValue()
+        {
+            return NameValue;
+        }
+
         /// <summary>
         /// Move this defined name to a target worksheet.
         /// </summary>
