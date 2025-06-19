@@ -531,7 +531,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             return obj.ResultValue;
         }
 
-        private static CompileResult Compare(CompileResult l, CompileResult r, Func<int, bool> comparison )
+        internal static CompileResult Compare(CompileResult l, CompileResult r, Func<int, bool> comparison )
         {
             ExcelErrorValue errorVal;
             if (EitherIsError(l, r, out errorVal))
