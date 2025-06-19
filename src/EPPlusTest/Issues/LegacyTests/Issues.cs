@@ -2563,7 +2563,8 @@ namespace EPPlusTest
                     }
                 }
                 SaveAndCleanup(excelPackage);
-            };
+            }
+            ;
         }
         [TestMethod]
         public void TestColumnWidthsAfterDeletingColumn()
@@ -3231,7 +3232,7 @@ namespace EPPlusTest
                 SaveWorkbook("SlicerIssueOpenClose.xlsx", p);
             }
         }
-                [TestMethod]
+        [TestMethod]
         public void i620()
         {
             using (var p = OpenTemplatePackage("i621.xlsx"))
@@ -6294,7 +6295,7 @@ namespace EPPlusTest
 
                 var ws = package.Workbook.Worksheets.Add("newWs");
                 SaveWorkbook("789_issue_only_ws.xlsx", package);
-               //SaveAndCleanup(package);
+                //SaveAndCleanup(package);
             }
         }
 
@@ -6309,7 +6310,7 @@ namespace EPPlusTest
             var ws3 = p.Workbook.Worksheets.Add("Blue");
             ws3.TabColor = Color.Blue;
 
-           SaveWorkbook("tabcolor830.xlsx", p);
+            SaveWorkbook("tabcolor830.xlsx", p);
         }
 
         [TestMethod]
@@ -6335,6 +6336,164 @@ namespace EPPlusTest
                         Console.WriteLine(ws.Name);
                 }
                 SaveAndCleanup(p);
+            }
+        }
+
+
+        [TestMethod]
+        public void SumIfTest()
+        {
+            using (var p = OpenTemplatePackage("TestCase.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var chooseCols1 = ws.Cells["I1"];
+                var chooseCols2 = ws.Cells["S1"];
+
+                //chooseCols1.Formula = "CHOOSECOLS(ANCHORARRAY($A$12),2)";
+                //chooseCols2.Formula = "CHOOSECOLS(ANCHORARRAY($A$12),4)";
+
+                //chooseCols1.Calculate();
+                //chooseCols2.Calculate();
+
+                //ws.Cells["A12"].Calculate();
+
+                //var val1 = chooseCols1.Value;
+                //var val2 = chooseCols2.Value;
+
+                //var val3 = ws.Cells["I2"].Value;
+                //var val4 = ws.Cells["S2"].Value;
+
+                //var targetCell = ws.Cells["F5"];
+                //targetCell.Calculate();
+
+                var cell = ws.Cells["J5"];
+                cell.Formula = "LEFT(CHOOSECOLS(ANCHORARRAY($A$12),3))";
+                //ws.Cells["K5"].Formula = "CHOOSECOLS(ANCHORARRAY($A$12),3)";
+                //ws.Cells["K5"].Calculate();
+                //cell.Formula = "IF(LEFT(CHOOSECOLS(ANCHORARRAY($A$12),3),1)=\"🔼\",SUMIFS(Sheet2!$R$12:$R$1048576,Sheet2!$B$12:$B$1048576,CHOOSECOLSANCHORARRAY($A$12),2)))";
+
+                cell.Calculate();
+
+                var val12 = cell.Value;
+                var val22 = ws.Cells["J6"].Value;
+                var val32 = ws.Cells["K5"].Value;
+
+                var sometxt = "help";
+
+                SaveAndCleanup(p);
+
+                //var newVal = targetCell.Value;
+            }
+        }
+
+        [TestMethod]
+        public void SortTest()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var someWs = p.Workbook.Worksheets.Add("SomeWs");
+
+                var srcRange = someWs.Cells["A1:C2"];
+                srcRange.Formula = "ROW() + COLUMN()";
+
+                srcRange.Calculate();
+
+                var dest = someWs.Cells["D1"];
+                dest.Formula = "SORT(A1:C2,{1,2,3},1,FALSE)";
+                dest.Calculate();
+            }
+        }
+
+        [TestMethod]
+        public void s884()
+        {
+            using(var p = OpenTemplatePackage("s884.xlsx"))
+            {
+                //p.Workbook.Calculate();
+
+                var ws = p.Workbook.Worksheets["Summary"];
+                var technical = p.Workbook.Worksheets["Technical"];
+
+                var form = ws.Cells["A12"].Formula;
+                var formSimpler = technical.Cells["K19"].Formula;
+
+                //var logfile = new FileInfo(@"c:\temp\logfile.txt");
+                // Attach the logger before the calculation is performed.
+                //p.Workbook.FormulaParserManager.AttachLogger(logfile);
+                // Calculate - can also be executed on sheet- or range level.
+                //technical.Cells["K19"].Calculate();
+                //ws.Cells["A15"].Formula = "HSTACK(CHOOSECOLS(UNIQUE(CHOOSECOLS('Open Items'!ANCHORARRAY($A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),1,2))";
+                //ws.Cells["A15"].Calculate();
+                //var someValue = ws.Cells["A15"].Value;
+                //var someValue2 = ws.Cells["B15"].Value;
+
+                //ws.Cells["A25"].Formula = "REPT(\"Sub-Total for \",_xlfn.SEQUENCE(COUNTA(_xlfn.CHOOSECOLS(_xlfn.UNIQUE(_xlfn.CHOOSECOLS(_xlfn.ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),1)),1,,0)) & _xlfn.CHOOSECOLS(_xlfn.UNIQUE(_xlfn.CHOOSECOLS(_xlfn.ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),3)";
+                //ws.Cells["A25"].Calculate();
+                //var val1 = ws.Cells["A25"].Value;
+
+                //ws.Cells["A40"].Formula = "CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),3)";
+                //ws.Cells["A40"].Calculate();
+                //var someVal = ws.Cells["A40"].Value;
+
+                //ws.Cells["A40"].Formula = "HSTACK(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),1,2),REPT(\"Sub-Total for \",SEQUENCE(COUNTA(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),1)),1,,0)) & CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),3),CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),3))";
+                ////ws.Cells["A40"].Calculate();
+
+                ////var val1 = ws.Cells["A40"].Value;
+                ////var val2 = ws.Cells["B40"].Value;
+                ////var val3 = ws.Cells["C40"].Value;
+                ////var val4 = ws.Cells["D40"].Value;
+                ////var val5 = ws.Cells["E40"].Value;
+
+                //ws.Cells["A41"].Formula = "HSTACK(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_LC))),1,2),REPT(\"🔼 Total for G/L\",SEQUENCE(COUNTA(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_LC))),1)),1,,0)),SUBSTITUTE(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_LC))),3), name_LC,\"[n/a]\"))";
+                ////ws.Cells["A41"].Calculate();
+                ////var val12 = ws.Cells["A41"].Value;
+                ////var val22 = ws.Cells["B41"].Value;
+                ////var val32 = ws.Cells["C41"].Value;
+                ////var val42 = ws.Cells["D41"].Value;
+                ////var val52 = ws.Cells["E41"].Value;
+
+                //ws.Cells["A50"].Formula = $"VSTACK({ws.Cells["A40"].Formula},{ws.Cells["A41"].Formula})";
+
+                ////ws.Cells["A50"].Calculate();
+                //var val123 = ws.Cells["A50"].Value;
+                //var val223 = ws.Cells["A51"].Value;
+                //var val323 = ws.Cells["B50"].Value;
+                //var val423 = ws.Cells["B51"].Value;
+
+                //ws.Cells["A60"].Formula = $"SORT({ws.Cells["A50"].Formula},{{1,2}},1,FALSE)";
+
+                //ws.Cells["A60"].Calculate();
+
+                //var valA1 = ws.Cells["A60"].Value;
+                //var valA2 = ws.Cells["A61"].Value;
+                //var valB1 = ws.Cells["B60"].Value;
+                //var valB2 = ws.Cells["B61"].Value;
+
+                //var secondFormula = ws.Cells["E12"].Formula;
+
+                ws.Cells["A12"].Calculate();
+
+                ws.Cells["E12"].Calculate();
+                var someVal = ws.Cells["E12"].Value;
+                ws.Calculate();
+
+                var lcTest = ws.Cells["F12"].Value;
+                var amountLC = ws.Cells["G12"].Value;
+
+                // The following method removes any logger attached to the workbook.
+                //p.Workbook.FormulaParserManager.DetachLogger();
+
+                Assert.AreEqual(ws.Cells["A12"].Text, "0110");
+                Assert.AreEqual(ws.Cells["B12"].Text, "200150");
+                Assert.AreEqual(ws.Cells["C12"].Text, "Sub-Total for EUR");
+                Assert.AreEqual(ws.Cells["D12"].Text, "EUR");
+                Assert.AreEqual(ws.Cells["E12"].Value, "-200000");
+                Assert.AreEqual(ws.Cells["F12"].Text, "CHF");
+                Assert.AreEqual(ws.Cells["G12"].Text, "-200000");
+                Assert.AreEqual(ws.Cells["F12"].Text, "0280");
+
+
             }
         }
     }
