@@ -1542,7 +1542,7 @@ namespace OfficeOpenXml.Core.CellStore
                             }
 
                             var c = colPos - 1;
-                            if (c < 0 && endColPos > colPos)
+                            if (c < 0 && endColPos > colPos && row>1)
                             {
                                 c = endColPos;
                                 row--;

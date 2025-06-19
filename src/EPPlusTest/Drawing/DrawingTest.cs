@@ -653,6 +653,12 @@ namespace EPPlusTest
             rt.SetFromFont("Times new roman", 18, false, false, true);
             rt.UnderLineColor = Color.Green;
 
+            var line = ws.Drawings.AddShape("ArrowLine", eShapeStyle.Line);
+            line.TailEnd.Style = eEndStyle.Triangle;
+            line.HeadEnd.Style = eEndStyle.Triangle;
+            line.TailEnd.Height = eEndSize.Small;
+            line.HeadEnd.Width = eEndSize.Small;
+
 
             (ws.Drawings["shape3"] as ExcelShape).TextAnchoring = eTextAnchoringType.Bottom;
             (ws.Drawings["shape3"] as ExcelShape).TextAnchoringControl = true;
