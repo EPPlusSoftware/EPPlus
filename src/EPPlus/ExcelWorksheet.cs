@@ -2888,6 +2888,40 @@ namespace OfficeOpenXml
             return string.Format("SUBTOTAL({0},{1}[{2}])", funcNum, col._tbl.Name, escapedName);
         }
 
+        private void EnsureIgnorablesAreCorrect()
+        {
+            WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
+            WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
+
+            List<string> mcIgnorables = new();
+
+            foreach(var uri in Workbook._package.IgnorableNamespaceUris)
+            {
+                var prefix = WorksheetXml.DocumentElement.GetPrefixOfNamespace(uri);
+                if (string.IsNullOrEmpty(prefix) == false)
+                {
+                    mcIgnorables.Add(prefix + " ");
+                }
+            }
+
+            var existingIgnorables = WorksheetXml.DocumentElement.GetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility);
+            if (string.IsNullOrEmpty(existingIgnorables) == false)
+            {
+                var namespaces = existingIgnorables.Split(' ');
+                if (!namespaces.Any(x => x == "xr"))
+                {
+                    WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, existingIgnorables + " xr");
+                }
+            }
+            else
+            {
+                var ignorablesConcatenated = string.Concat(mcIgnorables);
+
+                WorksheetXml.DocumentElement.SetAttributeNode("Ignorable", ExcelPackage.schemaMarkupCompatibility);
+                WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, ignorablesConcatenated);
+            }
+        }
+
         private void SaveXml(Stream stream)
         {
             //Create the nodes if they do not exist.
@@ -2915,28 +2949,7 @@ namespace OfficeOpenXml
                 {
                     CreateNode("d:extLst");
                 }
-
-                if (DataValidations != null && DataValidations.Count != 0 ||
-                    ConditionalFormatting != null && ConditionalFormatting.Count != 0)
-                {
-                    WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
-                    WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
-
-                    var ignorables = WorksheetXml.DocumentElement.GetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility);
-                    if (ignorables != null)
-                    {
-                        var namespaces = ignorables.Split(' ');
-                        if (!namespaces.Any(x => x == "xr"))
-                        {
-                            WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, ignorables + " xr");
-                        }
-                    }
-                    else
-                    {
-                        WorksheetXml.DocumentElement.SetAttributeNode("Ignorable", ExcelPackage.schemaMarkupCompatibility);
-                        WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, "xr");
-                    }
-                }
+                EnsureIgnorablesAreCorrect();
 
                 var prefix = GetNameSpacePrefix();
                 var xml = _worksheetXml.OuterXml;

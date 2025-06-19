@@ -11,139 +11,33 @@
   05/30/2022         EPPlus Software AB       EPPlus 6.1
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Utils;
 using System;
 using System.Globalization;
+using System.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
     internal static class RangeOperationsOperator
     {
         private const double DoublePrecision = 0.000000000000001d;
-        private static object ApplyOperator(double l, double r, Operators op, out bool error, ParsingContext context)
+
+        private static CompileResult ApplyOperator(CompileResult l, CompileResult r, Operators op, out bool error, ParsingContext context)
         {
             error = false;
-            switch(op)
+            if (!OperatorsEnumDict.Instance.ContainsKey(op))
             {
-                case Operators.Plus:
-                    return context.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel ? RoundingHelper.GetSignificantFigures(l + r, 15) : l + r;
-                case Operators.Minus:
-                    return context.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel ? RoundingHelper.GetSignificantFigures(l - r, 15) : l - r;
-                case Operators.Multiply:
-                    return context.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel ? RoundingHelper.GetSignificantFigures(l * r, 15) : l * r;
-                case Operators.Divide:
-                    return context.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel ? RoundingHelper.GetSignificantFigures(l / r, 15) : l / r;
-                case Operators.LessThan:
-                    return l < r;
-                case Operators.LessThanOrEqual:
-                    return l <= r;
-                case Operators.GreaterThan:
-                    return l > r;
-                case Operators.GreaterThanOrEqual:
-                    return l >= r;
-                case Operators.Equals:
-                    return Math.Abs(l - r) < DoublePrecision;
-                case Operators.NotEqualTo:
-                    return Math.Abs(l - r) > DoublePrecision;
-                case Operators.Exponentiation:
-                    return Math.Pow(l, r);
-                case Operators.Concat:
-                    var lRounded = RoundingHelper.RoundToSignificantFig(l, 15);
-                    var rRounded = RoundingHelper.RoundToSignificantFig(r, 15);
-                    return string.Concat(lRounded.ToString(CultureInfo.CurrentCulture), rRounded.ToString(CultureInfo.CurrentCulture));
-                default:
-                    error = true;
-                    return default;
+                error = true;
+                return CompileResult.GetErrorResult(eErrorType.Value);
             }
+            var opImpl = OperatorsEnumDict.Instance[op];
+            return opImpl.Apply(l, r, context);
         }
 
-        private static object ApplyOperator(string l, string r, Operators op, out bool error, ParsingContext context)
-        {
-            error = false;
-            switch(op)
-            {
-                case Operators.Concat:
-                    return string.Concat(l, r);
-                case Operators.LessThan:
-                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
-                    {
-                        return true;
-                    }
-                    if(l != null && r == null)
-                    {
-                        return false;
-                    }
-                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
-                        return false;
-                    return StringUtil.Compare(l, r, StringComparison.CurrentCultureIgnoreCase, context) < 0;
-                case Operators.LessThanOrEqual:
-                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
-                    {
-                        return true;
-                    }
-                    if (string.IsNullOrEmpty(l) == false && string.IsNullOrEmpty(r) == true)
-                    {
-                        return false;
-                    }
-                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
-                        return true;
-                    return StringUtil.Compare(l, r, StringComparison.CurrentCultureIgnoreCase, context) <= 0;
-                case Operators.GreaterThan:
-                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
-                    {
-                        return false;
-                    }
-                    if (string.IsNullOrEmpty(l) == false && string.IsNullOrEmpty(r) == true)
-                    {
-                        return true;
-                    }
-                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
-                        return false;
-                    return StringUtil.Compare(l, r, StringComparison.CurrentCultureIgnoreCase, context) > 0;
-                case Operators.GreaterThanOrEqual:
-                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
-                    {
-                        return false;
-                    }
-                    if (string.IsNullOrEmpty(l) == false && string.IsNullOrEmpty(r) == true)
-                    {
-                        return true;
-                    }
-                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
-                        return true;
-                    return StringUtil.Compare(l, r, StringComparison.CurrentCultureIgnoreCase, context) >= 0;
-                case Operators.Equals:
-                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == false)
-                    {
-                        return false;
-                    }
-                    if (string.IsNullOrEmpty(l) == false && string.IsNullOrEmpty(r) == true)
-                    {
-                        return false;
-                    }
-                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
-                        return true;
-                    return StringUtil.Compare(l, r, StringComparison.CurrentCultureIgnoreCase, context) == 0;
-                case Operators.NotEqualTo:
-                    if (string.IsNullOrEmpty(l)==true && string.IsNullOrEmpty(r)==false)
-                    {
-                        return true;
-                    }
-                    if (string.IsNullOrEmpty(l) == false && string.IsNullOrEmpty(r) == true)
-                    {
-                        return true;
-                    }
-                    if (string.IsNullOrEmpty(l) == true && string.IsNullOrEmpty(r) == true)
-                        return false;
-                    return StringUtil.Compare(l, r, StringComparison.CurrentCultureIgnoreCase, context) != 0;
-                default:
-                    error = true;
-                    return null;
-            }
-        }
         internal static InMemoryRange Negate(IRangeInfo ri)
         {
             InMemoryRange imr;
@@ -206,20 +100,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             return ConvertUtil.IsNumericOrDate(val, true, true);
         }
 
-        private static void SetValue(Operators op, InMemoryRange resultRange, int row, int col, object leftVal, object rightVal, ParsingContext context)
+        private static void SetValue(Operators op, InMemoryRange resultRange, int row, int col, CompileResult leftVal, CompileResult rightVal, ParsingContext context)
         {
-            if (IsNumeric(leftVal??0D) && IsNumeric(rightVal??0) && op != Operators.Concat)
-            {
-                var l = ConvertUtil.GetValueDouble(leftVal, false, false, true);
-                var r = ConvertUtil.GetValueDouble(rightVal, false, false, true);
-                var result = ApplyOperator(l, r, op, out bool error, context);
-                SetValue(resultRange, row, col, result, error);
-            }
-            else
-            {
-                var sResult = ApplyOperator(leftVal?.ToString(), rightVal?.ToString(), op, out bool error, context);
-                SetValue(resultRange, row, col, sResult, error);
-            }
+            var res = ApplyOperator(leftVal, rightVal, op, out bool error, context);
+            SetValue(resultRange, row, col, res.ResultValue, error);
         }
 
         private static bool ShouldUseSingleRow(RangeDefinition lSize, RangeDefinition rSize)
@@ -296,14 +180,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         public static InMemoryRange ApplySingleValueRight(CompileResult left, CompileResult right, Operators op, ParsingContext context)
         {
             var lr = left.Result as IRangeInfo;
-
             var resultRange = CreateRange(lr, InMemoryRange.Empty, lr.Address);
             for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
             {
                 for (var col = 0; col < resultRange.Size.NumberOfCols; col++)
                 {
                     var leftVal = GetCellValue(lr, row, col);
-                    SetValue(op, resultRange, row, col, leftVal, right.Result, context);
+                    var lcr = CompileResultFactory.Create(leftVal);
+                    SetValue(op, resultRange, row, col, lcr, right, context);
                 }
             }
             return resultRange;
@@ -319,7 +203,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 {
                     var leftVal = left.Result;
                     var rightVal = GetCellValue(rr, row, col);
-                    SetValue(op, resultRange, row, col, leftVal, rightVal, context);
+                    var rcr = CompileResultFactory.Create(rightVal);
+                    SetValue(op, resultRange, row, col, left, rcr, context);
                 }
             }
             return resultRange;
@@ -344,13 +229,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         {
                             var leftVal = GetCellValue(lr, 0, col);
                             var rightVal = GetCellValue(rr, row, col);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
+                            SetValue(op, resultRange, row, col, CompileResultFactory.Create(leftVal), CompileResultFactory.Create(rightVal), context);
                         }
                         else if (rr.Size.NumberOfRows == 1)
                         {
                             var leftVal = GetCellValue(lr, row, col);
                             var rightVal = GetCellValue(rr, 0, col);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
+                            SetValue(op, resultRange, row, col, CompileResultFactory.Create(leftVal), CompileResultFactory.Create(rightVal), context);
                         }
                     }
                     else if (shouldUseSingleCol)
@@ -359,13 +244,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         {
                             var leftVal = GetCellValue(lr, row, 0);
                             var rightVal = GetCellValue(rr, row, col);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
+                            SetValue(op, resultRange, row, col, CompileResultFactory.Create(leftVal), CompileResultFactory.Create(rightVal), context);
                         }
                         else if (rr.Size.NumberOfCols == 1)
                         {
                             var leftVal = GetCellValue(lr, row, col);
                             var rightVal = GetCellValue(rr, row, 0);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
+                            SetValue(op, resultRange, row, col, CompileResultFactory.Create(leftVal), CompileResultFactory.Create(rightVal), context);
                         }
                     }
                     else if (shouldUseSingleCell)
@@ -374,13 +259,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         {
                             var leftVal = GetCellValue(lr, 0, 0);
                             var rightVal = GetCellValue(rr, row, col);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
+                            SetValue(op, resultRange, row, col, CompileResultFactory.Create(leftVal), CompileResultFactory.Create(rightVal), context);
                         }
                         else
                         {
                             var leftVal = GetCellValue(lr, row, col);
                             var rightVal = GetCellValue(rr, 0, 0);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
+                            SetValue(op, resultRange, row, col, CompileResultFactory.Create(leftVal), CompileResultFactory.Create(rightVal), context);
                         }
                     }
                     else if (AddressIsNotAvailable(lr.Size, rr.Size, row, col))
@@ -391,7 +276,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     {
                         var leftVal = GetCellValue(lr, row, col);
                         var rightVal = GetCellValue(rr, row, col);
-                        SetValue(op, resultRange, row, col, leftVal, rightVal, context);
+                        SetValue(op, resultRange, row, col, CompileResultFactory.Create(leftVal), CompileResultFactory.Create(rightVal), context);
                     }
                 }
             }
