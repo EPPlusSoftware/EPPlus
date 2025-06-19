@@ -114,8 +114,12 @@ namespace EPPlusTest.PDF.FontLabs1
             var lineHeight = asc + Math.Abs( desc) + gap;
             var lineHeightPt = lineHeight * (size / em);
             var rows = 734d / lineHeightPt;
-            var lineHeightPad = lineHeightPt + 1;
+            var lineHeightPad = lineHeightPt + 0.35;
             var rows2 = 734d / lineHeightPad;
+
+            var fontDescentPoints = Math.Abs(desc) * size / em;
+            var dyDescentPixels = fontDescentPoints * 96f / 72f;
+
             return new string[] {CalcMethod, lineHeight.ToString(), lineHeightPt.ToString(), rows.ToString(), lineHeightPad.ToString(), rows2.ToString() };
         }
 

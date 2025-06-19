@@ -177,6 +177,11 @@ namespace OfficeOpenXml.PDF
             return lineHeightPad;
         }
 
+        private double CenterContentsOnPage(double pageheight, double pageStartY, double rangeHeight )
+        {
+            return pageStartY + (pageheight - rangeHeight) / 2d;
+        }
+
         internal List<ExcelRangeBase> CalculateGridLayout()
         {
             List<string> RowPages = new List<string>();
@@ -388,16 +393,17 @@ namespace OfficeOpenXml.PDF
             if(pageSettings != null)
                 PageSettings = pageSettings;
 
-            
-
             CalculateGridLayout();
+
+
             //Need
-            //range of cells for page                       //ExcelRange for all cells in a page
-            //dimensions of cells for page                  //ExcelRange that starts at first cell in page and goes to the last with data.
-            //grid length and height                        //calculated from dimensions
-            //grid Y position                               //calulated based on height and check if start from top or place in middle from PageSettings
-            //position for each grid divider                //dictionary for containgn column and row as key and value for position
-            //position of text relative to cell coordinates //A padding value for all cells to place text.
+            //[X]range of cells for page                       //ExcelRange for all cells in a page
+            //[X]dimensions of cells for page                  //ExcelRange that starts at first cell in page and goes to the last with data.
+            //[]grid length and height                         //calculated from dimensions
+            //[]grid length and height per page                //A collection per page of coordinates
+            //[x]grid Y position                                //calulated based on height and check if start from top or place in middle from PageSettings
+            //[]position for each grid divider                 //dictionary for containgn column and row as key and value for position
+            //[]position of text relative to cell coordinates  //A padding value for all cells to place text.
             //
             //How to handle merged cell?
             //Drawings are drawn on top
