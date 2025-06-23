@@ -152,7 +152,7 @@ namespace OfficeOpenXml.Drawing.Shape
             {
                 return points.Select(x => x.Value.Value).ToList(); ;
             }
-            return null;
+            return new List<int>();
         }
         //return style switch
         //{
