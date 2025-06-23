@@ -1347,10 +1347,10 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 cache.Append($"<{prefix}cfRule type=\"iconSet\" priority=\"{format.Priority}\" id=\"{{{uid}}}\">");
                 cache.Append($"<{prefix}iconSet ");
 
-                if (isCustom == false)
-                {
+                //if (isCustom == false)
+                //{
                     cache.Append($"iconSet=\"{iconSetString}\"");
-                }
+                //}
 
                 if (showValue == false)
                 {
