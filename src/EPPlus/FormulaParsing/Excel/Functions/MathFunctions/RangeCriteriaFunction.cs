@@ -163,7 +163,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
                         if (searched != null)
                         {
-                            if (searched is RangeOrValue critRange)
+                            if (searched is RangeOrValue critRange && critRange.Range != null)
                             {
                                 foreach (var cell in critRange.Range)
                                 {

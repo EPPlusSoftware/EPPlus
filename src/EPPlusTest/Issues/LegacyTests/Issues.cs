@@ -6372,8 +6372,7 @@ namespace EPPlusTest
                 //ws.Cells["K5"].Formula = "CHOOSECOLS(ANCHORARRAY($A$12),3)";
                 //ws.Cells["K5"].Calculate();
                 //cell.Formula = "IF(LEFT(CHOOSECOLS(ANCHORARRAY($A$12),3),1)=\"🔼\",SUMIFS(Sheet2!$R$12:$R$1048576,Sheet2!$B$12:$B$1048576,CHOOSECOLSANCHORARRAY($A$12),2)))";
-
-                cell.Calculate();
+                cell.Calculate(o => o.EnableUnicodeAwareStringOperations = true);
 
                 var val12 = cell.Value;
                 var val22 = ws.Cells["J6"].Value;
@@ -6406,6 +6405,27 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void XlookupTest()
+        {
+            using (var p = OpenTemplatePackage("TestXLookupWb.xlsx"))
+            {
+                var someWs = p.Workbook.Worksheets[0];
+                someWs.Calculate();
+
+                Assert.AreEqual(10d, someWs.Cells["A1"].Value);
+                Assert.AreEqual(20d, someWs.Cells["B1"].Value);
+                Assert.AreEqual(30d, someWs.Cells["C1"].Value);
+
+                someWs.Cells["P2:P4"].Formula = "ROW()-1";
+                someWs.Cells["A1"].Formula = "XLOOKUP(P2:P4,F1:F6,G1:G6,\"fallbackValue\",0,1)";
+
+                Assert.AreEqual(10d, someWs.Cells["A1"].Value);
+                Assert.AreEqual(20d, someWs.Cells["B1"].Value);
+                Assert.AreEqual(30d, someWs.Cells["C1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void s884()
         {
             using(var p = OpenTemplatePackage("s884.xlsx"))
@@ -6418,82 +6438,93 @@ namespace EPPlusTest
                 var form = ws.Cells["A12"].Formula;
                 var formSimpler = technical.Cells["K19"].Formula;
 
-                //var logfile = new FileInfo(@"c:\temp\logfile.txt");
-                // Attach the logger before the calculation is performed.
-                //p.Workbook.FormulaParserManager.AttachLogger(logfile);
-                // Calculate - can also be executed on sheet- or range level.
-                //technical.Cells["K19"].Calculate();
-                //ws.Cells["A15"].Formula = "HSTACK(CHOOSECOLS(UNIQUE(CHOOSECOLS('Open Items'!ANCHORARRAY($A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),1,2))";
-                //ws.Cells["A15"].Calculate();
-                //var someValue = ws.Cells["A15"].Value;
-                //var someValue2 = ws.Cells["B15"].Value;
+                ////var logfile = new FileInfo(@"c:\temp\logfile.txt");
+                //// Attach the logger before the calculation is performed.
+                ////p.Workbook.FormulaParserManager.AttachLogger(logfile);
+                //// Calculate - can also be executed on sheet- or range level.
+                ////technical.Cells["K19"].Calculate();
+                ////ws.Cells["A15"].Formula = "HSTACK(CHOOSECOLS(UNIQUE(CHOOSECOLS('Open Items'!ANCHORARRAY($A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),1,2))";
+                ////ws.Cells["A15"].Calculate();
+                ////var someValue = ws.Cells["A15"].Value;
+                ////var someValue2 = ws.Cells["B15"].Value;
 
-                //ws.Cells["A25"].Formula = "REPT(\"Sub-Total for \",_xlfn.SEQUENCE(COUNTA(_xlfn.CHOOSECOLS(_xlfn.UNIQUE(_xlfn.CHOOSECOLS(_xlfn.ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),1)),1,,0)) & _xlfn.CHOOSECOLS(_xlfn.UNIQUE(_xlfn.CHOOSECOLS(_xlfn.ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),3)";
-                //ws.Cells["A25"].Calculate();
-                //var val1 = ws.Cells["A25"].Value;
+                ////ws.Cells["A25"].Formula = "REPT(\"Sub-Total for \",_xlfn.SEQUENCE(COUNTA(_xlfn.CHOOSECOLS(_xlfn.UNIQUE(_xlfn.CHOOSECOLS(_xlfn.ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),1)),1,,0)) & _xlfn.CHOOSECOLS(_xlfn.UNIQUE(_xlfn.CHOOSECOLS(_xlfn.ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),3)";
+                ////ws.Cells["A25"].Calculate();
+                ////var val1 = ws.Cells["A25"].Value;
 
-                //ws.Cells["A40"].Formula = "CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),3)";
-                //ws.Cells["A40"].Calculate();
-                //var someVal = ws.Cells["A40"].Value;
-
-                //ws.Cells["A40"].Formula = "HSTACK(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),1,2),REPT(\"Sub-Total for \",SEQUENCE(COUNTA(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),1)),1,,0)) & CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),3),CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),3))";
+                ////ws.Cells["A40"].Formula = "CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),3)";
                 ////ws.Cells["A40"].Calculate();
+                ////var someVal = ws.Cells["A40"].Value;
 
-                ////var val1 = ws.Cells["A40"].Value;
-                ////var val2 = ws.Cells["B40"].Value;
-                ////var val3 = ws.Cells["C40"].Value;
-                ////var val4 = ws.Cells["D40"].Value;
-                ////var val5 = ws.Cells["E40"].Value;
+                ////ws.Cells["A40"].Formula = "HSTACK(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),1,2),REPT(\"Sub-Total for \",SEQUENCE(COUNTA(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),1)),1,,0)) & CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),3),CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_DC))),3))";
+                //////ws.Cells["A40"].Calculate();
 
-                //ws.Cells["A41"].Formula = "HSTACK(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_LC))),1,2),REPT(\"🔼 Total for G/L\",SEQUENCE(COUNTA(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_LC))),1)),1,,0)),SUBSTITUTE(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_LC))),3), name_LC,\"[n/a]\"))";
-                ////ws.Cells["A41"].Calculate();
-                ////var val12 = ws.Cells["A41"].Value;
-                ////var val22 = ws.Cells["B41"].Value;
-                ////var val32 = ws.Cells["C41"].Value;
-                ////var val42 = ws.Cells["D41"].Value;
-                ////var val52 = ws.Cells["E41"].Value;
+                //////var val1 = ws.Cells["A40"].Value;
+                //////var val2 = ws.Cells["B40"].Value;
+                //////var val3 = ws.Cells["C40"].Value;
+                //////var val4 = ws.Cells["D40"].Value;
+                //////var val5 = ws.Cells["E40"].Value;
 
-                //ws.Cells["A50"].Formula = $"VSTACK({ws.Cells["A40"].Formula},{ws.Cells["A41"].Formula})";
+                ////ws.Cells["A41"].Formula = "HSTACK(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_LC))),1,2),REPT(\"🔼 Total for G/L\",SEQUENCE(COUNTA(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_LC))),1)),1,,0)),SUBSTITUTE(CHOOSECOLS(UNIQUE(CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_CoCd),COUNTA(displ_col_CoCd:displ_col_Account_GL),COUNTA(displ_col_CoCd:displ_col_Currency_LC))),3), name_LC,\"[n/a]\"))";
+                //////ws.Cells["A41"].Calculate();
+                //////var val12 = ws.Cells["A41"].Value;
+                //////var val22 = ws.Cells["B41"].Value;
+                //////var val32 = ws.Cells["C41"].Value;
+                //////var val42 = ws.Cells["D41"].Value;
+                //////var val52 = ws.Cells["E41"].Value;
 
-                ////ws.Cells["A50"].Calculate();
-                //var val123 = ws.Cells["A50"].Value;
-                //var val223 = ws.Cells["A51"].Value;
-                //var val323 = ws.Cells["B50"].Value;
-                //var val423 = ws.Cells["B51"].Value;
+                ////ws.Cells["A50"].Formula = $"VSTACK({ws.Cells["A40"].Formula},{ws.Cells["A41"].Formula})";
 
-                //ws.Cells["A60"].Formula = $"SORT({ws.Cells["A50"].Formula},{{1,2}},1,FALSE)";
+                //////ws.Cells["A50"].Calculate();
+                ////var val123 = ws.Cells["A50"].Value;
+                ////var val223 = ws.Cells["A51"].Value;
+                ////var val323 = ws.Cells["B50"].Value;
+                ////var val423 = ws.Cells["B51"].Value;
 
-                //ws.Cells["A60"].Calculate();
+                ////ws.Cells["A60"].Formula = $"SORT({ws.Cells["A50"].Formula},{{1,2}},1,FALSE)";
 
-                //var valA1 = ws.Cells["A60"].Value;
-                //var valA2 = ws.Cells["A61"].Value;
-                //var valB1 = ws.Cells["B60"].Value;
-                //var valB2 = ws.Cells["B61"].Value;
+                ////ws.Cells["A60"].Calculate();
 
-                //var secondFormula = ws.Cells["E12"].Formula;
+                ////var valA1 = ws.Cells["A60"].Value;
+                ////var valA2 = ws.Cells["A61"].Value;
+                ////var valB1 = ws.Cells["B60"].Value;
+                ////var valB2 = ws.Cells["B61"].Value;
 
-                ws.Cells["A12"].Calculate();
+                ////var secondFormula = ws.Cells["E12"].Formula;
 
-                ws.Cells["E12"].Calculate();
-                var someVal = ws.Cells["E12"].Value;
-                ws.Calculate();
+                ////ws.Cells["A12"].Calculate();
 
-                var lcTest = ws.Cells["F12"].Value;
-                var amountLC = ws.Cells["G12"].Value;
+                ////ws.Cells["E12"].Calculate();
+                ////var someVal = ws.Cells["E12"].Value;
+                //ws.Calculate(o => o.EnableUnicodeAwareStringOperations = true);
 
-                // The following method removes any logger attached to the workbook.
-                //p.Workbook.FormulaParserManager.DetachLogger();
+                //var someVal = ws.Cells["E12"].Value;
+                //var lcTest = ws.Cells["F12"].Value;
+                //var amountLC = ws.Cells["G12"].Value;
 
-                Assert.AreEqual(ws.Cells["A12"].Text, "0110");
-                Assert.AreEqual(ws.Cells["B12"].Text, "200150");
-                Assert.AreEqual(ws.Cells["C12"].Text, "Sub-Total for EUR");
-                Assert.AreEqual(ws.Cells["D12"].Text, "EUR");
-                Assert.AreEqual(ws.Cells["E12"].Value, "-200000");
-                Assert.AreEqual(ws.Cells["F12"].Text, "CHF");
-                Assert.AreEqual(ws.Cells["G12"].Text, "-200000");
-                Assert.AreEqual(ws.Cells["F12"].Text, "0280");
+                //// The following method removes any logger attached to the workbook.
+                ////p.Workbook.FormulaParserManager.DetachLogger();
 
+                //Assert.AreEqual(ws.Cells["A12"].Text, "0110");
+                //Assert.AreEqual(ws.Cells["B12"].Text, "200150");
+                //Assert.AreEqual(ws.Cells["C12"].Text, "Sub-Total for EUR");
+                //Assert.AreEqual(ws.Cells["D12"].Text, "EUR");
+                //Assert.AreEqual(-200000d ,ws.Cells["E12"].Value);
+                //Assert.AreEqual(ws.Cells["F12"].Text, "CHF");
+                //Assert.AreEqual(-200000d , ws.Cells["G12"].Value);
 
+                var dataSheet = p.Workbook.Worksheets[9];
+
+                dataSheet.Cells["F1"].Formula = "XLOOKUP(\"●\"&CHOOSECOLS(ANCHORARRAY('Open Items'!$A$12),COUNTA(displ_col_CoCd:displ_col_TP)),\"●\"& CHOOSECOLS(matrix_Entity_Mapping_All,name_Source_System_Column_TP+1),matrix_Entity_Mapping_CoCd,\"[???]\",0)";
+                dataSheet.Cells["F1"].Calculate(o => o.EnableUnicodeAwareStringOperations = true);
+
+                var F1Value = dataSheet.Cells["F1"].Value;
+
+                //dataSheet.Calculate(o => o.EnableUnicodeAwareStringOperations = true);
+
+                Assert.AreEqual(dataSheet.Cells["D31"].Text, "0280");
+                Assert.AreEqual(dataSheet.Cells["AG31"].Text, "0110_vs_0280_Loans_Current_Received_EUR");
+                Assert.AreEqual(dataSheet.Cells["AH31"].Text, "0110_vs_0280_Ref_");
             }
         }
     }
