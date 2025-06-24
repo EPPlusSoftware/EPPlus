@@ -84,14 +84,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             object lookupValue;
 
-            if (arguments[0].IsExcelRange)
-            {
-                lookupValue = arguments[0].ValueAsRangeInfo;
-            }
-            else
-            {
+            //if (arguments[0].IsExcelRange)
+            //{
+            //    lookupValue = arguments[0].ValueFirst;
+            //}
+            //else
+            //{
                 lookupValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
-            }
+            //}
 
             if (searchMode == LookupSearchMode.BinarySearchAscending || searchMode == LookupSearchMode.BinarySearchDescending)
             {

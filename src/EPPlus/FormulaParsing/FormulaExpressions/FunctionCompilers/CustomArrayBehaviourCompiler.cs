@@ -51,14 +51,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                 if(cr.DataType == DataType.ExcelRange && Function.ArrayBehaviourConfig.CanBeArrayArg(ix))
                 {
                     var range = cr.Result as IRangeInfo;
-                    if(range.GetNCells() > 1)
-                    {
-                        rangeArgs[ix] = range;
-                    }
-                    else
-                    {
-                        otherArgs[ix] = CompileResultFactory.Create(range.GetOffset(0, 0));
-                    }
+                    rangeArgs[ix] = range;
+
+                    //if (range.GetNCells() > 1)
+                    //{
+                    //    rangeArgs[ix] = range;
+                    //}
+                    //else
+                    //{
+                    //    otherArgs[ix] = CompileResultFactory.Create(range.GetOffset(0, 0));
+                    //}
                 }
                 else
                 {

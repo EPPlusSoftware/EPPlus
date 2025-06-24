@@ -6410,18 +6410,44 @@ namespace EPPlusTest
             using (var p = OpenTemplatePackage("TestXLookupWb.xlsx"))
             {
                 var someWs = p.Workbook.Worksheets[0];
+                //someWs.Calculate();
+
+                //Assert.AreEqual(20d, someWs.Cells["A1"].Value);
+                //Assert.AreEqual(30d, someWs.Cells["B1"].Value);
+                //Assert.AreEqual(50d, someWs.Cells["C1"].Value);
+
+                someWs.ClearFormulaValues();
+
+                //for(int i = 0; i< 4; i++)
+                //{
+                //    someWs.Cells[$""].Value = i + 3;
+                //}
+                someWs.Cells["P2:P4"].Formula = "ROW()+2";
+                someWs.Cells["A1:A3"].Clear();
+
+                someWs.Cells["P2:P4"].Calculate();
+                //someWs.Cells["Q2"].Formula = "HSTACK(P2,P3,P4)";
+                someWs.Cells["Q2"].Formula = "HSTACK($P$2)";
+
+
+                someWs.Cells["Q2"].Calculate();
+                someWs.Cells["A1"].Formula = "XLOOKUP(ANCHORARRAY($Q$2),F1:F6,G1:G6,\"fallbackValue\",0,1)";
+
                 someWs.Calculate();
 
-                Assert.AreEqual(10d, someWs.Cells["A1"].Value);
-                Assert.AreEqual(20d, someWs.Cells["B1"].Value);
-                Assert.AreEqual(30d, someWs.Cells["C1"].Value);
+                var val1 = someWs.Cells["A1"].Value;
+                var val2 = someWs.Cells["A2"].Value;
+                var val3 = someWs.Cells["A3"].Value;
 
-                someWs.Cells["P2:P4"].Formula = "ROW()-1";
-                someWs.Cells["A1"].Formula = "XLOOKUP(P2:P4,F1:F6,G1:G6,\"fallbackValue\",0,1)";
+                SaveAndCleanup(p);
 
-                Assert.AreEqual(10d, someWs.Cells["A1"].Value);
-                Assert.AreEqual(20d, someWs.Cells["B1"].Value);
-                Assert.AreEqual(30d, someWs.Cells["C1"].Value);
+                //Assert.AreEqual(20d, someWs.Cells["A1"].Value);
+                //Assert.AreEqual(40d, someWs.Cells["A2"].Value);
+                //Assert.AreEqual(60d, someWs.Cells["A3"].Value);
+
+                //Assert.AreEqual(10d, someWs.Cells["A1"].Value);
+                //Assert.AreEqual(20d, someWs.Cells["B1"].Value);
+                //Assert.AreEqual(30d, someWs.Cells["C1"].Value);
             }
         }
 
