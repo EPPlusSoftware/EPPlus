@@ -163,14 +163,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
                         if (searched != null)
                         {
-                            if (searched is RangeOrValue critRange && critRange.Range != null)
+                            if (searched is RangeOrValue critRange)
                             {
-                                foreach (var cell in critRange.Range)
+                                if (critRange.Range != null)
                                 {
-                                    if (Evaluate(candidate, cell.Value, ctx, convertNumericString))
+                                    foreach (var cell in critRange.Range)
                                     {
-                                        result.Add(internalIndex);
+                                        if (Evaluate(candidate, cell.Value, ctx, convertNumericString))
+                                        {
+                                            result.Add(internalIndex);
+                                        }
                                     }
+                                }
+                                else if(critRange.Value != null && Evaluate(candidate, critRange.Value, ctx, convertNumericString))
+                                {
+                                    result.Add(internalIndex);
                                 }
                             }
                             else if (Evaluate(candidate, searched, ctx, convertNumericString))
