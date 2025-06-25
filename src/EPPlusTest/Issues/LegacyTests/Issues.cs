@@ -6377,7 +6377,7 @@ namespace EPPlusTest
                 ws.Cells["F5"].Calculate();
 
                 Assert.AreEqual(-200000d, ws.Cells["F5"].Value);
-                Assert.AreEqual(0d, ws.Cells["F5"].Value);
+                Assert.AreEqual(0d, ws.Cells["F6"].Value);
             }
         }
     }

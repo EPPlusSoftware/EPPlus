@@ -1222,7 +1222,7 @@ namespace EPPlusTest.Issues
 
                 ws.Calculate();
 
-                Assert.AreEqual(40d, ws.Cells["A1"].Value);
+                Assert.AreEqual(40, ws.Cells["A1"].Value);
 
                 SaveAndCleanup(p);
             }
