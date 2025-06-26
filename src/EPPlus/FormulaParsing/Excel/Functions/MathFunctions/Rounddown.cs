@@ -31,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (arguments[0].Value == null) return CreateResult(0d, DataType.Decimal);
-            var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e1, context.Configuration.PrecisionAndRoundingStrategy);
+            var number = (decimal)ArgToDecimal(arguments, 0, out ExcelErrorValue e1, context.Configuration.PrecisionAndRoundingStrategy);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             
             var nDecimals = ArgToInt(arguments, 1, out ExcelErrorValue e2);
@@ -50,12 +50,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 result = (long)Math.Floor(number);
                 result = result - (result % System.Math.Pow(10, (nDecimals*-1)));
             }
-            return CreateResult(result * nFactor, DataType.Decimal);
+            return CreateResult((double)result * nFactor, DataType.Decimal);
         }
 
-        private static double RoundDownDecimalNumber(double number, int nDecimals)
+        private static double RoundDownDecimalNumber(decimal number, int nDecimals)
         {
-            long integerRepresentation = (long)Math.Floor(number * Math.Pow(10d, nDecimals));
+            long integerRepresentation = (long)Math.Floor(number * (decimal)Math.Pow(10d, nDecimals));
             var result = integerRepresentation / Math.Pow(10d, nDecimals);
             return result;
         }
