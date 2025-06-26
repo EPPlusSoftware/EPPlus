@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Utils.RemoteCalls
             }
             finally
             {
-                ParsingContext.RemoteCallManager.TaskComplate(this);
+                ParsingContext.RemoteCallManager.TaskComplete(this);
             }
         }
     }

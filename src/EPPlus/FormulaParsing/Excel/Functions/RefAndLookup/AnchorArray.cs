@@ -49,6 +49,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                         var ri = new RangeInfo(rangeAddress);
                         return new DynamicArrayCompileResult(ri, DataType.ExcelRange, rangeAddress);
                     }
+                    else if(string.IsNullOrEmpty(f?.ToString()) == false)
+                    {
+                        //Even if the formulas is just on one cell it should return the range
+                        var ri = new RangeInfo(address);
+                        return new DynamicArrayCompileResult(ri, DataType.ExcelRange, address);
+                    }
                 }
             }
             return CompileResult.GetDynamicArrayResultError(eErrorType.Ref);

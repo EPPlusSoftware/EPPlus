@@ -28,6 +28,7 @@
  *******************************************************************************/
 using EPPlusTest.Properties;
 using EPPlusTest.Table;
+using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using OfficeOpenXml;
@@ -3231,7 +3232,7 @@ namespace EPPlusTest
                 SaveWorkbook("SlicerIssueOpenClose.xlsx", p);
             }
         }
-                [TestMethod]
+        [TestMethod]
         public void i620()
         {
             using (var p = OpenTemplatePackage("i621.xlsx"))
@@ -6294,7 +6295,7 @@ namespace EPPlusTest
 
                 var ws = package.Workbook.Worksheets.Add("newWs");
                 SaveWorkbook("789_issue_only_ws.xlsx", package);
-               //SaveAndCleanup(package);
+                //SaveAndCleanup(package);
             }
         }
 
@@ -6309,7 +6310,7 @@ namespace EPPlusTest
             var ws3 = p.Workbook.Worksheets.Add("Blue");
             ws3.TabColor = Color.Blue;
 
-           SaveWorkbook("tabcolor830.xlsx", p);
+            SaveWorkbook("tabcolor830.xlsx", p);
         }
 
         [TestMethod]
@@ -6335,6 +6336,47 @@ namespace EPPlusTest
                         Console.WriteLine(ws.Name);
                 }
                 SaveAndCleanup(p);
+            }
+        }
+
+
+        [TestMethod]
+        public void SumIfTest()
+        {
+            using (var p = OpenTemplatePackage("TestCase.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var chooseCols1 = ws.Cells["I1"];
+                var chooseCols2 = ws.Cells["S1"];
+
+                var cell = ws.Cells["J5"];
+                cell.Formula = "IF(LEFT(CHOOSECOLS(ANCHORARRAY($A$12),3),1)=\"🔼\",SUMIFS(Sheet2!$R$12:$R$1048576,Sheet2!$B$12:$B$1048576,CHOOSECOLS(ANCHORARRAY($A$12),2)))";
+                cell.Calculate(o => o.EnableUnicodeAwareStringOperations = true);
+
+                var val12 = cell.Value;
+                var val22 = ws.Cells["J6"].Value;
+                var val32 = ws.Cells["K5"].Value;
+
+                var sometxt = "help";
+
+                SaveAndCleanup(p);
+
+                //var newVal = targetCell.Value;
+            }
+        }
+
+        [TestMethod]
+        public void SumIfsRangeCriteriaArray()
+        {
+            using (var p = OpenTemplatePackage("TestCase.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                ws.Cells["F5"].Calculate();
+
+                Assert.AreEqual(-200000d, ws.Cells["F5"].Value);
+                Assert.AreEqual(0d, ws.Cells["F6"].Value);
             }
         }
     }
