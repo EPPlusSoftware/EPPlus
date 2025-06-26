@@ -2564,8 +2564,7 @@ namespace EPPlusTest
                     }
                 }
                 SaveAndCleanup(excelPackage);
-            }
-            ;
+            };
         }
         [TestMethod]
         public void TestColumnWidthsAfterDeletingColumn()

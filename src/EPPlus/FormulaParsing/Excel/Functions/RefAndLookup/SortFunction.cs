@@ -81,8 +81,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 byCol = ArgToBool(arguments, 3, false);
             }
 
-            //var maxIndex = byCol ? range.Size.NumberOfCols : range.Size.NumberOfRows;
-
             //Validate (Excel allows the larger number of sort indicies despite them not being used)
             var maxPotentialIndex = Math.Max(range.Size.NumberOfCols, range.Size.NumberOfRows);
             foreach (var sortIndex in sortIndexes)

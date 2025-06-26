@@ -79,19 +79,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
                 searchMode = XlookupUtil.GetSearchMode(sm);
             }
+
             int ix;
-
-
-            object lookupValue;
-
-            //if (arguments[0].IsExcelRange)
-            //{
-            //    lookupValue = arguments[0].ValueFirst;
-            //}
-            //else
-            //{
-                lookupValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
-            //}
+            var lookupValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
 
             if (searchMode == LookupSearchMode.BinarySearchAscending || searchMode == LookupSearchMode.BinarySearchDescending)
             {
