@@ -611,5 +611,18 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void CF_IconSetReadCUSTOMEXCEL()
+        {
+            string id = "";
+            using (var p = OpenTemplatePackage("IconTest_CF.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["B1"].Value = 5;
+
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
