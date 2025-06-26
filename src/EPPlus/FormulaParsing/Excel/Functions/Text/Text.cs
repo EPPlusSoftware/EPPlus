@@ -50,7 +50,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var format = ArgToString(arguments, 1);
             var invariantFormat = GetInvariantFormat(format);
 
-            var result = context.ExcelDataProvider.GetFormat(value, invariantFormat);
+            var result = context.ExcelDataProvider.GetFormat(value, invariantFormat, out bool isValidFormat);
+            if(!isValidFormat)
+            {
+                return CreateResult(eErrorType.Value);
+            }
 
             return CreateResult(result, DataType.String);
         }

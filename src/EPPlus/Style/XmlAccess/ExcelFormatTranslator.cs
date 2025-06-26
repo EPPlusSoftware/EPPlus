@@ -38,6 +38,9 @@ namespace OfficeOpenXml.Style.XmlAccess
             internal string NetFormat { get; set; }
             internal string NetFormatForWidth { get; set; }
             internal string FractionFormat { get; set; }
+
+            internal bool IsValid { get; set; } = true;
+
             internal eSystemDateFormat SpecialDateFormat { get; set; }
             internal bool ContainsTextPlaceholder { get; set; } = false;
             internal void SetFormat(string format, bool containsAmPm, bool forColWidth)
@@ -76,7 +79,11 @@ namespace OfficeOpenXml.Style.XmlAccess
             else
             {
                 ToNetFormat(format, false);
-                ToNetFormat(format, true);
+                if(f.IsValid)
+                {
+                    ToNetFormat(format, true);
+                }
+                
             }
         }
 
@@ -275,7 +282,16 @@ namespace OfficeOpenXml.Style.XmlAccess
                                 }
                                 else
                                 {
-                                    sb.Append(bracketText);
+                                    var isValidFormat = BracketTextValidator.IsValid(bracketText);
+                                    if(!isValidFormat)
+                                    {
+                                        sb.Append($"[{bracketText}]");
+                                        f.IsValid = false;
+                                    }
+                                    else
+                                    {
+                                        sb.Append(bracketText);
+                                    }
                                 }
                                 f.SpecialDateFormat = eSystemDateFormat.Conditional;
                             }
