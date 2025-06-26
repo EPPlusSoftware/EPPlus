@@ -102,8 +102,8 @@ namespace OfficeOpenXml.Drawing
             }
 
         }
-        public long? X { get; set; }
-        public long? Y { get; set; }
+        public double? X { get; set; }
+        public double? Y { get; set; }
         public string XName { get; set; }
         public string YName { get; set; }
     }
@@ -343,10 +343,10 @@ namespace OfficeOpenXml.Drawing
             }
         }
         public override PathDrawingType Type => PathDrawingType.ArcTo;
-        public long? HeightRadius { get; set; }
-        public long? StartAngle { get; set; }
-        public long? SwingAngle { get; set; }
-        public long? WidthRadius { get; set; }
+        public double? HeightRadius { get; set; }
+        public double? StartAngle { get; set; }
+        public double? SwingAngle { get; set; }
+        public double? WidthRadius { get; set; }
         public string HeightRadiusName { get; set; }
         public string StartAngleName { get; set; }
         public string SwingAngleName { get; set; }

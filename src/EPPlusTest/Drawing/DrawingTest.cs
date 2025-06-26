@@ -1216,6 +1216,19 @@ namespace EPPlusTest
 
                 SaveAndCleanup(package);
             }
-        }        
+        }
+        [TestMethod]
+        public void s868()
+        {
+            using (var package = OpenTemplatePackage("s868.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets["aliss"];
+                wb.Worksheets.Add("AlissCopy", ws);
+                ws.Cells["CW151"].Calculate();
+                var v = ws.Cells["CW151"].Value;
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
