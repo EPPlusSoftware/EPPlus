@@ -22,7 +22,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
     {
         private static int SearchAsc(object s, IRangeInfo lookupRange, IComparer<object> comparer, LookupRangeDirection? direction = null)
         {
-            var searchRange = LookupRangeReader.GetLookupRange(lookupRange, ref direction);
+            var valueSubRange = lookupRange.GetRangeInfoByValue();
+            var subrangeAdjustment = valueSubRange.Address.FromRow > 0 ? (valueSubRange.Address.FromRow - lookupRange.Address.FromRow) : 0;
+
+            var searchRange = LookupRangeReader.GetLookupRange(valueSubRange, ref direction);
 
             var nRows = direction == LookupRangeDirection.Vertical ? searchRange.Count : 1;
             var nCols = direction == LookupRangeDirection.Horizontal ? searchRange.Count : 1;
@@ -52,14 +55,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                 }
                 else
                 {
-                    return searchRangeCell.Index;
+                    return subrangeAdjustment + searchRangeCell.Index;
                 }
             }
             if (low < 1)
             {
-                return ~low;
+                return ~(low + subrangeAdjustment);
             }
-            return ~(searchRange[low - 1].Index + 1);
+            return ~(searchRange[low - 1].Index + subrangeAdjustment + 1);
         }
 
         private static int SearchDesc(object s, IRangeInfo lookupRange, IComparer<object> comparer)

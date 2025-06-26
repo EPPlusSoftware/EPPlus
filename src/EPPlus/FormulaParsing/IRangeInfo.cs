@@ -97,6 +97,12 @@ namespace OfficeOpenXml.FormulaParsing
         /// <param name="index">The index of the address.</param>
         /// <returns>The address adjusted within the dimension of the worksheet.</returns>
         public FormulaRangeAddress GetAddressDimensionAdjusted(int index);
+
+        /// <summary>
+        /// Gets dimension of rang excluding null values
+        /// </summary>
+        /// <returns></returns>
+        IRangeInfo GetRangeInfoByValue();
     }
     /// <summary>
     /// Address info

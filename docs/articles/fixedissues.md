@@ -1,4 +1,22 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.0.6
+* Changed to use “PackageLicenseExpression” in the Nuget package.
+* ExcelRangeBase.LoadFromDataTable sometimes cleared data outside the loaded range.
+* Add support for including new items in manual filter for pivot table when refreshing a cache.
+* IFERROR did not handle arrays in the second argument correctly.
+* The formula string for shared, array and data table formulas were not correctly decoded if 0xXXXX encoding was used.
+* The internal range dictionary returns true for non-accessed ranges in rare cases, causing the dependency chain to skip calculating dependent cells.
+* The VBA legacy signature had an invalid ASN1 record.
+* DBNull.Value was not handled as null in the pivot table calculation causing an unhandled exception.
+* During formula calculation, EPPlus does not handle double char Unicode characters (starting with a high-surrogate char and ending with a low-surrogate char) correctly. EPPlus will handle this if the new EnableUnicodeAwareStringOperations property on ExcelCalculationOption is set to true.
+* The TEXT function should handle arrays as input and be able to return an array instead of a single value.
+* The SORT function did not handle multiple indexes (second argument) correctly.
+* The SWITCH function did not handle an array as the first argument.
+* Fixed an issue that caused an Exception during calculation if an external workbook was not available.
+* A CircularReferenceException was thrown with dynamic arrays even if options.AllowCircularReferences was true.
+* The SORT function now works more like Excel. The function now orders the results with matching values after their original sorting.
+* Fixed several bugs and tweaked performance for binary lookup for the lookup and match functions.
+
 ## Version 8.0.5
 * Fix for external links not getting saved in EPPlus 8.0.4
 
