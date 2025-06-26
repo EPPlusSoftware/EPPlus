@@ -53,6 +53,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                     var range = cr.Result as IRangeInfo;
                     rangeArgs[ix] = range;
 
+                    //OLD CODE left below in case otherArgs becomes a problem later. Range args when NCells == 1 is
+                    //neccesary in case of in memory range/dynamic array formulas with a single cell.
+
                     //if (range.GetNCells() > 1)
                     //{
                     //    rangeArgs[ix] = range;
