@@ -46,7 +46,7 @@ namespace EPPlusTest.Sorting
                 }
                 sheet.Cells["A1:A10"].Sort(0, true);
                 Assert.AreEqual(1, sheet.SortState.TopNode.ChildNodes.Count);
-                
+
                 sheet.Cells["A1:A10"].Sort(0, true);
                 Assert.AreEqual(1, sheet.SortState.TopNode.ChildNodes.Count);
             }
@@ -77,7 +77,7 @@ namespace EPPlusTest.Sorting
         [TestMethod]
         public void ShouldHandleEmptyDescendingArray()
         {
-            using(var package = new ExcelPackage())
+            using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 int[] sortColumns = new int[1];
@@ -330,7 +330,7 @@ namespace EPPlusTest.Sorting
                 sheet.Cells[1, 1].Value = 3;
                 sheet.Cells[2, 1].Value = 2;
                 sheet.Cells[3, 1].Value = 1;
-                
+
                 sheet.Cells[1, 2].Formula = "SUM(A1)";
                 sheet.Cells[2, 2].Formula = "SUM(A2)";
                 sheet.Cells[3, 2].Formula = "SUM(A3)";
@@ -568,7 +568,7 @@ namespace EPPlusTest.Sorting
                 var sheet = package.Workbook.Worksheets.Add("Test");
                 sheet.Cells["A1"].Value = 4;
                 sheet.Cells["A2"].Value = 1;
-                
+
                 sheet.Cells["A1:A2"].Sort(x => x.SortBy.Column(0));
 
                 Assert.AreEqual(1, sheet.Cells["A1"].Value);
@@ -587,12 +587,12 @@ namespace EPPlusTest.Sorting
             var user = p.Workbook.ThreadedCommentPersons.Add("Jan Källman");
             LoadTestdata(sheet, 7);
 
-            for (int r=2;r < 6;r++)
+            for (int r = 2; r < 6; r++)
             {
                 sheet.Cells[r, 1].AddComment(r.ToString());
                 var tc = sheet.Cells[r, 2].AddThreadedComment();
-                    
-                tc.AddComment(user.Id, r.ToString());                
+
+                tc.AddComment(user.Id, r.ToString());
             }
 
             // Act
@@ -605,6 +605,35 @@ namespace EPPlusTest.Sorting
 
             // Act 2
             SaveWorkbook("i1870-save.xlsx", p);
+        }
+
+        //Part of s884
+        [TestMethod]
+        public void Sort_SortIndiciesAllowedBeyondMinimum()
+        {
+            using (var p = OpenPackage("SortTest_new.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("sortWs");
+
+                var srcRange = ws.Cells["A1:C2"];
+                srcRange.Formula = "ROW() + COLUMN()";
+
+                srcRange.Calculate();
+
+                var dest = ws.Cells["E3"];
+                //Despite sorting on 2 Rows with 3 sort_index. Excel allows it if the other dimension is >= sort_index. In this case Columns >= 3.
+                dest.Formula = "SORT(A1:C2,{1,2,3},1,FALSE)";
+                dest.Calculate();
+
+                Assert.AreEqual(2d, ws.Cells["E3"].Value);
+                Assert.AreEqual(3d, ws.Cells["E4"].Value);
+                Assert.AreEqual(3d, ws.Cells["F3"].Value);
+                Assert.AreEqual(4d, ws.Cells["F4"].Value);
+                Assert.AreEqual(4d, ws.Cells["G3"].Value);
+                Assert.AreEqual(5d, ws.Cells["G4"].Value);
+
+                SaveAndCleanup(p);
+            }
         }
     }
 }

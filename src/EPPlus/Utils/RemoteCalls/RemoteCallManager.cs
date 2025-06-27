@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Utils.RemoteCalls
             }
             ThreadPool.QueueUserWorkItem(_ => task.DoWork());
         }
-        public void TaskComplate(RemoteTask task)
+        public void TaskComplete(RemoteTask task)
         {
             _tasks.Remove(task);
         }

@@ -45,8 +45,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 _stopwatch = new Stopwatch();
                 _stopwatch.Start();
             }
-            var lookupValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
-
             // lookup range
             if (!arguments[1].IsExcelRange) return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             var lookupRange = arguments[1].ValueAsRangeInfo;
@@ -81,7 +79,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
                 searchMode = XlookupUtil.GetSearchMode(sm);
             }
+
             int ix;
+            var lookupValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
+
             if (searchMode == LookupSearchMode.BinarySearchAscending || searchMode == LookupSearchMode.BinarySearchDescending)
             {
                 var asc = searchMode == LookupSearchMode.BinarySearchAscending;
@@ -97,6 +98,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 _stopwatch.Stop();
                 context.Configuration.Logger.LogFunction("XLOOKUP", _stopwatch.ElapsedMilliseconds);
             }
+
             return BuildCompileResult(lookupDirection, returnArray, notFoundText, ix);
         }
 
