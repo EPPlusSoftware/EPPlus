@@ -112,8 +112,8 @@ namespace OfficeOpenXml.Drawing
         public abstract PathDrawingType Type { get;  }
 
         internal abstract PathsBase Clone();
-        public abstract float EndX { get; }
-        public abstract float EndY { get; }
+        public abstract double EndX { get; }
+        public abstract double EndY { get; }
     }
     internal abstract class PathWithCoordinates : PathsBase
     {
@@ -161,8 +161,8 @@ namespace OfficeOpenXml.Drawing
             }
         }
         public List<DrawCoordinate> Coordinates { get; set; } = new List<DrawCoordinate>();
-        public override float EndX => Coordinates.Count > 0 ? (float)Coordinates[Coordinates.Count-1].X : 0F;
-        public override float EndY => Coordinates.Count > 0 ? (float)Coordinates[Coordinates.Count - 1].Y : 0F;
+        public override double EndX => Coordinates.Count > 0D ? Coordinates[Coordinates.Count-1].X.Value : 0D;
+        public override double EndY => Coordinates.Count > 0D ? Coordinates[Coordinates.Count - 1].Y.Value : 0D;
     }
     internal class MoveTo : PathWithCoordinates
     {
@@ -217,8 +217,8 @@ namespace OfficeOpenXml.Drawing
         {
             return new ClosePath();
         }
-        public override float EndX => float.MinValue;
-        public override float EndY => float.MinValue;
+        public override double EndX => double.MinValue;
+        public override double EndY => double.MinValue;
     }
     internal class QuadBezerTo : PathWithCoordinates
     {
@@ -369,14 +369,14 @@ namespace OfficeOpenXml.Drawing
                 WidthRadiusName = WidthRadiusName
             };
         }
-        float _endX, _endY;
-        internal void SetEndCoordinates(float x, float y)
+        double _endX, _endY;
+        internal void SetEndCoordinates(double x, double y)
         {
             _endX = x;
             _endY = y;
         }
-        public override float EndX => _endX;
-        public override float EndY => _endY;
+        public override double EndX => _endX;
+        public override double EndY => _endY;
     }
     internal class DrawingPath
     {
@@ -482,8 +482,8 @@ namespace OfficeOpenXml.Drawing
         public bool Stroke { get; set; }
         public bool ExtrusionOk { get; set; }        
         public PathFillMode Fill { get; set; }
-        public long? Width { get; set; }
-        public long? Height { get; set; }
+        public double? Width { get; set; }
+        public double? Height { get; set; }
         public List<PathsBase> Paths { get; set; } = new List<PathsBase>();
     }
     /// <summary>
