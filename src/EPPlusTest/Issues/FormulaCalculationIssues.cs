@@ -1258,6 +1258,9 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(dataSheet.Cells["D31"].Text, "0280");
                 Assert.AreEqual(dataSheet.Cells["AG31"].Text, "0110_vs_0280_Loans_Current_Received_EUR");
                 Assert.AreEqual(dataSheet.Cells["AH31"].Text, "0110_vs_0280_Ref_");
+            }
+        }
+
         [TestMethod]
         public void s868()
         {
