@@ -56,6 +56,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var toRow = (height != 0 ? adr.FromRow + height - 1 : adr.ToRow) + (int)rowOffset;
             var toCol = (width != 0 ? adr.FromCol + width - 1 : adr.ToCol) + (int)colOffset;
 
+            if(fromRow < 1 || fromCol < 1 || toRow > ExcelPackage.MaxRows || toCol > ExcelPackage.MaxColumns)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Ref);
+            }
             var newRange = context.ExcelDataProvider.GetRange(adr.WorksheetName, fromRow, fromCol, toRow, toCol);
             
             return CreateAddressResult(newRange, DataType.ExcelRange);

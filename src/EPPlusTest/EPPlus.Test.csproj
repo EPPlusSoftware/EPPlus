@@ -274,6 +274,9 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Style\XmlAccess\" />
+	</ItemGroup>
 	<PropertyGroup>
 		<SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
 	</PropertyGroup>
