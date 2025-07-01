@@ -615,7 +615,7 @@ namespace OfficeOpenXml.FormulaParsing
             SetCurrentWorksheet(worksheetName);
             return _currentWorksheet.GetValue(row, column);
         }
-        public override string GetFormat(object value, string format)
+        public override string GetFormat(object value, string format, out bool isValidFormat)
         {
             if (_workbook.NumberFormatToTextHandler == null)
             {
@@ -634,10 +634,12 @@ namespace OfficeOpenXml.FormulaParsing
                     ft = new ExcelFormatTranslator(format, -1);
                 }
 
-                return ValueToTextHandler.FormatValue(value, false, ft, null);
+                var frmt = ValueToTextHandler.FormatValue(value, false, ft, null, out isValidFormat);
+                return frmt;
             }
             else
             {
+                isValidFormat = true;
                 var arg = new NumberFormatToTextArgs(_currentWorksheet, _context.CurrentCell.Row, _context.CurrentCell.Column, value, _currentWorksheet.GetStyleInner(_context.CurrentCell.Row, _context.CurrentCell.Column));
                 return _workbook.NumberFormatToTextHandler(arg);
             }

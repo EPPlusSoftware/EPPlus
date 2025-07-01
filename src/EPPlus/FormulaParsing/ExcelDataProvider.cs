@@ -138,7 +138,7 @@ namespace OfficeOpenXml.FormulaParsing
         public abstract int ExcelMaxRows { get; }
 
         public abstract object GetRangeValue(string worksheetName, int row, int column);
-        public abstract string GetFormat(object value, string format);
+        public abstract string GetFormat(object value, string format, out bool isValidFormat);
 
         public abstract void Reset();
         public abstract IRangeInfo GetRange(string worksheet, int fromRow, int fromCol, int toRow, int toCol);

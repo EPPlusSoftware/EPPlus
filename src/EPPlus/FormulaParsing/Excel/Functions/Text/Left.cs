@@ -25,13 +25,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     internal class Left : ExcelFunction
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-        public override int ArgumentMinLength => 2;
+        //Num_Chars is optional
+        public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var str = ArgToString(arguments, 0);
             if(str == null)
                 str = string.Empty;
-            var length = ArgToInt(arguments, 1, out ExcelErrorValue e1);
+
+            int length;
+            ExcelErrorValue e1 = null;
+
+            if (arguments.Count < 2)
+            {
+                length = 1;
+            }
+            else
+            {
+                length = ArgToInt(arguments, 1, out e1);
+            }
+
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (length < 0)
             {
@@ -41,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 length = str.Length;
             if(context.Configuration.EnableUnicodeAwareStringOperations)
             {
-                return CreateResult(str.UnitcodeSubstring(length), DataType.String);
+                return CreateResult(str.UnicodeSubstring(length), DataType.String);
             }
             return CreateResult(str.Substring(0, length), DataType.String);
         }

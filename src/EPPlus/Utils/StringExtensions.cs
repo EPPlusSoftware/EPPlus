@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Utils
             return true;
         }
 
-        internal static string UnitcodeSubstring(this string s, int length)
+        internal static string UnicodeSubstring(this string s, int length)
         {
             return StringUtil.UnicodeSubstring(s, length);
         }

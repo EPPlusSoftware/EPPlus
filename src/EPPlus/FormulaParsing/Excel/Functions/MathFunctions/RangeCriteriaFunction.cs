@@ -17,6 +17,7 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Utils;
@@ -159,15 +160,37 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     for (var col = address.FromCol; col <= address.ToCol; col++)
                     {
                         var candidate = rangeInfo.GetValue(row, col);
-                        if (searched != null && Evaluate(candidate, searched, ctx, convertNumericString))
+
+                        if (searched != null)
                         {
-                            result.Add(internalIndex);
+                            if (searched is RangeOrValue critRange)
+                            {
+                                if (critRange.Range != null)
+                                {
+                                    foreach (var cell in critRange.Range)
+                                    {
+                                        if (Evaluate(candidate, cell.Value, ctx, convertNumericString))
+                                        {
+                                            result.Add(internalIndex);
+                                        }
+                                    }
+                                }
+                                else if(critRange.Value != null && Evaluate(candidate, critRange.Value, ctx, convertNumericString))
+                                {
+                                    result.Add(internalIndex);
+                                }
+                            }
+                            else if (Evaluate(candidate, searched, ctx, convertNumericString))
+                            {
+                                result.Add(internalIndex);
+                            }
                         }
+
                         internalIndex++;
                     }
                 }
             }
-            else if(Evaluate(rangeOrValue.Value, searched, ctx, convertNumericString))
+            else if (Evaluate(rangeOrValue.Value, searched, ctx, convertNumericString))
             {
                 result.Add(internalIndex);
             }
@@ -236,7 +259,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     argRanges.Add(new RangeOrValue { Value = arg.ResultValue });
                 }
-                criteria.Add(args[ix + 1].ResultValue);
+
+                if (args[ix + 1].Result is IRangeInfo critInfo)
+                {
+                    criteria.Add(new RangeOrValue { Range = critInfo });
+                }
+                else
+                {
+                    criteria.Add(new RangeOrValue { Value = args[ix + 1].ResultValue });
+                }
             }
             IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criteria[0], null);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();

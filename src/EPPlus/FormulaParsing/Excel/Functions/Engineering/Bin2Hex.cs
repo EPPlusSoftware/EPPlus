@@ -42,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             if (number.Length < 10)
             {
                 var n = Convert.ToInt32(number, 2);
-                return CreateResult(n.ToString(formatString), DataType.Decimal);
+                return CreateResult(n.ToString(formatString), DataType.String);
             }
             else
             {
