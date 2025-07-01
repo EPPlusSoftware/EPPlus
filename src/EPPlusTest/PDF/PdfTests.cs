@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.PDF;
 using OfficeOpenXml.PDF.PdfSettings;
+using OfficeOpenXml.PDF.PdfSettings.PdfPageData;
 using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
 
 namespace EPPlusTest.PDF
@@ -24,7 +25,7 @@ namespace EPPlusTest.PDF
             pageSettings.Debug = true;
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
 
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest10.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest11.pdf");
 
         }
 
@@ -34,7 +35,7 @@ namespace EPPlusTest.PDF
             using var p = OpenTemplatePackage("PdfGrids\\1 Page Full.xlsx");
             var ws = p.Workbook.Worksheets[0];
             ExcelPdf pdf = new ExcelPdf(ws);
-            pdf.CalculateGridLayout();
+            pdf.GetRangeForPages();
         }
         [TestMethod]
         public void CalculateGridLayoutTest2()
@@ -42,7 +43,7 @@ namespace EPPlusTest.PDF
             using var p = OpenTemplatePackage("PdfGrids\\1 Page Small.xlsx");
             var ws = p.Workbook.Worksheets[0];
             ExcelPdf pdf = new ExcelPdf(ws);
-            pdf.CalculateGridLayout();
+            pdf.GetRangeForPages();
         }
         [TestMethod]
         public void CalculateGridLayoutTest3()
@@ -50,7 +51,7 @@ namespace EPPlusTest.PDF
             using var p = OpenTemplatePackage("PdfGrids\\2 Page Down.xlsx");
             var ws = p.Workbook.Worksheets[0];
             ExcelPdf pdf = new ExcelPdf(ws);
-            pdf.CalculateGridLayout();
+            pdf.GetRangeForPages();
         }
         [TestMethod]
         public void CalculateGridLayoutTest4()
@@ -58,7 +59,7 @@ namespace EPPlusTest.PDF
             using var p = OpenTemplatePackage("PdfGrids\\2 Page Over.xlsx");
             var ws = p.Workbook.Worksheets[0];
             ExcelPdf pdf = new ExcelPdf(ws);
-            pdf.CalculateGridLayout();
+            pdf.GetRangeForPages();
         }
         [TestMethod]
         public void CalculateGridLayoutTest5()
@@ -66,7 +67,7 @@ namespace EPPlusTest.PDF
             using var p = OpenTemplatePackage("PdfGrids\\3 2 Page.xlsx");
             var ws = p.Workbook.Worksheets[0];
             ExcelPdf pdf = new ExcelPdf(ws);
-            pdf.CalculateGridLayout();
+            pdf.GetRangeForPages();
         }
         [TestMethod]
         public void CalculateGridLayoutTest6()
@@ -76,7 +77,7 @@ namespace EPPlusTest.PDF
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.PageOrders = PageOrders.OverThenDown;
             ExcelPdf pdf = new ExcelPdf(ws, pageSettings);
-            pdf.CalculateGridLayout();
+            pdf.GetRangeForPages();
         }
         [TestMethod]
         public void CalculateGridLayoutTest7()
@@ -85,8 +86,10 @@ namespace EPPlusTest.PDF
             var ws = p.Workbook.Worksheets[0];
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.PageOrders = PageOrders.OverThenDown;
+            pageSettings.CenterOnPageVertically = true;
+            pageSettings.CenterOnPageHorizontally = true;
             ExcelPdf pdf = new ExcelPdf(ws, pageSettings);
-            pdf.CalculateGridLayout();
+            pdf.GetRangeForPages();
         }
 
 

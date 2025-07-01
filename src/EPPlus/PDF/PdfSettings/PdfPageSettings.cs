@@ -47,6 +47,15 @@ namespace OfficeOpenXml.PDF.PdfSettings
         /// </summary>
         public PageOrders PageOrders = PageOrders.DownThenOver;
 
+        /// <summary>
+        /// Set to true to center content on page vertically.
+        /// </summary>
+        public bool CenterOnPageVertically;
+        /// <summary>
+        /// Set to true to center content on page horizontally.
+        /// </summary>
+        public bool CenterOnPageHorizontally;
+
         PdfPageSize _pageSize = PdfPageSize.A4;
         /// <summary>
         /// Set the size of pages.

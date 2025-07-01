@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.PDF.PdfSettings.FontData;
+using OfficeOpenXml.PDF.PdfSettings.PdfPageData;
 using FontLab1.Tables.Os2;
 
 namespace OfficeOpenXml.PDF
@@ -21,6 +21,8 @@ namespace OfficeOpenXml.PDF
         internal string header = "%PDF-1.7\n";
         internal List<PdfObject> body = new List<PdfObject>();
         internal PdfCrossRefTable crossRefTable;
+        internal readonly string defaultFontName;
+        internal List<PdfExcelPageData> pagesData = new List<PdfExcelPageData>();
 
         /// <summary>
         ///
@@ -35,6 +37,15 @@ namespace OfficeOpenXml.PDF
         public ExcelPdf(ExcelWorksheet worksheet)
         {
             _ws = worksheet;
+            defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
+            if (!PdfExcelPageDataLookup.PdfExcelA4PageData.ContainsKey(defaultFontName))
+            {
+                pagesData.Add(new PdfExcelPageData(-1, -1));
+            }
+            else
+            {
+                pagesData.Add(new PdfExcelPageData(PdfExcelPageDataLookup.PdfExcelA4PageData[defaultFontName][0], PdfExcelPageDataLookup.PdfExcelA4PageData[defaultFontName][1]));
+            }
             PageSettings = new PdfPageSettings();
             bounds = new PdfContentBounds(PageSettings.Margins, PageSettings.PageSize);
         }
@@ -43,6 +54,12 @@ namespace OfficeOpenXml.PDF
         public ExcelPdf(ExcelWorksheet worksheet, PdfPageSettings pageSettings)
         {
             _ws = worksheet;
+            defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
+            if (!PdfExcelPageDataLookup.PdfExcelA4PageData.ContainsKey(defaultFontName))
+            {
+                PdfExcelPageDataLookup.PdfExcelA4PageData.Add(defaultFontName, [-1, -1]);
+
+            }
             PageSettings = pageSettings;
             bounds = new PdfContentBounds(PageSettings.Margins, PageSettings.PageSize);
         }
@@ -148,15 +165,14 @@ namespace OfficeOpenXml.PDF
 
         internal double CalculateDefaultRowHeight(ExcelWorksheet ws)
         {
-            var fontName = ws.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
-            TtfFont font = GenericFonts.GetFontData(PageSettings, fontName);
-            double ascender=0, descender=0, lineGap=0, size = 11, em=font.HeadTable.UnitsPerEm;
-            if (PdfExcelFontDataLookup.excelFontData.ContainsKey(font.FullName))
-            {
+            TtfFont font = GenericFonts.GetFontData(PageSettings, defaultFontName);
+            double ascender = 0, descender = 0, lineGap = 0, size = 11, em = font.HeadTable.UnitsPerEm;
+            //if (PdfExcelFontDataLookup.ExcelFontData.ContainsKey(font.FullName))
+            //{
                 
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 if ((font.Os2Table.SelectionFlags & Os2Table.FsSelectionFlags.UseTypoMetrics) != 0)
                 {
                     ascender = font.Os2Table.sTypoAscender;
@@ -169,8 +185,7 @@ namespace OfficeOpenXml.PDF
                     descender = font.Os2Table.usWinDescent;
                     lineGap = 0;
                 }
-            }
-
+            //}
             var lineHeight = ascender + Math.Abs(descender) + lineGap;
             var lineHeightPt = lineHeight * (size / em);
             var lineHeightPad = lineHeightPt + 1d;
@@ -182,7 +197,50 @@ namespace OfficeOpenXml.PDF
             return pageStartY + (pageheight - rangeHeight) / 2d;
         }
 
-        internal List<ExcelRangeBase> CalculateGridLayout()
+        internal List<PdfExcelPageData> CreatePageData()
+        {
+            var ranges = GetRangeForPages();
+            pagesData[0].PageRange = ranges[0];
+            for (int i = 1; i<ranges.Count;i++)
+            {
+                pagesData.Add(new PdfExcelPageData(pagesData[0].RowMaxCount, pagesData[0].ColumnMaxCount));
+                pagesData[i].PageRange = ranges[i];
+            }
+            foreach(var pageData in pagesData)
+            {
+                GetContentSizeAndCoords(pageData);
+            }
+            return pagesData;
+        }
+
+        internal void GetContentSizeAndCoords(PdfExcelPageData pageData)
+        {
+            double height = 0d;
+            double width = 0d;
+            for (int i = pageData.PageRange._fromRow; i <= pageData.PageRange._toRow; i++)
+            {
+                height += _ws.Row(i).Hidden ? 0d : _ws.Row(i).Height;
+            }
+            for (int j = pageData.PageRange._fromCol; j <= pageData.PageRange._toCol; j++)
+            {
+                width += PdfUnits.ExcelColumnWidthToPoints(_ws.Column(j).Width);
+            }
+            pageData.contentWidth = width;
+            pageData.contentHeight = height;
+
+            double x = PageSettings.CenterOnPageHorizontally ? (bounds.X + (bounds.Width - width) / 2d) : bounds.Left; ;
+            double y = PageSettings.CenterOnPageVertically ? (bounds.Y + (bounds.Height - height) / 2d) + height : bounds.Top;
+            pageData.rowLineCoords.Add([x, y]);
+            pageData.colLineCoords.Add([x, y]);
+            double currentX = x;
+            double currentY = y;
+        }
+
+        /// <summary>
+        /// Calculates the excel range for each page and the start position on page.
+        /// </summary>
+        /// <returns></returns>
+        internal List<ExcelRangeBase> GetRangeForPages()
         {
             List<string> RowPages = new List<string>();
             List<string> ColPages = new List<string>();
@@ -190,8 +248,9 @@ namespace OfficeOpenXml.PDF
             var y = 0d;
             var x = 0d;
             var rowStart = 1;
+            var rowCount = 0;
             var colStart = 1;
-
+            var colCount = 0;
             for (int i = rowStart; i <= _ws.Dimension._toRow; i++)
             {
                 if (i == _ws.Dimension._toRow)
@@ -199,16 +258,18 @@ namespace OfficeOpenXml.PDF
                     RowPages.Add(rowStart + ":" + i);
                     break;
                 }
+                rowCount++;
                 var nextRow = i + 1;
                 var rowHeight = _ws.Row(i).Hidden ? 0d : _ws.Row(i).Height;
-                var nextRowHeight = _ws.Row(i).Hidden ? 0d : _ws.Row(nextRow).Height;
+                var nextRowHeight = _ws.Row(nextRow).Hidden ? 0d : _ws.Row(nextRow).Height;
                 var currentHeight = y + rowHeight;
                 var nextHeight = currentHeight + nextRowHeight;
-                if (nextHeight >= bounds.Height)
+                if (nextHeight >= bounds.Height || rowCount >= pagesData[0].RowMaxCount)
                 {
                     RowPages.Add(rowStart + ":" + i);
                     rowStart = nextRow;
                     y = 0;
+                    rowCount = 0;
                 }
                 else
                 {
@@ -222,16 +283,18 @@ namespace OfficeOpenXml.PDF
                     ColPages.Add(colStart + ":" + j);
                     break;
                 }
+                colCount++;
                 var nextCol = j + 1;
-                var colWidth = PdfUnits.ExcelColumnWidthToPoints(_ws.Column(j).Width);
-                var nextColWidth = PdfUnits.ExcelColumnWidthToPoints(_ws.Column(nextCol).Width);
+                var colWidth = _ws.Column(j).Hidden ? 0d : PdfUnits.ExcelColumnWidthToPoints(_ws.Column(j).Width);
+                var nextColWidth = _ws.Column(nextCol).Hidden ? 0d : PdfUnits.ExcelColumnWidthToPoints(_ws.Column(nextCol).Width);
                 var currentWidth = x + colWidth;
                 var nextWidth = currentWidth + nextColWidth;
-                if (nextWidth >= bounds.Width)
+                if (nextWidth >= bounds.Width || colCount >= pagesData[0].ColumnMaxCount)
                 {
                     ColPages.Add(colStart + ":" + j);
                     colStart = nextCol;
                     x = 0;
+                    colCount = 0;
                 }
                 else
                 {
@@ -258,7 +321,6 @@ namespace OfficeOpenXml.PDF
             }
             else if (PageSettings.PageOrders == PageOrders.OverThenDown)
             {
-
                 for (int i = 0; i < RowPages.Count; i++)
                 {
                     var rowPage = RowPages[i].Split(':');
@@ -278,6 +340,32 @@ namespace OfficeOpenXml.PDF
             return RangePages;
         }
 
+        private void CreatePages()
+        {
+            double prevWidth = 0;
+            double prevHeight = _ws.Row(1).Height + cellMargin;
+
+            foreach (var page in pagesData)
+            {
+                var x = page.colLineCoords[0];
+                var y = page.rowLineCoords[0];
+                for (int i = page.PageRange._fromRow; i <= page.PageRange._toRow; i++)
+                {
+                    for (int j = page.PageRange._fromCol; j <= page.PageRange._toCol; j++)
+                    {
+                        var cell = _ws.Cells[i, j];
+                        var wdith = PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width);
+                        var height = cell.Worksheet.Row(i).Height;
+                        if(cell.Value != null)
+                        {
+
+                        }
+                    }
+                }
+                //Next page setup
+            }
+        }
+
         private void AddWorksheetCells()
         {
             double prevWidth = 0;
@@ -292,7 +380,6 @@ namespace OfficeOpenXml.PDF
              tänk om denna del. antingen tar vi ut en stor range som vi går igenom likadant som denna.
             eller addedar vi ihop kolumners längder tills vi når mållängden, gör samma för rader. och sedan går vi cell för cell som nedan. sparar den rad och kolumn vi är på och repeterar sedan därifrån vid ny sida.
             eller så kikar vi bara de celler vi har värden i. om cellen är t ex d4 så räknar vi från den cellen antalet celler innan kolumnvis och adderar deras bredder och sedan samma för rader.
-             
              */
 
             for (int i = _ws.Dimension._fromRow; i <= _ws.Dimension._toRow; i++)
@@ -393,7 +480,7 @@ namespace OfficeOpenXml.PDF
             if(pageSettings != null)
                 PageSettings = pageSettings;
 
-            CalculateGridLayout();
+            GetRangeForPages();
 
 
             //Need
@@ -401,7 +488,7 @@ namespace OfficeOpenXml.PDF
             //[X]dimensions of cells for page                  //ExcelRange that starts at first cell in page and goes to the last with data.
             //[]grid length and height                         //calculated from dimensions
             //[]grid length and height per page                //A collection per page of coordinates
-            //[x]grid Y position                                //calulated based on height and check if start from top or place in middle from PageSettings
+            //[x]grid Y position                               //calulated based on height and check if start from top or place in middle from PageSettings
             //[]position for each grid divider                 //dictionary for containgn column and row as key and value for position
             //[]position of text relative to cell coordinates  //A padding value for all cells to place text.
             //
@@ -412,6 +499,7 @@ namespace OfficeOpenXml.PDF
             //
 
             AddWorksheetCells();
+
 
             //draw cell contents and headings
             //draw grid
