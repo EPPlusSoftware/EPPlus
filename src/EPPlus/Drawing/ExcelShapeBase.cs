@@ -16,6 +16,7 @@ using OfficeOpenXml.Drawing.Shape;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -499,12 +500,42 @@ namespace OfficeOpenXml.Drawing
             strings._list = _adjustmentPoints.Keys.ToList();
             return strings;
         }
-        public EPPlusReadOnlyList<int> GetAdjustmentPointsList()
+        public EPPlusReadOnlyList<int> GetAdjustmentPointsList(bool defaultIfMissing=true)
+        {
+            var nodes = GetNodes(_presetGeometryPath + "/a:gd");
+            var list = new EPPlusReadOnlyList<int>();
+            foreach(XmlElement gdNode in nodes)
+            {
+                var fmla = gdNode.GetAttribute("fmla");
+                if (string.IsNullOrEmpty(fmla)==false)
+                {
+                    list.Add(GetValueFromFormula(fmla));
+                }
+            }
+            if(defaultIfMissing)
+            {
+                return GetDefaultAdjustmentPointList();
+            }
+            return list;
+        }
+
+        private EPPlusReadOnlyList<int> GetDefaultAdjustmentPointList()
         {
             var l = new EPPlusReadOnlyList<int>();
             l._list = ShapeGuidesFactory.GetAdjustmentPointList(Style);
             return l;
         }
+
+        private int GetValueFromFormula(string fmla)
+        {
+            var tokens = fmla.Split([" "],StringSplitOptions.RemoveEmptyEntries);
+            if (tokens.Length > 1 && tokens[0].Equals("val") && int.TryParse(tokens[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out int result)) 
+            {
+                return result;
+            }
+            return 0;
+        }
+
         /// <summary>
         /// Adjust the named point with value.
         /// </summary>
@@ -525,7 +556,7 @@ namespace OfficeOpenXml.Drawing
             foreach (KeyValuePair<string, ShapeGuidePoint> guide in _adjustmentPoints)
             {
                 //create xml node
-                var gd = TopNode.SelectSingleNode(_presetGeometryPath + "/a:gd[@name =\"{guide.Key}\"]", NameSpaceManager);
+                var gd = TopNode.SelectSingleNode(_presetGeometryPath + $"/a:gd[@name =\"{guide.Key}\"]", NameSpaceManager);
                 if (gd == null)
                 {
                     gd = TopNode.OwnerDocument.CreateElement("gd", NameSpaceManager.LookupNamespace("a"));
@@ -533,10 +564,11 @@ namespace OfficeOpenXml.Drawing
                     ((XmlElement)gd).SetAttribute("fmla", guide.Value.fmlaValue);
                     var parent = TopNode.SelectSingleNode(_presetGeometryPath, NameSpaceManager);
                     parent.AppendChild(gd);
+                    
                 }
                 else
                 {
-                    gd.Attributes["fmla"].Value = _adjustmentPoints[name].fmlaValue;
+                    gd.Attributes["fmla"].Value = _adjustmentPoints[guide.Key].fmlaValue;
                 }
             }
         }
