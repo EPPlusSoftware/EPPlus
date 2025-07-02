@@ -186,7 +186,7 @@ namespace OfficeOpenXml.PDF
                     lineGap = 0;
                 }
             //}
-            var lineHeight = ascender + Math.Abs(descender) + lineGap;
+            var lineHeight = ascender + System.Math.Abs(descender) + lineGap;
             var lineHeightPt = lineHeight * (size / em);
             var lineHeightPad = lineHeightPt + 1d;
             return lineHeightPad;
@@ -228,12 +228,22 @@ namespace OfficeOpenXml.PDF
             pageData.contentWidth = width;
             pageData.contentHeight = height;
 
-            double x = PageSettings.CenterOnPageHorizontally ? (bounds.X + (bounds.Width - width) / 2d) : bounds.Left; ;
+            double x = PageSettings.CenterOnPageHorizontally ? (bounds.X + (bounds.Width - width) / 2d) : bounds.Left;
             double y = PageSettings.CenterOnPageVertically ? (bounds.Y + (bounds.Height - height) / 2d) + height : bounds.Top;
             pageData.rowLineCoords.Add([x, y]);
             pageData.colLineCoords.Add([x, y]);
             double currentX = x;
             double currentY = y;
+            for (int i = pageData.PageRange._fromRow; i <= pageData.PageRange._toRow; i++)
+            {
+                currentY += _ws.Row(i).Hidden ? 0d : _ws.Row(i).Height;
+                pageData.rowLineCoords.Add([x, currentY]);
+            }
+            for (int j = pageData.PageRange._fromCol; j <= pageData.PageRange._toCol; j++)
+            {
+                currentX += PdfUnits.ExcelColumnWidthToPoints(_ws.Column(j).Width);
+                pageData.colLineCoords.Add([currentX, y]);
+            }
         }
 
         /// <summary>
@@ -354,11 +364,25 @@ namespace OfficeOpenXml.PDF
                     for (int j = page.PageRange._fromCol; j <= page.PageRange._toCol; j++)
                     {
                         var cell = _ws.Cells[i, j];
-                        var wdith = PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width);
-                        var height = cell.Worksheet.Row(i).Height;
+                        var wdith = PdfUnits.ExcelColumnWidthToPoints(_ws.Column(j).Width);
+                        var height = _ws.Row(i).Height;
                         if(cell.Value != null)
                         {
+                            //get text in cell and measure it
+                            //check wrapped text
+                            //if wrapped, divide length wid cell width and make sure words fit in row
+                            //if not wrapped then check cells to the right until a cell with value is found. cut of text. also need to remember if text is overlapping to another page
 
+                            //2572
+                            //Rethink placement and pages. Create a global coordinate system that contains pages in a grid. each pages has its own local space where we write the actual text, but placing stuff happens globally.
+                            //a string that overlaps 2 pages checks where the string breaks and creates a text object for each page. We then convert from global space to each pages local page
+                            
+                            //centering means always centering
+                            //but we need to take empty cells into consideration that comes before cells with content. We only stop at the final row or column with content. 
+                            //we also include empty pages
+                            //Option to diregard empty pages
+
+                            //AddText(cell.Value.ToString(), cell.Style.Font.Name, cell.Style.Font.Size, textX, textY);
                         }
                     }
                 }
@@ -366,6 +390,7 @@ namespace OfficeOpenXml.PDF
             }
         }
 
+        //old
         private void AddWorksheetCells()
         {
             double prevWidth = 0;
@@ -480,7 +505,8 @@ namespace OfficeOpenXml.PDF
             if(pageSettings != null)
                 PageSettings = pageSettings;
 
-            GetRangeForPages();
+            CreatePageData();
+            AddWorksheetCells();
 
 
             //Need
@@ -497,9 +523,6 @@ namespace OfficeOpenXml.PDF
             //Borders
             //in cell pictures
             //
-
-            AddWorksheetCells();
-
 
             //draw cell contents and headings
             //draw grid
