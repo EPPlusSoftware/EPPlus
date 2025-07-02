@@ -1,4 +1,13 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.0.7
+* Added validation for number formats (brackets) during formula calculation. Also affects the Range.Text property.
+* Fix for REF errors in the OFFSET function.
+* Fixed wrong data type being returned from Bin2Hex function (Decimal->String). 
+* Fixed custom icon sets with 4 or more icons sometimes becoming a 3 icon set.
+* Fixed issues in the SORT, SUMIFS and LEFT with dynamic arrays.
+* The ANCHORARRAY function did not work as expected when only returning one cell only.
+* The ROUND function now rounds to a better precision.
+
 ## Version 8.0.6
 * Changed to use “PackageLicenseExpression” in the Nuget package.
 * ExcelRangeBase.LoadFromDataTable sometimes cleared data outside the loaded range.
