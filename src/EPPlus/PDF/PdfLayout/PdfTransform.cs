@@ -9,7 +9,12 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public Vector2 Position { get; set; } = Vector2.Zero;
 
+        public int Z { get; set; } = 0;
+
         public Vector2 Scale { get; set; } = Vector2.One;
+
+        public Vector2 Size { get; set; } = Vector2.Zero;
+
 
         private double rotationDegrees = 0;
         private double rotationRadians = 0;
@@ -30,32 +35,34 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public PdfTransform() { }
 
-        public PdfTransform(Vector2 position)
-            : this(position, Vector2.One, 0d, null) { }
+        public PdfTransform(Vector2 position, Vector2 size)
+            : this(position, size, Vector2.One, 0d, null) { }
 
-        public PdfTransform(Vector2 position, Vector2 scale)
-            : this(position, scale, 0d, null) { }
+        public PdfTransform(Vector2 position, Vector2 size, Vector2 scale)
+            : this(position, size, scale, 0d, null) { }
 
-        public PdfTransform(Vector2 position, Vector2 scale, double rotation)
-            : this(position, scale, rotation, null) { }
+        public PdfTransform(Vector2 position, Vector2 size, Vector2 scale, double rotation)
+            : this(position, size, scale, rotation, null) { }
 
-        public PdfTransform(Vector2 position, PdfTransform parent)
-            : this(position, Vector2.One, 0d, null) { }
+        public PdfTransform(Vector2 position, Vector2 size, PdfTransform parent)
+            : this(position, size, Vector2.One, 0d, null) { }
 
-        public PdfTransform(Vector2 position, Vector2 scale, PdfTransform parent)
-            : this(position, scale, 0d, null) { }
+        public PdfTransform(Vector2 position, Vector2 size, Vector2 scale, PdfTransform parent)
+            : this(position, size, scale, 0d, null) { }
 
-        public PdfTransform(Vector2 position, Vector2 scale, double rotation, PdfTransform parent)
+        public PdfTransform(Vector2 position, Vector2 size, Vector2 scale, double rotation, PdfTransform parent)
         {
             Position = position;
+            Size = size;
             Scale = scale;
             Rotation = rotation;
             Parent = parent;
         }
 
-        public PdfTransform(double x, double y, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
+        public PdfTransform(double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
         {
             Position = new Vector2(x, y);
+            Size = new Vector2(width, height);
             Scale = new Vector2(scaleX, scaleY);
             Rotation = rotation;
             Parent = parent;

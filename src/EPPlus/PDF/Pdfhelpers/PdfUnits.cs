@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OfficeOpenXml.PDF.Pdfhelpers
+﻿namespace OfficeOpenXml.PDF.Pdfhelpers
 {
     internal static class PdfUnits
     {
@@ -19,17 +17,17 @@ namespace OfficeOpenXml.PDF.Pdfhelpers
 
         public static int MmToPointsRounded(double mm)
         {
-            return (int)Math.Round(MmToPoints(mm));
+            return (int)System.Math.Round(MmToPoints(mm));
         }
 
         public static int PointsToMmRounded(double points)
         {
-            return (int)Math.Round(PointsToMm(points));
+            return (int)System.Math.Round(PointsToMm(points));
         }
 
         public static double ExcelColumnWidthToPoints(double columnWidth)
         {
-            double pixels = Math.Truncate(7 * columnWidth + 5);
+            double pixels = System.Math.Truncate(7 * columnWidth + 5);
             double points = pixels * 0.75;
             return points;
         }

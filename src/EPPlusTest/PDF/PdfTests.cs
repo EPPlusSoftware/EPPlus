@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.PDF;
 using OfficeOpenXml.PDF.PdfSettings;
 using OfficeOpenXml.PDF.PdfSettings.PdfPageData;
@@ -93,7 +95,56 @@ namespace EPPlusTest.PDF
         }
 
 
+        [TestMethod]
+        public void CheckMergedCellRange()
+        {
+            using var p = OpenTemplatePackage("MergedCellsRange.xlsx");
+            var ws = p.Workbook.Worksheets.First();
+            List<string> objects = new List<string>();
+            List<string> merged = new List<string>();
+            List<string> checkedMergedCells = new List<string>();
+            double x = 0d;
+            double y = 0d;
+            for (int i = 1; i <= ws.Dimension._toRow; i++)
+            {
+                var height = ws.Row(i).Height;
+                for (int j = 1; j <= ws.Dimension._toCol; j++)
+                {
+                    var cell = ws.Cells[i, j];
 
+                    bool isCellMerged = false;
+                    if (cell.Merge)
+                    {
+                        isCellMerged = true;
+                        if (!checkedMergedCells.Contains(ws.MergedCells[i, j]))
+                        {
+                            double mcHeight = 0;
+                            double mcWidth = 0;
+                            ExcelAddressBase address = new ExcelAddressBase(ws.MergedCells[i, j]);
+                            for (int k = address._fromRow; k <= address._toRow; k++)
+                            {
+                                mcHeight += ws.Row(k).Height;
+                            }
+                            for (int l = address._fromCol; l <= address._toCol; l++)
+                            {
+                                mcWidth += (ws.Column(l).Width);
+                            }
+                            objects.Add(string.Format("{0}, {1}, {2}, {3}, {4}", cell.Value, x, y, mcWidth, mcHeight));
+                            //objects.Add(new PdfCellLayout(ws.Cells[address._fromRow, address._fromCol].Value, x, y, mcWidth, mcHeight));
+                            checkedMergedCells.Add(ws.MergedCells[i, j]);
+                        }
+                    }
+
+
+                    var width = (ws.Column(j).Width);
+                    objects.Add(string.Format("{0}, {1}, {2}, {3}, {4}", cell.Value, x, y, width, height));
+                    x += width;
+                }
+                y += height;
+                x = 0;
+            }
+
+        }
 
 
 

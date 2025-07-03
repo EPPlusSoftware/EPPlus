@@ -112,14 +112,14 @@ namespace OfficeOpenXml.PDF.PdfFontData
                 fontData.CmapTable.EncodingRecords[0].CharMappingsToGlyphIndex.TryGetValue((char)c, out ushort gi);
                 if (gi == 0 && c != 0)
                 {
-                    int normalizedWidth = (int)Math.Round((fallbackWidth / (double)fontData.HeadTable.UnitsPerEm) * 1000);
+                    int normalizedWidth = (int)System.Math.Round((fallbackWidth / (double)fontData.HeadTable.UnitsPerEm) * 1000);
                     widths.Add(normalizedWidth);
                 }
                 else
                 {
                     var hhMetric = fontData.HmtxTable.hMetrics[gi];
                     var advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
-                    int normalizedWidth = (int)Math.Round((advanceWidth / (double)fontData.HeadTable.UnitsPerEm) * 1000);
+                    int normalizedWidth = (int)System.Math.Round((advanceWidth / (double)fontData.HeadTable.UnitsPerEm) * 1000);
                     widths.Add(normalizedWidth);
                 }
             }

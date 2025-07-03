@@ -13,7 +13,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         internal PdfContentBounds bounds;
 
         public PdfCatalogLayout(PdfWorksheetLayout worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds)
-            : base(0, 0)
+            : base(0, 0, 0, 0)
         {
             wl = worksheet;
             settings = pageSettings;
