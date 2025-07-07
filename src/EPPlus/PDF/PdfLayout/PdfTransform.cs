@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using OfficeOpenXml.PDF.Math;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfTransform
     {
-        public static PdfTransform Identity => new PdfTransform(0, 0, 1, 1);
+        public string Name;
 
         public Vector2 Position { get; set; } = Vector2.Zero;
 
@@ -27,11 +28,31 @@ namespace OfficeOpenXml.PDF.PdfLayout
             set
             {
                 rotationDegrees = value;
-                rotationRadians = rotationDegrees * System.Math.PI / 100.0d;
+                rotationRadians = rotationDegrees * System.Math.PI / 180.0d;
             }
         }
 
-        public PdfTransform Parent { get; set; }
+        public PdfTransform Parent { get; set; } = null;
+
+        private List<PdfTransform> _childObjects = null;
+        public List<PdfTransform> ChildObjects
+        {
+            get
+            {
+                if (_childObjects == null)
+                {
+                    _childObjects = new List<PdfTransform>();
+                }
+                return _childObjects;
+            }
+            set
+            {
+                if (_childObjects == null)
+                {
+                    _childObjects = new List<PdfTransform>();
+                }
+            }
+        }
 
         public PdfTransform() { }
 
@@ -57,6 +78,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             Scale = scale;
             Rotation = rotation;
             Parent = parent;
+            ChildObjects = null;
         }
 
         public PdfTransform(double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
@@ -66,6 +88,42 @@ namespace OfficeOpenXml.PDF.PdfLayout
             Scale = new Vector2(scaleX, scaleY);
             Rotation = rotation;
             Parent = parent;
+            ChildObjects = null;
+        }
+
+        public PdfTransform AddChild(PdfTransform child)
+        {
+            child.Parent = this;
+            ChildObjects.Add(child);
+            return child;
+        }
+
+        public void RemoveChild(PdfTransform child)
+        {
+            ChildObjects.Remove(child);
+        }
+
+        public Vector2 TransformPointToLocal(Vector2 point)
+        {
+            return GetWorldMatrix() * point;
+        }
+
+        public Vector2 TransformPointToWorld(Vector2 point)
+        {
+            return (GetWorldMatrix().Inverse()) * point;
+        }
+
+        public Matrix3x3 GetLocalMatrix()
+        {
+            var scale = Matrix3x3.Scaling(Scale.X, Scale.Y);
+            var rotation = Matrix3x3.Rotation(Rotation);
+            var translation = Matrix3x3.Translation(Position.X, Position.Y);
+            return translation * rotation * scale;
+        }
+
+        public Matrix3x3 GetWorldMatrix()
+        {
+            return Parent != null ? Parent.GetWorldMatrix() * GetLocalMatrix() : GetLocalMatrix();
         }
     }
 }

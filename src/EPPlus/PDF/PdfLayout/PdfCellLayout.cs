@@ -8,14 +8,16 @@ namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfCellLayout : PdfTransform
     {
-        internal PdfTransform Value;
-
+        internal double margin = 0.5d;
         public PdfCellLayout() { }
 
-        public PdfCellLayout(PdfTransform value, double x, double y, double width, double height)
+        public PdfCellLayout(object value, double x, double y, double width, double height)
             :base(x, y, width, height)
         {
-            Value = value;
+            //calculate margins
+            var cellContentLayout = AddChild(new PdfCellContentLayout(value, margin, margin, width - margin * 0.5d, height - margin * 0.5d));
+            cellContentLayout.Name = "Content";
+            cellContentLayout.Z = 2;
         }
     }
 }

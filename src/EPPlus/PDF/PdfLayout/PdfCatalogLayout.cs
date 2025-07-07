@@ -6,8 +6,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfCatalogLayout : PdfTransform
     {
-        internal PdfPageLayout[,] pageLayouts;
-
         internal PdfWorksheetLayout wl;
         internal PdfPageSettings settings;
         internal PdfContentBounds bounds;
@@ -32,7 +30,9 @@ WorksheetLayout
     PageLayout
         HeaderFooterLayout
         ContentLayout //use margins to calculate this
+            DrawingsLayout
             CellsLayout
+                CellContent // need some sort of cell margins to set posiiton of contents. 
  
 
 1. layout every cell from dimensions in global worksheet layout
