@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System.Linq;
 using OfficeOpenXml.PDF.Math;
+using OfficeOpenXml.PDF.PdfSettings;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
@@ -32,7 +35,32 @@ namespace OfficeOpenXml.PDF.PdfLayout
             }
         }
 
-        public PdfTransform Parent { get; set; } = null;
+        private PdfTransform _parent = null;
+        public PdfTransform Parent
+        {
+            get
+            {
+                return _parent;
+            }
+            set
+            {
+                if (_parent == value) return;
+
+                if (_parent != null)
+                {
+                    _parent.RemoveChild(this);
+                }
+
+                if (value != null)
+                {
+                    value.AddChild(this);
+                }
+                else
+                {
+                    _parent = null;
+                }
+            }
+        }
 
         private List<PdfTransform> _childObjects = null;
         public List<PdfTransform> ChildObjects
@@ -93,14 +121,25 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public PdfTransform AddChild(PdfTransform child)
         {
-            child.Parent = this;
+            if(child.Parent != null)
+            {
+                child.Parent.RemoveChild(child);
+            }
+            if (!ChildObjects.Contains(child))
+            {
+                ChildObjects.Add(child);
+            }
             ChildObjects.Add(child);
+            child._parent = this;
             return child;
         }
 
         public void RemoveChild(PdfTransform child)
         {
-            ChildObjects.Remove(child);
+            if(ChildObjects.Remove(child))
+            {
+                child._parent = null;
+            }
         }
 
         public Vector2 TransformPointToLocal(Vector2 point)
@@ -124,6 +163,43 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public Matrix3x3 GetWorldMatrix()
         {
             return Parent != null ? Parent.GetWorldMatrix() * GetLocalMatrix() : GetLocalMatrix();
+        }
+
+        public PdfRect GetGlobalBoundingbox()
+        {
+            var worldMatrix = GetWorldMatrix();
+            var corners = new[]
+            {
+                new Vector2(0, 0),
+                new Vector2(Size.X, 0),
+                new Vector2(0, Size.Y),
+                new Vector2(Size.X, Size.Y)
+            }.Select(p => worldMatrix * p);
+
+            var minX = corners.Min(p => p.X);
+            var minY = corners.Min(p => p.Y);
+            var maxX = corners.Max(p => p.X);
+            var maxY = corners.Max(p => p.Y);
+
+            var rect = new PdfRect();
+            rect.X = minX;
+            rect.Y = minY;
+            rect.Width = maxX - minX;
+            rect.Height = maxY - minY;
+            rect.Top = rect.Y;
+            rect.Left = rect.X;
+            rect.Bottom = rect.Y + rect.Height;
+            rect.Right = rect.X + rect.Width;
+
+            return rect;
+        }
+
+        public bool Intersects(PdfRect bbox, PdfRect pageBounds)
+        {
+            return !(bbox.Right < pageBounds.Left ||
+                     bbox.Left > pageBounds.Right ||
+                     bbox.Bottom < pageBounds.Top ||
+                     bbox.Top > pageBounds.Bottom);
         }
     }
 }

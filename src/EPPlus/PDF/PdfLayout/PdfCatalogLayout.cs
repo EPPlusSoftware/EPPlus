@@ -6,19 +6,34 @@ namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfCatalogLayout : PdfTransform
     {
-        internal PdfWorksheetLayout wl;
         internal PdfPageSettings settings;
         internal PdfContentBounds bounds;
 
-        public PdfCatalogLayout(PdfWorksheetLayout worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds)
+        public PdfCatalogLayout(ExcelWorkbook workbook, PdfPageSettings pageSettings, PdfContentBounds bounds)
             : base(0, 0, 0, 0)
         {
-            wl = worksheet;
-            settings = pageSettings;
+        }
+
+        public PdfCatalogLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds)
+            : base(0, 0, 0, 0)
+        {
+            this.settings = pageSettings;
             this.bounds = bounds;
+            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet));
+            double x = 0;
+            double y = 0;
+            var page1Content = AddChild(new PdfContentLayout(x, y, bounds));
+            foreach(var child in WorksheetLayout.ChildObjects)
+            {
+                //need to have a contentLayout
+                //check intersect
+                //move child to contentLayout
+            }
+        }
 
-            //Initialize pageLayouts array by calculating the range for each page.
-
+        public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, PdfContentBounds bounds)
+            : base(0, 0, 0, 0)
+        {
         }
     }
 }

@@ -14,7 +14,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfCellLayout(object value, double x, double y, double width, double height)
             :base(x, y, width, height)
         {
-            //calculate margins
+            //TODO: calculate correct margins.
             var cellContentLayout = AddChild(new PdfCellContentLayout(value, margin, margin, width - margin * 0.5d, height - margin * 0.5d));
             cellContentLayout.Name = "Content";
             cellContentLayout.Z = 2;
