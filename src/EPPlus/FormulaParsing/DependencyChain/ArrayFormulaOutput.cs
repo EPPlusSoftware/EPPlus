@@ -7,6 +7,7 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -31,7 +32,13 @@ namespace OfficeOpenXml.FormulaParsing
                     var col = sc + c;
                     if (r < nr && c < nc)
                     {
-                        ws.SetValueInner(row, col, array.GetOffset(r, c) ?? 0D);
+                        var val = array.GetOffset(r, c);
+                        if(ConvertUtil.IsNumeric(val) && val is double dbl &&  dbl == 0d)
+                        {
+                            // avoid -0
+                            val = 0d;
+                        }
+                        ws.SetValueInner(row, col, val ?? 0D);
                     }
                     else
                     {

@@ -254,6 +254,11 @@ namespace OfficeOpenXml.Style.XmlAccess
                                     bracketText.StartsWith(">") ||
                                     bracketText.StartsWith("=")) //Conditional
                             {
+                                if(!BracketTextValidator.IsCondition(bracketText))
+                                {
+                                    f.IsValid = false;
+                                    return;
+                                }
                                 f.SpecialDateFormat = eSystemDateFormat.Conditional;
                             }
                             else if (bracketText.ContainsOnlyCharacter('h'))

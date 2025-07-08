@@ -745,7 +745,7 @@ namespace OfficeOpenXml.FormulaParsing
                             else
                             {
                                 var dVal = cr.ResultValue;
-                                if (cr.DataType == DataType.Decimal && cr.ResultNumeric == 0d)
+                                if (cr.DataType == DataType.Decimal && dVal != null && dVal is double dbl && dbl == 0d)
                                 {
                                     // this is to avoid "-0" results from the ToString method.
                                     dVal = 0d;
