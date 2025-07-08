@@ -260,6 +260,12 @@ namespace OfficeOpenXml.Style.XmlAccess
                                     return;
                                 }
                                 f.SpecialDateFormat = eSystemDateFormat.Conditional;
+                                var isValidFormat = BracketTextValidator.IsValid(bracketText);
+                                if(!isValidFormat)
+                                {
+                                    sb.Append($"[{bracketText}]");
+                                    f.IsValid = false;
+                                }
                             }
                             else if (bracketText.ContainsOnlyCharacter('h'))
                             {                                

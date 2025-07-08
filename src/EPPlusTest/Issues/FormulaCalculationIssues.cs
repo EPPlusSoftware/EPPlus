@@ -1152,6 +1152,128 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(-1083371.20, (double)ws.Cells["P13"].Value, 0.0001);
             }
         }
+        //-------
+
+        [TestMethod]
+        public void LeftHas_One_MinimumParameter()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("AnchorDynamic");
+
+                ws.Cells["B3"].Value = "Hello World!";
+                //Left with num_chars omitted takes 1 char.
+                ws.Cells["C3"].Formula = "LEFT(B3)";
+
+                ws.Calculate();
+
+                Assert.AreEqual("H", ws.Cells["C3"].Value);
+            }
+        }
+
+        //Part of s884
+        [TestMethod]
+        public void AnchorArray_DynamicArrayFormula_Single()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("AnchorDynamic");
+
+                //Set formulas that will produce value
+                ws.Cells["E4"].Formula = "SUM(2+2)";
+                ws.Cells["G4"].Formula = "HSTACK($E$4)";
+
+                //Set AnchorArray on single cells
+                ws.Cells["C3"].Formula = "ANCHORARRAY(E4)";
+                ws.Cells["C4"].Formula = "ANCHORARRAY(G4)";
+
+                //Single Cell Formulas with AnchorArray should return value after lookup, not #REF!
+                ws.Calculate();
+                Assert.AreEqual(4d, ws.Cells["C3"].Value);
+                Assert.AreEqual(4d, ws.Cells["C4"].Value);
+            }
+        }
+
+        //Part of s884
+        [TestMethod]
+        public void XlookupSingleValue()
+        {
+            using (var p = OpenPackage("TestXLookupSingle.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("xLookup");
+
+                //Create a lookup range of values
+                var lookupRange = ws.Cells["F2:G6"];
+                for (int i = 0; i < lookupRange.Rows; i++)
+                {
+                    for (int j = 0; j < lookupRange.Columns; j++)
+                    {
+                        lookupRange.SetCellValue(i, j, j == 0 ? i : i * 10);
+                    }
+                }
+
+                //Create spillover formula with only one value
+                ws.Cells["P2"].Value = 4;
+                ws.Cells["Q2"].Formula = "HSTACK($P$2)";
+                //Access it via AnchorArray and  run XLookup;
+                ws.Cells["A1"].Formula = "XLOOKUP(ANCHORARRAY($Q$2),F1:F6,G1:G6,\"fallbackValue\",0,1)";
+
+                ws.Calculate();
+
+                Assert.AreEqual(40, ws.Cells["A1"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void s884()
+        {
+            using (var p = OpenTemplatePackage("s884.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Summary"];
+                var technical = p.Workbook.Worksheets["Technical"];
+
+                var form = ws.Cells["A12"].Formula;
+                var formSimpler = technical.Cells["K19"].Formula;
+
+                ws.Calculate(o => o.EnableUnicodeAwareStringOperations = true);
+
+                var someVal = ws.Cells["E12"].Value;
+                var lcTest = ws.Cells["F12"].Value;
+                var amountLC = ws.Cells["G12"].Value;
+
+                Assert.AreEqual(ws.Cells["A12"].Text, "0110");
+                Assert.AreEqual(ws.Cells["B12"].Text, "200150");
+                Assert.AreEqual(ws.Cells["C12"].Text, "Sub-Total for EUR");
+                Assert.AreEqual(ws.Cells["D12"].Text, "EUR");
+                Assert.AreEqual(-200000d, ws.Cells["E12"].Value);
+                Assert.AreEqual(ws.Cells["F12"].Text, "CHF");
+                Assert.AreEqual(-200000d, ws.Cells["G12"].Value);
+
+                var dataSheet = p.Workbook.Worksheets[9];
+
+                dataSheet.Calculate(o => o.EnableUnicodeAwareStringOperations = true);
+
+                Assert.AreEqual(dataSheet.Cells["D31"].Text, "0280");
+                Assert.AreEqual(dataSheet.Cells["AG31"].Text, "0110_vs_0280_Loans_Current_Received_EUR");
+                Assert.AreEqual(dataSheet.Cells["AH31"].Text, "0110_vs_0280_Ref_");
+            }
+        }
+
+        [TestMethod]
+        public void s868()
+        {
+            using (var package = OpenTemplatePackage("s868.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets["aliss"];
+                wb.Worksheets.Add("AlissCopy", ws);
+                ws.Cells["CW151"].Calculate();
+                Assert.AreEqual(39.29, ws.Cells["CW151"].Value);
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
 

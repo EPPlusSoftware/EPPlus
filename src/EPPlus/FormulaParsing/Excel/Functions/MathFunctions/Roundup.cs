@@ -32,13 +32,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (arguments[0].Value == null) return CreateResult(0d, DataType.Decimal);
-            var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e1, context.Configuration.PrecisionAndRoundingStrategy);
+            var number = (decimal)ArgToDecimal(arguments, 0, out ExcelErrorValue e1, context.Configuration.PrecisionAndRoundingStrategy);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var nDigits = ArgToInt(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
-            double result = (number >= 0) 
-                ? System.Math.Ceiling(number * System.Math.Pow(10, nDigits)) / System.Math.Pow(10, nDigits)
-                : System.Math.Floor(number * System.Math.Pow(10, nDigits)) / System.Math.Pow(10, nDigits);
+            double result = (double)((number >= 0) 
+                ? System.Math.Ceiling(number * (decimal)Math.Pow(10, nDigits)) / (decimal)Math.Pow(10, nDigits)
+                : System.Math.Floor(number * (decimal)Math.Pow(10, nDigits)) / (decimal)Math.Pow(10, nDigits));
             return CreateResult(result, DataType.Decimal);
         }
     }
