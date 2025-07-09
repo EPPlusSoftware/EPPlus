@@ -22,13 +22,58 @@ namespace OfficeOpenXml.PDF.PdfLayout
             var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet));
             double x = 0;
             double y = 0;
-            var page1Content = AddChild(new PdfContentLayout(x, y, bounds));
-            foreach(var child in WorksheetLayout.ChildObjects)
+            var pages = AddChild(new PdfTransform(0, 0, 0, 0));
+            pages.AddChild(new PdfContentLayout(x, y, bounds));
+
+            while (WorksheetLayout.ChildObjects.Count > 0)
             {
-                //need to have a contentLayout
-                //check intersect
-                //move child to contentLayout
+                foreach (var cell in WorksheetLayout.ChildObjects)
+                {
+                    foreach (var page in pages.ChildObjects)
+                    {
+                        if (PdfTransform.IntersectsFully(page.GetGlobalBoundingbox(), cell.GetGlobalBoundingbox()))
+                        {
+
+                        }
+                    }
+                    //if cell is not fully covered, move it to the next page and then set new width/height for page. bounds should be the max size not actual page size. we can then set size to be bounds after iterating cells.
+
+
+                    if (settings.PageOrders == PageOrders.DownThenOver)
+                    {
+                        //add page in y coord first
+                    }
+                    else if (settings.PageOrders == PageOrders.OverThenDown)
+                    {
+                        //add page in x coord first
+                    }
+                }
             }
+
+
+
+
+
+            //foreach(var child in WorksheetLayout.ChildObjects)
+            //{
+            //    bool childInPage = false;
+            //    foreach(var page in pages.ChildObjects)
+            //    {
+            //        if(child.Intersects(child.GetGlobalBoundingbox(), page.GetGlobalBoundingbox()))
+            //        {
+            //            child.Parent = page;
+            //            childInPage = true;
+            //        }
+            //    }
+            //    if(childInPage = false)
+            //    {
+
+            //    }
+            //    //need to have a contentLayout
+            //    //check intersect
+            //    //move child to contentLayout
+            //    //here we can add pages in over then down order or down the over order.
+            //}
         }
 
         public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, PdfContentBounds bounds)
@@ -42,6 +87,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
 /*
 WorksheetLayout
+PagesLayout
     PageLayout
         HeaderFooterLayout
         ContentLayout //use margins to calculate this

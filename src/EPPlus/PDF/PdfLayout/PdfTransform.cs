@@ -194,12 +194,19 @@ namespace OfficeOpenXml.PDF.PdfLayout
             return rect;
         }
 
-        public bool Intersects(PdfRect bbox, PdfRect pageBounds)
+        public static bool Intersects(PdfRect bbox, PdfRect pageBounds)
         {
             return !(bbox.Right < pageBounds.Left ||
                      bbox.Left > pageBounds.Right ||
                      bbox.Bottom < pageBounds.Top ||
                      bbox.Top > pageBounds.Bottom);
+        }
+        public static bool IntersectsFully(PdfRect contentBounds, PdfRect cellBounds)
+        {
+            return cellBounds.Left >= contentBounds.Left &&
+                   cellBounds.Top >= contentBounds.Top &&
+                   cellBounds.Right <= contentBounds.Right &&
+                   cellBounds.Bottom <= contentBounds.Bottom;
         }
     }
 }
