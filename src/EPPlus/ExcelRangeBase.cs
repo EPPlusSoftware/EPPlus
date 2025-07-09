@@ -98,7 +98,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// On change address handler
         /// </summary>
-        protected internal override void ChangeAddress()
+        protected internal override void ChangeAddress(string value)
         {
             if (Table != null)
             {

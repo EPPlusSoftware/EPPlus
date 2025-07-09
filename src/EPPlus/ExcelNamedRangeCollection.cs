@@ -16,6 +16,9 @@ using System.Text;
 using System.Collections;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Utils.Formula;
 
 namespace OfficeOpenXml
 {
@@ -69,6 +72,38 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
+        /// Adds a new named formula
+        /// </summary>
+        /// <param name="Name">The name</param>
+        /// <param name="formula">The formula</param>
+        /// <returns></returns>
+        public ExcelNamedRange Add(string Name, string formula)
+        {
+            return AddFormula(Name, formula);
+        }
+
+        /// <summary>
+        /// Adds a new value
+        /// </summary>
+        /// <param name="Name">The name</param>
+        /// <param name="value">The value</param>
+        /// <returns></returns>
+        public ExcelNamedRange Add(string Name, object value)
+        {
+            return AddValue(Name, value);
+        }
+        /// <summary>
+        /// Adds a new named range
+        /// </summary>
+        /// <param name="name">The name</param>
+        /// <param name="range">The range</param>
+        /// <param name="allowRelativeAddress"></param>
+        /// <returns></returns>
+        public ExcelNamedRange AddRange(string name, ExcelRangeBase range, bool allowRelativeAddress = false )
+        {
+            return Add(name, range, allowRelativeAddress);
+        }
+        /// <summary>
         /// Adds the name without validation as Excel allows some names on load that is not permitted in the GUI
         /// </summary>
         /// <param name="Name">The Name</param>
@@ -114,11 +149,10 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public ExcelNamedRange AddValue(string Name, object value)
         {
-			if (!ExcelAddressUtil.IsValidName(Name))
-			{
-				throw (new ArgumentException("Name contains invalid characters or is not valid."));
-			}
-			
+            if (!ExcelAddressUtil.IsValidName(Name))
+            {
+            throw (new ArgumentException("Name contains invalid characters or is not valid."));
+            }
             var item = new ExcelNamedRange(Name,_wb, _ws, _dic.Count);
             item.NameValue = value;
             AddName(Name, item);
@@ -132,24 +166,22 @@ namespace OfficeOpenXml
         /// <param name="Formula"></param>
         /// <returns></returns>
         public ExcelNamedRange AddFormula(string Name, string Formula)
-		{
-			if (!ExcelAddressUtil.IsValidName(Name))
-			{
-				throw (new ArgumentException("Name contains invalid characters or is not valid."));
-			}
+        {
+        if (!ExcelAddressUtil.IsValidName(Name))
+        {
+            throw (new ArgumentException("Name contains invalid characters or is not valid."));
+        }
+            return AddFormulaNoValidation(Name, Formula);
+        }
 
-			return AddFormulaNoValidation(Name, Formula);
-		}
-
-		internal ExcelNamedRange AddFormulaNoValidation(string Name, string Formula)
-		{
-			var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
-			item.NameFormula = Formula;
-			AddName(Name, item);
-			return item;
-		}
-
-		internal void Insert(int rowFrom, int colFrom, int rows, int cols, int lowerLimint = 0, int upperLimit = int.MaxValue)
+        internal ExcelNamedRange AddFormulaNoValidation(string Name, string Formula)
+        {
+            var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
+            item.NameFormula = Formula;
+            AddName(Name, item);
+            return item;
+        }
+        internal void Insert(int rowFrom, int colFrom, int rows, int cols, int lowerLimint = 0, int upperLimit = int.MaxValue)
         {
             Insert(rowFrom, colFrom, rows, cols, n => true, lowerLimint, upperLimit);
         }

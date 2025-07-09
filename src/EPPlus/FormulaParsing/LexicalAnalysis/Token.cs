@@ -10,11 +10,6 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
     /// <summary>
@@ -23,7 +18,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     public struct Token
     {
         const ushort IS_NEGATED=0x0001;
-        internal Token(TokenType tokenType)            
+        internal Token(TokenType tokenType)
         {
             TokenType = tokenType;
             Value = null;

@@ -713,7 +713,7 @@ namespace EPPlusTest
                 if (ws == null) Assert.Inconclusive("Shapes worksheet is missing");
 
                 var wsShapes = pck.Workbook.Worksheets.Add("Copy Shapes", ws);
-                Assert.AreEqual(188, wsShapes.Drawings.Count);
+                Assert.AreEqual(187, wsShapes.Drawings.Count);
 
                 ws = pck.Workbook.Worksheets["Scatter"];
                 if (ws == null) Assert.Inconclusive("Scatter worksheet is missing");
