@@ -636,7 +636,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<None Include="license.md" Pack="true" PackagePath="license.md"/>
+		<None Include="license.md" Pack="true" PackagePath="license.md" />
 	</ItemGroup>
 	
 	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">

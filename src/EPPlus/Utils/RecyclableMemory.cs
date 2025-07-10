@@ -1,5 +1,8 @@
 ﻿#if !NET35
-using Microsoft.IO;
+using OfficeOpenXml.Utils.Interfaces;
+using OfficeOpenXml.Utils.MemoryManagement.Rms;
+
+
 #endif
 using System;
 using System.IO;
@@ -17,25 +20,34 @@ namespace OfficeOpenXml.Utils
         /// The memory manager used, if RecyclableMemoryStream are used.
 		/// <seealso cref="UseRecyclableMemory"/>
         /// </summary>
-        public RecyclableMemoryStreamManager MemoryManager
-        {
+        //public RecyclableMemoryStreamManager MemoryManager
+        //{
+        //    get
+        //    {
+        //        return RecyclableMemory.MemoryManager;
+        //    }
+        //    set
+        //    {
+        //        if (value == null)
+        //        {
+        //            throw new ArgumentNullException("Memory manager must not be null.");
+        //        }
+        //        if (RecyclableMemory.HasMemoryManager)
+        //        {
+        //            throw new InvalidOperationException("A Memory Manager has already been created. To set a new memory manager, setting this property must be done before creating or opening any package.");
+        //        }
+        //        RecyclableMemory.SetRecyclableMemoryStreamManager(value);
+        //    }
+        //}
+
+        public IMemoryManager MemoryManager 
+        { 
             get
             {
                 return RecyclableMemory.MemoryManager;
-            }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("Memory manager must not be null.");
-                }
-                if (RecyclableMemory.HasMemoryManager)
-                {
-                    throw new InvalidOperationException("A Memory Manager has already been created. To set a new memory manager, setting this property must be done before creating or opening any package.");
-                }
-                RecyclableMemory.SetRecyclableMemoryStreamManager(value);
-            }
+            } 
         }
+
         /// <summary>
         /// If true RecyclableMemoryStream's will be used to handle MemoryStreams. Default.
 		/// If false normal MemoryStream will be used.
@@ -59,7 +71,7 @@ namespace OfficeOpenXml.Utils
     internal class RecyclableMemory
     {
 #if !NET35
-        private static RecyclableMemoryStreamManager _memoryManager;
+        private static IMemoryManager _memoryManager;
         private static object _dataLock = new object();
         public static bool UseRecyclableMemory { get; set; } = true;
         internal static bool HasMemoryManager
@@ -69,7 +81,7 @@ namespace OfficeOpenXml.Utils
                 return _memoryManager != null;
             }
         }
-        internal static RecyclableMemoryStreamManager MemoryManager
+        internal static IMemoryManager MemoryManager
         {
             get
             {
@@ -77,12 +89,13 @@ namespace OfficeOpenXml.Utils
                 {
                     if (_memoryManager == null && UseRecyclableMemory)
                     {
-                        var defaultOptions = new RecyclableMemoryStreamManager.Options
-                        {
-                            MaximumLargePoolFreeBytes = 32 * 1024 * 1024,
-                            MaximumSmallPoolFreeBytes = 512 * 1024,
-                        };
-                        _memoryManager = new RecyclableMemoryStreamManager(defaultOptions);
+                        _memoryManager = new RmsManager();
+                        //var defaultOptions = new RecyclableMemoryStreamManager.Options
+                        //{
+                        //    MaximumLargePoolFreeBytes = 32 * 1024 * 1024,
+                        //    MaximumSmallPoolFreeBytes = 512 * 1024,
+                        //};
+                        //_memoryManager = new RecyclableMemoryStreamManager(defaultOptions);
                     }
                 }
                 return _memoryManager;
@@ -92,10 +105,10 @@ namespace OfficeOpenXml.Utils
         /// <summary>
         /// Sets the RecyclableMemorytreamsManager to manage pools
         /// </summary>
-        /// <param name="recyclableMemoryStreamManager">The memory manager</param>
-        public static void SetRecyclableMemoryStreamManager(RecyclableMemoryStreamManager recyclableMemoryStreamManager)
+        /// <param name="memoryManager">The memory manager</param>
+        public static void SetRecyclableMemoryStreamManager(IMemoryManager memoryManager)
         {
-            _memoryManager = recyclableMemoryStreamManager;
+            _memoryManager = memoryManager;
         }
 #endif
         /// <summary>
