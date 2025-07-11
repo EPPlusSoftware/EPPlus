@@ -49,6 +49,7 @@ using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.CompundDocument;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -6379,5 +6380,173 @@ namespace EPPlusTest
                 Assert.AreEqual(0d, ws.Cells["F6"].Value);
             }
         }
+
+
+
+        [TestMethod]
+        public void s898()
+        {
+            //================[Console Output Encoding]==============================
+            Console.OutputEncoding = System.Text.Encoding.Unicode;
+
+            //================[Configuration Settings]===============================
+            #region Configuration Variables
+
+            // Excel file location
+            string strExcelPath = "C:\\epplusTest\\Workbooks\\";
+            string strExcelFile = "s898.xlsx";
+
+            // Worksheet names
+            string strReferenceWorksheet = "Reference"; //config["ReferenceWorksheet"];
+            string strStructuralWorksheet = "Structural"; //config["StructuralWorksheet"];
+            string strRailCalculationWorksheet = "Calc_Rail"; //config["RailCalculationWorksheet"];
+            string strStructuralCalculationWorksheet = "Calc_Mast"; //config["StructuralCalculationWorksheet"];
+            string strHistoricRailWorksheet = "Historic Rail Readings"; //config["HistoricRailWorksheet"];
+            string strHistoricStructuralWorksheet = "Historic Mast Readings"; //config["HistoricStructuralWorksheet"];
+            string strProjectDataWorksheet = "Project Data"; //config["ProjectDataWorksheet"];
+
+            // Data location settings
+            string strFirstDataRow = "2"; //config["FirstDataRow"];
+            string strFirstDataCol = "6"; //config["FirstDataCol"];
+            string strFirstOutputRow = "7"; //config["FirstOutputRow"];
+            string strFirstCalcRow = "4"; //config["FirstCalcRow"];
+
+
+            string strFirstTrackGeometryRow = /*config["FirstTrackGeometryRow"] ??*/ "14";
+            string strFirstStructuralRow = /*config["FirstStructuralRow"] ??*/ "12";
+
+            int iFirstDataRow = Convert.ToInt16(strFirstDataRow);
+            int iFirstDataCol = Convert.ToInt16(strFirstDataCol);
+            int iFirstOutputRow = Convert.ToInt16(strFirstOutputRow);
+            int iFirstCalcRow = Convert.ToInt16(strFirstCalcRow);
+            int iFirstTrackGeometryRow = Convert.ToInt16(strFirstTrackGeometryRow);
+            int iFirstStructuralRow = Convert.ToInt16(strFirstStructuralRow);
+
+            // Full path to Excel file
+            string strMasterWorkbookFullPath = Path.Combine(strExcelPath, strExcelFile);
+
+            // Track list from dynamic config
+            var strTrack = new List<string>();
+            strTrack.Add("UpFast");
+            strTrack.Add("DownFast");
+            strTrack.Add("Siding");
+            //foreach (var key in config.AllKeys)
+            //{
+            //    if (key.StartsWith("Track", StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        var value = config[key]?.Trim();
+            //        if (!string.IsNullOrEmpty(value))
+            //            strTrack.Add(value);
+            //    }
+            //}
+
+            #endregion
+
+            //================[EPPlus License Setup]==================================
+
+            //================[Main Execution]=======================================
+            string strMessage = getJWGMaxandMinTrackValues(strMasterWorkbookFullPath, strTrack, iFirstTrackGeometryRow);
+
+            //Console.WriteLine(strMessage);
+            //Console.WriteLine("\nTask complete");
+            //Environment.Exit(0);
+        }
+
+        //================[Method: Extract Max/Min Values]===========================
+        static string getJWGMaxandMinTrackValues(
+            string strExcelWorkbookFullPath,
+            List<string> strTrack,
+            int iFirstTrackGeometryRow)
+        {
+            string strMaxAndMinValues = "";
+
+            using (var package = new ExcelPackage(new FileInfo(strExcelWorkbookFullPath)))
+            {
+                foreach (string strWorksheet in strTrack)
+                {
+                    if (strWorksheet == "blank")
+                        continue;
+
+                    var worksheet = package.Workbook.Worksheets[strWorksheet];
+                    if (worksheet == null)
+                        continue;
+
+                    foreach (var ws in package.Workbook.Worksheets)
+                    {
+                        ws.Hidden = eWorkSheetHidden.Visible;
+                    }
+                    
+                    // Determine last data row based on empty cell in column C
+                    int iRow = iFirstTrackGeometryRow;
+                    while (!string.IsNullOrWhiteSpace(worksheet.Cells[iRow, 3].Text))
+                        iRow++;
+                    int iLastTrackGeometryRow = iRow - 1;
+
+                    // Force recalculation of derived values
+                    string dataRangeD = $"D{iFirstTrackGeometryRow}:D{iLastTrackGeometryRow}";
+                    //worksheet.Cells[dataRangeD].Calculate();
+                    //worksheet.Cells["N4:N7,O4:O7,P4:P7,Q4:Q7,R4:R7"].Calculate();
+                    ExcelCalculationOption opt = new ExcelCalculationOption();
+                    opt.AllowCircularReferences = true;
+                    worksheet.Calculate(opt);
+                    // Format helper for displaying values
+                    string FormatCell(string cellAddress)
+                    {
+                        var val = worksheet.Cells[cellAddress].Text;
+                        if (val == null || string.IsNullOrWhiteSpace(val.ToString()))
+                            return "n/a";
+                        if (double.TryParse(val.ToString(), out double dblVal))
+                            return dblVal.ToString("F1");
+                        return val.ToString();
+                    }
+                    var d49 = worksheet.Cells["D49"];
+
+                    var calcRail = package.Workbook.Worksheets["Calc_Rail"];
+                    var w39 = calcRail.Cells["W39"];
+
+
+                    string strHeader = "\n" + strWorksheet + " MIN / MAX Displacement(mm)\n--------------------------------------------------";
+
+                    string strHCS = "Horizontal Cess Rail: "
+                        + FormatCell("N6") + " at " + FormatCell("N7") + " / " + FormatCell("N4") + " at " + FormatCell("N5");
+
+                    string strH6F = "Horizontal 6ft Rail: "
+                        + FormatCell("O6") + " at " + FormatCell("O7") + " / " + FormatCell("O4") + " at " + FormatCell("O5");
+
+                    string strVCR = "Vertical Cess Rail: "
+                        + FormatCell("P6") + " at " + FormatCell("P7") + " / " + FormatCell("P4") + " at " + FormatCell("P5");
+
+                    string strV6FR = "Vertical 6ft Rail: "
+                        + FormatCell("Q6") + " at " + FormatCell("Q7") + " / " + FormatCell("Q4") + " at " + FormatCell("Q5");
+
+                    string strMaxTwist = "MAXIMUM Current Twist: "
+                        + FormatCell("R6") + " at " + FormatCell("R7") + " / " + FormatCell("R4") + " at " + FormatCell("R5");
+
+                    strMaxAndMinValues += strHeader + "\n" +
+                                          strHCS + "\n" +
+                                          strH6F + "\n" +
+                                          strVCR + "\n" +
+                                          strV6FR + "\n" +
+                                          strMaxTwist + "\n";
+                }
+
+                //package.SaveAs("c:\\epplustest\\testoutput\\s898.xlsx");
+            }
+
+            return strMaxAndMinValues;
+        }
+
+
+        [TestMethod]
+        public void calculatestuff()
+        {
+            using var p = OpenTemplatePackage("s898.xlsx");
+            var ws = p.Workbook.Worksheets["UpFast"];
+
+            ws.Cells["N6"].Calculate();
+            var c1 = ws.Cells["N6"];
+            var cell = ws.Cells["N6"].Text;
+        }
     }
+
 }
