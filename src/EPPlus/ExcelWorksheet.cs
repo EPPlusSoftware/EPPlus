@@ -1239,7 +1239,7 @@ namespace OfficeOpenXml
 
             // now release stream buffer (already converted whole Xml into XmlDocument Object and String)
             stream.Dispose();
-            packPart.Stream = RecyclableMemory.GetStream();
+            packPart.Stream = EPPlusMemoryManager.GetStream();
 
             //first char is invalid sometimes?? 
             Encoding encoding = Encoding.UTF8;

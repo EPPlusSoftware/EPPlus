@@ -102,7 +102,7 @@ namespace OfficeOpenXml.Utils
         /// Get a new memory stream.
         /// </summary>
         /// <returns>A MemoryStream</returns>
-        internal static MemoryStream GetStream()
+        internal static MemoryStream GetStreamInternal()
         {
 #if NET35
 			return new MemoryStream();
@@ -122,7 +122,7 @@ namespace OfficeOpenXml.Utils
         /// Get a new memory stream initiated with a byte-array
         /// </summary>
         /// <returns>A MemoryStream</returns>
-        internal static MemoryStream GetStream(byte[] array)
+        internal static MemoryStream GetStreamInternal(byte[] array)
         {
 #if NET35
 			return new MemoryStream(array);
@@ -142,7 +142,7 @@ namespace OfficeOpenXml.Utils
         /// </summary>
         /// <param name="capacity">The initial size of the internal array</param>
         /// <returns>A MemoryStream</returns>
-        internal static MemoryStream GetStream(int capacity)
+        internal static MemoryStream GetStreamInternal(int capacity)
         {
 #if NET35
 			return new MemoryStream(capacity);
