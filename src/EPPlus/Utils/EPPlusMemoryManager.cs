@@ -24,20 +24,33 @@ namespace OfficeOpenXml.Utils
     /// </summary>
     internal static class EPPlusMemoryManager
     {
-
+        // this variable indicates if an error has occured while calling
+        // RecyclableMemory
         private static bool _isBroken = false;
+
+        // indicates if RecyclableMemory should be used
+        public static bool UseRecyclableMemory
+        {
+            get; set;
+        } = false;
+
+        private static void Log(Exception e, string message)
+        {
+            // implement logging here
+        }
 
         public static MemoryStream GetStream()
         {
-            if (_isBroken)
+            if (_isBroken || !UseRecyclableMemory)
                 return new MemoryStream();
 
             try
             {
                 return RecyclableMemory.GetStreamInternal();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log(e, "Failed to get stream from RecyclableMemory");
                 _isBroken = true;
                 return new MemoryStream();
             }
@@ -45,15 +58,16 @@ namespace OfficeOpenXml.Utils
 
         public static MemoryStream GetStream(byte[] buffer)
         {
-            if (_isBroken)
+            if (_isBroken || !UseRecyclableMemory)
                 return new MemoryStream(buffer);
 
             try
             {
                 return RecyclableMemory.GetStreamInternal(buffer);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log(e, "Failed to get stream from RecyclableMemory");
                 _isBroken = true;
                 return new MemoryStream(buffer);
             }
@@ -61,15 +75,16 @@ namespace OfficeOpenXml.Utils
 
         public static MemoryStream GetStream(int capacity)
         {
-            if (_isBroken)
+            if (_isBroken || !UseRecyclableMemory)
                 return new MemoryStream(capacity);
 
             try
             {
                 return RecyclableMemory.GetStreamInternal(capacity);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log(e, "Failed to get stream from RecyclableMemory");
                 _isBroken = true;
                 return new MemoryStream(capacity);
             }

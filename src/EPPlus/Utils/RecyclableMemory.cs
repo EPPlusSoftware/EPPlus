@@ -44,11 +44,11 @@ namespace OfficeOpenXml.Utils
         {
             get
             {
-                return RecyclableMemory.UseRecyclableMemory;
+                return EPPlusMemoryManager.UseRecyclableMemory;
             }
             set
             {
-                RecyclableMemory.UseRecyclableMemory = value;
+                EPPlusMemoryManager.UseRecyclableMemory = value;
             }
         }
     }
@@ -61,7 +61,6 @@ namespace OfficeOpenXml.Utils
 #if !NET35
         private static RecyclableMemoryStreamManager _memoryManager;
         private static object _dataLock = new object();
-        public static bool UseRecyclableMemory { get; set; } = true;
         internal static bool HasMemoryManager
         {
             get
@@ -75,7 +74,7 @@ namespace OfficeOpenXml.Utils
             {
                 lock (_dataLock)
                 {
-                    if (_memoryManager == null && UseRecyclableMemory)
+                    if (_memoryManager == null && EPPlusMemoryManager.UseRecyclableMemory)
                     {
                         var defaultOptions = new RecyclableMemoryStreamManager.Options
                         {
@@ -107,7 +106,7 @@ namespace OfficeOpenXml.Utils
 #if NET35
 			return new MemoryStream();
 #else
-            if (UseRecyclableMemory == true)
+            if (EPPlusMemoryManager.UseRecyclableMemory == true)
             {
                 return MemoryManager.GetStream();
             }
@@ -127,7 +126,7 @@ namespace OfficeOpenXml.Utils
 #if NET35
 			return new MemoryStream(array);
 #else
-            if (UseRecyclableMemory == true)
+            if (EPPlusMemoryManager.UseRecyclableMemory == true)
             {
                 return MemoryManager.GetStream(array);
             }
@@ -147,7 +146,7 @@ namespace OfficeOpenXml.Utils
 #if NET35
 			return new MemoryStream(capacity);
 #else
-            if (UseRecyclableMemory == true)
+            if (EPPlusMemoryManager.UseRecyclableMemory == true)
             {
                 return MemoryManager.GetStream(null, capacity);
             }
