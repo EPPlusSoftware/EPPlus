@@ -105,7 +105,7 @@ namespace OfficeOpenXml.Drawing.Theme
                 throw (new FileNotFoundException($"{thmxFile.FullName} does not exist"));
             }
 
-            using (var ms = RecyclableMemory.GetStream(File.ReadAllBytes(thmxFile.FullName)))
+            using (var ms = EPPlusMemoryManager.GetStream(File.ReadAllBytes(thmxFile.FullName)))
             {
                 Load(ms);
             }

@@ -463,7 +463,7 @@ namespace OfficeOpenXml.Table
         private string ToJsonString(JsonTableExportSettings s)
         {
             var exporter = new JsonTableExport(this, s);
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 exporter.Export(ms);
                 return s.Encoding.GetString(ms.ToArray());

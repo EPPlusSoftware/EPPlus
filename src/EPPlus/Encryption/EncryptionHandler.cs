@@ -155,17 +155,17 @@ namespace OfficeOpenXml.Encryption
             var VerifierHashKey = GetFinalHash(hashProvider, BlockKey_HashValue, baseHash);
             var KeyValueKey = GetFinalHash(hashProvider, BlockKey_KeyValue, baseHash);
 
-            var ms = RecyclableMemory.GetStream();
+            var ms = EPPlusMemoryManager.GetStream();
             EncryptAgileFromKey(encr, VerifierInputKey, encr.VerifierHashInput, 0, encr.VerifierHashInput.Length, encr.SaltValue, ms);
             encr.EncryptedVerifierHashInput = ms.ToArray();
             ms.Dispose();
 
-            ms = RecyclableMemory.GetStream();
+            ms = EPPlusMemoryManager.GetStream();
             EncryptAgileFromKey(encr, VerifierHashKey, encr.VerifierHash, 0, encr.VerifierHash.Length, encr.SaltValue, ms);
             encr.EncryptedVerifierHash = ms.ToArray();
             ms.Dispose();
 
-            ms = RecyclableMemory.GetStream();
+            ms = EPPlusMemoryManager.GetStream();
             EncryptAgileFromKey(encr, KeyValueKey, encr.KeyValue, 0, encr.KeyValue.Length, encr.SaltValue, ms);
             encr.EncryptedKeyValue = ms.ToArray();
             ms.Dispose();
@@ -174,7 +174,7 @@ namespace OfficeOpenXml.Encryption
 
             var byXml = Encoding.UTF8.GetBytes(xml);
 
-            ms = RecyclableMemory.GetStream();
+            ms = EPPlusMemoryManager.GetStream();
             ms.Write(BitConverter.GetBytes((ushort)4), 0, 2); //Major Version
             ms.Write(BitConverter.GetBytes((ushort)4), 0, 2); //Minor Version
             ms.Write(BitConverter.GetBytes((uint)0x40), 0, 4); //Reserved
@@ -191,7 +191,7 @@ namespace OfficeOpenXml.Encryption
             //...and the encrypted package
             doc.Storage.DataStreams.Add("EncryptedPackage", encrData);
 
-            ms = RecyclableMemory.GetStream();
+            ms = EPPlusMemoryManager.GetStream();
             doc.Save(ms);
             //ms.Write(e,0,e.Length);
             return ms;
@@ -214,7 +214,7 @@ namespace OfficeOpenXml.Encryption
 
             //Encrypt the data
             using (
-            var ms = RecyclableMemory.GetStream())
+            var ms = EPPlusMemoryManager.GetStream())
             {
                 ms.Write(BitConverter.GetBytes((ulong)data.Length), 0, 8);
                 while (pos < data.Length)
@@ -238,7 +238,7 @@ namespace OfficeOpenXml.Encryption
         private void SetHMAC(EncryptionInfoAgile ei, HashAlgorithm hashProvider, byte[] salt, byte[] data)
         {
             var iv = GetFinalHash(hashProvider, BlockKey_HmacKey, ei.KeyData.SaltValue);
-            var ms = RecyclableMemory.GetStream();
+            var ms = EPPlusMemoryManager.GetStream();
             EncryptAgileFromKey(ei.KeyEncryptors[0], ei.KeyEncryptors[0].KeyValue, salt, 0L, salt.Length, iv, ms);
             ei.DataIntegrity.EncryptedHmacKey = ms.ToArray();
             ms.Dispose();
@@ -246,7 +246,7 @@ namespace OfficeOpenXml.Encryption
             var h = GetHmacProvider(ei.KeyEncryptors[0], salt);
             var hmacValue = h.ComputeHash(data);
 
-            ms = RecyclableMemory.GetStream();
+            ms = EPPlusMemoryManager.GetStream();
             iv = GetFinalHash(hashProvider, BlockKey_HmacValue, ei.KeyData.SaltValue);
             EncryptAgileFromKey(ei.KeyEncryptors[0], ei.KeyEncryptors[0].KeyValue, hmacValue, 0L, hmacValue.Length, iv, ms);
             ei.DataIntegrity.EncryptedHmacValue = ms.ToArray();
@@ -300,14 +300,14 @@ namespace OfficeOpenXml.Encryption
             
             //Encrypt the package
             byte[] encryptedPackage = EncryptData(encryptionKey, package, false);
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 ms.Write(BitConverter.GetBytes((ulong)package.Length), 0, 8);
                 ms.Write(encryptedPackage, 0, encryptedPackage.Length);
                 doc.Storage.DataStreams.Add("EncryptedPackage", ms.ToArray());
             }
 
-            var ret = RecyclableMemory.GetStream();
+            var ret = EPPlusMemoryManager.GetStream();
             doc.Save(ret);
 
             return ret;
@@ -335,7 +335,7 @@ namespace OfficeOpenXml.Encryption
         }
         private byte[] CreateStrongEncryptionDataSpaceStream()
         {
-            using (MemoryStream ms = RecyclableMemory.GetStream())
+            using (MemoryStream ms = EPPlusMemoryManager.GetStream())
             {
                 BinaryWriter bw = new BinaryWriter(ms);
 
@@ -352,7 +352,7 @@ namespace OfficeOpenXml.Encryption
         }
         private byte[] CreateVersionStream()
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 BinaryWriter bw = new BinaryWriter(ms);
 
@@ -369,7 +369,7 @@ namespace OfficeOpenXml.Encryption
         }
         private byte[] CreateDataSpaceMap()
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 BinaryWriter bw = new BinaryWriter(ms);
 
@@ -391,7 +391,7 @@ namespace OfficeOpenXml.Encryption
         }
         private byte[] CreateTransformInfoPrimary()
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 BinaryWriter bw = new BinaryWriter(ms);
                 string TransformID = "{FF9A3F03-56EF-4613-BDD5-5A41C1D07246}";
@@ -487,7 +487,7 @@ namespace OfficeOpenXml.Encryption
 
             //Encrypt the data
             var crypt = aes.CreateEncryptor(key, null);
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 var cs = new CryptoStream(ms, crypt, CryptoStreamMode.Write);
                 cs.Write(data, 0, data.Length);
@@ -596,7 +596,7 @@ namespace OfficeOpenXml.Encryption
                     int pos = 0;
                     uint segment = 0;
 
-                    var doc = RecyclableMemory.GetStream();
+                    var doc = EPPlusMemoryManager.GetStream();
                     while (pos < size)
                     {
                         var segmentSize = (int)(size - pos > 4096 ? 4096 : size - pos);
@@ -668,7 +668,7 @@ namespace OfficeOpenXml.Encryption
 #endif
         private MemoryStream DecryptBinary(EncryptionInfoBinary encryptionInfo, string password, long size, byte[] encryptedData)
         {
-            var doc = RecyclableMemory.GetStream();
+            var doc = EPPlusMemoryManager.GetStream();
 
             if (encryptionInfo.Header.AlgID == AlgorithmID.AES128 || (encryptionInfo.Header.AlgID == AlgorithmID.Flags && ((encryptionInfo.Flags & (Flags.fAES | Flags.fExternal | Flags.fCryptoAPI)) == (Flags.fAES | Flags.fCryptoAPI)))
                 ||
@@ -693,7 +693,7 @@ namespace OfficeOpenXml.Encryption
                                                                 key,
                                                                 null);
 
-                    using (var dataStream = RecyclableMemory.GetStream(encryptedData))
+                    using (var dataStream = EPPlusMemoryManager.GetStream(encryptedData))
                     {
                         var cryptoStream = new CryptoStream(dataStream,
                                                                         decryptor,
@@ -738,7 +738,7 @@ namespace OfficeOpenXml.Encryption
             MemoryStream dataStream;
             var decryptedVerifier = new byte[16];
             var decryptedVerifierHash = new byte[16];
-            using (dataStream = RecyclableMemory.GetStream(encryptionInfo.Verifier.EncryptedVerifier))
+            using (dataStream = EPPlusMemoryManager.GetStream(encryptionInfo.Verifier.EncryptedVerifier))
             {
                 CryptoStream cryptoStream = new CryptoStream(dataStream,
                                                               decryptor,
@@ -746,7 +746,7 @@ namespace OfficeOpenXml.Encryption
                 cryptoStream.Read(decryptedVerifier, 0, 16);
             }
 
-            using (dataStream = RecyclableMemory.GetStream(encryptionInfo.Verifier.EncryptedVerifierHash))
+            using (dataStream = EPPlusMemoryManager.GetStream(encryptionInfo.Verifier.EncryptedVerifierHash))
             {
                 var cryptoStream = new CryptoStream(dataStream,
                                                     decryptor,
@@ -811,7 +811,7 @@ namespace OfficeOpenXml.Encryption
                                                         FixHashSize(iv, encr.BlockSize, 0x36));
 
 
-            using (var dataStream = RecyclableMemory.GetStream(encryptedData))
+            using (var dataStream = EPPlusMemoryManager.GetStream(encryptedData))
             {
 
                 using (var cryptoStream = new CryptoStream(dataStream, decryptor, CryptoStreamMode.Read))

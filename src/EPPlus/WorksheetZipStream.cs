@@ -101,14 +101,14 @@ namespace OfficeOpenXml
         {
             _stream.Write(buffer, offset, count);
         }
-        public BinaryWriter Buffer = new BinaryWriter(RecyclableMemory.GetStream());
+        public BinaryWriter Buffer = new BinaryWriter(EPPlusMemoryManager.GetStream());
         public void SetWriteToBuffer()
         {
             Buffer.BaseStream.Dispose();
 #if(!NET35)
             Buffer.Dispose();
 #endif
-            Buffer = new BinaryWriter(RecyclableMemory.GetStream());
+            Buffer = new BinaryWriter(EPPlusMemoryManager.GetStream());
             Buffer.Write(_rollingBuffer.GetBuffer());
             WriteToBuffer = true;
         }

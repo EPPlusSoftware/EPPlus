@@ -210,7 +210,7 @@ namespace OfficeOpenXml
                 stream.Read(b, 0, (int)stream.Length);
                 ms = new MemoryStream(b);
 #else
-                ms = RecyclableMemory.GetStream();
+                ms = EPPlusMemoryManager.GetStream();
                 stream.CopyTo(ms);                
 #endif
             }

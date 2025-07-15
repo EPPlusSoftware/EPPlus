@@ -28,7 +28,7 @@ namespace OfficeOpenXml.VBA.ContentHash
         {
             if (ctx.SignatureType == ExcelVbaSignatureType.Legacy)
             {
-                using (var ms = RecyclableMemory.GetStream())
+                using (var ms = EPPlusMemoryManager.GetStream())
                 {
                     ContentHashInputProvider.GetContentNormalizedDataHashInput(proj, ms);
                     var buffer = ms.ToArray();
@@ -39,7 +39,7 @@ namespace OfficeOpenXml.VBA.ContentHash
             }
             else if (ctx.SignatureType == ExcelVbaSignatureType.Agile)
             {
-                using (var ms = RecyclableMemory.GetStream())
+                using (var ms = EPPlusMemoryManager.GetStream())
                 {
                     ContentHashInputProvider.GetContentNormalizedDataHashInput(proj, ms);
                     ContentHashInputProvider.GetFormsNormalizedDataHashInput(proj, ms);
@@ -51,7 +51,7 @@ namespace OfficeOpenXml.VBA.ContentHash
             }
             else if(ctx.SignatureType == ExcelVbaSignatureType.V3)
             {
-                using (var ms = RecyclableMemory.GetStream())
+                using (var ms = EPPlusMemoryManager.GetStream())
                 {
                     ContentHashInputProvider.GetV3ContentNormalizedDataHashInput(proj, ms);
                     var buffer = ms.ToArray();
