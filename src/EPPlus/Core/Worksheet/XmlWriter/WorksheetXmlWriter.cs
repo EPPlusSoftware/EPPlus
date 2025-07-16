@@ -1218,7 +1218,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     }
                     else if (dataBar.LowValue.Value != double.NaN)
                     {
-                        cache.Append($"<xm:f>{dataBar.LowValue.Value}</xm:f>");
+                        cache.Append($"<xm:f>{dataBar.LowValue.Value.ToString(CultureInfo.InvariantCulture)}</xm:f>");
                     }
                     cache.Append($"</x14:cfvo>");
                 }
@@ -1238,7 +1238,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     }
                     else
                     {
-                        cache.Append($"<xm:f>{dataBar.HighValue.Value}</xm:f>");
+                        cache.Append($"<xm:f>{dataBar.HighValue.Value.ToString(CultureInfo.InvariantCulture)}</xm:f>");
                     }
                     cache.Append($"</x14:cfvo>");
                 }
@@ -1382,7 +1382,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     }
                     else if (icon.Value != double.NaN)
                     {
-                        cache.Append($"<xm:f>{icon.Value}</xm:f>");
+                        cache.Append($"<xm:f>{icon.Value.ToString(CultureInfo.InvariantCulture)}</xm:f>");
                     }
                     cache.Append($"</{prefix}cfvo>");
                 }
@@ -1790,7 +1790,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         }
                         else
                         {
-                            cache.Append($" val=\"{dataBar.LowValue.Value}\"");
+                            cache.Append($" val=\"{dataBar.LowValue.Value.ToString(CultureInfo.InvariantCulture)}\"");
                         }
                     }
 
@@ -1806,7 +1806,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         }
                         else
                         {
-                            cache.Append($" val=\"{dataBar.HighValue.Value}\"");
+                            cache.Append($" val=\"{dataBar.HighValue.Value.ToString(CultureInfo.InvariantCulture)}\"");
                         }
                     }
 
