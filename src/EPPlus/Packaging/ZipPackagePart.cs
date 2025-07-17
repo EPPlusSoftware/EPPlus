@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Packaging
         {
             if (_stream == null || fileMode == FileMode.CreateNew || fileMode == FileMode.Create)
             {
-                _stream = RecyclableMemory.GetStream();
+                _stream = EPPlusMemoryManager.GetStream();
             }
             else
             {
@@ -112,7 +112,7 @@ namespace OfficeOpenXml.Packaging
         public Uri Uri { get; private set; }
         public Stream GetZipStream()
         {
-            using (MemoryStream ms = RecyclableMemory.GetStream())
+            using (MemoryStream ms = EPPlusMemoryManager.GetStream())
             {
                 ZipOutputStream os = new ZipOutputStream(ms);
                 return os;

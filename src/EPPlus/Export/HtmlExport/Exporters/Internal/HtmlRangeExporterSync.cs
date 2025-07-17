@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         /// <returns>A html table</returns>
         public string GetHtmlString()
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 RenderHtml(ms, 0);
                 ms.Position = 0;
@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         public string GetHtmlString(int rangeIndex)
         {
             ValidateRangeIndex(rangeIndex);
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 RenderHtml(ms, rangeIndex);
                 ms.Position = 0;
@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         public string GetHtmlString(int rangeIndex, ExcelHtmlOverrideExportSettings settings)
         {
             ValidateRangeIndex(rangeIndex);
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 RenderHtml(ms, rangeIndex, settings);
                 ms.Position = 0;

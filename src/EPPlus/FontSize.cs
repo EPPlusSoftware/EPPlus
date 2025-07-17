@@ -220,7 +220,7 @@ namespace OfficeOpenXml
                                 var br = new BinaryReader(zipStream);
                                 if (string.IsNullOrEmpty(fontName))
                                 {
-                                    using (var ms = RecyclableMemory.GetStream(br.ReadBytes((int)entry.UncompressedSize)))
+                                    using (var ms = EPPlusMemoryManager.GetStream(br.ReadBytes((int)entry.UncompressedSize)))
                                     {
                                         ReadFontSize(ms, fontName);
                                     }
@@ -228,7 +228,7 @@ namespace OfficeOpenXml
                                 }
                                 else
                                 {
-                                    _fontStream = RecyclableMemory.GetStream(br.ReadBytes((int)entry.UncompressedSize));
+                                    _fontStream = EPPlusMemoryManager.GetStream(br.ReadBytes((int)entry.UncompressedSize));
                                     ReadFontSize(_fontStream, fontName);
                                 }
                             }

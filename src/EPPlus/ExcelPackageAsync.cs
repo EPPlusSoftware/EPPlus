@@ -35,7 +35,7 @@ namespace OfficeOpenXml
         {
             using (var stream = fileInfo.OpenRead())
             {
-                await LoadAsync(stream, RecyclableMemory.GetStream(), null, cancellationToken).ConfigureAwait(false);
+                await LoadAsync(stream, EPPlusMemoryManager.GetStream(), null, cancellationToken).ConfigureAwait(false);
             }
         }
         /// <summary>
@@ -58,7 +58,7 @@ namespace OfficeOpenXml
         {
             using (var stream = fileInfo.OpenRead())
             {
-                await LoadAsync(stream, RecyclableMemory.GetStream(), Password, cancellationToken).ConfigureAwait(false);
+                await LoadAsync(stream, EPPlusMemoryManager.GetStream(), Password, cancellationToken).ConfigureAwait(false);
                 stream.Close();
             }
         }
@@ -107,7 +107,7 @@ namespace OfficeOpenXml
         /// <param name="cancellationToken">The cancellation token</param>
         public async Task LoadAsync(Stream input, CancellationToken cancellationToken = default)
         {
-            await LoadAsync(input, RecyclableMemory.GetStream(), null, cancellationToken).ConfigureAwait(false);
+            await LoadAsync(input, EPPlusMemoryManager.GetStream(), null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace OfficeOpenXml
         /// <param name="cancellationToken">The cancellation token</param>
         public async Task LoadAsync(Stream input, string Password, CancellationToken cancellationToken = default)
         {
-            await LoadAsync(input, RecyclableMemory.GetStream(), Password, cancellationToken).ConfigureAwait(false);
+            await LoadAsync(input, EPPlusMemoryManager.GetStream(), Password, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace OfficeOpenXml
                 _stream = output;
                 if (Password != null)
                 {
-                    using (var encrStream = RecyclableMemory.GetStream())
+                    using (var encrStream = EPPlusMemoryManager.GetStream())
                     {
                         await StreamUtil.CopyStreamAsync(input, encrStream, cancellationToken).ConfigureAwait(false);
                         var eph = new EncryptedPackageHandler();
@@ -152,7 +152,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    ms = RecyclableMemory.GetStream();
+                    ms = EPPlusMemoryManager.GetStream();
                     await StreamUtil.CopyStreamAsync(input, ms, cancellationToken).ConfigureAwait(false);
                 }
 
@@ -212,7 +212,7 @@ namespace OfficeOpenXml
                 {
                     if (Encryption.IsEncrypted)
                     {
-                        using (var ms = RecyclableMemory.GetStream())
+                        using (var ms = EPPlusMemoryManager.GetStream())
                         {
                             _zipPackage.Save(ms);
                             var file = ms.ToArray();
@@ -412,7 +412,7 @@ namespace OfficeOpenXml
 #else
                     _stream.Dispose();
 #endif
-                    _stream = RecyclableMemory.GetStream();
+                    _stream = EPPlusMemoryManager.GetStream();
                 }
                 _zipPackage.Save(_stream);
             }
@@ -488,8 +488,8 @@ namespace OfficeOpenXml
 
         private async Task ConstructNewFileAsync(string password, CancellationToken cancellationToken)
         {
-            var ms = RecyclableMemory.GetStream();
-            if (_stream == null) _stream = RecyclableMemory.GetStream();
+            var ms = EPPlusMemoryManager.GetStream();
+            if (_stream == null) _stream = EPPlusMemoryManager.GetStream();
             File?.Refresh();
             if (File != null && File.Exists)
             {
