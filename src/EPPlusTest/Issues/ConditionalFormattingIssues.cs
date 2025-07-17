@@ -85,6 +85,7 @@ namespace EPPlusTest.Issues
         [TestMethod]
         public void Test1_Input_ExpectedOutput()
         {
+            var currentCulture = Thread.CurrentThread.CurrentCulture;
             // if this is InvariantCulture, everything works fine:
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("de-DE");
 
@@ -120,6 +121,7 @@ namespace EPPlusTest.Issues
             iconSet.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.GoldStar;
 
             SaveAndCleanup(package);
+            Thread.CurrentThread.CurrentCulture = currentCulture;
         }
     }
 }
