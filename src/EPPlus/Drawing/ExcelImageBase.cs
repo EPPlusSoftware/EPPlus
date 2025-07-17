@@ -117,7 +117,7 @@ namespace OfficeOpenXml.Drawing
 
             PictureStore.SavePicture(image, _container, pictureType);
 
-            using (var ms = RecyclableMemory.GetStream(image))
+            using (var ms = EPPlusMemoryManager.GetStream(image))
             {
                 if (_container.RelationDocument.Package.Settings.ImageSettings.GetImageBounds(ms, pictureType, out double width, out double height, out double horizontalResolution, out double verticalResolution))
                 {
@@ -182,7 +182,7 @@ namespace OfficeOpenXml.Drawing
             {
                 ImageBytes = image;
             }
-            using (var ms = RecyclableMemory.GetStream(image))
+            using (var ms = EPPlusMemoryManager.GetStream(image))
             {
                 var imageHandler = new GenericImageHandler();
                 if (imageHandler.GetImageBounds(ms, pictureType, out double width, out double height, out double horizontalResolution, out double verticalResolution))

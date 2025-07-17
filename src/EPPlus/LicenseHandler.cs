@@ -200,7 +200,7 @@ namespace OfficeOpenXml
 
         static byte[] GetLicenseData(byte version, string licenseNo, DateTime fromDate, DateTime toDate, byte licenseType, short numberOfLicenses)
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 var br = new BinaryWriter(ms);
                 br.Write(version);
@@ -223,7 +223,7 @@ namespace OfficeOpenXml
         internal static void GetLicenseDataFromKey(string lk, out byte version, out string licenseNo, out DateTime fromDate, out DateTime toDate, out EPPlusCommercialLicenseType licenseType, out short noOfLicenses, out byte[] signature, int size)
         {        
             var by = Convert.FromBase64String(lk);
-            using (var ms = RecyclableMemory.GetStream(by))
+            using (var ms = EPPlusMemoryManager.GetStream(by))
             {
                 var br = new BinaryReader(ms);
                 signature = br.ReadBytes(size);

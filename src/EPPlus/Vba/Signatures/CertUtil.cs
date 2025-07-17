@@ -55,7 +55,7 @@ namespace OfficeOpenXml.VBA.Signatures
         internal static byte[] GetSerializedCertStore(byte[] certRawData)
         {
             //MS-OSHARED 2.3.2.5.5 VBASigSerializedCertStore
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 var bw = new BinaryWriter(ms);
 

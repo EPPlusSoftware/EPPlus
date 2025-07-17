@@ -66,7 +66,7 @@ namespace OfficeOpenXml.Drawing.OleObject.Structures
         }
         internal static void ReadCompObjStream(OleObjectDataStructures _oleDataStructures, byte[] oleBytes)
         {
-            using (var ms = RecyclableMemory.GetStream(oleBytes))
+            using (var ms = EPPlusMemoryManager.GetStream(oleBytes))
             {
                 BinaryReader br = new BinaryReader(ms);
                 _oleDataStructures.CompObj.Header = ReadCompObjHeader(br);
