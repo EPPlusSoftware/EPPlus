@@ -500,8 +500,12 @@ namespace OfficeOpenXml.Drawing
             strings._list = _adjustmentPoints.Keys.ToList();
             return strings;
         }
-        public EPPlusReadOnlyList<int> GetAdjustmentPointsList(bool defaultIfMissing=true)
+        public EPPlusReadOnlyList<int> GetAdjustmentPointsList()
         {
+            if(HasCustomAdjustmentPoints()==false)
+            {
+                return GetDefaultAdjustmentPointList();
+            }
             var nodes = GetNodes(_presetGeometryPath + "/a:gd");
             var list = new EPPlusReadOnlyList<int>();
             foreach(XmlElement gdNode in nodes)
@@ -512,13 +516,12 @@ namespace OfficeOpenXml.Drawing
                     list.Add(GetValueFromFormula(fmla));
                 }
             }
-            if(defaultIfMissing)
-            {
-                return GetDefaultAdjustmentPointList();
-            }
             return list;
         }
-
+        public bool HasCustomAdjustmentPoints()
+        {
+            return ExistsNode(_presetGeometryPath + "/a:gd");
+        }
         private EPPlusReadOnlyList<int> GetDefaultAdjustmentPointList()
         {
             var l = new EPPlusReadOnlyList<int>();
