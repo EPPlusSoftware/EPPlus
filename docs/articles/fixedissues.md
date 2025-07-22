@@ -4,7 +4,7 @@
 * Conditional formattings could cause invalid xml due to not using InvarianCulture when setting the numeric values.
 * ExcelRangeBase - LoadFromCollection/LoadFromDataTable sometimes cleared formulas outside the range.
 * The OFFSET function did not set height or width from reference if arguments was left empty.
-* Removed usage of reflection in Vba Moduals to improve AOT support - PR by oreadvanthink
+* Removed usage of reflection in VBA modules to improve AOT support - PR by oreadvanthink
 
 ## Version 8.0.7
 * Added validation for number formats (brackets) during formula calculation. Also affects the Range.Text property.
