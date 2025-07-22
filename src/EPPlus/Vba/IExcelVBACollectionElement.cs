@@ -18,6 +18,9 @@ namespace OfficeOpenXml.VBA
     /// </summary>
     public interface IExcelVBACollectionElement
     {
+        /// <summary>
+        /// The name of a VBA module or reference.
+        /// </summary>
         string Name { get; }
     }
 }
