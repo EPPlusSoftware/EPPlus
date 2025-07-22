@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
         }
         internal void Read(byte[] doc) 
         {
-            using (var ms = RecyclableMemory.GetStream(doc))
+            using (var ms = EPPlusMemoryManager.GetStream(doc))
             {
                 Read(ms, true);
             }

@@ -103,7 +103,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         private static void SetValue(Operators op, InMemoryRange resultRange, int row, int col, CompileResult leftVal, CompileResult rightVal, ParsingContext context)
         {
             var res = ApplyOperator(leftVal, rightVal, op, out bool error, context);
-            SetValue(resultRange, row, col, res.ResultValue, error);
+            var resultValue = res.ResultValue;
+            if(!(resultValue is bool) && ConvertUtil.IsNumeric(resultValue) && res.ResultNumeric == 0d)
+            {
+                // avoid -0 results.
+                resultValue = 0d;
+            }
+            SetValue(resultRange, row, col, resultValue, error);
         }
 
         private static bool ShouldUseSingleRow(RangeDefinition lSize, RangeDefinition rSize)

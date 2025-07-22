@@ -37,15 +37,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var startRange = ArgToAddress(arguments, 0);
             
             int width = 0, height = 0;
+            ExcelErrorValue e3 = null;
             if (arguments.Count > 3)
             {
-                height = ArgToInt(arguments, 3, out ExcelErrorValue e3);
+                if (arguments[3].DataType == DataType.Empty)
+                {
+                    height = arg0.Address.ToRow - arg0.Address.FromRow + 1;
+                }
+                else
+                {
+                    height = ArgToInt(arguments, 3, out e3);
+                }
                 if(e3 != null) return CompileResult.GetErrorResult(e3.Type);
                 if (height == 0) return new CompileResult(eErrorType.Ref);
             }
             if (arguments.Count > 4)
             {
-                width = ArgToInt(arguments, 4, out ExcelErrorValue e4);
+                ExcelErrorValue e4 = null;
+                if (arguments[4].DataType == DataType.Empty)
+                {
+                    width = arg0.Address.ToCol - arg0.Address.FromCol + 1;
+                }
+                else
+                {
+                    width = ArgToInt(arguments, 4, out e4);
+                }
                 if (e4 != null) return CompileResult.GetErrorResult(e4.Type);
                 if (width == 0) return new CompileResult(eErrorType.Ref);
             }

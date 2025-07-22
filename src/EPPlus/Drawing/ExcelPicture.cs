@@ -202,7 +202,7 @@ namespace OfficeOpenXml.Drawing
                 type = pt.Value;
             }
 
-            using (var ms = RecyclableMemory.GetStream(img))
+            using (var ms = EPPlusMemoryManager.GetStream(img))
             {
                 Image.Type = type;
                 Image.ImageBytes = img;
@@ -273,7 +273,7 @@ namespace OfficeOpenXml.Drawing
 
             container.ImageHash = ii.Hash;
 
-            using (var ms = RecyclableMemory.GetStream(img))
+            using (var ms = EPPlusMemoryManager.GetStream(img))
             {
                 Image.ImageBytes = img;
                 Image.Type = type;

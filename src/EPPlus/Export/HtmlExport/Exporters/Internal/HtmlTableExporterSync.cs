@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         /// <returns>A html table</returns>
         public string GetHtmlString()
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 RenderHtml(ms);
                 ms.Position = 0;

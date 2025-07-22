@@ -381,7 +381,7 @@ namespace OfficeOpenXml.VBA
             byte[] array;
             byte pb;
             byte[] enc = new byte[value.Length + 10];
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 BinaryWriter br = new BinaryWriter(ms);
                 enc[0] = seed[0];
@@ -443,7 +443,7 @@ namespace OfficeOpenXml.VBA
         private void ReadDirStream()
         {
             byte[] dir = VBACompression.DecompressPart(Document.Storage.SubStorage["VBA"].DataStreams["dir"].Stream);
-            using (var ms = RecyclableMemory.GetStream(dir))
+            using (var ms = EPPlusMemoryManager.GetStream(dir))
             {
                 BinaryReader br = new BinaryReader(ms);
                 ExcelVbaReference currentRef = null;
@@ -685,7 +685,7 @@ namespace OfficeOpenXml.VBA
         /// <returns></returns>
         private byte[] CreateVBAProjectStream()
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 BinaryWriter bw = new BinaryWriter(ms);
                 bw.Write((ushort)0x61CC); //Reserved1
@@ -701,7 +701,7 @@ namespace OfficeOpenXml.VBA
         /// <returns></returns>
         private byte[] CreateDirStream()
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 BinaryWriter bw = new BinaryWriter(ms);
 
@@ -962,7 +962,7 @@ namespace OfficeOpenXml.VBA
 
         private byte[] CreateProjectwmStream()
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 BinaryWriter bw = new BinaryWriter(ms);
 
@@ -1094,7 +1094,7 @@ namespace OfficeOpenXml.VBA
                     }
                 }
                 //Write the Password Hash Data Structure (2.4.4.1)
-                using (var ms = RecyclableMemory.GetStream())
+                using (var ms = EPPlusMemoryManager.GetStream())
                 {
                     BinaryWriter bw = new BinaryWriter(ms);
                     bw.Write((byte)0xFF);

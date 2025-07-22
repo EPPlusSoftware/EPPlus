@@ -1,4 +1,20 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.0.8
+* Fix for FileLoadException due to System.Memory referenced by RecyclableMemoryStream.
+* Conditional formattings could cause invalid xml due to not using InvarianCulture when setting the numeric values.
+* ExcelRangeBase - LoadFromCollection/LoadFromDataTable sometimes cleared formulas outside the range.
+* The OFFSET function did not set height or width from reference if arguments was left empty.
+* Removed usage of reflection in VBA modules to improve AOT support - PR by oreadvanthink
+
+## Version 8.0.7
+* Added validation for number formats (brackets) during formula calculation. Also affects the Range.Text property.
+* Fix for REF errors in the OFFSET function.
+* Fixed wrong data type being returned from Bin2Hex function (Decimal->String). 
+* Fixed custom icon sets with 4 or more icons sometimes becoming a 3 icon set.
+* Fixed issues in the SORT, SUMIFS and LEFT with dynamic arrays.
+* The ANCHORARRAY function did not work as expected when only returning one cell only.
+* The ROUND function now rounds to a better precision.
+
 ## Version 8.0.6
 * Changed to use “PackageLicenseExpression” in the Nuget package.
 * ExcelRangeBase.LoadFromDataTable sometimes cleared data outside the loaded range.

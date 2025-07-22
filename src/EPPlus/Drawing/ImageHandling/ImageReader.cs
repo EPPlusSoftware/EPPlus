@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                Stream newMs = RecyclableMemory.GetStream();
+                Stream newMs = EPPlusMemoryManager.GetStream();
                 StreamUtil.CopyStream(stream, ref newMs);
                 pt = GetPictureTypeFromMs((MemoryStream)newMs);
                 newMs.Dispose();
@@ -63,7 +63,7 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                using (Stream newMs = RecyclableMemory.GetStream())
+                using (Stream newMs = EPPlusMemoryManager.GetStream())
                 {
                     await StreamUtil.CopyStreamAsync(stream, newMs, new CancellationToken()).ConfigureAwait(false);
                     pt = GetPictureTypeFromMs((MemoryStream)newMs);
@@ -199,9 +199,9 @@ namespace OfficeOpenXml.Drawing
             {
                 try
                 {
-                    using(var ms = RecyclableMemory.GetStream(img))
+                    using(var ms = EPPlusMemoryManager.GetStream(img))
                     {
-                        using(var msOut = RecyclableMemory.GetStream())
+                        using(var msOut = EPPlusMemoryManager.GetStream())
                         {
                             const int bufferSize = 4096;
                             var buffer = new byte[bufferSize];

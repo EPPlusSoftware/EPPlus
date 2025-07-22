@@ -177,7 +177,7 @@ namespace OfficeOpenXml.Drawing
         {
             var ret = new ExcelImageInfo();
             var s = pck.Settings.ImageSettings;
-            using(var ms = RecyclableMemory.GetStream(image))
+            using(var ms = EPPlusMemoryManager.GetStream(image))
             {
                 if (s.GetImageBounds(ms, type, out double width, out double height, out double horizontalResolution, out double verticalResolution) == false)
                 {
