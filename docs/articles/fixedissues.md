@@ -1,4 +1,9 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.7.3
+* Fix for FileLoadException due to System.Memory referenced by RecyclableMemoryStream.
+* Conditional formattings could cause invalid xml due to not using InvarianCulture when setting the numeric values.
+* ExcelRangeBase - LoadFromCollection/LoadFromDataTable sometimes cleared formulas outside the range.
+
 ## Version 7.7.2
 * Sorting a range with threaded comments, remove and the add a threaded comment sometimes throws an exception.
 * Added custom number formats where the formatId is not a built-in format.

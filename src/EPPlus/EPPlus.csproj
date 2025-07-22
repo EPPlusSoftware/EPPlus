@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net9.0;net8.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>7.7.2.0</AssemblyVersion>
-		<FileVersion>7.7.2.0</FileVersion>
-		<Version>7.7.2</Version>
+		<AssemblyVersion>7.7.3.0</AssemblyVersion>
+		<FileVersion>7.7.3.0</FileVersion>
+		<Version>7.7.3</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -18,13 +18,16 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 7.7.2
+			EPPlus 7.7.3
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 			EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
+
+			## Version 7.7.3
+			* Minor bug fixes.
 
 			## Version 7.7.2
 			* Minor bug fixes.
