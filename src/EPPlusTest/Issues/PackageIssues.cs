@@ -126,5 +126,17 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s908()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("s908.xlsx"))
+            {
+                foreach(var ws in package.Workbook.Worksheets)
+                {
+                    var wsName = ws.Name.Trim();
+                }
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

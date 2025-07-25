@@ -470,6 +470,54 @@ namespace EPPlusTest.Issues
                 SaveWorkbook("s877-2.xlsx", package);
             }
         }
+        [TestMethod]
+        public void s907()
+        {
+            using (var package = OpenTemplatePackage("s907.xlsx"))
+            {
+                var firstDataRow = 2;
+                var ws = package.Workbook.Worksheets["Raw Data"];
 
+
+                var firstRowToDelete = firstDataRow + 1;
+                ws.DeleteRow(firstRowToDelete, ExcelPackage.MaxRows - firstRowToDelete + 1);
+                ws.Cells[firstDataRow, 1].Value = "123456";
+
+
+                SaveAndCleanup(package);
+            }
+
+
+            //using (var package = new ExcelPackage(new FileInfo(@"C:\Websites\EPPlusTest\GWTemplateSavedWithoutChanges.xlsx")))
+            //{
+            //    var firstDataRow = 2;
+            //    var ws = package.Workbook.Worksheets["Raw Data"];
+
+
+            //    var firstRowToDelete = firstDataRow + 1;
+            //    ws.DeleteRow(firstRowToDelete, ExcelPackage.MaxRows - firstRowToDelete + 1);
+            //    ws.Cells[firstDataRow, 1].Value = "123456";
+
+
+            //    File.WriteAllBytes(@"C:\Websites\EPPlusTest\GWResultSuccess.xlsx", package.GetAsByteArray());
+            //}
+        }
+        [TestMethod]
+        public void s907_2()
+        {
+            using (var package = OpenTemplatePackage("s907-2.xlsx"))
+            {
+                var firstDataRow = 2;
+                var ws = package.Workbook.Worksheets["module_status_report"];
+
+
+                var firstRowToDelete = firstDataRow + 1;
+                ws.DeleteRow(firstRowToDelete, ExcelPackage.MaxRows - firstRowToDelete + 1);
+                ws.Cells[firstDataRow, 1].Value = "123456";
+                package.GetAsByteArray();
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
