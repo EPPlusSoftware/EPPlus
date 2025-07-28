@@ -42,7 +42,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 return CreateResult(System.Math.Round(number / System.Math.Pow(10, positivDigits), 0, MidpointRounding.AwayFromZero) * System.Math.Pow(10, positivDigits), DataType.Integer);
             }
-            return CreateResult(System.Math.Round(number, nDigits, MidpointRounding.AwayFromZero), DataType.Decimal);
+            //We cast to decimal here to avoid issues where the double is rounded incorrectly due to floating-point problems
+            //. For example 39.285 is incorrectly rounded down  
+            return CreateResult((double)System.Math.Round((decimal)number, nDigits, MidpointRounding.AwayFromZero), DataType.Decimal);
         }
         public override int ArgumentMinLength => 2;
     }

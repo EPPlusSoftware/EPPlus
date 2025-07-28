@@ -8,25 +8,19 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/22/2025         EPPlus Software AB       EPPlus 8.0.8
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.ConditionalFormatting.Contracts
+namespace OfficeOpenXml.VBA
 {
+
     /// <summary>
-    /// IExcelConditionalFormattingFourIconSet
+    /// The interface that must be implemented by the elements stored by ExcelVBACollectionBase.
     /// </summary>
-    public interface IExcelConditionalFormattingFourIconSet<T> : IExcelConditionalFormattingThreeIconSet<T>
-  {
-    #region Public Properties
-    /// <summary>
-    /// Icon4 (part of the 4 or 5 Icon Set)
-    /// </summary>
-      ExcelConditionalFormattingIconDataBarValue Icon4 { get; }      
-    #endregion Public Properties
-  }
+    public interface IExcelVBACollectionElement
+    {
+        /// <summary>
+        /// The name of a VBA module or reference.
+        /// </summary>
+        string Name { get; }
+    }
 }

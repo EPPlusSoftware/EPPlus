@@ -80,7 +80,7 @@ namespace OfficeOpenXml.CellPictures
         {
             ePictureType? pt = null;
             var b = GetImageBytes();
-            using (var stream = RecyclableMemory.GetStream(b))
+            using (var stream = EPPlusMemoryManager.GetStream(b))
             {
                 pt = ImageReader.GetPictureType(stream, false);
             }

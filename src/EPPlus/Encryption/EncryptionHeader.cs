@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Encryption
         internal string CSPName;            //SHOULD<11> be set to either "Microsoft Enhanced RSA and AES Cryptographic Provider" or "Microsoft Enhanced RSA and AES Cryptographic Provider (Prototype)" as a null-terminated Unicode string.
         internal byte[] WriteBinary()
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 BinaryWriter bw = new BinaryWriter(ms);
 

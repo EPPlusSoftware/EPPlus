@@ -82,7 +82,7 @@ namespace OfficeOpenXml.VBA.Signatures
 
         internal static void ReadSignedData(byte[] data, EPPlusSignatureContext ctx)
         {
-            using(var ms = RecyclableMemory.GetStream(data))
+            using(var ms = EPPlusMemoryManager.GetStream(data))
             {
                 var br = new BinaryReader(ms);
                 var totallength = ReadSequence(br);

@@ -745,7 +745,13 @@ namespace OfficeOpenXml.FormulaParsing
                             }
                             else
                             {
-                                f._ws.SetValueInner(f._row, f._column, cr.ResultValue ?? 0D);
+                                var dVal = cr.ResultValue;
+                                if (cr.DataType == DataType.Decimal && dVal != null && dVal is double dbl && dbl == 0d)
+                                {
+                                    // this is to avoid "-0" results from the ToString method.
+                                    dVal = 0d;
+                                }
+                                f._ws.SetValueInner(f._row, f._column, dVal ?? 0D);
                             }
                         }
                     }

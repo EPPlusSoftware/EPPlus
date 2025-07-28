@@ -211,7 +211,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
                 sheet.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
                 Assert.AreEqual(120253.88, sheet.Cells["A2"].Value);
                 sheet.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet);
-                Assert.AreEqual(120253.87, sheet.Cells["A2"].Value);
+                Assert.AreEqual(120253.88, sheet.Cells["A2"].Value); //Changed from 120253.87, 2025-06-26, when changed to type-cast the number to decimal in the ROUND function.
             }
         }
 
@@ -312,6 +312,17 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
                 sheet.Cells.Calculate();
 
                 Assert.AreEqual(17.38, sheet.Cells["A2"].Value);
+            }
+        }
+        [TestMethod]
+        public void RoundTypeCastToDecimalShouldAvoidFloatingPointError()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Formula = "Round(39.285,2)";
+                ws.Calculate();
+                Assert.AreEqual(39.29, ws.Cells["A1"].Value);
             }
         }
     }

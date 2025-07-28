@@ -51,14 +51,19 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                 if(cr.DataType == DataType.ExcelRange && Function.ArrayBehaviourConfig.CanBeArrayArg(ix))
                 {
                     var range = cr.Result as IRangeInfo;
-                    if(range.GetNCells() > 1)
-                    {
-                        rangeArgs[ix] = range;
-                    }
-                    else
-                    {
-                        otherArgs[ix] = CompileResultFactory.Create(range.GetOffset(0, 0));
-                    }
+                    rangeArgs[ix] = range;
+
+                    //OLD CODE left below in case otherArgs becomes a problem later. Range args when NCells == 1 is
+                    //neccesary in case of in memory range/dynamic array formulas with a single cell.
+
+                    //if (range.GetNCells() > 1)
+                    //{
+                    //    rangeArgs[ix] = range;
+                    //}
+                    //else
+                    //{
+                    //    otherArgs[ix] = CompileResultFactory.Create(range.GetOffset(0, 0));
+                    //}
                 }
                 else
                 {

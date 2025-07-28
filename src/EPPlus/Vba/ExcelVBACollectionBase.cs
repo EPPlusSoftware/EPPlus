@@ -20,7 +20,7 @@ namespace OfficeOpenXml.VBA
     /// Base class for VBA collections
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ExcelVBACollectionBase<T> : IEnumerable<T>
+    public class ExcelVBACollectionBase<T> : IEnumerable<T> where T : IExcelVBACollectionElement
     {
         /// <summary>
         /// A list of vba objects
@@ -48,7 +48,7 @@ namespace OfficeOpenXml.VBA
         {
             get
             {
-                return _list.Find((f) => TypeCompat.GetPropertyValue(f,"Name").ToString().Equals(Name,StringComparison.OrdinalIgnoreCase));
+                return _list.Find((f) => f.Name.ToString().Equals(Name,StringComparison.OrdinalIgnoreCase));
             }
         }
         /// <summary>
@@ -77,7 +77,7 @@ namespace OfficeOpenXml.VBA
         /// <returns>True if the name exists</returns>
         public bool Exists(string Name)
         {
-            return _list.Exists((f) => TypeCompat.GetPropertyValue(f,"Name").ToString().Equals(Name,StringComparison.OrdinalIgnoreCase));
+            return _list.Exists((f) => f.Name.ToString().Equals(Name,StringComparison.OrdinalIgnoreCase));
         }
         /// <summary>
         /// Removes the item
