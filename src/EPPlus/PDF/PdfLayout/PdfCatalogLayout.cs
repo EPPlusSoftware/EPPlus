@@ -20,11 +20,31 @@ namespace OfficeOpenXml.PDF.PdfLayout
             this.settings = pageSettings;
             this.bounds = bounds;
             var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet));
-            double x = 0;
-            double y = 0;
-            var pages = AddChild(new PdfTransform(0, 0, 0, 0));
-            pages.AddChild(new PdfContentLayout(x, y, bounds));
 
+            //calculate number of pages needed based on contentBounds and worksheetLayout.Size
+            var horizontalPages = WorksheetLayout.Size.X / bounds.Width;
+            var verticalPages = WorksheetLayout.Size.Y / bounds.Height;
+            int horizontalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(horizontalPages));
+            int verticalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(verticalPages));
+            int totalPages = horizontalPageCount * verticalPageCount;
+            var pages = new PdfPagesLayout(0, 0, 0, 0);
+            for (int i = 0; i < totalPages; i++)
+            {
+                int row, col;
+                if (settings.PageOrders == PageOrders.DownThenOver)
+                {
+                    col = i / verticalPageCount;
+                    row = i % verticalPageCount;
+                }
+                else //(settings.PageOrders == PageOrders.OverThenDown)
+                {
+                    col = i % horizontalPageCount;
+                    row = i / horizontalPageCount;
+                }
+                double x = col * bounds.Width;
+                double y = row * bounds.Height;
+                pages.AddChild(new PdfContentLayout(x, y, bounds));
+            }
             while (WorksheetLayout.ChildObjects.Count > 0)
             {
                 foreach (var cell in WorksheetLayout.ChildObjects)
@@ -33,47 +53,13 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     {
                         if (PdfTransform.IntersectsFully(page.GetGlobalBoundingbox(), cell.GetGlobalBoundingbox()))
                         {
-
+                            page.AddChild(cell);
                         }
                     }
                     //if cell is not fully covered, move it to the next page and then set new width/height for page. bounds should be the max size not actual page size. we can then set size to be bounds after iterating cells.
-
-
-                    if (settings.PageOrders == PageOrders.DownThenOver)
-                    {
-                        //add page in y coord first
-                    }
-                    else if (settings.PageOrders == PageOrders.OverThenDown)
-                    {
-                        //add page in x coord first
-                    }
                 }
             }
-
-
-
-
-
-            //foreach(var child in WorksheetLayout.ChildObjects)
-            //{
-            //    bool childInPage = false;
-            //    foreach(var page in pages.ChildObjects)
-            //    {
-            //        if(child.Intersects(child.GetGlobalBoundingbox(), page.GetGlobalBoundingbox()))
-            //        {
-            //            child.Parent = page;
-            //            childInPage = true;
-            //        }
-            //    }
-            //    if(childInPage = false)
-            //    {
-
-            //    }
-            //    //need to have a contentLayout
-            //    //check intersect
-            //    //move child to contentLayout
-            //    //here we can add pages in over then down order or down the over order.
-            //}
+            //go into pages and create pageLayout children that contains the contentLayout
         }
 
         public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, PdfContentBounds bounds)

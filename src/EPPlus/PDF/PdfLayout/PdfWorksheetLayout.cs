@@ -12,11 +12,13 @@ namespace OfficeOpenXml.PDF.PdfLayout
     {
         internal ExcelWorksheet ws;
 
+
         public PdfWorksheetLayout(ExcelWorksheet worksheet)
         {
             this.ws = worksheet;
             double x = 0d;
             double y = 0d;
+            double totalWidth = 0;
             List<string> checkedMergedCells = new List<string>();
             for(int i = 1; i<= ws.Dimension._toRow; i++)
             {
@@ -52,10 +54,15 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     cl0.Z = 1;
                     cl0.Name = cell.Address;
                     x+= width;
+                    if (x > totalWidth)
+                    {
+                        totalWidth = x;
+                    }
                 }
                 y += height;
                 x = 0d;
             }
+            this.Size = new PDF.Math.Vector2(totalWidth, y);
             foreach(var drawing in ws.Drawings)
             {
                 //TODO: convert size and position to pdf coords needed.
