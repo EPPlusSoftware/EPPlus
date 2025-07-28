@@ -266,7 +266,7 @@ namespace EPPlusTest.Issues
             using (var p = OpenTemplatePackage("s744-2.xlsx"))
             {
                 ExcelWorkbook workbook = p.Workbook;
-                SaveAndCleanup(p); 
+                SaveAndCleanup(p);
             }
         }
         [TestMethod]
@@ -339,7 +339,7 @@ namespace EPPlusTest.Issues
                 var wb = p.Workbook;
                 foreach (var ws in wb.Worksheets)
                 {
-                    if (ws.PivotTables.Any()) 
+                    if (ws.PivotTables.Any())
                         Console.WriteLine(ws.Name);
                 }
                 SaveAndCleanup(p);
@@ -555,6 +555,56 @@ namespace EPPlusTest.Issues
 
                 SaveAndCleanup(package);
             }
+        }
+        [TestMethod]
+        public void s910()
+        {
+            using (var package = OpenTemplatePackage("s910.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets["Data"];
+                var t = ws.Tables[0];
+
+                LoadSomeData(ws, t);
+
+                /*
+                 * Call to Columns.Delete below works fine up to EPPlus version 8.0.3
+                 * From version 8.0.4 through to 8.0.8 it produces xlsx with incomplete pivot
+                 * i.e. "Total in Report Currency" just disappears from the pivot, even though it
+                 * is present in the table, and also present in the original pivot definition in the template
+                 */
+
+                //delete dummy columns 3..7
+                t.Columns.Delete(3, 5);
+
+                Assert.AreEqual(2, package.Workbook.Worksheets["Pivot"].PivotTables[0].DataFields.Count);
+                package.Workbook.Calculate();
+                SaveWorkbook("s910-Wrong.xlsx", package);
+            }
+        }
+        static void LoadSomeData(ExcelWorksheet ws, OfficeOpenXml.Table.ExcelTable t)
+        {
+            t.AddRow();
+            int row = t.Address.End.Row;
+            ws.Cells[row, t.Address.Start.Column + 0].Value = "Client A";
+            ws.Cells[row, t.Address.Start.Column + 1].Value = "Jan";
+            ws.Cells[row, t.Address.Start.Column + 2].Value = "abc123";
+            ws.Cells[row, t.Address.Start.Column + 8].Value = 150.00;
+
+            t.AddRow();
+            row = t.Address.End.Row;
+            ws.Cells[row, t.Address.Start.Column + 0].Value = "Client A";
+            ws.Cells[row, t.Address.Start.Column + 1].Value = "Feb";
+            ws.Cells[row, t.Address.Start.Column + 2].Value = "abc22";
+            ws.Cells[row, t.Address.Start.Column + 8].Value = 250.00;
+
+            t.AddRow();
+            row = t.Address.End.Row;
+            ws.Cells[row, t.Address.Start.Column + 0].Value = "Client B";
+            ws.Cells[row, t.Address.Start.Column + 1].Value = "Jan";
+            ws.Cells[row, t.Address.Start.Column + 2].Value = "cdf43";
+            ws.Cells[row, t.Address.Start.Column + 8].Value = 125.00;
+
+            t.DeleteRow(0); // delete 1st/template row
         }
     }
 }
