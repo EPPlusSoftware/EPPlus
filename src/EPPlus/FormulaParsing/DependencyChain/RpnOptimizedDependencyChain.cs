@@ -55,6 +55,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     return;
                 }
+                var ix = address.WorksheetIx;
                 if (FormulaRangeReferences.TryGetValue(ix, out qr) == false)
                 {
                     if (ix < 0)

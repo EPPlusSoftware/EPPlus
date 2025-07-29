@@ -295,13 +295,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         {
                             var leftVal = GetCellValue(lr, 0, col);
                             var rightVal = GetCellValue(rr, row, 0);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
+                            SetValue(op, resultRange, row, col, CompileResultFactory.Create(leftVal), CompileResultFactory.Create(rightVal), context);
                         }
                         else
                         {
                             var leftVal = GetCellValue(lr, row, 0);
                             var rightVal = GetCellValue(rr, 0, col);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
+                            SetValue(op, resultRange, row, col, CompileResultFactory.Create(leftVal), CompileResultFactory.Create(rightVal), context);
                         }
                     }
                     else if (AddressIsNotAvailable(lr.Size, rr.Size, row, col))
