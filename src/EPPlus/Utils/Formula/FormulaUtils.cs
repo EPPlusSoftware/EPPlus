@@ -24,6 +24,11 @@ namespace OfficeOpenXml.Utils.Formula
             //Collect tokens
             for (int i = 0; i < tokens.Count; i++)
             {
+                // this should be fixed more permantently. for now we just avoid crash due to the InvalidFormulaException below.
+                if (tokens[i].TokenType == TokenType.ExternalReference)
+                {
+                    return formula;
+                }
                 if (tokens[i].TokenType == TokenType.CellAddress)
                 {
                     if (isWsNull) throw new InvalidFormulaException("Formula with cell address must have a worksheet.");
