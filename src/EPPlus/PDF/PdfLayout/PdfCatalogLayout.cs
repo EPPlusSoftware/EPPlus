@@ -1,6 +1,8 @@
 ﻿using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfSettings;
+using OfficeOpenXml.PDF.Math;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
@@ -28,6 +30,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             int verticalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(verticalPages));
             int totalPages = horizontalPageCount * verticalPageCount;
             var pages = new PdfPagesLayout(0, 0, 0, 0);
+            //Create the new pages and place them in a grid.
             for (int i = 0; i < totalPages; i++)
             {
                 int row, col;
@@ -43,23 +46,104 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 }
                 double x = col * bounds.Width;
                 double y = row * bounds.Height;
-                pages.AddChild(new PdfContentLayout(x, y, bounds));
+                PdfContentLayout content = new PdfContentLayout(x, y, bounds);
+                content.Name = "Content " + i+1;
+                pages.AddChild(content);
             }
-            while (WorksheetLayout.ChildObjects.Count > 0)
+            //Go though all the cells in WorksheetLayout and add them to the overlapping page.
+            var cells = WorksheetLayout.ChildObjects.ToList();
+            //Store the position of the pages.
+            Dictionary<PdfContentLayout, Vector2> PagePositions = new Dictionary<PdfContentLayout, Vector2>();
+            foreach (PdfContentLayout page in pages.ChildObjects)
             {
-                foreach (var cell in WorksheetLayout.ChildObjects)
+                PagePositions.Add(page, page.Position);
+            }
+            foreach (var cell in cells)
+            {
+                foreach (var content in pages.ChildObjects)
                 {
-                    foreach (var page in pages.ChildObjects)
+
+                    var cellBounds = cell.GetGlobalBoundingbox();
+                    //If the cell is completly inside a page. Make that cell a child of the page.
+                    if (PdfTransform.IntersectsFully(cellBounds, content.GetGlobalBoundingbox()))
                     {
-                        if (PdfTransform.IntersectsFully(page.GetGlobalBoundingbox(), cell.GetGlobalBoundingbox()))
+                        content.AddChild(cell);
+                        break;
+                    }
+                    //If the cell is only partially inside a page. Move the page to overlap the cell. This will make pages overlap, but we will fix this later
+                    var neighborContent = GetRightBottomAndDiagonalPages(content, pages.ChildObjects, horizontalPageCount, verticalPageCount, settings.PageOrders);
+                    foreach (var neighbor in neighborContent)
+                    {
+                        var neighborBounds = neighbor.GetGlobalBoundingbox();
+                        if (PdfTransform.Intersects(neighborBounds, cellBounds))
                         {
-                            page.AddChild(cell);
+                            // Temporarily move the neighbor page to align with the cell
+                            var dx = cellBounds.X - neighborBounds.X;
+                            var dy = cellBounds.Y - neighborBounds.Y;
+                            neighbor.Translate(dx, dy);
+                            neighbor.AddChild(cell);
+                            break;
                         }
                     }
-                    //if cell is not fully covered, move it to the next page and then set new width/height for page. bounds should be the max size not actual page size. we can then set size to be bounds after iterating cells.
                 }
             }
-            //go into pages and create pageLayout children that contains the contentLayout
+            //Restore the positions of the pages
+            foreach (var page in PagePositions)
+            {
+                page.Key.Position = page.Value;
+            }
+
+        }
+
+        List<PdfContentLayout> GetRightBottomAndDiagonalPages(PdfTransform currentPage, List<PdfTransform> allPages, int hPages, int vPages, PageOrders pageOrder)
+        {
+            int index = allPages.IndexOf(currentPage);
+            if (index == -1)
+                return new List<PdfContentLayout>();
+
+            int row, col;
+
+            if (pageOrder == PageOrders.DownThenOver)
+            {
+                col = index / vPages;
+                row = index % vPages;
+            }
+            else // OverThenDown
+            {
+                col = index % hPages;
+                row = index / hPages;
+            }
+
+            var neighbors = new List<PdfContentLayout>();
+
+            // Right
+            if (col + 1 < hPages)
+            {
+                int i = (pageOrder == PageOrders.DownThenOver)
+                    ? (col + 1) * vPages + row
+                    : row * hPages + (col + 1);
+                neighbors.Add(allPages[i] as PdfContentLayout);
+            }
+
+            // Bottom
+            if (row + 1 < vPages)
+            {
+                int i = (pageOrder == PageOrders.DownThenOver)
+                    ? col * vPages + (row + 1)
+                    : (row + 1) * hPages + col;
+                neighbors.Add(allPages[i] as PdfContentLayout);
+            }
+
+            // Bottom-right
+            if (col + 1 < hPages && row + 1 < vPages)
+            {
+                int i = (pageOrder == PageOrders.DownThenOver)
+                    ? (col + 1) * vPages + (row + 1)
+                    : (row + 1) * hPages + (col + 1);
+                neighbors.Add(allPages[i] as PdfContentLayout);
+            }
+
+            return neighbors;
         }
 
         public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, PdfContentBounds bounds)
