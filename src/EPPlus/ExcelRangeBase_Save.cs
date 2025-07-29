@@ -120,7 +120,7 @@ namespace OfficeOpenXml
         /// <returns>A string containing the text</returns>
         public string ToText(ExcelOutputTextFormat Format)
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 SaveToText(ms, Format);
                 ms.Position = 0;
@@ -223,7 +223,7 @@ namespace OfficeOpenXml
         /// <returns>A string containing the text</returns>
         public string ToText(ExcelOutputTextFormatFixedWidth Format)
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 SaveToText(ms, Format);
                 ms.Position = 0;
@@ -414,7 +414,7 @@ namespace OfficeOpenXml
         /// <returns>A string containing the text</returns>
         public async Task<string> ToTextAsync(ExcelOutputTextFormat Format)
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 await SaveToTextAsync(ms, Format).ConfigureAwait(false);
                 ms.Position = 0;
@@ -515,7 +515,7 @@ namespace OfficeOpenXml
         /// <returns>A string containing the text</returns>
         public async Task<string> ToTextAsync(ExcelOutputTextFormatFixedWidth Format)
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 await SaveToTextAsync(ms, Format);
                 ms.Position = 0;
@@ -695,7 +695,7 @@ namespace OfficeOpenXml
         public string ToJson()
         {
             var re = new JsonRangeExport(this, new JsonRangeExportSettings());
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 re.Export(ms);
                 return Encoding.UTF8.GetString(ms.ToArray());
@@ -711,7 +711,7 @@ namespace OfficeOpenXml
             var s = new JsonRangeExportSettings();
             settings.Invoke(s);
             var re = new JsonRangeExport(this, s);
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 re.Export(ms);
                 return s.Encoding.GetString(ms.ToArray());

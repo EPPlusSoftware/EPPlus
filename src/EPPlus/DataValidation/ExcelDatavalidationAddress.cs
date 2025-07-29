@@ -25,7 +25,7 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Called before the address changes
         /// </summary>
-        internal protected override void BeforeChangeAddress()
+        internal protected override void BeforeChangeAddress(string value)
         {
             addressBeforeChange = _val.Address;
             _val._ws.DataValidations.ClearRangeDictionary(_val.Address);
@@ -34,7 +34,7 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Called when the address changes
         /// </summary>
-        internal protected override void ChangeAddress()
+        internal protected override void ChangeAddress(string value)
         {
             _val._ws.DataValidations.dvQuadTree.UpdateAddress(addressBeforeChange, _val.Address, _val);
             _val._ws.DataValidations.AddToRangeDictionary(_val);

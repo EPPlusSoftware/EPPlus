@@ -861,5 +861,18 @@ namespace EPPlusTest.Issues
 
             SaveWorkbook("Issue1963.xlsx", p);
 		}
+		
+		        [TestMethod]
+        public void DimensionByValueIssue()
+        {
+			using (var p = OpenTemplatePackage("DimensionByValueError.xlsx"))
+			{
+				var ws = p.Workbook.Worksheets["Technical"];
+				var dv = ws.DimensionByValue;
+				Assert.AreEqual("C3", dv.Start.Address);
+                Assert.AreEqual("J60", dv.End.Address);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

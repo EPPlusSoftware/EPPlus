@@ -1,4 +1,38 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.0.8
+* Fix for FileLoadException due to System.Memory referenced by RecyclableMemoryStream.
+* Conditional formattings could cause invalid xml due to not using InvarianCulture when setting the numeric values.
+* ExcelRangeBase - LoadFromCollection/LoadFromDataTable sometimes cleared formulas outside the range.
+* The OFFSET function did not set height or width from reference if arguments was left empty.
+* Removed usage of reflection in VBA modules to improve AOT support - PR by oreadvanthink
+
+## Version 8.0.7
+* Added validation for number formats (brackets) during formula calculation. Also affects the Range.Text property.
+* Fix for REF errors in the OFFSET function.
+* Fixed wrong data type being returned from Bin2Hex function (Decimal->String). 
+* Fixed custom icon sets with 4 or more icons sometimes becoming a 3 icon set.
+* Fixed issues in the SORT, SUMIFS and LEFT with dynamic arrays.
+* The ANCHORARRAY function did not work as expected when only returning one cell only.
+* The ROUND function now rounds to a better precision.
+
+## Version 8.0.6
+* Changed to use “PackageLicenseExpression” in the Nuget package.
+* ExcelRangeBase.LoadFromDataTable sometimes cleared data outside the loaded range.
+* Add support for including new items in manual filter for pivot table when refreshing a cache.
+* IFERROR did not handle arrays in the second argument correctly.
+* The formula string for shared, array and data table formulas were not correctly decoded if 0xXXXX encoding was used.
+* The internal range dictionary returns true for non-accessed ranges in rare cases, causing the dependency chain to skip calculating dependent cells.
+* The VBA legacy signature had an invalid ASN1 record.
+* DBNull.Value was not handled as null in the pivot table calculation causing an unhandled exception.
+* During formula calculation, EPPlus does not handle double char Unicode characters (starting with a high-surrogate char and ending with a low-surrogate char) correctly. EPPlus will handle this if the new EnableUnicodeAwareStringOperations property on ExcelCalculationOption is set to true.
+* The TEXT function should handle arrays as input and be able to return an array instead of a single value.
+* The SORT function did not handle multiple indexes (second argument) correctly.
+* The SWITCH function did not handle an array as the first argument.
+* Fixed an issue that caused an Exception during calculation if an external workbook was not available.
+* A CircularReferenceException was thrown with dynamic arrays even if options.AllowCircularReferences was true.
+* The SORT function now works more like Excel. The function now orders the results with matching values after their original sorting.
+* Fixed several bugs and tweaked performance for binary lookup for the lookup and match functions.
+
 ## Version 8.0.5
 * Fix for external links not getting saved in EPPlus 8.0.4
 

@@ -606,7 +606,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             // write to a memory stream in order to keep the
             // CDR contiguous
             Int64 aLength = 0;
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 foreach (ZipEntry e in entries)
                 {

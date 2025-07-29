@@ -24,7 +24,7 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
   {
     #region Public Properties
     /// <summary>
-    /// Icon4 (part of the 4 ou 5 Icon Set)
+    /// Icon4 (part of the 4 or 5 Icon Set)
     /// </summary>
       ExcelConditionalFormattingIconDataBarValue Icon4 { get; }      
     #endregion Public Properties

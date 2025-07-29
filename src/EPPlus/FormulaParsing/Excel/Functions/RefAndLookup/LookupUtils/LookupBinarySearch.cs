@@ -1,18 +1,19 @@
 ﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
+ Required Notice: Copyright (C) EPPlus Software AB. 
+ This software is licensed under PolyForm Noncommercial License 1.0.0 
+ and may only be used for noncommercial purposes 
+ https://polyformproject.org/licenses/noncommercial/1.0.0/
 
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  22/3/2023         EPPlus Software AB           EPPlus v7
- *************************************************************************************************/
+ A commercial license to use this software can be purchased at https://epplussoftware.com
+*************************************************************************************************
+ Date               Author                       Change
+*************************************************************************************************
+ 22/3/2023         EPPlus Software AB           EPPlus v7
+*************************************************************************************************/
 
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
@@ -20,52 +21,47 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
     {
         private static int SearchAsc(object s, IRangeInfo lookupRange, IComparer<object> comparer, LookupRangeDirection? direction = null)
         {
-            //Only look at relevant values. We use this to omit null values above and below actual values
-            var valueRange = ValueFinder.RangeByValue(lookupRange.Worksheet, lookupRange.Address);
+            var valueSubRange = lookupRange.GetRangeInfoByValue();
+            var subrangeAdjustment = valueSubRange.Address.FromRow > 0 ? (valueSubRange.Address.FromRow - lookupRange.Address.FromRow) : 0;
 
-            var nRows = valueRange.ToRow - valueRange.FromRow + 1;
-            var nCols = valueRange.ToCol - valueRange.FromCol + 1;
+            var searchRange = LookupRangeReader.GetLookupRange(valueSubRange, ref direction);
+
+            var nRows = direction == LookupRangeDirection.Vertical ? searchRange.Count : 1;
+            var nCols = direction == LookupRangeDirection.Horizontal ? searchRange.Count : 1;
 
             if (nRows == 0 && nCols == 0) return -1;
-            int low = 0, high = nCols > nRows ? nCols : nRows, mid;
+            int low = 0, high = nCols > nRows ? nCols - 1 : nRows - 1, mid;
+
             if (direction.HasValue)
             {
                 high = direction.Value == LookupRangeDirection.Vertical ? nRows : nCols;
+                high = high - 1;
             }
 
             while (low <= high)
             {
                 mid = low + high >> 1;
 
-                var col = nRows >= nCols ? 0 : mid;
-                var row = nRows >= nCols ? mid : 0;
-                if (direction.HasValue)
-                {
-                    col = direction.Value == LookupRangeDirection.Vertical ? 0 : mid;
-                    row = direction.Value == LookupRangeDirection.Vertical ? mid : 0;
-                }
-
-                //Row and col are 0-based if equal we will be past the last value due to GetOffset
-                if (row == nRows || col == nCols)
-                {
-                    break;
-                }
-
-                var val = lookupRange.GetValue(valueRange.FromRow + row, valueRange.FromCol + col);
-
-                var result = comparer.Compare(s, val);
-
+                var searchRangeCell = searchRange[mid];
+                var result = comparer.Compare(s, searchRangeCell.Value);
                 if (result < 0)
+                {
                     high = mid - 1;
-
+                }
                 else if (result > 0)
+                {
                     low = mid + 1;
-
+                }
                 else
-                    return valueRange.FromRow - 1 + mid;
+                {
+                    return subrangeAdjustment + searchRangeCell.Index;
+                }
             }
-
-            return ~low;
+            if (low < 1)
+            {
+                return ~(low + subrangeAdjustment);
+            }
+            return ~(searchRange[low - 1].Index + subrangeAdjustment + 1);
         }
 
         private static int SearchDesc(object s, IRangeInfo lookupRange, IComparer<object> comparer)

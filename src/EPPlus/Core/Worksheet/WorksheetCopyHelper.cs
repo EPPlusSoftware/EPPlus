@@ -1001,7 +1001,7 @@ namespace OfficeOpenXml.Core.Worksheet
 		{
 			if(formula!=null && formula.IndexOf('[') >= 0)
             {
-                    var t=SourceCodeTokenizer.Default.Tokenize(formula);
+                var t=SourceCodeTokenizer.Default.Tokenize(formula);
                 return t.Any(x => x.TokenType == TokenType.ExternalReference);
             }
             return false;

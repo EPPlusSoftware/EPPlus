@@ -1250,7 +1250,7 @@ namespace OfficeOpenXml
 
             // now release stream buffer (already converted whole Xml into XmlDocument Object and String)
             stream.Dispose();
-            packPart.Stream = RecyclableMemory.GetStream();
+            packPart.Stream = EPPlusMemoryManager.GetStream();
 
             //first char is invalid sometimes?? 
             Encoding encoding = Encoding.UTF8;
@@ -2905,6 +2905,40 @@ namespace OfficeOpenXml
             return string.Format("SUBTOTAL({0},{1}[{2}])", funcNum, col._tbl.Name, escapedName);
         }
 
+        private void EnsureIgnorablesAreCorrect()
+        {
+            WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
+            WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
+
+            List<string> mcIgnorables = new();
+
+            foreach(var uri in Workbook._package.IgnorableNamespaceUris)
+            {
+                var prefix = WorksheetXml.DocumentElement.GetPrefixOfNamespace(uri);
+                if (string.IsNullOrEmpty(prefix) == false)
+                {
+                    mcIgnorables.Add(prefix + " ");
+                }
+            }
+
+            var existingIgnorables = WorksheetXml.DocumentElement.GetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility);
+            if (string.IsNullOrEmpty(existingIgnorables) == false)
+            {
+                var namespaces = existingIgnorables.Split(' ');
+                if (!namespaces.Any(x => x == "xr"))
+                {
+                    WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, existingIgnorables + " xr");
+                }
+            }
+            else
+            {
+                var ignorablesConcatenated = string.Concat(mcIgnorables);
+
+                WorksheetXml.DocumentElement.SetAttributeNode("Ignorable", ExcelPackage.schemaMarkupCompatibility);
+                WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, ignorablesConcatenated);
+            }
+        }
+
         private void SaveXml(Stream stream)
         {
             //Create the nodes if they do not exist.
@@ -2932,28 +2966,7 @@ namespace OfficeOpenXml
                 {
                     CreateNode("d:extLst");
                 }
-
-                if (DataValidations != null && DataValidations.Count != 0 ||
-                    ConditionalFormatting != null && ConditionalFormatting.Count != 0)
-                {
-                    WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
-                    WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
-
-                    var ignorables = WorksheetXml.DocumentElement.GetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility);
-                    if (ignorables != null)
-                    {
-                        var namespaces = ignorables.Split(' ');
-                        if (!namespaces.Any(x => x == "xr"))
-                        {
-                            WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, ignorables + " xr");
-                        }
-                    }
-                    else
-                    {
-                        WorksheetXml.DocumentElement.SetAttributeNode("Ignorable", ExcelPackage.schemaMarkupCompatibility);
-                        WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, "xr");
-                    }
-                }
+                EnsureIgnorablesAreCorrect();
 
                 var prefix = GetNameSpacePrefix();
                 var xml = _worksheetXml.OuterXml;
@@ -3736,7 +3749,7 @@ namespace OfficeOpenXml
         }
         internal void SetValueRow_Value(int row, int col, object[] array)
         {
-            _formulas.Clear(row, col, row, col + array.Length - 1);
+            _formulas.Clear(row, col, 1, array.Length);
             for (int c = 0; c < array.Length; c++)
             {
                 if (array[c] == DBNull.Value)

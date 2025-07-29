@@ -81,11 +81,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 byCol = ArgToBool(arguments, 3, false);
             }
 
-            //Validate
-            var maxIndex = byCol ? range.Size.NumberOfCols : range.Size.NumberOfRows;
-            foreach(var sortIndex in sortIndexes)
+            //Validate (Excel allows the larger number of sort indicies despite them not being used)
+            var maxPotentialIndex = Math.Max(range.Size.NumberOfCols, range.Size.NumberOfRows);
+            foreach (var sortIndex in sortIndexes)
             {
-                if (sortIndex < 1 || sortIndex > maxIndex) return CreateResult(eErrorType.Value);
+                if (sortIndex < 1 || sortIndex > maxPotentialIndex) return CreateResult(eErrorType.Value);
             }
             
             if (sortOrder != -1 && sortOrder != 1) return CreateResult(eErrorType.Value);

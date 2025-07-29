@@ -122,7 +122,7 @@ namespace OfficeOpenXml.VBA.Signatures
                     return;
                 }
             }
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 var bw = new BinaryWriter(ms);
                 Verifier = CertUtil.SignProject(project, this, Context);

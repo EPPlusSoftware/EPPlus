@@ -205,6 +205,9 @@ namespace OfficeOpenXml
         internal const string schemaMainXm = "http://schemas.microsoft.com/office/excel/2006/main";
         internal const string schemaXr = "http://schemas.microsoft.com/office/spreadsheetml/2014/revision";
         internal const string schemaXr2 = "http://schemas.microsoft.com/office/spreadsheetml/2015/revision2";
+        internal const string schemaXr3 = "http://schemas.microsoft.com/office/spreadsheetml/2016/revision3";
+
+        internal const string schemaX14AlternateContent = @"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac";
 
         //Chart Ex
         internal const string schemaMc2006 = "http://schemas.openxmlformats.org/markup-compatibility/2006";
@@ -448,6 +451,8 @@ namespace OfficeOpenXml
             WorksheetValueMetadataRead?.Invoke(this, e);
         }
 
+        internal List<string> IgnorableNamespaceUris;
+
         /// <summary>
         /// Init values here
         /// </summary>
@@ -469,6 +474,8 @@ namespace OfficeOpenXml
                     Compatibility.IsWorksheets1Based = value;
                 }
             }
+
+            IgnorableNamespaceUris = new() { schemaX14AlternateContent, schemaXr, schemaXr2, schemaXr3, };
         }
 
         /// <summary>
@@ -487,9 +494,9 @@ namespace OfficeOpenXml
                     throw new IOException($"{template.FullName} cannot be a zero-byte file.");
                 }
                 if (_stream == null)
-                    _stream = RecyclableMemory.GetStream();
+                    _stream = EPPlusMemoryManager.GetStream();
 
-                var ms = RecyclableMemory.GetStream();
+                var ms = EPPlusMemoryManager.GetStream();
                 if(CompoundDocument.IsCompoundDocument(template))
                 {
                     Encryption.IsEncrypted = true;
@@ -529,7 +536,7 @@ namespace OfficeOpenXml
         }
         private void ConstructNewFile(string password)
         {
-            if (_stream == null) _stream = RecyclableMemory.GetStream();
+            if (_stream == null) _stream = EPPlusMemoryManager.GetStream();
             if (File != null) File.Refresh();
             if (File != null && File.Exists && File.Length > 0)
             {
@@ -543,7 +550,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    ms = RecyclableMemory.GetStream();
+                    ms = EPPlusMemoryManager.GetStream();
                     WriteFileToStream(File.FullName, ms);
                 }
                 try
@@ -871,7 +878,7 @@ namespace OfficeOpenXml
                     if (Encryption.IsEncrypted && (Encryption.Version == EncryptionVersion.Standard || Encryption.Version == EncryptionVersion.Agile))
                     {
                         byte[] file;
-                        using (var ms = RecyclableMemory.GetStream())
+                        using (var ms = EPPlusMemoryManager.GetStream())
                         {
                             _zipPackage.Save(ms);
                             file = ms.ToArray();
@@ -885,7 +892,7 @@ namespace OfficeOpenXml
 #if (!NET35)
                     else if (SensibilityLabels.Labels.Count > 0 && ExcelPackage.SensibilityLabelHandler != null)
                     {
-                        using (var ms = RecyclableMemory.GetStream())
+                        using (var ms = EPPlusMemoryManager.GetStream())
                         {
                             _zipPackage.Save(ms);
                             _stream = SensibilityLabels.ApplyLabel(ms.ToArray()).ConfigureAwait(false).GetAwaiter().GetResult(); 
@@ -1061,7 +1068,7 @@ namespace OfficeOpenXml
                 _stream.Dispose();
             }
 
-            _stream = RecyclableMemory.GetStream();
+            _stream = EPPlusMemoryManager.GetStream();
         }
         /// <summary>
         /// The output stream. This stream is the not the encrypted package.
@@ -1237,7 +1244,7 @@ namespace OfficeOpenXml
         /// <param name="input">The input.</param>
         public void Load(Stream input)
         {
-            Load(input, RecyclableMemory.GetStream(), null);            
+            Load(input, EPPlusMemoryManager.GetStream(), null);            
         }
         /// <summary>
         /// Loads the specified package data from a stream.
@@ -1246,7 +1253,7 @@ namespace OfficeOpenXml
         /// <param name="Password">The password to decrypt the document</param>
         public void Load(Stream input, string Password)
         {
-            Load(input, RecyclableMemory.GetStream(), Password);
+            Load(input, EPPlusMemoryManager.GetStream(), Password);
         }   
         /// <summary>
         /// 
@@ -1264,7 +1271,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                Stream ms = RecyclableMemory.GetStream();
+                Stream ms = EPPlusMemoryManager.GetStream();
                 StreamUtil.CopyStream(input, ref ms);
                 if(CompoundDocument.IsCompoundDocument((MemoryStream)ms))
                 {

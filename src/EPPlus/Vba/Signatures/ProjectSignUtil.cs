@@ -37,7 +37,7 @@ namespace OfficeOpenXml.VBA.Signatures
             var hash = VbaSignHashAlgorithmUtil.GetContentHash(proj, ctx);
 
             ContentInfo contentInfo;
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 contentInfo = CreateContentInfo(hash, ms, ctx);
             }
@@ -130,7 +130,7 @@ namespace OfficeOpenXml.VBA.Signatures
 
         private static byte[] GetHashContent(EPPlusSignatureContext ctx, byte[] hash)
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 var bw = new BinaryWriter(ms);
                 if (ctx.SignatureType == ExcelVbaSignatureType.Legacy)

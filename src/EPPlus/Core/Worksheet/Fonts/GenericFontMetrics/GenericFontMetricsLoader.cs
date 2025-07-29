@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
                     {
                         var bytes = new byte[entry.UncompressedSize];
                         var size = zipStream.Read(bytes, 0, (int)entry.UncompressedSize);
-                        using (var ms = RecyclableMemory.GetStream(bytes))
+                        using (var ms = EPPlusMemoryManager.GetStream(bytes))
                         {
                             var fnt = GenericFontMetricsSerializer.Deserialize(ms);
                             fonts.Add(fnt.GetKey(), fnt);

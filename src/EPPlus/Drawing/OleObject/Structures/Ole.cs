@@ -143,7 +143,7 @@ namespace OfficeOpenXml.Drawing.OleObject.Structures
 
         internal static void ReadOleStream(OleObjectDataStructures _oleDataStructures, byte[] oleBytes)
         {
-            using (var ms = RecyclableMemory.GetStream(oleBytes))
+            using (var ms = EPPlusMemoryManager.GetStream(oleBytes))
             {
                 BinaryReader br = new BinaryReader(ms);
                 _oleDataStructures.Ole.Version = br.ReadUInt32();

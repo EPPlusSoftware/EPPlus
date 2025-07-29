@@ -42,7 +42,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using OfficeOpenXml.Utils.Formula;
 
 namespace EPPlusTest
 {
@@ -867,6 +869,212 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void NameChangeValueToRange()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+            ws.Cells["C3"].Value = 3;
+
+            var name = ws.Names.AddValue("Text", 9);
+            Assert.AreEqual(9, name.Value);
+
+            name.SetRange(ws.Cells["C3"]);
+            Assert.AreEqual(3, name.Value);
+
+            //SaveWorkbook("DefinedNames1315.xlsx", p);
+        }
+        [TestMethod]
+        public void NameChangeValueToFormula()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+            ws.Cells["C3"].Value = 3;
+
+            var name = ws.Names.AddValue("Text", 9);
+            Assert.AreEqual(9, name.Value);
+            Assert.AreEqual(null, name.Formula);
+
+            name.SetFormula("SUM(7+C3)");
+            Assert.AreEqual(null, name.Value);
+            Assert.AreEqual("SUM(7+Sheet1!$C$3)", name.Formula);
+
+            //SaveWorkbook("DefinedNames1315.xlsx", p);
+        }
+        [TestMethod]
+        public void NameChangeRangeToValue()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+            ws.Cells["C3"].Value = 3;
+
+            var name = ws.Names.AddRange("Text", ws.Cells["C3"]);
+            Assert.AreEqual(3, name.Value);
+
+            name.SetValue(9);
+            Assert.AreEqual(9, name.Value);
+
+            //SaveWorkbook("DefinedNames1315.xlsx", p);
+        }
+        [TestMethod]
+        public void NameChangeRangeToFormula()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+            ws.Cells["C3"].Value = 3;
+
+            var name = ws.Names.AddRange("Text", ws.Cells["C3"]);
+            Assert.AreEqual("", name.Formula);
+
+            name.SetFormula("SUM(7+C3)");
+            Assert.AreEqual("SUM(7+Sheet1!$C$3)", name.Formula);
+
+            SaveWorkbook("DefinedNames1315.xlsx", p);
+        }
+        [TestMethod]
+        public void NameChangeFormulaToValue()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+            ws.Cells["C3"].Value = 3;
+
+            var name = ws.Names.AddFormula("Text", "SUM(7+C3)");
+            Assert.AreEqual(null, name.Value);
+            Assert.AreEqual("SUM(7+Sheet1!$C$3)", name.Formula);
+
+            name.SetValue(9);
+            Assert.AreEqual(9, name.Value);
+            Assert.AreEqual(null, name.Formula);
+            //SaveWorkbook("DefinedNames1315.xlsx", p);
+        }
+        [TestMethod]
+        public void NameChangeFormulaToRange()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+            ws.Cells["C3"].Value = 3;
+
+            var name = ws.Names.AddFormula("Text", "SUM(7+C3)");
+            Assert.AreEqual("SUM(7+Sheet1!$C$3)", name.Formula);
+
+            name.SetRange(ws.Cells["C3"]);
+            Assert.AreEqual("", name.Formula);
+            Assert.AreEqual(3, name.Value);
+
+            //SaveWorkbook("DefinedNames1315.xlsx", p);
+        }
+
+        [TestMethod]
+        public void MoveNamesTest()
+        {
+            var p1 = new ExcelPackage();
+            var p2 = new ExcelPackage();
+
+            var wb1 = p1.Workbook;
+            var wb2 = p2.Workbook;
+
+            var ws1a = p1.Workbook.Worksheets.Add("Sheet A");
+            var ws1b = p1.Workbook.Worksheets.Add("Sheet B");
+            var ws2 = p2.Workbook.Worksheets.Add("Sheet 1");
+
+            var AB = ws1a.Names.Add("MoveMeToB", ws1a.Cells["A1"]);
+            var WbA = wb1.Names.Add("MoveMeToA", 77);
+            var AWb = ws1a.Names.Add("MoveMeToWB", "SUM(45+45+45)");
+
+            //Move name from A To B
+            Assert.AreEqual(0, ws1b.Names.Count);
+            Assert.AreEqual(2, ws1a.Names.Count);
+            AB.Move(ws1b);
+            Assert.AreEqual(1, ws1b.Names.Count);
+            Assert.AreEqual(1, ws1a.Names.Count);
+
+            //Move name from wb To A
+            Assert.AreEqual(1, ws1a.Names.Count);
+            Assert.AreEqual(1, wb1.Names.Count);
+            var moved = WbA.Move(ws1a);
+            Assert.AreEqual(2, ws1a.Names.Count);
+            Assert.AreEqual(0, wb1.Names.Count);
+
+            //Move name from A to wb
+            Assert.AreEqual(0, wb1.Names.Count);
+            AWb.Move(wb1);
+            Assert.AreEqual(1, wb1.Names.Count);
+
+            //Move name from A to wb2
+            Assert.AreEqual(0, wb2.Names.Count);
+            moved.Move(wb2);
+            Assert.AreEqual(1, wb2.Names.Count);
+
+            //SaveWorkbook("DefinedNamesCopyP1.xlsx", p1);
+            //SaveWorkbook("DefinedNamesCopyP2.xlsx", p2);
+        }
+        [TestMethod]
+        public void CopyNamesTest()
+        {
+            var p1 = new ExcelPackage();
+            var p2 = new ExcelPackage();
+
+            var wb1 = p1.Workbook;
+            var wb2 = p2.Workbook;
+
+            var ws1a = p1.Workbook.Worksheets.Add("Sheet A");
+            var ws1b = p1.Workbook.Worksheets.Add("Sheet B");
+            var ws2 = p2.Workbook.Worksheets.Add("Sheet 1");
+
+            var AB =  ws1a.Names.Add("CopyMeToB", ws1a.Cells["A1"]);
+            var WbA = wb1.Names.Add("CopyMeToA", 77);
+            var AWb = ws1a.Names.Add("CopyMeToWB", "SUM(45+45+45)");
+
+            //Copy name from A To B
+            Assert.AreEqual(0, ws1b.Names.Count);
+            AB.Copy(ws1b, "FromA");
+            Assert.AreEqual(1, ws1b.Names.Count);
+
+            //Copy name from wb To A
+            Assert.AreEqual(2, ws1a.Names.Count);
+            WbA.Copy(ws1a, "FromWb");
+            Assert.AreEqual(3, ws1a.Names.Count);
+
+            //Copy name from A to wb
+            Assert.AreEqual(1, wb1.Names.Count);
+            AWb.Copy(wb1, "FromA");
+            Assert.AreEqual(2, wb1.Names.Count);
+
+            //Copy name from A to wb2
+            Assert.AreEqual(0, wb2.Names.Count);
+            AWb.Copy(wb2, "FromA");
+            Assert.AreEqual(1, wb2.Names.Count);
+
+            //SaveWorkbook("DefinedNamesCopyP1.xlsx", p1);
+            //SaveWorkbook("DefinedNamesCopyP2.xlsx", p2);
+        }
+
+        [TestMethod]
+        public void AddWorksheetReferenceToFormulaTests()
+        {
+            var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            var f1 = FormulaUtils.AddWorksheetReferenceToFormula("SUM(B2+3)", ws);
+            var f2 = FormulaUtils.AddWorksheetReferenceToFormula("SUM(B2+AS123+3+D20)", ws);
+            var f3 = FormulaUtils.AddWorksheetReferenceToFormula("SUM('Sheet 1'!$B$2+3)", ws);
+            var f4 = FormulaUtils.AddWorksheetReferenceToFormula("SUM(3+2)", ws);
+            var f5 = FormulaUtils.AddWorksheetReferenceToFormula("A2*SUM(3+2)", ws);
+            var f6 = FormulaUtils.AddWorksheetReferenceToFormula("SUM(B2+3)", ws, true);
+
+            Assert.AreEqual("SUM('Sheet 1'!$B$2+3)", f1);
+            Assert.AreEqual("SUM('Sheet 1'!$B$2+'Sheet 1'!$AS$123+3+'Sheet 1'!$D$20)", f2);
+            Assert.AreEqual("SUM('Sheet 1'!$B$2+3)", f3);
+            Assert.AreEqual("SUM(3+2)", f4);
+            Assert.AreEqual("'Sheet 1'!$A$2*SUM(3+2)", f5);
+            Assert.AreEqual("SUM('Sheet 1'!B2+3)", f6);
+        }
+
         public void CopyWorksheetDefinedNames()
         {
             using var p = OpenTemplatePackage("CopyWorksheetNames.xlsx");
@@ -916,9 +1124,8 @@ namespace EPPlusTest
                     var ws2 = wb2.Worksheets.Add("CopyWs", ws);
                     var ws3 = wb2.Worksheets.Add("CopyWs2", ws);
 
-                    //To be fixed in PR 1999
-                    Assert.AreEqual(5,wb2.Names.Count());
-                    Assert.AreEqual(wb2.Names[2].Value, wb.Names[2].Value);
+                    Assert.AreEqual(1 ,wb2.Names.Count());
+                    Assert.AreEqual(wb2.Names.ContainsKey("AWorkbookRange"), wb.Names.ContainsKey("AWorkbookRange"));
                     SaveAndCleanup(p2);
                 }
                 SaveAndCleanup(p);

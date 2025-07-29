@@ -397,5 +397,10 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             sb.Append("}");
             return SourceCodeTokenizer.Default.Tokenize(sb.ToString());
         }
+
+        public IRangeInfo GetRangeInfoByValue()
+        {
+            return this;
+        }
     }
 }

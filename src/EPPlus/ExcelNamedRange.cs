@@ -11,16 +11,13 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Core;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.Utils.Formula;
 
 namespace OfficeOpenXml
 {
@@ -142,11 +139,213 @@ namespace OfficeOpenXml
             set; 
         }
         IList<Token> _tokens = null;
+        /// <summary>
+        /// Set to true to validate and update formulas with cell references.
+        /// </summary>
+        public static bool ValidateCellAddressInFormulas = true;
+        private string _nameFormula;
         internal string NameFormula
         {
-            get;
-            set;
-        }        
+            get
+            {
+                return _nameFormula;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _nameFormula = value;
+                    return;
+                }
+                _nameFormula = ValidateCellAddressInFormulas ? FormulaUtils.AddWorksheetReferenceToFormula(value, _worksheet, AllowRelativeAddress) : value;
+            }
+        }
+        /// <inheritdoc/>
+        protected internal override void BeforeChangeAddress(string value)
+        {
+            if(!string.IsNullOrEmpty(value) && !value.Contains("!") && Worksheet == null)
+            {
+                throw new InvalidOperationException("Workbook name needs a worksheet in the address.");
+            }
+
+        }
+        /// <inheritdoc/>
+        protected internal override void ChangeAddress(string value)
+        {
+
+        }
+
+        /// <summary>
+        /// Set a range for this name. Will remove exsisting formula and value.
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="allowRelativeAddress"></param>
+        public void SetRange(ExcelRangeBase range, bool allowRelativeAddress = false)
+        {
+            if (range.Worksheet != _worksheet)
+            {
+                throw new InvalidOperationException($"Cannot change range to another worksheet or set a range to a workbook name: {Name}. Either create a new name or move current name first.");
+            }
+            ResetObject();
+            NameFormula = null;
+            NameValue = null;
+
+            _workbook = range._workbook;
+            _worksheet = range._worksheet;
+            if (allowRelativeAddress)
+            {
+                Address = range.FullAddress;
+            }
+            else
+            {
+                Address = range.FullAddressAbsolute;
+            }
+            Value = range.Value;
+        }
+
+        /// <summary>
+        /// Set a formula for this name. Will remove exsisting range and value.
+        /// </summary>
+        /// <param name="formula">The formula for this name.</param>
+        public void SetFormula(string formula)
+        {
+            ResetObject();
+            NameFormula = formula;
+            this.Formula = NameFormula;
+            NameValue = null;
+        }
+        /// <summary>
+        /// Get a formula for this name.
+        /// </summary>
+        /// <param name="formula">The formula for this name.</param>
+        public string GetFormula()
+        {
+            return NameFormula;
+        }
+
+        /// <summary>
+        /// Set a value for this name. Will remove exsisting range and formula.
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetValue(object value)
+        {
+            ResetObject();
+            NameFormula = null;
+            NameValue = value;
+            Value = value;
+        }
+        /// <summary>
+        /// Get a value for this name.
+        /// </summary>
+        /// <param name="value"></param>
+        public object GetValue()
+        {
+            return NameValue;
+        }
+
+        /// <summary>
+        /// Move this defined name to a target worksheet.
+        /// </summary>
+        /// <param name="worksheet">Worksheet to move this name to.</param>
+        /// /// <param name="name">Optional new name for the defined name.</param>
+        /// <returns>This name.</returns>
+        /// <exception cref="InvalidOperationException">If this name does not contain a formula, value or range, this exception occurs.</exception>
+        public ExcelNamedRange Move(ExcelWorksheet worksheet, string name = null)
+        {
+            ExcelNamedRange enr = null;
+            name = name == null ? Name : name;
+            //Detect if formula, value or range
+            if (NameFormula != null)
+                enr = worksheet.Names.AddFormula(Name, NameFormula);
+            else if (NameValue != null)
+                enr = worksheet.Names.AddValue(Name, NameValue);
+            else if (LocalAddress != "#REF!")
+                enr = worksheet.Names.AddRange(Name, worksheet.Cells[Address]);
+            if (enr == null) throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
+            if(_worksheet != null)
+                _worksheet.Names.Remove(Name);
+            else if(_workbook != null)
+                _workbook.Names.Remove(Name);
+            else
+                throw new InvalidOperationException($"No workbook or worksheet has been set for this name: {Name}");
+            return enr;
+        }
+        /// <summary>
+        /// Move this defined name to target workbook.
+        /// </summary>
+        /// <param name="workbook">Workbook to move this name to.</param>
+        /// <param name="name">Optional new name for the defined name.</param>
+        /// <returns>This name.</returns>
+        /// <exception cref="InvalidOperationException">If this name does not contain a formula, value or range, this exception occurs.</exception>
+        public ExcelNamedRange Move(ExcelWorkbook workbook, string name = null)
+        {
+            ExcelNamedRange enr = null;
+            name = name == null ? Name : name;
+            //Detect if formula, value or range
+            if (NameFormula != null)
+                enr = workbook.Names.AddFormula(Name, NameFormula);
+            else if (NameValue != null)
+                enr = workbook.Names.AddValue(Name, NameValue);
+            else if (LocalAddress != "#REF!")
+                enr = workbook.Names.AddRange(Name, _worksheet.Cells[Address]);
+            if(enr == null) throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
+            if (_worksheet != null)
+                _worksheet.Names.Remove(Name);
+            else if (_workbook != null)
+                _workbook.Names.Remove(Name);
+            else
+                throw new InvalidOperationException($"No workbook or worksheet has been set for this name: {Name}");
+            return enr;
+        }
+        /// <summary>
+        /// Creates a copy of the defined name to target worksheet.
+        /// </summary>
+        /// <param name="worksheet">Worksheet to copy to.</param>
+        /// <param name="name">The name for the copy.</param>
+        /// <returns>A new ExcelNameRange</returns>
+        /// <exception cref="InvalidOperationException">If the original does not contain a formula, value or range, this exception occurs.</exception>
+        public ExcelNamedRange Copy(ExcelWorksheet worksheet, string name)
+        {
+            //Detect if formula, value or range
+            if (NameFormula != null)
+                return worksheet.Names.AddFormula(name, NameFormula);
+            else if (NameValue != null)
+                return worksheet.Names.AddValue(name, NameValue);
+            else if (LocalAddress != "#REF!")
+                return worksheet.Names.AddRange(name, worksheet.Cells[Address]);
+            throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
+        }
+        /// <summary>
+        /// Creates a copy of the defined name to target workbook.
+        /// </summary>
+        /// <param name="workbook">Workbook to copy to.</param>
+        /// <param name="name">The name for the copy.</param>
+        /// <returns>A new ExcelNameRange</returns>
+        /// <exception cref="InvalidOperationException">If the original does not contain a formula, value or range, this exception occurs.</exception>
+        public ExcelNamedRange Copy(ExcelWorkbook workbook, string name)
+        {
+            //Detect if formula, value or range
+            if (NameFormula != null)
+                return workbook.Names.AddFormula(name, NameFormula);
+            else if (NameValue != null)
+                return workbook.Names.AddValue(name, NameValue);
+            else if (LocalAddress != "#REF!")
+                return workbook.Names.AddRange(name, _worksheet.Cells[Address]);
+            throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
+        }
+
+        private void ResetObject()
+        {
+            Init(Name, _sheet, Index, AllowRelativeAddress);
+            _address = Name;
+            _fromCol = -1;
+            _fromRow = -1;
+            _toCol = -1;
+            _toRow = -1;
+            _start = null;
+            _end = null;
+        }
+
         string _r1c1Formula = "";
         internal string GetRelativeFormula(int row, int col)
         {
@@ -305,7 +504,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    var values = NameValue as Dictionary<ulong, object>;                    
+                    var values = NameValue as Dictionary<ulong, object>;
                     if(values!=null)
                     {
                         if(values.ContainsKey(currentCell.CellId))

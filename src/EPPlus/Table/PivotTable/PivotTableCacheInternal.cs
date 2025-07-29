@@ -12,6 +12,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.ConditionalFormatting;
 using System.Xml.XPath;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -596,9 +597,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (pt.CacheDefinition.CacheSource == eSourceType.Worksheet)
                 {
-                    var fieldCount = Math.Min(pt.CacheDefinition.SourceRange.Columns, pt.Fields.Count);
-
-                    for(int i=0;i < fieldCount;i++)
+                    for(int i=0;i < pt.Fields.Count; i++)
                     {
                         var field = pt.Fields[i];
                         field.Items.Refresh();

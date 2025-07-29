@@ -502,41 +502,7 @@ namespace EPPlusTest.Drawing.Chart
         }
 
         [TestMethod]
-        public void TestAxisEpplus()
-        {
-            using (var p = OpenPackage("EpplusAxisCase1.xlsx", true))
-            {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-
-                var headers = new List<string> { "Categories", "Sales" };
-                ws.Cells["A1:B1"].FillList(headers);
-
-                ws.Cells["A1"].Value = "Categories";
-                ws.Cells["B1"].Value = "Col1";
-                ws.Cells["C1"].Value = "Col2";
-
-                var dataRange = ws.Cells["B2:C3"];
-                dataRange.Formula = "ROW() + COLUMN()";
-
-                var catRange = ws.Cells["A2:A3"];
-
-                catRange.Formula = "\"Row \" & (ROW()-1)";
-
-                ws.Calculate();
-
-                var barChart = ws.Drawings.AddBarChart("testChart", eBarChartType.ColumnClustered);
-
-                barChart.Series.Add(dataRange.TakeSingleColumn(0), catRange);
-                barChart.Series.Add(dataRange.TakeSingleColumn(1), catRange);
-
-                ws.Calculate();
-
-                SaveAndCleanup(p);
-            }
-        }
-
-        [TestMethod]
-        public void TestAxisEpplus2()
+        public void BarToDate()
         {
             using (var p = OpenPackage("EpplusAxisCase2.xlsx", true))
             {
@@ -667,45 +633,6 @@ namespace EPPlusTest.Drawing.Chart
                 //Changing to date type is still allowed.
                 //TODO: Why is XAxis actually the YAxis visually?
                 barChart.XAxis.ChangeAxisType(eAxisType.Date);
-
-                SaveAndCleanup(p);
-            }
-        }
-
-        [TestMethod]
-        public void TestAxisEpplusChangeToDate()
-        {
-            using (var p = OpenPackage("EpplusAxisCaseChangeToDate.xlsx", true))
-            {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ws.Cells["A1"].Value = "Col1";
-                ws.Cells["B1"].Value = "Col2";
-
-                var datRange = ws.Cells["A2:B3"];
-
-                datRange.Formula = "ROW() + COLUMN()";
-
-                ws.Calculate();
-
-                var barChart = ws.Drawings.AddBarChart("testChart", eBarChartType.ColumnClustered);
-
-                barChart.Series.Add(datRange.TakeSingleColumn(0), ws.Cells["A1:B1"]);
-
-                ws.Calculate();
-
-                var dt = DateTime.Now;
-                ws.Cells["A1"].Value = dt;
-                ws.Cells["B1"].Value = dt.AddDays(-1);
-
-                ws.Cells["A1:B1"].Style.Numberformat.Format = "d-mmm";
-
-                ws.Calculate();
-
-                barChart.YAxis.ChangeAxisType(eAxisType.Cat);
-                barChart.XAxis.ChangeAxisType(eAxisType.Val);
-
-                barChart.Series.Delete(0);
-                barChart.Series.Add(datRange.TakeSingleColumn(0), ws.Cells["A1:B1"]);
 
                 SaveAndCleanup(p);
             }

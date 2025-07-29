@@ -15,7 +15,7 @@ namespace OfficeOpenXml.VBA
     /// <summary>
     /// A VBA modual attribute
     /// </summary>
-    public class ExcelVbaModuleAttribute
+    public class ExcelVbaModuleAttribute : IExcelVBACollectionElement
     {
         internal ExcelVbaModuleAttribute()
         {
