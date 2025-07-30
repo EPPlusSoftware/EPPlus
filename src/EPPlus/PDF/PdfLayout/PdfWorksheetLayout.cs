@@ -44,15 +44,15 @@ namespace OfficeOpenXml.PDF.PdfLayout
                                 mcWidth += (ws.Column(l).Width);
                             }
                             var cl1 = AddChild(new PdfCellLayout(ws.Cells[address._fromRow, address._fromCol].Value, x, y, mcWidth, mcHeight));
-                            cl1.Z = 1;
-                            cl1.Name = cell.Address;
+                            cl1.Z = 5;
+                            cl1.Name = "Merged Cell " + cell.Address;
                             checkedMergedCells.Add(ws.MergedCells[i, j]);
                         }
                     }
                     var width = PdfUnits.ExcelColumnWidthToPoints(ws.Column(j).Width);
                     var cl0 =  AddChild(new PdfCellLayout((isMerged ? null : cell.Value), x, y, width, height));
                     cl0.Z = 1;
-                    cl0.Name = cell.Address;
+                    cl0.Name = "Cell " + cell.Address;
                     x+= width;
                     if (x > totalWidth)
                     {
@@ -68,7 +68,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 //TODO: convert size and position to pdf coords needed.
                 var drawLayout = AddChild(new PdfDrawingLayout(drawing, drawing.Position.X, drawing.Position.Y, drawing._width, drawing._height));
                 drawLayout.Z = 10;
-                drawLayout.Name = drawing.Name;
+                drawLayout.Name = "Drawing " + drawing.Name;
             }
         }
     }

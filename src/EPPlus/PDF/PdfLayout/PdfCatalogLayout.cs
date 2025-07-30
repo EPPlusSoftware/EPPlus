@@ -11,6 +11,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
         internal PdfPageSettings settings;
         internal PdfContentBounds bounds;
 
+        public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, PdfContentBounds bounds)
+            : base(0, 0, 0, 0)
+        {
+        }
+
         public PdfCatalogLayout(ExcelWorkbook workbook, PdfPageSettings pageSettings, PdfContentBounds bounds)
             : base(0, 0, 0, 0)
         {
@@ -19,10 +24,10 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfCatalogLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds)
             : base(0, 0, 0, 0)
         {
+            this.Name = worksheet.Name + " Catalog";
             this.settings = pageSettings;
             this.bounds = bounds;
             var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet));
-
             //calculate number of pages needed based on contentBounds and worksheetLayout.Size
             var horizontalPages = WorksheetLayout.Size.X / bounds.Width;
             var verticalPages = WorksheetLayout.Size.Y / bounds.Height;
@@ -30,6 +35,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
             int verticalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(verticalPages));
             int totalPages = horizontalPageCount * verticalPageCount;
             var pages = new PdfPagesLayout(0, 0, 0, 0);
+            pages.Name = "Pages";
+            AddChild(pages);
             //Create the new pages and place them in a grid.
             for (int i = 0; i < totalPages; i++)
             {
@@ -44,25 +51,23 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     col = i % horizontalPageCount;
                     row = i / horizontalPageCount;
                 }
-                double x = col * bounds.Width;
-                double y = row * bounds.Height;
-                PdfContentLayout content = new PdfContentLayout(x, y, bounds);
+                double px = col * settings.PageSize.WidthPu;
+                double py = row * settings.PageSize.HeightPu;
+                PdfPageLayout page = new PdfPageLayout(px, py, settings.PageSize.WidthPu, settings.PageSize.HeightPu);
+                page.Name = "Page " + i + 1;
+                double cx = col * bounds.Width;
+                double cy = row * bounds.Height;
+                PdfContentLayout content = new PdfContentLayout(cx, cy, bounds);
                 content.Name = "Content " + i+1;
-                pages.AddChild(content);
+                page.AddChild(content);
+                pages.AddChild(page);
             }
             //Go though all the cells in WorksheetLayout and add them to the overlapping page.
             var cells = WorksheetLayout.ChildObjects.ToList();
-            //Store the position of the pages.
-            Dictionary<PdfContentLayout, Vector2> PagePositions = new Dictionary<PdfContentLayout, Vector2>();
-            foreach (PdfContentLayout page in pages.ChildObjects)
-            {
-                PagePositions.Add(page, page.Position);
-            }
             foreach (var cell in cells)
             {
                 foreach (var content in pages.ChildObjects)
                 {
-
                     var cellBounds = cell.GetGlobalBoundingbox();
                     //If the cell is completly inside a page. Make that cell a child of the page.
                     if (PdfTransform.IntersectsFully(cellBounds, content.GetGlobalBoundingbox()))
@@ -88,11 +93,10 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 }
             }
             //Restore the positions of the pages
-            foreach (var page in PagePositions)
+            foreach (var page in pages.ChildObjects)
             {
-                page.Key.Position = page.Value;
+                page.ChildObjects[0].Position = new Vector2(page.Position.X + settings.Margins.LeftPu, page.Position.Y + settings.Margins.TopPu);
             }
-
         }
 
         List<PdfContentLayout> GetRightBottomAndDiagonalPages(PdfTransform currentPage, List<PdfTransform> allPages, int hPages, int vPages, PageOrders pageOrder)
@@ -108,47 +112,31 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 col = index / vPages;
                 row = index % vPages;
             }
-            else // OverThenDown
+            else //(settings.PageOrders == PageOrders.OverThenDown)
             {
                 col = index % hPages;
                 row = index / hPages;
             }
-
             var neighbors = new List<PdfContentLayout>();
-
             // Right
             if (col + 1 < hPages)
             {
-                int i = (pageOrder == PageOrders.DownThenOver)
-                    ? (col + 1) * vPages + row
-                    : row * hPages + (col + 1);
+                int i = (pageOrder == PageOrders.DownThenOver) ? (col + 1) * vPages + row : row * hPages + (col + 1);
                 neighbors.Add(allPages[i] as PdfContentLayout);
             }
-
             // Bottom
             if (row + 1 < vPages)
             {
-                int i = (pageOrder == PageOrders.DownThenOver)
-                    ? col * vPages + (row + 1)
-                    : (row + 1) * hPages + col;
+                int i = (pageOrder == PageOrders.DownThenOver) ? col * vPages + (row + 1) : (row + 1) * hPages + col;
                 neighbors.Add(allPages[i] as PdfContentLayout);
             }
-
             // Bottom-right
             if (col + 1 < hPages && row + 1 < vPages)
             {
-                int i = (pageOrder == PageOrders.DownThenOver)
-                    ? (col + 1) * vPages + (row + 1)
-                    : (row + 1) * hPages + (col + 1);
+                int i = (pageOrder == PageOrders.DownThenOver) ? (col + 1) * vPages + (row + 1) : (row + 1) * hPages + (col + 1);
                 neighbors.Add(allPages[i] as PdfContentLayout);
             }
-
             return neighbors;
-        }
-
-        public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, PdfContentBounds bounds)
-            : base(0, 0, 0, 0)
-        {
         }
     }
 }

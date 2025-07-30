@@ -55,6 +55,8 @@ namespace OfficeOpenXml.PDF.Math
             this.I = I;
         }
 
+        public static Matrix3x3 Invert(Matrix3x3 m) => m.Inverse();
+
         public Matrix3x3 Inverse()
         {
             //MatrixHelper uses Row-Major order, so we transpose the matrix.

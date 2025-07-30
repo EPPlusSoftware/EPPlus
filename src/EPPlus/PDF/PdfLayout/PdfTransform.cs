@@ -4,6 +4,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Linq;
 using OfficeOpenXml.PDF.Math;
 using OfficeOpenXml.PDF.PdfSettings;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
@@ -11,29 +12,86 @@ namespace OfficeOpenXml.PDF.PdfLayout
     {
         public string Name;
 
-        public Vector2 Position { get; set; } = Vector2.Zero;
+        public Vector2 LocalPosition { get; set; } = Vector2.Zero;
+        public Vector2 Position
+        {
+            get
+            {
+                return TransformPointToWorld(LocalPosition);
+            }
+            set
+            {
+                if (Parent == null)
+                {
+                    LocalPosition = value;
+                }
+                else
+                {
+                    //var parentMatrix = Parent.GetWorldMatrix();
+                    //var parentInverse = Matrix3x3.Invert(parentMatrix);
+                    //LocalPosition = parentInverse.TransformPoint(value);
+                    LocalPosition = Parent.GetWorldMatrix().Inverse() * value;
+                }
+            }
+        }
 
-        public int Z { get; set; } = 0;
+        public Vector2 LocalScale { get; set; } = Vector2.One;
+        public Vector2 Scale
+        {
+            get
+            {
+                if (Parent == null)
+                    return LocalScale;
+                else
+                    return Parent.Scale * LocalScale;
+            }
+            set
+            {
+                if (Parent == null)
+                {
+                    LocalScale = value;
+                }
+                else
+                {
 
-        public Vector2 Scale { get; set; } = Vector2.One;
+                    LocalScale = value / Parent.Scale;
+                    //LocalScale = new Vector2(value.X / Parent.Scale.X, value.Y / Parent.Scale.Y);
+                }
+            }
+        }
 
-        public Vector2 Size { get; set; } = Vector2.Zero;
-
-
-        private double rotationDegrees = 0;
-        private double rotationRadians = 0;
+        public double LocalRotationRadians => LocalRotation * System.Math.PI / 180.0;
+        private double localRotationDegrees = 0;
+        public double LocalRotation
+        {
+            get
+            {
+                return localRotationDegrees;
+            }
+            set
+            {
+                localRotationDegrees = value;
+            }
+        }
+        public double RotationRadians => Rotation * System.Math.PI / 180.0;
         public double Rotation
         {
             get
             {
-                return rotationDegrees;
+                return Parent != null ? Parent.Rotation + LocalRotation : LocalRotation;
             }
             set
             {
-                rotationDegrees = value;
-                rotationRadians = rotationDegrees * System.Math.PI / 180.0d;
+                if (Parent != null)
+                    LocalRotation = value - Parent.Rotation;
+                else
+                    LocalRotation = value;
             }
         }
+
+        public Vector2 Size { get; set; } = Vector2.Zero;
+
+        public int Z { get; set; } = 0;
 
         private PdfTransform _parent = null;
         public PdfTransform Parent
@@ -45,12 +103,10 @@ namespace OfficeOpenXml.PDF.PdfLayout
             set
             {
                 if (_parent == value) return;
-
                 if (_parent != null)
                 {
                     _parent.RemoveChild(this);
                 }
-
                 if (value != null)
                 {
                     value.AddChild(this);
@@ -142,6 +198,15 @@ namespace OfficeOpenXml.PDF.PdfLayout
             }
         }
 
+        public void Translate(Vector2 offset)
+        {
+            LocalPosition += offset;
+        }
+        public void Translate(double x, double y)
+        {
+            Translate(new Vector2(x, y));
+        }
+
         public Vector2 TransformPointToLocal(Vector2 point)
         {
             return GetWorldMatrix() * point;
@@ -154,9 +219,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public Matrix3x3 GetLocalMatrix()
         {
-            var scale = Matrix3x3.Scaling(Scale.X, Scale.Y);
-            var rotation = Matrix3x3.Rotation(Rotation);
-            var translation = Matrix3x3.Translation(Position.X, Position.Y);
+            var scale = Matrix3x3.Scaling(LocalScale.X, LocalScale.Y);
+            var rotation = Matrix3x3.Rotation(LocalRotation);
+            var translation = Matrix3x3.Translation(LocalPosition.X, LocalPosition.Y);
             return translation * rotation * scale;
         }
 
@@ -196,17 +261,33 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public static bool Intersects(PdfRect bbox, PdfRect pageBounds)
         {
-            return !(bbox.Right < pageBounds.Left ||
-                     bbox.Left > pageBounds.Right ||
-                     bbox.Bottom < pageBounds.Top ||
+            return !(bbox.Right < pageBounds.Left  ||
+                     bbox.Left > pageBounds.Right  ||
+                     bbox.Bottom < pageBounds.Top  ||
                      bbox.Top > pageBounds.Bottom);
         }
         public static bool IntersectsFully(PdfRect contentBounds, PdfRect cellBounds)
         {
-            return cellBounds.Left >= contentBounds.Left &&
-                   cellBounds.Top >= contentBounds.Top &&
-                   cellBounds.Right <= contentBounds.Right &&
+            return cellBounds.Left >= contentBounds.Left     &&
+                   cellBounds.Top >= contentBounds.Top       &&
+                   cellBounds.Right <= contentBounds.Right   &&
                    cellBounds.Bottom <= contentBounds.Bottom;
+        }
+
+
+        public virtual string GetHierarchyLabel()
+        {
+            return Name ?? this.GetType().Name;
+        }
+        public string ToHierarchyString(int indentLevel = 0)
+        {
+            var indent = new string(' ', indentLevel * 4);
+            var result = $"{indent}{Name ?? this.GetType().Name} [{Position}, {LocalPosition}]";//{GetHierarchyLabel()}";
+            foreach (var child in ChildObjects)
+            {
+                result += Environment.NewLine + child.ToHierarchyString(indentLevel + 1);
+            }
+            return result;
         }
     }
 }
