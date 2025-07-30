@@ -23,6 +23,18 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
+        public void ShouldWork()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["B5"].Value = 664;
+            ws.Cells["B6"].Value = 45204;
+            ws.Cells["B12"].Formula = "AND(B5 >= 6,B6 >= TODAY())";
+            ws.Calculate();
+            Assert.IsFalse(ws.Cells["B12"].GetValue<bool>());
+        }
+
+        [TestMethod]
         public void CF_LastMonthShouldApply()
         {
             var ws = CreatePackageSheet("LastMonth");

@@ -1542,7 +1542,7 @@ namespace OfficeOpenXml.FormulaParsing
                 else
                 {
                     //Remove all function arguments from the stack
-                    for (int i = 0; i < funcExp.NumberOfArguments; i++)
+                    for (int i = 0; i < funcExp.NumberOfArguments && f._expressionStack.Count > 0; i++)
                     {
                         var si = f._expressionStack.Pop();
                     }
