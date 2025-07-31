@@ -692,7 +692,7 @@ namespace OfficeOpenXml
             List<int> toDelete = new();
             for(int i = EndColumn; i >= StartColumn; i--)
             {
-                var col = _worksheet.GetValueInner(0, i) as ExcelColumn;
+                var col = _worksheet.GetColumn(i);
                 if (col != null)
                 {
                     if (match(col))
