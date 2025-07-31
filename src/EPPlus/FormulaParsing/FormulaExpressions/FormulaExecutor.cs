@@ -412,10 +412,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         }
                         if (func == null) func = new FunctionExpression(t.Value, parsingContext, tokenIx);             
                         expressions.Add(tokenIx, func);
-                        var nextToken = tokens[tokenIx + 1];
+                        var nextTokenIx = 1;
+                        var nextToken = tokens[tokenIx + nextTokenIx];
+                        while(nextToken.TokenType == TokenType.OpeningParenthesis || nextToken.TokenType == TokenType.ClosingParenthesis)
+                        {
+                            nextToken = nextToken = tokens[tokenIx + ++nextTokenIx];
+                        }
                         if(tokenIx <= tokens.Count && nextToken.TokenType != TokenType.Function && nextToken.TokenType != TokenType.OpeningParenthesis) // Check that the function has any argument
                         {
-                            func.AddArgument(tokenIx);
+                            func.AddArgument(tokenIx + nextTokenIx - 1);
                         }
                         stack.Push(func);
                         break;

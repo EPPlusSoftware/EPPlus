@@ -1141,7 +1141,9 @@ namespace OfficeOpenXml.FormulaParsing
                             }
                             if(addVariable)
                             {
-                                leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), t.Value, DataType.ExcelRange);
+                                var rangeCr = e.Compile();
+                                //leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), t.Value, DataType.ExcelRange);
+                                leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), rangeCr.ResultValue, rangeCr.DataType);
                                 var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
                                 f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
                             }
