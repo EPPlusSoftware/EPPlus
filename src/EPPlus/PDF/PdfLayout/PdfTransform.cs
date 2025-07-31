@@ -18,7 +18,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         {
             get
             {
-                return TransformPointToWorld(LocalPosition);
+                return TransformPointToWorld(Vector2.Zero);
             }
             set
             {
@@ -158,7 +158,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public PdfTransform(Vector2 position, Vector2 size, Vector2 scale, double rotation, PdfTransform parent)
         {
-            LocalPosition = position;
+
+            Position = position;
             Size = size;
             Scale = scale;
             Rotation = rotation;
@@ -168,14 +169,13 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public PdfTransform(double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
         {
-            LocalPosition = new Vector2(x, y);
+            Position = new Vector2(x, y);
             Size = new Vector2(width, height);
             Scale = new Vector2(scaleX, scaleY);
             Rotation = rotation;
             Parent = parent;
             ChildObjects = null;
         }
-
         public PdfTransform AddChild(PdfTransform child)
         {
             Vector2 worldPos;

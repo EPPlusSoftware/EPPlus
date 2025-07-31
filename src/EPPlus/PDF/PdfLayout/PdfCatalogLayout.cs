@@ -57,9 +57,12 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 page.Name = "Page " + (i + 1);
                 double cx = col * bounds.Width;
                 double cy = row * bounds.Height;
-                PdfContentLayout content = new PdfContentLayout(cx, cy, bounds);
+                //var contentLocalX = cx - px;
+                //var contentLocalY = cy - py;
+                PdfContentLayout content = new PdfContentLayout(0, 0, bounds);
                 content.Name = "Content " + (i + 1);
                 page.AddChild(content);
+                content.Position = new Vector2(cx, cy);
                 pages.AddChild(page);
             }
             //Go though all the cells in WorksheetLayout and add them to the overlapping page.
@@ -68,27 +71,36 @@ namespace OfficeOpenXml.PDF.PdfLayout
             {
                 foreach (var page in pages.ChildObjects)
                 {
+                    bool move = false;
                     var cellBounds = cell.GetGlobalBoundingbox();
-                    var contentBounds = page.ChildObjects[0].GetGlobalBoundingbox();
-                    //If the cell is completly inside a page content. Make that cell a child of the page.
-                    if (PdfTransform.IntersectsFully(contentBounds, cellBounds))
+                    foreach (var p in pages.ChildObjects)
                     {
-                        page.ChildObjects[0].AddChild(cell);
-                        break;
-                    }
-                    //If the cell is only partially inside a page content. Move the page to overlap the cell. This will make pages overlap, but we will fix this later
-                    var neighborContent = GetRightBottomAndDiagonalPages(page, pages.ChildObjects, horizontalPageCount, verticalPageCount, settings.PageOrders);
-                    foreach (var neighbor in neighborContent)
-                    {
-                        var neighborBounds = neighbor.ChildObjects[0].GetGlobalBoundingbox();
-                        if (PdfTransform.Intersects(neighborBounds, cellBounds))
+                        var contentBounds = p.ChildObjects[0].GetGlobalBoundingbox();
+                        //If the cell is completly inside a page content. Make that cell a child of the page.
+                        if (PdfTransform.IntersectsFully(contentBounds, cellBounds))
                         {
-                            // Temporarily move the neighbor page to align with the cell
-                            var dx = cellBounds.X - neighborBounds.X;
-                            var dy = cellBounds.Y - neighborBounds.Y;
-                            neighbor.ChildObjects[0].Translate(dx, dy);
-                            neighbor.ChildObjects[0].AddChild(cell);
+                            move = true;
+                            p.ChildObjects[0].AddChild(cell);
                             break;
+                        }
+                    }
+                    if (!move)
+                    {
+                        move = false;
+                        //If the cell is only partially inside a page content. Move the page to overlap the cell. This will make pages overlap, but we will fix this later
+                        var neighborContent = GetRightBottomAndDiagonalPages(page, pages.ChildObjects, horizontalPageCount, verticalPageCount, settings.PageOrders);
+                        foreach (var neighbor in neighborContent)
+                        {
+                            var neighborBounds = neighbor.ChildObjects[0].GetGlobalBoundingbox();
+                            if (PdfTransform.Intersects(cellBounds, neighborBounds))
+                            {
+                                // Temporarily move the neighbor page to align with the cell
+                                var dx = cellBounds.X - neighborBounds.X;
+                                var dy = cellBounds.Y - neighborBounds.Y;
+                                neighbor.ChildObjects[0].Translate(dx, dy);
+                                neighbor.ChildObjects[0].AddChild(cell);
+                                break;
+                            }
                         }
                     }
                 }
