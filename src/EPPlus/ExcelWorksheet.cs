@@ -10,11 +10,12 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Core.RichValues;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
@@ -28,6 +29,8 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
@@ -49,8 +52,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.Core.RangeQuadTree;
 
 namespace OfficeOpenXml
 {
@@ -3525,7 +3526,7 @@ namespace OfficeOpenXml
                 int row = 0, col = column;
                 if (_values.PrevCell(ref row, ref col))
                 {
-                    c = GetValueInner(0, col) as ExcelColumn;
+                    //c = GetValueInner(0, col) as ExcelColumn;
                     if (c != null && c.ColumnMax >= column)
                     {
                         return c;
@@ -3918,7 +3919,11 @@ namespace OfficeOpenXml
         /// <returns>is exists</returns>
         internal bool ExistsStyleInner(int row, int col)
         {
-            return (_values.GetValue(row, col)._styleId > 0);
+            if (_values.HasValue(row, col, row, col))
+            {
+                return (_values.GetValue(row, col)._styleId > 0);
+            }
+            return false;
         }
         /// <summary>
         /// Existence check of sheet value
@@ -3941,7 +3946,10 @@ namespace OfficeOpenXml
         /// <returns>is exists</returns>
         internal bool ExistsStyleInner(int row, int col, ref int styleId)
         {
-            styleId = _values.GetValue(row, col)._styleId;
+            if(_values.HasValue(row, col, row, col))
+            {
+                styleId = _values.GetValue(row, col)._styleId;
+            }
             return (styleId > 0);
         }
         internal void RemoveSlicerReference(ExcelSlicerXmlSource xmlSource)

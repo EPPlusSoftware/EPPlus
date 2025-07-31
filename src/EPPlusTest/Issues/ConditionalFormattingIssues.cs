@@ -53,7 +53,6 @@ namespace EPPlusTest.Issues
                 pck.Dispose();
             }
         }
-        }
 
         [TestMethod]
         public void Test1_Input_ExpectedOutput()
@@ -95,5 +94,6 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(package);
             Thread.CurrentThread.CurrentCulture = currentCulture;
+        }
     }
 }

@@ -81,10 +81,13 @@ namespace OfficeOpenXml.Core.CellStore
         internal bool HasValue(int fromRow, int fromCol, int toRow, int toCol)
         {
             var colPos = GetClosestColumnPosition(toCol);
-            while((colPos >= 0 || colPos < ColumnCount) && _columnIndex[colPos].Index>=fromCol && _columnIndex[colPos].Index<=toCol)
+            if(_columnIndex != null)
             {
-                var r = _columnIndex[colPos++].GetNextRow(fromRow);
-                if (r <= toRow) return true;
+                while ((colPos >= 0 || colPos < ColumnCount) && _columnIndex[colPos] != null && _columnIndex[colPos].Index >= fromCol && _columnIndex[colPos].Index <= toCol)
+                {
+                    var r = _columnIndex[colPos++].GetNextRow(fromRow);
+                    if (r <= toRow) return true;
+                }
             }
             return false;
         }
@@ -260,13 +263,19 @@ namespace OfficeOpenXml.Core.CellStore
         {
             lock (_syncRoot)
             {
-                var c = GetColumnIndex(Column);
-                if (c != null)
+                if(HasValues)
                 {
-                    int i = c.GetPointer(Row);
-                    if (i >= 0)
+                    if(HasValue(Row,Column,Row,Column))
                     {
-                        return c._values[i];
+                        var c = GetColumnIndex(Column);
+                        if (c != null)
+                        {
+                            int i = c.GetPointer(Row);
+                            if (i >= 0)
+                            {
+                                return c._values[i];
+                            }
+                        }
                     }
                 }
             }

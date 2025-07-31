@@ -198,6 +198,10 @@ namespace OfficeOpenXml
             }
             else
             {
+                if(_worksheet != null)
+                {
+                    _worksheet._values.EnsureColumnsExists(address._fromCol, address._toCol);
+                }
                 if (value is object[,] && (valueMethod == Set_Value || valueMethod == Set_StyleID))
                 {
                     // only simple set value is supported for bulk copy
@@ -237,12 +241,15 @@ namespace OfficeOpenXml
         }
         private static void Set_Value(ExcelRangeBase range, object value, int row, int col)
         {
-            var sfi = range._worksheet._formulas.GetValue(row, col);
-            if (sfi is int)
+            if(range._worksheet._formulas.Count > 0)
             {
-                range.SplitFormulas(range._worksheet.Cells[row, col]);
+                var sfi = range._worksheet._formulas.GetValue(row, col);
+                if (sfi is int)
+                {
+                    range.SplitFormulas(range._worksheet.Cells[row, col]);
+                }
+                if (sfi != null) range._worksheet._formulas.Clear(row, col, 1, 1);
             }
-            if (sfi != null) range._worksheet._formulas.Clear(row, col, 1, 1);
             range._worksheet.SetValueInner(row, col, value);
             range._worksheet._flags.Clear(row, col, 1, 1);
             range._worksheet._metadataStore.Clear(row, col, 1, 1);
@@ -658,6 +665,37 @@ namespace OfficeOpenXml
                 _changePropMethod(this, _setStyleIdDelegate, value);
             }
         }
+
+        object GetValue()
+        {
+            if (IsName)
+            {
+                if (_worksheet == null)
+                {
+                    var ws = _workbook.Worksheets[_workbook.View.ActiveTab];
+                    if (ws == null) ws = _workbook.Worksheets[0];
+                    FormulaCellAddress cc = GetActiveCell(ws);
+                    return _workbook._names[_address].GetValue(cc);
+                }
+                else
+                {
+                    FormulaCellAddress cc = GetActiveCell(_worksheet);
+                    return _worksheet.Names[_address].GetValue(cc);
+                }
+            }
+            else
+            {
+                if (_fromRow == _toRow && _fromCol == _toCol)
+                {
+                    return _worksheet.GetValue(_fromRow, _fromCol);
+                }
+                else
+                {
+                    return GetValueArray();
+                }
+            }
+        }
+
         /// <summary>
         /// Set the range to a specific value
         /// </summary>
@@ -665,32 +703,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                if (IsName)
-                {
-                    if (_worksheet == null)
-                    {
-                        var ws = _workbook.Worksheets[_workbook.View.ActiveTab];
-                        if (ws == null) ws = _workbook.Worksheets[0];
-                        FormulaCellAddress cc = GetActiveCell(ws);
-                        return _workbook._names[_address].GetValue(cc);
-                    }
-                    else
-                    {
-                        FormulaCellAddress cc = GetActiveCell(_worksheet);
-                        return _worksheet.Names[_address].GetValue(cc);
-                    }
-                }
-                else
-                {
-                    if (_fromRow == _toRow && _fromCol == _toCol)
-                    {
-                        return _worksheet.GetValue(_fromRow, _fromCol);
-                    }
-                    else
-                    {
-                        return GetValueArray();
-                    }
-                }
+                return GetValue();
             }
             set
             {
