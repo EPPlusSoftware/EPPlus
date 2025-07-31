@@ -54,11 +54,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 double px = col * settings.PageSize.WidthPu;
                 double py = row * settings.PageSize.HeightPu;
                 PdfPageLayout page = new PdfPageLayout(px, py, settings.PageSize.WidthPu, settings.PageSize.HeightPu);
-                page.Name = "Page " + i + 1;
+                page.Name = "Page " + (i + 1);
                 double cx = col * bounds.Width;
                 double cy = row * bounds.Height;
                 PdfContentLayout content = new PdfContentLayout(cx, cy, bounds);
-                content.Name = "Content " + i+1;
+                content.Name = "Content " + (i + 1);
                 page.AddChild(content);
                 pages.AddChild(page);
             }
@@ -66,27 +66,28 @@ namespace OfficeOpenXml.PDF.PdfLayout
             var cells = WorksheetLayout.ChildObjects.ToList();
             foreach (var cell in cells)
             {
-                foreach (var content in pages.ChildObjects)
+                foreach (var page in pages.ChildObjects)
                 {
                     var cellBounds = cell.GetGlobalBoundingbox();
-                    //If the cell is completly inside a page. Make that cell a child of the page.
-                    if (PdfTransform.IntersectsFully(cellBounds, content.GetGlobalBoundingbox()))
+                    var contentBounds = page.ChildObjects[0].GetGlobalBoundingbox();
+                    //If the cell is completly inside a page content. Make that cell a child of the page.
+                    if (PdfTransform.IntersectsFully(contentBounds, cellBounds))
                     {
-                        content.AddChild(cell);
+                        page.ChildObjects[0].AddChild(cell);
                         break;
                     }
-                    //If the cell is only partially inside a page. Move the page to overlap the cell. This will make pages overlap, but we will fix this later
-                    var neighborContent = GetRightBottomAndDiagonalPages(content, pages.ChildObjects, horizontalPageCount, verticalPageCount, settings.PageOrders);
+                    //If the cell is only partially inside a page content. Move the page to overlap the cell. This will make pages overlap, but we will fix this later
+                    var neighborContent = GetRightBottomAndDiagonalPages(page, pages.ChildObjects, horizontalPageCount, verticalPageCount, settings.PageOrders);
                     foreach (var neighbor in neighborContent)
                     {
-                        var neighborBounds = neighbor.GetGlobalBoundingbox();
+                        var neighborBounds = neighbor.ChildObjects[0].GetGlobalBoundingbox();
                         if (PdfTransform.Intersects(neighborBounds, cellBounds))
                         {
                             // Temporarily move the neighbor page to align with the cell
                             var dx = cellBounds.X - neighborBounds.X;
                             var dy = cellBounds.Y - neighborBounds.Y;
-                            neighbor.Translate(dx, dy);
-                            neighbor.AddChild(cell);
+                            neighbor.ChildObjects[0].Translate(dx, dy);
+                            neighbor.ChildObjects[0].AddChild(cell);
                             break;
                         }
                     }
@@ -95,15 +96,15 @@ namespace OfficeOpenXml.PDF.PdfLayout
             //Restore the positions of the pages
             foreach (var page in pages.ChildObjects)
             {
-                page.ChildObjects[0].Position = new Vector2(page.Position.X + settings.Margins.LeftPu, page.Position.Y + settings.Margins.TopPu);
+                page.ChildObjects[0].LocalPosition = new Vector2(settings.Margins.LeftPu, settings.Margins.TopPu);
             }
         }
 
-        List<PdfContentLayout> GetRightBottomAndDiagonalPages(PdfTransform currentPage, List<PdfTransform> allPages, int hPages, int vPages, PageOrders pageOrder)
+        List<PdfPageLayout> GetRightBottomAndDiagonalPages(PdfTransform currentPage, List<PdfTransform> allPages, int hPages, int vPages, PageOrders pageOrder)
         {
             int index = allPages.IndexOf(currentPage);
             if (index == -1)
-                return new List<PdfContentLayout>();
+                return new List<PdfPageLayout>();
 
             int row, col;
 
@@ -117,24 +118,24 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 col = index % hPages;
                 row = index / hPages;
             }
-            var neighbors = new List<PdfContentLayout>();
+            var neighbors = new List<PdfPageLayout>();
             // Right
             if (col + 1 < hPages)
             {
                 int i = (pageOrder == PageOrders.DownThenOver) ? (col + 1) * vPages + row : row * hPages + (col + 1);
-                neighbors.Add(allPages[i] as PdfContentLayout);
+                neighbors.Add(allPages[i] as PdfPageLayout);
             }
             // Bottom
             if (row + 1 < vPages)
             {
                 int i = (pageOrder == PageOrders.DownThenOver) ? col * vPages + (row + 1) : (row + 1) * hPages + col;
-                neighbors.Add(allPages[i] as PdfContentLayout);
+                neighbors.Add(allPages[i] as PdfPageLayout);
             }
             // Bottom-right
             if (col + 1 < hPages && row + 1 < vPages)
             {
                 int i = (pageOrder == PageOrders.DownThenOver) ? (col + 1) * vPages + (row + 1) : (row + 1) * hPages + (col + 1);
-                neighbors.Add(allPages[i] as PdfContentLayout);
+                neighbors.Add(allPages[i] as PdfPageLayout);
             }
             return neighbors;
         }

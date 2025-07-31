@@ -50,7 +50,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                         }
                     }
                     var width = PdfUnits.ExcelColumnWidthToPoints(ws.Column(j).Width);
-                    var cl0 =  AddChild(new PdfCellLayout((isMerged ? null : cell.Value), x, y, width, height));
+                    var cl0 = new PdfCellLayout((isMerged ? null : cell.Value), x, y, width, height, 1, 1, 0, this);
                     cl0.Z = 1;
                     cl0.Name = "Cell " + cell.Address;
                     x+= width;

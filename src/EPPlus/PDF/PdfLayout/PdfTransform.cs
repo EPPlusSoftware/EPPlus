@@ -5,6 +5,7 @@ using System.Linq;
 using OfficeOpenXml.PDF.Math;
 using OfficeOpenXml.PDF.PdfSettings;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using System.Globalization;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
@@ -157,7 +158,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public PdfTransform(Vector2 position, Vector2 size, Vector2 scale, double rotation, PdfTransform parent)
         {
-            Position = position;
+            LocalPosition = position;
             Size = size;
             Scale = scale;
             Rotation = rotation;
@@ -167,7 +168,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public PdfTransform(double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
         {
-            Position = new Vector2(x, y);
+            LocalPosition = new Vector2(x, y);
             Size = new Vector2(width, height);
             Scale = new Vector2(scaleX, scaleY);
             Rotation = rotation;
@@ -177,15 +178,19 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public PdfTransform AddChild(PdfTransform child)
         {
+            Vector2 worldPos;
+
             if(child.Parent != null)
             {
+                worldPos = child.Position;
                 child.Parent.RemoveChild(child);
+                var parentInverse = this.GetWorldMatrix().Inverse();
+                child.LocalPosition = parentInverse * worldPos;
             }
             if (!ChildObjects.Contains(child))
             {
                 ChildObjects.Add(child);
             }
-            ChildObjects.Add(child);
             child._parent = this;
             return child;
         }
@@ -209,12 +214,12 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public Vector2 TransformPointToLocal(Vector2 point)
         {
-            return GetWorldMatrix() * point;
+            return (GetWorldMatrix().Inverse()) * point;
         }
 
         public Vector2 TransformPointToWorld(Vector2 point)
         {
-            return (GetWorldMatrix().Inverse()) * point;
+            return (GetWorldMatrix()) * point;
         }
 
         public Matrix3x3 GetLocalMatrix()
@@ -223,6 +228,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             var rotation = Matrix3x3.Rotation(LocalRotation);
             var translation = Matrix3x3.Translation(LocalPosition.X, LocalPosition.Y);
             return translation * rotation * scale;
+            //return scale * rotation * translation;
         }
 
         public Matrix3x3 GetWorldMatrix()
@@ -282,7 +288,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public string ToHierarchyString(int indentLevel = 0)
         {
             var indent = new string(' ', indentLevel * 4);
-            var result = $"{indent}{Name ?? this.GetType().Name} [{Position}, {LocalPosition}]";//{GetHierarchyLabel()}";
+            var result = $"{indent}{Name ?? this.GetType().Name}" +
+                         $"|({Position.X.ToString(CultureInfo.InvariantCulture)},{Position.Y.ToString(CultureInfo.InvariantCulture)}):" +
+                         $"({LocalPosition.X.ToString(CultureInfo.InvariantCulture)},{LocalPosition.Y.ToString(CultureInfo.InvariantCulture)}):" +
+                         $"({Size.X.ToString(CultureInfo.InvariantCulture)},{Size.Y.ToString(CultureInfo.InvariantCulture)})";
+            //{GetHierarchyLabel()}";
             foreach (var child in ChildObjects)
             {
                 result += Environment.NewLine + child.ToHierarchyString(indentLevel + 1);

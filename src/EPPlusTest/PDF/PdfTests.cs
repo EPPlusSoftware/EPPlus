@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.PDF;
+using OfficeOpenXml.PDF.PdfLayout;
 using OfficeOpenXml.PDF.PdfSettings;
 using OfficeOpenXml.PDF.PdfSettings.PdfPageData;
 using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
@@ -92,6 +94,17 @@ namespace EPPlusTest.PDF
             pageSettings.CenterOnPageHorizontally = true;
             ExcelPdf pdf = new ExcelPdf(ws, pageSettings);
             pdf.GetRangeForPages();
+        }
+
+        [TestMethod]
+        public void GetLayoutString()
+        {
+            using var p = OpenTemplatePackage("PdfGrids\\2 Page Down.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            PdfPageSettings settings = new PdfPageSettings();
+            var bounds = new PdfContentBounds(settings.Margins, settings.PageSize);
+            PdfCatalogLayout cl = new PdfCatalogLayout(ws, settings, bounds);
+            var scene = cl.ToHierarchyString();
         }
 
 
