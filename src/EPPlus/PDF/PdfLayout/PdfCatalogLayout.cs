@@ -37,6 +37,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             var pages = new PdfPagesLayout(0, 0, 0, 0);
             pages.Name = "Pages";
             AddChild(pages);
+            string wsLayout = ToHierarchyString();
             //Create the new pages and place them in a grid.
             for (int i = 0; i < totalPages; i++)
             {
@@ -65,6 +66,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 content.Position = new Vector2(cx, cy);
                 pages.AddChild(page);
             }
+            string pagesLayout = ToHierarchyString();
             //Go though all the cells in WorksheetLayout and add them to the overlapping page.
             var cells = WorksheetLayout.ChildObjects.ToList();
             foreach (var cell in cells)
@@ -105,6 +107,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     }
                 }
             }
+            string cellsInPages = ToHierarchyString();
             //Restore the positions of the pages
             foreach (var page in pages.ChildObjects)
             {

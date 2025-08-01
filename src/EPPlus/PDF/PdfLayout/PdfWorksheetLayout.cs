@@ -22,9 +22,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
             List<string> checkedMergedCells = new List<string>();
             for(int i = 1; i<= ws.Dimension._toRow; i++)
             {
+                if(ws.Row(i).Hidden) { continue; }
                 var height = ws.Row(i).Height;
                 for (int j = 1; j <= ws.Dimension._toCol; j++)
                 {
+                    if(ws.Column(j).Hidden) { continue; }
                     var cell = ws.Cells[i, j];
                     bool isMerged = false;
                     if (cell.Merge)
