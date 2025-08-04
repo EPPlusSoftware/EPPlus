@@ -16,6 +16,7 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
@@ -506,7 +507,23 @@ namespace OfficeOpenXml.Core
                     }
                     var colDiff = (sourceCol - _sourceRange._fromCol) - (cell.Column - _destinationRange._fromCol);
                     var rowDiff = (sourceRow - _sourceRange._fromRow) - (cell.Row - _destinationRange._fromRow);
-                    cell.Formula = ExcelRangeBase.UpdateFormulaReferences(f, _destinationRange._fromRow - _sourceRange._fromRow - rowDiff, _destinationRange._fromCol - _sourceRange._fromCol - colDiff, 0, 0, _destinationRange.WorkSheetName, _destinationRange.WorkSheetName, true, true);
+                    var tokens = SourceCodeTokenizer.Default.Tokenize(f);
+                    cell.Formula = ExcelRangeBase.UpdateFormulaReferences(f, _destinationRange._fromRow - _sourceRange._fromRow - rowDiff, _destinationRange._fromCol - _sourceRange._fromCol - colDiff, 0, 0, _destinationRange.WorkSheetName, _destinationRange.WorkSheetName, true, true, tokens);
+
+                    if (_sameWorkbook == false)
+                    {
+                        foreach (var token in tokens)
+                        {
+                            if (token.TokenType == TokenType.NameValue)
+                            {
+                                if (worksheet.Names.ContainsKey(token.Value) == false && worksheet.Workbook.Names.ContainsKey(token.Value) && _destinationRange._workbook.Names.ContainsKey(token.Value)==false)
+                                {
+                                    //Copy workbook name!
+                                    _destinationRange._workbook.Names.AddFromOtherName(worksheet.Workbook.Names[token.Value]);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 if (includeStyles && worksheet.ExistsStyleInner(sourceRow, sourceCol, ref styleId))

@@ -6109,8 +6109,6 @@ namespace EPPlusTest
                 var val22 = ws.Cells["J6"].Value;
                 var val32 = ws.Cells["K5"].Value;
 
-                var sometxt = "help";
-
                 SaveAndCleanup(p);
 
                 //var newVal = targetCell.Value;

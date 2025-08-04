@@ -217,7 +217,6 @@ namespace OfficeOpenXml
         /// <summary>
         /// Get a formula for this name.
         /// </summary>
-        /// <param name="formula">The formula for this name.</param>
         public string GetFormula()
         {
             return NameFormula;
@@ -237,7 +236,6 @@ namespace OfficeOpenXml
         /// <summary>
         /// Get a value for this name.
         /// </summary>
-        /// <param name="value"></param>
         public object GetValue()
         {
             return NameValue;

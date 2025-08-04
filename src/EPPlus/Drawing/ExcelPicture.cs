@@ -22,12 +22,10 @@ using System.Linq;
 using System.Globalization;
 using OfficeOpenXml.Utils.Image;
 using OfficeOpenXml.Utils.FileUtils;
-using System.Xml.Linq;
 
 
 #if NETFULL
 using System.Drawing.Imaging;
-using System.Xml.Linq;
 #endif
 #if !NET35 && !NET40
 using System.Threading.Tasks;

@@ -415,7 +415,6 @@ namespace EPPlusTest.Issues
 
 
             var headerRow = 1;
-            var firstDataRow = 2;
             var totalDataRows = 2;
             int firstRowToDelete = totalDataRows + headerRow + 1;
             int deleteCount = ExcelPackage.MaxRows - firstRowToDelete + 1;

@@ -2248,19 +2248,6 @@ namespace EPPlusTest.ConditionalFormatting
             }
         }
 
-        protected static void SaveAndCleanup(ExcelPackage pck, bool disposePackage = true)
-        {
-            if (pck.Workbook.Worksheets.Count > 0)
-            {
-                pck.Save();
-            }
-
-            if (disposePackage)
-            {
-                pck.Dispose();
-            }
-        }
-
         [TestMethod]
         public void CopyingDxfs()
         {

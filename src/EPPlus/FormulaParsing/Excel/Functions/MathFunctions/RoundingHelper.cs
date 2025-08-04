@@ -197,7 +197,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     }
                     return (double)Decimal.Round((Decimal)product, Math.Min(numberOfSignificantFigures - (int)wholeNumberPart, 28), MidpointRounding.AwayFromZero);
                 }
-                catch (Exception e)
+                catch 
                 {
                     return number;
                 }

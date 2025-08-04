@@ -10,15 +10,16 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections;
-using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Utils.Formula;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml
 {
@@ -44,9 +45,9 @@ namespace OfficeOpenXml
         /// <summary>
         /// Adds a new named range
         /// </summary>
-        /// <param name="Name">The name</param>
-        /// <param name="Range">The range</param>
-        /// <param name="allowRelativeAddress">If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address</param>
+        /// <param dest="Name">The dest</param>
+        /// <param dest="Range">The range</param>
+        /// <param dest="allowRelativeAddress">If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address</param>
         /// <returns></returns>
         public ExcelNamedRange Add(string Name, ExcelRangeBase Range, bool allowRelativeAddress)
         {
@@ -64,8 +65,8 @@ namespace OfficeOpenXml
         /// <summary>
         /// Adds a new named range
         /// </summary>
-        /// <param name="Name">The name</param>
-        /// <param name="Range">The range</param>
+        /// <param dest="Name">The dest</param>
+        /// <param dest="Range">The range</param>
         public ExcelNamedRange Add(string Name, ExcelRangeBase Range)
         {
             return Add(Name, Range, false);
@@ -74,8 +75,8 @@ namespace OfficeOpenXml
         /// <summary>
         /// Adds a new named formula
         /// </summary>
-        /// <param name="Name">The name</param>
-        /// <param name="formula">The formula</param>
+        /// <param dest="Name">The dest</param>
+        /// <param dest="formula">The formula</param>
         /// <returns></returns>
         public ExcelNamedRange Add(string Name, string formula)
         {
@@ -85,8 +86,8 @@ namespace OfficeOpenXml
         /// <summary>
         /// Adds a new value
         /// </summary>
-        /// <param name="Name">The name</param>
-        /// <param name="value">The value</param>
+        /// <param dest="Name">The dest</param>
+        /// <param dest="value">The value</param>
         /// <returns></returns>
         public ExcelNamedRange Add(string Name, object value)
         {
@@ -95,20 +96,20 @@ namespace OfficeOpenXml
         /// <summary>
         /// Adds a new named range
         /// </summary>
-        /// <param name="name">The name</param>
-        /// <param name="range">The range</param>
-        /// <param name="allowRelativeAddress"></param>
+        /// <param dest="name">The dest</param>
+        /// <param dest="range">The range</param>
+        /// <param dest="allowRelativeAddress"></param>
         /// <returns></returns>
         public ExcelNamedRange AddRange(string name, ExcelRangeBase range, bool allowRelativeAddress = false )
         {
             return Add(name, range, allowRelativeAddress);
         }
         /// <summary>
-        /// Adds the name without validation as Excel allows some names on load that is not permitted in the GUI
+        /// Adds the dest without validation as Excel allows some names on load that is not permitted in the GUI
         /// </summary>
-        /// <param name="Name">The Name</param>
-        /// <param name="Range">The Range</param>
-        /// <param name="allowRelativeAddress">If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address</param>
+        /// <param dest="Name">The Name</param>
+        /// <param dest="Range">The Range</param>
+        /// <param dest="allowRelativeAddress">If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address</param>
         /// <returns></returns>
         internal ExcelNamedRange AddName(string Name, ExcelRangeBase Range, bool allowRelativeAddress = false)
         {
@@ -142,10 +143,10 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Add a defined name referencing value
+        /// Add a defined dest referencing value
         /// </summary>
-        /// <param name="Name">The name</param>
-        /// <param name="value">The value for the name</param>
+        /// <param dest="Name">The dest</param>
+        /// <param dest="value">The value for the dest</param>
         /// <returns></returns>
         public ExcelNamedRange AddValue(string Name, object value)
         {
@@ -160,10 +161,10 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Add a defined name referencing a formula
+        /// Add a defined dest referencing a formula
         /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="Formula"></param>
+        /// <param dest="Name"></param>
+        /// <param dest="Formula"></param>
         /// <returns></returns>
         public ExcelNamedRange AddFormula(string Name, string Formula)
         {
@@ -237,9 +238,9 @@ namespace OfficeOpenXml
 
 
         /// <summary>
-        /// Remove a defined name from the collection
+        /// Remove a defined dest from the collection
         /// </summary>
-        /// <param name="Name">The name</param>
+        /// <param dest="Name">The dest</param>
         public void Remove(string Name)
         {
             if(_dic.ContainsKey(Name))
@@ -259,7 +260,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Checks collection for the presence of a key
         /// </summary>
-        /// <param name="key">key to search for</param>
+        /// <param dest="key">key to search for</param>
         /// <returns>true if the key is in the collection</returns>
         public bool ContainsKey(string key)
         {
@@ -278,7 +279,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Name indexer
         /// </summary>
-        /// <param name="Name">The name (key) for a Named range</param>
+        /// <param dest="Name">The dest (key) for a Named range</param>
         /// <returns>a reference to the range</returns>
         /// <remarks>
         /// Throws a KeyNotFoundException if the key is not in the collection.
@@ -293,7 +294,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Indexer for the collection
         /// </summary>
-        /// <param name="Index">The index</param>
+        /// <param dest="Index">The index</param>
         /// <returns>The named range</returns>
         public ExcelNamedRange this[int Index]
         {
@@ -332,6 +333,29 @@ namespace OfficeOpenXml
             {
                 Remove(_list[0].Name);
             }
+        }
+
+        internal void AddFromOtherName(ExcelNamedRange source)
+        {
+            ExcelNamedRange dest;
+            if (source.NameValue!=null)
+            {
+                dest = new ExcelNamedRange(source.Name, _wb, _ws, _dic.Count, source.AllowRelativeAddress);
+                dest.NameValue = source.NameValue;
+            }
+            else if(source.NameFormula !=null)
+            {
+                dest = new ExcelNamedRange(source.Name, _wb, _ws, _dic.Count, source.AllowRelativeAddress);
+                dest.NameFormula = source.NameFormula;
+            }
+            else
+            {
+                dest = new ExcelNamedRange(source.Name, _wb, _ws, _dic.Count, source.AllowRelativeAddress);
+                dest.NameFormula = source.FullAddress;
+            }
+            dest.NameComment = source.NameComment;
+            AddName(source.Name, dest);
+
         }
     }
 }
