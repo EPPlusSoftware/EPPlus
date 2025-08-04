@@ -3,6 +3,7 @@ using OfficeOpenXml.PDF.PdfSettings;
 using OfficeOpenXml.PDF.Math;
 using System.Collections.Generic;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
@@ -38,6 +39,40 @@ namespace OfficeOpenXml.PDF.PdfLayout
             pages.Name = "Pages";
             AddChild(pages);
             string wsLayout = ToHierarchyString();
+            //Create lists for content objects starting positions.
+            List<double> xBreaks = new List<double>() { 0d };
+            List<double> yBreaks = new List<double>() { 0d };
+            double h = 0;
+            double w = 0;
+            int pw = 1;
+            int ph = 1;
+            double bh = bounds.Height;
+            double bw = bounds.Width;
+            for (int i = 1; i <= worksheet.Dimension._toRow; i++)
+            {
+                if (worksheet.Row(i).Hidden) { continue; }
+                var height = worksheet.Row(i).Height;
+                var cell = worksheet.Cells[i, 1];
+                if (h+height >= bh)
+                {
+                    ph++;
+                    yBreaks.Add(h);
+                    bh = h + bounds.Height;
+                }
+                h += height;
+            }
+            for (int j = 1; j <= worksheet.Dimension._toCol; j++)
+            {
+                if (worksheet.Column(j).Hidden) { continue; }
+                var width = PdfUnits.ExcelColumnWidthToPoints(worksheet.Column(j).Width);
+                if (w+width >= bw)
+                {
+                    pw++;
+                    xBreaks.Add(w);
+                    bw = w + bounds.Width;
+                }
+                w += width;
+            }
             //Create the new pages and place them in a grid.
             for (int i = 0; i < totalPages; i++)
             {
@@ -63,47 +98,23 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 PdfContentLayout content = new PdfContentLayout(0, 0, bounds);
                 content.Name = "Content " + (i + 1);
                 page.AddChild(content);
-                content.Position = new Vector2(cx, cy);
+                content.Position = new Vector2(xBreaks[col], yBreaks[row]);
                 pages.AddChild(page);
             }
             string pagesLayout = ToHierarchyString();
             //Go though all the cells in WorksheetLayout and add them to the overlapping page.
             var cells = WorksheetLayout.ChildObjects.ToList();
+
             foreach (var cell in cells)
             {
+                var cellBounds = cell.GetGlobalBoundingbox();
                 foreach (var page in pages.ChildObjects)
                 {
-                    bool move = false;
-                    var cellBounds = cell.GetGlobalBoundingbox();
-                    foreach (var p in pages.ChildObjects)
+                    var contentbounds = page.ChildObjects[0].GetGlobalBoundingbox();
+                    if (PdfTransform.IntersectsFully(contentbounds, cellBounds))
                     {
-                        var contentBounds = p.ChildObjects[0].GetGlobalBoundingbox();
-                        //If the cell is completly inside a page content. Make that cell a child of the page.
-                        if (PdfTransform.IntersectsFully(contentBounds, cellBounds))
-                        {
-                            move = true;
-                            p.ChildObjects[0].AddChild(cell);
-                            break;
-                        }
-                    }
-                    if (!move)
-                    {
-                        move = false;
-                        //If the cell is only partially inside a page content. Move the page to overlap the cell. This will make pages overlap, but we will fix this later
-                        var neighborContent = GetRightBottomAndDiagonalPages(page, pages.ChildObjects, horizontalPageCount, verticalPageCount, settings.PageOrders);
-                        foreach (var neighbor in neighborContent)
-                        {
-                            var neighborBounds = neighbor.ChildObjects[0].GetGlobalBoundingbox();
-                            if (PdfTransform.Intersects(cellBounds, neighborBounds))
-                            {
-                                // Temporarily move the neighbor page to align with the cell
-                                var dx = cellBounds.X - neighborBounds.X;
-                                var dy = cellBounds.Y - neighborBounds.Y;
-                                neighbor.ChildObjects[0].Translate(dx, dy);
-                                neighbor.ChildObjects[0].AddChild(cell);
-                                break;
-                            }
-                        }
+                        page.ChildObjects[0].AddChild(cell);
+                        break;
                     }
                 }
             }
