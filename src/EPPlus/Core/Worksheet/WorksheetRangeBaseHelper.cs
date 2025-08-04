@@ -14,6 +14,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
@@ -29,7 +30,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 if (Formula != null)
                 {
-                    if(Formula.ExcelFormula != null)
+                    if (Formula.ExcelFormula != null)
                     {
                         Formula.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(Formula.ExcelFormula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
                     }
@@ -46,14 +47,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             foreach (ExcelConditionalFormattingRule cf in ws.ConditionalFormatting)
             {
-                if (!string.IsNullOrEmpty(cf.Formula))
-                {
-                    cf.Formula = ExcelCellBase.UpdateFormulaReferences(cf.Formula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
-                }
-                if (!string.IsNullOrEmpty(cf.Formula2))
-                {
-                    cf.Formula2 = ExcelCellBase.UpdateFormulaReferences(cf.Formula2, rows, 0, rowFrom, 0, ws.Name, ws.Name);
-                }
+                UpdateCFformulaReferences(cf, rows, 0, rowFrom, 0, ws.Name);
             }
         }
 
@@ -73,16 +67,86 @@ namespace OfficeOpenXml.Core.Worksheet
 
             foreach (ExcelConditionalFormattingRule cf in ws.ConditionalFormatting)
             {
-                if (!string.IsNullOrEmpty(cf.Formula))
-                {
-                    cf.Formula = ExcelCellBase.UpdateFormulaReferences(cf.Formula, 0, columns, 0, columnFrom, ws.Name, ws.Name);
-                }
-                if (!string.IsNullOrEmpty(cf.Formula2))
-                {
-                    cf.Formula2 = ExcelCellBase.UpdateFormulaReferences(cf.Formula2, 0, columns, 0, columnFrom, ws.Name, ws.Name);
-                }
+                UpdateCFformulaReferences(cf, 0, columns, 0, columnFrom, ws.Name);
             }
         }
 
+        internal static void UpdateCFformulaReferences(ExcelConditionalFormattingRule cf, int rows, int columns, int rowFrom, int columnFrom, string currentSheet)
+        {
+            if (cf is ExcelConditionalFormattingTwoColorScale)
+            {
+                var colorScale = cf.As.TwoColorScale;
+                if (colorScale.LowValue.Formula != null)
+                {
+                    colorScale.LowValue.Formula = ExcelCellBase.UpdateFormulaReferences(colorScale.LowValue.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+                }
+                if (colorScale.HighValue.Formula != null)
+                {
+                    colorScale.HighValue.Formula = ExcelCellBase.UpdateFormulaReferences(colorScale.HighValue.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+                }
+                if (cf is ExcelConditionalFormattingThreeColorScale)
+                {
+                    var threeColorScale = cf.As.ThreeColorScale;
+                    if (threeColorScale.MiddleValue.Formula != null)
+                    {
+                        threeColorScale.MiddleValue.Formula = ExcelCellBase.UpdateFormulaReferences(threeColorScale.MiddleValue.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+                    }
+                }
+
+                return;
+            }
+
+            if (cf.IsIconSet)
+            {
+                ExcelConditionalFormattingIconDataBarValue[] iconArray = null;
+                switch (cf.Type)
+                {
+                    case eExcelConditionalFormattingRuleType.ThreeIconSet:
+                        var iconSet3 = (ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting3IconsSetType>)cf;
+                        iconArray = iconSet3.GetIconArray();
+                        break;
+                    case eExcelConditionalFormattingRuleType.FourIconSet:
+                        var iconSet4 = (ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting4IconsSetType>)cf;
+                        iconArray = iconSet4.GetIconArray();
+                        break;
+                    case eExcelConditionalFormattingRuleType.FiveIconSet:
+                        var iconSet5 = (ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting5IconsSetType>)cf;
+                        iconArray = iconSet5.GetIconArray();
+                        break;
+                }
+
+                for (int i = 0; i < iconArray.Length; i++)
+                {
+                    if (iconArray[i].Formula != null)
+                    {
+                        iconArray[i].Formula = ExcelCellBase.UpdateFormulaReferences(iconArray[i].Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+                    }
+                }
+                return;
+            }
+
+            if(cf.Type == eExcelConditionalFormattingRuleType.DataBar)
+            {
+                var dbar = cf.As.DataBar;
+                if (dbar.LowValue.Formula != null)
+                {
+                    dbar.LowValue.Formula = ExcelCellBase.UpdateFormulaReferences(dbar.LowValue.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+                }
+                if (dbar.HighValue.Formula != null)
+                {
+                    dbar.HighValue.Formula = ExcelCellBase.UpdateFormulaReferences(dbar.HighValue.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+                }
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(cf.Formula))
+            {
+                cf.Formula = ExcelCellBase.UpdateFormulaReferences(cf.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+            }
+            if (!string.IsNullOrEmpty(cf.Formula2))
+            {
+                cf.Formula2 = ExcelCellBase.UpdateFormulaReferences(cf.Formula2, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+            }
+        }
     }
 }
