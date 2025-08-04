@@ -104,7 +104,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
             string pagesLayout = ToHierarchyString();
             //Go though all the cells in WorksheetLayout and add them to the overlapping page.
             var cells = WorksheetLayout.ChildObjects.ToList();
-
             foreach (var cell in cells)
             {
                 var cellBounds = cell.GetGlobalBoundingbox();
