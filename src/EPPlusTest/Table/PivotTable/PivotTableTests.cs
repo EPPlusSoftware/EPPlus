@@ -346,7 +346,7 @@ namespace EPPlusTest.Table.PivotTable
             pt.DataFields.Add(pt.Fields[3]);
             pt.DataFields.Add(pt.Fields[2]);
 
-            pt.DataOnRows = true;            
+            pt.DataOnRows = true;
         }
         [TestMethod]
         public void Pivot_GroupNumber()
@@ -1328,11 +1328,11 @@ namespace EPPlusTest.Table.PivotTable
         public void RefreshTemplateWithChangedColumns()
         {
             using var p = OpenTemplatePackage("PivotTableRefreshFields.xlsx");
-            foreach(var ws in p.Workbook.Worksheets)
+            foreach (var ws in p.Workbook.Worksheets)
             {
-                foreach(var pt in ws.PivotTables)
+                foreach (var pt in ws.PivotTables)
                 {
-                    
+
                 }
             }
             SaveAndCleanup(p);

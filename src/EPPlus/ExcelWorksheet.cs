@@ -3610,6 +3610,7 @@ namespace OfficeOpenXml
             }
         }
 
+       
         internal bool IsDisposed 
         { 
             get
@@ -3659,6 +3660,8 @@ namespace OfficeOpenXml
             return _values.GetValue(row, col)._styleId;
         }
 
+        internal Dictionary<int, ExcelColumn> ColumnLookup = new Dictionary<int, ExcelColumn>();
+
         /// <summary>
         /// Set accessor of sheet value
         /// </summary>
@@ -3667,7 +3670,32 @@ namespace OfficeOpenXml
         /// <param name="value">value</param>
         internal void SetValueInner(int row, int col, object value)
         {
-            var styleId = GetStyleId(row, col);
+            var styleId = -1;
+            bool newCol = false;
+            if (row == 0)
+            {
+                if(ColumnLookup.ContainsKey(col))
+                {
+                    if (ColumnLookup[col] != null)
+                    {
+                        styleId = ColumnLookup[col].StyleID;
+                    }
+                    else
+                    {
+                        newCol = true;
+                    }
+                }
+                else
+                {
+                    //There is no styleId, column does not exist
+                    newCol = true;
+                }
+            }
+            else
+            {
+                styleId = GetStyleId(row, col);
+            }
+
             if (FullPrecision)
             {
                 _values.SetValue(row, col, value, styleId);
@@ -3676,6 +3704,18 @@ namespace OfficeOpenXml
             {
                 var val = Workbook.Styles.RoundValueFromNumberFormat(value, styleId);
                 _values.SetValue(row, col, val, styleId);
+            }
+
+            if (newCol)
+            {
+                if (ColumnLookup.ContainsKey(col))
+                {
+                    ColumnLookup[col] = GetColumn(col);
+                }
+                else
+                {
+                    ColumnLookup.Add(col, GetColumn(col));
+                }
             }
         }
         internal void SetValueInner(int fromRow, int fromCol, int toRow, int toCol, object value)
@@ -3698,11 +3738,22 @@ namespace OfficeOpenXml
                 {
                     if (!ExistsStyleInner(0, col, ref s) && col > 1)
                     {
-                        var c=GetColumn(col);
-                        if(c!= null)
+                        if (ColumnLookup.ContainsKey(col))
                         {
-                            return c.StyleID;
+                            if (ColumnLookup[col] != null)
+                            {
+                                return ColumnLookup[col].StyleID;
+                            }
                         }
+                        else
+                        {
+                            ColumnLookup.Add(col, null);
+                        }
+                        //var c = GetColumn(col);
+                        //if (c != null)
+                        //{
+                        //    return c.StyleID;
+                        //}
                     }                        
                 }
             }
@@ -3940,9 +3991,50 @@ namespace OfficeOpenXml
         /// <returns>is exists</returns>
         internal bool ExistsStyleInner(int row, int col, ref int styleId)
         {
+            if (row == 0)
+            {
+                if (ColumnLookup.ContainsKey(col))
+                {
+                    if(ColumnLookup[col] != null)
+                    {
+                        styleId = ColumnLookup[col].StyleID;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    ColumnLookup.Add(col, null);
+                    return false;
+                }
+            }
             styleId = _values.GetValue(row, col)._styleId;
             return (styleId > 0);
         }
+
+        internal bool ExistsStyleAndCacheRow(int row, ref int styleId)
+        {
+            if (Rows[row] != null)
+            {
+                styleId = _values.GetValue(row, 0)._styleId;
+                return (styleId > 0);
+            }
+            styleId = -1;
+            return false;
+        }
+
+        internal bool ExistsStyleAndCacheColumn(int colNum, ref int styleId)
+        {
+            if (Columns[colNum] != null)
+            {
+                styleId = _values.GetValue(0, colNum)._styleId;
+                return (styleId > 0);
+            }
+            return false;
+        }
+
         internal void RemoveSlicerReference(ExcelSlicerXmlSource xmlSource)
         {
             var node = GetNode($"d:extLst/d:ext/x14:slicerList/x14:slicer[@r:id='{xmlSource.Rel.Id}']");

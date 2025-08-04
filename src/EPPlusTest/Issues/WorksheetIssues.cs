@@ -5,6 +5,7 @@ using OfficeOpenXml.FormulaParsing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -840,6 +841,50 @@ namespace EPPlusTest.Issues
 
             sheet.Cells["C3"].AddComment("Test"); // NullReferenceException 
         }
+
+		[TestMethod]
+		public void s912()
+		{
+			using (var package = OpenPackage("s912.xlsx",true))
+			{
+				var sheet = package.Workbook.Worksheets.Add("F1");
+
+				int nbLines = 10000;
+				int nbCols = 100;
+
+				//sheet.Cells["A4"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+
+    //            sheet.Column(4).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.LightHorizontal;
+
+				var sw = new Stopwatch();
+				sw.Start();
+
+				// Uncommenting one of these lines changes the performance of the for loops.
+				// At the end of each line is the measured time of the whole program, when this
+				// specific line is uncommented. When no line is uncommented, the measured time
+				// is 12.7s.
+				//
+				// sheet.Cells[1, 1, nbLines, nbCols].Style.Numberformat.Format = "#"; // 7.4s
+				// sheet.Cells[1, 1, nbLines, nbCols].Style.Locked = true; // 7.4s
+				// sheet.Cells[1, 1, nbLines, nbCols].Value = 1; // 19.5s
+				// sheet.Cells[1, 1, nbLines, nbCols].Value = ""; // 18s
+				// sheet.InsertColumn(1, nbCols); // 12.9
+				// sheet.InsertColumn(1, nbCols, 1); // 7.8s
+
+				for (int i = 1; i <= nbLines; i++)
+				{
+					for (int j = 1; j <= nbCols; j++)
+					{
+						sheet.SetValue(i, j, 123);
+					}
+				}
+
+				var seconds = sw.Elapsed.Seconds;
+				sw.Stop();
+                SaveAndCleanup(package);
+			}
+        }
+
         [TestMethod]
         public void DimensionByValueIssue()
         {
