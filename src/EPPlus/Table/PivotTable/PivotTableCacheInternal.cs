@@ -446,15 +446,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 //Update data field index
                 foreach (var df in pt.DataFields)
                 {
-                    int ix;
-                    if (movedFields.Count > df.Index)
-                    {
-                        ix = movedFields[df.Index];
-                    }
-                    else
-                    {
-                        ix = -1;
-                    }
+                    var ix = movedFields.IndexOf(df.Index);
                     if(ix<0)
                     {
                         rmDfFields.Add(df);
