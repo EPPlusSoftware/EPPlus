@@ -10,11 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Core.RichValues;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
@@ -28,6 +28,8 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
@@ -49,7 +51,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml
 {
@@ -3940,6 +3941,27 @@ namespace OfficeOpenXml
             }
         }
 
+        internal bool ExistsValueColumn(int row, int col)
+        {
+            if (row == 0)
+            {
+                if (ColumnLookup.ContainsKey(col))
+                {
+                    if(ColumnLookup[col] != null)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    ColumnLookup.Add(col, null);
+                    return false;
+                }
+            }
+            return false;
+        }
+
+
         /// <summary>
         /// Existance check of sheet value
         /// </summary>
@@ -3958,7 +3980,16 @@ namespace OfficeOpenXml
         /// <returns>is exists</returns>
         internal bool ExistsStyleInner(int row, int col)
         {
-            return (_values.GetValue(row, col)._styleId > 0);
+            int styleId = -1;
+            if (!ExistsValueColumn(row, col))
+            {
+                styleId = _values.GetValue(row, col)._styleId;
+            }
+            else
+            {
+                styleId = ColumnLookup[col].StyleID;
+            }
+            return (styleId > 0);
         }
         /// <summary>
         /// Existence check of sheet value
@@ -3981,26 +4012,14 @@ namespace OfficeOpenXml
         /// <returns>is exists</returns>
         internal bool ExistsStyleInner(int row, int col, ref int styleId)
         {
-            if (row == 0)
+            if(!ExistsValueColumn(row,col))
             {
-                if (ColumnLookup.ContainsKey(col))
-                {
-                    if(ColumnLookup[col] != null)
-                    {
-                        styleId = ColumnLookup[col].StyleID;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    ColumnLookup.Add(col, null);
-                    return false;
-                }
+                styleId = _values.GetValue(row, col)._styleId;
             }
-            styleId = _values.GetValue(row, col)._styleId;
+            else
+            {
+                styleId = ColumnLookup[col].StyleID;
+            }
             return (styleId > 0);
         }
 
