@@ -569,6 +569,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 else
                 {
                     ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(newAddress.Address);
+
                 }
             }
             deletedCF.ForEach(cf => ws.ConditionalFormatting.Remove(cf));
