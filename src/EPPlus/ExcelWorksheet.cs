@@ -3672,29 +3672,8 @@ namespace OfficeOpenXml
         {
             var styleId = -1;
             bool newCol = false;
-            if (row == 0)
-            {
-                if(ColumnLookup.ContainsKey(col))
-                {
-                    if (ColumnLookup[col] != null)
-                    {
-                        styleId = ColumnLookup[col].StyleID;
-                    }
-                    else
-                    {
-                        newCol = true;
-                    }
-                }
-                else
-                {
-                    //There is no styleId, column does not exist
-                    newCol = true;
-                }
-            }
-            else
-            {
-                styleId = GetStyleId(row, col);
-            }
+
+            styleId = GetStyleId(row, col);
 
             if (FullPrecision)
             {
@@ -3706,7 +3685,7 @@ namespace OfficeOpenXml
                 _values.SetValue(row, col, val, styleId);
             }
 
-            if (newCol)
+            if (row == 0)
             {
                 if (ColumnLookup.ContainsKey(col))
                 {
@@ -3778,6 +3757,17 @@ namespace OfficeOpenXml
                 v._value = Workbook.Styles.RoundValueFromNumberFormat(v._value, styleId);
                 v._styleId = styleId;
                 _values.SetValue(row, col, v);
+            }
+            if(row == 0)
+            {
+                if(ColumnLookup.ContainsKey(col))
+                {
+                    ColumnLookup[col] = GetColumn(col);
+                }
+                else
+                {
+                    ColumnLookup.Add(col,GetColumn(col));
+                }
             }
         }
         internal void SetValueRow_Value(int row, int col, object[] array)
