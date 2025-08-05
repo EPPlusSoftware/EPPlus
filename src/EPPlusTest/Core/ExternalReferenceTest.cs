@@ -483,7 +483,8 @@ namespace EPPlusTest.Core
 
             var p2 = OpenTemplatePackage("CopyFillTest.xlsx");
 
-            wb.ExternalLinks.AddExternalWorkbook(p2.File);
+            var ewb = wb.ExternalLinks.AddExternalWorkbook(p2.File);
+            ewb.IsPathRelative = false;
             SaveWorkbook("AbsolutePathTest.xlsx", p);
         }
 

@@ -1381,11 +1381,6 @@ namespace EPPlusTest
                 worksheet.Cells["A5"].Value = "Test";
                 worksheet.InsertRow(START_ROW + CustomTemplateRowsOffset, rowCount - 1, CustomTemplateRowsOffset + 1);
                 Assert.AreEqual("Test", worksheet.Cells["A34004"].Value);
-                //for (int k = START_ROW+CustomTemplateRowsOffset; k < rowCount; k++)
-                //{
-                //    worksheet.Cells[(START_ROW + CustomTemplateRowsOffset) + ":" + (START_ROW + CustomTemplateRowsOffset)]
-                //        .Copy(worksheet.Cells[k + 1 + ":" + k + 1]);
-                //}
                 SaveAndCleanup(package);
             }
         }

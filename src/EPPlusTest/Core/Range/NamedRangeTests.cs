@@ -405,7 +405,7 @@ namespace EPPlusTest.Core.Range
             }
         }
         [TestMethod]
-        public void CopyNameToNewWorkbook()
+        public void CopyNameToNewWorkbookFromRange()
         {
             using (var p = new ExcelPackage())
             {
@@ -417,17 +417,45 @@ namespace EPPlusTest.Core.Range
                 //Workbook level.
                 wb.Names.AddValue("NameWithFormula1", 1);
                 wb.Names.Add("NameWithFormulaAddress", sheet1.Cells["A5"]);
+                sheet1.Names.AddValue("NameWithFormulaWs1", 2);
                 sheet1.Cells["A2"].Formula = "NameWithFormula1+1";
                 sheet1.Cells["A3"].Formula = "NameWithFormulaAddress+NameWithFormula1";
+                sheet1.Cells["A4"].Formula = "NameWithFormulaAddress+NameWithFormula1-NameWithFormulaWs1";
                 using (var p2 = new ExcelPackage())
                 {
-                    //p2.Workbook.Worksheets.Add("Sheet1", sheet1);
                     var sheetNew = p2.Workbook.Worksheets.Add("Sheet1");
-                    sheet1.Cells["A1:A3"].Copy(sheetNew.Cells["A1"]);
+                    sheet1.Cells["A1:A4"].Copy(sheetNew.Cells["A1"]);
                     Assert.AreEqual(2, p2.Workbook.Names.Count);
+                    Assert.AreEqual(1, sheetNew.Names.Count);
                     SaveWorkbook("CopyWithName.xlsx", p2);
                 }
             }
         }
+        [TestMethod]
+        public void CopyNameToNewWorkbook()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Add two worksheets
+                var sheet1 = p.Workbook.Worksheets.Add("Sheet1");
+                var sheet2 = p.Workbook.Worksheets.Add("Sheet 2");
+                var wb = p.Workbook;
+                //Workbook level.
+                wb.Names.AddValue("NameWithFormula1", 1);
+                wb.Names.Add("NameWithFormulaAddress", sheet1.Cells["A5"]);
+                sheet1.Names.AddValue("NameWithFormulaWs1", 2);
+                sheet1.Cells["A2"].Formula = "NameWithFormula1+1";
+                sheet1.Cells["A3"].Formula = "NameWithFormulaAddress+NameWithFormula1";
+                sheet1.Cells["A4"].Formula = "NameWithFormulaAddress+NameWithFormula1-NameWithFormulaWs1";
+                using (var p2 = new ExcelPackage())
+                {
+                    var sheetNew=p2.Workbook.Worksheets.Add("Sheet1", sheet1);
+                    Assert.AreEqual(2, p2.Workbook.Names.Count);
+                    Assert.AreEqual(1, sheetNew.Names.Count);
+                    SaveWorkbook("CopyWithName.xlsx", p2);
+                }
+            }
+        }
+
     }
 }
