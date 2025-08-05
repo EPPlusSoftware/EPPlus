@@ -125,14 +125,14 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 CopySheetNames(sourceWorksheet, targetWorksheet);
             }
-            if(sourceWorksheet.DataValidations.Count > 0) 
+            if (sourceWorksheet.DataValidations.Count > 0)
             {
-                foreach(ExcelDataValidation dv in sourceWorksheet.DataValidations)
+                foreach (ExcelDataValidation dv in sourceWorksheet.DataValidations)
                 {
                     targetWorksheet.DataValidations.AddCopyOfDataValidation(dv, targetWorksheet);
                 }
             }
-            if(sourceWorksheet.ConditionalFormatting.Count > 0)
+            if (sourceWorksheet.ConditionalFormatting.Count > 0)
             {
                 for (int i = 0; i < sourceWorksheet.ConditionalFormatting.Count; i++)
                 {
@@ -920,16 +920,19 @@ namespace OfficeOpenXml.Core.Worksheet
                     newName = added.Names.AddValue(name.Name, name.Value);
                 }
                 newName.NameComment = name.NameComment;
+                newName.IsNameHidden = name.IsNameHidden;
             }
 
             //Copy relevant names from workbook.
-            foreach (var name in Copy.Workbook.Names)
+            var Names = Copy.Workbook.Names.ToList();
+            foreach (var name in Names)
             {
                 ExcelNamedRange wbName;
                 if (name.Worksheet == Copy)
                 {
                     wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
                     wbName.NameComment = name.NameComment;
+                    wbName.IsNameHidden = name.IsNameHidden;
                 }
             }
             //Copy names from formulas.
@@ -977,6 +980,7 @@ namespace OfficeOpenXml.Core.Worksheet
                             wbName = added.Workbook.Names.AddValue(name.Name, name.Value);
                         }
                         wbName.NameComment = name.NameComment;
+                        wbName.IsNameHidden = name.IsNameHidden;
                     }
                 }
             }

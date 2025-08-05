@@ -160,6 +160,17 @@ namespace OfficeOpenXml
                 _nameFormula = ValidateCellAddressInFormulas ? FormulaUtils.AddWorksheetReferenceToFormula(value, _worksheet, AllowRelativeAddress) : value;
             }
         }
+        internal string NameFormulaNoValidation
+        {
+            get
+            {
+                return _nameFormula;
+            }
+            set
+            {
+                _nameFormula = value;
+            }
+        }
         /// <inheritdoc/>
         protected internal override void BeforeChangeAddress(string value)
         {
