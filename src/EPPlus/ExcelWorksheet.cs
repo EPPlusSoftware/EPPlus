@@ -1364,8 +1364,6 @@ namespace OfficeOpenXml
         }
         const int BLOCKSIZE = 8192;
 
-        internal List<ExcelColumn> ExcelColumnCollection;
-
         private void LoadColumns(XmlReader xr)//(string xml)
         {
             if (xr.ReadUntil(1, "cols", "sheetData"))
@@ -1388,8 +1386,6 @@ namespace OfficeOpenXml
                         col.OutlineLevel = (short)(xr.GetAttribute("outlineLevel") == null ? 0 : int.Parse(xr.GetAttribute("outlineLevel"), CultureInfo.InvariantCulture));
                         col.Hidden = GetBoolFromString(xr.GetAttribute("hidden"));
                         SetValueInner(0, min, col);
-
-                        ExcelColumnCollection.Add(col);
 
                         int style;
                         if (!(xr.GetAttribute("style") == null || !int.TryParse(xr.GetAttribute("style"), NumberStyles.Number, CultureInfo.InvariantCulture, out style)))
@@ -2101,7 +2097,6 @@ namespace OfficeOpenXml
 
                 column = new ExcelColumn(this, col);
                 SetValueInner(0, col, column);
-                ExcelColumnCollection.Add(column);
             }
             return column;
         }
@@ -2243,6 +2238,7 @@ namespace OfficeOpenXml
         public void InsertColumn(int columnFrom, int columns, int copyStylesFromColumn)
         {
             WorksheetRangeInsertHelper.InsertColumn(this, columnFrom, columns, copyStylesFromColumn);
+            ColumnLookup.InsertAndShift(columnFrom, columns);
         } 
 #endregion
 #region DeleteRow
@@ -2282,7 +2278,7 @@ namespace OfficeOpenXml
         public void DeleteColumn(int columnFrom, int columns)
         {
             WorksheetRangeDeleteHelper.DeleteColumn(this, columnFrom, columns);
-            ColumnLookup.Remove(columnFrom);
+            ColumnLookup.RemoveAndShift(columnFrom);
         }
 #endregion
         /// <summary>
@@ -3494,6 +3490,8 @@ namespace OfficeOpenXml
             DisposeInternal(_formulaTokens);
             DisposeInternal(_metadataStore);
 
+            ColumnLookup = null;
+
             _values = null;
             _formulas = null;
             _flags = null;
@@ -3667,7 +3665,7 @@ namespace OfficeOpenXml
             return _values.GetValue(row, col)._styleId;
         }
 
-        internal Dictionary<int, ExcelColumn> ColumnLookup = new Dictionary<int, ExcelColumn>();
+        internal ChangeableDictionary<ExcelColumn> ColumnLookup = new ChangeableDictionary<ExcelColumn>();
 
         /// <summary>
         /// Set accessor of sheet value
@@ -3678,7 +3676,6 @@ namespace OfficeOpenXml
         internal void SetValueInner(int row, int col, object value)
         {
             var styleId = -1;
-            bool newCol = false;
 
             styleId = GetStyleId(row, col);
 
@@ -3694,13 +3691,14 @@ namespace OfficeOpenXml
 
             if (row == 0)
             {
+                var colValue = GetColumn(col);
                 if (ColumnLookup.ContainsKey(col))
                 {
-                    ColumnLookup[col] = GetColumn(col);
+                    ColumnLookup[col] = colValue;
                 }
                 else
                 {
-                    ColumnLookup.Add(col, GetColumn(col));
+                    ColumnLookup.Add(colValue.ColumnMin, colValue);
                 }
             }
         }

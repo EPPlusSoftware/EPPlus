@@ -43,6 +43,18 @@ namespace OfficeOpenXml.Core
                     return default(T);
                 }
             }
+            set
+            {
+                var pos = Array.BinarySearch(_index[0], 0, _count, key);
+                if (pos >= 0)
+                {
+                    _items[_index[1][pos]] = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException($"The key'{key}' cannot be found. ChangableDictionary cannot set value of non-existant key.");
+                }
+            }
         }
 
         internal void InsertAndShift(int fromPosition, int add)
@@ -125,6 +137,11 @@ namespace OfficeOpenXml.Core
 
         public bool ContainsKey(int key)
         {
+            if(_index[0].Length - 1 < _count)
+            {
+                Array.Resize(ref _index[0], _index[0].Length << 1);
+                Array.Resize(ref _index[1], _index[1].Length << 1);
+            }
             return Array.BinarySearch(_index[0], 0, _count, key) >= 0;
         }
     

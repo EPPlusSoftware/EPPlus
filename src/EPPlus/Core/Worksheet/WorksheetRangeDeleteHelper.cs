@@ -308,6 +308,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         c._columnMax += columns;
                     }
                 }
+
             }
         }
         static void FixFormulasDeleteRow(ExcelWorksheet ws, int rowFrom, int rows, string workSheetName)
