@@ -1364,6 +1364,8 @@ namespace OfficeOpenXml
         }
         const int BLOCKSIZE = 8192;
 
+        internal List<ExcelColumn> ExcelColumnCollection;
+
         private void LoadColumns(XmlReader xr)//(string xml)
         {
             if (xr.ReadUntil(1, "cols", "sheetData"))
@@ -1386,6 +1388,8 @@ namespace OfficeOpenXml
                         col.OutlineLevel = (short)(xr.GetAttribute("outlineLevel") == null ? 0 : int.Parse(xr.GetAttribute("outlineLevel"), CultureInfo.InvariantCulture));
                         col.Hidden = GetBoolFromString(xr.GetAttribute("hidden"));
                         SetValueInner(0, min, col);
+
+                        ExcelColumnCollection.Add(col);
 
                         int style;
                         if (!(xr.GetAttribute("style") == null || !int.TryParse(xr.GetAttribute("style"), NumberStyles.Number, CultureInfo.InvariantCulture, out style)))
@@ -2097,6 +2101,7 @@ namespace OfficeOpenXml
 
                 column = new ExcelColumn(this, col);
                 SetValueInner(0, col, column);
+                ExcelColumnCollection.Add(column);
             }
             return column;
         }
@@ -2277,6 +2282,7 @@ namespace OfficeOpenXml
         public void DeleteColumn(int columnFrom, int columns)
         {
             WorksheetRangeDeleteHelper.DeleteColumn(this, columnFrom, columns);
+            ColumnLookup.Remove(columnFrom);
         }
 #endregion
         /// <summary>

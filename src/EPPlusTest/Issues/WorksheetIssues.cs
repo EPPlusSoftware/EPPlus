@@ -854,7 +854,7 @@ namespace EPPlusTest.Issues
 
 				//sheet.Cells["A4"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
 
-    //            sheet.Column(4).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.LightHorizontal;
+				sheet.Column(4).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.LightHorizontal;
 
 				var sw = new Stopwatch();
 				sw.Start();
