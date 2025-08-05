@@ -923,35 +923,46 @@ namespace OfficeOpenXml.Core.Worksheet
                 newName.IsNameHidden = name.IsNameHidden;
             }
 
-            //Copy relevant names from workbook.
+            //Copy relevant names from workbook. If in the names are in the same workbook, copy the name to the target worksheet
             var Names = Copy.Workbook.Names.ToList();
             foreach (var name in Names)
             {
                 ExcelNamedRange wbName;
                 if (name.Worksheet == Copy)
                 {
-                    wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                    if (added.Workbook == name.Worksheet.Workbook)
+                    {
+                        wbName = added.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                        wbName.ChangeWorksheet(added.Name, added.Name);
+                    }
+                    else
+                    {
+                        wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                    }
                     wbName.NameComment = name.NameComment;
                     wbName.IsNameHidden = name.IsNameHidden;
                 }
             }
             //Copy names from formulas.
-            var formulaEnumerator = new CellStoreEnumerator<object>(Copy._formulas);
-            var nameLookup = Copy.Workbook.Names.Where(name => name != null).ToDictionary(name => name.Name, name => name);
-            while (formulaEnumerator.Next())
+            if (added.Workbook != Copy.Workbook)
             {
-                var v = formulaEnumerator.Value;
-                string formula;
-                if (v is int vkey)
+                var formulaEnumerator = new CellStoreEnumerator<object>(Copy._formulas);
+                var nameLookup = Copy.Workbook.Names.Where(name => name != null).ToDictionary(name => name.Name, name => name);
+                while (formulaEnumerator.Next())
                 {
-                    Copy._sharedFormulas.TryGetValue(vkey, out SharedFormula sharedFormula);
-                    formula = sharedFormula.Formula;
-                    CopyWorkbookNames(formula, nameLookup, added, Copy);
-                }
-                else
-                {
-                    formula = v.ToString();
-                    CopyWorkbookNames(formula, nameLookup, added, Copy);
+                    var v = formulaEnumerator.Value;
+                    string formula;
+                    if (v is int vkey)
+                    {
+                        Copy._sharedFormulas.TryGetValue(vkey, out SharedFormula sharedFormula);
+                        formula = sharedFormula.Formula;
+                        CopyWorkbookNames(formula, nameLookup, added, Copy);
+                    }
+                    else
+                    {
+                        formula = v.ToString();
+                        CopyWorkbookNames(formula, nameLookup, added, Copy);
+                    }
                 }
             }
         }
