@@ -630,7 +630,9 @@ namespace OfficeOpenXml
         string _paneNodePath = "d:pane";
         string _selectionNodePath = "d:selection";
         /// <summary>
-        /// Freeze the columns and rows starting from <see cref="TopLeftCell"/>
+        /// Freeze the columns and rows starting from <see cref="TopLeftCell"/> <br/><br/>
+        /// 
+        /// Note that if the <br/>(<paramref name="Row"/> - hiddenRows == 1 &#38;&#38; <paramref name="Column"/> - hiddenCols == 1)<br/> UnFreezePanes() is called instead
         /// </summary>
         /// <param name="Row">Rows from the <see cref="TopLeftCell"/>. Starts from 1</param>
         /// <param name="Column">Columns from the <see cref="TopLeftCell"/>. Starts from 1</param>
@@ -665,7 +667,10 @@ namespace OfficeOpenXml
             }
 
             //TopLeftCell must be topLeft Visible cell for the topnode
-            TopLeftCell = ExcelCellBase.GetAddress(1 + hiddenRows, 1 + hiddenCols);
+            if(TopLeftCell == "")
+            {
+                TopLeftCell = ExcelCellBase.GetAddress(1 + hiddenRows, 1 + hiddenCols);
+            }
 
             if (Column > 1) PaneSettings.XSplit = visibleColumns - 1;
             if (Row > 1) PaneSettings.YSplit = visibleRows - 1;
