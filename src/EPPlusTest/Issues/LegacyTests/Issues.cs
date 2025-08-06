@@ -2562,6 +2562,72 @@ namespace EPPlusTest
             ws.View.FreezePanes(15, 11);
             SaveAndCleanup(p);
         }
+        [TestMethod]
+        public void FreezePanes3()
+        {
+            using var p = OpenTemplatePackage("Freeze.xlsx");
+            // Test 1 (row 1/col A already hidden) - FAIL
+            var ws = p.Workbook.Worksheets["Sheet1"];
+            ws.View.FreezePanes(3, 3);
+
+            // Test 2 - FAIL
+            var ws2 = p.Workbook.Worksheets["Sheet2"];
+            ws2.Column(1).Hidden = true;
+            ws2.Row(1).Hidden = true;
+            ws2.View.FreezePanes(3, 3);
+
+            // Test 3 - PASS
+            var ws3 = p.Workbook.Worksheets.Add("Sheet3");
+            ws3.Column(1).Hidden = true;
+            ws3.Row(1).Hidden = true;
+            var test = ExcelCellBase.GetAddress(3, 3);
+            ws3.Cells["C3"].Value = "Freeze here";
+            ws3.View.TopLeftCell = "B2";
+            ws3.View.FreezePanes(3, 3);
+
+            SaveAndCleanup(p);
+        }
+
+        [TestMethod]
+        public void FreezePanes4()
+        {
+            using (var p = OpenPackage("FreezePanes_Generated.xlsx", true))
+            {
+                var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+                ws2.Cells["A1"].Value = "Freeze here";
+                ws2.Column(1).Hidden = true;
+                ws2.Row(1).Hidden = true;
+                ws2.View.FreezePanes(1, 1);
+
+                var ws3 = p.Workbook.Worksheets.Add("Sheet3");
+                ws3.Column(1).Hidden = true;
+                ws3.Row(1).Hidden = true;
+                ws3.Cells["C3"].Value = "Freeze here";
+                ws3.View.FreezePanes(3, 3);
+
+                var ws4 = p.Workbook.Worksheets.Add("Sheet4");
+                ws4.Column(1).Hidden = true;
+                ws4.Row(1).Hidden = true;
+                ws4.Cells["B2"].Value = "Freeze here";
+                ws4.View.FreezePanes(2, 2);
+
+
+                var ws5 = p.Workbook.Worksheets.Add("Sheet5");
+                ws5.Column(1).Hidden = true;
+                ws5.Row(1).Hidden = true;
+                ws5.Cells["U28"].Value = "Freeze here";
+                ws5.View.FreezePanes(ws5.Cells["U28"].Start.Row, ws5.Cells["U28"].Start.Column);
+
+                var ws6 = p.Workbook.Worksheets.Add("Sheet6");
+                ws6.Column(1).Hidden = true;
+                ws6.Row(1).Hidden = true;
+                ws6.Cells["D5"].Value = "Freeze here";
+                ws6.View.FreezePanes(ws5.Cells["D5"].Start.Row, ws5.Cells["D5"].Start.Column);
+
+                SaveAndCleanup(p);
+            }
+        }
+
 
         [TestMethod]
         public void CopyWorksheetWithBlipFillObjects()
