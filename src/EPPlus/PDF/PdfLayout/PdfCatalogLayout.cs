@@ -103,7 +103,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             }
             string pagesLayout = ToHierarchyString();
             //Go though all the cells in WorksheetLayout and add them to the overlapping page.
-            var cells = WorksheetLayout.ChildObjects.ToList();
+            var cells = WorksheetLayout.ChildObjects.Where(x=>x is PdfCellLayout).ToList();
             foreach (var cell in cells)
             {
                 var cellBounds = cell.GetGlobalBoundingbox();
@@ -118,11 +118,43 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 }
             }
             string cellsInPages = ToHierarchyString();
+            //handle merged cells
+            var mergedCells = WorksheetLayout.ChildObjects.Where(x => x is PdfMergedCellLayout).ToList();
+            foreach (var mc in mergedCells)
+            {
+                var mcBounds = mc.GetGlobalBoundingbox();
+                foreach(var page in pages.ChildObjects)
+                {
+                    if(PdfTransform.Intersects(mcBounds, page.ChildObjects[0].GetGlobalBoundingbox()))
+                    {
+                        var copy = new PdfMergedCellLayout(null, mc.LocalPosition.X, mc.LocalPosition.Y, mc.Size.X, mc.Size.Y, mc.LocalScale.X, mc.LocalScale.Y, mc.LocalRotation, WorksheetLayout);
+                        copy.Name = mc.Name;
+                        page.ChildObjects[0].AddChild(copy);
+                    }
+                }
+            }
+            string mergedCellsInPages = ToHierarchyString();
+            //handle drawings
+            var drawings = WorksheetLayout.ChildObjects.Where(x => x is PdfDrawingLayout).ToList();
+            foreach (var d in drawings)
+            {
+                var dBounds = d.GetGlobalBoundingbox();
+                foreach (var page in pages.ChildObjects)
+                {
+                    if (PdfTransform.Intersects(dBounds, page.ChildObjects[0].GetGlobalBoundingbox()))
+                    {
+                        var copy = new PdfDrawingLayout(null, d.LocalPosition.X, d.LocalPosition.Y, d.Size.X, d.Size.Y);
+                        page.ChildObjects[0].AddChild(copy);
+                    }
+                }
+            }
+            string drawingsCellsInPages = ToHierarchyString();
             //Restore the positions of the pages
             foreach (var page in pages.ChildObjects)
             {
                 page.ChildObjects[0].LocalPosition = new Vector2(settings.Margins.LeftPu, settings.Margins.TopPu);
             }
+            //RemoveChild(WorksheetLayout);
         }
 
         List<PdfPageLayout> GetRightBottomAndDiagonalPages(PdfTransform currentPage, List<PdfTransform> allPages, int hPages, int vPages, PageOrders pageOrder)

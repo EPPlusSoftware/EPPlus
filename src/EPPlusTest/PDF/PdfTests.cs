@@ -99,7 +99,7 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void GetLayoutString()
         {
-            using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
+            using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
             var ws = p.Workbook.Worksheets[0];
             PdfPageSettings settings = new PdfPageSettings();
             var bounds = new PdfContentBounds(settings.Margins, settings.PageSize);

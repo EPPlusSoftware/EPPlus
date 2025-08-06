@@ -43,9 +43,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
                             }
                             for (int l = address._fromCol; l <= address._toCol; l++)
                             {
-                                mcWidth += (ws.Column(l).Width);
+                                mcWidth += PdfUnits.ExcelColumnWidthToPoints(ws.Column(l).Width);
                             }
-                            var cl1 = AddChild(new PdfCellLayout(ws.Cells[address._fromRow, address._fromCol].Value, x, y, mcWidth, mcHeight));
+                            var cl1 = AddChild(new PdfMergedCellLayout(ws.Cells[address._fromRow, address._fromCol].Value, x, y, mcWidth, mcHeight));
                             cl1.Z = 5;
                             cl1.Name = "Merged Cell " + cell.Address;
                             checkedMergedCells.Add(ws.MergedCells[i, j]);
