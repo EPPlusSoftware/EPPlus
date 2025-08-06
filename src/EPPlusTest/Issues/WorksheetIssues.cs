@@ -852,10 +852,6 @@ namespace EPPlusTest.Issues
 				int nbLines = 10000;
 				int nbCols = 100;
 
-				//sheet.Cells["A4"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-
-				sheet.Column(4).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.LightHorizontal;
-
 				var sw = new Stopwatch();
 				sw.Start();
 
@@ -879,8 +875,13 @@ namespace EPPlusTest.Issues
 					}
 				}
 
-				var seconds = sw.Elapsed.Seconds;
+				var seconds = sw.Elapsed.TotalSeconds;
 				sw.Stop();
+
+				//seconds was ~1.7 locally in 8.0.9
+				//Made test check if over 10 seconds in case of slow appveyor
+				Assert.IsTrue(seconds < 10.0D);
+
                 SaveAndCleanup(package);
 			}
         }
