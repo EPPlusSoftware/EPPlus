@@ -527,7 +527,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                namedRange.NameFormula = fullAddress;
+                namedRange.NameFormulaNoValidation = fullAddress;
             }
 
             return namedRange;
