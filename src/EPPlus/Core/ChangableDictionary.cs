@@ -79,7 +79,7 @@ namespace OfficeOpenXml.Core
         /// To keep track of if the collection has changed. Must be increased on each change operation.
         /// </summary>
         internal int Version { get; private set; }
-        public void Add(int key, T value)
+        public virtual void Add(int key, T value)
         {
             var pos = Array.BinarySearch(_index[0], 0, _count, key);
             if (pos >= 0)
@@ -135,7 +135,7 @@ namespace OfficeOpenXml.Core
             Version=0;
         }
 
-        public bool ContainsKey(int key)
+        public virtual bool ContainsKey(int key)
         {
             if(_index[0].Length - 1 < _count)
             {
@@ -150,7 +150,7 @@ namespace OfficeOpenXml.Core
             return new ChangeableDictionaryEnumerator<T>(this);
         }
 
-        public bool RemoveAndShift(int key)
+        public virtual bool RemoveAndShift(int key)
         {
             return RemoveAndShift(key, true);
         }

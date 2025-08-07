@@ -828,6 +828,29 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(timeSpanCell.Ticks, new TimeSpan(12, 30, 45).Ticks);
             }
         }
+
+		[TestMethod]
+		public void s912_test()
+		{
+			using(var p = OpenPackage("TestLookup.xlsx",true))
+			{
+				var ws = p.Workbook.Worksheets.Add("SomeWs");
+
+				ws.Columns[1, 20].Style.Fill.SetBackground(Color.Red);
+
+                ws.Columns[15, 20].Style.Fill.SetBackground(Color.Blue);
+
+                var bgColor = ws.Columns[1, 20].Style.Fill.BackgroundColor;
+
+				ws.Cells["C14"].Value = 5;
+
+				ws.Cells[5, 19].Value = 20;
+
+
+				SaveAndCleanup(p);
+			}
+		}
+
         [TestMethod]
         public void s843()
 		{
