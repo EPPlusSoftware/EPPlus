@@ -13,6 +13,7 @@
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -26,7 +27,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 if (Formula != null)
                 {
-                    if(Formula.ExcelFormula != null)
+                    if (Formula.ExcelFormula != null)
                     {
                         Formula.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(Formula.ExcelFormula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
                     }
@@ -88,6 +89,8 @@ namespace OfficeOpenXml.Core.Worksheet
                         threeColorScale.MiddleValue.Formula = ExcelCellBase.UpdateFormulaReferences(threeColorScale.MiddleValue.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
                     }
                 }
+
+                return;
             }
 
             if (cf.IsIconSet)
@@ -99,6 +102,49 @@ namespace OfficeOpenXml.Core.Worksheet
                         var iconSet3 = (ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting3IconsSetType>)cf;
                         iconArray = iconSet3.GetIconArray();
                         break;
+                    case eExcelConditionalFormattingRuleType.FourIconSet:
+                        var iconSet4 = (ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting4IconsSetType>)cf;
+                        iconArray = iconSet4.GetIconArray();
+                        break;
+                    case eExcelConditionalFormattingRuleType.FiveIconSet:
+                        var iconSet5 = (ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting5IconsSetType>)cf;
+                        iconArray = iconSet5.GetIconArray();
+                        break;
+                }
+
+                for (int i = 0; i < iconArray.Length; i++)
+                {
+                    if (iconArray[i].Formula != null)
+                    {
+                        iconArray[i].Formula = ExcelCellBase.UpdateFormulaReferences(iconArray[i].Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+                    }
+                }
+                return;
+            }
+
+            if(cf.Type == eExcelConditionalFormattingRuleType.DataBar)
+            {
+                var dbar = cf.As.DataBar;
+                if (dbar.LowValue.Formula != null)
+                {
+                    dbar.LowValue.Formula = ExcelCellBase.UpdateFormulaReferences(dbar.LowValue.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+                }
+                if (dbar.HighValue.Formula != null)
+                {
+                    dbar.HighValue.Formula = ExcelCellBase.UpdateFormulaReferences(dbar.HighValue.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+                }
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(cf.Formula))
+            {
+                cf.Formula = ExcelCellBase.UpdateFormulaReferences(cf.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+            }
+            if (!string.IsNullOrEmpty(cf.Formula2))
+            {
+                cf.Formula2 = ExcelCellBase.UpdateFormulaReferences(cf.Formula2, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
+            }
+        }
                     case eExcelConditionalFormattingRuleType.FourIconSet:
                         var iconSet4 = (ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting3IconsSetType>)cf;
                         iconArray = iconSet4.GetIconArray();
