@@ -172,13 +172,16 @@ namespace OfficeOpenXml
         {
             throw (new ArgumentException("Name contains invalid characters or is not valid."));
         }
-            return AddFormulaNoValidation(Name, Formula);
+            var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
+            item.NameFormula = Formula;
+            AddName(Name, item);
+            return item;
         }
 
         internal ExcelNamedRange AddFormulaNoValidation(string Name, string Formula)
         {
             var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
-            item.NameFormula = Formula;
+            item.NameFormulaNoValidation = Formula;
             AddName(Name, item);
             return item;
         }

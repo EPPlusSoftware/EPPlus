@@ -1131,6 +1131,29 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void AddNamesShouldPassValidationTest()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add two worksheets
+                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
+                var sheet2 = pck.Workbook.Worksheets.Add("Sheet 2");
+                //pck.Workbook.ExternalLinks.AddExternalWorkbook(new FileInfo("c:\\temp\\arc.xlsx"));
+                var wb = pck.Workbook;
+
+                //Workbook level.
+                wb.Names.AddFormula("NameWithFormula1", "Sheet1!A1 * 'Sheet 2'!A1");
+                wb.Names.AddFormula("NameWithFormula2", "Sheet1!A1 * ('Sheet 2'!A1 + Sheet3!A4) / 'Sheet 2'!A8"); //Missing sheet3 should pass
+                wb.Names.AddFormula("NameWithFormula3", "Sheet1!A1 * ('Sheet 2'!A1 + Sheet1!Name1)");
+                wb.Names.AddFormula("NameWithFormula4", "([0]ExternalSheet1!A1 * ('Sheet 2'!A1 + Name1))+1"); //External reference.
+                wb.Names.AddFormula("NameWithFormula5", "(Sum([0]ExternalSheet1!A1:A8) - (Avg('Sheet 2'!A1:B12) + NameWithFormula1))+1"); //External reference.
+                wb.Names.AddFormula("NameWithFormula6", "Sum(#REF!) - Avg('Sheet 2'!#REF!)"); //External reference.
+
+                SaveWorkbook("NamesShouldpass.xlsx", pck);
+            }
+        }
+
 
         [TestMethod]
         public void LoadFromCollectionTest()

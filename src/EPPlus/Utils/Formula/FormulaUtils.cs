@@ -17,7 +17,6 @@ namespace OfficeOpenXml.Utils.Formula
         /// <exception cref="InvalidFormulaException">If worksheet is null and a cell address is found this method will throw this exception. Setting worksheet to null could be useful for checking validity of formulas on workbook.</exception>
         internal static string AddWorksheetReferenceToFormula(string formula, ExcelWorksheet ws, bool allowRelativeAddress = false)
         {
-            bool isWsNull = ws == null ? true : false;
             var tokens = SourceCodeTokenizer.Default.Tokenize(formula);
             Dictionary<int, Token> addresses = new Dictionary<int, Token>();
             List<Token> fixedTokens = new List<Token>();
@@ -39,7 +38,6 @@ namespace OfficeOpenXml.Utils.Formula
                 }
                 if (tokens[i].TokenType == TokenType.CellAddress)
                 {
-                    if (isWsNull) throw new InvalidFormulaException("Formula with cell address must have a worksheet.");
                     if (i == 0)
                     {
                         addresses.Add(i, tokens[i]);
