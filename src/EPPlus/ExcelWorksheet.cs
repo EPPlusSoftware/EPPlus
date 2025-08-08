@@ -2278,7 +2278,6 @@ namespace OfficeOpenXml
         public void DeleteColumn(int columnFrom, int columns)
         {
             WorksheetRangeDeleteHelper.DeleteColumn(this, columnFrom, columns);
-            ColumnLookup.RemoveAndShift(columnFrom);
         }
 #endregion
         /// <summary>
@@ -3692,7 +3691,7 @@ namespace OfficeOpenXml
 
             if(row == 0 && value is ExcelColumn)
             {
-                ColumnLookup.TryAddOrUpdateColumn(col, (ExcelColumn)value);
+                ColumnLookup.UpdateColumn(col, (ExcelColumn)value);
             }
         }
         internal void SetValueInner(int fromRow, int fromCol, int toRow, int toCol, object value)
@@ -3759,7 +3758,7 @@ namespace OfficeOpenXml
                 var colValue = GetColumn(col);
                 if (colValue != null)
                 {
-                    ColumnLookup.TryAddOrUpdateColumn(col, colValue);
+                    ColumnLookup.UpdateColumn(col, colValue);
                 }
             }
         }

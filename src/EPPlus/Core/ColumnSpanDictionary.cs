@@ -129,9 +129,16 @@ namespace OfficeOpenXml.Core
             return columnValue != null;
         }
 
-        internal void TryAddOrUpdateColumn(int col, ExcelColumn columnValue)
+        internal void UpdateColumn(int col, ExcelColumn columnValue)
         {
-            if(!TryGetExcelColumn(col, out ExcelColumn existingCol))
+            if(TryGetExcelColumn(col, out ExcelColumn existingCol))
+            {
+                RemoveAndShift(existingCol.ColumnMin);
+                Add(columnValue.ColumnMin, (T)columnValue);
+                //InsertAndShift(columnValue.ColumnMin, 1);
+                //this[existingCol.ColumnMin] = (T)columnValue;
+            }
+            else
             {
                 Add(columnValue.ColumnMin, (T)columnValue);
             }
