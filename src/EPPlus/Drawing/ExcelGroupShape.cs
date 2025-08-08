@@ -119,7 +119,11 @@ namespace OfficeOpenXml.Drawing
             else if (d._drawings._collectionType == DrawingsCollectionType.Chart)
             {
                 if (d is not ExcelGroupShape)
+                {
                     d.RemoveFromToNodes();
+                    d.Position = new ExcelDrawingCoordinate(d.NameSpaceManager, d.TopNode, d.GetPositionSize);
+                    d.Size = new ExcelDrawingSize(d.NameSpaceManager, d.TopNode, d.GetPositionSize);
+                }
             }
 
             node.ParentNode.RemoveChild(node);
