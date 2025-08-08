@@ -837,8 +837,8 @@ namespace EPPlusTest.Issues
 				var ws = p.Workbook.Worksheets.Add("SomeWs");
 
 				ws.Columns[1, 20].Style.Fill.SetBackground(Color.Red);
-
-                ws.Columns[15, 20].Style.Fill.SetBackground(Color.Blue);
+				var colRange = ws.Columns[15, 20];
+                colRange.Style.Fill.SetBackground(Color.Blue);
 
                 var bgColor = ws.Columns[1, 20].Style.Fill.BackgroundColor;
 
@@ -846,8 +846,9 @@ namespace EPPlusTest.Issues
 
 				ws.Cells[5, 19].Value = 20;
 
+				ws.Cells[21, 19].Value = 2;
 
-				SaveAndCleanup(p);
+                SaveAndCleanup(p);
 			}
 		}
 

@@ -3690,11 +3690,9 @@ namespace OfficeOpenXml
             }
 
 
-            if (row == 0)
+            if(row == 0 && value is ExcelColumn)
             {
-                var colValue = GetColumn(col);
-
-                ColumnLookup.TryAddOrUpdateColumn(col, colValue);
+                ColumnLookup.TryAddOrUpdateColumn(col, (ExcelColumn)value);
             }
         }
         internal void SetValueInner(int fromRow, int fromCol, int toRow, int toCol, object value)
@@ -3758,13 +3756,10 @@ namespace OfficeOpenXml
             }
             if(row == 0)
             {
-                if(ColumnLookup.ContainsKey(col))
+                var colValue = GetColumn(col);
+                if (colValue != null)
                 {
-                    ColumnLookup[col] = GetColumn(col);
-                }
-                else
-                {
-                    ColumnLookup.Add(col,GetColumn(col));
+                    ColumnLookup.TryAddOrUpdateColumn(col, colValue);
                 }
             }
         }

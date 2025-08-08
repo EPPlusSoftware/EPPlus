@@ -58,17 +58,46 @@ namespace OfficeOpenXml.Core
 
         internal int FindInternalIndex(int col)
         {
+            int closestIndex = -1;
+
+            if(_items.Count <= 0)
+            {
+                return closestIndex;
+            }
+
             var columnIndex = Array.BinarySearch(_index[0], 0, _count, col);
 
-            int closestIndex = -1;
-            if (columnIndex < 0)
+            var indexExists = columnIndex >= 0;
+            var indexNotFound = columnIndex < 0;
+
+            if (indexNotFound)
             {
                 var inverted = ~columnIndex;
+
+                bool indexBetweenTwoColMin = inverted < _items.Count && inverted > 0;
+                bool indexLargerThanLargestColMin = inverted >= _items.Count;
+
+                if (indexBetweenTwoColMin || indexLargerThanLargestColMin)
+                {
+                    /*
+                     * In Array.Binary search:
+                     * "If value is not found and value is less than one or more elements in array;
+                     * the negative number returned is the bitwise complement of the index of the first element that is larger than value"
+                     * And since we store based on colMin. It will find the index above the one we want.
+                     * 
+                     * Similarily even if we are larger than the largest colMin the colMax could still be larger
+                     */
+                    inverted -= 1;
+                }
+           
                 if (inverted < _index[1].Length - 1)
                 {
                     closestIndex = _index[1][inverted];
                 }
-                //if inverted is less than collection maximum it does not exist. index is already -1.
+                else
+                {
+                    //if inverted is less than collection maximum it does not exist. index is already -1.
+                }
             }
             else
             {
@@ -102,11 +131,7 @@ namespace OfficeOpenXml.Core
 
         internal void TryAddOrUpdateColumn(int col, ExcelColumn columnValue)
         {
-            if (TryGetExcelColumn(col, out ExcelColumn existingCol))
-            {
-                this[existingCol.ColumnMin] = (T)columnValue;
-            }
-            else
+            if(!TryGetExcelColumn(col, out ExcelColumn existingCol))
             {
                 Add(columnValue.ColumnMin, (T)columnValue);
             }
