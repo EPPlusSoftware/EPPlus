@@ -185,7 +185,7 @@ namespace OfficeOpenXml.Drawing.Theme
         private void ResetDrawingNormalStyle()
         {
 
-            _wb.MaxFontWidth = double.MaxValue;
+            _wb.MaxFontWidth = double.MinValue;
             foreach(var ws in _wb.Worksheets)
             {
                 ws.DefaultRowHeight = double.NaN;

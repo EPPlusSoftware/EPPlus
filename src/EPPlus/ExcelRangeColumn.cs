@@ -714,6 +714,7 @@ namespace OfficeOpenXml
 
             var srcCellValues = _worksheet.Cells[1, StartColumn, _worksheet.Dimension.End.Row, EndColumn];
             var destCellValues = destWs.Cells[1, destinationColumnRange.StartColumn, _worksheet.Dimension.End.Row, destinationColumnRange.EndColumn];
+            srcCellValues.Copy(destCellValues, ExcelRangeCopyOptionFlags.IncludeFullColumn);
         }
 
         /// <summary>

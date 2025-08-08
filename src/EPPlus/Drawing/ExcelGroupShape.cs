@@ -470,13 +470,16 @@ namespace OfficeOpenXml.Drawing
             }
             else if (_collectionType == DrawingsCollectionType.Chart)
             {
-                long l = Drawings[0].Position.X, t = Drawings[0].Position.Y, r = Drawings[0].Position.X + Drawings[0].Size.Width, b = Drawings[0].Position.Y + Drawings[0].Size.Height;
+                long l, t, r, b;
+                GetDrawingBoundries(out l, out t, out r, out b);
+
                 foreach (var d in Drawings)
                 {
-                    l = Math.Min(l, d.Position.X);
-                    t = Math.Min(t, d.Position.Y);
-                    r = Math.Max(r, d.Position.X + d.Size.Width);
-                    b = Math.Max(b, d.Position.Y + d.Size.Height);
+                    GetDrawingBoundries(out long dl, out long dt, out long dr, out long db);
+                    l = Math.Min(l, dl);
+                    t = Math.Min(t, dt);
+                    r = Math.Max(r, dr);
+                    b = Math.Max(b, db);
                 }
                 long w = r - l;
                 long h = b - t;
@@ -514,6 +517,25 @@ namespace OfficeOpenXml.Drawing
             }
 
         }
+
+        private void GetDrawingBoundries(out long l, out long t, out long r, out long b)
+        {
+            if (Drawings[0]._frmXPosition == null)
+            {
+                l = Drawings[0].GetPixelLeft() * EMU_PER_PIXEL;
+                t = Drawings[0].GetPixelTop() * EMU_PER_PIXEL;
+                r = l + ((long)Drawings[0].GetPixelWidth() * EMU_PER_PIXEL);
+                b = t + ((long)Drawings[0].GetPixelHeight() * EMU_PER_PIXEL);
+            }
+            else
+            {
+                l = Drawings[0]._frmXPosition.X;
+                t = Drawings[0]._frmXPosition.Y;
+                r = Drawings[0]._frmXPosition.X + Drawings[0]._frmXSize.Width;
+                b = Drawings[0]._frmXPosition.Y + Drawings[0]._frmXSize.Height;
+            }
+        }
+
         internal void AdjustChildrenForResizeRow(double prevTop)
         {
             var top = GetPixelTop();

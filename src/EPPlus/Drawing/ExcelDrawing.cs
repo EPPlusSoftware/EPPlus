@@ -75,8 +75,8 @@ namespace OfficeOpenXml.Drawing
         internal static string[] NamespacePrefixes = { "xdr", "cdr" };
         internal readonly int _prefixIndex = 0;
         internal readonly DrawingsCollectionType _collectionType;
-        internal ExcelDrawingCoordinate frmXPosition;
-        internal ExcelDrawingSize frmXSize;
+        internal ExcelDrawingCoordinate _frmXPosition;
+        internal ExcelDrawingSize _frmXSize;
         internal ExcelDrawing(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent = null, DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet) :
             base(drawings.NameSpaceManager, node)
         {
@@ -857,7 +857,7 @@ namespace OfficeOpenXml.Drawing
                     return Size.Width / EMU_PER_PIXEL;
                 }
                 return (To.X - From.X) * _drawings._screenWidth;
-                //return frmXSize.Width / EMU_PER_PIXEL;
+                //return _frmXSize.Width / EMU_PER_PIXEL;
             }
             if (CellAnchor == eEditAs.TwoCell)
             {
@@ -1157,8 +1157,8 @@ namespace OfficeOpenXml.Drawing
             AdjustFromToXY(x, y);
             var left = (int)(From.X * _drawings._screenWidth) * EMU_PER_PIXEL;
             var top = (int)(From.Y * _drawings._screenHeight) * EMU_PER_PIXEL;
-            frmXPosition.X = left;
-            frmXPosition.Y = top;
+            _frmXPosition.X = left;
+            _frmXPosition.Y = top;
             UpdatePositionAndSizeXml();
         }
 
@@ -1427,8 +1427,8 @@ namespace OfficeOpenXml.Drawing
             //To.Y = y;
             //To.X = x;
             //AdjustFromToXY(From.X, From.Y);
-            frmXSize.Width = PixelWidth * EMU_PER_PIXEL;
-            frmXSize.Height = PixelHeight * EMU_PER_PIXEL;
+            _frmXSize.Width = PixelWidth * EMU_PER_PIXEL;
+            _frmXSize.Height = PixelHeight * EMU_PER_PIXEL;
             if (Size == null)
             {
                 To.X = (From.X + PixelWidth / _drawings._screenWidth);
@@ -1436,8 +1436,8 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                Size.Width = frmXSize.Width;
-                Size.Height = frmXSize.Height;
+                Size.Width = _frmXSize.Width;
+                Size.Height = _frmXSize.Height;
             }
         }
 
@@ -1619,8 +1619,8 @@ namespace OfficeOpenXml.Drawing
             Position?.UpdateXml();
             if(_collectionType==DrawingsCollectionType.Chart)
             {
-                frmXPosition?.UpdateXml();
-                frmXSize?.UpdateXml();
+                _frmXPosition?.UpdateXml();
+                _frmXSize?.UpdateXml();
             }
         }
 

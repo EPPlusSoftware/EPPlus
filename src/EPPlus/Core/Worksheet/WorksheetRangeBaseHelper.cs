@@ -122,7 +122,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 return;
             }
 
-            if(cf.Type == eExcelConditionalFormattingRuleType.DataBar)
+            if (cf.Type == eExcelConditionalFormattingRuleType.DataBar)
             {
                 var dbar = cf.As.DataBar;
                 if (dbar.LowValue.Formula != null)
@@ -134,34 +134,6 @@ namespace OfficeOpenXml.Core.Worksheet
                     dbar.HighValue.Formula = ExcelCellBase.UpdateFormulaReferences(dbar.HighValue.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
                 }
                 return;
-            }
-
-            if (!string.IsNullOrEmpty(cf.Formula))
-            {
-                cf.Formula = ExcelCellBase.UpdateFormulaReferences(cf.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
-            }
-            if (!string.IsNullOrEmpty(cf.Formula2))
-            {
-                cf.Formula2 = ExcelCellBase.UpdateFormulaReferences(cf.Formula2, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
-            }
-        }
-                    case eExcelConditionalFormattingRuleType.FourIconSet:
-                        var iconSet4 = (ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting3IconsSetType>)cf;
-                        iconArray = iconSet4.GetIconArray();
-                        break;
-                    case eExcelConditionalFormattingRuleType.FiveIconSet:
-                        var iconSet5 = (ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting3IconsSetType>)cf;
-                        iconArray = iconSet5.GetIconArray();
-                        break;
-                }
-
-                for (int i = 0; i < iconArray.Length; i++)
-                {
-                    if (iconArray[i].Formula != null)
-                    {
-                        iconArray[i].Formula = ExcelCellBase.UpdateFormulaReferences(cf.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
-                    }
-                }
             }
 
             if (!string.IsNullOrEmpty(cf.Formula))
