@@ -747,6 +747,8 @@ namespace OfficeOpenXml
                     var xfs = styles.CellXfs[cse.Value._styleId];
                     var f = styles.Fonts[xfs.FontId];
                     double rh;
+                    
+                    
                     if (_textHeights.ContainsKey(cse.Value._styleId))
                     {
                         rh = _textHeights[cse.Value._styleId];
@@ -2558,6 +2560,12 @@ namespace OfficeOpenXml
 
                 if (c is ExcelChartStandard cs && cs.Drawings.Part != null)
                 {
+                    foreach (var cd in cs.Drawings)
+                    {
+                        cd.UpdatePositionAndSizeXml();
+                        HandleSaveForIndividualDrawings(cd, hasLoadedPivotTables); //Handle group shapes.
+                    }
+
                     var xrd = new XmlTextWriter(cs.Drawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
                     xrd.Formatting = Formatting.None;
                     cs.Drawings.DrawingXml.Save(xrd);

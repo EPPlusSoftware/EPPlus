@@ -21,11 +21,12 @@ namespace OfficeOpenXml.Drawing
     {
         internal delegate void SetWidthCallback();
         SetWidthCallback _setWidthCallback;
-        internal ExcelDrawingSize(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback=null) :
+        int excelDrawingsType = 0;
+        internal ExcelDrawingSize(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback=null, int DrawingsType = 0) :
             base (ns,node)
         {
-
             _setWidthCallback = setWidthCallback;
+            excelDrawingsType = DrawingsType;
             Load();
         }
 
@@ -39,6 +40,10 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         public void UpdateXml()
         {
+            if(excelDrawingsType == 1)
+            {
+                excelDrawingsType = excelDrawingsType;
+            }
             SetXmlNodeString(colOffPath, _height.ToString());
             SetXmlNodeString(rowOffPath, _width.ToString());
         }

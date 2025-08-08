@@ -1919,7 +1919,8 @@ namespace EPPlusTest
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            ws.HeaderFooter.OddHeader.LeftAligned.AddText("Page: ");
+            
+            var t = ws.HeaderFooter.OddHeader.LeftAligned.AddText("Page: ");
             ws.HeaderFooter.OddHeader.LeftAligned.AddPageNumber();
             ws.HeaderFooter.OddHeader.LeftAligned.AddText(" of ");
             ws.HeaderFooter.OddHeader.LeftAligned.AddNumberOfPages();

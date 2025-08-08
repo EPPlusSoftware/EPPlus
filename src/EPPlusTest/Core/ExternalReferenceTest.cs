@@ -110,7 +110,6 @@ namespace EPPlusTest.Core
             Assert.AreEqual(3D, ws.Cells["E10"].Value);
             Assert.AreEqual(19D, ws.Cells["F10"].Value);
         }
-
         [TestMethod]
         public void DeleteExternalLink()
         {
@@ -483,7 +482,7 @@ namespace EPPlusTest.Core
 
             var p2 = OpenTemplatePackage("CopyFillTest.xlsx");
 
-            var ewb = wb.ExternalLinks.AddExternalWorkbook(p2.File);
+            var ewb = wb.ExternalLinks.AddExternalWorkbook(p2.File);            
             ewb.IsPathRelative = false;
             SaveWorkbook("AbsolutePathTest.xlsx", p);
         }
