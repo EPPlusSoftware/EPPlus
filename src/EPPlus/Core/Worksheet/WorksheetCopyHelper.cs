@@ -125,14 +125,14 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 CopySheetNames(sourceWorksheet, targetWorksheet);
             }
-            if(sourceWorksheet.DataValidations.Count > 0) 
+            if (sourceWorksheet.DataValidations.Count > 0)
             {
-                foreach(ExcelDataValidation dv in sourceWorksheet.DataValidations)
+                foreach (ExcelDataValidation dv in sourceWorksheet.DataValidations)
                 {
                     targetWorksheet.DataValidations.AddCopyOfDataValidation(dv, targetWorksheet);
                 }
             }
-            if(sourceWorksheet.ConditionalFormatting.Count > 0)
+            if (sourceWorksheet.ConditionalFormatting.Count > 0)
             {
                 for (int i = 0; i < sourceWorksheet.ConditionalFormatting.Count; i++)
                 {
@@ -920,35 +920,49 @@ namespace OfficeOpenXml.Core.Worksheet
                     newName = added.Names.AddValue(name.Name, name.Value);
                 }
                 newName.NameComment = name.NameComment;
+                newName.IsNameHidden = name.IsNameHidden;
             }
 
-            //Copy relevant names from workbook.
-            foreach (var name in Copy.Workbook.Names)
+            //Copy relevant names from workbook. If in the names are in the same workbook, copy the name to the target worksheet
+            var Names = Copy.Workbook.Names.ToList();
+            foreach (var name in Names)
             {
                 ExcelNamedRange wbName;
                 if (name.Worksheet == Copy)
                 {
-                    wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                    if (added.Workbook == name.Worksheet.Workbook)
+                    {
+                        wbName = added.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                        wbName.ChangeWorksheet(added.Name, added.Name);
+                    }
+                    else
+                    {
+                        wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                    }
                     wbName.NameComment = name.NameComment;
+                    wbName.IsNameHidden = name.IsNameHidden;
                 }
             }
             //Copy names from formulas.
-            var formulaEnumerator = new CellStoreEnumerator<object>(Copy._formulas);
-            var nameLookup = Copy.Workbook.Names.Where(name => name != null).ToDictionary(name => name.Name, name => name);
-            while (formulaEnumerator.Next())
+            if (added.Workbook != Copy.Workbook)
             {
-                var v = formulaEnumerator.Value;
-                string formula;
-                if (v is int vkey)
+                var formulaEnumerator = new CellStoreEnumerator<object>(Copy._formulas);
+                var nameLookup = Copy.Workbook.Names.Where(name => name != null).ToDictionary(name => name.Name, name => name);
+                while (formulaEnumerator.Next())
                 {
-                    Copy._sharedFormulas.TryGetValue(vkey, out SharedFormula sharedFormula);
-                    formula = sharedFormula.Formula;
-                    CopyWorkbookNames(formula, nameLookup, added, Copy);
-                }
-                else
-                {
-                    formula = v.ToString();
-                    CopyWorkbookNames(formula, nameLookup, added, Copy);
+                    var v = formulaEnumerator.Value;
+                    string formula;
+                    if (v is int vkey)
+                    {
+                        Copy._sharedFormulas.TryGetValue(vkey, out SharedFormula sharedFormula);
+                        formula = sharedFormula.Formula;
+                        CopyWorkbookNames(formula, nameLookup, added, Copy);
+                    }
+                    else
+                    {
+                        formula = v.ToString();
+                        CopyWorkbookNames(formula, nameLookup, added, Copy);
+                    }
                 }
             }
         }
@@ -977,6 +991,7 @@ namespace OfficeOpenXml.Core.Worksheet
                             wbName = added.Workbook.Names.AddValue(name.Name, name.Value);
                         }
                         wbName.NameComment = name.NameComment;
+                        wbName.IsNameHidden = name.IsNameHidden;
                     }
                 }
             }
