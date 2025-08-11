@@ -6337,5 +6337,96 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void AnchorArray_DynamicArrayFormula_Single()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("AnchorDynamic");
+
+                //Set formulas that will produce value
+                ws.Cells["E4"].Formula = "SUM(2+2)";
+                ws.Cells["G4"].Formula = "HSTACK($E$4)";
+
+                //Set AnchorArray on single cells
+                ws.Cells["C3"].Formula = "ANCHORARRAY(E4)";
+                ws.Cells["C4"].Formula = "ANCHORARRAY(G4)";
+
+                //Single Cell Formulas with AnchorArray should return value after lookup
+                ws.Calculate();
+
+                Assert.AreEqual(4d, ws.Cells["C3"].Value);
+                Assert.AreEqual(4d, ws.Cells["C4"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void SumIfsShouldHandle_DynamicArrayCriteria_Range()
+        {
+            using (var package = OpenPackage("SumIfsTest.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("sumIfsArrayRange");
+
+                ws.Cells["F3"].Formula = "VSTACK({1,2,3,11,12,13,25,26,27},{1,56,67,99,203})";
+                ws.Cells["B20"].Formula = "VSTACK(HSTACK({\"<10\",\">99\"}),{\">26\",\"<11\"})";
+                ws.Cells["D6"].Formula = "SUMIFS(ANCHORARRAY(F3),ANCHORARRAY(F3),CHOOSECOLS(ANCHORARRAY($B$20),2))";
+
+                ws.Calculate();
+
+                Assert.AreEqual(203d, ws.Cells["D6"].Value);
+                Assert.AreEqual(7d, ws.Cells["D7"].Value);
+
+                //Assert.AreEqual(203d, ws.Cells["E6"].Value);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void SumIfTest()
+        {
+            using (var p = OpenTemplatePackage("TestCase.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var chooseCols1 = ws.Cells["I1"];
+                var chooseCols2 = ws.Cells["S1"];
+
+                //chooseCols1.Formula = "CHOOSECOLS(ANCHORARRAY($A$12),2)";
+                //chooseCols2.Formula = "CHOOSECOLS(ANCHORARRAY($A$12),4)";
+
+                //chooseCols1.Calculate();
+                //chooseCols2.Calculate();
+
+                //ws.Cells["A12"].Calculate();
+
+                //var val1 = chooseCols1.Value;
+                //var val2 = chooseCols2.Value;
+
+                //var val3 = ws.Cells["I2"].Value;
+                //var val4 = ws.Cells["S2"].Value;
+
+                //var targetCell = ws.Cells["F5"];
+                //targetCell.Calculate();
+
+                var cell = ws.Cells["F5"];
+                //cell.Formula = "LEFT(CHOOSECOLS(ANCHORARRAY($A$12),3))";
+                //ws.Cells["K5"].Formula = "CHOOSECOLS(ANCHORARRAY($A$12),3)";
+                //ws.Cells["K5"].Calculate();
+                //cell.Formula = "SUMIFS(Sheet2!$R$12:$R$1048576,Sheet2!$B$12:$B$1048576,CHOOSECOLS(ANCHORARRAY($A$12),2))";
+                cell.Calculate(o => o.EnableUnicodeAwareStringOperations = true);
+
+                var val12 = cell.Value;
+                var val22 = ws.Cells["F6"].Value;
+                var val32 = ws.Cells["K5"].Value;
+
+                var sometxt = "help";
+
+                SaveAndCleanup(p);
+
+                //var newVal = targetCell.Value;
+            }
+        }
+
     }
 }
