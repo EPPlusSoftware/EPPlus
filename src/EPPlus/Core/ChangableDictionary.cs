@@ -57,15 +57,24 @@ namespace OfficeOpenXml.Core
             }
         }
 
-        internal void InsertAndShift(int fromPosition, int add)
+        internal virtual void InsertAndShift(int fromPosition, int add)
         {
             var pos = Array.BinarySearch(_index[0], 0, _count, fromPosition);
-            if(pos<0)
+
+            if (pos >= _index[0].Length - 1)
+            {
+                Array.Resize(ref _index[0], _index[0].Length << 1);
+                Array.Resize(ref _index[1], _index[1].Length << 1);
+            }
+
+            if (pos<0)
             {
                 pos = ~pos;
             }
+
             Array.Copy(_index[0], pos, _index[0], pos + 1, _count - pos);
             Array.Copy(_index[1], pos, _index[1], pos + 1, _count - pos);
+
             _count++;
             for (int i=pos;i<Count;i++)
             {
@@ -78,7 +87,7 @@ namespace OfficeOpenXml.Core
         /// <summary>
         /// To keep track of if the collection has changed. Must be increased on each change operation.
         /// </summary>
-        internal int Version { get; private set; }
+        internal int Version { get; set; }
         public virtual void Add(int key, T value)
         {
             var pos = Array.BinarySearch(_index[0], 0, _count, key);
@@ -154,7 +163,7 @@ namespace OfficeOpenXml.Core
         {
             return RemoveAndShift(key, true);
         }
-        private bool RemoveAndShift(int key, bool dispose)
+        internal bool RemoveAndShift(int key, bool dispose)
         {
             var pos = Array.BinarySearch(_index[0], 0, _count, key);
             if (pos >= 0)

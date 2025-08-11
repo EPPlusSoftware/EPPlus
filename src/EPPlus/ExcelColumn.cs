@@ -39,7 +39,7 @@ namespace OfficeOpenXml
             _width = _worksheet.DefaultColWidth;
         }
 		#endregion
-        internal int _columnMin;
+        private int _columnMin;
 		/// <summary>
 		/// Sets the first column the definition refers to.
 		/// </summary>
@@ -75,6 +75,24 @@ namespace OfficeOpenXml
                 _columnMax = value; 
             } 
 		}
+
+        //Internal for delete/insert operations
+        internal void InternalColMinSetter(int colMin)
+        {
+            //if(_worksheet != null)
+            //{
+            //    if(_worksheet.ColumnLookup != null)
+            //    {
+            //        _worksheet.ColumnLookup.UpdateDictPositions(_columnMin, colMin);
+            //    }
+            //}
+            _columnMin = colMin;
+        }
+        //Internal for delete/insert operations
+        internal void InternalColMaxSetter(int colMax)
+        {
+            _columnMax = colMax;
+        }
         /// <summary>
         /// Internal range id for the column
         /// </summary>

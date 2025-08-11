@@ -848,7 +848,13 @@ namespace EPPlusTest.Issues
 
 				ws.Cells[21, 19].Value = 2;
 
-                SaveAndCleanup(p);
+				//ws.DeleteColumn(2);
+
+				//ws.Cells[21, 19].Value = "Where 2 used to be";
+
+				//ws.Cells[21, 19].Style.Fill.SetBackground(Color.Green);
+
+				SaveAndCleanup(p);
 			}
 		}
 

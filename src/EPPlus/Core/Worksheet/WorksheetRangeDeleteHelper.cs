@@ -16,6 +16,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Sparkline;
@@ -100,7 +101,7 @@ namespace OfficeOpenXml.Core.Worksheet
 				ws.Drawings.ReadPositionsAndSize();
 				AdjustColumnMinMaxDelete(ws, columnFrom, columns);
                 var delRange = new ExcelAddressBase(1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1);
-                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, delRange, false);
+                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, delRange,false);
 
                 DeleteCellStores(ws, 0, columnFrom, 0, columns);
 
@@ -200,24 +201,25 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (column.ColumnMin > toCol)
                     {
-                        column._columnMin -= columns;
-                        if (column._columnMax < ExcelPackage.MaxColumns)
+                        column.InternalColMinSetter(column.ColumnMin - columns);
+                        if (column.ColumnMax < ExcelPackage.MaxColumns)
                         {
-                            column._columnMax -= columns;
+                            column.InternalColMaxSetter(column.ColumnMax - columns);
                         }
                     }
                     else if (column.ColumnMax > toCol)
                     {
-                        if (column._columnMax < ExcelPackage.MaxColumns)
+                        if (column.ColumnMax < ExcelPackage.MaxColumns)
                         {
-                            column._columnMax -= columns;
+                            column.InternalColMaxSetter(column.ColumnMax - columns);
                         }
-                        if (column._columnMin > columnFrom) column._columnMin = columnFrom;
+                        if (column.ColumnMin > columnFrom) column.InternalColMinSetter(columnFrom);
                         moveValue = cse.Value;
                     }
                 }
             }
             if (moveValue._styleId != int.MaxValue) ws._values.SetValue(0, toCol + 1, moveValue);
+            ws.ColumnLookup.UpdateDeletedPositions(columnFrom, columns);
         }
 
         private static void ValidateRow(ExcelWorksheet ws, int rowFrom, int rows, int columnFrom = 1, int columns = ExcelPackage.MaxColumns)
@@ -302,10 +304,10 @@ namespace OfficeOpenXml.Core.Worksheet
                 if (column is ExcelColumn)
                 {
                     var c = (ExcelColumn)column;
-                    if (c._columnMin >= columnFrom)
+                    if (c.ColumnMin >= columnFrom)
                     {
-                        c._columnMin += columns;
-                        c._columnMax += columns;
+                        c.InternalColMinSetter(c.ColumnMin + columns);
+                        c.InternalColMaxSetter(c.ColumnMax + columns);
                     }
                 }
 

@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
@@ -131,18 +132,89 @@ namespace OfficeOpenXml.Core
 
         internal void UpdateColumn(int col, ExcelColumn columnValue)
         {
-            if(TryGetExcelColumn(col, out ExcelColumn existingCol))
+            var pos = Array.BinarySearch(_index[0], 0, _count, col);
+            if (pos < 0)
             {
-                RemoveAndShift(existingCol.ColumnMin);
                 Add(columnValue.ColumnMin, (T)columnValue);
-                //InsertAndShift(columnValue.ColumnMin, 1);
-                //this[existingCol.ColumnMin] = (T)columnValue;
             }
-            else
+            //if(!TryGetExcelColumn(col, out ExcelColumn existingCol))
+            //{
+            //    Add(columnValue.ColumnMin, (T)columnValue);
+            //    //this[col] = (T)columnValue;
+            //    //Add(columnValue.ColumnMin, (T)columnValue);
+            //}
+            //else
+            //{
+            //    Add(columnValue.ColumnMin, (T)columnValue);
+            //}
+        }
+
+        internal void UpdateDeletedPositions(int columnFrom, int columnTo)
+        {
+            //List<int> indexesToDelete = new List<int>();
+            for (int i = columnTo; i > columnFrom; i--)
             {
-                Add(columnValue.ColumnMin, (T)columnValue);
+                var index = FindInternalIndex(i);
+                if(index > -1)
+                {
+                    RemoveAndShift(index, false);
+                }
             }
         }
+        ////ExcelColumn is updated via GetValueInner changes but the positions remain unchanged.
+        ////Ensure positions have changed if ColumnMin has
+        //internal void UpdateDictPositions(int oldMin, int newMin)
+        //{
+        //    var index = FindInternalIndex(oldMin);
+        //    if (index != -1)
+        //    {
+        //        if (newMin < oldMin)
+        //        {
+        //            InsertAndShift(newMin, newMin - oldMin);
+        //            RemoveAndShift(oldMin, false);
+        //            index--;
+        //        }
+        //        else
+        //        {
+        //            RemoveAndShift(oldMin, false);
+        //            InsertAndShift(newMin, newMin - oldMin);
+        //        }
+        //        _index[0][index] = newMin;
+        //        Version++;
+
+        //        //Move(index,)
+        //        //_index[0][index] = newMin;
+        //        //Move(index,newMin, oldMin < newMin);
+        //        //if (newMin < oldMin)
+        //        //{
+        //        //    InsertAndShift(newMin, newMin - oldMin);
+        //        //    RemoveAndShift(oldMin,false);
+        //        //    //insertPos--;
+        //        //}
+        //        //else
+        //        //{
+        //        //    RemoveAndShift(oldMin, false);
+        //        //    InsertAndShift(newMin, newMin - oldMin);
+        //        //}
+        //        //////Move(oldMin,newMin,)
+        //        ////RemoveAndShift(oldMin);
+        //        ////InsertAndShift(newMin, newMin - oldMin);
+        //        //if(Count > _index[0].Length -1)
+        //        //{
+        //        //    Array.Resize(ref _index[0], _index[0].Length << 1);
+        //        //    Array.Resize(ref _index[1], _index[1].Length << 1);
+        //        //}
+        //        //if(Count >= _index[0].Length - 1)
+        //        //{
+
+        //        //}
+        //    }
+        //    //var colExists = TryGetExcelColumn(oldMin, out ExcelColumn existingCol);
+        //    //if (colExists)
+        //    //{
+        //    //    FindInternalIndex(oldMin);
+        //    //}
+        //}
 
         //public override bool RemoveAndShift(int key)
         //{
