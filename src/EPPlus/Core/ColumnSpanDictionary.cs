@@ -130,6 +130,12 @@ namespace OfficeOpenXml.Core
             return columnValue != null;
         }
 
+        /// <summary>
+        /// Note: "Update" really just means "Add if does not exist"
+        /// This as the ExcelColumn value is a reference and updates automatically.
+        /// </summary>
+        /// <param name="col"></param>
+        /// <param name="columnValue"></param>
         internal void UpdateColumn(int col, ExcelColumn columnValue)
         {
             var pos = Array.BinarySearch(_index[0], 0, _count, col);
@@ -137,21 +143,12 @@ namespace OfficeOpenXml.Core
             {
                 Add(columnValue.ColumnMin, (T)columnValue);
             }
-            //if(!TryGetExcelColumn(col, out ExcelColumn existingCol))
-            //{
-            //    Add(columnValue.ColumnMin, (T)columnValue);
-            //    //this[col] = (T)columnValue;
-            //    //Add(columnValue.ColumnMin, (T)columnValue);
-            //}
-            //else
-            //{
-            //    Add(columnValue.ColumnMin, (T)columnValue);
-            //}
         }
-
+        /// On insert/delete the positions update After the cell values have been inserted/deleted to final positions.
+        /// Using This method for deletions and the standard InsertAndShift after inserts.
         internal void UpdateDeletedPositions(int columnFrom, int columnTo)
         {
-            //List<int> indexesToDelete = new List<int>();
+            //Iterate and delete backwards so that columns further down need not be updated.
             for (int i = columnTo; i > columnFrom; i--)
             {
                 var index = FindInternalIndex(i);
@@ -161,135 +158,5 @@ namespace OfficeOpenXml.Core
                 }
             }
         }
-        ////ExcelColumn is updated via GetValueInner changes but the positions remain unchanged.
-        ////Ensure positions have changed if ColumnMin has
-        //internal void UpdateDictPositions(int oldMin, int newMin)
-        //{
-        //    var index = FindInternalIndex(oldMin);
-        //    if (index != -1)
-        //    {
-        //        if (newMin < oldMin)
-        //        {
-        //            InsertAndShift(newMin, newMin - oldMin);
-        //            RemoveAndShift(oldMin, false);
-        //            index--;
-        //        }
-        //        else
-        //        {
-        //            RemoveAndShift(oldMin, false);
-        //            InsertAndShift(newMin, newMin - oldMin);
-        //        }
-        //        _index[0][index] = newMin;
-        //        Version++;
-
-        //        //Move(index,)
-        //        //_index[0][index] = newMin;
-        //        //Move(index,newMin, oldMin < newMin);
-        //        //if (newMin < oldMin)
-        //        //{
-        //        //    InsertAndShift(newMin, newMin - oldMin);
-        //        //    RemoveAndShift(oldMin,false);
-        //        //    //insertPos--;
-        //        //}
-        //        //else
-        //        //{
-        //        //    RemoveAndShift(oldMin, false);
-        //        //    InsertAndShift(newMin, newMin - oldMin);
-        //        //}
-        //        //////Move(oldMin,newMin,)
-        //        ////RemoveAndShift(oldMin);
-        //        ////InsertAndShift(newMin, newMin - oldMin);
-        //        //if(Count > _index[0].Length -1)
-        //        //{
-        //        //    Array.Resize(ref _index[0], _index[0].Length << 1);
-        //        //    Array.Resize(ref _index[1], _index[1].Length << 1);
-        //        //}
-        //        //if(Count >= _index[0].Length - 1)
-        //        //{
-
-        //        //}
-        //    }
-        //    //var colExists = TryGetExcelColumn(oldMin, out ExcelColumn existingCol);
-        //    //if (colExists)
-        //    //{
-        //    //    FindInternalIndex(oldMin);
-        //    //}
-        //}
-
-        //public override bool RemoveAndShift(int key)
-        //{
-        //    var colMax = this[key].ColumnMax;
-        //    if (this[key].ColumnMax == largestCol)
-        //    {
-
-        //    }
-        //    var removed = base.RemoveAndShift(key);
-        //    return removed;
-        //}
-
-        //internal bool HasColumn(int col)
-        //{
-        //    if ( smallestCol <= col && col <= largestCol)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
-
-        //internal int OptimizedBinarySearch(int col, int wsColMax, int wsColMin)
-        //{
-        //    var store = _items;
-
-        //    if (wsColMax == 0) return -1;
-        //    int low = wsColMin, high = wsColMax - 1, mid;
-
-        //    while (low <= high)
-        //    {
-        //        mid = (low + high) >> 1;
-
-        //        if (col < store[mid].ColumnMax)
-        //            high = mid - 1;
-
-        //        else if (col > store[mid].ColumnMin)
-        //            low = mid + 1;
-
-        //        else
-        //            return mid;
-        //    }
-        //    return ~low;
-        //}
-
-        //internal ExcelColumn GetExcelColumn(int col)
-        //{
-
-        //    if(largestCol > -1 && smallestCol > -1)
-        //    {
-        //        var index = OptimizedBinarySearch(col, largestCol, smallestCol);
-        //        return _items[col];
-        //    }
-        //    //OptimizedBinarySearch(col, largestCol, smallestCol);
-        //    ////var colCompare = new ExcelColumnComparer()
-        //    ////    _items.BinarySearch(0,_items.)
-        //    ////Array.BinarySearch(_items, col, colCompare);
-
-        //    //foreach (var item in _items)
-        //    //{
-        //    //    if (item.ColumnMin <= col && col <= item.ColumnMax)
-        //    //    {
-        //    //        return item;
-        //    //    }
-        //    //}
-        //    return null;
-        //    //ArrayUtil.OptimizedBinarySearch(_items, col, _count);
-        //    //if(HasColumn(col))
-        //    //{
-
-        //    //}
-        //    //return null;
-        //}
     }
 }
