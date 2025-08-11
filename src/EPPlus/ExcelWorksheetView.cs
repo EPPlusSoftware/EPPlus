@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Globalization;
@@ -641,8 +642,25 @@ namespace OfficeOpenXml
             //TODO:fix this method to handle splits as well.
             ValidateRows(Row, Column);
 
-            var hiddenRows = _worksheet.Rows.Where(x => x.Hidden == true && x._fromRow < Row).Count();
-            var hiddenCols = _worksheet.Columns.Where(x => x.Hidden == true && x._fromCol < Column).Count();
+            var hiddenRows = 0;
+            foreach(var row in _worksheet.Rows[0, Row])
+            {
+                if(row.Hidden == true)
+                {
+                    hiddenRows++;
+                }
+            }
+            var hiddenCols = 0;
+            foreach(var column in _worksheet.Columns[0, Column])
+            {
+                if (column.Hidden == true)
+                {
+                    hiddenCols++;
+                }
+            }
+
+            //var hiddenRows = _worksheet.Rows.Where(x => x.Hidden == true && x._fromRow < Row).Count();
+            //var hiddenCols = _worksheet.Columns.Where(x => x.Hidden == true && x._fromCol < Column).Count();
             var visibleRows = Row - hiddenRows;
             var visibleColumns = Column - hiddenCols;
 
