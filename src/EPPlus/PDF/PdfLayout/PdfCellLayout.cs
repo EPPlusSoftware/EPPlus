@@ -1,23 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.PDF.Math;
+using OfficeOpenXml.PDF.PdfGraphics;
+using OfficeOpenXml.PDF.PdfSettings;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfCellLayout : PdfTransform
     {
-        internal double margin = 0.5d;
+        public PdfCellFillData CellFillData;
+        public PdfCellBordersData BorderData;
+        public PdfCellFontData FontData;
+        public PdfCellAlignmentData CellAlignmentData;
+        internal double margin = 0.05d;
+
         public PdfCellLayout() { }
 
-        public PdfCellLayout(object value, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
+        public PdfCellLayout(ExcelRangeBase cell, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
             :base(x, y, width, height, scaleX, scaleY, rotation, parent )
         {
-            //TODO: calculate correct margins.
-            //var cellContentLayout = AddChild(new PdfCellContentLayout(value, margin, margin, width - margin * 0.5d, height - margin * 0.5d));
-            //cellContentLayout.Name = "Content";
-            //cellContentLayout.Z = 2;
+            if (cell != null)
+            {
+                CellFillData = new PdfCellFillData();
+                var bkgc = cell.Style.Fill.BackgroundColor;
+                if (string.IsNullOrEmpty(bkgc.LookupColor()) && !string.IsNullOrEmpty(cell.Text))
+                {
+                    CellFillData.BackgroundColor = PdfColor.White;
+                }
+                else
+                {
+                    CellFillData.BackgroundColor = new PdfColor(bkgc.LookupColor());
+                }
+                CellFillData.PattenStyle = cell.Style.Fill.PatternType;
+                CellFillData.PatternColor = new PdfColor(cell.Style.Fill.PatternColor.LookupColor());
+                BorderData = new PdfCellBordersData();
+                BorderData.Top.BorderStyle = cell.Style.Border.Top.Style;
+                BorderData.Top.BorderColor = new PdfColor(cell.Style.Border.Top.Color.LookupColor());
+                BorderData.Bottom.BorderStyle = cell.Style.Border.Bottom.Style;
+                BorderData.Bottom.BorderColor = new PdfColor(cell.Style.Border.Bottom.Color.LookupColor());
+                BorderData.Left.BorderStyle = cell.Style.Border.Left.Style;
+                BorderData.Left.BorderColor = new PdfColor(cell.Style.Border.Left.Color.LookupColor());
+                BorderData.Right.BorderStyle = cell.Style.Border.Right.Style;
+                BorderData.Right.BorderColor = new PdfColor(cell.Style.Border.Right.Color.LookupColor());
+                BorderData.DiagonalUp.BorderStyle = cell.Style.Border.DiagonalUp ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
+                BorderData.DiagonalUp.BorderColor = new PdfColor(cell.Style.Border.Diagonal.Color.LookupColor());
+                BorderData.DiagonalDown.BorderStyle = cell.Style.Border.DiagonalDown ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
+                BorderData.DiagonalDown.BorderColor = new PdfColor(cell.Style.Border.Diagonal.Color.LookupColor());
+                FontData = new PdfCellFontData();
+                FontData.FontName = cell.Style.Font.Name;
+                FontData.FontFamily = cell.Style.Font.Family;
+                FontData.FontSize = cell.Style.Font.Size;
+                FontData.Bold = cell.Style.Font.Bold;
+                FontData.Italic = cell.Style.Font.Italic;
+                FontData.Strike = cell.Style.Font.Strike;
+                FontData.Underline = cell.Style.Font.UnderLine;
+                FontData.UnderlineType = cell.Style.Font.UnderLineType;
+                FontData.FontColor = new PdfColor(cell.Style.Font.Color.LookupColor());
+                FontData.Text = cell.Text;
+                CellAlignmentData = new PdfCellAlignmentData();
+                CellAlignmentData.HorizontalAlignment = cell.Style.HorizontalAlignment;
+                CellAlignmentData.VerticalAlignment = cell.Style.VerticalAlignment;
+                CellAlignmentData.Indent = cell.Style.Indent;
+                CellAlignmentData.WrapText = cell.Style.WrapText;
+                CellAlignmentData.ShrinkToFit = cell.Style.ShrinkToFit;
+                CellAlignmentData.TextRotation = cell.Style.TextRotation;
+                CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
+            }
         }
     }
 }

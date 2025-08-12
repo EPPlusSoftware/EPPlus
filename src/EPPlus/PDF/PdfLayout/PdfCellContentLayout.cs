@@ -5,14 +5,16 @@ using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
+
     internal class PdfCellContentLayout : PdfTransform
     {
-        internal object Value;
 
-        public PdfCellContentLayout(object value, double x, double y, double width, double height)
+
+
+        public PdfCellContentLayout(ExcelRangeBase Cell, double x, double y, double width, double height)
             : base(x, y, width, height)
         {
-            Value = value;
+
         }
 
 

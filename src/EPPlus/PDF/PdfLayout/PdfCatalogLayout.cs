@@ -28,7 +28,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             this.Name = worksheet.Name + " Catalog";
             this.settings = pageSettings;
             this.bounds = bounds;
-            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet));
+            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings));
             //calculate number of pages needed based on contentBounds and worksheetLayout.Size
             var horizontalPages = WorksheetLayout.Size.X / bounds.Width;
             var verticalPages = WorksheetLayout.Size.Y / bounds.Height;
@@ -127,7 +127,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 {
                     if(PdfTransform.Intersects(mcBounds, page.ChildObjects[0].GetGlobalBoundingbox()))
                     {
-                        var copy = new PdfMergedCellLayout(null, mc.LocalPosition.X, mc.LocalPosition.Y, mc.Size.X, mc.Size.Y, mc.LocalScale.X, mc.LocalScale.Y, mc.LocalRotation, WorksheetLayout);
+                        var copy = new PdfMergedCellLayout(null,pageSettings, mc.LocalPosition.X, mc.LocalPosition.Y, mc.Size.X, mc.Size.Y, mc.LocalScale.X, mc.LocalScale.Y, mc.LocalRotation, WorksheetLayout);
                         copy.Name = mc.Name;
                         page.ChildObjects[0].AddChild(copy);
                     }
@@ -154,7 +154,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             {
                 page.ChildObjects[0].LocalPosition = new Vector2(settings.Margins.LeftPu, settings.Margins.TopPu);
             }
-            //RemoveChild(WorksheetLayout);
+            RemoveChild(WorksheetLayout);
         }
 
         List<PdfPageLayout> GetRightBottomAndDiagonalPages(PdfTransform currentPage, List<PdfTransform> allPages, int hPages, int vPages, PageOrders pageOrder)

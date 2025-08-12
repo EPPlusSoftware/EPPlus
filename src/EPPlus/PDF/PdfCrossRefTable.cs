@@ -17,6 +17,19 @@ namespace OfficeOpenXml.PDF
             positions.Add(position);
         }
 
+        internal string WriteString(int bodyCount)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("xref\n");
+            sb.AppendFormat($"0 {bodyCount + 1}\n");
+            sb.Append("0000000000 65535 f \n");
+            foreach (long pos in positions)
+            {
+                sb.AppendFormat(pos.ToString("D10") + " 00000 n \n");
+            }
+            return sb.ToString();
+        }
+
         internal void Write(BinaryWriter bw, long startPosition, int bodyCount)
         {
             this.StartPosition = startPosition;

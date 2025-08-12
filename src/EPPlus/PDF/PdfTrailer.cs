@@ -8,6 +8,17 @@ namespace OfficeOpenXml.PDF
 {
     internal static class PdfTrailer
     {
+        internal static string WriteString(int bodyCount, int catalogObjectNumber, long crossRefStartPosition)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("trailer\n");
+            sb.AppendFormat($"<< /Size {bodyCount + 1} /Root {catalogObjectNumber} 0 R >>\n");
+            sb.AppendFormat("startxref\n");
+            sb.AppendFormat($"{crossRefStartPosition}\n");
+            sb.AppendFormat("%%EOF\n");
+            return sb.ToString();
+        }
+
         internal static void Write(BinaryWriter bw, int bodyCount, int catalogObjectNumber, long crossRefStartPosition)
         {
             bw.Write(Encoding.ASCII.GetBytes("trailer\n"));

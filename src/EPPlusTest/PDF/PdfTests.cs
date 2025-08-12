@@ -29,7 +29,7 @@ namespace EPPlusTest.PDF
             pageSettings.Debug = true;
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
 
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest11.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest12.pdf");
 
         }
 
@@ -106,7 +106,6 @@ namespace EPPlusTest.PDF
             PdfCatalogLayout cl = new PdfCatalogLayout(ws, settings, bounds);
             var scene = cl.ToHierarchyString();
         }
-
 
         [TestMethod]
         public void CheckMergedCellRange()

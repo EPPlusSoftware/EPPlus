@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.PDF.Pdfhelpers;
+using OfficeOpenXml.PDF.PdfSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         internal ExcelWorksheet ws;
 
 
-        public PdfWorksheetLayout(ExcelWorksheet worksheet)
+        public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings)
         {
             this.ws = worksheet;
             double x = 0d;
@@ -45,14 +46,14 @@ namespace OfficeOpenXml.PDF.PdfLayout
                             {
                                 mcWidth += PdfUnits.ExcelColumnWidthToPoints(ws.Column(l).Width);
                             }
-                            var cl1 = AddChild(new PdfMergedCellLayout(ws.Cells[address._fromRow, address._fromCol].Value, x, y, mcWidth, mcHeight));
+                            var cl1 = AddChild(new PdfMergedCellLayout(ws.Cells[address._fromRow, address._fromCol], pageSettings, x, y, mcWidth, mcHeight));
                             cl1.Z = 5;
                             cl1.Name = "Merged Cell " + cell.Address;
                             checkedMergedCells.Add(ws.MergedCells[i, j]);
                         }
                     }
                     var width = PdfUnits.ExcelColumnWidthToPoints(ws.Column(j).Width);
-                    var cl0 = new PdfCellLayout((isMerged ? null : cell.Value), x, y, width, height, 1, 1, 0, this);
+                    var cl0 = new PdfCellLayout((isMerged ? null : cell), pageSettings, x, y, width, height, 1, 1, 0, this);
                     cl0.Z = 1;
                     cl0.Name = "Cell " + cell.Address;
                     x+= width;

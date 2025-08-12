@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.PDF.PdfSettings.PdfPageData;
 using FontLab1.Tables.Os2;
+using OfficeOpenXml.PDF.PdfLayout;
+using System.Runtime;
 
 namespace OfficeOpenXml.PDF
 {
@@ -102,14 +104,37 @@ namespace OfficeOpenXml.PDF
         //    }
         //}
 
-        public void AddText(string text, string cellFontname, float size, double x, double y)
+        internal string GetFontLabel(string fontName, string subFamily, double fontSize)
         {
-            var content = new PdfContentStream(body.Count + 1);
-            content.AddText(fontResources[cellFontname].labelPrefix + fontResources[cellFontname].labelNumber , size, x, y, text);
-            body.Add(content);
+            if (!fontResources.ContainsKey(fontName))
+            {
+                int label = 1;
+                if (fontResources.Count > 0)
+                {
+                    label = fontResources.Last().Value.labelNumber + 1;
+                }
+                PdfFontResource fr = new PdfFontResource(fontName, subFamily, label, PageSettings);
+                if (fontName != "Courier New")
+                {
+                    body.Add(fr.GetFontDescriptorObject(body.Count + 1));
+                    body.Add(fr.GetWidthsObject(body.Count + 1));
+                }
+                body.Add(fr.GetFontObject(body.Count + 1));
+                fontResources.Add(fontName, fr);
+            }
+            return fontResources[fontName].Label;
         }
 
-        public void AddRectangle(double x, double y, double width, double height, PdfColor stroke = null, PdfColor fill = null)
+        internal void AddText(string text, string cellFontname, double size, double x, double y, PdfPage page)
+        {
+            var content = new PdfContentStream(body.Count + 1);
+            var label = GetFontLabel(cellFontname, "Regular", size);
+            content.AddText(label , size, x, y, text);
+            body.Add(content);
+            page.contentObjectNumbers.Add(content.objectNumber);
+        }
+
+        internal void AddRectangle(double x, double y, double width, double height, PdfColor stroke = null, PdfColor fill = null)
         {
             var content = new PdfContentStream(body.Count + 1);
             content.AddRectangle(x, y, width, height, stroke != null ? true : false, fill != null ? true : false, stroke, fill);
@@ -462,7 +487,7 @@ namespace OfficeOpenXml.PDF
                                 textX = x + PdfUnits.ExcelColumnWidthToPoints(cell.EntireColumn.Width) - textLength;
                             }
                         }
-                        AddText(cell.Value.ToString(), cell.Style.Font.Name, cell.Style.Font.Size, textX, textY);
+                        //AddText(cell.Value.ToString(), cell.Style.Font.Name, cell.Style.Font.Size, textX, textY);
                         textWasAdded = true;
                     }
                     //if (PageSettings.ShowGridLines)
@@ -500,7 +525,72 @@ namespace OfficeOpenXml.PDF
             //}
         }
 
-        public void CreatePdf(string Filename, PdfPageSettings pageSettings = null)
+        private void CreateContentFromCell(PdfTransform child, PdfPage page)
+        {
+            //check child is cell, merged cell or drawing
+            if (child is PdfCellLayout cell)
+            {
+                AddText(cell.FontData.Text, cell.FontData.FontName, cell.FontData.FontSize, cell.Position.X, cell.Position.Y, page);
+            }
+            if (child is PdfMergedCellLayout merged)
+            {
+                AddRectangle(merged.Position.X, merged.Position.Y, merged.Size.X, merged.Size.Y, null, merged.CellFillData.BackgroundColor);
+                AddText(merged.FontData.Text, merged.FontData.FontName, merged.FontData.FontSize, merged.Position.X, merged.Position.Y, page);
+            }
+            if (child is PdfDrawingLayout drawing)
+            {
+            }
+        }
+
+
+        public void CreatePdf(string Filename)
+        {
+            var catalogLayout = new PdfCatalogLayout(_ws, PageSettings, bounds);
+            var catalog = AddCatalog(2);
+            var pagesLayout = catalogLayout.ChildObjects[0];
+            var pages = AddPages();
+            for (int i = 0; i < pagesLayout.ChildObjects.Count; i++)
+            {
+                var pageLayout = pagesLayout.ChildObjects[i];
+                var contentLayout = pageLayout.ChildObjects[0];
+                var page = AddPage(2, new List<int>(), PageSettings);
+                for (int j = 0; contentLayout.ChildObjects.Count > j; j++)
+                {
+                    var child = contentLayout.ChildObjects[j];
+                    CreateContentFromCell(child, page);
+                }
+                pages.pageObjectNumbers.Add(page.objectNumber);
+            }
+
+            //write to pdf
+            crossRefTable = new PdfCrossRefTable();
+            string debugString = "";
+            //start wring pdf binary
+            using (var fs = new FileStream(Filename, FileMode.Create, FileAccess.Write))
+            {
+                using (var bw = new BinaryWriter(fs, Encoding.ASCII))
+                {
+                    //Write header
+                    bw.Write(Encoding.ASCII.GetBytes(header));
+                    debugString += header;
+                    //Write body
+                    foreach (var pdfobj in body)
+                    {
+                        crossRefTable.AddPosition(fs.Position);
+                        bw.Write(pdfobj.ToPdfBytes());
+                        debugString += pdfobj.ToPdfString();
+                    }
+                    //Write CrossReference
+                    crossRefTable.Write(bw, fs.Position, body.Count);
+                    debugString += crossRefTable.WriteString(body.Count);
+                    // Write trailer
+                    PdfTrailer.Write(bw, body.Count, catalog.objectNumber, crossRefTable.StartPosition);
+                    debugString += PdfTrailer.WriteString(body.Count, catalog.objectNumber, crossRefTable.StartPosition);
+                }
+            }
+        }
+
+        public void CreatePdfOld(string Filename, PdfPageSettings pageSettings = null)
         {
             if(pageSettings != null)
                 PageSettings = pageSettings;

@@ -17,6 +17,15 @@ namespace OfficeOpenXml.PDF
             this.version = version;
         }
 
+        public virtual string ToPdfString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat("{0} {1} obj\n", objectNumber, version);
+            sb.Append(RenderDictionary());
+            sb.Append("\nendobj\n");
+            return sb.ToString();
+        }
+
         public virtual byte[] ToPdfBytes()
         {
             var sb = new StringBuilder();
