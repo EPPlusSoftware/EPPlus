@@ -640,7 +640,8 @@ namespace OfficeOpenXml.FormulaParsing
             else
             {
                 isValidFormat = true;
-                var arg = new NumberFormatToTextArgs(_currentWorksheet, _context.CurrentCell.Row, _context.CurrentCell.Column, value, _currentWorksheet.GetStyleInner(_context.CurrentCell.Row, _context.CurrentCell.Column));
+                var ws = _currentWorksheet ?? _context.CurrentWorksheet;
+                var arg = new NumberFormatToTextArgs(ws, _context.CurrentCell.Row, _context.CurrentCell.Column, value, ws.GetStyleInner(_context.CurrentCell.Row, _context.CurrentCell.Column));
                 return _workbook.NumberFormatToTextHandler(arg);
             }
         }
