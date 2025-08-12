@@ -1532,5 +1532,61 @@ namespace EPPlusTest.Core.Range.Delete
 
             Assert.AreEqual("XLOOKUP($A$2,$B:$B,$C:$C)", sheet.Cells["A1"].Formula);
 		}
-	}
+        [TestMethod]
+        //Part of s912 performance fix
+        public void EnsureDeleteColumnsWorksWithColumnLookup()
+        {
+            using (var p = OpenPackage("TestLookup.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("SomeWs");
+
+                ws.Columns[1, 20].Style.Fill.SetBackground(Color.PaleVioletRed);
+                var colRange = ws.Columns[15, 20];
+                colRange.Style.Fill.SetBackground(Color.LightSkyBlue);
+
+                var bgColor = ws.Columns[1, 20].Style.Fill.BackgroundColor;
+
+                ws.Cells["C14"].Value = 5;
+
+                ws.Cells[5, 19].Value = 20;
+
+                ws.Cells[21, 19].Value = 2;
+
+                Assert.AreEqual(ws.GetColumn(14).Style.Fill.BackgroundColor.Rgb, ws.Columns[1, 20].Style.Fill.BackgroundColor.Rgb);
+                Assert.AreEqual(ws.GetColumn(15).Style.Fill.BackgroundColor.Rgb, colRange.Style.Fill.BackgroundColor.Rgb);
+
+                //Ensure last column exists before delete
+                Assert.IsNotNull(ws.GetColumn(20));
+
+                ws.DeleteColumn(2);
+
+                //Assert the 20 column is now null
+                Assert.IsNull(ws.GetColumn(20));
+
+                ws.Cells[21, 19].Value = "Where 2 used to be";
+                ws.Cells[21, 19].Style.Fill.SetBackground(Color.Green);
+
+                var styleId = ws.GetStyleId(21, 19);
+
+                //Ensure styleIds are the same between getter and set
+                Assert.AreEqual(styleId, ws.Cells[21, 19].StyleID);
+
+                //Assert the 20 column is now null
+                Assert.IsNull(ws.GetColumn(20));
+                //Assert it is still on the previous col
+                Assert.AreEqual(ws.GetColumn(19).Style.Fill.BackgroundColor.Rgb, colRange.Style.Fill.BackgroundColor.Rgb);
+
+                //Ensure deleting over one Col max and another ColMin moves the columns appropriately
+                ws.DeleteColumn(13, 2);
+
+                //Assert col 'M'(13) is now blue
+                Assert.AreEqual(ws.GetColumn(13).Style.Fill.BackgroundColor.Rgb, colRange.Style.Fill.BackgroundColor.Rgb);
+                //Assert col 'L'(12) is red
+                Assert.AreEqual(ws.GetColumn(12).Style.Fill.BackgroundColor.Rgb, ws.Columns[1, 20].Style.Fill.BackgroundColor.Rgb);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+    }
 }

@@ -1486,48 +1486,23 @@ namespace EPPlusTest.Core.Range.Insert
                 var col4 = ws.Column(12);
                 col4.ColumnMax = 16;
 
-                //Does not work as expected
-                //var cols = ws.Columns[12, 16];
-                //cols.Style.Fill.SetBackground(Color.Goldenrod);
-
                 col4.Style.Fill.SetBackground(Color.Goldenrod);
 
-                //assert
+                //Ensure the entire new inserted range has correct color fill
+                for(int i = 12; i< 17; i++)
+                {
+                    Assert.AreEqual(ws.Column(i).Style.Fill.BackgroundColor.Rgb, col4.Style.Fill.BackgroundColor.Rgb);
+                }
+
+                //Ensure first col remains unaffected
+                Assert.AreEqual(ws.Column(3), col);
+                //Ensure cols on/after insert have moved to the right place
+                Assert.AreEqual(ws.GetColumn(17), col2);
+                Assert.AreEqual(ws.GetColumn(19), col3);
 
                 var oFile2 = GetOutputFile("", "ColumnLookupInsertStyling_After_Insert.xlsx");
                 p.SaveAs(oFile2);
             }
         }
-
-        //[TestMethod]
-        //public void InsertStylingWorksCorrectlyWithLookup()
-        //{
-        //    using(var p = OpenPackage("ColumnLookupInsertStyling.xlsx"))
-        //    {
-        //        var ws = p.Workbook.Worksheets.Add("A_New_ws");
-        //        var col = ws.Column(3);
-        //        col.ColumnMax = 10;
-        //        col.Style.Fill.SetBackground(Color.Azure);
-
-        //        var col2 = ws.Column(12);
-        //        col2.ColumnMax = 14;
-        //        col2.Style.Fill.SetBackground(Color.ForestGreen);
-
-        //        var col3 = ws.Column(14);
-        //        col3.ColumnMax = 18;
-        //        col3.Style.Fill.SetBackground(Color.Firebrick);
-
-        //        var oFile = GetOutputFile("", "ColumnLookupInsertStyling_Before_Insert.xlsx");
-        //        p.SaveAs(oFile);
-
-        //        ws.InsertColumn(12, 5);
-        //        var cols = ws.Columns[12, 16];
-
-        //        cols.Style.Fill.SetBackground(Color.Goldenrod);
-
-        //        var oFile2 = GetOutputFile("", "ColumnLookupInsertStyling_After_Insert.xlsx");
-        //        p.SaveAs(oFile2);
-        //    }
-        //}
     }
 }

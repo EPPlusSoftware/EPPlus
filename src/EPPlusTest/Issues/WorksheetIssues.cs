@@ -829,35 +829,6 @@ namespace EPPlusTest.Issues
             }
         }
 
-		[TestMethod]
-		public void s912_test()
-		{
-			using(var p = OpenPackage("TestLookup.xlsx",true))
-			{
-				var ws = p.Workbook.Worksheets.Add("SomeWs");
-
-				ws.Columns[1, 20].Style.Fill.SetBackground(Color.Red);
-				var colRange = ws.Columns[15, 20];
-                colRange.Style.Fill.SetBackground(Color.Blue);
-
-                var bgColor = ws.Columns[1, 20].Style.Fill.BackgroundColor;
-
-				ws.Cells["C14"].Value = 5;
-
-				ws.Cells[5, 19].Value = 20;
-
-				ws.Cells[21, 19].Value = 2;
-
-				ws.DeleteColumn(2);
-
-				ws.Cells[21, 19].Value = "Where 2 used to be";
-
-				ws.Cells[21, 19].Style.Fill.SetBackground(Color.Green);
-
-				SaveAndCleanup(p);
-			}
-		}
-
         [TestMethod]
         public void s843()
 		{
@@ -892,7 +863,7 @@ namespace EPPlusTest.Issues
 				//
 				// sheet.Cells[1, 1, nbLines, nbCols].Style.Numberformat.Format = "#"; // 7.4s
 				// sheet.Cells[1, 1, nbLines, nbCols].Style.Locked = true; // 7.4s
-				// sheet.Cells[1, 1, nbLines, nbCols].Value = 1; // 19.5s
+				//sheet.Cells[1, 1, nbLines, nbCols].Value = 1; // 19.5s // uncommenting this alone is ~2s after fix. With below about 3s. 
 				// sheet.Cells[1, 1, nbLines, nbCols].Value = ""; // 18s
 				// sheet.InsertColumn(1, nbCols); // 12.9
 				// sheet.InsertColumn(1, nbCols, 1); // 7.8s
@@ -908,7 +879,7 @@ namespace EPPlusTest.Issues
 				var seconds = sw.Elapsed.TotalSeconds;
 				sw.Stop();
 
-				//seconds was ~1.7 locally in 8.0.9
+				//seconds was ~1.5-1.7 locally in 8.0.9
 				//Made test check if over 10 seconds in case of slow appveyor
 				Assert.IsTrue(seconds < 10.0D);
 

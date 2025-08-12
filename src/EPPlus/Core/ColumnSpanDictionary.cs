@@ -11,52 +11,6 @@ namespace OfficeOpenXml.Core
 {
     internal class ColumnSpanDictionary<T>: ChangeableDictionary<T> where T : ExcelColumn
     {
-        int largestCol = -1;
-        int smallestCol = -1;
-
-        //public override void Add(int key, T value)
-        //{
-        //    //largestCol = largestCol < value.ColumnMax ? largestCol : value.ColumnMax;
-        //    //smallestCol = smallestCol < value.ColumnMin ? smallestCol : value.ColumnMin;
-
-        //    //base.Add(key, value);
-        //    //var min = value.ColumnMin;
-        //    //var max = value.ColumnMax;
-        //    //var pos = Array.BinarySearch(_index[0], 0, _count, key);
-        //    //if (pos >= 0)
-        //    //{
-        //    //    throw (new ArgumentException("Key already exists"));
-        //    //}
-        //    //pos = ~pos;
-        //    //if (pos >= _index[0].Length - 1)
-        //    //{
-        //    //    Array.Resize(ref _index[0], _index[0].Length << 1);
-        //    //    Array.Resize(ref _index[1], _index[1].Length << 1);
-        //    //}
-        //    //if (pos < Count)
-        //    //{
-        //    //    Array.Copy(_index[0], pos, _index[0], pos + 1, _index[0].Length - pos - 1);
-        //    //    Array.Copy(_index[1], pos, _index[1], pos + 1, _index[1].Length - pos - 1);
-        //    //}
-        //    //_count++;
-
-
-        //    //_index[0][pos] = key;
-        //    //_index[1][pos] = _items.Count;
-        //    //_items.Add(value);
-        //    //Version++;
-        //}
-        //public override bool RemoveAndShift(int key)
-        //{
-        //    //var removed = base.RemoveAndShift(key);
-        //    //if(removed)
-        //    //{
-        //    //    var lastCol = _items.Last();
-        //    //    _items.Colu
-        //    //}
-        //    //return removed;
-        //}
-
         internal int FindInternalIndex(int col)
         {
             int closestIndex = -1;
@@ -65,8 +19,15 @@ namespace OfficeOpenXml.Core
             {
                 return closestIndex;
             }
-
-            var columnIndex = Array.BinarySearch(_index[0], 0, _count, col);
+            int columnIndex = -1;
+            try
+            {
+                columnIndex = Array.BinarySearch(_index[0], 0, _count, col);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+            }
 
             var indexExists = columnIndex >= 0;
             var indexNotFound = columnIndex < 0;
@@ -159,6 +120,11 @@ namespace OfficeOpenXml.Core
                     //Column exists but only as part of another column
                     Add(columnValue.ColumnMin, (T)columnValue);
                 }
+            }
+            if (_count >= _index[0].Length)
+            {
+                Array.Resize(ref _index[0], _index[0].Length << 1);
+                Array.Resize(ref _index[1], _index[1].Length << 1);
             }
         }
         /// On insert/delete the positions update After the cell values have been inserted/deleted to final positions.

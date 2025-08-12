@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Core
         {
             var pos = Array.BinarySearch(_index[0], 0, _count, fromPosition);
 
-            if (pos >= _index[0].Length - 1)
+            if (pos + 1 >= _index[0].Length - 1)
             {
                 Array.Resize(ref _index[0], _index[0].Length << 1);
                 Array.Resize(ref _index[1], _index[1].Length << 1);
