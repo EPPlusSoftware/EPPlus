@@ -1067,11 +1067,11 @@ namespace OfficeOpenXml.FormulaParsing
                     LambdaExpressionFunctions.PreProcessLambdaCalculation(s, f, lce);
                 }
                 var leStackPos = f.GetCurrentLambdaExpressionStackPosition();
-                if (LambdaExpressionFunctions.CheckLambdaExpression(s, f, leStackPos, depChain._parsingContext, out CompileResult res))
-                {
-                    PushResult(depChain._parsingContext, f, res);
-                    leStackPos = f.GetCurrentLambdaExpressionStackPosition();
-                }
+                //if (LambdaExpressionFunctions.CheckLambdaExpression(s, f, leStackPos, depChain._parsingContext, out CompileResult res))
+                //{
+                //    PushResult(depChain._parsingContext, f, res);
+                //    leStackPos = f.GetCurrentLambdaExpressionStackPosition();
+                //}
                 var t = f._tokens[f._tokenIndex];
                  switch (t.TokenType)
                 {
@@ -1240,6 +1240,10 @@ namespace OfficeOpenXml.FormulaParsing
                             if (f._currentFunction == null)
                             {
                                 funcExp = f._funcStack.Pop();
+                                if(funcExp.IsLet)
+                                {
+                                    f.IgnoreCaching = true;
+                                }
 
                                 if (PreExecFunc(depChain, f, funcExp))
                                 {
@@ -1562,14 +1566,14 @@ namespace OfficeOpenXml.FormulaParsing
         private static CompileResult ExecFunc(RpnOptimizedDependencyChain depChain, RpnFormula f, FunctionExpression funcExp)
         {
             CompileResult result;
-            if (funcExp.Status == ExpressionStatus.IsCached)
+            if (funcExp.Status == ExpressionStatus.IsCached && !f.IgnoreCaching)
             {
                 result = funcExp._cachedCompileResult;
             }
             else
             {
                 result = funcExp.Compile();
-                if (_cacheExpressions)
+                if (_cacheExpressions && !f.IgnoreCaching)
                 {
                     funcExp._cachedCompileResult = result;
                     var key = funcExp.GetExpressionKey(f);
@@ -1661,7 +1665,8 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                for (int i = 0; i < func.NumberOfArguments && s.Count > 0; i++)
+                var nArgs = func.IsLet ? ((LetFunctionExpression)func).NumberOfVariables + 1 : func.NumberOfArguments;
+                for (int i = 0; i < nArgs && s.Count > 0; i++)
                 {
                     var si = s.Pop();
                     if (si.ExpressionType != ExpressionType.Empty)

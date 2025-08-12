@@ -49,6 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             }
             var lambdaCalculator = arg3.Value as LambdaCalculator;
             if (lambdaCalculator == null) return CompileResult.GetErrorResult(eErrorType.Value);
+            if (lambdaCalculator.NumberOfVariables != 2) return CompileResult.GetErrorResult(eErrorType.Value);
             var resultRange = new InMemoryRange(rows, (short)cols);
             for(var row = 0; row < rows; row++)
             {

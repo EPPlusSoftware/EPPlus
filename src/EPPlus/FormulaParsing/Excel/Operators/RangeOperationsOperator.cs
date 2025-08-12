@@ -200,6 +200,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         public static InMemoryRange ApplySingleValueRight(CompileResult left, CompileResult right, Operators op, ParsingContext context)
         {
             var lr = left.Result as IRangeInfo;
+            if(lr == null && left.Result is FormulaRangeAddress fra)
+            {
+                lr = context.ExcelDataProvider.GetRange(fra);
+            }
             var resultRange = CreateRange(lr, InMemoryRange.Empty, lr.Address);
             for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
             {
@@ -216,6 +220,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         public static InMemoryRange ApplySingleValueLeft(CompileResult left, CompileResult right, Operators op, ParsingContext context)
         {
             var rr = right.Result as IRangeInfo;
+            if (rr == null && right.Result is FormulaRangeAddress fra)
+            {
+                rr = context.ExcelDataProvider.GetRange(fra);
+            }
             var resultRange = CreateRange(InMemoryRange.Empty, rr, rr.Address);
             for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
             {
@@ -234,6 +242,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         {
             var lr = left.Result as IRangeInfo;
             var rr = right.Result as IRangeInfo;
+            if(lr == null && left.Result is FormulaRangeAddress fral)
+            {
+                lr = new RangeInfo(fral);
+            }
+            if(rr == null && right.Result is FormulaRangeAddress frar)
+            {
+                rr = new RangeInfo(frar);
+            }
 
             var resultRange = CreateRange(lr, rr, intersectAddress);
             var shouldUseSingleCol = ShouldUseSingleCol(lr.Size, rr.Size);

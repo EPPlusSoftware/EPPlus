@@ -126,15 +126,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             var variable = _variables[index];
             var variableName = variable.VariableName;
-            var val = address != null ? address.Address : value;
-            dt = address != null ? DataType.ExcelRange : dt;
-            if(dt == DataType.ExcelRange && val is string adr)
-            {
-                var fAdr = new FormulaRangeAddress(ctx, adr);
-                val = ctx.ExcelDataProvider.GetRange(fAdr);
-            }
-            var compileResult = new CompileResult(val, dt);
-            _scope.SetVariableValue(variableName, compileResult);
+            var cr = new CompileResult(value, dt);
+            _scope.SetVariableValue(variableName, cr);
+            //var val = address != null ? address.Address : value;
+            //dt = address != null ? DataType.ExcelRange : dt;
+            //if(dt == DataType.ExcelRange && val is string adr)
+            //{
+            //    var fAdr = new FormulaRangeAddress(ctx, adr);
+            //    val = ctx.ExcelDataProvider.GetRange(fAdr);
+            //}
+            //var compileResult = new CompileResult(val, dt);
+            //_scope.SetVariableValue(variableName, compileResult);
             //foreach(var ix in _variableIndexes)
             //{
             //    var t = _currentTokens[ix];
@@ -180,6 +182,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         public CompileResult Execute(ParsingContext ctx)
         {
             var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column, ctx.VariableStorage);
+            formula.IgnoreCaching = true;
             var rpnTokens = new RpnTokens { Tokens = _currentTokens };
             formula.SetTokens(rpnTokens, ctx);
             var chain = ctx.DependencyChain;

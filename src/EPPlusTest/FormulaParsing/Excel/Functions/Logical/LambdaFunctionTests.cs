@@ -207,7 +207,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Cells["A2"].Formula = "B1";
             sheet.Cells["A3"].Value = 3;
             sheet.Cells["B1"].Formula = "LAMBDA(a,a)(A1):A3";
-            sheet.Calculate();
+            sheet.Calculate(o => o.AllowCircularReferences = false);
         }
 
 

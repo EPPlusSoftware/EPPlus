@@ -62,6 +62,11 @@ namespace OfficeOpenXml.FormulaParsing
             }
         }
 
+        public bool IgnoreCaching
+        {
+            get; set;
+        }
+
         internal VariableStorageManager VariableStorage => _variableStorage;
 
 

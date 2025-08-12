@@ -38,9 +38,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             var resultRange = new InMemoryRange(range.Size.NumberOfCols, 1);
             for (var row = 0; row < range.Size.NumberOfRows; row++)
             {
-                var colRange = range.GetOffset(row, 0, row, range.Size.NumberOfCols - 1);
+                var rowRange = range.GetOffset(row, 0, row, range.Size.NumberOfCols - 1);
                 calculator.BeginCalculation();
-                calculator.SetVariableValue(0, colRange, DataType.ExcelRange, context);
+                calculator.SetVariableValue(0, rowRange, DataType.ExcelRange, context);
                 var result = calculator.Execute(context);
                 resultRange.SetValue(row, 0, result.ResultValue);
             }

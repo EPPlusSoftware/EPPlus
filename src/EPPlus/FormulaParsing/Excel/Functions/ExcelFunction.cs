@@ -89,18 +89,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             
             for (int i = 0; i < arguments.Count; i++)
             {
-                if (arguments[i].DataType == DataType.LambdaCalculation && arguments[i].Value is LambdaCalculator lc)
-                {
-                    if(!lc.IsReadyForCalc)
-                    {
-                        lc.BeginCalculation();
-                    }
-                    else
-                    {
-                        var cr = lc.Execute(context);
-                        arguments[i] = new FunctionArgument(cr);
-                    }
-                }
+                //if (arguments[i].DataType == DataType.LambdaCalculation && arguments[i].Value is LambdaCalculator lc)
+                //{
+                //    if(!lc.IsReadyForCalc)
+                //    {
+                //        lc.BeginCalculation();
+                //    }
+                //    else
+                //    {
+                //        var cr = lc.Execute(context);
+                //        arguments[i] = new FunctionArgument(cr);
+                //    }
+                //}
                 if (ParametersInfo.HasNormalArguments)
                 {
                     if (arguments[i].DataType == DataType.ExcelError)

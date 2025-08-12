@@ -18,6 +18,7 @@ using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Table.PivotTable;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -91,6 +92,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     }
                     else if (obj is IRangeInfo)
                     {
+                        return DataType.ExcelRange;
+                    }
+                    else if (obj is FormulaRangeAddress fra)
+                    {
+                        obj = new RangeInfo(fra);
                         return DataType.ExcelRange;
                     }
                     throw new ArgumentException("Non supported type " + t.FullName);
