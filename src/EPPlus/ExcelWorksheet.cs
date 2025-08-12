@@ -3719,15 +3719,6 @@ namespace OfficeOpenXml
                         {
                             return ColumnLookup[existingColumn.ColumnMin].StyleID;
                         }
-                        //else
-                        //{
-                        //    ColumnLookup.Add(col, null);
-                        //}
-                        //var c = GetColumn(col);
-                        //if (c != null)
-                        //{
-                        //    return c.StyleID;
-                        //}
                     }                        
                 }
             }

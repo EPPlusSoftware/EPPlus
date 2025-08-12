@@ -1464,7 +1464,7 @@ namespace EPPlusTest.Core.Range.Insert
         [TestMethod]
         public void InsertStylingWorksCorrectlyWithLookup()
         {
-            using (var p = OpenPackage("ColumnLookupInsertStyling.xlsx"))
+            using (var p = OpenPackage("ColumnLookupInsertStyling.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("A_New_ws");
                 var col = ws.Column(3);

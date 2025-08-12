@@ -1536,7 +1536,7 @@ namespace EPPlusTest.Core.Range.Delete
         //Part of s912 performance fix
         public void EnsureDeleteColumnsWorksWithColumnLookup()
         {
-            using (var p = OpenPackage("TestLookup.xlsx", true))
+            using (var p = OpenPackage("TestLookupDelete.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("SomeWs");
 

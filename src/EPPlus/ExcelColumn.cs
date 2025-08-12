@@ -79,13 +79,6 @@ namespace OfficeOpenXml
         //Internal for delete/insert operations
         internal void InternalColMinSetter(int colMin)
         {
-            //if(_worksheet != null)
-            //{
-            //    if(_worksheet.ColumnLookup != null)
-            //    {
-            //        _worksheet.ColumnLookup.UpdateDictPositions(_columnMin, colMin);
-            //    }
-            //}
             _columnMin = colMin;
         }
         //Internal for delete/insert operations
