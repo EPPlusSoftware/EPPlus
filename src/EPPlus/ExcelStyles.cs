@@ -440,7 +440,7 @@ namespace OfficeOpenXml
             return new ExcelStyle(this, PropertyChange, PositionID, Address, Id);
         }
         /// <summary>
-        /// Handels changes of properties on the style objects
+        /// Handles changes of properties on the style objects
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -793,7 +793,17 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    column = (ws.GetValueInner(0, col) as ExcelColumn);
+                    var existingColumn = (ws.GetValueInner(0, col) as ExcelColumn);
+                    //NextCell above could be far off if there has been a column insert without new cell values.
+                    //Therefore check if the address.End.Column should be used instead of the column at col
+                    if(existingColumn.ColumnMin > address.End.Column && column.ColumnMax < existingColumn.ColumnMin)
+                    {
+                        column.ColumnMax = address.End.Column;
+                    }
+                    else
+                    {
+                        column = (ws.GetValueInner(0, col) as ExcelColumn);
+                    }
                 }
             }
 
