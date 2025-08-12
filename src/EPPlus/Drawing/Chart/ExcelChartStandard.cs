@@ -1268,6 +1268,5 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _chartDrawings;
             }
         }
-
     }
 }

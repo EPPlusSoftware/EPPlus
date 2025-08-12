@@ -770,16 +770,11 @@ namespace OfficeOpenXml.Drawing
             int pix = 0;
             if (_collectionType == DrawingsCollectionType.Chart)
             {
-                //var off = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:off", NameSpaceManager);
-                //if (off == null)
-                //    off = (XmlElement)TopNode.SelectSingleNode("cdr:spPr/a:xfrm/a:off", NameSpaceManager);
-                //if (off != null)
-                //{
-                //    var x = ((XmlElement)off).GetAttribute("x");
-                //    pix = (int)double.Parse(x);
-                //}
-                //return pix / EMU_PER_PIXEL;
-                return (int)(Math.Round(From.X * _drawings._screenWidth));
+                if (From != null)
+                {
+                    return (int)(Math.Round(From.Y * _drawings._screenWidth));
+                }
+                return 0;
             }
             if (CellAnchor == eEditAs.Absolute)
             {
@@ -805,16 +800,11 @@ namespace OfficeOpenXml.Drawing
             int pix = 0;
             if (_collectionType == DrawingsCollectionType.Chart)
             {
-                //var off = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:off", NameSpaceManager);
-                //if (off == null)
-                //    off = (XmlElement)TopNode.SelectSingleNode("cdr:spPr/a:xfrm/a:off", NameSpaceManager);
-                //if (off != null)
-                //{
-                //    var y = ((XmlElement)off).GetAttribute("y");
-                //    pix = (int)double.Parse(y);
-                //}
-                //return pix/EMU_PER_PIXEL;
-                return (int)(Math.Round(From.Y * _drawings._screenHeight));
+                if (From != null)
+                {
+                    return (int)(Math.Round(From.Y * _drawings._screenHeight));
+                }
+                return 0;
             }
 
             if (CellAnchor == eEditAs.Absolute)
@@ -1157,8 +1147,15 @@ namespace OfficeOpenXml.Drawing
             AdjustFromToXY(x, y);
             var left = (int)(From.X * _drawings._screenWidth) * EMU_PER_PIXEL;
             var top = (int)(From.Y * _drawings._screenHeight) * EMU_PER_PIXEL;
-            _frmXPosition.X = left;
-            _frmXPosition.Y = top;
+            if (_frmXPosition != null)
+            {
+                _frmXPosition.X = left;
+                _frmXPosition.Y = top;
+            }
+            if(Position!=null)
+            {
+
+            }
             UpdatePositionAndSizeXml();
         }
 
@@ -1395,8 +1392,8 @@ namespace OfficeOpenXml.Drawing
         {
             if (_drawings._collectionType == DrawingsCollectionType.Chart)
             {
-                var pixelWidth = GetPixelWidth() * ((double)Percent / 100); //(Size.Width / EMU_PER_PIXEL) * ((double)Percent / 100)
-                var pixelHeight = GetPixelHeight() * ((double)Percent / 100); //(Size.Height / EMU_PER_PIXEL) * ((double)Percent / 100);
+                var pixelWidth = Math.Round(GetPixelWidth() * ((double)Percent / 100), 0); //(Size.Width / EMU_PER_PIXEL) * ((double)Percent / 100)
+                var pixelHeight = Math.Round(GetPixelHeight() * ((double)Percent / 100), 0); //(Size.Height / EMU_PER_PIXEL) * ((double)Percent / 100);
                 SetSizeChartShape((int)pixelWidth, (int)pixelHeight);
             }
             else
@@ -1420,24 +1417,23 @@ namespace OfficeOpenXml.Drawing
 
         private void SetSizeChartShape(int PixelWidth, int PixelHeight)
         {
-            //var right = To.X * _drawings._screenWidth + PixelWidth;
-            //var bottom = To.Y * _drawings._screenHeight + PixelHeight;
-            //var x = right / (_drawings._screenWidth);
-            //var y = bottom / (_drawings._screenHeight);
-            //To.Y = y;
-            //To.X = x;
-            //AdjustFromToXY(From.X, From.Y);
-            _frmXSize.Width = PixelWidth * EMU_PER_PIXEL;
-            _frmXSize.Height = PixelHeight * EMU_PER_PIXEL;
-            if (Size == null)
+            if (_frmXSize != null)
+            {
+                _frmXSize.Width = PixelWidth * EMU_PER_PIXEL;
+                _frmXSize.Height = PixelHeight * EMU_PER_PIXEL;
+            }
+            if (To != null)
             {
                 To.X = (From.X + PixelWidth / _drawings._screenWidth);
+                if (To.X > 1) To.X = 1; else if (To.X < 0) To.X = 0;
+
                 To.Y = (From.Y + PixelHeight / _drawings._screenHeight);
+                if (To.Y > 1) To.Y = 1; else if (To.Y < 0) To.Y = 0;
             }
-            else
+            if(Size!=null)
             {
-                Size.Width = _frmXSize.Width;
-                Size.Height = _frmXSize.Height;
+                Size.Width = PixelWidth * EMU_PER_PIXEL;
+                Size.Height = PixelHeight * EMU_PER_PIXEL;
             }
         }
 

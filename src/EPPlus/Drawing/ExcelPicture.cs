@@ -78,8 +78,8 @@ namespace OfficeOpenXml.Drawing
                     var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext", NameSpaceManager);
                     extNode.SetAttribute("cx", cx.ToString());
                     extNode.SetAttribute("cy", cy.ToString());
-                    _frmXPosition = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
-                    _frmXSize = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize, 1);
+                    _frmXPosition = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode);
+                    _frmXSize = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, null, 1);
                     break;
                 case DrawingsCollectionType.Worksheet:
                 default:

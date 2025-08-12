@@ -35,8 +35,7 @@ namespace EPPlusTest.Drawing.Chart
 
             var chartPic = chart.Drawings.AddPicture("MyPic", Resources.GetImageFullFileName("epplusobject.png"));
             chartPic.SetPosition(0, 5000);
-            chartPic.SetSize(200);
-
+            //chartPic.SetSize(200);
 
             var myPic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
             using (FileStream fileStream = new FileStream(myPic, FileMode.Open, FileAccess.Read))

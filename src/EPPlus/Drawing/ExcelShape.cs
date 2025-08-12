@@ -27,8 +27,8 @@ namespace OfficeOpenXml.Drawing
             {
                 var offNode = (XmlElement)node.SelectSingleNode("cdr:sp/cdr:spPr/a:xfrm/a:off", NameSpaceManager);
                 var extNode = (XmlElement)node.SelectSingleNode("cdr:sp/cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
-                Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
-                Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
+                _frmXPosition = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode);
+                _frmXSize = new ExcelDrawingSize(drawings.NameSpaceManager, extNode);
             }
         }
         internal ExcelShape(ExcelDrawings drawings, XmlNode node, eShapeStyle style, DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet) :
