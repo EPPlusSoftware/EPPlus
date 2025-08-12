@@ -5,6 +5,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style.Table;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -1459,5 +1460,74 @@ namespace EPPlusTest.Core.Range.Insert
             var def123 = abc123.Insert(eShiftTypeInsert.Right);
             Assert.AreEqual(ws.Cells["D1:F3"], def123);
         }
+
+        [TestMethod]
+        public void InsertStylingWorksCorrectlyWithLookup()
+        {
+            using (var p = OpenPackage("ColumnLookupInsertStyling.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("A_New_ws");
+                var col = ws.Column(3);
+                col.ColumnMax = 10;
+                col.Style.Fill.SetBackground(Color.Azure);
+
+                var col2 = ws.Column(12);
+                col2.ColumnMax = 14;
+                col2.Style.Fill.SetBackground(Color.ForestGreen);
+
+                var col3 = ws.Column(14);
+                col3.ColumnMax = 18;
+                col3.Style.Fill.SetBackground(Color.Firebrick);
+
+                var oFile = GetOutputFile("", "ColumnLookupInsertStyling_Before_Insert.xlsx");
+                p.SaveAs(oFile);
+
+                ws.InsertColumn(12, 5);
+                var col4 = ws.Column(12);
+                col4.ColumnMax = 16;
+
+                //Does not work as expected
+                //var cols = ws.Columns[12, 16];
+                //cols.Style.Fill.SetBackground(Color.Goldenrod);
+
+                col4.Style.Fill.SetBackground(Color.Goldenrod);
+
+                //assert
+
+                var oFile2 = GetOutputFile("", "ColumnLookupInsertStyling_After_Insert.xlsx");
+                p.SaveAs(oFile2);
+            }
+        }
+
+        //[TestMethod]
+        //public void InsertStylingWorksCorrectlyWithLookup()
+        //{
+        //    using(var p = OpenPackage("ColumnLookupInsertStyling.xlsx"))
+        //    {
+        //        var ws = p.Workbook.Worksheets.Add("A_New_ws");
+        //        var col = ws.Column(3);
+        //        col.ColumnMax = 10;
+        //        col.Style.Fill.SetBackground(Color.Azure);
+
+        //        var col2 = ws.Column(12);
+        //        col2.ColumnMax = 14;
+        //        col2.Style.Fill.SetBackground(Color.ForestGreen);
+
+        //        var col3 = ws.Column(14);
+        //        col3.ColumnMax = 18;
+        //        col3.Style.Fill.SetBackground(Color.Firebrick);
+
+        //        var oFile = GetOutputFile("", "ColumnLookupInsertStyling_Before_Insert.xlsx");
+        //        p.SaveAs(oFile);
+
+        //        ws.InsertColumn(12, 5);
+        //        var cols = ws.Columns[12, 16];
+
+        //        cols.Style.Fill.SetBackground(Color.Goldenrod);
+
+        //        var oFile2 = GetOutputFile("", "ColumnLookupInsertStyling_After_Insert.xlsx");
+        //        p.SaveAs(oFile2);
+        //    }
+        //}
     }
 }

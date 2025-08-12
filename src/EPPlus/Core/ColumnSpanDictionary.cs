@@ -138,10 +138,27 @@ namespace OfficeOpenXml.Core
         /// <param name="columnValue"></param>
         internal void UpdateColumn(int col, ExcelColumn columnValue)
         {
-            var pos = Array.BinarySearch(_index[0], 0, _count, col);
-            if (pos < 0)
+            if(TryGetExcelColumn(col, out ExcelColumn existingColumn))
             {
-                Add(columnValue.ColumnMin, (T)columnValue);
+                var pos = Array.BinarySearch(_index[0], 0, _count, col);
+                if (pos < 0)
+                {
+                    //Column exists but only as part of another column
+                    Add(col, (T)columnValue);
+                }
+                else
+                {
+                    //Column is already updated as the reference is updated. If an insert other functions handle that.
+                }
+            }
+            else
+            {
+                var pos = Array.BinarySearch(_index[0], 0, _count, columnValue.ColumnMin);
+                if (pos < 0)
+                {
+                    //Column exists but only as part of another column
+                    Add(columnValue.ColumnMin, (T)columnValue);
+                }
             }
         }
         /// On insert/delete the positions update After the cell values have been inserted/deleted to final positions.
