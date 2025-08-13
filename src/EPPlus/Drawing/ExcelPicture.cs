@@ -58,14 +58,23 @@ namespace OfficeOpenXml.Drawing
             Hyperlink = hyperlink;
             Image = new ExcelImage(this);
             Image.Type = type;
-
+            
             switch (DrawingsType)
             {
                 case DrawingsCollectionType.Chart:
                     int x = (int)(_drawings._screenWidth * EMU_PER_PIXEL * (From.X));
                     int y = (int)(_drawings._screenHeight * EMU_PER_PIXEL * (From.Y));
-                    int cx = (int)(_drawings._screenWidth * EMU_PER_PIXEL * (To.X - From.X));
-                    int cy = (int)(_drawings._screenHeight * EMU_PER_PIXEL * (To.Y - From.Y));
+                    int cx, cy;
+                    if (To == null)
+                    {
+                        cx = (int)(Size.Width / EMU_PER_PIXEL);
+                        cy = (int)(Size.Height / EMU_PER_PIXEL);
+                    }
+                    else
+                    {
+                        cx = (int)(_drawings._screenWidth * EMU_PER_PIXEL * (To.X - From.X));
+                        cy = (int)(_drawings._screenHeight * EMU_PER_PIXEL * (To.Y - From.Y));
+                    }
                     XmlElement xFrmNode = GetXfrmNode(picNode);
                     if (xFrmNode.ChildNodes.Count == 0)
                     {

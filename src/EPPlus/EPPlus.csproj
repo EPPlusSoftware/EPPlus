@@ -27,10 +27,13 @@
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
 			## Version 8.1.0
+			* Add Shapes and Pictures to charts.
+			* An new interface for styling headers and footers more easily.
+			* If copying a worksheet to a new workbook, the relevant defined names are also copied.
 			* Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 
 			## Version 8.0.8
-			* Minor bug fixes. 
+			* Minor bug fixes.
 
 			## Version 8.0.7
 			* Minor bug fixes.
@@ -510,8 +513,10 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
-			8.0.8			20250722 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-			8.0.7			20250702 Minor bug fixes. 
+			8.1.0			20250812 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			8.0.9			20250812 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			8.0.8			20250722 Minor bug fixes. 
+			8.0.7			20250702 Minor bug fixes.
 			8.0.6			20250619 Minor bug fixes.
 			8.0.5			20250515 Fix for external links issue in 8.0.4.
 			8.0.4			20250514 Minor bug fixes.

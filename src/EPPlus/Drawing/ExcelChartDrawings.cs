@@ -215,16 +215,25 @@ namespace OfficeOpenXml.Drawing
             _drawings.Remove(_drawings._drawingNames[Name]);
         }
 
+        /// <summary>
+        /// Returns an Enumerator for the drawings in the chart
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<ExcelDrawing> GetEnumerator()
         {
             return _drawings._drawingsList.GetEnumerator();
         }
-
+        /// <summary>
+        /// Returns an Enumerator for the drawings in the chart
+        /// </summary>
+        /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
-
+        /// <summary>
+        /// Disposes the drawings collection and all drawings in it.
+        /// </summary>
         public void Dispose()
         {
             if (_drawings != null)

@@ -772,7 +772,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (From != null)
                 {
-                    return (int)(Math.Round(From.Y * _drawings._screenWidth));
+                    return (int)(Math.Round(From.X * _drawings._screenWidth));
                 }
                 return 0;
             }
@@ -1007,17 +1007,24 @@ namespace OfficeOpenXml.Drawing
         }
         internal void SetPixelHeight(double pixels)
         {
-            if (CellAnchor == eEditAs.TwoCell)
+            if (_collectionType == DrawingsCollectionType.Worksheet)
             {
-                _doNotAdjust = true;
-                GetToRowFromPixels(pixels, out int toRow, out int pixOff);
-                To.Row = toRow;
-                To.RowOff = pixOff;
-                _doNotAdjust = false;
+                if (CellAnchor == eEditAs.TwoCell)
+                {
+                    _doNotAdjust = true;
+                    GetToRowFromPixels(pixels, out int toRow, out int pixOff);
+                    To.Row = toRow;
+                    To.RowOff = pixOff;
+                    _doNotAdjust = false;
+                }
+                else
+                {
+                    Size.Height = (long)Math.Round(pixels * EMU_PER_PIXEL);
+                }
             }
             else
             {
-                Size.Height = (long)Math.Round(pixels * EMU_PER_PIXEL);
+                SetHeightChartShape(pixels);
             }
         }
 
@@ -1051,18 +1058,25 @@ namespace OfficeOpenXml.Drawing
 
         internal void SetPixelWidth(double pixels)
         {
-            if (CellAnchor == eEditAs.TwoCell)
+            if (_collectionType == DrawingsCollectionType.Worksheet)
             {
-                _doNotAdjust = true;
-                GetToColumnFromPixels(pixels, out int col, out int pixOff);
+                if (CellAnchor == eEditAs.TwoCell)
+                {
+                    _doNotAdjust = true;
+                    GetToColumnFromPixels(pixels, out int col, out int pixOff);
 
-                To.Column = col - 2;
-                To.ColumnOff = pixOff * EMU_PER_PIXEL;
-                _doNotAdjust = false;
+                    To.Column = col - 2;
+                    To.ColumnOff = pixOff * EMU_PER_PIXEL;
+                    _doNotAdjust = false;
+                }
+                else
+                {
+                    Size.Width = (int)Math.Round(pixels * EMU_PER_PIXEL);
+                }
             }
             else
             {
-                Size.Width = (int)Math.Round(pixels * EMU_PER_PIXEL);
+                SetWidthChartShape((int)pixels);
             }
         }
 
@@ -1142,6 +1156,8 @@ namespace OfficeOpenXml.Drawing
 
         private void SetPositionChartShapes(int PixelTop, int PixelLeft)
         {
+            _top = PixelTop;
+            _left = PixelLeft;
             var y = PixelTop / (_drawings._screenHeight);
             var x = PixelLeft / (_drawings._screenWidth);
             AdjustFromToXY(x, y);
@@ -1151,10 +1167,6 @@ namespace OfficeOpenXml.Drawing
             {
                 _frmXPosition.X = left;
                 _frmXPosition.Y = top;
-            }
-            if(Position!=null)
-            {
-
             }
             UpdatePositionAndSizeXml();
         }
@@ -1178,13 +1190,14 @@ namespace OfficeOpenXml.Drawing
                 x = 1;
             }
 
-            var width = Math.Abs(From.X - To.X);
-            var height = Math.Abs(From.Y - To.Y);
-
-            From.X = x;
-            From.Y = y;
             if (Size==null)
             {
+                var width = Math.Abs(From.X - To.X);
+                var height = Math.Abs(From.Y - To.Y);
+
+                From.X = x;
+                From.Y = y;
+
                 To.X = x + width;
                 To.Y = y + height;
                 if (To.X > 1)
@@ -1202,8 +1215,8 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                Size.Width = (long)(width * ExcelDrawing.EMU_PER_PIXEL);
-                Size.Height = (long)(height * ExcelDrawing.EMU_PER_PIXEL);
+                From.X = x;
+                From.Y = y;
             }
         }
 
@@ -1392,9 +1405,9 @@ namespace OfficeOpenXml.Drawing
         {
             if (_drawings._collectionType == DrawingsCollectionType.Chart)
             {
-                var pixelWidth = Math.Round(GetPixelWidth() * ((double)Percent / 100), 0); //(Size.Width / EMU_PER_PIXEL) * ((double)Percent / 100)
-                var pixelHeight = Math.Round(GetPixelHeight() * ((double)Percent / 100), 0); //(Size.Height / EMU_PER_PIXEL) * ((double)Percent / 100);
-                SetSizeChartShape((int)pixelWidth, (int)pixelHeight);
+                _width = Math.Round(GetPixelWidth() * ((double)Percent / 100), 0); 
+                _height = Math.Round(GetPixelHeight() * ((double)Percent / 100), 0); 
+                SetSizeChartShape((int)_width, (int)_height);
             }
             else
             {
@@ -1415,28 +1428,47 @@ namespace OfficeOpenXml.Drawing
         }
 
 
-        private void SetSizeChartShape(int PixelWidth, int PixelHeight)
+        private void SetSizeChartShape(double PixelWidth, double PixelHeight)
+        {
+            SetWidthChartShape(PixelWidth);
+            SetHeightChartShape(PixelHeight);
+        }
+        private void SetWidthChartShape(double PixelWidth)
         {
             if (_frmXSize != null)
             {
-                _frmXSize.Width = PixelWidth * EMU_PER_PIXEL;
-                _frmXSize.Height = PixelHeight * EMU_PER_PIXEL;
+                _frmXSize.Width = (long)(PixelWidth * EMU_PER_PIXEL);
             }
             if (To != null)
             {
                 To.X = (From.X + PixelWidth / _drawings._screenWidth);
                 if (To.X > 1) To.X = 1; else if (To.X < 0) To.X = 0;
+            }
+            if (Size != null)
+            {
+                Size.Width = (long)(PixelWidth * EMU_PER_PIXEL);
+            }
+        }
+        private void SetHeightChartShape(double PixelHeight)
+        {
+            if (_frmXSize != null)
+            {
+                _frmXSize.Height = (long)(PixelHeight * EMU_PER_PIXEL);
+            }
+            if (To != null)
+            {
+                
+                
+                if (To.X > 1) To.X = 1; else if (To.X < 0) To.X = 0;
 
                 To.Y = (From.Y + PixelHeight / _drawings._screenHeight);
                 if (To.Y > 1) To.Y = 1; else if (To.Y < 0) To.Y = 0;
             }
-            if(Size!=null)
+            if (Size != null)
             {
-                Size.Width = PixelWidth * EMU_PER_PIXEL;
-                Size.Height = PixelHeight * EMU_PER_PIXEL;
+                Size.Height = ((long)PixelHeight * EMU_PER_PIXEL);
             }
         }
-
         /// <summary>
         /// Set size in pixels
         /// Note that resizing columns / rows after using this function will effect the size of the drawing
@@ -1445,6 +1477,8 @@ namespace OfficeOpenXml.Drawing
         /// <param name="PixelHeight">Height in pixels</param>
         public void SetSize(int PixelWidth, int PixelHeight)
         {
+            _width = PixelWidth;
+            _height = PixelHeight;
             if (_drawings._collectionType == DrawingsCollectionType.Chart)
             {
                 SetSizeChartShape(PixelWidth, PixelHeight);
@@ -1452,8 +1486,6 @@ namespace OfficeOpenXml.Drawing
             else
             {
                 _doNotAdjust = true;
-                _width = PixelWidth;
-                _height = PixelHeight;
                 SetPixelWidth(PixelWidth);
                 SetPixelHeight(PixelHeight);
                 _doNotAdjust = false;

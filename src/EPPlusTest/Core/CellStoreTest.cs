@@ -504,7 +504,7 @@ namespace EPPlusTest.Core
                 for (int col = 1; col <= cols; col++)
                 {
                     cellStore.SetValue(row, col, (row * col));
-                }   
+                }
             }
         }
 		[TestMethod]

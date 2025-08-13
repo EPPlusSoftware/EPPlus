@@ -40,10 +40,6 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         public void UpdateXml()
         {
-            if(excelDrawingsType == 1)
-            {
-                excelDrawingsType = excelDrawingsType;
-            }
             SetXmlNodeString(colOffPath, _height.ToString());
             SetXmlNodeString(rowOffPath, _width.ToString());
         }
