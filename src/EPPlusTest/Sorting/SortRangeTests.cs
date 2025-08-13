@@ -19,6 +19,7 @@ namespace EPPlusTest.Sorting
         {
             using (var package = new ExcelPackage())
             {
+                //WHAT
                 var rnd = new Random();
                 var sheet = package.Workbook.Worksheets.Add("Test");
                 Assert.IsNull(sheet.SortState, "Worksheet.SortState was not null");
