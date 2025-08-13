@@ -5,6 +5,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style.Table;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -1458,6 +1459,27 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual(ws.Cells["A4:C6"], abc456);
             var def123 = abc123.Insert(eShiftTypeInsert.Right);
             Assert.AreEqual(ws.Cells["D1:F3"], def123);
+        }
+        [TestMethod]
+        public void EnsureInsertWorksCorrectlyWithColumnCollection()
+        {
+            using (var p = OpenPackage("ColumnCollectionInsert.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("A_New_ws");
+
+                var getCols = ws.Column(12);
+                getCols.ColumnMax = 14;
+                getCols.Style.Fill.SetBackground(Color.ForestGreen);
+
+                //This did not work as expected
+                ws.InsertColumn(12, 5);
+                var cols = ws.Columns[12, 16];
+                cols.Style.Fill.SetBackground(Color.Goldenrod);
+
+                Assert.AreEqual(ws.GetColumn(13).Style.Fill.BackgroundColor.Rgb, cols.Style.Fill.BackgroundColor.Rgb);
+
+                SaveAndCleanup(p);
+            }
         }
     }
 }
