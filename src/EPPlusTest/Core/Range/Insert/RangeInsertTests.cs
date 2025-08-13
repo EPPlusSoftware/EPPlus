@@ -1489,7 +1489,7 @@ namespace EPPlusTest.Core.Range.Insert
                 col4.Style.Fill.SetBackground(Color.Goldenrod);
 
                 //Ensure the entire new inserted range has correct color fill
-                for(int i = 12; i< 17; i++)
+                for (int i = 12; i < 17; i++)
                 {
                     Assert.AreEqual(ws.Column(i).Style.Fill.BackgroundColor.Rgb, col4.Style.Fill.BackgroundColor.Rgb);
                 }
@@ -1502,6 +1502,28 @@ namespace EPPlusTest.Core.Range.Insert
 
                 var oFile2 = GetOutputFile("", "ColumnLookupInsertStyling_After_Insert.xlsx");
                 p.SaveAs(oFile2);
+            }
+        }
+
+        [TestMethod]
+        public void EnsureInsertWorksCorrectlyWithColumnCollection()
+        {
+            using (var p = OpenPackage("ColumnCollectionInsert.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("A_New_ws");
+
+                var getCols = ws.Column(12);
+                getCols.ColumnMax = 14;
+                getCols.Style.Fill.SetBackground(Color.ForestGreen);
+
+                //This did not work as expected
+                ws.InsertColumn(12, 5);
+                var cols = ws.Columns[12, 16];
+                cols.Style.Fill.SetBackground(Color.Goldenrod);
+
+                Assert.AreEqual(ws.GetColumn(13).Style.Fill.BackgroundColor.Rgb, cols.Style.Fill.BackgroundColor.Rgb);
+
+                SaveAndCleanup(p);
             }
         }
     }

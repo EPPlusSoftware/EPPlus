@@ -324,7 +324,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var adr = ri.Address;
             foreach (var pt in ws.PivotTables)
             {
-                if (pt.Address.Collide(adr.FromRow, adr.FromCol, adr.ToRow, adr.ToCol)!=ExcelAddressBase.eAddressCollition.No)
+                var pfCount = pt.PageFields.Count;
+                if (pfCount > 0) pfCount++;
+                var ptAddress = new ExcelAddressBase(adr.FromRow <= pfCount + 1 ? 1 : adr.FromRow - pfCount, adr.FromCol, adr.ToRow, adr.ToCol);
+                if (ptAddress.Collide(adr.FromRow, adr.FromCol, adr.ToRow, adr.ToCol)!=ExcelAddressBase.eAddressCollition.No)
                 {
                     pivotTable = pt;
                     return true;

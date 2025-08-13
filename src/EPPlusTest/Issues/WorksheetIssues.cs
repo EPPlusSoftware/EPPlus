@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
+using System.Threading;
 
 namespace EPPlusTest.Issues
 {
@@ -900,6 +902,17 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual("J60", ws.LastValueCell.Address);
                 SaveAndCleanup(p);
             }
+        }
+
+        [TestMethod]
+        public void GermanCultureFormattingResultsInError()
+        {
+            var excelPackage = OpenTemplatePackage("Test_TextFormular.xlsx");
+            excelPackage.Workbook.NumberFormatToTextHandler = options => "64.066,27€";
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
+            excelPackage.Workbook.Calculate();
+            Assert.AreEqual("64.066,27€", excelPackage.Workbook.Worksheets[0].Cells[1, 3].Text);
         }
     }
 }

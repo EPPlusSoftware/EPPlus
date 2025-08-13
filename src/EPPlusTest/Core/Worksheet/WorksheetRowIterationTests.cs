@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -810,6 +811,34 @@ namespace EPPlusTest.Core.Worksheet
                 var found = cs.NextCell(ref row, ref col, row, 0, 6, col);
 
                 Assert.IsFalse(found);
+            }
+        }
+        [TestMethod]
+        public void s915()
+        {
+            using (var pck = OpenTemplatePackage("s915.xlsx"))
+            {
+                using ExcelPackage excelPackage = pck;
+                ExcelWorksheets worksheets = excelPackage.Workbook.Worksheets;
+
+                IEnumerable<ExcelWorksheet> sheetsToClear = worksheets.Where(s => !s.Name.StartsWith("data ", StringComparison.OrdinalIgnoreCase));
+                foreach (ExcelWorksheet ws in sheetsToClear)
+                {
+                    ws.ClearFormulas();
+
+                    ws.Rows.DeleteAll(r => r.Hidden);
+                    ws.Columns.DeleteAll(c => c.Hidden);
+
+                    ws.View.TopLeftCell = "A1";
+                    ws.View.SelectedRange = "A1";
+
+                    foreach (var condFormatting in ws.ConditionalFormatting)
+                    {
+                        var someAddress = condFormatting.Address;
+                    }
+                }
+
+                SaveAndCleanup(pck);
             }
         }
     }
