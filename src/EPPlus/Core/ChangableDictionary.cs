@@ -43,17 +43,38 @@ namespace OfficeOpenXml.Core
                     return default(T);
                 }
             }
+            set
+            {
+                var pos = Array.BinarySearch(_index[0], 0, _count, key);
+                if (pos >= 0)
+                {
+                    _items[_index[1][pos]] = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException($"The key'{key}' cannot be found. ChangableDictionary cannot set value of non-existant key.");
+                }
+            }
         }
 
-        internal void InsertAndShift(int fromPosition, int add)
+        internal virtual void InsertAndShift(int fromPosition, int add)
         {
             var pos = Array.BinarySearch(_index[0], 0, _count, fromPosition);
-            if(pos<0)
+
+            if (pos + 1 >= _index[0].Length - 1)
+            {
+                Array.Resize(ref _index[0], _index[0].Length << 1);
+                Array.Resize(ref _index[1], _index[1].Length << 1);
+            }
+
+            if (pos<0)
             {
                 pos = ~pos;
             }
+
             Array.Copy(_index[0], pos, _index[0], pos + 1, _count - pos);
             Array.Copy(_index[1], pos, _index[1], pos + 1, _count - pos);
+
             _count++;
             for (int i=pos;i<Count;i++)
             {
@@ -66,8 +87,8 @@ namespace OfficeOpenXml.Core
         /// <summary>
         /// To keep track of if the collection has changed. Must be increased on each change operation.
         /// </summary>
-        internal int Version { get; private set; }
-        public void Add(int key, T value)
+        internal int Version { get; set; }
+        public virtual void Add(int key, T value)
         {
             var pos = Array.BinarySearch(_index[0], 0, _count, key);
             if (pos >= 0)
@@ -123,8 +144,13 @@ namespace OfficeOpenXml.Core
             Version=0;
         }
 
-        public bool ContainsKey(int key)
+        public virtual bool ContainsKey(int key)
         {
+            if(_index[0].Length - 1 < _count)
+            {
+                Array.Resize(ref _index[0], _index[0].Length << 1);
+                Array.Resize(ref _index[1], _index[1].Length << 1);
+            }
             return Array.BinarySearch(_index[0], 0, _count, key) >= 0;
         }
     
@@ -133,11 +159,11 @@ namespace OfficeOpenXml.Core
             return new ChangeableDictionaryEnumerator<T>(this);
         }
 
-        public bool RemoveAndShift(int key)
+        public virtual bool RemoveAndShift(int key)
         {
             return RemoveAndShift(key, true);
         }
-        private bool RemoveAndShift(int key, bool dispose)
+        internal bool RemoveAndShift(int key, bool dispose)
         {
             var pos = Array.BinarySearch(_index[0], 0, _count, key);
             if (pos >= 0)

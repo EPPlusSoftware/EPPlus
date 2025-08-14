@@ -5,6 +5,7 @@ using OfficeOpenXml.FormulaParsing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -829,6 +830,7 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(timeSpanCell.Ticks, new TimeSpan(12, 30, 45).Ticks);
             }
         }
+
         [TestMethod]
         public void s843()
 		{
@@ -842,6 +844,51 @@ namespace EPPlusTest.Issues
 
             sheet.Cells["C3"].AddComment("Test"); // NullReferenceException 
         }
+
+		[TestMethod]
+		public void s912()
+		{
+			using (var package = OpenPackage("s912.xlsx",true))
+			{
+				var sheet = package.Workbook.Worksheets.Add("F1");
+
+				int nbLines = 10000;
+				int nbCols = 100;
+
+				var sw = new Stopwatch();
+				sw.Start();
+
+				// Uncommenting one of these lines changes the performance of the for loops.
+				// At the end of each line is the measured time of the whole program, when this
+				// specific line is uncommented. When no line is uncommented, the measured time
+				// is 12.7s.
+				//
+				// sheet.Cells[1, 1, nbLines, nbCols].Style.Numberformat.Format = "#"; // 7.4s
+				// sheet.Cells[1, 1, nbLines, nbCols].Style.Locked = true; // 7.4s
+				//sheet.Cells[1, 1, nbLines, nbCols].Value = 1; // 19.5s // uncommenting this alone is ~2s after fix. With below about 3s. 
+				// sheet.Cells[1, 1, nbLines, nbCols].Value = ""; // 18s
+				// sheet.InsertColumn(1, nbCols); // 12.9
+				// sheet.InsertColumn(1, nbCols, 1); // 7.8s
+
+				for (int i = 1; i <= nbLines; i++)
+				{
+					for (int j = 1; j <= nbCols; j++)
+					{
+						sheet.SetValue(i, j, 123);
+					}
+				}
+
+				var seconds = sw.Elapsed.TotalSeconds;
+				sw.Stop();
+
+				//seconds was ~1.5-1.7 locally in 8.0.9
+				//Made test check if over 10 seconds in case of slow appveyor
+				Assert.IsTrue(seconds < 10.0D);
+
+                SaveAndCleanup(package);
+			}
+        }
+
         [TestMethod]
         public void DimensionByValueIssue()
         {
