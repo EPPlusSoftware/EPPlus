@@ -643,23 +643,6 @@ namespace OfficeOpenXml
             //TODO:fix this method to handle splits as well.
             ValidateRows(Row, Column);
 
-            //var hiddenRows = 0;
-            //foreach(var row in _worksheet.Rows[0, Row])
-            //{
-            //    if(row.Hidden == true)
-            //    {
-            //        hiddenRows++;
-            //    }
-            //}
-            //var hiddenCols = 0;
-            //foreach(var column in _worksheet.Columns[0, Column])
-            //{
-            //    if (column.Hidden == true)
-            //    {
-            //        hiddenCols++;
-            //    }
-            //}
-
             int hiddenCols = 0;
             int hiddenRows = 0;
 
