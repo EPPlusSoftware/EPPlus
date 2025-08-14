@@ -1,26 +1,94 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RunSettings>
-	<RunConfiguration>
-	</RunConfiguration>
-	<LoggerRunSettings>
-		<Loggers>
-			<Logger friendlyName="blame" enabled="True" />
-		</Loggers>
-	</LoggerRunSettings>
-	<DataCollectionRunSettings>
-		<DataCollectors>
-			<!-- Enables blame -->
-			<DataCollector friendlyName="blame" enabled="True">
-				<Configuration>
-					<!-- Enables crash dump, with dump type "Full" or "Mini".
-          Requires ProcDump in PATH for .NET Framework. -->
-					<CollectDump DumpType="Full" />
-					<!-- Enables hang dump or testhost and its child processes 
-          when a test hangs for more than 10 minutes. 
-          Dump type "Full", "Mini" or "None" (just kill the processes). -->
-					<CollectDumpOnTestSessionHang TestTimeout="10min" HangDumpType="Full" />
-				</Configuration>
-			</DataCollector>
-		</DataCollectors>
-	</DataCollectionRunSettings>
+	<RunSettings>
+		<!-- Configurations that affect the Test Framework -->
+		<RunConfiguration>
+			<!-- Use 0 for maximum process-level parallelization. This does not force parallelization within the test DLL (on the thread-level). You can also change it from the Test menu; choose "Run tests in parallel". Unchecked = 1 (only 1), checked = 0 (max). -->
+			<MaxCpuCount>1</MaxCpuCount>
+			<!-- Path relative to directory that contains .runsettings file-->
+			<ResultsDirectory>.\.\TestResults</ResultsDirectory>
+
+			<!-- true or false -->
+			<!-- Value that specifies the exit code when no tests are discovered -->
+			<TreatNoTestsAsError>true</TreatNoTestsAsError>
+		</RunConfiguration>
+
+		<!-- Configurations for data collectors -->
+		<DataCollectionRunSettings>
+			<DataCollectors>
+				<DataCollector friendlyName="Code Coverage" uri="datacollector://Microsoft/CodeCoverage/2.0" assemblyQualifiedName="Microsoft.VisualStudio.Coverage.DynamicCoverageDataCollector, Microsoft.VisualStudio.TraceCollector, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+					<Configuration>
+						<CodeCoverage>
+							<ModulePaths>
+								<Exclude>
+									<ModulePath>.*CPPUnitTestFramework.*</ModulePath>
+								</Exclude>
+							</ModulePaths>
+
+							<!-- We recommend you do not change the following values: -->
+							<UseVerifiableInstrumentation>True</UseVerifiableInstrumentation>
+							<AllowLowIntegrityProcesses>True</AllowLowIntegrityProcesses>
+							<CollectFromChildProcesses>True</CollectFromChildProcesses>
+							<CollectAspDotNet>False</CollectAspDotNet>
+
+						</CodeCoverage>
+					</Configuration>
+				</DataCollector>
+
+				<DataCollector uri="datacollector://microsoft/VideoRecorder/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TestTools.DataCollection.VideoRecorder.VideoRecorderDataCollector, Microsoft.VisualStudio.TestTools.DataCollection.VideoRecorder, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" friendlyName="Screen and Voice Recorder">
+					<!--Video data collector was introduced in Visual Studio 2017 version 15.5 -->
+					<Configuration>
+						<!-- Set "sendRecordedMediaForPassedTestCase" to "false" to add video attachments to failed tests only -->
+						<MediaRecorder sendRecordedMediaForPassedTestCase="true"  xmlns="">
+							<ScreenCaptureVideo bitRate="512" frameRate="2" quality="20" />
+						</MediaRecorder>
+					</Configuration>
+				</DataCollector>
+
+				<!-- Configuration for blame data collector -->
+				<DataCollector friendlyName="blame" enabled="True">
+					<Configuration>
+						<CollectDump DumpType="Full" />
+						<CollectDumpOnTestSessionHang TestTimeout="1min" HangDumpType="Full" />
+					</Configuration>
+				</DataCollector>
+			</DataCollectors>
+		</DataCollectionRunSettings>
+
+		<!-- Configuration for loggers -->
+		<LoggerRunSettings>
+			<Loggers>
+				<Logger friendlyName="console" enabled="True">
+					<Configuration>
+						<Verbosity>quiet</Verbosity>
+					</Configuration>
+				</Logger>
+				<Logger friendlyName="trx" enabled="True">
+					<Configuration>
+						<LogFileName>foo.trx</LogFileName>
+					</Configuration>
+				</Logger>
+				<Logger friendlyName="html" enabled="True">
+					<Configuration>
+						<LogFileName>foo.html</LogFileName>
+					</Configuration>
+				</Logger>
+				<Logger friendlyName="blame" enabled="True" />
+			</Loggers>
+		</LoggerRunSettings>
+
+		<!-- Adapter Specific sections -->
+
+		<!-- MSTest adapter -->
+		<MSTest>
+			<MapInconclusiveToFailed>True</MapInconclusiveToFailed>
+			<CaptureTraceOutput>false</CaptureTraceOutput>
+			<DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
+			<DeploymentEnabled>False</DeploymentEnabled>
+			<AssemblyResolution>
+				<Directory path="C:\temp\bin\" includeSubDirectories="false"/>
+			</AssemblyResolution>
+		</MSTest>
+
+	</RunSettings>
 </RunSettings>

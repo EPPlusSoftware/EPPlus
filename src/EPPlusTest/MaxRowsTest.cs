@@ -13,7 +13,6 @@ namespace EPPlusTest
             var package = new ExcelPackage();
 
             var sheet = package.Workbook.Worksheets.Add("DeletingAtMaxSheet");
-
             sheet.Cells["A1048576"].Value = 5;
 
             //Verify end and start of sheet are as expected.
