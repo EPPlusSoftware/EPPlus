@@ -157,7 +157,6 @@ namespace EPPlusTest.Core
         }
 
         #endregion
-
         #region Delete
         [TestMethod]
         public void DeletePrevRowWhenCreatePage()
@@ -545,6 +544,5 @@ namespace EPPlusTest.Core
                 }
             }
         }
-
     }
 }

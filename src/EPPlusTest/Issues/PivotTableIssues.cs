@@ -485,21 +485,6 @@ namespace EPPlusTest.Issues
 
                 SaveAndCleanup(package);
             }
-
-
-            //using (var package = new ExcelPackage(new FileInfo(@"C:\Websites\EPPlusTest\GWTemplateSavedWithoutChanges.xlsx")))
-            //{
-            //    var firstDataRow = 2;
-            //    var ws = package.Workbook.Worksheets["Raw Data"];
-
-
-            //    var firstRowToDelete = firstDataRow + 1;
-            //    ws.DeleteRow(firstRowToDelete, ExcelPackage.MaxRows - firstRowToDelete + 1);
-            //    ws.Cells[firstDataRow, 1].Value = "123456";
-
-
-            //    File.WriteAllBytes(@"C:\Websites\EPPlusTest\GWResultSuccess.xlsx", package.GetAsByteArray());
-            //}
         }
         [TestMethod]
         public void s907_2()
@@ -567,6 +552,18 @@ namespace EPPlusTest.Issues
             ws.Cells[row, t.Address.Start.Column + 8].Value = 125.00;
 
             t.DeleteRow(0); // delete 1st/template row
+        }
+        [TestMethod]
+        public void s919()
+        {
+            using (var p = OpenTemplatePackage("s919.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Aico Data"];
+                ws.Calculate();
+
+                Assert.AreEqual(123D ,ws.Cells["C37"].Value);
+                Assert.AreEqual(123D, ws.Cells["D38"].Value);
+            }
         }
     }
 }
