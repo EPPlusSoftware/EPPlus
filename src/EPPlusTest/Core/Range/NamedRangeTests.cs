@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using System;
 using System.IO;
@@ -7,7 +8,7 @@ using System.IO;
 namespace EPPlusTest.Core.Range
 {
     [TestClass]
-    public class NamedRangeTests
+    public class NamedRangeTests : TestBase
     {
         [TestMethod]
         public void IsValidName()
@@ -19,8 +20,8 @@ namespace EPPlusTest.Core.Range
             Assert.IsFalse(ExcelAddressUtil.IsValidName("A+1"));   //invalid char
             Assert.IsFalse(ExcelAddressUtil.IsValidName("A%we"));   //Address invalid
             Assert.IsFalse(ExcelAddressUtil.IsValidName("BB73"));   //Address invalid
-			Assert.IsTrue(ExcelAddressUtil.IsValidName("\\tr"));    //Backslash at least three chars
-			Assert.IsTrue(ExcelAddressUtil.IsValidName("BBBB75"));  //Valid
+            Assert.IsTrue(ExcelAddressUtil.IsValidName("\\tr"));    //Backslash at least three chars
+            Assert.IsTrue(ExcelAddressUtil.IsValidName("BBBB75"));  //Valid
             Assert.IsTrue(ExcelAddressUtil.IsValidName("BB1500005")); //Valid
         }
         [TestMethod]
@@ -183,7 +184,7 @@ namespace EPPlusTest.Core.Range
                     //Assert
                     Assert.IsTrue(wbName1.Equals(wbName1));
                     Assert.IsTrue(wsName1.Equals(wsName1));
-                    
+
                     Assert.IsFalse(wsName1.Equals(wbName1));
                     Assert.IsFalse(wbName1.Equals(wsName2));
                     Assert.IsFalse(wsName1.Equals(wsName1_p2));
@@ -203,7 +204,7 @@ namespace EPPlusTest.Core.Range
                     package.Save();
                 }
                 ms.Position = 0;
-                using(var package2 = new ExcelPackage(ms))
+                using (var package2 = new ExcelPackage(ms))
                 {
                     var nameAddress = package2.Workbook.Names["MyName"].ToInternalAddress().Address;
                     Assert.AreEqual("test!$A$1:$A$3", nameAddress);
@@ -383,5 +384,78 @@ namespace EPPlusTest.Core.Range
                 }
             }
         }
+        [TestMethod]
+        public void AddNamesShouldPassValidationTest()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add two worksheets
+                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
+                var sheet2 = pck.Workbook.Worksheets.Add("Sheet 2");
+                //p.Workbook.ExternalLinks.AddExternalWorkbook(new FileInfo("c:\\temp\\arc.xlsx"));
+                var wb = pck.Workbook;
+                //Workbook level.
+                wb.Names.AddFormula("NameWithFormula1", "Sheet1!A1 * 'Sheet 2'!A1");
+                wb.Names.AddFormula("NameWithFormula2", "Sheet1!A1 * ('Sheet 2'!A1 + Sheet3!A4) / 'Sheet 2'!A8"); //Missing sheet3 should pass
+                wb.Names.AddFormula("NameWithFormula3", "Sheet1!A1 * ('Sheet 2'!A1 + Sheet1!Name1)");
+                wb.Names.AddFormula("NameWithFormula4", "([0]ExternalSheet1!A1 * ('Sheet 2'!A1 + Name1))+1"); //External reference.
+                wb.Names.AddFormula("NameWithFormula5", "(Sum([0]ExternalSheet1!A1:A8) - (Avg('Sheet 2'!A1:B12) + NameWithFormula1))+1"); //External reference.
+                wb.Names.AddFormula("NameWithFormula6", "Sum(#REF!) - Avg('Sheet 2'!#REF!)"); //External reference.
+                SaveWorkbook("NamesShouldpass.xlsx", pck);
+            }
+        }
+        [TestMethod]
+        public void CopyNameToNewWorkbookFromRange()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Add two worksheets
+                var sheet1 = p.Workbook.Worksheets.Add("Sheet1");
+                var sheet2 = p.Workbook.Worksheets.Add("Sheet 2");
+                //p.Workbook.ExternalLinks.AddExternalWorkbook(new FileInfo("c:\\temp\\arc.xlsx"));
+                var wb = p.Workbook;
+                //Workbook level.
+                wb.Names.AddValue("NameWithFormula1", 1);
+                wb.Names.Add("NameWithFormulaAddress", sheet1.Cells["A5"]);
+                sheet1.Names.AddValue("NameWithFormulaWs1", 2);
+                sheet1.Cells["A2"].Formula = "NameWithFormula1+1";
+                sheet1.Cells["A3"].Formula = "NameWithFormulaAddress+NameWithFormula1";
+                sheet1.Cells["A4"].Formula = "NameWithFormulaAddress+NameWithFormula1-NameWithFormulaWs1";
+                using (var p2 = new ExcelPackage())
+                {
+                    var sheetNew = p2.Workbook.Worksheets.Add("Sheet1");
+                    sheet1.Cells["A1:A4"].Copy(sheetNew.Cells["A1"]);
+                    Assert.AreEqual(2, p2.Workbook.Names.Count);
+                    Assert.AreEqual(1, sheetNew.Names.Count);
+                    SaveWorkbook("CopyWithName.xlsx", p2);
+                }
+            }
+        }
+        [TestMethod]
+        public void CopyNameToNewWorkbook()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Add two worksheets
+                var sheet1 = p.Workbook.Worksheets.Add("Sheet1");
+                var sheet2 = p.Workbook.Worksheets.Add("Sheet 2");
+                var wb = p.Workbook;
+                //Workbook level.
+                wb.Names.AddValue("NameWithFormula1", 1);
+                wb.Names.Add("NameWithFormulaAddress", sheet1.Cells["A5"]);
+                sheet1.Names.AddValue("NameWithFormulaWs1", 2);
+                sheet1.Cells["A2"].Formula = "NameWithFormula1+1";
+                sheet1.Cells["A3"].Formula = "NameWithFormulaAddress+NameWithFormula1";
+                sheet1.Cells["A4"].Formula = "NameWithFormulaAddress+NameWithFormula1-NameWithFormulaWs1";
+                using (var p2 = new ExcelPackage())
+                {
+                    var sheetNew=p2.Workbook.Worksheets.Add("Sheet1", sheet1);
+                    Assert.AreEqual(2, p2.Workbook.Names.Count);
+                    Assert.AreEqual(1, sheetNew.Names.Count);
+                    SaveWorkbook("CopyWithName.xlsx", p2);
+                }
+            }
+        }
+
     }
 }

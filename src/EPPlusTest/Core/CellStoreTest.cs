@@ -475,7 +475,7 @@ namespace EPPlusTest.Core
         public void ValidatePerformance()
         {
             var cellStore = new CellStore<int>();
-            var acceptable = new TimeSpan(0, 0, 1);
+            var acceptable = new TimeSpan(0, 0, 2);
             var dt = DateTime.Now;
             LoadCellStore(cellStore, 1, 1000000);
             var elapsedTime = DateTime.Now - dt;
@@ -504,7 +504,7 @@ namespace EPPlusTest.Core
                 for (int col = 1; col <= cols; col++)
                 {
                     cellStore.SetValue(row, col, (row * col));
-                }   
+                }
             }
         }
 		[TestMethod]

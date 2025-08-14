@@ -2035,7 +2035,7 @@ namespace OfficeOpenXml
                 var allDestinations = Destination.GetAllAddresses();
                 foreach (var currDest in allDestinations)
                 {
-                    //arguably this is unnecesary as it should not be possible.
+                    //Arguably this is unnecessary as it should not be possible.
                     if (currDest.Addresses == null)
                     {
                         var helper = new RangeCopyHelper(this, new ExcelRangeBase(Destination.Worksheet, currDest.Address), excelRangeCopyOptionFlags);
@@ -2099,7 +2099,7 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Copy only the properties specifed
+        /// Copy only the properties specified
         /// </summary>
         /// <param name="Destination"></param>
         /// <param name="flag"></param>

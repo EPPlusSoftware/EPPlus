@@ -346,7 +346,7 @@ namespace EPPlusTest.Table.PivotTable
             pt.DataFields.Add(pt.Fields[3]);
             pt.DataFields.Add(pt.Fields[2]);
 
-            pt.DataOnRows = true;            
+            pt.DataOnRows = true;
         }
         [TestMethod]
         public void Pivot_GroupNumber()
@@ -1328,11 +1328,11 @@ namespace EPPlusTest.Table.PivotTable
         public void RefreshTemplateWithChangedColumns()
         {
             using var p = OpenTemplatePackage("PivotTableRefreshFields.xlsx");
-            foreach(var ws in p.Workbook.Worksheets)
+            foreach (var ws in p.Workbook.Worksheets)
             {
-                foreach(var pt in ws.PivotTables)
+                foreach (var pt in ws.PivotTables)
                 {
-                    
+
                 }
             }
             SaveAndCleanup(p);
@@ -1350,6 +1350,32 @@ namespace EPPlusTest.Table.PivotTable
             }
             p.Workbook.Worksheets[0].Cells["A2:P20"].Clear();
             SaveWorkbook("PivotTableRefreshFields-ClearData.xlsx", p);
+        }
+        [TestMethod]
+        public void s913()
+        {
+            using (var package = OpenTemplatePackage("s913.xlsx"))
+            {
+                var firstDataRow = 2;
+                var lastDataRow = 10;
+                var ws = package.Workbook.Worksheets["Sheet1"];
+
+
+                ws.DeleteRow(firstDataRow + 1, ExcelPackage.MaxRows - firstDataRow);
+
+
+                for (int row = firstDataRow; row <= lastDataRow; row++)
+                {
+                    for (int col = 1; col <= 3; col++)
+                    {
+                        ws.Cells[row, col].Value = "Lorem ipsum";
+                    }
+                }
+
+
+                package.GetAsByteArray();
+                SaveAndCleanup(package);
+            }
         }
     }
 }

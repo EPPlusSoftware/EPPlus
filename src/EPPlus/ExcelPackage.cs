@@ -580,7 +580,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="path">Path</param>
         /// <param name="stream">Stream</param>
-        private static void WriteFileToStream(string path, Stream stream)
+        private static void WriteFileToStream(string path, MemoryStream stream)
         {
             using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {

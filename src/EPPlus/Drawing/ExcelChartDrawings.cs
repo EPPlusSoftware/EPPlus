@@ -1,5 +1,7 @@
 ﻿using OfficeOpenXml.Drawing.Chart;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
@@ -8,7 +10,7 @@ namespace OfficeOpenXml.Drawing
     /// <summary>
     /// Collection of drawings inside a chart
     /// </summary>
-    public class ExcelChartDrawings
+    public class ExcelChartDrawings : IEnumerable<ExcelDrawing>, IDisposable//, IPictureRelationDocument
     {
         internal ExcelDrawings _drawings = null;
         internal ExcelChart _chart;
@@ -211,6 +213,36 @@ namespace OfficeOpenXml.Drawing
         public void Remove(string Name)
         {
             _drawings.Remove(_drawings._drawingNames[Name]);
+        }
+
+        /// <summary>
+        /// Returns an Enumerator for the drawings in the chart
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<ExcelDrawing> GetEnumerator()
+        {
+            return _drawings._drawingsList.GetEnumerator();
+        }
+        /// <summary>
+        /// Returns an Enumerator for the drawings in the chart
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+        /// <summary>
+        /// Disposes the drawings collection and all drawings in it.
+        /// </summary>
+        public void Dispose()
+        {
+            if (_drawings != null)
+            {
+                foreach (var d in _drawings)
+                {
+                    d.Dispose();
+                }
+            }
         }
     }
 }

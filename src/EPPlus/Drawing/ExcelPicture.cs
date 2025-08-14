@@ -22,12 +22,10 @@ using System.Linq;
 using System.Globalization;
 using OfficeOpenXml.Utils.Image;
 using OfficeOpenXml.Utils.FileUtils;
-using System.Xml.Linq;
 
 
 #if NETFULL
 using System.Drawing.Imaging;
-using System.Xml.Linq;
 #endif
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -60,14 +58,23 @@ namespace OfficeOpenXml.Drawing
             Hyperlink = hyperlink;
             Image = new ExcelImage(this);
             Image.Type = type;
-
+            
             switch (DrawingsType)
             {
                 case DrawingsCollectionType.Chart:
                     int x = (int)(_drawings._screenWidth * EMU_PER_PIXEL * (From.X));
                     int y = (int)(_drawings._screenHeight * EMU_PER_PIXEL * (From.Y));
-                    int cx = (int)(_drawings._screenWidth * EMU_PER_PIXEL * (To.X - From.X));
-                    int cy = (int)(_drawings._screenHeight * EMU_PER_PIXEL * (To.Y - From.Y));
+                    int cx, cy;
+                    if (To == null)
+                    {
+                        cx = (int)(Size.Width / EMU_PER_PIXEL);
+                        cy = (int)(Size.Height / EMU_PER_PIXEL);
+                    }
+                    else
+                    {
+                        cx = (int)(_drawings._screenWidth * EMU_PER_PIXEL * (To.X - From.X));
+                        cy = (int)(_drawings._screenHeight * EMU_PER_PIXEL * (To.Y - From.Y));
+                    }
                     XmlElement xFrmNode = GetXfrmNode(picNode);
                     if (xFrmNode.ChildNodes.Count == 0)
                     {
@@ -80,8 +87,8 @@ namespace OfficeOpenXml.Drawing
                     var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext", NameSpaceManager);
                     extNode.SetAttribute("cx", cx.ToString());
                     extNode.SetAttribute("cy", cy.ToString());
-                    Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
-                    Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
+                    _frmXPosition = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode);
+                    _frmXSize = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, null, 1);
                     break;
                 case DrawingsCollectionType.Worksheet:
                 default:

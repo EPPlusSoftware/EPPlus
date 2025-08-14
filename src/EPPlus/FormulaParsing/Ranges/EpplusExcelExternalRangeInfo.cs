@@ -375,6 +375,10 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             return _address;
         }
 
+        /// <summary>
+        /// Gets the <see cref="IRangeInfo" /> for the range for the first and last value in the range (top-left to bottom-right)
+        /// </summary>
+        /// <returns>The range</returns>
         public IRangeInfo GetRangeInfoByValue()
         {
             var cellValues = _externalWs.CellValues._values;

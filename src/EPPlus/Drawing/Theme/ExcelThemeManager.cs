@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
@@ -168,6 +169,7 @@ namespace OfficeOpenXml.Drawing.Theme
                         _theme.Part.CreateRelationship(uri, TargetMode.Internal, rel.RelationshipType);
                     }
                     SetNormalStyle();
+                    ResetDrawingNormalStyle();
                 }
                 else
                 {
@@ -177,6 +179,24 @@ namespace OfficeOpenXml.Drawing.Theme
             else
             {
                 throw new InvalidDataException("Thmx file is corrupt.");
+            }
+        }
+
+        private void ResetDrawingNormalStyle()
+        {
+
+            _wb.MaxFontWidth = double.MinValue;
+            foreach(var ws in _wb.Worksheets)
+            {
+                ws.DefaultRowHeight = double.NaN;
+                ws.DefaultColWidth = double.NaN;
+                foreach(var d in ws.Drawings)
+                {
+                    d._width = double.MinValue;
+                    d._height = double.MinValue;
+                    d._top = double.MinValue;
+                    d._left = double.MinValue;
+                }
             }
         }
 

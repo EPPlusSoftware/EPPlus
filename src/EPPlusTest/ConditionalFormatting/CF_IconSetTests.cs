@@ -614,7 +614,6 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void CF_IconSetReadCUSTOMEXCEL()
         {
-            string id = "";
             using (var p = OpenTemplatePackage("IconTest_CF.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
