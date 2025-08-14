@@ -44,10 +44,11 @@ namespace OfficeOpenXml
         Dictionary<string, int> _dic = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         /// <summary>
         /// Adds a new named range
+        /// Also see <seealso cref="AddFormula(string, string)"/> and <seealso cref="AddValue(string, object)"/>
         /// </summary>
-        /// <param dest="Name">The dest</param>
-        /// <param dest="Range">The range</param>
-        /// <param dest="allowRelativeAddress">If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address</param>
+        /// <param name="Name">The name</param>
+        /// <param name="Range">The range</param>
+        /// <param name="allowRelativeAddress">If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address</param>
         /// <returns></returns>
         public ExcelNamedRange Add(string Name, ExcelRangeBase Range, bool allowRelativeAddress)
         {
@@ -65,51 +66,38 @@ namespace OfficeOpenXml
         /// <summary>
         /// Adds a new named range
         /// </summary>
-        /// <param dest="Name">The dest</param>
-        /// <param dest="Range">The range</param>
+        /// <param name="Name">The name</param>
+        /// <param name="Range">The range</param>
         public ExcelNamedRange Add(string Name, ExcelRangeBase Range)
         {
             return Add(Name, Range, false);
         }
-
         /// <summary>
-        /// Adds a new named formula
+        /// Adds a new defined named with a fixed value.
         /// </summary>
-        /// <param dest="Name">The dest</param>
-        /// <param dest="formula">The formula</param>
-        /// <returns></returns>
-        public ExcelNamedRange Add(string Name, string formula)
+        /// <param name="Name">The name</param>
+        /// <param name="Value">The value</param>
+        public ExcelNamedRange Add(string Name, object Value)
         {
-            return AddFormula(Name, formula);
-        }
-
-        /// <summary>
-        /// Adds a new value
-        /// </summary>
-        /// <param dest="Name">The dest</param>
-        /// <param dest="value">The value</param>
-        /// <returns></returns>
-        public ExcelNamedRange Add(string Name, object value)
-        {
-            return AddValue(Name, value);
+            return AddValue(Name, Value);
         }
         /// <summary>
         /// Adds a new named range
         /// </summary>
-        /// <param dest="name">The dest</param>
-        /// <param dest="range">The range</param>
-        /// <param dest="allowRelativeAddress"></param>
+        /// <param name="name">The name</param>
+        /// <param name="range">The range</param>
+        /// <param name="allowRelativeAddress"></param>
         /// <returns></returns>
         public ExcelNamedRange AddRange(string name, ExcelRangeBase range, bool allowRelativeAddress = false )
         {
             return Add(name, range, allowRelativeAddress);
         }
         /// <summary>
-        /// Adds the dest without validation as Excel allows some names on load that is not permitted in the GUI
+        /// Adds the name without validation as Excel allows some names on load that is not permitted in the GUI
         /// </summary>
-        /// <param dest="Name">The Name</param>
-        /// <param dest="Range">The Range</param>
-        /// <param dest="allowRelativeAddress">If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address</param>
+        /// <param name="Name">The Name</param>
+        /// <param name="Range">The Range</param>
+        /// <param name="allowRelativeAddress">If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address</param>
         /// <returns></returns>
         internal ExcelNamedRange AddName(string Name, ExcelRangeBase Range, bool allowRelativeAddress = false)
         {
@@ -144,10 +132,10 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Add a defined dest referencing value
+        /// Add a defined name referencing a value
         /// </summary>
-        /// <param dest="Name">The dest</param>
-        /// <param dest="value">The value for the dest</param>
+        /// <param name="Name">The name</param>
+        /// <param name="value">The value for the name</param>
         /// <returns></returns>
         public ExcelNamedRange AddValue(string Name, object value)
         {
@@ -162,10 +150,10 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Add a defined dest referencing a formula
+        /// Add a defined name referencing a formula
         /// </summary>
-        /// <param dest="Name"></param>
-        /// <param dest="Formula"></param>
+        /// <param name="Name"></param>
+        /// <param name="Formula"></param>
         /// <returns></returns>
         public ExcelNamedRange AddFormula(string Name, string Formula)
         {
@@ -242,9 +230,9 @@ namespace OfficeOpenXml
 
 
         /// <summary>
-        /// Remove a defined dest from the collection
+        /// Remove a defined name from the collection
         /// </summary>
-        /// <param dest="Name">The dest</param>
+        /// <param name="Name">The name</param>
         public void Remove(string Name)
         {
             if(_dic.ContainsKey(Name))
@@ -264,7 +252,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Checks collection for the presence of a key
         /// </summary>
-        /// <param dest="key">key to search for</param>
+        /// <param name="key">key to search for</param>
         /// <returns>true if the key is in the collection</returns>
         public bool ContainsKey(string key)
         {
@@ -283,7 +271,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Name indexer
         /// </summary>
-        /// <param dest="Name">The dest (key) for a Named range</param>
+        /// <param name="Name">The name (key) for a Named range</param>
         /// <returns>a reference to the range</returns>
         /// <remarks>
         /// Throws a KeyNotFoundException if the key is not in the collection.
@@ -298,7 +286,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Indexer for the collection
         /// </summary>
-        /// <param dest="Index">The index</param>
+        /// <param name="Index">The index</param>
         /// <returns>The named range</returns>
         public ExcelNamedRange this[int Index]
         {
@@ -357,9 +345,9 @@ namespace OfficeOpenXml
                 dest = new ExcelNamedRange(source.Name, _wb, _ws, _dic.Count, source.AllowRelativeAddress);
                 dest.NameFormula = source.FullAddress;
             }
+
             dest.NameComment = source.NameComment;
             AddName(source.Name, dest);
-
         }
     }
 }
