@@ -16,6 +16,7 @@ using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Xml;
 
 namespace OfficeOpenXml
@@ -642,25 +643,26 @@ namespace OfficeOpenXml
             //TODO:fix this method to handle splits as well.
             ValidateRows(Row, Column);
 
-            var hiddenRows = 0;
-            foreach(var row in _worksheet.Rows[0, Row])
+            int hiddenCols = 0;
+            int hiddenRows = 0;
+
+            for (int i = 1; i < Column; i++)
             {
-                if(row.Hidden == true)
-                {
-                    hiddenRows++;
-                }
-            }
-            var hiddenCols = 0;
-            foreach(var column in _worksheet.Columns[0, Column])
-            {
-                if (column.Hidden == true)
+                var col = _worksheet.Column(i);
+                if (col != null && col.Hidden)
                 {
                     hiddenCols++;
                 }
             }
 
-            //var hiddenRows = _worksheet.Rows.Where(x => x.Hidden == true && x._fromRow < Row).Count();
-            //var hiddenCols = _worksheet.Columns.Where(x => x.Hidden == true && x._fromCol < Column).Count();
+            foreach (var row in _worksheet.Rows[0, Row])
+            {
+                if (row.Hidden == true)
+                {
+                    hiddenRows++;
+                }
+            }
+
             var visibleRows = Row - hiddenRows;
             var visibleColumns = Column - hiddenCols;
 
