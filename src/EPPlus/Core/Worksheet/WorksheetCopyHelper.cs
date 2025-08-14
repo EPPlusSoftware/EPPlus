@@ -931,11 +931,13 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (added.Workbook == name.Worksheet.Workbook)
                     {
+                        if (added.Names.ContainsKey(name.Name)) continue;
                         wbName = added.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
                         wbName.ChangeWorksheet(added.Name, added.Name);
                     }
                     else
-                    {
+                    {   
+                        if (added.Workbook.Names.ContainsKey(name.Name)) continue;
                         wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
                     }
                     wbName.NameComment = name.NameComment;

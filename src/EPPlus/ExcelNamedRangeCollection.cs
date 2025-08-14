@@ -135,6 +135,7 @@ namespace OfficeOpenXml
             {
                 _list.RemoveAt(_dic[Name]);
                 _list.Insert(_dic[Name], item);
+                item.Index = _dic[Name];
             }
             else
             {
