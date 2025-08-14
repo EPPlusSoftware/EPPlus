@@ -984,7 +984,7 @@ namespace EPPlusTest
 
             var AB = ws1a.Names.Add("MoveMeToB", ws1a.Cells["A1"]);
             var WbA = wb1.Names.Add("MoveMeToA", 77);
-            var AWb = ws1a.Names.Add("MoveMeToWB", "SUM(45+45+45)");
+            var AWb = ws1a.Names.AddFormula("MoveMeToWB", "SUM(45+45+45)");
 
             //Move name from A To B
             Assert.AreEqual(0, ws1b.Names.Count);
@@ -1028,7 +1028,7 @@ namespace EPPlusTest
 
             var AB =  ws1a.Names.Add("CopyMeToB", ws1a.Cells["A1"]);
             var WbA = wb1.Names.Add("CopyMeToA", 77);
-            var AWb = ws1a.Names.Add("CopyMeToWB", "SUM(45+45+45)");
+            var AWb = ws1a.Names.AddFormula("CopyMeToWB", "SUM(45+45+45)");
 
             //Copy name from A To B
             Assert.AreEqual(0, ws1b.Names.Count);

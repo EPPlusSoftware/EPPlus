@@ -2560,7 +2560,7 @@ namespace EPPlusTest
         [TestMethod]
         public void FreezePanes3()
         {
-            using var p = OpenTemplatePackage("Freeze.xlsx");
+            using var p = OpenTemplatePackage("Freeze8_1.xlsx");
             // Test 1 (row 1/col A already hidden) - FAIL
             var ws = p.Workbook.Worksheets["Sheet1"];
             ws.View.FreezePanes(3, 3);
