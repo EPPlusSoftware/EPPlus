@@ -2596,8 +2596,25 @@ namespace EPPlusTest
             address.Value = "Freeze here";
             ws.View.FreezePanes(address.Start.Row, address.Start.Column);
 
-            var hiddenRows = ws.Rows.Where(x => x.Hidden == true && x._fromRow < address.Start.Row).Count();
-            var hiddenCols = ws.Columns.Where(x => x.Hidden == true && x._fromCol < address.Start.Column).Count();
+            var hiddenCols = 0;
+            var hiddenRows = 0;
+
+            for (int i = 1; i < address.Start.Column; i++)
+            {
+                var coVar = ws.Column(i);
+                if (coVar != null && coVar.Hidden)
+                {
+                    hiddenCols++;
+                }
+            }
+
+            foreach (var rowVar in ws.Rows[0, address.Start.Row])
+            {
+                if (rowVar.Hidden == true)
+                {
+                    hiddenRows++;
+                }
+            }
 
             var visibleRows = row - hiddenRows;
             var visibleColumns = col - hiddenCols;
