@@ -557,21 +557,21 @@ namespace OfficeOpenXml.Core
 
         private void CopyNames(ExcelWorksheet worksheet, IList<Token> tokens)
         {
-                foreach (var token in tokens)
+            foreach (var token in tokens)
+            {
+                if (token.TokenType == TokenType.NameValue)
                 {
-                    if (token.TokenType == TokenType.NameValue)
+                    if (worksheet.Names.ContainsKey(token.Value) && _destinationRange._worksheet.Names.ContainsKey(token.Value) == false)
                     {
-                        if (worksheet.Names.ContainsKey(token.Value) && _destinationRange._worksheet.Names.ContainsKey(token.Value) == false)
-                        {
-                            _destinationRange._worksheet.Names.AddFromOtherName(worksheet.Names[token.Value]);
-                        }
-                        else if (_sameWorkbook==false && worksheet.Names.ContainsKey(token.Value) == false && worksheet.Workbook.Names.ContainsKey(token.Value) && _destinationRange._workbook.Names.ContainsKey(token.Value) == false)
-                        {
-                            //Copy workbook name!
-                            _destinationRange._workbook.Names.AddFromOtherName(worksheet.Workbook.Names[token.Value]);
-                        }
+                        _destinationRange._worksheet.Names.AddFromOtherName(worksheet.Names[token.Value]);
+                    }
+                    else if (_sameWorkbook==false && worksheet.Names.ContainsKey(token.Value) == false && worksheet.Workbook.Names.ContainsKey(token.Value) && _destinationRange._workbook.Names.ContainsKey(token.Value) == false)
+                    {
+                        //Copy workbook name!
+                        _destinationRange._workbook.Names.AddFromOtherName(worksheet.Workbook.Names[token.Value]);
                     }
                 }
+            }
         }
 
         private Dictionary<int, int> GetColPositions(bool excludeHiddenCells)

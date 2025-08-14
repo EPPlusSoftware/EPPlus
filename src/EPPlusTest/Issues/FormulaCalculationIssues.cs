@@ -1243,6 +1243,61 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void Copy_Names_to_new_workbook()
+        {
+            using (ExcelPackage origPck = OpenPackage("i345_ORIG_Global_Names.xlsx", true))
+            {
+                var wbOrig = origPck.Workbook;
+                var wsOrig = wbOrig.Worksheets.Add("Testpage");
+
+                wbOrig.Names.AddFormula("MyDefinedFormula", "Testpage!C3");//This line fails
+                wbOrig.Names.AddValue("MyDefinedValue", 10);
+                var range = wbOrig.Names.Add("MyRange", wsOrig.Cells["C3:D4"]);
+
+                wsOrig.Cells["C3"].Formula = "5+5";
+                wsOrig.Cells["D4"].Formula = "MyDefinedFormula";
+                wsOrig.Cells["G10"].Formula = "MyRange";
+
+                wsOrig.Calculate();
+
+                using (ExcelPackage destPackage = OpenPackage("i345_DEST_Global_Names.xlsx", true))
+                {
+                    var target = destPackage.Workbook.Worksheets.Add("destWs", wsOrig);
+                    target.Calculate();
+                    SaveAndCleanup(destPackage);
+                }
+                SaveAndCleanup(origPck);
+            }
+        }
+        [TestMethod]
+        public void TestNames()
+        {
+            using (var origPck = OpenPackage("copyworkbooknames.xlsx", true))
+            {
+                var wbOrig = origPck.Workbook;
+                var wsOrig = wbOrig.Worksheets.Add("Testpage");
+
+                wbOrig.Names.AddFormula("MyDefinedFormula", "Testpage!C3");//This line fails
+                wbOrig.Names.AddValue("MyDefinedValue", 10);
+                var range = wbOrig.Names.Add("MyRange", wsOrig.Cells["C3:D4"]);
+
+                wsOrig.Cells["C3"].Formula = "5+5";
+                wsOrig.Cells["D4"].Formula = "MyDefinedFormula";
+                wsOrig.Cells["G10"].Formula = "MyRange";
+
+                wsOrig.Calculate();
+                origPck.Save();
+
+                using(ExcelPackage destPackage = new ExcelPackage(origPck.Stream))
+                {
+                    var target = destPackage.Workbook.Worksheets.Add("destWs", wsOrig);
+                    target.Calculate();
+                    SaveAndCleanup(destPackage);
+                }
+                SaveAndCleanup(origPck);
+            }
+        }
     }
 }
 

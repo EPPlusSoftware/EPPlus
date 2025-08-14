@@ -121,10 +121,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 CopyPivotTable(sourceWorksheet, targetWorksheet);
             }
 
-            if (sourceWorksheet.Names.Count > 0)
-            {
-                CopySheetNames(sourceWorksheet, targetWorksheet);
-            }
+            CopyDefinedNames(sourceWorksheet, targetWorksheet);
+
             if (sourceWorksheet.DataValidations.Count > 0)
             {
                 foreach (ExcelDataValidation dv in sourceWorksheet.DataValidations)
@@ -226,7 +224,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
 
             Dictionary<int, int> styleCashe = new Dictionary<int, int>();
-            bool hasMetadata = Copy._metadataStore.HasValues && sameWorkbook;
+            bool hasMetadata = Copy._metadataStore.HasValues;
             //Cells
             int row, col;
             var val = new CellStoreEnumerator<ExcelValue>(Copy._values);
@@ -258,8 +256,9 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    styleID = CopyValues(Copy, added, row, col, hasMetadata);
+                    styleID = CopyValues(Copy, added, row, col, hasMetadata, sameWorkbook);
                 }
+
                 if (!sameWorkbook && styleID != 0)
                 {
                     if (styleCashe.ContainsKey(styleID))
@@ -271,7 +270,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         var s = added.Workbook.Styles.CloneStyle(Copy.Workbook.Styles, styleID);
                         styleCashe.Add(styleID, s);
                         added.SetStyleInner(row, col, s);
-                    }
+                    }                    
                 }
             }
 
@@ -878,7 +877,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void CopySheetNames(ExcelWorksheet Copy, ExcelWorksheet added)
+        private static void CopyDefinedNames(ExcelWorksheet Copy, ExcelWorksheet added)
         {
             var sameWorkbook = Copy.Workbook == added.Workbook;
             foreach (var name in Copy.Names)
@@ -944,7 +943,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
             //Copy names from formulas.
-            if (added.Workbook != Copy.Workbook)
+            if (sameWorkbook==false)
             {
                 var formulaEnumerator = new CellStoreEnumerator<object>(Copy._formulas);
                 var nameLookup = Copy.Workbook.Names.Where(name => name != null).ToDictionary(name => name.Name, name => name);
@@ -1336,7 +1335,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static int CopyValues(ExcelWorksheet Copy, ExcelWorksheet added, int row, int col, bool hasMetadata)
+        private static int CopyValues(ExcelWorksheet Copy, ExcelWorksheet added, int row, int col, bool hasMetadata, bool sameWorkbook)
         {
             var valueCore = Copy.GetCoreValueInner(row, col);
             added.SetValueStyleIdInner(row, col, valueCore._value, valueCore._styleId);
@@ -1346,12 +1345,20 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 added._flags.SetValue(row, col, fl);
             }
+
             if (hasMetadata)
             {
                 ExcelWorksheet.MetaDataReference md = new ExcelWorksheet.MetaDataReference();
                 if (Copy._metadataStore.Exists(row, col, ref md))
                 {
-                    added._metadataStore.SetValue(row, col, md);
+                    if (sameWorkbook)
+                    {
+                        added._metadataStore.SetValue(row, col, md);
+                    }
+                    else
+                    {
+                        RichDataCopyHelper.CopyMetadata(Copy, added, Copy.Workbook.RichData, Copy.Cells[row, col]);
+                    }
                 }
             }
 
