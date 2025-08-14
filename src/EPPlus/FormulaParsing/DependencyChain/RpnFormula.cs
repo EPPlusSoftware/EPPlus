@@ -157,9 +157,13 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal void OpenParenthesis()
         {
-            if(_expressionStack.Any() && _expressionStack.Peek().ExpressionType == ExpressionType.LambdaCalculation)
+            if(_expressionStack.Any())
             {
-                LambdaSettings.InvokeLambdaAt.Push(_openParenthesis++);
+                var exp = _expressionStack.Peek();
+                if(exp.ExpressionType == ExpressionType.LambdaCalculation)
+                {
+                    LambdaSettings.InvokeLambdaAt.Push(_openParenthesis++);
+                }
             }
             else
             {

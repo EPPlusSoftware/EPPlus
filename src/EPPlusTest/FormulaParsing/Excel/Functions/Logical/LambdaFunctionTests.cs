@@ -670,6 +670,28 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             }
         }
 
+        [TestMethod]
+        public void RecursiveFormulaSimple2()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                //Add own Lambda Factorial function via Let and IF
+                ws.Names.AddFormula("Factorial2", "LAMBDA(n, IF(n = 0, 1, n * Factorial2(n - 1)))");
+
+                ws.Cells["A1"].Formula = "Factorial2(2)";
+
+                ws.Cells["A1"].Calculate();
+
+                var epplusValue = ws.Cells["A1"].Value;
+
+                //SaveAndCleanup(p);
+
+                Assert.AreEqual(2d, epplusValue);
+            }
+        }
+
         //Same as RecursiveFormulaSimple but without "Sheet1!" specifed. Name error in both epplus and excel
         //If Formula is set in Excel it automatically adds "Sheet1!" in workbook.xml. Epplus should also realise this.
         [TestMethod]

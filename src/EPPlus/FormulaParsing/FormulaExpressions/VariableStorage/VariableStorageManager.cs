@@ -36,6 +36,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
             _scopes.Clear();
         }
 
+        public VariableStorageScope CurrentOrNew()
+        {
+            return _scopes.Count > 0 ? _scopes.Peek() : AddNewScope();
+        }
+
         public VariableStorageScope Peek()
         {
             return _scopes.Peek();

@@ -35,6 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext ctx)
         {
             var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column);
+            formula.IgnoreCaching = true;
             var tokens = SourceCodeTokenizer.Default.Tokenize(_formula).ToList();
             var tokensRpn = FormulaExecutor.CreateRPNTokens(tokens);
             var rpnTokens = new RpnTokens { Tokens = tokensRpn.Tokens };
@@ -52,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             //var cr = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
             //if (cr.DataType != DataType.LambdaCalculation) return CompileResult.GetErrorResult(eErrorType.Value);
             //var calculator = cr.Result as LambdaCalculator;
-            var calculator = new LambdaCalculator(tokensRpn.Tokens, ctx.VariableStorage.AddNewScope());
+            var calculator = new LambdaCalculator(tokensRpn.Tokens, ctx.VariableStorage.CurrentOrNew());
             calculator.SetVariables(variables, ctx);
             calculator.BeginCalculation();
             for(var argIx = 0; argIx < arguments.Count || argIx < calculator.NumberOfVariables; argIx++)
