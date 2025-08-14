@@ -270,6 +270,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal RpnFormula GetRpnArrayFormula(RpnOptimizedDependencyChain depChain, int startRow, int startCol, int endRow, int endCol)
         {
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws.IndexInList, startRow, startCol);
+            if (RpnTokens == null)
+            {
+                SetFormula(_ws, Formula);
+            }
             if (_compiledExpressions == null)
             {
                 _compiledExpressions = FormulaExecutor.CompileExpressions(ref RpnTokens, depChain._parsingContext);

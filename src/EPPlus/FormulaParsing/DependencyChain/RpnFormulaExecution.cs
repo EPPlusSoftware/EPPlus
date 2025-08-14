@@ -320,7 +320,7 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         isDynamic = ws.Workbook.Metadata.IsFormulaDynamic(md.cm);
                     }
-
+                    
                     if (isDynamic)
                     {
                         f = ws._sharedFormulas[ix].GetRpnFormula(depChain, sf.StartRow, sf.StartCol);
