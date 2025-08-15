@@ -143,33 +143,9 @@ namespace OfficeOpenXml
         /// Set to true to validate and update formulas with cell references.
         /// </summary>
         public static bool ValidateCellAddressInFormulas = true;
-        private string _nameFormula;
         internal string NameFormula
         {
-            get
-            {
-                return _nameFormula;
-            }
-            set
-            {
-                if (value == null)
-                {
-                    _nameFormula = value;
-                    return;
-                }
-                _nameFormula = ValidateCellAddressInFormulas ? FormulaUtils.AddWorksheetReferenceToFormula(value, _worksheet, AllowRelativeAddress) : value;
-            }
-        }
-        internal string NameFormulaNoValidation
-        {
-            get
-            {
-                return _nameFormula;
-            }
-            set
-            {
-                _nameFormula = value;
-            }
+            get;set;
         }
         /// <inheritdoc/>
         protected internal override void BeforeChangeAddress(string value)
@@ -252,96 +228,96 @@ namespace OfficeOpenXml
             return NameValue;
         }
 
-        /// <summary>
-        /// Move this defined name to a target worksheet.
-        /// </summary>
-        /// <param name="worksheet">Worksheet to move this name to.</param>
-        /// /// <param name="name">Optional new name for the defined name.</param>
-        /// <returns>This name.</returns>
-        /// <exception cref="InvalidOperationException">If this name does not contain a formula, value or range, this exception occurs.</exception>
-        public ExcelNamedRange Move(ExcelWorksheet worksheet, string name = null)
-        {
-            ExcelNamedRange enr = null;
-            name = name == null ? Name : name;
-            //Detect if formula, value or range
-            if (NameFormula != null)
-                enr = worksheet.Names.AddFormula(Name, NameFormula);
-            else if (NameValue != null)
-                enr = worksheet.Names.AddValue(Name, NameValue);
-            else if (LocalAddress != "#REF!")
-                enr = worksheet.Names.AddRange(Name, worksheet.Cells[Address]);
-            if (enr == null) throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
-            if(_worksheet != null)
-                _worksheet.Names.Remove(Name);
-            else if(_workbook != null)
-                _workbook.Names.Remove(Name);
-            else
-                throw new InvalidOperationException($"No workbook or worksheet has been set for this name: {Name}");
-            return enr;
-        }
-        /// <summary>
-        /// Move this defined name to target workbook.
-        /// </summary>
-        /// <param name="workbook">Workbook to move this name to.</param>
-        /// <param name="name">Optional new name for the defined name.</param>
-        /// <returns>This name.</returns>
-        /// <exception cref="InvalidOperationException">If this name does not contain a formula, value or range, this exception occurs.</exception>
-        public ExcelNamedRange Move(ExcelWorkbook workbook, string name = null)
-        {
-            ExcelNamedRange enr = null;
-            name = name == null ? Name : name;
-            //Detect if formula, value or range
-            if (NameFormula != null)
-                enr = workbook.Names.AddFormula(Name, NameFormula);
-            else if (NameValue != null)
-                enr = workbook.Names.AddValue(Name, NameValue);
-            else if (LocalAddress != "#REF!")
-                enr = workbook.Names.AddRange(Name, _worksheet.Cells[Address]);
-            if(enr == null) throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
-            if (_worksheet != null)
-                _worksheet.Names.Remove(Name);
-            else if (_workbook != null)
-                _workbook.Names.Remove(Name);
-            else
-                throw new InvalidOperationException($"No workbook or worksheet has been set for this name: {Name}");
-            return enr;
-        }
-        /// <summary>
-        /// Creates a copy of the defined name to target worksheet.
-        /// </summary>
-        /// <param name="worksheet">Worksheet to copy to.</param>
-        /// <param name="name">The name for the copy.</param>
-        /// <returns>A new ExcelNameRange</returns>
-        /// <exception cref="InvalidOperationException">If the original does not contain a formula, value or range, this exception occurs.</exception>
-        public ExcelNamedRange Copy(ExcelWorksheet worksheet, string name)
-        {
-            //Detect if formula, value or range
-            if (NameFormula != null)
-                return worksheet.Names.AddFormula(name, NameFormula);
-            else if (NameValue != null)
-                return worksheet.Names.AddValue(name, NameValue);
-            else if (LocalAddress != "#REF!")
-                return worksheet.Names.AddRange(name, worksheet.Cells[Address]);
-            throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
-        }
-        /// <summary>
-        /// Creates a copy of the defined name to target workbook.
-        /// </summary>
-        /// <param name="workbook">Workbook to copy to.</param>
-        /// <param name="name">The name for the copy.</param>
-        /// <returns>A new ExcelNameRange</returns>
-        /// <exception cref="InvalidOperationException">If the original does not contain a formula, value or range, this exception occurs.</exception>
-        public ExcelNamedRange Copy(ExcelWorkbook workbook, string name)
-        {
-            //Detect if formula, value or range
-            if (NameFormula != null)
-                return workbook.Names.AddFormula(name, NameFormula);
-            else if (NameValue != null)
-                return workbook.Names.AddValue(name, NameValue);
-            else if (LocalAddress != "#REF!")
-                return workbook.Names.AddRange(name, _worksheet.Cells[Address]);
-            throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
-        }
+        ///// <summary>
+        ///// Move this defined name to a target worksheet.
+        ///// </summary>
+        ///// <param name="worksheet">Worksheet to move this name to.</param>
+        ///// /// <param name="name">Optional new name for the defined name.</param>
+        ///// <returns>This name.</returns>
+        ///// <exception cref="InvalidOperationException">If this name does not contain a formula, value or range, this exception occurs.</exception>
+        //public ExcelNamedRange Move(ExcelWorksheet worksheet, string name = null)
+        //{
+        //    ExcelNamedRange enr = null;
+        //    name = name == null ? Name : name;
+        //    //Detect if formula, value or range
+        //    if (NameFormula != null)
+        //        enr = worksheet.Names.AddFormula(Name, NameFormula);
+        //    else if (NameValue != null)
+        //        enr = worksheet.Names.AddValue(Name, NameValue);
+        //    else if (LocalAddress != "#REF!")
+        //        enr = worksheet.Names.AddRange(Name, worksheet.Cells[Address]);
+        //    if (enr == null) throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
+        //    if(_worksheet != null)
+        //        _worksheet.Names.Remove(Name);
+        //    else if(_workbook != null)
+        //        _workbook.Names.Remove(Name);
+        //    else
+        //        throw new InvalidOperationException($"No workbook or worksheet has been set for this name: {Name}");
+        //    return enr;
+        //}
+        ///// <summary>
+        ///// Move this defined name to target workbook.
+        ///// </summary>
+        ///// <param name="workbook">Workbook to move this name to.</param>
+        ///// <param name="name">Optional new name for the defined name.</param>
+        ///// <returns>This name.</returns>
+        ///// <exception cref="InvalidOperationException">If this name does not contain a formula, value or range, this exception occurs.</exception>
+        //public ExcelNamedRange Move(ExcelWorkbook workbook, string name = null)
+        //{
+        //    ExcelNamedRange enr = null;
+        //    name = name == null ? Name : name;
+        //    //Detect if formula, value or range
+        //    if (NameFormula != null)
+        //        enr = workbook.Names.AddFormula(Name, NameFormula);
+        //    else if (NameValue != null)
+        //        enr = workbook.Names.AddValue(Name, NameValue);
+        //    else if (LocalAddress != "#REF!")
+        //        enr = workbook.Names.AddRange(Name, _worksheet.Cells[Address]);
+        //    if(enr == null) throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
+        //    if (_worksheet != null)
+        //        _worksheet.Names.Remove(Name);
+        //    else if (_workbook != null)
+        //        _workbook.Names.Remove(Name);
+        //    else
+        //        throw new InvalidOperationException($"No workbook or worksheet has been set for this name: {Name}");
+        //    return enr;
+        //}
+        ///// <summary>
+        ///// Creates a copy of the defined name to target worksheet.
+        ///// </summary>
+        ///// <param name="worksheet">Worksheet to copy to.</param>
+        ///// <param name="name">The name for the copy.</param>
+        ///// <returns>A new ExcelNameRange</returns>
+        ///// <exception cref="InvalidOperationException">If the original does not contain a formula, value or range, this exception occurs.</exception>
+        //public ExcelNamedRange Copy(ExcelWorksheet worksheet, string name)
+        //{
+        //    //Detect if formula, value or range
+        //    if (NameFormula != null)
+        //        return worksheet.Names.AddFormula(name, NameFormula);
+        //    else if (NameValue != null)
+        //        return worksheet.Names.AddValue(name, NameValue);
+        //    else if (LocalAddress != "#REF!")
+        //        return worksheet.Names.AddRange(name, worksheet.Cells[Address]);
+        //    throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
+        //}
+        ///// <summary>
+        ///// Creates a copy of the defined name to target workbook.
+        ///// </summary>
+        ///// <param name="workbook">Workbook to copy to.</param>
+        ///// <param name="name">The name for the copy.</param>
+        ///// <returns>A new ExcelNameRange</returns>
+        ///// <exception cref="InvalidOperationException">If the original does not contain a formula, value or range, this exception occurs.</exception>
+        //public ExcelNamedRange Copy(ExcelWorkbook workbook, string name)
+        //{
+        //    //Detect if formula, value or range
+        //    if (NameFormula != null)
+        //        return workbook.Names.AddFormula(name, NameFormula);
+        //    else if (NameValue != null)
+        //        return workbook.Names.AddValue(name, NameValue);
+        //    else if (LocalAddress != "#REF!")
+        //        return workbook.Names.AddRange(name, _worksheet.Cells[Address]);
+        //    throw new InvalidOperationException($"No value, formula or address has been set for this name: {Name}");
+        //}
 
         private void ResetObject()
         {

@@ -170,7 +170,7 @@ namespace OfficeOpenXml
         internal ExcelNamedRange AddFormulaNoValidation(string Name, string Formula)
         {
             var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
-            item.NameFormulaNoValidation = Formula;
+            item.NameFormula = Formula;
             AddName(Name, item);
             return item;
         }
