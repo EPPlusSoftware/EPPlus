@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Xml;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 namespace OfficeOpenXml.Drawing.Vml
 {
     /// <summary>

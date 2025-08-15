@@ -19,11 +19,11 @@ namespace OfficeOpenXml
     public enum eFillDirection
     {
         /// <summary>
-        /// The fill is performed row-wise
+        /// The fill is performed row-wise (Left/Right)
         /// </summary>
         Row,
         /// <summary>
-        /// The fill is performed column-wise
+        /// The fill is performed column-wise (Down/Up)
         /// </summary>
         Column
     }

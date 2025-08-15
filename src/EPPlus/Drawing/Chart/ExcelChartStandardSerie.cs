@@ -647,11 +647,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 var v = cse.Value._value;
                 if (v != null)
                 {
-                    var d = Utils.ConvertUtil.GetValueDouble(v);
+                    var d = Utils.TypeConversion.ConvertUtil.GetValueDouble(v);
                     var ptNode = node.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
                     node.AppendChild(ptNode);
                     ptNode.SetAttribute("idx", (cse.Row - startRow).ToString(CultureInfo.InvariantCulture));
-                    ptNode.InnerXml = $"<c:v>{Utils.ConvertUtil.GetValueForXml(d, range.Worksheet.Workbook.Date1904)}</c:v>";
+                    ptNode.InnerXml = $"<c:v>{Utils.TypeConversion.ConvertUtil.GetValueForXml(d, range.Worksheet.Workbook.Date1904)}</c:v>";
                     items++;
                 }
             }
@@ -674,11 +674,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 var v = cse.Value;
                 if (v != null)
                 {
-                    var d = Utils.ConvertUtil.GetValueDouble(v);
+                    var d = Utils.TypeConversion.ConvertUtil.GetValueDouble(v);
                     var ptNode = node.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
                     node.AppendChild(ptNode);
                     ptNode.SetAttribute("idx", (cse.Row - startRow).ToString(CultureInfo.InvariantCulture));
-                    ptNode.InnerXml = $"<c:v>{Utils.ConvertUtil.GetValueForXml(d, er._wb.Date1904)}</c:v>";
+                    ptNode.InnerXml = $"<c:v>{Utils.TypeConversion.ConvertUtil.GetValueForXml(d, er._wb.Date1904)}</c:v>";
                     items++;
                 }
             }
@@ -749,11 +749,10 @@ namespace OfficeOpenXml.Drawing.Chart
                         v = range.FirstOrDefault()?.Value;
                     }
                 }
-                
 
                 string cachePath;
                 bool isNum;
-                if(Utils.ConvertUtil.IsNumericOrDate(v) || v is null)
+                if(Utils.TypeConversion.ConvertUtil.IsNumericOrDate(v) || v is null)
                 {
                     cachePath = string.Format("{0}/c:numRef/c:numCache", seriesTopPath);
                     isNum = true;

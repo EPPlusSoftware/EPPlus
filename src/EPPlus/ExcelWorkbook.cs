@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
 using OfficeOpenXml.VBA;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Packaging.Ionic.Zip;
@@ -41,6 +40,10 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.Utils.XML;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml
 {
@@ -628,7 +631,7 @@ namespace OfficeOpenXml
         {
             foreach (var rel in Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/pivotCacheDefinition"))
             {
-                if (cacheDefinitionUri == OfficeOpenXml.Utils.UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri))
+                if (cacheDefinitionUri == UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri))
                 {
                     return GetXmlNodeInt($"d:pivotCaches/d:pivotCache[@r:id='{rel.Id}']/@cacheId");
                 }
@@ -1536,7 +1539,14 @@ namespace OfficeOpenXml
                     var uri = GetNewUri(_package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml");
                     ewb.Part = _package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
                     var extFile = ((ExcelExternalWorkbook)er).File;
-                    ewb.Relation = er.Part.CreateRelationship(FileHelper.GetRelativeFile(packageFile, extFile), TargetMode.External, ExcelPackage.schemaRelationships + "/externalLinkPath");
+                    if (ewb.IsPathRelative)
+                    {
+                        ewb.Relation = er.Part.CreateRelationship(FileHelper.GetRelativeFile(packageFile, extFile), TargetMode.External, ExcelPackage.schemaRelationships + "/externalLinkPath");
+                    }
+                    else
+                    {
+                        ewb.Relation = er.Part.CreateRelationship(FileHelper.GetRelativeFile(null, extFile, true), TargetMode.External, ExcelPackage.schemaRelationships + "/externalLinkPath");
+                    }
 
                     var wbRel = Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
                     var wbExtRefElement = (XmlElement)CreateNode("d:externalReferences/d:externalReference", false, true);

@@ -17,14 +17,13 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Constants;
 using System.Linq;
+using OfficeOpenXml.Utils.FileUtils;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -179,7 +178,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 XmlElement graphFrame = TopNode.OwnerDocument.CreateElement("graphicFrame", ExcelPackage.schemaSheetDrawings);
                 graphFrame.SetAttribute("macro", "");
                 TopNode.AppendChild(graphFrame);
-                graphFrame.InnerXml = string.Format("<xdr:nvGraphicFramePr><xdr:cNvPr id=\"{0}\" name=\"Chart 1\"/><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm><a:off x=\"0\" y=\"0\"/> <a:ext cx=\"0\" cy=\"0\"/></xdr:xfrm><a:graphic><a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/chart\"><c:chart xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"rId1\"/>   </a:graphicData>  </a:graphic>", _id);
+                graphFrame.InnerXml = string.Format("<xdr:nvGraphicFramePr><xdr:cNvPr id=\"{0}\" name=\"Chart 1\"/><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm><a:off x=\"0\" y=\"0\"/> <a:ext cx=\"0\" cy=\"0\"/></xdr:xfrm><a:graphic><a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/chart\"><c:chart xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"rId1\"/>   </a:graphicData>  </a:graphic>", Id);
                 TopNode.AppendChild(TopNode.OwnerDocument.CreateElement("clientData", ExcelPackage.schemaSheetDrawings));
 
                 var package = drawings.Worksheet._package.ZipPackage;
@@ -203,7 +202,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
                 StreamWriter streamChart = new StreamWriter(Part.GetStream(FileMode.Create, FileAccess.Write));
                 ChartXml.Save(streamChart);
-                streamChart.Close();
                 package.Flush();
 
                 var chartRelation = drawings.Part.CreateRelationship(UriHelper.GetRelativeUri(drawings.UriDrawing, UriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chart");
@@ -1227,6 +1225,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         /// <summary>
         /// The X Axis
+        /// (Usually Category Axis)
         /// </summary>
         public new ExcelChartAxisStandard XAxis
         {
@@ -1241,6 +1240,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         /// <summary>
         /// The Y Axis
+        /// (Usually Value Axis)
         /// </summary>
         public new ExcelChartAxisStandard YAxis
         {
@@ -1251,6 +1251,21 @@ namespace OfficeOpenXml.Drawing.Chart
             internal set
             {
                 base.YAxis = value;
+            }
+        }
+        private ExcelChartDrawings _chartDrawings = null;
+        /// <summary>
+        /// A collection of drawings inside the chart. Allows shapes and pictures
+        /// </summary>
+        public ExcelChartDrawings Drawings
+        {
+            get
+            {
+                if (_chartDrawings == null)
+                {
+                    _chartDrawings = new ExcelChartDrawings(this);
+                }
+                return _chartDrawings;
             }
         }
     }

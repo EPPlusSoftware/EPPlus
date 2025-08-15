@@ -11,13 +11,13 @@
   22/11/2024         EPPlus Software AB           EPPlus v8
  *************************************************************************************************/
 using OfficeOpenXml.CellPictures;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.Core
 {
@@ -49,32 +49,46 @@ namespace OfficeOpenXml.Core
             var range = sourceSheet.Cells[_sourceRange._fromRow, _sourceRange._fromCol, maxRow, maxCol];
             foreach(var cell in range)
             {
-                var md = sourceSheet._metadataStore.GetValue(cell._fromRow, cell._fromCol);
-                if (md.vm > 0)
+                CopyMetadata(sourceSheet, destSheet, sourceRichData, cell, flags);
+            }
+        }
+
+        internal static void CopyMetadata(ExcelWorksheet sourceSheet, ExcelWorksheet destSheet, ExcelRichData sourceRichData, ExcelRangeBase cell, ExcelRangeCopyOptionFlags? flags=null)
+        {
+            var md = sourceSheet._metadataStore.GetValue(cell._fromRow, cell._fromCol);
+            if (md.vm > 0)
+            {
+                //Copy value metadata of supported rich data types
+                var sourceRv = sourceSheet._richDataStore.GetRichValue(md.vm);
+                sourceRv.SetStructure(sourceRichData.Db);
+                // Local image
+                if (sourceRv.Structure.Type == StructureTypes.LocalImage && (!flags.HasValue || EnumUtil.HasNotFlag(flags.Value, ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures)))
                 {
-                    //Copy value metadata of supported rich data types
-                    var sourceRv = sourceSheet._richDataStore.GetRichValue(md.vm);
-                    sourceRv.SetStructure(sourceRichData.Db);
-                    // Local image
-                    if (sourceRv.Structure.Type == StructureTypes.LocalImage && (!flags.HasValue || EnumUtil.HasNotFlag(flags.Value, ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures)))
-                    {
-                        var pic = cell.Picture.Get();
-                        var cm = new CellPicturesManager(destSheet);
-                        cm.SetCellPicture(cell._fromRow, cell._fromCol, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin);
-                    }
-                    // Web image
-                    else if (sourceRv.Structure.Type == StructureTypes.WebImage && (!flags.HasValue || EnumUtil.HasNotFlag(flags.Value, ExcelRangeCopyOptionFlags.ExcludeWebPictures)))
-                    {
-                        var pic = cell.Picture.Get();
-                        var cm = new CellPicturesManager(destSheet);
-                        cm.SetWebPicture(cell._fromRow, cell._fromCol, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin);
-                    }
+                    var pic = cell.Picture.Get();
+                    var cm = new CellPicturesManager(destSheet);
+                    cm.SetCellPicture(cell._fromRow, cell._fromCol, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin);
                 }
-                if (md.cm > 0)
+                // Web image
+                else if (sourceRv.Structure.Type == StructureTypes.WebImage && (!flags.HasValue || EnumUtil.HasNotFlag(flags.Value, ExcelRangeCopyOptionFlags.ExcludeWebPictures)))
                 {
-                    // copy cell metadata
+                    var pic = cell.Picture.Get();
+                    var cm = new CellPicturesManager(destSheet);
+                    cm.SetWebPicture(cell._fromRow, cell._fromCol, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin);
                 }
-            }      
+            }
+            if (md.cm > 0)
+            {
+                // copy cell metadata
+                if(sourceSheet.Workbook.Metadata.IsFormulaDynamic(md.cm))
+                {
+                    destSheet.Workbook.Metadata.GetDynamicArrayId(out uint dIx);
+                    destSheet._metadataStore.SetValue(cell._fromRow, cell._fromCol, 
+                        new ExcelWorksheet.MetaDataReference
+                        {
+                            cm = dIx
+                        });
+                }
+            }
         }
     }
 }

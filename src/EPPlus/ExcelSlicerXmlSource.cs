@@ -11,7 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;

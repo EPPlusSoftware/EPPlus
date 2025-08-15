@@ -19,10 +19,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
 using System.Threading;
 using System.Runtime.InteropServices;
 using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml
 {

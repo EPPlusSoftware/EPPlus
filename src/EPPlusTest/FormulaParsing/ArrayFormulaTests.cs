@@ -111,6 +111,7 @@ namespace EPPlusTest.FormulaParsing
             }
         }
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void DynamicArrayFormulaWithTwoCellsInTableGenerateCorruptWorkbook()
         {
             using (var package = OpenPackage("DynamicArrayTableNew.xlsx", true))
@@ -127,6 +128,7 @@ namespace EPPlusTest.FormulaParsing
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void DynamicArrayFormulaWithTwoCellsInTableGenerateCorruptWorkbook2()
         {
             using (var package = OpenPackage("DynamicArrayTableNew.xlsx", true))

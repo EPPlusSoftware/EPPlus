@@ -832,7 +832,7 @@ namespace EPPlusTest.Core.Worksheet
                     ws.View.TopLeftCell = "A1";
                     ws.View.SelectedRange = "A1";
 
-                    foreach (var condFormatting in ws.ConditionalFormatting)
+                    foreach(var condFormatting in ws.ConditionalFormatting)
                     {
                         var someAddress = condFormatting.Address;
                     }

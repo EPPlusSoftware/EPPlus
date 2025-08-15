@@ -8,11 +8,20 @@ namespace OfficeOpenXml.SystemDrawing.Text
 #pragma warning disable CA1416 // Platform compatibility warning
     public class SystemDrawingTextMeasurer : ITextMeasurer, IDisposable
     {
+        /// <summary>
+        /// If the text measurer should measure wrap text cells. 
+        /// Only CR, LF or CRLF should be considered.
+        /// </summary>
+        public bool MeasureWrappedTextCells
+        {
+            get;
+            set;
+        }
         public SystemDrawingTextMeasurer()
         {
             if (Environment.OSVersion.Platform == PlatformID.Win32NT &&
             Environment.OSVersion.Version.Major >= 6 &&
-            Environment.OSVersion.Version.Minor >= 1)
+            Environment.OSVersion.Version.Minor >= 0)
             {
                 _stringFormat = StringFormat.GenericDefault;
                 _bmp = new Bitmap(1, 1);
@@ -81,7 +90,7 @@ namespace OfficeOpenXml.SystemDrawing.Text
             float dpiCorrectX, dpiCorrectY;
             try
             {
-                //Check for missing GDI+, then use WPF istead.
+                //Check for missing GDI+, then use WPF instead.
                 _graphics.PageUnit = GraphicsUnit.Pixel;
                 dpiCorrectX = 96 / _graphics.DpiX;
                 dpiCorrectY = 96 / _graphics.DpiY;

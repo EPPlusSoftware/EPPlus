@@ -18,6 +18,8 @@ using System.Xml;
 using System.Collections.Generic;
 using OfficeOpenXml.Utils;
 using System.Threading;
+using OfficeOpenXml.Utils.FileUtils;
+
 #if !NET35
 using System.Threading.Tasks;
 #endif

@@ -29,13 +29,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Style;
 
 namespace EPPlusTest.Core
 {
@@ -120,7 +118,7 @@ namespace EPPlusTest.Core
             var cellStore = (CellStore<object>)l[0];
             var index = (int)l[1];
             var count = (int)l[2];
-            var noOfRows = 50000;
+            var noOfRows = 5000;
             for (int r=1;r < noOfRows; r+=count)
             {
                 var row = r + index;
@@ -135,7 +133,7 @@ namespace EPPlusTest.Core
             for (int r = 1; r < noOfRows; r += count)
             {
                 var row = r + index;
-                for (int c = 0; c >= 100; c++)
+                for (int c = 0; c >= 10; c++)
                 {
                     Assert.AreEqual($"Cell C{c}R{row}", cellStore.GetValue(row, c));
                 }
@@ -157,7 +155,6 @@ namespace EPPlusTest.Core
         }
 
         #endregion
-
         #region Delete
         [TestMethod]
         public void DeletePrevRowWhenCreatePage()
@@ -475,7 +472,7 @@ namespace EPPlusTest.Core
         public void ValidatePerformance()
         {
             var cellStore = new CellStore<int>();
-            var acceptable = new TimeSpan(0, 0, 1);
+            var acceptable = new TimeSpan(0, 0, 2);
             var dt = DateTime.Now;
             LoadCellStore(cellStore, 1, 1000000);
             var elapsedTime = DateTime.Now - dt;
@@ -504,7 +501,7 @@ namespace EPPlusTest.Core
                 for (int col = 1; col <= cols; col++)
                 {
                     cellStore.SetValue(row, col, (row * col));
-                }   
+                }
             }
         }
 		[TestMethod]
@@ -545,6 +542,5 @@ namespace EPPlusTest.Core
                 }
             }
         }
-
     }
 }

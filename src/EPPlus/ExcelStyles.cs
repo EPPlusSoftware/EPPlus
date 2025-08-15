@@ -25,8 +25,8 @@ using OfficeOpenXml.Table;
 using System.Globalization;
 using System.Drawing;
 using System.IO;
-using OfficeOpenXml.Utils;
 using System.Text;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml
 {

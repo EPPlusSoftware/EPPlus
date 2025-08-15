@@ -10,8 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Globalization;
 using System.Xml;
@@ -104,7 +104,7 @@ namespace OfficeOpenXml.Filter
             for (int row = address._fromRow + 1; row <= address._toRow; row++)
             {
                 var v = worksheet.GetValue(row, col);
-                if (Utils.ConvertUtil.IsNumericOrDate(v))
+                if (ConvertUtil.IsNumericOrDate(v))
                 {
                     sum += ConvertUtil.GetValueDouble(v);
                     count++;

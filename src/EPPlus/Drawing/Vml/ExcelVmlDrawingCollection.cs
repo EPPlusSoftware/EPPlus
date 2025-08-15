@@ -20,7 +20,8 @@ using OfficeOpenXml.Drawing.Controls;
 using System.Text;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.Security;
 
 namespace OfficeOpenXml.Drawing.Vml
 {

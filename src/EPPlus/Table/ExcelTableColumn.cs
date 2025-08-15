@@ -17,7 +17,7 @@ using System.Xml;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 using static OfficeOpenXml.ExcelWorksheet;
 
 namespace OfficeOpenXml.Table

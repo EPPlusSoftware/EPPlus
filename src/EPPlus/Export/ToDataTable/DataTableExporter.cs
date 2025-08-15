@@ -11,7 +11,7 @@
   10/15/2020         EPPlus Software AB       ToDataTable function
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Utilities;
-using ConvertUtility = OfficeOpenXml.Utils.ConvertUtil;
+using ConvertUtility = OfficeOpenXml.Utils.TypeConversion.ConvertUtil;
 using System;
 using System.Collections.Generic;
 using System.Data;

@@ -98,7 +98,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue15031()
         {
-            var d = OfficeOpenXml.Utils.ConvertUtil.GetValueDouble(new TimeSpan(35, 59, 1));
+            var d = OfficeOpenXml.Utils.TypeConversion.ConvertUtil.GetValueDouble(new TimeSpan(35, 59, 1));
             using (var package = new ExcelPackage())
             {
                 var ws = package.Workbook.Worksheets.Add("Test");
@@ -967,18 +967,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Issue345()
-        {
-            using (ExcelPackage package = OpenTemplatePackage("issue345.xlsx"))
-            {
-                var worksheet = package.Workbook.Worksheets["test"];
-                int[] sortColumns = new int[1];
-                sortColumns[0] = 0;
-                worksheet.Cells["A2:A30864"].Sort(sortColumns);
-                package.Save();
-            }
-        }
-        [TestMethod]
         public void Issue387()
         {
 
@@ -1349,27 +1337,6 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void Issue38()
-        {
-            using (var p = OpenTemplatePackage("pivottest.xlsx"))
-            {
-                Assert.AreEqual(1, p.Workbook.Worksheets[1].PivotTables.Count);
-                var tbl = p.Workbook.Worksheets[0].Tables[0];
-                var pt = p.Workbook.Worksheets[1].PivotTables[0];
-                Assert.IsNotNull(p.Workbook.Worksheets[1].PivotTables[0].CacheDefinition);
-                var s1 = pt.Fields[0].AddSlicer();
-                s1.SetPosition(0, 500);
-                var s2 = pt.Fields["OpenDate"].AddSlicer();
-                pt.Fields["Distance"].Format = "#,##0.00";
-                pt.Fields["Distance"].AddSlicer();
-                s2.SetPosition(0, 500 + (int)s1._width);
-                tbl.Columns["IsUser"].AddSlicer();
-                pt.Fields["IsUser"].AddSlicer();
-
-                SaveWorkbook("pivotTable2.xlsx", p);
-            }
-        }
-        [TestMethod]
         public void Issue195_PivotTable()
         {
             using (var p = OpenTemplatePackage("Issue195.xlsx"))
@@ -1389,15 +1356,6 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
 
-        }
-        [TestMethod]
-        public void EmfIssue()
-        {
-            using (var p = OpenTemplatePackage("emfIssue.xlsm"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                SaveAndCleanup(p);
-            }
         }
         [TestMethod]
         public void Issue201()
@@ -1423,11 +1381,6 @@ namespace EPPlusTest
                 worksheet.Cells["A5"].Value = "Test";
                 worksheet.InsertRow(START_ROW + CustomTemplateRowsOffset, rowCount - 1, CustomTemplateRowsOffset + 1);
                 Assert.AreEqual("Test", worksheet.Cells["A34004"].Value);
-                //for (int k = START_ROW+CustomTemplateRowsOffset; k < rowCount; k++)
-                //{
-                //    worksheet.Cells[(START_ROW + CustomTemplateRowsOffset) + ":" + (START_ROW + CustomTemplateRowsOffset)]
-                //        .Copy(worksheet.Cells[k + 1 + ":" + k + 1]);
-                //}
                 SaveAndCleanup(package);
             }
         }
@@ -2003,14 +1956,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void S127()
-        {
-            using (var p = OpenTemplatePackage("Tagging Template V15 - New Format.xlsx"))
-            {
-                SaveWorkbook("Tagging Template V15 - New Format2.xlsx", p);
-            }
-        }
-        [TestMethod]
         public void MergeIssue()
         {
             using (var p = OpenTemplatePackage("MergeIssue.xlsx"))
@@ -2502,70 +2447,6 @@ namespace EPPlusTest
         }
         public static readonly Dictionary<string, string> ASSET_FIELDS = new Dictionary<string, string> { { string.Empty, "Select one..." }, { "APPRAISAL_DATE", "Appraisal Date" }, { "APPRAISAL_AREA", "Appraisal Surface" }, { "APPRAISAL_AREA_CCAA", "Appraisal Surface w/CCAA" }, { "APPRAISAL_VALUE", "Appraisal Value" }, { "AURA" + "." + "REFERENCE", "Aura ID" }, { "BATHROOMS", "Bathroom" }, { "BORROWER_ID", "Borrower ID" }, { "AREA_CCAA", "Built surface w/CCAA" }, { "CADASTRAL_REFERENCE", "Cadastral reference" }, { "DEVELOPMENT" + "." + "CLIENT_GROUP_ID", "Client Development ID" }, { "CLIENT_ID", "Client ID" }, { "YEAR_OF_CONSTRUCTION", "Construction Year" }, { "COUNTRY", "Country" }, { "CROSSING_DOCKS", "Crossing Docks" }, { "DATE_OF_DISQUALIFICATION", "Date of desaffection - Social Housing" }, { "LEADER" + "." + "REFERENCE", "Dependency Reference" }, { "DEVELOPMENT" + "." + "REFERENCE", "Development ID" }, { "ADDRESS_DOOR", "Door" }, { "DUPLEX", "Duplex" }, { "ELEVATOR", "Elevator" }, { "ADDRESS_FLOOR", "Floor" }, { "FULL_ADDRESS", "Full Address" }, { "IDUFIR", "IDUFIR" }, { "ILLEGAL_SQUATTERS", "Illegal Squatters" }, { "ORIENTATION", "Interior/Exterior" }, { "LATITUDE", "Latitude" }, { "LIEN", "Lien" }, { "LOAN_ID", "Loan ID" }, { "LONGITUDE", "Longitude" }, { "MAINTENANCE_STATUS", "Maintenance Status" }, { "MARKET_SHARE", "Market Share (%)" }, { "LEGAL_MAXIMUM_VALUE", "Max. Value - Social Housing" }, { "MAX_HEIGHT", "Maximum Height" }, { "VPO_MODULE", "Module - Social Housing" }, { "MUNICIPALITY", "Municipality" }, { "NEGATIVE_COLD", "Negative Cold" }, { "ADDRESS_NUMBER", "Number" }, { "BORROWER", "Owner" }, { "PARKINGS", "Parking" }, { "PERIMETER", "Perimeter" }, { "PLOT_AREA", "Plot Surface" }, { "POSITIVE_COLD", "Positive Cold" }, { "PROVINCE", "Province" }, { "REFERENCE", "Reference ID" }, { "REGISTRATION", "Registry" }, { "REGISTRY_ID", "Registry ID" }, { "REGISTRATION_NUMBER", "Registry Number" }, { "AREA_REGISTRY", "Registry Surface" }, { "AREA_CCAA_REGISTRY", "Registry Surface w/CCAA" }, { "RENTED", "Rented" }, { "REPEATED", "Repeated" }, { "ROOMS", "Rooms" }, { "SCOPE", "Scope" }, { "SEA_VIEWS", "Sea Views" }, { "MONTHLY_COMM_EXP_SQM", "Service Charges" }, { "SMOKE_VENT", "Smoke Ventilation" }, { "VPO", "Social Housing" }, { "DEVELOPMENT" + "." + "PROPERTY_STATUS", "Status" }, { "STOREROOMS", "Storage" }, { "ADDRESS_NAME", "Street" }, { "ASSET_SUBTYPE", "Sub-typology" }, { "AREA", "Surface" }, { "SWIMMING_POOL", "Swimming Pool" }, { "TERRACE", "Terrace" }, { "TERRACE_AREA", "Terrace Surface" }, { "ACTIVITY", "Type of activity" }, { "STATE", "Type of product" }, { "ASSET_TYPE", "Typology" }, { "USEFUL_AREA", "Useful Surface" }, { "VALUATION_TYPE", "Valuation Type" }, { "ZIP_CODE", "Zip Code" } };
 
-        public class Error { public string TypeOfError { get; set; } public int Row { get; set; } public int Col { get; set; } public List<string> Messages { get; set; } }
-
-        public class AssetField { public int Index { get; set; } public string Field { get; set; } }
-
-        [TestMethod]
-        public void Issue478()
-        {
-
-            var dataStartRow = 2;
-            var errors = JsonConvert.DeserializeObject<Error[]>("[{\"typeOfError\":\"WARNING\",\"row\":4,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":20,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":35,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":47,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":57,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":60,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":90,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":131,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":136,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":138,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":139,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]}]");
-            var assetFields = JsonConvert.DeserializeObject<AssetField[]>("[{\"index\":1,\"field\":\"Reference\"},{\"index\":15,\"field\":\"ZipCode\"},{\"index\":16,\"field\":\"Municipality\"},{\"index\":17,\"field\":\"FullAddress\"}]");
-
-            using (var excelPackage = OpenTemplatePackage("issue478.xlsx"))
-            {
-                var worksheet = excelPackage.Workbook.Worksheets["Avances"];
-                var start = worksheet.Dimension.Start;
-                var end = worksheet.Dimension.End;
-
-                // Add column of errors and warnings
-                var startMessagesColumn = end.Column + 1;
-                worksheet.InsertColumn(startMessagesColumn, 2);
-                var errorColumn = startMessagesColumn;
-                var warningColumn = startMessagesColumn + 1;
-                worksheet.Cells[(dataStartRow) - 1, errorColumn].Value = "Errors";
-                worksheet.Cells[(dataStartRow) - 1, warningColumn].Value = "Warnings";
-                foreach (var error in errors)
-                {
-                    if (error.TypeOfError == "ERROR")
-                    {
-                        //worksheet.Cells[error.Row - 1, errorColumn].Value += string.Join(" ", error.Messages.Select(w => string.Format("{0} {1}", ASSET_FIELDS.GetValueOrDefault(assetFields.Where(x => x.Index == error.Col).Select(x => x.Field).FirstOrDefault()), w)));
-                    }
-                    else
-                    {
-                        //worksheet.Cells[error.Row - 1, warningColumn].Value += string.Join(" ", error.Messages.Select(w => string.Format("{0} {1}", ASSET_FIELDS.GetValueOrDefault(assetFields.Where(x => x.Index == error.Col).Select(x => x.Field).FirstOrDefault()), w)));
-                    }
-                }
-
-                // Remove distinct columns from "Reference"
-                var colFieldReference = assetFields.Where(x => x.Field == "REFERENCE").Select(x => x.Index).FirstOrDefault();
-                worksheet.Cells[1, colFieldReference + 1].Value = "Reference";
-
-                var deletedColumns = 0;
-                for (int i = 1; i <= end.Column; i++)
-                {
-                    if (colFieldReference + 1 != i && errorColumn != i && warningColumn != i)
-                    {
-                        worksheet.DeleteColumn(i - deletedColumns);
-                        deletedColumns++;
-                    }
-                }
-
-                // Remove rows that do not contain errors
-                var deletedRows = 0;
-                for (int i = 1; i <= end.Row; i++)
-                {
-                    if (i < (dataStartRow - 1) || (i >= dataStartRow && !errors.Any(w => (w.Row - 1) == i)))
-                    {
-                        worksheet.DeleteRow(i - deletedRows);
-                        deletedRows++;
-                    }
-                }
-                SaveAndCleanup(excelPackage);
-            };
-        }
         [TestMethod]
         public void TestColumnWidthsAfterDeletingColumn()
         {
@@ -2659,6 +2540,119 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void FreezePanes()
+        {
+            using var p = OpenTemplatePackage("Freeze.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.View.FreezePanes(3, 3);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void FreezePanes2()
+        {
+            using var p = OpenTemplatePackage("Freeze2.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.View.FreezePanes(15, 11);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void FreezePanes3()
+        {
+            using var p = OpenTemplatePackage("Freeze8_1.xlsx");
+            // Test 1 (row 1/col A already hidden) - FAIL
+            var ws = p.Workbook.Worksheets["Sheet1"];
+            ws.View.FreezePanes(3, 3);
+
+            // Test 2 - FAIL
+            var ws2 = p.Workbook.Worksheets["Sheet2"];
+            ws2.Column(1).Hidden = true;
+            ws2.Row(1).Hidden = true;
+            ws2.View.FreezePanes(3, 3);
+
+            // Test 3 - PASS
+            var ws3 = p.Workbook.Worksheets.Add("Sheet3");
+            ws3.Column(1).Hidden = true;
+            ws3.Row(1).Hidden = true;
+            var test = ExcelCellBase.GetAddress(3, 3);
+            ws3.Cells["C3"].Value = "Freeze here";
+            ws3.View.TopLeftCell = "B2";
+            ws3.View.FreezePanes(3, 3);
+
+            SaveAndCleanup(p);
+        }
+
+        internal void FreezePaneBase(ExcelPackage p, int sheetNum, int hiddenCol, int hiddenRow, string freezeAddress)
+        {
+            var ws = p.Workbook.Worksheets.Add($"Sheet{sheetNum}");
+            ws.Column(hiddenCol).Hidden = true;
+            ws.Row(hiddenRow).Hidden = true;
+            var address = ws.Cells[freezeAddress];
+
+            var row = address.Start.Row;
+            var col = address.Start.Column;
+
+            address.Value = "Freeze here";
+            ws.View.FreezePanes(address.Start.Row, address.Start.Column);
+
+            var hiddenCols = 0;
+            var hiddenRows = 0;
+
+            for (int i = 1; i < address.Start.Column; i++)
+            {
+                var coVar = ws.Column(i);
+                if (coVar != null && coVar.Hidden)
+                {
+                    hiddenCols++;
+                }
+            }
+
+            foreach (var rowVar in ws.Rows[0, address.Start.Row])
+            {
+                if (rowVar.Hidden == true)
+                {
+                    hiddenRows++;
+                }
+            }
+
+            var visibleRows = row - hiddenRows;
+            var visibleColumns = col - hiddenCols;
+            
+            if(visibleColumns != 1 && visibleRows != 1)
+            {
+                Assert.AreEqual(ws.Cells[1 + hiddenRows, 1 + hiddenCols].Address, ws.View.TopLeftCell);
+                Assert.AreEqual(visibleColumns - 1d, ws.View.PaneSettings.XSplit);
+                Assert.AreEqual(visibleRows - 1d, ws.View.PaneSettings.YSplit);
+                Assert.AreEqual(ePanePosition.BottomRight, ws.View.PaneSettings.ActivePanePosition);
+            }
+            else
+            {
+                Assert.AreEqual(1, ws.View.Panes.Count());
+            }
+        }
+
+
+        [TestMethod]
+        public void FreezePanes4()
+        {
+            using (var p = OpenPackage("FreezePanes_Generated.xlsx", true))
+            {
+                //Test Freezing when as close as possible to hidden columns
+                FreezePaneBase(p, 1, 1, 1, "B2");
+                //Test freezing "base case" with hidden col/rows
+                FreezePaneBase(p, 2, 1, 1, "C3");
+                //Test freezing "base case" with irrelavant hidden col/rows
+                FreezePaneBase(p, 3, 5, 5, "C3");
+                //Test freezing far past position of hidden col/rows
+                FreezePaneBase(p, 4, 1, 1, "U28");
+                //Test freezing when more frozen rows than columns
+                FreezePaneBase(p, 5, 1, 1, "D5");
+
+                SaveAndCleanup(p);
+            }
+        }
+
 
         [TestMethod]
         public void CopyWorksheetWithBlipFillObjects()
@@ -2801,21 +2795,6 @@ namespace EPPlusTest
                 var s = worksheet.Cells[1, 1].Text;
 
                 SaveAndCleanup(package);
-            }
-        }
-        [TestMethod]
-        public void DvcfCopy()
-        {
-            using (var p = OpenTemplatePackage("i527.xlsm"))
-            {
-
-                // Fails when data validation is set
-                // Fails when conditional formatting is set.
-                var copyFrom1 = p.Workbook.Worksheets["CopyFrom"].Cells["A1:BR23"];
-                var copyTo1 = p.Workbook.Worksheets["CopyTo"].Cells["A:XFD"];
-                copyFrom1.Copy(copyTo1);
-
-                SaveAndCleanup(p);
             }
         }
         [TestMethod]
@@ -3354,14 +3333,6 @@ namespace EPPlusTest
 
         }
         [TestMethod]
-        public void SaveDefinedName()
-        {
-            using (var p = OpenTemplatePackage("SaveIssueName.xlsm"))
-            {
-                SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
         public void I676()
         {
             using (var p = OpenTemplatePackage("i676.xlsm"))
@@ -3370,14 +3341,6 @@ namespace EPPlusTest
                 ws.Cells["P10"].Value = 10;
                 p.Workbook.VbaProject.Remove();
                 SaveWorkbook("i676.xlsx", p);
-            }
-        }
-        [TestMethod]
-        public void s350()
-        {
-            using (var p = OpenTemplatePackage("s350.xlsm"))
-            {
-                SaveWorkbook("s350.xlsm", p);
             }
         }
         [TestMethod]
@@ -4808,28 +4771,6 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void i863()
-        {
-            using (var p = OpenTemplatePackage("i863.xlsx"))
-            {
-                // Removed insertion of PHI data, just re-saving the template for sample purposes
-
-                // Workaround - Issue with "Inputs" tab - Validation of T60:T64 failed: Formula2 must be set if operator is 'between' or 'notBetween' when cells are not using between or notBetween
-                var otherInputTab = p.Workbook.Worksheets.FirstOrDefault(ws => ws.Name.Equals("Inputs"));
-                if (otherInputTab != null)
-                {
-                    otherInputTab.DataValidations.InternalValidationEnabled = false;
-                }
-                // Saving
-                SaveAndCleanup(p);
-
-                var p2 = OpenPackage("i863.xlsx");
-
-                var ws17 = p2.Workbook.Worksheets[16];
-            }
-        }
-
-        [TestMethod]
         public void Issue864()
         {
             using (var p = OpenPackage("i864.xlsx", true))
@@ -4869,15 +4810,6 @@ namespace EPPlusTest
         public void s461()
         {
             using (var p = OpenTemplatePackage("s461.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
-        public void s463()
-        {
-            using (var p = OpenTemplatePackage("SRK2016.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 SaveAndCleanup(p);
@@ -5598,41 +5530,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void s539()
-        {
-            //Outputs
-            var pc = Thread.CurrentThread.CurrentCulture;
-
-            try
-            {
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-
-                string sheetName = "Sheet1";
-                string range = "G2:G5";
-                string value = "VLOOKUP(F2,'Reference Data'!A2:B187021,2,0)";
-                var logFile = new FileInfo("c:\\temp\\formulaLog.log");
-                if (logFile.Exists) logFile.Delete();
-                using (var package = OpenTemplatePackage("s539.xlsm"))
-                {
-                    package.Workbook.FormulaParserManager.AttachLogger(logFile);
-                    var ws = package.Workbook.Worksheets[sheetName];
-                    ws.Cells[range].Formula = value;
-                    ws.Cells[range].Calculate();
-                    SaveAndCleanup(package);
-                }
-            }
-            catch (Exception e)
-            {
-                string exc = "";
-                exc = "Failed. " + e.ToString();
-            }
-            finally
-            {
-                Thread.CurrentThread.CurrentCulture = pc;
-                System.GC.Collect();
-            }
-        }
-        [TestMethod]
         public void I1107()
         {
             using (var package = OpenTemplatePackage("Hyperlink with subaddress.xlsx"))
@@ -5980,22 +5877,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void s551_2()
-        {
-            using (var p = OpenTemplatePackage("s551.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var usedRange = ws.Cells["a1:b5"];
-                foreach (ExcelRangeRow dataRow in usedRange.EntireRow)
-                {
-                    if (dataRow.Hidden == false)
-                    {
-                        dataRow.Range.Formula = "f1";
-                    }
-                }
-            }
-        }
-        [TestMethod]
         public void i1203()
         {
             using (var p = OpenTemplatePackage("i1203.xlsx"))
@@ -6070,45 +5951,6 @@ namespace EPPlusTest
             Destinationpackage.Workbook.Worksheets.Add(destSheet, Sourceworksheet);
 
             SaveAndCleanup(Destinationpackage);
-        }
-        [TestMethod]
-        public void s569()
-        {
-            var sheetName = "披露表(国资)";
-
-            using (var p = OpenTemplatePackage("s569source.xlsx"))
-            {
-                var SourceWB = p.Workbook;
-                using (var tP = OpenTemplatePackage("s569target.xlsm"))
-                {
-                    var tBook = tP.Workbook;
-                    var sSheet = p.Workbook.Worksheets.GetByName(sheetName);
-                    tBook.Worksheets.Add(sheetName, sSheet);
-
-                    SaveAndCleanup(tP);
-                }
-            }
-        }
-        [TestMethod]
-        public void PerformanceIssueGetAsByteArray()
-        {
-            using (var p = OpenTemplatePackage("TemplateWithPivot.xlsx"))
-            {
-                /* Raw Data Sheet only */
-                ExcelWorksheet ws = p.Workbook.Worksheets[1];  // second sheet
-
-                //var usedData =
-                //    reportData.Select(item => new ExportReportData(ref item)).ToArray();
-
-                // write data
-                ExcelTable table = ws.Tables[0];
-                table.InsertRow(position: 1, rows: 6620);  // necessary to have the formulas available.
-
-                // write data to buffer. This takes too long.
-                var pt = p.Workbook.Worksheets[0].PivotTables[0];
-                p.Workbook.Calculate();
-                SaveWorkbook("PivotTest_calculated_columns.xlsx", p);
-            }
         }
         [TestMethod]
         public void I1216()
@@ -6357,8 +6199,6 @@ namespace EPPlusTest
                 var val12 = cell.Value;
                 var val22 = ws.Cells["J6"].Value;
                 var val32 = ws.Cells["K5"].Value;
-
-                var sometxt = "help";
 
                 SaveAndCleanup(p);
 

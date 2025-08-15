@@ -91,7 +91,6 @@ namespace OfficeOpenXml.Utils
                         count++;
                     }
                     break; // Stop if we exceed the desired length
-                    i++; // Skip next char (part of the surrogate pair)
                 }
                 else
                 {

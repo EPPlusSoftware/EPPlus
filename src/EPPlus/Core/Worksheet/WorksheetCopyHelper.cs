@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using OfficeOpenXml.Packaging;
 using System.IO;
 using System.Xml;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Vml;
@@ -38,6 +37,9 @@ using System.Xml.Linq;
 using OfficeOpenXml.Utils.CompundDocument;
 using System.Security.Cryptography.X509Certificates;
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using System.Threading;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -119,18 +121,16 @@ namespace OfficeOpenXml.Core.Worksheet
                 CopyPivotTable(sourceWorksheet, targetWorksheet);
             }
 
-            if (sourceWorksheet.Names.Count > 0)
+            CopyDefinedNames(sourceWorksheet, targetWorksheet);
+
+            if (sourceWorksheet.DataValidations.Count > 0)
             {
-                CopySheetNames(sourceWorksheet, targetWorksheet);
-            }
-            if(sourceWorksheet.DataValidations.Count > 0) 
-            {
-                foreach(ExcelDataValidation dv in sourceWorksheet.DataValidations)
+                foreach (ExcelDataValidation dv in sourceWorksheet.DataValidations)
                 {
                     targetWorksheet.DataValidations.AddCopyOfDataValidation(dv, targetWorksheet);
                 }
             }
-            if(sourceWorksheet.ConditionalFormatting.Count > 0)
+            if (sourceWorksheet.ConditionalFormatting.Count > 0)
             {
                 for (int i = 0; i < sourceWorksheet.ConditionalFormatting.Count; i++)
                 {
@@ -224,7 +224,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
 
             Dictionary<int, int> styleCashe = new Dictionary<int, int>();
-            bool hasMetadata = Copy._metadataStore.HasValues && sameWorkbook;
+            bool hasMetadata = Copy._metadataStore.HasValues;
             //Cells
             int row, col;
             var val = new CellStoreEnumerator<ExcelValue>(Copy._values);
@@ -256,8 +256,9 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    styleID = CopyValues(Copy, added, row, col, hasMetadata);
+                    styleID = CopyValues(Copy, added, row, col, hasMetadata, sameWorkbook);
                 }
+
                 if (!sameWorkbook && styleID != 0)
                 {
                     if (styleCashe.ContainsKey(styleID))
@@ -269,7 +270,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         var s = added.Workbook.Styles.CloneStyle(Copy.Workbook.Styles, styleID);
                         styleCashe.Add(styleID, s);
                         added.SetStyleInner(row, col, s);
-                    }
+                    }                    
                 }
             }
 
@@ -614,7 +615,7 @@ namespace OfficeOpenXml.Core.Worksheet
             return oleShapeId;
         }
 
-        internal static void CopyChartRelations(ExcelChart chart, ExcelWorksheet target, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet source)
+        internal static void CopyChartRelations(ExcelChart chart, ExcelWorksheet target, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet source, XmlNode drawNode = null)
         {
             var xml = chart.ChartXml.InnerXml;
             Uri uriChart;
@@ -633,7 +634,7 @@ namespace OfficeOpenXml.Core.Worksheet
             StreamWriter streamChart = new StreamWriter(chartPart.GetStream(FileMode.Create, FileAccess.Write));
             streamChart.Write(xml);
             streamChart.Flush();
-            //Now create the new relationship to the copied chart xml
+            //Now create the new relationship to the copied Chart xml
             XmlNode relNode;
             if (chart._isChartEx)
             {
@@ -652,8 +653,20 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 string prevRelID = relNode?.Value;
                 var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(partDraw.Uri, uriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chart");
-                XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//c:chart/@r:id[.='{0}']", prevRelID), source.Drawings.NameSpaceManager) as XmlAttribute;
-                relAtt.Value = rel.Id;
+                if (drawNode == null)
+                {
+                    XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//c:chart/@r:id[.='{0}']", prevRelID), source.Drawings.NameSpaceManager) as XmlAttribute;
+                    relAtt.Value = rel.Id;
+                }
+                else
+                {
+                    var drawNodeRel = drawNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", source.Drawings.NameSpaceManager);
+                    if (drawNodeRel == null)
+                    {
+                        drawNodeRel = drawNode.SelectSingleNode("a:graphic/a:graphicData/c:chart/@r:id", source.Drawings.NameSpaceManager);
+                    }
+                    drawNodeRel.Value = rel.Id;
+                }
             }
             CopyChartRelations(source, target, chart, chartPart);
         }
@@ -698,7 +711,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (relCopy.RelationshipType == ExcelPackage.schemaChartStyleRelationships)
                     {
-                        uri=XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/charts/style{0}.xml");
+                        uri = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/charts/style{0}.xml");
                         chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartStyle, chart.StyleManager.StyleXml.OuterXml);
                     }
                     else if (relCopy.RelationshipType == ExcelPackage.schemaChartColorStyleRelationships)
@@ -706,13 +719,28 @@ namespace OfficeOpenXml.Core.Worksheet
                         uri = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/charts/colors{0}.xml");
                         chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartColorStyle, chart.StyleManager.ColorsXml.OuterXml);
                     }
-                    else if(added.Workbook != copy.Workbook)
+                    else if (relCopy.RelationshipType == ExcelPackage.schemaRelationships + "/chartUserShapes" && chart is ExcelChartStandard chartStandard)
+                    {
+                        uri = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/drawings/drawing{0}.xml");
+                        var part = chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartDrawing, chartStandard.Drawings.DrawingXml.OuterXml);
+                        //update rel in chart xml
+                        //create relations for pictures in Chart drawing
+                        string xml = chartStandard.Drawings.DrawingXml.OuterXml;
+                        XmlDocument drawXml = new XmlDocument();
+                        drawXml.LoadXml(xml);
+                        for (int i = 0; i < chartStandard.Drawings.Count; i++)
+                        {
+                            var draw = chartStandard.Drawings[i];
+                            CopyDrawingRels(draw, added._package, added, part, ref drawXml);
+                        }
+                    }
+                    else if (added.Workbook != copy.Workbook)
                     {
                         if (relCopy.RelationshipType == ExcelPackage.schemaRelationships + "/image")
                         {
-                            if (added._package.ZipPackage.PartExists(uri)==false)
+                            if (added._package.ZipPackage.PartExists(uri) == false)
                             {
-                                var destImgUri=copy._package.ZipPackage.GetPart(uri);
+                                var destImgUri = copy._package.ZipPackage.GetPart(uri);
                                 var v = added._package.ZipPackage.CreatePart(uri, destImgUri);
                             }
                         }
@@ -820,7 +848,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyVmlRelations(ExcelWorksheet Copy, ExcelWorksheet added)
         {
-            //Excel does not copy signature lines we shouldn'te either.
+            //Excel does not copy signature lines we shouldn't either.
             if (added.SignatureLines.Count() > 0)
             {
                 added.SignatureLines.Clear();
@@ -849,7 +877,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void CopySheetNames(ExcelWorksheet Copy, ExcelWorksheet added)
+        private static void CopyDefinedNames(ExcelWorksheet Copy, ExcelWorksheet added)
         {
             var sameWorkbook = Copy.Workbook == added.Workbook;
             foreach (var name in Copy.Names)
@@ -879,25 +907,117 @@ namespace OfficeOpenXml.Core.Worksheet
                     if(sameWorkbook==false && HasExternalReference(name.Formula))
                     {
                         continue;
-					}
+                    }
                     else
                     {
-						newName = added.Names.AddFormulaNoValidation(name.Name, name.Formula);
-					}
-				}
+                        var updatedFormula = UpdateFormulaStringWithNewWorksheetName(name.Formula, added, Copy);
+                        newName = added.Names.AddFormulaNoValidation(name.Name, updatedFormula);
+                    }
+                }
                 else
                 {
                     newName = added.Names.AddValue(name.Name, name.Value);
                 }
                 newName.NameComment = name.NameComment;
+                newName.IsNameHidden = name.IsNameHidden;
             }
+
+            //Copy relevant names from workbook. If in the names are in the same workbook, copy the name to the target worksheet
+            var Names = Copy.Workbook.Names.ToList();
+            foreach (var name in Names)
+            {
+                ExcelNamedRange wbName;
+                if (name.Worksheet == Copy)
+                {
+                    if (added.Workbook == name.Worksheet.Workbook)
+                    {
+                        if (added.Names.ContainsKey(name.Name)) continue;
+                        wbName = added.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                        wbName.ChangeWorksheet(added.Name, added.Name);
+                    }
+                    else
+                    {   
+                        if (added.Workbook.Names.ContainsKey(name.Name)) continue;
+                        wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                    }
+                    wbName.NameComment = name.NameComment;
+                    wbName.IsNameHidden = name.IsNameHidden;
+                }
+            }
+            //Copy names from formulas.
+            if (sameWorkbook==false)
+            {
+                var formulaEnumerator = new CellStoreEnumerator<object>(Copy._formulas);
+                var nameLookup = Copy.Workbook.Names.Where(name => name != null).ToDictionary(name => name.Name, name => name);
+                while (formulaEnumerator.Next())
+                {
+                    var v = formulaEnumerator.Value;
+                    string formula;
+                    if (v is int vkey)
+                    {
+                        Copy._sharedFormulas.TryGetValue(vkey, out SharedFormula sharedFormula);
+                        formula = sharedFormula.Formula;
+                        CopyWorkbookNames(formula, nameLookup, added, Copy);
+                    }
+                    else
+                    {
+                        formula = v.ToString();
+                        CopyWorkbookNames(formula, nameLookup, added, Copy);
+                    }
+                }
+            }
+        }
+
+        private static void CopyWorkbookNames(string formula, Dictionary<string, ExcelNamedRange> nameLookup, ExcelWorksheet added, ExcelWorksheet Copy)
+        {
+            var tokens = SourceCodeTokenizer.Default.Tokenize(formula);
+            foreach (var token in tokens)
+            {
+                if (token.TokenType == TokenType.NameValue && nameLookup.TryGetValue(token.Value, out var name))
+                {
+                    if (name.Worksheet == Copy || name.Worksheet == null)
+                    {
+                        ExcelNamedRange wbName;
+                        if (name.AddressAbsolute != "#REF!")
+                        {
+                            wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
+                        }
+                        else if (name.Formula != null)
+                        {
+                            var updatedFormula = UpdateFormulaStringWithNewWorksheetName(name.Formula, added, Copy);
+                            wbName = added.Workbook.Names.AddFormulaNoValidation(name.Name, updatedFormula);
+                        }
+                        else
+                        {
+                            wbName = added.Workbook.Names.AddValue(name.Name, name.Value);
+                        }
+                        wbName.NameComment = name.NameComment;
+                        wbName.IsNameHidden = name.IsNameHidden;
+                    }
+                }
+            }
+        }
+        private static string UpdateFormulaStringWithNewWorksheetName(string formula, ExcelWorksheet added, ExcelWorksheet Copy)
+        {
+            var ftokens = SourceCodeTokenizer.Default.Tokenize(formula);
+            Token tempToken;
+            for (int i = 0; i < ftokens.Count; i++)
+            {
+                if (ftokens[i].TokenType == TokenType.WorksheetNameContent && Copy.Name == ftokens[i].Value)
+                {
+                    tempToken = ftokens[i];
+                    tempToken.Value = added.Name;
+                    ftokens[i] = tempToken;
+                }
+            }
+            return string.Concat(ftokens.Select(t => t.Value));
         }
 
 		private static bool HasExternalReference(string formula)
 		{
 			if(formula!=null && formula.IndexOf('[') >= 0)
             {
-                    var t=SourceCodeTokenizer.Default.Tokenize(formula);
+                var t=SourceCodeTokenizer.Default.Tokenize(formula);
                 return t.Any(x => x.TokenType == TokenType.ExternalReference);
             }
             return false;
@@ -1217,7 +1337,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static int CopyValues(ExcelWorksheet Copy, ExcelWorksheet added, int row, int col, bool hasMetadata)
+        private static int CopyValues(ExcelWorksheet Copy, ExcelWorksheet added, int row, int col, bool hasMetadata, bool sameWorkbook)
         {
             var valueCore = Copy.GetCoreValueInner(row, col);
             added.SetValueStyleIdInner(row, col, valueCore._value, valueCore._styleId);
@@ -1227,12 +1347,20 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 added._flags.SetValue(row, col, fl);
             }
+
             if (hasMetadata)
             {
                 ExcelWorksheet.MetaDataReference md = new ExcelWorksheet.MetaDataReference();
                 if (Copy._metadataStore.Exists(row, col, ref md))
                 {
-                    added._metadataStore.SetValue(row, col, md);
+                    if (sameWorkbook)
+                    {
+                        added._metadataStore.SetValue(row, col, md);
+                    }
+                    else
+                    {
+                        RichDataCopyHelper.CopyMetadata(Copy, added, Copy.Workbook.RichData, Copy.Cells[row, col]);
+                    }
                 }
             }
 
@@ -1323,7 +1451,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     else
                     {
-                        item = added.HeaderFooter.Pictures.Add(pic.Id, pic.ImageUri, pic.Title, pic.Width, pic.Height);
+                        item = added.HeaderFooter.Pictures.Add(pic.Id, ((IPictureContainer)pic).UriPic, pic.Title, pic.Width, pic.Height);
                     }
                     foreach (XmlAttribute att in pic.TopNode.Attributes)
                     {

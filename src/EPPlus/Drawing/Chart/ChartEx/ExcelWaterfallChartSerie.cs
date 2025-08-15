@@ -10,7 +10,6 @@
  *************************************************************************************************
   04/16/2020         EPPlus Software AB           EPPlus 5.2
  *************************************************************************************************/
-using OfficeOpenXml.Utils.Extensions;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {

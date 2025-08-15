@@ -1,5 +1,5 @@
 ﻿using OfficeOpenXml.Drawing.Controls;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Globalization;
 

@@ -17,11 +17,12 @@ using System.Text;
 using System.Xml;
 using System.Drawing;
 using System.Globalization;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Utils.XML;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Style
 {

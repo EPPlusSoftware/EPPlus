@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using System;
 using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.Style.Dxf
 {

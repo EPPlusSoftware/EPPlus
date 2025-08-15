@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Compare;
 using System;
 using System.Collections.Generic;
 using System.Linq;

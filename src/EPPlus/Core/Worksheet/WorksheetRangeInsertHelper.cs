@@ -251,7 +251,7 @@ namespace OfficeOpenXml.Core.Worksheet
             foreach (var cf in ws.ConditionalFormatting)
             {
                 var newAddress = InsertSplitAddress(cf.Address, range, effectedAddress, shift, isTable);
-                if(newAddress==null)
+                if (newAddress == null)
                 {
                     delCF.Add(cf);
                 }
@@ -264,27 +264,27 @@ namespace OfficeOpenXml.Core.Worksheet
                         string addressList = "";
                         for (int i = 0; i < newAddress.Addresses.Count(); i++)
                         {
-                            var address = newAddress.Addresses[i];
-                            if ((address._toRow + 1 == range._fromRow) && shift != eShiftTypeInsert.Right)
+                            if ((newAddress.Addresses[i]._toRow + 1 == range._fromRow) && shift != eShiftTypeInsert.Right)
                             {
-                                newAddress.Addresses[i] = address.AddRow(range._fromRow, range.Rows, true, true, true);
+                                newAddress.Addresses[i] = newAddress.Addresses[i].AddRow(range._fromRow, range.Rows, true, true, true);
                             }
 
-                            if(address._toCol + 1 == range._fromCol && address._fromRow >= range._fromRow && address._toRow <=range._toRow && shift != eShiftTypeInsert.Down)
+                            if (newAddress.Addresses[i]._toCol + 1 == range._fromCol && shift != eShiftTypeInsert.Down)
+
                             {
-                                if(range.IsFullColumn)
+                                if (range.IsFullColumn)
                                 {
-                                    newAddress.Addresses[i] = address.AddColumn(range._fromCol, range.Columns, true, true, true);
+                                    newAddress.Addresses[i] = newAddress.Addresses[i].AddColumn(range._fromCol, range.Columns, true, true, true);
                                 }
-                                else if(newAddress.Addresses.Contains(range) == false)
+                                else if (newAddress.Addresses.Contains(range) == false)
                                 {
                                     newAddress.Addresses.Add(range);
                                 }
                             }
 
-                            addressList += newAddress.Addresses[i];
+                            addressList += newAddress.Addresses[i].Address;
 
-                            if (i < (newAddress.Addresses.Count()-1))
+                            if (i < (newAddress.Addresses.Count() - 1))
                             {
                                 addressList += ",";
                             }
@@ -299,12 +299,11 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
 
-            foreach(var cf in delCF)
+            foreach (var cf in delCF)
             {
                 ws.ConditionalFormatting.Remove(cf);
             }
         }
-
         private static void InsertDataValidation(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws, bool isTable)
         {
             var delDV = new List<ExcelDataValidation>();
@@ -437,28 +436,42 @@ namespace OfficeOpenXml.Core.Worksheet
                 var collide = effectedAddress.Collide(address);
                 if (collide == ExcelAddressBase.eAddressCollition.Partly)
                 {
-                    var addressToShift = effectedAddress.Intersect(address);
-                    var shiftedAddress = ShiftAddress(addressToShift, range, shift);
                     var newAddress = "";
-                    if (address._fromRow < addressToShift._fromRow)
+                    if (shift == eShiftTypeInsert.Down)
                     {
-                        newAddress = ExcelCellBase.GetAddress(address._fromRow, address._fromCol, addressToShift._fromRow - 1, address._toCol) + ",";
-                    }
-                    if (address._fromCol < addressToShift._fromCol)
-                    {
-                        var fromRow = Math.Max(address._fromRow, addressToShift._fromRow);
-                        newAddress += ExcelCellBase.GetAddress(fromRow, address._fromCol, address._toRow, addressToShift._fromCol - 1) + ",";
-                    }
+                        if (address._fromCol < range._fromCol)
+                        {
+                            newAddress = ExcelCellBase.GetAddress(address._fromRow, address._fromCol, address._toRow, range._fromCol - 1) + ",";
+                        }
 
-                    newAddress += $"{shiftedAddress},";
+                        var fromRow = address._fromRow < range._fromRow ? address._fromRow : address._fromRow + range.Rows;
+                        var fromCol = Math.Max(range._fromCol, address._fromCol);
+                        newAddress += ExcelCellBase.GetAddress(fromRow, fromCol, address._toRow + range.Rows, Math.Min(address._toCol, range._toCol)) + ",";
 
-                    if (address._toRow > addressToShift._toRow)
-                    {
-                        newAddress += ExcelCellBase.GetAddress(addressToShift._toRow + 1, address._fromCol, address._toRow, address._toCol) + ",";
+                        if (address._toCol > range._toCol)
+                        {
+                            newAddress += ExcelCellBase.GetAddress(address._fromRow, range._toCol + 1, address._toRow, address._toCol) + ",";
+                        }
                     }
-                    if (address._toCol > addressToShift._toCol)
+                    else if (shift == eShiftTypeInsert.Right)
                     {
-                        newAddress += ExcelCellBase.GetAddress(address._fromRow, addressToShift._toCol + 1, address._toRow, address._toCol) + ",";
+                        if (address._fromRow < range._fromRow)
+                        {
+                            newAddress = ExcelCellBase.GetAddress(address._fromRow, address._fromCol, range._fromRow - 1, address._toCol) + ",";
+                        }
+
+                        var fromCol = address._fromCol < range._fromCol ? address._fromCol : address._fromCol + range.Columns;
+                        var fromRow = Math.Max(range._fromRow, address._fromRow);
+                        newAddress += ExcelCellBase.GetAddress(range._fromRow, fromCol, Math.Min(address._toRow, range._toRow), address._toCol + range.Columns) + ",";
+
+                        if (address._toRow > range._toRow)
+                        {
+                            newAddress += ExcelCellBase.GetAddress(range._toRow + 1, address._fromCol, address._toRow, address._toCol) + ",";
+                        }
+                    }
+                    else
+                    {
+                        return null;
                     }
                     return new ExcelAddressBase(newAddress.Substring(0, newAddress.Length - 1));
                 }

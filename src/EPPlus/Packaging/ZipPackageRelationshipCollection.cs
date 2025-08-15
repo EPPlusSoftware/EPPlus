@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Security;
 using OfficeOpenXml.Packaging.Ionic.Zip;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Packaging
 {

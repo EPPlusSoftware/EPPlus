@@ -8,9 +8,10 @@ using OfficeOpenXml.Core.CellStore;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Linq;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System.Diagnostics;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -269,6 +270,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal RpnFormula GetRpnArrayFormula(RpnOptimizedDependencyChain depChain, int startRow, int startCol, int endRow, int endCol)
         {
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws.IndexInList, startRow, startCol);
+            if (RpnTokens == null)
+            {
+                SetFormula(_ws, Formula);
+            }
             if (_compiledExpressions == null)
             {
                 _compiledExpressions = FormulaExecutor.CompileExpressions(ref RpnTokens, depChain._parsingContext);

@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Xml;
 using OfficeOpenXml;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing.Vml;
+using OfficeOpenXml.Utils.Security;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {

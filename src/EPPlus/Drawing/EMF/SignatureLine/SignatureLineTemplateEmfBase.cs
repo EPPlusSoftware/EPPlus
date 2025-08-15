@@ -1,5 +1,5 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Image;
 using System;
 using System.Collections.Generic;
 using System.IO;

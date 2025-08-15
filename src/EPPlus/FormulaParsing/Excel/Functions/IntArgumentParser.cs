@@ -44,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <returns></returns>
         public override object Parse(object obj, RoundingMethod roundingMethod)
         {
-            return Utils.ConvertUtil.ParseInt(obj, roundingMethod);
+            return Utils.TypeConversion.ConvertUtil.ParseInt(obj, roundingMethod);
         }
     }
 }

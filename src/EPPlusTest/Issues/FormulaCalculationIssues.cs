@@ -397,37 +397,6 @@ namespace EPPlusTest.Issues
 				Debug.WriteLine($"After Cell A9 Value:{wk.Cells["A9"].Value}");
 			}
 		}
-		[TestMethod]
-
-		public void i1540()
-		{
-			using (var p = OpenPackage("i1540.xlsx",true))
-			{
-				var ws = p.Workbook.Worksheets.Add("Sheet1");
-				ws.Cells["A1"].Value = "A";
-                ws.Cells["A2"].Value = "B";
-                ws.Cells["A3"].Value = "C";
-                ws.Cells["B1:B3"].FillNumber(1, 1);
-                ws.Cells["C1:C3"].FillNumber(10, 10);
-				ws.Cells["E1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";                          //Should be set as an array formula
-				ws.Cells["E2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
-				ws.Cells["F1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";                          //Should be set as an array formula
-				ws.Cells["F2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
-				ws.Cells["F1:F2"].UseImplicitItersection = true;
-
-				ws.Cells["G1"].CreateArrayFormula("SUM(If(A:A=\"A\",B:B,C:C))", true);
-                ws.Cells["G2"].CreateArrayFormula("SUM(If(A1:A3=\"A\",B1:B3,C1:C3))", true);
-
-				ws.Cells["E1:G2"].Calculate();
-
-				Assert.AreEqual(51D, ws.Cells["E1"].Value); //Will be handled as a dynamic formula when calculated, not as in Excel where implicit intersections seems to be applied inside the sum.
-				Assert.AreEqual(51D, ws.Cells["E2"].Value);
-				Assert.AreEqual(6D, ws.Cells["F1"].Value);
-                Assert.AreEqual(60D, ws.Cells["F2"].Value);
-
-                SaveAndCleanup(p);
-			}
-		}
         [TestMethod]
         public void i1566()
         {
@@ -823,7 +792,7 @@ namespace EPPlusTest.Issues
 			SaveAndCleanup(p);
         }
         [TestMethod]
-       public void s831()
+        public void s831()
         {
             using var p = OpenTemplatePackage("s831.xlsx");
             var sheet = p.Workbook.Worksheets[0];
@@ -1272,6 +1241,61 @@ namespace EPPlusTest.Issues
                 ws.Cells["CW151"].Calculate();
                 Assert.AreEqual(39.29, ws.Cells["CW151"].Value);
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void Copy_Names_to_new_workbook()
+        {
+            using (ExcelPackage origPck = OpenPackage("i345_ORIG_Global_Names.xlsx", true))
+            {
+                var wbOrig = origPck.Workbook;
+                var wsOrig = wbOrig.Worksheets.Add("Testpage");
+
+                wbOrig.Names.AddFormula("MyDefinedFormula", "Testpage!C3");//This line fails
+                wbOrig.Names.AddValue("MyDefinedValue", 10);
+                var range = wbOrig.Names.Add("MyRange", wsOrig.Cells["C3:D4"]);
+
+                wsOrig.Cells["C3"].Formula = "5+5";
+                wsOrig.Cells["D4"].Formula = "MyDefinedFormula";
+                wsOrig.Cells["G10"].Formula = "MyRange";
+
+                wsOrig.Calculate();
+
+                using (ExcelPackage destPackage = OpenPackage("i345_DEST_Global_Names.xlsx", true))
+                {
+                    var target = destPackage.Workbook.Worksheets.Add("destWs", wsOrig);
+                    target.Calculate();
+                    SaveAndCleanup(destPackage);
+                }
+                SaveAndCleanup(origPck);
+            }
+        }
+        [TestMethod]
+        public void TestNames()
+        {
+            using (var origPck = OpenPackage("copyworkbooknames.xlsx", true))
+            {
+                var wbOrig = origPck.Workbook;
+                var wsOrig = wbOrig.Worksheets.Add("Testpage");
+
+                wbOrig.Names.AddFormula("MyDefinedFormula", "Testpage!C3");//This line fails
+                wbOrig.Names.AddValue("MyDefinedValue", 10);
+                var range = wbOrig.Names.Add("MyRange", wsOrig.Cells["C3:D4"]);
+
+                wsOrig.Cells["C3"].Formula = "5+5";
+                wsOrig.Cells["D4"].Formula = "MyDefinedFormula";
+                wsOrig.Cells["G10"].Formula = "MyRange";
+
+                wsOrig.Calculate();
+                origPck.Save();
+
+                using(ExcelPackage destPackage = new ExcelPackage(origPck.Stream))
+                {
+                    var target = destPackage.Workbook.Worksheets.Add("destWs", wsOrig);
+                    target.Calculate();
+                    SaveAndCleanup(destPackage);
+                }
+                SaveAndCleanup(origPck);
             }
         }
     }

@@ -10,8 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Xml;
 
@@ -98,7 +97,7 @@ namespace OfficeOpenXml.Filter
             {
                 if(filter is ExcelFilterDateGroupItem d)
                 {
-                    var valueDate = Utils.ConvertUtil.GetValueDate(value);
+                    var valueDate = Utils.TypeConversion.ConvertUtil.GetValueDate(value);
                     match = valueDate.HasValue && d.Match(valueDate.Value);                    
                 }
                 else if (filter is ExcelFilterValueItem v)

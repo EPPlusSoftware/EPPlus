@@ -12,11 +12,8 @@
 *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -125,7 +122,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 return;
             }
 
-            if(cf.Type == eExcelConditionalFormattingRuleType.DataBar)
+            if (cf.Type == eExcelConditionalFormattingRuleType.DataBar)
             {
                 var dbar = cf.As.DataBar;
                 if (dbar.LowValue.Formula != null)

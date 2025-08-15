@@ -23,6 +23,7 @@ using OfficeOpenXml.DigitalSignatures;
 using System.Security.Cryptography;
 using System.Drawing;
 using System.Globalization;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Packaging
 {

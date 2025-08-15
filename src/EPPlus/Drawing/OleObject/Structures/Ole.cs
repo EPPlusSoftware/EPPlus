@@ -15,6 +15,7 @@ using OfficeOpenXml.Utils;
 using System;
 using static OfficeOpenXml.Drawing.OleObject.Structures.OleObjectDataStructures;
 using System.IO;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Drawing.OleObject.Structures
 {
