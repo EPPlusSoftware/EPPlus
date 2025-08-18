@@ -75,5 +75,6 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(package);
             Thread.CurrentThread.CurrentCulture = currentCulture;
+        }
     }
 }

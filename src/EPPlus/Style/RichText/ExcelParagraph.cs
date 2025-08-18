@@ -11,7 +11,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,6 +31,42 @@ namespace OfficeOpenXml.Style
         { 
 
         }
+        const string AligPath = "../a:pPr/@align";
+        /// <summary>
+        /// Text
+        /// </summary>
+        public eTextAlignment HorizontalAlignment
+        {
+            get
+            {
+                return GetXmlNodeString(AligPath).ToEnum<eTextAlignment>(eTextAlignment.Left);
+            }
+            set
+            {
+                CreateTopNode();
+                SetXmlNodeString(AligPath, value.ToEnumString());
+            }
+        }
+        const string IndentLevelPath = "../a:pPr/@lvl";
+        /// <summary>
+        /// Indent level for the paragraph. Ranges from 0-8;
+        /// </summary>
+        public int? IndentLevel
+        {
+            get
+            {
+                return GetXmlNodeIntNull(IndentLevelPath);
+            }
+            set
+            {
+                if(value.HasValue==false && (value < 0 || value > 8))
+                {
+                    throw new ArgumentOutOfRangeException("Indent level must be between 0 and 8.");
+                }
+                CreateTopNode();
+                SetXmlNodeInt(IndentLevelPath, value);
+            }
+        }
         const string TextPath = "../a:t";
         /// <summary>
         /// Text
@@ -45,6 +83,7 @@ namespace OfficeOpenXml.Style
                 SetXmlNodeString(TextPath, value);
             }
         }
+        
         /// <summary>
         /// If the paragraph is the first in the collection
         /// </summary>

@@ -84,7 +84,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
         /// <summary>
-        /// The bottom inset of the bounding rectangle
+        /// The bottom inset of the bounding rectangle. Default value if this property is null is 45720.
         /// </summary>
         public double? BottomInsert
         {
@@ -99,7 +99,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
         /// <summary>
-        /// The top inset of the bounding rectangle
+        /// The top inset of the bounding rectangle. Default value if this property is null is 45720.
         /// </summary>
         public double? TopInsert
         {
@@ -114,7 +114,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
         /// <summary>
-        /// The right inset of the bounding rectangle
+        /// The right inset of the bounding rectangle. Default value if this property is null is 91440.
         /// </summary>
         public double? RightInsert
         {
@@ -129,7 +129,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
         /// <summary>
-        /// The left inset of the bounding rectangle
+        /// The left inset of the bounding rectangle. Default value if this property is null is 91440.
         /// </summary>
         public double? LeftInsert
         {

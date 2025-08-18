@@ -38,7 +38,6 @@
 		<ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 		<ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
 		<ProjectReference Include="..\EPPlus\EPPlus.csproj" />
-		<ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="FakeItEasy" />

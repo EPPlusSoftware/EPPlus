@@ -56,7 +56,7 @@ namespace EPPlusTest
             public string State { get; set; }
             public double Sales { get; set; }
         }
-        protected static FileInfo _file;
+        //protected static FileInfo _file;
         protected static string _clipartPath ="";
         protected static string _worksheetPath = @"c:\epplusTest\Testoutput\";
         protected static string _testInputPath = AppContext.BaseDirectory + "\\workbooks\\";
@@ -135,29 +135,29 @@ namespace EPPlusTest
         protected static ExcelPackage OpenPackage(string name, bool delete=false)
         {
             CreateWorksheetPathIfNotExists();
-            _file = new FileInfo(_worksheetPath + name);
-            if(delete && _file.Exists)
+            var file = new FileInfo(_worksheetPath + name);
+            if(delete && file.Exists)
             {
-                _file.Delete();
+                file.Delete();
             }
-            return new ExcelPackage(_file);
+            return new ExcelPackage(file);
         }
         protected static async Task<ExcelPackage> OpenPackageAsync(string name, bool delete = false, string password=null)
         {
             CreateWorksheetPathIfNotExists();
-            var _file = new FileInfo(_worksheetPath + name);
-            if (delete && _file.Exists)
+            var file = new FileInfo(_worksheetPath + name);
+            if (delete && file.Exists)
             {
-                _file.Delete();
+                file.Delete();
             }
             var p = new ExcelPackage();
             if (password == null)
             {
-                await p.LoadAsync(_file).ConfigureAwait(false);
+                await p.LoadAsync(file).ConfigureAwait(false);
             }
             else
             {
-                await p.LoadAsync(_file, password).ConfigureAwait(false);
+                await p.LoadAsync(file, password).ConfigureAwait(false);
             }
             return p;
         }

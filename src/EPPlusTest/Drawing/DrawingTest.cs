@@ -1231,5 +1231,16 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void RichTextValidation()
+        {
+            using ( var p = OpenTemplatePackage("alignment in richtext.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Sheet1"];
+                var d = ws.Drawings[0].As.Shape;
+
+                Assert.AreEqual(3, d.RichText.Count);
+            }
+        }        
     }
 }
