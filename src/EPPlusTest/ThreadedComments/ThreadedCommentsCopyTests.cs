@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.ThreadedComments
 {
     [TestClass]
+    [DoNotParallelize]
     public class ThreadedCommentsCopyTests : TestBase
     {
         static ExcelPackage _pck;

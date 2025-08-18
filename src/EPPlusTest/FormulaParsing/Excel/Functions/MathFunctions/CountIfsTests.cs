@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
 {
     [TestClass]
+    [DoNotParallelize]
     public class CountIfsTests : TestBase
     {
         [TestMethod]
@@ -230,6 +231,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void CountIfsShouldHandleArraysWithMultipleCriteria()
         {
             using (var package = new ExcelPackage())

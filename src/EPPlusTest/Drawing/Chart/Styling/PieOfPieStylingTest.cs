@@ -34,6 +34,7 @@ using System;
 namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
+    [DoNotParallelize]
     public class OfPieChartStylingTest : TestBase
     {
         static ExcelPackage _pck;

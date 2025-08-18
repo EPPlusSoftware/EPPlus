@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 namespace EPPlusTest.InCellImages
 {
     [TestClass]
+    [DoNotParallelize]
     public class InCellImagesTests : TestBase
     {
         [TestMethod]

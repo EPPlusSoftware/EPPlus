@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest
 {
     [TestClass]
+    [DoNotParallelize]
     public class OfficePropertiesTests
     {
         

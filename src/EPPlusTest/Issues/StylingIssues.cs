@@ -111,6 +111,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void Issue1964_Epplus()
         {
             SwitchToCulture("zh-CN");

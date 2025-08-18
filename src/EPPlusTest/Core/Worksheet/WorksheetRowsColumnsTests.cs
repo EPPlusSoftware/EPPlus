@@ -8,6 +8,7 @@ using System.Linq;
 namespace OfficeOpenXml.Core.Worksheet
 {
     [TestClass]
+    [DoNotParallelize]
     public class WorksheetRowsColumnsTests : TestBase
     {
         static ExcelPackage _pck;

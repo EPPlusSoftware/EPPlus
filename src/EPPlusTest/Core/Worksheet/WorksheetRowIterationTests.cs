@@ -8,6 +8,7 @@ using System.Linq;
 namespace EPPlusTest.Core.Worksheet
 {
     [TestClass]
+    [DoNotParallelize]
     public class WorksheetRowIterationTests : TestBase
     {
         [TestMethod]
@@ -568,6 +569,7 @@ namespace EPPlusTest.Core.Worksheet
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void RowsAndColumnsWillIterateIfSet()
         {
             using (var p = OpenPackage("iterateSet.xlsx", true))

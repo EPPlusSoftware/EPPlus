@@ -8,6 +8,7 @@ using System.Text;
 namespace EPPlusTest.FormulaParsing
 {
     [TestClass]
+    [DoNotParallelize]
     public class RangeOperationsTests : TestBase
     {
         private static ExcelPackage _package;
@@ -54,6 +55,7 @@ namespace EPPlusTest.FormulaParsing
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void SubtractionOperatorShouldCalculate()
         {
             var sheet = _package.Workbook.Worksheets.Add("SumMinusRange");
@@ -106,6 +108,7 @@ namespace EPPlusTest.FormulaParsing
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void DivisionOperatorShouldCalculate()
         {
                 var sheet = _package.Workbook.Worksheets.Add("SumDivide");

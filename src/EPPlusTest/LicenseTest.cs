@@ -12,6 +12,7 @@ namespace EPPlusTest
     public class LicenseTest : TestBase
     {
         [TestMethod]
+        [DoNotParallelize]
         public void CommercialFunctionTest()
         {
             var lk = "X/NPJJG0WcsBTa6ZiCq19LyCk4wCqVlYH3cTtmQ5KSykt+rlceusxdN1p6uvDGP7rvPPNs0CGsjrNTaJEUR5LwEGQjhEQjAx6AdQAIIAAQIA";
@@ -71,6 +72,7 @@ namespace EPPlusTest
         }        
         
         [TestMethod]
+        [DoNotParallelize]
         public void CommercialTrialExpiredShouldReadFromConfig()
         {
             var lk = "yYQQXbIcxblb4BYxKfE3wPRvnb+r7ZEZZaTgDHE2QfHDpcsNb4dJJT3lz56I/MbjcCfJ9d8aG5+teLoQVIAx4gEGQjM5MTg45gcwAVEBIQEA";
@@ -115,6 +117,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void CommercialConfigFileTest()
         {
             ExcelPackage.License.RemoveActiveLicense();
@@ -127,6 +130,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void CommercialConfigEnvironmentTest()
         {
 

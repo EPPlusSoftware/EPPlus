@@ -8,6 +8,7 @@ using System;
 namespace EPPlusTest.Table.PivotTable
 {
     [TestClass]
+    [DoNotParallelize]
     public class PivotTableDateFilterTests : TestBase
     {
         static ExcelPackage _pck;

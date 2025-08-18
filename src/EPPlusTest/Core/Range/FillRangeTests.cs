@@ -7,6 +7,7 @@ using System.Threading;
 namespace EPPlusTest.Core.Range.Fill
 {
     [TestClass]
+    [DoNotParallelize]
     public class RangeFillTests : TestBase
     {
         static ExcelPackage _pck;
@@ -76,6 +77,7 @@ namespace EPPlusTest.Core.Range.Fill
             Assert.IsNull(_wsNum.Cells["D4"].Value);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void FillNumbers_RowWithStartAndStep()
         {
             var ci = Thread.CurrentThread.CurrentCulture;
@@ -101,6 +103,7 @@ namespace EPPlusTest.Core.Range.Fill
             Thread.CurrentThread.CurrentCulture = ci;
         }
         [TestMethod]
+        [DoNotParallelize]
         public void FillNumbers_RowWithLeftAndStartAndStep()
         {
             var ci = Thread.CurrentThread.CurrentCulture;

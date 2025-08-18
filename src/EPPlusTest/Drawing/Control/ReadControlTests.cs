@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Drawing.Control
 {
     [TestClass]
+    [DoNotParallelize]
     public class ReadControlTests : TestBase
     {
         static ExcelPackage _pck;

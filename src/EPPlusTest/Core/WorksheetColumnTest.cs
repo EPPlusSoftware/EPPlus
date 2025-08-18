@@ -73,6 +73,7 @@ namespace EPPlusTest.Core
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ValidateAutoFitWidthNormalArial28()
         {
             using (var p = OpenPackage($"columnWidthArial28.xlsx", true))

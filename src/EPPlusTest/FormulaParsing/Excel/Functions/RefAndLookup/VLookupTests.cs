@@ -293,6 +293,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         //}
 
         [TestMethod]
+        [DoNotParallelize]
         public void SC870_EpplusOnly()
         {
             using (var p = OpenPackage("EpplusNullAboveAndBelow.xlsx", true))

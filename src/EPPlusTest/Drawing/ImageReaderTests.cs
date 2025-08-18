@@ -15,7 +15,8 @@ using static System.Net.Mime.MediaTypeNames;
 namespace EPPlusTest.Drawing
 {
     [TestClass]
-	public class ImageReaderTests : TestBase
+    [DoNotParallelize]
+    public class ImageReaderTests : TestBase
     {
 		private static ExcelPackage _pck;
 		[ClassInitialize]

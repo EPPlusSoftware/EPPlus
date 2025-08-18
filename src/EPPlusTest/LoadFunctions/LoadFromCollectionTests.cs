@@ -44,6 +44,7 @@ using OfficeOpenXml.Table;
 namespace EPPlusTest.LoadFunctions
 {
     [TestClass]
+    [DoNotParallelize]
     public class LoadFromCollectionTests : TestBase
     {
         [EpplusTable(AutofitColumns = true, PrintHeaders = true, TableStyle = TableStyles.Light10)]
@@ -596,6 +597,7 @@ namespace EPPlusTest.LoadFunctions
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ShouldSetHyperlinkForURIs()
         {
             var items = new List<UrlClass>()
@@ -746,6 +748,7 @@ namespace EPPlusTest.LoadFunctions
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void LoadListOfClassWithEnumWithDescriptionTransposed()
         {
             var items = new List<EnumClass>()
@@ -776,6 +779,7 @@ namespace EPPlusTest.LoadFunctions
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void LoadWithAttributesTest()
         {
             var l = new List<Company>();

@@ -350,6 +350,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void ShouldSortCommentsAfterDeleteRow()
         {
             using (var package = OpenPackage("commentsDeleteRowSort.xlsx", true))

@@ -11,6 +11,7 @@ using System.Text;
 namespace EPPlusTest.InCellImages
 {
     [TestClass]
+    [DoNotParallelize]
     public class CopyCellImagesTests : TestBase
     {
         private class TestHttpsService : IHttpsService

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.ConditionalFormatting
 {
     [TestClass]
+    [DoNotParallelize]
     public class CF_ColorScale : TestBase
     {
         [TestMethod]

@@ -11,6 +11,7 @@ using FakeItEasy;
 namespace EPPlusTest.Table.PivotTable
 {
     [TestClass]
+    [DoNotParallelize]
     public class PivotTableConditionalFormattingTests : TestBase
     {
         static ExcelPackage _pck;
@@ -79,6 +80,7 @@ namespace EPPlusTest.Table.PivotTable
             area2.Conditions.Fields[0].Items.Add(0);
         }
         [TestMethod]
+        [DoNotParallelize]
         [ExpectedException(typeof(InvalidOperationException))]
         public void AddPivotCF_ShouldThrowExceptionWhenSettingTypeOnUnsupportedCFRule()
         {

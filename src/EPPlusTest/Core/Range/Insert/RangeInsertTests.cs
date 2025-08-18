@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Core.Range.Insert
 {
     [TestClass]
+    [DoNotParallelize]
     public class RangeInsertTests : TestBase
     {
         public static ExcelPackage _pck;
@@ -80,6 +81,7 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("Sum(Insert2Rows_Sheet1!C8:C13)", ws2.Cells["B2"].Formula);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ValidateFormulasAfterInsertColumn()
         {
             //Setup
@@ -917,6 +919,7 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("B3:C6,D2:E5", cf.Address.Address);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ValidateConditionalFormattingShiftDown_Inside()
         {
             var ws = _pck.Workbook.Worksheets.Add("CondFormPartialDownFullI");
@@ -1016,6 +1019,7 @@ namespace EPPlusTest.Core.Range.Insert
 
 
         [TestMethod]
+        [DoNotParallelize]
         public void ValidateConditionalFormattingShiftDown_Right()
         {
             var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightFullR");
@@ -1062,6 +1066,7 @@ namespace EPPlusTest.Core.Range.Insert
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void ValidateConditionalFormattingFullShiftRight()
         {
             var ws = _pck.Workbook.Worksheets.Add("CondFormShiftRightFull");

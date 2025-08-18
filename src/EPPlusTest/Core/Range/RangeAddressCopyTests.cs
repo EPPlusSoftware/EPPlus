@@ -350,6 +350,7 @@ namespace EPPlusTest.Core.Range
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void CopyDataValidationNewPackage()
         {
             using (var p1 = new ExcelPackage())

@@ -39,6 +39,7 @@ using OfficeOpenXml.Style;
 namespace EPPlusTest.Drawing
 {
     [TestClass]
+    [DoNotParallelize]
     public class FillTest : TestBase
     {
         static ExcelPackage _pck;
@@ -813,6 +814,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(15, shape.Fill.BlipFill.StretchOffset.RightOffset);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void BlipFill_SourceRectangle()
         {
             //Setup

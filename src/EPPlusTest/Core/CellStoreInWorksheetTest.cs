@@ -199,6 +199,7 @@ namespace EPPlusTest.Core
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void FillInsertTest()
         {
             var ws = _pck.Workbook.Worksheets.Add("FillInsert");

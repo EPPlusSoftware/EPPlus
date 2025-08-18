@@ -11,7 +11,8 @@ using OfficeOpenXml.Table.PivotTable;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
 	[TestClass]
-	public class PivotTableCalculationGroupingTests : TestBase
+    [DoNotParallelize]
+    public class PivotTableCalculationGroupingTests : TestBase
 	{
 		static ExcelPackage _pck;
 		static ExcelTable _tbl1, _tbl2;
@@ -63,7 +64,8 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			Assert.AreEqual(445.52, pt.CalculatedItems[0][[int.MaxValue, int.MaxValue]]);
 		}
 		[TestMethod]
-		public void DateGroupYearMonthDayCalculation()
+        [DoNotParallelize]
+        public void DateGroupYearMonthDayCalculation()
 		{
 			var ws = _pck.Workbook.Worksheets.Add("PivotDayGrouping");
 			var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl1, "PivotTableDayGrouping");

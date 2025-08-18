@@ -47,6 +47,7 @@ namespace EPPlusTest
 {
 
     [TestClass]
+    [DoNotParallelize]
     public class WorkSheetTest : TestBase
     {
         static ExcelPackage _pck;
@@ -130,6 +131,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadWorkSheet()
         {
             using (ExcelPackage pck = OpenPackage("WorksheetRead.xlsx"))
@@ -804,6 +806,7 @@ namespace EPPlusTest
 
         }
         [TestMethod]
+        [DoNotParallelize]
         public void Address()
         {
             var ws = _pck.Workbook.Worksheets.Add("Address");
@@ -847,6 +850,7 @@ namespace EPPlusTest
             ws.Cells["A4"].Value = "test" + (char)31;   //Bug issue 14689 //Fixed
         }
         [TestMethod]
+        [DoNotParallelize]
         public void WorksheetCopy()
         {
             using (var pck = OpenPackage("WorksheetRead.xlsx"))
@@ -966,6 +970,7 @@ namespace EPPlusTest
             ws.Hidden = eWorkSheetHidden.VeryHidden;
         }
         [TestMethod]
+        [DoNotParallelize]
         public void PrinterSettings()
         {
             var ws = _pck.Workbook.Worksheets.Add("Sod/Hydroseed");
@@ -994,6 +999,7 @@ namespace EPPlusTest
             ws.Select(new ExcelAddress("3:4,E5:F6"));
         }
         [TestMethod]
+        [DoNotParallelize]
         public void StyleNameTest()
         {
             var ws = _pck.Workbook.Worksheets.Add("StyleNameTest");
@@ -1126,6 +1132,7 @@ namespace EPPlusTest
             tbl.Columns[0].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
         }
         [TestMethod]
+        [DoNotParallelize]
         public void CopyTable()
         {
             using (var pck = OpenPackage("WorksheetRead.xlsx"))
@@ -1283,6 +1290,7 @@ namespace EPPlusTest
             Assert.AreEqual(8, range.End.Row);
         }
         [TestMethod]
+        [DoNotParallelize]
         public async Task LoadDataReaderAsync()
         {
             if (_pck == null) _pck = new ExcelPackage();
@@ -1532,6 +1540,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void SetBackground()
         {
             var ws = _pck.Workbook.Worksheets.Add("backimg");
@@ -1541,6 +1550,7 @@ namespace EPPlusTest
             ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.CodeEmfByteArray), ePictureType.Emf);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void RemoveBackground()
         {
             var ws = _pck.Workbook.Worksheets.Add("Remove_BackImg");
@@ -1876,6 +1886,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void IgnoreErrors()
         {
             var ws = _pck.Workbook.Worksheets.Add("IgnoreError");
@@ -2054,6 +2065,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void DeletingSheetMovesSelectedSheetCorrectly()
         {
             using (var package = OpenPackage("deletedSheets.xlsx", true))

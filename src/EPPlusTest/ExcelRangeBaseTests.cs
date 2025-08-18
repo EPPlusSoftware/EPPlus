@@ -33,6 +33,7 @@ using OfficeOpenXml.Style;
 namespace EPPlusTest
 {
     [TestClass]
+    [DoNotParallelize]
     public class ExcelRangeBaseTests : TestBase
     {
         [TestMethod]
@@ -231,6 +232,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void ExcelRangeBaseShouldReturnCorrectNumberFormatText()
         {
             using (var package = OpenPackage("numfRedStandard.xlsx", true))

@@ -35,6 +35,7 @@ using System.IO;
 namespace EPPlusTest.Drawing
 {
     [TestClass]
+    [DoNotParallelize]
     public class View3DReadTest : TestBase
     {
         static ExcelPackage _pck;

@@ -12,7 +12,8 @@ using System.Security.Principal;
 namespace EPPlusTest.Issues
 {
 	[TestClass]
-	public class ChartIssues : TestBase
+    [DoNotParallelize]
+    public class ChartIssues : TestBase
 	{
 		[ClassInitialize]
 		public static void Init(TestContext context)
@@ -205,7 +206,8 @@ namespace EPPlusTest.Issues
 		}
 
 		[TestMethod]
-		public void s694()
+        [DoNotParallelize]
+        public void s694()
 		{
 			using (var p = OpenPackage("s694.xlsx", true))
 			{

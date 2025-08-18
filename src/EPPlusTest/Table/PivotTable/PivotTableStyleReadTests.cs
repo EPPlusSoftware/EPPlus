@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Table.PivotTable
 {
     [TestClass]
+    [DoNotParallelize]
     public class PivotTableStyleReadTests : TestBase
     {
         static ExcelPackage _pck;
@@ -389,6 +390,7 @@ namespace EPPlusTest.Table.PivotTable
 
        }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTopStart()
         {
             var ws = TryGetWorksheet(_pck, "StyleTopStart");
@@ -401,6 +403,7 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(Color.Red.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTopStartOffset0()
         {
             var ws = TryGetWorksheet(_pck, "StyleTopStartOffset0");
@@ -415,6 +418,7 @@ namespace EPPlusTest.Table.PivotTable
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTopEnd()
         {
             var ws = TryGetWorksheet(_pck, "StyleTopEnd");
@@ -426,6 +430,7 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(Color.Yellow.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTopEndOffset1()
         {
             var ws = TryGetWorksheet(_pck, "StyleTopEndOffset1");
@@ -438,6 +443,7 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(Color.Yellow.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadPivotDataAlignment()
         {
             var ws =  TryGetWorksheet(_pck, "StyleAlignment");

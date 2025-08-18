@@ -34,6 +34,7 @@ using System.Collections.Generic;
 namespace EPPlusTest.Table
 {
     [TestClass]
+    [DoNotParallelize]
     public class TableInsertTests : TestBase
     {
         static ExcelPackage _pck;
@@ -50,6 +51,7 @@ namespace EPPlusTest.Table
         }
         #region Insert Row
         [TestMethod]
+        [DoNotParallelize]
         public void TableInsertRowTop()
         {
             //Setup

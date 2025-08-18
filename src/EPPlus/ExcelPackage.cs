@@ -32,6 +32,8 @@ using OfficeOpenXml.EventArguments;
 using OfficeOpenXml.Interfaces;
 #if(!NET35)
 using OfficeOpenXml.SensitivityLabels;
+using System.Threading;
+
 #endif
 
 #if (Core)
@@ -867,7 +869,6 @@ namespace OfficeOpenXml
                 {
                     action.Invoke();
                 }
-
                 Workbook.Save();
 #if (!NET35)
                 if (_sensibilityLabels != null)

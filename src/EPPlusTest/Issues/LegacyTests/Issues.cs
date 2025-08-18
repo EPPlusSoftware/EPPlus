@@ -913,6 +913,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void Issue332()
         {
             InitBase();
@@ -922,6 +923,7 @@ namespace EPPlusTest
             pkg.Save();
         }
         [TestMethod]
+        [DoNotParallelize]
         public void Issue332_2()
         {
             InitBase();
@@ -1467,6 +1469,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void InflateIssue()
         {
             using (var p = OpenPackage("inflateStart.xlsx", true))
@@ -1545,6 +1548,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void IssueCommentInsert()
         {
             using (var p = OpenPackage("CommentInsert.xlsx", true))
@@ -2384,6 +2388,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void Issue442()
         {
             using (var pck = OpenPackage("issue442.xlsx", true))
@@ -2692,6 +2697,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void Issue520_2()
         {
             using (var p = OpenPackage("i520.xlsx", true))
@@ -3014,6 +3020,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void PiechartWithHorizontalSource()
         {
             using (var p = OpenPackage("piechartHorizontal.xlsx", true))
@@ -3035,6 +3042,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void PiechartWithVerticalSource()
         {
             using (var p = OpenPackage("piechartvertical.xlsx", true))
@@ -4001,6 +4009,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void i763()
         {
             using (var package = OpenPackage("i761.xlsx", true))
@@ -5008,6 +5017,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void Issue888()
         {
             using (var package = OpenPackage("issue888.xlsx", true))
@@ -5368,6 +5378,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void Issue1095()
         {
             using (var package = OpenPackage("I1095.xlsx", true))
@@ -5685,6 +5696,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void s532CacheIssue()
         {
             using (var package = OpenTemplatePackage("s532-Pivot-Cache.xlsx"))

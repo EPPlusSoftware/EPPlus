@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Core.Range.Delete
 {
     [TestClass]
+    [DoNotParallelize]
     public class RangeDeleteTests : TestBase
     {
         public static ExcelPackage _pck;
@@ -488,6 +489,7 @@ namespace EPPlusTest.Core.Range.Delete
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void ValidateNamesAfterDeleteShiftLeft_MustBeInsideRange()
         {
             //Setup
@@ -539,6 +541,7 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual("D2", ws.Cells["F4"].Formula);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ValidateSharedFormulasDeleteShiftLeft()
         {
             //Setup

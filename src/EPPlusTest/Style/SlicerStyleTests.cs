@@ -40,6 +40,7 @@ using System.Threading;
 namespace EPPlusTest.Style
 {
     [TestClass]
+    [DoNotParallelize]
     public class SlicerStyleTests : TestBase
     {
         static ExcelPackage _pck;
@@ -168,6 +169,7 @@ namespace EPPlusTest.Style
 
 
         [TestMethod]
+        [DoNotParallelize]
         public void ReadSlicerStyle()
         {
             using (var p = OpenTemplatePackage("SlicerStyleRead.xlsx"))

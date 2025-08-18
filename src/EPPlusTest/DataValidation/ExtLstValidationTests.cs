@@ -8,6 +8,7 @@ using System.IO;
 namespace EPPlusTest.DataValidation
 {
     [TestClass]
+    [DoNotParallelize]
     public class ExtLstValidationTests : TestBase
     {
         [TestMethod, Ignore]
@@ -277,6 +278,7 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void ManyLocalDataValidationsShouldWorkWithManyExtLstConditionalFormattings()
         {
             using (var pck = OpenPackage("DataValidationLocalManyExtLstMany.xlsx", true))

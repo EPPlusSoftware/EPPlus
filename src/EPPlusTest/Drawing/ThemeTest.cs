@@ -44,6 +44,7 @@ using System.Reflection;
 namespace EPPlusTest.Drawing
 {
     [TestClass]
+    [DoNotParallelize]
     public class ThemeTest : TestBase
     {
         internal static ExcelPackage _pck;
@@ -383,6 +384,7 @@ namespace EPPlusTest.Drawing
 
         #region Theme Savon
         [TestMethod]
+        [DoNotParallelize]
         public void ValidateThemeSavonWithBlipFill()
         {
             _pck = new ExcelPackage();
@@ -400,6 +402,7 @@ namespace EPPlusTest.Drawing
             SaveWorkbook("ThemeSavonBlipFill.xlsx", _pck);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ValidateThemeWoodTypeWithBlipFill()
         {
             _pck = new ExcelPackage();
@@ -412,6 +415,7 @@ namespace EPPlusTest.Drawing
             SaveWorkbook("ThemeWoodTypeBlipFill.xlsx", _pck);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ChangeFontOnDefaultTheme()
         {
             _pck = new ExcelPackage();

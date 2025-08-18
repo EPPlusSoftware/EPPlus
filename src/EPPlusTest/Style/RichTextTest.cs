@@ -203,6 +203,7 @@ namespace EPPlusTest.Style
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void RichTextWorkSheetCopy2()
         {
             using (var p = OpenPackage("RichTextTestFailedStyff.xlsx", true))
@@ -228,6 +229,7 @@ namespace EPPlusTest.Style
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void RichTextWithFalseBools()
         {
             using (var p = OpenPackage("RichTextFalse.xlsx", true))

@@ -39,6 +39,7 @@ using System.Xml;
 namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
+    [DoNotParallelize]
     public class LineChartStylingTest : TestBase
     {
         static ExcelPackage _pck;
@@ -61,6 +62,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             StyleLineChart(ws, eLineChartType.Line);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void LineChartStacked_Styles()
         {
             var ws = _pck.Workbook.Worksheets.Add("LineStackedChartStyles");

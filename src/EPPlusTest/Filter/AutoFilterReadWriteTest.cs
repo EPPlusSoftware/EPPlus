@@ -35,9 +35,11 @@ using OfficeOpenXml.Filter;
 namespace EPPlusTest.Filter
 {
     [TestClass]
+    [DoNotParallelize]
     public class AutoFilterReadWriteTest : TestBase
     {        
         [TestMethod]
+        [DoNotParallelize]
         public void ValuesFilter()
         {
             var pck=OpenPackage("AutoFilterValues.xlsx", true);

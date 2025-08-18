@@ -35,6 +35,7 @@ using System.Drawing;
 namespace EPPlusTest.Drawing
 {
     [TestClass]
+    [DoNotParallelize]
     public class EffectReadTest : TestBase
     {
         static ExcelPackage _pck;
@@ -59,6 +60,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(0, shape.Effect.InnerShadow.Distance);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void OuterShadowDefaultRead()
         {
             //Setup

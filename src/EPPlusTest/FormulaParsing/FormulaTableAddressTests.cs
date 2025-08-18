@@ -24,6 +24,7 @@ namespace EPPlusTest.FormulaParsing
 			SaveAndCleanup(_package);
 		}
 		[TestMethod]
+		[DoNotParallelize]
         public void CalculateFormulaWithNameReferencingTableRowColumn()
         {
 			var ws = _package.Workbook.Worksheets.Add("Data1");

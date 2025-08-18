@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Core.Range
 {
     [TestClass]
+    [DoNotParallelize]
     public class RangeRichTextTests : TestBase
     {
         static ExcelPackage _pck;
@@ -82,6 +83,7 @@ namespace EPPlusTest.Core.Range
             Assert.IsFalse(_ws.Cells["D1"].IsRichText);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void SettingRichTextTextToEmptyStringShouldClearRichText()
         {
             _ws.Cells["D1"].RichText.Add(" ");

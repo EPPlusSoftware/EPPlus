@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 namespace EPPlusTest.Drawing.Grouping
 {
     [TestClass]
+    [DoNotParallelize]
     public class DrawingGroupingTests : TestBase
     {
         static ExcelPackage _pck;

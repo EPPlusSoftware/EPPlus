@@ -39,6 +39,7 @@ using System.Threading;
 namespace EPPlusTest.Style
 {
     [TestClass]
+    [DoNotParallelize]
     public class StylingTest : TestBase
     {
         static ExcelPackage _pck;
@@ -60,6 +61,7 @@ namespace EPPlusTest.Style
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void VerifyColumnStyle()
         {
             var ws=_pck.Workbook.Worksheets.Add("RangeStyle");

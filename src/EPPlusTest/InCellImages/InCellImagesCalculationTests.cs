@@ -11,6 +11,7 @@ using OfficeOpenXml.Metadata.FutureMetadata;
 namespace EPPlusTest.InCellImages
 {
     [TestClass]
+    [DoNotParallelize]
     public class InCellImagesCalculationTests : TestBase
     {
         [TestMethod]

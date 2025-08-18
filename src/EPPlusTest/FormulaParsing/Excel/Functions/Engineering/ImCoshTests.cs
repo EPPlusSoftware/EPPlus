@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
 {
     [TestClass]
+    [DoNotParallelize]
     public class ImCoshTests
     {
         [TestMethod]
@@ -91,6 +92,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void ImCoshShouldReturnOnlyHighValue()
         {
             var ci = Thread.CurrentThread.CurrentCulture;
@@ -103,7 +105,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 sheet.Cells["A1"].Formula = "IMCOSH(\"170+58000i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-#if Core
+#if Core || NET8_0_OR_GREATER
                 Assert.AreEqual("3.3690976136249E+73-2.8221472985184E+72i", result); //Small diffrence in the result compared to Excel beacause .NET Core uses more decimals.
 #else
                 Assert.AreEqual("3.3690976136249E+73-2.82214729851839E+72i", result); //Small diffrence in the result compared to Excel beacause .NET Framework uses more decimals.

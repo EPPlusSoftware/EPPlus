@@ -13,6 +13,7 @@ using OfficeOpenXml.ConditionalFormatting;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [TestClass]
+    [DoNotParallelize]
     public class GetPivotDataTests_Functions : TestBase
     {
         private static ExcelWorksheet _sheet;

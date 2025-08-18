@@ -55,6 +55,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             SaveAndCleanup(_pck);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void RegionMapChart_Styles()
         {
             var ws = _pck.Workbook.Worksheets.Add("RegionMapChart");

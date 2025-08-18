@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.ThreadedComments
 {
     [TestClass]
+    [DoNotParallelize]
     public class ThreadedCommentsInsertTests : TestBase
     {
         static ExcelPackage _pck;
@@ -25,6 +26,7 @@ namespace EPPlusTest.ThreadedComments
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void InsertOneRow()
         {
             var ws = _pck.Workbook.Worksheets.Add("OneRowA1");
@@ -51,6 +53,7 @@ namespace EPPlusTest.ThreadedComments
             Assert.IsNotNull(ws.Cells["B1"].ThreadedComment);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void InsertTwoRowA1()
         {
             var ws = _pck.Workbook.Worksheets.Add("A1_A2RowA1");

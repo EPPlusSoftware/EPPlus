@@ -681,6 +681,7 @@ namespace EPPlusTest.Issues
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void RedYellowGreen_NoPrevDimension()
         {
             using (var p = OpenPackage("RedYellowGreen_NoDim.xlsx", true))

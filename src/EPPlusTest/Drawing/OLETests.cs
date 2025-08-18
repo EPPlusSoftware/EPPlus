@@ -10,6 +10,7 @@ using System.Linq;
 namespace EPPlusTest.Drawing
 {
     [TestClass]
+    [DoNotParallelize]
     public class OLETests : TestBase
     {
         [TestMethod]
@@ -165,6 +166,7 @@ namespace EPPlusTest.Drawing
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void WriteEmbeddedOleObject()
         {
             //Write Generic Object
@@ -601,6 +603,7 @@ namespace EPPlusTest.Drawing
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void SetPosition()
         {
             using (ExcelPackage pck = OpenPackage("OLETest.xlsx", true))
@@ -618,6 +621,7 @@ namespace EPPlusTest.Drawing
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void TestingOLEObjectCopy()
         {
             using (ExcelPackage pck = OpenPackage("OLETest.xlsx", true))

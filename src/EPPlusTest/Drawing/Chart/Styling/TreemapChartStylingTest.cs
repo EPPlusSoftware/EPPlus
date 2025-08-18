@@ -41,6 +41,7 @@ using System.Xml;
 namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
+    [DoNotParallelize]
     public class TreemapChartStylingTest : TestBase
     {
         static ExcelPackage _pck;

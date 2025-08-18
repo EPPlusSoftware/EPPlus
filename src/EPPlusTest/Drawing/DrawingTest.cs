@@ -47,6 +47,7 @@ namespace EPPlusTest
     /// Summary description for UnitTest1
     /// </summary>
     [TestClass]
+    [DoNotParallelize]
     public class DrawingTest : TestBase
     {
         static ExcelPackage _pck;

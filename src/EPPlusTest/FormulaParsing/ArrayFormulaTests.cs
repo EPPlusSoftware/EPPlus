@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing
 {
     [TestClass]
-
+    [DoNotParallelize]
     public class ArrayFormulaTests : TestBase
     {
         private static ExcelPackage _package;
@@ -127,6 +127,7 @@ namespace EPPlusTest.FormulaParsing
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void DynamicArrayFormulaWithTwoCellsInTableGenerateCorruptWorkbook2()
         {
             using (var package = OpenPackage("DynamicArrayTableNew.xlsx", true))

@@ -37,6 +37,7 @@ using System.IO;
 namespace EPPlusTest.Table.PivotTable
 {
     [TestClass]
+    [DoNotParallelize]
     public class PivotTableDataFieldShowDataAsTests : TestBase
     {
         static ExcelPackage _pck;
@@ -111,6 +112,7 @@ namespace EPPlusTest.Table.PivotTable
 
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ShowAsPercent()
         {
             var ws = _pck.Workbook.Worksheets.Add("ShowDataAsPerc");
@@ -153,6 +155,7 @@ namespace EPPlusTest.Table.PivotTable
 
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ShowAsDifference()
         {
             var ws = _pck.Workbook.Worksheets.Add("ShowDataAsDifference");

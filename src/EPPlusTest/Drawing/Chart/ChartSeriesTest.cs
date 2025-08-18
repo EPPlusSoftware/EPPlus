@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Drawing.Chart
 {
     [TestClass]
+    [DoNotParallelize]
     public class ChartSeriesTest : TestBase
     {
         static ExcelPackage _pck;

@@ -15,6 +15,7 @@ using OfficeOpenXml.Drawing.Slicer;
 namespace EPPlusTest.DataValidation
 {
     [TestClass]
+    [DoNotParallelize]
     public class ExternalExtTests : TestBase
     {
         [ClassInitialize]

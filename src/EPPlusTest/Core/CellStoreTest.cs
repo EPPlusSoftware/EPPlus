@@ -472,6 +472,7 @@ namespace EPPlusTest.Core
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ValidatePerformance()
         {
             var cellStore = new CellStore<int>();

@@ -309,6 +309,7 @@ namespace EPPlusTest.Core
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void AddExternalLinkShouldBeSameAsExcel()
         {
             var p = OpenPackage("AddedExtRef.xlsx", true);

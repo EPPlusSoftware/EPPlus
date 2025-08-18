@@ -11,6 +11,7 @@ using System.IO;
 namespace EPPlusTest.Drawing.Chart
 {
     [TestClass]
+    [DoNotParallelize]
     public class ChartExTests : TestBase
     {
         static ExcelPackage _pck;

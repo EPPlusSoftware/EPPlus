@@ -7,7 +7,8 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
     [TestClass]
-	public class VerifyPivotCalculationWorkbookTests : TestBase
+    [DoNotParallelize]
+    public class VerifyPivotCalculationWorkbookTests : TestBase
 	{
 		static ExcelPackage _package;
 		static ExcelWorksheet _ptWs;

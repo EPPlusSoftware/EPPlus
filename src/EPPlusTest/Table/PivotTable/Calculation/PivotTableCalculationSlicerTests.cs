@@ -34,6 +34,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             SaveAndCleanup(_pck);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void FilterSlicerSingleItem()
         {
             var ws = _pck.Workbook.Worksheets.Add("PivotWithSlicerSingle");

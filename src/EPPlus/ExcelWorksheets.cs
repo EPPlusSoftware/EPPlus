@@ -34,6 +34,7 @@ namespace OfficeOpenXml
         internal ExcelPackage _pck;
         internal ChangeableDictionary<ExcelWorksheet> _worksheets;
         private XmlNamespaceManager _namespaceManager;
+        internal static object syncRoot = new object();
         #endregion
         #region ExcelWorksheets Constructor
         internal ExcelWorksheets(ExcelPackage pck, XmlNamespaceManager nsm, XmlNode topNode) :
@@ -128,7 +129,7 @@ namespace OfficeOpenXml
         }
         private ExcelWorksheet AddSheet(string Name, bool isChart, eChartType? chartType, ExcelPivotTable pivotTableSource = null, XmlElement sheetElement=null)
         {   
-            lock (_worksheets)
+            lock (syncRoot)
             {
                 Name = ValidateFixSheetName(Name);
                 if (GetByName(Name) != null)

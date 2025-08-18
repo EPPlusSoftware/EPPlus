@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Drawing
 {
     [TestClass]
-	public class PictureTests : TestBase
+    [DoNotParallelize]
+    public class PictureTests : TestBase
     {
 		private static ExcelPackage _pck;
 		[ClassInitialize]

@@ -39,6 +39,7 @@ using System.Xml;
 namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
+    [DoNotParallelize]
     public class Bar3DChartStylingTest : TestBase
     {
         static ExcelPackage _pck;
@@ -61,6 +62,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             StyleBar3DChart(ws, eBarChartType.BarClustered3D);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void BarStackedChart3D_Styles()
         {
             var ws = _pck.Workbook.Worksheets.Add("BarStackedChart3D");

@@ -52,6 +52,7 @@ namespace EPPlusTest.Drawing.Slicer
             Assert.AreEqual(eSlicerStyle.Light4, slicer2.Style);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTableSlicerString()
         {
             var ws = TryGetWorksheet(_pck, "TableSlicerNumber");
@@ -70,6 +71,7 @@ namespace EPPlusTest.Drawing.Slicer
             Assert.IsFalse(slicer.ShowCaption);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadPivotTableSlicer()
         {
             var ws = TryGetWorksheet(_pck, "PivotTableSlicer");
@@ -88,6 +90,7 @@ namespace EPPlusTest.Drawing.Slicer
             Assert.AreEqual(eSlicerStyle.Light5, slicer.Style);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadPivotTableSlicerToTwoPivotTables()
         {
             var ws = TryGetWorksheet(_pck, "SlicerPivotSameCache");
@@ -119,6 +122,7 @@ namespace EPPlusTest.Drawing.Slicer
             Assert.IsTrue(p2.Fields[0].Items[1].Hidden);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadPivotTableSlicerToTwoPivotTablesWithDateGrouping()
         {
             var ws = TryGetWorksheet(_pck, "SlicerPivotSameCacheDateGroup");
@@ -148,6 +152,7 @@ namespace EPPlusTest.Drawing.Slicer
             Assert.IsTrue(p2.Fields[0].Items[1].Hidden);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadPivotTableSlicerToTwoPivotTablesWithNumberGrouping()
         {
             var ws = TryGetWorksheet(_pck, "SlicerPivotSameCacheNumberGroup");

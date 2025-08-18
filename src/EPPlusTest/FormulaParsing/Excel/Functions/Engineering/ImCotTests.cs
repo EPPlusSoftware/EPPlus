@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
 {
     [TestClass]
+    [DoNotParallelize]
     public class ImCotTest
     {
         [TestMethod]
@@ -168,6 +169,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void ImCotShouldReturnCorrectValueifHighImput4()
         {
             var ci = Thread.CurrentThread.CurrentCulture;
@@ -180,7 +182,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 sheet.Cells["A1"].Formula = "IMCOT(\"12213123+3i\")";
                 sheet.Calculate();
                 var result = sheet.Cells["A1"].Value;
-#if Core
+#if Core || NET8_0_OR_GREATER
                 Assert.AreEqual("-0.00479142196748279-1.00128485557364i", result); 
 #else
                 Assert.AreEqual("-0.00479142196748275-1.00128485557364i", result);   //Small difference in the result compared to .NET Core beacause .NET Framework uses more decimals.

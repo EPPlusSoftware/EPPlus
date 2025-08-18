@@ -5,7 +5,8 @@ using System;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
 	[TestClass]
-	public class GetPivotDataTests_Grouping : TestBase
+    [DoNotParallelize]
+    public class GetPivotDataTests_Grouping : TestBase
 	{
 		private static ExcelWorksheet _dateWs1, _dateWs2, _dateWs3;
 		private static ExcelPackage _package;

@@ -9,7 +9,8 @@ using System;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
     [TestClass]
-	public class VerifyPivotCalculationWorkbookWithRefreshedCacheTests : TestBase
+    [DoNotParallelize]
+    public class VerifyPivotCalculationWorkbookWithRefreshedCacheTests : TestBase
 	{
 		static ExcelPackage _package;
 		static ExcelWorksheet _ptWs;

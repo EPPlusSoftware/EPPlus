@@ -12,6 +12,7 @@ using OfficeOpenXml.DigitalSignatures;
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
     [TestClass]
+    [DoNotParallelize]
     public class DigitalSignatureLineTests : TestBase
     {
         const string SubFolder = "DigSig\\SignatureLines\\";

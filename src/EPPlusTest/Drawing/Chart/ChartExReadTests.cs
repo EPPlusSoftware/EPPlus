@@ -9,6 +9,7 @@ using System.Drawing;
 namespace EPPlusTest.Drawing.Chart
 {
     [TestClass]
+    [DoNotParallelize]
     public class ChartExReadTests : TestBase
     {
         static ExcelPackage _pck;
@@ -51,6 +52,7 @@ namespace EPPlusTest.Drawing.Chart
             Assert.IsNull(chart.YAxis);            
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTreemapChart()
         {
             var ws = GetWorksheet("Treemap");

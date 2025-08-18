@@ -8,6 +8,7 @@ using OfficeOpenXml.Drawing.Chart;
 namespace EPPlusTest.Drawing.Chart
 {
     [TestClass]
+    [DoNotParallelize]
     public class ChartInsertTests : TestBase
     {
         [TestMethod]
@@ -150,6 +151,7 @@ namespace EPPlusTest.Drawing.Chart
 
 
         [TestMethod]
+        [DoNotParallelize]
         public void InsertingInMiddleOfDataShouldMoveDataPartially()
         {
             var fileName = "InsertingShouldMoveChartData_Partial.xlsx";
@@ -185,6 +187,7 @@ namespace EPPlusTest.Drawing.Chart
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void InsertingRowMoveData()
         {
             var fileName = "InsertingRowMoveData.xlsx";
@@ -269,6 +272,7 @@ namespace EPPlusTest.Drawing.Chart
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void DeleteColumnMoveData()
         {
             var fileName = "DeleteColMoveData.xlsx";

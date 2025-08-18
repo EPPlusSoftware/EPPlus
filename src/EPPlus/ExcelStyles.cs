@@ -448,25 +448,28 @@ namespace OfficeOpenXml
         internal int PropertyChange(StyleBase sender, Style.StyleChangeEventArgs e)
         {
             var address = new ExcelAddressBase(e.Address);
-            var ws = _wb.Worksheets[e.PositionID];
-            Dictionary<int, int> styleCache = new Dictionary<int, int>();
-            //Set single address
-            lock (ws._values)
+            lock (_wb._worksheets)
             {
-                if (address.Addresses == null)
+                var ws = _wb.Worksheets[e.PositionID];
+                Dictionary<int, int> styleCache = new Dictionary<int, int>();
+                //Set single address
+                lock (ws._values)
                 {
-                    SetStyleAddress(sender, e, address, ws, ref styleCache);
-                }
-                else
-                {
-                    //Handle multiaddresses
-                    foreach (var innerAddress in address.Addresses)
+                    if (address.Addresses == null)
                     {
-                        SetStyleAddress(sender, e, innerAddress, ws, ref styleCache);
+                        SetStyleAddress(sender, e, address, ws, ref styleCache);
+                    }
+                    else
+                    {
+                        //Handle multiaddresses
+                        foreach (var innerAddress in address.Addresses)
+                        {
+                            SetStyleAddress(sender, e, innerAddress, ws, ref styleCache);
+                        }
                     }
                 }
+                return 0;
             }
-            return 0;
         }
         private void SetStyleAddress(StyleBase sender, Style.StyleChangeEventArgs e, ExcelAddressBase address, ExcelWorksheet ws, ref Dictionary<int, int> styleCashe)
         {

@@ -36,6 +36,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Core.Worksheet
 {
     [TestClass]
+    [DoNotParallelize]
     public class WorksheetViewTests : TestBase
     {
         static ExcelPackage _pck;
@@ -168,6 +169,7 @@ namespace EPPlusTest.Core.Worksheet
             Assert.IsNull(ws.View.PaneSettings);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void SplitPanesPixelsValidatePixls()
         {
             var ws = _pck.Workbook.Worksheets.Add("SplitPanes1Px");

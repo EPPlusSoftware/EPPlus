@@ -9,6 +9,7 @@ using EPPlusTest.Properties;
 namespace EPPlusTest.InCellImages
 {
     [TestClass]
+    [DoNotParallelize]
     public class InCellImagesCacheTests : TestBase
     {
         [TestMethod]

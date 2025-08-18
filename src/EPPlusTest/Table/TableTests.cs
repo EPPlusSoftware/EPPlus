@@ -39,6 +39,7 @@ using System.Globalization;
 namespace EPPlusTest.Table
 {
     [TestClass]
+    [DoNotParallelize]
     public class TableTests : TestBase
     {
         static ExcelPackage _pck;

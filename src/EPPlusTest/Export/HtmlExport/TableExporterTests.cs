@@ -512,6 +512,7 @@ namespace EPPlusTest.Export.HtmlExport
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public async Task WriteAdvancedWs()
         {
             using (var p = OpenTemplatePackage("s610.xlsx"))

@@ -36,6 +36,7 @@ using System.Text;
 namespace EPPlusTest.Drawing
 {
     [TestClass]
+    [DoNotParallelize]
     public class BorderTest : TestBase
     {
         static ExcelPackage _pck;

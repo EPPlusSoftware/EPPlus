@@ -36,6 +36,7 @@ using System.Drawing;
 namespace EPPlusTest.Drawing
 {
     [TestClass]
+    [DoNotParallelize]
     public class FillReadTest : TestBase
     {
         static ExcelPackage _pck;
@@ -165,6 +166,7 @@ namespace EPPlusTest.Drawing
         #endregion
         #region Transform
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTransparancy()
         {
             //Setup
@@ -181,6 +183,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(100 - expected, shape.Fill.SolidFill.Color.Transforms[0].Value);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTransformAlpha()
         {
             //Setup
@@ -196,6 +199,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(eColorTransformType.Alpha, shape.Fill.SolidFill.Color.Transforms[0].Type);
             Assert.AreEqual(expected, shape.Fill.SolidFill.Color.Transforms[0].Value);
         }
+        [DoNotParallelize]
         [TestMethod]
         public void ReadTransformTint()
         {
@@ -212,6 +216,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(expected, shape.Fill.SolidFill.Color.Transforms[0].Value);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTransformShade()
         {
             //Setup
@@ -228,6 +233,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(expected, shape.Fill.SolidFill.Color.Transforms[0].Value);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTransformInverse_true()
         {
             //Setup
@@ -242,6 +248,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(1, shape.Fill.SolidFill.Color.Transforms[0].Value);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTransformAlphaModulation()
         {
             //Setup
@@ -259,6 +266,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(expected, shape.Fill.SolidFill.Color.Transforms[1].Value);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTransformAlphaOffset()
         {
             //Setup
@@ -276,6 +284,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(expected, shape.Fill.SolidFill.Color.Transforms[1].Value);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTransformColorPercentage()
         {
             //Setup
@@ -297,6 +306,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(expectedB, shape.Fill.SolidFill.Color.Transforms[2].Value);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTransformColorModulation()
         {
             //Setup
@@ -318,6 +328,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(expectedB, shape.Fill.SolidFill.Color.Transforms[2].Value);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTransformColorOffset()
         {
             //Setup
@@ -339,6 +350,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(expectedB, shape.Fill.SolidFill.Color.Transforms[2].Value);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTransformHslOffset()
         {
             //Setup
@@ -357,6 +369,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(expectedSat, shape.Fill.SolidFill.Color.Transforms[1].Value);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ReadTransformHslModulation()
         {
             //Setup
@@ -665,6 +678,7 @@ namespace EPPlusTest.Drawing
 
         #endregion
         [TestMethod]
+        [DoNotParallelize]
         public void ReadFGBG()
         {
             using(var p = OpenTemplatePackage("FG&BGColorRead.xlsx"))

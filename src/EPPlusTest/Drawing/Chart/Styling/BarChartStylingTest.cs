@@ -37,6 +37,7 @@ using System.Xml;
 namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
+    [DoNotParallelize]
     public class BarChartStylingTest : TestBase
     {
         static ExcelPackage _pck;

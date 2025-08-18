@@ -61,6 +61,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             BubbleStyle(ws, eBubbleChartType.Bubble);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void Bubble3D_Styles()
         {
             var ws = _pck.Workbook.Worksheets.Add("BarOfPieChartStyles");

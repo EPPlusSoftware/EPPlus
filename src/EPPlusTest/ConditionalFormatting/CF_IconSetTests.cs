@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.ConditionalFormatting
 {
     [TestClass]
+    [DoNotParallelize]
     public class CF_IconSetTests : TestBase
     {
         [TestMethod]
@@ -19,7 +20,7 @@ namespace EPPlusTest.ConditionalFormatting
         {
             using (var p = new ExcelPackage())
             {
-                var ws = p.Workbook.Worksheets.Add("FiveIcon");
+                var ws = p.Workbook.Worksheets.Add("ThreeIcon");
                 var cf = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.TrafficLights2);
 
                 p.Save();
@@ -72,7 +73,7 @@ namespace EPPlusTest.ConditionalFormatting
         {
             var pck = new ExcelPackage();
 
-            var ws = pck.Workbook.Worksheets.Add("IconSet");
+            var ws = pck.Workbook.Worksheets.Add("IconSet1");
             var cf = ws.ConditionalFormatting.AddThreeIconSet(ws.Cells["A1:A3"], eExcelconditionalFormatting3IconsSetType.Symbols);
             ws.SetValue(1, 1, 1);
             ws.SetValue(2, 1, 2);
@@ -116,7 +117,7 @@ namespace EPPlusTest.ConditionalFormatting
         {
             using (var p = new ExcelPackage())
             {
-                var ws = p.Workbook.Worksheets.Add("FiveIcon");
+                var ws = p.Workbook.Worksheets.Add("FiveIcon2");
                 var cf = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.TrafficLights2);
                 var cf2 = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.TrafficLights1);
                 var cf3 = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.ArrowsGray);
@@ -142,7 +143,7 @@ namespace EPPlusTest.ConditionalFormatting
         {
             using (var p = new ExcelPackage())
             {
-                var ws = p.Workbook.Worksheets.Add("FiveIcon");
+                var ws = p.Workbook.Worksheets.Add("FiveIcon3");
                 var cf = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.TrafficLights2);
                 var cf2 = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.Stars);
                 var cf3 = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.ArrowsGray);

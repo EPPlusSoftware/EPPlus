@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Table.PivotTable
 {
     [TestClass]
+    [DoNotParallelize]
+
     public class PivotTableCacheTests : TestBase
     {
         static ExcelPackage _pck;
@@ -94,6 +96,7 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(p1.CacheDefinition._cacheReference, p2.CacheDefinition._cacheReference);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ValidateTimeSpanHandligInCache()
         {
             ExcelWorksheet wsData = _pck.Workbook.Worksheets.Add("Data");

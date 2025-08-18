@@ -267,6 +267,7 @@ namespace EPPlusTest.Drawing.Chart
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void EdgeTest()
         {
             var sheet3 = _pck.Workbook.Worksheets.Add("LayoutModeEdge");

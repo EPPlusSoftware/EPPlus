@@ -194,6 +194,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void IfFunctionTest1()
         {
             using (var p = new ExcelPackage())

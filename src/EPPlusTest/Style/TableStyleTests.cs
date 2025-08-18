@@ -41,6 +41,7 @@ using System.Threading;
 namespace EPPlusTest.Style
 {
     [TestClass]
+    [DoNotParallelize]
     public class TableStyleTests : TestBase
     {
         static ExcelPackage _pck;
@@ -63,6 +64,7 @@ namespace EPPlusTest.Style
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void AddTableStyle()
         {
             var ws = _pck.Workbook.Worksheets.Add("TableStyle");
@@ -84,6 +86,7 @@ namespace EPPlusTest.Style
             Assert.AreEqual(Color.LightYellow.ToArgb(), s.SecondRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
         }
         [TestMethod]
+        [DoNotParallelize]
         public void AddTableStyleFromTemplate()
         {
             var ws = _pck.Workbook.Worksheets.Add("TableStyleFromTempl");
@@ -101,6 +104,7 @@ namespace EPPlusTest.Style
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void AddTableStyleFromOtherStyle()
         {
             var ws = _pck.Workbook.Worksheets.Add("TableStyleFromOther");
@@ -135,6 +139,7 @@ namespace EPPlusTest.Style
             }
         }
         [TestMethod]
+        [DoNotParallelize]
         public void AddPivotTableStyle()
         {
             var ws = _pck.Workbook.Worksheets.Add("PivotTableStyle");
@@ -152,6 +157,7 @@ namespace EPPlusTest.Style
             pt.StyleName = "CustomPivotTableStyle1";
         }
         [TestMethod]
+        [DoNotParallelize]
         public void AddPivotTableStyleFromTemplate()
         {
             var ws = _pck.Workbook.Worksheets.Add("PivotTableStyleFromTempl");
@@ -252,6 +258,7 @@ namespace EPPlusTest.Style
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void CopyTableRowStyle()
         {
             var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyleSource");

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Drawing.Slicer
 {
     [TestClass]
+    [DoNotParallelize]
     public class SlicerCopyTest : TestBase
     {
         static ExcelPackage _pck;
@@ -26,6 +27,7 @@ namespace EPPlusTest.Drawing.Slicer
 
             SaveAndCleanup(_pck);
         }
+        [DoNotParallelize]
         [TestMethod]
         public void CopyTableSlicer()
         {
@@ -40,6 +42,7 @@ namespace EPPlusTest.Drawing.Slicer
 
             var copy = _pck.Workbook.Worksheets.Add("TableSlicerCopy", ws);
         }
+        [DoNotParallelize]
         [TestMethod]
         public void CopyPivotTableSlicer()
         {

@@ -39,6 +39,7 @@ using System.Xml;
 namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
+    [DoNotParallelize]
     public class ScatterChartStylingTest : TestBase
     {
         static ExcelPackage _pck;
@@ -85,6 +86,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             ScatterLineStyle(ws, eScatterChartType.XYScatterLinesNoMarkers);
         }
         [TestMethod]
+        [DoNotParallelize]
         public void ScatterSmoothNoMarkers_Styles()
         {
             var ws = _pck.Workbook.Worksheets.Add("ScatterSmoothNoMarkers");

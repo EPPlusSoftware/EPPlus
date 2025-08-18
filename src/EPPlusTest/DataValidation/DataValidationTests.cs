@@ -45,6 +45,7 @@ using System.Xml;
 namespace EPPlusTest.DataValidation
 {
     [TestClass]
+    [DoNotParallelize]
     public class DataValidationTests : ValidationTestBase
     {
         [TestInitialize]
@@ -709,6 +710,7 @@ namespace EPPlusTest.DataValidation
 
 
         [TestMethod]
+        [DoNotParallelize]
         public void ClearValidationOverARangeWithMultipleValidations2()
         {
             using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))

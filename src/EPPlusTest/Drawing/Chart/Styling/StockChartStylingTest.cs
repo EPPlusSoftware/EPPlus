@@ -40,6 +40,7 @@ using System.Xml;
 namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
+    [DoNotParallelize]
     public class StockChartStylingTest : StockChartTestBase
     {
         static ExcelPackage _pck;

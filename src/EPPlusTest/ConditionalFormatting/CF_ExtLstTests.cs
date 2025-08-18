@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.ConditionalFormatting
 {
     [TestClass]
+    [DoNotParallelize]
     public class CF_ExtLstTests : TestBase
     {
         [TestMethod]
@@ -143,6 +144,7 @@ namespace EPPlusTest.ConditionalFormatting
 
 
         [TestMethod]
+        [DoNotParallelize]
         public void ExtLstWithDxfBorderAndNumFmt()
         {
             using (var pck = OpenPackage("ExtLstBordersNumFmt.xlsx", true))
@@ -184,6 +186,7 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void EnsureExtLstDXFBorderColorsReadWrite()
         {
             using (var pck = OpenPackage("ExtLstBordersDXFColor.xlsx", true))
@@ -219,6 +222,7 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void EnsureExtLstDXFBorderColorsThemeReadWrite()
         {
             using (var pck = OpenPackage("ExtLstBordersDXFTheme.xlsx", true))

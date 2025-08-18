@@ -9,6 +9,7 @@ using System.IO;
 namespace EPPlusTest.Drawing.Slicer
 {
     [TestClass]
+    [DoNotParallelize]
     public class SlicerTest : TestBase
     {
         static ExcelPackage _pck;

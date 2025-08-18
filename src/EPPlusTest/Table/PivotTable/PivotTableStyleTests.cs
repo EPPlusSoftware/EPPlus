@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Table.PivotTable
 {
     [TestClass]
+    [DoNotParallelize]
     public class PivotTableStyleTests : TestBase
     {
         static ExcelPackage _pck;

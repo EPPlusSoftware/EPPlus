@@ -14,6 +14,7 @@ using System.Security.Principal;
 namespace EPPlusTest.Drawing.Control
 {
     [TestClass]
+    [DoNotParallelize]
     public class ControlTests : TestBase
     {
         static ExcelPackage _pck;
@@ -286,6 +287,7 @@ namespace EPPlusTest.Drawing.Control
         }
 
         [TestMethod]
+        [DoNotParallelize]
         public void AddGroupBoxTest()
         {
             _ws = _pck.Workbook.Worksheets.Add("GroupBox");

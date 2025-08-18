@@ -12,6 +12,7 @@ using Castle.DynamicProxy;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
     [TestClass]
+    [DoNotParallelize]
     public class PivotTableCalculationFilterTests : TestBase
     {
         static ExcelPackage _pck;

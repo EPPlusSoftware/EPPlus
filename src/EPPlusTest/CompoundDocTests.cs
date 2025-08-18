@@ -275,6 +275,7 @@ namespace EPPlusTest
             var vba = p.Workbook.VbaProject;
         }
         [TestMethod]
+        [DoNotParallelize]
         public void CompoundDocumentSmallValidate()
         {            
             var cd = new CompoundDocument();

@@ -26,7 +26,6 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System.IO;
 using EPPlusTest.FormulaParsing.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
@@ -60,7 +59,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         [TestMethod]
         public void Index_Should_Return_Value_By_Index()
         {
-            var func = new Index();
+            var func = new OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Index();
             var r = new InMemoryRange(new RangeDefinition(3,1));
             r.SetValue(0, 0, 1);
             r.SetValue(1, 0, 2);
