@@ -48,7 +48,18 @@ namespace OfficeOpenXml.Drawing
                 return _drawing as ExcelChart;
             }
         }
-
+        /// <summary>
+        /// Returns return the drawing as a generic standard chart. This the base class for all charts standard charts (charts defined before Office 2016).
+        /// If this drawing is not a chart, null will be returned
+        /// </summary>
+        /// <returns>The drawing as a standard chart</returns>
+        public ExcelChartStandard ChartStandard
+        {
+            get
+            {
+                return _drawing as ExcelChartStandard;
+            }
+        }
         /// <summary>
         /// Returns the drawing as an area chart. 
         /// If this drawing is not an area chart, null will be returned
@@ -183,6 +194,18 @@ namespace OfficeOpenXml.Drawing
         }
         #endregion
         #region ChartEx methods
+        /// <summary>
+        /// Returns return the drawing as a generic standard chart. This the base class for all charts extended charts (charts defined in or later Office 2016).
+        /// If this drawing is not an extended chart, null will be returned
+        /// </summary>
+        /// <returns>The drawing as a extended chart</returns>
+        public ExcelChartEx ChartExtended
+        {
+            get
+            {
+                return _drawing as ExcelChartEx;
+            }
+        }
         /// <summary>
         /// Returns return the drawing as a sunburst chart. 
         /// If this drawing is not a sunburst chart, null will be returned

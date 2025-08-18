@@ -14,7 +14,7 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Table;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;

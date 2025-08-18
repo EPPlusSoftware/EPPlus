@@ -13,7 +13,7 @@
 using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.XML;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata

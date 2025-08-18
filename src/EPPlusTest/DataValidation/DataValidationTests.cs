@@ -26,6 +26,7 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Core.CellStore;
@@ -33,6 +34,7 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Table;
 using System;
@@ -67,7 +69,6 @@ namespace EPPlusTest.DataValidation
 
             validation.Validate();
         }
-
 
         [TestMethod]
         public void DataValidation_CanReadNoneValidation()
@@ -1255,5 +1256,44 @@ namespace EPPlusTest.DataValidation
                 Assert.IsTrue(v.ShowErrorMessage);
             }
         }
-    }
+
+        [TestMethod]
+        public void DataValidationsPerformance()
+        {
+            using (var p = OpenPackage("DataValidationPerformance.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("SomeWorksheet");
+                var destinationWs = wb.Worksheets.Add("SecondaryWs");
+
+                for (var i = 1; i < 10000; i++)
+                {
+                    for (int j = 1; j < 3; j++)
+                    {
+                        var dv = ws.Cells[i, j].DataValidation.AddIntegerDataValidation();
+
+                        dv.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+                        dv.PromptTitle = "Enter a integer value here";
+                        dv.Prompt = "Value must be greater than or equal to 2";
+                        dv.ShowInputMessage = true;
+                        dv.ErrorTitle = "An invalid value was entered";
+                        dv.Error = "Value must be greater than or equal to 2";
+                        dv.ShowErrorMessage = true;
+                        dv.Operator = ExcelDataValidationOperator.greaterThanOrEqual;
+                        dv.Formula.Value = 2;
+
+                        ws.Cells[i, j].Value = i + j;
+                    }
+                }
+
+                var cells = ws.Cells["A1:B10010"];
+                foreach (var cell in cells)
+                {
+                    cell.Copy(ws.Cells[cell.Start.Row, cell.Start.Column + 2]);
+                }
+
+                SaveAndCleanup(p);
+            }
+        }
+    }    
 }

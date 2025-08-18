@@ -33,7 +33,6 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -46,6 +45,7 @@ using System.Xml.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Style;
 using FakeItEasy;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace EPPlusTest.ConditionalFormatting
 {
@@ -2248,19 +2248,6 @@ namespace EPPlusTest.ConditionalFormatting
             }
         }
 
-        protected static void SaveAndCleanup(ExcelPackage pck, bool disposePackage = true)
-        {
-            if (pck.Workbook.Worksheets.Count > 0)
-            {
-                pck.Save();
-            }
-
-            if (disposePackage)
-            {
-                pck.Dispose();
-            }
-        }
-
         [TestMethod]
         public void CopyingDxfs()
         {
@@ -2315,6 +2302,67 @@ namespace EPPlusTest.ConditionalFormatting
                 }
 
                 SaveAndCleanup(p2);
+            }
+        }
+
+        //S915 related
+        [TestMethod]
+        public void EnsureDeleteAllWorksOnAdvancedCFTypesWithMultipleColumns()
+        {
+            using(var pck = new ExcelPackage())
+            {
+                var ws = pck.Workbook.Worksheets.Add("CF_Deletions");
+
+                ws.Column(1).Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws.Column(1).Style.Fill.BackgroundColor.SetColor(Color.Chocolate);
+                ws.Column(2).Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws.Column(2).Style.Fill.BackgroundColor.SetColor(Color.Chocolate);
+
+                ws.Cells["A1:C5"].Value = "valuesToDelete";
+
+                ws.Cells["F1:G10"].Value = "Values To Move And Keep";
+
+                var cfRange = ws.Cells["J1:L7"];
+
+                cfRange.Formula = "COLUMN()+ROW()";
+
+                ws.Calculate();
+
+                var dBars = ws.Cells["J1:J7"].ConditionalFormatting.AddDatabar(Color.AliceBlue);
+                dBars.HighValue.Formula = "K7";
+                dBars.LowValue.Formula = "K1";
+
+                var colors3 = ws.Cells["K1:K7"].ConditionalFormatting.AddThreeColorScale();
+                colors3.LowValue.Formula = "J1";
+                colors3.MiddleValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
+                colors3.MiddleValue.Formula = "J3";
+                colors3.HighValue.Formula = "J7";
+
+                var icons = ws.Cells["L1:L7"].ConditionalFormatting.AddFiveIconSet(eExcelconditionalFormatting5IconsSetType.Rating);
+                icons.Icon1.Formula = "J1";
+                icons.Icon2.Formula = "J2";
+                icons.Icon3.Formula = "J3";
+                icons.Icon4.Formula = "J4";
+                icons.Icon5.Formula = "J5";
+
+                ws.Calculate();
+                var Astring = Color.Chocolate.R.ToString() + Color.Chocolate.G.ToString() + Color.Chocolate.B.ToString();
+                var aCol = ws.Columns.GetColumn(1);
+                var colToFind = aCol.Style.Fill.BackgroundColor.Rgb;
+                ws.Columns.DeleteAll(col => col.Style.Fill.BackgroundColor.Rgb == colToFind);
+
+                Assert.AreEqual("H1", icons.Icon1.Formula);
+                Assert.AreEqual("H2", icons.Icon2.Formula);
+                Assert.AreEqual("H3", icons.Icon3.Formula);
+                Assert.AreEqual("H4", icons.Icon4.Formula);
+                Assert.AreEqual("H5", icons.Icon5.Formula);
+
+                Assert.AreEqual("H1", colors3.LowValue.Formula);
+                Assert.AreEqual("H3", colors3.MiddleValue.Formula);
+                Assert.AreEqual("H7", colors3.HighValue.Formula);
+
+                Assert.AreEqual("I7", dBars.HighValue.Formula);
+                Assert.AreEqual("I1", dBars.LowValue.Formula);
             }
         }
     }

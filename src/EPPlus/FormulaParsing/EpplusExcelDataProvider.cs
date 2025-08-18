@@ -15,7 +15,6 @@ using System.Linq;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Table;
@@ -24,6 +23,7 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System.Runtime.InteropServices;
+using OfficeOpenXml.Utils.String;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -640,7 +640,8 @@ namespace OfficeOpenXml.FormulaParsing
             else
             {
                 isValidFormat = true;
-                var arg = new NumberFormatToTextArgs(_currentWorksheet, _context.CurrentCell.Row, _context.CurrentCell.Column, value, _currentWorksheet.GetStyleInner(_context.CurrentCell.Row, _context.CurrentCell.Column));
+                var ws = _currentWorksheet ?? _context.CurrentWorksheet;
+                var arg = new NumberFormatToTextArgs(ws, _context.CurrentCell.Row, _context.CurrentCell.Column, value, ws.GetStyleInner(_context.CurrentCell.Row, _context.CurrentCell.Column));
                 return _workbook.NumberFormatToTextHandler(arg);
             }
         }

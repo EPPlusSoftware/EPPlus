@@ -1,7 +1,6 @@
 ﻿using EPPlusTest.Table.PivotTable;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +12,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.ConditionalFormatting;
 using System.Xml.XPath;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -286,12 +286,18 @@ namespace OfficeOpenXml.Table.PivotTable
                             while(movedFields.Contains(fi))
                             {
                                 var dupName = name + x.ToString();
-                                fi = _fields.FindIndex(x => x.Name.Equals(dupName, StringComparison.OrdinalIgnoreCase));
+                                fi = _fields.FindIndex(cField => cField.Name.Equals(dupName, StringComparison.OrdinalIgnoreCase));
+                                if(fi<0 && movedFields.Contains(fi))
+                                {
+                                    //there are somehow multiple duplicate col headers. Add number of already existing dupes.
+                                    x = movedFields.Where(anInt => anInt.Equals(-1)).Count()+x;
+                                    break;
+                                }
                                 x++;
                             }
                             if(fi<0)
                             {
-                                field = CreateField(name, -1, true, true, ix == 0 ? null : fields[ix - 1].TopNode);
+                                field = CreateField(name + (x-1).ToString(), -1, true, true, ix == 0 ? null : fields[ix - 1].TopNode);
                                 field.TopNode.InnerXml = "<sharedItems/>";
                                 movedFields.Add(-1);
                             }
@@ -446,15 +452,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 //Update data field index
                 foreach (var df in pt.DataFields)
                 {
-                    int ix;
-                    if (movedFields.Count > df.Index)
-                    {
-                        ix = movedFields[df.Index];
-                    }
-                    else
-                    {
-                        ix = -1;
-                    }
+                    var ix = movedFields.IndexOf(df.Index);
                     if(ix<0)
                     {
                         rmDfFields.Add(df);

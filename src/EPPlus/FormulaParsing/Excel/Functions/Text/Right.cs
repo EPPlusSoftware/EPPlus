@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.String;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
@@ -59,7 +60,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                         break;
                     }
                 }
-                var res = str.UnitcodeSubstring(startIx, str.Length - startIx);
+                var res = str.UnicodeSubstring(startIx, str.Length - startIx);
                 return CreateResult(res, DataType.String);
             }
             return CreateResult(str.Substring(startIx, str.Length - startIx), DataType.String);

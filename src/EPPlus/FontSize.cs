@@ -131,7 +131,6 @@ namespace OfficeOpenXml
                     {
                         break;
                     }
-                    min =
                     min = size;
                 }
                 if (min > fontSize && fontName.Equals(DefaultFont, StringComparison.OrdinalIgnoreCase))

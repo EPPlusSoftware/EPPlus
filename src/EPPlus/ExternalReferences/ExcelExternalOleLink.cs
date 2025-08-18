@@ -11,8 +11,8 @@
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.XML;
 using System.IO;
 using System.Xml;
 

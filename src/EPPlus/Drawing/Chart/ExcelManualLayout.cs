@@ -11,7 +11,7 @@
   06/10/2024         EPPlus Software AB       Initial release EPPlus 7.2
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

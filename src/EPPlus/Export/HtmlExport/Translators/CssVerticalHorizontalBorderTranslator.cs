@@ -4,7 +4,7 @@ using System.Linq;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {

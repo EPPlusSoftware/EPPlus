@@ -466,17 +466,15 @@ namespace OfficeOpenXml
         /// <summary>
         /// Method for actions that must be taken before address is changed
         /// </summary>
-        internal protected virtual void BeforeChangeAddress()
+        internal protected virtual void BeforeChangeAddress(string value)
         {
         }
         /// <summary>
         /// Called when the address changes
         /// </summary>
-        internal protected virtual void ChangeAddress()
+        internal protected virtual void ChangeAddress(string value)
         {
         }
-
-
         private void SetWbWs(string address)
         {
             int pos;
@@ -841,7 +839,7 @@ namespace OfficeOpenXml
                     SetAddress(ref fullAddress, ref second, ref hasSheet);
                     return true;
                 }
-                else if (Utils.ConvertUtil._invariantCompareInfo.IsPrefix(fullAddress, "!"))
+                else if (Utils.TypeConversion.ConvertUtil._invariantCompareInfo.IsPrefix(fullAddress, "!"))
                 {
                     // invalid address!
                     return false;

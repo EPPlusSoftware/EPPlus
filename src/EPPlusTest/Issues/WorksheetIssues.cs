@@ -2,14 +2,19 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.SystemDrawing.Image;
+using OfficeOpenXml.SystemDrawing.Text;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
+using System.Threading;
 
 namespace EPPlusTest.Issues
 {
@@ -786,18 +791,114 @@ namespace EPPlusTest.Issues
             sheet.Cells["C3"].AddComment("Test"); // NullReferenceException 
         }
         [TestMethod]
-        public void DimensionByValueIssue()
+        public void i1951()
         {
-            using (var p = OpenTemplatePackage("DimensionByValueError.xlsx"))
+            using (var p = OpenPackage("I1951.xlsx", true))
             {
-                var ws = p.Workbook.Worksheets["Technical"];
-                var dv = ws.DimensionByValue;
-                Assert.AreEqual("C3", dv.Start.Address);
-                Assert.AreEqual("M60", dv.End.Address);
-                Assert.AreEqual("C3", ws.FirstValueCell.Address);
-                Assert.AreEqual("J60", ws.LastValueCell.Address);
+                var ws = p.Workbook.Worksheets.Add("GenericTM");
+
+                AddMeasureSheet(p, ws);
+                
+				p.Settings.TextSettings.PrimaryTextMeasurer = new SystemDrawingTextMeasurer();
+                ws = p.Workbook.Worksheets.Add("SystemDrawingTM");
+                AddMeasureSheet(p, ws);
+
                 SaveAndCleanup(p);
             }
+        }
+
+        private static void AddMeasureSheet(ExcelPackage p, ExcelWorksheet ws)
+        {
+            string multiLineText = "Line one" + Environment.NewLine + "Line two is longer" + "\n" + "Extra line";
+
+            ws.Cells["A1"].Value = multiLineText;
+            ws.Cells["A1"].Style.WrapText = true;
+
+            ws.Cells["B2"].Value = multiLineText;
+
+            ws.Cells["C1"].Value = multiLineText;
+            ws.Cells["A1"].Style.WrapText = true;
+
+            ws.Cells["B2"].Value = multiLineText;
+
+            p.Settings.TextSettings.MeasureWrappedTextCells = true;
+            // AutoFitColumns - calculates width as if there were no line breaks.
+            ws.Cells["A1:B2"].AutoFitColumns();
+
+            p.Settings.TextSettings.MeasureWrappedTextCells = false;
+            ws.Cells["C1"].Value = multiLineText;
+            ws.Cells["C1"].Style.WrapText = true;
+            ws.Cells["D2"].Value = multiLineText;
+
+            // AutoFitColumns - calculates width as if there were no line breaks.
+            ws.Cells["C1:D2"].AutoFitColumns();
+        }
+		[TestMethod]
+		public void s912()
+		{
+			using (var package = OpenPackage("s912.xlsx",true))
+			{
+				var sheet = package.Workbook.Worksheets.Add("F1");
+
+				int nbLines = 10000;
+				int nbCols = 100;
+
+				var sw = new Stopwatch();
+				sw.Start();
+
+				// Uncommenting one of these lines changes the performance of the for loops.
+				// At the end of each line is the measured time of the whole program, when this
+				// specific line is uncommented. When no line is uncommented, the measured time
+				// is 12.7s.
+				//
+				// sheet.Cells[1, 1, nbLines, nbCols].Style.Numberformat.Format = "#"; // 7.4s
+				// sheet.Cells[1, 1, nbLines, nbCols].Style.Locked = true; // 7.4s
+				//sheet.Cells[1, 1, nbLines, nbCols].Value = 1; // 19.5s // uncommenting this alone is ~2s after fix. With below about 3s. 
+				// sheet.Cells[1, 1, nbLines, nbCols].Value = ""; // 18s
+				// sheet.InsertColumn(1, nbCols); // 12.9
+				// sheet.InsertColumn(1, nbCols, 1); // 7.8s
+
+				for (int i = 1; i <= nbLines; i++)
+				{
+					for (int j = 1; j <= nbCols; j++)
+					{
+						sheet.SetValue(i, j, 123);
+					}
+				}
+
+				var seconds = sw.Elapsed.TotalSeconds;
+				sw.Stop();
+
+				//seconds was ~1.5-1.7 locally in 8.0.9
+				//Made test check if over 10 seconds in case of slow appveyor
+				Assert.IsTrue(seconds < 10.0D);
+
+                SaveAndCleanup(package);
+			}
+        }
+
+        [TestMethod]
+        public void DimensionByValueIssue()
+        {
+			using (var p = OpenTemplatePackage("DimensionByValueError.xlsx"))
+			{
+				var ws = p.Workbook.Worksheets["Technical"];
+				var dv = ws.DimensionByValue;
+				Assert.AreEqual("C3", dv.Start.Address);
+                Assert.AreEqual("M60", dv.End.Address);
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void GermanCultureFormattingResultsInError()
+        {
+            var excelPackage = OpenTemplatePackage("Test_TextFormular.xlsx");
+            excelPackage.Workbook.NumberFormatToTextHandler = options => "64.066,27€";
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
+            excelPackage.Workbook.Calculate();
+            Assert.AreEqual("64.066,27€", excelPackage.Workbook.Worksheets[0].Cells[1, 3].Text);
         }
     }
 }

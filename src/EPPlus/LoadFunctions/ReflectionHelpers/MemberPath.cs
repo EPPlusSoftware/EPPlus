@@ -11,7 +11,6 @@
   12/7/2023         EPPlus Software AB       EPPlus 7.0.4
  *************************************************************************************************/
 using OfficeOpenXml.Attributes;
-using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +24,7 @@ using System.Reflection;
 using System.Text;
 using OfficeOpenXml.LoadFunctions.Params;
 using System.Text.RegularExpressions;
+using OfficeOpenXml.Utils.AttributesUtils;
 
 namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 {

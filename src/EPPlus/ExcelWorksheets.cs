@@ -22,6 +22,7 @@ using OfficeOpenXml.VBA;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml
 {

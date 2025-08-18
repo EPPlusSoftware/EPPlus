@@ -4,6 +4,7 @@ using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml
 {
@@ -691,7 +692,7 @@ namespace OfficeOpenXml
             List<int> toDelete = new();
             for(int i = EndColumn; i >= StartColumn; i--)
             {
-                var col = _worksheet.GetValueInner(0, i) as ExcelColumn;
+                var col = _worksheet.GetColumn(i);
                 if (col != null)
                 {
                     if (match(col))
@@ -700,6 +701,20 @@ namespace OfficeOpenXml
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Copies this RangeColumn to destinationColumnRange
+        /// </summary>
+        /// <param name="destinationColumnRange"></param>
+        public void Copy(ExcelRangeColumn destinationColumnRange)
+        {
+            var destWs = destinationColumnRange._worksheet;
+            var startColNum = destinationColumnRange.StartColumn;
+
+            var srcCellValues = _worksheet.Cells[1, StartColumn, _worksheet.Dimension.End.Row, EndColumn];
+            var destCellValues = destWs.Cells[1, destinationColumnRange.StartColumn, _worksheet.Dimension.End.Row, destinationColumnRange.EndColumn];
+            srcCellValues.Copy(destCellValues, ExcelRangeCopyOptionFlags.IncludeFullColumn);
         }
 
         /// <summary>

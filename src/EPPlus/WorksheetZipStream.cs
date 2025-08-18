@@ -10,8 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using EPPlusTest.Utils;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Memory;
 using System;
 using System.IO;
 using System.Text;

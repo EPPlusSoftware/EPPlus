@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Filter
         public ExcelFilterValueItem(string value)
         {
             Value = value;
-            Utils.ConvertUtil.TryParseNumericString(value, out _valueDouble, CultureInfo.InvariantCulture);
+            Utils.TypeConversion.ConvertUtil.TryParseNumericString(value, out _valueDouble, CultureInfo.InvariantCulture);
         }
         /// <summary>
         /// A value to be filtered.

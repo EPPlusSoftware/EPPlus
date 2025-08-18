@@ -197,6 +197,39 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             return a * b / GreatestCommonDevisor(a, b);
         }
+
+        public static void AdjustAspectRatio(double width, double height, ref double x1, ref double y1, ref double x2, ref double y2)
+        {
+            double aspect = width / height;
+
+            if (aspect > 1)
+            {
+                double cX = (x1 + x2) / 2;
+                double bWidth = x2 - x1;
+                double nWidth = bWidth / aspect;
+                x1 = cX - nWidth / 2;
+                x2 = cX + nWidth / 2;
+                if (x1 > 0)
+                {
+                    x2 -= x1;
+                    x1 -= x1;
+                }
+            }
+            else if (aspect < 1)
+            {
+                double cY = (y1 + y2) / 2;
+                double bHeight = y2 - y1;
+                double nHeight = bHeight * aspect;
+                y1 = cY - nHeight / 2;
+                y2 = cY + nHeight / 2;
+                if (y1 > 0)
+                {
+                    y2 -= y1;
+                    y1 -= y1;
+                }
+            }
+        }
+
         public static double TruncateDouble(double value)
         {
             return (double)decimal.Truncate((decimal)value);

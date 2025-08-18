@@ -24,7 +24,8 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Configuration;
 using OfficeOpenXml.EventArguments;
-#if(!NET35)
+using OfficeOpenXml.Utils.FileUtils;
+#if (!NET35)
 using OfficeOpenXml.SensitivityLabels;
 #endif
 
@@ -179,6 +180,8 @@ namespace OfficeOpenXml
         internal const string schemaThemeRelationships = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme";
         internal const string schemaMetadata = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/sheetMetadata";
         internal const string schemaChartStyle = "http://schemas.microsoft.com/office/drawing/2012/chartStyle";
+        internal const string schemaChartDrawing = @"http://schemas.openxmlformats.org/drawingml/2006/chartDrawing";
+
 
         //Chart styling
         internal const string schemaChartStyleRelationships = "http://schemas.microsoft.com/office/2011/relationships/chartStyle";
@@ -576,7 +579,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="path">Path</param>
         /// <param name="stream">Stream</param>
-        private static void WriteFileToStream(string path, Stream stream)
+        private static void WriteFileToStream(string path, MemoryStream stream)
         {
             using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {

@@ -17,7 +17,7 @@ using System.Text;
 using System.Drawing;
 using System.Xml;
 using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.Style.Dxf
 {

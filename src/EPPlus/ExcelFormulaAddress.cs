@@ -122,7 +122,7 @@ namespace OfficeOpenXml
             set
             {                
                 SetAddress(value, null, null);
-                ChangeAddress();
+                ChangeAddress(value);
                 SetFixed();
             }
         }

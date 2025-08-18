@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using System.Drawing;
+
 namespace EPPlusTest.Issues
 {
 	[TestClass]

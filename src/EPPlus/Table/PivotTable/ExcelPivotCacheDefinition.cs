@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using System;
 using System.Xml;
-using OfficeOpenXml.Utils;
 using System.Linq;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
@@ -20,6 +19,7 @@ using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Table.PivotTable
 {

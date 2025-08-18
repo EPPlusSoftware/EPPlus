@@ -14,7 +14,8 @@
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -1905,7 +1906,14 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal List<QuadRangeItem<IExcelConditionalFormattingRule>> GetIntersectingRanges(ExcelAddress address)
         {
-            return CfIndex.GetIntersectingRangeItems(new QuadRange(address));
+            if(_rules.Count > 0)
+            {
+                return CfIndex.GetIntersectingRangeItems(new QuadRange(address));
+            }
+            else
+            {
+                return new List<QuadRangeItem<IExcelConditionalFormattingRule>>();
+            }
         }
     }
 }

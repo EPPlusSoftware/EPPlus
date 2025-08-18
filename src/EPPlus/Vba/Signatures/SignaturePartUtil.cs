@@ -11,7 +11,7 @@
   09/05/2022         EPPlus Software AB       EPPlus 6.1
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.Linq;
 

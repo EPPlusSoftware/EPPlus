@@ -98,7 +98,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue15031()
         {
-            var d = OfficeOpenXml.Utils.ConvertUtil.GetValueDouble(new TimeSpan(35, 59, 1));
+            var d = OfficeOpenXml.Utils.TypeConversion.ConvertUtil.GetValueDouble(new TimeSpan(35, 59, 1));
             using (var package = new ExcelPackage())
             {
                 var ws = package.Workbook.Worksheets.Add("Test");
@@ -1381,11 +1381,6 @@ namespace EPPlusTest
                 worksheet.Cells["A5"].Value = "Test";
                 worksheet.InsertRow(START_ROW + CustomTemplateRowsOffset, rowCount - 1, CustomTemplateRowsOffset + 1);
                 Assert.AreEqual("Test", worksheet.Cells["A34004"].Value);
-                //for (int k = START_ROW+CustomTemplateRowsOffset; k < rowCount; k++)
-                //{
-                //    worksheet.Cells[(START_ROW + CustomTemplateRowsOffset) + ":" + (START_ROW + CustomTemplateRowsOffset)]
-                //        .Copy(worksheet.Cells[k + 1 + ":" + k + 1]);
-                //}
                 SaveAndCleanup(package);
             }
         }
@@ -2545,6 +2540,119 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void FreezePanes()
+        {
+            using var p = OpenTemplatePackage("Freeze.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.View.FreezePanes(3, 3);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void FreezePanes2()
+        {
+            using var p = OpenTemplatePackage("Freeze2.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.View.FreezePanes(15, 11);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void FreezePanes3()
+        {
+            using var p = OpenTemplatePackage("Freeze8_1.xlsx");
+            // Test 1 (row 1/col A already hidden) - FAIL
+            var ws = p.Workbook.Worksheets["Sheet1"];
+            ws.View.FreezePanes(3, 3);
+
+            // Test 2 - FAIL
+            var ws2 = p.Workbook.Worksheets["Sheet2"];
+            ws2.Column(1).Hidden = true;
+            ws2.Row(1).Hidden = true;
+            ws2.View.FreezePanes(3, 3);
+
+            // Test 3 - PASS
+            var ws3 = p.Workbook.Worksheets.Add("Sheet3");
+            ws3.Column(1).Hidden = true;
+            ws3.Row(1).Hidden = true;
+            var test = ExcelCellBase.GetAddress(3, 3);
+            ws3.Cells["C3"].Value = "Freeze here";
+            ws3.View.TopLeftCell = "B2";
+            ws3.View.FreezePanes(3, 3);
+
+            SaveAndCleanup(p);
+        }
+
+        internal void FreezePaneBase(ExcelPackage p, int sheetNum, int hiddenCol, int hiddenRow, string freezeAddress)
+        {
+            var ws = p.Workbook.Worksheets.Add($"Sheet{sheetNum}");
+            ws.Column(hiddenCol).Hidden = true;
+            ws.Row(hiddenRow).Hidden = true;
+            var address = ws.Cells[freezeAddress];
+
+            var row = address.Start.Row;
+            var col = address.Start.Column;
+
+            address.Value = "Freeze here";
+            ws.View.FreezePanes(address.Start.Row, address.Start.Column);
+
+            var hiddenCols = 0;
+            var hiddenRows = 0;
+
+            for (int i = 1; i < address.Start.Column; i++)
+            {
+                var coVar = ws.Column(i);
+                if (coVar != null && coVar.Hidden)
+                {
+                    hiddenCols++;
+                }
+            }
+
+            foreach (var rowVar in ws.Rows[0, address.Start.Row])
+            {
+                if (rowVar.Hidden == true)
+                {
+                    hiddenRows++;
+                }
+            }
+
+            var visibleRows = row - hiddenRows;
+            var visibleColumns = col - hiddenCols;
+            
+            if(visibleColumns != 1 && visibleRows != 1)
+            {
+                Assert.AreEqual(ws.Cells[1 + hiddenRows, 1 + hiddenCols].Address, ws.View.TopLeftCell);
+                Assert.AreEqual(visibleColumns - 1d, ws.View.PaneSettings.XSplit);
+                Assert.AreEqual(visibleRows - 1d, ws.View.PaneSettings.YSplit);
+                Assert.AreEqual(ePanePosition.BottomRight, ws.View.PaneSettings.ActivePanePosition);
+            }
+            else
+            {
+                Assert.AreEqual(1, ws.View.Panes.Count());
+            }
+        }
+
+
+        [TestMethod]
+        public void FreezePanes4()
+        {
+            using (var p = OpenPackage("FreezePanes_Generated.xlsx", true))
+            {
+                //Test Freezing when as close as possible to hidden columns
+                FreezePaneBase(p, 1, 1, 1, "B2");
+                //Test freezing "base case" with hidden col/rows
+                FreezePaneBase(p, 2, 1, 1, "C3");
+                //Test freezing "base case" with irrelavant hidden col/rows
+                FreezePaneBase(p, 3, 5, 5, "C3");
+                //Test freezing far past position of hidden col/rows
+                FreezePaneBase(p, 4, 1, 1, "U28");
+                //Test freezing when more frozen rows than columns
+                FreezePaneBase(p, 5, 1, 1, "D5");
+
+                SaveAndCleanup(p);
+            }
+        }
+
 
         [TestMethod]
         public void CopyWorksheetWithBlipFillObjects()
@@ -6091,8 +6199,6 @@ namespace EPPlusTest
                 var val12 = cell.Value;
                 var val22 = ws.Cells["J6"].Value;
                 var val32 = ws.Cells["K5"].Value;
-
-                var sometxt = "help";
 
                 SaveAndCleanup(p);
 

@@ -11,10 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -25,12 +22,13 @@ namespace OfficeOpenXml.Drawing
     public class ExcelDrawingConnectionPoint : XmlHelper
     {
         private readonly ExcelDrawings _drawings;
-        string _path = "xdr:cxnSp/xdr:nvCxnSpPr/xdr:cNvCxnSpPr/{0}";
-        internal ExcelDrawingConnectionPoint(ExcelDrawings drawings, XmlNode topNode, string elementName, string[] schemaNodeOrder) : base(drawings.NameSpaceManager, topNode)
+        string _path = "{0}:cxnSp/{0}:nvCxnSpPr/{0}:cNvCxnSpPr/{1}";
+        internal ExcelDrawingConnectionPoint(ExcelDrawings drawings, XmlNode topNode, string prefix, string elementName, string[] schemaNodeOrder) : base(drawings.NameSpaceManager, topNode)
         {
-            _path = string.Format(_path, elementName);
+            _path = string.Format(_path, prefix, elementName);
             _drawings = drawings;
             SchemaNodeOrder = schemaNodeOrder;
+
         }
         /// <summary>
         /// The index the connection point

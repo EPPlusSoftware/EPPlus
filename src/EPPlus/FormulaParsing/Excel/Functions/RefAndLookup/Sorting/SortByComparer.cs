@@ -11,7 +11,7 @@
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Compare;
 using System;
 using System.Collections.Generic;
 using System.Linq;

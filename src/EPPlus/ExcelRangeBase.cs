@@ -20,7 +20,6 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
@@ -29,6 +28,11 @@ using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.String;
+using OfficeOpenXml.Utils.Cell;
+using static OfficeOpenXml.ExcelWorksheet;
+using System.Linq;
 
 namespace OfficeOpenXml
 {
@@ -46,7 +50,7 @@ namespace OfficeOpenXml
         private delegate void _setValue(ExcelRangeBase range, object value, int row, int col);
         private _changeProp _changePropMethod;
         private int _styleID;
-        private static SourceCodeTokenizer _tokenizer=new SourceCodeTokenizer(null, null, false, true);
+        private static SourceCodeTokenizer _tokenizer = new SourceCodeTokenizer(null, null, false, true);
         private FunctionRepository _functions;
         private readonly ExcelRangePicture _rangePicture;
         #region Constructors
@@ -57,7 +61,7 @@ namespace OfficeOpenXml
             _workbook = _worksheet.Workbook;
             _rangePicture = new ExcelRangePicture(this);
             SetDelegate();
-            _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;            
+            _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;
         }
 
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet, string address) :
@@ -77,7 +81,7 @@ namespace OfficeOpenXml
             Init(xlWorksheet);
             SetRCFromTable(wb._package, null);
             _workbook = wb;
-            if(_worksheet != null)
+            if (_worksheet != null)
             {
                 _rangePicture = new ExcelRangePicture(this);
             }
@@ -94,7 +98,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// On change address handler
         /// </summary>
-        protected internal override void ChangeAddress()
+        protected internal override void ChangeAddress(string value)
         {
             if (Table != null)
             {
@@ -255,7 +259,7 @@ namespace OfficeOpenXml
             string formula = (value == null ? string.Empty : value.ToString());
             if (formula == string.Empty)
             {
-                range._worksheet._formulas.Clear(row, col, 1,1);
+                range._worksheet._formulas.Clear(row, col, 1, 1);
             }
             else
             {
@@ -301,15 +305,15 @@ namespace OfficeOpenXml
                 {
                     ws._formulas.SetValue(row, col, f.Index);
                     var flags = CellFlags.ArrayFormula;
-                    if(isDynamic)
+                    if (isDynamic)
                     {
-                        flags |= CellFlags.CanBeDynamicArray;                        
+                        flags |= CellFlags.CanBeDynamicArray;
                     }
                     ws._flags.SetFlagValue(row, col, true, flags);
                     ws.SetValueInner(row, col, null);
-                    if(isDynamic)
+                    if (isDynamic)
                     {
-                        var md=ws._metadataStore.GetValue(row, col);
+                        var md = ws._metadataStore.GetValue(row, col);
                         md.cm = diId;
                         ws._metadataStore.SetValue(row, col, md);
                     }
@@ -324,11 +328,11 @@ namespace OfficeOpenXml
                 range._worksheet._hyperLinks.SetValue(row, col, (Uri)value);
 
                 if (value is ExcelHyperLink hl)
-                {                    
+                {
                     if (string.IsNullOrEmpty(hl.Display))
                     {
                         var v = range._worksheet.GetValueInner(row, col);
-                        if(v == null)
+                        if (v == null)
                         {
                             range._worksheet.SetValueInner(row, col, hl.ReferenceAddress);
                         }
@@ -937,7 +941,7 @@ namespace OfficeOpenXml
                     {
                         Set_Formula(this, value, _fromRow, _fromCol);
                     }
-                    else if (HasOffSheetReference(value))
+                    else if (HasTableOrOffWorksheetReference(value))
                     {
                         Set_Formula_Range(this, value);
                     }
@@ -998,17 +1002,21 @@ namespace OfficeOpenXml
             }
         }
 
-        private bool HasOffSheetReference(string value)
+        private bool HasTableOrOffWorksheetReference(string value)
         {
             var tokenizer = SourceCodeTokenizer.Default;
             var tokens = tokenizer.Tokenize(value, WorkSheetName);
             foreach (var t in tokens)
             {
-                if (t.TokenTypeIsSet(TokenType.WorksheetNameContent))
+                if (t.TokenTypeIsSet(TokenType.WorksheetNameContent) || t.TokenType == TokenType.TableName)
                 {
-                    if (string.IsNullOrEmpty(t.Value) == false && Worksheet.Name.Equals(t.Value, StringComparison.OrdinalIgnoreCase) == false)
+                    if (string.IsNullOrEmpty(t.Value) == false)
                     {
-                        return true;
+                        if ((Worksheet.Name.Equals(t.Value, StringComparison.OrdinalIgnoreCase) == false) ||
+                             Worksheet.Tables._tableNames.ContainsKey(t.Value))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -1042,7 +1050,7 @@ namespace OfficeOpenXml
                     {
                         Set_Formula(this, formula, _fromRow, _fromCol);
                     }
-                    else if (HasOffSheetReference(formula))
+                    else if (HasTableOrOffWorksheetReference(formula))
                     {
                         Set_Formula_Range(this, formula);
                     }
@@ -1320,14 +1328,14 @@ namespace OfficeOpenXml
                 var isRt = _worksheet._flags.GetFlagValue(_fromRow, _fromCol, CellFlags.RichText);
                 if (isRt)
                 {
-					_rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
-                    return _rtc.Count>0;
-				}
-				return isRt;
+                    _rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
+                    return _rtc.Count > 0;
+                }
+                return isRt;
             }
             set
             {
-                if(value == true &&( Value == null || Value.ToString() == string.Empty))
+                if (value == true && (Value == null || Value.ToString() == string.Empty))
                 {
                     if (_rtc == null)
                     {
@@ -1391,7 +1399,7 @@ namespace OfficeOpenXml
                 if (shift == eShiftTypeInsert.Down)
                     return this.Offset((_toRow - _fromRow) + 1, 0);
                 else if (shift == eShiftTypeInsert.Right)
-                    return this.Offset(0, (_toCol - _fromCol) + 1); 
+                    return this.Offset(0, (_toCol - _fromCol) + 1);
             }
             return null;
         }
@@ -1549,8 +1557,8 @@ namespace OfficeOpenXml
                 return fullAddress;
             }
         }
-#endregion
-#region Private Methods
+        #endregion
+        #region Private Methods
         /// <summary>
         /// Set the value without altering the richtext property
         /// </summary>
@@ -1615,7 +1623,7 @@ namespace OfficeOpenXml
                         int id = (int)f;
                         if (id >= 0 && !formulas.Contains(id))
                         {
-                            if (_worksheet._sharedFormulas[id].FormulaType==FormulaType.Array &&
+                            if (_worksheet._sharedFormulas[id].FormulaType == FormulaType.Array &&
                                     Collide(_worksheet.Cells[_worksheet._sharedFormulas[id].Address]) == eAddressCollition.Partly) //If the formula is an array formula and its on the inside the overwriting range throw an exception
                             {
                                 throw (new InvalidOperationException("Cannot overwrite a part of an array-formula"));
@@ -1792,7 +1800,7 @@ namespace OfficeOpenXml
                             bool hasValue = false;
                             while (formulaCells.Next())
                             {
-                                if (formulaCells.Value != null && 
+                                if (formulaCells.Value != null &&
                                     formulaCells.Value.ToString().Equals(col.CalculatedColumnFormula, StringComparison.OrdinalIgnoreCase))
                                 {
                                     hasValue = true;
@@ -1892,9 +1900,9 @@ namespace OfficeOpenXml
                 }
             }
         }
-#endregion
-#region Public Methods
-#region ConditionalFormatting
+        #endregion
+        #region Public Methods
+        #region ConditionalFormatting
         /// <summary>
         /// Conditional Formatting for this range.
         /// </summary>
@@ -1902,11 +1910,12 @@ namespace OfficeOpenXml
         {
             get
             {
-                return new RangeConditionalFormatting(_worksheet, new ExcelAddress(Address));
+                return new RangeConditionalFormatting(_worksheet, this);
+                //return new RangeConditionalFormatting(_worksheet, new ExcelAddress(Address));
             }
         }
-#endregion
-#region DataValidation
+        #endregion
+        #region DataValidation
         /// <summary>
         /// Data validation for this range.
         /// </summary>
@@ -1914,11 +1923,11 @@ namespace OfficeOpenXml
         {
             get
             {
-                return new RangeDataValidation(_worksheet, Address);
+                return new RangeDataValidation(_worksheet, this);
             }
         }
-#endregion
-#region GetValue
+        #endregion
+        #region GetValue
 
         /// <summary>
         ///     Convert cell value to desired type, including nullable structs.
@@ -1947,7 +1956,7 @@ namespace OfficeOpenXml
         {
             return ConvertUtil.GetTypedCellValue<T>(Value);
         }
-#endregion
+        #endregion
         /// <summary>
         /// Get a range with an offset from the top left cell.
         /// The new range has the same dimensions as the current range
@@ -2019,40 +2028,85 @@ namespace OfficeOpenXml
             return _worksheet.ThreadedComments[new ExcelCellAddress(_fromRow, _fromCol)];
         }
 
+        private void CopyBase(ExcelRangeBase Destination, ExcelRangeCopyOptionFlags excelRangeCopyOptionFlags = 0)
+        {
+            if(Addresses == null)
+            {
+                var allDestinations = Destination.GetAllAddresses();
+                foreach (var currDest in allDestinations)
+                {
+                    //Arguably this is unnecessary as it should not be possible.
+                    if (currDest.Addresses == null)
+                    {
+                        var helper = new RangeCopyHelper(this, new ExcelRangeBase(Destination.Worksheet, currDest.Address), excelRangeCopyOptionFlags);
+                        helper.Copy();
+                    }
+                }
+            }
+            else
+            {
+                //Arguably throw 'This action won't work on multiple selections' error like Excel?
+                var helper = new RangeCopyHelper(this, Destination, excelRangeCopyOptionFlags);
+                helper.Copy();
+            }
+        }
+
+        /// <summary>
+        /// Copies user and internal params
+        /// </summary>
+        private void CopyWithParams(ExcelRangeBase Destination, ExcelRangeCopyOptionFlags[] userFlags, params ExcelRangeCopyOptionFlags[] internalFlags)
+        {
+            ExcelRangeCopyOptionFlags flags = 0;
+            foreach (var c in userFlags)
+            {
+                flags |= c;
+            }
+
+            foreach (var c in internalFlags)
+            {
+                flags |= c;
+            }
+
+            CopyBase(Destination, flags);
+        }
+
         /// <summary>
         /// Copies the range of cells to another range. 
         /// </summary>
         /// <param name="Destination">The top-left cell where the range will be copied.</param>
         public void Copy(ExcelRangeBase Destination)
         {
-            var helper = new RangeCopyHelper(this, Destination, 0);
-            helper.Copy();
+            CopyBase(Destination);
         }
 
         /// <summary>
         /// Copies the range of cells to an other range
         /// </summary>
         /// <param name="Destination">The start cell where the range will be copied.</param>
-        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied.</param>
+        /// <param name="excelRangeCopyOptionFlags">Options for copying.</param>
         public void Copy(ExcelRangeBase Destination, ExcelRangeCopyOptionFlags? excelRangeCopyOptionFlags)
         {
-            var helper = new RangeCopyHelper(this, Destination, excelRangeCopyOptionFlags ?? 0);
-            helper.Copy();
+            CopyBase(Destination, excelRangeCopyOptionFlags ?? 0);
         }
         /// <summary>
         /// Copies the range of cells to an other range
         /// </summary>
         /// <param name="Destination">The start cell where the range will be copied.</param>
-        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied.</param>
+        /// <param name="excelRangeCopyOptionFlags">Options for copying.</param>
         public void Copy(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
         {
-            ExcelRangeCopyOptionFlags flags=0;
-            foreach (var c in excelRangeCopyOptionFlags)
-            {
-                flags |= c;
-            }
-            var helper = new RangeCopyHelper(this, Destination, flags);
-            helper.Copy();
+            CopyWithParams(Destination, excelRangeCopyOptionFlags);
+        }
+
+        /// <summary>
+        /// Copy only the properties specified
+        /// </summary>
+        /// <param name="Destination"></param>
+        /// <param name="flag"></param>
+        public void Copy(ExcelRangeBase Destination, ExcelRangeCopyOnly flag)
+        {
+            var CopOpFlags = (ExcelRangeCopyOptionFlags)flag;
+            CopyBase(Destination, CopOpFlags);
         }
         /// <summary>
         /// Copies the range of cells to another range of cells. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
@@ -2060,19 +2114,16 @@ namespace OfficeOpenXml
         /// <param name="Destination">The range of cells to copy into.</param>
         public void CopyFill(ExcelRangeBase Destination)
         {
-            var helper = new RangeCopyHelper(this, Destination, ExcelRangeCopyOptionFlags.Fill);
-            helper.Copy();
+            CopyBase(Destination, ExcelRangeCopyOptionFlags.Fill);
         }
         /// <summary>
         /// Copies the range of cells to another range of cells. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
         /// </summary>
         /// <param name="Destination">The range of cells to copy into.</param>
-        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied. Fill property will be set.</param>
+        /// <param name="excelRangeCopyOptionFlags">Options for copying. Fill property will be set.</param>
         public void CopyFill(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
         {
-            ExcelRangeCopyOptionFlags flags = 0;
-            flags |= ExcelRangeCopyOptionFlags.Fill;
-            Copy(Destination, flags);
+            CopyWithParams(Destination, excelRangeCopyOptionFlags, ExcelRangeCopyOptionFlags.Fill);
         }
         /// <summary>
         /// Copies the range of cells to another range of cells transposed.
@@ -2080,19 +2131,16 @@ namespace OfficeOpenXml
         /// <param name="Destination">The range of cells to copy into.</param>
         public void CopyTranspose(ExcelRangeBase Destination)
         {
-            var helper = new RangeCopyHelper(this, Destination, ExcelRangeCopyOptionFlags.Transpose);
-            helper.Copy();
+            CopyBase(Destination, ExcelRangeCopyOptionFlags.Transpose);
         }
         /// <summary>
         /// Copies the range of cells to another range of cells transposed.
         /// </summary>
         /// <param name="Destination">The range of cells to copy into.</param>
-        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied. Transpose property will be set.</param>
+        /// <param name="excelRangeCopyOptionFlags">Options for copying. Transpose property will be set.</param>
         public void CopyTranspose(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
         {
-            ExcelRangeCopyOptionFlags flags = 0;
-            flags |= ExcelRangeCopyOptionFlags.Transpose;
-            Copy(Destination, flags);
+            CopyWithParams(Destination, excelRangeCopyOptionFlags, ExcelRangeCopyOptionFlags.Transpose);
         }
         /// <summary>
         /// Copy the styles from the source range to the destination range.
@@ -2104,6 +2152,47 @@ namespace OfficeOpenXml
             var helper = new RangeCopyStylesHelper(this, Destination);
             helper.CopyStyles();
         }
+        /// <summary>
+        /// Copy formulas from source range to destination range.
+        /// Note: Like Excel "Paste Special", also copies underlying cell values.
+        /// </summary>
+        /// <param name="Destination"></param>
+        public void CopyFormulas(ExcelRangeBase Destination)
+        {
+            Copy(Destination, ExcelRangeCopyOnly.Formulas);
+        }
+        /// <summary>
+        /// Copy only formulas from source range to destination range.
+        /// Note: Like Excel "Paste Special", also copies underlying cell values.
+        /// </summary>
+        /// <param name="Destination"></param>
+        /// <param name="fillOrTranspose">Fill or transpose options</param>
+        public void CopyFormulas(ExcelRangeBase Destination, ExcelRangeCopyOperations fillOrTranspose = 0)
+        {
+            ExcelRangeCopyOptionFlags[] flags = { (ExcelRangeCopyOptionFlags)fillOrTranspose };
+            CopyWithParams(Destination, flags, (ExcelRangeCopyOptionFlags)ExcelRangeCopyOnly.Formulas);
+        }
+
+        /// <summary>
+        /// Copy only cell values from source range to destination range.
+        /// </summary>
+        /// <param name="Destination"></param>
+        public void CopyValues(ExcelRangeBase Destination)
+        {
+            Copy(Destination, ExcelRangeCopyOnly.Values);
+        }
+
+        /// <summary>
+        /// Copy only cell values from source range to destination range.
+        /// </summary>
+        /// <param name="Destination"></param>
+        /// <param name="fillOrTranspose">Fill or transpose options</param>
+        public void CopyValues(ExcelRangeBase Destination, ExcelRangeCopyOperations fillOrTranspose = 0)
+        {
+            ExcelRangeCopyOptionFlags[] flags = { (ExcelRangeCopyOptionFlags)fillOrTranspose };
+            CopyWithParams(Destination, flags, (ExcelRangeCopyOptionFlags)ExcelRangeCopyOnly.Values);
+        }
+
         /// <summary>
         /// Clear all cells
         /// </summary>
@@ -2121,14 +2210,14 @@ namespace OfficeOpenXml
         /// If you calculate the formula this flag will be overwritten with the value the EPPlus decides for the formula.
         /// Also see <see cref="CalculationExtension.Calculate(ExcelWorkbook)" />, <seealso cref="CalculationExtension.Calculate(ExcelWorksheet)"/>, <seealso cref="CalculationExtension.Calculate(ExcelRangeBase)"/>
         /// </param>
-        public void CreateArrayFormula(string ArrayFormula, bool isDynamic=false)
+        public void CreateArrayFormula(string ArrayFormula, bool isDynamic = false)
         {
             if (Addresses != null)
             {
                 throw (new Exception("An array formula cannot have more than one address"));
             }
 
-            if(IntersectsWithTable())
+            if (IntersectsWithTable())
             {
                 //Array formulas are only allowed in tables as CalculatedColumn formula
                 //Or single-cell. Excel does not allow multi-cell array formulas in tables.
@@ -2171,12 +2260,12 @@ namespace OfficeOpenXml
                 }
             }
         }
-        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues = true, bool clearFormulas = true, bool clearFlags = true, bool clearMergedCells = true, bool clearHyperLinks = true, bool clearComments = true, bool clearThreadedComments=true, bool clearStyles = true)
+        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues = true, bool clearFormulas = true, bool clearFlags = true, bool clearMergedCells = true, bool clearHyperLinks = true, bool clearComments = true, bool clearThreadedComments = true, bool clearStyles = true)
         {
 
             //First find the start cell
             FormulaDataTableValidation.HasPartlyFormulaDataTable(_worksheet, Range, false, "Can't clear a part of a data table function");
-            
+
             int fromRow, fromCol;
             var d = Worksheet.Dimension;
             if (d != null && Range._fromRow <= d._fromRow && Range._toRow >= d._toRow) //EntireRow?
@@ -2305,8 +2394,8 @@ namespace OfficeOpenXml
             }
         }
 
-#endregion
-#region IDisposable Members
+        #endregion
+        #region IDisposable Members
         /// <summary>
         /// Disposes the object
         /// </summary>
@@ -2315,8 +2404,8 @@ namespace OfficeOpenXml
             //_worksheet = null;            
         }
 
-#endregion
-#region "Enumerator"
+        #endregion
+        #region "Enumerator"
         CellStoreEnumerator<ExcelValue> cellEnum;
         /// <summary>
         /// Gets the enumerator for the collection
@@ -2409,7 +2498,7 @@ namespace OfficeOpenXml
             _enumAddressIx = 0;
             cellEnum = new CellStoreEnumerator<ExcelValue>(_worksheet._values, _fromRow, _fromCol, _toRow, _toCol);
         }
-#endregion
+        #endregion
 
         /// <summary>
         /// Sort the range by value of the first column, Ascending.
@@ -2653,7 +2742,7 @@ namespace OfficeOpenXml
             {
                 return _worksheet.GetValue<T>(_fromRow + rowOffset, _fromCol + columnOffset);
             }
-        } 
+        }
         /// <summary>
         /// Sets the value of a cell using an offset from the top-left cell in the range.
         /// </summary>
@@ -2667,15 +2756,15 @@ namespace OfficeOpenXml
                 ExcelNamedRange n;
                 if (_worksheet == null)
                 {
-                    n=_workbook._names[_address];
+                    n = _workbook._names[_address];
                 }
                 else
                 {
-                    
-                    n=_worksheet.Names[_address];
-                }                
+
+                    n = _worksheet.Names[_address];
+                }
                 var a = new ExcelAddressBase(n.Address);
-                if (a._fromRow>0 && a._fromCol>0)
+                if (a._fromRow > 0 && a._fromCol > 0)
                 {
                     _worksheet.SetValue(a._fromRow + rowOffset, a._fromCol + columnOffset, value);
                 }

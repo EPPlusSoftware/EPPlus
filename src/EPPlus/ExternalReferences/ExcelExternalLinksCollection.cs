@@ -10,9 +10,10 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.Collections;
 using System.Collections.Generic;

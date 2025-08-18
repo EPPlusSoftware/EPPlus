@@ -30,7 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var arg = ArgToString(arguments, 0);
             if (arg == null)
                 arg = string.Empty;
-            return CreateResult(Utils.ConvertUtil._invariantTextInfo.ToUpper(arg), DataType.String);
+
+            return CreateResult(Utils.TypeConversion.ConvertUtil._invariantTextInfo.ToUpper(arg), DataType.String);
         }
     }
 }

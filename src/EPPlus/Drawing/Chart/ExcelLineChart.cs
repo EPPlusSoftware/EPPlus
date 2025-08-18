@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Xml;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Table.PivotTable;
@@ -288,7 +287,7 @@ namespace OfficeOpenXml.Drawing.Chart
             Series.Init(chart, ns, node, isPivot, base.Series._list);
 
             //Up bars
-            if (_upBar==null && ExistsNode(node, _upBarPath))
+            if (_upBar == null && ExistsNode(node, _upBarPath))
             {
                 _upBar = new ExcelChartStyleItem(ns, node, this, _upBarPath, RemoveUpBar);
             }
@@ -353,7 +352,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
         }
 
-        internal ExcelLineChart (ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent = null) :
+        internal ExcelLineChart(ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent = null) :
             base(topChart, chartNode, parent)
         {
         }
@@ -366,5 +365,22 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         #endregion
+
+        internal override bool IsAxisTypeSupported(eAxisType type, ExcelChartAxis axis)
+        {
+            if(axis == XAxis)
+            {
+                if(type == eAxisType.Val)
+                {
+                    return false;
+                }
+            }
+            if (ChartType != eChartType.Line3D && type == eAxisType.Serie)
+            {
+                //Only supported on 3D charts
+                return false;
+            }
+            return base.IsAxisTypeSupported(type, axis);
+        }
     }
 }

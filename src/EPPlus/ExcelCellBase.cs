@@ -160,8 +160,7 @@ namespace OfficeOpenXml
                 fixedFromRow = fixedFromColumn = fixedToRow = fixedToColumn = false;
                 return false;
             }
-
-            CellAddress = Utils.ConvertUtil._invariantTextInfo.ToUpper(CellAddress);
+            CellAddress = Utils.TypeConversion.ConvertUtil._invariantTextInfo.ToUpper(CellAddress);
             //This one can be removed when the worksheet Select format is fixed
             if (CellAddress.IndexOf(' ') > 0)
             {
@@ -416,8 +415,7 @@ namespace OfficeOpenXml
             row = 0;
             fixedRow = false;
             fixedCol = false;
-
-            if (Utils.ConvertUtil._invariantCompareInfo.IsSuffix(address, "#REF!"))
+            if (Utils.TypeConversion.ConvertUtil._invariantCompareInfo.IsSuffix(address, "#REF!"))
             {
                 row = 0;
                 col = 0;
@@ -429,7 +427,7 @@ namespace OfficeOpenXml
             {
                 start = sheetNameSeparator + 1;
             }
-            address = Utils.ConvertUtil._invariantTextInfo.ToUpper(address);
+            address = Utils.TypeConversion.ConvertUtil._invariantTextInfo.ToUpper(address);
             for (int i = start; i < address.Length; i++)
             {
                 char c = address[i];
@@ -852,8 +850,7 @@ namespace OfficeOpenXml
                 address = address.Substring(address.LastIndexOf('!') + 1);
             }
             if (string.IsNullOrEmpty(address.Trim())) return false;
-
-            address = Utils.ConvertUtil._invariantTextInfo.ToUpper(address);
+            address = Utils.TypeConversion.ConvertUtil._invariantTextInfo.ToUpper(address);
             var addrs = address.Split(',');
             foreach (var a in addrs)
             {

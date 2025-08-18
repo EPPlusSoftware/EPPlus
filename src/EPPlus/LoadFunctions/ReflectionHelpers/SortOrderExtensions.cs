@@ -10,14 +10,11 @@
  *************************************************************************************************
   12/7/2023         EPPlus Software AB       EPPlus 7.0.4
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Attributes;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Utils.AttributesUtils;
 #if !NET35
 using System.ComponentModel.DataAnnotations;
 #endif

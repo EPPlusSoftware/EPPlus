@@ -85,7 +85,7 @@ namespace EPPlusTest.Core
         public void OpenAndCalculateExternalLinkFromPackage()
         {
             var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
-
+            ExcelNamedRange.ValidateCellAddressInFormulas = false;
             p.Workbook.ExternalLinks.Directories.Add(new DirectoryInfo(_testInputPathOptional));
             p.Workbook.ExternalLinks.LoadWorkbooks();
             p.Workbook.ExternalLinks[0].As.ExternalWorkbook.Package.Workbook.Calculate();
@@ -111,7 +111,6 @@ namespace EPPlusTest.Core
             Assert.AreEqual(3D, ws.Cells["E10"].Value);
             Assert.AreEqual(19D, ws.Cells["F10"].Value);
         }
-
         [TestMethod]
         public void DeleteExternalLink()
         {
@@ -276,8 +275,8 @@ namespace EPPlusTest.Core
         {
             var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
-            
-            
+
+            ExcelNamedRange.ValidateCellAddressInFormulas = false;
             var er = p.Workbook.ExternalLinks[0].As.ExternalWorkbook;
             var excelCache = GetExternalCache(er);
 
@@ -313,6 +312,7 @@ namespace EPPlusTest.Core
         public void AddExternalLinkShouldBeSameAsExcel()
         {
             var p = OpenPackage("AddedExtRef.xlsx", true);
+            ExcelNamedRange.ValidateCellAddressInFormulas = false;
             var ws1=CreateWorksheet1(p);
             var ws2 = p.Workbook.Worksheets.Add("Sheet2");
             
@@ -342,6 +342,7 @@ namespace EPPlusTest.Core
         public void AddExternalWorkbookNoUpdate()
         {
             var p = OpenPackage("AddedExtRefNoUpdate.xlsx", true);
+            ExcelNamedRange.ValidateCellAddressInFormulas = false;
             var ws1 = CreateWorksheet1(p);
             var ws2 = p.Workbook.Worksheets.Add("Sheet2");
 
@@ -369,6 +370,7 @@ namespace EPPlusTest.Core
         public void AddExternalWorkbookWithChartCache()
         {
             var p = OpenPackage("AddedExtRefChart.xlsx", true);
+            ExcelNamedRange.ValidateCellAddressInFormulas = false;
             var ws = p.Workbook.Worksheets.Add("SheetWithChart");
 
             var er = p.Workbook.ExternalLinks.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
@@ -471,6 +473,40 @@ namespace EPPlusTest.Core
                 Assert.AreEqual("Column3", ws.Cells["F4"].Value);
 
                 SaveWorkbook("WorkBookCalculated.xlsx", package);
+            }
+        }
+
+        [TestMethod]
+        public void AddExternalLinkWithAbsoluteLink()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet 1");
+
+            var p2 = OpenTemplatePackage("CopyFillTest.xlsx");
+
+            var ewb = wb.ExternalLinks.AddExternalWorkbook(p2.File);            
+            ewb.IsPathRelative = false;
+            SaveWorkbook("AbsolutePathTest.xlsx", p);
+        }
+
+        [TestMethod]
+        public void AddExternalLinkWithAbsoluteLink2()
+        {
+            var p = new ExcelPackage();
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.Add("Sheet 1");
+            var fi = new FileInfo(_testInputPathOptional + "CopyFillTest.xlsx");
+            if(!fi.Exists)
+            {
+                Assert.Inconclusive("CopyFillTest.xlsx file was not available");
+            }
+            else
+            {
+                var ewb = wb.ExternalLinks.AddExternalWorkbook(fi);
+                ewb.IsPathRelative = false;
+
+                SaveWorkbook("AbsolutePathTest2.xlsx", p);
             }
         }
     }

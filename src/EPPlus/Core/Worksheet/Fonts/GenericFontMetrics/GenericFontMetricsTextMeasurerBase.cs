@@ -47,17 +47,30 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             return _fonts.ContainsKey(fontKey);
         }
 
-        internal protected TextMeasurement MeasureTextInternal(string text, uint fontKey, MeasurementFontStyles style, float size)
+        internal protected TextMeasurement MeasureTextInternal(string text, uint fontKey, MeasurementFontStyles style, float size, bool wrapText = false)
         {
             var sFont = _fonts[fontKey];
             var width = 0f;
+            var maxWidth = 0f;
             var widthEA = 0f;
-            var chars = text.ToCharArray();
-            for (var x = 0; x < chars.Length; x++)
+            for (var x = 0; x < text.Length; x++)
             {
                 var fnt = sFont;
-                var c = chars[x];
-                // if east asian char use default regardless of actual font.
+                var c = text[x];
+                if(wrapText && (c=='\n' || c=='\r'))
+                {
+                    if(x>0 && c=='\r' && text[x-1]=='\n')
+                    {
+                        continue; //CRLF should be handled as one new line.
+                    }
+                    if(width>maxWidth)
+                    {
+                        maxWidth = width;
+                        width = 0;
+                    }
+                }
+
+                //If east Asian char use default regardless of actual font.
                 if (IsEastAsianChar(c))
                 {
                     widthEA += GetEastAsianCharWidth(c, style);
@@ -70,12 +83,15 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                         if (Char.IsDigit(c)) fw *= FontScaleFactors.DigitsScalingFactor;
                         width += fw;
                     }
-                    else
+                    else if (char.IsControl(c)==false)
                     {
                         width += sFont.ClassWidths[fnt.DefaultWidthClass];
                     }
                 }
-
+            }
+            if(maxWidth > width)
+            {
+                width = maxWidth;
             }
             width *= size;
             widthEA *= size;

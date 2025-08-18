@@ -13,11 +13,11 @@
 using System;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Diagnostics;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
