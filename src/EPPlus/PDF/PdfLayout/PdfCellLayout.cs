@@ -16,6 +16,18 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfCellBordersData BorderData;
         public PdfCellFontData FontData;
         public PdfCellAlignmentData CellAlignmentData;
+        Vector2 TextPosition
+        {  get
+            {
+                
+                if(String.IsNullOrEmpty( FontData.Text))
+                {
+                    return new Vector2(0, 0);
+                }
+                //calculate TextPosition.
+                return new Vector2(0, 0);
+            }
+        }
         internal double margin = 0.05d;
 
         public PdfCellLayout() { }

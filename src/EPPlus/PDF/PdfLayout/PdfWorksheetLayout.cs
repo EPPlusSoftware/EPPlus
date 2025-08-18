@@ -14,12 +14,12 @@ namespace OfficeOpenXml.PDF.PdfLayout
         internal ExcelWorksheet ws;
 
 
-        public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings)
+        public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds)
         {
             this.ws = worksheet;
             double x = 0d;
             double y = 0d;
-            double totalWidth = 0;
+            double totalWidth = 0d;
             List<string> checkedMergedCells = new List<string>();
             for(int i = 1; i<= ws.Dimension._toRow; i++)
             {

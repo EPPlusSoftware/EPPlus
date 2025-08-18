@@ -127,8 +127,8 @@ namespace OfficeOpenXml.PDF
 
         internal void AddText(string text, string cellFontname, double size, double x, double y, PdfPage page)
         {
-            var content = new PdfContentStream(body.Count + 1);
             var label = GetFontLabel(cellFontname, "Regular", size);
+            var content = new PdfContentStream(body.Count + 1);
             content.AddText(label , size, x, y, text);
             body.Add(content);
             page.contentObjectNumbers.Add(content.objectNumber);
@@ -530,7 +530,7 @@ namespace OfficeOpenXml.PDF
             //check child is cell, merged cell or drawing
             if (child is PdfCellLayout cell)
             {
-                AddText(cell.FontData.Text, cell.FontData.FontName, cell.FontData.FontSize, cell.Position.X, cell.Position.Y, page);
+                AddText(cell.FontData.Text, cell.FontData.FontName, cell.FontData.FontSize, cell.LocalPosition.X, cell.LocalPosition.Y, page);
             }
             if (child is PdfMergedCellLayout merged)
             {
@@ -552,11 +552,10 @@ namespace OfficeOpenXml.PDF
             for (int i = 0; i < pagesLayout.ChildObjects.Count; i++)
             {
                 var pageLayout = pagesLayout.ChildObjects[i];
-                var contentLayout = pageLayout.ChildObjects[0];
                 var page = AddPage(2, new List<int>(), PageSettings);
-                for (int j = 0; contentLayout.ChildObjects.Count > j; j++)
+                for (int j = 0; pageLayout.ChildObjects.Count > j; j++)
                 {
-                    var child = contentLayout.ChildObjects[j];
+                    var child = pageLayout.ChildObjects[j];
                     CreateContentFromCell(child, page);
                 }
                 pages.pageObjectNumbers.Add(page.objectNumber);

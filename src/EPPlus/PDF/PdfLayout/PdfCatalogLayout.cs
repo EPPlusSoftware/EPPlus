@@ -25,10 +25,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfCatalogLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds)
             : base(0, 0, 0, 0)
         {
+            //Position = new Vector2(0d, pageSettings.PageSize.HeightPu);
             this.Name = worksheet.Name + " Catalog";
             this.settings = pageSettings;
             this.bounds = bounds;
-            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings));
+            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, bounds));
             //calculate number of pages needed based on contentBounds and worksheetLayout.Size
             var horizontalPages = WorksheetLayout.Size.X / bounds.Width;
             var verticalPages = WorksheetLayout.Size.Y / bounds.Height;
@@ -52,7 +53,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
             {
                 if (worksheet.Row(i).Hidden) { continue; }
                 var height = worksheet.Row(i).Height;
-                var cell = worksheet.Cells[i, 1];
                 if (h+height >= bh)
                 {
                     ph++;
@@ -149,12 +149,20 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 }
             }
             string drawingsCellsInPages = ToHierarchyString();
-            //Restore the positions of the pages
+            //Restore the positions of the content, move content children to page and remove content object.
             foreach (var page in pages.ChildObjects)
             {
                 page.ChildObjects[0].LocalPosition = new Vector2(settings.Margins.LeftPu, settings.Margins.TopPu);
+                var contentObjects = page.ChildObjects[0].ChildObjects.ToList();
+                foreach (var child in contentObjects)
+                {
+                    page.AddChild(child);
+                    child.LocalPosition = new Vector2(child.LocalPosition.X, settings.PageSize.HeightPu - System.Math.Abs(child.LocalPosition.Y));
+                }
+                page.RemoveChild(page.ChildObjects[0]);
             }
             RemoveChild(WorksheetLayout);
+            string FinalPagesLayout = ToHierarchyString();
         }
 
         List<PdfPageLayout> GetRightBottomAndDiagonalPages(PdfTransform currentPage, List<PdfTransform> allPages, int hPages, int vPages, PageOrders pageOrder)
