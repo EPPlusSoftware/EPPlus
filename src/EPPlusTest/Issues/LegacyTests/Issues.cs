@@ -6219,5 +6219,14 @@ namespace EPPlusTest
                 Assert.AreEqual(0d, ws.Cells["F6"].Value);
             }
         }
+
+        [TestMethod]
+        public void i2078()
+        {
+            using var p = new ExcelPackage();
+            var ws =p.Workbook.Worksheets.Add("Sheet 1");
+            ws.HeaderFooter.OddHeader.LeftAlignedText = "&12&A";
+            p.SaveAs("c:\\epplustest\\testoutput\\HeaderFooterIssue2078.xlsx");
+        }
     }
 }

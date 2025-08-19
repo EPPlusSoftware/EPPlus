@@ -739,7 +739,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                 if (current.FontSize != prev.FontSize)
                 {
                     hfstring += "&" + current.FontSize;
-                    if (char.IsDigit(current.Text[0]))
+                    if (current.Text != null && char.IsDigit(current.Text[0]))
                     {
                         hfstring += " ";
                     }
@@ -748,7 +748,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             else if (current.FontSize != null && prev.FontSize == null)
             {
                 hfstring += "&" + current.FontSize;
-                if (char.IsDigit(current.Text[0]))
+                if (current.Text != null && char.IsDigit(current.Text[0]))
                 {
                     hfstring += " ";
                 }
