@@ -1,19 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">
-			$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB
-		</SSDTUnitTestPath>
-	</PropertyGroup>
-	<PropertyGroup>
-		<SSDTPath Condition="'$(SSDTPath)' == ''">
-			$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130
-		</SSDTPath>
-	</PropertyGroup>
-	<PropertyGroup>
 		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
 	</PropertyGroup>
 	<PropertyGroup>
-		<TargetFrameworks>net481;net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0</TargetFrameworks>
 		<RootNamespace>EPPlusTest</RootNamespace>
 		<AssemblyName>EPPlusTest</AssemblyName>
 		<SignAssembly>True</SignAssembly>
@@ -41,9 +31,7 @@
 	<ItemGroup>
 		<PackageReference Include="FakeItEasy" />
 		<PackageReference Include="Microsoft.CSharp" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" />
-		<PackageReference Include="MSTest.TestAdapter" />
-		<PackageReference Include="MSTest.TestFramework" />
+		<PackageReference Include="MSTest" />
 		<PackageReference Include="Newtonsoft.Json" />
 	</ItemGroup>
 
@@ -289,5 +277,4 @@
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<GenerateDocumentationFile>False</GenerateDocumentationFile>
 	</PropertyGroup>
-	<Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
 </Project>
