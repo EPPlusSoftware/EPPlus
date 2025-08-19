@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSTest.Sdk/3.10.2">
 	<PropertyGroup>
 		<SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">
 			$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB
@@ -13,7 +13,7 @@
 		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
 	</PropertyGroup>
 	<PropertyGroup>
-		<TargetFrameworks>net481;net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0</TargetFrameworks>
 		<RootNamespace>EPPlusTest</RootNamespace>
 		<AssemblyName>EPPlusTest</AssemblyName>
 		<SignAssembly>True</SignAssembly>
@@ -41,9 +41,6 @@
 	<ItemGroup>
 		<PackageReference Include="FakeItEasy" />
 		<PackageReference Include="Microsoft.CSharp" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" />
-		<PackageReference Include="MSTest.TestAdapter" />
-		<PackageReference Include="MSTest.TestFramework" />
 		<PackageReference Include="Newtonsoft.Json" />
 	</ItemGroup>
 
