@@ -36,6 +36,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
+using System.Diagnostics;
 
 namespace EPPlusTest
 {
@@ -56,9 +57,21 @@ namespace EPPlusTest
             public string State { get; set; }
             public double Sales { get; set; }
         }
-        protected static FileInfo _file;
+
+        internal static ExcelPackage OpenPackage(string name, bool delete = false)
+        {
+            CreateWorksheetPathIfNotExists();
+            var file = new FileInfo(_worksheetPath + name);
+            if (delete && file.Exists)
+            {
+                file.Delete();
+            }
+            return new ExcelPackage(file);
+        }
+
+
         protected static string _clipartPath ="";
-        protected static string _worksheetPath = @"c:\epplusTest\Testoutput\";
+        internal static string _worksheetPath = @"c:\epplusTest\Testoutput\";
         protected static string _testInputPath = AppContext.BaseDirectory + "\\workbooks\\";
         protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";
         protected static string _imagePath = @"c:\epplusTest\images\";
@@ -75,9 +88,9 @@ namespace EPPlusTest
             {
                 Directory.CreateDirectory(_clipartPath);
             }
-            if(Environment.GetEnvironmentVariable("EPPlusTestInputPath")!=null)
+            if(Environment.GetEnvironmentVariable("EpplusTestInputPath")!=null)
             {
-                _testInputPathOptional = Environment.GetEnvironmentVariable("EPPlusTestInputPath");
+                _testInputPathOptional = Environment.GetEnvironmentVariable("EpplusTestInputPath");
             }
             var asm = Assembly.GetExecutingAssembly();
             var validExtensions = new[]
@@ -91,7 +104,7 @@ namespace EPPlusTest
                 {
                     if (name.EndsWith(ext, StringComparison.OrdinalIgnoreCase))
                     {
-                        string fileName = name.Replace("EPPlusTest.Resources.", "");
+                        string fileName = name.Replace("EpplusTest.Resources.", "");
                         using (var stream = asm.GetManifestResourceStream(name))
                         using (var file = File.Create(Path.Combine(_clipartPath, fileName)))
                         {
@@ -110,7 +123,6 @@ namespace EPPlusTest
         /// Saves and disposes a package
         /// </summary>
         /// <param name="pck"></param>
-        /// <param name="dispose"></param>
         protected static void SaveAndCleanup(ExcelPackage pck, bool dispose=true)
         {
             if (pck.Workbook.Worksheets.Count > 0)
@@ -132,16 +144,7 @@ namespace EPPlusTest
                 Assert.Inconclusive($"{_worksheetPath}{name} workbook is missing");
             }
         }
-        protected static ExcelPackage OpenPackage(string name, bool delete=false)
-        {
-            CreateWorksheetPathIfNotExists();
-            _file = new FileInfo(_worksheetPath + name);
-            if(delete && _file.Exists)
-            {
-                _file.Delete();
-            }
-            return new ExcelPackage(_file);
-        }
+
         protected static async Task<ExcelPackage> OpenPackageAsync(string name, bool delete = false, string password=null)
         {
             CreateWorksheetPathIfNotExists();
@@ -162,7 +165,7 @@ namespace EPPlusTest
             return p;
         }
 
-        static void CreateWorksheetPathIfNotExists()
+        internal static void CreateWorksheetPathIfNotExists()
         {
             CreatePathIfNotExists(_worksheetPath);
         }
@@ -265,45 +268,48 @@ namespace EPPlusTest
         /// <param name="addTimeSpan">Adds a TimeSpan column. Requires add hyperlink to be true</param>
         protected static void LoadTestdata(ExcelWorksheet ws, int noItems = 100, int startColumn=1, int startRow=1, bool addHyperlinkColumn=false, bool addTimeSpan=false, DateTime? startDate = null)
         {
-            ws.SetValue(1, startColumn, "Date");
-            ws.SetValue(1, startColumn + 1, "NumValue");
-            ws.SetValue(1, startColumn + 2, "StrValue");
-            ws.SetValue(1, startColumn + 3, "NumFormattedValue");
-            if(addHyperlinkColumn)
+            lock (ws)
             {
-                ws.SetValue(1, startColumn + 4, "HyperLink");
-            }
-            if (addTimeSpan)
-            {
-                ws.SetValue(1, startColumn + 5, "TimeSpan");
-            }
-
-            DateTime dt = startDate ?? _loadDataStartDate;
-            int row = 1;
-            for (int i = 1; i < noItems; i++)
-            {
-                row = startRow + i;
-                ws.SetValue(row, startColumn, dt);
-                ws.SetValue(row, startColumn + 1, row);
-                ws.SetValue(row, startColumn + 2, $"Value {row}");
-                ws.SetValue(row, startColumn + 3, row * 33);
+                ws.SetValue(1, startColumn, "Date");
+                ws.SetValue(1, startColumn + 1, "NumValue");
+                ws.SetValue(1, startColumn + 2, "StrValue");
+                ws.SetValue(1, startColumn + 3, "NumFormattedValue");
                 if (addHyperlinkColumn)
                 {
-                    ws.Cells[row, startColumn + 4].SetHyperlink(new Uri("https://epplussoftware.com"));
-                    if (addTimeSpan)
-                    {
-                        ws.SetValue(row, startColumn + 5, new TimeSpan(0, 1, i % 60, 0, 0));
-                    }
+                    ws.SetValue(1, startColumn + 4, "HyperLink");
+                }
+                if (addTimeSpan)
+                {
+                    ws.SetValue(1, startColumn + 5, "TimeSpan");
                 }
 
-                dt = dt.AddDays(1);
+                DateTime dt = startDate ?? _loadDataStartDate;
+                int row = 1;
+                for (int i = 1; i < noItems; i++)
+                {
+                    row = startRow + i;
+                    ws.SetValue(row, startColumn, dt);
+                    ws.SetValue(row, startColumn + 1, row);
+                    ws.SetValue(row, startColumn + 2, $"Value {row}");
+                    ws.SetValue(row, startColumn + 3, row * 33);
+                    if (addHyperlinkColumn)
+                    {
+                        ws.Cells[row, startColumn + 4].SetHyperlink(new Uri("https://epplussoftware.com"));
+                        if (addTimeSpan)
+                        {
+                            ws.SetValue(row, startColumn + 5, new TimeSpan(0, 1, i % 60, 0, 0));
+                        }
+                    }
+
+                    dt = dt.AddDays(1);
+                }
+                ws.Cells[startRow, startColumn, row, startColumn].Style.Numberformat.Format = "yyyy-MM-dd";
+                if (addTimeSpan)
+                {
+                    ws.Cells[startRow, startColumn + 5, row, startColumn + 5].Style.Numberformat.Format = "hh:mm:ss";
+                }
+                ws.Cells.AutoFitColumns();
             }
-            ws.Cells[startRow, startColumn, row, startColumn].Style.Numberformat.Format = "yyyy-MM-dd";
-            if(addTimeSpan)
-            {
-                ws.Cells[startRow, startColumn+5, row, startColumn+5].Style.Numberformat.Format = "hh:mm:ss";
-            }
-            ws.Cells.AutoFitColumns();
         }
         protected static ExcelRangeBase LoadHierarkiTestData(ExcelWorksheet ws)
         {

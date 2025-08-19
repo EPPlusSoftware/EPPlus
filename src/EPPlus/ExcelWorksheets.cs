@@ -100,6 +100,7 @@ namespace OfficeOpenXml
         internal const string ERR_DUP_WORKSHEET = "A worksheet with this name already exists in the workbook";
         internal const string WORKSHEET_CONTENTTYPE = @"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml";
         internal const string CHARTSHEET_CONTENTTYPE = @"application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml";
+        internal object LockRoot = new object(); 
         #region ExcelWorksheets Public Methods
         /// <summary>
         /// Foreach support
@@ -129,7 +130,7 @@ namespace OfficeOpenXml
         }
         private ExcelWorksheet AddSheet(string Name, bool isChart, eChartType? chartType, ExcelPivotTable pivotTableSource = null, XmlElement sheetElement=null)
         {   
-            lock (_worksheets)
+            lock (LockRoot)
             {
                 Name = ValidateFixSheetName(Name);
                 if (GetByName(Name) != null)

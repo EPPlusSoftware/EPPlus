@@ -2,7 +2,6 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.SystemDrawing.Image;
 using OfficeOpenXml.SystemDrawing.Text;
 using System;
 using System.Collections.Generic;

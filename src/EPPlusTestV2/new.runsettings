@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+		<!-- Configurations that affect the Test Framework -->
+		<RunConfiguration>
+			<DisableParallelization>true</DisableParallelization>
+			<!-- Path relative to directory that contains .runsettings file-->
+			<ResultsDirectory>.\.\TestResults</ResultsDirectory>
+		</RunConfiguration>
+
+		<!-- MSTest adapter -->
+		<MSTest>
+			<DisableParallelization>true</DisableParallelization>
+			<MapInconclusiveToFailed>True</MapInconclusiveToFailed>
+			<CaptureTraceOutput>false</CaptureTraceOutput>
+			<DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
+			<DeploymentEnabled>False</DeploymentEnabled>
+			<AssemblyResolution>
+				<Directory path="\EpplusTestV2\bin\Debug\net8.0" includeSubDirectories="true"/>
+			</AssemblyResolution>
+		</MSTest>
+</RunSettings>

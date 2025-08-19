@@ -1,19 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSTest.Sdk/3.10.2">
+
 	<PropertyGroup>
-		<SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">
-			$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB
-		</SSDTUnitTestPath>
-	</PropertyGroup>
-	<PropertyGroup>
-		<SSDTPath Condition="'$(SSDTPath)' == ''">
-			$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130
-		</SSDTPath>
-	</PropertyGroup>
-	<PropertyGroup>
-		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-	</PropertyGroup>
-	<PropertyGroup>
-		<TargetFrameworks>net481;net8.0</TargetFrameworks>
+		<TargetFramework>net8.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 		<RootNamespace>EPPlusTest</RootNamespace>
 		<AssemblyName>EPPlusTest</AssemblyName>
 		<SignAssembly>True</SignAssembly>
@@ -23,6 +14,14 @@
 		<Version>5.0.0.0</Version>
 		<Description>Package Description</Description>
 		<LangVersion>latest</LangVersion>
+		<EnableMSTestRunner>true</EnableMSTestRunner>
+		<OutputType>Exe</OutputType>
+		<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+		<!--
+      Displays error on console in addition to the log file. Note that this feature comes with a performance impact.
+      For more information, visit https://learn.microsoft.com/dotnet/core/testing/unit-testing-platform-integration-dotnet-test#show-failure-per-test
+      -->
+		<TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
@@ -33,18 +32,20 @@
 	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
 		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EPPlus.xml</DocumentationFile>
 	</PropertyGroup>
-
 	<ItemGroup>
 		<ProjectReference Include="..\EPPlus\EPPlus.csproj" />
 		<ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="FakeItEasy" />
-		<PackageReference Include="Microsoft.CSharp" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" />
-		<PackageReference Include="MSTest.TestAdapter" />
-		<PackageReference Include="MSTest.TestFramework" />
-		<PackageReference Include="Newtonsoft.Json" />
+		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
+		<PackageReference Include="System.ComponentModel.Annotations" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Core\RichDataTests.cs">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -53,21 +54,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Update="Core\RichDataTests.cs">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Compile>
-		<Compile Update="Filter\ValueFilterTest.cs" />
-		<Compile Update="Filter\DynamicFilterTest.cs" />
-		<Compile Update="Filter\AutoFilterReadWriteTest.cs" />
-	</ItemGroup>
-	<ItemGroup>
 		<None Update="App.config">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\111By75.bmp">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\128Square.bmp">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\5PxSignature.bmp">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\BitmapImage.gif">
@@ -97,58 +96,55 @@
 		<None Update="Resources\EPPlus.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Resources\file_example_TIFF_1MB.tif">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\Images\epplusobject.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 		<None Update="Resources\LineChart3.crtx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Resources\MaxHeightSignatureStamp.bmp">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\MaxWidthSignatureStamp.bmp">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Resources\OLEObjectFiles\MyPDF.pdf">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\OLEObjectFiles\MyPresent.pptx">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\OLEObjectFiles\MyPresents.odp">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\OLEObjectFiles\MySheet.xlsx">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\OLEObjectFiles\MySheets.ods">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\OLEObjectFiles\MyTextDoc.odt">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\OLEObjectFiles\MyTextDocument.txt">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\OLEObjectFiles\MyWord.docx">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\OLEObjectFiles\SampleIcon.bmp">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\PieChartTemplate2.crtx">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\StackedColumnChart.crtx">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\marbles.pcx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\Pattern1.jpeg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\PieChartTemplate2.crtx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\Savon.thmx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\screenshot.PNG">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\StackedColumnChart.crtx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\Surface4.crtx">
@@ -161,27 +157,12 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\Textfiles\FixedWidth1.txt">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\Textfiles\FixedWidth2.txt">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\Textfiles\FixedWidth_FileList.txt">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\111By75.bmp">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\128Square.bmp">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\MaxHeightSignatureStamp.bmp">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\5pxSignature.bmp">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\MaxWidthSignatureStamp.bmp">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\tree-solid.svg">
@@ -221,44 +202,35 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Workbooks\Issue1794.xlsx">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Workbooks\Issue1794.xltx">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Workbooks\Issue1828.xlsx">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Workbooks\Issue1964.xlsx">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Workbooks\LinestTest.xlsx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Workbooks\LocalImageLoadCells.xlsx">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Workbooks\MultiColorConditionalFormatting.xlsx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Workbooks\PivotTableCalculation.xlsx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-    <None Update="Workbooks\PivotTableCF.xlsx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Workbooks\PivotTableRefreshFields.xlsx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Workbooks\RichData.xlsx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Workbooks\RichDataPreserve.xlsx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Workbooks\RichDataPreserveError1.xlsx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+		<None Update="Workbooks\MultiColorConditionalFormatting.xlsx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Workbooks\PivotTableCalculation.xlsx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Workbooks\PivotTableCF.xlsx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Workbooks\PivotTableRefreshFields.xlsx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Workbooks\RichData.xlsx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Workbooks\RichDataPreserveError1.xlsx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Workbooks\SignedWorkbook1.xlsm">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -266,7 +238,7 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Workbooks\TableRowsAutofilter.xlsx">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Workbooks\Template.xltx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -279,15 +251,7 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Style\XmlAccess\" />
+		<Folder Include="Style\XmlAccess\" />
 	</ItemGroup>
-	<PropertyGroup>
-		<SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
-	</PropertyGroup>
-	<PropertyGroup>
-		<NoWarn>1591,618</NoWarn>
-		<PlatformTarget>AnyCPU</PlatformTarget>
-		<GenerateDocumentationFile>False</GenerateDocumentationFile>
-	</PropertyGroup>
-	<Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
+
 </Project>
