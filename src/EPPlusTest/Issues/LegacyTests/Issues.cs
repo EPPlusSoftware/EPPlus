@@ -44,6 +44,7 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.CompundDocument;
@@ -6225,7 +6226,13 @@ namespace EPPlusTest
         {
             using var p = new ExcelPackage();
             var ws =p.Workbook.Worksheets.Add("Sheet 1");
-            ws.HeaderFooter.OddHeader.LeftAlignedText = "&12&A";
+            //ws.HeaderFooter.OddHeader.LeftAlignedText = "&12&A";
+            ws.HeaderFooter.OddHeader.LeftAligned.Add(new()
+            {
+                FontSize = 12,
+                FormatCode = ExcelHeaderFooterFormattingCodes.SheetName,
+                Text = ""
+            });
             p.SaveAs("c:\\epplustest\\testoutput\\HeaderFooterIssue2078.xlsx");
         }
     }
