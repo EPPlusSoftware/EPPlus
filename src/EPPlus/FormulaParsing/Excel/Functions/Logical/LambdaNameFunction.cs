@@ -13,6 +13,7 @@
 using OfficeOpenXml.FormulaParsing.DependencyChain;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,15 +28,45 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         }
 
         private readonly string _formula;
+        private RpnFormula _rpnFormula;
 
         public override int ArgumentMinLength => 0;
 
         public override bool IsVolatile => true;
 
+        internal override void SetRpnFormula(RpnFormula formula)
+        {
+            _rpnFormula = formula;
+        }
+
+        //public override CompileResult Execute2(IList<FunctionArgument> arguments, ParsingContext context)
+        //{
+        //    var tokens = SourceCodeTokenizer.Default.Tokenize(_formula).ToList();
+        //    var tokensRpn = FormulaExecutor.CreateRPNTokens(tokens);
+        //    var calculator = new LambdaCalculator(tokensRpn.Tokens, context.VariableStorage.Peek());
+        //    var variables = new List<VariableCompileResult>();
+        //    for (var i = 0; i < arguments.Count; i++)
+        //    {
+        //        var arg = arguments[i];
+        //        if (arg.IsVariableResult)
+        //        {
+        //            variables.Add(arg.ValueAsVariableCompileResult);
+        //        }
+        //        else if (arg.DataType == DataType.LambdaVariableDeclaration)
+        //        {
+        //            variables.Add(new VariableCompileResult(arg.Value.ToString(), null, DataType.LambdaVariableDeclaration, null));
+        //        }
+        //    }
+        //    calculator.SetVariables(variables, context);
+        //    return new CompileResult(calculator, DataType.LambdaCalculation);
+        //}
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext ctx)
         {
-            var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column);
+            var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column, ctx.VariableStorage);
             formula.IgnoreCaching = true;
+            formula.ExpressionStack = _rpnFormula.ExpressionStack;
+            formula.FunctionStack = _rpnFormula.FunctionStack;
             var tokens = SourceCodeTokenizer.Default.Tokenize(_formula).ToList();
             var tokensRpn = FormulaExecutor.CreateRPNTokens(tokens);
             var rpnTokens = new RpnTokens { Tokens = tokensRpn.Tokens };
@@ -45,27 +76,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 if (token.TokenType == TokenType.CommaLambda) break;
                 if(token.TokenType == TokenType.ParameterVariableDeclaration)
                 {
-                    variables.Add(new VariableCompileResult(token.Value, null, DataType.LambdaVariableDeclaration));
+                    variables.Add(new VariableCompileResult(token.Value, null, DataType.LambdaVariableDeclaration, null));
                 }
             }
-            var chain = new RpnOptimizedDependencyChain(ctx.CurrentWorksheet.Workbook, ctx.CalcOption);
-            formula.SetFormula(_formula, chain);
+            //var chain = new RpnOptimizedDependencyChain(ctx.CurrentWorksheet.Workbook, ctx.CalcOption);
+            //formula.SetFormula(_formula, chain);
             //var cr = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
             //if (cr.DataType != DataType.LambdaCalculation) return CompileResult.GetErrorResult(eErrorType.Value);
             //var calculator = cr.Result as LambdaCalculator;
-            var calculator = new LambdaCalculator(tokensRpn.Tokens, ctx.VariableStorage.CurrentOrNew());
+            var calculator = new LambdaCalculator(tokensRpn.Tokens, ctx.VariableStorage.Peek(), formula);
             calculator.SetVariables(variables, ctx);
             calculator.BeginCalculation();
             for(var argIx = 0; argIx < arguments.Count || argIx < calculator.NumberOfVariables; argIx++)
             {
                 calculator.SetVariableValue(argIx, arguments[argIx].Value, arguments[argIx].DataType, ctx);
             }
+            calculator.IsCompileLambdaName = true;
+            //return  new CompileResult(calculator, DataType.LambdaCalculation);
             var tokens2 = calculator.GetCurrentTokens();
             var rpnTokens2 = new RpnTokens { Tokens = tokens2 };
             formula.SetTokens(new RpnTokens { Tokens = tokens2 }, ctx);
             LambdaFormulaSettings lambdaSettings = default;
             formula._expressions = FormulaExecutor.CompileExpressions(ref lambdaSettings, ref rpnTokens2, ctx);
-            return RpnFormulaExecution.ExecutePartialFormula(ctx.DependencyChain, formula, ctx.CalcOption, false);
+            var result = RpnFormulaExecution.ExecutePartialFormula(ctx.DependencyChain, formula, ctx.CalcOption, false);
+            ctx.VariableStorage.Pop();
+            return result;
         }
     }
 }

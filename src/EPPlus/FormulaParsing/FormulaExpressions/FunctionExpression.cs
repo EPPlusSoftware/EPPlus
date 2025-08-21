@@ -67,6 +67,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         }
 
+        internal virtual void SetRpnFormula(RpnFormula formula)
+        {
+
+        }
+
         internal virtual bool IsVariableArg(int arg, bool isLastArgument)
         {
             return false;

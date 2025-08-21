@@ -55,7 +55,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 var arg = _lambdaArguments[i];
                 calculator.SetVariableValue(i, arg.Result, arg.DataType, Context, arg.Address);
             }
-            return calculator.Execute(Context);
+            var result = calculator.Execute(Context);
+            Context.VariableStorage.Pop();
+            return result;
         }
 
         public override Expression Negate()

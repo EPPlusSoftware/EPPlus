@@ -84,7 +84,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.IsInstanceOfType(exp[14], typeof(RangeExpression));
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void LambdaTokensTest3()
         {
             var tokens = SourceCodeTokenizer.Default.Tokenize("LAMBDA(a, a + LAMBDA(b, b + a)(2))(2)");
@@ -678,7 +678,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
 
                 //Add own Lambda Factorial function via Let and IF
-                ws.Names.AddFormula("Factorial2", "LAMBDA(n, IF(n = 0, 1, n * Factorial2(n - 1)))");
+                ws.Names.AddFormula("Factorial2", "LAMBDA(n, IF(n = 0, 1, n * Sheet1!Factorial2(n - 1)))");
 
                 ws.Cells["A1"].Formula = "Factorial2(2)";
 

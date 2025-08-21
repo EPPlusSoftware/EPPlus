@@ -1099,7 +1099,7 @@ namespace OfficeOpenXml.FormulaParsing
                             }
                             else if (cr.DataType != DataType.LambdaVariableDeclaration && f.LambdaSettings.LambdaArgsAdded.Count > 0 && f.LambdaSettings.LambdaArgsAdded.Peek() < f.GetNumberOfLambdaVariables())
                             {
-                                leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), cr.Result, cr.DataType);
+                                leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), cr.Result, cr.DataType, cr.Address);
                                 var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
                                 f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
                             }
@@ -1139,11 +1139,11 @@ namespace OfficeOpenXml.FormulaParsing
                                     tIx++;
                                 }
                             }
-                            if(addVariable)
+                            if(addVariable && f.LambdaSettings.LambdaArgsAdded.Count > 0)
                             {
                                 var rangeCr = e.Compile();
                                 //leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), t.Value, DataType.ExcelRange);
-                                leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), rangeCr.ResultValue, rangeCr.DataType);
+                                leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), rangeCr.ResultValue, rangeCr.DataType, rangeCr.Address);
                                 var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
                                 f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
                             }
@@ -1566,6 +1566,7 @@ namespace OfficeOpenXml.FormulaParsing
         private static CompileResult ExecFunc(RpnOptimizedDependencyChain depChain, RpnFormula f, FunctionExpression funcExp)
         {
             CompileResult result;
+            funcExp.SetRpnFormula(f);
             if (funcExp.Status == ExpressionStatus.IsCached && !f.IgnoreCaching)
             {
                 result = funcExp._cachedCompileResult;

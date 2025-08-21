@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,6 +96,15 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(2d, sheet.Cells["A1"].Value);
             Assert.AreEqual(3d, sheet.Cells["A2"].Value);
             Assert.AreEqual(6d, sheet.Cells["C3"].Value);
+        }
+
+        [TestMethod]
+        public void TokenizerTest()
+        {
+            var str = "MAKEARRAY(3, LAMBDA(x, x)(LAMBDA(a, a)(3)), LAMBDA(r,c, r+c))";
+            var tokens = SourceCodeTokenizer.Default.Tokenize(str);
+            var t = tokens[9];
+            var rpn = FormulaExecutor.CreateRPNTokens(tokens);
         }
 
         [TestMethod]

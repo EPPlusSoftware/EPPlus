@@ -21,11 +21,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
     [DebuggerDisplay("NumberOfVariables: {NumberOfVariables}, Id: {Id}")]
     internal class VariableStorageScope
     {
-        public VariableStorageScope(VariableStorageManager storageManager)
-            : this(storageManager, null)
-        {
-            
-        }
         public VariableStorageScope(VariableStorageManager storageManager, VariableStorageScope parentScope)
         {
             _parentScope = parentScope;
@@ -57,7 +52,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
         {
             CompileResult result = CompileResult.Empty;
             if( _variables.ContainsKey(name))
-                result = _variables[name];
+                return _variables[name];
             if (_parentScope != null && _parentScope.ContainsVariable(name))
                 result = _parentScope.GetVariableValue(name);
             return result ?? CompileResult.Empty;

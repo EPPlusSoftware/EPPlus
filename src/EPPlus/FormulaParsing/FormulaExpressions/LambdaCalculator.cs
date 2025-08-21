@@ -24,10 +24,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     internal class LambdaCalculator
     {
-        public LambdaCalculator(List<Token> lambdaTokens, VariableStorageScope scope)
+        public LambdaCalculator(List<Token> lambdaTokens, VariableStorageScope scope, RpnFormula formula)
         {
             _originalTokens = lambdaTokens;
             _scope = scope;
+            _formula = formula;
             for(var i = 0; i < _originalTokens.Count; i++)
             {
                 var t = _originalTokens[i];
@@ -44,6 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         private readonly List<Token> _originalTokens;
         private List<Token> _currentTokens;
         private int _nVariablesSet = 0;
+        private readonly RpnFormula _formula;
 
         public short NumberOfVariables => _variables != null ? Convert.ToInt16(_variables.Count()) : (short)0;
 
@@ -58,6 +60,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 }
                 return true;
             }    
+        }
+
+        public bool IsCompileLambdaName
+        {
+            get; set;
         }
 
         public void BeginCalculation()
@@ -126,7 +133,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             var variable = _variables[index];
             var variableName = variable.VariableName;
-            var cr = new CompileResult(value, dt);
+            var cr = address != null ? new AddressCompileResult(value, dt, address) : new CompileResult(value, dt);
+            _variables[index] = new VariableCompileResult(variableName, value, dt, address);
             _scope.SetVariableValue(variableName, cr);
             //var val = address != null ? address.Address : value;
             //dt = address != null ? DataType.ExcelRange : dt;
@@ -183,6 +191,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column, ctx.VariableStorage);
             formula.IgnoreCaching = true;
+            formula.ExpressionStack = _formula.ExpressionStack;
+            formula.FunctionStack = _formula.FunctionStack;
             var rpnTokens = new RpnTokens { Tokens = _currentTokens };
             formula.SetTokens(rpnTokens, ctx);
             var chain = ctx.DependencyChain;

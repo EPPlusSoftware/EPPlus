@@ -71,15 +71,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 var v = _storageManager.Peek().GetVariableValue(Name);
                 hasValue = v.DataType != DataType.Empty && v.ResultValue != null;
-                return new VariableCompileResult(Name, v.ResultValue, v.DataType);
+                return new VariableCompileResult(Name, v.ResultValue, v.DataType, v.Address);
             }
             else if (_variableFunctionExpression != null)
             {
                 var v =  _variableFunctionExpression.GetVariableValue(Name);
                 hasValue = v.DataType != DataType.Empty && v.ResultValue != null;
-                return new VariableCompileResult(Name, v.ResultValue, v.DataType);
+                return new VariableCompileResult(Name, v.ResultValue, v.DataType, v.Address);
             }
-            return new VariableCompileResult(Name, null, DataType.Empty);
+            return new VariableCompileResult(Name, null, DataType.Empty, null);
         }
 
         internal void SetValue(string variableName, CompileResult value)

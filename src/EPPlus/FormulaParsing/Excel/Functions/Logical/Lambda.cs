@@ -25,10 +25,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         IntroducedInExcelVersion = "2021")]
     internal class Lambda : ExcelFunction
     {
+        private RpnFormula _rpnFormula;
         public override int ArgumentMinLength => 2;
         public override bool IsVolatile => true;
 
         public override string NamespacePrefix => "_xlfn.";
+
+        internal override void SetRpnFormula(RpnFormula formula)
+        {
+           _rpnFormula = formula;
+        }
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
@@ -38,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 return CreateResult(eErrorType.Value);
             }
             var tokenResult = arguments.Last().Value as LambdaTokensResult;
-            var calculator = new LambdaCalculator(tokenResult.Tokens, tokenResult.Scope);
+            var calculator = new LambdaCalculator(tokenResult.Tokens, tokenResult.Scope, _rpnFormula);
             var variables = new List<VariableCompileResult>();
             for(var i = 0; i < arguments.Count -1; i++)
             {
@@ -49,7 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 }
                 else if(arg.DataType == DataType.LambdaVariableDeclaration)
                 {
-                    variables.Add(new VariableCompileResult(arg.Value.ToString(), null, DataType.LambdaVariableDeclaration));
+                    variables.Add(new VariableCompileResult(arg.Value.ToString(), null, DataType.LambdaVariableDeclaration, null));
                 }
             }
             calculator.SetVariables(variables, context);

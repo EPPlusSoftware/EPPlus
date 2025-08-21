@@ -21,5 +21,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             _function = new LambdaNameFunction(formula);
         }
 
+        internal override void SetRpnFormula(RpnFormula formula)
+        {
+           _function.SetRpnFormula(formula);
+        }
+
     }
 }

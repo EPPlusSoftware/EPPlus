@@ -65,12 +65,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 o = operatorStack.Pop();
                             }
                             rpnTokens.Add(token);
-
                             if (operatorStack.Count > 0 && operatorStack.Peek().TokenType == TokenType.Function)
                             {
                                 rpnTokens.Add(operatorStack.Pop());
                             }
-
                             lastCommaPos = -1;
                         }
                         break;
@@ -198,13 +196,32 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 parsingContext.VariableStorage = new VariableStorage.VariableStorageManager();
             }
             var lambdaLevel = 0;
+            var openingParenthesis = 0;
             for (int tokenIx = 0; tokenIx < tokens.Count; tokenIx++)
             {
                 var t = tokens[tokenIx];
                 if (isInLambdaCalculation)
                 {
                     var isLambdaToken = t.IsLambdaFunction();
-                    if(isLambdaToken && t.TokenType == TokenType.StartFunctionArguments)
+                    if(t.TokenType == TokenType.OpeningParenthesis)
+                    {
+                        openingParenthesis++;
+                        lambdaSettings.AddLambdaToken(tokenIx);
+                        lambdaCalculationExpression.AddLambdaToken(t);
+                        continue;
+                    }
+                    else if(t.TokenType == TokenType.ClosingParenthesis)
+                    {
+                        if(openingParenthesis == 0)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            openingParenthesis--;
+                        }
+                    }
+                    if (isLambdaToken && t.TokenType == TokenType.StartFunctionArguments)
                     {
                         lambdaLevel++;
                         if (lambdaSettings == null)

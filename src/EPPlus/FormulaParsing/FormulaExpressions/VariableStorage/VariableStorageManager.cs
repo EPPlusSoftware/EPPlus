@@ -31,19 +31,21 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
             return newScope;
         }
 
+        public int Count => _scopes.Count;
+
         public void Clear()
         {
             _scopes.Clear();
         }
 
-        public VariableStorageScope CurrentOrNew()
-        {
-            return _scopes.Count > 0 ? _scopes.Peek() : AddNewScope();
-        }
-
         public VariableStorageScope Peek()
         {
             return _scopes.Peek();
+        }
+
+        public void Pop()
+        {
+            _scopes.Pop();
         }
 
         public bool IsEmpty => _scopes == null || _scopes.Count == 0;

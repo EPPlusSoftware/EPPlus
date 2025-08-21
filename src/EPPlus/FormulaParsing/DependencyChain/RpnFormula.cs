@@ -102,6 +102,18 @@ namespace OfficeOpenXml.FormulaParsing
             }
         }
 
+        internal Stack<Expression> ExpressionStack
+        {
+            get { return _expressionStack; }
+            set { _expressionStack = value; }
+        }
+
+        internal Stack<FunctionExpression> FunctionStack
+        {
+            get { return _funcStack; }
+            set { _funcStack = value; }
+        }
+
         internal bool HasLambdaSettings => _lambdaSettings != null;
 
         internal bool HasLambdaToken(int tokenIx)
@@ -160,9 +172,14 @@ namespace OfficeOpenXml.FormulaParsing
             if(_expressionStack.Any())
             {
                 var exp = _expressionStack.Peek();
-                if(exp.ExpressionType == ExpressionType.LambdaCalculation)
+                if(exp.ExpressionType == ExpressionType.LambdaCalculation && exp is LambdaCalculationExpression lce && !lce.ArgumentCollectionStarted)
                 {
+                    lce.ArgumentCollectionStarted = true;
                     LambdaSettings.InvokeLambdaAt.Push(_openParenthesis++);
+                }
+                else
+                {
+                    _openParenthesis++;
                 }
             }
             else

@@ -30,5 +30,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
 
         }
+
+        internal LambdaFunctionExpression(string tokenValue, ParsingContext ctx, int pos, bool addVariableScope) : base(tokenValue, ctx, pos, addVariableScope)
+        {
+
+        }
+
+        internal override void SetRpnFormula(RpnFormula formula)
+        {
+            _function.SetRpnFormula(formula);
+        }
     }
 }

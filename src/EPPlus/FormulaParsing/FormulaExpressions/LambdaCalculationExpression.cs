@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -43,6 +44,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         internal override ExpressionType ExpressionType => ExpressionType.LambdaCalculation;
 
+        internal bool ArgumentCollectionStarted { get; set; }
+
         internal override ExpressionStatus Status
         {
             get;
@@ -65,11 +68,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             throw new NotImplementedException();
         }
 
-        public void SetVariable(int index, object val, DataType dt)
+        public void SetVariable(int index, object val, DataType dt, FormulaRangeAddress fra)
         {
             if(_compileResult.Result is LambdaCalculator calculator)
             {
-                calculator.SetVariableValue(index, val, dt, Context);
+                calculator.SetVariableValue(index, val, dt, Context, fra);
             }
         }
 
