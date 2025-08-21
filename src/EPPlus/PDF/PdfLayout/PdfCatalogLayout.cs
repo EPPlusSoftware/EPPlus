@@ -3,7 +3,7 @@ using OfficeOpenXml.PDF.PdfSettings;
 using OfficeOpenXml.PDF.Math;
 using System.Collections.Generic;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.PDF.PdfFontData;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
@@ -12,24 +12,24 @@ namespace OfficeOpenXml.PDF.PdfLayout
         internal PdfPageSettings settings;
         internal PdfContentBounds bounds;
 
-        public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, PdfContentBounds bounds)
+        public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, PdfContentBounds bounds, Dictionary<string, PdfFontResource> fontResources)
             : base(0, 0, 0, 0)
         {
         }
 
-        public PdfCatalogLayout(ExcelWorkbook workbook, PdfPageSettings pageSettings, PdfContentBounds bounds)
+        public PdfCatalogLayout(ExcelWorkbook workbook, PdfPageSettings pageSettings, PdfContentBounds bounds, Dictionary<string, PdfFontResource> fontResources)
             : base(0, 0, 0, 0)
         {
         }
 
-        public PdfCatalogLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds)
+        public PdfCatalogLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds, Dictionary<string, PdfFontResource> fontResources)
             : base(0, 0, 0, 0)
         {
             //Position = new Vector2(0d, pageSettings.PageSize.HeightPu);
             this.Name = worksheet.Name + " Catalog";
             this.settings = pageSettings;
             this.bounds = bounds;
-            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, bounds));
+            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, bounds, fontResources));
             //calculate number of pages needed based on contentBounds and worksheetLayout.Size
             var horizontalPages = WorksheetLayout.Size.X / bounds.Width;
             var verticalPages = WorksheetLayout.Size.Y / bounds.Height;
@@ -103,7 +103,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             }
             string pagesLayout = ToHierarchyString();
             //Go though all the cells in WorksheetLayout and add them to the overlapping page.
-            var cells = WorksheetLayout.ChildObjects.Where(x=>x is PdfCellLayout).ToList();
+            var cells = WorksheetLayout.ChildObjects.Where(x=>x is PdfCellLayout || x is PdfCellContentLayout).ToList();
             foreach (var cell in cells)
             {
                 var cellBounds = cell.GetGlobalBoundingbox();

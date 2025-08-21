@@ -288,8 +288,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public string ToHierarchyString(int indentLevel = 0)
         {
             var indent = new string(' ', indentLevel * 4);
-            var result = $"{indent}{Name ?? this.GetType().Name}" +
-                         $"|({Position.X.ToString(CultureInfo.InvariantCulture)},{Position.Y.ToString(CultureInfo.InvariantCulture)}):" +
+            var result = $"{indent}{Name ?? this.GetType().Name}|" +
+                         //$"({Position.X.ToString(CultureInfo.InvariantCulture)},{Position.Y.ToString(CultureInfo.InvariantCulture)}):" +
                          $"({LocalPosition.X.ToString(CultureInfo.InvariantCulture)},{LocalPosition.Y.ToString(CultureInfo.InvariantCulture)}):" +
                          $"({Size.X.ToString(CultureInfo.InvariantCulture)},{Size.Y.ToString(CultureInfo.InvariantCulture)})";
             //{GetHierarchyLabel()}";

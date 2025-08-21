@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.PDF.PdfFontData;
 using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfSettings;
 using System;
@@ -14,7 +15,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         internal ExcelWorksheet ws;
 
 
-        public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds)
+        public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds, Dictionary<string, PdfFontResource> fontResources)
         {
             this.ws = worksheet;
             double x = 0d;
@@ -48,15 +49,27 @@ namespace OfficeOpenXml.PDF.PdfLayout
                             }
                             var cl1 = AddChild(new PdfMergedCellLayout(ws.Cells[address._fromRow, address._fromCol], pageSettings, x, y, mcWidth, mcHeight));
                             cl1.Z = 5;
-                            cl1.Name = "Merged Cell " + cell.Address;
+                            cl1.Name = "M Cell B " + cell.Address;
+                            if (!string.IsNullOrEmpty(cell.Text))
+                            {
+                                var clc1 = new PdfCellContentLayout(isMerged ? null : cell, pageSettings, x, y, mcWidth, mcHeight, 1, 1, 0, this, fontResources);
+                                clc1.Z = 6;
+                                clc1.Name = "M Cell T " + cell.Address;
+                            }
                             checkedMergedCells.Add(ws.MergedCells[i, j]);
                         }
                     }
                     var width = PdfUnits.ExcelColumnWidthToPoints(ws.Column(j).Width);
                     var cl0 = new PdfCellLayout((isMerged ? null : cell), pageSettings, x, y, width, height, 1, 1, 0, this);
                     cl0.Z = 1;
-                    cl0.Name = "Cell " + cell.Address;
-                    x+= width;
+                    cl0.Name = "Cell B " + cell.Address;
+                    if (!string.IsNullOrEmpty(cell.Text))
+                    {
+                        var clc0 = new PdfCellContentLayout(isMerged ? null : cell, pageSettings, x, y, width, height, 1, 1, 0, this, fontResources);
+                        clc0.Z = 2;
+                        clc0.Name = "Cell T " + cell.Address;
+                    }
+                    x += width;
                     if (x > totalWidth)
                     {
                         totalWidth = x;
