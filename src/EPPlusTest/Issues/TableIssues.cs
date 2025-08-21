@@ -272,5 +272,50 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void i2081_EpplusGenerated()
+        {
+            using (var p = OpenPackage("i2081_Generated.xlsx", true))
+            {
+                //Set up the workbook as example
+                using var workbook = p.Workbook;
+                var wsName = "singleCellTable";
+                var ws = workbook.Worksheets.Add(wsName);
+
+                var tableRange = ws.Cells["A1:A2"];
+
+                var scTable = ws.Tables.Add(tableRange, "Table1");
+
+                scTable.ShowHeader = true;
+                scTable.ShowTotal = true;
+                scTable.Columns[0].TotalsRowFunction = RowFunctions.Sum;
+
+                tableRange.AutoFitColumns();
+                ws.Calculate();
+
+                //Perform test
+                var values = new object[,] { { 123 } };
+                ws.Cells["A2:A2"].Value = values;
+
+                var logfile = new FileInfo("epplus_i2081_Log.txt");
+
+                workbook.FormulaParserManager.AttachLogger(logfile);
+
+                ws.Calculate();
+
+                workbook.FormulaParserManager.DetachLogger();
+
+                var sr = logfile.OpenText();
+                var logStr = sr.ReadToEnd();
+
+                sr.Close();
+                logfile.Delete();
+
+                Assert.IsTrue(logStr.Contains($"Set value in Cell\t{wsName}!A3\t123\tDecimal"));
+                Assert.AreEqual(values, ws.Cells["A2:A2"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
