@@ -49,25 +49,28 @@ namespace OfficeOpenXml.PDF.PdfLayout
                             }
                             var cl1 = AddChild(new PdfMergedCellLayout(ws.Cells[address._fromRow, address._fromCol], pageSettings, x, y, mcWidth, mcHeight));
                             cl1.Z = 5;
-                            cl1.Name = "M Cell B " + cell.Address;
+                            cl1.Name = cell.Address;
                             if (!string.IsNullOrEmpty(cell.Text))
                             {
                                 var clc1 = new PdfCellContentLayout(isMerged ? null : cell, pageSettings, x, y, mcWidth, mcHeight, 1, 1, 0, this, fontResources);
                                 clc1.Z = 6;
-                                clc1.Name = "M Cell T " + cell.Address;
+                                clc1.Name = cell.Address;
                             }
                             checkedMergedCells.Add(ws.MergedCells[i, j]);
                         }
                     }
                     var width = PdfUnits.ExcelColumnWidthToPoints(ws.Column(j).Width);
-                    var cl0 = new PdfCellLayout((isMerged ? null : cell), pageSettings, x, y, width, height, 1, 1, 0, this);
-                    cl0.Z = 1;
-                    cl0.Name = "Cell B " + cell.Address;
-                    if (!string.IsNullOrEmpty(cell.Text))
+                    if (!cell.IsEmpty())
                     {
-                        var clc0 = new PdfCellContentLayout(isMerged ? null : cell, pageSettings, x, y, width, height, 1, 1, 0, this, fontResources);
-                        clc0.Z = 2;
-                        clc0.Name = "Cell T " + cell.Address;
+                        var cl0 = new PdfCellLayout((isMerged ? null : cell), pageSettings, x, y, width, height, 1, 1, 0, this);
+                        cl0.Z = 1;
+                        cl0.Name = cell.Address;
+                        if (!string.IsNullOrEmpty(cell.Text))
+                        {
+                            var clc0 = new PdfCellContentLayout(isMerged ? null : cell, pageSettings, x, y, width, height, 1, 1, 0, this, fontResources);
+                            clc0.Z = 2;
+                            clc0.Name = cell.Address;
+                        }
                     }
                     x += width;
                     if (x > totalWidth)

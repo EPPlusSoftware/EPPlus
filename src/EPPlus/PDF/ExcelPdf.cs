@@ -133,15 +133,16 @@ namespace OfficeOpenXml.PDF
             return catalog;
         }
 
-        private void CreateContentFromCell(PdfTransform child, PdfPage page)
+        private void CreateContentFromCell(PdfTransform child, PdfPage page, PdfContentStream contentStream, string previousName)
         {
             //check child is cell, merged cell or drawing
-            if(child is PdfCellLayout cell)
+            if (child is PdfCellLayout cell)
             {
-
+                //add the operations for cell border and fill data
             }
             else if (child is PdfCellContentLayout content)
             {
+                //add the operations for text and font data
                 AddText(content.FontData.Text, content.FontData.FontName, content.FontData.FontSize, content.LocalPosition.X, content.LocalPosition.Y, page);
             }
             else if (child is PdfMergedCellLayout merged)
@@ -166,10 +167,12 @@ namespace OfficeOpenXml.PDF
             {
                 var pageLayout = pagesLayout.ChildObjects[i];
                 var page = AddPage(2, new List<int>(), PageSettings);
+                string previousName = "";
+                var contentStream = new PdfContentStream(body.Count + 1);
                 for (int j = 0; pageLayout.ChildObjects.Count > j; j++)
                 {
                     var child = pageLayout.ChildObjects[j];
-                    CreateContentFromCell(child, page);
+                    CreateContentFromCell(child, page, contentStream, previousName);
                 }
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
