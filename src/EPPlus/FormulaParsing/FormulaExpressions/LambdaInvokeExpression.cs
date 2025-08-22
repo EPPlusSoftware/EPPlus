@@ -56,7 +56,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 calculator.SetVariableValue(i, arg.Result, arg.DataType, Context, arg.Address);
             }
             var result = calculator.Execute(Context);
-            Context.VariableStorage.Pop();
             return result;
         }
 
@@ -64,6 +63,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             _negate = !_negate;
             return this;
+        }
+
+        internal override void OnDispose()
+        {
+            base.OnDispose();
+            Context.VariableStorage.Pop();
         }
 
         private ExpressionStatus _status = ExpressionStatus.NoSet;

@@ -486,25 +486,30 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                     else
                     {
-                        var e = f._expressionStack.Pop();
-                        cr = e.Compile();
-                        if(cr.DataType == DataType.LambdaCalculation && cr.Result is LambdaCalculator lambdaCalc && lambdaCalc.IsReadyForCalc)
+                        cr = null;
+                        if(f._expressionStack.Peek() is LambdaCalculationExpression lce)
                         {
-                            lambdaCalc.BeginCalculation();
-                            cr = lambdaCalc.Execute(depChain._parsingContext);
-                            if(cr.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
+                            cr = lce.Compile();
+                            var lambdaCalc = cr.Result as LambdaCalculator;
+                            if(lambdaCalc.IsReadyForCalc)
                             {
-                                f._flags |= FormulaFlags.IsAlwaysDynamic;
+                                lambdaCalc.BeginCalculation();
+                                cr = lambdaCalc.Execute(depChain._parsingContext);
+                                if (cr.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
+                                {
+                                    f._flags |= FormulaFlags.IsAlwaysDynamic;
+                                }
+                                f._expressionStack.Pop();
                             }
                         }
                         else
                         {
-                            f._expressionStack.Push(e);
+                            cr = f._expressionStack.Pop().Compile();
                         }
                     }
                 }
 
-                if (writeToCell || depChain._formulaStack.Count > 0)  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
+                if (cr != null && (writeToCell || depChain._formulaStack.Count > 0))  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
                 {
                     SetValueToWorkbook(depChain, f, rd, cr);
                 }
@@ -1067,11 +1072,6 @@ namespace OfficeOpenXml.FormulaParsing
                     LambdaExpressionFunctions.PreProcessLambdaCalculation(s, f, lce);
                 }
                 var leStackPos = f.GetCurrentLambdaExpressionStackPosition();
-                //if (LambdaExpressionFunctions.CheckLambdaExpression(s, f, leStackPos, depChain._parsingContext, out CompileResult res))
-                //{
-                //    PushResult(depChain._parsingContext, f, res);
-                //    leStackPos = f.GetCurrentLambdaExpressionStackPosition();
-                //}
                 var t = f._tokens[f._tokenIndex];
                  switch (t.TokenType)
                 {
@@ -1199,7 +1199,6 @@ namespace OfficeOpenXml.FormulaParsing
                                 {
                                     ((VariableFunctionExpression)fexp).AddVariableValue(vfe.Name, exp1.Compile());
                                     f._expressionStack.Pop();
-                                    //f._expressionStack.Pop();
                                 }
                             }
 
@@ -1268,6 +1267,7 @@ namespace OfficeOpenXml.FormulaParsing
                             }
 
                             var r = ExecFunc(depChain, f, funcExp);
+                            funcExp.OnDispose();
                             if (r.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
                             {
                                 f._flags |= FormulaFlags.IsAlwaysDynamic;

@@ -61,10 +61,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
         public void SetVariableValue(string name, CompileResult value)
         {
             if(_variables.ContainsKey(name)) _variables.Remove(name);
-            //if (_parentScope != null && _parentScope.ContainsVariable(name))
-            //{
-            //    _parentScope.SetVariableValue(name, value);
-            //}
             _variables[name] = value;
         }
     }

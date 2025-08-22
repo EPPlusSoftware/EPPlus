@@ -26,5 +26,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
            _function.SetRpnFormula(formula);
         }
 
+        public override CompileResult Compile()
+        {
+            return base.Compile();
+        }
+
+        internal override void OnDispose()
+        {
+            base.OnDispose();
+            Context.VariableStorage.Pop();
+        }
+
     }
 }

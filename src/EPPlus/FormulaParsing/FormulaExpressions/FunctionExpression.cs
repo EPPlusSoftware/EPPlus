@@ -67,6 +67,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         }
 
+        internal virtual void OnDispose()
+        {
+
+        }
+
         internal virtual void SetRpnFormula(RpnFormula formula)
         {
 

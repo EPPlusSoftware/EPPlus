@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 _isOutOfVariableScope = true;
             }
-            VariableScopeId = _isOutOfVariableScope ? -1 : _storageScope.Id;
+             VariableScopeId = _isOutOfVariableScope ? -1 : _storageScope.Id;
         }
 
         private string _lastDeclaredVariable;
@@ -56,6 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             
         }
+
         internal override bool IsVariable(string name)
         {
             return VariableIsSet(name);

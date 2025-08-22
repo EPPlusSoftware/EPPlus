@@ -111,6 +111,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     SetVariableValue(i, variables[i].ResultValue, variables[i].DataType, ctx);
                 }
             }
+            #region Old code
             //for(var i = 0; i < _variables.Count; i++)
             //{
             //    if(i < variables.Count && variables[i].DataType == DataType.Variable)
@@ -122,6 +123,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             //        _scope.SetVariableValue(name, new CompileResult(variableValue, dt));
             //    }
             //}
+            #endregion
         }
 
         public void SetVariableValue(int index, object value, DataType dt, ParsingContext ctx)
@@ -136,6 +138,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             var cr = address != null ? new AddressCompileResult(value, dt, address) : new CompileResult(value, dt);
             _variables[index] = new VariableCompileResult(variableName, value, dt, address);
             _scope.SetVariableValue(variableName, cr);
+            #region Old code
             //var val = address != null ? address.Address : value;
             //dt = address != null ? DataType.ExcelRange : dt;
             //if(dt == DataType.ExcelRange && val is string adr)
@@ -184,11 +187,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             //        _currentTokens[ix] = new Token(tokenValue, tt);
             //    }
             //}
+            #endregion
             _nVariablesSet++;
         }
 
         public CompileResult Execute(ParsingContext ctx)
         {
+            if(_currentTokens == null)
+            {
+                throw new InvalidOperationException("LambdaCalculator.Execute was called without having initialized it with BeginCalculation. OriginalTokens.Count = " + _originalTokens.Count + ", # variables = " + (_variables != null ? _variables.Count : 0));
+            }
             var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column, ctx.VariableStorage);
             formula.IgnoreCaching = true;
             formula.ExpressionStack = _formula.ExpressionStack;
