@@ -3690,6 +3690,19 @@ namespace OfficeOpenXml
             return _values.GetValue(row, col)._styleId;
         }
 
+        //internal ExcelValue GetAndCacheValue(int row, int col)
+        //{
+        //    var foundValue = _values.GetValue(0, col);
+
+        //    if (row == 0)
+        //    {
+        //        ColumnLookup.UpdateColumn(col, _values(0, col); as ExcelColumn);
+        //        ColumnLookup.ad
+        //    }
+
+        //    return foundValue;
+        //}
+
         internal ColumnSpanDictionary<ExcelColumn> ColumnLookup = new ColumnSpanDictionary<ExcelColumn>();
 
         /// <summary>

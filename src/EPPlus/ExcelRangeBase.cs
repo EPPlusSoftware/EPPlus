@@ -451,17 +451,27 @@ namespace OfficeOpenXml
                 {
                     if (!_worksheet.ExistsStyleInner(_fromRow, 0, ref s)) //No, check Row style
                     {
-                        var c = Worksheet.GetColumn(_fromCol);
-                        if (c == null)
-                        {
-                            s = 0;
-                        }
-                        else
+                        if (Worksheet.ColumnLookup.TryGetExcelColumn(_fromCol, out ExcelColumn c))
                         {
                             s = c.StyleID;
                         }
+                        else
+                        {
+                            s = 0;
+                        }
+                        //if (!_worksheet.ExistsStyleInner(_fromRow, 0, ref s)) //No, check Row style
+                        //{
+                        //    var c = Worksheet.GetColumn(_fromCol);
+                        //    if (c == null)
+                        //    {
+                        //        s = 0;
+                        //    }
+                        //    else
+                        //    {
+                        //        s = c.StyleID;
+                        //    }
                     }
-                }
+            }
                 return _worksheet.Workbook.Styles.GetStyleObject(s, _worksheet.PositionId, Address);
             }
         }

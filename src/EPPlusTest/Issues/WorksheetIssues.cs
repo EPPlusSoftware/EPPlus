@@ -833,7 +833,50 @@ namespace EPPlusTest.Issues
             // AutoFitColumns - calculates width as if there were no line breaks.
             ws.Cells["C1:D2"].AutoFitColumns();
         }
-		[TestMethod]
+        [TestMethod]
+        public void cellStyles()
+		{
+			using(var package = OpenPackage("s912_cellStyles.xlsx", true))
+			{
+                var sw = new Stopwatch();
+                sw.Start();
+
+                var ws = package.Workbook.Worksheets.Add("ws");
+
+                var range = ws.Cells["C1:FC1000"];
+
+                var nbCols = range.Columns;
+                var nbLines = range.Rows;
+
+                ws.Cells["C3"].Style.Fill.SetBackground(Color.Red);
+                ws.Cells["D4"].Style.Fill.SetBackground(Color.Blue);
+                ws.Cells["E5"].Style.Fill.SetBackground(Color.Yellow);
+                ws.Cells["F6"].Style.Fill.SetBackground(Color.Green);
+
+                //range.Style.Locked = true;
+                //range.Style.Locked = false;
+
+                for (int i = range.Start.Column; i <= nbLines; i++)
+                {
+                    for (int j = range.Start.Column; j <= nbCols; j++)
+                    {
+                        if (ws.Cells[i,j].Style.Fill.BackgroundColor.Rgb == null)
+						{
+                            ws.Cells[i, j].Style.Fill.SetBackground(Color.Purple);
+						}
+                    }
+                }
+
+				sw.Stop();
+                var seconds = sw.Elapsed.TotalSeconds;
+
+                Assert.IsTrue(seconds < 2.5);
+
+                SaveAndCleanup(package);
+            }
+		}
+
+        [TestMethod]
 		public void s912()
 		{
 			using (var package = OpenPackage("s912.xlsx",true))
@@ -846,23 +889,39 @@ namespace EPPlusTest.Issues
 				var sw = new Stopwatch();
 				sw.Start();
 
-				// Uncommenting one of these lines changes the performance of the for loops.
-				// At the end of each line is the measured time of the whole program, when this
-				// specific line is uncommented. When no line is uncommented, the measured time
-				// is 12.7s.
-				//
-				// sheet.Cells[1, 1, nbLines, nbCols].Style.Numberformat.Format = "#"; // 7.4s
-				// sheet.Cells[1, 1, nbLines, nbCols].Style.Locked = true; // 7.4s
-				//sheet.Cells[1, 1, nbLines, nbCols].Value = 1; // 19.5s // uncommenting this alone is ~2s after fix. With below about 3s. 
-				// sheet.Cells[1, 1, nbLines, nbCols].Value = ""; // 18s
-				// sheet.InsertColumn(1, nbCols); // 12.9
-				// sheet.InsertColumn(1, nbCols, 1); // 7.8s
+				//sheet.Cells["C3"].Style.Numberformat.Format = "@";
 
-				for (int i = 1; i <= nbLines; i++)
+				//var theStyles = sheet.Cells[1, 1, nbLines, nbCols].Style._styles;
+
+                //sheet.Cells[1, 1, nbLines, nbCols].CopyStyles(sheet.Cells[1, 1, nbLines, nbCols]);
+
+                // Uncommenting one of these lines changes the performance of the for loops.
+                // At the end of each line is the measured time of the whole program, when this
+                // specific line is uncommented. When no line is uncommented, the measured time
+                // is 12.7s.
+                //
+                // sheet.Cells[1, 1, nbLines, nbCols].Style.Numberformat.Format = "#"; // 7.4s
+                // sheet.Cells[1, 1, nbLines, nbCols].Style.Locked = true; // 7.4s
+                sheet.Cells[1, 1, nbLines, nbCols].Value = 1; // 19.5s // uncommenting this alone is ~2s after fix. With below about 3s. 
+                // sheet.Cells[1, 1, nbLines, nbCols].Value = ""; // 18s
+                // sheet.InsertColumn(1, nbCols); // 12.9
+                //sheet.InsertColumn(1, nbCols, 1); // 7.8s
+
+                //for (int j = 1; j <= nbCols; j++)
+                //{
+                //	sheet.Column(j).Style.Numberformat.Format = "#";
+                //}
+
+                for (int i = 1; i <= nbLines; i++)
 				{
 					for (int j = 1; j <= nbCols; j++)
 					{
-						sheet.SetValue(i, j, 123);
+       //                 if (sheet.Cells[i, j].StyleID == 0)
+       //                 {
+							//sheet.Cells[i, j].Style.Numberformat.Format = "#";
+       //                 }
+
+                        sheet.SetValue(i, j, 123);
 					}
 				}
 
