@@ -167,6 +167,13 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 return ExcelDrawingHslColor.GetRgb(h, s, l);
             }
         }
-
+        internal static Color ApplyBlend(Color color, Color blendColor, double percent)
+        {
+            var colorPercent = 1 - percent;
+            var r = (int)Math.Min(255D, color.R * colorPercent + blendColor.R * percent);
+            var g = (int)Math.Min(255D, color.G * colorPercent + blendColor.G * percent);
+            var b = (int)Math.Min(255D, color.B * colorPercent + blendColor.B * percent);
+            return Color.FromArgb(0xff, r, g, b);
+        }
     }
 }

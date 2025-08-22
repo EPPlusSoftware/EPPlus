@@ -69,7 +69,7 @@ namespace OfficeOpenXml.Drawing
             get
             {
                 var v = GetXmlNodeString(_lineStylePath);
-                if (string.IsNullOrEmpty(v))
+                if (string.IsNullOrEmpty(v))    
                 {
                     return null;
                 }
