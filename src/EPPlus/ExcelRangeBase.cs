@@ -451,14 +451,13 @@ namespace OfficeOpenXml
                 {
                     if (!_worksheet.ExistsStyleInner(_fromRow, 0, ref s)) //No, check Row style
                     {
-                        var c = Worksheet.GetColumn(_fromCol);
-                        if (c == null)
+                        if (Worksheet.ColumnLookup.TryGetExcelColumn(_fromCol, out ExcelColumn c))
                         {
-                            s = 0;
+                            s = c.StyleID;
                         }
                         else
                         {
-                            s = c.StyleID;
+                            s = 0;
                         }
                     }
                 }
