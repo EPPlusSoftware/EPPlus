@@ -162,7 +162,7 @@ namespace OfficeOpenXml.Drawing
             {
 
                 case DrawingsCollectionType.Chart:
-                    list = _drawingsXml.SelectNodes("//*[self::cdr:relSizeAnchor]", NameSpaceManager);
+                    list = _drawingsXml.SelectNodes("//*[self::cdr:relSizeAnchor or self::cdr:absSizeAnchor]", NameSpaceManager);
                     break;
                 case DrawingsCollectionType.Worksheet:
                 default:
@@ -178,6 +178,7 @@ namespace OfficeOpenXml.Drawing
                     case "twoCellAnchor":
                     case "absoluteAnchor":
                     case "relSizeAnchor":
+                    case "absSizeAnchor":
                         dr = ExcelDrawing.GetDrawing(this, node, _collectionType);
                         break;
                     default:

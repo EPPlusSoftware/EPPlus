@@ -1136,7 +1136,6 @@ namespace OfficeOpenXml.Drawing.Chart
             }
 
             throw new InvalidOperationException($"Cannot change ValueAxis to CatAxis. Original Axis type: {currentType.ToString()}  New Axis type: {type.ToString()}");
-            return false;
         }
     }
 }

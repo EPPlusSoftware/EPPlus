@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Drawing
             base(ns, node)
         {
             _setWidthCallback = setWidthCallback;
-            this.excelDrawingsType = DrawingsType;
+            excelDrawingsType = DrawingsType;
             Load();
         }
 

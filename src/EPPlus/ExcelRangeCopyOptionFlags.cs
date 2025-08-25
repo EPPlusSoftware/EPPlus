@@ -139,11 +139,11 @@ namespace OfficeOpenXml
         FillAndTranspose = Fill | Transpose
     }
 
-/// <summary>
-/// <para>Flags to only copy certain parts of a range.</para>
-/// This provides the options of Excel's "Paste Special"
-/// </summary>
-[Flags]
+    /// <summary>
+    /// <para>Flags to only copy certain parts of a range.</para>
+    /// This provides the options of Excel's "Paste Special"
+    /// </summary>
+    [Flags]
     public enum ExcelRangeCopyOnly : int
     {
         //CLARIFICATRION:

@@ -12,8 +12,8 @@
 *************************************************************************************************/
 
 using OfficeOpenXml.Utils;
-using System.Collections.Generic;
 using OfficeOpenXml.Utils;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {

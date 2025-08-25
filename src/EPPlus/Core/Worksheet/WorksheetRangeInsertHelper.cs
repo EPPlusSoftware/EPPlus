@@ -124,7 +124,7 @@ namespace OfficeOpenXml.Core.Worksheet
             lock (ws)
             {
                 ws.Drawings.ReadPositionsAndSize();
-                
+
                 InsertCellStores(ws, 0, columnFrom, 0, columns);
 
                 FixFormulasInsertColumn(ws, columnFrom, columns);
@@ -709,30 +709,30 @@ namespace OfficeOpenXml.Core.Worksheet
             for (int i = lst.Count - 1; i >= 0; i--)
             {
                 var c = lst[i];
-                if (c._columnMin >= columnFrom)
+                if (c.ColumnMin >= columnFrom)
                 {
-                    if (c._columnMin + columns <= ExcelPackage.MaxColumns)
+                    if (c.ColumnMin + columns <= ExcelPackage.MaxColumns)
                     {
-                        c._columnMin += columns;
+                        c.InternalColMinSetter(c.ColumnMin + columns);
                     }
                     else
                     {
-                        c._columnMin = ExcelPackage.MaxColumns;
+                        c.InternalColMinSetter(ExcelPackage.MaxColumns);
                     }
 
-                    if (c._columnMax + columns <= ExcelPackage.MaxColumns)
+                    if (c.ColumnMax + columns <= ExcelPackage.MaxColumns)
                     {
-                        c._columnMax += columns;
+                        c.InternalColMaxSetter(c.ColumnMax + columns);
                     }
                     else
                     {
-                        c._columnMax = ExcelPackage.MaxColumns;
+                        c.InternalColMaxSetter(ExcelPackage.MaxColumns);
                     }
                 }
-                else if (c._columnMax >= columnFrom)
+                else if (c.ColumnMax >= columnFrom)
                 {
-                    var cc = c._columnMax - columnFrom;
-                    c._columnMax = columnFrom - 1;
+                    var cc = c.ColumnMax - columnFrom;
+                    c.InternalColMaxSetter(columnFrom - 1);
                     ws.CopyColumn(c, columnFrom + columns, columnFrom + columns + cc);
                 }
             }

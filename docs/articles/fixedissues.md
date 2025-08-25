@@ -1,4 +1,23 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.1.0
+### Features
+* Add Shapes and Pictures to charts using the ExcelChartStandard.Drawings collection.
+* A new interface for styling headers and footers more easily.
+* Change chart axis type on standard charts using the ChangeAxisType(eAxisType). Mainly intended to change between value- and date- axis, used to change the axis appearance.
+### Minor features & fixed issues.
+* Several new methods added to the ExcelNamedRange class to change its value between a range, formula or a fixed value.
+* Added MeasureWrappedTextCells to ExcelTextSettings (package.Settings.TextSettings).
+* ExcelRangeBase.Copy has a new overload for copying specific objects using the ExcelRangeCopyOnly enum. 
+* Added methods CopyValues and CopyFormulas to ExcelRangeBase, to more easily values and formulas only.
+* If copying a worksheet or a range to a new workbook, the relevant defined names are also copied.
+* Improved performance for column lookups and conditional formatting's improving load of data.
+* Added validation to restrict adding multi-cell array formulas to tables.
+* ExcelWorksheet.View.FreezePanes now takes hidden cells and columns into account when freezing panes.
+* Lookup functions such as Vlookup and Hlookup can now consistently handle searching through null-values in cells above and below the target value cell.
+* Certain advanced conditional formatting's (Databar, ColorScale, Iconsets) did not updating addresses in their formulas appropriately when columns were deleted.
+* Referring to table columns and rows using the structured reference now works outside the table range.
+* The GETPIVOTDATA function did not identify the pivot table if the pivot address was set on the page filter rows, as Excel does. 
+
 ## Version 8.0.8
 * Fix for FileLoadException due to System.Memory referenced by RecyclableMemoryStream.
 * Conditional formattings could cause invalid xml due to not using InvarianCulture when setting the numeric values.

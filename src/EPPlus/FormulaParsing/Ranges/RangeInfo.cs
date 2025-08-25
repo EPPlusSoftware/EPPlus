@@ -457,9 +457,10 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 return a;
             }
         }
-
-        IRangeInfo ValueSubrange = null;
-
+        /// <summary>
+        /// Gets the <see cref="IRangeInfo" /> for the range for the first and last value in the range (top-left to bottom-right)
+        /// </summary>
+        /// <returns>The range</returns>
         public IRangeInfo GetRangeInfoByValue()
         {
             var fvc = ValueFinder.FirstValueCell(Worksheet, Address);

@@ -10,11 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Core.RichValues;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
@@ -28,6 +28,8 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
@@ -49,7 +51,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.XML;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.FileUtils;
@@ -747,6 +748,8 @@ namespace OfficeOpenXml
                     var xfs = styles.CellXfs[cse.Value._styleId];
                     var f = styles.Fonts[xfs.FontId];
                     double rh;
+                    
+                    
                     if (_textHeights.ContainsKey(cse.Value._styleId))
                     {
                         rh = _textHeights[cse.Value._styleId];
@@ -2248,6 +2251,7 @@ namespace OfficeOpenXml
         public void InsertColumn(int columnFrom, int columns, int copyStylesFromColumn)
         {
             WorksheetRangeInsertHelper.InsertColumn(this, columnFrom, columns, copyStylesFromColumn);
+            ColumnLookup.InsertAndShift(columnFrom, columns);
         }
         #endregion
         #region DeleteRow
@@ -2558,6 +2562,12 @@ namespace OfficeOpenXml
 
                 if (c is ExcelChartStandard cs && cs.Drawings.Part != null)
                 {
+                    foreach (var cd in cs.Drawings)
+                    {
+                        cd.UpdatePositionAndSizeXml();
+                        HandleSaveForIndividualDrawings(cd, hasLoadedPivotTables); //Handle group shapes.
+                    }
+
                     var xrd = new XmlTextWriter(cs.Drawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
                     xrd.Formatting = Formatting.None;
                     cs.Drawings.DrawingXml.Save(xrd);
@@ -3505,6 +3515,8 @@ namespace OfficeOpenXml
             DisposeInternal(_formulaTokens);
             DisposeInternal(_metadataStore);
 
+            ColumnLookup = null;
+
             _values = null;
             _formulas = null;
             _flags = null;
@@ -3628,6 +3640,7 @@ namespace OfficeOpenXml
             }
         }
 
+       
         internal bool IsDisposed
         {
             get
@@ -3677,6 +3690,8 @@ namespace OfficeOpenXml
             return _values.GetValue(row, col)._styleId;
         }
 
+        internal ColumnSpanDictionary<ExcelColumn> ColumnLookup = new ColumnSpanDictionary<ExcelColumn>();
+
         /// <summary>
         /// Set accessor of sheet value
         /// </summary>
@@ -3685,7 +3700,10 @@ namespace OfficeOpenXml
         /// <param name="value">value</param>
         internal void SetValueInner(int row, int col, object value)
         {
-            var styleId = GetStyleId(row, col);
+            var styleId = -1;
+
+            styleId = GetStyleId(row, col);
+
             if (FullPrecision)
             {
                 _values.SetValue(row, col, value, styleId);
@@ -3694,6 +3712,12 @@ namespace OfficeOpenXml
             {
                 var val = Workbook.Styles.RoundValueFromNumberFormat(value, styleId);
                 _values.SetValue(row, col, val, styleId);
+            }
+
+
+            if(row == 0 && value is ExcelColumn)
+            {
+                ColumnLookup.UpdateColumn(col, (ExcelColumn)value);
             }
         }
         internal void SetValueInner(int fromRow, int fromCol, int toRow, int toCol, object value)
@@ -3716,10 +3740,10 @@ namespace OfficeOpenXml
                 {
                     if (!ExistsStyleInner(0, col, ref s) && col > 1)
                     {
-                        var c = GetColumn(col);
-                        if (c != null)
+                        var existingColumn = ColumnLookup.GetExcelColumn(col);
+                        if (existingColumn != null)
                         {
-                            return c.StyleID;
+                            return ColumnLookup[existingColumn.ColumnMin].StyleID;
                         }
                     }
                 }
@@ -3745,6 +3769,14 @@ namespace OfficeOpenXml
                 v._value = Workbook.Styles.RoundValueFromNumberFormat(v._value, styleId);
                 v._styleId = styleId;
                 _values.SetValue(row, col, v);
+            }
+            if(row == 0)
+            {
+                var colValue = GetColumn(col);
+                if (colValue != null)
+                {
+                    ColumnLookup.UpdateColumn(col, colValue);
+                }
             }
         }
         internal void SetValueRow_Value(int row, int col, object[] array)
@@ -3916,7 +3948,6 @@ namespace OfficeOpenXml
                 }
             }
         }
-
         /// <summary>
         /// Existance check of sheet value
         /// </summary>
@@ -3935,7 +3966,16 @@ namespace OfficeOpenXml
         /// <returns>is exists</returns>
         internal bool ExistsStyleInner(int row, int col)
         {
-            return (_values.GetValue(row, col)._styleId > 0);
+            int styleId = -1;
+            if (row == 0 && ColumnLookup.TryGetExcelColumn(col, out ExcelColumn existingCol))
+            {
+                styleId = existingCol.StyleID;
+            }
+            else
+            {
+                styleId = _values.GetValue(row, col)._styleId;
+            }
+            return (styleId > 0);
         }
         /// <summary>
         /// Existence check of sheet value
@@ -3958,9 +3998,38 @@ namespace OfficeOpenXml
         /// <returns>is exists</returns>
         internal bool ExistsStyleInner(int row, int col, ref int styleId)
         {
-            styleId = _values.GetValue(row, col)._styleId;
+            if (row == 0 && ColumnLookup.TryGetExcelColumn(col, out ExcelColumn existingCol))
+            {
+                styleId = existingCol.StyleID;
+            }
+            else
+            {
+                styleId = _values.GetValue(row, col)._styleId;
+            }
             return (styleId > 0);
         }
+
+        internal bool ExistsStyleAndCacheRow(int row, ref int styleId)
+        {
+            if (Rows[row] != null)
+            {
+                styleId = _values.GetValue(row, 0)._styleId;
+                return (styleId > 0);
+            }
+            styleId = -1;
+            return false;
+        }
+
+        internal bool ExistsStyleAndCacheColumn(int colNum, ref int styleId)
+        {
+            if (Columns[colNum] != null)
+            {
+                styleId = _values.GetValue(0, colNum)._styleId;
+                return (styleId > 0);
+            }
+            return false;
+        }
+
         internal void RemoveSlicerReference(ExcelSlicerXmlSource xmlSource)
         {
             var node = GetNode($"d:extLst/d:ext/x14:slicerList/x14:slicer[@r:id='{xmlSource.Rel.Id}']");
