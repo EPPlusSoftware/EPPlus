@@ -19,10 +19,11 @@ namespace OfficeOpenXml.PDF.Pdfhelpers
         {
             var asc = font.Os2Table.usWinAscent;
             var desc = font.Os2Table.usWinDescent;
-            var gap = font.Os2Table.sTypoLineGap;
+            //var gap = font.Os2Table.sTypoLineGap;
             var size = fontSize;
             var em = font.HeadTable.UnitsPerEm;
-            var lineHeight = asc + System.Math.Abs(desc) + gap;
+            //var lineHeight = asc + System.Math.Abs(desc) + gap;
+            var lineHeight = asc - desc;
             var lineHeightPt = lineHeight * (size / em);
             return lineHeightPt;
         }

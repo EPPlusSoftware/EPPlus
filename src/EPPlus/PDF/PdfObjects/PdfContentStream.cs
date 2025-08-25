@@ -65,7 +65,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
         {
             //Need to add pattern commands
             commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
-            commands.Add($"{cell.Position.X.ToPdfString()} {cell.Position.Y.ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
+            commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y-cell.Size.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
             commands.Add("f");
             //Top Border
             if(cell.BorderData.Top.BorderStyle != Style.ExcelBorderStyle.None)
@@ -95,7 +95,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
             commands.Add($"/{fontLabel} {cell.FontData.FontSize.ToPdfString()} Tf");
             commands.Add(cell.FontData.FontColor.ToFillCommand());
             double rot = cell.CellAlignmentData.TextRotation * System.Math.PI / 180.0;
-            commands.Add($" {System.Math.Cos(rot).ToPdfString()} {System.Math.Sin(rot).ToPdfString()} {(-System.Math.Cos(rot)).ToPdfString()} {System.Math.Cos(rot).ToPdfString()} {cell.Position.X.ToPdfString()} {cell.Position.Y.ToPdfString()} Tm");
+            commands.Add($" {System.Math.Cos(rot).ToPdfString()} {System.Math.Sin(rot).ToPdfString()} {(-System.Math.Sin(rot)).ToPdfString()} {System.Math.Cos(rot).ToPdfString()} {cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} Tm");
             commands.Add($"({FixEscapeCharacters(cell.FontData.Text)}) Tj");
             commands.Add("ET");
         }

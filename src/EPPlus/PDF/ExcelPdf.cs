@@ -177,6 +177,7 @@ namespace OfficeOpenXml.PDF
                     }
                 }
                 contentStream.AddCommand("Q");
+                body.Add(contentStream);
                 page.contentObjectNumbers.Add(contentStream.objectNumber);
             }
         }

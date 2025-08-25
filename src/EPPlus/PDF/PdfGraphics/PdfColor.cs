@@ -33,7 +33,7 @@ namespace OfficeOpenXml.PDF.PdfGraphics
 
         public PdfColor(string hex)
         {
-            if (string.IsNullOrEmpty(hex))
+            if (string.IsNullOrEmpty(hex) || hex == "0")
             {
                 R = 1;
                 G = 1;
@@ -44,31 +44,31 @@ namespace OfficeOpenXml.PDF.PdfGraphics
 
             hex = hex.Trim().TrimStart('#');
 
-            if (hex.Length == 3) // #RGB
+            if (hex.Length == 3)
             {
-                R = Convert.ToByte(new string(hex[0], 2), 16);
-                G = Convert.ToByte(new string(hex[1], 2), 16);
-                B = Convert.ToByte(new string(hex[2], 2), 16);
+                R = Convert.ToByte(new string(hex[0], 2), 16) / 255f;
+                G = Convert.ToByte(new string(hex[1], 2), 16) / 255f;
+                B = Convert.ToByte(new string(hex[2], 2), 16) / 255f;
             }
-            else if (hex.Length == 4) // #RGBA
+            else if (hex.Length == 4)
             {
-                R = Convert.ToByte(new string(hex[0], 2), 16);
-                G = Convert.ToByte(new string(hex[1], 2), 16);
-                B = Convert.ToByte(new string(hex[2], 2), 16);
-                A = Convert.ToByte(new string(hex[3], 2), 16);
+                A = Convert.ToByte(new string(hex[0], 2), 16) / 255f;
+                R = Convert.ToByte(new string(hex[1], 2), 16) / 255f;
+                G = Convert.ToByte(new string(hex[2], 2), 16) / 255f;
+                B = Convert.ToByte(new string(hex[3], 2), 16) / 255f;
             }
-            else if (hex.Length == 6) // #RRGGBB
+            else if (hex.Length == 6)
             {
-                R = Convert.ToByte(hex.Substring(0, 2), 16);
-                G = Convert.ToByte(hex.Substring(2, 2), 16);
-                B = Convert.ToByte(hex.Substring(4, 2), 16);
+                R = Convert.ToByte(hex.Substring(0, 2), 16) / 255f;
+                G = Convert.ToByte(hex.Substring(2, 2), 16) / 255f;
+                B = Convert.ToByte(hex.Substring(4, 2), 16) / 255f;
             }
-            else if (hex.Length == 8) // #RRGGBBAA
+            else if (hex.Length == 8)
             {
-                R = Convert.ToByte(hex.Substring(0, 2), 16);
-                G = Convert.ToByte(hex.Substring(2, 2), 16);
-                B = Convert.ToByte(hex.Substring(4, 2), 16);
-                A = Convert.ToByte(hex.Substring(6, 2), 16);
+                A = Convert.ToByte(hex.Substring(0, 2), 16) / 255f;
+                R = Convert.ToByte(hex.Substring(2, 2), 16) / 255f;
+                G = Convert.ToByte(hex.Substring(4, 2), 16) / 255f;
+                B = Convert.ToByte(hex.Substring(6, 2), 16) / 255f;
             }
             else
             {

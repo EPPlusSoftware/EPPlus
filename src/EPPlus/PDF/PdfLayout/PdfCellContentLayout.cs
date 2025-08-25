@@ -78,7 +78,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         {
             double x = 0d;
             double y = 0d;
-            var bottomMargin = 20d; //Guessed number
+            var bottomMargin = 0.8d; //Guessed number
             var rightMargin = 0.8d; //I guessed this one too..
             switch (CellAlignmentData.HorizontalAlignment)
             {
@@ -105,13 +105,14 @@ namespace OfficeOpenXml.PDF.PdfLayout
             switch (CellAlignmentData.VerticalAlignment)
             {
                 case Style.ExcelVerticalAlignment.Top:
-                    y = CellY + fontHeight;
+                    y = CellY + fontHeight + bottomMargin;
                     break;
                 case Style.ExcelVerticalAlignment.Center:
-                    y = CellY + (cellHeight - fontHeight) / 2d;
+                    y = CellY + (cellHeight - fontHeight) / 2d + fontHeight;
                     break;
                 case Style.ExcelVerticalAlignment.Bottom:
-                    y = (CellY + (cellHeight - fontHeight)) + fontHeight;
+                    y = CellY + (cellHeight - fontHeight) / 2d + fontHeight;
+                    //y = ((CellY + (cellHeight - fontHeight)) + fontHeight) - bottomMargin;
                     break;
 
             }
