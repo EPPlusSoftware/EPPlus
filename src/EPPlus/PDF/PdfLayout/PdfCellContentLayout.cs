@@ -59,6 +59,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             {
                 subfam = "Italic";
             }
+            fontData.SubFamily = subfam;
             if (!fontResources.ContainsKey(FontData.FontName))
             {
                 int label = 1;

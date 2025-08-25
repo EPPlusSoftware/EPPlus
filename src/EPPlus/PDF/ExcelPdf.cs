@@ -14,6 +14,8 @@ using OfficeOpenXml.PDF.PdfSettings.PdfPageData;
 using FontLab1.Tables.Os2;
 using OfficeOpenXml.PDF.PdfLayout;
 using System.Runtime;
+using OfficeOpenXml.Packaging.Ionic.Zip;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace OfficeOpenXml.PDF
 {
@@ -155,6 +157,29 @@ namespace OfficeOpenXml.PDF
             }
         }
 
+        private void CreateStreamContentFromCell(PdfTransform pageLayout, PdfPage page)
+        {
+            var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout).GroupBy(t => t.Name);
+            foreach (var cell in cells)
+            {
+                var contentStream = new PdfContentStream(body.Count + 1, "q");
+                foreach (var cellPart in cell)
+                {
+                    switch (cellPart)
+                    {
+                        case PdfCellLayout layout:
+                            contentStream.AddCellLayout(layout);
+                            break;
+
+                        case PdfCellContentLayout contentLayout:
+                            contentStream.AddCellContentLayout(contentLayout, GetFontLabel(contentLayout.FontData.FontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));
+                            break;
+                    }
+                }
+                contentStream.AddCommand("Q");
+                page.contentObjectNumbers.Add(contentStream.objectNumber);
+            }
+        }
 
         public void CreatePdf(string Filename)
         {
@@ -167,13 +192,7 @@ namespace OfficeOpenXml.PDF
             {
                 var pageLayout = pagesLayout.ChildObjects[i];
                 var page = AddPage(2, new List<int>(), PageSettings);
-                string previousName = "";
-                var contentStream = new PdfContentStream(body.Count + 1);
-                for (int j = 0; pageLayout.ChildObjects.Count > j; j++)
-                {
-                    var child = pageLayout.ChildObjects[j];
-                    CreateContentFromCell(child, page, contentStream, previousName);
-                }
+                CreateStreamContentFromCell(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
 

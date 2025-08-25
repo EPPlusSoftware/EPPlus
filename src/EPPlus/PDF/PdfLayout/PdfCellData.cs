@@ -9,6 +9,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
     {
         public string FontName = "Aptos Narrow";
         public int FontFamily = 0;
+        public string SubFamily = "Regular";
         public double FontSize = 11;
         public bool Bold = false;
         public bool Italic = false;
