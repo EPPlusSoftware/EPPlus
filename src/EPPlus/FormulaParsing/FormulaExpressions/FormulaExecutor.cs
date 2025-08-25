@@ -389,7 +389,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         }
                         if(!paramHandled)
                         {
-                            expressions.Add(tokenIx, new VariableExpression(t.Value, parsingContext.VariableStorage, false));
+                            expressions.Add(tokenIx, new VariableExpression(t.Value, parsingContext.VariableStorage.Peek(), false));
                         }
                         break;
                     case TokenType.StartFunctionArguments:

@@ -31,15 +31,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             IsDeclaration = isDeclaration;
         }
 
-        public VariableExpression(string variableName, VariableStorageManager storageManager, bool isDeclaration)
+        public VariableExpression(string variableName, VariableStorageScope scope, bool isDeclaration)
         {
             Name = variableName;
-            _storageManager = storageManager;
+            _scope = scope;
             IsDeclaration = isDeclaration;
         }
 
         private readonly VariableFunctionExpression _variableFunctionExpression;
-        private readonly VariableStorageManager _storageManager;
+        private readonly VariableStorageScope _scope;
         private bool _negate = false;
 
 
@@ -67,9 +67,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         private CompileResult GetValue(out bool hasValue)
         {
             hasValue = false;
-            if (_storageManager != null && !_storageManager.IsEmpty)
+            if (_scope != null)
             {
-                var v = _storageManager.Peek().GetVariableValue(Name);
+                var v = _scope.GetVariableValue(Name);
                 hasValue = v.DataType != DataType.Empty && v.ResultValue != null;
                 return new VariableCompileResult(Name, v.ResultValue, v.DataType, v.Address);
             }

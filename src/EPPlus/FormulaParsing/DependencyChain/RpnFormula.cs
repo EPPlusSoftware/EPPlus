@@ -172,7 +172,11 @@ namespace OfficeOpenXml.FormulaParsing
             if(_expressionStack.Any())
             {
                 var exp = _expressionStack.Peek();
-                if(exp.ExpressionType == ExpressionType.LambdaCalculation && exp is LambdaCalculationExpression lce && !lce.ArgumentCollectionStarted)
+                if(_funcStack.Count > 0 && _funcStack.Peek().IsLambda)
+                {
+                    _openParenthesis++;
+                }
+                else if(exp.ExpressionType == ExpressionType.LambdaCalculation && exp is LambdaCalculationExpression lce && !lce.ArgumentCollectionStarted)
                 {
                     lce.ArgumentCollectionStarted = true;
                     LambdaSettings.InvokeLambdaAt.Push(_openParenthesis++);

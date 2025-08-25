@@ -1097,6 +1097,10 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 s.Push(f._expressions[f._tokenIndex]);
                             }
+                            else if(cr.IsVariableResult && f.FunctionStack.Count > 0 && f.FunctionStack.Peek().IsLambda)
+                            {
+                                s.Push(f._expressions[f._tokenIndex]);
+                            }
                             else if (cr.DataType != DataType.LambdaVariableDeclaration && f.LambdaSettings.LambdaArgsAdded.Count > 0 && f.LambdaSettings.LambdaArgsAdded.Peek() < f.GetNumberOfLambdaVariables())
                             {
                                 leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), cr.Result, cr.DataType, cr.Address);

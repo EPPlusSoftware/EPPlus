@@ -619,7 +619,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 
                 var val = ws.GetValueInner(ws.Cells["E13"].Start.Row, ws.Cells["E13"].Start.Column);
 
-                //Assert.AreEqual("A gizzard wizard, deals dawizard by using it's iwizard. Such Iwizardnation.", val);
+                Assert.AreEqual("A gizzard wizard, deals dawizard by using it's iwizard. Such Iwizardnation.", val);
 
                 SaveAndCleanup(p);
             }
@@ -680,7 +680,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
                 //Add own Lambda Factorial function via Let and IF
                 ws.Names.AddFormula("Factorial2", "LAMBDA(n, IF(n = 0, 1, n * Sheet1!Factorial2(n - 1)))");
 
-                ws.Cells["A1"].Formula = "Factorial2(2)";
+                ws.Cells["A1"].Formula = "Factorial2(4)";
 
                 ws.Cells["A1"].Calculate();
 
@@ -688,7 +688,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 
                 //SaveAndCleanup(p);
 
-                Assert.AreEqual(2d, epplusValue);
+                Assert.AreEqual(24d, epplusValue);
             }
         }
 
