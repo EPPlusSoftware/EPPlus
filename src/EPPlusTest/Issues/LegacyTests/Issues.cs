@@ -59,6 +59,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace EPPlusTest
 {
@@ -6234,6 +6235,22 @@ namespace EPPlusTest
                 Text = ""
             });
             p.SaveAs("c:\\epplustest\\testoutput\\HeaderFooterIssue2078.xlsx");
+        }
+
+        [TestMethod]
+        public void i2088()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var fh = ws.HeaderFooter.FirstHeader;
+            FileInfo pic = new FileInfo(Resources.GetImageFullFileName("epplusobject.png"));
+            var drawing = ws.HeaderFooter.FirstHeader.InsertPicture(pic, PictureAlignment.Left);
+            drawing.Height = 40;
+
+            ws.HeaderFooter.FirstHeader.CenteredText = "pageTitle";
+            ws.HeaderFooter.FirstFooter.LeftAlignedText = $"{ExcelHeaderFooter.CurrentDate} {ExcelHeaderFooter.CurrentTime}";
+            ws.HeaderFooter.FirstFooter.RightAlignedText = $"Printing: {"user.DisplayName"} - {ExcelHeaderFooter.PageNumber}/{ExcelHeaderFooter.NumberOfPages}";
+            p.SaveAs("c:\\epplustest\\testoutput\\HeaderFooterIssue2088.xlsx");
         }
     }
 }
