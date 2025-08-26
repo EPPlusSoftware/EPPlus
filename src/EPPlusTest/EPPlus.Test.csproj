@@ -10,10 +10,7 @@
 		</SSDTPath>
 	</PropertyGroup>
 	<PropertyGroup>
-		<VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-	</PropertyGroup>
-	<PropertyGroup>
-		<TargetFrameworks>net8.0</TargetFrameworks>
+		<TargetFrameworks>net481;net8.0</TargetFrameworks>
 		<RootNamespace>EPPlusTest</RootNamespace>
 		<AssemblyName>EPPlusTest</AssemblyName>
 		<SignAssembly>True</SignAssembly>
@@ -41,6 +38,10 @@
 	<ItemGroup>
 		<PackageReference Include="FakeItEasy" />
 		<PackageReference Include="Microsoft.CSharp" />
+		<PackageReference Include="MSTest.Analyzers">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Newtonsoft.Json" />
 	</ItemGroup>
 

@@ -5,6 +5,8 @@
   <ItemGroup>
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
     <PackageVersion Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
+    <PackageVersion Include="Microsoft.Testing.Platform.MSBuild" Version="1.8.3" />
+    <PackageVersion Include="MSTest.Analyzers" Version="3.10.3" />
     <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageVersion Include="System.Drawing.Common" Version="8.0.14" />
     <PackageVersion Include="System.Formats.Asn1" Version="8.0.2" />
