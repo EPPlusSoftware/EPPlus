@@ -67,7 +67,7 @@ namespace EPPlusTest.Issues
             {
                 var worksheet = package.Workbook.Worksheets["Sheet1"];
                 var excelTable = worksheet.Tables[0];
-                
+
                 var col = excelTable.Range.Offset(0, 10).TakeSingleColumn(0).SkipRows(1);
                 var formulaStr = col.TakeSingleCell(0, 0).Formula;
                 col.ClearFormulaValues();
@@ -312,7 +312,51 @@ namespace EPPlusTest.Issues
                 logfile.Delete();
 
                 Assert.IsTrue(logStr.Contains($"Set value in Cell\t{wsName}!A3\t123\tDecimal"));
-                Assert.AreEqual(values[0,0], ws.Cells["A2:A2"].Value);
+                Assert.AreEqual(values[0, 0], ws.Cells["A2:A2"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i2081_SingleMultArr()
+        {
+            using (var p = OpenPackage("i2081_SingleCellMultArr.xlsx", true))
+            {
+                using var workbook = p.Workbook;
+                var wsName = "singleCellTable";
+                var ws = workbook.Worksheets.Add(wsName);
+
+                var tableRange = ws.Cells["A1:A2"];
+
+                var scTable = ws.Tables.Add(tableRange, "Table1");
+
+                scTable.ShowHeader = true;
+                scTable.ShowTotal = true;
+                scTable.Columns[0].TotalsRowFunction = RowFunctions.Sum;
+
+                tableRange.AutoFitColumns();
+                ws.Calculate();
+                //Part that is different START
+                var values = new object[,] { { 1, 123 }, { 2, 456 } };
+                ws.Cells["A2:A2"].Value = values;
+                //Part that is different END
+
+                var logfile = new FileInfo("epplus_i2081MultArr_Log.txt");
+
+                workbook.FormulaParserManager.AttachLogger(logfile);
+
+                ws.Calculate();
+
+                workbook.FormulaParserManager.DetachLogger();
+
+                var sr = logfile.OpenText();
+                var logStr = sr.ReadToEnd();
+
+                sr.Close();
+                logfile.Delete();
+
+                Assert.IsTrue(logStr.Contains($"Set value in Cell\t{wsName}!A3\t1\tDecimal"));
+                Assert.AreEqual(values[0, 0], ws.Cells["A2:A2"].Value);
 
                 SaveAndCleanup(p);
             }
