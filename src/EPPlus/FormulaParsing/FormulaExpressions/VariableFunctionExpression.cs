@@ -8,15 +8,9 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/14/2024         EPPlus Software AB       Initial release EPPlus 7.3
+  08/20/2025         EPPlus Software AB       Initial release EPPlus 8.2
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {

@@ -8,17 +8,15 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  06/12/2024         EPPlus Software AB       Initial release EPPlus 7.3
+  08/20/2025         EPPlus Software AB       Initial release EPPlus 8.2
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.FormulaParsing.Ranges;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -215,42 +213,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             foreach(var token in _originalTokens)
             {
                 _currentTokens.Add(new Token(token.Value, token.TokenType));
-            }
-        }
-
-        private TokenType DataTypeToTokenType(DataType dt, object obj)
-        {
-            switch (dt)
-            {
-                case DataType.Boolean:
-                    return TokenType.Boolean;
-                case DataType.Date:
-                case DataType.Integer:
-                    return TokenType.Integer;
-                case DataType.Decimal:
-                    return TokenType.Decimal;
-                case DataType.String:
-                    return TokenType.StringContent;
-                case DataType.Time:
-                    return TokenType.Decimal;
-                case DataType.ExcelRange:
-                    return TokenType.ExcelAddress;
-                case DataType.Empty:
-                    return TokenType.EmptyArgument;
-                case DataType.ExcelError:
-                    switch(obj.ToString().ToUpper())
-                    {
-                        case "#N/A":
-                            return TokenType.NAError;
-                        case "#NAME!":
-                            return TokenType.NameError;
-                        case "#NUM!":
-                            return TokenType.NumericError;
-                        default:
-                            return TokenType.ValueDataTypeError;
-                    }
-                default:
-                    return TokenType.Unrecognized;
             }
         }
     }
