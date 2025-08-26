@@ -131,15 +131,17 @@ namespace EPPlusTest.VBA
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ModuleNameContainsInvalidCharacters()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 p.Workbook.Worksheets.Add("InvalidName");
                 p.Workbook.CreateVBAProject();
                 p.Workbook.VbaProject.Modules.AddModule("Mod%ule2");
             }
+            });
         }
         [TestMethod]
         public void ValidateModuleNameAfterCopyWorksheet()

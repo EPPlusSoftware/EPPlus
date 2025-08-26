@@ -47,16 +47,14 @@ namespace EPPlusTest.Core.Range
             Assert.AreEqual("Line1\nLine2\nLine3", r.RichText.Text);
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void AddEmptyStringShouldThrowArgumentException()
         {
-            _ws.Cells["D1"].RichText.Add(null);
+            Assert.ThrowsExactly<ArgumentException>(() => _ws.Cells["D1"].RichText.Add(null));
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void AddNullShouldThrowArgumentException()
         {
-            _ws.Cells["D1"].RichText.Add(null);
+            Assert.ThrowsExactly<ArgumentException>(() => _ws.Cells["D1"].RichText.Add(null));
         }
         //[TestMethod]
         //[ExpectedException(typeof(InvalidOperationException))]

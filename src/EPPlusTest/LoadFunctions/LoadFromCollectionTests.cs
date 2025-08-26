@@ -442,7 +442,6 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidCastException))]
         public void ShouldThrowInvalidCastExceptionIf()
         {
             var objs = new List<BaseClass>()
@@ -450,13 +449,16 @@ namespace EPPlusTest.LoadFunctions
                 new Implementation(){ Id = "123", Name = "Item 1", Number = 3}
             };
             var items = objs.Select(x => new { Id = x.Id, Name = x.Name }).ToList();
-            using (var pck = new ExcelPackage(new MemoryStream()))
+            Assert.ThrowsExactly<InvalidCastException>(() =>
+            {
+                using (var pck = new ExcelPackage(new MemoryStream()))
             {
                 var sheet = pck.Workbook.Worksheets.Add("sheet");
                 sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1, BindingFlags.Public | BindingFlags.Instance, typeof(string).GetMembers());
 
                 Assert.AreEqual("Id", sheet.Cells["C1"].Value);
             }
+            });
         }
 
         [TestMethod]

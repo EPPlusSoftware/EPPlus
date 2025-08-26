@@ -94,14 +94,14 @@ namespace EPPlusTest.DataValidation
 
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void TestRangeAddMultipleTryAddingAfterShouldThrow()
         {
             ExcelPackage pck = OpenTemplatePackage("ValidationRangeTestMany.xlsx");
 
             var validations = pck.Workbook.Worksheets[0].DataValidations;
 
-            validations.AddIntegerValidation("C8");
+            Assert.ThrowsExactly<InvalidOperationException>(() => validations.AddIntegerValidation("C8"));
         }
 
         [TestMethod]
@@ -313,13 +313,13 @@ namespace EPPlusTest.DataValidation
             Assert.AreEqual("ErrorTitle", ReadIntValidation(package).ErrorTitle);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void DataValidations_ShouldThrowIfOperatorIsBetweenAndFormula2IsEmpty()
         {
             var validation = _sheet.DataValidations.AddIntegerValidation("A1");
             validation.Formula.Value = 1;
             validation.Operator = ExcelDataValidationOperator.between;
-            validation.Validate();
+            Assert.ThrowsExactly<InvalidOperationException>(() => validation.Validate());
         }
 
         [TestMethod]
@@ -330,11 +330,11 @@ namespace EPPlusTest.DataValidation
             validation.Validate();
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void DataValidations_ShouldThrowIfAllowBlankIsNotSet()
         {
             var validation = _sheet.DataValidations.AddIntegerValidation("A1");
-            validation.Validate();
+            Assert.ThrowsExactly<InvalidOperationException>(() => validation.Validate());
         }
 
         [TestMethod]
@@ -792,10 +792,11 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ClearSingular()
         {
-            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
             {
                 var ws = pck.Workbook.Worksheets.Add("ClearTest");
                 var rangeValidation = ws.DataValidations.AddIntegerValidation("A9");
@@ -805,6 +806,7 @@ namespace EPPlusTest.DataValidation
 
                 ws.Cells["A9"].DataValidation.ClearDataValidation();
             }
+            });
         }
 
         [TestMethod]

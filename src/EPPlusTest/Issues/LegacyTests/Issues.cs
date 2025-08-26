@@ -773,14 +773,13 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidDataException))]
         public void Issue234()
         {
             using (var s = new MemoryStream())
             {
                 var data = Encoding.UTF8.GetBytes("Bad data").ToArray();
                 s.Write(data, 0, data.Length);
-                var package = new ExcelPackage(s);
+                Assert.ThrowsExactly<InvalidDataException>(() => new ExcelPackage(s));
             }
         }
 
@@ -800,31 +799,34 @@ namespace EPPlusTest
             pck.Dispose();
 
         }
-        [ExpectedException(typeof(ArgumentException))]
+
         [TestMethod]
         public void Issue233()
         {
-            //get some test data
-            var cars = Car.GenerateList();
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                //get some test data
+                var cars = Car.GenerateList();
 
-            var pck = OpenPackage("issue233.xlsx", true);
+                var pck = OpenPackage("issue233.xlsx", true);
 
-            var sheetName = "Summary_GLEDHOWSUGARCO![]()PTY";
+                var sheetName = "Summary_GLEDHOWSUGARCO![]()PTY";
 
-            //Create the worksheet 
-            var sheet = pck.Workbook.Worksheets.Add(sheetName);
+                //Create the worksheet 
+                var sheet = pck.Workbook.Worksheets.Add(sheetName);
 
-            //Read the data into a range
-            var range = sheet.Cells["A1"].LoadFromCollection(cars, true);
+                //Read the data into a range
+                var range = sheet.Cells["A1"].LoadFromCollection(cars, true);
 
-            //Make the range a table
-            var tbl = sheet.Tables.Add(range, $"data{sheetName}");
-            tbl.ShowTotal = true;
-            tbl.Columns["ReleaseYear"].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
+                //Make the range a table
+                var tbl = sheet.Tables.Add(range, $"data{sheetName}");
+                tbl.ShowTotal = true;
+                tbl.Columns["ReleaseYear"].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
 
-            //save and dispose
-            pck.Save();
-            pck.Dispose();
+                //save and dispose
+                pck.Save();
+                pck.Dispose();
+            });
         }
         public class Car
         {

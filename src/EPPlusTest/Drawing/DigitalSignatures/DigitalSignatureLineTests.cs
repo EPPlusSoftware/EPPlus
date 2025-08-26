@@ -632,12 +632,14 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             }
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void CreateSignatureLineChangeImage()
         {
             var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
 
-            using (ExcelPackage package = OpenPackage("CreateSignatureLineChangeImage.xlsx", true))
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (ExcelPackage package = OpenPackage("CreateSignatureLineChangeImage.xlsx", true))
             {
                 var ws = package.Workbook.Worksheets.Add("New ws");
 
@@ -651,6 +653,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 //Currently we throw in save
                 SaveAndCleanup(package);
             }
+            });
         }
 
         [TestMethod]

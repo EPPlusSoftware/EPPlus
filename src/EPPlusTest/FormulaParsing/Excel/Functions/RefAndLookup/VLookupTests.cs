@@ -64,7 +64,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             }
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(1, "a")]
         [DataRow(5, "d")]
         public void ApproximateShouldFind(int find, string expected)
@@ -149,7 +149,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             }
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(0)]
         [DataRow(-1)]
         public void ApproximateOutOfRangeNonPositiveShouldValueError(int offset)

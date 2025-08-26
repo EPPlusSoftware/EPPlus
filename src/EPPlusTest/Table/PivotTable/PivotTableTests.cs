@@ -547,10 +547,11 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual("NumValue*2", tbl.Fields[4].Cache.Formula);
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ShouldThrowExceptionOnAddingCalculatedFieldToColumns()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("RowArgExcep");
                 LoadTestdata(ws);
@@ -559,12 +560,14 @@ namespace EPPlusTest.Table.PivotTable
                 tbl.Fields.AddCalculatedField("NumValueX2", formula);
                 var rf = tbl.ColumnFields.Add(tbl.Fields[4]);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ShouldThrowExceptionOnAddingCalculatedFieldToRow()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("RowArgExcep");
                 LoadTestdata(ws);
@@ -573,12 +576,14 @@ namespace EPPlusTest.Table.PivotTable
                 tbl.Fields.AddCalculatedField("NumValueX2", formula);
                 var rf = tbl.RowFields.Add(tbl.Fields[4]);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ShouldThrowExceptionOnAddingCalculatedFieldToPage()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("RowArgExcep");
                 LoadTestdata(ws);
@@ -587,18 +592,21 @@ namespace EPPlusTest.Table.PivotTable
                 tbl.Fields.AddCalculatedField("NumValueX2", formula);
                 var rf = tbl.PageFields.Add(tbl.Fields[4]);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ShouldThrowExceptionOnAddingCalculatedFieldWithBlankFormula()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("RowArgExcep");
                 LoadTestdata(ws);
                 var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
                 tbl.Fields.AddCalculatedField("NumValueX2", "");
             }
+            });
         }
         [TestMethod]
         public void PivotTableStyleTests()
@@ -1283,7 +1291,6 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual("CopyPivotTable42", wsCopy.PivotTables[0].Name);
         }
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void PivotTable_CopyToNewWorkbook()
         {
             using var p1 = new ExcelPackage();
@@ -1295,11 +1302,14 @@ namespace EPPlusTest.Table.PivotTable
 
             using var p2 = new ExcelPackage();
             var wsCopy = p2.Workbook.Worksheets.Add("PivotTableCopyDest");
-            ws.Cells["A1:B2"].Copy(wsCopy.Cells["A1"]);
+            Assert.ThrowsExactly<NotSupportedException>(() =>
+            {
+                ws.Cells["A1:B2"].Copy(wsCopy.Cells["A1"]);
 
-            Assert.AreEqual(1, ws.PivotTables.Count);
-            Assert.AreEqual(1, wsCopy.PivotTables.Count);
-            Assert.AreEqual("CopyPivotTable5", wsCopy.PivotTables[0].Name);
+                Assert.AreEqual(1, ws.PivotTables.Count);
+                Assert.AreEqual(1, wsCopy.PivotTables.Count);
+                Assert.AreEqual("CopyPivotTable5", wsCopy.PivotTables[0].Name);
+            });
         }
         [TestMethod]
         public void FillDownTest()

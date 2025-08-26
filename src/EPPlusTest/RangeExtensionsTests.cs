@@ -49,15 +49,18 @@ namespace EPPlusTest
             }
         }
 
-        [TestMethod, ExpectedException(typeof(IndexOutOfRangeException))]
+        [TestMethod]
         public void SkipColumnsShouldThrowIfNbrOfColumnsIsTooLarge()
         {
-            using (var package = new ExcelPackage())
+            Assert.ThrowsExactly<IndexOutOfRangeException>(() =>
+            {
+                using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
 
                 var range = sheet.Cells["A1:B3"].SkipColumns(4);
             }
+            });
         }
 
         [TestMethod]
@@ -102,15 +105,18 @@ namespace EPPlusTest
             }
         }
 
-        [TestMethod, ExpectedException(typeof(IndexOutOfRangeException))]
+        [TestMethod]
         public void SkipRowsShouldThrowIfNbrOfColumnsIsTooLarge()
         {
-            using (var package = new ExcelPackage())
+            Assert.ThrowsExactly<IndexOutOfRangeException>(() =>
+            {
+                using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
 
                 var range = sheet.Cells["A1:B3"].SkipRows(4);
             }
+            });
         }
 
         [TestMethod]

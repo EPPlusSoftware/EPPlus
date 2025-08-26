@@ -123,52 +123,64 @@ namespace EPPlusTest.Table
             Assert.AreEqual("Shift Me Up", ws.Cells["A98"].Value);
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void TableDeleteRowPositionNegative()
         {
             //Setup
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                //Setup
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Table1");
                 var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
                 tbl.DeleteRow(-1);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void TableDeleteRowRowsNegative()
         {
             //Setup
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                //Setup
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Table1");
                 var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
                 tbl.DeleteRow(0, -1);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void TableDeleteOverTableLimit()
         {
             //Setup
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                //Setup
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Table1");
                 var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
                 tbl.DeleteRow(99,1);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void TableDelete5OverTableLimit()
         {
             //Setup
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                //Setup
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Table1");
                 var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
                 tbl.DeleteRow(95, 5);
             }
+            });
         }
         [TestMethod]
         public void TableDeleteLeaveOneRow()
@@ -181,16 +193,19 @@ namespace EPPlusTest.Table
             Assert.AreEqual("A1:D2", tbl.Address.Address);
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void TableDeleteAllRows()
         {
             //Setup
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                //Setup
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Table1");
                 var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
                 tbl.DeleteRow(0, 99); 
             }
+            });
         }
         #endregion
         #region Delete Column
@@ -271,28 +286,34 @@ namespace EPPlusTest.Table
             Assert.AreEqual("Shift Me", ws.Cells["W101"].Value);
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void TableDeleteColumnPositionNegative()
         {
             //Setup
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                //Setup
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Table1");
                 var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
                 tbl.Columns.Delete(-1);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void TableDeleteColumnColumnsNegative()
         {
             //Setup
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                //Setup
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Table1");
                 var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
                 tbl.Columns.Delete(0, -1);
             }
+            });
         }
         #endregion
 

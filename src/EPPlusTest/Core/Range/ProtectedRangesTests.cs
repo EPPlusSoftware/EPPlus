@@ -125,15 +125,17 @@ namespace EPPlusTest.Core.Range
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void DuplicateNameShouldThrowInvalidOperationException()
         {
-            using (var pck = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var pck = new ExcelPackage())
             {
                 var ws = pck.Workbook.Worksheets.Add("ThreeProtectedRanges");
                 ws.ProtectedRanges.Add("Range", ws.Cells["A1:B2"]);
                 ws.ProtectedRanges.Add("range", ws.Cells["A4:B5"]);
             }
+            });
         }
 
     }

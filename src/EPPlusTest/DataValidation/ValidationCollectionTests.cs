@@ -50,43 +50,43 @@ namespace EPPlusTest.DataValidation
             CleanupTestData();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
         public void ExcelDataValidationCollection_AddDecimal_ShouldThrowWhenAddressIsNullOrEmpty()
         {
             // Act
-            _sheet.DataValidations.AddDecimalValidation(string.Empty);
+            Assert.ThrowsExactly<ArgumentNullException>(() => _sheet.DataValidations.AddDecimalValidation(string.Empty));
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void ExcelDataValidationCollection_AddDecimal_ShouldThrowWhenNewValidationCollidesWithExisting()
         {
             // Act
             _sheet.DataValidations.AddDecimalValidation("A1");
-            _sheet.DataValidations.AddDecimalValidation("A1");
+            Assert.ThrowsExactly<InvalidOperationException>(() => _sheet.DataValidations.AddDecimalValidation("A1"));
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void ExcelDataValidationCollection_AddInteger_ShouldThrowWhenNewValidationCollidesWithExisting()
         {
             // Act
             _sheet.DataValidations.AddIntegerValidation("A1");
-            _sheet.DataValidations.AddIntegerValidation("A1");
+            Assert.ThrowsExactly<InvalidOperationException>(() => _sheet.DataValidations.AddIntegerValidation("A1"));
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void ExcelDataValidationCollection_AddTextLength_ShouldThrowWhenNewValidationCollidesWithExisting()
         {
             // Act
             _sheet.DataValidations.AddTextLengthValidation("A1");
-            _sheet.DataValidations.AddTextLengthValidation("A1");
+            Assert.ThrowsExactly<InvalidOperationException>(() => _sheet.DataValidations.AddTextLengthValidation("A1"));
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void ExcelDataValidationCollection_AddDateTime_ShouldThrowWhenNewValidationCollidesWithExisting()
         {
             // Act
             _sheet.DataValidations.AddDateTimeValidation("A1");
-            _sheet.DataValidations.AddDateTimeValidation("A1");
+            Assert.ThrowsExactly<InvalidOperationException>(() => _sheet.DataValidations.AddDateTimeValidation("A1"));
         }
 
         [TestMethod]

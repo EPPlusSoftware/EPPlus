@@ -21,7 +21,7 @@ namespace EPPlusTest.LoadFunctions
     [TestClass]
     public class LoadFromCollectionAttributesErrorTests
     {
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void NestedTypeAttributeOnString()
         {
             var coll = new List<NestedAttrOnString>
@@ -32,11 +32,14 @@ namespace EPPlusTest.LoadFunctions
                     Value = "bar",
                 }
             };
-            using (var package = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].LoadFromCollection(coll);
             }
+            });
         }
     }
 }

@@ -2000,27 +2000,31 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExpectExceptionWhenInvalidAddress()
         {
-            using (var pck = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var pck = new ExcelPackage())
             {
                 var sheet = pck.Workbook.Worksheets.Add("NewWorksheet");
 
                 sheet.ConditionalFormatting.AddAboveAverage("InvalidAddressAttempt");
             }
+            });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void InvalidAddressShouldThrowOnNumbers()
         {
-            using (var pck = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var pck = new ExcelPackage())
             {
                 var sheet = pck.Workbook.Worksheets.Add("NewWorksheet");
 
                 sheet.ConditionalFormatting.AddDatabar("1234", Color.Gold);
             }
+            });
         }
 
         [TestMethod]

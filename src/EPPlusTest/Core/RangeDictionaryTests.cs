@@ -111,22 +111,20 @@ namespace EPPlusTest.Core
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void VerifyOverlapBottomRightThrowsException()
         {
             var rd = new RangeDictionary<int>();
 
             rd.Add(1,1,5,5, 1);
-            rd.Add(5,5,6,6, 2);
+            Assert.ThrowsExactly<InvalidOperationException>(() => rd.Add(5,5,6,6, 2));
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void VerifyOverlapTopLeftThrowsException()
         {
             var rd = new RangeDictionary<int>();
 
             rd.Add(5,5,6,6, 2);
-            rd.Add(1,1,5,5, 1);
+            Assert.ThrowsExactly<InvalidOperationException>(() => rd.Add(1,1,5,5, 1));
         }
         [TestMethod]
         public void VerifyInsertOnRow()

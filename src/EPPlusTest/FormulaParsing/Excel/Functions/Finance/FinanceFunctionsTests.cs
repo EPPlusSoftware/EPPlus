@@ -754,7 +754,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             Assert.AreEqual(0.02061037, System.Math.Round((double)result, 8));
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 1, 75d, 4)]
         [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 18, 79.72222222d, 4)]
         [DataRow(2009, 1, 1, 2010, 4, 1, 2010, 4, 1, 25d, 4)]
@@ -782,7 +782,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             Assert.AreEqual(expectedResult, System.Math.Round((double)result, 8));
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 1, 125d, 4)]
         [DataRow(2009, 2, 15, 2009, 12, 1, 2010, 4, 1, 112.77777778d, 4)]
         [DataRow(2009, 2, 15, 2009, 12, 1, 2009, 4, 2, 13.05555556d, 4)]
@@ -805,7 +805,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             Assert.AreEqual(expectedResult, System.Math.Round((double)result, 8));
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(2009, 1, 1, 2009, 4, 1, 25d, 0)]
         [DataRow(2009, 1, 1, 2009, 4, 1, 24.657534d, 3)]
         [DataRow(2009, 1, 5, 2010, 6, 10, 144.722222d, 2)]

@@ -37,15 +37,17 @@ namespace EPPlusTest.FormulaParsing
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void CheckSaveWhatif_InsertInsideRow()
         {
             using (var p = OpenTemplatePackage("Whatif-DataTable.xlsx"))
             {
-                var ws = p.Workbook.Worksheets[0];
-                var copy = p.Workbook.Worksheets.Add("Copy", ws);
-                copy.InsertRow(3, 1);
-                SaveAndCleanup(p);
+                Assert.ThrowsExactly<InvalidOperationException>(() =>
+                {
+                    var ws = p.Workbook.Worksheets[0];
+                    var copy = p.Workbook.Worksheets.Add("Copy", ws);
+                    copy.InsertRow(3, 1);
+                    SaveAndCleanup(p);
+                });
             }
         }
         [TestMethod]
@@ -61,17 +63,20 @@ namespace EPPlusTest.FormulaParsing
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void CheckSaveWhatif_InsertInsideColumn()
         {
             using (var p = OpenTemplatePackage("Whatif-DataTable.xlsx"))
             {
-                var ws = p.Workbook.Worksheets[0];
-                var copy = p.Workbook.Worksheets.Add("Copy", ws);
-                copy.InsertColumn(4, 1);
-                SaveAndCleanup(p);
+                Assert.ThrowsExactly<InvalidOperationException>(() =>
+                {
+                    var ws = p.Workbook.Worksheets[0];
+                    var copy = p.Workbook.Worksheets.Add("Copy", ws);
+                    copy.InsertColumn(4, 1);
+                    SaveAndCleanup(p);
+                });
             }
         }
+
         [TestMethod]
         public void CheckSaveWhatif_CopyWorksheetDeleteRow()
         {
@@ -85,15 +90,17 @@ namespace EPPlusTest.FormulaParsing
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void CheckSaveWhatif_DeleteInsideRow()
         {
             using (var p = OpenTemplatePackage("Whatif-DataTable.xlsx"))
             {
-                var ws = p.Workbook.Worksheets[0];
-                var copy = p.Workbook.Worksheets.Add("Copy", ws);
-                copy.DeleteRow(3, 1);
-                SaveAndCleanup(p);
+                Assert.ThrowsExactly<InvalidOperationException>(() =>
+                {
+                    var ws = p.Workbook.Worksheets[0];
+                    var copy = p.Workbook.Worksheets.Add("Copy", ws);
+                    copy.DeleteRow(3, 1);
+                    SaveAndCleanup(p);
+                });
             }
         }
 
@@ -110,15 +117,17 @@ namespace EPPlusTest.FormulaParsing
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void CheckSaveWhatif_DeleteInsideColumn()
         {
             using (var p = OpenTemplatePackage("Whatif-DataTable.xlsx"))
             {
-                var ws = p.Workbook.Worksheets[0];
-                var copy = p.Workbook.Worksheets.Add("Copy", ws);
-                copy.DeleteColumn(4, 1);
-                SaveAndCleanup(p);
+                Assert.ThrowsExactly<AssertInconclusiveException>(() =>
+                {
+                    var ws = p.Workbook.Worksheets[0];
+                    var copy = p.Workbook.Worksheets.Add("Copy", ws);
+                    copy.DeleteColumn(4, 1);
+                    SaveAndCleanup(p);
+                });
             }
         }
         [TestMethod]

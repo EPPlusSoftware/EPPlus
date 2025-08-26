@@ -228,25 +228,27 @@ namespace EPPlusTest.Export.ToCollection
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(EPPlusDataTypeConvertionException))]
         public void ToCollection_AutoMap_EPPlusDataTypeConvertionException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<EPPlusDataTypeConvertionException>(() =>
             {
-                var sheet = LoadTestData(p, "LoadFromCollectionAuto");
-                sheet.Cells["A1"].Value = "Identity";
-                sheet.Cells["B1"].Value = "First name";
-                sheet.Cells["A2"].Value = "Error";
-                var list = sheet.Cells["A1:E3"].ToCollectionWithMappings(x =>
+                using (var p = new ExcelPackage())
                 {
-                    var item = new TestDto();
-                    x.Automap(item);
-                    item.Category = new Category() { CatId = x.GetValue<int>("CategoryId") };
-                    item.FormattedRatio = x.GetText("Ratio");
-                    item.FormattedTimeStamp = x.GetText("TimeStamp");
-                    return item;
-                }, x => x.HeaderRow = 0);
-            }
+                    var sheet = LoadTestData(p, "LoadFromCollectionAuto");
+                    sheet.Cells["A1"].Value = "Identity";
+                    sheet.Cells["B1"].Value = "First name";
+                    sheet.Cells["A2"].Value = "Error";
+                    var list = sheet.Cells["A1:E3"].ToCollectionWithMappings(x =>
+                    {
+                        var item = new TestDto();
+                        x.Automap(item);
+                        item.Category = new Category() { CatId = x.GetValue<int>("CategoryId") };
+                        item.FormattedRatio = x.GetText("Ratio");
+                        item.FormattedTimeStamp = x.GetText("TimeStamp");
+                        return item;
+                    }, x => x.HeaderRow = 0);
+                }
+            });
         }
         [TestMethod]
         public void ToCollection_AutoMapInCallback_SetDefaultValueOnConversionError()
@@ -454,10 +456,11 @@ namespace EPPlusTest.Export.ToCollection
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(EPPlusDataTypeConvertionException))]
         public void ToCollectionTable_ColumnNamesConversionFailure()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<EPPlusDataTypeConvertionException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var sheet = LoadTestData(p, "LoadFromCollectionName", true);
                 sheet.Cells["C2"].Value = "str";
@@ -474,6 +477,7 @@ namespace EPPlusTest.Export.ToCollection
                     return dto;
                 });
             }
+            });
         }
         [TestMethod]
         public void ToCollectionTable_ColumnNamesConversionDefault()

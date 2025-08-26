@@ -25,7 +25,6 @@ namespace EPPlusTest.ConditionalFormatting
                 var belowAverage = sheet.Cells["A1:A11"].ConditionalFormatting.AddBelowAverage();
                 var belowOrEqual = sheet.Cells["A1:A11"].ConditionalFormatting.AddBelowOrEqualAverage();
 
-
                 for (int i = 1; i < 12; i++)
                 {
                     sheet.Cells[i,1].Value = i;

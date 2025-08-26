@@ -180,10 +180,11 @@ namespace EPPlusTest.Drawing
 		#endregion
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
-		public void AddPictureWithIllegalCharsShouldFail()
+        public void AddPictureWithIllegalCharsShouldFail()
 		{
-			using (var package = OpenPackage("LinkPic.xlsx", true))
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var package = OpenPackage("LinkPic.xlsx", true))
 			{
 				var sheet = package.Workbook.Worksheets.Add("emptyWS");
 
@@ -191,12 +192,14 @@ namespace EPPlusTest.Drawing
 
 				SaveAndCleanup(package);
 			}
-		}
+            });
+        }
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
-		public void AddPictureWithFaultyPathShouldFail()
+        public void AddPictureWithFaultyPathShouldFail()
 		{
-			using (var package = OpenPackage("LinkPic.xlsx", true))
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var package = OpenPackage("LinkPic.xlsx", true))
 			{
 				var sheet = package.Workbook.Worksheets.Add("emptyWS");
 
@@ -204,13 +207,15 @@ namespace EPPlusTest.Drawing
 
 				SaveAndCleanup(package);
 			}
-		}
+            });
+        }
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
-		public void AddPictureWithFaultyPathShouldFail2()
+        public void AddPictureWithFaultyPathShouldFail2()
 		{
-			using (var package = OpenPackage("LinkPic.xlsx", true))
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var package = OpenPackage("LinkPic.xlsx", true))
 			{
 				var sheet = package.Workbook.Worksheets.Add("emptyWS");
 
@@ -218,13 +223,15 @@ namespace EPPlusTest.Drawing
 
 				SaveAndCleanup(package);
 			}
-		}
+            });
+        }
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
-		public void AddPictureWithIllegalCharsAndHyperlinkShouldFail()
+        public void AddPictureWithIllegalCharsAndHyperlinkShouldFail()
 		{
-			using (var package = OpenPackage("LinkPic.xlsx", true))
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var package = OpenPackage("LinkPic.xlsx", true))
 			{
 				var sheet = package.Workbook.Worksheets.Add("emptyWS");
 
@@ -232,7 +239,8 @@ namespace EPPlusTest.Drawing
 
 				SaveAndCleanup(package);
 			}
-		}
+            });
+        }
 		[TestMethod]
 		public void i1688()
 		{

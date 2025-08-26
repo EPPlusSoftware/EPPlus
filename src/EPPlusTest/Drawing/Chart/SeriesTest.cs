@@ -111,16 +111,18 @@ namespace EPPlusTest.Drawing.Chart
 
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ChartSeriesLitStringYNumX()
         {
-            using(var p=new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var p=new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("InvalidStrLit");
                 var lineChart = ws.Drawings.AddLineChart("LineChart1", OfficeOpenXml.Drawing.Chart.eLineChartType.Line);
                 var serie = lineChart.Series.Add("{\"Label1\",\"Label 2\",\"Something else\"}", "{120.3,14,5000.0005}");
                 
             }
+            });
         }
     }
 }

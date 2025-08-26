@@ -58,46 +58,46 @@ namespace EPPlusTest.DataValidation
             _time = null;
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
         public void ExcelTimeTests_ConstructorWithValue_ShouldThrowIfValueIsLessThan0()
         {
-            new ExcelTime(-1);
+            Assert.ThrowsExactly<ArgumentException>(() => new ExcelTime(-1));
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
         public void ExcelTimeTests_ConstructorWithValue_ShouldThrowIfValueIsEqualToOrGreaterThan1()
         {
-            new ExcelTime(1);
+            Assert.ThrowsExactly<ArgumentException>(() => new ExcelTime(1));
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void ExcelTimeTests_Hour_ShouldThrowIfNegativeValue()
         {
-            _time.Hour = -1;
+            Assert.ThrowsExactly<InvalidOperationException>(() => _time.Hour = -1);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void ExcelTimeTests_Minute_ShouldThrowIfNegativeValue()
         {
-            _time.Minute = -1;
+            Assert.ThrowsExactly<InvalidOperationException>(() => _time.Minute = -1);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void ExcelTimeTests_Minute_ShouldThrowIValueIsGreaterThan59()
         {
-            _time.Minute = 60;
+            Assert.ThrowsExactly<InvalidOperationException>(() => _time.Minute = 60);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void ExcelTimeTests_Second_ShouldThrowIfNegativeValue()
         {
-            _time.Second = -1;
+            Assert.ThrowsExactly<InvalidOperationException>(() => _time.Second = -1);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void ExcelTimeTests_Second_ShouldThrowIValueIsGreaterThan59()
         {
-            _time.Second = 60;
+            Assert.ThrowsExactly<InvalidOperationException>(() => _time.Second = 60);
         }
 
         [TestMethod]

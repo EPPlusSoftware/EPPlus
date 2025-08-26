@@ -337,16 +337,18 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ShouldThrowOnAddingCommentsToSameCellTwoDifferentWays()
         {
-            using (var package = OpenPackage("twoCommentsExpectedException.xlsx", true))
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var package = OpenPackage("twoCommentsExpectedException.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("CommentsThrow");
                 sheet.Cells[3, 5].AddComment("A Comment","Some guy");
 
                 var comment2 = sheet.Comments.Add(sheet.Cells[3,5], "Jan Källman:", "JK");
             }
+            });
         }
 
         [TestMethod]

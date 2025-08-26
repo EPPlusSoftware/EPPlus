@@ -39,11 +39,11 @@ namespace EPPlusTest.Excel.Functions
     [TestClass]
     public class ArgumentParsersImplementationsTests : TestBase
     {
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
         public void IntParserShouldThrowIfArgumentIsNull()
         {
             var parser = new IntArgumentParser();
-            parser.Parse(null);
+            Assert.ThrowsExactly<ArgumentNullException>(() => parser.Parse(null));
         }
 
         [TestMethod]

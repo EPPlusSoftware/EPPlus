@@ -148,7 +148,6 @@ namespace EPPlusTest.Drawing.Chart
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ShouldThrowWhenTopPastBottom()
         {
             var sheet3 = _pck.Workbook.Worksheets.Add("ExceptionLayoutModesTopBottom");
@@ -182,11 +181,10 @@ namespace EPPlusTest.Drawing.Chart
             dataLabel.Layout.ManualLayout.Top = 25;
 
             dataLabel.Layout.ManualLayout.LegacyWidth = 40;
-            dataLabel.Layout.ManualLayout.LegacyHeight = 20;
+            Assert.ThrowsExactly<InvalidOperationException>(() => dataLabel.Layout.ManualLayout.LegacyHeight = 20);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ShouldThrowWhenRightMoreLeftThanLeft()
         {
             var sheet3 = _pck.Workbook.Worksheets.Add("ExceptionLayoutModesLeftRight");
@@ -219,12 +217,10 @@ namespace EPPlusTest.Drawing.Chart
             dataLabel.Layout.ManualLayout.Left = 30;
             dataLabel.Layout.ManualLayout.Top = 25;
 
-            dataLabel.Layout.ManualLayout.LegacyWidth = 20;
-            dataLabel.Layout.ManualLayout.LegacyHeight = 30;
+            Assert.ThrowsExactly<InvalidOperationException>(() => dataLabel.Layout.ManualLayout.LegacyWidth = 20);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ShouldThrowOnNonLegacyTopBottom()
         {
             var sheet3 = _pck.Workbook.Worksheets.Add("ExceptionNewLayoutModesTopBottom");
@@ -262,8 +258,7 @@ namespace EPPlusTest.Drawing.Chart
             manualLayout.Top = 20;
             manualLayout.Left = 20;
 
-            manualLayout.Width = 10;
-            manualLayout.Height = 10;
+            Assert.ThrowsExactly<InvalidOperationException>(() => manualLayout.Width = 10);
         }
 
         [TestMethod]

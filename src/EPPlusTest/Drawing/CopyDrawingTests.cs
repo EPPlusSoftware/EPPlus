@@ -165,7 +165,7 @@ namespace EPPlusTest.Drawing
             var ws0 = p.Workbook.Worksheets[0];
             using var p2 = OpenPackage("Target.xlsx", true);
             var ws = p2.Workbook.Worksheets.Add("Sheet1");
-            var ex = Assert.ThrowsException<InvalidOperationException>(() => ws0.Drawings[2].Copy(ws, 1, 15, 0, 0));
+            var ex = Assert.ThrowsExactly<InvalidOperationException>(() => ws0.Drawings[2].Copy(ws, 1, 15, 0, 0));
             Assert.AreEqual("Table slicers can't be copied from one workbook to another.", ex.Message);
         }
 
@@ -256,7 +256,7 @@ namespace EPPlusTest.Drawing
             var ws2 = p.Workbook.Worksheets[2];
             using var p2 = OpenPackage("Target.xlsx", true);
             var ws = p2.Workbook.Worksheets.Add("Sheet1");
-            var ex = Assert.ThrowsException<InvalidOperationException>(() => ws2.Drawings[6].Copy(ws, 5, 40));
+            var ex = Assert.ThrowsExactly<InvalidOperationException>(() => ws2.Drawings[6].Copy(ws, 5, 40));
             Assert.AreEqual("Table slicers can't be copied from one workbook to another.", ex.Message);
         }
 

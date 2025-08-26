@@ -589,26 +589,30 @@ namespace EPPlusTest.Core.Range.Delete
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteIntoMergedCellsPartialLeftThrowsException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("MergedCells");
                 ws.Cells["B2:D3"].Merge = true;
                 ws.Cells["A2"].Delete(eShiftTypeDelete.Left);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteIntoMergedCellsPartialUpThrowsException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("MergedCells");
                 ws.Cells["B2:D3"].Merge = true;
                 ws.Cells["C1"].Delete(eShiftTypeDelete.Up);
             }
+            });
         }
         [TestMethod]
         public void ValidateDeleteIntoMergedCellsPartialLeftShouldNotThrowsException()
@@ -680,26 +684,30 @@ namespace EPPlusTest.Core.Range.Delete
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteFromTablePartialLeftThrowsException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("TableDelete");
                 ws.Tables.Add(ws.Cells["B2:D3"], "table1");
                 ws.Cells["A2"].Delete(eShiftTypeDelete.Left);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteFromTablePartialUpThrowsException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("TableDelete");
                 ws.Tables.Add(ws.Cells["B2:D3"], "table1");
                 ws.Cells["C1"].Delete(eShiftTypeDelete.Up);
             }
+            });
         }
         [TestMethod]
         public void ValidateDeletFromTablePartialLeftShouldNotThrowsException()
@@ -722,10 +730,11 @@ namespace EPPlusTest.Core.Range.Delete
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteFromPivotTablePartialLeftThrowsException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("PivotTableDelete");
                 ws.Cells["E5"].Value = "E5";
@@ -733,12 +742,14 @@ namespace EPPlusTest.Core.Range.Delete
                 ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
                 ws.Cells["A2"].Delete(eShiftTypeDelete.Left);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteFromPivotTablePartialUpThrowsException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("PivotTableDelete");
                 ws.Cells["E5"].Value = "E5";
@@ -746,6 +757,7 @@ namespace EPPlusTest.Core.Range.Delete
                 ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
                 ws.Cells["C1"].Delete(eShiftTypeDelete.Up);
             }
+            });
         }
         [TestMethod]
         public void ValidateDeleteFromPivotTablePartialLeftShouldNotThrowsException()
@@ -1193,28 +1205,32 @@ namespace EPPlusTest.Core.Range.Delete
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateFilterShiftUpPartial()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("AutoFilterShiftUpPart");
                 LoadTestdata(ws);
                 ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
                 ws.Cells["A1:C1"].Delete(eShiftTypeDelete.Up);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateFilterShiftLeftPartial()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("AutoFilterShiftLeftPart");
                 LoadTestdata(ws);
                 ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
                 ws.Cells["A1:A99"].Delete(eShiftTypeDelete.Left);
             }
+            });
         }
         [TestMethod]
         public void ValidateSparkLineShiftLeft()

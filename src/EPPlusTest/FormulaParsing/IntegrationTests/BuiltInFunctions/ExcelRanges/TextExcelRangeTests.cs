@@ -187,12 +187,13 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
         //If trying to apply a function in a different culture than current culture
         //Then it may be expected that dateTime.TryParse in DateValue.cs fails?
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void ValueShouldHandleDateGB()
         {
             var ci = CultureInfo.CurrentCulture;
             CultureInfo.CurrentCulture = new CultureInfo("en-GB");
-            try
+            Assert.ThrowsExactly<AssertFailedException>(() =>
+            {
+                try
             {
                 using (var p = new ExcelPackage())
                 {
@@ -208,6 +209,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
             {
                 CultureInfo.CurrentCulture = ci;
             }
+            });
         }
 
         [TestMethod]

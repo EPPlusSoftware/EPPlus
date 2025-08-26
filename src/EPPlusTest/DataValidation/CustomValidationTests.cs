@@ -57,7 +57,7 @@ namespace EPPlusTest.DataValidation
             Assert.IsNotNull(validation.Formula);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException), AllowDerivedTypes = true)]
+        [TestMethod]
         public void CustomValidation_ShouldThrowExceptionIfFormulaIsTooLong()
         {
             // Arrange
@@ -66,7 +66,7 @@ namespace EPPlusTest.DataValidation
 
             // Act
             var validation = _sheet.DataValidations.AddCustomValidation("A1");
-            validation.Formula.ExcelFormula = sb.ToString();
+            Assert.Throws<InvalidOperationException>(() => validation.Formula.ExcelFormula = sb.ToString());
         }
     }
 }

@@ -79,14 +79,13 @@ namespace EPPlusTest.Table.PivotTable
             area2.Conditions.Fields[0].Items.Add(0);
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void AddPivotCF_ShouldThrowExceptionWhenSettingTypeOnUnsupportedCFRule()
         {
             var ws = _pck.Workbook.Worksheets.Add("PivotCfRowColException");
             var pt = CreatePivotTable(ws);
             var rule = pt.ConditionalFormattings.Add(eExcelPivotTableConditionalFormattingRuleType.GreaterThan);
 
-            rule.Type = ConditionType.Row; //row and column causes the workbook to become corrupt.
+            Assert.ThrowsExactly<InvalidOperationException>(() => rule.Type = ConditionType.Row); //row and column causes the workbook to become corrupt.
         }
         [TestMethod]
         public void AddPivotCF_AddExtLstPivotFormattingData()

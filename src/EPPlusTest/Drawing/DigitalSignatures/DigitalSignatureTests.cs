@@ -594,10 +594,11 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidDataException))]
         public void SetFaultyFromToRow()
         {
-            using (ExcelPackage package = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidDataException>(() =>
+            {
+                using (ExcelPackage package = new ExcelPackage())
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("AWs");
@@ -608,13 +609,15 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 package.Save();
             }
+            });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidDataException))]
         public void SetFaultyFromToColumn()
         {
-            using (ExcelPackage package = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidDataException>(() =>
+            {
+                using (ExcelPackage package = new ExcelPackage())
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("AWs");
@@ -625,6 +628,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 package.Save();
             }
+            });
         }
 
         [TestMethod]

@@ -235,7 +235,6 @@ namespace EPPlusTest.SaveFunctions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(FormatException), "string is too long for column width")]
         public void ToTextMismatchColLengthFixedWidth()
         {
             _sheet.Cells["A1"].Value = 1;
@@ -244,7 +243,7 @@ namespace EPPlusTest.SaveFunctions
             _sheet.Cells["B2"].Value = 5;
             ExcelOutputTextFormatFixedWidth format = new ExcelOutputTextFormatFixedWidth();
             format.SetColumnLengths(3, 4);
-            var text = _sheet.Cells["A1:B2"].ToText(format);
+            Assert.ThrowsExactly<FormatException>(() => _sheet.Cells["A1:B2"].ToText(format));
         }
 
         [TestMethod]

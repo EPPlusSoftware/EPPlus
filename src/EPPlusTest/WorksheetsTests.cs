@@ -72,12 +72,12 @@ namespace EPPlusTest
 			workbook.Worksheets.Delete("NEW2");
         }
 
-		[TestMethod, ExpectedException(typeof(ArgumentException))]
-		public void DeleteByNameWhereWorkSheetDoesNotExist()
+		[TestMethod]
+        public void DeleteByNameWhereWorkSheetDoesNotExist()
 		{
 			workbook.Worksheets.Add("NEW2");
-			workbook.Worksheets.Delete("NEW3");
-		}
+            Assert.ThrowsExactly<ArgumentException>(() => workbook.Worksheets.Delete("NEW3"));
+        }
 
 		[TestMethod]
 		public void MoveBeforeByNameWhereWorkSheetExists()

@@ -39,7 +39,7 @@ namespace EPPlusTest.GlobalConfiguration
             }
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
         public void ShouldThrowArgumentExceptionIfErrorsAreNotSuppressed()
         {
             lock(typeof(ExcelPackage))
@@ -49,7 +49,9 @@ namespace EPPlusTest.GlobalConfiguration
                     x.JsonConfigFileName = "asdf";
                     x.JsonConfigBasePath = "JKLÖ";
                 });
-                try
+                Assert.ThrowsExactly<ArgumentException>(() =>
+                {
+                    try
                 {
                     using(var package = new ExcelPackage())
                     {
@@ -61,7 +63,8 @@ namespace EPPlusTest.GlobalConfiguration
                 {
                     ExcelPackage.Configure(x => x.Reset());
                 }
-            
+                });
+
             }
         }
     }

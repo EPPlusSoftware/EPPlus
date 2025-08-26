@@ -808,12 +808,12 @@ namespace EPPlusTest.Excel.Functions
             Assert.AreEqual(expectedResult, result.Result);
         }
 
-        [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]
+        [TestMethod]
         public void AverageAShouldThrowValueExceptionIfNonNumericTextIsSupplied()
         {
             var func = new AverageA();
             var args = FunctionsHelper.CreateArgs(4d, 2d, 5d, 2d, "ABC");
-            var result = func.Execute(args, _parsingContext);
+            Assert.ThrowsExactly<ExcelErrorValueException>(() => func.Execute(args, _parsingContext));
         }
 
         [TestMethod]

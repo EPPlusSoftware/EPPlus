@@ -239,73 +239,85 @@ namespace EPPlusTest.Core.Range
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateMergedCellInsideTableShouldThrowException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Merge");
                 ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
 
                 ws.Cells["D4:D5"].Merge = true;
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateMergedCellPartlyWithTableShouldThrowException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Merge");
                 ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
 
                 ws.Cells["D3:D4"].Merge = true;
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateMergedCellEqualTableShouldThrowException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Merge");
                 ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
 
                 ws.Cells["D4:E5"].Merge = true;
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ValidateTableAddShouldThrowExceptionMergedCellEqual()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Merge");
                 ws.Cells["D4:E5"].Merge = true;
                 ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ValidateTableAddShouldThrowExceptionMergedCellInside()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Merge");
                 ws.Cells["D4:D5"].Merge = true;
                 ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ValidateTableAddShouldThrowExceptionMergedCellPartly()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Merge");
                 ws.Cells["D3:D4"].Merge = true;
                 ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
             }
+            });
         }
         public void ValidateDeleted()
         {

@@ -28,7 +28,6 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void DeletingAtMaxRowsOfExcelSheetShouldThrow()
         {
             var package = new ExcelPackage();
@@ -43,7 +42,7 @@ namespace EPPlusTest
             Assert.AreEqual(1, sheet.Dimension.Start.Column);
             Assert.AreEqual(5, sheet.Cells[sheet.Dimension.End.Row, sheet.Dimension.Start.Column].Value);
 
-            sheet.DeleteRow(ExcelPackage.MaxRows, 2);
+            Assert.ThrowsExactly<ArgumentException>(() => sheet.DeleteRow(ExcelPackage.MaxRows, 2));
         }
     }
 }

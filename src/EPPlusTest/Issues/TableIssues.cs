@@ -121,10 +121,11 @@ namespace EPPlusTest.Issues
         /// i1885
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void EpplusShouldThrowOnMultiCellArrayFormulaInTable()
         {
-            using (var package = OpenPackage("Multi-CellArrayFormulaInTable.xlsx", true))
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var package = OpenPackage("Multi-CellArrayFormulaInTable.xlsx", true))
             {
                 var wb = package.Workbook;
                 var sheet = wb.Worksheets.Add("newWorksheet");
@@ -135,6 +136,7 @@ namespace EPPlusTest.Issues
 
                 SaveAndCleanup(package);
             }
+            });
         }
 
         [TestMethod]

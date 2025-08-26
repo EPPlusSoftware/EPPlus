@@ -115,25 +115,29 @@ namespace EPPlusTest.Table
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void TestTableNameCanNotStartsWithNumber()
         {
-            using (var pck = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var pck = new ExcelPackage())
             {
                 var ws = pck.Workbook.Worksheets.Add("Table");
                 var tbl = ws.Tables.Add(ws.Cells["A1"], "5TestTable");
             }
+            });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void TestTableNameCanNotContainWhiteSpaces()
         {
-            using (var pck = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var pck = new ExcelPackage())
             {
                 var ws = pck.Workbook.Worksheets.Add("TableNoWhiteSpace");
                 var tbl = ws.Tables.Add(ws.Cells["A1"], "Test Table");
             }
+            });
         }
 
         [TestMethod]
@@ -1047,10 +1051,11 @@ namespace EPPlusTest.Table
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ThrowsWhenAttemptingToAddSameName()
         {
-            using (var package = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var package = new ExcelPackage())
             {
                 var ws = package.Workbook.Worksheets.Add("TESTTABLE");
                 var range = new ExcelAddress("A1:C5");
@@ -1062,6 +1067,7 @@ namespace EPPlusTest.Table
 
                 table.Columns[1].Name = "AColumn";
             }
+            });
         }
 
         [TestMethod]

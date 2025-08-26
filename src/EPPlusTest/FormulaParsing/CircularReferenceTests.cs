@@ -13,21 +13,26 @@ namespace EPPlusTest.FormulaParsing
     [TestClass]
     public class CircularReferenceTests
     {
-        [TestMethod, ExpectedException(typeof(CircularReferenceException))]
+        [TestMethod]
         public void CircularRef_In_Sum_ShouldThow()
         {
-            using(var package = new ExcelPackage())
+            Assert.ThrowsExactly<CircularReferenceException>(() =>
+            {
+                using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].Formula = "SUM(A1)";
                 sheet.Calculate();
             }
+            });
         }
 
-        [TestMethod, ExpectedException(typeof(CircularReferenceException))]
+        [TestMethod]
         public void CircularRef_In_Sum_BetweenTwoCells_ShouldThow()
         {
-            using (var package = new ExcelPackage())
+            Assert.ThrowsExactly<CircularReferenceException>(() =>
+            {
+                using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].Value = 1;
@@ -36,6 +41,7 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Cells["A3"].Formula = "SUM(A1:A2)";
                 sheet.Calculate();
             }
+            });
         }
 
         [TestMethod]
@@ -54,15 +60,18 @@ namespace EPPlusTest.FormulaParsing
             }
         }
 
-        [TestMethod, ExpectedException(typeof(CircularReferenceException))]
+        [TestMethod]
         public void CircularRef_In_Address_ShouldThow()
         {
-            using (var package = new ExcelPackage())
+            Assert.ThrowsExactly<CircularReferenceException>(() =>
+            {
+                using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].Formula = "A1";
                 sheet.Calculate();
             }
+            });
         }
 
         [TestMethod]
@@ -132,10 +141,12 @@ namespace EPPlusTest.FormulaParsing
             }
         }
 
-        [TestMethod, ExpectedException(typeof(CircularReferenceException))]
+        [TestMethod]
         public void VLookupShouldThrowWhenCircularRefsNotAllowed()
         {
-            using (var package = new ExcelPackage())
+            Assert.ThrowsExactly<CircularReferenceException>(() =>
+            {
+                using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].Value = 2;
@@ -147,6 +158,7 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Cells["B4"].Formula = "VLOOKUP(3, A1:B3, 2)";
                 sheet.Calculate();
             }
+            });
         }
 
         [TestMethod]

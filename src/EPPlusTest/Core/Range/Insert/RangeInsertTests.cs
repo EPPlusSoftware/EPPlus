@@ -450,26 +450,30 @@ namespace EPPlusTest.Core.Range.Insert
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateInsertIntoMergedCellsPartialRightThrowsException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("MergedCells");
                 ws.Cells["B2:D3"].Merge = true;
                 ws.Cells["A2"].Insert(eShiftTypeInsert.Right);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateInsertIntoMergedCellsPartialDownThrowsException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("MergedCells");
                 ws.Cells["B2:D3"].Merge = true;
                 ws.Cells["C1"].Insert(eShiftTypeInsert.Down);
             }
+            });
         }
         [TestMethod]
         public void ValidateDeleteEntireMergeCells()
@@ -532,26 +536,30 @@ namespace EPPlusTest.Core.Range.Insert
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateInsertIntoTablePartialRightThrowsException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("TableDelete");
                 ws.Tables.Add(ws.Cells["B2:D3"], "table1");
                 ws.Cells["A2"].Insert(eShiftTypeInsert.Right);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateInsertIntoTablePartialDownThrowsException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("TableDelete");
                 ws.Tables.Add(ws.Cells["B2:D3"], "table1");
                 ws.Cells["C1"].Insert(eShiftTypeInsert.Down);
             }
+            });
         }
         [TestMethod]
         public void ValidateInsertIntoTablePartialRightShouldNotThrowsException()
@@ -574,10 +582,11 @@ namespace EPPlusTest.Core.Range.Insert
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateInsertIntoPivotTablePartialRightThrowsException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("PivotTableInsert");
                 ws.Cells["E5"].Value = "E5";
@@ -585,12 +594,14 @@ namespace EPPlusTest.Core.Range.Insert
                 ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
                 ws.Cells["A2"].Insert(eShiftTypeInsert.Right);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateInsertIntoPivotTablePartialDownThrowsException()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("PivotTableInsert");
                 ws.Cells["E5"].Value = "E5";
@@ -598,6 +609,7 @@ namespace EPPlusTest.Core.Range.Insert
                 ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
                 ws.Cells["C1"].Insert(eShiftTypeInsert.Down);
             }
+            });
         }
         [TestMethod]
         public void ValidateInsertIntoPivotTablePartialRightShouldNotThrowsException()
@@ -1119,22 +1131,20 @@ namespace EPPlusTest.Core.Range.Insert
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateFilterShiftDownPartial()
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftDownPart");
             LoadTestdata(ws);
             ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
-            ws.Cells["A1:C1"].Insert(eShiftTypeInsert.Down);
+            Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["A1:C1"].Insert(eShiftTypeInsert.Down));
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateFilterShiftRightPartial()
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftRightPart");
             LoadTestdata(ws);
             ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
-            ws.Cells["A1:A99"].Insert(eShiftTypeInsert.Right);
+            Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["A1:A99"].Insert(eShiftTypeInsert.Right));
         }
         [TestMethod]
         public void ValidateSparkLineShiftRight()

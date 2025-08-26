@@ -30,17 +30,19 @@ namespace EPPlusTest
             Assert.AreEqual(lk, ExcelPackage.License.LicenseKey);
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidLicenseKeyException))]
         public void CommercialFunctionInvalidKeyTest()
         {
             var lk = "hnh8pj+e4dKUVwUwL2lW3b+4sP00YAF2lrE6W8BdD48HUTVGN3htPE8kdcIm+TEmwYm9YtBBcIbAQuJLIyl1+AEGQjM1OTc45QcfAYwCCgEA";
-            ExcelPackage.License.SetCommercial(lk);
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidLicenseKeyException>(() =>
             {
+                ExcelPackage.License.SetCommercial(lk);
+                using (var p = new ExcelPackage())
+                {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 Assert.AreEqual(lk, ExcelPackage.License.LicenseKey);
                 SaveWorkbook("LicenseKeyComercial.xlsx", p);
-            }
+                }
+            });
         }
 
         [TestMethod]
@@ -57,17 +59,19 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(LicenseNotValidException))]
         public void CommercialTemporaryKey()
         {
             var lk = "R+WEJREh+kZCPuQDxJDNB96heFdV0hZLG6xvWYAeEfAZjBU5JXFoT2/+or9Uxwf5aDyJxGi+VgDw92x+Cr6sMgEGQjZCQjM15wfJAAADQQIA";
-            ExcelPackage.License.SetCommercial(lk);
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<LicenseNotValidException>(() =>
             {
+                ExcelPackage.License.SetCommercial(lk);
+                using (var p = new ExcelPackage())
+                {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 Assert.AreEqual(EPPlusCommercialLicenseType.TemporaryKey | EPPlusCommercialLicenseType.Subscription, ExcelPackage.License.LicenseInfo.LicenseType);
                 Assert.AreEqual(lk, ExcelPackage.License.LicenseKey);
-            }
+                }
+            });
         }        
         
         [TestMethod]

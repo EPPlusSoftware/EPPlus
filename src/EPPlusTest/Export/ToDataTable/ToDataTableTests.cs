@@ -358,10 +358,12 @@ namespace EPPlusTest.Export.ToDataTable
             }
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void ToDataTableShouldHandleAllowNulls()
         {
-            using (var package = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var package = new ExcelPackage())
             {
                 var date = DateTime.UtcNow;
                 var sheet = package.Workbook.Worksheets.Add("test");
@@ -377,6 +379,7 @@ namespace EPPlusTest.Export.ToDataTable
                     o.Mappings.Add(1, "Name", typeof(string), false); 
                 });
             }
+            });
         }
 
         [TestMethod]

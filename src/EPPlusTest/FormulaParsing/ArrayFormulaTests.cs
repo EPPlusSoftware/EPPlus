@@ -84,15 +84,17 @@ namespace EPPlusTest.FormulaParsing
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CircularReferenceException))]
         public void ArrayFormulaCircularRefererence()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<CircularReferenceException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws= p.Workbook.Worksheets.Add("CircularRef");
                 ws.Cells["T1:T10"].CreateArrayFormula("Transpose(Q5:Z5)");
                 ws.Calculate();
             }
+            });
         }
         [TestMethod]
         public void ArrayFormula_Sort()
@@ -111,10 +113,11 @@ namespace EPPlusTest.FormulaParsing
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void DynamicArrayFormulaWithTwoCellsInTableGenerateCorruptWorkbook()
         {
-            using (var package = OpenPackage("DynamicArrayTableNew.xlsx", true))
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var package = OpenPackage("DynamicArrayTableNew.xlsx", true))
             {
                 var wb = package.Workbook;
                 var sheet = wb.Worksheets.Add("newWorksheet");
@@ -125,13 +128,15 @@ namespace EPPlusTest.FormulaParsing
 
                 SaveAndCleanup(package);
             }
+            });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void DynamicArrayFormulaWithTwoCellsInTableGenerateCorruptWorkbook2()
         {
-            using (var package = OpenPackage("DynamicArrayTableNew.xlsx", true))
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var package = OpenPackage("DynamicArrayTableNew.xlsx", true))
             {
                 var wb = package.Workbook;
                 var sheet = wb.Worksheets.Add("newWorksheet");
@@ -141,6 +146,7 @@ namespace EPPlusTest.FormulaParsing
 
                 SaveAndCleanup(package);
             }
+            });
         }
 
 

@@ -9,15 +9,15 @@ namespace EPPlusTest.Issues
     [TestClass]
     public class ExportIssues : TestBase
     {
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void ToDataTableDuplicateColumnNames()
         {
             var package = OpenTemplatePackage("ToDataTableDuplicateColumnNames.xlsx");
             var sheet = package.Workbook.Worksheets[0];
-            var dt = sheet.Cells["A1:C3"].ToDataTable(x =>
+            Assert.ThrowsExactly<InvalidOperationException>(() => sheet.Cells["A1:C3"].ToDataTable(x =>
             {
                 x.FirstRowIsColumnNames = true;
-            });
+            }));
         }
 
         [TestMethod]

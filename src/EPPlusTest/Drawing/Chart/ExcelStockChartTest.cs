@@ -267,14 +267,16 @@ namespace EPPlusTest.Drawing.Chart
             Assert.AreEqual("StockTextVOHLCStringAdr!B1:B7", chart.PlotArea.ChartTypes[0].Series[0].Series);
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))] 
         public void AddStockChartFromAddChart()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("stock");
                 var chart = ws.Drawings.AddChart("StockTextHLCDatalabels", eChartType.StockHLC);
             }
+            });
         }
     }
 }

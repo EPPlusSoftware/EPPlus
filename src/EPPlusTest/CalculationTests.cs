@@ -77,7 +77,7 @@ namespace EPPlusTest
             ws.Cells["A10"].Formula = "Sum(A1:A8)";
             ws.Cells["A11"].Formula = "SubTotal(9,A1:A8)";
             ws.Cells["A12"].Formula = "Average(A1:A8)";
-
+            
             ws.Calculate();
             Assert.AreEqual(21D, ws.Cells["a10"].Value);
             Assert.AreEqual(21D, ws.Cells["a11"].Value);

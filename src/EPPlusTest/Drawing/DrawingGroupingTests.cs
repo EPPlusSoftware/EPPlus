@@ -173,10 +173,11 @@ namespace EPPlusTest.Drawing.Grouping
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void Group_GroupIntoOthereWorksheetShouldFailText()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws1 = p.Workbook.Worksheets.Add("Sheet1");
                 var ws2 = p.Workbook.Worksheets.Add("Sheet2");
@@ -195,13 +196,15 @@ namespace EPPlusTest.Drawing.Grouping
                 r1.SetSize(100, 25);
                 var g = ctrl1.Group(r1);
             }
+            });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void Group_GroupIntoOtherGroupShouldFailTest()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("UnGroupAllDrawings");
                 var ctrl1 = (ExcelControlGroupBox)ws.Drawings.AddControl("GroupBox 1", eControlType.GroupBox);
@@ -221,6 +224,7 @@ namespace EPPlusTest.Drawing.Grouping
 
                 ctrl2.Group(r1);
             }
+            });
         }
     }
 }

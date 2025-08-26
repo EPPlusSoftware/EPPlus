@@ -1923,7 +1923,6 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void HeaderFooterTextOver255()
         {
             using var p = new ExcelPackage();
@@ -1932,8 +1931,8 @@ namespace EPPlusTest
                                                           "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890";
             ws.HeaderFooter.OddFooter.Centered.Text = "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890" +
                                                       "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890";
-            ws.HeaderFooter.OddFooter.LeftAligned.Text = "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890" +
-                                                         "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890";
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => ws.HeaderFooter.OddFooter.LeftAligned.Text = "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890" +
+                                                         "1234567890" + "1234567890" + "1234567890" + "1234567890" + "1234567890");
         }
 
         [TestMethod]
@@ -2195,26 +2194,30 @@ namespace EPPlusTest
             ws.Cells["A1:P30"].Copy(ws.Cells["B1"]);
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcelWorksheetRenameWithStartApostropheThrowsException()
         {
-            using (var package = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var package = new ExcelPackage())
             {
                 var sheet1 = package.Workbook.Worksheets.Add("Sheet1");
                 sheet1.Name = "'New Name";
             }
+            });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcelWorksheetRenameWithEndApostropheThrowsException()
         {
-            using (var package = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                using (var package = new ExcelPackage())
             {
                 var sheet1 = package.Workbook.Worksheets.Add("Sheet1");
                 sheet1.Name = "New Name'";
                 package.SaveAs(new FileInfo("c:\\epplustest\\ap.xlsx"));
             }
+            });
         }
         [TestMethod]
         public void CopyWorkSheetWithInsertInSharedFormula()
@@ -2621,10 +2624,11 @@ namespace EPPlusTest
 
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void NoVisibleSheetShouldThrow()
         {
-            using (var package = new ExcelPackage("ExceptionSheet.xlsx"))
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var package = new ExcelPackage("ExceptionSheet.xlsx"))
             {
                 package.Workbook.Worksheets.Add("VisibleSheet1");
                 package.Workbook.Worksheets.Add("HiddenSheet1").Hidden = eWorkSheetHidden.Hidden;
@@ -2634,6 +2638,7 @@ namespace EPPlusTest
 
                 package.Save();
             }
+            });
         }
         [TestMethod]
         public void ValidateCalcMode()

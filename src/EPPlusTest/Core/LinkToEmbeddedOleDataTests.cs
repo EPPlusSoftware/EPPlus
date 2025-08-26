@@ -68,7 +68,7 @@ namespace EPPlusTest.Core
             var ws = p.Workbook.Worksheets[0];
             var ole = ws.Drawings[0] as ExcelOleObject;
 
-            Assert.ThrowsException<InvalidOperationException>(() => ole.GetEmbeddedPackage());
+            Assert.ThrowsExactly<InvalidOperationException>(() => ole.GetEmbeddedPackage());
         }
 
     }

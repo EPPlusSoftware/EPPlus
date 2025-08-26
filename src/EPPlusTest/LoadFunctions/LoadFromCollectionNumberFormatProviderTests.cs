@@ -102,14 +102,14 @@ namespace EPPlusTest.LoadFunctions
 
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
         public void ShouldThrowIfNoNumberFormatProviderSet()
         {
             var items = new List<NumberFormatWithoutTableAttribute>
             {
                 new NumberFormatWithoutTableAttribute { Name = "Joe", Salary = 1000 }
             };
-            _sheet.Cells["A1"].LoadFromCollection(items, o => o.PrintHeaders = true);
+            Assert.ThrowsExactly<ArgumentNullException>(() => _sheet.Cells["A1"].LoadFromCollection(items, o => o.PrintHeaders = true));
 
         }
 

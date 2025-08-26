@@ -125,28 +125,34 @@ namespace EPPlusTest.Table
             Assert.AreEqual("Shift Me Down", ws.Cells["A106"].Value);
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void TableInsertRowPositionNegative()
         {
             //Setup
-            using(var p=new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                //Setup
+                using (var p=new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Table1");
                 var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
                 tbl.InsertRow(-1);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void TableInsertRowRowsNegative()
         {
             //Setup
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                //Setup
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Table1");
                 var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
                 tbl.InsertRow(0, -1);
             }
+            });
         }
         [TestMethod]
         public void TableAddRowToMax()
@@ -161,10 +167,11 @@ namespace EPPlusTest.Table
             Assert.AreEqual(ExcelPackage.MaxRows, tbl.Address._toRow);
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void TableAddRowOverMax()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 //Setup
                 var ws = p.Workbook.Worksheets.Add("TableOverMaxRow");
@@ -175,6 +182,7 @@ namespace EPPlusTest.Table
                 //Assert
                 Assert.AreEqual(ExcelPackage.MaxRows, tbl.Address._toRow);
             }
+            });
         }
         #endregion
         #region Insert Column
@@ -255,22 +263,26 @@ namespace EPPlusTest.Table
             Assert.AreEqual("Don't Me Down", ws.Cells["E19999"].Value);
         }
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void TableInsertColumnPositionNegative()
         {
             //Setup
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<ArgumentException>(() =>
+            {
+                //Setup
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Table1");
                 var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
                 tbl.Columns.Insert(-1);
             }
+            });
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void TableAddColumnOverMax()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 //Setup
                 var ws = p.Workbook.Worksheets.Add("TableOverMaxColumn");
@@ -279,6 +291,7 @@ namespace EPPlusTest.Table
                 //Act
                 tbl.Columns.Add(ExcelPackage.MaxColumns - 3);
             }
+            });
         }
         #endregion
 
@@ -311,32 +324,34 @@ namespace EPPlusTest.Table
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void AddRowsToTablesOfDifferentWidths_BottomWider()
         {
             using (var pck = OpenTemplatePackage("TestTableAddRows.xlsx"))
             {
-                // Get sheet 2 from the workbook, and get the tables we are going to test
-                var ws = TryGetWorksheet(pck, "Sheet2");
-                var table3 = ws.Tables["Table3"];
-                var table4 = ws.Tables["Table4"];
-                // Make sure the tables are where we expect them to be
-                if (table3.Address.ToString() != "B2:C3") Assert.Inconclusive();
-                if (table4.Address.ToString() != "B6:E7") Assert.Inconclusive();
+                Assert.ThrowsExactly<InvalidOperationException>(() =>
+                {
+                    // Get sheet 2 from the workbook, and get the tables we are going to test
+                    var ws = TryGetWorksheet(pck, "Sheet2");
+                    var table3 = ws.Tables["Table3"];
+                    var table4 = ws.Tables["Table4"];
+                    // Make sure the tables are where we expect them to be
+                    if (table3.Address.ToString() != "B2:C3") Assert.Inconclusive();
+                    if (table4.Address.ToString() != "B6:E7") Assert.Inconclusive();
 
-                // Add 10 rows to Table3
-                table3.AddRow(10);
-                // Make sure Table3's address has been correctly updated
-                Assert.AreEqual("B2:C13", table3.Address.ToString());
-                // Make sure Table4 below has been correctly moved
-                Assert.AreEqual("B16:E17", table4.Address.ToString());
+                    // Add 10 rows to Table3
+                    table3.AddRow(10);
+                    // Make sure Table3's address has been correctly updated
+                    Assert.AreEqual("B2:C13", table3.Address.ToString());
+                    // Make sure Table4 below has been correctly moved
+                    Assert.AreEqual("B16:E17", table4.Address.ToString());
 
-                // Add 10 rows to Table4
-                table4.AddRow(10);
-                // Make sure Table4 has been correctly updated
-                Assert.AreEqual("B16:E27", table4.Address.ToString());
-                // Make sure Table3 hasn't moved
-                Assert.AreEqual("B2:C13", table3.Address.ToString());
+                    // Add 10 rows to Table4
+                    table4.AddRow(10);
+                    // Make sure Table4 has been correctly updated
+                    Assert.AreEqual("B16:E27", table4.Address.ToString());
+                    // Make sure Table3 hasn't moved
+                    Assert.AreEqual("B2:C13", table3.Address.ToString());
+                });
             }
         }
         [TestMethod]

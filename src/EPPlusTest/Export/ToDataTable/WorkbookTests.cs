@@ -10,14 +10,17 @@ namespace EPPlusTest.Export.ToDataTable
     [TestClass]
     public class WorkbookTests : TestBase
     {
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
         public void ShouldThrowInvalidOperationExceptionWhenNullNotAllowed()
         {
-            using (var package = OpenTemplatePackage("ToDataTableNullValues.xlsx"))
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var package = OpenTemplatePackage("ToDataTableNullValues.xlsx"))
             {
                 var sheet1 = package.Workbook.Worksheets[0];
                 var dt = sheet1.Cells["A1:B4"].ToDataTable(o => o.AlwaysAllowNull = false);
             }
+            });
         }
 
         [TestMethod]

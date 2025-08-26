@@ -312,7 +312,7 @@ namespace EPPlusTest.Table
             Assert.AreEqual(4, tbl.DataRows[1].GetValue("Col2"));
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [TestMethod]
         public void SetValues2()
         {
             using var p = new ExcelPackage();
@@ -321,7 +321,7 @@ namespace EPPlusTest.Table
             sheet.Cells["B1"].Value = "Col2";
             var tbl = sheet.Tables.Add(sheet.Cells["A1:B2"], "Table1");
             var newRow = tbl.DataRows.AddNewRow();
-            newRow.SetValues(new int[] { 3, 4, 5 });
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => newRow.SetValues(new int[] { 3, 4, 5 }));
         }
         [TestMethod]
         public void EnsureDataRowsWorksWithCustomColumnNames()

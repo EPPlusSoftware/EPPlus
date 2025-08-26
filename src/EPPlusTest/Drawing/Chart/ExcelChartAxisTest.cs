@@ -349,23 +349,26 @@ namespace EPPlusTest.Drawing.Chart
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void LineShouldNotAllowSeriesNon3D()
         {
-            using (var p = new ExcelPackage())
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("sheetTest");
                 var chart = ws.Drawings.AddLineChart("non3DLine", eLineChartType.LineStacked100);
 
                 chart.XAxis.ChangeAxisType(eAxisType.Serie);
             }
+            });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void LineChartShouldNotAllowVal()
         {
-            using (var p = OpenPackage("CatToValException.xlsx", true))
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                using (var p = OpenPackage("CatToValException.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("SomeSheet");
 
@@ -394,14 +397,17 @@ namespace EPPlusTest.Drawing.Chart
                 //We throw on val axisType. For Linecharts
                 lChart.XAxis.ChangeAxisType(eAxisType.Val);
             }
+            });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ColumnBarChartShouldNotAllowValX()
         {
             //Create simple category Bar Chart with Epplus
-            using (var p = OpenPackage("ColumnBarCharts.xlsx", true))
+            Assert.ThrowsExactly<InvalidOperationException>(() =>
+            {
+                //Create simple category Bar Chart with Epplus
+                using (var p = OpenPackage("ColumnBarCharts.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1"].Value = "Categories";
@@ -435,10 +441,10 @@ namespace EPPlusTest.Drawing.Chart
 
                 SaveAndCleanup(p);
             }
+            });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void AreaChart()
         {
             var ws = axisWsDates;
@@ -458,11 +464,10 @@ namespace EPPlusTest.Drawing.Chart
             var ser3 = anArea.Series.Add(totalRange, dateRange);
             ser3.HeaderAddress = ws.Cells["D1"];
 
-            anArea.XAxis.ChangeAxisType(eAxisType.Val);
+            Assert.ThrowsExactly<InvalidOperationException>(() => anArea.XAxis.ChangeAxisType(eAxisType.Val));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void XYChart()
         {
             var ws = axisWsDates;
@@ -478,8 +483,7 @@ namespace EPPlusTest.Drawing.Chart
             var ser2 = xyChart.Series.Add(dateRange, spendRange);
             ser2.HeaderAddress = ws.Cells["C1"];
 
-            xyChart.YAxis.ChangeAxisType(eAxisType.Cat);
-            ws.Calculate();
+            Assert.ThrowsExactly<InvalidOperationException>(() => xyChart.YAxis.ChangeAxisType(eAxisType.Cat));
         }
 
         [TestMethod]

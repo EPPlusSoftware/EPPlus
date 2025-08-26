@@ -131,7 +131,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
             }
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(-1.5, 0.1295176)]
         [DataRow(0, 0.39894228)]
         [DataRow(0.1, 0.39695255)]
@@ -250,7 +250,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
             }
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(2, 0.47725)]
         [DataRow(-1.5, -0.43319)]
         public void GaussTest1(double z, double expected)
