@@ -361,5 +361,28 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i2081_Formula()
+        {
+            using (var p = OpenPackage("i2081_Formulas.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Aws");
+                ws.Cells["C3"].Formula = "{1,2,3;4,5,6}";
+
+                ws.Calculate();
+
+                Assert.AreEqual(1, ws.Cells["C3"].Value);
+                Assert.AreEqual(2, ws.Cells["D3"].Value);
+                Assert.AreEqual(3, ws.Cells["E3"].Value);
+
+                Assert.AreEqual(4, ws.Cells["C4"].Value);
+                Assert.AreEqual(5, ws.Cells["D4"].Value);
+                Assert.AreEqual(6, ws.Cells["E4"].Value);
+
+
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
