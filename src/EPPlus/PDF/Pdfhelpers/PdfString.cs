@@ -10,7 +10,7 @@ namespace OfficeOpenXml.PDF.Pdfhelpers
     {
         internal static string ToPdfString(this double val)
         {
-            return val.ToString(CultureInfo.InvariantCulture);
+            return val.ToString("F4", CultureInfo.InvariantCulture);
         }
     }
 }

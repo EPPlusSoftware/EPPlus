@@ -60,7 +60,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                         }
                     }
                     var width = PdfUnits.ExcelColumnWidthToPoints(ws.Column(j).Width);
-                    if (!cell.IsEmpty())
+                    if (!cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol))
                     {
                         var cl0 = new PdfCellLayout((isMerged ? null : cell), pageSettings, x, y, width, height, 1, 1, 0, this);
                         cl0.Z = 1;
@@ -68,6 +68,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                         if (!string.IsNullOrEmpty(cell.Text))
                         {
                             var clc0 = new PdfCellContentLayout(isMerged ? null : cell, pageSettings, x, y, width, height, 1, 1, 0, this, fontResources);
+
                             clc0.Z = 2;
                             clc0.Name = cell.Address;
                         }

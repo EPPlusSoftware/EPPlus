@@ -67,26 +67,92 @@ namespace OfficeOpenXml.PDF.PdfObjects
             commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
             commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y-cell.Size.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
             commands.Add("f");
-            //Top Border
-            if(cell.BorderData.Top.BorderStyle != Style.ExcelBorderStyle.None)
-            {
+            AddBorder(cell.BorderData.Top,          cell.LocalPosition.X              , cell.LocalPosition.Y              , cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y              , 0,  2, -2);
+            AddBorder(cell.BorderData.Bottom,       cell.LocalPosition.X              , cell.LocalPosition.Y - cell.Size.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y - cell.Size.Y, 0,  2,  2);
+            AddBorder(cell.BorderData.Left,         cell.LocalPosition.X              , cell.LocalPosition.Y              , cell.LocalPosition.X              , cell.LocalPosition.Y - cell.Size.Y, 1,  2, -2);
+            AddBorder(cell.BorderData.Right,        cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y              , cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y - cell.Size.Y, 1, -2, -2);
+            AddBorder(cell.BorderData.DiagonalDown, cell.LocalPosition.X              , cell.LocalPosition.Y              , cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y - cell.Size.Y, 2,   );
+            //AddBorder(cell.BorderData.DiagonalUp,   cell.LocalPosition.X              , cell.LocalPosition.Y - cell.Size.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y              , 2, );
+        }
 
-            }
-            //Bottom Border
-            if (cell.BorderData.Bottom.BorderStyle != Style.ExcelBorderStyle.None)
+        private void AddBorder(PdfCellBorderData borderData, double x1, double y1, double x2, double y2, int lt, double doubleOffsetX=0, double doubleOffsetY = 0)
+        {
+            List<string> commands = new List<string>();
+            switch (borderData.BorderStyle)
             {
-
+                case Style.ExcelBorderStyle.None:
+                    return;
+                case Style.ExcelBorderStyle.Dotted:
+                    commands.Add("1.0 w");
+                    commands.Add("1 J");
+                    commands.Add("[0 2] 0 d");
+                    break;
+                case Style.ExcelBorderStyle.DashDot:
+                    commands.Add("1.0 w");
+                    commands.Add("[4 2 1 2] 0 d");
+                    break;
+                case Style.ExcelBorderStyle.Thin:
+                    commands.Add("0.8 w");
+                    commands.Add("[] 0 d");
+                    break;
+                case Style.ExcelBorderStyle.DashDotDot:
+                    commands.Add("1.0 w");
+                    commands.Add("[4 2 1 2 1 2] 0 d");
+                    break;
+                case Style.ExcelBorderStyle.Dashed:
+                    commands.Add("1.0 w");
+                    commands.Add("[4 3] 0 d");
+                    break;
+                case Style.ExcelBorderStyle.MediumDashDotDot:
+                    commands.Add("1.5 w");
+                    commands.Add("[6 3 2 3 2 3] 0 d");
+                    break;
+                case Style.ExcelBorderStyle.MediumDashed:
+                    commands.Add("1.5 w");
+                    commands.Add("[6 4] 0 d");
+                    break;
+                case Style.ExcelBorderStyle.MediumDashDot:
+                    commands.Add("1.5 w");
+                    commands.Add("[6 3 2 3] 0 d");
+                    break;
+                case Style.ExcelBorderStyle.Thick:
+                    commands.Add("2.0 w");
+                    commands.Add("[] 0 d");
+                    break;
+                case Style.ExcelBorderStyle.Medium:
+                    commands.Add("1.5 w");
+                    commands.Add("[] 0 d");
+                    break;
+                case Style.ExcelBorderStyle.Double:
+                    AddCommand(borderData.BorderColor.ToStrokeCommand());
+                    AddCommand("1.0 w");
+                    AddCommand("[] 0 d");
+                    AddCommand($"{x1.ToPdfString()} {y1.ToPdfString()} m");
+                    AddCommand($"{x2.ToPdfString()} {y2.ToPdfString()} l");
+                    AddCommand("S");
+                    AddCommand("1.0 w");
+                    AddCommand("[] 0 d");
+                    if (lt==1)
+                    {
+                        AddCommand($"{(x1 + doubleOffsetX).ToPdfString()} {(y1 + doubleOffsetY).ToPdfString()} m");
+                        AddCommand($"{(x2 + doubleOffsetX).ToPdfString()} {(y2 + -doubleOffsetY).ToPdfString()} l");
+                    }
+                    else
+                    {
+                        AddCommand($"{(x1 + doubleOffsetX).ToPdfString()} {(y1 + doubleOffsetY).ToPdfString()} m");
+                        AddCommand($"{(x2 + -doubleOffsetX).ToPdfString()} {(y2 + doubleOffsetY).ToPdfString()} l");
+                    }
+                    AddCommand("S");
+                    return;
             }
-            //Left Border
-            if (cell.BorderData.Left.BorderStyle != Style.ExcelBorderStyle.None)
+            AddCommand(borderData.BorderColor.ToStrokeCommand());
+            foreach (string command in commands)
             {
-
+                AddCommand(command);
             }
-            //Right Border
-            if (cell.BorderData.Right.BorderStyle != Style.ExcelBorderStyle.None)
-            {
-
-            }
+            AddCommand($"{x1.ToPdfString()} {y1.ToPdfString()} m");
+            AddCommand($"{x2.ToPdfString()} {y2.ToPdfString()} l");
+            AddCommand("S");
         }
 
         public void AddCellContentLayout(PdfCellContentLayout cell, string fontLabel)

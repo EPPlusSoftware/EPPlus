@@ -40,17 +40,17 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 CellFillData.PatternColor = new PdfColor(cell.Style.Fill.PatternColor.LookupColor());
                 BorderData = new PdfCellBordersData();
                 BorderData.Top.BorderStyle = cell.Style.Border.Top.Style;
-                BorderData.Top.BorderColor = new PdfColor(cell.Style.Border.Top.Color.LookupColor());
+                BorderData.Top.BorderColor = new PdfColor(cell.Style.Border.Top.Color.LookupColor(cell.Style.Border));
                 BorderData.Bottom.BorderStyle = cell.Style.Border.Bottom.Style;
-                BorderData.Bottom.BorderColor = new PdfColor(cell.Style.Border.Bottom.Color.LookupColor());
+                BorderData.Bottom.BorderColor = new PdfColor(cell.Style.Border.Bottom.Color.LookupColor(cell.Style.Border));
                 BorderData.Left.BorderStyle = cell.Style.Border.Left.Style;
-                BorderData.Left.BorderColor = new PdfColor(cell.Style.Border.Left.Color.LookupColor());
+                BorderData.Left.BorderColor = new PdfColor(cell.Style.Border.Left.Color.LookupColor(cell.Style.Border));
                 BorderData.Right.BorderStyle = cell.Style.Border.Right.Style;
-                BorderData.Right.BorderColor = new PdfColor(cell.Style.Border.Right.Color.LookupColor());
+                BorderData.Right.BorderColor = new PdfColor(cell.Style.Border.Right.Color.LookupColor(cell.Style.Border));
                 BorderData.DiagonalUp.BorderStyle = cell.Style.Border.DiagonalUp ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
-                BorderData.DiagonalUp.BorderColor = new PdfColor(cell.Style.Border.Diagonal.Color.LookupColor());
+                BorderData.DiagonalUp.BorderColor = new PdfColor(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
                 BorderData.DiagonalDown.BorderStyle = cell.Style.Border.DiagonalDown ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
-                BorderData.DiagonalDown.BorderColor = new PdfColor(cell.Style.Border.Diagonal.Color.LookupColor());
+                BorderData.DiagonalDown.BorderColor = new PdfColor(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
             }
             PageSettings = pageSettings;
         }

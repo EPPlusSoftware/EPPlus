@@ -287,5 +287,4 @@ namespace OfficeOpenXml.PDF
  * Print workbook
  * Print worksheets
  * print selected range
- 
  */

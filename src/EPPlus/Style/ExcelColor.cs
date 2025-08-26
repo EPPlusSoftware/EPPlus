@@ -209,16 +209,16 @@ namespace OfficeOpenXml.Style
         /// Return the RGB hex string for the Indexed or Tint property
         /// </summary>
         /// <returns>The RGB color starting with a #FF (alpha)</returns>
-        public string LookupColor()
+        public string LookupColor(StyleBase objectType = null)
         {
-            return LookupColor(this);
+            return LookupColor(this, objectType);
         }
         /// <summary>
         /// Return the RGB value as a string for the color object that uses the Indexed or Tint property
         /// </summary>
         /// <param name="theColor">The color object</param>
         /// <returns>The RGB color starting with a #FF (alpha)</returns>
-        public string LookupColor(ExcelColor theColor)
+        public string LookupColor(ExcelColor theColor, StyleBase objectType = null)
         {
             if (theColor.Indexed >= 0 && theColor.Indexed < _styles.IndexedColors.Length)
             {
@@ -236,6 +236,10 @@ namespace OfficeOpenXml.Style
             }
             else if (theColor.Auto)
             {
+                if(objectType is Border)
+                {
+                    return "#FF000000";
+                }
                 return GetThemeColor(eThemeSchemeColor.Background1, Convert.ToDouble(theColor.Tint));
             }
             else

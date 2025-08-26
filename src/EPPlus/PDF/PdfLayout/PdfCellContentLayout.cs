@@ -15,8 +15,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfCellFontData FontData;
         public PdfCellAlignmentData CellAlignmentData;
 
+        private double bottomMargin = 3.4d; //Guessed number
+        private double rightMargin = 1.0d; //I guessed this one too..
+
         public PdfCellContentLayout(ExcelRangeBase cell, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null, Dictionary<string, PdfFontResource> fontResources = null)
-            : base(x, y, 0, 0, scaleX, scaleY, rotation, parent)
+            : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             FontData = new PdfCellFontData();
             FontData.FontName = cell.Style.Font.Name;
@@ -34,14 +37,15 @@ namespace OfficeOpenXml.PDF.PdfLayout
             CellAlignmentData.VerticalAlignment = cell.Style.VerticalAlignment;
             CellAlignmentData.Indent = cell.Style.Indent;
             CellAlignmentData.WrapText = cell.Style.WrapText;
-            CellAlignmentData.ShrinkToFit = cell.Style.ShrinkToFit;
-            CellAlignmentData.TextRotation = cell.Style.TextRotation;
+            CellAlignmentData.ShrinkToFit = cell.Style.ShrinkToFit; //Need to fix Transform issues and then implement a method that sets scale on the text object.
+            CellAlignmentData.TextRotation = cell.Style.TextRotation; //EPPlus does probably not calculate cell width and height after setting rotation on text. So before we make pdf we need to calculate cell width and height based on text rotation
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
 
             var ttfont = CacheFont(FontData, fontResources, pageSettings);
             double textLength = PdfTextData.MeasureText(FontData.Text, FontData.FontSize, ttfont);
             double fontHeight = PdfTextData.MeasureFontHeight(ttfont, FontData.FontSize);
             LocalPosition = CalculatePosition(cell, x, y, width, height, textLength, fontHeight);
+            Size = new Vector2((x + width) - LocalPosition.X, (y + height) - LocalPosition.Y);
         }
 
         private TtfFont CacheFont(PdfCellFontData fontData, Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings)
@@ -78,8 +82,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
         {
             double x = 0d;
             double y = 0d;
-            var bottomMargin = 0.8d; //Guessed number
-            var rightMargin = 0.8d; //I guessed this one too..
             switch (CellAlignmentData.HorizontalAlignment)
             {
                 case Style.ExcelHorizontalAlignment.General:
@@ -111,8 +113,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     y = CellY + (cellHeight - fontHeight) / 2d + fontHeight;
                     break;
                 case Style.ExcelVerticalAlignment.Bottom:
-                    y = CellY + (cellHeight - fontHeight) / 2d + fontHeight;
-                    //y = ((CellY + (cellHeight - fontHeight)) + fontHeight) - bottomMargin;
+                    y = ((CellY + (cellHeight - fontHeight)) + fontHeight) - bottomMargin;
                     break;
 
             }
