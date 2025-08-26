@@ -551,15 +551,16 @@ namespace OfficeOpenXml
                                 var v = ws._values.GetValue(0, col);
                                 if (v._value == null)
                                 {
-                                    if(colCache.TryGetValue(col, out ExcelValue ev))
+                                    if (colCache.TryGetValue(col, out ExcelValue ev))
                                     {
                                         s = ev._styleId;
                                     }
                                     else
                                     {
                                         int r = 0, c = col;
-                                        if (ws._values.PrevCell(ref r, ref c))
+                                        if ( ws.ColumnLookup.TryGetExcelColumn(c, out ExcelColumn colVal) )
                                         {
+                                            c = colVal.ColumnMin;
                                             if (!colCache.ContainsKey(c)) colCache.Add(c, ws._values.GetValue(0, c));
                                             var val = colCache[c];
                                             var colObj = val._value as ExcelColumn;
