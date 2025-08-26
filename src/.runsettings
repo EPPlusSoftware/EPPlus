@@ -3,11 +3,13 @@
   <!-- Configurations that affect the Test Framework -->
   <RunConfiguration>
     <MaxCpuCount>1</MaxCpuCount>
-    <!-- Path relative to solution directory -->
+	  <DisableAppDomain>True</DisableAppDomain>
+	  <!-- Path relative to solution directory -->
     <ResultsDirectory>.\TestResults</ResultsDirectory>
   </RunConfiguration>
 
     <MSTest>
+		<DisableAppDomain>True</DisableAppDomain>
 		<ForcedLegacyMode>true</ForcedLegacyMode>
 	    <MapInconclusiveToFailed>false</MapInconclusiveToFailed>
 	    <CaptureTraceOutput>false</CaptureTraceOutput>
