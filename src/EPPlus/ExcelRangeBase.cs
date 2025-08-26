@@ -161,6 +161,10 @@ namespace OfficeOpenXml
         /// <param name="value"></param>
         private static void SetSingle(ExcelRangeBase range, _setValue valueMethod, object value)
         {
+            if (value is object[,] array && array.GetLength(0) > 0 && array.GetLength(1) > 0)
+            {
+                value = array[0, 0];
+            }
             valueMethod(range, value, range._fromRow, range._fromCol);
         }
         /// <summary>

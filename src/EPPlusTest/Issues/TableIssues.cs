@@ -312,7 +312,7 @@ namespace EPPlusTest.Issues
                 logfile.Delete();
 
                 Assert.IsTrue(logStr.Contains($"Set value in Cell\t{wsName}!A3\t123\tDecimal"));
-                Assert.AreEqual(values, ws.Cells["A2:A2"].Value);
+                Assert.AreEqual(values[0,0], ws.Cells["A2:A2"].Value);
 
                 SaveAndCleanup(p);
             }
