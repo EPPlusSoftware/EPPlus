@@ -41,5 +41,16 @@ namespace EPPlusTest.Issues
             Assert.AreEqual("Name 1", dt.Rows[0][1]);
             Assert.AreEqual("Name 2", dt.Rows[0][2]);
         }
+        [TestMethod]
+        public void HtmlExportCRLFIssus2095()
+        {
+            using (var package = OpenTemplatePackage("i2095.xlsx"))
+            {
+                var ws=package.Workbook.Worksheets[0];
+                var cell = ws.Cells["A1"].RichText.HtmlText;
+
+                Assert.AreEqual(cell, "<span style=\"font-size:11pt;font-family:Aptos Narrow;\">this\nis\na\nbug</span>");
+            }
+        }
     }
 }

@@ -349,7 +349,7 @@ namespace OfficeOpenXml.Style
             sb.Append("<span style=\"");
             HtmlRichText.GetRichTextStyle(this, sb);
             sb.Append("\">");
-            sb.Append(ConvertUtil.ExcelEscapeAndEncodeString(Text));
+            sb.Append(ConvertUtil.ExcelEscapeString(Text));
             sb.Append("</span>");
         }
 
