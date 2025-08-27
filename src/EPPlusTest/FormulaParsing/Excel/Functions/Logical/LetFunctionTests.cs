@@ -167,5 +167,35 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Cells["D1"].Value = 241d;
             sheet.Cells["D2"].Value = 263d;
         }
+
+        [TestMethod]
+        public void LetFunction_ShadowingSameVariableName()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LET(x, 1, LET(x, 2, x + 1))";
+            sheet.Calculate();
+            Assert.AreEqual(3d, sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void LetFunction_ShadowingSameVariableName_Outer()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LET(x, 2, LET(x, x + 1, x * 2))";
+            sheet.Calculate();
+            Assert.AreEqual(6d, sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void LetFunction_ShadowingSameVariableName_MultiLevels()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LET(x, 1, LET(x, 2, LET(x, 3, x)))";
+            sheet.Calculate();
+            Assert.AreEqual(3d, sheet.Cells["A1"].Value);
+        }
     }
 }
