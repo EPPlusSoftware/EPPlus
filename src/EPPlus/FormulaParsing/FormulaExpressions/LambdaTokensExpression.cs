@@ -20,9 +20,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     [DebuggerDisplay("LambdaTokensExpression - Count: {Tokens?.Count}")]
     internal class LambdaTokensExpression : Expression
     {
-        internal LambdaTokensExpression(ParsingContext ctx) : base(ctx)
+        internal LambdaTokensExpression(ParsingContext ctx, int variableScopeId) : base(ctx)
         {
-            _scope = ctx.VariableStorage.Peek();
+            _scope = ctx.VariableStorage.GetById(variableScopeId);
         }
 
         private List<Token> _tokens;

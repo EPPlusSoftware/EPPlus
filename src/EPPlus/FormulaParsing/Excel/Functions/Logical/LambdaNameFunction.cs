@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.Utils.Formula;
 using System.Collections.Generic;
 
@@ -19,12 +20,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
     internal class LambdaNameFunction : ExcelFunction
     {
-        public LambdaNameFunction(string formula)
+        public LambdaNameFunction(string formula, VariableStorageScope scope)
         {
             _formula = formula;
+            _scope = scope;
         }
 
         private readonly string _formula;
+        private readonly VariableStorageScope _scope;
         private RpnFormula _rpnFormula;
 
         public override int ArgumentMinLength => 0;
@@ -43,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             rpn2.ExpressionStack = _rpnFormula.ExpressionStack;
             rpn2.FunctionStack = _rpnFormula.FunctionStack;
             rpn2.IgnoreCaching = true;
-            var clc = new LambdaCalculator(elt.LambdaTokens.Tokens, ctx.VariableStorage.Peek(), rpn2);
+            var clc = new LambdaCalculator(elt.LambdaTokens.Tokens, _scope, rpn2);
             var vs = new List<VariableCompileResult>();
             foreach (var v2 in elt.VariableTokens)
             {

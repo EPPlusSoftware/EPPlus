@@ -99,6 +99,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         obj = new RangeInfo(fra);
                         return DataType.ExcelRange;
                     }
+                    else if(obj is LambdaCalculator)
+                    {
+                        return DataType.LambdaCalculation;
+                    }
                     throw new ArgumentException("Non supported type " + t.FullName);
             }
         }

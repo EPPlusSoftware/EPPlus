@@ -1296,6 +1296,10 @@ namespace OfficeOpenXml.FormulaParsing
                         break;
                     case TokenType.StartFunctionArguments:
                         var fe = (FunctionExpression)f._expressions[f._tokenIndex];
+                        if(fe is VariableFunctionExpression varFuncExp && varFuncExp.VariableScope != null)
+                        {
+                            depChain._parsingContext.VariableStorage.Push(varFuncExp.VariableScope);
+                        }
                         if (fe._function == null)  //Function does not exists. Push #NAME?
                         {
                             f._tokenIndex = fe._endPos;
@@ -1359,7 +1363,7 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 f.LambdaSettings.LambdaArgsAdded.Pop();
                             }
-                            if(cr != null)
+                            if (cr != null)
                             {
                                 PushResult(depChain._parsingContext, f, cr);
                             }

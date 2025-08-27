@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -30,6 +31,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         }
 
         public int Count => Tokens.Count;
+
+        public VariableStorageScope Scope { get; set; }
 
         public IEnumerator<Token> GetEnumerator()
         {

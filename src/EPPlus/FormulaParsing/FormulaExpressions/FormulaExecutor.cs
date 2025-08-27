@@ -15,6 +15,7 @@ using OfficeOpenXml.FormulaParsing.DependencyChain;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing.Utilities;
@@ -389,7 +390,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         }
                         if(!paramHandled)
                         {
-                            expressions.Add(tokenIx, new VariableExpression(t.Value, parsingContext.VariableStorage.Peek(), false));
+                            var scp = parsingContext.VariableStorage.IsEmpty ? rpnTokens.Scope : parsingContext.VariableStorage.Peek();
+                            expressions.Add(tokenIx, new VariableExpression(t.Value, scp, false));
                         }
                         break;
                     case TokenType.StartFunctionArguments:
@@ -453,7 +455,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.CommaLambda:
                         isInLambdaCalculation = true;
-                        lambdaCalculationExpression = new LambdaTokensExpression(parsingContext);
+                        lambdaCalculationExpression = new LambdaTokensExpression(parsingContext, parsingContext.VariableStorage.Peek().Id);
                         expressions.Add(tokenIx, lambdaCalculationExpression);
                         if (stack.Count > 0)
                         {
@@ -462,6 +464,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.Function:
                         var f = stack.Pop();
+                        if(f.IsLet || f.IsLambda)
+                        {
+                            parsingContext.VariableStorage.Pop();
+                        }
                         f._endPos= tokenIx;
                         if (f.IsLambda && isInLambdaCalculation)
                         {
@@ -479,6 +485,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                 }
             }
+            parsingContext.VariableStorage.Clear();
             return expressions;
         }
 

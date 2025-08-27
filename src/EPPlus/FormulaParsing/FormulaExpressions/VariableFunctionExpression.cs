@@ -11,6 +11,7 @@
   08/20/2025         EPPlus Software AB       Initial release EPPlus 8.2
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -45,6 +46,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
 
         internal int VariableScopeId { get; private set; }
+
+        internal VariableStorageScope VariableScope => _storageScope;
 
         internal override void OnExecuteStarted()
         {

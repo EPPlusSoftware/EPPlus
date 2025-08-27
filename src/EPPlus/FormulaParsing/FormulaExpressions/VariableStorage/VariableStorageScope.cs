@@ -18,13 +18,14 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
 {
-    [DebuggerDisplay("NumberOfVariables: {NumberOfVariables}, Id: {Id}")]
+    [DebuggerDisplay("NumberOfVariables: {NumberOfVariables}, Id: {Id}, Depth: {Depth}")]
     internal class VariableStorageScope
     {
         public VariableStorageScope(VariableStorageManager storageManager, VariableStorageScope parentScope)
         {
             _parentScope = parentScope;
             Id = VariableStorageId.GetNewId();
+            Depth = parentScope != null ? parentScope.Depth + 1 : 0;
             _storageManager = storageManager;
         }
 
@@ -35,6 +36,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
 
         public int Id { get; private set; }
 
+        public int Depth { get; private set; }
+
         public VariableStorageManager VariableStorage => _storageManager;
 
         public int NumberOfVariables => _variables.Count;
@@ -43,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
 
         public bool ContainsVariable(string name)
         {
-            if(_variables.ContainsKey(name)) return true;
+            if(_variables.ContainsKey(name) && _variables[name] != null) return true;
             if (_parentScope == null) return false;
             return _parentScope.ContainsVariable(name);
         }
@@ -51,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
         public CompileResult GetVariableValue(string name)
         {
             CompileResult result = CompileResult.Empty;
-            if( _variables.ContainsKey(name))
+            if( _variables.ContainsKey(name) && _variables[name] != null)
                 return _variables[name];
             if (_parentScope != null && _parentScope.ContainsVariable(name))
                 result = _parentScope.GetVariableValue(name);

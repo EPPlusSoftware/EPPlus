@@ -23,6 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             Name = variableName;
             expression.DeclareVariable(variableName);
+            _scope = expression.Context.VariableStorage.GetById(expression.VariableScopeId);
             _variableFunctionExpression = expression;
             IsDeclaration = isDeclaration;
         }

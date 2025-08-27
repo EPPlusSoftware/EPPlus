@@ -22,11 +22,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
         public VariableStorageManager() { }
 
         private readonly Stack<VariableStorageScope> _scopes = new Stack<VariableStorageScope>();
+        private readonly Dictionary<int, VariableStorageScope> _scopesById = new Dictionary<int, VariableStorageScope>();
 
         public VariableStorageScope AddNewScope()
         {
             VariableStorageScope parent = _scopes.Count > 0 ? _scopes.Peek() : null;
             var newScope = new VariableStorageScope(this, parent);
+            _scopesById.Add(newScope.Id, newScope);
             _scopes.Push(newScope);
             return newScope;
         }
@@ -36,6 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
         public void Clear()
         {
             _scopes.Clear();
+            _scopesById.Clear();
         }
 
         public VariableStorageScope Peek()
@@ -43,9 +46,22 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
             return _scopes.Peek();
         }
 
+        public VariableStorageScope GetById(int id)
+        {
+            if (!_scopesById.ContainsKey(id)) return null;
+            return _scopesById[id];
+        }
+
         public void Pop()
         {
             _scopes.Pop();
+        }
+
+        public void Push(VariableStorageScope scope)
+        {
+            _scopes.Push(scope);
+            if(_scopesById.ContainsKey(scope.Id)) _scopesById.Remove(scope.Id); 
+            _scopesById[scope.Id] = scope;  
         }
 
         public bool IsEmpty => _scopes == null || _scopes.Count == 0;

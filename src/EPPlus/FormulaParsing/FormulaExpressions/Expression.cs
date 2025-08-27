@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal CompileResult _cachedCompileResult;
         internal Operators Operator;
         internal static EmptyExpression Empty=new EmptyExpression();
-        protected ParsingContext Context { get; private set; }
+        internal ParsingContext Context { get; private set; }
         internal abstract ExpressionType ExpressionType { get; }
         internal Expression()
         {

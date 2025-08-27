@@ -18,7 +18,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     {
         internal LambdaNameFunctionExpression(string functionName, string formula, ParsingContext ctx, int pos) : base(functionName, ctx, pos)
         {
-            _function = new LambdaNameFunction(formula);
+            var scope = ctx.VariableStorage.GetById(VariableScopeId);
+            _function = new LambdaNameFunction(formula, scope);
         }
 
         internal override void SetRpnFormula(RpnFormula formula)
@@ -34,7 +35,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal override void OnDispose()
         {
             base.OnDispose();
-            Context.VariableStorage.Pop();
         }
 
     }
