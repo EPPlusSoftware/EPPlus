@@ -101,6 +101,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
                 var img = PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
                 Image.Type = pictureType;
                 Image.ImageBytes = img;
+                Image.Bounds = PictureStore.GetImageBounds(img, pictureType, _pictureRelationDocument.Package);
                 ContentType = contentType;
             }
             SourceRectangle = new ExcelDrawingRectangle(_xml, "a:srcRect/", 0);
