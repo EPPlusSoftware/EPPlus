@@ -29,7 +29,7 @@ namespace EPPlusTest.PDF
             pageSettings.Debug = true;
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
 
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest21.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest22.pdf");
 
         }
 

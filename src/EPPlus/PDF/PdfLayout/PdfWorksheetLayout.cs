@@ -56,6 +56,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
                                 clc1.Z = 6;
                                 clc1.Name = cell.Address;
                             }
+                            var clb1 = AddChild(new PdfCellBorderLayout(ws.Cells[address._fromRow, address._fromCol], pageSettings, x, y, mcWidth, mcHeight));
+                            clb1.Z = 7;
+                            clb1.Name = cell.Address;
                             checkedMergedCells.Add(ws.MergedCells[i, j]);
                         }
                     }
@@ -72,6 +75,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
                             clc0.Z = 2;
                             clc0.Name = cell.Address;
                         }
+                        var clb0 = new PdfCellBorderLayout((isMerged ? null : cell), pageSettings, x, y, width, height, 1, 1, 0, this);
+                        clb0.Z = 3;
+                        clb0.Name = cell.Address;
                     }
                     x += width;
                     if (x > totalWidth)

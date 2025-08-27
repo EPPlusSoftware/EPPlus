@@ -8,10 +8,10 @@ namespace OfficeOpenXml.PDF.PdfGraphics
 {
     internal class PdfColor
     {
-        float R { get; set; }
-        float G { get; set; }
-        float B { get; set; }
-        float A { get; set; } = 1f;
+        public float R { get; set; }
+        public float G { get; set; }
+        public float B { get; set; }
+        public float A { get; set; } = 1f;
 
 
         public PdfColor()

@@ -68,6 +68,10 @@ namespace OfficeOpenXml.Style
         /// <summary>
         /// Double line
         /// </summary>
-        Double
+        Double,
+        /// <summary>
+        /// Slanted Dash Dot line
+        /// </summary>
+        SlantDashDot
     };
 }

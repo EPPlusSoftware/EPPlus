@@ -159,7 +159,7 @@ namespace OfficeOpenXml.PDF
 
         private void CreateStreamContentFromCell(PdfTransform pageLayout, PdfPage page)
         {
-            var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout).GroupBy(t => t.Name);
+            var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
             foreach (var cell in cells)
             {
                 var contentStream = new PdfContentStream(body.Count + 1, "q");
@@ -170,9 +170,11 @@ namespace OfficeOpenXml.PDF
                         case PdfCellLayout layout:
                             contentStream.AddCellLayout(layout);
                             break;
-
                         case PdfCellContentLayout contentLayout:
                             contentStream.AddCellContentLayout(contentLayout, GetFontLabel(contentLayout.FontData.FontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));
+                            break;
+                        case PdfCellBorderLayout borderLayout:
+                            contentStream.AddBorderLayout(borderLayout);
                             break;
                     }
                 }
