@@ -1271,7 +1271,11 @@ namespace OfficeOpenXml
                 return v.ToEnum(default(T));
             }
         }
-
+        /// <summary>
+        /// ST_Percentage and various undertypes is read in as double in range 0-100
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         internal double? GetXmlNodePercentage(string path)
         {
             double d;

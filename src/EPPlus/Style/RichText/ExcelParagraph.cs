@@ -67,6 +67,45 @@ namespace OfficeOpenXml.Style
                 SetXmlNodeInt(IndentLevelPath, value);
             }
         }
+
+        const string LineSpacingPath = "../a:pPr/@lnSpc";
+
+        internal int? LineSpacingPoints
+        {
+            get
+            {
+                return GetXmlNodeIntNull(LineSpacingPath + "/@spcPts");
+            }
+            set
+            {
+                //the "maxInclusive value="158400"" on page 4045 of ECMA OOXML part 1
+                if (value.HasValue == false && (value < 0 || value > 158400))
+                {
+                    throw new ArgumentOutOfRangeException("Linespacing must be between 0 and 158400 pts.");
+                }
+                CreateTopNode();
+                SetXmlNodeInt(LineSpacingPath + "/@spcPts", value);
+            }
+        }
+
+        internal double? LineSpacingPercent
+        {
+            get
+            {
+                return GetXmlNodePercentage(LineSpacingPath + "/@spcPct");
+            }
+            set
+            {
+                CreateTopNode();
+                if (value.HasValue == false && (value < 0 || value > 13200))
+                {
+                    throw new ArgumentOutOfRangeException("Linespacing in percent must be between 0 and 13200%");
+                }
+                SetXmlNodePercentage(LineSpacingPath + "/@spcPct", value, false);
+            }
+        }
+
+
         const string TextPath = "../a:t";
         /// <summary>
         /// Text
