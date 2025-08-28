@@ -34,13 +34,34 @@ using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Drawing
 {
+    /// <summary>
+    /// Drawing type
+    /// </summary>
     public enum PathDrawingType
     {
+        /// <summary>
+        /// Drawing-Path Move to command
+        /// </summary>
         MoveTo,
+        /// <summary>
+        /// Drawing-Path Line to command
+        /// </summary>
         LineTo,
+        /// <summary>
+        /// Drawing-Path Arc command
+        /// </summary>
         ArcTo,
-        CubicBezTo,
-        QuadBezerTo,
+        /// <summary>
+        /// Drawing-Path Cubic Berzier Curve command
+        /// </summary>
+        CubicBezierTo,
+        /// <summary>
+        /// Drawing-Path Quad Berier Curve command
+        /// </summary>
+        QuadBezierTo,
+        /// <summary>
+        /// Drawing-Path Close command
+        /// </summary>
         Close
     }
     /// <summary>
@@ -237,7 +258,7 @@ namespace OfficeOpenXml.Drawing
         {
             
         }
-        public override PathDrawingType Type => PathDrawingType.QuadBezerTo;
+        public override PathDrawingType Type => PathDrawingType.QuadBezierTo;
         internal override PathsBase Clone()
         {
             return new QuadBezerTo(this);
@@ -260,7 +281,7 @@ namespace OfficeOpenXml.Drawing
 
         }
 
-        public override PathDrawingType Type => PathDrawingType.CubicBezTo;
+        public override PathDrawingType Type => PathDrawingType.CubicBezierTo;
         internal override PathsBase Clone()
         {
             return new CubicBezerTo(this);

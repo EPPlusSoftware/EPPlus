@@ -46,20 +46,45 @@ namespace OfficeOpenXml.Utils.TypeConversion
 
             foreach (var t in transforms)
             {
+                var v = t.Value / 100;
                 switch(t.Type)
                 {
                     case eColorTransformType.Shade:
-                        return ApplyTint(c, -(1-(t.Value/100)));
+                        c = ApplyTint(c, -(1-v));
+                        break;
                     case eColorTransformType.Tint:
-                        return ApplyTint(c, t.Value/100);
+                        c = ApplyTint(c, v);
+                        break;
+                    case eColorTransformType.HueMod:
+                        c = ApplyHueMod(c, v);
+                        break;
+                    case eColorTransformType.HueOff:
+                        c = ApplyHueMod(c, 1, v);
+                        break;
+                    case eColorTransformType.SatMod:
+                        c = ApplySatMod(c, v);
+                        break;
+                    case eColorTransformType.SatOff:
+                        c = ApplySatMod(c, 1, v);
+                        break;
                     case eColorTransformType.LumMod:
-                        return ApplyLumMod(c, t.Value);
+                        c = ApplyLumMod(c, v);
+                        break;
                     case eColorTransformType.LumOff:
-                        return ApplyLumMod(c, 1, t.Value);
+                        c = ApplyLumMod(c, 1, v);
+                        break;
                 }
             }
-            
-            return Color.FromArgb(r, g, b);
+            return c;
+            //return Color.FromArgb(r, g, b);
+        }
+        internal static Color ApplyHueMod(Color c, double hueMod = 1, double hueOff = 0)
+        {
+            ExcelDrawingRgbColor.GetHslColor(c, out double h, out double s, out double l);
+
+            h = Math.Max(0, Math.Min(1, l * hueMod + hueOff));
+            var ret = ExcelDrawingHslColor.GetRgb(h, s, l);
+            return ret;
         }
 
         internal static Color ApplyLumMod(Color c, double lumMod=1, double lumOff=0)
@@ -142,6 +167,13 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 return ExcelDrawingHslColor.GetRgb(h, s, l);
             }
         }
-
+        internal static Color ApplyBlend(Color color, Color blendColor, double percent)
+        {
+            var colorPercent = 1 - percent;
+            var r = (int)Math.Min(255D, color.R * colorPercent + blendColor.R * percent);
+            var g = (int)Math.Min(255D, color.G * colorPercent + blendColor.G * percent);
+            var b = (int)Math.Min(255D, color.B * colorPercent + blendColor.B * percent);
+            return Color.FromArgb(0xff, r, g, b);
+        }
     }
 }
