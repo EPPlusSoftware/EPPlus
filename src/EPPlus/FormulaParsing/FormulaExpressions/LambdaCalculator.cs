@@ -133,6 +133,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             var variable = _variables[index];
             var variableName = variable.VariableName;
+            if(value is IRangeInfo ir && !ir.IsMulti)
+            {
+                var v = ir.GetOffset(0, 0);
+                var tmpCr = CompileResultFactory.Create(v);
+                dt = tmpCr.DataType;
+                value = v;
+            }
             var cr = address != null ? new AddressCompileResult(value, dt, address) : new CompileResult(value, dt);
             _variables[index] = new VariableCompileResult(variableName, value, dt, address);
             _scope.SetVariableValue(variableName, cr);
@@ -201,6 +208,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             formula.FunctionStack = _formula.FunctionStack;
             var rpnTokens = new RpnTokens { Tokens = _currentTokens, Scope = _scope };
             formula.SetTokens(rpnTokens, ctx);
+            // SetTokens clears the variable storage...
+            ctx.VariableStorage.Push(_scope);
             var chain = ctx.DependencyChain;
             var compileResult = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
             if (_formula.ExpressionStack.Count > 0 && _formula.ExpressionStack.Peek() is LambdaCalculationExpression lce)

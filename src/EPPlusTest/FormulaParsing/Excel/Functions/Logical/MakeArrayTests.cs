@@ -137,5 +137,17 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Calculate();
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["A1"].Value);
         }
+
+        [TestMethod]
+        public void MakeArray_WithOuterLet()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["C1"].Formula = "LET(n, 3, MAKEARRAY(n, n, LAMBDA(r,c,r*c)))";
+            sheet.Calculate();
+            Assert.AreEqual(1d, sheet.Cells["C1"].Value); // r=1, c=1
+            Assert.AreEqual(4d, sheet.Cells["D2"].Value); // r=2, c=2
+            Assert.AreEqual(9d, sheet.Cells["E3"].Value); // r=3, c=3
+        }
     }
 }

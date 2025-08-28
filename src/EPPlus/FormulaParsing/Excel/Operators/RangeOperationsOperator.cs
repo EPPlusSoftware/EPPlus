@@ -204,6 +204,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             {
                 lr = context.ExcelDataProvider.GetRange(fra);
             }
+            else if(left.Address != null)
+            {
+                lr = context.ExcelDataProvider.GetRange(left.Address);
+            }
             var resultRange = CreateRange(lr, InMemoryRange.Empty, lr.Address);
             for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
             {
