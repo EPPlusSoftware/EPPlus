@@ -88,6 +88,15 @@ namespace OfficeOpenXml.PDF.PdfObjects
             {
                 case Style.ExcelBorderStyle.None:
                     return;
+                case Style.ExcelBorderStyle.GridInner:
+                    commands.Add("0.1 w");
+                    commands.Add("[] 0 d");
+                    break;
+                case Style.ExcelBorderStyle.GridOuter:
+                    commands.Add("1.0 w");
+                    commands.Add("2 J");
+                    commands.Add("[] 0 d");
+                    break;
                 case Style.ExcelBorderStyle.Hair:
                     commands.Add("0.5 w");
                     if (lt == 2 || lt == 3)

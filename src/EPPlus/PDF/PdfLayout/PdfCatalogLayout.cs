@@ -150,7 +150,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             }
             string drawingsCellsInPages = ToHierarchyString();
             //Restore the positions of the content, move content children to page and remove content object.
-            foreach (var page in pages.ChildObjects)
+            foreach (PdfPageLayout page in pages.ChildObjects)
             {
                 page.ChildObjects[0].LocalPosition = new Vector2(settings.Margins.LeftPu, settings.Margins.TopPu);
                 var contentObjects = page.ChildObjects[0].ChildObjects.ToList();
@@ -160,6 +160,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     child.LocalPosition = new Vector2(child.LocalPosition.X, settings.PageSize.HeightPu - System.Math.Abs(child.LocalPosition.Y));
                 }
                 page.RemoveChild(page.ChildObjects[0]);
+                page.Range = worksheet.Cells[ page.ChildObjects[0].Name + ":" + page.ChildObjects[page.ChildObjects.Count - 1].Name];
+                page.FixGridLines(pageSettings, worksheet);
             }
             RemoveChild(WorksheetLayout);
             string FinalPagesLayout = ToHierarchyString();
