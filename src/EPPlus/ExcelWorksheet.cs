@@ -2529,89 +2529,9 @@ namespace OfficeOpenXml
 
         private void SaveDrawings(bool hasLoadedPivotTables)
         {
-            if (Drawings.UriDrawing != null)
-            {
-                if (Drawings.Count == 0)
-                {
-                    Part.DeleteRelationship(Drawings._drawingRelation.Id);
-                    _package.ZipPackage.DeletePart(Drawings.UriDrawing);
-                }
-                else
-                {
-                    RowHeightCache = new Dictionary<int, double>();
-                    foreach (ExcelDrawing d in Drawings)
-                    {
-                        d.AdjustPositionAndSize();
-                        d.UpdatePositionAndSizeXml();
-                        HandleSaveForIndividualDrawings(d, hasLoadedPivotTables);
-                    }
-                    Packaging.ZipPackagePart partPack = Drawings.Part;
-                    var partStream = partPack.GetStream(FileMode.Create, FileAccess.Write);
-                    Drawings.DrawingXml.Save(partStream);
-                }
-            }
+            Drawings.SaveDrawings(hasLoadedPivotTables);
         }
 
-        private static void HandleSaveForIndividualDrawings(ExcelDrawing d, bool hasLoadedPivotTables)
-        {
-            if (d is ExcelChart c)
-            {
-                var chartStream = c.Part.GetStream(FileMode.Create, FileAccess.Write);
-                c.ChartXml.PreserveWhitespace = true;
-                c.ChartXml.Save(chartStream);
-
-                if (c is ExcelChartStandard cs && cs.Drawings.Part != null)
-                {
-                    foreach (var cd in cs.Drawings)
-                    {
-                        cd.UpdatePositionAndSizeXml();
-                        HandleSaveForIndividualDrawings(cd, hasLoadedPivotTables); //Handle group shapes.
-                    }
-
-                    var xrd = new XmlTextWriter(cs.Drawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
-                    xrd.Formatting = Formatting.None;
-                    cs.Drawings.DrawingXml.Save(xrd);
-                }
-            }
-            else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
-            {
-                s.Cache.SlicerCacheXml.PreserveWhitespace = true;
-                s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
-            }
-            else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
-            {
-                if (p.Cache == null) return;
-                if (hasLoadedPivotTables)
-                {
-                    p.Cache.UpdateItemsXml();
-                }
-                p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
-            }
-            else if (d is ExcelControl ctrl)
-            {
-                ctrl.ControlPropertiesXml.Save(ctrl.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
-                ctrl.ControlPropertiesXml.PreserveWhitespace = true;
-                ctrl.UpdateXml();
-            }
-            else if (d is ExcelOleObject o)
-            {
-                if (o.IsExternalLink)
-                {
-                    if (o._oleObjectPart != null && o._linkedOleObjectXml != null)
-                    {
-                        o._linkedOleObjectXml.Save(o._oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
-                    }
-                }
-                o.UpdateXml();
-            }
-            else if (d is ExcelGroupShape grp)
-            {
-                foreach (var sd in grp.Drawings)
-                {
-                    HandleSaveForIndividualDrawings(sd, hasLoadedPivotTables);
-                }
-            }
-        }
 
         private void SaveSlicers()
         {
