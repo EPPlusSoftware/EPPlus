@@ -161,6 +161,10 @@ namespace OfficeOpenXml
         /// <param name="value"></param>
         private static void SetSingle(ExcelRangeBase range, _setValue valueMethod, object value)
         {
+            if (value is object[,] array && array.GetLength(0) > 0 && array.GetLength(1) > 0)
+            {
+                value = array[0, 0];
+            }
             valueMethod(range, value, range._fromRow, range._fromCol);
         }
         /// <summary>
@@ -451,14 +455,13 @@ namespace OfficeOpenXml
                 {
                     if (!_worksheet.ExistsStyleInner(_fromRow, 0, ref s)) //No, check Row style
                     {
-                        var c = Worksheet.GetColumn(_fromCol);
-                        if (c == null)
+                        if (Worksheet.ColumnLookup.TryGetExcelColumn(_fromCol, out ExcelColumn c))
                         {
-                            s = 0;
+                            s = c.StyleID;
                         }
                         else
                         {
-                            s = c.StyleID;
+                            s = 0;
                         }
                     }
                 }
