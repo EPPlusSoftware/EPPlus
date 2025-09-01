@@ -55,5 +55,18 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Calculate();
             Assert.AreEqual("saknas", sheet.Cells["A1"].Value);
         }
+
+        [TestMethod]
+        public void IsOmitted_WithMapUsingRange()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Test");
+            sheet.Cells["B1"].Value = 1;
+            sheet.Cells["B2"].Value = 2;
+            sheet.Cells["A1"].Formula = "MAP(B1:B2, LAMBDA(a, IF(ISOMITTED(a), \"saknas\", a*10)))";
+            sheet.Calculate();
+            Assert.AreEqual(10d, sheet.Cells["A1"].Value);
+            Assert.AreEqual(20d, sheet.Cells["A2"].Value);
+        }
     }
 }

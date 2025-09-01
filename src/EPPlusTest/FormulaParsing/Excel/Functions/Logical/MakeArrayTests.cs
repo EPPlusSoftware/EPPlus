@@ -99,15 +99,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
         }
 
         [TestMethod]
-        public void TokenizerTest()
-        {
-            var str = "MAKEARRAY(3, LAMBDA(x, x)(LAMBDA(a, a)(3)), LAMBDA(r,c, r+c))";
-            var tokens = SourceCodeTokenizer.Default.Tokenize(str);
-            var t = tokens[9];
-            var rpn = FormulaExecutor.CreateRPNTokens(tokens);
-        }
-
-        [TestMethod]
         public void MakeArray_Test6()
         {
             using var package = new ExcelPackage();

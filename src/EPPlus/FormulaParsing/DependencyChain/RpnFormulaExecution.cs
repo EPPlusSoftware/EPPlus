@@ -31,6 +31,7 @@ using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.FormulaParsing.DependencyChain;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -401,7 +402,12 @@ namespace OfficeOpenXml.FormulaParsing
             return AddChainForFormula(depChain, f, options, writeToCell);
         }
 
-        private static CompileResult AddChainForFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, bool writeToCell)
+        internal static CompileResult ExecutePartialFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, bool writeToCell, VariableStorageScope scope)
+        {
+            return AddChainForFormula(depChain, f, options, writeToCell, scope);
+        }
+
+        private static CompileResult AddChainForFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, bool writeToCell, VariableStorageScope scope = null)
         {
             FormulaRangeAddress[] addresses;
             //FormulaRangeAddress address = null;
@@ -472,41 +478,7 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 else
                 {
-                    if(f._expressionStack.Count > 1)
-                    {
-                        var exps = f._expressionStack.Reverse().ToList();
-                        if (exps[0] is LambdaCalculationExpression lce)
-                        {
-                            cr = LambdaInvoker.InvokeLambdaFunction(depChain, f);
-                        }
-                        else
-                        {
-                            cr = f._expressionStack.Pop().Compile();
-                        }
-                    }
-                    else
-                    {
-                        cr = null;
-                        if(f._expressionStack.Peek() is LambdaCalculationExpression lce)
-                        {
-                            cr = lce.Compile();
-                            var lambdaCalc = cr.Result as LambdaCalculator;
-                            if(lambdaCalc.IsReadyForCalc)
-                            {
-                                lambdaCalc.BeginCalculation();
-                                cr = lambdaCalc.Execute(depChain._parsingContext);
-                                if (cr.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
-                                {
-                                    f._flags |= FormulaFlags.IsAlwaysDynamic;
-                                }
-                                f._expressionStack.Pop();
-                            }
-                        }
-                        else
-                        {
-                            cr = f._expressionStack.Pop().Compile();
-                        }
-                    }
+                    cr = f._expressionStack.Pop().Compile();
                 }
 
                 if (cr != null && (writeToCell || depChain._formulaStack.Count > 0))  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells

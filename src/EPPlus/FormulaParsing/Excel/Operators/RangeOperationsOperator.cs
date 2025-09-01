@@ -204,7 +204,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             {
                 lr = context.ExcelDataProvider.GetRange(fra);
             }
-            else if(left.Address != null)
+            else if(left.Address != null && left.Result is not InMemoryRange)
             {
                 lr = context.ExcelDataProvider.GetRange(left.Address);
             }
@@ -227,6 +227,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             if (rr == null && right.Result is FormulaRangeAddress fra)
             {
                 rr = context.ExcelDataProvider.GetRange(fra);
+            }
+            else if (right.Address != null && right.Result is not InMemoryRange)
+            {
+                rr = context.ExcelDataProvider.GetRange(right.Address);
             }
             var resultRange = CreateRange(InMemoryRange.Empty, rr, rr.Address);
             for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
