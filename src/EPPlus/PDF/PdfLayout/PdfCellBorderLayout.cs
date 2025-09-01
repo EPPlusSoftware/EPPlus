@@ -12,11 +12,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
     {
         public PdfCellBordersData BorderData;
 
-        PdfPageSettings PageSettings;
-
         public PdfCellBorderLayout() { }
 
-        public PdfCellBorderLayout(ExcelRangeBase cell, ExcelRangeBase dimension, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
+        public PdfCellBorderLayout(ExcelRangeBase cell, ExcelRangeBase dimension, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             if (cell != null)
@@ -34,30 +32,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 BorderData.DiagonalUp.BorderColor = new PdfColor(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
                 BorderData.DiagonalDown.BorderStyle = cell.Style.Border.DiagonalDown ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
                 BorderData.DiagonalDown.BorderColor = new PdfColor(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
-            }
-            PageSettings = pageSettings;
-            if(pageSettings.ShowGridLines)
-            {
-                if (BorderData.Top.BorderStyle == ExcelBorderStyle.None)
-                {
-                    BorderData.Top.BorderStyle = cell._fromRow == dimension._fromRow ? ExcelBorderStyle.GridOuter : ExcelBorderStyle.None;
-                    BorderData.Top.BorderColor = PdfColor.Black;
-                }
-                if (BorderData.Bottom.BorderStyle == ExcelBorderStyle.None)
-                {
-                    BorderData.Bottom.BorderStyle = cell._toRow == dimension._toRow ? ExcelBorderStyle.GridOuter : ExcelBorderStyle.GridInner;
-                    BorderData.Bottom.BorderColor =/* BorderData.Bottom.BorderStyle == ExcelBorderStyle.GridInner ? PdfColor.Gray :*/ PdfColor.Black;
-                }
-                if (BorderData.Left.BorderStyle == ExcelBorderStyle.None)
-                {
-                    BorderData.Left.BorderStyle = cell._fromCol == dimension._fromCol  ? ExcelBorderStyle.GridOuter : ExcelBorderStyle.None;
-                    BorderData.Left.BorderColor = PdfColor.Black;
-                }
-                if (BorderData.Right.BorderStyle == ExcelBorderStyle.None)
-                {
-                    BorderData.Right.BorderStyle = cell._toCol == dimension._toCol ? ExcelBorderStyle.GridOuter : ExcelBorderStyle.GridInner;
-                    BorderData.Right.BorderColor = /*BorderData.Right.BorderStyle == ExcelBorderStyle.GridInner ? PdfColor.Gray :*/ PdfColor.Black;
-                }
             }
         }
     }

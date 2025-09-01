@@ -73,14 +73,5 @@ namespace OfficeOpenXml.Style
         /// Slanted Dash Dot line
         /// </summary>
         SlantDashDot,
-
-        /// <summary>
-        /// ShowGridLines border
-        /// </summary>
-        GridOuter,
-        /// <summary>
-        /// ShowGridLines border
-        /// </summary>
-        GridInner
     };
 }

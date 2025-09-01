@@ -160,8 +160,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     child.LocalPosition = new Vector2(child.LocalPosition.X, settings.PageSize.HeightPu - System.Math.Abs(child.LocalPosition.Y));
                 }
                 page.RemoveChild(page.ChildObjects[0]);
-                page.Range = worksheet.Cells[ page.ChildObjects[0].Name + ":" + page.ChildObjects[page.ChildObjects.Count - 1].Name];
-                page.FixGridLines(pageSettings, worksheet);
+                //page.Range = worksheet.Cells[ page.ChildObjects[0].Name + ":" + page.ChildObjects[page.ChildObjects.Count - 1].Name];
+                page.GenerateGridLines(pageSettings, worksheet);
+                page.ChildObjects.RemoveAll(x => x.Name.Contains("*"));
             }
             RemoveChild(WorksheetLayout);
             string FinalPagesLayout = ToHierarchyString();

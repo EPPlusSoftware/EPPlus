@@ -3,6 +3,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.PDF.PdfFontData;
 using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfSettings;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,32 +57,24 @@ namespace OfficeOpenXml.PDF.PdfLayout
                                 clc1.Z = 6;
                                 clc1.Name = cell.Address;
                             }
-                            var clb1 = AddChild(new PdfCellBorderLayout(ws.Cells[address._fromRow, address._fromCol], ws.Dimension, pageSettings, x, y, mcWidth, mcHeight));
-                            clb1.Z = 7;
-                            clb1.Name = cell.Address;
-                            checkedMergedCells.Add(ws.MergedCells[i, j]);
                         }
                     }
+                    string deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol) ? "": "*";
                     var width = PdfUnits.ExcelColumnWidthToPoints(ws.Column(j).Width);
-                    if (!cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol))
+                    var cl0 = new PdfCellLayout((isMerged ? null : cell), pageSettings, x, y, width, height, 1, 1, 0, this);
+                    cl0.Z = 1;
+                    cl0.Name = cell.Address + deleteMark;
+                    if (!string.IsNullOrEmpty(cell.Text))
                     {
-                        var cl0 = new PdfCellLayout((isMerged ? null : cell), pageSettings, x, y, width, height, 1, 1, 0, this);
-                        cl0.Z = 1;
-                        cl0.Name = cell.Address;
-                        if (!string.IsNullOrEmpty(cell.Text))
-                        {
-                            var clc0 = new PdfCellContentLayout(isMerged ? null : cell, pageSettings, x, y, width, height, 1, 1, 0, this, fontResources);
+                        var clc0 = new PdfCellContentLayout(isMerged ? null : cell, pageSettings, x, y, width, height, 1, 1, 0, this, fontResources);
 
-                            clc0.Z = 2;
-                            clc0.Name = cell.Address;
-                        }
-                        var clb0 = new PdfCellBorderLayout((isMerged ? null : cell), ws.Dimension, pageSettings, x, y, width, height, 1, 1, 0, this);
-                        clb0.Z = 3;
-                        clb0.Name = cell.Address;
+                        clc0.Z = 2;
+                        clc0.Name = cell.Address;
                     }
-                    else if (pageSettings.ShowGridLines)
+                    bool allNone = new[] { cell.Style.Border.Top.Style, cell.Style.Border.Bottom.Style, cell.Style.Border.Left.Style, cell.Style.Border.Right.Style, cell.Style.Border.Diagonal.Style }.All(s => s == ExcelBorderStyle.None);
+                    if (!allNone)
                     {
-                        var clb0 = new PdfCellBorderLayout((isMerged ? null : cell), ws.Dimension, pageSettings, x, y, width, height, 1, 1, 0, this);
+                        var clb0 = new PdfCellBorderLayout((isMerged ? null : cell), ws.Dimension, x, y, width, height, 1, 1, 0, this);
                         clb0.Z = 3;
                         clb0.Name = cell.Address;
                     }

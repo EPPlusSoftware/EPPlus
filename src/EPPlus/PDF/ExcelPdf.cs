@@ -97,22 +97,6 @@ namespace OfficeOpenXml.PDF
             }
         }
 
-        internal void AddText(string text, string cellFontname, double size, double x, double y, PdfPage page)
-        {
-            var label = GetFontLabel(cellFontname, "Regular", size);
-            var content = new PdfContentStream(body.Count + 1);
-            content.AddText(label , size, x, y, text);
-            body.Add(content);
-            page.contentObjectNumbers.Add(content.objectNumber);
-        }
-
-        internal void AddRectangle(double x, double y, double width, double height, PdfColor stroke = null, PdfColor fill = null)
-        {
-            var content = new PdfContentStream(body.Count + 1);
-            content.AddRectangle(x, y, width, height, stroke != null ? true : false, fill != null ? true : false, stroke, fill);
-            body.Add(content);
-        }
-
         //create page
         private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfPageSettings settings)
         {
@@ -135,36 +119,15 @@ namespace OfficeOpenXml.PDF
             return catalog;
         }
 
-        private void CreateContentFromCell(PdfTransform child, PdfPage page, PdfContentStream contentStream, string previousName)
-        {
-            //check child is cell, merged cell or drawing
-            if (child is PdfCellLayout cell)
-            {
-                //add the operations for cell border and fill data
-            }
-            else if (child is PdfCellContentLayout content)
-            {
-                //add the operations for text and font data
-                AddText(content.FontData.Text, content.FontData.FontName, content.FontData.FontSize, content.LocalPosition.X, content.LocalPosition.Y, page);
-            }
-            else if (child is PdfMergedCellLayout merged)
-            {
-                AddRectangle(merged.Position.X, merged.Position.Y, merged.Size.X, merged.Size.Y, null, merged.CellFillData.BackgroundColor);
-                //AddText(merged.FontData.Text, merged.FontData.FontName, merged.FontData.FontSize, merged.Position.X, merged.Position.Y, page);
-            }
-            else if (child is PdfDrawingLayout drawing)
-            {
-            }
-        }
-
         private void CreateStreamContentFromCell(PdfTransform pageLayout, PdfPage page)
         {
-            var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout).GroupBy(t => t.Name);
+            var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
+            var contentStream = new PdfContentStream(body.Count + 1);
             foreach (var cell in cells)
             {
-                var contentStream = new PdfContentStream(body.Count + 1, "q");
                 foreach (var cellPart in cell)
                 {
+                    contentStream.AddCommand("q");
                     switch (cellPart)
                     {
                         case PdfCellLayout layout:
@@ -173,26 +136,59 @@ namespace OfficeOpenXml.PDF
                         case PdfCellContentLayout contentLayout:
                             contentStream.AddCellContentLayout(contentLayout, GetFontLabel(contentLayout.FontData.FontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));
                             break;
+                        case PdfCellBorderLayout borderLayout:
+                            contentStream.AddBorderLayout(borderLayout);
+                            break;
                     }
-                }
-                contentStream.AddCommand("Q");
-                body.Add(contentStream);
-                page.contentObjectNumbers.Add(contentStream.objectNumber);
-            }
-            var borderLayouts = pageLayout.ChildObjects.Where(t => t is PdfCellBorderLayout).GroupBy(t => t.Name);
-            foreach (var cell in borderLayouts)
-            {
-                var contentStream = new PdfContentStream(body.Count + 1, "q");
-                foreach (PdfCellBorderLayout border in cell)
-                {
-                    contentStream.AddBorderLayout(border);
                     contentStream.AddCommand("Q");
-                    body.Add(contentStream);
-                    page.contentObjectNumbers.Add(contentStream.objectNumber);
                 }
+            }
+            body.Add(contentStream);
+            page.contentObjectNumbers.Add(contentStream.objectNumber);
+        }
+
+        private void DrawGridLines(PdfTransform pageLayout, PdfPage page)
+        {
+            var pl = pageLayout as PdfPageLayout;
+            if (pl != null)
+            {
+                double lineWidth = 0.1d;
+                var cs = new PdfContentStream(body.Count + 1, "q");
+                cs.AddCommand($"{lineWidth.ToPdfString()} w");
+                cs.AddCommand("[] 0 d");
+                cs.AddCommand(PdfColor.Gray.ToStrokeCommand());
+                foreach (var line in pl.GridLines)
+                {
+                    cs.AddCommand($"{(line.X1 - lineWidth / 2).ToPdfString()} {(line.Y1 - lineWidth / 2).ToPdfString()} m");
+                    cs.AddCommand($"{(line.X2 - lineWidth / 2).ToPdfString()} {(line.Y2 - lineWidth / 2).ToPdfString()} l");
+                }
+                cs.AddCommand("S");
+                cs.AddCommand("Q");
+                body.Add(cs);
+                page.contentObjectNumbers.Add(cs.objectNumber);
             }
         }
-        
+        private void DrawBorderLines(PdfTransform pageLayout, PdfPage page)
+        {
+            var pl = pageLayout as PdfPageLayout;
+            if (pl != null)
+            {
+                var cs = new PdfContentStream(body.Count + 1, "q");
+                cs.AddCommand("1.0 w");
+                cs.AddCommand("2 J");
+                cs.AddCommand("[] 0 d");
+                cs.AddCommand(PdfColor.Black.ToStrokeCommand());
+                foreach (var line in pl.BorderLines)
+                {
+                    cs.AddCommand($"{line.X1.ToPdfString()} {line.Y1.ToPdfString()} m");
+                    cs.AddCommand($"{line.X2.ToPdfString()} {line.Y2.ToPdfString()} l");
+                }
+                cs.AddCommand("S");
+                cs.AddCommand("Q");
+                body.Add(cs);
+                page.contentObjectNumbers.Add(cs.objectNumber);
+            }
+        }
 
         public void CreatePdf(string Filename)
         {
@@ -205,7 +201,15 @@ namespace OfficeOpenXml.PDF
             {
                 var pageLayout = pagesLayout.ChildObjects[i];
                 var page = AddPage(2, new List<int>(), PageSettings);
+                if (PageSettings.ShowGridLines)
+                {
+                    DrawGridLines(pageLayout, page);
+                }
                 CreateStreamContentFromCell(pageLayout, page);
+                if (PageSettings.ShowGridLines)
+                {
+                    DrawBorderLines(pageLayout, page);
+                }
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
 

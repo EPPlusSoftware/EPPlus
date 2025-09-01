@@ -27,40 +27,6 @@ namespace OfficeOpenXml.PDF.PdfObjects
             commands.Add(command);
         }
 
-        public void AddText(string fontResourceName, double fontSize, double x, double y, string text)
-        {
-            commands.Add("BT");
-            commands.Add($"/{fontResourceName} {fontSize.ToPdfString()} Tf");
-            commands.Add($"{x.ToPdfString()} {y.ToPdfString()} Td");
-            commands.Add($"({FixEscapeCharacters(text)}) Tj");
-            commands.Add("ET");
-        }
-
-        public void AddRectangle(double x, double y, double width, double height, bool stroke = false, bool fill = false, PdfColor strokeColor = null, PdfColor fillColor = null)
-        {
-            if (stroke != false && strokeColor != null)
-            {
-                commands.Add(strokeColor.ToStrokeCommand());
-            }
-            if (fill != false && fillColor != null)
-            {
-                commands.Add(fillColor.ToFillCommand());
-            }
-            commands.Add($"{x.ToPdfString()} {y.ToPdfString()} {width.ToPdfString()} {height.ToPdfString()} re");
-            if (fill && stroke)
-            {
-                commands.Add("B");
-            }
-            else if (fill)
-            {
-                commands.Add("f");
-            }
-            else
-            {
-                commands.Add("S");
-            }
-        }
-
         public void AddCellLayout(PdfCellLayout cell)
         {
             if (cell.CellFillData.BackgroundColor.A >= 0.99999f)
@@ -88,15 +54,6 @@ namespace OfficeOpenXml.PDF.PdfObjects
             {
                 case Style.ExcelBorderStyle.None:
                     return;
-                case Style.ExcelBorderStyle.GridInner:
-                    commands.Add("0.1 w");
-                    commands.Add("[] 0 d");
-                    break;
-                case Style.ExcelBorderStyle.GridOuter:
-                    commands.Add("1.0 w");
-                    commands.Add("2 J");
-                    commands.Add("[] 0 d");
-                    break;
                 case Style.ExcelBorderStyle.Hair:
                     commands.Add("0.5 w");
                     if (lt == 2 || lt == 3)
@@ -237,8 +194,8 @@ namespace OfficeOpenXml.PDF.PdfObjects
             {
                 AddCommand(command);
             }
-            AddCommand($"{x1.ToPdfString()} {y1.ToPdfString()} m");
-            AddCommand($"{x2.ToPdfString()} {y2.ToPdfString()} l");
+            AddCommand($"{x1.ToPdfStringF4()} {y1.ToPdfStringF4()} m");
+            AddCommand($"{x2.ToPdfStringF4()} {y2.ToPdfStringF4()} l");
             AddCommand("S");
         }
 
