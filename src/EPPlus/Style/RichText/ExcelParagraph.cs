@@ -22,7 +22,7 @@ using System.Xml;
 namespace OfficeOpenXml.Style
 {
     /// <summary>
-    /// Handels paragraph text
+    /// Handles paragraph text
     /// </summary>
     public sealed class ExcelParagraph : ExcelTextFont
     {
@@ -68,13 +68,16 @@ namespace OfficeOpenXml.Style
             }
         }
 
-        const string LineSpacingPath = "../a:pPr/@lnSpc";
+        const string LineSpacingPath = "../../a:pPr/a:lnSpc";
 
-        internal int? LineSpacingPoints
+        /// <summary>
+        /// Set line spacing in pt
+        /// </summary>
+        public int? LineSpacingPoints
         {
             get
             {
-                return GetXmlNodeIntNull(LineSpacingPath + "/@spcPts");
+                return GetXmlNodeIntNull(LineSpacingPath + "/a:spcPts/@val");
             }
             set
             {
@@ -83,25 +86,35 @@ namespace OfficeOpenXml.Style
                 {
                     throw new ArgumentOutOfRangeException("Linespacing must be between 0 and 158400 pts.");
                 }
-                CreateTopNode();
-                SetXmlNodeInt(LineSpacingPath + "/@spcPts", value);
+                //Poins and Percent have the same position/node and there may only be one.
+                if(LineSpacingPercent != null)
+                {
+                    LineSpacingPercent = null;
+                }
+                SetXmlNodeInt(LineSpacingPath + "/a:spcPts/@val", value);
             }
         }
-
-        internal double? LineSpacingPercent
+        /// <summary>
+        /// Set line spacing in percent
+        /// </summary>
+        public double? LineSpacingPercent
         {
             get
             {
-                return GetXmlNodePercentage(LineSpacingPath + "/@spcPct");
+                return GetXmlNodePercentage(LineSpacingPath + "/a:spcPct/@val");
             }
             set
             {
-                CreateTopNode();
                 if (value.HasValue == false && (value < 0 || value > 13200))
                 {
                     throw new ArgumentOutOfRangeException("Linespacing in percent must be between 0 and 13200%");
                 }
-                SetXmlNodePercentage(LineSpacingPath + "/@spcPct", value, false);
+                //Poins and Percent have the same position/node and there may only be one.
+                if (LineSpacingPoints != null)
+                {
+                    LineSpacingPoints = null;
+                }
+                SetXmlNodePercentage(LineSpacingPath + "/a:spcPct/@val", value);
             }
         }
 
