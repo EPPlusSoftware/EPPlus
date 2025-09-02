@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Drawing.Theme
         internal ExcelThemeFontCollection(ExcelPackage pck, XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager,topNode)
         {
             _pck = pck;
-            foreach (XmlNode node in topNode.ChildNodes)
+            foreach (XmlElement node in topNode.ChildNodes)
             {
                 if(node.LocalName=="font")
                 {

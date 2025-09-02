@@ -83,7 +83,7 @@ namespace OfficeOpenXml.Style
             _cells= cells;
             _isComment = true;
 
-			foreach (XmlNode rElement in textElem.ChildNodes)
+			foreach (XmlElement rElement in textElem.ChildNodes)
             {
                 if(rElement.LocalName == "r")
                 {

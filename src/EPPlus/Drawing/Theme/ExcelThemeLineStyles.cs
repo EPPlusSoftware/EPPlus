@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Drawing.Theme
         internal ExcelThemeLineStyles(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
         {
             _list = new List<ExcelThemeLine>();
-            foreach (XmlNode node in topNode.ChildNodes)
+            foreach (XmlElement node in topNode.ChildNodes)
             {
                 _list.Add(new ExcelThemeLine(nameSpaceManager, node));
             }

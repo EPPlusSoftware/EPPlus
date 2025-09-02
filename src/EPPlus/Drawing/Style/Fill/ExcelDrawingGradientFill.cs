@@ -104,6 +104,12 @@ namespace OfficeOpenXml.Drawing.Style.Fill
                 _xml.SetXmlNodePercentage("a:path/a:fillToRect/@t", FocusPoint.TopOffset, true, int.MaxValue / 10000);
                 _xml.SetXmlNodePercentage("a:path/a:fillToRect/@l", FocusPoint.LeftOffset, true, int.MaxValue / 10000);
                 _xml.SetXmlNodePercentage("a:path/a:fillToRect/@r", FocusPoint.RightOffset, true, int.MaxValue / 10000);
+
+                _xml.SetXmlNodePercentage("a:path/a:tileRect/@b", TileRectangle.BottomOffset, true, int.MaxValue / 10000);
+                _xml.SetXmlNodePercentage("a:path/a:tileRect/@t", TileRectangle.TopOffset, true, int.MaxValue / 10000);
+                _xml.SetXmlNodePercentage("a:path/a:tileRect/@l", TileRectangle.LeftOffset, true, int.MaxValue / 10000);
+                _xml.SetXmlNodePercentage("a:path/a:tileRect/@r", TileRectangle.RightOffset, true, int.MaxValue / 10000);
+
             }
         }
 
@@ -148,8 +154,11 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             {
                 foreach (XmlNode c in cols.ChildNodes)
                 {
-                    var xml = XmlHelperFactory.Create(_xml.NameSpaceManager, c);
-                    _colors.Add(xml.GetXmlNodeDouble("@pos") / 1000, c);
+                    if (c.NodeType == XmlNodeType.Element)
+                    {
+                        var xml = XmlHelperFactory.Create(_xml.NameSpaceManager, c);
+                        _colors.Add(xml.GetXmlNodeDouble("@pos") / 1000, c);
+                    }
                 }
             }
             var path=_xml.GetXmlNodeString("a:path/@path");
@@ -169,6 +178,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             else
             {
                 FocusPoint = new ExcelDrawingRectangle(_xml, "a:path/a:fillToRect/", 0);
+                TileRectangle = new ExcelDrawingRectangle(_xml, "a:tileRect/", 0);
             }
         }
         eShadePath _shadePath = eShadePath.Linear;
@@ -202,6 +212,15 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         /// This property is set to null if ShadePath is set to Linear
         /// </summary>
         public ExcelDrawingRectangle FocusPoint
+        {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// The tile rectangle when ShadePath is set to a non linear value.
+        /// This property is set to null if ShadePath is set to Linear
+        /// </summary>
+        public ExcelDrawingRectangle TileRectangle
         {
             get;
             private set;
