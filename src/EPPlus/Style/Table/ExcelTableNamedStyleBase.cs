@@ -33,19 +33,16 @@ namespace OfficeOpenXml.Style.Table
         {
             _styles = styles;
             As = new ExcelTableNamedStyleAsType(this);
-            foreach(XmlNode node in topNode.ChildNodes)
+            foreach(XmlElement e in topNode.ChildNodes)
             {
-                if (node is XmlElement e)
+                var type = e.GetAttribute("type").ToEnum(eTableStyleElement.WholeTable);
+                if (IsBanded(type))
                 {
-                    var type = e.GetAttribute("type").ToEnum(eTableStyleElement.WholeTable);
-                    if (IsBanded(type))
-                    {
-                        _dic.Add(type, new ExcelBandedTableStyleElement(nameSpaceManager, node, styles, type));
-                    }
-                    else
-                    {
-                        _dic.Add(type, new ExcelTableStyleElement(nameSpaceManager, node, styles, type));
-                    }
+                    _dic.Add(type, new ExcelBandedTableStyleElement(nameSpaceManager, e, styles, type));
+                }
+                else
+                {
+                    _dic.Add(type, new ExcelTableStyleElement(nameSpaceManager, e, styles, type));
                 }
             }
         }

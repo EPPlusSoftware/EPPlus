@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Drawing.Theme
         internal ExcelThemeFillStyles(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelThemeBase theme) : base(nameSpaceManager, topNode)
         {
             _list = new List<ExcelDrawingFill>();
-            foreach (XmlNode node in topNode.ChildNodes)
+            foreach (XmlElement node in topNode.ChildNodes)
             {
                 _list.Add(new ExcelDrawingFill(theme, nameSpaceManager, node, "", SchemaNodeOrder));
             }

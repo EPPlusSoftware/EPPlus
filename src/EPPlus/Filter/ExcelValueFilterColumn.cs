@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Filter
 
         private void LoadFilters(XmlNode topNode)
         {
-            foreach (XmlNode node in topNode.FirstChild.ChildNodes)
+            foreach (XmlElement node in topNode.FirstChild.ChildNodes)
             {
                 switch (node.LocalName)
                 {

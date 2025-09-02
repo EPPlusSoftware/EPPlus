@@ -91,7 +91,7 @@ namespace OfficeOpenXml.Drawing
             Worksheet = sheet;
 
             _drawingsXml = new XmlDocument();
-            _drawingsXml.PreserveWhitespace = true;
+            _drawingsXml.PreserveWhitespace = false;
             _drawingsList = new List<ExcelDrawing>();
             _drawingNames = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             CreateNSM();

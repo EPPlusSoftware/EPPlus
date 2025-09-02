@@ -41,7 +41,7 @@ namespace OfficeOpenXml
             _collectionNode = (XmlElement)GetNode(_collectionNodePath);
             if(_collectionNode!=null)
             {
-                foreach (XmlNode node in _collectionNode.ChildNodes)
+                foreach (XmlElement node in _collectionNode.ChildNodes)
                 {
                     _list.Add(new ExcelProtectedRange(ws.NameSpaceManager, node));
                 }

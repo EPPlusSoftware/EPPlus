@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Drawing.Theme
         {
             _theme = theme;
             _list = new List<ExcelThemeEffectStyle>();
-            foreach (XmlNode node in topNode.ChildNodes)
+            foreach (XmlElement node in topNode.ChildNodes)
             {
                 _list.Add(new ExcelThemeEffectStyle(nameSpaceManager, node, "", null, _theme));
             }

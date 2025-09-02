@@ -13,7 +13,7 @@
 using System.Drawing;
 using System.Xml;
 using System;
-
+using System.Linq;
 namespace OfficeOpenXml.Drawing.Style.Coloring
 {
     /// <summary>

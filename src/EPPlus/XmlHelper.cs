@@ -623,7 +623,7 @@ namespace OfficeOpenXml
                 return null;
             }
             XmlNode prependNode = null;
-            foreach (XmlNode childNode in node.ChildNodes)
+            foreach (XmlElement childNode in node.ChildNodes)
             {
                 string checkNodeName;
                 if (childNode.LocalName == "AlternateContent") //AlternateContent contains the node that should be in the correnct order. For example AlternateContent/Choice/controls
