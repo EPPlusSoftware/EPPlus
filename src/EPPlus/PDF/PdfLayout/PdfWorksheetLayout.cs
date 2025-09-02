@@ -1,20 +1,15 @@
-﻿using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.PDF.PdfFontData;
+﻿using OfficeOpenXml.PDF.PdfFontData;
 using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfSettings;
 using OfficeOpenXml.Style;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfWorksheetLayout : PdfTransform
     {
         internal ExcelWorksheet ws;
-
 
         public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds, Dictionary<string, PdfFontResource> fontResources)
         {
@@ -26,7 +21,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             for(int i = 1; i<= ws.Dimension._toRow; i++)
             {
                 if(ws.Row(i).Hidden) { continue; }
-                var height = ws.Row(i).Height;
+                var height = PdfUnits.ExcelRowHeightToPoints(ws.Row(i).Height);
                 for (int j = 1; j <= ws.Dimension._toCol; j++)
                 {
                     if(ws.Column(j).Hidden) { continue; }
@@ -42,13 +37,13 @@ namespace OfficeOpenXml.PDF.PdfLayout
                             ExcelAddressBase address = new ExcelAddressBase(ws.MergedCells[i, j]);
                             for (int k = address._fromRow; k <= address._toRow; k++)
                             {
-                                mcHeight += ws.Row(k).Height;
+                                mcHeight += PdfUnits.ExcelRowHeightToPoints(ws.Row(k).Height);
                             }
                             for (int l = address._fromCol; l <= address._toCol; l++)
                             {
                                 mcWidth += PdfUnits.ExcelColumnWidthToPoints(ws.Column(l).Width);
                             }
-                            var cl1 = AddChild(new PdfMergedCellLayout(ws.Cells[address._fromRow, address._fromCol], pageSettings, x, y, mcWidth, mcHeight));
+                            var cl1 = AddChild(new PdfMergedCellLayout(ws.Cells[address._fromRow, address._fromCol], x, y, mcWidth, mcHeight));
                             cl1.Z = 5;
                             cl1.Name = cell.Address;
                             if (!string.IsNullOrEmpty(cell.Text))
@@ -61,7 +56,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     }
                     string deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol) ? "": "*";
                     var width = PdfUnits.ExcelColumnWidthToPoints(ws.Column(j).Width);
-                    var cl0 = new PdfCellLayout((isMerged ? null : cell), pageSettings, x, y, width, height, 1, 1, 0, this);
+                    var cl0 = new PdfCellLayout((isMerged ? null : cell), x, y, width, height, 1, 1, 0, this);
                     cl0.Z = 1;
                     cl0.Name = cell.Address + deleteMark;
                     if (!string.IsNullOrEmpty(cell.Text))

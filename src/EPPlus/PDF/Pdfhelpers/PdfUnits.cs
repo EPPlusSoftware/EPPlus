@@ -27,9 +27,14 @@
 
         public static double ExcelColumnWidthToPoints(double columnWidth)
         {
-            double pixels = System.Math.Truncate(7 * columnWidth + 5);
-            double points = pixels * 0.75;
+            double pixels = System.Math.Truncate(7 * columnWidth + 6); //These values are guessed.
+            double points = pixels * 0.75; //These values are guessed.
             return points;
+        }
+
+        public static double ExcelRowHeightToPoints(double rowHeight)
+        {
+            return rowHeight + 0.25d; //These values are guessed.
         }
 
     }

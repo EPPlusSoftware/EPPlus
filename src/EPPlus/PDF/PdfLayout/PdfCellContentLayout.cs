@@ -127,5 +127,4 @@ namespace OfficeOpenXml.PDF.PdfLayout
  * check if text needs to be cut
  * if needs to be cut we can do the follwing solutions
  *      check for next cells and set Z to higher value than text
- 
  */

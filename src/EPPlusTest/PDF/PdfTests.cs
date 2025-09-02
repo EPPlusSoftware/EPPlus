@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Drawing.Printing;
-using System.Linq;
+﻿using System.Linq;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml;
 using OfficeOpenXml.PDF;
-using OfficeOpenXml.PDF.PdfLayout;
 using OfficeOpenXml.PDF.PdfSettings;
-using OfficeOpenXml.PDF.PdfSettings.PdfPageData;
 using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
 
 namespace EPPlusTest.PDF
@@ -19,6 +15,8 @@ namespace EPPlusTest.PDF
         public void TestWritePdf()
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
+            //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
+            //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
             var ws = p.Workbook.Worksheets[0];
 
             PdfPageSettings pageSettings = new PdfPageSettings();
@@ -30,8 +28,7 @@ namespace EPPlusTest.PDF
             pageSettings.Debug = true;
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
 
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest24.pdf");
-
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest25.pdf");
         }
 
         [TestMethod]

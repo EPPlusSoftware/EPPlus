@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfGraphics
 {
@@ -12,7 +9,6 @@ namespace OfficeOpenXml.PDF.PdfGraphics
         public float G { get; set; }
         public float B { get; set; }
         public float A { get; set; } = 1f;
-
 
         public PdfColor()
         { }

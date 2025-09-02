@@ -1,10 +1,6 @@
-﻿using OfficeOpenXml.PDF.PdfGraphics;
-using OfficeOpenXml.PDF.Pdfhelpers;
+﻿using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfLayout;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfObjects
@@ -31,9 +27,11 @@ namespace OfficeOpenXml.PDF.PdfObjects
         {
             if (cell.CellFillData.BackgroundColor.A >= 0.99999f)
             {
+                commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
                 commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
+                commands.Add(cell.CellFillData.BackgroundColor.ToStrokeCommand());
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y - cell.Size.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
-                commands.Add("f");
+                commands.Add("B");
             }
         }
 

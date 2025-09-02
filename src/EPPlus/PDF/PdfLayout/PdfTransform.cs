@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Linq;
 using OfficeOpenXml.PDF.Math;
 using OfficeOpenXml.PDF.PdfSettings;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Globalization;
 
 namespace OfficeOpenXml.PDF.PdfLayout

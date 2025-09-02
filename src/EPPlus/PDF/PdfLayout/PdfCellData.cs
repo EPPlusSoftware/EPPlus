@@ -1,7 +1,5 @@
-﻿using OfficeOpenXml.PDF.Math;
-using OfficeOpenXml.PDF.PdfGraphics;
+﻿using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.Style;
-using System.Data;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
@@ -77,6 +75,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
     internal struct GridLine
     {
+        public static double Width = 0.1d;
+        public static double HalfWidth = Width / 2d;
+        public static double FourthWidth = Width / 4d;
         public double X1;
         public double Y1;
         public double X2;

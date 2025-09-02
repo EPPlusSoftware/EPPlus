@@ -1,21 +1,14 @@
-﻿using FontLab1.GenericMeasurements;
-using FontLab1;
-using OfficeOpenXml.PDF.PdfFontData;
+﻿using OfficeOpenXml.PDF.PdfFontData;
 using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfObjects;
 using OfficeOpenXml.PDF.PdfSettings;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.PDF.PdfSettings.PdfPageData;
-using FontLab1.Tables.Os2;
 using OfficeOpenXml.PDF.PdfLayout;
-using System.Runtime;
-using OfficeOpenXml.Packaging.Ionic.Zip;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace OfficeOpenXml.PDF
 {
@@ -123,6 +116,10 @@ namespace OfficeOpenXml.PDF
         {
             var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
             var contentStream = new PdfContentStream(body.Count + 1);
+            if (PageSettings.ShowGridLines)
+            {
+                DrawGridLines(contentStream, pageLayout, page);
+            }
             foreach (var cell in cells)
             {
                 foreach (var cellPart in cell)
@@ -143,51 +140,56 @@ namespace OfficeOpenXml.PDF
                     contentStream.AddCommand("Q");
                 }
             }
+            if (PageSettings.ShowGridLines)
+            {
+                DrawBorderLines(contentStream, pageLayout, page);
+            }
             body.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
         }
+        private void DrawGridLines(PdfContentStream contentStream, PdfTransform pageLayout, PdfPage page)
+        {
+            if (pageLayout is not PdfPageLayout pl)
+                return;
 
-        private void DrawGridLines(PdfTransform pageLayout, PdfPage page)
-        {
-            var pl = pageLayout as PdfPageLayout;
-            if (pl != null)
+            contentStream.AddCommand("q");
+            contentStream.AddCommand($"{GridLine.Width.ToPdfString()} w");
+            contentStream.AddCommand(PdfColor.Black.ToFillCommand());
+            foreach (var line in pl.GridLines)
             {
-                double lineWidth = 0.1d;
-                var cs = new PdfContentStream(body.Count + 1, "q");
-                cs.AddCommand($"{lineWidth.ToPdfString()} w");
-                cs.AddCommand("[] 0 d");
-                cs.AddCommand(PdfColor.Gray.ToStrokeCommand());
-                foreach (var line in pl.GridLines)
+                string w, h;
+                if (line.X1 == line.X2)
                 {
-                    cs.AddCommand($"{(line.X1 - lineWidth / 2).ToPdfString()} {(line.Y1 - lineWidth / 2).ToPdfString()} m");
-                    cs.AddCommand($"{(line.X2 - lineWidth / 2).ToPdfString()} {(line.Y2 - lineWidth / 2).ToPdfString()} l");
+                    w = GridLine.Width.ToPdfString();
+                    h = System.Math.Abs(line.Y2 - line.Y1).ToPdfString();
                 }
-                cs.AddCommand("S");
-                cs.AddCommand("Q");
-                body.Add(cs);
-                page.contentObjectNumbers.Add(cs.objectNumber);
+                else
+                {
+                    w = System.Math.Abs(line.X2 - line.X1).ToPdfString();
+                    h = GridLine.Width.ToPdfString();
+                }
+                contentStream.AddCommand($"{(line.X1).ToPdfString()} {(line.Y1).ToPdfString()} {w} {h} re");
             }
+            contentStream.AddCommand("f");
+            contentStream.AddCommand("Q");
         }
-        private void DrawBorderLines(PdfTransform pageLayout, PdfPage page)
+        private void DrawBorderLines(PdfContentStream contentStream, PdfTransform pageLayout, PdfPage page)
         {
-            var pl = pageLayout as PdfPageLayout;
-            if (pl != null)
+            if (pageLayout is not PdfPageLayout pl)
+                return;
+
+            contentStream.AddCommand("q");
+            contentStream.AddCommand("1.0 w");
+            contentStream.AddCommand("2 J");
+            contentStream.AddCommand("[] 0 d");
+            contentStream.AddCommand(PdfColor.Black.ToStrokeCommand());
+            foreach (var line in pl.BorderLines)
             {
-                var cs = new PdfContentStream(body.Count + 1, "q");
-                cs.AddCommand("1.0 w");
-                cs.AddCommand("2 J");
-                cs.AddCommand("[] 0 d");
-                cs.AddCommand(PdfColor.Black.ToStrokeCommand());
-                foreach (var line in pl.BorderLines)
-                {
-                    cs.AddCommand($"{line.X1.ToPdfString()} {line.Y1.ToPdfString()} m");
-                    cs.AddCommand($"{line.X2.ToPdfString()} {line.Y2.ToPdfString()} l");
-                }
-                cs.AddCommand("S");
-                cs.AddCommand("Q");
-                body.Add(cs);
-                page.contentObjectNumbers.Add(cs.objectNumber);
+                contentStream.AddCommand($"{line.X1.ToPdfString()} {line.Y1.ToPdfString()} m");
+                contentStream.AddCommand($"{line.X2.ToPdfString()} {line.Y2.ToPdfString()} l");
             }
+            contentStream.AddCommand("S");
+            contentStream.AddCommand("Q");
         }
 
         public void CreatePdf(string Filename)
@@ -201,15 +203,7 @@ namespace OfficeOpenXml.PDF
             {
                 var pageLayout = pagesLayout.ChildObjects[i];
                 var page = AddPage(2, new List<int>(), PageSettings);
-                if (PageSettings.ShowGridLines)
-                {
-                    DrawGridLines(pageLayout, page);
-                }
                 CreateStreamContentFromCell(pageLayout, page);
-                if (PageSettings.ShowGridLines)
-                {
-                    DrawBorderLines(pageLayout, page);
-                }
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
 

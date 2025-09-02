@@ -16,11 +16,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
     {
         public PdfCellFillData CellFillData;
 
-        PdfPageSettings PageSettings;
-
         public PdfCellLayout() { }
 
-        public PdfCellLayout(ExcelRangeBase cell, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
+        public PdfCellLayout(ExcelRangeBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
             :base(x, y, width, height, scaleX, scaleY, rotation, parent )
         {
             if (cell != null)
@@ -38,7 +36,12 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 CellFillData.PattenStyle = cell.Style.Fill.PatternType;
                 CellFillData.PatternColor = new PdfColor(cell.Style.Fill.PatternColor.LookupColor());
             }
-            PageSettings = pageSettings;
+        }
+
+        public void Adjust()
+        {
+            Size = new Vector2(Size.X + GridLine.HalfWidth, Size.Y + GridLine.HalfWidth);
+            LocalPosition = new Vector2(LocalPosition.X + GridLine.FourthWidth, LocalPosition.Y + GridLine.HalfWidth + GridLine.FourthWidth);
         }
     }
 }

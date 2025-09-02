@@ -1,6 +1,4 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.PDF.PdfSettings;
+﻿using OfficeOpenXml.PDF.PdfSettings;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +6,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfPageLayout : PdfTransform
     {
-        internal ExcelRangeBase Range;
         internal List<GridLine> GridLines = new List<GridLine>();
         internal List<GridLine> BorderLines = new List<GridLine>();
 

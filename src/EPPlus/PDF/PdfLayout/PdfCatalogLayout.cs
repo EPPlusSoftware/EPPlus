@@ -9,9 +9,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfCatalogLayout : PdfTransform
     {
-        internal PdfPageSettings settings;
-        internal PdfContentBounds bounds;
-
         public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, PdfContentBounds bounds, Dictionary<string, PdfFontResource> fontResources)
             : base(0, 0, 0, 0)
         {
@@ -27,8 +24,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
         {
             //Position = new Vector2(0d, pageSettings.PageSize.HeightPu);
             this.Name = worksheet.Name + " Catalog";
-            this.settings = pageSettings;
-            this.bounds = bounds;
             var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, bounds, fontResources));
             //calculate number of pages needed based on contentBounds and worksheetLayout.Size
             var horizontalPages = WorksheetLayout.Size.X / bounds.Width;
@@ -52,7 +47,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             for (int i = 1; i <= worksheet.Dimension._toRow; i++)
             {
                 if (worksheet.Row(i).Hidden) { continue; }
-                var height = worksheet.Row(i).Height;
+                var height = PdfUnits.ExcelRowHeightToPoints(worksheet.Row(i).Height);
                 if (h+height >= bh)
                 {
                     ph++;
@@ -77,7 +72,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             for (int i = 0; i < totalPages; i++)
             {
                 int row, col;
-                if (settings.PageOrders == PageOrders.DownThenOver)
+                if (pageSettings.PageOrders == PageOrders.DownThenOver)
                 {
                     col = i / verticalPageCount;
                     row = i % verticalPageCount;
@@ -87,9 +82,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     col = i % horizontalPageCount;
                     row = i / horizontalPageCount;
                 }
-                double px = col * settings.PageSize.WidthPu;
-                double py = row * settings.PageSize.HeightPu;
-                PdfPageLayout page = new PdfPageLayout(px, py, settings.PageSize.WidthPu, settings.PageSize.HeightPu);
+                double px = col * pageSettings.PageSize.WidthPu;
+                double py = row * pageSettings.PageSize.HeightPu;
+                PdfPageLayout page = new PdfPageLayout(px, py, pageSettings.PageSize.WidthPu, pageSettings.PageSize.HeightPu);
                 page.Name = "Page " + (i + 1);
                 double cx = col * bounds.Width;
                 double cy = row * bounds.Height;
@@ -127,7 +122,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 {
                     if(PdfTransform.Intersects(mcBounds, page.ChildObjects[0].GetGlobalBoundingbox()))
                     {
-                        var copy = new PdfMergedCellLayout(null,pageSettings, mc.LocalPosition.X, mc.LocalPosition.Y, mc.Size.X, mc.Size.Y, mc.LocalScale.X, mc.LocalScale.Y, mc.LocalRotation, WorksheetLayout);
+                        var copy = new PdfMergedCellLayout(null, mc.LocalPosition.X, mc.LocalPosition.Y, mc.Size.X, mc.Size.Y, mc.LocalScale.X, mc.LocalScale.Y, mc.LocalRotation, WorksheetLayout);
                         copy.Name = mc.Name;
                         page.ChildObjects[0].AddChild(copy);
                     }
@@ -152,60 +147,30 @@ namespace OfficeOpenXml.PDF.PdfLayout
             //Restore the positions of the content, move content children to page and remove content object.
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
-                page.ChildObjects[0].LocalPosition = new Vector2(settings.Margins.LeftPu, settings.Margins.TopPu);
+                page.ChildObjects[0].LocalPosition = new Vector2(pageSettings.Margins.LeftPu, pageSettings.Margins.TopPu);
                 var contentObjects = page.ChildObjects[0].ChildObjects.ToList();
                 foreach (var child in contentObjects)
                 {
                     page.AddChild(child);
-                    child.LocalPosition = new Vector2(child.LocalPosition.X, settings.PageSize.HeightPu - System.Math.Abs(child.LocalPosition.Y));
+                    child.LocalPosition = new Vector2(child.LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(child.LocalPosition.Y));
                 }
                 page.RemoveChild(page.ChildObjects[0]);
                 //page.Range = worksheet.Cells[ page.ChildObjects[0].Name + ":" + page.ChildObjects[page.ChildObjects.Count - 1].Name];
                 page.GenerateGridLines(pageSettings, worksheet);
                 page.ChildObjects.RemoveAll(x => x.Name.Contains("*"));
             }
+            foreach (PdfPageLayout page in pages.ChildObjects)
+            {
+                foreach (var child in page.ChildObjects)
+                {
+                    if( child is PdfCellLayout cellLayout)
+                    {
+                        cellLayout.Adjust();
+                    }
+                }
+            }
             RemoveChild(WorksheetLayout);
             string FinalPagesLayout = ToHierarchyString();
-        }
-
-        List<PdfPageLayout> GetRightBottomAndDiagonalPages(PdfTransform currentPage, List<PdfTransform> allPages, int hPages, int vPages, PageOrders pageOrder)
-        {
-            int index = allPages.IndexOf(currentPage);
-            if (index == -1)
-                return new List<PdfPageLayout>();
-
-            int row, col;
-
-            if (pageOrder == PageOrders.DownThenOver)
-            {
-                col = index / vPages;
-                row = index % vPages;
-            }
-            else //(settings.PageOrders == PageOrders.OverThenDown)
-            {
-                col = index % hPages;
-                row = index / hPages;
-            }
-            var neighbors = new List<PdfPageLayout>();
-            // Right
-            if (col + 1 < hPages)
-            {
-                int i = (pageOrder == PageOrders.DownThenOver) ? (col + 1) * vPages + row : row * hPages + (col + 1);
-                neighbors.Add(allPages[i] as PdfPageLayout);
-            }
-            // Bottom
-            if (row + 1 < vPages)
-            {
-                int i = (pageOrder == PageOrders.DownThenOver) ? col * vPages + (row + 1) : (row + 1) * hPages + col;
-                neighbors.Add(allPages[i] as PdfPageLayout);
-            }
-            // Bottom-right
-            if (col + 1 < hPages && row + 1 < vPages)
-            {
-                int i = (pageOrder == PageOrders.DownThenOver) ? (col + 1) * vPages + (row + 1) : (row + 1) * hPages + (col + 1);
-                neighbors.Add(allPages[i] as PdfPageLayout);
-            }
-            return neighbors;
         }
     }
 }
