@@ -1118,7 +1118,6 @@ namespace OfficeOpenXml.FormulaParsing
                             if(addVariable && f.LambdaSettings.LambdaArgsAdded.Count > 0)
                             {
                                 var rangeCr = e.Compile();
-                                //leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), t.Value, DataType.ExcelRange);
                                 leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), rangeCr.ResultValue, rangeCr.DataType, rangeCr.Address);
                                 var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
                                 f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
@@ -1126,10 +1125,6 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         if (localReturnAddress && returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
                         {
-                            //if (IsSingleAddress(f))
-                            //{
-                            //    return e.GetAddress();
-                            //}
                             return e.GetAddress();
                         }
                         break;
@@ -1178,10 +1173,6 @@ namespace OfficeOpenXml.FormulaParsing
                                 }
                             }
 
-                            //if (f._tokenIndex > 0 && (f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma || f._tokens[f._tokenIndex - 1].TokenType == TokenType.StartFunctionArguments || f._tokenIndex == f._tokens.Count)) //Empty function argument.
-                            //{
-                            //    f._expressionStack.Push(new EmptyExpression());                                
-                            //}
                             var pi = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos++);
                             if (EnumUtil.HasFlag(pi, FunctionParameterInformation.Condition))
                             {

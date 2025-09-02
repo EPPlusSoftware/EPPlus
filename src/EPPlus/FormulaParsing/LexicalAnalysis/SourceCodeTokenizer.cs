@@ -365,19 +365,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             }
                             else if (c == ')')
                             {
-                                if (isInLambdaInvoke)
-                                {
-                                    lambdaInvokeParenthesisCount--;
-                                    if (lambdaInvokeParenthesisCount == 0)
-                                    {
-                                        isInLambdaInvoke = false;
-                                        l[l.Count - 1] = new Token(")", TokenType.LambdaInvokeArgsEnd);
-                                    }
-                                }
-                                else
-                                {
-                                    paranthesesCount--;
-                                }
+                                paranthesesCount--;
+
                             }
                             else if (c == '[' && (pc != '\'' || (flags & statFlags.isLastCharQuote) == 0))
                             {

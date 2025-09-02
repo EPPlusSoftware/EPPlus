@@ -258,23 +258,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         continue;
                     }  
                 }
-                if (rpnTokens.HasLambdaRefs && rpnTokens.LambdaRefs.ContainsKey(tokenIx))
-                {
-                    var tknIx = rpnTokens.LambdaRefs[tokenIx] + 1;
-                    var list = new List<Token>();
-                    tknIx = tknIx <= rpnTokens.Count() - 1 ? tknIx : rpnTokens.Count() - 1;
-                    var sTkn = rpnTokens[tknIx - 1];
-                    if (sTkn.TokenType == TokenType.LambdaInvokeArgsStart)
-                    {
-                        var tkn = rpnTokens[tknIx];
-                        while (tkn.TokenType != TokenType.LambdaInvokeArgsEnd)
-                        {
-                            list.Add(tkn);
-                            tkn = rpnTokens[++tknIx];
-                        }
-                    }
 
-                }
                 switch (t.TokenType)
                 {
                     case TokenType.Boolean:
@@ -295,20 +279,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     case TokenType.CellAddress:
                     case TokenType.FullColumnAddress:
                     case TokenType.FullRowAddress:
-                        //if (tokenIx > 1 && tokens[tokenIx - 1].TokenTypeIsAddress && tokens[tokenIx + 1].Value == ":" && tokens[tokenIx + 1].TokenType == TokenType.Operator)
-                        //{
-                        //    //We have a two cell addresses with with a colon. Remove tokens and replace with full column address, for example A1:C2.
-                        //    var e = expressions[tokenIx - 1];
-                        //    e.MergeAddress(t.Value);
-                        //    tokens.RemoveAt(tokenIx - 1);
-                        //    tokens.RemoveAt(tokenIx);
-                        //    tokenIx--;
-                        //    tokens[tokenIx] = new Token(e.GetAddress()[0].WorksheetAddress, TokenType.ExcelAddress);
-                        //}
-                        //else
-                        //{
-                        //    expressions.Add(tokenIx, new RangeExpression(t.Value, parsingContext, extRefIx, wsIx));
-                        //}
                         if (tokenIx < tokens.Count - 1)
                         {
                             var candidateToken = tokens[tokenIx + 1];
@@ -444,10 +414,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         stack.Push(func);
                         break;
                     case TokenType.Comma:
-                        //if(tokenIx == tokens.Count - 1)
-                        //{
-                        //    expressions.Add(tokenIx, new EmptyExpression());
-                        //}
                         if (stack.Count > 0)
                         {
                             stack.Peek().AddArgument(tokenIx);

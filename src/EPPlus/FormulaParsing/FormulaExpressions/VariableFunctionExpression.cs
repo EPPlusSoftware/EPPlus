@@ -19,6 +19,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     {
 
 
+
         internal VariableFunctionExpression(string tokenValue, ParsingContext ctx, int pos, bool addVariableScope = true) : base(tokenValue, ctx, pos)
         {
             _variableStorage = ctx.VariableStorage;
