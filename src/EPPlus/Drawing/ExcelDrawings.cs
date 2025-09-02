@@ -2155,6 +2155,39 @@ namespace OfficeOpenXml.Drawing
             return null;
         }
 
+        internal void SaveDrawings(bool hasLoadedPivotTables)
+        {
+            if (UriDrawing != null)
+            {
+                if (Count == 0)
+                {
+                    if(Worksheet != null)
+                    {
+                        Worksheet.Part.DeleteRelationship(_drawingRelation.Id);
+                        Worksheet._package.ZipPackage.DeletePart(UriDrawing);
+                    }
+                }
+                else
+                {
+                    if (Worksheet != null)
+                    {
+                        Worksheet.RowHeightCache = new Dictionary<int, double>();
+
+                        foreach (ExcelDrawing d in this)
+                        {
+                            d.AdjustPositionAndSize();
+                            d.UpdatePositionAndSizeXml();
+                            d.SaveDrawing(hasLoadedPivotTables);
+                        }
+
+                        ZipPackagePart partPack = Part;
+                        var partStream = partPack.GetStream(FileMode.Create, FileAccess.Write);
+                        DrawingXml.Save(partStream);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Read the drawings coordinates, height and width.
         /// </summary>

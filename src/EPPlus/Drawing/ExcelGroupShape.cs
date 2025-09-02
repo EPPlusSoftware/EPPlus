@@ -635,6 +635,15 @@ namespace OfficeOpenXml.Drawing
                 return eDrawingType.GroupShape;
             }
         }
-    }
 
+        internal override void SaveDrawing(bool hasLoadedPivotTables)
+        {
+            base.SaveDrawing(hasLoadedPivotTables);
+
+            foreach (var d in Drawings)
+            {
+                d.SaveDrawing(hasLoadedPivotTables);
+            }
+        }
+    }
 }

@@ -230,5 +230,38 @@ namespace OfficeOpenXml.Style
         }
 
         #endregion
+
+        internal void UpdateXmlEndParagraphRunProperties()
+        {
+            if (_list.Count > 1)
+            {
+                for (int i = 1; i < _list.Count; i++)
+                {
+                    //Get the run node of previous paragraph if it exists
+                    var prevRunNode = _list[i-1].TopNode;
+                    if (prevRunNode != null)
+                    {
+                        var endParaNode = _list[i].TopNode.SelectSingleNode("../../a:endParaRPr", NameSpaceManager);
+
+                        if(endParaNode != null)
+                        {
+                            endParaNode.ParentNode.RemoveChild(endParaNode);
+                        }
+
+                        endParaNode = _list[i].CreateNode("../../a:endParaRPr");
+
+                        foreach(XmlAttribute attribute in prevRunNode.Attributes)
+                        {
+                            endParaNode.Attributes.Append((XmlAttribute)attribute.Clone());
+                        }
+
+                        foreach(XmlNode childnode in prevRunNode.ChildNodes)
+                        {
+                            endParaNode.AppendChild(childnode.Clone());
+                        }
+                    }
+                }
+            }
+        }
     }
 }

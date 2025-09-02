@@ -2875,5 +2875,10 @@ namespace OfficeOpenXml.Drawing
             GetToBounds(out int toRow, out _, out int toCol, out _);
             return new ExcelAddress(fromRow + 1, fromCol + 1, toRow + 1, toCol + 1);
         }
+
+        internal virtual void SaveDrawing(bool hasLoadedPivotTables)
+        {
+            //Individual drawings that require certain saving actions do so by overriding this
+        }
     }
 }
