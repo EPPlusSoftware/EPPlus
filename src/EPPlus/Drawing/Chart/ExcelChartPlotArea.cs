@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
@@ -37,7 +38,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             else
             {
-                AddSchemaNodeOrder(new string[] { "areaChart", "area3DChart", "lineChart", "line3DChart", "stockChart", "radarChart", "scatterChart", "pieChart", "pie3DChart", "doughnutChart", "barChart", "bar3DChart", "ofPieChart", "surfaceChart", "surface3DChart", "valAx", "catAx", "dateAx", "serAx", "dTable", "spPr" },
+                AddSchemaNodeOrder(new string[] { "layout","areaChart", "area3DChart", "lineChart", "line3DChart", "stockChart", "radarChart", "scatterChart", "pieChart", "pie3DChart", "doughnutChart", "barChart", "bar3DChart", "ofPieChart", "surfaceChart", "surface3DChart", "valAx", "catAx", "dateAx", "serAx", "dTable", "spPr" },
                     ExcelDrawing._schemaNodeOrderSpPr);
             }
 
@@ -160,6 +161,21 @@ namespace OfficeOpenXml.Drawing.Chart
                     _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _threeD;
+            }
+        }
+        ExcelLayout _layout = null;
+        /// <summary>
+        /// Contains layout properties, if the plotarea is manually positioned.
+        /// </summary>
+        public ExcelLayout Layout
+        {
+            get
+            {
+                if (_layout == null)
+                {
+                    _layout = new ExcelLayout(NameSpaceManager, TopNode, "c:Layout", "", SchemaNodeOrder);
+                }
+                return _layout;
             }
         }
         void IDrawingStyleBase.CreatespPr()

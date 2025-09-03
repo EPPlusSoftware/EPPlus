@@ -32,29 +32,28 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelManualLayout : XmlHelper
     {
-        //string _layoutTargetPath;
-        //TODO: Check how this property should be added
-        ///// <summary>
-        ///// Layout target
-        ///// </summary>
-        //public eLayoutTarget? LayoutTarget 
-        //{
-        //    get
-        //    {
-        //        return GetXmlEnumNull<eLayoutTarget>(_layoutTargetPath);
-        //    }
-        //    set
-        //    {
-        //        if ( value == null )
-        //        {
-        //            DeleteNode(_layoutTargetPath, true);
-        //        }
-        //        else
-        //        {
-        //            SetXmlNodeString(_layoutTargetPath, value.ToEnumString());
-        //        }
-        //    }
-        //}
+        string _layoutTargetPath;
+        /// <summary>
+        /// Layout target
+        /// </summary>
+        public eLayoutTarget? LayoutTarget
+        {
+            get
+            {
+                return GetXmlEnumNull<eLayoutTarget>(_layoutTargetPath);
+            }
+            set
+            {
+                if (value == null)
+                {
+                    DeleteNode(_layoutTargetPath, true);
+                }
+                else
+                {
+                    SetXmlNodeString(_layoutTargetPath, value.ToEnumString());
+                }
+            }
+        }
 
         /// <summary>
         /// Define mode for Left (x) attribute
@@ -294,7 +293,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
         private readonly string _path;
         private readonly string _extLstPath;
-
         /// <summary>
         /// Manual layout elements
         /// </summary>
@@ -302,12 +300,8 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             _path = path;
             _extLstPath = extLstPath;
-            //_layoutTargetPath = $"{_path}/c:layoutTarget/@val";  Removed for now. See commented out property LayoutTarget above.
-            NameSpaceManager.AddNamespace("c15", ExcelPackage.schemaChart2012);
-            NameSpaceManager.AddNamespace("c16", ExcelPackage.schemaChart2014);
-
+            _layoutTargetPath = path;
             AddSchemaNodeOrder(schemaNodeOrder, ["layoutTarget", "xMode", "yMode", "wMode", "hMode", "x", "y", "w", "h", "extLst"]);
         }
-
     }
 }

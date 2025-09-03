@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Drawing.Chart
             _fontPropertiesPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";
             if (chart._isChartEx)
             {
-                AddSchemaNodeOrder(new string[] { "tx", "strRef", "rich", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
+                AddSchemaNodeOrder(new string[] { "layout", "tx", "strRef", "rich", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
                 CreateTopNode();
             }
             else
@@ -448,5 +448,21 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         internal override bool HasLinkedCell => LinkedCell != null;
+
+        ExcelLayout _layout = null;
+        /// <summary>
+        /// Contains layout properties, if the title is manually positioned.
+        /// </summary>
+        public ExcelLayout Layout
+        {
+            get
+            {
+                if (_layout == null)
+                {
+                    _layout = new ExcelLayout(NameSpaceManager, TopNode, "c:Layout", "", SchemaNodeOrder);
+                }
+                return _layout;
+            }
+        }
     }
 }
