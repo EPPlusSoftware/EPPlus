@@ -13,6 +13,7 @@
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
+using System.IO;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
@@ -252,5 +253,23 @@ namespace OfficeOpenXml.Drawing.Slicer
             base.DeleteMe();
         }
 
+        internal override void SaveDrawing(bool hasLoadedPivotTables)
+        {
+            base.SaveDrawing(hasLoadedPivotTables);
+            if (Cache is ExcelTableSlicerCache) 
+            {
+                Cache.SlicerCacheXml.PreserveWhitespace = true;
+                Cache.SlicerCacheXml.Save(Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
+            }
+            else if(Cache is ExcelPivotTableSlicerCache p)
+            {
+                if (Cache == null) return;
+                if (hasLoadedPivotTables)
+                {
+                    p.UpdateItemsXml();
+                }
+                Cache.SlicerCacheXml.Save(Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
+            }
+        }
     }
 }

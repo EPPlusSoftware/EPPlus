@@ -603,5 +603,16 @@ namespace OfficeOpenXml.Drawing
             if (_richText != null) _richText.TopNode = TopNode;
             if (_textBody != null) _textBody.TopNode = TopNode;
         }
+
+        internal override void SaveDrawing(bool hasLoadedPivotTables)
+        {
+            base.SaveDrawing(hasLoadedPivotTables);
+            if(_richText != null)
+            {
+                //We set the end run after the user has set all properties for all given runs
+                //This ensures we need not update the node repeatedly.
+                RichText.UpdateXmlEndParagraphRunProperties();
+            }
+        }
     }
 }

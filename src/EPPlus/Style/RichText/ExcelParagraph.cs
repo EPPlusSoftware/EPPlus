@@ -28,10 +28,9 @@ namespace OfficeOpenXml.Style
     {
         internal ExcelParagraph(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager ns, XmlNode rootNode, string path, string[] schemaNodeOrder) : 
             base(pictureRelationDocument, ns, rootNode, path + "a:rPr", schemaNodeOrder)
-        { 
-
+        {
         }
-        const string AligPath = "../a:pPr/@align";
+        const string AligPath = "../../a:pPr/@align";
         /// <summary>
         /// Text
         /// </summary>
@@ -47,7 +46,7 @@ namespace OfficeOpenXml.Style
                 SetXmlNodeString(AligPath, value.ToEnumString());
             }
         }
-        const string IndentLevelPath = "../a:pPr/@lvl";
+        const string IndentLevelPath = "../../a:pPr/@lvl";
         /// <summary>
         /// Indent level for the paragraph. Ranges from 0-8;
         /// </summary>
@@ -72,32 +71,35 @@ namespace OfficeOpenXml.Style
 
         /// <summary>
         /// Set line spacing in pt
+        /// Returns null if only defined as Percent
         /// </summary>
-        public int? LineSpacingPoints
+        public int? LineSpacingExactly
         {
             get
             {
-                return GetXmlNodeIntNull(LineSpacingPath + "/a:spcPts/@val");
+                return GetXmlNodeIntNull(LineSpacingPath + "/a:spcPts/@val") / 100;
             }
             set
             {
-                //the "maxInclusive value="158400"" on page 4045 of ECMA OOXML part 1
+                _lineSpacingType = eLineSpacing.Exactly;
+                //the "maxInclusive value="15840000" on page 4045 of ECMA OOXML part 1
                 if (value.HasValue == false && (value < 0 || value > 158400))
                 {
                     throw new ArgumentOutOfRangeException("Linespacing must be between 0 and 158400 pts.");
                 }
                 //Poins and Percent have the same position/node and there may only be one.
-                if(LineSpacingPercent != null)
+                if(LineSpacingMultiple != null)
                 {
-                    LineSpacingPercent = null;
+                    LineSpacingMultiple = null;
                 }
-                SetXmlNodeInt(LineSpacingPath + "/a:spcPts/@val", value);
+                SetXmlNodeInt(LineSpacingPath + "/a:spcPts/@val", value * 100);
             }
         }
         /// <summary>
-        /// Set line spacing in percent
+        /// Set line spacing in multiples of single lines
+        /// Returns null if only defined as Exactly
         /// </summary>
-        public double? LineSpacingPercent
+        public double? LineSpacingMultiple
         {
             get
             {
@@ -110,11 +112,64 @@ namespace OfficeOpenXml.Style
                     throw new ArgumentOutOfRangeException("Linespacing in percent must be between 0 and 13200%");
                 }
                 //Poins and Percent have the same position/node and there may only be one.
-                if (LineSpacingPoints != null)
+                if (LineSpacingExactly != null)
                 {
-                    LineSpacingPoints = null;
+                    LineSpacingExactly = null;
                 }
+
+                if(value == 1)
+                {
+                    _lineSpacingType = eLineSpacing.Single;
+                }
+                else if(value == 1.5)
+                {
+                    _lineSpacingType = eLineSpacing.OneAndAHalf;
+                }
+                else if(value == 2)
+                {
+                    _lineSpacingType = eLineSpacing.Double;
+                }
+
                 SetXmlNodePercentage(LineSpacingPath + "/a:spcPct/@val", value);
+            }
+        }
+
+       private eLineSpacing _lineSpacingType;
+
+        /// <summary>
+        /// If setting Exactly or Multiple it is recommended to use
+        /// LineSpacingExactly or LineSpacingMultiple propeties.
+        /// Otherwise they are set to default values 13.2 or 3
+        /// 
+        /// Note that Single, OneAndAHalf and Double are all techically just Multiple for values 1, 1,5 and 2
+        /// </summary>
+        public eLineSpacing LineSpacing
+        {
+            get
+            {
+                return _lineSpacingType;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case eLineSpacing.Single:
+                        LineSpacingMultiple = 1;
+                        break;
+                    case eLineSpacing.OneAndAHalf:
+                        LineSpacingMultiple = 1.5;
+                        break;
+                    case eLineSpacing.Double:
+                        LineSpacingMultiple = 2;
+                        break;
+                    case eLineSpacing.Exactly:
+                        LineSpacingExactly = 13;
+                        break;
+                    case eLineSpacing.Multiple:
+                        LineSpacingMultiple = 3;
+                        break;
+                }
+                _lineSpacingType = value;
             }
         }
 

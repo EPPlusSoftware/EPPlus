@@ -14,6 +14,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Packaging;
 using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -711,6 +712,15 @@ namespace OfficeOpenXml.Drawing.Controls
             _drawings._package.ZipPackage.DeletePart(ControlPropertiesUri);
             _control.DeleteMe();
             base.DeleteMe();
+        }
+
+        internal override void SaveDrawing(bool hasLoadedPivotTables)
+        {
+            base.SaveDrawing(hasLoadedPivotTables);
+
+            ControlPropertiesXml.Save(ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
+            ControlPropertiesXml.PreserveWhitespace = true;
+            UpdateXml();
         }
     }
 }
