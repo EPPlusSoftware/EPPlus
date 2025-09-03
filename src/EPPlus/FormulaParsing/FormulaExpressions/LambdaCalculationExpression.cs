@@ -16,6 +16,11 @@ using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    /// <summary>
+    /// Represents a Lambda calculation and encapsulates a <see cref="LambdaCalculator"/>. 
+    /// This expression is on the expression stack while the lambda arguments are collected and its 
+    /// <see cref="LambdaCalculationExpression.Compile"/> method will return a <see cref="LambdaCalculator"/> ready to execute.
+    /// </summary>
     [DebuggerDisplay("LambdaCalculationExpression - _compileResult: {GetResultInfo()}")]
     internal class LambdaCalculationExpression : Expression
     {

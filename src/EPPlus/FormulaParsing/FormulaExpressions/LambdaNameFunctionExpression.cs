@@ -14,6 +14,9 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    /// <summary>
+    /// Represents a LAMBDA function stored as a Name in the workbook.
+    /// </summary>
     internal class LambdaNameFunctionExpression : LambdaFunctionExpression
     {
         internal LambdaNameFunctionExpression(string functionName, string formula, ParsingContext ctx, int pos) : base(functionName, ctx, pos)

@@ -17,6 +17,12 @@ using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    /// <summary>
+    /// An expression that holds the tokens of the Lambda expression, i.e. the tokens that 
+    /// comes after the CommaLambda token. The <see cref="CompileResult"/> returned from the 
+    /// <see cref="LambdaTokensExpression.Compile"/> function of this expression will have 
+    /// an instance <see cref="LambdaTokensResult"/> as value with <see cref="DataType.LambdaTokens"/>.
+    /// </summary>
     [DebuggerDisplay("LambdaTokensExpression - Count: {Tokens?.Count}")]
     internal class LambdaTokensExpression : Expression
     {

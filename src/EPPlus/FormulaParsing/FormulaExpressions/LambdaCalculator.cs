@@ -20,8 +20,20 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    /// <summary>
+    /// Stores the Lambda tokens and can be called multiple times with different parameters. 
+    /// For each time the tokens are converted RPN tokens and runs through the calculation 
+    /// via the new <see cref="RpnFormulaExecution.ExecutePartialFormula(RpnOptimizedDependencyChain, RpnFormula, ExcelCalculationOption, bool, VariableStorageScope)"/> method.
+    /// </summary>
     internal class LambdaCalculator
     {
+        /// <summary>
+        /// Tokens representing the LAMBDA expression. For example if the LAMBDA function
+        /// is LAMBDA(x, 1, x + 1) the tokens supplied to the LambdaCalculator will be x + 1
+        /// </summary>
+        /// <param name="lambdaTokens"></param>
+        /// <param name="scope"></param>
+        /// <param name="formula"></param>
         public LambdaCalculator(List<Token> lambdaTokens, VariableStorageScope scope, RpnFormula formula)
         {
             _originalTokens = lambdaTokens;
@@ -65,11 +77,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             get; set;
         }
 
+        /// <summary>
+        /// Resets the calculator for a new calculation
+        /// </summary>
         public void BeginCalculation()
         {
             CloneTokens();
         }
 
+        /// <summary>
+        /// Resets the counting of variables
+        /// </summary>
         public void ResetVariables()
         {
             _nVariablesSet = 0;
@@ -95,6 +113,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             return _currentTokens;
         }
 
+        /// <summary>
+        /// Sets the variables values, creates new variables if not present.
+        /// </summary>
+        /// <param name="variables">List of variables</param>
+        /// <param name="ctx">The parsing context</param>
         public void SetVariables(List<VariableCompileResult> variables, ParsingContext ctx)
         {
             if (variables == null || !variables.Any()) return;
@@ -109,26 +132,28 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     SetVariableValue(i, variables[i].ResultValue, variables[i].DataType, ctx);
                 }
             }
-            #region Old code
-            //for(var i = 0; i < _variables.Count; i++)
-            //{
-            //    if(i < variables.Count && variables[i].DataType == DataType.Variable)
-            //    {
-            //        var name = _variables[i].GetResultValue();
-            //        var variableValue = variables[i].ResultValue;
-            //        var dt = variables[i].DataType;
-            //        _variables[i] = new CompileResult(name, dt);
-            //        _scope.SetVariableValue(name, new CompileResult(variableValue, dt));
-            //    }
-            //}
-            #endregion
         }
 
+        /// <summary>
+        /// Sets a variable's value in the variable scope.
+        /// </summary>
+        /// <param name="index">0-based index</param>
+        /// <param name="value">name of the variable</param>
+        /// <param name="dt">DataType of the variable</param>
+        /// <param name="ctx">The parsing context</param>
         public void SetVariableValue(int index, object value, DataType dt, ParsingContext ctx)
         {
             SetVariableValue(index, value, dt, ctx, null);
         }
 
+        /// <summary>
+        /// Sets a variable's value in the variable scope.
+        /// </summary>
+        /// <param name="index">0-based index</param>
+        /// <param name="value">name of the variable</param>
+        /// <param name="dt">DataType of the variable</param>
+        /// <param name="ctx">The parsing context</param>
+        /// <param name="address">The cell address if applicable</param>
         public void SetVariableValue(int index, object value, DataType dt, ParsingContext ctx, FormulaRangeAddress address)
         {
             var variable = _variables[index];
@@ -196,6 +221,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             _nVariablesSet++;
         }
 
+        /// <summary>
+        /// Executes the Lambda function and returns the result
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public CompileResult Execute(ParsingContext ctx)
         {
             if(_currentTokens == null)

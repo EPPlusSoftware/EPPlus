@@ -220,16 +220,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// </summary>
         CommaLambda = (ulong)1 << 48,
         /// <summary>
-        /// Represents a start parenthesis that indicates arguments to a LAMBDA call
-        /// </summary>
-        LambdaInvokeArgsStart = (ulong)1 << 49,
-        /// <summary>
-        /// Represents an end parenthesis that indicates arguments to a LAMBDA call
-        /// </summary>
-        LambdaInvokeArgsEnd = (ulong)1 << 50,
-        /// <summary>
         /// Represents an empty argument (i.e. between two commas or a comma and a closing parentheses).
         /// </summary>
-        EmptyArgument = (ulong)1 << 51,
+        EmptyArgument = (ulong)1 << 49,
     }
 }

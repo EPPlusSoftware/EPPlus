@@ -15,6 +15,9 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    /// <summary>
+    /// This expression handles the initial execution of a LAMBDA function.
+    /// </summary>
     internal class LambdaFunctionExpression : VariableFunctionExpression
     {
         internal override bool IsLambda => true;

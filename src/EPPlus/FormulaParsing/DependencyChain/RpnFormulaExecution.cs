@@ -1271,11 +1271,11 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         f._funcStack.Push(fe);
                         break;
-                    case TokenType.LambdaInvokeArgsEnd:
-                        CompileResult result = LambdaInvoker.InvokeLambdaFunction(depChain, f);
-                        if (result != null)
-                            PushResult(depChain._parsingContext, f, result);
-                        break;
+                    //case TokenType.LambdaInvokeArgsEnd:
+                    //    CompileResult result = LambdaInvoker.InvokeLambdaFunction(depChain, f);
+                    //    if (result != null)
+                    //        PushResult(depChain._parsingContext, f, result);
+                    //    break;
                     case TokenType.Operator:
                         ApplyOperator(depChain._parsingContext, t, f);
 
