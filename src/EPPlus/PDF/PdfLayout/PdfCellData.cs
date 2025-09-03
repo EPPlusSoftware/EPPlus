@@ -75,7 +75,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
     internal struct GridLine
     {
-        public static double Width = 0.1d;
+        public static double Width = 0.125d;
         public static double HalfWidth = Width / 2d;
         public static double FourthWidth = Width / 4d;
         public double X1;

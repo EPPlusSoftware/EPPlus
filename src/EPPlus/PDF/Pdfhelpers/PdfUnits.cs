@@ -2,8 +2,9 @@
 {
     internal static class PdfUnits
     {
-        public const double PointsPerInch = 72.0;
-        public const double MmPerInch = 25.4;
+        public const double PointsPerInch = 72.0d;
+        public const double MmPerInch = 25.4d;
+        public const double DPI = 600d;
 
         public static double MmToPoints(double mm)
         {
@@ -28,7 +29,7 @@
         public static double ExcelColumnWidthToPoints(double columnWidth)
         {
             double pixels = System.Math.Truncate(7 * columnWidth + 6); //These values are guessed.
-            double points = pixels * 0.75; //These values are guessed.
+            double points = pixels * 0.75d; //These values are guessed.
             return points;
         }
 
