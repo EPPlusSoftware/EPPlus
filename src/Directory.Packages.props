@@ -12,6 +12,7 @@
     <PackageVersion Include="System.Security.Cryptography.Xml" Version="8.0.2" />
     <PackageVersion Include="System.Text.Encoding.CodePages" Version="8.0.0" />
     <PackageVersion Include="System.Text.Json" Version="8.0.5" />
+    <PackageVersion Include="System.Configuration.ConfigurationManager" version="8.0.1" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="FakeItEasy" Version="8.0.0" />
