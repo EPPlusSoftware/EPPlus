@@ -20,6 +20,7 @@ using System.Text.RegularExpressions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml
 {
@@ -698,6 +699,10 @@ namespace OfficeOpenXml
         {
             get
             {
+                if (Table != null)
+                {
+                    return _address;
+                }
                 return GetAddress(_fromRow, _fromCol, _toRow, _toCol, true, true, true, true);
             }
         }
@@ -708,6 +713,10 @@ namespace OfficeOpenXml
         {
             get
             {
+                if (Table != null)
+                {
+                    return _address;
+                }
                 string a="";
                 if(_addresses != null)
                 {
