@@ -238,15 +238,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             formula.ExpressionStack = _formula.ExpressionStack;
             formula.FunctionStack = _formula.FunctionStack;
             var rpnTokens = new RpnTokens { Tokens = _currentTokens, Scope = _scope };
-            formula.SetTokens(rpnTokens, ctx);
+            formula.SetTokens(rpnTokens, ctx, _scope);
             // SetTokens clears the variable storage...
             ctx.VariableStorage.Push(_scope);
             var chain = ctx.DependencyChain;
             var compileResult = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
-            if (_formula.ExpressionStack.Count > 0 && _formula.ExpressionStack.Peek() is LambdaCalculationExpression lce)
-            {
-                _formula.ExpressionStack.Pop();
-            }
+            //if (_formula.ExpressionStack.Count > 0 && _formula.ExpressionStack.Peek() is LambdaCalculationExpression lce)
+            //{
+            //    _formula.ExpressionStack.Pop();
+            //}
             return CompileResultFactory.CreateDynamicArrayResult(compileResult.Result, compileResult.Address, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
         }
 

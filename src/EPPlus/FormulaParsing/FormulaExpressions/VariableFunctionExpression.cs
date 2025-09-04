@@ -15,11 +15,11 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    /// <summary>
+    /// Base class for functions that handles variables such as LET and LAMBDA.
+    /// </summary>
     internal class VariableFunctionExpression : FunctionExpression
     {
-
-
-
         internal VariableFunctionExpression(string tokenValue, ParsingContext ctx, int pos, bool addVariableScope = true) : base(tokenValue, ctx, pos)
         {
             _variableStorage = ctx.VariableStorage;
@@ -63,7 +63,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal void DeclareVariable(string name)
         {
             if (_isOutOfVariableScope) return;
-            if (!_storageScope.ContainsVariable(name))
+            if (!_storageScope.ContainsVariable(name, true))
             {
                 _storageScope.SetVariableValue(name, null);
             }
@@ -73,7 +73,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal bool VariableIsDeclared(string name)
         {
             if (_isOutOfVariableScope) return false;
-            if (_storageScope.ContainsVariable(name))
+            if (_storageScope.ContainsVariable(name, true))
             {
                 return true;
             }

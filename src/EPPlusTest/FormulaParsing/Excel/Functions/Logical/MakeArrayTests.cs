@@ -103,9 +103,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
         {
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
-            sheet.Cells["A1"].Formula = "LAMBDA(x,x)(LAMBDA(y,y)(1))";
+            sheet.Cells["A1"].Formula = "LAMBDA(x,x + 1)(LAMBDA(y,y)(1))";
             sheet.Calculate();
-            Assert.AreEqual(1d, sheet.Cells["A1"].Value);
+            Assert.AreEqual(2d, sheet.Cells["A1"].Value);
         }
 
 

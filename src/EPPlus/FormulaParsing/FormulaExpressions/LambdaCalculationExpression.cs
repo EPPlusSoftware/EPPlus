@@ -68,6 +68,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             throw new NotImplementedException();
         }
 
+        public bool IsMe(LambdaCalculator testCalc)
+        {
+            if(testCalc != null && _compileResult.Result is LambdaCalculator calc)
+            {
+                return testCalc.Equals(calc);
+            }
+            return false;
+        }
+
         public void SetVariable(int index, object val, DataType dt, FormulaRangeAddress fra)
         {
             if(_compileResult.Result is LambdaCalculator calculator)

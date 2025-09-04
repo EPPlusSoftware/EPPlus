@@ -131,6 +131,27 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(6d, sheet.Cells["A1"].Value);
         }
 
+        [TestMethod]
+        public void LambdaCurryingMultiLevel()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LAMBDA(a, LAMBDA(b, LAMBDA(c, a + b + c)))(1)(2)(3)";
+            sheet.Calculate();
+            Assert.AreEqual(6d, sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void LambdaReturningLambda()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LAMBDA(x, LAMBDA(y, x + y))(2)(LAMBDA(z, z + 3)(1))";
+            //sheet.Cells["A1"].Formula = "LAMBDA(x, LAMBDA(y, x + y))(2)(4)";
+            sheet.Calculate();
+            Assert.AreEqual(6d, sheet.Cells["A1"].Value);
+        }
+
 
         [TestMethod]
         public void LambdaAsName1()

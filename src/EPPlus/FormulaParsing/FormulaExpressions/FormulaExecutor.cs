@@ -183,7 +183,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         }
 
 
-        public static Dictionary<int, Expression> CompileExpressions(ref LambdaFormulaSettings lambdaSettings, ref RpnTokens rpnTokens, ParsingContext parsingContext)
+        public static Dictionary<int, Expression> CompileExpressions(ref LambdaFormulaSettings lambdaSettings, ref RpnTokens rpnTokens, ParsingContext parsingContext, VariableStorageScope scope = null)
         {
             short extRefIx = short.MinValue;
             int wsIx = int.MinValue;
@@ -360,7 +360,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         }
                         if(!paramHandled)
                         {
-                            var scp = parsingContext.VariableStorage.IsEmpty ? rpnTokens.Scope : parsingContext.VariableStorage.Peek();
+                            var scp = parsingContext.VariableStorage.IsEmpty ? rpnTokens.Scope : scope ?? parsingContext.VariableStorage.Peek();
                             expressions.Add(tokenIx, new VariableExpression(t.Value, scp, false));
                         }
                         break;

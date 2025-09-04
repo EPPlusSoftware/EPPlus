@@ -25,7 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.DependencyChain
             var lambdaArgs = new List<CompileResult>();
             if (!f._expressionStack.Any(x => x.ExpressionType == ExpressionType.LambdaCalculation)) return null;
             CompileResult result = default;
-            while (f._expressionStack.Count > 0)
+            bool lambdaExecuted = false;
+            while (f._expressionStack.Count > 0 && !lambdaExecuted)
             {
                 var exp = f._expressionStack.Pop();
 
@@ -45,6 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.DependencyChain
                             lie.AddArgument(arg);
                         }
                         result = lie.Compile();
+                        lambdaExecuted = true;
                         break;
                     }
                     else if(exp != null)

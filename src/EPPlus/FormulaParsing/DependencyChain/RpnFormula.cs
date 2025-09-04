@@ -237,7 +237,7 @@ namespace OfficeOpenXml.FormulaParsing
 			_expressions = FormulaExecutor.CompileExpressions(ref _lambdaSettings, ref _tokens, depChain._parsingContext);
 		}
 
-        internal void SetTokens(RpnTokens tokens, ParsingContext context)
+        internal void SetTokens(RpnTokens tokens, ParsingContext context, VariableStorageScope scope)
         {
             _tokens = tokens;
             _variableStorage = context.VariableStorage;
@@ -247,7 +247,7 @@ namespace OfficeOpenXml.FormulaParsing
                 formula.Append(token.Value);
             }
             _formula = formula.ToString();
-            _expressions = FormulaExecutor.CompileExpressions(ref _lambdaSettings, ref _tokens, context);
+            _expressions = FormulaExecutor.CompileExpressions(ref _lambdaSettings, ref _tokens, context, scope);
         }
 
         public override string ToString()

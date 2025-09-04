@@ -44,11 +44,19 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
 
 
 
-        public bool ContainsVariable(string name)
+        public bool ContainsVariable(string name, bool includeDeclarations = false)
         {
-            if(_variables.ContainsKey(name) && _variables[name] != null) return true;
+            if(includeDeclarations)
+            {
+                if (_variables.ContainsKey(name)) return true;
+            }
+            else
+            {
+                if (_variables.ContainsKey(name) && _variables[name] != null) return true;
+            }
+            
             if (_parentScope == null) return false;
-            return _parentScope.ContainsVariable(name);
+            return _parentScope.ContainsVariable(name, includeDeclarations);
         }
 
         public CompileResult GetVariableValue(string name)
