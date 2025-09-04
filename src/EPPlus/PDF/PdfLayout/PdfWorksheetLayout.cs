@@ -27,7 +27,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     if(ws.Column(j).Hidden) { continue; }
                     var cell = ws.Cells[i, j];
                     bool isMerged = false;
-                    if (cell.Merge)
+                    if (cell.Merge) //maybe collect merged cells into a list for processing after all cell. we need to save the merged cells range and current position.
                     {
                         isMerged = true;
                         if (!checkedMergedCells.Contains(ws.MergedCells[i, j]))
@@ -52,6 +52,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                                 clc1.Z = 6;
                                 clc1.Name = cell.Address;
                             }
+                            checkedMergedCells.Add(ws.MergedCells[i, j]);
                         }
                     }
                     string deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol) ? "": "*";

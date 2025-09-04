@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.PDF.Pdfhelpers;
+﻿using OfficeOpenXml.PDF.PdfGraphics;
+using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfLayout;
 using System.Collections.Generic;
 using System.Text;
@@ -25,7 +26,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
 
         public void AddCellLayout(PdfCellLayout cell)
         {
-            if (cell.CellFillData.BackgroundColor.A >= 0.99999f)
+            if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.BackgroundColor.A >= 0.99999f)
             {
                 commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
                 commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
@@ -206,6 +207,52 @@ namespace OfficeOpenXml.PDF.PdfObjects
             commands.Add($"{System.Math.Cos(rot).ToPdfString()} {System.Math.Sin(rot).ToPdfString()} {(-System.Math.Sin(rot)).ToPdfString()} {System.Math.Cos(rot).ToPdfString()} {cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} Tm");
             commands.Add($"({FixEscapeCharacters(cell.FontData.Text)}) Tj");
             commands.Add("ET");
+        }
+
+        public void AddInnerGridLines(PdfTransform pageLayout)
+        {
+            if (pageLayout is not PdfPageLayout pl)
+                return;
+
+            commands.Add("q");
+            commands.Add($"{GridLine.Width.ToPdfString()} w");
+            commands.Add(PdfColor.Black.ToFillCommand());
+            foreach (var line in pl.GridLines)
+            {
+                string w, h;
+                if (line.X1 == line.X2)
+                {
+                    w = GridLine.Width.ToPdfString();
+                    h = System.Math.Abs(line.Y2 - line.Y1).ToPdfString();
+                }
+                else
+                {
+                    w = System.Math.Abs(line.X2 - line.X1).ToPdfString();
+                    h = GridLine.Width.ToPdfString();
+                }
+                commands.Add($"{(line.X1).ToPdfString()} {(line.Y1).ToPdfString()} {w} {h} re");
+            }
+            commands.Add("f");
+            commands.Add("Q");
+        }
+
+        public void AddOuterGridBorder(PdfTransform pageLayout)
+        {
+            if (pageLayout is not PdfPageLayout pl)
+                return;
+
+            commands.Add("q");
+            commands.Add("1.0 w");
+            commands.Add("2 J");
+            commands.Add("[] 0 d");
+            commands.Add(PdfColor.Black.ToStrokeCommand());
+            foreach (var line in pl.BorderLines)
+            {
+                commands.Add($"{line.X1.ToPdfString()} {line.Y1.ToPdfString()} m");
+                commands.Add($"{line.X2.ToPdfString()} {line.Y2.ToPdfString()} l");
+            }
+            commands.Add("S");
+            commands.Add("Q");
         }
 
         internal override string RenderDictionary()

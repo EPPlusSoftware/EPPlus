@@ -26,6 +26,11 @@
             return (int)System.Math.Round(PointsToMm(points));
         }
 
+        public static double ExcelPointsToMM(double excelPoints)
+        {
+            return excelPoints * ((1 / PointsPerInch)*10);
+        }
+
         public static double ExcelColumnWidthToPoints(double columnWidth)
         {
             double pixels = System.Math.Truncate(7 * columnWidth + 6); //These values are guessed.
@@ -35,8 +40,7 @@
 
         public static double ExcelRowHeightToPoints(double rowHeight)
         {
-            return rowHeight + 0.25d; //These values are guessed.
+            return rowHeight; //These values are guessed.
         }
-
     }
 }

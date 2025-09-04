@@ -14,8 +14,8 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void TestWritePdf()
         {
-            using var p = OpenTemplatePackage("PDFTest.xlsx");
-            //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
+            //using var p = OpenTemplatePackage("PDFTest.xlsx");
+            using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
             var ws = p.Workbook.Worksheets[0];
 
@@ -28,7 +28,7 @@ namespace EPPlusTest.PDF
             pageSettings.Debug = true;
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
 
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest25.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest26.pdf");
         }
 
         [TestMethod]
