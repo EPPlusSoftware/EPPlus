@@ -412,5 +412,22 @@ namespace OfficeOpenXml.Drawing
                 element.SetAttribute(a.Name, a.NamespaceURI, a.Value);
             }
         }
+
+        //Excel default values for Top/Bottom and Right/Left in EMU
+        //They are equivalent to 0.25cm and 0.13cm
+        double DefaultTopBot = 45720d;
+        double DefaultRightLeft = 91440d;
+
+        //Set Defaults if no value has been set
+        internal void initInserts()
+        {
+            LeftInsert = LeftInsert ?? DefaultRightLeft;
+            RightInsert = RightInsert ?? DefaultRightLeft;
+
+            TopInsert = TopInsert ?? DefaultTopBot;
+            BottomInsert = BottomInsert ?? DefaultTopBot;
+        }
+
+
     }
 }
