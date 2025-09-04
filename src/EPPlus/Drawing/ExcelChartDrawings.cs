@@ -37,7 +37,6 @@ namespace OfficeOpenXml.Drawing
             _chart = chart;
             LoadDrawings(chart);
         }
-
         internal void LoadDrawings(ExcelChartStandard chart)
         {
             if (_drawings == null)
