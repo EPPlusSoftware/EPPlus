@@ -168,56 +168,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             var cr = address != null ? new AddressCompileResult(value, dt, address) : new CompileResult(value, dt);
             _variables[index] = new VariableCompileResult(variableName, value, dt, address);
             _scope.SetVariableValue(variableName, cr);
-            #region Old code
-            //var val = address != null ? address.Address : value;
-            //dt = address != null ? DataType.ExcelRange : dt;
-            //if(dt == DataType.ExcelRange && val is string adr)
-            //{
-            //    var fAdr = new FormulaRangeAddress(ctx, adr);
-            //    val = ctx.ExcelDataProvider.GetRange(fAdr);
-            //}
-            //var compileResult = new CompileResult(val, dt);
-            //_scope.SetVariableValue(variableName, compileResult);
-            //foreach(var ix in _variableIndexes)
-            //{
-            //    var t = _currentTokens[ix];
-            //    if (string.Compare(t.Value, variableName, StringComparison.OrdinalIgnoreCase) == 0)
-            //    {
-            //        if(value is LambdaCalculator lc)
-            //        {
-            //            var cr = lc.Execute(ctx);
-            //            value = cr.Result;
-            //            dt = cr.DataType;
-            //        }
-            //        var tt = DataTypeToTokenType(dt, val);
-            //        if (tt == TokenType.Unrecognized) tt = TokenType.StringContent;
-            //        if(val is IRangeInfo rng)
-            //        {
-            //            if(rng.IsInMemoryRange)
-            //            {
-            //                var imRng = rng as InMemoryRange;
-            //                var tokens = imRng.SerializeToTokens();
-            //                var preceedingTokens = _currentTokens.Take(ix);
-            //                var trailingTokens = _currentTokens.Skip(ix + 1);
-            //                _currentTokens = new List<Token>(preceedingTokens);
-            //                _currentTokens.AddRange(tokens);
-            //                _currentTokens.AddRange(trailingTokens);
-            //                return;
-            //            }
-            //            else
-            //            {
-            //                value = rng.Address.Address;
-            //            }
-            //        }
-            //        var tokenValue = Convert.ToString(val, CultureInfo.CurrentCulture);
-            //        if(tt == TokenType.StringContent)
-            //        {
-            //            tokenValue = $"\"{tokenValue}\"";
-            //        }
-            //        _currentTokens[ix] = new Token(tokenValue, tt);
-            //    }
-            //}
-            #endregion
             _nVariablesSet++;
         }
 
@@ -243,10 +193,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             ctx.VariableStorage.Push(_scope);
             var chain = ctx.DependencyChain;
             var compileResult = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
-            //if (_formula.ExpressionStack.Count > 0 && _formula.ExpressionStack.Peek() is LambdaCalculationExpression lce)
-            //{
-            //    _formula.ExpressionStack.Pop();
-            //}
             return CompileResultFactory.CreateDynamicArrayResult(compileResult.Result, compileResult.Address, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
         }
 

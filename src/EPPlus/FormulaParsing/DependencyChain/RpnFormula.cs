@@ -195,7 +195,6 @@ namespace OfficeOpenXml.FormulaParsing
         internal void CloseParenthesis(out bool shouldInvokeLambda)
         {
             shouldInvokeLambda = false;
-            //_openParenthesis = _openParenthesis > 0 ? _openParenthesis - 1 : 0;
             _openParenthesis = _openParenthesis > (short)0 ? (short)(_openParenthesis - 1) : (short)0;
             if(_lambdaSettings?.InvokeLambdaAt != null && _lambdaSettings.InvokeLambdaAt.Any() && _openParenthesis == _lambdaSettings.InvokeLambdaAt.Peek())
             {
