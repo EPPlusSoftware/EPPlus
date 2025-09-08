@@ -15,6 +15,7 @@ using System.Xml;
 using OfficeOpenXml.Drawing;
 using System.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 
 namespace OfficeOpenXml.Style
 {
@@ -225,7 +226,12 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return GetXmlNodeInt(_sizePath) / 100;
+                var c = GetXmlNodeInt(_sizePath);
+                if(c==int.MinValue)
+                {
+                    return c;
+                }
+                return c / 100;
             }
             set
             {
@@ -311,6 +317,39 @@ namespace OfficeOpenXml.Style
             if (italic) Italic = italic;
             if (underline) UnderLine = eUnderLineType.Single;
             if (strikeout) Strike = eStrikeType.Single;            
+        }
+
+        internal void GetHeightInPixels(out float textWidth, out float textHeight, string text)
+        {
+            var tm = _pictureRelationDocument.Package.Settings.TextSettings.PrimaryTextMeasurer;
+            _pictureRelationDocument.Package.Workbook.Styles.GetNormalStyle();
+            var f = new MeasurementFont()
+            {
+                FontFamily = LatinFont,
+                Size = Size,
+                Style = GetFontStyle()
+            };
+            var b = tm.MeasureText(text, f);
+            textWidth = b.Width;
+            textHeight = b.Height;
+        }
+
+        private MeasurementFontStyles GetFontStyle()
+        {
+            MeasurementFontStyles ret = MeasurementFontStyles.Regular;
+            if (Bold)
+            {
+                ret |= MeasurementFontStyles.Bold;
+            }
+            if (Italic)
+            {
+                ret |= MeasurementFontStyles.Italic;
+            }
+            if (UnderLine != eUnderLineType.None)
+            {
+                ret |= MeasurementFontStyles.Underline;
+            }
+            return ret;
         }
     }
 }

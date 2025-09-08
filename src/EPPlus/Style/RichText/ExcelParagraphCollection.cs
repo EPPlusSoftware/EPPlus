@@ -18,7 +18,7 @@ using OfficeOpenXml.Drawing;
 using System.Drawing;
 using System.Linq;
 using System.Globalization;
-
+using OfficeOpenXml.Interfaces.Drawing.Text;
 namespace OfficeOpenXml.Style
 {
     /// <summary>
@@ -31,13 +31,14 @@ namespace OfficeOpenXml.Style
         private readonly string _path;
         private readonly List<XmlElement> _paragraphs=new List<XmlElement>();
         private readonly float _defaultFontSize;
+        private readonly ExcelTextFont _defaultFont;
         internal ExcelParagraphCollection(ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder, float defaultFontSize =11) :
             base(ns, topNode)
         {
             _drawing = drawing;
             _defaultFontSize = defaultFontSize;
             AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef","rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount","pt","pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont","buNone", "buAutoNum", "buChar","buBlip", "tabLst","defRPr", "r","br","fld" ,"endParaRPr" });
-
+            _defaultFont = new ExcelTextFont(drawing._drawings, ns, TopNode, path+ "/a:pPr/a:defRPr", schemaNodeOrder);
             _path = path;
             var pars = TopNode.SelectNodes(path, NameSpaceManager);
             foreach(XmlElement par in pars)
@@ -262,6 +263,69 @@ namespace OfficeOpenXml.Style
                     }
                 }
             }
+        }
+
+        internal void GetHeightInPixels(out float textWidth, out float textHeight)
+        {
+            var tm = _drawing._drawings._package.Settings.TextSettings.PrimaryTextMeasurer;
+            float lineWidth, lineHeight;
+            textWidth = textHeight = lineWidth = lineHeight = 0;
+            foreach(var r in _list)
+            {
+                var fontName = string.IsNullOrEmpty(r.LatinFont) ? _defaultFont.LatinFont : r.LatinFont;
+                if (fontName.StartsWith("+"))
+                {
+                    var t=_drawing._drawings._package.Workbook.ThemeManager.GetOrCreateTheme();
+                    fontName = t.GetFontByCode(fontName);
+                }
+                var f = new MeasurementFont()
+                {
+                    FontFamily = fontName,
+                    Size = r.Size <= 0 ? _defaultFont.Size : r.Size,
+                    Style = GetFontStyle(r)
+                };
+                var b = tm.MeasureText(r.Text, f);
+                if (r.IsFirstInParagraph)
+                {
+                    lineWidth = b.Width;
+                    lineHeight = b.Height;
+                }
+                else
+                {
+                    lineWidth += b.Width;
+                    if (lineHeight < b.Height)
+                    {
+                        lineHeight = b.Height;
+                    }
+                }
+
+                if (r.IsLastInParagraph)
+                {
+                    if(lineWidth > textWidth)
+                    {
+                        textWidth = lineWidth;
+                    }
+                    textHeight += lineHeight;
+                }
+            }
+        }
+
+        private MeasurementFontStyles GetFontStyle(ExcelParagraph r)
+        {
+            MeasurementFontStyles ret = MeasurementFontStyles.Regular;
+            if (r.Bold)
+            {
+                ret |= MeasurementFontStyles.Bold;
+            }
+            if (r.Italic)
+            {
+                ret |= MeasurementFontStyles.Italic;
+            }
+            if(r.UnderLine!=eUnderLineType.None)
+            {
+                ret |= MeasurementFontStyles.Underline;
+            }
+            return ret;
         }
     }
 }

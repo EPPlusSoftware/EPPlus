@@ -24,6 +24,7 @@ using System.Runtime.InteropServices;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml
 {
@@ -1065,19 +1066,19 @@ namespace OfficeOpenXml
         {
             var v = GetXmlNodeLong(path);
             if (v < 0) return 0;
-            return (double)(v / (double)Drawing.ExcelDrawing.EMU_PER_POINT);
+            return (double)(v / (double)ExcelDrawing.EMU_PER_POINT);
         }
         internal double GetXmlNodeEmuToPixel(string path)
         {
             var v = GetXmlNodeLong(path);
             if (v < 0) return 0;
-            return (double)(v / (double)Drawing.ExcelDrawing.EMU_PER_PIXEL);
+            return (double)(v / (double)ExcelDrawing.EMU_PER_PIXEL);
         }
         internal double? GetXmlNodeEmuToPtNull(string path)
         {
             var v = GetXmlNodeLongNull(path);
             if (v == null) return null;
-            return (double)(v / (double)Drawing.ExcelDrawing.EMU_PER_POINT);
+            return (double)(v / (double)ExcelDrawing.EMU_PER_POINT);
         }
         internal int? GetXmlNodeIntNull(string path)
         {

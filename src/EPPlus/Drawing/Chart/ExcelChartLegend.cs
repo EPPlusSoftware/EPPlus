@@ -296,6 +296,21 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _threeD;
             }
         }
+        ExcelLayout _layout = null;
+        /// <summary>
+        /// Contains layout properties, if the legend is manually positioned.
+        /// </summary>
+        public ExcelLayout Layout
+        {
+            get
+            {
+                if (_layout == null)
+                {
+                    _layout = new ExcelLayout(NameSpaceManager, TopNode, "c:Layout", "", SchemaNodeOrder);
+                }
+                return _layout;
+            }
+        }
         void IDrawingStyleBase.CreatespPr()
         {
             CreatespPrNode($"{_nsPrefix}:spPr");
