@@ -219,7 +219,10 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 xr.Read();
                             }
 
-                            dataBar.ReadInCTColor(xr);
+                            if (xr.LocalName.Contains("Color"))
+                            {
+                                dataBar.ReadInCTColor(xr);
+                            }
 
                             // /DataBar-> /cfRule -> xm:sqref -> textValue
                             xr.Read();

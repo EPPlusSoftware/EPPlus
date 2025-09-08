@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Style;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 
 namespace EPPlusTest.Issues
@@ -75,6 +76,19 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(package);
             Thread.CurrentThread.CurrentCulture = currentCulture;
+        }
+
+        [TestMethod]
+        public void DatabarIssue2106()
+        {
+
+            using (var p = OpenTemplatePackage("Issue2106.xlsx"))
+            {
+                var wkbook = p.Workbook;
+                var wkSheet = wkbook.Worksheets.First(); // this raise exception
+
+            }
+
         }
     }
 }
