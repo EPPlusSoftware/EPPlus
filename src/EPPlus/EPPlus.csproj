@@ -698,6 +698,7 @@
 		<PackageReference Include="System.ComponentModel.Annotations" />
 		<PackageReference Include="System.Text.Encoding.CodePages" />
 		<PackageReference Include="System.Security.Cryptography.Xml" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
@@ -707,6 +708,7 @@
 		<PackageReference Include="System.ComponentModel.Annotations" />
 		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="9.0.3"/>
 		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="9.0.3"/>
+		<PackageReference Include="System.Configuration.ConfigurationManager" VersionOverride="9.0.8" />
 	</ItemGroup>
 
 	<ItemGroup>

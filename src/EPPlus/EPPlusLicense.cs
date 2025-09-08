@@ -212,14 +212,16 @@ namespace OfficeOpenXml
             {
 #if (Core)
                 v = ExcelConfigurationReader.GetJsonConfigValue($"EPPlus:ExcelPackage:{key}", _configuration, initErrors);
-
-#else
-                    v = ExcelConfigurationReader.GetValueFromAppSettings($"EPPlus:ExcelPackage:{key}", _configuration, initErrors);
-                    if(string.IsNullOrEmpty(v))
-                    {
-                        v = ExcelConfigurationReader.GetValueFromAppSettings($"EPPlus:ExcelPackage.{key}", _configuration, initErrors);
-                    }
 #endif
+                if (string.IsNullOrEmpty(v))
+                {
+
+                    v = ExcelConfigurationReader.GetValueFromAppSettings($"EPPlus:ExcelPackage:{key}", _configuration, initErrors);
+                }
+                if(string.IsNullOrEmpty(v))
+                {
+                    v = ExcelConfigurationReader.GetValueFromAppSettings($"EPPlus:ExcelPackage.{key}", _configuration, initErrors);
+                }
                 inEnvironment = false;
             }
             else
