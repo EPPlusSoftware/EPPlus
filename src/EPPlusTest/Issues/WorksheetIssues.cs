@@ -833,6 +833,40 @@ namespace EPPlusTest.Issues
             // AutoFitColumns - calculates width as if there were no line breaks.
             ws.Cells["C1:D2"].AutoFitColumns();
         }
+
+		//i2084
+		[TestMethod]
+		public void s912_Alternate()
+		{
+			//Optimizing for not overwriting existing styles
+			using (var package = OpenPackage("s912_alt.xlsx", true))
+			{
+                var sheet = package.Workbook.Worksheets.Add("F1");
+
+                int nbLines = 10000;
+                int nbCols = 100;
+
+                var sw = new Stopwatch();
+                sw.Start();
+
+                for (int i = 1; i <= nbLines; i++)
+                {
+                    for (int j = 1; j <= nbCols; j++)
+                    {
+                        var cell = sheet.Cells[i, j];
+                        var cellNumberFormat = cell.Style.Numberformat;
+                        cell.Value = 123;
+                    }
+                }
+                sw.Stop();
+
+                var seconds = sw.Elapsed.TotalSeconds;
+                Assert.IsTrue(seconds < 10.0D);
+
+                SaveAndCleanup(package);
+            }
+		}
+
 		[TestMethod]
 		public void s912()
 		{

@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -32,7 +33,21 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             else
             {
-                return CompileResultFactory.Create(ri.GetOffset(0, 0), _addressInfo);
+                var singleCellValue = ri.GetOffset(0, 0);
+
+                //This 'if' solves i2081. When a 2D array with only one value is placed in a single cell
+                if (singleCellValue != null && typeof(Array).IsAssignableFrom(singleCellValue.GetType()))
+                {
+                    var scArr = singleCellValue as Array;
+                    if (scArr != null && scArr.Rank == 2)
+                    {
+                        var val = scArr.GetValue(0,0);
+                        return CompileResultFactory.Create(val, _addressInfo);
+                    }
+
+                    return CompileResultFactory.Create(scArr, _addressInfo);
+                }
+                return CompileResultFactory.Create(singleCellValue, _addressInfo);
             }
         }
 

@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         internal ExcelSlicerXmlSource _xmlSource;
         internal ExcelWorksheet _ws;
         internal XmlHelper _slicerXmlHelper;
-        internal ExcelSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent=null) :
+        internal ExcelSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null) :
             base(drawings, node, "mc:AlternateContent/mc:Choice/xdr:graphicFrame", "xdr:nvGraphicFramePr/xdr:cNvPr", parent)
         {
             _ws = drawings.Worksheet;
@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         /// <summary>
         /// The caption text of the slicer.
         /// </summary>
-        public string Caption 
+        public string Caption
         {
             get
             {
@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 _slicerXmlHelper.SetXmlNodeBool("@showCaption", value, true);
             }
-        }        
+        }
         /// <summary>
         /// The the name of the slicer.
         /// </summary>
@@ -86,14 +86,14 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
             set
             {
-                if(!CheckSlicerNameIsUnique(value))
+                if (!CheckSlicerNameIsUnique(value))
                 {
                     if (Name != value)
                     {
                         throw new InvalidOperationException("Slicer Name is not unique");
                     }
                 }
-                if (Name != value) Name=value;
+                if (Name != value) Name = value;
                 _slicerXmlHelper.SetXmlNodeString("@name", value);
             }
         }
@@ -103,8 +103,8 @@ namespace OfficeOpenXml.Drawing.Slicer
         /// <summary>
         /// Row height in points
         /// </summary>
-        public double RowHeight 
-        { 
+        public double RowHeight
+        {
             get
             {
                 return _slicerXmlHelper.GetXmlNodeEmuToPt("@rowHeight");
@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         public int StartItem
         {
             get
-            { 
+            {
                 return _slicerXmlHelper.GetXmlNodeInt("@startItem", 0);
             }
             set
@@ -168,11 +168,11 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
             set
             {
-                if(value==eSlicerStyle.None)
+                if (value == eSlicerStyle.None)
                 {
                     StyleName = "";
                 }
-                else if(value != eSlicerStyle.Custom)
+                else if (value != eSlicerStyle.Custom)
                 {
                     StyleName = "SlicerStyle" + value.ToString();
                 }
@@ -190,15 +190,15 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
             set
             {
-                if(string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value))
                 {
                     _slicerXmlHelper.DeleteNode("@style");
                     return;
                 }
-                if(value.StartsWith("SlicerStyle", StringComparison.OrdinalIgnoreCase))
+                if (value.StartsWith("SlicerStyle", StringComparison.OrdinalIgnoreCase))
                 {
                     var style = value.Substring(11).ToEnum(eSlicerStyle.Custom);
-                    if(style!=eSlicerStyle.Custom || style!=eSlicerStyle.None)
+                    if (style != eSlicerStyle.Custom || style != eSlicerStyle.None)
                     {
                         _slicerXmlHelper.SetXmlNodeString("@style", "SlicerStyle" + style);
                         return;
@@ -227,7 +227,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             get
             {
-                if(_cache==null)
+                if (_cache == null)
                 {
                     _cache = _drawings.Worksheet.Workbook.GetSlicerCaches(CacheName);
                 }
