@@ -1,0 +1,18 @@
+﻿<RunSettings>
+	<!-- Configurations that affect the Test Framework -->
+	<RunConfiguration>
+		<DisableAppDomain>True</DisableAppDomain>
+		<!-- Path relative to solution directory -->
+		<ResultsDirectory>.\TestResults</ResultsDirectory>
+		<!-- It adds MaxCPUCount By Itself Here -->
+	</RunConfiguration>
+
+	<MSTest>
+		<DisableAppDomain>True</DisableAppDomain>
+		<MapInconclusiveToFailed>false</MapInconclusiveToFailed>
+		<CaptureTraceOutput>false</CaptureTraceOutput>
+		<DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
+		<DeploymentEnabled>False</DeploymentEnabled>
+		<ConsiderFixturesAsSpecialTests>False</ConsiderFixturesAsSpecialTests>
+	</MSTest>
+</RunSettings>
