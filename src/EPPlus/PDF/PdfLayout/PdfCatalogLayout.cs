@@ -4,6 +4,7 @@ using OfficeOpenXml.PDF.Math;
 using System.Collections.Generic;
 using System.Linq;
 using OfficeOpenXml.PDF.PdfFontData;
+using System.Runtime.InteropServices;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
@@ -114,17 +115,28 @@ namespace OfficeOpenXml.PDF.PdfLayout
             }
             string cellsInPages = ToHierarchyString();
             //handle merged cells
-            var mergedCells = WorksheetLayout.ChildObjects.Where(x => x is PdfMergedCellLayout).ToList();
-            foreach (var mc in mergedCells)
+            var mergedCells = WorksheetLayout.ChildObjects.Where(x => x is PdfMergedCellLayout || x is PdfCellContentLayout).ToList();
+            foreach (var mergedCell in mergedCells)
             {
-                var mcBounds = mc.GetGlobalBoundingbox();
+                var mcl = mergedCell as PdfMergedCellLayout;
+                var mcc = mergedCell as PdfCellContentLayout;
+                var mcBounds = mergedCell.GetGlobalBoundingbox();
                 foreach(var page in pages.ChildObjects)
                 {
                     if(PdfTransform.Intersects(mcBounds, page.ChildObjects[0].GetGlobalBoundingbox()))
                     {
-                        var copy = new PdfMergedCellLayout(null, mc.LocalPosition.X, mc.LocalPosition.Y, mc.Size.X, mc.Size.Y, mc.LocalScale.X, mc.LocalScale.Y, mc.LocalRotation, WorksheetLayout);
-                        copy.Name = mc.Name;
-                        page.ChildObjects[0].AddChild(copy);
+                        if (mcl is PdfMergedCellLayout)
+                        {
+                            var copy = new PdfMergedCellLayout(mcl.cell, mcl.LocalPosition.X, mcl.LocalPosition.Y, mcl.Size.X, mcl.Size.Y, mcl.LocalScale.X, mcl.LocalScale.Y, mcl.LocalRotation, WorksheetLayout);
+                            copy.Name = mcl.Name;
+                            page.ChildObjects[0].AddChild(copy);
+                        }
+                        else if(mcc is  PdfCellContentLayout)
+                        {
+                            var copy = new PdfCellContentLayout(mcc.cell, pageSettings, mcc.LocalPosition.X, mcc.LocalPosition.Y, mcc.Size.X, mcc.Size.Y, mcc.LocalScale.X, mcc.LocalScale.Y, mcc.LocalRotation, WorksheetLayout, fontResources);
+                            copy.Name = mcc.Name;
+                            page.ChildObjects[0].AddChild(copy);
+                        }
                     }
                 }
             }

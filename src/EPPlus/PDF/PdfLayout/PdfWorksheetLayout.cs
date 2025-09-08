@@ -25,6 +25,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 for (int j = 1; j <= ws.Dimension._toCol; j++)
                 {
                     if(ws.Column(j).Hidden) { continue; }
+                    var width = PdfUnits.ExcelColumnWidthToPoints(ws.Column(j).Width);
                     var cell = ws.Cells[i, j];
                     bool isMerged = false;
                     if (cell.Merge) //maybe collect merged cells into a list for processing after all cell. we need to save the merged cells range and current position.
@@ -48,24 +49,27 @@ namespace OfficeOpenXml.PDF.PdfLayout
                             cl1.Name = cell.Address;
                             if (!string.IsNullOrEmpty(cell.Text))
                             {
-                                var clc1 = new PdfCellContentLayout(isMerged ? null : cell, pageSettings, x, y, mcWidth, mcHeight, 1, 1, 0, this, fontResources);
+                                var clc1 = new PdfCellContentLayout(cell, pageSettings, x, y, mcWidth, mcHeight, 1, 1, 0, this, fontResources);
                                 clc1.Z = 6;
                                 clc1.Name = cell.Address;
                             }
                             checkedMergedCells.Add(ws.MergedCells[i, j]);
+
                         }
                     }
-                    string deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol) ? "": "*";
-                    var width = PdfUnits.ExcelColumnWidthToPoints(ws.Column(j).Width);
-                    var cl0 = new PdfCellLayout((isMerged ? null : cell), x, y, width, height, 1, 1, 0, this);
-                    cl0.Z = 1;
-                    cl0.Name = cell.Address + deleteMark;
-                    if (!string.IsNullOrEmpty(cell.Text))
+                    else
                     {
-                        var clc0 = new PdfCellContentLayout(isMerged ? null : cell, pageSettings, x, y, width, height, 1, 1, 0, this, fontResources);
+                        string deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol) ? "" : "*";
+                        var cl0 = new PdfCellLayout((isMerged ? null : cell), x, y, width, height, 1, 1, 0, this);
+                        cl0.Z = 1;
+                        cl0.Name = cell.Address + deleteMark;
+                        if (!string.IsNullOrEmpty(cell.Text))
+                        {
+                            var clc0 = new PdfCellContentLayout(isMerged ? null : cell, pageSettings, x, y, width, height, 1, 1, 0, this, fontResources);
 
-                        clc0.Z = 2;
-                        clc0.Name = cell.Address;
+                            clc0.Z = 2;
+                            clc0.Name = cell.Address;
+                        }
                     }
                     bool allNone = new[] { cell.Style.Border.Top.Style, cell.Style.Border.Bottom.Style, cell.Style.Border.Left.Style, cell.Style.Border.Right.Style, cell.Style.Border.Diagonal.Style }.All(s => s == ExcelBorderStyle.None);
                     if (!allNone)

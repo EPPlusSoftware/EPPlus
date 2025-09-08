@@ -10,6 +10,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
     internal class PdfTransform
     {
         public string Name;
+        public ExcelRangeBase cell;
 
         public Vector2 LocalPosition { get; set; } = Vector2.Zero;
         public Vector2 Position
