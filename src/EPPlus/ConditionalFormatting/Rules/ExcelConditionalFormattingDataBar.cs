@@ -175,6 +175,12 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <exception cref="Exception"></exception>
         internal void ReadInCTColor(XmlReader xr, string altName = null)
         {
+
+            if (!xr.LocalName.Contains("Color"))
+            {
+                return;
+            }
+
             ExcelDxfColor col;
             string nodeName = altName != null ? altName : xr.LocalName;
 
