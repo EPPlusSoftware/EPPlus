@@ -85,5 +85,38 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 Assert.AreEqual(3d, sheet.Cells["A5"].Value);
             }
         }
+        [TestMethod]
+        public void CriteriaShouldHandleCircularReferencesOnOtherSheets()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("Sheet1");
+                sheet1.Cells["A5"].Value = 1;
+                sheet1.Cells["A6"].Value = 2;
+                sheet1.Cells["A7"].Value = 3;
+                sheet1.Cells["A8"].Value = 3;
+                sheet1.Cells["A9"].Value = 3;
+
+                var sheet2 = package.Workbook.Worksheets.Add("Sheet2");
+
+                sheet2.Cells["B5"].Formula = "sheet1!A5";
+                sheet2.Cells["B6"].Formula = "sheet1!A6";
+                sheet2.Cells["B7"].Formula = "sheet1!A7";
+                sheet2.Cells["B8"].Formula = "sheet1!A8";
+                sheet2.Cells["B9"].Formula = "sheet1!A9";
+
+                sheet2.Cells["C5"].Value = 10;
+                sheet2.Cells["C6"].Value = 20;
+                sheet2.Cells["C7"].Value = 30;
+                sheet2.Cells["C8"].Value = 10;
+                sheet2.Cells["C9"].Value = 1;
+
+                sheet2.Cells["D10"].Formula = "Sumif(C5:C9,\">10\",B5:B9)";
+
+                package.Workbook.Calculate();
+
+                Assert.AreEqual(5D, sheet2.Cells["D10"].Value);
+            }
+        }
     }
 }

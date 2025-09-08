@@ -441,7 +441,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 if (d._fromRow > a.FromRow || d._toRow < a.ToRow ||
                     d._fromCol > a.FromCol || d._toCol < a.ToCol)
                 {
-                    return new FormulaRangeAddress(null, 0,
+                    return new FormulaRangeAddress(null, a.WorksheetIx,
                         Math.Max(d._fromRow, a.FromRow),
                         Math.Max(d._fromCol, a.FromCol),
                         Math.Min(d._toRow, a.ToRow),

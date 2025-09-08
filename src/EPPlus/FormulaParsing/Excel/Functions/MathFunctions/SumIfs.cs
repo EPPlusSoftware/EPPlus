@@ -53,10 +53,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         }));
         public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
         {
-            if (index == 0)
+            if (index == 0 && args[0].Result is IRangeInfo valueRange)
             {
                 IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args);
-                addresses = EnqueueMatchingAddresses(args[0].Address, matchIndexes);
+                addresses = EnqueueMatchingAddresses(valueRange, matchIndexes);
             }
         }
 
