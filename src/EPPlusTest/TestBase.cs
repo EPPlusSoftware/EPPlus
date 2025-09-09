@@ -106,6 +106,16 @@ namespace EPPlusTest
             _worksheetPath = di.FullName + "\\";
         }
 
+        protected static async Task SaveAsync(ExcelPackage pck, bool dispose = true)
+        {
+            if (pck.Workbook.Worksheets.Count > 0)
+            {
+                await pck.SaveAsync().ConfigureAwait(false);
+                //pck.Save();
+            }
+            if (dispose) pck.Dispose();
+        }
+
         /// <summary>
         /// Saves and disposes a package
         /// </summary>
@@ -113,11 +123,7 @@ namespace EPPlusTest
         /// <param name="dispose"></param>
         protected static void SaveAndCleanup(ExcelPackage pck, bool dispose=true)
         {
-            if (pck.Workbook.Worksheets.Count > 0)
-            {
-                pck.Save();
-            }
-            if(dispose) pck.Dispose();
+            Task.Run(async() => await SaveAsync(pck, dispose));
         }
 
         protected static bool ExistsPackage(string name)
@@ -134,9 +140,19 @@ namespace EPPlusTest
         }
         protected static ExcelPackage OpenPackage(string name, bool delete=false)
         {
+            //CreateWorksheetPathIfNotExists();
+            //var task = Task.Run(async() => await OpenPackageAsync(name, delete));
+            //task.ConfigureAwait(false)
+            //task.Wait();
+            //if(task.Exception != null)
+            //{
+            //    throw task.Exception;
+            //}
+            //return task.Result;
+            //return task.ConfigureAwait(false).;
             CreateWorksheetPathIfNotExists();
             _file = new FileInfo(_worksheetPath + name);
-            if(delete && _file.Exists)
+            if (delete && _file.Exists)
             {
                 _file.Delete();
             }
@@ -173,9 +189,12 @@ namespace EPPlusTest
                 Directory.CreateDirectory(path);
             }
         }
+
+        object lockObj = new Object();
+
         protected static ExcelPackage OpenTemplatePackage(string name)
         {
-            var t = new FileInfo(_testInputPath  + name);
+            var t = new FileInfo(_testInputPath + name);
             if (t.Exists)
             {
                 var file = new FileInfo(_worksheetPath + name);
@@ -187,7 +206,7 @@ namespace EPPlusTest
                 if (t.Exists)
                 {
                     var file = new FileInfo(_worksheetPath + name);
-                    return new ExcelPackage(file, t);  
+                    return new ExcelPackage(file, t);
                 }
                 t = new FileInfo(_worksheetPath + name);
                 if (t.Exists)
@@ -198,40 +217,46 @@ namespace EPPlusTest
             }
             return null;
         }
-		protected static FileInfo GetTemplateFile(string name)
+		protected FileInfo GetTemplateFile(string name)
 		{
-			var t = new FileInfo(_testInputPath + name);
-			if (t.Exists)
-			{
-				return new FileInfo(_worksheetPath + name);
-			}
-			else
-			{
-				t = new FileInfo(_testInputPathOptional + name);
-				if (t.Exists)
-				{
-					return t;
-				}
-				t = new FileInfo(_worksheetPath + name);
-				if (t.Exists)
-				{
-                    return t;
-				}
-
-                Assert.Inconclusive($"Template File {name} does not exist in path {_testInputPath} or {_worksheetPath}");
-            }
-            return null;
-		}
-        protected static FileInfo GetOutputFile(string subPath, string fileName)
-        {
-            var path = _worksheetPath + subPath;
-            if(Directory.Exists(path)==false)
+            lock (lockObj)
             {
-                Directory.CreateDirectory(path);
+                var t = new FileInfo(_testInputPath + name);
+                if (t.Exists)
+                {
+                    return new FileInfo(_worksheetPath + name);
+                }
+                else
+                {
+                    t = new FileInfo(_testInputPathOptional + name);
+                    if (t.Exists)
+                    {
+                        return t;
+                    }
+                    t = new FileInfo(_worksheetPath + name);
+                    if (t.Exists)
+                    {
+                        return t;
+                    }
+
+                    Assert.Inconclusive($"Template File {name} does not exist in path {_testInputPath} or {_worksheetPath}");
+                }
+                return null;
             }
-            if (path.EndsWith("\\")==false) path+="\\";
-            
-            return new FileInfo(path + fileName);
+		}
+        protected FileInfo GetOutputFile(string subPath, string fileName)
+        {
+            lock (lockObj)
+            {
+                var path = _worksheetPath + subPath;
+                if (Directory.Exists(path) == false)
+                {
+                    Directory.CreateDirectory(path);
+                }
+                if (path.EndsWith("\\") == false) path += "\\";
+
+                return new FileInfo(path + fileName);
+            }
         }
 		internal void IsNullRange(ExcelRange address)
         {
@@ -244,7 +269,7 @@ namespace EPPlusTest
             }
         }
         protected static void SaveWorkbook(string name, ExcelPackage pck)
-            {
+        {
             if (pck.Workbook.Worksheets.Count == 0) return;
             var fi = new FileInfo(_worksheetPath + name);
             if (fi.Exists)
@@ -263,13 +288,14 @@ namespace EPPlusTest
         /// <param name="startRow">The start row</param>
         /// <param name="addHyperlinkColumn">Add a column with hyperlinks</param>
         /// <param name="addTimeSpan">Adds a TimeSpan column. Requires add hyperlink to be true</param>
-        protected static void LoadTestdata(ExcelWorksheet ws, int noItems = 100, int startColumn=1, int startRow=1, bool addHyperlinkColumn=false, bool addTimeSpan=false, DateTime? startDate = null)
+        protected static void LoadTestdata(ExcelWorksheet ws, int noItems = 100, int startColumn = 1, int startRow = 1, bool addHyperlinkColumn = false, bool addTimeSpan = false, DateTime? startDate = null)
         {
+
             ws.SetValue(1, startColumn, "Date");
             ws.SetValue(1, startColumn + 1, "NumValue");
             ws.SetValue(1, startColumn + 2, "StrValue");
             ws.SetValue(1, startColumn + 3, "NumFormattedValue");
-            if(addHyperlinkColumn)
+            if (addHyperlinkColumn)
             {
                 ws.SetValue(1, startColumn + 4, "HyperLink");
             }
@@ -299,9 +325,9 @@ namespace EPPlusTest
                 dt = dt.AddDays(1);
             }
             ws.Cells[startRow, startColumn, row, startColumn].Style.Numberformat.Format = "yyyy-MM-dd";
-            if(addTimeSpan)
+            if (addTimeSpan)
             {
-                ws.Cells[startRow, startColumn+5, row, startColumn+5].Style.Numberformat.Format = "hh:mm:ss";
+                ws.Cells[startRow, startColumn + 5, row, startColumn + 5].Style.Numberformat.Format = "hh:mm:ss";
             }
             ws.Cells.AutoFitColumns();
         }
@@ -438,33 +464,42 @@ namespace EPPlusTest
             else
                 return (date - startDate).Days + 2;
         }
-        protected static ExcelWorksheet TryGetWorksheet(ExcelPackage pck, string worksheetName)
+        protected ExcelWorksheet TryGetWorksheet(ExcelPackage pck, string worksheetName)
         {
-            var ws = pck.Workbook.Worksheets[worksheetName];
-            if (ws == null) Assert.Inconclusive($"{worksheetName} worksheet is missing");
-            return ws;
-        }
-        protected static ExcelShape TryGetShape(ExcelPackage pck, string wsName)
-        {
-            var ws = pck.Workbook.Worksheets[wsName];
-            if (ws == null) Assert.Inconclusive($"{wsName} worksheet is missing");
-            var shape = (ExcelShape)ws.Drawings[0];
-            return shape;
-        }
-        protected static FileInfo GetResourceFile(string fileName)
-        {
-            string path = AppContext.BaseDirectory;
-            while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+            lock (lockObj)
             {
-                path = new DirectoryInfo(path + "\\..").FullName;
+                var ws = pck.Workbook.Worksheets[worksheetName];
+                if (ws == null) Assert.Inconclusive($"{worksheetName} worksheet is missing");
+                return ws;
             }
-            if(path.Length > 4)
+        }
+        protected ExcelShape TryGetShape(ExcelPackage pck, string wsName)
+        {
+            lock (lockObj)
             {
-                return new FileInfo(path + "\\Resources\\" + fileName);
+                var ws = pck.Workbook.Worksheets[wsName];
+                if (ws == null) Assert.Inconclusive($"{wsName} worksheet is missing");
+                var shape = (ExcelShape)ws.Drawings[0];
+                return shape;
             }
-            else
+        }
+        protected FileInfo GetResourceFile(string fileName)
+        {
+            lock (lockObj)
             {
-                return null;
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                if (path.Length > 4)
+                {
+                    return new FileInfo(path + "\\Resources\\" + fileName);
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
         protected void AssertIsNull(ExcelRangeBase range)

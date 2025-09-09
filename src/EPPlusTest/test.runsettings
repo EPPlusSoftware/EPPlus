@@ -2,10 +2,15 @@
 <RunSettings>
   <!-- Configurations that affect the Test Framework -->
   <RunConfiguration>
+	  <MaxCpuCount>0</MaxCpuCount>
   </RunConfiguration>
 
   <!-- MSTest adapter -->
   <MSTest>
+	  <Parallelize>
+		  <Workers>20</Workers>
+		  <Scope>ClassLevel</Scope>
+	  </Parallelize>
     <MapInconclusiveToFailed>false</MapInconclusiveToFailed>
     <CaptureTraceOutput>false</CaptureTraceOutput>
     <DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
