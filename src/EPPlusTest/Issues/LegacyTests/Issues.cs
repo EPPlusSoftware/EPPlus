@@ -6252,5 +6252,15 @@ namespace EPPlusTest
             ws.HeaderFooter.FirstFooter.RightAlignedText = $"Printing: {"user.DisplayName"} - {ExcelHeaderFooter.PageNumber}/{ExcelHeaderFooter.NumberOfPages}";
             p.SaveAs("c:\\epplustest\\testoutput\\HeaderFooterIssue2088.xlsx");
         }
+
+        [TestMethod]
+        public void s929()
+        {
+            using var excelPackage = OpenTemplatePackage("s929.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
+            Assert.AreEqual(sheet.Cells["C1"].Formula, "_xlfn.XLOOKUP(B1,Tier_lookup4[Country],Tier_lookup4[AIR - Origin Currency])");
+            sheet.Cells.Sort(column: 0);
+            Assert.AreEqual(sheet.Cells["C1"].Formula, "_xlfn.XLOOKUP(B1,Tier_lookup4[Country],Tier_lookup4[AIR - Origin Currency])");
+        }
     }
 }

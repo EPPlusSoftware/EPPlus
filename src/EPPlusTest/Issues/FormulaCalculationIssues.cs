@@ -1298,6 +1298,15 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(origPck);
             }
         }
+        [TestMethod]
+        public void s927()
+        {
+            using var p = OpenTemplatePackage("s927.xlsx");
+            //using var p = OpenTemplatePackage("s927 - Calced.xlsx");
+            var ws = p.Workbook.Worksheets["Calculation sheet"];
+            ws.Calculate();
+            Assert.AreEqual(938643.13, ws.Cells["H10"].Value);
+        }
     }
 }
 

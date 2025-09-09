@@ -1,4 +1,11 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.1.1
+* The `SUMIF`, `SUMIFS`, and `AVERAGEIF` functions could return invalid addresses in the dependency chain, causing some dependent cells not to recalculate correctly.  
+* The `RichText.HtmlText` returned incorrectly encoded text when the input contained newline characters.  
+* Sorting a table could result in `#REF!` errors in formulas instead of maintaining correct table references. 
+* Reading workbooks where a conditional formatting Databar had the same color as the fill color now works as expected.
+* Performance for getting and setting the value of cells that had no styling or value was drastically improved via caching.
+* An array of values can no longer be set to a single cell. Instead, the first value in the array is assumed to be the intended value.
 ## Version 8.1.0
 ### Features
 * Add Shapes and Pictures to charts using the ExcelChartStandard.Drawings collection.
