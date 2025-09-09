@@ -200,6 +200,10 @@ namespace OfficeOpenXml.PDF.PdfObjects
 
         public void AddCellContentLayout(PdfCellContentLayout cell, string fontLabel)
         {
+            if(cell.Clip)
+            {
+                commands.Add($"{cell.Clipping.X.ToPdfString()} {cell.Clipping.Y.ToPdfString()} {cell.Clipping.Width.ToPdfString()} {cell.Clipping.Height.ToPdfString()} re S");
+            }
             commands.Add("BT");
             commands.Add($"/{fontLabel} {cell.FontData.FontSize.ToPdfString()} Tf");
             commands.Add(cell.FontData.FontColor.ToFillCommand());

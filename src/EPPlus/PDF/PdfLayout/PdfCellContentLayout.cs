@@ -4,6 +4,7 @@ using OfficeOpenXml.PDF.PdfFontData;
 using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfSettings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,6 +15,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
     {
         public PdfCellFontData FontData;
         public PdfCellAlignmentData CellAlignmentData;
+        public readonly bool Clip;
+        public PdfRect Clipping;
 
         private double bottomMargin = 3.4d; //Guessed number
         private double rightMargin = 1.0d; //I guessed this one too..
@@ -46,6 +49,16 @@ namespace OfficeOpenXml.PDF.PdfLayout
             double fontHeight = PdfTextData.MeasureFontHeight(ttfont, FontData.FontSize);
             LocalPosition = CalculatePosition(cell, x, y, width, height, textLength, fontHeight);
             Size = new Vector2((x + width) - LocalPosition.X, (y + height) - LocalPosition.Y);
+            if (textLength >= width)
+            {
+                if (CellAlignmentData.HorizontalAlignment == Style.ExcelHorizontalAlignment.Fill ||
+                   (CellAlignmentData.HorizontalAlignment == Style.ExcelHorizontalAlignment.Left && cell.Worksheet.Cells[cell._fromRow, cell._fromCol + 1].Value != null) ||
+                   (CellAlignmentData.HorizontalAlignment == Style.ExcelHorizontalAlignment.Right && cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1 <= 0 ? 1 : cell._fromCol-1 ].Value != null) )
+                {
+                    Clip = true;
+                    Clipping = new PdfRect() { X = x, Y = y, Width = width, Height = height };
+                }
+            }
         }
 
         private TtfFont CacheFont(PdfCellFontData fontData, Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings)
@@ -84,6 +97,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             double y = 0d;
             switch (CellAlignmentData.HorizontalAlignment)
             {
+                case Style.ExcelHorizontalAlignment.Fill:
                 case Style.ExcelHorizontalAlignment.General:
                     if (double.TryParse(cell.Value.ToString(), out double value))
                     {
@@ -115,11 +129,17 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 case Style.ExcelVerticalAlignment.Bottom:
                     y = ((CellY + (cellHeight - fontHeight)) + fontHeight) - bottomMargin;
                     break;
-
             }
             return new Vector2(x, y);
         }
 
+        internal void AdjustClipping(double yAxisHeight)
+        {
+            if (Clip)
+            {
+                //Clipping = new PdfRect() { X = Clipping.X, Y = yAxisHeight - System.Math.Abs(Clipping.Y), Width = Clipping.Width, Height =  Clipping.Height };
+            }
+        }
     }
 }
 

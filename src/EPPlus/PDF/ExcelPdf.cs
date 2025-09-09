@@ -124,20 +124,24 @@ namespace OfficeOpenXml.PDF
             {
                 foreach (var cellPart in cell)
                 {
-                    contentStream.AddCommand("q");
                     switch (cellPart)
                     {
                         case PdfCellLayout layout:
+                            contentStream.AddCommand("q");
                             contentStream.AddCellLayout(layout);
+                            contentStream.AddCommand("Q");
                             break;
                         case PdfCellContentLayout contentLayout:
+                            contentStream.AddCommand("q");
                             contentStream.AddCellContentLayout(contentLayout, GetFontLabel(contentLayout.FontData.FontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));
+                            contentStream.AddCommand("Q");
                             break;
                         case PdfCellBorderLayout borderLayout:
+                            contentStream.AddCommand("q");
                             contentStream.AddBorderLayout(borderLayout);
+                            contentStream.AddCommand("Q");
                             break;
                     }
-                    contentStream.AddCommand("Q");
                 }
             }
             if (PageSettings.ShowGridLines)

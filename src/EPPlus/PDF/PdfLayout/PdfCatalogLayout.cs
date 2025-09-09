@@ -167,6 +167,10 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 {
                     page.AddChild(child);
                     child.LocalPosition = new Vector2(child.LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(child.LocalPosition.Y));
+                    if (child is PdfCellContentLayout contentLayout)
+                    {
+                        contentLayout.AdjustClipping(pageSettings.PageSize.HeightPu);
+                    }
                 }
                 page.RemoveChild(page.ChildObjects[0]);
                 //page.Range = worksheet.Cells[ page.ChildObjects[0].Name + ":" + page.ChildObjects[page.ChildObjects.Count - 1].Name];
