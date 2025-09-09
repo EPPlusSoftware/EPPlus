@@ -83,5 +83,26 @@ namespace OfficeOpenXml.PDF.PdfGraphics
         public static PdfColor Gray => new(0.5f, 0.5f, 0.5f);
         public static PdfColor LightGray => new(0.75f, 0.75f, 0.75f);
         public static PdfColor None => new(0, 0, 0, 0);
+
+        public bool Equals(PdfColor other)
+        {
+            if (other is null) return false;
+            return R == other.R && G == other.G && B == other.B && A == other.A;
+        }
+
+        public override bool Equals(object obj) => Equals(obj as PdfColor);
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 31 + R.GetHashCode();
+                hash = hash * 31 + G.GetHashCode();
+                hash = hash * 31 + B.GetHashCode();
+                hash = hash * 31 + A.GetHashCode();
+                return hash;
+            }
+        }
     }
 }

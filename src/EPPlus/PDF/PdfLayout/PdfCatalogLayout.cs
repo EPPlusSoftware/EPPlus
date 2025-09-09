@@ -129,12 +129,14 @@ namespace OfficeOpenXml.PDF.PdfLayout
                         {
                             var copy = new PdfMergedCellLayout(mcl.cell, mcl.LocalPosition.X, mcl.LocalPosition.Y, mcl.Size.X, mcl.Size.Y, mcl.LocalScale.X, mcl.LocalScale.Y, mcl.LocalRotation, WorksheetLayout);
                             copy.Name = mcl.Name;
+                            copy.Z = mcl.Z;
                             page.ChildObjects[0].AddChild(copy);
                         }
                         else if(mcc is  PdfCellContentLayout)
                         {
                             var copy = new PdfCellContentLayout(mcc.cell, pageSettings, mcc.LocalPosition.X, mcc.LocalPosition.Y, mcc.Size.X, mcc.Size.Y, mcc.LocalScale.X, mcc.LocalScale.Y, mcc.LocalRotation, WorksheetLayout, fontResources);
                             copy.Name = mcc.Name;
+                            copy.Z = mcc.Z;
                             page.ChildObjects[0].AddChild(copy);
                         }
                     }
@@ -180,6 +182,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                         cellLayout.Adjust();
                     }
                 }
+                page.ChildObjects.Sort((a, b) => a.Z.CompareTo(b.Z));
             }
             RemoveChild(WorksheetLayout);
             string FinalPagesLayout = ToHierarchyString();

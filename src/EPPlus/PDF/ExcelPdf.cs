@@ -160,7 +160,7 @@ namespace OfficeOpenXml.PDF
                 var pageLayout = pagesLayout.ChildObjects[i];
                 var page = AddPage(2, new List<int>(), PageSettings);
                 CreateStreamContentFromCell(pageLayout, page);
-                DrawMarginAndHeaderLines(bounds, page);
+                //DrawMarginAndHeaderLines(bounds, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
             //write to pdf

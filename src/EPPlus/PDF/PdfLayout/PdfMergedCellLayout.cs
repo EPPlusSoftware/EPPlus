@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.PDF.Math;
+using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.PdfSettings;
 
 namespace OfficeOpenXml.PDF.PdfLayout
@@ -15,6 +16,10 @@ namespace OfficeOpenXml.PDF.PdfLayout
             : base(cell, x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
+            if(CellFillData.BackgroundColor.Equals(PdfColor.None))
+            {
+                CellFillData.BackgroundColor = PdfColor.White;
+            }
         }
     }
 }

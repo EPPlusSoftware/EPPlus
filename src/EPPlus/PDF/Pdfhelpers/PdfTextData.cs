@@ -28,6 +28,16 @@ namespace OfficeOpenXml.PDF.Pdfhelpers
             return lineHeightPt;
         }
 
+        internal static double MeasureAscent(TtfFont font, double fontSize)
+        {
+            return font.Os2Table.usWinAscent * (fontSize / font.HeadTable.UnitsPerEm);
+        }
+
+        internal static double MeasureDescent(TtfFont font, double fontSize)
+        {
+            return font.Os2Table.usWinDescent * (fontSize / font.HeadTable.UnitsPerEm);
+        }
+
         internal static double MeasureText(string text, double fontSize, TtfFont fontData)
         {
             //double totalAdvanceWidth = 0;

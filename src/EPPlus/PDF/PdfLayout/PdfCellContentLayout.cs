@@ -21,7 +21,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfCellContentLayout(ExcelRangeBase cell, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null, Dictionary<string, PdfFontResource> fontResources = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
-            this.cell = cell;
             FontData = new PdfCellFontData();
             FontData.FontName = cell.Style.Font.Name;
             FontData.FontFamily = cell.Style.Font.Family;
