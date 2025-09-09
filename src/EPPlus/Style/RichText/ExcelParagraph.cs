@@ -70,10 +70,10 @@ namespace OfficeOpenXml.Style
         const string LineSpacingPath = "../../a:pPr/a:lnSpc";
 
         /// <summary>
-        /// Set line spacing in pt
+        /// Set line spacing in Points
         /// Returns null if only defined as Percent
         /// </summary>
-        public int? LineSpacingExactly
+        public double? LineSpacingPoints
         {
             get
             {
@@ -88,18 +88,18 @@ namespace OfficeOpenXml.Style
                     throw new ArgumentOutOfRangeException("Linespacing must be between 0 and 158400 pts.");
                 }
                 //Poins and Percent have the same position/node and there may only be one.
-                if(LineSpacingMultiple != null)
+                if(LineSpacingPercent != null)
                 {
-                    LineSpacingMultiple = null;
+                    LineSpacingPercent = null;
                 }
-                SetXmlNodeInt(LineSpacingPath + "/a:spcPts/@val", value * 100);
+                SetXmlNodeInt(LineSpacingPath + "/a:spcPts/@val", (int)value * 100);
             }
         }
         /// <summary>
         /// Set line spacing in multiples of single lines
         /// Returns null if only defined as Exactly
         /// </summary>
-        public double? LineSpacingMultiple
+        public double? LineSpacingPercent
         {
             get
             {
@@ -112,9 +112,9 @@ namespace OfficeOpenXml.Style
                     throw new ArgumentOutOfRangeException("Linespacing in percent must be between 0 and 13200%");
                 }
                 //Poins and Percent have the same position/node and there may only be one.
-                if (LineSpacingExactly != null)
+                if (LineSpacingPoints != null)
                 {
-                    LineSpacingExactly = null;
+                    LineSpacingPoints = null;
                 }
 
                 if(value == 1)
@@ -154,19 +154,19 @@ namespace OfficeOpenXml.Style
                 switch (value)
                 {
                     case eLineSpacing.Single:
-                        LineSpacingMultiple = 1;
+                        LineSpacingPercent = 1;
                         break;
                     case eLineSpacing.OneAndAHalf:
-                        LineSpacingMultiple = 1.5;
+                        LineSpacingPercent = 1.5;
                         break;
                     case eLineSpacing.Double:
-                        LineSpacingMultiple = 2;
+                        LineSpacingPercent = 2;
                         break;
                     case eLineSpacing.Exactly:
-                        LineSpacingExactly = 13;
+                        LineSpacingPoints = 13;
                         break;
                     case eLineSpacing.Multiple:
-                        LineSpacingMultiple = 3;
+                        LineSpacingPercent = 3;
                         break;
                 }
                 _lineSpacingType = value;
