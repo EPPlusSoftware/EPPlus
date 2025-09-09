@@ -12,11 +12,15 @@
  *************************************************************************************************/
 #if (Core)
 using Microsoft.Extensions.Configuration;
+#else
+using System.Configuration;
 #endif
-using Config=System.Configuration;
 using OfficeOpenXml.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace OfficeOpenXml
 {
@@ -62,7 +66,7 @@ namespace OfficeOpenXml
             var configRoot = default(IConfigurationRoot);
             try
             {
-                
+
                 var build = new ConfigurationBuilder()
                        .SetBasePath(basePath)
                        .AddJsonFile(configFileName, true, false);
@@ -104,13 +108,13 @@ namespace OfficeOpenXml
         }
 #endif
 
+#if (!Core)
         internal static string GetValueFromAppSettings(string key, ExcelPackageConfiguration config, List<ExcelInitializationError> initErrors)
         {
             var supressInitExceptions = config.SuppressInitializationExceptions;
             try
             {
-                
-                return Config.ConfigurationManager.AppSettings[key];
+                return ConfigurationManager.AppSettings[key];
             }
             catch(Exception ex)
             {
@@ -124,5 +128,6 @@ namespace OfficeOpenXml
                 throw;
             }
         }
+#endif
     }
 }
