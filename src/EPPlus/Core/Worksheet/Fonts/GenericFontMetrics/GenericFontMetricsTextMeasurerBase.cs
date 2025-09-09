@@ -49,6 +49,10 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 
         internal protected TextMeasurement MeasureTextInternal(string text, uint fontKey, MeasurementFontStyles style, float size, bool wrapText = false)
         {
+            if(text==null)
+            {
+               return new TextMeasurement(0, 0);
+            }
             var sFont = _fonts[fontKey];
             var width = 0f;
             var maxWidth = 0f;
@@ -61,7 +65,8 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                 {
                     if(x>0 && c=='\r' && text[x-1]=='\n')
                     {
-                        continue; //CRLF should be handled as one new line.
+                        continue; //CRLF should be handle
+                                  //d as one new line.
                     }
                     if(width>maxWidth)
                     {

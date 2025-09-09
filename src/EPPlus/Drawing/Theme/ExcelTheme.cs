@@ -20,6 +20,7 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.Style.Font;
 
 namespace OfficeOpenXml.Drawing.Theme
 {
@@ -48,6 +49,19 @@ namespace OfficeOpenXml.Drawing.Theme
             : base(workbook._package,workbook.NameSpaceManager, rel, "a:themeElements/")
         {
             _wb = workbook;
+        }
+
+        internal string GetFontByCode(string fontName)
+        {
+            switch (fontName)
+            {
+                case "+mj-lt":
+                    return FontScheme.MajorFont.First(x=>(x as ExcelDrawingFontSpecial)?.Type==eFontType.Latin).Typeface;
+                case "+mn-lt":
+                    return FontScheme.MinorFont.First(x => (x as ExcelDrawingFontSpecial)?.Type == eFontType.Latin).Typeface;
+                default:
+                    return FontScheme.MinorFont[0].Typeface;
+            }
         }
     }
 }

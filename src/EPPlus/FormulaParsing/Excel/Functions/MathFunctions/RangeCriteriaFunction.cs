@@ -196,10 +196,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return result;
         }
-        protected static Queue<FormulaRangeAddress> EnqueueMatchingAddresses(FormulaRangeAddress valueAddress, IEnumerable<int> matchIndexes)
+        protected static Queue<FormulaRangeAddress> EnqueueMatchingAddresses(IRangeInfo valueRange, IEnumerable<int> matchIndexes)
         {
             Queue<FormulaRangeAddress> addresses = new Queue<FormulaRangeAddress>();
             var pIx = int.MinValue;
+            var valueAddress = valueRange.GetAddressDimensionAdjusted(0);
             var extRef = valueAddress.ExternalReferenceIx;
             var wsIx = valueAddress.WorksheetIx;
             FormulaRangeAddress currentAddress=null;

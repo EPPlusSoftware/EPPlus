@@ -2365,5 +2365,23 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual("I1", dBars.LowValue.Formula);
             }
         }
+
+
+        [TestMethod]
+        public void DatabarIssue2106()
+        {
+            using (var p = OpenTemplatePackage("Issue2106.xlsx"))
+            {
+                var wkbook = p.Workbook;
+                var wkSheet = wkbook.Worksheets[0];
+
+                var databar = wkSheet.ConditionalFormatting[0].As.DataBar;
+
+                Assert.IsTrue(databar.NegativeBarColorSameAsPositive);
+                Assert.AreEqual(eDatabarDirection.Context, databar.Direction);
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

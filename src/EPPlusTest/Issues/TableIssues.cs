@@ -67,7 +67,7 @@ namespace EPPlusTest.Issues
             {
                 var worksheet = package.Workbook.Worksheets["Sheet1"];
                 var excelTable = worksheet.Tables[0];
-                
+
                 var col = excelTable.Range.Offset(0, 10).TakeSingleColumn(0).SkipRows(1);
                 var formulaStr = col.TakeSingleCell(0, 0).Formula;
                 col.ClearFormulaValues();
@@ -270,6 +270,118 @@ namespace EPPlusTest.Issues
                 Assert.IsTrue(origStringsSpaceSep.SequenceEqual(resultStrings2SpaceSep));
 
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i2081_EpplusGenerated()
+        {
+            using (var p = OpenPackage("i2081_Generated.xlsx", true))
+            {
+                //Set up the workbook as example
+                using var workbook = p.Workbook;
+                var wsName = "singleCellTable";
+                var ws = workbook.Worksheets.Add(wsName);
+
+                var tableRange = ws.Cells["A1:A2"];
+
+                var scTable = ws.Tables.Add(tableRange, "Table1");
+
+                scTable.ShowHeader = true;
+                scTable.ShowTotal = true;
+                scTable.Columns[0].TotalsRowFunction = RowFunctions.Sum;
+
+                tableRange.AutoFitColumns();
+                ws.Calculate();
+
+                //Perform test
+                var values = new object[,] { { 123 } };
+                ws.Cells["A2:A2"].Value = values;
+
+                var logfile = new FileInfo("epplus_i2081_Log.txt");
+
+                workbook.FormulaParserManager.AttachLogger(logfile);
+
+                ws.Calculate();
+
+                workbook.FormulaParserManager.DetachLogger();
+
+                var sr = logfile.OpenText();
+                var logStr = sr.ReadToEnd();
+
+                sr.Close();
+                logfile.Delete();
+
+                Assert.IsTrue(logStr.Contains($"Set value in Cell\t{wsName}!A3\t123\tDecimal"));
+                Assert.AreEqual(values[0, 0], ws.Cells["A2:A2"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i2081_SingleMultArr()
+        {
+            using (var p = OpenPackage("i2081_SingleCellMultArr.xlsx", true))
+            {
+                using var workbook = p.Workbook;
+                var wsName = "singleCellTable";
+                var ws = workbook.Worksheets.Add(wsName);
+
+                var tableRange = ws.Cells["A1:A2"];
+
+                var scTable = ws.Tables.Add(tableRange, "Table1");
+
+                scTable.ShowHeader = true;
+                scTable.ShowTotal = true;
+                scTable.Columns[0].TotalsRowFunction = RowFunctions.Sum;
+
+                tableRange.AutoFitColumns();
+                ws.Calculate();
+                //Part that is different START
+                var values = new object[,] { { 1, 123 }, { 2, 456 } };
+                ws.Cells["A2:A2"].Value = values;
+                //Part that is different END
+
+                var logfile = new FileInfo("epplus_i2081MultArr_Log.txt");
+
+                workbook.FormulaParserManager.AttachLogger(logfile);
+
+                ws.Calculate();
+
+                workbook.FormulaParserManager.DetachLogger();
+
+                var sr = logfile.OpenText();
+                var logStr = sr.ReadToEnd();
+
+                sr.Close();
+                logfile.Delete();
+
+                Assert.IsTrue(logStr.Contains($"Set value in Cell\t{wsName}!A3\t1\tDecimal"));
+                Assert.AreEqual(values[0, 0], ws.Cells["A2:A2"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i2081_Formula()
+        {
+            using (var p = OpenPackage("i2081_Formulas.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Aws");
+                ws.Cells["C3"].Formula = "{1,2,3;4,5,6}";
+
+                ws.Calculate();
+
+                Assert.AreEqual(1, ws.Cells["C3"].Value);
+                Assert.AreEqual(2, ws.Cells["D3"].Value);
+                Assert.AreEqual(3, ws.Cells["E3"].Value);
+
+                Assert.AreEqual(4, ws.Cells["C4"].Value);
+                Assert.AreEqual(5, ws.Cells["D4"].Value);
+                Assert.AreEqual(6, ws.Cells["E4"].Value);
+
+
+
+                SaveAndCleanup(p);
             }
         }
     }

@@ -66,7 +66,7 @@ namespace OfficeOpenXml
             var configRoot = default(IConfigurationRoot);
             try
             {
-                
+
                 var build = new ConfigurationBuilder()
                        .SetBasePath(basePath)
                        .AddJsonFile(configFileName, true, false);

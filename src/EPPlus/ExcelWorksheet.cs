@@ -2485,7 +2485,7 @@ namespace OfficeOpenXml
 
             if (_worksheetXml != null)
             {
-                SaveDrawings(hasLoadedPivotTables);
+                Drawings.SaveDrawings(hasLoadedPivotTables);
                 if (!(this is ExcelChartsheet))
                 {
                     // save the header & footer (if defined)
