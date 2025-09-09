@@ -153,7 +153,13 @@ namespace OfficeOpenXml.Drawing.Chart
                 return (ExcelChartTitleStandard)GetTitle();
             }
         }
-        
+        public bool HasTitle
+        {
+            get
+            {
+                return TopNode.SelectSingleNode("c:title", NameSpaceManager) != null;
+            }
+        }
         internal override ExcelChartTitle GetTitle()
         {
             if (_title == null)
@@ -640,6 +646,21 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             Title.LinkedCell = linkedCell;
             _chart.ApplyStyleOnPart(Title, _chart._styleManager?.Style?.AxisTitle);
+        }
+        ExcelLayout _layout = null;
+        /// <summary>
+        /// Contains layout properties, if the title is manually positioned.
+        /// </summary>
+        public ExcelLayout Layout
+        {
+            get
+            {
+                if (_layout == null)
+                {
+                    _layout = new ExcelLayout(NameSpaceManager, TopNode, "c:Layout", "", SchemaNodeOrder);
+                }
+                return _layout;
+            }
         }
     }
 }

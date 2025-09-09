@@ -323,15 +323,20 @@ namespace OfficeOpenXml.Style
         {
             var tm = _pictureRelationDocument.Package.Settings.TextSettings.PrimaryTextMeasurer;
             _pictureRelationDocument.Package.Workbook.Styles.GetNormalStyle();
-            var f = new MeasurementFont()
+            MeasurementFont f = GetMeasureFont();
+            var b = tm.MeasureText(text, f);
+            textWidth = b.Width;
+            textHeight = b.Height;
+        }
+
+        internal MeasurementFont GetMeasureFont()
+        {
+            return new MeasurementFont()
             {
                 FontFamily = LatinFont,
                 Size = Size,
                 Style = GetFontStyle()
             };
-            var b = tm.MeasureText(text, f);
-            textWidth = b.Width;
-            textHeight = b.Height;
         }
 
         private MeasurementFontStyles GetFontStyle()
