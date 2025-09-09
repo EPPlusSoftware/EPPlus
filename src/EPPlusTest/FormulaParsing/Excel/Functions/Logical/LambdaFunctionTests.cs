@@ -755,5 +755,36 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
                 Assert.AreEqual(24d, epplusValue);
             }
         }
+
+        [TestMethod]
+        public void LambdaShouldReturnCalcErrorWhenNotInvoked()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Formula = "LAMBDA(x,x+1)";
+            ws.Calculate();
+            Assert.AreEqual(ErrorValues.CalcError, ws.Cells["A1"].Value);
+        }
+
+
+        [TestMethod]
+        public void LambdaShouldReturnCalcErrorWhenEmptyArray()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Formula = "LAMBDA(arr, FILTER(arr, arr>100))({10;20;30})";
+            ws.Calculate();
+            Assert.AreEqual(ErrorValues.CalcError, ws.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void LambdaShouldReturnValueErrorWhenWrongNumberOfArgs()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Formula = "LAMBDA(x,y,x+y)(5)";
+            ws.Calculate();
+            Assert.AreEqual(ErrorValues.ValueError, ws.Cells["A1"].Value);
+        }
     }
 }

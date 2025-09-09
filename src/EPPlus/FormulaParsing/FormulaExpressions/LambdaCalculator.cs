@@ -183,6 +183,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 throw new InvalidOperationException("LambdaCalculator.Execute was called without having initialized it with BeginCalculation. OriginalTokens.Count = " + _originalTokens.Count + ", # variables = " + (_variables != null ? _variables.Count : 0));
             }
+            if(_nVariablesSet < NumberOfVariables)
+            {
+                var result = ExcelErrorValue.Create(eErrorType.Value);
+                return CompileResultFactory.CreateDynamicArrayResult(result);
+            }
             var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column, ctx.VariableStorage);
             formula.IgnoreCaching = true;
             formula.ExpressionStack = _formula.ExpressionStack;

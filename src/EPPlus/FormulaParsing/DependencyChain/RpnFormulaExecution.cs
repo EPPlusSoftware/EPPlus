@@ -690,6 +690,10 @@ namespace OfficeOpenXml.FormulaParsing
         }
         private static void SetValueToWorkbook(RpnOptimizedDependencyChain depChain, RpnFormula f, RangeHashset rd, CompileResult cr)
         {
+            if(cr.DataType == DataType.LambdaCalculation)
+            {
+                cr = CompileResult.GetErrorResult(eErrorType.Calc);
+            }
             //Set the value.
             if (f._row >= 0)
             {

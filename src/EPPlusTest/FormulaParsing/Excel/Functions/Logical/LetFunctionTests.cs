@@ -197,5 +197,15 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Calculate();
             Assert.AreEqual(3d, sheet.Cells["A1"].Value);
         }
+
+        [TestMethod]
+        public void LetFunction_ShouldReturnNameErrorWhenUnassignedVariable()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LET(x,5,y,z,y)";
+            sheet.Calculate();
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Name), sheet.Cells["A1"].Value);
+        }
     }
 }

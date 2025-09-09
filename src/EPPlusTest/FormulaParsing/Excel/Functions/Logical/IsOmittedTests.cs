@@ -47,13 +47,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
         }
 
         [TestMethod]
-        public void IsOmitted_EmptyInvoke()
+        public void IsOmitted_EmptyInvoke1()
         {
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Formula = "LAMBDA(x, IF(ISOMITTED(x), \"saknas\", x))()";
             sheet.Calculate();
-            Assert.AreEqual("saknas", sheet.Cells["A1"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void IsOmitted_Invoke1()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LAMBDA(x, IF(ISOMITTED(x), \"saknas\", x))(2)";
+            sheet.Calculate();
+            Assert.AreEqual(2d, sheet.Cells["A1"].Value);
         }
 
         [TestMethod]
