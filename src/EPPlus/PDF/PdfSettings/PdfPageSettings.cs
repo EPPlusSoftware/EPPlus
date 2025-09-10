@@ -8,25 +8,9 @@ using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfSettings
 {
-    public enum Orientations
-    {
-        Portrait,
-        Landscape,
-    }
-
-    public enum GridLineTypes
-    {
-        Solid,
-        Dotted,
-        Lines,
-    }
-
-    public enum PageOrders
-    {
-        DownThenOver,
-        OverThenDown,
-    }
-
+    /// <summary>
+    /// Settings object for exporting to PDF.
+    /// </summary>
     public class PdfPageSettings
     {
         /// <summary>
@@ -144,12 +128,42 @@ namespace OfficeOpenXml.PDF.PdfSettings
         internal bool Debug = false;
         internal bool PrintAsText = false;
     }
+
+    /// <summary>
+    /// Orientation of pages.
+    /// </summary>
+    public enum Orientations
+    {
+        /// <summary>
+        /// Portrait orientation.
+        /// </summary>
+        Portrait,
+        /// <summary>
+        /// Landscape orientation.
+        /// </summary>
+        Landscape,
+    }
+
+    /// <summary>
+    /// Order of pages.
+    /// </summary>
+    public enum PageOrders
+    {
+        /// <summary>
+        /// Order Down then over.
+        /// </summary>
+        DownThenOver,
+        /// <summary>
+        /// Order Over then down.
+        /// </summary>
+        OverThenDown,
+    }
 }
 
 
 /*
 //Page
-    /Orientation
+    //Orientation
         //Portrait
         //Landscape
     //Scaling
@@ -161,9 +175,6 @@ namespace OfficeOpenXml.PDF.PdfSettings
     //Center On Page
         //Horizontal
         //vertical
-
-//Page Breaks
-    //Array of row and cols where to break to new page
 
 //Sheet
     //print grid lines

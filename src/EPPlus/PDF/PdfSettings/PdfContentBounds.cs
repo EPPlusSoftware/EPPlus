@@ -18,6 +18,7 @@ namespace OfficeOpenXml.PDF.PdfSettings
 
         internal void CalculateBounds(PdfMargins margins, PdfPageSize pageSize)
         {
+            //Content bounds rectangle
             Width = pageSize.WidthPu - margins.LeftPu - margins.RightPu;
             X = margins.LeftPu;
             Left = X;
@@ -26,6 +27,7 @@ namespace OfficeOpenXml.PDF.PdfSettings
             Top = pageSize.HeightPu - margins.TopPu;
             Bottom = Y;
             Height = Top - Bottom;
+            //Header Footer
             var hx = Width / 3d;
             FooterY = margins.FooterPu;
             CenterFooterX = Left + hx;

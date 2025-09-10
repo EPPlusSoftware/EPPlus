@@ -227,7 +227,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
             var rotation = Matrix3x3.Rotation(LocalRotation);
             var translation = Matrix3x3.Translation(LocalPosition.X, LocalPosition.Y);
             return translation * rotation * scale;
-            //return scale * rotation * translation;
         }
 
         public Matrix3x3 GetWorldMatrix()
@@ -271,6 +270,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                      bbox.Bottom < pageBounds.Top  ||
                      bbox.Top > pageBounds.Bottom);
         }
+
         public static bool IntersectsFully(PdfRect contentBounds, PdfRect cellBounds)
         {
             return cellBounds.Left >= contentBounds.Left     &&
@@ -279,19 +279,12 @@ namespace OfficeOpenXml.PDF.PdfLayout
                    cellBounds.Bottom <= contentBounds.Bottom;
         }
 
-
-        public virtual string GetHierarchyLabel()
-        {
-            return Name ?? this.GetType().Name;
-        }
         public string ToHierarchyString(int indentLevel = 0)
         {
             var indent = new string(' ', indentLevel * 4);
             var result = $"{indent}{Name ?? this.GetType().Name}|" +
-                         //$"({Position.X.ToString(CultureInfo.InvariantCulture)},{Position.Y.ToString(CultureInfo.InvariantCulture)}):" +
                          $"({LocalPosition.X.ToString(CultureInfo.InvariantCulture)},{LocalPosition.Y.ToString(CultureInfo.InvariantCulture)}):" +
                          $"({Size.X.ToString(CultureInfo.InvariantCulture)},{Size.Y.ToString(CultureInfo.InvariantCulture)})";
-            //{GetHierarchyLabel()}";
             foreach (var child in ChildObjects)
             {
                 result += Environment.NewLine + child.ToHierarchyString(indentLevel + 1);

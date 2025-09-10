@@ -169,7 +169,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     child.LocalPosition = new Vector2(child.LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(child.LocalPosition.Y));
                 }
                 page.RemoveChild(page.ChildObjects[0]);
-                page.GenerateGridLines(pageSettings, worksheet);
+                page.GenerateGridLines();
                 page.ChildObjects.RemoveAll(x => x.Name.Contains("*"));
             }
             foreach (PdfPageLayout page in pages.ChildObjects)
