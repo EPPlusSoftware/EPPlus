@@ -7,55 +7,71 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.PDF.PdfSettings.PdfPageData;
 using OfficeOpenXml.PDF.PdfLayout;
 
 namespace OfficeOpenXml.PDF
 {
+    /// <summary>
+    /// Class for exporting to PDF format.
+    /// </summary>
     public class ExcelPdf
     {
-        internal ExcelWorksheet _ws;
+        internal List<ExcelWorksheet> _workheets = new List<ExcelWorksheet>();
+        internal ExcelRangeBase _range;
+        private PdfPageSettings PageSettings;
+        internal List<PdfObject> Document = new List<PdfObject>();
         internal string header = "%PDF-1.7\n";
-        internal List<PdfObject> body = new List<PdfObject>();
-        internal PdfCrossRefTable crossRefTable;
-        internal readonly string defaultFontName;
-        internal List<PdfExcelPageData> pagesData = new List<PdfExcelPageData>();
         internal readonly Dictionary<string, PdfFontResource> fontResources = new Dictionary<string, PdfFontResource>();
 
-        private static Dictionary<uint, PdfFontProperties> _fonts;
-        private PdfPageSettings PageSettings;
-        private double cellMargin = 0.2d;
-        private PdfContentBounds bounds;
-
-        public ExcelPdf(ExcelWorksheet worksheet)
+        /// <summary>
+        /// Create a PDF Document from the worksheet and settings.
+        /// </summary>
+        /// <param name="worksheet">The worksheet to convert to PDF Document</param>
+        /// <param name="pageSettings">The settings object</param>
+        public ExcelPdf(ExcelWorksheet worksheet, PdfPageSettings pageSettings = null)
         {
-            _ws = worksheet;
-            defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
-            if (!PdfExcelPageDataLookup.PdfExcelA4PageData.ContainsKey(defaultFontName))
-            {
-                pagesData.Add(new PdfExcelPageData(-1, -1));
-            }
-            else
-            {
-                pagesData.Add(new PdfExcelPageData(PdfExcelPageDataLookup.PdfExcelA4PageData[defaultFontName][0], PdfExcelPageDataLookup.PdfExcelA4PageData[defaultFontName][1]));
-            }
-            PageSettings = new PdfPageSettings();
-            bounds = new PdfContentBounds(PageSettings.Margins, PageSettings.PageSize);
+            _workheets.Add(worksheet);
+            PageSettings = pageSettings == null ? new PdfPageSettings() : pageSettings;
+            PageSettings.defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
         }
 
-        public ExcelPdf(ExcelWorksheet worksheet, PdfPageSettings pageSettings)
+        /// <summary>
+        /// Create a PDF Document from the selected worksheets and settings. NOT IMPLEMENTED
+        /// </summary>
+        /// <param name="worksheet">The worksheets to convert to PDF Document</param>
+        /// <param name="pageSettings">The Settings object</param>
+        public ExcelPdf(ExcelWorksheet[] worksheet, PdfPageSettings pageSettings = null)
         {
-            _ws = worksheet;
-            defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
-            if (!PdfExcelPageDataLookup.PdfExcelA4PageData.ContainsKey(defaultFontName))
-            {
-                PdfExcelPageDataLookup.PdfExcelA4PageData.Add(defaultFontName, [-1, -1]);
-
-            }
-            PageSettings = pageSettings;
-            bounds = new PdfContentBounds(PageSettings.Margins, PageSettings.PageSize);
+            //_ws = worksheet[0];
+            //defaultFontName = worksheet[0].Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
+            //PageSettings = pageSettings == null ? new PdfPageSettings() : pageSettings;
         }
 
+        /// <summary>
+        /// Create a PDF Document from the entire worksbook and settings.NOT IMPLEMENTED
+        /// </summary>
+        /// <param name="workbook">Workbook to convert to PDF Document</param>
+        /// <param name="pageSettings">The settings object</param>
+        public ExcelPdf(ExcelWorkbook workbook, PdfPageSettings pageSettings = null)
+        {
+            //_ws = worksheet;
+            //defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
+            //PageSettings = pageSettings == null ? new PdfPageSettings() : pageSettings;
+        }
+
+        /// <summary>
+        /// Create a PDF Document from the selected range and settings. NOT IMPLEMENTED
+        /// </summary>
+        /// <param name="Range">Range to convert to PDF Document</param>
+        /// <param name="pageSettings">The settings object</param>
+        public ExcelPdf(ExcelRangeBase Range, PdfPageSettings pageSettings = null)
+        {
+            //_range = Range;
+            //defaultFontName = Range.Worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
+            //PageSettings = pageSettings == null ? new PdfPageSettings() : pageSettings;
+        }
+
+        //Get font label //need to update this one too for same reasons as AddFontData
         internal string GetFontLabel(string fontName, string subFamily, double fontSize)
         {
             if (!fontResources.ContainsKey(fontName))
@@ -68,58 +84,63 @@ namespace OfficeOpenXml.PDF
                 PdfFontResource fr = new PdfFontResource(fontName, subFamily, label, PageSettings);
                 if (fontName != "Courier New")
                 {
-                    body.Add(fr.GetFontDescriptorObject(body.Count + 1));
-                    body.Add(fr.GetWidthsObject(body.Count + 1));
+                    Document.Add(fr.GetFontDescriptorObject(Document.Count + 1));
+                    Document.Add(fr.GetWidthsObject(Document.Count + 1));
                 }
-                body.Add(fr.GetFontObject(body.Count + 1));
+                Document.Add(fr.GetFontObject(Document.Count + 1));
                 fontResources.Add(fontName, fr);
             }
             return fontResources[fontName].Label;
         }
 
+        //Add Fonts //Need to update this method a bit. We should check for all default fonts and not onlt courier new?
         internal void AddFontData()
         {
             foreach (var font in fontResources)
             {
                 if (font.Key != "Courier New")
                 {
-                    body.Add(font.Value.GetFontDescriptorObject(body.Count + 1));
-                    body.Add(font.Value.GetWidthsObject(body.Count + 1));
+                    Document.Add(font.Value.GetFontDescriptorObject(Document.Count + 1));
+                    Document.Add(font.Value.GetWidthsObject(Document.Count + 1));
                 }
-                body.Add(font.Value.GetFontObject(body.Count + 1));
+                Document.Add(font.Value.GetFontObject(Document.Count + 1));
             }
         }
 
-        //create page
+        //Create Page
         private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfPageSettings settings)
         {
-            var page = new PdfPage(body.Count + 1, pagesObjectNumber, contentObjectNumbers, settings.PageSize, fontResources);
-            body.Add(page);
+            var page = new PdfPage(Document.Count + 1, pagesObjectNumber, contentObjectNumbers, settings.PageSize, fontResources);
+            Document.Add(page);
             return page;
         }
-        //create pages
+        //Create Pages
         private PdfPages AddPages()
         {
-            var pages = new PdfPages(body.Count + 1, new List<int>{});
-            body.Add(pages);
+            var pages = new PdfPages(Document.Count + 1, new List<int>{});
+            Document.Add(pages);
             return pages;
         }
-        //create Catalog
+        //Create Catalog
         private PdfCatalog AddCatalog(int pagesObjectNumber)
         {
-            var catalog = new PdfCatalog(body.Count + 1, pagesObjectNumber);
-            body.Add(catalog);
+            var catalog = new PdfCatalog(Document.Count + 1, pagesObjectNumber);
+            Document.Add(catalog);
             return catalog;
         }
 
-        private void CreateStreamContentFromCell(PdfTransform pageLayout, PdfPage page)
+        //Create Content
+        private void AddContent(PdfTransform pageLayout, PdfPage page)
         {
             var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
-            var contentStream = new PdfContentStream(body.Count + 1);
+            var contentStream = new PdfContentStream(Document.Count + 1);
             if (PageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);
             }
+            //Add clipping rectangle around page content.
+            contentStream.AddCommand("q");
+            contentStream.AddMarginClipping(pageLayout, PageSettings.ContentBounds);
             foreach (var cell in cells)
             {
                 foreach (var cellPart in cell)
@@ -127,49 +148,52 @@ namespace OfficeOpenXml.PDF
                     switch (cellPart)
                     {
                         case PdfCellLayout layout:
-                            contentStream.AddCommand("q");
                             contentStream.AddCellLayout(layout);
-                            contentStream.AddCommand("Q");
                             break;
                         case PdfCellContentLayout contentLayout:
-                            contentStream.AddCommand("q");
                             contentStream.AddCellContentLayout(contentLayout, GetFontLabel(contentLayout.FontData.FontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));
-                            contentStream.AddCommand("Q");
                             break;
                         case PdfCellBorderLayout borderLayout:
-                            contentStream.AddCommand("q");
                             contentStream.AddBorderLayout(borderLayout);
-                            contentStream.AddCommand("Q");
                             break;
                     }
                 }
             }
+            //Close the clipping rectangle
+            contentStream.AddCommand("Q");
             if (PageSettings.ShowGridLines)
             {
                 contentStream.AddOuterGridBorder(pageLayout);
             }
-            body.Add(contentStream);
+            Document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
         }
 
+        /// <summary>
+        /// Create the pdf from the supplied worksheet.
+        /// </summary>
+        /// <param name="Filename">The file name</param>
         public void CreatePdf(string Filename)
         {
-            var catalogLayout = new PdfCatalogLayout(_ws, PageSettings, bounds, fontResources);
+            //Create Catalog
+            var catalogLayout = new PdfCatalogLayout(_workheets[0], PageSettings, fontResources);
             var catalog = AddCatalog(2);
+            //Create Pages
             var pagesLayout = catalogLayout.ChildObjects[0];
             var pages = AddPages();
+            //Create Fonts
             AddFontData();
+            //Create Page and Content
             for (int i = 0; i < pagesLayout.ChildObjects.Count; i++)
             {
                 var pageLayout = pagesLayout.ChildObjects[i];
                 var page = AddPage(2, new List<int>(), PageSettings);
-                CreateStreamContentFromCell(pageLayout, page);
-                //DrawMarginAndHeaderLines(bounds, page);
+                AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
-            //write to pdf
-            crossRefTable = new PdfCrossRefTable();
             string debugString = "";
+            //write to pdf
+            PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
             //start wring pdf binary
             using (var fs = new FileStream(Filename, FileMode.Create, FileAccess.Write))
             {
@@ -179,28 +203,39 @@ namespace OfficeOpenXml.PDF
                     bw.Write(Encoding.ASCII.GetBytes(header));
                     debugString += header;
                     //Write body
-                    foreach (var pdfobj in body)
+                    foreach (var pdfobj in Document)
                     {
                         crossRefTable.AddPosition(fs.Position);
                         bw.Write(pdfobj.ToPdfBytes());
                         debugString += pdfobj.ToPdfString();
                     }
                     //Write CrossReference
-                    crossRefTable.Write(bw, fs.Position, body.Count);
-                    debugString += crossRefTable.WriteString(body.Count);
+                    crossRefTable.Write(bw, fs.Position, Document.Count);
+                    debugString += crossRefTable.WriteString(Document.Count);
                     // Write trailer
-                    PdfTrailer.Write(bw, body.Count, catalog.objectNumber, crossRefTable.StartPosition);
-                    debugString += PdfTrailer.WriteString(body.Count, catalog.objectNumber, crossRefTable.StartPosition);
+                    PdfTrailer.Write(bw, Document.Count, catalog.objectNumber, crossRefTable.StartPosition);
+                    debugString += PdfTrailer.WriteString(Document.Count, catalog.objectNumber, crossRefTable.StartPosition);
+                }
+            }
+            //Write pdf as txt for debug.
+            if (PageSettings.Debug && PageSettings.PrintAsText)
+            {
+                using (var fs = new FileStream(Filename + ".txt", FileMode.Create, FileAccess.Write))
+                {
+                    using ( var wr = new StreamWriter(fs))
+                    {
+                        wr.Write(debugString);
+                    }
                 }
             }
         }
 
         #region DEBUG
-
+        //These methods need to be rewritten if they should be used.
 
         internal void DrawMarginAndHeaderLines(PdfContentBounds bounds, PdfPage page)
         {
-            var content = new PdfContentStream(body.Count + 1);
+            var content = new PdfContentStream(Document.Count + 1);
             //Bottom line
             DrawLine(content, PdfColor.Black, 0, bounds.Bottom, PageSettings.PageSize.WidthPu, bounds.Bottom);
             DrawLine(content, new PdfColor(1, 0, 1), bounds.X, bounds.Bottom, bounds.X + bounds.Width, bounds.Bottom);
@@ -221,7 +256,7 @@ namespace OfficeOpenXml.PDF
             DrawLine(content, new PdfColor(1, 0, 1), bounds.Right, bounds.FooterY, bounds.Left, bounds.FooterY);
             DrawLine(content, new PdfColor(1, 0, 1), bounds.CenterFooterX, bounds.Bottom, bounds.CenterFooterX, bounds.Bottom);
             DrawLine(content, new PdfColor(1, 0, 1), bounds.RightFooterX, bounds.Bottom, bounds.RightFooterX, bounds.Bottom);
-            body.Add(content);
+            Document.Add(content);
             page.contentObjectNumbers.Add(content.objectNumber);
         }
 
@@ -236,25 +271,17 @@ namespace OfficeOpenXml.PDF
         internal void DrawCrossHair(PdfColor color, double x, double y, double size = 2)
         {
             var half = size / 2d;
-            var content = new PdfContentStream(body.Count + 1);
+            var content = new PdfContentStream(Document.Count + 1);
             content.AddCommand(color.ToStrokeCommand());
             content.AddCommand($"{x.ToPdfString()} {(y - half).ToPdfString()} m");
             content.AddCommand($"{x.ToPdfString()} {(y + half).ToPdfString()} l");
             content.AddCommand($"{(x - half).ToPdfString()}   {y.ToPdfString()} m");
             content.AddCommand($"{(x + half).ToPdfString()}   {y.ToPdfString()} l");
             content.AddCommand("S");
-            body.Add(content);
+            Document.Add(content);
         }
 
 
         #endregion
-
     }
 }
-
-
-/* TODO:
- * Print workbook
- * Print worksheets
- * print selected range
- */

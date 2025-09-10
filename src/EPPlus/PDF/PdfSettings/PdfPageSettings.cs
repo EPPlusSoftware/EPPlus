@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.PDF.PdfSettings;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.PDF.PdfSettings;
 using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
 using System;
 using System.Collections.Generic;
@@ -32,15 +33,11 @@ namespace OfficeOpenXml.PDF.PdfSettings
         /// Add additional folders to search for fonts.
         /// </summary>
         public List<string> FontDirectories = new List<string>();
+
         /// <summary>
         /// If true, epplus will look for fonts in the system directories for installed fonts.  c:\windows\fonts
         /// </summary>
         public bool SearchSystemDirectories = true;
-
-        /// <summary>
-        /// Set the page margins.
-        /// </summary>
-        public PdfMargins Margins = PdfMargins.Normal;
 
         /// <summary>
         /// The order in how to create pages.
@@ -51,10 +48,21 @@ namespace OfficeOpenXml.PDF.PdfSettings
         /// Set to true to center content on page vertically.
         /// </summary>
         public bool CenterOnPageVertically;
+
         /// <summary>
         /// Set to true to center content on page horizontally.
         /// </summary>
         public bool CenterOnPageHorizontally;
+
+        /// <summary>
+        /// Set true to show grid lines.
+        /// </summary>
+        public bool ShowGridLines = false;
+
+        /// <summary>
+        /// Set true to show row and column headings.
+        /// </summary>
+        public bool ShowHeadings = false;
 
         PdfPageSize _pageSize = PdfPageSize.A4;
         /// <summary>
@@ -77,6 +85,7 @@ namespace OfficeOpenXml.PDF.PdfSettings
                 {
                     _orientation = Orientations.Landscape;
                 }
+                ContentBounds.CalculateBounds(Margins, PageSize);
             }
         }
 
@@ -111,15 +120,29 @@ namespace OfficeOpenXml.PDF.PdfSettings
             }
         }
 
+        private PdfMargins _margins = PdfMargins.Normal;
+        /// <summary>
+        /// Set the page margins.
+        /// </summary>
+        public PdfMargins Margins
+        {
+            get
+            {
+                return _margins;
+            }
+            set
+            {
+                _margins = value;
+                ContentBounds.CalculateBounds(Margins, PageSize);
+            }
+        }
 
+        internal PdfContentBounds ContentBounds = new PdfContentBounds(PdfMargins.Normal, PdfPageSize.A4);
+        internal string defaultFontName = "";
 
-        public bool ShowGridLines = false;
-        public GridLineTypes GridLineType = GridLineTypes.Solid;
-        public bool ShowHeadings = false;
-
-        internal PdfContentBounds ContentBounds;
+        //DEBUG
         internal bool Debug = false;
-
+        internal bool PrintAsText = false;
     }
 }
 

@@ -5,30 +5,30 @@ using System.Collections.Generic;
 using System.Linq;
 using OfficeOpenXml.PDF.PdfFontData;
 using System.Runtime.InteropServices;
+using System;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfCatalogLayout : PdfTransform
     {
-        public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, PdfContentBounds bounds, Dictionary<string, PdfFontResource> fontResources)
+        public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources)
             : base(0, 0, 0, 0)
         {
         }
 
-        public PdfCatalogLayout(ExcelWorkbook workbook, PdfPageSettings pageSettings, PdfContentBounds bounds, Dictionary<string, PdfFontResource> fontResources)
+        public PdfCatalogLayout(ExcelWorkbook workbook, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources)
             : base(0, 0, 0, 0)
         {
         }
 
-        public PdfCatalogLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds, Dictionary<string, PdfFontResource> fontResources)
+        public PdfCatalogLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources)
             : base(0, 0, 0, 0)
         {
-            //Position = new Vector2(0d, pageSettings.PageSize.HeightPu);
             this.Name = worksheet.Name + " Catalog";
-            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, bounds, fontResources));
+            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, fontResources));
             //calculate number of pages needed based on contentBounds and worksheetLayout.Size
-            var horizontalPages = WorksheetLayout.Size.X / bounds.Width;
-            var verticalPages = WorksheetLayout.Size.Y / bounds.Height;
+            var horizontalPages = WorksheetLayout.Size.X / pageSettings.ContentBounds.Width;
+            var verticalPages = WorksheetLayout.Size.Y / pageSettings.ContentBounds.Height;
             int horizontalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(horizontalPages));
             int verticalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(verticalPages));
             int totalPages = horizontalPageCount * verticalPageCount;
@@ -43,8 +43,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
             double w = 0;
             int pw = 1;
             int ph = 1;
-            double bh = bounds.Height;
-            double bw = bounds.Width;
+            double bh = pageSettings.ContentBounds.Height;
+            double bw = pageSettings.ContentBounds.Width;
             for (int i = 1; i <= worksheet.Dimension._toRow; i++)
             {
                 if (worksheet.Row(i).Hidden) { continue; }
@@ -53,7 +53,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 {
                     ph++;
                     yBreaks.Add(h);
-                    bh = h + bounds.Height;
+                    bh = h + pageSettings.ContentBounds.Height;
                 }
                 h += height;
             }
@@ -65,7 +65,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 {
                     pw++;
                     xBreaks.Add(w);
-                    bw = w + bounds.Width;
+                    bw = w + pageSettings.ContentBounds.Width;
                 }
                 w += width;
             }
@@ -87,11 +87,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 double py = row * pageSettings.PageSize.HeightPu;
                 PdfPageLayout page = new PdfPageLayout(px, py, pageSettings.PageSize.WidthPu, pageSettings.PageSize.HeightPu);
                 page.Name = "Page " + (i + 1);
-                double cx = col * bounds.Width;
-                double cy = row * bounds.Height;
+                double cx = col * pageSettings.ContentBounds.Width;
+                double cy = row * pageSettings.ContentBounds.Height;
                 //var contentLocalX = cx - px;
                 //var contentLocalY = cy - py;
-                PdfContentLayout content = new PdfContentLayout(0, 0, bounds);
+                PdfContentLayout content = new PdfContentLayout(0, 0, pageSettings.ContentBounds);
                 content.Name = "Content " + (i + 1);
                 page.AddChild(content);
                 content.Position = new Vector2(xBreaks[col], yBreaks[row]);
@@ -167,13 +167,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 {
                     page.AddChild(child);
                     child.LocalPosition = new Vector2(child.LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(child.LocalPosition.Y));
-                    if (child is PdfCellContentLayout contentLayout)
-                    {
-                        contentLayout.AdjustClipping(pageSettings.PageSize.HeightPu);
-                    }
                 }
                 page.RemoveChild(page.ChildObjects[0]);
-                //page.Range = worksheet.Cells[ page.ChildObjects[0].Name + ":" + page.ChildObjects[page.ChildObjects.Count - 1].Name];
                 page.GenerateGridLines(pageSettings, worksheet);
                 page.ChildObjects.RemoveAll(x => x.Name.Contains("*"));
             }
@@ -181,12 +176,22 @@ namespace OfficeOpenXml.PDF.PdfLayout
             {
                 foreach (var child in page.ChildObjects)
                 {
-                    if( child is PdfCellLayout cellLayout)
+                    if (child is PdfCellLayout cellLayout)
                     {
                         cellLayout.Adjust();
                     }
+                    if (child is PdfCellContentLayout contentLayout)
+                    {
+                        contentLayout.AdjustClipping(page.ChildObjects);
+                    }
                 }
-                page.ChildObjects.Sort((a, b) => a.Z.CompareTo(b.Z));
+                page.ChildObjects.Sort((a, b) =>
+                {
+                    int cmp = a.Z.CompareTo(b.Z);
+                    if (cmp == 0)
+                        return string.Compare(b.Name, a.Name, StringComparison.OrdinalIgnoreCase);
+                    return cmp;
+                });
             }
             RemoveChild(WorksheetLayout);
             string FinalPagesLayout = ToHierarchyString();

@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfLayout;
+using OfficeOpenXml.PDF.PdfSettings;
 using System.Collections.Generic;
 using System.Text;
 
@@ -28,22 +29,26 @@ namespace OfficeOpenXml.PDF.PdfObjects
         {
             if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.BackgroundColor.A >= 0.99999f)
             {
+                commands.Add("q");
                 commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
                 commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
                 commands.Add(cell.CellFillData.BackgroundColor.ToStrokeCommand());
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y - cell.Size.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
                 commands.Add("B");
+                commands.Add("Q");
             }
         }
 
         public void AddBorderLayout(PdfCellBorderLayout cell)
         {
+            commands.Add("q");
             AddBorder(cell.BorderData.Top, cell.LocalPosition.X, cell.LocalPosition.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y, 0, 2, -2);
             AddBorder(cell.BorderData.Bottom, cell.LocalPosition.X, cell.LocalPosition.Y - cell.Size.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y - cell.Size.Y, 0, 2, 2);
             AddBorder(cell.BorderData.Left, cell.LocalPosition.X, cell.LocalPosition.Y, cell.LocalPosition.X, cell.LocalPosition.Y - cell.Size.Y, 1, 2, -2);
             AddBorder(cell.BorderData.Right, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y - cell.Size.Y, 1, -2, -2);
             AddBorder(cell.BorderData.DiagonalDown, cell.LocalPosition.X, cell.LocalPosition.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y - cell.Size.Y, 2, 2, 2);
             AddBorder(cell.BorderData.DiagonalUp, cell.LocalPosition.X, cell.LocalPosition.Y - cell.Size.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y, 3, 2, 2);
+            commands.Add("Q");
         }
 
         private void AddBorder(PdfCellBorderData borderData, double x1, double y1, double x2, double y2, int lt, double doubleOffsetX=0, double doubleOffsetY = 0)
@@ -200,9 +205,10 @@ namespace OfficeOpenXml.PDF.PdfObjects
 
         public void AddCellContentLayout(PdfCellContentLayout cell, string fontLabel)
         {
-            if(cell.Clip)
+            commands.Add("q");
+            if (cell.Clip)
             {
-                commands.Add($"{cell.Clipping.X.ToPdfString()} {cell.Clipping.Y.ToPdfString()} {cell.Clipping.Width.ToPdfString()} {cell.Clipping.Height.ToPdfString()} re S");
+                commands.Add($"{cell.Clipping.X.ToPdfString()} {cell.Clipping.Y.ToPdfString()} {cell.Clipping.Width.ToPdfString()} {cell.Clipping.Height.ToPdfString()} re W n");
             }
             commands.Add("BT");
             commands.Add($"/{fontLabel} {cell.FontData.FontSize.ToPdfString()} Tf");
@@ -211,12 +217,12 @@ namespace OfficeOpenXml.PDF.PdfObjects
             commands.Add($"{System.Math.Cos(rot).ToPdfString()} {System.Math.Sin(rot).ToPdfString()} {(-System.Math.Sin(rot)).ToPdfString()} {System.Math.Cos(rot).ToPdfString()} {cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} Tm");
             commands.Add($"({FixEscapeCharacters(cell.FontData.Text)}) Tj");
             commands.Add("ET");
+            commands.Add("Q");
         }
 
         public void AddInnerGridLines(PdfTransform pageLayout)
         {
-            if (pageLayout is not PdfPageLayout pl)
-                return;
+            if (pageLayout is not PdfPageLayout pl) return;
 
             commands.Add("q");
             commands.Add($"{GridLine.Width.ToPdfString()} w");
@@ -242,8 +248,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
 
         public void AddOuterGridBorder(PdfTransform pageLayout)
         {
-            if (pageLayout is not PdfPageLayout pl)
-                return;
+            if (pageLayout is not PdfPageLayout pl) return;
 
             commands.Add("q");
             commands.Add("1.0 w");
@@ -259,12 +264,26 @@ namespace OfficeOpenXml.PDF.PdfObjects
             commands.Add("Q");
         }
 
+        public void AddMarginClipping(PdfTransform pageLayout, PdfContentBounds bounds)
+        {
+            if(pageLayout is not PdfPageLayout pl) return;
+
+            double y = bounds.Top;
+            double width = 0d;
+            foreach (var line in pl.BorderLines)
+            {
+                width = System.Math.Max(width, System.Math.Max(line.X1, line.X2));
+                y = System.Math.Min(y, System.Math.Min(line.Y1, line.Y2));
+            }
+            var heightAdjust = y - bounds.Bottom;
+            commands.Add($"{bounds.X.ToPdfString()} {(y).ToPdfString()} {(width - bounds.Left).ToPdfString()} {(bounds.Height - heightAdjust).ToPdfString()} re W n");
+        }
+
         internal override string RenderDictionary()
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
             var bytes = Encoding.ASCII.GetBytes(content);
-            return $"<< /Length {bytes.Length} >>\n" +
-                   $"stream\n{content}endstream";
+            return $"<< /Length {bytes.Length} >>\n" + $"stream\n{content}endstream";
         }
 
         private string FixEscapeCharacters(string text)

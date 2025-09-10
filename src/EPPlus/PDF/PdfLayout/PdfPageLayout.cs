@@ -46,7 +46,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     GridLines.Add(line);
             }
 
-            // Horizontal lines
             foreach (var y in yCoords.OrderBy(v => v))
             {
                 var line = new GridLine(minX, y, maxX, y);

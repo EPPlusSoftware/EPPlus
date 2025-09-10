@@ -25,10 +25,12 @@ namespace EPPlusTest.PDF
             pageSettings.Orientation = Orientations.Portrait;
             pageSettings.Margins = PdfMargins.Normal;
             pageSettings.ShowGridLines = true;
+            //Debug Flags
             pageSettings.Debug = true;
-            ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
+            pageSettings.PrintAsText = true;
 
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest27.pdf");
+            ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest28.pdf");
         }
 
         [TestMethod]

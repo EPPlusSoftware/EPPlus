@@ -7,6 +7,7 @@ using OfficeOpenXml.PDF.PdfSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
@@ -56,7 +57,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
                    (CellAlignmentData.HorizontalAlignment == Style.ExcelHorizontalAlignment.Right && cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1 <= 0 ? 1 : cell._fromCol-1 ].Value != null) )
                 {
                     Clip = true;
-                    Clipping = new PdfRect() { X = x, Y = y, Width = width, Height = height };
                 }
             }
         }
@@ -133,11 +133,18 @@ namespace OfficeOpenXml.PDF.PdfLayout
             return new Vector2(x, y);
         }
 
-        internal void AdjustClipping(double yAxisHeight)
+        internal void AdjustClipping(List<PdfTransform> cells)
         {
             if (Clip)
             {
-                //Clipping = new PdfRect() { X = Clipping.X, Y = yAxisHeight - System.Math.Abs(Clipping.Y), Width = Clipping.Width, Height =  Clipping.Height };
+                var pcc = cells.Where(x => x.Name == this.Name).Where(x=> x is PdfCellLayout).ToList();
+                if (pcc.Count > 0)
+                {
+                    Clipping = new PdfRect() { X = pcc[0].LocalPosition.X + rightMargin,
+                                               Y = (pcc[0].LocalPosition.Y - pcc[0].Size.Y),
+                                           Width = pcc[0].Size.X - (rightMargin*2),
+                                          Height = pcc[0].Size.Y };
+                }
             }
         }
     }

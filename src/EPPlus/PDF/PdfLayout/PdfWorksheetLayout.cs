@@ -9,11 +9,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfWorksheetLayout : PdfTransform
     {
-        internal ExcelWorksheet ws;
-
-        public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfContentBounds bounds, Dictionary<string, PdfFontResource> fontResources)
+        public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources)
         {
-            this.ws = worksheet;
+            ExcelWorksheet ws = worksheet;
             double x = 0d;
             double y = 0d;
             double totalWidth = 0d;
@@ -28,7 +26,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     var width = PdfUnits.ExcelColumnWidthToPoints(ws.Column(j).Width);
                     var cell = ws.Cells[i, j];
                     bool isMerged = false;
-                    if (cell.Merge) //maybe collect merged cells into a list for processing after all cell. we need to save the merged cells range and current position.
+                    if (cell.Merge)
                     {
                         isMerged = true;
                         if (!checkedMergedCells.Contains(ws.MergedCells[i, j]))
@@ -54,7 +52,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
                                 clc1.Name = cell.Address;
                             }
                             checkedMergedCells.Add(ws.MergedCells[i, j]);
-
                         }
                     }
                     else
@@ -66,7 +63,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
                         if (!string.IsNullOrEmpty(cell.Text))
                         {
                             var clc0 = new PdfCellContentLayout(isMerged ? null : cell, pageSettings, x, y, width, height, 1, 1, 0, this, fontResources);
-
                             clc0.Z = 2;
                             clc0.Name = cell.Address;
                         }

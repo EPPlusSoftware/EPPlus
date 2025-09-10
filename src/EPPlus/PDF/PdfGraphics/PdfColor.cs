@@ -31,10 +31,10 @@ namespace OfficeOpenXml.PDF.PdfGraphics
         {
             if (string.IsNullOrEmpty(hex) || hex == "0")
             {
-                R = 1;
-                G = 1;
-                B = 1;
-                A = 1;
+                R = 0;
+                G = 0;
+                B = 0;
+                A = 0;
                 return;
             }
 
