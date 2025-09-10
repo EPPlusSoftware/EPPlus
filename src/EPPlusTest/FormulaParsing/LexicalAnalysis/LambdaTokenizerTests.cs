@@ -66,5 +66,19 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.AreEqual(TokenType.CellAddress, tokens[20].TokenType);
             Assert.AreEqual(TokenType.ClosingParenthesis, tokens[21].TokenType);
         }
+
+        [TestMethod]
+        public void ShouldHandleEtaLambda1()
+        {
+            var input = "BYROW(A1:B2, _xleta.SUM)";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(TokenType.Function, tokens[0].TokenType);
+            Assert.AreEqual(TokenType.OpeningParenthesis, tokens[1].TokenType);
+            Assert.AreEqual(TokenType.CellAddress, tokens[2].TokenType);
+            Assert.AreEqual(TokenType.Operator, tokens[3].TokenType);
+            Assert.AreEqual(TokenType.CellAddress, tokens[4].TokenType);
+            Assert.AreEqual(TokenType.Comma, tokens[5].TokenType);
+            Assert.AreEqual(TokenType.EtaReducedLambda, tokens[6].TokenType);
+        }
     }
 }

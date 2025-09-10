@@ -223,5 +223,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// Represents an empty argument (i.e. between two commas or a comma and a closing parentheses).
         /// </summary>
         EmptyArgument = (ulong)1 << 49,
+        /// <summary>
+        /// Represent a eta Lambda.
+        /// </summary>
+        EtaReducedLambda = (ulong)1 << 50,
     }
 }

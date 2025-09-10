@@ -708,8 +708,8 @@
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
 		<PackageReference Include="System.Security.Cryptography.Pkcs" VersionOverride="9.0.3" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
-		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="9.0.3"/>
-		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="9.0.3"/>
+		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="9.0.3" />
+		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="9.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -763,8 +763,5 @@
 		<None Update="resources\SignatureLineTemplate.emf">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-	</ItemGroup>
-		<ItemGroup>
-	  <Folder Include="FormulaParsing\FormulaExpressions\Variables\" />
 	</ItemGroup>
 </Project>

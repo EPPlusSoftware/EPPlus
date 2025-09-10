@@ -67,5 +67,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Calculate();
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["D4"].Value);
         }
+
+        [TestMethod]
+        public void ByCol_Xleta_Attribute_Average()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = 12;
+            sheet.Cells["A2"].Value = 46;
+            sheet.Cells["A3"].Value = 23;
+            sheet.Cells["A4"].Value = 60;
+            sheet.Cells["C4"].Formula = "BYCOL(A1:A4, _xleta.AVERAGE)";
+            sheet.Calculate();
+            Assert.AreEqual(35.25d, sheet.Cells["C4"].Value);
+        }
     }
 }

@@ -113,5 +113,51 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(7d, sheet.Cells["C2"].Value);
             Assert.AreEqual(9d, sheet.Cells["C3"].Value);
         }
+
+        [TestMethod]
+        public void ByRow_Xleta_Attribute_Sum()
+        { 
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = 10;
+            sheet.Cells["A2"].Value = 20;
+            sheet.Cells["B1"].Value = 11;
+            sheet.Cells["B2"].Value = 21;
+            sheet.Cells["C4"].Formula = "BYROW(A1:B2, _xleta.SUM)";
+            sheet.Calculate();
+            Assert.AreEqual(21d, sheet.Cells["C4"].Value);
+            Assert.AreEqual(41d, sheet.Cells["C5"].Value);
+        }
+
+        [TestMethod]
+        public void ByRow_Xleta_Attribute_CountA()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = 10;
+            sheet.Cells["A2"].Value = 20;
+            sheet.Cells["B1"].Value = 11;
+            sheet.Cells["B3"].Value = 21;
+            sheet.Cells["C4"].Formula = "BYROW(A1:B3, _xleta.COUNTA)";
+            sheet.Calculate();
+            Assert.AreEqual(2d, sheet.Cells["C4"].Value);
+            Assert.AreEqual(1d, sheet.Cells["C5"].Value);
+            Assert.AreEqual(1d, sheet.Cells["C6"].Value);
+        }
+
+        [TestMethod]
+        public void ByRow_Xleta_Attribute_Max()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = 5;
+            sheet.Cells["A2"].Value = 8;
+            sheet.Cells["B1"].Value = 12;
+            sheet.Cells["B2"].Value = 3;
+            sheet.Cells["C4"].Formula = "BYROW(A1:B2, _xleta.MAX)";
+            sheet.Calculate();
+            Assert.AreEqual(12d, sheet.Cells["C4"].Value);
+            Assert.AreEqual(8d, sheet.Cells["C5"].Value);
+        }
     }
 }

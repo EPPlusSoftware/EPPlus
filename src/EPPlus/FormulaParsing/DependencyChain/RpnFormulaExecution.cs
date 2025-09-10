@@ -1060,6 +1060,7 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.ParameterVariable:
                     case TokenType.CommaLambda:
                     case TokenType.EmptyArgument:
+                    case TokenType.EtaReducedLambda:
                         if(leStackPos != null)
                         {
                             var exp = f._expressions[f._tokenIndex];
@@ -1092,7 +1093,10 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             s.Push(f._expressions[f._tokenIndex]);
                         }
-                       
+                        if(t.TokenType == TokenType.EtaReducedLambda)
+                        {
+                            ((FunctionExpression)f._expressions[f._tokenIndex]).SetRpnFormula(f);
+                        }
                         break;
                     case TokenType.Negator:
                         s.Push(s.Pop().Negate());

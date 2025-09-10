@@ -364,6 +364,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             expressions.Add(tokenIx, new VariableExpression(t.Value, scp, false));
                         }
                         break;
+                    case TokenType.EtaReducedLambda:
+                        expressions.Add(tokenIx, new LambdaEtaExpression(t.Value, parsingContext, tokenIx));
+                        break;
                     case TokenType.StartFunctionArguments:
                         FunctionExpression func = default;
                         if(t.IsLetFunction())

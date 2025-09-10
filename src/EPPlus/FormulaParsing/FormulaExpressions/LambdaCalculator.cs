@@ -158,7 +158,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             var variable = _variables[index];
             var variableName = variable.VariableName;
-            if(value is IRangeInfo ir && !ir.IsMulti)
+            if(value is IRangeInfo ir && ir.Size.NumberOfRows == 1 && ir.Size.NumberOfCols == 1)
             {
                 var v = ir.GetOffset(0, 0);
                 var tmpCr = CompileResultFactory.Create(v);
