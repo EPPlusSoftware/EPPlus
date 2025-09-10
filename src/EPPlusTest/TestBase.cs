@@ -150,6 +150,7 @@ namespace EPPlusTest
             //}
             //return task.Result;
             //return task.ConfigureAwait(false).;
+
             CreateWorksheetPathIfNotExists();
             _file = new FileInfo(_worksheetPath + name);
             if (delete && _file.Exists)
