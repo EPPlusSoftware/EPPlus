@@ -117,6 +117,20 @@ namespace EPPlusTest.Drawing
                 Assert.AreEqual("SecondLine", shape.RichText[1].Text);
                 Assert.AreEqual("    ", shape.RichText[2].Text);
             }
+            [TestMethod]
+            public void ReadParagraphs()
+            {
+                using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
+                {
+                    var ws1 = p.Workbook.Worksheets[0];
+                    var pg = ws1.Drawings[1].As.Chart.LineChart.Title.TextBody.Paragraphs;
+                    Assert.IsNull(pg[0].DefaultTabSize);
+                    Assert.AreEqual(18, pg[0].DefaultRunProperties.Size);
+                    Assert.AreEqual(OfficeOpenXml.Style.eDrawingTextLineSpacing.Single, pg[0].LineSpacing.LineSpacingType);
+                    Assert.AreEqual(100D, pg[0].LineSpacing.Value);
+                }
+            }
+
         }
     }
 }

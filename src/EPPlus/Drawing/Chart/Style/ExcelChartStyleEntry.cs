@@ -211,7 +211,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             {
                 if (_defaultTextBody == null)
                 {
-                    _defaultTextBody = new ExcelTextBody(NameSpaceManager, TopNode, _defaultTextBodyPath);
+                    _defaultTextBody = new ExcelTextBody(_pictureRelationDocument, NameSpaceManager, TopNode, _defaultTextBodyPath);
                 }
                 return _defaultTextBody;
 

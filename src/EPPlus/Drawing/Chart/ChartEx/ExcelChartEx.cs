@@ -359,7 +359,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace", NameSpaceManager), "cx:txPr/a:bodyPr", _chartXmlHelper.SchemaNodeOrder);
+                    _textBody = new ExcelTextBody(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace", NameSpaceManager), "cx:txPr/a:bodyPr", _chartXmlHelper.SchemaNodeOrder);
                 }
                 return _textBody;
             }

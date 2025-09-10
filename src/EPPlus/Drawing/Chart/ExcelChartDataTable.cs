@@ -164,7 +164,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, "c:txPr/a:bodyPr", SchemaNodeOrder);
+                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, "c:txPr/a:bodyPr", SchemaNodeOrder);
                 }
                 return _textBody;
             }

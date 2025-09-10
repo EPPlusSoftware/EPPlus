@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
@@ -25,9 +26,11 @@ namespace OfficeOpenXml.Drawing
     {
         private readonly string _path;
         private readonly Action _initXml;
-        internal ExcelTextBody(XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder=null, Action initXml=null) :
+        private readonly IPictureRelationDocument _pictureRelationDocument;
+        internal ExcelTextBody(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder=null, Action initXml=null) :
             base(ns, topNode)   
         {
+            _pictureRelationDocument = pictureRelationDocument;
             _path = path;
 
             _initXml = initXml;
@@ -437,8 +440,8 @@ namespace OfficeOpenXml.Drawing
             {
                 if(_paragraphs==null)
                 {
-                    var textBodyPath = _path.Substring(0, _path.LastIndexOf('/') - 1);
-                    _paragraphs = new ExcelDrawingParagraphCollection(NameSpaceManager, TopNode, textBodyPath, SchemaNodeOrder, _initXml);
+                    var textBodyPath = _path.Substring(0, _path.LastIndexOf('/'));
+                    _paragraphs = new ExcelDrawingParagraphCollection(_pictureRelationDocument, NameSpaceManager, TopNode, textBodyPath, SchemaNodeOrder, _initXml);
                 }
                 return _paragraphs;
             }

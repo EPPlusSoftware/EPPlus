@@ -1090,7 +1090,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace", NameSpaceManager), "c:txPr/a:bodyPr", _chartXmlHelper.SchemaNodeOrder);
+                    _textBody = new ExcelTextBody(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace", NameSpaceManager), "c:txPr/a:bodyPr", _chartXmlHelper.SchemaNodeOrder);
                 }
                 return _textBody;
             }

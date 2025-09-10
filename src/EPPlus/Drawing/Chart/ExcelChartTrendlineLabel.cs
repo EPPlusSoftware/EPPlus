@@ -14,6 +14,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Style;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
@@ -86,7 +87,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, "c:trendlineLbl/c:txPr/a:bodyPr", SchemaNodeOrder);
+                    _textBody = new ExcelTextBody(_serie._chart, NameSpaceManager, TopNode, "c:trendlineLbl/c:txPr/a:bodyPr", SchemaNodeOrder);
                 }
                 return _textBody;
             }

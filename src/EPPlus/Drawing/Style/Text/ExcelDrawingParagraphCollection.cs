@@ -10,9 +10,12 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -20,15 +23,28 @@ namespace OfficeOpenXml.Drawing
     public class ExcelDrawingParagraphCollection : XmlHelper, IEnumerable<ExcelDrawingParagraph>
     {
         List<ExcelDrawingParagraph> _paragraphs = new List<ExcelDrawingParagraph>();
-        internal ExcelDrawingParagraphCollection(XmlNamespaceManager nameSpaceManager, XmlNode topNode, string textBodyPath, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
+        internal ExcelDrawingParagraphCollection(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string textBodyPath, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
         {
-            var pNodes = topNode.SelectNodes(textBodyPath + "a:p", nameSpaceManager);
+            var pNodes = topNode.SelectNodes(textBodyPath + "/a:p", nameSpaceManager);
 
-            foreach(var pn in pNodes)
+            foreach(XmlElement pn in pNodes)
             {
-                _paragraphs.Add(new ExcelDrawingParagraph(nameSpaceManager, pn, schemaNodeOrder,  initXml));
+                _paragraphs.Add(new ExcelDrawingParagraph(pictureRelationDocument, nameSpaceManager, pn, schemaNodeOrder,  initXml));
             }
         }
+        public int Count { get => _paragraphs.Count; }
+        public ExcelDrawingParagraph this[int PositionID]
+        {
+            get
+            {
+                return _paragraphs[PositionID];
+            }
+        }
+
+        /// <summary>
+        /// Gets the enumerator.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<ExcelDrawingParagraph> GetEnumerator()
         {
             return _paragraphs.GetEnumerator();
