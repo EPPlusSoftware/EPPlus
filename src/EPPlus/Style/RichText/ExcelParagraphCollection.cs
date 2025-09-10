@@ -57,6 +57,7 @@ namespace OfficeOpenXml.Style
                     }
                 }
             }
+            var paths = path.Split('/');
         }
         /// <summary>
         /// The indexer for this collection
@@ -327,5 +328,12 @@ namespace OfficeOpenXml.Style
             }
             return ret;
         }
+        public ExcelTextBody TextBody 
+        {
+            get
+            {
+                return null;
+            }            
+        } 
     }
 }

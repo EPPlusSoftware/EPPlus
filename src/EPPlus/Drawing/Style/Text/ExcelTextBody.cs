@@ -10,10 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Xml;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
+using System;
+using System.IO;
+using System.Xml;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -28,7 +29,8 @@ namespace OfficeOpenXml.Drawing
             base(ns, topNode)   
         {
             _path = path;
-			_initXml = initXml;
+
+            _initXml = initXml;
 			AddSchemaNodeOrder(schemaNodeOrder, new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" });
         }
         /// <summary>
@@ -428,7 +430,18 @@ namespace OfficeOpenXml.Drawing
             TopInsert = TopInsert ?? DefaultTopBot;
             BottomInsert = BottomInsert ?? DefaultTopBot;
         }
-
-
+        ExcelDrawingParagraphCollection _paragraphs = null;
+        public ExcelDrawingParagraphCollection Paragraphs 
+        {
+            get
+            {
+                if(_paragraphs==null)
+                {
+                    var textBodyPath = _path.Substring(0, _path.LastIndexOf('/') - 1);
+                    _paragraphs = new ExcelDrawingParagraphCollection(NameSpaceManager, TopNode, textBodyPath, SchemaNodeOrder, _initXml);
+                }
+                return _paragraphs;
+            }
+        }
     }
 }
