@@ -16,25 +16,27 @@ namespace OfficeOpenXml.Style
     {
         Action _initXml;
         string _path, _subPath;
-        internal ExcelLineSpacing(XmlNamespaceManager nsm, XmlNode topNode,string path, string[] schemaNodeOrder, Action initXml, eDrawingTextLineSpacing defLst) : base(nsm, topNode)
+        eDrawingTextLineSpacing _defTls;
+        internal ExcelLineSpacing(XmlNamespaceManager nsm, XmlNode topNode,string path, string[] schemaNodeOrder, Action initXml, eDrawingTextLineSpacing defTls) : base(nsm, topNode)
         {
             _path = path;
             _initXml = initXml;
             SchemaNodeOrder = schemaNodeOrder;
             var node = GetNode(path);
-            if(node==null || node.HasChildNodes==false)
+            _defTls = defTls;
+            if (node==null || node.HasChildNodes==false)
             {
-                LineSpacingType = defLst;
+                return;
             }
             else if (node.ChildNodes[0].LocalName== "spcPts")
             {
                 _subPath = "a:spcPts";
-                _lineSpacingType = eDrawingTextLineSpacing.Multiple;
+                LineSpacingType = eDrawingTextLineSpacing.Multiple;
             }
             else
             {
                 _subPath = "a:spcPct";
-                _lineSpacingType = eDrawingTextLineSpacing.Exactly;
+                LineSpacingType = eDrawingTextLineSpacing.Exactly;
             }
         }
 
@@ -47,18 +49,33 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-;               var v = GetXmlNodeDoubleNull($"{_path}{_subPath}/@val") ?? 100;
-                if (_lineSpacingType == eDrawingTextLineSpacing.Exactly)
+;               var v = GetXmlNodeDoubleNull($"{_path}{_subPath}/@val");
+                if (v.HasValue)
                 {
-                    return v / 100;
+                    if (_lineSpacingType == eDrawingTextLineSpacing.Exactly)
+                    {
+                        return v.Value / 100;
+                    }
+                    else
+                    {
+                        return v.Value / 1000;
+                    }
                 }
                 else
                 {
-                    return v / 1000;
+                    if(_defTls==eDrawingTextLineSpacing.Single)
+                    {
+                        return 100;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
             }
-                set
+            set
             {
+                _initXml.Invoke();
                 SetXmlNodeInt($"{_path}{_subPath}/@val", GetXmlValue(value));               
             }
         }
@@ -75,7 +92,7 @@ namespace OfficeOpenXml.Style
             }
         }
 
-        eDrawingTextLineSpacing _lineSpacingType;
+        eDrawingTextLineSpacing? _lineSpacingType;
         /// <summary>
         /// If setting Exactly or Multiple it is recommended to use
         /// SetExactly or SetMultiple functions.
@@ -85,7 +102,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return _lineSpacingType;
+                return _lineSpacingType ?? _defTls;
             }
             set
             {

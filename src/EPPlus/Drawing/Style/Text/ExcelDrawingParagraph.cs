@@ -14,6 +14,8 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net.NetworkInformation;
 using System.Xml;
 
@@ -45,7 +47,6 @@ namespace OfficeOpenXml.Drawing
         { 
             get;  
         }
-        const string AligPath = "a:pPr/@align";
         /// <summary>
         /// Horizontal Alignment
         /// </summary>
@@ -53,12 +54,31 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString(AligPath).ToEnum<eTextAlignment>(eTextAlignment.Left);
+                return GetXmlNodeString("a:pPr/@algn").ToEnum(eTextAlignment.Left, new Dictionary<string, eTextAlignment>
+                {
+                    ["r"] = eTextAlignment.Right,
+                    ["ctr"] = eTextAlignment.Center,
+                    ["dist"] = eTextAlignment.Distributed,
+                    ["just"] = eTextAlignment.Justified,
+                    ["justLow"] = eTextAlignment.JustifiedLow,
+                    ["thaiDist"] = eTextAlignment.ThaiDistributed,
+                    ["l"] = eTextAlignment.Left,
+                }
+                );
             }
             set
             {
-                _initXml?.Invoke();
-                SetXmlNodeString(AligPath, value.ToEnumString());
+                _initXml.Invoke();
+                SetXmlNodeString("a:pPr/@algn", value.ToEnumString(new Dictionary<Enum, string>
+                {
+                    [eTextAlignment.Right] = "r",
+                    [eTextAlignment.Center] = "ctr",
+                    [eTextAlignment.Distributed] = "dist",
+                    [eTextAlignment.Justified] = "just",
+                    [eTextAlignment.JustifiedLow] = "justLow",
+                    [eTextAlignment.ThaiDistributed] = "thaiDist",
+                    [eTextAlignment.Left] = "l",
+                }));
             }
         }    
         /// <summary>
@@ -68,12 +88,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeEmuToPixelNull("@defTabSz");
+                return GetXmlNodeEmuToPixelNull("a:pPr/@defTabSz");
             }
             set
             {
                 _initXml?.Invoke();
-                SetXmlNodeEmuToPixel("@defTabSz", value);
+                SetXmlNodeEmuToPixel("a:pPr/@defTabSz", value);
             }
         }
         /// <summary>
@@ -83,12 +103,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeEmuToPixel("@marL", 347663 / ExcelDrawing.EMU_PER_PIXEL);
+                return GetXmlNodeEmuToPixel("a:pPr/@marL", 347663 / ExcelDrawing.EMU_PER_PIXEL);
             }
             set
             {
                 _initXml?.Invoke();
-                SetXmlNodeEmuToPixel("@marL", value);
+                SetXmlNodeEmuToPixel("a:pPr/@marL", value);
             }
         }
         /// <summary>
@@ -98,12 +118,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeEmuToPixel("@marR");
+                return GetXmlNodeEmuToPixel("a:pPr/@marR");
             }
             set
             {
                 _initXml?.Invoke();
-                SetXmlNodeEmuToPixel("@marR", value);
+                SetXmlNodeEmuToPixel("a:pPr/@marR", value);
             }
         }
         /// <summary>
@@ -113,12 +133,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeEmuToPixelNull("@indent");
+                return GetXmlNodeEmuToPixelNull("a:pPr/@indent");
             }
             set
             {
                 _initXml?.Invoke();
-                SetXmlNodeEmuToPixel("@indent", value);
+                SetXmlNodeEmuToPixel("a:pPr/@indent", value);
             }
         }
         /// <summary>
@@ -128,12 +148,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeBool("@rtl");
+                return GetXmlNodeBool("a:pPr/@rtl");
             }
             set
             {
                 _initXml?.Invoke();
-                SetXmlNodeBool("@rtl", value, false);
+                SetXmlNodeBool("a:pPr/@rtl", value, false);
             }
         }
         /// <summary>
@@ -143,7 +163,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeInt("@lvl");
+                return GetXmlNodeInt("a:pPr/@lvl", 0);
             }
             set
             {
@@ -152,7 +172,7 @@ namespace OfficeOpenXml.Drawing
                     throw new ArgumentOutOfRangeException("Level must be between -2 and 8");
                 }
                 _initXml?.Invoke();
-                SetXmlNodeInt("@lvl", value);
+                SetXmlNodeInt("a:pPr/@lvl", value);
             }
         }
         /// <summary>
@@ -162,12 +182,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeBool("@latinLnBrk");
+                return GetXmlNodeBool("a:pPr/@latinLnBrk");
             }
             set
             {
                 _initXml?.Invoke();
-                SetXmlNodeBool("@latinLnBrk", value, false);
+                SetXmlNodeBool("a:pPr/@latinLnBrk", value, false);
             }
         }
         /// <summary>
@@ -177,12 +197,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeBool("@eaLnBrk");
+                return GetXmlNodeBool("a:pPr/@eaLnBrk");
             }
             set
             {
                 _initXml?.Invoke();
-                SetXmlNodeBool("@eaLnBrk", value, false);
+                SetXmlNodeBool("a:pPr/@eaLnBrk", value, false);
             }
         }
         /// <summary>
@@ -192,12 +212,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeBool("@hangingPunct");
+                return GetXmlNodeBool("a:pPr/@hangingPunct");
             }
             set
             {
                 _initXml?.Invoke();
-                SetXmlNodeBool("@hangingPunct", value, false);
+                SetXmlNodeBool("a:pPr/@hangingPunct", value, false);
             }
         }
         ExcelLineSpacing _spaceBefore = null;
@@ -207,7 +227,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_spaceBefore == null)
                 {
-                    _spaceBefore = new ExcelLineSpacing(NameSpaceManager, TopNode, "a:spcBef", SchemaNodeOrder, _initXml, eDrawingTextLineSpacing.Exactly);
+                    _spaceBefore = new ExcelLineSpacing(NameSpaceManager, TopNode, "a:pPr/a:spcBef", SchemaNodeOrder, _initXml, eDrawingTextLineSpacing.Exactly);
                 }
                 return _spaceBefore;
             }
@@ -219,7 +239,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_spaceAfter == null)
                 {
-                    _spaceAfter = new ExcelLineSpacing(NameSpaceManager, TopNode, "a:spcAft", SchemaNodeOrder, _initXml, eDrawingTextLineSpacing.Exactly);
+                    _spaceAfter = new ExcelLineSpacing(NameSpaceManager, TopNode, "a:pPr/a:spcAft", SchemaNodeOrder, _initXml, eDrawingTextLineSpacing.Exactly);
                 }
                 return _spaceAfter;
             }
@@ -231,7 +251,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_lineSpacing == null)
                 {
-                    _lineSpacing = new ExcelLineSpacing(NameSpaceManager, TopNode, "a:lnSpc", SchemaNodeOrder, _initXml, eDrawingTextLineSpacing.Single);
+                    _lineSpacing = new ExcelLineSpacing(NameSpaceManager, TopNode, "a:pPr/a:lnSpc", SchemaNodeOrder, _initXml, eDrawingTextLineSpacing.Single);
                 }
                 return _lineSpacing;
             }
@@ -239,46 +259,32 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Vertical alignment for characters in the paragraph.
         /// </summary>
-        public eTextFontAlingmentType FontAlignment 
-        { 
+        public eTextFontAlingmentType FontAlignment
+        {
             get
             {
-                switch(GetXmlNodeString("@fontAlgn"))
+                return GetXmlNodeString("a:pPr/@fontAlgn").ToEnum(eTextFontAlingmentType.Automatic, 
+                    new Dictionary<string, eTextFontAlingmentType>
                 {
-                    case "t":
-                        return eTextFontAlingmentType.Top;
-                    case "b":
-                        return eTextFontAlingmentType.Bottom;
-                    case "base":
-                        return eTextFontAlingmentType.Baseline;
-                    case "ctr":
-                        return eTextFontAlingmentType.Center;
-                    default:
-                        return eTextFontAlingmentType.Automatic;
-                }
+                    ["t"] = eTextFontAlingmentType.Top,
+                    ["b"] = eTextFontAlingmentType.Bottom,
+                    ["base"] = eTextFontAlingmentType.Baseline,
+                    ["ctr"] = eTextFontAlingmentType.Center,
+                    ["auto"] = eTextFontAlingmentType.Automatic
+                });                
             }
             set
             {
-                string v;
-                switch (value)
-                {
-                    case eTextFontAlingmentType.Top:
-                        v = "t";
-                        break;
-                    case eTextFontAlingmentType.Bottom:
-                        v = "b";
-                        break;
-                    case eTextFontAlingmentType.Baseline:
-                        v = "base";
-                        break;
-                    case eTextFontAlingmentType.Center:
-                        v = "ctr";
-                        break;
-                    default:
-                        v = "auto";
-                        break;
-                }
-                SetXmlNodeString("@fontAlgn", v);
+                string v = value.ToEnumString(new Dictionary<Enum, string> 
+                {                    
+                    [eTextFontAlingmentType.Top] = "t",
+                    [eTextFontAlingmentType.Bottom] = "b",
+                    [eTextFontAlingmentType.Baseline] = "base",
+                    [eTextFontAlingmentType.Center] = "ctr",
+                    [eTextFontAlingmentType.Automatic] = "auto",
+                });
+
+                SetXmlNodeString("a:pPr/@fontAlgn", v);
             }
         }
     }

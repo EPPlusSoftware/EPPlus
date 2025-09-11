@@ -30,20 +30,39 @@ namespace OfficeOpenXml.Style
             base(pictureRelationDocument, ns, rootNode, path + "a:rPr", schemaNodeOrder)
         {
         }
-        const string AligPath = "../../a:pPr/@align";
+        const string AligPath = "../../a:pPr/@algn";
         /// <summary>
         /// Text
         /// </summary>
         public eTextAlignment HorizontalAlignment
         {
             get
-            {
-                return GetXmlNodeString(AligPath).ToEnum<eTextAlignment>(eTextAlignment.Left);
+            {                
+                return GetXmlNodeString(AligPath).ToEnum(eTextAlignment.Left, new Dictionary<string, eTextAlignment>
+                {
+                    ["r"] = eTextAlignment.Right,
+                    ["ctr"] = eTextAlignment.Center,
+                    ["dist"] = eTextAlignment.Distributed,
+                    ["just"] = eTextAlignment.Justified,
+                    ["justLow"] = eTextAlignment.JustifiedLow,
+                    ["thaiDist"] = eTextAlignment.ThaiDistributed,
+                    ["l"] = eTextAlignment.Left,
+                }
+                );
             }
             set
             {
                 CreateTopNode();
-                SetXmlNodeString(AligPath, value.ToEnumString());
+                SetXmlNodeString(AligPath, value.ToEnumString(new Dictionary<Enum, string>
+                {
+                    [eTextAlignment.Right] = "r",
+                    [eTextAlignment.Center] = "ctr",
+                    [eTextAlignment.Distributed] = "dist",
+                    [eTextAlignment.Justified] = "just",
+                    [eTextAlignment.JustifiedLow] = "justLow",
+                    [eTextAlignment.ThaiDistributed] = "thaiDist",
+                    [eTextAlignment.Left] = "l",
+                }));
             }
         }
         const string IndentLevelPath = "../../a:pPr/@lvl";

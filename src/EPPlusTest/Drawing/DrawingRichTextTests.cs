@@ -125,9 +125,12 @@ namespace EPPlusTest.Drawing
                     var ws1 = p.Workbook.Worksheets[0];
                     var pg = ws1.Drawings[1].As.Chart.LineChart.Title.TextBody.Paragraphs;
                     Assert.IsNull(pg[0].DefaultTabSize);
+                    Assert.AreEqual(eTextAlignment.Right, pg[0].HorizontalAlignment);
                     Assert.AreEqual(18, pg[0].DefaultRunProperties.Size);
                     Assert.AreEqual(OfficeOpenXml.Style.eDrawingTextLineSpacing.Single, pg[0].LineSpacing.LineSpacingType);
                     Assert.AreEqual(100D, pg[0].LineSpacing.Value);
+                    Assert.AreEqual(0D, pg[0].SpaceAfter.Value);
+                    Assert.AreEqual(0D, pg[0].SpaceBefore.Value);
                 }
             }
 
