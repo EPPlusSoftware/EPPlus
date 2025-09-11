@@ -63,11 +63,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             var lambdaTokens = SourceCodeTokenizer.Default.Tokenize(formula);
             var rpnTokens = FormulaExecutor.CreateRPNTokens(lambdaTokens);
 
-            //var calculator = new LambdaCalculator(rpnTokens.Tokens, _scope, _rpnFormula);
-            //var cc = Context.CurrentCell;
-            //var rangeAddress = new FormulaRangeAddress(Context, Context.CurrentWorksheet.Index, cc.Row, cc.Column, cc.Row, cc.Column);
-            //var arg = new VariableCompileResult(paramName, null, DataType.LambdaVariableDeclaration, rangeAddress);
-            //calculator.SetVariables(new List<VariableCompileResult> { arg }, Context);
             var rpnFormula = new RpnFormula(Context.CurrentWorksheet, Context.CurrentCell.Row, Context.CurrentCell.Column, Context.VariableStorage)
             {
                 _tokens = rpnTokens,
@@ -76,6 +71,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             };
             rpnFormula.SetTokens(rpnTokens, Context, _scope);
             var result = RpnFormulaExecution.ExecutePartialFormula(Context.DependencyChain, rpnFormula, Context.CalcOption, false);
+            if(result.DataType != DataType.LambdaCalculation)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
+            if (result.ResultValue is LambdaCalculator calculator)
+            {
+                calculator.SetEtaReducedLambdaFunction(functionName, Context);
+            }
             return result;
         }
 

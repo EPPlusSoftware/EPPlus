@@ -78,5 +78,62 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 
             Assert.AreEqual(336336d, sheet.Cells["D5"].Value);
         }
+
+        [TestMethod]
+        public void Reduce_Xleta_Attribute_Sum()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+            // Mata in några värden i en kolumn
+            sheet.Cells["A1"].Value = 5;
+            sheet.Cells["A2"].Value = 10;
+            sheet.Cells["A3"].Value = 15;
+
+            // Använd REDUCE med eta-reducerad SUM
+            sheet.Cells["C1"].Formula = "REDUCE(0, A1:A3, _xleta.SUM)";
+            sheet.Calculate();
+
+            // Förväntat resultat: 5 + 10 + 15 = 30
+            Assert.AreEqual(30d, sheet.Cells["C1"].Value);
+        }
+
+
+        [TestMethod]
+        public void Reduce_Xleta_Attribute_Average()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+            // Mata in några värden i en kolumn
+            sheet.Cells["A1"].Value = 5;
+            sheet.Cells["A2"].Value = 10;
+            sheet.Cells["A3"].Value = 15;
+
+            // Använd REDUCE med eta-reducerad SUM
+            sheet.Cells["C1"].Formula = "REDUCE(0, A1:A3, _xleta.AVERAGE)";
+            sheet.Calculate();
+
+            // Förväntat resultat: 5 + 10 + 15 = 30
+            Assert.AreEqual(10.625d, sheet.Cells["C1"].Value);
+        }
+
+        [TestMethod]
+        public void Reduce_Xleta_Attribute_Count_WithEmptyCells()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = 5;
+            sheet.Cells["A2"].Value = "";
+            sheet.Cells["A3"].Value = 10;
+
+            sheet.Cells["B1"].Formula = "REDUCE(1, A1:A3, _xleta.COUNT)";
+            sheet.Calculate();
+
+            // Expected: COUNT({1, 5}) = 2 → acc = 2
+            // COUNT({2, ""}) = 1 → acc = 1
+            // COUNT({1, 10}) = 2 → acc = 2
+            Assert.AreEqual(2d, sheet.Cells["B1"].Value);
+        }
     }
 }

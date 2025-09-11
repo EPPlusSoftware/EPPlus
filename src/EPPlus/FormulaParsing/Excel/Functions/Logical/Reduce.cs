@@ -57,25 +57,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             if (arguments[1].DataType == DataType.ExcelRange)
             {
                 var range = ArgToRangeInfo(arguments, 1);
-                
-                for (var row = 0; row < range.Size.NumberOfRows; row++)
+                if(calculator.IsEtaReducedLambdaFunction)
                 {
-                    for (var col = 0; col < range.Size.NumberOfCols; col++)
-                    {
-                        var rangeValue = range.GetOffset(row, col);
-                        var cr = CompileResultFactory.Create(rangeValue);
-                        calculator.BeginCalculation();
-                        if (ivDataType == DataType.Unknown) ivDataType = cr.DataType;
-                        if (ivDataType != DataType.String && accumulatedValue == null)
-                        {
-                            accumulatedValue = 0;
-                        }
-                        calculator.SetVariableValue(0, accumulatedValue, ivDataType, context);
-                        calculator.SetVariableValue(1, rangeValue, cr.DataType, context);
-                        var compileResult = calculator.Execute(context);
-                        accumulatedValue = compileResult.Result;
-                    }
+                    HandleEtaReducedLambda(context, calculator, ref ivDataType, ref accumulatedValue, range);
                 }
+                else
+                {
+                    HandleNormalLambda(context, ref ivDataType, calculator, ref accumulatedValue, range);
+                }
+               
             }
             else
             {
@@ -89,6 +79,45 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 
             var accResult = CompileResultFactory.Create(accumulatedValue);
             return CreateDynamicArrayResult(accumulatedValue, accResult.DataType, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
+        }
+
+        private static void HandleEtaReducedLambda(ParsingContext context, LambdaCalculator calculator, ref DataType ivDataType, ref object accumulatedValue, IRangeInfo range)
+        {
+            var function = calculator.EtaFunction;
+            for (var row = 0; row < range.Size.NumberOfRows; row++)
+            {
+                for (var col = 0; col < range.Size.NumberOfCols; col++)
+                {
+                    var rangeValue = range.GetOffset(row, col);
+                    var arg0 = new FunctionArgument(CompileResultFactory.Create(accumulatedValue));
+                    var arg1 = new FunctionArgument(CompileResultFactory.Create(rangeValue));
+                    var cr = function.Execute(new List<FunctionArgument> { arg0, arg1 }, context);
+                    accumulatedValue = cr.Result;
+                    if (ivDataType == DataType.Unknown) ivDataType = cr.DataType;
+                }
+            }
+        }
+
+        private static void HandleNormalLambda(ParsingContext context, ref DataType ivDataType, LambdaCalculator calculator, ref object accumulatedValue, IRangeInfo range)
+        {
+            for (var row = 0; row < range.Size.NumberOfRows; row++)
+            {
+                for (var col = 0; col < range.Size.NumberOfCols; col++)
+                {
+                    var rangeValue = range.GetOffset(row, col);
+                    var cr = CompileResultFactory.Create(rangeValue);
+                    calculator.BeginCalculation();
+                    if (ivDataType == DataType.Unknown) ivDataType = cr.DataType;
+                    if (ivDataType != DataType.String && accumulatedValue == null)
+                    {
+                        accumulatedValue = 0;
+                    }
+                    calculator.SetVariableValue(0, accumulatedValue, ivDataType, context);
+                    calculator.SetVariableValue(1, rangeValue, cr.DataType, context);
+                    var compileResult = calculator.Execute(context);
+                    accumulatedValue = compileResult.Result;
+                }
+            }
         }
     }
 }

@@ -128,5 +128,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             var str = sheet.Cells["D5"].Value.ToString();
             Assert.AreEqual("#CALC!", str);
         }
+
+        [TestMethod]
+        public void Scan_Xleta_Attribute_Sum()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+            sheet.Cells["A1"].Value = 5;
+            sheet.Cells["A2"].Value = 10;
+            sheet.Cells["A3"].Value = 15;
+
+            sheet.Cells["C1"].Formula = "SCAN(0, A1:A3, _xleta.SUM)";
+            sheet.Calculate();
+
+            Assert.AreEqual(5d, sheet.Cells["C1"].Value);     // första värdet
+            Assert.AreEqual(15d, sheet.Cells["C2"].Value);    // andra värdet
+            Assert.AreEqual(30d, sheet.Cells["C3"].Value);    // tredje värdet
+        }
     }
 }

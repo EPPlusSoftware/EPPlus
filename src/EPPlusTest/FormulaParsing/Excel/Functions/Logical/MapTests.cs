@@ -127,6 +127,76 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
         }
 
 
-        //[TestMethod]
+        [TestMethod]
+        public void Map_Xleta_Attribute_Abs()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+            sheet.Cells["A1"].Value = -1;
+            sheet.Cells["A2"].Value = 0;
+            sheet.Cells["A3"].Value = 5;
+
+            sheet.Cells["B1"].Formula = "MAP(A1:A3, _xleta.ABS)";
+            sheet.Calculate();
+
+            Assert.AreEqual(1d, sheet.Cells["B1"].Value);   // ABS(-1)
+            Assert.AreEqual(0d, sheet.Cells["B2"].Value);   // ABS(0)
+            Assert.AreEqual(5d, sheet.Cells["B3"].Value);   // ABS(5)
+        }
+
+        [TestMethod]
+        public void Map_Xleta_Attribute_Upper()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+            sheet.Cells["A1"].Value = "apple";
+            sheet.Cells["A2"].Value = "banana";
+            sheet.Cells["A3"].Value = "cherry";
+
+            sheet.Cells["B1"].Formula = "MAP(A1:A3, _xleta.UPPER)";
+            sheet.Calculate();
+
+            Assert.AreEqual("APPLE", sheet.Cells["B1"].Value);
+            Assert.AreEqual("BANANA", sheet.Cells["B2"].Value);
+            Assert.AreEqual("CHERRY", sheet.Cells["B3"].Value);
+        }
+
+        [TestMethod]
+        public void Map_Xleta_Attribute_Len()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+            sheet.Cells["A1"].Value = "dog";
+            sheet.Cells["A2"].Value = "elephant";
+            sheet.Cells["A3"].Value = "cat";
+
+            sheet.Cells["B1"].Formula = "MAP(A1:A3, _xleta.LEN)";
+            sheet.Calculate();
+
+            Assert.AreEqual(3d, sheet.Cells["B1"].Value);   // "dog"
+            Assert.AreEqual(8d, sheet.Cells["B2"].Value);   // "elephant"
+            Assert.AreEqual(3d, sheet.Cells["B3"].Value);   // "cat"
+        }
+
+        [TestMethod]
+        public void Map_Xleta_Attribute_IsNumber()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+            sheet.Cells["A1"].Value = 42;
+            sheet.Cells["A2"].Value = "hello";
+            sheet.Cells["A3"].Value = "";
+
+            sheet.Cells["B1"].Formula = "MAP(A1:A3, _xleta.ISNUMBER)";
+            sheet.Calculate();
+
+            Assert.AreEqual(true, sheet.Cells["B1"].Value);   // 42 → TRUE
+            Assert.AreEqual(false, sheet.Cells["B2"].Value);  // "hello" → FALSE
+            Assert.AreEqual(false, sheet.Cells["B3"].Value);  // "" → FALSE
+        }
     }
 }

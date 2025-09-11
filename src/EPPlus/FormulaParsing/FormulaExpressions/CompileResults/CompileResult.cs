@@ -380,6 +380,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             get;
         } = false;
+
         /// <summary>
         /// Range address
         /// </summary>

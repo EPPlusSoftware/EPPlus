@@ -10,6 +10,7 @@
  *************************************************************************************************
   08/20/2025         EPPlus Software AB       Initial release EPPlus 8.2
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -75,6 +76,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         public bool IsCompileLambdaName
         {
             get; set;
+        }
+
+        public bool IsEtaReducedLambdaFunction => EtaFunction != null;
+
+
+        public ExcelFunction EtaFunction
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -208,6 +218,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 _currentTokens.Add(new Token(token.Value, token.TokenType));
             }
+        }
+
+        internal void SetEtaReducedLambdaFunction(string functionName, ParsingContext context)
+        {
+            EtaFunction = context.Configuration.FunctionRepository.GetFunction(functionName);
         }
     }
 }
