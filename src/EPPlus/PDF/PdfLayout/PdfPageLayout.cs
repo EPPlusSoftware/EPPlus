@@ -10,17 +10,13 @@ namespace OfficeOpenXml.PDF.PdfLayout
         internal List<GridLine> BorderLines = new List<GridLine>();
 
         public PdfPageLayout(double x, double y, double width, double height)
-            :base(x, y, width, height)
-        {
-
-        }
+            :base(x, y, width, height) { }
 
         internal void GenerateGridLines()
         {
             HashSet<double> xCoords = new HashSet<double>();
             HashSet<double> yCoords = new HashSet<double>();
-
-            // Collect all unique X and Y coordinates
+            // Collect all unique X and Y coordinates.
             var cells = ChildObjects.Where(x => x is PdfCellLayout).ToList();
             foreach (var c in cells)
             {

@@ -16,8 +16,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
     {
         public PdfCellFillData CellFillData;
 
-        public PdfCellLayout() { }
-
         public PdfCellLayout(ExcelRangeBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
             :base(x, y, width, height, scaleX, scaleY, rotation, parent )
         {
@@ -38,7 +36,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
             }
         }
 
-        public void Adjust()
+        //Adjust size and position slightly for aesthetics.
+        public void AdjustForGridLines()
         {
             Size = new Vector2(Size.X + GridLine.HalfWidth, Size.Y + GridLine.HalfWidth);
             LocalPosition = new Vector2(LocalPosition.X + GridLine.FourthWidth, LocalPosition.Y + GridLine.HalfWidth + GridLine.FourthWidth);

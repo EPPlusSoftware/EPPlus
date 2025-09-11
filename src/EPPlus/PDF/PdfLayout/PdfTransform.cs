@@ -13,6 +13,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public ExcelRangeBase cell;
 
         public Vector2 LocalPosition { get; set; } = Vector2.Zero;
+
         public Vector2 Position
         {
             get
@@ -27,15 +28,13 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 }
                 else
                 {
-                    //var parentMatrix = Parent.GetWorldMatrix();
-                    //var parentInverse = Matrix3x3.Invert(parentMatrix);
-                    //LocalPosition = parentInverse.TransformPoint(value);
                     LocalPosition = Parent.GetWorldMatrix().Inverse() * value;
                 }
             }
         }
 
         public Vector2 LocalScale { get; set; } = Vector2.One;
+
         public Vector2 Scale
         {
             get
@@ -53,15 +52,15 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 }
                 else
                 {
-
                     LocalScale = value / Parent.Scale;
-                    //LocalScale = new Vector2(value.X / Parent.Scale.X, value.Y / Parent.Scale.Y);
                 }
             }
         }
 
         public double LocalRotationRadians => LocalRotation * System.Math.PI / 180.0;
+
         private double localRotationDegrees = 0;
+
         public double LocalRotation
         {
             get
@@ -73,7 +72,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 localRotationDegrees = value;
             }
         }
+
         public double RotationRadians => Rotation * System.Math.PI / 180.0;
+
         public double Rotation
         {
             get
@@ -157,7 +158,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public PdfTransform(Vector2 position, Vector2 size, Vector2 scale, double rotation, PdfTransform parent)
         {
-
             Position = position;
             Size = size;
             Scale = scale;
@@ -178,7 +178,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfTransform AddChild(PdfTransform child)
         {
             Vector2 worldPos;
-
             if(child.Parent != null)
             {
                 worldPos = child.Position;
@@ -237,19 +236,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfRect GetGlobalBoundingbox()
         {
             var worldMatrix = GetWorldMatrix();
-            var corners = new[]
-            {
-                new Vector2(0, 0),
-                new Vector2(Size.X, 0),
-                new Vector2(0, Size.Y),
-                new Vector2(Size.X, Size.Y)
-            }.Select(p => worldMatrix * p);
-
+            var corners = new[] { new Vector2(0, 0), new Vector2(Size.X, 0), new Vector2(0, Size.Y), new Vector2(Size.X, Size.Y) }.Select(p => worldMatrix * p);
             var minX = corners.Min(p => p.X);
             var minY = corners.Min(p => p.Y);
             var maxX = corners.Max(p => p.X);
             var maxY = corners.Max(p => p.Y);
-
             var rect = new PdfRect();
             rect.X = minX;
             rect.Y = minY;
@@ -259,23 +250,22 @@ namespace OfficeOpenXml.PDF.PdfLayout
             rect.Left = rect.X;
             rect.Bottom = rect.Y + rect.Height;
             rect.Right = rect.X + rect.Width;
-
             return rect;
         }
 
         public static bool Intersects(PdfRect bbox, PdfRect pageBounds)
         {
-            return !(bbox.Right < pageBounds.Left  ||
-                     bbox.Left > pageBounds.Right  ||
-                     bbox.Bottom < pageBounds.Top  ||
-                     bbox.Top > pageBounds.Bottom);
+            return !(bbox.Right  < pageBounds.Left    ||
+                     bbox.Left   > pageBounds.Right   ||
+                     bbox.Bottom < pageBounds.Top     ||
+                     bbox.Top    > pageBounds.Bottom  );
         }
 
         public static bool IntersectsFully(PdfRect contentBounds, PdfRect cellBounds)
         {
-            return cellBounds.Left >= contentBounds.Left     &&
-                   cellBounds.Top >= contentBounds.Top       &&
-                   cellBounds.Right <= contentBounds.Right   &&
+            return cellBounds.Left   >= contentBounds.Left  &&
+                   cellBounds.Top    >= contentBounds.Top   &&
+                   cellBounds.Right  <= contentBounds.Right &&
                    cellBounds.Bottom <= contentBounds.Bottom;
         }
 

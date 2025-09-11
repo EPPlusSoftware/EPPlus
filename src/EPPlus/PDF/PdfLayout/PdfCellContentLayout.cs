@@ -11,12 +11,11 @@ using System.Security.Cryptography.Xml;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
-
     internal class PdfCellContentLayout : PdfTransform
     {
         public PdfCellFontData FontData;
         public PdfCellAlignmentData CellAlignmentData;
-        public readonly bool Clip;
+        public bool Clip;
         public PdfRect Clipping;
 
         private double bottomMargin = 3.4d; //Guessed number
@@ -35,6 +34,19 @@ namespace OfficeOpenXml.PDF.PdfLayout
             FontData.Underline = cell.Style.Font.UnderLine;
             FontData.UnderlineType = cell.Style.Font.UnderLineType;
             FontData.FontColor = new PdfColor(cell.Style.Font.Color.LookupColor());
+            FontData.SubFamily = "Regular";
+            if (FontData.Bold)
+            {
+                FontData.SubFamily = "Bold";
+                if (FontData.Italic)
+                {
+                    FontData.SubFamily += " Italic";
+                }
+            }
+            else if (FontData.Italic)
+            {
+                FontData.SubFamily = "Italic";
+            }
             FontData.Text = cell.Text;
             CellAlignmentData = new PdfCellAlignmentData();
             CellAlignmentData.HorizontalAlignment = cell.Style.HorizontalAlignment;
@@ -44,39 +56,17 @@ namespace OfficeOpenXml.PDF.PdfLayout
             CellAlignmentData.ShrinkToFit = cell.Style.ShrinkToFit; //Need to fix Transform issues and then implement a method that sets scale on the text object.
             CellAlignmentData.TextRotation = cell.Style.TextRotation; //EPPlus does probably not calculate cell width and height after setting rotation on text. So before we make pdf we need to calculate cell width and height based on text rotation
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
-
-            var ttfont = CacheFont(FontData, fontResources, pageSettings);
+            var ttfont = GetFontResourceData(fontResources, pageSettings);
             double textLength = PdfTextData.MeasureText(FontData.Text, FontData.FontSize, ttfont);
             double fontHeight = PdfTextData.MeasureFontHeight(ttfont, FontData.FontSize);
             LocalPosition = CalculatePosition(cell, x, y, width, height, textLength, fontHeight);
             Size = new Vector2((x + width) - LocalPosition.X, (y + height) - LocalPosition.Y);
-            if (textLength >= width)
-            {
-                if (CellAlignmentData.HorizontalAlignment == Style.ExcelHorizontalAlignment.Fill ||
-                   (CellAlignmentData.HorizontalAlignment == Style.ExcelHorizontalAlignment.Left && cell.Worksheet.Cells[cell._fromRow, cell._fromCol + 1].Value != null) ||
-                   (CellAlignmentData.HorizontalAlignment == Style.ExcelHorizontalAlignment.Right && cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1 <= 0 ? 1 : cell._fromCol-1 ].Value != null) )
-                {
-                    Clip = true;
-                }
-            }
+            CheckClipping(cell, textLength, width);
         }
 
-        private TtfFont CacheFont(PdfCellFontData fontData, Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings)
+        //Get font data from fontResources. If font does not exsist, add it to fontResources.
+        private TtfFont GetFontResourceData(Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings)
         {
-            string subfam = "Regular";
-            if (FontData.Bold)
-            {
-                subfam = "Bold";
-                if (FontData.Italic)
-                {
-                    subfam += " Italic";
-                }
-            }
-            else if (FontData.Italic)
-            {
-                subfam = "Italic";
-            }
-            fontData.SubFamily = subfam;
             if (!fontResources.ContainsKey(FontData.FontName))
             {
                 int label = 1;
@@ -84,13 +74,14 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 {
                     label = fontResources.Last().Value.labelNumber + 1;
                 }
-                PdfFontResource fr = new PdfFontResource(FontData.FontName, subfam, label, pageSettings);
+                PdfFontResource fr = new PdfFontResource(FontData.FontName, FontData.SubFamily, label, pageSettings);
                 fontResources.Add(FontData.FontName, fr);
-                fontResources.Last().Value.fontData = PdfTextData.GetFontData(pageSettings, FontData.FontName, subfam);
+                fontResources.Last().Value.fontData = PdfTextData.GetFontData(pageSettings, FontData.FontName, FontData.SubFamily);
             }
             return fontResources[FontData.FontName].fontData;
         }
 
+        //Calculate text position based on alignment and cell size.
         private Vector2 CalculatePosition(ExcelRangeBase cell, double cellX, double CellY, double cellWidth, double cellHeight, double textLength, double fontHeight)
         {
             double x = 0d;
@@ -133,25 +124,37 @@ namespace OfficeOpenXml.PDF.PdfLayout
             return new Vector2(x, y);
         }
 
-        internal void AdjustClipping(List<PdfTransform> cells)
+        //Check if clipping is needed.
+        private void CheckClipping(ExcelRangeBase cell, double textLength, double width)
+        {
+            if (textLength >= width)
+            {
+                if (CellAlignmentData.HorizontalAlignment == Style.ExcelHorizontalAlignment.Fill ||
+                   (CellAlignmentData.HorizontalAlignment == Style.ExcelHorizontalAlignment.Left  && cell.Worksheet.Cells[cell._fromRow, cell._fromCol + 1].Value != null) ||
+                   (CellAlignmentData.HorizontalAlignment == Style.ExcelHorizontalAlignment.Right && cell.Worksheet.Cells[cell._fromRow, ((cell._fromCol - 1 <= 0) ? (1) : (cell._fromCol - 1))].Value != null))
+                {
+                    Clip = true;
+                }
+            }
+        }
+
+        //Create clipping rectangle.
+        internal void CreatetClippingRect(List<PdfTransform> cells)
         {
             if (Clip)
             {
                 var pcc = cells.Where(x => x.Name == this.Name).Where(x=> x is PdfCellLayout).ToList();
                 if (pcc.Count > 0)
                 {
-                    Clipping = new PdfRect() { X = pcc[0].LocalPosition.X + rightMargin,
-                                               Y = (pcc[0].LocalPosition.Y - pcc[0].Size.Y),
-                                           Width = pcc[0].Size.X - (rightMargin*2),
-                                          Height = pcc[0].Size.Y };
+                    Clipping = new PdfRect()
+                    {
+                        X = pcc[0].LocalPosition.X + rightMargin,
+                        Y = (pcc[0].LocalPosition.Y - pcc[0].Size.Y),
+                        Width = pcc[0].Size.X - (rightMargin * 2),
+                        Height = pcc[0].Size.Y
+                    };
                 }
             }
         }
     }
 }
-
-/*
- * check if text needs to be cut
- * if needs to be cut we can do the follwing solutions
- *      check for next cells and set Z to higher value than text
- */
