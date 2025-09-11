@@ -646,6 +646,9 @@ namespace OfficeOpenXml
             int hiddenCols = 0;
             int hiddenRows = 0;
 
+            int? firstVisibleRow = null;
+            int? firstVisibleColumn = null;
+
             for (int i = 1; i < Column; i++)
             {
                 var col = _worksheet.Column(i);
@@ -653,15 +656,27 @@ namespace OfficeOpenXml
                 {
                     hiddenCols++;
                 }
+                else if(firstVisibleColumn == null)
+                {
+                    firstVisibleColumn = i;
+                }
             }
 
-            foreach (var row in _worksheet.Rows[0, Row])
+            for (int i = 1; i < Row; i++)
             {
-                if (row.Hidden == true)
+                if (_worksheet.Row(i).Hidden == true)
                 {
                     hiddenRows++;
                 }
+                else if(firstVisibleRow == null)
+                {
+                    firstVisibleRow = i;
+                }
             }
+
+            firstVisibleColumn = firstVisibleColumn ?? 1 + hiddenCols;
+            firstVisibleRow = firstVisibleRow ?? 1 + hiddenRows;
+
 
             var visibleRows = Row - hiddenRows;
             var visibleColumns = Column - hiddenCols;
@@ -689,11 +704,11 @@ namespace OfficeOpenXml
             //TopLeftCell must be topLeft Visible cell for the topnode
             if(TopLeftCell == "")
             {
-                TopLeftCell = ExcelCellBase.GetAddress(1 + hiddenRows, 1 + hiddenCols);
+                TopLeftCell = ExcelCellBase.GetAddress(firstVisibleRow.Value, firstVisibleColumn.Value);
             }
 
-            if (Column > 1) PaneSettings.XSplit = visibleColumns - 1;
-            if (Row > 1) PaneSettings.YSplit = visibleRows - 1;
+            if (Column > 1) PaneSettings.XSplit = Column - firstVisibleColumn.Value;
+            if (Row > 1) PaneSettings.YSplit = Row - firstVisibleRow.Value;
 
             PaneSettings.TopLeftCell = ExcelCellBase.GetAddress(Row, Column);
             PaneSettings.State = isSplit ? ePaneState.FrozenSplit : ePaneState.Frozen;
