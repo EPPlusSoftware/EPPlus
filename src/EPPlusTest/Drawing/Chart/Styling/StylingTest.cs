@@ -126,7 +126,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             Assert.AreEqual(25, chart.StyleManager.Style.AxisTitle.FontReference.Color.Transforms[1].Value);
             Assert.AreEqual(12, chart.StyleManager.Style.AxisTitle.DefaultTextRun.Kerning);
             Assert.AreEqual(true, chart.StyleManager.Style.AxisTitle.DefaultTextRun.Bold);
-            Assert.AreEqual(9, chart.StyleManager.Style.AxisTitle.DefaultTextRun.FontSize);
+            Assert.AreEqual(9, chart.StyleManager.Style.AxisTitle.DefaultTextRun.Size);
 
             //CategoryAxis
             Assert.AreEqual(eDrawingColorType.Scheme, chart.StyleManager.Style.CategoryAxis.FontReference.Color.ColorType);
@@ -137,7 +137,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             Assert.AreEqual(25, chart.StyleManager.Style.CategoryAxis.FontReference.Color.Transforms[1].Value);
             Assert.AreEqual(12, chart.StyleManager.Style.CategoryAxis.DefaultTextRun.Kerning);
             Assert.AreEqual(0, chart.StyleManager.Style.CategoryAxis.DefaultTextRun.Baseline);
-            Assert.AreEqual(9, chart.StyleManager.Style.CategoryAxis.DefaultTextRun.FontSize);
+            Assert.AreEqual(9, chart.StyleManager.Style.CategoryAxis.DefaultTextRun.Size);
             Assert.AreEqual(eTextCapsType.All, chart.StyleManager.Style.CategoryAxis.DefaultTextRun.Capitalization);
             Assert.AreEqual(ePenAlignment.Center, chart.StyleManager.Style.CategoryAxis.Border.Alignment);
             Assert.AreEqual(eCompundLineStyle.Single, chart.StyleManager.Style.CategoryAxis.Border.CompoundLineStyle);
