@@ -17,6 +17,7 @@ using System;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.Drawing.Chart.Style
 {
@@ -185,17 +186,20 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 return _threeD;
             }
         }
-        private ExcelTextRun _defaultTextRun = null;
+        private ExcelTextFont _defaultTextRun = null;
+
+        string[] SchemaNodeOrderTextRun = new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" };
+
         /// <summary>
         /// Reference to default text run settings for a chart part
         /// </summary>
-        public ExcelTextRun DefaultTextRun
+        public ExcelTextFont DefaultTextRun
         {
             get
             {
                 if (_defaultTextRun == null)
                 {
-                    _defaultTextRun = new ExcelTextRun(NameSpaceManager, TopNode, _defaultTextRunPath);
+                    _defaultTextRun = new ExcelTextFont(_pictureRelationDocument, NameSpaceManager, TopNode, _defaultTextRunPath, SchemaNodeOrderTextRun);
                 }
                 return _defaultTextRun;
                 

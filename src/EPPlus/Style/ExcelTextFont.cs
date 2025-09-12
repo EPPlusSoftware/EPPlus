@@ -10,12 +10,14 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Xml;
 using OfficeOpenXml.Drawing;
-using System.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.Style.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Utils.EnumUtils;
+using System;
+using System.Drawing;
+using System.Xml;
 
 namespace OfficeOpenXml.Style
 {
@@ -44,7 +46,97 @@ namespace OfficeOpenXml.Style
                 }
             }
             _path = path;
+
+            textRun = new RegularTextRun();
+            //Reads attribute values into textRun
+            ParseAttributesFromXML();
         }
+
+        RegularTextRun textRun;
+
+        #region LineProperties
+        //TODO: Line Properties
+        #endregion LineProperties
+
+        #region Basic Fill
+        ExcelDrawingFill _fill;
+        /// <summary>
+        /// A reference to the fill properties
+        /// </summary>
+        public ExcelDrawingFill Fill
+        {
+            get
+            {
+                if (_fill == null)
+                {
+                    _fill = new ExcelDrawingFill(_pictureRelationDocument, NameSpaceManager, _rootNode, _path, SchemaNodeOrder, CreateTopNode);
+                }
+                return _fill;
+            }
+        }
+
+        //Below is quick-access to the drawing fill
+        string _colorPath = "a:solidFill/a:srgbClr/@val";
+        /// <summary>
+        /// Sets the default color of the text.
+        /// This sets the Fill to a SolidFill with the specified color.
+        /// <remark>
+        /// Use the Fill property for more options
+        /// </remark>
+        /// </summary>
+        public Color Color
+        {
+            get
+            {
+                string col = GetXmlNodeString(_colorPath);
+                if (col == "")
+                {
+                    return Color.Empty;
+                }
+                else
+                {
+                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                }
+            }
+            set
+            {
+                Fill.Style = eFillStyle.SolidFill;
+                Fill.SolidFill.Color.SetRgbColor(value);
+            }
+        }
+        #endregion Basic fill
+
+        //UnderlineLine underlineFill etc.
+        #region Underline
+        string _underLineColorPath = "a:uFill/a:solidFill/a:srgbClr/@val";
+        /// <summary>
+        /// The fonts underline color
+        /// </summary>
+        public Color UnderLineColor
+        {
+            get
+            {
+                string col = GetXmlNodeString(_underLineColorPath);
+                if (col == "")
+                {
+                    return Color.Empty;
+                }
+                else
+                {
+                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                }
+            }
+            set
+            {
+                CreateTopNode();
+                SetXmlNodeString(_underLineColorPath, value.ToArgb().ToString("X").Substring(2, 6));
+            }
+        }
+
+        #endregion Underline
+
+        #region FontNodes
+
         string _fontLatinPath = "a:latin/@typeface";
         /// <summary>
         /// The latin typeface name
@@ -94,7 +186,51 @@ namespace OfficeOpenXml.Style
             }
         }
 
+        string _fontSymPath = "a:sym/@typeface";
         /// <summary>
+        /// The symbol font typeface name
+        /// </summary>
+        public string SymbolFont
+        {
+            get
+            {
+                return GetXmlNodeString(_fontSymPath);
+            }
+            set
+            {
+                CreateTopNode();
+                SetXmlNodeString(_fontSymPath, value);
+            }
+        }
+
+        #endregion FontNodes
+
+        #region HyperLink
+        #endregion Hyperlink
+
+        string rtlPath = "/a:rtl/@w:val";
+
+        /// <summary>
+        /// Right to left
+        /// If ommitted it returns false AKA (left-to-right)
+        /// </summary>
+        internal bool rtl
+        {
+            get
+            {
+                return GetBoolFromNullString(rtlPath);
+            }
+            set
+            {
+                SetBoolNode(rtlPath, value);
+            }
+        }
+
+        #region ExtLst-OfficeArtExtensionList
+        #endregion ExtLst-OfficeArtExtensionList
+
+
+        /// <summary> 
         /// Creates the top nodes of the collection
         /// </summary>
         protected internal void CreateTopNode()
@@ -116,7 +252,23 @@ namespace OfficeOpenXml.Style
                 CreateNode("../../../a:lstStyle");
             }
         }
+
         string _boldPath = "@b";
+
+        internal void ParseAttributesFromXML()
+        {
+            textRun.Bold = GetXmlNodeBool(_boldPath);
+            textRun.UnderLine = GetXmlNodeString(_underLinePath).TranslateUnderline();
+            textRun.Italic = GetXmlNodeBool(_italicPath);
+            textRun.Strike = GetXmlNodeString(_strikePath).TranslateStrikeType();
+
+            //TODO: handle Int.MIN same as before
+            textRun.FontSize = GetXmlNodeInt(_sizePath);
+            textRun.Kerning = GetXmlNodeFontSize(_kernPath);
+
+            textRun.Capitalization = GetXmlNodeString($"{_path}/@cap").ToEnum(eTextCapsType.None);
+            textRun.Baseline = GetXmlNodePercentage($"{_path}/@baseline") ?? 0;
+        }
         /// <summary>
         /// If the font is bold
         /// </summary>
@@ -124,12 +276,13 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return GetXmlNodeBool(_boldPath);
+                return textRun.Bold;
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodeString(_boldPath, value ? "1" : "0");
+                textRun.Bold = value;
             }
         }
         string _underLinePath = "@u";
@@ -140,12 +293,13 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return GetXmlNodeString(_underLinePath).TranslateUnderline();
+                return textRun.UnderLine;
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodeString(_underLinePath, value.TranslateUnderlineText());
+                textRun.UnderLine = value;
             }
         }
 
@@ -161,31 +315,6 @@ namespace OfficeOpenXml.Style
                 TopNode.InnerXml = copyFromElement.InnerXml;
             }
         }
-
-        string _underLineColorPath = "a:uFill/a:solidFill/a:srgbClr/@val";
-        /// <summary>
-        /// The fonts underline color
-        /// </summary>
-        public Color UnderLineColor
-        {
-            get
-            {
-                string col = GetXmlNodeString(_underLineColorPath);
-                if (col == "")
-                {
-                    return Color.Empty;
-                }
-                else
-                {
-                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
-                }
-            }
-            set
-            {
-                CreateTopNode();
-                SetXmlNodeString(_underLineColorPath, value.ToArgb().ToString("X").Substring(2, 6));
-            }
-        }
         string _italicPath = "@i";
         /// <summary>
         /// If the font is italic
@@ -194,12 +323,13 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return GetXmlNodeBool(_italicPath);
+                return textRun.Italic;
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodeString(_italicPath, value ? "1" : "0");
+                textRun.Italic = value;
             }
         }
         string _strikePath = "@strike";
@@ -210,12 +340,13 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return GetXmlNodeString(_strikePath).TranslateStrikeType();
+                return textRun.Strike;
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodeString(_strikePath, value.TranslateStrikeTypeText());
+                textRun.Strike = value;
             }
         }
         string _sizePath = "@sz";
@@ -226,60 +357,19 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                var c = GetXmlNodeInt(_sizePath);
-                if(c==int.MinValue)
-                {
-                    return c;
-                }
-                return c / 100;
+                return (float)textRun.FontSize;
+                //var c = GetXmlNodeInt(_sizePath);
+                //if(c==int.MinValue)
+                //{
+                //    return c;
+                //}
+                //return c / 100;
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodeString(_sizePath, ((int)(value * 100)).ToString());
-            }
-        }
-        ExcelDrawingFill _fill;
-        /// <summary>
-        /// A reference to the fill properties
-        /// </summary>
-        public ExcelDrawingFill Fill
-        {
-            get
-            {
-                if (_fill == null)
-                {
-                    _fill = new ExcelDrawingFill(_pictureRelationDocument, NameSpaceManager, _rootNode, _path, SchemaNodeOrder, CreateTopNode);
-                }
-                return _fill;
-            }
-        }
-        string _colorPath = "a:solidFill/a:srgbClr/@val";
-        /// <summary>
-        /// Sets the default color of the text.
-        /// This sets the Fill to a SolidFill with the specified color.
-        /// <remark>
-        /// Use the Fill property for more options
-        /// </remark>
-        /// </summary>
-        public Color Color
-        {
-            get
-            {
-                string col = GetXmlNodeString(_colorPath);
-                if (col == "")
-                {
-                    return Color.Empty;
-                }
-                else
-                {
-                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
-                }
-            }
-            set
-            {
-                Fill.Style = eFillStyle.SolidFill;
-                Fill.SolidFill.Color.SetRgbColor(value);
+                textRun.FontSize = (float)value;
             }
         }
         string _kernPath = "@kern";
@@ -290,15 +380,57 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return GetXmlNodeFontSize(_kernPath);
+                return textRun.Kerning;
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodeFontSize(_kernPath, value, "Kerning");
+                textRun.Kerning = value;
+            }
+        }
+        ///// <summary>
+        ///// The baseline for both the superscript and subscript fonts in percentage
+        ///// </summary>
+        //public double Baseline { get => textRun.Attributes.Baseline; set => textRun.Attributes.Baseline = value; }
+        ///// <summary>
+        ///// The capitalization that is to be applied
+        ///// </summary>
+        //public eTextCapsType Capitalization { get => textRun.Attributes.Capitalization; set => textRun.Attributes.Capitalization = value; }
+
+        /// <summary>
+        /// The capitalization that is to be applied
+        /// </summary>
+        public eTextCapsType Capitalization
+        {
+            get
+            {
+                return textRun.Capitalization;
+            }
+            set
+            {
+                SetXmlNodeString($"{_path}/@kern", value.ToEnumString());
+                textRun.Capitalization = value;
             }
         }
 
+        /// <summary>
+        /// The baseline for both the superscript and subscript fonts in percentage
+        /// </summary>
+        public double Baseline
+        {
+            get
+            {
+                return textRun.Baseline;
+            }
+            set
+            {
+                SetXmlNodePercentage($"{_path}/@baseline", value);
+                textRun.Baseline = value;
+            }
+        }
+
+        #region Methods
         /// <summary>
         /// Set the font style properties
         /// </summary>
@@ -356,5 +488,24 @@ namespace OfficeOpenXml.Style
             }
             return ret;
         }
+
+        
+
+        internal XmlElement PathElement
+        {
+            get
+            {
+                var node = (XmlElement)GetNode(_path);
+                if (node == null)
+                {
+                    return (XmlElement)CreateNode(_path);
+                }
+                else
+                {
+                    return node;
+                }
+            }
+        }
+        #endregion Methods
     }
 }
