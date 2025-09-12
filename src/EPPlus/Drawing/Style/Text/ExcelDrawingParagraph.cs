@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.Style.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
@@ -40,12 +41,21 @@ namespace OfficeOpenXml.Drawing
         { 
             get; 
         }
+
+        ExcelDrawingTextRunCollection _textRun = null;
         /// <summary>
         /// A collection of text runs for the paragraph
         /// </summary>
         public ExcelDrawingTextRunCollection TextRuns 
         { 
-            get;  
+            get
+            {
+                if (_textRun == null)
+                {
+                    _textRun = TextRunXmlReaderWriter.ReadTextRunCollection(this);
+                }
+                return _textRun;
+            }
         }
         /// <summary>
         /// Horizontal Alignment

@@ -31,6 +31,35 @@ namespace OfficeOpenXml.Drawing
             Attributes = new TextCharacterAttributes();
         }
 
+        internal RegularTextRun(string text)
+        {
+            Attributes = new TextCharacterAttributes();
+            InnerText = text;
+        }
+
+        //internal RegularTextRun(TextCharacterAttributes attributes, bool bold, double baseline, eTextCapsType capitalization, bool italic, double kerning, double spacing, eStrikeType strike, double fontSize, eUnderLineType underLine, ExcelDrawingFill fill, ExcelDrawingFill fill, Color color, Color underLineColor, string latinFont, string eastAsianFont, string complexFont, string symbolFont, bool rtl, string t)
+        //{
+        //    Attributes = attributes;
+        //    Bold = bold;
+        //    Baseline = baseline;
+        //    Capitalization = capitalization;
+        //    Italic = italic;
+        //    Kerning = kerning;
+        //    Spacing = spacing;
+        //    Strike = strike;
+        //    FontSize = fontSize;
+        //    UnderLine = underLine;
+        //    Fill = fill;
+        //    Color = color;
+        //    UnderLineColor = underLineColor;
+        //    LatinFont = latinFont;
+        //    EastAsianFont = eastAsianFont;
+        //    ComplexFont = complexFont;
+        //    SymbolFont = symbolFont;
+        //    this.rtl = rtl;
+        //    this.t = t;
+        //}
+
         #region Attributes
         /// <summary>
         /// Bold text
@@ -151,6 +180,6 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Actual text for the text run
         /// </summary>
-        internal string t;
+        internal string InnerText;
     }
 }
