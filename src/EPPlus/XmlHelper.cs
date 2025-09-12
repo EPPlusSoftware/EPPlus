@@ -1068,10 +1068,16 @@ namespace OfficeOpenXml
             if (v < 0) return 0;
             return (double)(v / (double)ExcelDrawing.EMU_PER_POINT);
         }
-        internal double GetXmlNodeEmuToPixel(string path)
+        internal double GetXmlNodeEmuToPixel(string path, double defaultValue=0)
         {
             var v = GetXmlNodeLong(path);
-            if (v < 0) return 0;
+            if (v < 0) return defaultValue;
+            return (double)(v / (double)ExcelDrawing.EMU_PER_PIXEL);
+        }
+        internal double? GetXmlNodeEmuToPixelNull(string path)
+        {
+            var v = GetXmlNodeLongNull(path);
+            if (v == null) return null;
             return (double)(v / (double)ExcelDrawing.EMU_PER_PIXEL);
         }
         internal double? GetXmlNodeEmuToPtNull(string path)

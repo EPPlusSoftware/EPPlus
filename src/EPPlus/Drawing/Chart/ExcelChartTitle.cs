@@ -144,7 +144,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:bodyPr", SchemaNodeOrder);
+                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:bodyPr", SchemaNodeOrder);
                 }
                 return _textBody;
             }

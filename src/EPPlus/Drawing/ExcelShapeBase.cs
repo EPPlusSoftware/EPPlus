@@ -478,7 +478,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, _textBodyPath, this.SchemaNodeOrder);
+                    _textBody = new ExcelTextBody(_drawings, NameSpaceManager, TopNode, _textBodyPath, this.SchemaNodeOrder);
                 }
                 return _textBody;
             }

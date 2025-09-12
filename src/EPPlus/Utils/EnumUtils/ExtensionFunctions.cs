@@ -10,7 +10,9 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
@@ -28,6 +30,15 @@ namespace OfficeOpenXml.Utils.EnumUtils
             var s = enumValue.ToString();
             return s.Substring(0, 1).ToLower() + s.Substring(1);
         }
+        internal static string ToEnumString(this Enum enumValue, Dictionary<Enum, string> lookup)
+        {
+            var s = enumValue.ToString();
+            if(lookup.TryGetValue(enumValue, out string v))
+            {
+                return v;
+            }
+            return s.Substring(0, 1).ToLower() + s.Substring(1);
+        }
         internal static T? ToEnum<T>(this string s) where T : struct
         {
             try
@@ -42,6 +53,26 @@ namespace OfficeOpenXml.Utils.EnumUtils
             catch
             {
                 return null;
+            }
+        }
+        internal static T ToEnum<T>(this string s, T defaultValue, Dictionary<string, T> lookup) where T : struct
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(s)) return defaultValue;
+                if(lookup.TryGetValue(s, out T v))
+                {
+                    return v;
+                }
+                if (!Enum.GetNames(typeof(T)).Any(x => x.Equals(s, StringComparison.OrdinalIgnoreCase)))
+                {
+                    return defaultValue;
+                }                
+                return (T)Enum.Parse(typeof(T), s, true);
+            }
+            catch
+            {
+                return defaultValue;
             }
         }
 
