@@ -1,8 +1,6 @@
 ﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfObjects
 {
@@ -19,15 +17,11 @@ namespace OfficeOpenXml.PDF.PdfObjects
         public PdfFontWidths(int objectNumber, Dictionary<FontMetricsClass, float> w, Dictionary<char, FontMetricsClass> m, int version = 0)
             : base(objectNumber, version)
         {
-            //var aClass = metrics.CharMetrics['a'];
-            //var aWidth = metrics.ClassWidths[aClass];
-            //float fontDesignUnits = aWidth * 2048f * (72f / 96f);
             float e = 2048;
             float d = (72f / 96f);
             float r = e * d;
             float k = 1000f;
             var l = (int)((w[m[' ']] * r * k) / e);
-
             List<char> exsist = new List<char>();
             List<char> no = new List<char>();
             for (int i = 0; i <= 900; i++)
@@ -42,8 +36,6 @@ namespace OfficeOpenXml.PDF.PdfObjects
                     no.Add(c);
                 }
             }
-
-
             //this.widths = new int[]
             //{
             //    (int)((w[m[' ']]*r*k)/e), (int)((w[m['!']]*r*k)/e), (int)((w[m['"']]*r*k)/e), (int)((w[m['#']]*r*k)/e), (int)((w[m['$']]*r*k)/e), (int)((w[m['%']]*r*k)/e), (int)((w[m['&']]*r*k)/e), (int)((w[m['\'']]*r*k)/e), (int)((w[m['(']]*r*k)/e), (int)((w[m[')']]*r*k)/e),

@@ -4,6 +4,7 @@ namespace OfficeOpenXml.PDF.PdfSettings.PdfPageData
 {
     internal class PdfExcelPageDataLookup
     {
+        //Not to be used but kept for reference, This table has data on how many rows and columns each font/theme gives in an A4 page.
         internal static Dictionary<string, int[]> PdfExcelA4PageData = new Dictionary<string, int[]>()
         {
             { "Aptos",                  [48,    9] },

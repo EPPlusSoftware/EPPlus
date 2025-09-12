@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.PDF.Math;
+﻿using OfficeOpenXml.PDF.Math;
 using OfficeOpenXml.PDF.PdfGraphics;
-using OfficeOpenXml.PDF.Pdfhelpers;
-using OfficeOpenXml.PDF.PdfSettings;
-using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {

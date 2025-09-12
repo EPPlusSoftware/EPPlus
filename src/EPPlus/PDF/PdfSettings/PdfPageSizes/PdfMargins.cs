@@ -10,7 +10,6 @@ namespace OfficeOpenXml.PDF.PdfSettings.PdfPageSizes
         public double Left { get; set; } = 17.8d;
         public double Right { get; set; } = 17.8d;
         public double Bottom { get; set; } = 19.1d;
-
         public double HeaderPu { get; private set; }
         public double FooterPu { get; private set; }
         public double TopPu { get; private set; }
@@ -36,7 +35,6 @@ namespace OfficeOpenXml.PDF.PdfSettings.PdfPageSizes
             this.Bottom = Bottom;
             this.Header = Header;
             this.Footer = Footer;
-
             TopPu = PdfUnits.MmToPoints(Top);
             LeftPu = PdfUnits.MmToPoints(Left);
             RightPu = PdfUnits.MmToPoints(Right);
@@ -48,6 +46,5 @@ namespace OfficeOpenXml.PDF.PdfSettings.PdfPageSizes
         public static PdfMargins Normal => new PdfMargins();
         public static PdfMargins Wide => new PdfMargins(25.4d, 25.4d, 25.4d, 25.4d, 12.7d, 12.7d);
         public static PdfMargins Narrow => new PdfMargins(19.1d, 6.4d, 6.4d, 19.1d, 7.6d, 7.6d);
-
     }
 }

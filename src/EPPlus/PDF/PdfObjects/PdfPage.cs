@@ -1,11 +1,8 @@
 ﻿using OfficeOpenXml.PDF.PdfFontData;
 using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfObjects
 {

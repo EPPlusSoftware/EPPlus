@@ -1,14 +1,9 @@
 ﻿using FontLab1;
 using FontLab1.GenericMeasurements;
-using FontLab1.Tables.Cmap;
-using FontLab1.Tables.Kern;
-using Microsoft.VisualBasic;
 using OfficeOpenXml.PDF.PdfObjects;
 using OfficeOpenXml.PDF.PdfSettings;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OfficeOpenXml.PDF.PdfFontData
 {
@@ -17,20 +12,20 @@ namespace OfficeOpenXml.PDF.PdfFontData
         internal string fontName;
         internal string labelPrefix = "F";
         internal int labelNumber;
-        internal string Label
-        { 
-            get 
-            { 
-                return labelPrefix + labelNumber; 
-            }
-        }
         internal int fontObjectNumber = -1;
         internal int descObjectNumber = -1;
         internal int widthObjectNumber = -1;
         internal TtfFont fontData;
-
         private int firstChar = 32;
         private int lastChar = 255;
+
+        internal string Label
+        {
+            get
+            {
+                return labelPrefix + labelNumber;
+            }
+        }
 
         public PdfFontResource(string fontName, string subFamily, int label, PdfPageSettings pageSettings)
         {
@@ -39,6 +34,7 @@ namespace OfficeOpenXml.PDF.PdfFontData
             fontData = GenericFonts.GetFontData(pageSettings, fontName, subFamily);
         }
 
+        //Get the Font Descriptor object to write in PDF.
         internal PdfFontDescriptor GetFontDescriptorObject(int objectNumber, int version = 0)
         {
             int flag = 0;
@@ -90,7 +86,7 @@ namespace OfficeOpenXml.PDF.PdfFontData
             descObjectNumber = objectNumber;
             return new PdfFontDescriptor
             (
-                objectNumber, 
+                objectNumber,
                 fontName,
                 flag,
                 fontBBox,
@@ -103,6 +99,7 @@ namespace OfficeOpenXml.PDF.PdfFontData
             );
         }
 
+        //Get the Widths object to write in PDF.
         internal PdfFontWidths GetWidthsObject(int objectNumber, int version = 0)
         {
             List<int> widths = new List<int>();
@@ -127,6 +124,7 @@ namespace OfficeOpenXml.PDF.PdfFontData
             return new PdfFontWidths(objectNumber, widths, version);
         }
 
+        //Get the Font Object to write in PDF.
         internal PdfFont GetFontObject(int objectNumber, int version = 0)
         {
             fontObjectNumber = objectNumber;

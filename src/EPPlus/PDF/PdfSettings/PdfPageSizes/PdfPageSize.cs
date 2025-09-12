@@ -1,8 +1,4 @@
 ﻿using OfficeOpenXml.PDF.Pdfhelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfSettings.PdfPageSizes
 {
@@ -10,10 +6,8 @@ namespace OfficeOpenXml.PDF.PdfSettings.PdfPageSizes
     {
         public double Width { get; }
         public double Height { get; }
-
         public double WidthPu { get; }
         public double HeightPu { get; }
-
 
         public PdfPageSize(double width, double height)
         {

@@ -21,9 +21,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         //public NumberFormatting;
         //public ExcelRichTextCollection RichText;
 
-        public PdfCellFontData()
-        {
-        }
+        public PdfCellFontData() { }
     }
 
     internal struct PdfCellFillData
@@ -33,9 +31,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfColor PatternColor = PdfColor.Black;
         //Fill Effects
 
-        public PdfCellFillData()
-        {
-        }
+        public PdfCellFillData() { }
     }
 
     internal struct PdfCellBordersData
@@ -53,9 +49,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public ExcelBorderStyle BorderStyle = ExcelBorderStyle.None;
         public PdfColor BorderColor = PdfColor.Black;
 
-        public PdfCellBorderData()
-        {
-        }
+        public PdfCellBorderData() { }
     }
 
     internal struct PdfCellAlignmentData
@@ -68,9 +62,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public int TextRotation = 0;
         public ExcelReadingOrder TextDirection = ExcelReadingOrder.ContextDependent;
 
-        public PdfCellAlignmentData()
-        {
-        }
+        public PdfCellAlignmentData() { }
     }
 
     internal struct GridLine
@@ -82,6 +74,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public double Y1;
         public double X2;
         public double Y2;
+
         public GridLine(double x1, double y1, double x2, double y2)
         {
             X1 = x1; Y1 = y1; X2 = x2; Y2 = y2;

@@ -1,10 +1,4 @@
-﻿using OfficeOpenXml.ConditionalFormatting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.PDF.PdfObjects
+﻿namespace OfficeOpenXml.PDF.PdfObjects
 {
     internal class PdfCatalog : PdfObject
     {

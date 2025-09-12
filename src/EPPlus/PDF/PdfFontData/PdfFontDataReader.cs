@@ -1,9 +1,7 @@
 ﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using OfficeOpenXml.PDF.PdfSettings;
 
@@ -57,28 +55,20 @@ namespace OfficeOpenXml.PDF.PdfFontData
                         metrics.CharMetrics[c] = cls;
                     }
                 }
-                //read pdf data:
-                var xmax = reader.ReadInt16();
-                var xmin = reader.ReadInt16();
-                var ymax = reader.ReadInt16();
-                var ymin = reader.ReadInt16();
                 //we use height and width as xmax and ymax instead of actual width and height.
-                metrics.fontBBox = new PdfRect();
-                metrics.fontBBox.X = xmin;
-                metrics.fontBBox.Y = ymin;
-                metrics.fontBBox.Width = xmax;
-                metrics.fontBBox.Height = ymax;
-
-                metrics.italicAngle = reader.ReadDouble();
-                metrics.ascent = reader.ReadInt16();
-                metrics.descent = reader.ReadInt16();
-                metrics.capheight = reader.ReadInt16();
-                metrics.flags = reader.ReadInt32();
-                metrics.stemV = reader.ReadDouble();
-
-                metrics.firstChar = 32;
-                metrics.lastChar = 255;
-
+                metrics.FontBBox = new PdfRect();
+                metrics.FontBBox.Width = reader.ReadInt16();
+                metrics.FontBBox.X = reader.ReadInt16();
+                metrics.FontBBox.Height = reader.ReadInt16();
+                metrics.FontBBox.Y = reader.ReadInt16();
+                metrics.ItalicAngle = reader.ReadDouble();
+                metrics.Ascent = reader.ReadInt16();
+                metrics.Descent = reader.ReadInt16();
+                metrics.Capheight = reader.ReadInt16();
+                metrics.Flags = reader.ReadInt32();
+                metrics.StemV = reader.ReadDouble();
+                metrics.FirstChar = 32;
+                metrics.LastChar = 255;
                 return metrics;
             }
         }

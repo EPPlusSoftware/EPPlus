@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.PDF
@@ -10,7 +8,6 @@ namespace OfficeOpenXml.PDF
     {
         private readonly List<long> positions = new List<long>();
         internal long StartPosition { get; private set; }
-
 
         internal void AddPosition(long position)
         {

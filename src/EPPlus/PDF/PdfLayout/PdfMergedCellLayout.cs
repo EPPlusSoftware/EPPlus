@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.PDF.Math;
-using OfficeOpenXml.PDF.PdfGraphics;
-using OfficeOpenXml.PDF.PdfSettings;
+﻿using OfficeOpenXml.PDF.PdfGraphics;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
@@ -14,7 +8,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             : base(cell, x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
-            //Test removing this and see if adding clipping rect to merged cells work
+            //Test removing this and see if adding clipping rect to merged cells work. It wont work.. find some other way.
             if (CellFillData.BackgroundColor.Equals(PdfColor.None))
             {
                 CellFillData.BackgroundColor = PdfColor.White;

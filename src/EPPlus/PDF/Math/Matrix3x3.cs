@@ -73,9 +73,7 @@ namespace OfficeOpenXml.PDF.Math
                 new double[] { B, E, H },
                 new double[] { C, F, I }
             };
-
             var inverse = MatrixHelper.Inverse(matrix);
-
             // Convert back to column-major
             return new Matrix3x3(
                 inverse[0][0], inverse[1][0], inverse[2][0],
@@ -124,9 +122,7 @@ namespace OfficeOpenXml.PDF.Math
                 new double[] { M2.B, M2.E, M2.H },
                 new double[] { M2.C, M2.F, M2.I }
             };
-
             var result = MatrixHelper.Multiply(a, b);
-
             // Convert back to column-major
             return new Matrix3x3
             (

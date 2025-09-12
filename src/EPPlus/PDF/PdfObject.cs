@@ -6,10 +6,6 @@ namespace OfficeOpenXml.PDF
     {
         internal int objectNumber;
         internal int version;
-        internal long byteOffset;
-
-        internal virtual bool HasStream => false;
-        internal virtual byte[] StreamData => null;
 
         public PdfObject(int objectNumber, int version = 0)
         {

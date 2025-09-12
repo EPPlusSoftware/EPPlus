@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace OfficeOpenXml.PDF.PdfLayout
+﻿namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfPagesLayout : PdfTransform
     {

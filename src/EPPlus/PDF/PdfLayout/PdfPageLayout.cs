@@ -1,5 +1,4 @@
-﻿using OfficeOpenXml.PDF.PdfSettings;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace OfficeOpenXml.PDF.PdfLayout

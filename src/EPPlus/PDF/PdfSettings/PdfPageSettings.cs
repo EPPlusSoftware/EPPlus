@@ -1,10 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.PDF.PdfSettings;
-using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
-using System;
+﻿using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfSettings
 {
