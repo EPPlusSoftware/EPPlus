@@ -24,12 +24,12 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     internal class RegularTextRun
     {
+        internal TextCharacterAttributes Attributes;
+
         internal RegularTextRun()
         {
-            TextCharacterAttributes Attributes = new TextCharacterAttributes();
+            Attributes = new TextCharacterAttributes();
         }
-
-        internal TextCharacterAttributes Attributes;
 
         #region Attributes
         /// <summary>
