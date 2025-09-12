@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Table.PivotTable
 {
     /// <summary>
-    /// Conditional Formatting Evaluation Type
+    /// Conditional Formatting Evaluation BulletType
     /// </summary>
     public enum ConditionType
     {

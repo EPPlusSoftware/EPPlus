@@ -146,7 +146,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// Type of aggregate function
+        /// BulletType of aggregate function
         /// </summary>
         public DataFieldFunctions Function
         {

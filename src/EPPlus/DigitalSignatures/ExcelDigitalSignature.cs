@@ -62,7 +62,7 @@ namespace OfficeOpenXml.DigitalSignatures
         /// </summary>
         public string PurposeForSigning { get; set; } = "";
         /// <summary>
-        /// Commitment Type.
+        /// Commitment BulletType.
         /// </summary>
         public CommitmentType CommitmentTyping = CommitmentType.None;
 

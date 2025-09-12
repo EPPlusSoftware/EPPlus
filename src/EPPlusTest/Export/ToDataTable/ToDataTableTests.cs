@@ -494,7 +494,7 @@ namespace EPPlusTest.Export.ToDataTable
                         if (cellVal is ExcelErrorValue eev)
                         {
                             return cellVal.ToString();
-                            // return eev.Type;
+                            // return eev.BulletType;
                         }
                         return cellVal;
                     });

@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Drawing.Style.Coloring
 {
     /// <summary>
-    /// Type of color transformation.
+    /// BulletType of color transformation.
     /// See OOXML documentation section 20.1.2.3 for more detailed information.
     /// </summary>
     public enum eColorTransformType

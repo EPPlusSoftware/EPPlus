@@ -2600,7 +2600,7 @@ namespace OfficeOpenXml.Drawing
                 newNode = oleNode.OwnerDocument.ImportNode(ole._oleObject.TopNode.ParentNode.ParentNode, true);
             }
             oleNode.AppendChild(newNode);
-            //Copy OleObject & Image
+            //Copy OleObject & BulletImage
             var shapeId = WorksheetCopyHelper.CopyOleObject(worksheet._package, worksheet, ole, worksheet._drawings.DrawingXml);
 
             if (!isGroupShape)

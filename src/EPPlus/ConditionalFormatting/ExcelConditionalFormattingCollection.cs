@@ -135,7 +135,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                         if (xr.GetAttribute("type") == "dataBar")
                         {
-                            //cfRule->Type
+                            //cfRule->BulletType
                             xr.Read();
 
                             var dataBar = (ExcelConditionalFormattingDataBar)localAndExtDict[id];
@@ -254,7 +254,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                         {
                             int priority = int.Parse(xr.GetAttribute("priority"));
 
-                            //cfRule->Type
+                            //cfRule->BulletType
                             xr.Read();
 
                             string iconSet = xr.GetAttribute("iconSet");
@@ -1771,7 +1771,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Add ThreeIconSet Rule
         /// </summary>
         /// <param name="Address">The address</param>
-        /// <param name="IconSet">Type of iconset</param>
+        /// <param name="IconSet">BulletType of iconset</param>
         /// <returns></returns>
         public IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType> AddThreeIconSet(ExcelAddress Address, eExcelconditionalFormatting3IconsSetType IconSet)
         {
@@ -1787,7 +1787,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Add ThreeIconSet Rule
         /// </summary>
         /// <param name="Address">The address</param>
-        /// <param name="IconSet">Type of iconset</param>
+        /// <param name="IconSet">BulletType of iconset</param>
         /// <returns></returns>
         public IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType> AddThreeIconSet(string Address, eExcelconditionalFormatting3IconsSetType IconSet)
         {

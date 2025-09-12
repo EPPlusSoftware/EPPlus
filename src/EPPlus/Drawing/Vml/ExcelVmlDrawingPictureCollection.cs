@@ -109,7 +109,7 @@ namespace OfficeOpenXml.Drawing.Vml
         /// Indexer
         /// </summary>
         /// <param name="Index">Index</param>
-        /// <returns>The VML Drawing Picture object</returns>
+        /// <returns>The VML Drawing Blip object</returns>
         public ExcelVmlDrawingPicture this[int Index]
         {
             get

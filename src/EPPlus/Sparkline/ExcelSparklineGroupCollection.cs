@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Sparkline
         /// <summary>
         /// Adds a new sparklinegroup to the collection
         /// </summary>
-        /// <param name="type">Type of sparkline</param>
+        /// <param name="type">BulletType of sparkline</param>
         /// <param name="locationRange">The location of the sparkline group. The range must have one row or column and must match the number of rows/columns in the datarange</param>
         /// <param name="dataRange">The data for the sparkline group</param>
         /// <returns></returns>

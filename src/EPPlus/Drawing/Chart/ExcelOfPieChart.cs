@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
         const string pieTypePath = "c:ofPieType/@val";
         /// <summary>
-        /// Type, pie or bar
+        /// BulletType, pie or bar
         /// </summary>
         public ePieType OfPieType
         {

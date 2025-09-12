@@ -138,7 +138,7 @@ namespace OfficeOpenXml.RichData.WebImages
         public Uri MoreImagesAddress => _moreImagesAddressRel?.TargetUri;
 
         /// <summary>
-        /// BLIP (Binary Large Image or Picture). Uri to the local picture in the worksheet
+        /// BLIP (Binary Large BulletImage or Blip). Uri to the local picture in the worksheet
         /// </summary>
         public Uri Blip => _blipRel != null && _blipRel.TargetUri != null ? UriHelper.ResolvePartUri(_baseUri, _blipRel.TargetUri) : null;
 

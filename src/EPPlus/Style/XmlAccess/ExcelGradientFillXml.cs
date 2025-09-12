@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         }
         const string _typePath = "d:gradientFill/@type";
         /// <summary>
-        /// Type of gradient fill. 
+        /// BulletType of gradient fill. 
         /// </summary>
         public ExcelFillGradientType Type
         {

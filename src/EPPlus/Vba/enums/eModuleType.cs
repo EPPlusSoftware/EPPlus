@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.VBA
 {
     /// <summary>
-    /// Type of VBA module
+    /// BulletType of VBA module
     /// </summary>
     public enum eModuleType
     {

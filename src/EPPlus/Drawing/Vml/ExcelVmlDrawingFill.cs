@@ -125,7 +125,7 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         internal ExcelVmlDrawingPictureFill _patternPictureSettings = null;
         /// <summary>
-        /// Image and pattern specific settings used when <see cref="Style"/> is set to Pattern, Tile or Frame.
+        /// BulletImage and pattern specific settings used when <see cref="Style"/> is set to Pattern, Tile or Frame.
         /// </summary>
         public ExcelVmlDrawingPictureFill PatternPictureSettings
         {

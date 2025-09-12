@@ -20,6 +20,7 @@ using System.Security.Cryptography;
 using OfficeOpenXml.Packaging;
 using System.Linq;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Drawing.Vml;
 namespace OfficeOpenXml.Drawing
 {
     internal class ImageInfo
@@ -540,7 +541,7 @@ namespace OfficeOpenXml.Drawing
                 container.ImageHash = ii.Hash;
             }
 
-            //Set the Image and save it to the package.
+            //Set the BulletImage and save it to the package.
             container.RelPic = container.RelationDocument.RelatedPart.CreateRelationship(UriHelper.GetRelativeUri(container.RelationDocument.RelatedUri, container.UriPic), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
 
             //AddNewPicture(img, picRelation.Id);
@@ -552,6 +553,27 @@ namespace OfficeOpenXml.Drawing
         public void Dispose()
         {
             _images = null;
+        }
+
+        internal static void RemoveImage(IPictureContainer container)
+        {
+            var relDoc = container.RelationDocument;
+            if (relDoc.Hashes.TryGetValue(container.ImageHash, out HashInfo hi))
+            {
+                if (hi.RefCount <= 1)
+                {
+                    relDoc.Package.PictureStore.RemoveImage(container.ImageHash, container);
+                    if (container.RelPic != null)
+                    {
+                        relDoc.RelatedPart.DeleteRelationship(container.RelPic.Id);
+                    }
+                    relDoc.Hashes.Remove(container.ImageHash);
+                }
+                else
+                {
+                    hi.RefCount--;
+                }
+            }
         }
     }
 }

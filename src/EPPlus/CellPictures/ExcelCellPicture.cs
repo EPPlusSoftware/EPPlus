@@ -64,7 +64,7 @@ namespace OfficeOpenXml.CellPictures
         }
 
         /// <summary>
-        /// Type of cell picture
+        /// BulletType of cell picture
         /// </summary>
         public ExcelCellPictureTypes PictureType
         {

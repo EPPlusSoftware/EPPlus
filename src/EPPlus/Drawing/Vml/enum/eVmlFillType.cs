@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Drawing.Vml
 {
     /// <summary>
-    /// Type of fill style for a vml drawing.
+    /// BulletType of fill style for a vml drawing.
     /// </summary>
     public enum eVmlFillType
     {

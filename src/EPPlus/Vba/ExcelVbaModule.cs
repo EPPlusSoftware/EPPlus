@@ -118,7 +118,7 @@ namespace OfficeOpenXml.VBA
         /// </summary>
         public ExcelVbaModuleAttributesCollection Attributes { get; internal set; }
         /// <summary>
-        /// Type of module
+        /// BulletType of module
         /// </summary>
         public eModuleType Type { get; internal set; }
         /// <summary>

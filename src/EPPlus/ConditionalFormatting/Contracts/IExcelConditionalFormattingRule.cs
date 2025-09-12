@@ -52,7 +52,7 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
         /// </summary>
         bool PivotTable { get; set; }
         /// <summary>
-        /// Type case propterty for the base class.
+        /// BulletType case propterty for the base class.
         /// </summary>
         ExcelConditionalFormattingAsType As { get; }
     }

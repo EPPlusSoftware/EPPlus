@@ -54,5 +54,21 @@ namespace OfficeOpenXml.Utils.String
         {
             return StringUtil.UnicodeSubstring(s, start, length);
         }
+        internal static string AddTrailingSlash(this string s)
+        {
+            if(string.IsNullOrEmpty(s)==false && s.EndsWith("/")==false)
+            {
+                return s + "/";
+            }
+            return s;
+        }
+        internal static string AddPrependingSlash(this string s)
+        {
+            if (string.IsNullOrEmpty(s) == false && s.StartsWith("/") == false)
+            {
+                return "/" + s;
+            }
+            return s;
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace OfficeOpenXml.RichData
         /// Constructor
         /// </summary>
         /// <param name="vmId">Value metadata id</param>
-        /// <param name="refType">Rich Data Reference Type</param>
+        /// <param name="refType">Rich Data Reference BulletType</param>
         internal RichDataReferenceValueError(uint vmId, RichDataReferenceTypes refType)
             : base(eErrorType.Value)
         {

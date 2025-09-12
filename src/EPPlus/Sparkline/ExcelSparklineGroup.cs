@@ -297,7 +297,7 @@ namespace OfficeOpenXml.Sparkline
         }
         const string _typePath = "@type";
         /// <summary>
-        /// Type of sparkline
+        /// BulletType of sparkline
         /// </summary>
         public eSparklineType Type
         {

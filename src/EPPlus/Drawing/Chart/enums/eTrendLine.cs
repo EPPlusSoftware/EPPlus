@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
-    /// Type of Trendline for a chart
+    /// BulletType of Trendline for a chart
     /// </summary>
     public enum eTrendLine
     {

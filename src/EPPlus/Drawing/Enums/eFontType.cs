@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
-    /// Type of font
+    /// BulletType of font
     /// </summary>
     public enum eFontType
     {

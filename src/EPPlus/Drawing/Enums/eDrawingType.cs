@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         Shape,
         /// <summary>
-        /// A Picture drawing
+        /// A Blip drawing
         /// </summary>
         Picture,
         /// <summary>

@@ -356,5 +356,12 @@ namespace OfficeOpenXml.Style
             }
             return ret;
         }
+        internal bool IsEmpty
+        {
+            get
+            {
+                return TopNode==null || (TopNode.ChildNodes.Count==0 && TopNode.Attributes.Count==0);               
+            }            
+        }
     }
 }

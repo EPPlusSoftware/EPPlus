@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public PictureCssExclude CssExclude { get; } = new PictureCssExclude();
         /// <summary>
-        /// Adds the Picture name as Id for the img element in the HTML.
+        /// Adds the Blip name as Id for the img element in the HTML.
         /// Characters [A-Z][0-9]-_ are allowed. The first character allows [A-Z]_. 
         /// Other characters will be replaced with an hyphen (-).
         /// </summary>

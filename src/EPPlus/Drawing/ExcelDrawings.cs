@@ -360,7 +360,7 @@ namespace OfficeOpenXml.Drawing
         /// Stock charts cannot be added by this method. See <see cref="AddStockChart(string, eStockChartType, ExcelRangeBase, bool)"/>
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <param name="PivotTableSource">The pivot table source for a pivot chart</param>
         /// <param name="DrawingType">The top element drawing type. Default is OneCellAnchor for Pictures and TwoCellAnchor from Charts and Shapes</param>
         /// <returns>The chart</returns>
@@ -406,7 +406,7 @@ namespace OfficeOpenXml.Drawing
         /// Do not support Stock charts . 
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <returns>The chart</returns>
         public ExcelChart AddChart(string Name, eChartType ChartType)
         {
@@ -416,7 +416,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <returns>The chart</returns>
         public ExcelChartEx AddExtendedChart(string Name, eChartExType ChartType)
         {
@@ -492,7 +492,7 @@ namespace OfficeOpenXml.Drawing
         /// Extended charts are 
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
         /// <returns>The chart</returns>
         public ExcelChartEx AddExtendedChart(string Name, eChartExType ChartType, ExcelPivotTable PivotTableSource)
@@ -729,7 +729,7 @@ namespace OfficeOpenXml.Drawing
         /// Add a new linechart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of linechart</param>
+        /// <param name="ChartType">BulletType of linechart</param>
         /// <returns>The chart</returns>
         public ExcelLineChart AddLineChart(string Name, eLineChartType ChartType)
         {
@@ -739,7 +739,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new linechart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
         /// <returns>The chart</returns>
         public ExcelLineChart AddLineChart(string Name, eLineChartType ChartType, ExcelPivotTable PivotTableSource)
@@ -750,7 +750,7 @@ namespace OfficeOpenXml.Drawing
         /// Add a new area chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of linechart</param>
+        /// <param name="ChartType">BulletType of linechart</param>
         /// <returns>The chart</returns>
         public ExcelAreaChart AddAreaChart(string Name, eAreaChartType ChartType)
         {
@@ -760,7 +760,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new area chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
         /// <returns>The chart</returns>
         public ExcelAreaChart AddAreaChart(string Name, eAreaChartType ChartType, ExcelPivotTable PivotTableSource)
@@ -771,7 +771,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new barchart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of linechart</param>
+        /// <param name="ChartType">BulletType of linechart</param>
         /// <returns>The chart</returns>
         public ExcelBarChart AddBarChart(string Name, eBarChartType ChartType)
         {
@@ -781,7 +781,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new column- or bar- chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
         /// <returns>The chart</returns>
         public ExcelBarChart AddBarChart(string Name, eBarChartType ChartType, ExcelPivotTable PivotTableSource)
@@ -792,7 +792,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new pie chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <returns>The chart</returns>    
         public ExcelPieChart AddPieChart(string Name, ePieChartType ChartType)
         {
@@ -802,7 +802,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new pie chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
         /// <returns>The chart</returns>
         public ExcelPieChart AddPieChart(string Name, ePieChartType ChartType, ExcelPivotTable PivotTableSource)
@@ -813,7 +813,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new doughnut chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
         /// <returns>The chart</returns>
         public ExcelDoughnutChart AddDoughnutChart(string Name, eDoughnutChartType ChartType, ExcelPivotTable PivotTableSource)
@@ -824,7 +824,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new doughnut chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <returns>The chart</returns>    
         public ExcelDoughnutChart AddDoughnutChart(string Name, eDoughnutChartType ChartType)
         {
@@ -834,7 +834,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new line chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <returns>The chart</returns>    
         public ExcelOfPieChart AddOfPieChart(string Name, eOfPieChartType ChartType)
         {
@@ -844,7 +844,7 @@ namespace OfficeOpenXml.Drawing
         /// Add a new pie of pie or bar of pie chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
         /// <returns>The chart</returns>
         public ExcelOfPieChart AddOfPieChart(string Name, eOfPieChartType ChartType, ExcelPivotTable PivotTableSource)
@@ -855,7 +855,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new bubble chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <returns>The chart</returns>    
         public ExcelBubbleChart AddBubbleChart(string Name, eBubbleChartType ChartType)
         {
@@ -865,7 +865,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new bubble chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
         /// <returns>The chart</returns>
         public ExcelBubbleChart AddBubbleChart(string Name, eBubbleChartType ChartType, ExcelPivotTable PivotTableSource)
@@ -876,7 +876,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new scatter chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
         /// <returns>The chart</returns>
         public ExcelScatterChart AddScatterChart(string Name, eScatterChartType ChartType, ExcelPivotTable PivotTableSource)
@@ -887,7 +887,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new scatter chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <returns>The chart</returns>    
         public ExcelScatterChart AddScatterChart(string Name, eScatterChartType ChartType)
         {
@@ -897,7 +897,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new radar chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
         /// <returns>The chart</returns>
         public ExcelRadarChart AddRadarChart(string Name, eRadarChartType ChartType, ExcelPivotTable PivotTableSource)
@@ -908,7 +908,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new radar chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <returns>The chart</returns>    
         public ExcelRadarChart AddRadarChart(string Name, eRadarChartType ChartType)
         {
@@ -918,7 +918,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new surface chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
         /// <returns>The chart</returns>
         public ExcelSurfaceChart AddSurfaceChart(string Name, eSurfaceChartType ChartType, ExcelPivotTable PivotTableSource)
@@ -929,7 +929,7 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new surface chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
+        /// <param name="ChartType">BulletType of chart</param>
         /// <returns>The chart</returns>    
         public ExcelSurfaceChart AddSurfaceChart(string Name, eSurfaceChartType ChartType)
         {
@@ -973,7 +973,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name">The name of the drawing object</param>
         /// <param name="ImagePath">The path to the image file</param>
-        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <param name="Hyperlink">Blip Hyperlink</param>
         /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink Hyperlink, PictureLocation Location = PictureLocation.Embed)
@@ -1046,7 +1046,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="PictureStream">An stream image.</param>        
-        /// <param name="Hyperlink">The Picture Hyperlink</param>
+        /// <param name="Hyperlink">The Blip Hyperlink</param>
         /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, Stream PictureStream, Uri Hyperlink)
         {
@@ -1124,7 +1124,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ImageFile">The image file</param>
-        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <param name="Hyperlink">Blip Hyperlink</param>
         /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
         public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
@@ -1160,7 +1160,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ImagePath">The path to the image file</param>
-        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <param name="Hyperlink">Blip Hyperlink</param>
         /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
         public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
@@ -1183,7 +1183,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="PictureStream">An stream image.</param>        
-        /// <param name="Hyperlink">The Picture Hyperlink</param>
+        /// <param name="Hyperlink">The Blip Hyperlink</param>
         /// <returns>A picture object</returns>
         public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream, Uri Hyperlink)
         {

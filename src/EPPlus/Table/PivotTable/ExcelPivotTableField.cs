@@ -377,7 +377,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// Type of axis
+        /// BulletType of axis
         /// </summary>
         public ePivotFieldAxis Axis
         {

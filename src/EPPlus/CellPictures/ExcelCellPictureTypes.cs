@@ -27,7 +27,7 @@ namespace OfficeOpenXml.CellPictures
         /// </summary>
         LocalImage,
         /// <summary>
-        /// Image that is retrieved via an URL.
+        /// BulletImage that is retrieved via an URL.
         /// </summary>
         WebImage
     }

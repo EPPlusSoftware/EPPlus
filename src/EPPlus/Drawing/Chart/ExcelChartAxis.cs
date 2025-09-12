@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Drawing.Chart
     public abstract class ExcelChartAxis : XmlHelper, IDrawingStyle, IStyleMandatoryProperties
     {
         /// <summary>
-        /// Type of axis
+        /// BulletType of axis
         /// </summary>
         internal ExcelChart _chart;
         internal string _nsPrefix;

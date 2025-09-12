@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+    9/11/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Style;
@@ -27,11 +27,12 @@ namespace OfficeOpenXml.Drawing
     public class ExcelDrawingParagraph : XmlHelper
     {
         Action _initXml;
-        internal ExcelDrawingParagraph(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
+        IPictureRelationDocument _prd;
+        internal ExcelDrawingParagraph(IPictureRelationDocument prd, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
         {
             AddSchemaNodeOrder(schemaNodeOrder, ["lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "tabLst", "defRPr"]);
             _initXml = initXml;
-            DefaultRunProperties = new ExcelTextFont(pictureRelationDocument, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
+            DefaultRunProperties = new ExcelTextFont(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
         }
         /// <summary>
         /// Default font and fill properties for all text runs.
@@ -254,6 +255,18 @@ namespace OfficeOpenXml.Drawing
                     _lineSpacing = new ExcelLineSpacing(NameSpaceManager, TopNode, "a:pPr/a:lnSpc", SchemaNodeOrder, _initXml, eDrawingTextLineSpacing.Single);
                 }
                 return _lineSpacing;
+            }
+        }
+        ExcelParagraphBullet _bullet = null;
+        public ExcelParagraphBullet Bullet
+        {
+            get
+            {
+                if(_bullet==null)
+                {
+                    _bullet = new ExcelParagraphBullet(_prd, NameSpaceManager, TopNode, "a:pPr", SchemaNodeOrder, _initXml);
+                }
+                return _bullet;
             }
         }
         /// <summary>

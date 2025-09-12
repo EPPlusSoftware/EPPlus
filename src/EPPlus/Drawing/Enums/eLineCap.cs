@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
-    /// The Type of Line cap
+    /// The BulletType of Line cap
     /// </summary>
     public enum eLineCap
     {

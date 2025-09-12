@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Drawing.EMF
         }
 
         /// <summary>
-        /// Type of bitmap
+        /// BulletType of bitmap
         /// </summary>
         internal BitMapType Signature;
         /// <summary>

@@ -58,7 +58,7 @@ namespace OfficeOpenXml.Utils
         /// <summary>
         /// Throws an ArgumentOutOfRangeException if the value of the argument is out of the supplied range
         /// </summary>
-        /// <typeparam name="T">Type implementing <see cref="IComparable"/></typeparam>
+        /// <typeparam name="T">BulletType implementing <see cref="IComparable"/></typeparam>
         /// <param name="argument">The argument to check</param>
         /// <param name="min">Min value of the supplied range</param>
         /// <param name="max">Max value of the supplied range</param>

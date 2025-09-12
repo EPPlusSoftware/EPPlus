@@ -40,7 +40,6 @@ namespace OfficeOpenXml.Drawing
                 return _paragraphs[PositionID];
             }
         }
-
         /// <summary>
         /// Gets the enumerator.
         /// </summary>

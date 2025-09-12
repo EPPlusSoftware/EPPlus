@@ -434,6 +434,9 @@ namespace OfficeOpenXml.Drawing
             BottomInsert = BottomInsert ?? DefaultTopBot;
         }
         ExcelDrawingParagraphCollection _paragraphs = null;
+        /// <summary>
+        /// A collection of paragraphs within a rich text in a drawing object.
+        /// </summary>
         public ExcelDrawingParagraphCollection Paragraphs 
         {
             get

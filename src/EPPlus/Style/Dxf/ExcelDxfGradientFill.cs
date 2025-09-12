@@ -86,7 +86,7 @@ namespace OfficeOpenXml.Style.Dxf
         }
         eDxfGradientFillType? _gradientType;
         /// <summary>
-        /// Type of gradient fill
+        /// BulletType of gradient fill
         /// </summary>
         public eDxfGradientFillType? GradientType 
         { 

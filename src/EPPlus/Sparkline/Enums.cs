@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Sparkline
         Zero
     }
     /// <summary>
-    /// Type of sparkline
+    /// BulletType of sparkline
     /// </summary>
     public enum eSparklineType
     {

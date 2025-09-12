@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         }
 
         /// <summary>
-        /// Type of fill
+        /// BulletType of fill
         /// </summary>
         public abstract eFillStyle Style { get; }
         /// <summary>

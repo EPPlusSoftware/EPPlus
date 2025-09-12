@@ -118,19 +118,50 @@ namespace EPPlusTest.Drawing
                 Assert.AreEqual("    ", shape.RichText[2].Text);
             }
             [TestMethod]
-            public void ReadParagraphs()
+            public void ReadParagraphsShapes()
+            {
+                using (var p = OpenTemplatePackage("Paragraphs.xlsx"))
+                {
+                    var ws1 = p.Workbook.Worksheets[0];
+                    var pg = ws1.Drawings[0].As.Shape.TextBody.Paragraphs;
+
+                    Assert.AreEqual(7, pg.Count);
+                    Assert.AreEqual(eDrawingColorType.Rgb, pg[0].Bullet.Color.ColorType);
+                    Assert.IsNotNull(pg[0].Bullet.Color.RgbColor);
+                    Assert.AreEqual("Wingdings", pg[0].Bullet.Font.Typeface);
+                    Assert.AreEqual("05000000000000000000", pg[0].Bullet.Font.Panose);
+                    Assert.AreEqual(ePitchFamily.Variable, pg[0].Bullet.Font.PitchFamily);
+                    Assert.AreEqual(2, pg[0].Bullet.Font.Charset);
+                    //Assert.AreEqual(eTextAlignment.Right, pg[0].HorizontalAlignment);
+                    //Assert.AreEqual(18, pg[0].DefaultRunProperties.Size);
+                    //Assert.IsFalse(pg[0].DefaultRunProperties.Italic);
+                    //Assert.AreEqual(OfficeOpenXml.Style.eDrawingTextLineSpacing.Single, pg[0].LineSpacing.LineSpacingType);
+                    //Assert.AreEqual(100D, pg[0].LineSpacing.Value);
+                    //Assert.AreEqual(0D, pg[0].SpaceAfter.Value);
+                    //Assert.AreEqual(0D, pg[0].SpaceBefore.Value);
+                    //Assert.IsFalse(pg[0].DefaultRunProperties.IsEmpty);
+                    //Assert.IsTrue(pg[1].DefaultRunProperties.IsEmpty);
+                }
+            }
+
+            [TestMethod]
+            public void ReadParagraphsCharts()
             {
                 using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
                 {
                     var ws1 = p.Workbook.Worksheets[0];
                     var pg = ws1.Drawings[1].As.Chart.LineChart.Title.TextBody.Paragraphs;
+                    
                     Assert.IsNull(pg[0].DefaultTabSize);
                     Assert.AreEqual(eTextAlignment.Right, pg[0].HorizontalAlignment);
                     Assert.AreEqual(18, pg[0].DefaultRunProperties.Size);
+                    Assert.IsFalse(pg[0].DefaultRunProperties.Italic);
                     Assert.AreEqual(OfficeOpenXml.Style.eDrawingTextLineSpacing.Single, pg[0].LineSpacing.LineSpacingType);
                     Assert.AreEqual(100D, pg[0].LineSpacing.Value);
                     Assert.AreEqual(0D, pg[0].SpaceAfter.Value);
                     Assert.AreEqual(0D, pg[0].SpaceBefore.Value);
+                    Assert.IsFalse(pg[0].DefaultRunProperties.IsEmpty);
+                    Assert.IsTrue(pg[1].DefaultRunProperties.IsEmpty);
                 }
             }
 
