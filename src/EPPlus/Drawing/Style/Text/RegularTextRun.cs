@@ -25,6 +25,10 @@ namespace OfficeOpenXml.Drawing
     internal class RegularTextRun
     {
         internal TextCharacterAttributes Attributes;
+        /// <summary>
+        /// for measuring
+        /// </summary>
+        string _defaultFontName;
 
         internal RegularTextRun()
         {
@@ -35,6 +39,30 @@ namespace OfficeOpenXml.Drawing
         {
             Attributes = new TextCharacterAttributes();
             InnerText = text;
+        }
+
+        internal void SetDefaultFontName(string defaultName)
+        {
+            _defaultFontName = defaultName;
+        }
+
+        internal string GetTextRunFontName()
+        {
+            if (string.IsNullOrEmpty(LatinFont))
+            {
+                if (string.IsNullOrEmpty(ComplexFont))
+                {
+                    return _defaultFontName;
+                }
+                else
+                {
+                    return ComplexFont;
+                }
+            }
+            else
+            {
+                return LatinFont;
+            }
         }
 
         //internal RegularTextRun(TextCharacterAttributes attributes, bool bold, double baseline, eTextCapsType capitalization, bool italic, double kerning, double spacing, eStrikeType strike, double fontSize, eUnderLineType underLine, ExcelDrawingFill fill, ExcelDrawingFill fill, Color color, Color underLineColor, string latinFont, string eastAsianFont, string complexFont, string symbolFont, bool rtl, string t)
