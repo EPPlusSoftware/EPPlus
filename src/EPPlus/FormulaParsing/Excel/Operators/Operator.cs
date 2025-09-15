@@ -101,6 +101,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 (r.IsNumeric || r.IsNumericString || r.IsPercentageString || r.IsDateString || r.Result is IRangeInfo);
         }
 
+        private static CompileResult CreateCompileResult(CompileResultType resultType1, CompileResultType resultType2, object val, DataType dt)
+        {
+            return CreateCompileResult(resultType1, resultType2, val, dt, null);
+        }
+
+        private static CompileResult CreateCompileResult(CompileResultType resultType1, CompileResultType resultType2, object val, DataType dt, FormulaRangeAddress fra)
+        {
+            if(resultType1 == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic || resultType1 == CompileResultType.DynamicArray)
+            {
+                return new DynamicArrayCompileResult(val, dt, fra, resultType1);
+            }
+            else if(resultType2 == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic || resultType2 == CompileResultType.DynamicArray)
+            {
+                return new DynamicArrayCompileResult(val, dt, fra, resultType2);
+            }
+            else if(val is ExcelErrorValue errorVal)
+            {
+                return new CompileResult(errorVal);
+            }
+            else
+            {
+                return new CompileResult(val, dt);
+            }
+        }
+
         private static IOperator _plus;
         /// <summary>
         /// Operator plus
@@ -116,11 +141,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     ExcelErrorValue errorVal;
                     if (EitherIsError(l, r, out errorVal))
                     {
-                        return new CompileResult(errorVal);
+                        return CreateCompileResult(l.ResultType, r.ResultType, errorVal, DataType.ExcelError);
                     }
                     if (l.DataType == DataType.Integer && r.DataType == DataType.Integer)
                     {
-                        return new CompileResult(l.ResultNumeric + r.ResultNumeric, DataType.Integer);
+                        return CreateCompileResult(l.ResultType, r.ResultType, l.ResultNumeric + r.ResultNumeric, DataType.Integer);
                     }
                     if(l.DataType == DataType.ExcelRange || r.DataType == DataType.ExcelRange)
                     {
@@ -128,7 +153,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     else if (CanDoNumericOperation(l, r))
                     {
-                        return new CompileResult(l.ResultNumeric + r.ResultNumeric, DataType.Decimal);
+                        return CreateCompileResult(l.ResultType, r.ResultType, l.ResultNumeric + r.ResultNumeric, DataType.Decimal);
                     }
                     return new CompileResult(eErrorType.Value);
                 }));
@@ -147,9 +172,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 {
                     l = l == null || l.Result == null ? CompileResult.ZeroInt : l;
                     r = r == null || r.Result == null ? CompileResult.ZeroInt : r;
+                    ExcelErrorValue errorVal;
+                    if (EitherIsError(l, r, out errorVal))
+                    {
+                        return CreateCompileResult(l.ResultType, r.ResultType, errorVal, DataType.ExcelError);
+                    }
                     if (l.DataType == DataType.Integer && r.DataType == DataType.Integer)
                     {
-                        return new CompileResult(l.ResultNumeric - r.ResultNumeric, DataType.Integer);
+                        return CreateCompileResult(l.ResultType, r.ResultType, l.ResultNumeric - r.ResultNumeric, DataType.Integer);
                     }
                     if (l.DataType == DataType.ExcelRange || r.DataType == DataType.ExcelRange)
                     {
@@ -157,7 +187,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     else if (CanDoNumericOperation(l, r))
                     {
-                        return new CompileResult(l.ResultNumeric - r.ResultNumeric, DataType.Decimal);
+                        return CreateCompileResult(l.ResultType, r.ResultType, l.ResultNumeric - r.ResultNumeric, DataType.Decimal);
                     }
 
                     return new CompileResult(eErrorType.Value);
@@ -177,9 +207,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 {
                     l = l ?? CompileResult.ZeroInt;
                     r = r ?? CompileResult.ZeroInt;
+                    ExcelErrorValue errorVal;
+                    if (EitherIsError(l, r, out errorVal))
+                    {
+                        return CreateCompileResult(l.ResultType, r.ResultType, errorVal, DataType.ExcelError);
+                    }
                     if (l.DataType == DataType.Integer && r.DataType == DataType.Integer)
                     {
-                        return new CompileResult(l.ResultNumeric*r.ResultNumeric, DataType.Integer);
+                        return CreateCompileResult(l.ResultType, r.ResultType, l.ResultNumeric * r.ResultNumeric, DataType.Integer);
                     }
                     if (l.DataType == DataType.ExcelRange || r.DataType == DataType.ExcelRange)
                     {
@@ -187,7 +222,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     else if (CanDoNumericOperation(l, r))
                     {
-                        return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Decimal);
+                        return CreateCompileResult(l.ResultType, r.ResultType, l.ResultNumeric * r.ResultNumeric, DataType.Decimal);
                     }
                     return new CompileResult(eErrorType.Value);
                 }));
@@ -213,7 +248,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     var right = r.ResultNumeric;
                     if (Math.Abs(right - 0d) < double.Epsilon)
                     {
-                        return new CompileResult(eErrorType.Div0);
+                        var eVal = ExcelErrorValue.Create(eErrorType.Div0);
+                        return CreateCompileResult(l.ResultType, r.ResultType, eVal, DataType.ExcelError);
                     }
                     if (l.DataType == DataType.ExcelRange || r.DataType == DataType.ExcelRange)
                     {
@@ -221,7 +257,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     else if (CanDoNumericOperation(l, r))
                     {
-                        return new CompileResult(left / right, DataType.Decimal);
+                        return CreateCompileResult(l.ResultType, r.ResultType, left / right, DataType.Decimal);
                     }
                     return new CompileResult(eErrorType.Value);
                 }));
@@ -238,7 +274,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     {
                         if (l == null && r == null)
                         {
-                            return new CompileResult(eErrorType.Value);
+                            var eVal = ExcelErrorValue.Create(eErrorType.Value);
+                            return CreateCompileResult(l.ResultType, r.ResultType, eVal, DataType.ExcelError);
                         }
                         l = l ?? CompileResult.ZeroInt;
                         r = r ?? CompileResult.ZeroInt;
@@ -248,7 +285,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         }
                         if (CanDoNumericOperation(l, r))
                         {
-                            return new CompileResult(Math.Pow(l.ResultNumeric, r.ResultNumeric), DataType.Decimal);
+                            var res = Math.Pow(l.ResultNumeric, r.ResultNumeric);
+                            return CreateCompileResult(l.ResultType, r.ResultType, res, DataType.Decimal);
                         }
                         return CompileResult.ZeroDecimal;
                     });
@@ -291,7 +329,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         }
                         var lStr = l.Result != null ? CompileResultToString(l) : string.Empty;
                         var rStr = r.Result != null ? CompileResultToString(r) : string.Empty;
-                        return new CompileResult(string.Concat(lStr, rStr), DataType.String);
+                        var res = string.Concat(lStr, rStr);
+                        return CreateCompileResult(l.ResultType, r.ResultType, res, DataType.String);
                     });
             }
         }
@@ -587,20 +626,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 var rnum = ConvertUtil.GetValueDouble(right);
                 if (Math.Abs(lnum - rnum) < double.Epsilon)
                 {
-                    return new CompileResult(comparison(0), DataType.Boolean);
+                    return CreateCompileResult(l.ResultType, r.ResultType, comparison(0), DataType.Boolean);
                 }
                 var comparisonResult = lnum.CompareTo(rnum);
-                return new CompileResult(comparison(comparisonResult), DataType.Boolean);
+                return CreateCompileResult(l.ResultType, r.ResultType, comparison(comparisonResult), DataType.Boolean);
             }
             else if(isNumL || isNumR)
             {
                 var comparisonResult = isNumL ? -1 : 1;
-                return new CompileResult(comparison(comparisonResult), DataType.Boolean);
+                return CreateCompileResult(l.ResultType, r.ResultType, comparison(comparisonResult), DataType.Boolean);
             }
             else
             {
                 var comparisonResult = CompareString(left, right);
-                return new CompileResult(comparison(comparisonResult), DataType.Boolean);
+                return CreateCompileResult(l.ResultType, r.ResultType, comparison(comparisonResult), DataType.Boolean);
             }
         }
 

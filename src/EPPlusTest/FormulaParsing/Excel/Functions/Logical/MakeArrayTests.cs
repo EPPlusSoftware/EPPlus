@@ -10,7 +10,7 @@ using System.Text;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 {
     [TestClass]
-    public class MakeArrayTests
+    public class MakeArrayTests : TestBase
     {
         [TestMethod]
         public void MakeArray_SimpleTest()
@@ -83,6 +83,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(4d, sheet.Cells["C1"].Value);
             Assert.AreEqual(5d, sheet.Cells["C2"].Value);
             Assert.AreEqual(6d, sheet.Cells["C3"].Value);
+
         }
 
 

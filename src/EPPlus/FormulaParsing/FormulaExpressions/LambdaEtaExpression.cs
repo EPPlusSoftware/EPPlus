@@ -79,7 +79,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 calculator.SetEtaReducedLambdaFunction(functionName, Context);
             }
-            return result;
+            return CompileResultFactory.CreateDynamicArrayResult(result.Result, result.Address, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
         }
 
         public override Expression Negate()

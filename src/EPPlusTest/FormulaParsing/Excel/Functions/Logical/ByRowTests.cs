@@ -8,7 +8,7 @@ using System.Text;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 {
     [TestClass]
-    public class ByRowTests
+    public class ByRowTests : TestBase
     {
         [TestMethod]
         public void ByRowTest1()

@@ -8,7 +8,7 @@ using System.Text;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 {
     [TestClass]
-    public class MapTests
+    public class MapTests : TestBase
     {
         [TestMethod]
         public void MapTest1()
@@ -95,6 +95,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["G6"].Value);
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["F7"].Value);
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["G7"].Value);
+
         }
 
         [TestMethod]
@@ -143,6 +144,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(1d, sheet.Cells["B1"].Value);   // ABS(-1)
             Assert.AreEqual(0d, sheet.Cells["B2"].Value);   // ABS(0)
             Assert.AreEqual(5d, sheet.Cells["B3"].Value);   // ABS(5)
+
         }
 
         [TestMethod]

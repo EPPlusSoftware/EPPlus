@@ -8,7 +8,7 @@ using System.Text;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 {
     [TestClass]
-    public class ByColTests 
+    public class ByColTests : TestBase
     {
         [TestMethod]
         public void ByColTest1()
@@ -66,6 +66,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Cells["D4"].Formula = "BYCOL(A1:C2, LAMBDA(array, a, MAX(array)))";
             sheet.Calculate();
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["D4"].Value);
+
+            SaveWorkbook("ByColError.xlsx", package);
         }
 
         [TestMethod]

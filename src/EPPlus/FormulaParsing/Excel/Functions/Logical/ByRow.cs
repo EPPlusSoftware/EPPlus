@@ -33,7 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             var range = ArgToRangeInfo(arguments, 0);
             if (arguments[1].DataType != DataType.LambdaCalculation || arguments[1].Value is not LambdaCalculator calculator || calculator.NumberOfVariables != 1)
             {
-                return CreateResult(eErrorType.Value);
+                return CreateDynamicArrayResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
             }
             var resultRange = new InMemoryRange(range.Size.NumberOfRows, 1);
             for (var row = 0; row < range.Size.NumberOfRows; row++)

@@ -8,7 +8,7 @@ using System.Text;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 {
     [TestClass]
-    public class IsOmittedTests
+    public class IsOmittedTests : TestBase
     {
         [TestMethod]
         public void IsOmitted_ShouldReturnFalseWhenOutOfLambdaScope()

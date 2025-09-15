@@ -35,9 +35,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             if (arguments[0].DataType == DataType.Empty)
             {
                 if (arguments[0].Value != null && arguments[0].Value.ToString() == "oovs") return CreateResult(false, DataType.Boolean);
-                return CreateResult(true, DataType.Boolean);
+                return CreateDynamicArrayResult(true, DataType.Boolean);
             }
-            return CreateResult(false, DataType.Boolean);
+            return CreateDynamicArrayResult(false, DataType.Boolean);
         }
     }
 }
