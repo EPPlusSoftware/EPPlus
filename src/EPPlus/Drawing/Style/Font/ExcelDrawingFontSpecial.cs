@@ -11,6 +11,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Style;
+using OfficeOpenXml.Utils.String;
+using System;
+using System.IO;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Style.Font
@@ -20,9 +23,8 @@ namespace OfficeOpenXml.Drawing.Style.Font
     /// </summary>
     public class ExcelDrawingFontSpecial : ExcelDrawingFontBase
     {
-        internal ExcelDrawingFontSpecial(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
+        internal ExcelDrawingFontSpecial(XmlNamespaceManager nameSpaceManager, XmlNode topNode, string path="", Action initXml=null) : base(nameSpaceManager, topNode, path, initXml)
         {
-
         }
         /// <summary>
         /// The type of font
@@ -53,11 +55,12 @@ namespace OfficeOpenXml.Drawing.Style.Font
         {
             get
             {
-                return GetXmlNodeString("@panose");
+                return GetXmlNodeString($"{_path}@panose");
             }
             set
             {
-                SetXmlNodeString("@panose",value);
+                _initXml?.Invoke();
+                SetXmlNodeString($"{_path}@panose",value);
             }
         }
         /// <summary>
@@ -67,7 +70,7 @@ namespace OfficeOpenXml.Drawing.Style.Font
         {
             get
             {
-                var p=GetXmlNodeInt("@pitchFamily");
+                var p=GetXmlNodeInt($"{_path}@pitchFamily");
                 try
                 {
                     return (ePitchFamily)p;
@@ -79,9 +82,25 @@ namespace OfficeOpenXml.Drawing.Style.Font
             }
             set
             {
-                SetXmlNodeString("@pitchFamily", ((int)value).ToString());
+                _initXml?.Invoke();
+                SetXmlNodeString($"{_path}@pitchFamily", ((int)value).ToString());
             }
         }
-
+        /// <summary>
+        /// The character set which is supported by the parent font. 
+        /// See OOXML documentation for details.
+        /// </summary>
+        public int Charset
+        {
+            get
+            {
+                return GetXmlNodeInt($"{_path}@charset", 1);
+            }
+            set
+            {
+                _initXml?.Invoke();
+                SetXmlNodeInt($"{_path}@charset", value);
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
     internal class ExcelColorTransformSimpleItem : IColorTransformItem, ISource
     {
         /// <summary>
-        /// Type of tranformation
+        /// BulletType of tranformation
         /// </summary>
         public eColorTransformType Type { get; set; }
 

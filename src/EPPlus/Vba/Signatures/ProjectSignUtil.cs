@@ -53,7 +53,7 @@ namespace OfficeOpenXml.VBA.Signatures
             var hashAlgorithmBytes = ctx.GetHashAlgorithmBytes();
             var hashContentBytes = GetHashContent(ctx, hash);
 
-            bw.Write((byte)0x30); //Constructed Type 
+            bw.Write((byte)0x30); //Constructed BulletType 
             if (ctx.SignatureType == ExcelVbaSignatureType.Legacy)
             {
                 bw.Write((byte)(hashAlgorithmBytes.Length + hashContentBytes.Length + 0x18)); //Total length
@@ -63,7 +63,7 @@ namespace OfficeOpenXml.VBA.Signatures
                 var length = (byte)(hashAlgorithmBytes.Length + hashContentBytes.Length + 0x24);
                 WriteSequenceLength(bw, length);
             }
-            bw.Write((byte)0x30); //Constructed Type 
+            bw.Write((byte)0x30); //Constructed BulletType 
             bw.Write((byte)0x0E); //Length SpcIndirectDataContent
 
             var spcIndirectDataContentOidBytes = ctx.GetIndirectDataContentOidBytes();
@@ -82,9 +82,9 @@ namespace OfficeOpenXml.VBA.Signatures
                 bw.Write(1); // version
                 bw.Write(1);// format
             }
-            bw.Write((byte)0x30); //Constructed Type (DigestInfo)
+            bw.Write((byte)0x30); //Constructed BulletType (DigestInfo)
             bw.Write((byte)(hashAlgorithmBytes.Length + 6)); //Length DigestInfo
-            bw.Write((byte)0x30); //Constructed Type (Algorithm)
+            bw.Write((byte)0x30); //Constructed BulletType (Algorithm)
             bw.Write((byte)(hashAlgorithmBytes.Length + 2)); //length AlgorithmIdentifier
 
             WriteOid(bw, hashAlgorithmBytes); //Hash Algorithm

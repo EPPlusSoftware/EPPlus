@@ -119,7 +119,7 @@ namespace OfficeOpenXml.Drawing
         private ExcelDrawingPatternFill _patternFill = null;
         /// <summary>
         /// Reference pattern fill properties
-        /// This property is only accessable when Type is set to PatternFill
+        /// This property is only accessable when BulletType is set to PatternFill
         /// </summary>
         public ExcelDrawingPatternFill PatternFill
         {
@@ -131,7 +131,7 @@ namespace OfficeOpenXml.Drawing
         private ExcelDrawingBlipFill _blipFill = null;
         /// <summary>
         /// Reference gradient fill properties
-        /// This property is only accessable when Type is set to BlipFill
+        /// This property is only accessable when BulletType is set to BlipFill
         /// </summary>
         public ExcelDrawingBlipFill BlipFill
         {

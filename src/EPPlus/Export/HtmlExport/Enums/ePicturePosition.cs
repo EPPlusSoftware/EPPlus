@@ -14,7 +14,7 @@
 namespace OfficeOpenXml.Export.HtmlExport
 {
     /// <summary>
-    /// If the Picture is absolut or relative to the table cell
+    /// If the Blip is absolut or relative to the table cell
     /// </summary>
     public enum ePicturePosition
     {

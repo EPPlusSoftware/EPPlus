@@ -247,7 +247,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// Type of source data
+        /// BulletType of source data
         /// </summary>
         public eSourceType CacheSource
         {

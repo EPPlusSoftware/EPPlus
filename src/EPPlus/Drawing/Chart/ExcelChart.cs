@@ -177,7 +177,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         /// <summary>
-        /// Type of chart
+        /// BulletType of chart
         /// </summary>
         public eChartType ChartType { get; internal set; }
         /// <summary>

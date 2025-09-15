@@ -58,9 +58,16 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="imageStream">The stream containing the image</param>
         /// <param name="pictureType">The type of image loaded in the stream</param>
-        public ExcelImage(Stream imageStream, ePictureType pictureType)
+        public ExcelImage(Stream imageStream, ePictureType? pictureType=null)
         {
-            SetImage(imageStream, pictureType);
+            if (pictureType.HasValue)
+            {
+                SetImage(imageStream, pictureType.Value);
+            }
+            else
+            {
+                SetImage(imageStream);
+            }
         }
         /// <summary>
         /// Creates an ExcelImage to be used as template for adding images.
@@ -131,6 +138,41 @@ namespace OfficeOpenXml.Drawing
             SetImage(image.ImageBytes, image.Type.Value, true);
             return this;
         }
+        /// <summary>
+        /// Sets a new image. 
+        /// </summary>
+        /// <param name="imageStream">The stream containing the image.</param>
+        public ExcelImage SetImage(Stream imageStream)
+        {
+            MemoryStream ms;
+            if (imageStream is MemoryStream tms)
+            {
+                ms = tms;
+            }
+            else
+            {
+                if (imageStream.CanRead == false || imageStream.CanSeek == false)
+                {
+                    throw (new ArgumentException("Stream must be readable and seekable", nameof(imageStream)));
+                }
+                var byRet = new byte[imageStream.Length];
+                imageStream.Seek(0, SeekOrigin.Begin);
+                var r = imageStream.Read(byRet, 0, (int)imageStream.Length);
+                ms = new MemoryStream(byRet);
+            }
+
+            var pictureType = ImageReader.GetPictureType(ms, true);
+            if (pictureType.HasValue)
+            {
+                SetImage(ms.ToArray(), pictureType.Value, true);
+            }
+            else
+            {
+                throw new InvalidDataException("Supplied Stream is not in a valid image format.");
+            }
+            
+            return this;
+        }
 
         /// <summary>
         /// Sets a new image. 
@@ -147,7 +189,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if(imageStream.CanRead ==false || imageStream.CanSeek == false)
                 {
-                    throw (new ArgumentException("Stream must be readable and seekble", nameof(imageStream)));
+                    throw (new ArgumentException("Stream must be readable and seekable", nameof(imageStream)));
                 }
                 var byRet = new byte[imageStream.Length];
                 imageStream.Seek(0, SeekOrigin.Begin);
@@ -173,7 +215,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (imageStream.CanRead == false || imageStream.CanSeek == false)
                 {
-                    throw (new ArgumentException("Stream must be readable and seekble", nameof(imageStream)));
+                    throw (new ArgumentException("Stream must be readable and seekable", nameof(imageStream)));
                 }
                 var byRet = new byte[imageStream.Length];
                 imageStream.Seek(0, SeekOrigin.Begin);

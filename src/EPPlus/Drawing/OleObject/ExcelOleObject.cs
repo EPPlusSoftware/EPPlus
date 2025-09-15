@@ -337,7 +337,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 }
                 emf.SetNewTextInDefaultEMFImage(Path.GetFileName(parameters.OlePath));
                 image = emf.GetBytes();
-                //Add image to Picture Store
+                //Add image to Blip Store
                 _mediaImage = _worksheet._package.PictureStore.AddImage(image, null, ePictureType.Emf);
 
             }

@@ -114,7 +114,7 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         ExcelImage _image;
         /// <summary>
-        /// The Image
+        /// The BulletImage
         /// </summary>
         public ExcelImage Image
         {
@@ -354,24 +354,7 @@ namespace OfficeOpenXml.Drawing.Vml
 
         void IPictureContainer.RemoveImage()
         {
-            IPictureContainer container = this;
-            var relDoc = container.RelationDocument;
-            if (relDoc.Hashes.TryGetValue(container.ImageHash, out HashInfo hi))
-            {
-                if (hi.RefCount <= 1)
-                {
-                    relDoc.Package.PictureStore.RemoveImage(container.ImageHash, this);
-                    if (container.RelPic != null)
-                    {
-                        relDoc.RelatedPart.DeleteRelationship(container.RelPic.Id);
-                    }
-                    relDoc.Hashes.Remove(container.ImageHash);
-                }
-                else
-                {
-                    hi.RefCount--;
-                }
-            }
+            PictureStore.RemoveImage(this);
         }
 
         void IPictureContainer.SetNewImage()

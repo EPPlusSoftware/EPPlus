@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
     public interface IColorTransformItem
     {
         /// <summary>
-        /// Type of tranformation
+        /// BulletType of tranformation
         /// </summary>
         eColorTransformType Type { get; }
         /// <summary>

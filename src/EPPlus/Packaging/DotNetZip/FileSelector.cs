@@ -1413,7 +1413,7 @@ namespace OfficeOpenXml.Packaging.Ionic
         ///   or more enumerated constants to an equivalent enumerated object.
         ///   Note: use the DescriptionAttribute on enum values to enable this.
         /// </summary>
-        /// <param name="enumType">The System.Type of the enumeration.</param>
+        /// <param name="enumType">The System.BulletType of the enumeration.</param>
         /// <param name="stringRepresentation">
         ///   A string containing the name or value to convert.
         /// </param>
@@ -1457,7 +1457,7 @@ namespace OfficeOpenXml.Packaging.Ionic
         ///   parameter specified whether the operation is case-sensitive.  Note:
         ///   use the DescriptionAttribute on enum values to enable this.
         /// </summary>
-        /// <param name="enumType">The System.Type of the enumeration.</param>
+        /// <param name="enumType">The System.BulletType of the enumeration.</param>
         /// <param name="stringRepresentation">
         ///   A string containing the name or value to convert.
         /// </param>

@@ -75,7 +75,7 @@ namespace OfficeOpenXml.Export.ToDataTable
 
         private Type _dataColumnType;
         /// <summary>
-        /// <see cref="Type">Type</see> of the column, corresponds to <see cref="System.Data.DataColumn.DataType"/>
+        /// <see cref="Type">BulletType</see> of the column, corresponds to <see cref="System.Data.DataColumn.DataType"/>
         /// </summary>
         public Type ColumnDataType
         {

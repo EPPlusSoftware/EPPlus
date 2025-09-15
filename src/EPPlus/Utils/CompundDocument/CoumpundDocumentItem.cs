@@ -66,7 +66,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
             set;
         }
         /// <summary>
-        /// Type of object
+        /// BulletType of object
         /// 0x00 - Unknown or unallocated 
         /// 0x01 - Storage Object
         /// 0x02 - Stream Object 

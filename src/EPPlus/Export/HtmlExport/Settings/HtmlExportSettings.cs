@@ -92,7 +92,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <item><term>Alignment Right</term><term>{StyleClassPrefix}ar</term></item>
         /// <item><term>Default column width</term><term>{StyleClassPrefix}dcw</term></item>
         /// <item><term>Default row height</term><term>{StyleClassPrefix}drh</term></item>
-        /// <item><term>Image content and position</term><term>{StyleClassPrefix}image-{imageName}</term></item>
+        /// <item><term>BulletImage content and position</term><term>{StyleClassPrefix}image-{imageName}</term></item>
         /// <item><term>Properties for an image, for example position or border settings</term><term>{StyleClassPrefix}image-prop-{imageName}</term></item>
         /// <item><term>Alignment for cells containing an image</term><term>{StyleClassPrefix}image-cell}</term></item>
         /// </list>

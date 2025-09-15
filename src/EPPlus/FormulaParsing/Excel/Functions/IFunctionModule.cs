@@ -35,6 +35,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         ///// is created, it should be given a reference to the same function instance that exists
         ///// in the Functions collection of this module.
         ///// </summary>
-        //IDictionary<Type, FunctionCompiler> CustomCompilers { get; }
+        //IDictionary<BulletType, FunctionCompiler> CustomCompilers { get; }
   }
 }

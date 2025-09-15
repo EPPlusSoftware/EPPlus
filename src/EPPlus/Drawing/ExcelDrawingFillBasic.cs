@@ -248,7 +248,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Fill color for solid fills.
         /// Other fill styles will return Color.Empty.
-        /// Setting this propery will set the Type to SolidFill with the specified color.
+        /// Setting this propery will set the BulletType to SolidFill with the specified color.
         /// </summary>
         public Color Color
         {
@@ -277,7 +277,7 @@ namespace OfficeOpenXml.Drawing
         
         /// <summary>
         /// Reference solid fill properties
-        /// This property is only accessable when Type is set to SolidFill
+        /// This property is only accessable when BulletType is set to SolidFill
         /// </summary>
         public ExcelDrawingSolidFill SolidFill
         {
@@ -293,7 +293,7 @@ namespace OfficeOpenXml.Drawing
         private ExcelDrawingGradientFill _gradientFill = null;
         /// <summary>
         /// Reference gradient fill properties
-        /// This property is only accessable when Type is set to GradientFill
+        /// This property is only accessable when BulletType is set to GradientFill
         /// </summary>
         public ExcelDrawingGradientFill GradientFill
         {

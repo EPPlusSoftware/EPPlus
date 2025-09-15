@@ -190,7 +190,7 @@ namespace OfficeOpenXml.Drawing.EMF
             Handles = 3;
             foreach (var record in Records)
             {
-                //switch (record.Type)
+                //switch (record.BulletType)
                 //{
                 //    case RECORD_TYPES.EMR_CREATEPEN:
                 //    case RECORD_TYPES.EMR_EXTCREATEPEN:

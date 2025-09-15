@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Drawing.Controls
 {
     /// <summary>
-    /// Type of form control
+    /// BulletType of form control
     /// </summary>
     public enum eControlType
     {

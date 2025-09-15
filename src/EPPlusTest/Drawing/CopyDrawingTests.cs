@@ -63,7 +63,7 @@ namespace EPPlusTest.Drawing
             SaveAndCleanup(p);
         }
 
-        //Copy Picture Tests
+        //Copy Blip Tests
         [TestMethod]
         public void CopyPictureSameWorksheetTest()
         {
@@ -692,7 +692,7 @@ namespace EPPlusTest.Drawing
                     Assert.AreEqual("epplusPicture", wsSecond.Drawings[1].Name);
                     Assert.AreEqual("screenshotPicture", wsFirst.Drawings[1].Name);
 
-                    //Assert.AreEqual("1", wsFirst.Drawings[2].As.Picture.Part._rels["0"].Id);
+                    //Assert.AreEqual("1", wsFirst.Drawings[2].As.Blip.Part._rels["0"].Id);
 
                     var outputName = GetOutputFile("", "copy_" + target.File.Name).FullName;
                     target.SaveAs(outputName);

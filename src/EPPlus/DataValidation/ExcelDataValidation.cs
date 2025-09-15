@@ -285,7 +285,7 @@ namespace OfficeOpenXml.DataValidation
         }
 
         /// <summary>
-        /// Type to determine if extLst or not
+        /// BulletType to determine if extLst or not
         /// </summary>
         internal InternalValidationType InternalValidationType { get; set; } = InternalValidationType.DataValidation;
 

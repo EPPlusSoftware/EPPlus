@@ -140,27 +140,27 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
         }
         /// <summary>
         /// A rgb color.
-        /// This property has a value when Type is set to Rgb
+        /// This property has a value when BulletType is set to Rgb
         /// </summary>
         public ExcelDrawingRgbColor RgbColor { get; private set; }
         /// <summary>
         /// A rgb percentage color.
-        /// This property has a value when Type is set to RgbPercentage
+        /// This property has a value when BulletType is set to RgbPercentage
         /// </summary>
         public ExcelDrawingRgbPercentageColor RgbPercentageColor { get; private set; }
         /// <summary>
         /// A hsl color.
-        /// This property has a value when Type is set to Hsl
+        /// This property has a value when BulletType is set to Hsl
         /// </summary>
         public ExcelDrawingHslColor HslColor { get; private set; }
         /// <summary>
         /// A preset color.
-        /// This property has a value when Type is set to Preset
+        /// This property has a value when BulletType is set to Preset
         /// </summary>
         public ExcelDrawingPresetColor PresetColor { get; private set; }
         /// <summary>
         /// A system color.
-        /// This property has a value when Type is set to System
+        /// This property has a value when BulletType is set to System
         /// </summary>
         public ExcelDrawingSystemColor SystemColor { get; private set; }
         /// <summary>

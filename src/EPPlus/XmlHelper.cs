@@ -624,8 +624,9 @@ namespace OfficeOpenXml
                 return null;
             }
             XmlNode prependNode = null;
-            foreach (XmlElement childNode in node.ChildNodes)
+            foreach (XmlNode childNode in node.ChildNodes)
             {
+                if (childNode.NodeType != XmlNodeType.Element) continue;
                 string checkNodeName;
                 if (childNode.LocalName == "AlternateContent") //AlternateContent contains the node that should be in the correnct order. For example AlternateContent/Choice/controls
                 {
@@ -955,7 +956,7 @@ namespace OfficeOpenXml
         }
         internal bool ExistsNode(string path)
         {
-            if (TopNode == null || TopNode.SelectSingleNode(path, NameSpaceManager) == null)
+            if (TopNode!= TopNode == null || TopNode.SelectSingleNode(path, NameSpaceManager) == null)
             {
                 return false;
             }
@@ -1533,6 +1534,27 @@ namespace OfficeOpenXml
             if (n != null)
             {
                 return int.Parse(n.Attributes["val"].Value);
+            }
+            return 0;
+        }
+        /// <summary>
+        /// Returns a percent value from a richtext node. If the value ends with a "%", the value is returned * 100
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        internal static double GetRichTextPropertyDouble(XmlNode n)
+        {
+            if (n != null)
+            {
+                var v = n.Attributes["val"].Value;
+                if(v.EndsWith("%"))
+                {
+                    return double.Parse(v.Substring(0, v.Length - 1)) * 100; // return in EMU
+                }
+                else
+                {
+                    return double.Parse(v); // return in EMU
+                }
             }
             return 0;
         }

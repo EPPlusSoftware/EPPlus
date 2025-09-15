@@ -2358,7 +2358,7 @@ namespace EPPlusTest
         ///     Get exception from thrown from <see cref="ExcelRangeBase.GetValue{T}"/>
         /// </summary>
         /// <typeparam name="T">
-        ///     Type of value to attempt getting from <paramref name="range"/>
+        ///     BulletType of value to attempt getting from <paramref name="range"/>
         /// </typeparam>
         /// <param name="range">
         ///     Mandatory, cell range from which to attempt getting typed value

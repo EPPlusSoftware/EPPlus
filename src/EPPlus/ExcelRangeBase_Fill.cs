@@ -160,7 +160,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Fills the range columnwise (Down) using the values in the list. 
         /// </summary>
-        /// <typeparam name="T">Type used in the list.</typeparam>
+        /// <typeparam name="T">BulletType used in the list.</typeparam>
         /// <param name="list">The list to use.</param>
         public void FillList<T>(IEnumerable<T> list)
         {

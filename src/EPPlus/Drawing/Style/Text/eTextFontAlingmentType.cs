@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Drawing
 {
+    /// <summary>
+    /// How characters are aligned vertically.
+    /// </summary>
     public enum eTextFontAlingmentType
     {
         /// <summary>

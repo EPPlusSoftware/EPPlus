@@ -226,6 +226,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
+                CreateTopNode();
                 SetBoolNode(rtlPath, value);
             }
         }
@@ -427,6 +428,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
+                CreateTopNode();
                 SetXmlNodeString($"{_path}/@kern", value.ToEnumString());
                 TextRun.Capitalization = value;
             }
@@ -443,6 +445,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
+                CreateTopNode();
                 SetXmlNodePercentage($"{_path}/@baseline", value);
                 TextRun.Baseline = value;
             }
@@ -505,6 +508,13 @@ namespace OfficeOpenXml.Style
                 ret |= MeasurementFontStyles.Underline;
             }
             return ret;
+        }
+        internal bool IsEmpty
+        {
+            get
+            {
+                return TopNode==null || (_rootNode==TopNode && string.IsNullOrEmpty(_path)==false) || (TopNode.ChildNodes.Count==0 && TopNode.Attributes.Count==0);
+            }            
         }
 
         

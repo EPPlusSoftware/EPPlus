@@ -11,7 +11,6 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,45 +20,33 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing
 {
-    public class ExcelDrawingParagraphCollection : XmlHelper, IEnumerable<ExcelDrawingParagraph>
+    public class ExcelDrawingParagraphTabStopCollection : XmlHelper, IEnumerable<ExcelDrawingParagraphTabStop>
     {
-        IPictureRelationDocument _prd;
-        string _path;
-        Action _initXml = null;
-        List<ExcelDrawingParagraph> _paragraphs = new List<ExcelDrawingParagraph>();
-        internal ExcelDrawingParagraphCollection(IPictureRelationDocument prd, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string path, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
+        List<ExcelDrawingParagraphTabStop> _tabStops = new List<ExcelDrawingParagraphTabStop>();
+        internal ExcelDrawingParagraphTabStopCollection(XmlNamespaceManager nameSpaceManager, XmlNode topNode, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
         {
-            _prd = prd;
-            var pNodes = topNode.SelectNodes(path + "/a:p", nameSpaceManager);
-            _path = path;
+            var pNodes = topNode.SelectNodes("a:pPr/a:tabLst/a:tab", nameSpaceManager);
+
             foreach(XmlElement pn in pNodes)
             {
-                _paragraphs.Add(new ExcelDrawingParagraph(prd, nameSpaceManager, pn, schemaNodeOrder,  initXml));
+                _tabStops.Add(new ExcelDrawingParagraphTabStop(nameSpaceManager, pn, schemaNodeOrder,  initXml));
             }
         }
-        public int Count { get => _paragraphs.Count; }
-        public ExcelDrawingParagraph this[int PositionID]
+        public int Count { get => _tabStops.Count; }
+        public ExcelDrawingParagraphTabStop this[int PositionID]
         {
             get
             {
-                return _paragraphs[PositionID];
+                return _tabStops[PositionID];
             }
-        }
-        public ExcelDrawingParagraph Add(string text)
-        {
-            var pn = CreateNode(_path + "/a:p", false, true);
-            var p = new ExcelDrawingParagraph(_prd, NameSpaceManager, pn, SchemaNodeOrder, _initXml);
-            //p.TextRuns.Add(text);
-            _paragraphs.Add(p);
-            return p;
         }
         /// <summary>
         /// Gets the enumerator.
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<ExcelDrawingParagraph> GetEnumerator()
+        public IEnumerator<ExcelDrawingParagraphTabStop> GetEnumerator()
         {
-            return _paragraphs.GetEnumerator();
+            return _tabStops.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

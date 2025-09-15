@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         const string TRENDLINEPATH = "c:trendlineType/@val";
         /// <summary>
-        /// Type of Trendline
+        /// BulletType of Trendline
         /// </summary>
         public eTrendLine Type
         {

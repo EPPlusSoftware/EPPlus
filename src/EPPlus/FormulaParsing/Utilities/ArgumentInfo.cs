@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Utilities
     /// <summary>
     /// Represent a function argument to validate
     /// </summary>
-    /// <typeparam name="T">Type of the argument to validate</typeparam>
+    /// <typeparam name="T">BulletType of the argument to validate</typeparam>
     public class ArgumentInfo<T>
     {
         /// <summary>

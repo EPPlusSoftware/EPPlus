@@ -19,7 +19,7 @@ using System.Xml;
 namespace OfficeOpenXml.Filter
 {
     /// <summary>
-    /// Various filters that are set depending on the filter <c>Type</c>
+    /// Various filters that are set depending on the filter <c>BulletType</c>
     /// <see cref="Type"/>
     /// </summary>
     public class ExcelDynamicFilterColumn : ExcelFilterColumn
@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Filter
         }
 
         /// <summary>
-        /// Type of filter
+        /// BulletType of filter
         /// </summary>
         public eDynamicFilterType Type { get; set; }
         /// <summary>

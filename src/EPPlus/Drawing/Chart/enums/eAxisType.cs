@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         Date,
         /// <summary>
-        /// Series axis (Type of Category axis usually in 3D charts)
+        /// Series axis (BulletType of Category axis usually in 3D charts)
         /// </summary>
         Serie
     }

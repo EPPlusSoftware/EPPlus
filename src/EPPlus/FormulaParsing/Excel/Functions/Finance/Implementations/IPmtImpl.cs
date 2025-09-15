@@ -33,7 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                 dTemp = 1;
             }
 
-            // Type = 0 or non-zero only. Offset to calculate FV
+            // BulletType = 0 or non-zero only. Offset to calculate FV
             if((Per <= 0) || (Per >= NPer + 1))
             {
                 return new FinanceCalcResult<double>(eErrorType.Value);

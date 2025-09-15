@@ -269,7 +269,7 @@ namespace EPPlusTest.ConditionalFormatting
                 cfRule1.Style.Font.Bold = true;
 
                 // But others you can't (readonly)
-                // cfRule1.Type = eExcelConditionalFormattingRuleType.ThreeColorScale;
+                // cfRule1.BulletType = eExcelConditionalFormattingRuleType.ThreeColorScale;
 
                 // -------------------------------------------------------------------
                 // ThreeColorScale Conditional Formatting example

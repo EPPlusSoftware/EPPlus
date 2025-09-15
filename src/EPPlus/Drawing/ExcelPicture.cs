@@ -321,8 +321,8 @@ namespace OfficeOpenXml.Drawing
                     SetSize((int)width, (int)height);
                 }
 
-                //Image.Bounds.Height = origHeight;
-                //Image.Bounds.Width = origWidth;
+                //BulletImage.Bounds.Height = origHeight;
+                //BulletImage.Bounds.Width = origWidth;
             }
         }
 

@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -8,25 +8,23 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  9/11/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.Utils
+namespace OfficeOpenXml.Drawing
 {
-    /// <summary>
-    /// An argument
-    /// </summary>
-    /// <typeparam name="T">Argument BulletType</typeparam>
-    public interface IArgument<T>
+    public enum eBulletSizeType
     {
         /// <summary>
-        /// Value of the argument
+        /// The size of the bullet characters is in percentage of the surrounding text within the paragraph
         /// </summary>
-        T Value { get; }
+        PercentOfText,
+        /// <summary>
+        /// The size of the bullet characters is points
+        /// </summary>
+        Points,
+        /// <summary>
+        /// The size of the bullet characters is the same points as the surrounding text.
+        /// </summary>
+        FollowText
     }
 }

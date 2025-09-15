@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Style
 {
     /// <summary>
-    /// Type of font strike
+    /// BulletType of font strike
     /// </summary>
     public enum eStrikeType
     {

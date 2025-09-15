@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.VBA
 {
         /// <summary>
-        /// Type of system where the VBA project was created.
+        /// BulletType of system where the VBA project was created.
         /// </summary>
         public enum eSyskind
         {

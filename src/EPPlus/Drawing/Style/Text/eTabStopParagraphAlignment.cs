@@ -8,16 +8,30 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+    9/11/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
-using System.Xml;
-
 namespace OfficeOpenXml.Drawing
 {
-    public class ExcelDrawingTextSpacing
+    /// <summary>
+    /// Text tab alignment within a single paragraph.
+    /// </summary>
+    public enum eTabStopParagraphAlignment
     {
-        internal ExcelDrawingTextSpacing(XmlNamespaceManager nameSpaceManager, XmlNode topNode, string v)
-        {
-        }
+        /// <summary>
+        /// The text at this tab stop is center aligned.
+        /// </summary>
+        Center,
+        /// <summary>
+        /// At this tab stop, the decimals are lined up. From a user's point of view, the text here behaves as right aligned until the decimal, and then as left aligned after the decimal.
+        /// </summary>
+        Decimal,
+        /// <summary>
+        /// The text at this tab stop is left aligned.
+        /// </summary>
+        Left,
+        /// <summary>
+        /// The text at this tab stop is right aligned.
+        /// </summary>
+        Right
     }
 }

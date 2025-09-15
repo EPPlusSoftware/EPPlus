@@ -332,7 +332,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         protected int CalculateCorrectIcon(ExcelAddress address, ExcelConditionalFormattingIconDataBarValue[] icons)
         {
-            //Icon1.Type 
+            //Icon1.BulletType 
             var range = _ws.Cells[address.Address];
             var cellValue = range.Value;
             if(cellValue.IsNumeric() && cellValue != null)

@@ -208,7 +208,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Inserts a picture at the end of the text in the header or footer
         /// </summary>
-        /// <param name="PictureFile">The image object containing the Picture</param>
+        /// <param name="PictureFile">The image object containing the Blip</param>
         /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
         public ExcelVmlDrawingPicture InsertPicture(FileInfo PictureFile, PictureAlignment Alignment)
         {

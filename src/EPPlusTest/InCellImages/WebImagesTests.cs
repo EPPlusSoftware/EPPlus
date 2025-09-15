@@ -20,7 +20,7 @@ namespace EPPlusTest.InCellImages
             var webPic = sheet.Cells["A1"].Picture.Get();
             var uri = webPic.ImageUri;
 
-            //sheet.Cells["A2"].Picture.Set(Resources.Png2ByteArray);
+            //sheet.Cells["A2"].Blip.Set(Resources.Png2ByteArray);
             var localPic = sheet.Cells["B1"].Picture.Get();
             var lpBytes = localPic.GetImageBytes();
 

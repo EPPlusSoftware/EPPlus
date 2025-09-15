@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Drawing
         /// Retrieves the image bounds and resolution for an image
         /// </summary>
         /// <param name="image">The image data</param>
-        /// <param name="type">Type type of image</param>
+        /// <param name="type">BulletType type of image</param>
         /// <param name="width">The width of the image</param>
         /// <param name="height">The height of the image</param>
         /// <param name="horizontalResolution">The horizontal resolution in DPI</param>
