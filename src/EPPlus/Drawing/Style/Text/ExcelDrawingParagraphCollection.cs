@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Drawing
         {
             var pn = CreateNode(_path + "/a:p", false, true);
             var p = new ExcelDrawingParagraph(_prd, NameSpaceManager, pn, SchemaNodeOrder, _initXml);
-            //p.TextRuns.Add(text);
+            p.TextRuns.AddRun(text);
             _paragraphs.Add(p);
             return p;
         }

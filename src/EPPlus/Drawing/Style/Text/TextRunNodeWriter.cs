@@ -88,7 +88,7 @@ namespace OfficeOpenXml.Style
             WriteCaps(txtRun.Capitalization);
             WriteBaseLine(txtRun.Baseline);
 
-            txtRun.InnerText?.TryAct(WriteInnerText);
+            txtRun.Text?.TryAct(WriteInnerText);
         }
 
         private void WriteUnderLineColor(Color value)

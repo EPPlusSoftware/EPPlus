@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Drawing
         internal RegularTextRun(string text)
         {
             Attributes = new TextCharacterAttributes();
-            InnerText = text;
+            Text = text;
         }
 
         internal void SetDefaultFontName(string defaultName)
@@ -208,6 +208,6 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Actual text for the text run
         /// </summary>
-        internal string InnerText;
+        internal string Text;
     }
 }

@@ -271,7 +271,7 @@ namespace OfficeOpenXml.Style
             TextRun.EastAsianFont = EastAsianFont;
             TextRun.ComplexFont = ComplexFont;
             TextRun.SymbolFont = SymbolFont;
-            TextRun.InnerText = GetXmlNodeString(_innerTextPath);
+            TextRun.Text = GetXmlNodeString(_innerTextPath);
         }
 
         internal void ParseAttributesFromXML()
