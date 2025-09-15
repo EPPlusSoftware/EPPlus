@@ -222,6 +222,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
+                CreateTopNode();
                 SetBoolNode(rtlPath, value);
             }
         }
@@ -409,6 +410,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
+                CreateTopNode();
                 SetXmlNodeString($"{_path}/@kern", value.ToEnumString());
                 textRun.Capitalization = value;
             }
@@ -425,6 +427,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
+                CreateTopNode();
                 SetXmlNodePercentage($"{_path}/@baseline", value);
                 textRun.Baseline = value;
             }
@@ -492,7 +495,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return TopNode==null || (TopNode.ChildNodes.Count==0 && TopNode.Attributes.Count==0);               
+                return TopNode==null || (_rootNode==TopNode && string.IsNullOrEmpty(_path)==false) || (TopNode.ChildNodes.Count==0 && TopNode.Attributes.Count==0);
             }            
         }
 

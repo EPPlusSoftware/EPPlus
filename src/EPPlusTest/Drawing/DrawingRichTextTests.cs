@@ -123,24 +123,20 @@ namespace EPPlusTest.Drawing
                 using (var p = OpenTemplatePackage("Paragraphs.xlsx"))
                 {
                     var ws1 = p.Workbook.Worksheets[0];
-                    var pg = ws1.Drawings[0].As.Shape.TextBody.Paragraphs;
+                    var pg1 = ws1.Drawings[0].As.Shape.TextBody.Paragraphs;
 
-                    Assert.AreEqual(7, pg.Count);
-                    Assert.AreEqual(eDrawingColorType.Rgb, pg[0].Bullet.Color.ColorType);
-                    Assert.IsNotNull(pg[0].Bullet.Color.RgbColor);
-                    Assert.AreEqual("Wingdings", pg[0].Bullet.Font.Typeface);
-                    Assert.AreEqual("05000000000000000000", pg[0].Bullet.Font.Panose);
-                    Assert.AreEqual(ePitchFamily.Variable, pg[0].Bullet.Font.PitchFamily);
-                    Assert.AreEqual(2, pg[0].Bullet.Font.Charset);
-                    //Assert.AreEqual(eTextAlignment.Right, pg[0].HorizontalAlignment);
-                    //Assert.AreEqual(18, pg[0].DefaultRunProperties.Size);
-                    //Assert.IsFalse(pg[0].DefaultRunProperties.Italic);
-                    //Assert.AreEqual(OfficeOpenXml.Style.eDrawingTextLineSpacing.Single, pg[0].LineSpacing.LineSpacingType);
-                    //Assert.AreEqual(100D, pg[0].LineSpacing.Value);
-                    //Assert.AreEqual(0D, pg[0].SpaceAfter.Value);
-                    //Assert.AreEqual(0D, pg[0].SpaceBefore.Value);
-                    //Assert.IsFalse(pg[0].DefaultRunProperties.IsEmpty);
-                    //Assert.IsTrue(pg[1].DefaultRunProperties.IsEmpty);
+                    Assert.AreEqual(7, pg1.Count);
+                    Assert.AreEqual(eDrawingColorType.Rgb, pg1[0].Bullet.Color.ColorType);
+                    Assert.IsNotNull(pg1[0].Bullet.Color.RgbColor);
+                    Assert.AreEqual("Wingdings", pg1[0].Bullet.Font.Typeface);
+                    Assert.AreEqual("05000000000000000000", pg1[0].Bullet.Font.Panose);
+                    Assert.AreEqual(ePitchFamily.Variable, pg1[0].Bullet.Font.PitchFamily);
+                    Assert.AreEqual(2, pg1[0].Bullet.Font.Charset);
+                    Assert.IsTrue(pg1[2].DefaultRunProperties.IsEmpty);
+
+
+                    var pg2 = ws1.Drawings[1].As.Shape.TextBody.Paragraphs;
+                    Assert.AreEqual(2, pg2[0].TabStops.Count);
                 }
             }
 

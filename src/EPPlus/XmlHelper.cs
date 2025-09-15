@@ -956,7 +956,7 @@ namespace OfficeOpenXml
         }
         internal bool ExistsNode(string path)
         {
-            if (TopNode == null || TopNode.SelectSingleNode(path, NameSpaceManager) == null)
+            if (TopNode!= TopNode == null || TopNode.SelectSingleNode(path, NameSpaceManager) == null)
             {
                 return false;
             }

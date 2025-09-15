@@ -10,6 +10,7 @@
  *************************************************************************************************
     9/11/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
+using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
@@ -30,7 +31,7 @@ namespace OfficeOpenXml.Drawing
         IPictureRelationDocument _prd;
         internal ExcelDrawingParagraph(IPictureRelationDocument prd, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
         {
-            AddSchemaNodeOrder(schemaNodeOrder, ["lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "tabLst", "defRPr"]);
+            AddSchemaNodeOrder(schemaNodeOrder, ["lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzPct", "buSzTx", "buSzPts", "buFont", "buFontTx", "buAutoNum", "buChar", "buBlip", "buNone", "tabLst", "defRPr"]);
             _initXml = initXml;
             DefaultRunProperties = new ExcelTextFont(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
         }
@@ -267,6 +268,18 @@ namespace OfficeOpenXml.Drawing
                     _bullet = new ExcelParagraphBullet(_prd, NameSpaceManager, TopNode, "a:pPr", SchemaNodeOrder, _initXml);
                 }
                 return _bullet;
+            }
+        }
+        ExcelDrawingParagraphTabStopCollection _tabStops = null;
+        public ExcelDrawingParagraphTabStopCollection TabStops
+        {
+            get
+            {
+                if(_tabStops==null)
+                {
+                    _tabStops = new ExcelDrawingParagraphTabStopCollection(NameSpaceManager, TopNode, SchemaNodeOrder, _initXml);
+                }
+                return _tabStops;
             }
         }
         /// <summary>
