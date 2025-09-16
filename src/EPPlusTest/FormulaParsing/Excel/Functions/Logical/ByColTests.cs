@@ -67,7 +67,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Calculate();
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["D4"].Value);
 
-            SaveWorkbook("ByColError.xlsx", package);
         }
 
         [TestMethod]

@@ -692,7 +692,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             if(cr.DataType == DataType.LambdaCalculation)
             {
-                cr = CompileResult.GetErrorResult(eErrorType.Calc);
+                cr = CompileResult.GetDynamicArrayResultError(eErrorType.Calc);
             }
             //Set the value.
             if (f._row >= 0)

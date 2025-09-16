@@ -9,7 +9,7 @@ using System.Text;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 {
     [TestClass]
-    public class ScanTests
+    public class ScanTests : TestBase
     {
         [TestMethod]
         public void ScanTestFactorial()
@@ -127,6 +127,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(DataType.ExcelError, ((ExcelErrorValue)sheet.Cells["D5"].Value).AsCompileResult.DataType);
             var str = sheet.Cells["D5"].Value.ToString();
             Assert.AreEqual("#CALC!", str);
+
+            //SaveWorkbook("ScanErrors.xlsx", package);
         }
 
         [TestMethod]

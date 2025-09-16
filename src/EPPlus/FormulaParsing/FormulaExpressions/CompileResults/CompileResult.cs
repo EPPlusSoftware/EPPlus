@@ -54,6 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         private static DynamicArrayCompileResult _arrayErrorCalc = new DynamicArrayCompileResult(ErrorValues.CalcError, DataType.ExcelError);
 
 
+
         //private static CompileResult _errorSpill = new CompileResult(ErrorValues.SpillError, DataType.ExcelError); //Spill should use the Spill error containing row and column offset.
 
         internal string GetResultValue()
