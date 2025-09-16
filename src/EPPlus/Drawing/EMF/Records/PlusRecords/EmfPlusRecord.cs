@@ -16,7 +16,7 @@ namespace OfficeOpenXml.Drawing.EMF.Records
         /// </summary>
         internal uint Size;              //4
         /// <summary>
-        /// Size without the Invariant part of given record
+        /// FontSize without the Invariant part of given record
         /// </summary>
         internal uint DataSize;          //4
         internal byte[] data;       //This byte array is used for records not yet implemented to preserve data.

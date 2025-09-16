@@ -64,7 +64,7 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
         /// <summary>
-        /// A string representing the pictures Size. 
+        /// A string representing the pictures FontSize. 
         /// For Example: 0,0
         /// </summary>
         public string Size

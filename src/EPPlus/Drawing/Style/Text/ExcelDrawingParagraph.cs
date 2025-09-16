@@ -34,6 +34,7 @@ namespace OfficeOpenXml.Drawing
         {
             AddSchemaNodeOrder(schemaNodeOrder, ["lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzPct", "buSzTx", "buSzPts", "buFont", "buFontTx", "buAutoNum", "buChar", "buBlip", "buNone", "tabLst", "defRPr"]);
             _initXml = initXml;
+            _prd = prd;
             DefaultRunProperties = new ExcelTextFont(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
         }
         /// <summary>
@@ -80,7 +81,7 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                _initXml.Invoke();
+                _initXml?.Invoke();
                 SetXmlNodeString("a:pPr/@algn", value.ToEnumString(new Dictionary<Enum, string>
                 {
                     [eTextAlignment.Right] = "r",

@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///        System.Console.WriteLine("BitField: 0x{0:X2}", e.BitField);
         ///        System.Console.WriteLine("Compression Method: 0x{0:X2}", e.CompressionMethod);
         ///        System.Console.WriteLine("\n{1,-22} {2,-6} {3,4}   {4,-8}  {0}",
-        ///                     "Filename", "Modified", "Size", "Ratio", "Packed");
+        ///                     "Filename", "Modified", "FontSize", "Ratio", "Packed");
         ///        System.Console.WriteLine(new System.String('-', 72));
         ///        header = false;
         ///     }
@@ -101,7 +101,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///               Console.WriteLine("BitField: 0x{0:X2}", e.BitField)
         ///               Console.WriteLine("Compression Method: 0x{0:X2}", e.CompressionMethod)
         ///               Console.WriteLine(ChrW(10) &amp; "{1,-22} {2,-6} {3,4}   {4,-8}  {0}", _
-        ///                 "Filename", "Modified", "Size", "Ratio", "Packed" )
+        ///                 "Filename", "Modified", "FontSize", "Ratio", "Packed" )
         ///               Console.WriteLine(New String("-"c, 72))
         ///               header = False
         ///           End If

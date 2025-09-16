@@ -77,7 +77,7 @@ namespace OfficeOpenXml.VBA.Signatures
             {
                 // SigFormatDescriptorV1
                 bw.Write((byte)0x04);
-                bw.Write((byte)0x0C); // Size of octstring
+                bw.Write((byte)0x0C); // FontSize of octstring
                 bw.Write(12); // size of record
                 bw.Write(1); // version
                 bw.Write(1);// format

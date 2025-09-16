@@ -774,7 +774,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
             }
             var noOfSectors = fullStreamSize / _sectorSize;
 
-            //Directory Size
+            //Directory FontSize
             var dirsPerSector = _sectorSize / 128;
             int firstFATSectorPos = _currentFATSectorPos;
             int numberOfFATSectors = 0;
@@ -921,7 +921,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
             bw.Write(_numberOfFATSectors);      //Number of FAT Sectors
             bw.Write(1);                        //First Directory Sector Location
             bw.Write(0);                        //Transaction Signature Number
-            bw.Write(_miniStreamCutoffSize);     //Mini Stream Cutoff Size
+            bw.Write(_miniStreamCutoffSize);     //Mini Stream Cutoff FontSize
             bw.Write(2);                        //First Mini FAT Sector Location
             bw.Write(_numberofMiniFATSectors);   //Number of MiniFAT sectors
             bw.Write(_firstDIFATSectorLocation); //First DIFAT Sector Location

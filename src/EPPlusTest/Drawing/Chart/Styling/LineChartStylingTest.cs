@@ -249,7 +249,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
                     //    if (chartType != eLineChartType.Line3D)
                     //    {
                     //        serie.Marker.Style = eMarkerStyle.Circle;
-                    //        serie.Marker.Size = 17;
+                    //        serie.Marker.FontSize = 17;
                     //    }
                     //    serie.DataLabel.Position = eLabelPosition.Center;
                     //    serie.DataLabel.ShowValue = true;

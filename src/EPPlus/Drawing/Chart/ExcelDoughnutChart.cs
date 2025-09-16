@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Drawing.Chart
         //string _holeSizePath = "c:chartSpace/c:chart/c:plotArea/{0}/c:holeSize/@val";
         string _holeSizePath = "c:holeSize/@val";
         /// <summary>
-        /// Size of the doubnut hole
+        /// FontSize of the doubnut hole
         /// </summary>
         public double HoleSize
         {

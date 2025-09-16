@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] RecordSignature;    //4
         internal byte[] Version;            //4
         internal uint   Bytes;              //4         //Filesize
-        internal uint   Records;            //4         //List Size
+        internal uint   Records;            //4         //List FontSize
         internal ushort Handles;            //2         //number of graphics objects
         internal byte[] Reserved;           //2
         internal uint nDescription;       //4

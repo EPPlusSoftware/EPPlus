@@ -605,7 +605,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                             }
                             break;
                         default:
-                            //Font Size
+                            //Font FontSize
                             if (char.IsDigit(hfText[i]))
                             {
                                 int num = i;

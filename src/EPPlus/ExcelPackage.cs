@@ -80,14 +80,14 @@ namespace OfficeOpenXml
     ///            //Ok now format the values;
     ///         using (var range = worksheet.Cells[1, 1, 1, 5]) 
     ///          {
-    ///             range.Style.Font.Bold = true;
+    ///             range.Style.Font.FontBold = true;
     ///             range.Style.Fill.PatternType = ExcelFillStyle.Solid;
     ///             range.Style.Fill.BackgroundColor.SetColor(Color.DarkBlue);
     ///             range.Style.Font.Color.SetColor(Color.White);
     ///         }
     ///
     ///         worksheet.Cells["A5:E5"].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-    ///         worksheet.Cells["A5:E5"].Style.Font.Bold = true;
+    ///         worksheet.Cells["A5:E5"].Style.Font.FontBold = true;
     ///
     ///         worksheet.Cells[5, 3, 5, 5].Formula = string.Format("SUBTOTAL(9,{0})", new ExcelAddress(2,3,4,3).Address);
     ///         worksheet.Cells["C2:C5"].Style.Numberformat.Format = "#,##0";
@@ -99,7 +99,7 @@ namespace OfficeOpenXml
     ///         worksheet.Cells["A1:E5"].AutoFitColumns(0);
     ///
     ///         // lets set the header text 
-    ///         worksheet.HeaderFooter.oddHeader.CenteredText = "&amp;24&amp;U&amp;\"Arial,Regular Bold\" Inventory";
+    ///         worksheet.HeaderFooter.oddHeader.CenteredText = "&amp;24&amp;U&amp;\"Arial,Regular FontBold\" Inventory";
     ///         // add the page number to the footer plus the total number of pages
     ///         worksheet.HeaderFooter.oddFooter.RightAlignedText =
     ///         string.Format("Page {0} of {1}", ExcelHeaderFooter.PageNumber, ExcelHeaderFooter.NumberOfPages);

@@ -42,17 +42,17 @@ namespace OfficeOpenXml.Style
         public bool PreserveSpace { get; set; } = true;
 
         /// <summary>
-        /// Bold text
+        /// FontBold text
         /// </summary>
         public bool Bold { get; set; } = false;
 
         /// <summary>
-        /// Italic text
+        /// FontItalic text
         /// </summary>
         public bool Italic { get; set; } = false;
 
         /// <summary>
-        /// Strike-out text
+        /// FontStrike-out text
         /// </summary>
         public bool Strike { get; set; } = false;
 

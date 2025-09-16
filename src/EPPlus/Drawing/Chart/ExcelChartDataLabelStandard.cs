@@ -204,7 +204,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         const string showBubbleSizePath = "c:showBubbleSize/@val";
         /// <summary>
-        /// Show Bubble Size
+        /// Show Bubble FontSize
         /// </summary>
         public override bool ShowBubbleSize
         {

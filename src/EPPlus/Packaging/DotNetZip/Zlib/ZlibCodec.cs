@@ -304,7 +304,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///     ZlibCodec decompressor = new ZlibCodec();
         /// 
         ///     Console.WriteLine("\n============================================");
-        ///     Console.WriteLine("Size of Buffer to Inflate: {0} bytes.", CompressedBytes.Length);
+        ///     Console.WriteLine("FontSize of Buffer to Inflate: {0} bytes.", CompressedBytes.Length);
         ///     MemoryStream ms = new MemoryStream(DecompressedBytes);
         /// 
         ///     int rc = decompressor.InitializeInflate();
@@ -528,7 +528,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///     ZlibCodec compressor = new ZlibCodec();
         /// 
         ///     Console.WriteLine("\n============================================");
-        ///     Console.WriteLine("Size of Buffer to Deflate: {0} bytes.", UncompressedBytes.Length);
+        ///     Console.WriteLine("FontSize of Buffer to Deflate: {0} bytes.", UncompressedBytes.Length);
         ///     MemoryStream ms = new MemoryStream();
         /// 
         ///     int rc = compressor.InitializeDeflate(level);

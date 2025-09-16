@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Drawing.EMF
             ihFonts = br.ReadUInt32();
 
             var sizeOfVariableObject = Size - 12;
-            if (sizeOfVariableObject > 320)//Size of a LogFontPanose object
+            if (sizeOfVariableObject > 320)//FontSize of a LogFontPanose object
             {
                 elw = new LogFontExDv(br);
                 //isExDv = true;
@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Drawing.EMF
 
             //font.Style = MeasurementFontStyles.Regular;
             //font.FontFamily = elw.FaceName;
-            //font.Size = 
+            //font.FontSize = 
         }
 
         internal override void WriteBytes(BinaryWriter bw)

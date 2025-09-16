@@ -1956,7 +1956,7 @@ namespace OfficeOpenXml
         /// <item><term>&amp;U</term><description>Underlined</description></item>
         /// <item><term>&amp;E</term><description>Double Underline</description></item>
         /// <item><term>&amp;K:xxxxxx</term><description>Color. ex &amp;K:FF0000 for red</description></item>
-        /// <item><term>&amp;"Font,Regular Bold Italic"</term><description>Changes the font. Regular or Bold or Italic or Bold Italic can be used. ex &amp;"Arial,Bold Italic"</description></item>
+        /// <item><term>&amp;"Font,Regular FontBold FontItalic"</term><description>Changes the font. Regular or FontBold or FontItalic or FontBold FontItalic can be used. ex &amp;"Arial,FontBold FontItalic"</description></item>
         /// <item><term>&amp;nn</term><description>Change font size. nn is an integer. ex &amp;24</description></item>
         /// <item><term>&amp;G</term><description>Placeholder for images. Images cannot be added by the library, but its possible to use in a template.</description></item>
         /// </list>

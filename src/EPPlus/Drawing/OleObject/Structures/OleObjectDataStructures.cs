@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Drawing.OleObject.Structures
             internal CLSID ClsId;
             internal UInt32 StreamData1 = 2;
             internal UInt16 StreamData2 = 33;
-            internal UInt32 StreamData3 = 0; //Size of StreamData4
+            internal UInt32 StreamData3 = 0; //FontSize of StreamData4
             internal string StreamData4 = "";
             internal Encoding Encoding = Encoding.Unicode;
         }

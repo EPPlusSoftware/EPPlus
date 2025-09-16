@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Vba.ContentHash
             // APPEND Buffer WITH PROJECTSYSKIND.Id (section 2.3.4.2.1.1) of Storage
             bw.Write((ushort)0x0001);
 
-            // APPEND Buffer WITH PROJECTSYSKIND.Size (section 2.3.4.2.1.1) of Storage
+            // APPEND Buffer WITH PROJECTSYSKIND.FontSize (section 2.3.4.2.1.1) of Storage
             bw.Write((uint)0x00000004); 
 
             /******************************************
@@ -76,7 +76,7 @@ namespace OfficeOpenXml.Vba.ContentHash
             
             bw.Write((ushort)0x0002);
 
-            // APPEND Buffer WITH PROJECTLCID.Size (section 2.3.4.2.1.3) of Storage
+            // APPEND Buffer WITH PROJECTLCID.FontSize (section 2.3.4.2.1.3) of Storage
             bw.Write((uint)0x00000004);
 
             // APPEND Buffer WITH PROJECTLCID.Lcid (section 2.3.4.2.1.3) of Storage
@@ -89,7 +89,7 @@ namespace OfficeOpenXml.Vba.ContentHash
             // APPEND Buffer WITH PROJECTLCIDINVOKE.Id (section 2.3.4.2.1.4) of Storage
             bw.Write((ushort)0x0014);
 
-            // APPEND Buffer WITH PROJECTLCIDINVOKE.Size (section 2.3.4.2.1.4) of Storage
+            // APPEND Buffer WITH PROJECTLCIDINVOKE.FontSize (section 2.3.4.2.1.4) of Storage
             bw.Write((uint)0x00000004);
 
             // APPEND Buffer WITH PROJECTLCIDINVOKE.LcidInvoke (section 2.3.4.2.1.4) of Storage
@@ -102,7 +102,7 @@ namespace OfficeOpenXml.Vba.ContentHash
             // APPEND Buffer WITH PROJECTCODEPAGE.Id (section 2.3.4.2.1.5) of Storage
             bw.Write((ushort)0x0003);
 
-            // APPEND Buffer WITH PROJECTCODEPAGE.Size (section 2.3.4.2.1.5) of Storage
+            // APPEND Buffer WITH PROJECTCODEPAGE.FontSize (section 2.3.4.2.1.5) of Storage
             bw.Write((uint)0x00000002);
 
             /******************************************
@@ -163,7 +163,7 @@ namespace OfficeOpenXml.Vba.ContentHash
             // APPEND Buffer WITH PROJECTHELPCONTEXT.Id (section 2.3.4.2.1.9) of Storage
             bw.Write((ushort)0x0007);
 
-            // APPEND Buffer WITH PROJECTHELPCONTEXT.Size (section 2.3.4.2.1.9) of Storage
+            // APPEND Buffer WITH PROJECTHELPCONTEXT.FontSize (section 2.3.4.2.1.9) of Storage
             bw.Write((uint)0x00000004);
 
             /******************************************
@@ -173,7 +173,7 @@ namespace OfficeOpenXml.Vba.ContentHash
             // APPEND Buffer WITH PROJECTLIBFLAGS.Id (section 2.3.4.2.1.10) of Storage
             bw.Write((ushort)0x0008);
 
-            // APPEND Buffer WITH PROJECTLIBFLAGS.Size (section 2.3.4.2.1.10) of Storage
+            // APPEND Buffer WITH PROJECTLIBFLAGS.FontSize (section 2.3.4.2.1.10) of Storage
             bw.Write((uint)0x00000004);
 
             // APPEND Buffer WITH PROJECTLIBFLAGS.ProjectLibFlags (section 2.3.4.2.1.10) of Storage
@@ -240,8 +240,8 @@ namespace OfficeOpenXml.Vba.ContentHash
             // APPEND Buffer WITH PROJECTMODULES.Id (section 2.3.4.2.3) of Storage
             bw.Write((ushort)0x000F);
 
-            // APPEND Buffer WITH PROJECTMODULES.Size (section 2.3.4.2.3) of Storage
-            bw.Write((uint)0x00000002); // Size
+            // APPEND Buffer WITH PROJECTMODULES.FontSize (section 2.3.4.2.3) of Storage
+            bw.Write((uint)0x00000002); // FontSize
 
             /******************************************
              * 2.3.4.2.3.1 PROJECTCOOKIE Record       *
@@ -250,7 +250,7 @@ namespace OfficeOpenXml.Vba.ContentHash
             // APPEND Buffer WITH PROJECTCOOKIE.Id (section 2.3.4.2.3.1) of Storage
             bw.Write((ushort)0x0013);
 
-            // APPEND Buffer WITH PROJECTCOOKIE.Size (section 2.3.4.2.3.1) of Storage
+            // APPEND Buffer WITH PROJECTCOOKIE.FontSize (section 2.3.4.2.3.1) of Storage
             bw.Write((uint)0x00000002);
 
             /*
@@ -418,7 +418,7 @@ namespace OfficeOpenXml.Vba.ContentHash
             var refNameBytes = encoding.GetBytes(reference.Name);
 
             // APPEND Buffer WITH REFERENCENAME.SizeOfName (section 2.3.4.2.2.2)
-            bw.Write((uint)refNameBytes.Length); // Size
+            bw.Write((uint)refNameBytes.Length); // FontSize
 
             // APPEND Buffer WITH REFERENCENAME.Name(section 2.3.4.2.2.2)
             bw.Write(refNameBytes); // Name

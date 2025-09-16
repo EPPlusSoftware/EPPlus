@@ -1,0 +1,424 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  09/15/2025         EPPlus Software AB       EPPlus 9
+ *************************************************************************************************/
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils.EnumUtils;
+using System.Drawing;
+using System.Xml;
+namespace OfficeOpenXml.Drawing
+{
+    /// <summary>
+    /// A richtext part
+    /// </summary>
+    public abstract class ExcelParagraphTextRunBase : XmlHelper
+    {
+        /// <summary>
+        /// for measuring
+        /// </summary>
+        string _defaultFontName;
+        IPictureRelationDocument _prd;
+        //XmlNode _rootNode;
+        internal ExcelParagraphTextRunBase(IPictureRelationDocument prd, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
+        {
+            SchemaNodeOrder = ["rPr", "pPr", "t"];
+
+            //if (topNode.LocalName == "r" ||
+            //   topNode.LocalName == "fld" ||
+            //   topNode.LocalName == "br")
+            //{
+            //    _rootNode = topNode;
+            //}
+            _prd = prd;
+        }
+        /// <summary>
+        /// The type of text run
+        /// </summary>
+        public abstract eParagraphRunType Type { get; }
+
+        internal void SetDefaultFontName(string defaultName)
+        {
+            _defaultFontName = defaultName;
+        }
+
+        internal string GetTextRunFontName()
+        {
+            if (string.IsNullOrEmpty(LatinFont))
+            {
+                if (string.IsNullOrEmpty(ComplexFont))
+                {
+                    return _defaultFontName;
+                }
+                else
+                {
+                    return ComplexFont;
+                }
+            }
+            else
+            {
+                return LatinFont;
+            }
+        }
+
+        #region Basic Fill
+        ExcelDrawingFill _fill;
+        /// <summary>
+        /// A reference to the fill properties
+        /// </summary>
+        public ExcelDrawingFill Fill
+        {
+            get
+            {
+                if (_fill == null)
+                {
+                    _fill = new ExcelDrawingFill(_prd, NameSpaceManager, TopNode, "a:rPr", SchemaNodeOrder);
+                }
+                return _fill;
+            }
+        }
+
+        ////Below is quick-access to the drawing fill
+        //string _colorPath = "a:rPr/a:solidFill/a:srgbClr/@val";
+        ///// <summary>
+        ///// Sets the default color of the text.
+        ///// This sets the Fill to a SolidFill with the specified color.
+        ///// <remark>
+        ///// Use the Fill property for more options
+        ///// </remark>
+        ///// </summary>
+        //public Color Color
+        //{
+        //    get
+        //    {
+        //        string col = GetXmlNodeString(_colorPath);
+        //        if (col == "")
+        //        {
+        //            return Color.Empty;
+        //        }
+        //        else
+        //        {
+        //            return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+        //        }
+        //    }
+        //    set
+        //    {
+        //        Fill.Style = eFillStyle.SolidFill;
+        //        Fill.SolidFill.Color.SetRgbColor(value);
+        //    }
+        //}
+        #endregion Basic fill
+
+        //UnderlineLine underlineFill etc.
+        #region Underline
+        string _underLineColorPath = "a:rPr/a:uFill/a:solidFill/a:srgbClr/@val";
+        /// <summary>
+        /// The fonts underline color
+        /// </summary>
+        public Color UnderLineColor
+        {
+            get
+            {
+                string col = GetXmlNodeString(_underLineColorPath);
+                if (col == "")
+                {
+                    return Color.Empty;
+                }
+                else
+                {
+                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                }
+            }
+            set
+            {
+                SetXmlNodeString(_underLineColorPath, value.ToArgb().ToString("X").Substring(2, 6));
+            }
+        }
+
+        #endregion Underline
+
+        #region FontNodes
+
+        string _fontLatinPath = "a:rPr/a:latin/@typeface";
+        /// <summary>
+        /// The latin typeface name
+        /// </summary>
+        public string LatinFont
+        {
+            get
+            {
+                return GetXmlNodeString(_fontLatinPath);
+            }
+            set
+            {
+                SetXmlNodeString(_fontLatinPath, value);
+            }
+        }
+        string _fontEaPath = "a:rPr/a:ea/@typeface";
+        /// <summary>
+        /// The East Asian typeface name
+        /// </summary>
+        public string EastAsianFont
+        {
+            get
+            {
+                return GetXmlNodeString(_fontEaPath);
+            }
+            set
+            {
+                SetXmlNodeString(_fontEaPath, value);
+            }
+        }
+        string _fontCsPath = "a:rPr/a:cs/@typeface";
+        /// <summary>
+        /// The complex font typeface name
+        /// </summary>
+        public string ComplexFont
+        {
+            get
+            {
+                return GetXmlNodeString(_fontCsPath);
+            }
+            set
+            {
+                SetXmlNodeString(_fontCsPath, value);
+            }
+        }
+
+        string _fontSymPath = "a:rPr/a:sym/@typeface";
+        /// <summary>
+        /// The symbol font typeface name
+        /// </summary>
+        public string SymbolFont
+        {
+            get
+            {
+                return GetXmlNodeString(_fontSymPath);
+            }
+            set
+            {
+                SetXmlNodeString(_fontSymPath, value);
+            }
+        }
+        string _boldPath = "a:rPr/@b";
+        /// <summary>
+        /// If the font is bold
+        /// </summary>
+        public bool FontBold
+        {
+            get
+            {
+                return GetXmlNodeBool(_boldPath);
+            }
+            set
+            {
+                SetXmlNodeString(_boldPath, value ? "1" : "0");
+            }
+        }
+        string _underLinePath = "a:rPr/@u";
+        /// <summary>
+        /// The fonts underline style
+        /// </summary>
+        public eUnderLineType FontUnderLine
+        {
+            get
+            {
+                return GetXmlNodeString(_underLinePath).TranslateUnderline();
+            }
+            set
+            {
+                SetXmlNodeString(_underLinePath, value.TranslateUnderlineText());
+            }
+        }
+
+        string _italicPath = "a:rPr/@i";
+        /// <summary>
+        /// If the font is italic
+        /// </summary>
+        public bool FontItalic
+        {
+            get
+            {
+                return GetXmlNodeBool(_italicPath);
+            }
+            set
+            {
+                SetXmlNodeString(_italicPath, value ? "1" : "0");
+            }
+        }
+        string _strikePath = "a:rPr/@strike";
+        /// <summary>
+        /// Font strike out type
+        /// </summary>
+        public eStrikeType FontStrike
+        {
+            get
+            {
+                return GetXmlNodeString(_strikePath).TranslateStrikeType();
+            }
+            set
+            {
+                SetXmlNodeString(_strikePath, value.TranslateStrikeTypeText());
+            }
+        }
+        string _sizePath = "a:rPr/@sz";
+        /// <summary>
+        /// Font size
+        /// </summary>
+        public float FontSize
+        {
+            get
+            {
+                var c = GetXmlNodeInt(_sizePath);
+                if (c == int.MinValue)
+                {
+                    return c;
+                }
+                return c / 100;
+            }
+            set
+            {
+                SetXmlNodeString(_sizePath, ((int)(value * 100)).ToString());
+            }
+        }
+        string _kernPath = "a:rPr/@kern";
+        /// <summary>
+        /// Specifies the minimum font size at which character kerning occurs for this text run
+        /// </summary>
+        public double Kerning
+        {
+            get
+            {
+                return GetXmlNodeFontSize(_kernPath);
+            }
+            set
+            {
+                SetXmlNodeFontSize(_kernPath, value, "Kerning");
+            }
+        }
+        string _capPath = "a:rPr/@cap";
+        /// <summary>
+        /// The capitalization that is to be applied
+        /// </summary>
+        public eTextCapsType Capitalization
+        {
+            get
+            {
+                switch (GetXmlNodeString(_capPath))
+                {
+                    case "all":
+                        return eTextCapsType.All;
+                    case "small":
+                        return eTextCapsType.Small;
+                    default:
+                        return eTextCapsType.None;
+                }
+            }
+            set
+            {                
+                SetXmlNodeString(_capPath, value.ToEnumString());
+            }
+        }
+
+        string _baselinePath = "a:rPr/@baseline";
+        /// <summary>
+        /// The baseline for both the superscript and subscript fonts in percentage
+        /// </summary>
+        public double Baseline
+        {
+            get
+            {
+                return GetXmlNodeDouble(_baselinePath);
+            }
+            set
+            {
+                SetXmlNodePercentage(_baselinePath, value);
+            }
+        }
+        string _highlightPath = "a:rPr/a:highlight";
+        /// <summary>
+        /// The highlight color.
+        /// </summary>
+        public ExcelDrawingColorManager HighlightColor        
+        {
+            get
+            {
+                return new ExcelDrawingColorManager(NameSpaceManager, TopNode, _highlightPath, SchemaNodeOrder);
+            }
+        }
+        string _spacingPath = "a:rPr/@spc";
+        public double Spacing
+        {
+            get
+            {
+                return (GetXmlNodeDoubleNull(_spacingPath) ?? 0) / 100;
+            }
+            set
+            {
+                SetXmlNodeDouble(_spacingPath, value * 100);
+            }
+        }
+        /// <summary>
+        /// Set the font style properties
+        /// </summary>
+        /// <param name="name">Font family name</param>
+        /// <param name="size">Font size</param>
+        /// <param name="bold"></param>
+        /// <param name="italic"></param>
+        /// <param name="underline"></param>
+        /// <param name="strikeout"></param>
+        public void SetFromFont(string name, float size, bool bold = false, bool italic = false, bool underline = false, bool strikeout = false)
+        {
+            LatinFont = name;
+            ComplexFont = name;
+            FontSize = size;
+            if (bold) FontBold = bold;
+            if (italic) FontItalic = italic;
+            if (underline) FontUnderLine = eUnderLineType.Single;
+            if (strikeout) FontStrike = eStrikeType.Single;
+        }
+        internal bool IsEmpty
+        {
+            get
+            {
+                return TopNode == null || (TopNode.ChildNodes.Count == 0 && TopNode.Attributes.Count == 0);
+            }
+        }
+
+        #endregion FontNodes
+
+        #region HyperLink
+        #endregion Hyperlink
+
+        /// <summary>
+        /// Right to left
+        /// If ommitted it returns false AKA (left-to-right)
+        /// </summary>
+        internal bool rtl;
+
+        //TODO:
+        #region ExtLst-OfficeArtExtensionList
+        #endregion ExtLst-OfficeArtExtensionList
+
+        /// <summary>
+        /// Actual text for the text run
+        /// </summary>
+        public abstract string Text
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Creates the top nodes of the collection
+        /// </summary>
+    }
+}

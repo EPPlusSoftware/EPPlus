@@ -260,7 +260,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
         /// <summary>
-        ///   Size of the IO buffer used while saving.
+        ///   FontSize of the IO buffer used while saving.
         /// </summary>
         ///
         /// <remarks>
@@ -323,7 +323,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         }
 
         /// <summary>
-        ///   Size of the work buffer to use for the ZLIB codec during compression.
+        ///   FontSize of the work buffer to use for the ZLIB codec during compression.
         /// </summary>
         ///
         /// <remarks>

@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing
         int GetNCells();
 
         /// <summary>
-        /// Size of the range, i.e. number of Cols and number of Rows
+        /// FontSize of the range, i.e. number of Cols and number of Rows
         /// </summary>
         RangeDefinition Size { get; }
         /// <summary>

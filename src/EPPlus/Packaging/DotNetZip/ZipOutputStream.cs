@@ -488,7 +488,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
         /// <summary>
-        ///   Size of the work buffer to use for the ZLIB codec during compression.
+        ///   FontSize of the work buffer to use for the ZLIB codec during compression.
         /// </summary>
         ///
         /// <remarks>

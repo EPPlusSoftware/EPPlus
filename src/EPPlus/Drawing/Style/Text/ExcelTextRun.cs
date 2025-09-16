@@ -33,9 +33,9 @@ namespace OfficeOpenXml.Drawing
 
    //     #region Attributes
    //     /// <summary>
-   //     /// Bold text
+   //     /// FontBold text
    //     /// </summary>
-   //     public bool Bold { get => Properties.Attributes.Bold; set => Properties.Attributes.Bold = value; }
+   //     public bool FontBold { get => Properties.Attributes.FontBold; set => Properties.Attributes.FontBold = value; }
 
 
    //     /// <summary>
@@ -52,9 +52,9 @@ namespace OfficeOpenXml.Drawing
    //     //TODO: err (spelling error)
 
    //     /// <summary>
-   //     /// Italic text
+   //     /// FontItalic text
    //     /// </summary>
-   //     public bool Italic { get => Properties.Attributes.Italic; set => Properties.Attributes.Italic = value; }
+   //     public bool FontItalic { get => Properties.Attributes.FontItalic; set => Properties.Attributes.FontItalic = value; }
 
    //     /// <summary>
    //     /// The minimum font size at which character kerning occurs
@@ -64,20 +64,20 @@ namespace OfficeOpenXml.Drawing
    //     public double Spacing { get => Properties.Attributes.Spacing; set => Properties.Attributes.Spacing = value; }
 
    //     /// <summary>
-   //     /// Strike-out text
+   //     /// FontStrike-out text
    //     /// </summary>
-   //     public eStrikeType Strike { get => Properties.Attributes.Strike; set => Properties.Attributes.Strike = value; }
+   //     public eStrikeType FontStrike { get => Properties.Attributes.FontStrike; set => Properties.Attributes.FontStrike = value; }
 
    //     /// <summary>
    //     /// Fontsize
    //     /// Spans from 0-4000
    //     /// </summary>
-   //     public double FontSize { get => Properties.Attributes.Size; set => Properties.Attributes.Size = (float)value; }
+   //     public double FontSize { get => Properties.Attributes.FontSize; set => Properties.Attributes.FontSize = (float)value; }
 
    //     /// <summary>
    //     /// Underlined text
    //     /// </summary>
-   //     public eUnderLineType UnderLine { get => Properties.Attributes.UnderLine; set => Properties.Attributes.UnderLine = value; }
+   //     public eUnderLineType FontUnderLine { get => Properties.Attributes.FontUnderLine; set => Properties.Attributes.FontUnderLine = value; }
 
    //     #endregion Attributes
 

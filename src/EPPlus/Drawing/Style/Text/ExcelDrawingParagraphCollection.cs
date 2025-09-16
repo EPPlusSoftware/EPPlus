@@ -31,16 +31,20 @@ namespace OfficeOpenXml.Drawing
         internal ExcelDrawingParagraphCollection(IPictureRelationDocument prd, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string path, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
         {
             _prd = prd;
-            var pNodes = topNode.SelectNodes(path + "/a:p", nameSpaceManager);
-            _path = path;
-            foreach (XmlElement pn in pNodes)
+            var rootNode = GetNode(path);
+            if (rootNode != null)
             {
-                _paragraphs.Add(new ExcelDrawingParagraph(prd, nameSpaceManager, pn, schemaNodeOrder, initXml));
+                TopNode = rootNode;
+                var pNodes = rootNode.SelectNodes("a:p", nameSpaceManager);
+                foreach (XmlElement pn in pNodes)
+                {
+                    _paragraphs.Add(new ExcelDrawingParagraph(prd, nameSpaceManager, pn, schemaNodeOrder, initXml));
+                }
             }
+            _path = path;
+            AddSchemaNodeOrder(schemaNodeOrder, ["rPr", "pPr", "t"]);
         }
         public int Count { get => _paragraphs.Count; }
-
-        public bool IsReadOnly => throw new NotImplementedException();
 
         public ExcelDrawingParagraph this[int index]
         {
@@ -67,6 +71,11 @@ namespace OfficeOpenXml.Drawing
             _paragraphs.Add(p);
             return p;
         }
+        /// <summary>
+        /// Removes the item at the index from the collection
+        /// </summary>
+        /// <param name="index">The index</param>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public void RemoveAt(int index)
         {
             if (index < 0 || index >= _paragraphs.Count)
@@ -77,6 +86,11 @@ namespace OfficeOpenXml.Drawing
             pn.ParentNode.RemoveChild(pn);
             _paragraphs.RemoveAt(index);
         }
+        /// <summary>
+        /// Removes the item from the collection
+        /// </summary>
+        /// <param name="item">The item to remove</param>
+        /// <exception cref="ArgumentException"></exception>
         public void Remove(ExcelDrawingParagraph item)
         {
             if (!_paragraphs.Contains(item))
@@ -106,7 +120,7 @@ namespace OfficeOpenXml.Drawing
             return _paragraphs.IndexOf(item);
         }
         /// <summary>
-        /// Clears all para
+        /// Clear all paragraphs from the collection
         /// </summary>
         public void Clear()
         {
@@ -117,7 +131,11 @@ namespace OfficeOpenXml.Drawing
             }
             _paragraphs.Clear();
         }
-
+        /// <summary>
+        /// Returns true if the paragraph exists in the collection.
+        /// </summary>
+        /// <param name="item">The paragraph to check for</param>
+        /// <returns>True if exists</returns>
         public bool Contains(ExcelDrawingParagraph item)
         {
             return _paragraphs.Contains(item);

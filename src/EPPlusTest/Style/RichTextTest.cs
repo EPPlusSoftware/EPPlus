@@ -65,17 +65,17 @@ namespace EPPlusTest.Style
                 //Test Normal Text
                 Assert.AreEqual("This is just a string of poor text… :(", ws.Cells["A1"].Text);
                 Assert.AreEqual("This is just a string of poor text… :(", ws.Cells["A1"].RichText[0].Text);
-                //Test Bold
+                //Test FontBold
                 Assert.AreEqual(true, ws.Cells["A2"].RichText[1].Bold);
-                //Test Italic
+                //Test FontItalic
                 Assert.AreEqual(true, ws.Cells["A3"].RichText[1].Italic);
-                //Test Strike
+                //Test FontStrike
                 Assert.AreEqual(true, ws.Cells["A4"].RichText[1].Strike);
                 Assert.AreEqual(true, ws.Cells["A4"].RichText[3].Strike);
                 //Test Vertical alignment
                 Assert.AreEqual(ExcelVerticalAlignmentFont.Superscript, ws.Cells["A5"].RichText[1].VerticalAlign);
                 Assert.AreEqual(ExcelVerticalAlignmentFont.Subscript, ws.Cells["A5"].RichText[3].VerticalAlign);
-                //Test Size
+                //Test FontSize
                 Assert.AreEqual(26, ws.Cells["A6"].RichText[1].Size);
                 //Test Font
                 Assert.AreEqual("Arial", ws.Cells["A7"].RichText[1].FontName);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using System.Drawing;
 using System.IO;
 
 namespace EPPlusTest.Drawing
@@ -147,8 +148,23 @@ namespace EPPlusTest.Drawing
                 {
                     var ws1 = p.Workbook.Worksheets.Add("sheet1");
                     var shp = ws1.Drawings.AddShape("Shape1", eShapeStyle.Rect);
-                    var pg1 = shp.TextBody.Paragraphs.Add("Paragraph 1");
-                    pg1.DefaultRunProperties.LatinFont = "Aptos Narrow"; 
+                    shp.TextBody.TextAutofit = eTextAutofit.ShapeAutofit;
+                    shp.TextBody.Anchor = eTextAnchoringType.Top;
+                    var pg1 = shp.TextBody.Paragraphs[0];
+                    pg1.HorizontalAlignment = eTextAlignment.Center;
+                    var tr1 = pg1.TextRuns.Add("Paragraph");
+                    var tr2 = pg1.TextRuns.Add(" 1");
+                    tr1.Fill.Color = Color.Green;
+                    tr2.Fill.Color = Color.Red;
+
+                    var pg2 = shp.TextBody.Paragraphs.Add("This is paragraph 2");
+                    pg2.HorizontalAlignment = eTextAlignment.Right;
+                    pg2.TextRuns[0].FontSize = 18;
+                    pg2.TextRuns[0].HighlightColor.SetPresetColor(ePresetColor.Aqua);                    
+                    pg1.DefaultRunProperties.LatinFont = "Arial";
+
+                    Assert.AreEqual("Paragraph 1\r\nThis is paragraph 2", shp.Text);
+                    SaveAndCleanup(p);
                 }
             }
             [TestMethod]

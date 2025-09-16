@@ -85,7 +85,7 @@ namespace OfficeOpenXml.Drawing.Chart
            set;
        }
        /// <summary>
-       /// Show Bubble Size
+       /// Show Bubble FontSize
        /// </summary>
        public abstract bool ShowBubbleSize
        {

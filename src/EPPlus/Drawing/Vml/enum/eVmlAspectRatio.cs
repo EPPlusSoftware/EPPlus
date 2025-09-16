@@ -10,11 +10,11 @@
         /// </summary>
         Ignore,
         /// <summary>
-        /// BulletImage is at least as big as Size.
+        /// BulletImage is at least as big as FontSize.
         /// </summary>
         AtLeast,
         /// <summary>
-        /// BulletImage is no bigger than Size.
+        /// BulletImage is no bigger than FontSize.
         /// </summary>
         AtMost
     }

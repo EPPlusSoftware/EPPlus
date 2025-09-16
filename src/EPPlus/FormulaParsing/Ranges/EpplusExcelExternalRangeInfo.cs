@@ -184,7 +184,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         }
 
         /// <summary>
-        /// Size of the range
+        /// FontSize of the range
         /// </summary>
         public RangeDefinition Size => _size;
 

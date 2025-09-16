@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Core.CellStore
     /// </summary>
     internal static class CellStoreSettings
     {
-        /**** Size constants ****/
+        /**** FontSize constants ****/
         internal const int _pageBits = 13;   // 13bits = 8192  Note: Maximum is 13 bits since short is used (PageMax=16K)
         internal const int _pageSize = 1 << _pageBits;
         internal const int _pageSizeMax = _pageSize << 1;

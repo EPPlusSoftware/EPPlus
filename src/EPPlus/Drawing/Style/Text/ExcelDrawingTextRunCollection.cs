@@ -20,25 +20,94 @@ namespace OfficeOpenXml.Drawing
 {
     public class ExcelDrawingTextRunCollection : XmlHelper, IEnumerable<ExcelParagraphTextRun>
     {
-        List<ExcelParagraphTextRun> _textRuns;
+        List<ExcelParagraphTextRunBase> _textRuns;
         ExcelDrawingParagraph _paragraph;
         Action _initXml;
         internal ExcelDrawingTextRunCollection(ExcelDrawingParagraph paragraph, XmlNamespaceManager nsm, XmlNode topNode, Action initXml) : base(nsm, topNode)
         {
             _paragraph = paragraph;
-            SchemaNodeOrder = _paragraph.SchemaNodeOrder;
+            AddSchemaNodeOrder(_paragraph.SchemaNodeOrder, ["rPr", "pPr", "t"]);
             _initXml = initXml;
-            _textRuns = new List<ExcelParagraphTextRun>();            
+            _textRuns = new List<ExcelParagraphTextRunBase>();
+            foreach (XmlElement node in topNode.SelectNodes("a:r|a:fld|a:br", nsm))
+            {
+                
+                switch(node.LocalName)
+                {
+                    case "r":
+                        _textRuns.Add(new ExcelParagraphTextRun(paragraph._prd, nsm, node));
+                        break;
+                    case "fld":
+                        _textRuns.Add(new ExcelParagraphTextField(paragraph._prd, nsm, node));
+                        break;
+                    case "br":
+                        _textRuns.Add(new ExcelParagraphLineBreak(paragraph._prd, nsm, node));
+                        break;
+
+                }
+            }
+        }
+        /// <summary>
+        /// Number of items in the collection.
+        /// </summary>
+        public int Count { get => _textRuns.Count; }
+        /// <summary>
+        /// Return the text run at the index.
+        /// </summary>
+        /// <param name="index">The index</param>
+        /// <returns></returns>
+        public ExcelParagraphTextRunBase this[int index]
+        {
+            get
+            {
+                return _textRuns[index];
+            }
         }
 
         public IEnumerator GetEnumerator()
         {
             return ((IEnumerable)_textRuns).GetEnumerator();
         }
-
+        /// <summary>
+        /// Removes the item at the index from the collection
+        /// </summary>
+        /// <param name="index">The index</param>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        public void RemoveAt(int index)
+        {
+            if (index < 0 || index >= _textRuns.Count)
+            {
+                throw new IndexOutOfRangeException("Paragraph index out of range.");
+            }
+            var pn = _textRuns[index].TopNode;
+            pn.ParentNode.RemoveChild(pn);
+            _textRuns.RemoveAt(index);
+        }
+        /// <summary>
+        /// Removes the item from the collection
+        /// </summary>
+        /// <param name="item">The item to remove</param>
+        /// <exception cref="ArgumentException"></exception>
+        public void Remove(ExcelParagraphTextRunBase item)
+        {
+            if (!_textRuns.Contains(item))
+            {
+                throw new ArgumentException("Paragraph item does not exist in the collection");
+            }
+            var pn = item.TopNode;
+            pn.ParentNode.RemoveChild(pn);
+            _textRuns.Remove(item);
+        }
+        /// <summary>
+        /// Adds a rich text run with the text.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public ExcelParagraphTextRun Add(string text)
-        {            
-            var txtRun = new ExcelParagraphTextRun(_paragraph._prd, NameSpaceManager, TopNode);
+        {
+            var rn=CreateNode("a:r", false, true);
+            var txtRun = new ExcelParagraphTextRun(_paragraph._prd, NameSpaceManager, rn);
+            txtRun.Text = text;
             _textRuns.Add(txtRun);
             return txtRun;
         }
@@ -46,6 +115,27 @@ namespace OfficeOpenXml.Drawing
         {
             _textRuns.Add(txtRun);
             return txtRun;
+        }
+        /// <summary>
+        /// Clear all text runs from the collection
+        /// </summary>
+        public void Clear()
+        {
+            for (int i = 0; i < _textRuns.Count; i++)
+            {
+                var pn = _textRuns[i].TopNode;
+                pn.ParentNode.RemoveChild(pn);
+            }
+            _textRuns.Clear();
+        }
+        /// <summary>
+        /// Returns true if the text run exists in the collection.
+        /// </summary>
+        /// <param name="item">The paragraph to check for</param>
+        /// <returns>True if exists</returns>
+        public bool Contains(ExcelParagraphTextRunBase item)
+        {
+            return _textRuns.Contains(item);
         }
 
         IEnumerator<ExcelParagraphTextRun> IEnumerable<ExcelParagraphTextRun>.GetEnumerator()

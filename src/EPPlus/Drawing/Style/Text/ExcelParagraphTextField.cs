@@ -11,26 +11,19 @@
   09/15/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Drawing.Style.Text;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils.EnumUtils;
-using System;
-using System.Drawing;
-using System.Reflection.Emit;
 using System.Xml;
 namespace OfficeOpenXml.Drawing
 {
-
     /// <summary>
     /// A regular text run.
     /// </summary>
-    public class ExcelParagraphTextRun : ExcelParagraphTextRunBase
+    public class ExcelParagraphTextField : ExcelParagraphTextRunBase
     {
-        internal ExcelParagraphTextRun(IPictureRelationDocument prd, XmlNamespaceManager ns, XmlNode topNode) : base(prd, ns, topNode)
-        {
+        internal ExcelParagraphTextField(IPictureRelationDocument prd, XmlNamespaceManager ns, XmlNode topNode) : base(prd, ns, topNode)
+        {            
         }
 
-        public override eParagraphRunType Type => eParagraphRunType.TextRun;
+        public override eParagraphRunType Type => eParagraphRunType.TextField;
         public override string Text
         {
             get

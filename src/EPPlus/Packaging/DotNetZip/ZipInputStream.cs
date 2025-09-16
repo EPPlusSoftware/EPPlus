@@ -364,7 +364,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             return String.Format ("ZipInputStream::{0}(leaveOpen({1})))", _name, _leaveUnderlyingStreamOpen);
         }
         /// <summary>
-        ///   Size of the work buffer to use for the ZLIB codec during decompression.
+        ///   FontSize of the work buffer to use for the ZLIB codec during decompression.
         /// </summary>
         ///
         /// <remarks>q

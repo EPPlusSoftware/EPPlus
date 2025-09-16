@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Style
         }
 
         /// <summary>
-        /// The Size of the font
+        /// The FontSize of the font
         /// </summary>
         public float Size
         {

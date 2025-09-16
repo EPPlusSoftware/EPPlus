@@ -202,7 +202,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
                     if (ze._InputUsesZip64)
                     {
-                        // read 1x 4-byte (CRC) and 2x 8-bytes (Compressed Size, Uncompressed Size)
+                        // read 1x 4-byte (CRC) and 2x 8-bytes (Compressed FontSize, Uncompressed FontSize)
                         block = new byte[20];
                         n = ze.ArchiveStream.Read(block, 0, block.Length);
                         if (n != 20) return false;
@@ -220,7 +220,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                     }
                     else
                     {
-                        // read 3x 4-byte fields (CRC, Compressed Size, Uncompressed Size)
+                        // read 3x 4-byte fields (CRC, Compressed FontSize, Uncompressed FontSize)
                         block = new byte[12];
                         n = ze.ArchiveStream.Read(block, 0, block.Length);
                         if (n != 12) return false;
@@ -550,10 +550,10 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
         private int ProcessExtraFieldPkwareStrongEncryption(byte[] Buffer, int j)
         {
-            //           Value     Size     Description
+            //           Value     FontSize     Description
             //           -----     ----     -----------
             //           0x0017    2 bytes  Tag for this "extra" block type
-            //           TSize     2 bytes  Size of data that follows
+            //           TSize     2 bytes  FontSize of data that follows
             //           Format    2 bytes  Format definition for this record
             //           AlgID     2 bytes  Encryption algorithm identifier
             //           Bitlen    2 bytes  Bit length of encryption _key

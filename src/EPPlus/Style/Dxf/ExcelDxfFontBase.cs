@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Style.Dxf
         }
         bool? _italic;
         /// <summary>
-        /// Font Italic
+        /// Font FontItalic
         /// </summary>
         public bool? Italic
         {

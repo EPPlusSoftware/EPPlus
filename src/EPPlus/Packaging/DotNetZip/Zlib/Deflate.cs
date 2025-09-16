@@ -294,7 +294,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         internal int _lengthOffset;                 // index for literals or lengths
 
 
-        // Size of match buffer for literals/lengths.  There are 4 reasons for
+        // FontSize of match buffer for literals/lengths.  There are 4 reasons for
         // limiting lit_bufsize to 64K:
         //   - frequencies can be kept in 16 bit counters
         //   - if compression is not successful for the first block, all input

@@ -977,7 +977,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             block[i++] = (byte)(_BitField & 0x00FF);
             block[i++] = (byte)((_BitField & 0xFF00) >> 8);
 
-            // Here, we want to set values for Compressed Size, Uncompressed Size,
+            // Here, we want to set values for Compressed FontSize, Uncompressed FontSize,
             // and CRC.  If we have __FileDataPosition as not -1 (zero is a valid
             // FDP), then that means we are reading this zip entry from a zip
             // file, and we have good values for those quantities.

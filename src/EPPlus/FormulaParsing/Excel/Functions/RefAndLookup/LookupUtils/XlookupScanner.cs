@@ -91,7 +91,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             else
             {
                 //dimensionItems = _lookupRange.Dimension.ToCol - _lookupRange.Dimension.FromCol + 1;
-                //maxItems = _lookupRange.Size.NumberOfCols > dimensionItems ? dimensionItems : _lookupRange.Size.NumberOfCols;
+                //maxItems = _lookupRange.FontSize.NumberOfCols > dimensionItems ? dimensionItems : _lookupRange.FontSize.NumberOfCols;
                 maxItems = GetMaxItemsColumns(_lookupRange);
             }
             int closestBelowIx = -1;

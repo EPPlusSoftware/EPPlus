@@ -5440,7 +5440,7 @@ namespace EPPlusTest
                 cells.ForEach(x =>
                 {
                     x.Value = "test";
-                    //x.Style.Font.Size = 10;
+                    //x.Style.Font.FontSize = 10;
                 });
 
                 wss.Column(2).Style.Font.Name = "Wingdings";
@@ -5462,7 +5462,7 @@ namespace EPPlusTest
                 {
                     x.Value = "hola";
                     //x.Style.Font.Name = "Wingdings";
-                    //x.Style.Font.Size = 10;
+                    //x.Style.Font.FontSize = 10;
                 });
 
                 void DebugGetFontInfo()
