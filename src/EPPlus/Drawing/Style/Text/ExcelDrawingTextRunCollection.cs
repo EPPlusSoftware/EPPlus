@@ -11,47 +11,46 @@
     9/11/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
 using OfficeOpenXml.Style;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
 {
-    public class ExcelDrawingTextRunCollection : IEnumerable<RegularTextRun>
+    public class ExcelDrawingTextRunCollection : XmlHelper, IEnumerable<ExcelParagraphTextRun>
     {
-        ExcelTextFont DefaultRunProperties;
-
-        List<RegularTextRun> textRuns;
-
-        internal ExcelDrawingTextRunCollection()
+        List<ExcelParagraphTextRun> _textRuns;
+        ExcelDrawingParagraph _paragraph;
+        Action _initXml;
+        internal ExcelDrawingTextRunCollection(ExcelDrawingParagraph paragraph, XmlNamespaceManager nsm, XmlNode topNode, Action initXml) : base(nsm, topNode)
         {
-            textRuns = new List<RegularTextRun>();
-        }
-
-        internal ExcelDrawingTextRunCollection(ExcelDrawingParagraph paragraph, ExcelTextFont defaultRunProperties)
-        {
+            _paragraph = paragraph;
+            SchemaNodeOrder = _paragraph.SchemaNodeOrder;
+            _initXml = initXml;
+            _textRuns = new List<ExcelParagraphTextRun>();            
         }
 
         public IEnumerator GetEnumerator()
         {
-            return ((IEnumerable)textRuns).GetEnumerator();
+            return ((IEnumerable)_textRuns).GetEnumerator();
         }
 
-        internal RegularTextRun AddRun(string text)
-        {
-            var txtRun = new RegularTextRun(text);
-            textRuns.Add(txtRun);
+        public ExcelParagraphTextRun Add(string text)
+        {            
+            var txtRun = new ExcelParagraphTextRun(_paragraph._prd, NameSpaceManager, TopNode);
+            _textRuns.Add(txtRun);
             return txtRun;
         }
-        internal RegularTextRun Add(RegularTextRun txtRun)
+        internal ExcelParagraphTextRun Add(ExcelParagraphTextRun txtRun)
         {
-            textRuns.Add(txtRun);
+            _textRuns.Add(txtRun);
             return txtRun;
         }
 
-        IEnumerator<RegularTextRun> IEnumerable<RegularTextRun>.GetEnumerator()
+        IEnumerator<ExcelParagraphTextRun> IEnumerable<ExcelParagraphTextRun>.GetEnumerator()
         {
-            return ((IEnumerable<RegularTextRun>)textRuns).GetEnumerator();
+            return ((IEnumerable<ExcelParagraphTextRun>)_textRuns).GetEnumerator();
         }
     }
 }

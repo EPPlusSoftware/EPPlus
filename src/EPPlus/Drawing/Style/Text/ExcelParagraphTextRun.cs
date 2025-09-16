@@ -22,25 +22,22 @@ namespace OfficeOpenXml.Drawing
     /// <summary>
     /// A richtext part
     /// </summary>
-    internal class RegularTextRun
+    public class ExcelParagraphTextRun : XmlHelper
     {
-        internal TextCharacterAttributes Attributes;
         /// <summary>
         /// for measuring
         /// </summary>
         string _defaultFontName;
-
-        internal RegularTextRun()
+        IPictureRelationDocument _prd;
+        XmlNode _rootNode;
+        internal ExcelParagraphTextRun(IPictureRelationDocument prd, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
         {
-            Attributes = new TextCharacterAttributes();
+            if(topNode.LocalName=="r")
+            {
+                _rootNode = topNode;
+            }
+            _prd = prd;
         }
-
-        internal RegularTextRun(string text)
-        {
-            Attributes = new TextCharacterAttributes();
-            Text = text;
-        }
-
         internal void SetDefaultFontName(string defaultName)
         {
             _defaultFontName = defaultName;
@@ -65,7 +62,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        //internal RegularTextRun(TextCharacterAttributes attributes, bool bold, double baseline, eTextCapsType capitalization, bool italic, double kerning, double spacing, eStrikeType strike, double fontSize, eUnderLineType underLine, ExcelDrawingFill fill, ExcelDrawingFill fill, Color color, Color underLineColor, string latinFont, string eastAsianFont, string complexFont, string symbolFont, bool rtl, string t)
+        //internal ExcelParagraphTextRun(TextCharacterAttributes attributes, bool bold, double baseline, eTextCapsType capitalization, bool italic, double kerning, double spacing, eStrikeType strike, double fontSize, eUnderLineType underLine, ExcelDrawingFill fill, ExcelDrawingFill fill, Color color, Color underLineColor, string latinFont, string eastAsianFont, string complexFont, string symbolFont, bool rtl, string t)
         //{
         //    Attributes = attributes;
         //    Bold = bold;
@@ -88,53 +85,7 @@ namespace OfficeOpenXml.Drawing
         //    this.t = t;
         //}
 
-        #region Attributes
-        /// <summary>
-        /// Bold text
-        /// </summary>
-        public bool Bold { get => Attributes.Bold; set => Attributes.Bold = value; }
-
-        /// <summary>
-        /// The baseline for both the superscript and subscript fonts in percentage
-        /// </summary>
-        public double Baseline { get => Attributes.Baseline; set => Attributes.Baseline = value; }
-
-        /// <summary>
-        /// The capitalization that is to be applied
-        /// </summary>
-        public eTextCapsType Capitalization { get => Attributes.Capitalization; set => Attributes.Capitalization = value; }
-
-        /// <summary>
-        /// Italic text
-        /// </summary>
-        public bool Italic { get => Attributes.Italic; set => Attributes.Italic = value; }
-
-        /// <summary>
-        /// The minimum font size at which character kerning occurs
-        /// </summary>
-        public double Kerning { get => Attributes.Kerning; set => Attributes.Kerning = value; }
-
-        public double Spacing { get => Attributes.Spacing; set => Attributes.Spacing = value; }
-
-        /// <summary>
-        /// Strike-out text
-        /// </summary>
-        public eStrikeType Strike { get => Attributes.Strike; set => Attributes.Strike = value; }
-
-        /// <summary>
-        /// Fontsize
-        /// Spans from 0-4000
-        /// </summary>
-        public double FontSize { get => Attributes.Size; set => Attributes.Size = value; }
-
-        /// <summary>
-        /// Underlined text
-        /// </summary>
-        public eUnderLineType UnderLine { get => Attributes.UnderLine; set => Attributes.UnderLine = value; }
-
-        #endregion Attributes
-
-        #region Properties
+  
 
         #region LineProperties
         //TODO: Line Properties
@@ -145,10 +96,20 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// A reference to the fill properties
         /// </summary>
-        public ExcelDrawingFill Fill;
+        public ExcelDrawingFill Fill
+        {
+            get
+            {
+                if (_fill == null)
+                {
+                    _fill = new ExcelDrawingFill(_prd, NameSpaceManager, TopNode, "a:r", SchemaNodeOrder);
+                }
+                return _fill;
+            }
+        }
 
         //Below is quick-access to the drawing fill
-
+        string _colorPath = "a:solidFill/a:srgbClr/@val";
         /// <summary>
         /// Sets the default color of the text.
         /// This sets the Fill to a SolidFill with the specified color.
@@ -156,38 +117,124 @@ namespace OfficeOpenXml.Drawing
         /// Use the Fill property for more options
         /// </remark>
         /// </summary>
-        public Color Color;
+        public Color Color
+        {
+            get
+            {
+                string col = GetXmlNodeString(_colorPath);
+                if (col == "")
+                {
+                    return Color.Empty;
+                }
+                else
+                {
+                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                }
+            }
+            set
+            {
+                Fill.Style = eFillStyle.SolidFill;
+                Fill.SolidFill.Color.SetRgbColor(value);
+            }
+        }
         #endregion Basic fill
 
-        //TODO: EFFECTS
+        //UnderlineLine underlineFill etc.
+        #region Underline
+        string _underLineColorPath = "a:uFill/a:solidFill/a:srgbClr/@val";
+        /// <summary>
+        /// The fonts underline color
+        /// </summary>
+        public Color UnderLineColor
+        {
+            get
+            {
+                string col = GetXmlNodeString(_underLineColorPath);
+                if (col == "")
+                {
+                    return Color.Empty;
+                }
+                else
+                {
+                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                }
+            }
+            set
+            {
+                SetXmlNodeString(_underLineColorPath, value.ToArgb().ToString("X").Substring(2, 6));
+            }
+        }
 
-        //internal Color HighLight;
-
-        public Color UnderLineColor;
-        //TODO: UnderLineLineProperties
+        #endregion Underline
 
         #region FontNodes
+
+        string _fontLatinPath = "a:latin/@typeface";
         /// <summary>
         /// The latin typeface name
         /// </summary>
-        public string LatinFont;
-
+        public string LatinFont
+        {
+            get
+            {
+                return GetXmlNodeString(_fontLatinPath);
+            }
+            set
+            {
+                SetXmlNodeString(_fontLatinPath, value);
+            }
+        }
+        string _fontEaPath = "a:ea/@typeface";
         /// <summary>
         /// The East Asian typeface name
         /// </summary>
-        public string EastAsianFont;
-
+        public string EastAsianFont
+        {
+            get
+            {
+                return GetXmlNodeString(_fontEaPath);
+            }
+            set
+            {
+                SetXmlNodeString(_fontEaPath, value);
+            }
+        }
+        string _fontCsPath = "a:cs/@typeface";
         /// <summary>
         /// The complex font typeface name
         /// </summary>
-        public string ComplexFont;
+        public string ComplexFont
+        {
+            get
+            {
+                return GetXmlNodeString(_fontCsPath);
+            }
+            set
+            {
+                SetXmlNodeString(_fontCsPath, value);
+            }
+        }
 
+        string _fontSymPath = "a:sym/@typeface";
         /// <summary>
         /// The symbol font typeface name
         /// </summary>
-        public string SymbolFont;
+        public string SymbolFont
+        {
+            get
+            {
+                return GetXmlNodeString(_fontSymPath);
+            }
+            set
+            {
+                SetXmlNodeString(_fontSymPath, value);
+            }
+        }
 
         #endregion FontNodes
+
+        #region HyperLink
+        #endregion Hyperlink
 
         //TODO:
         #region HyperLink
@@ -203,11 +250,12 @@ namespace OfficeOpenXml.Drawing
         #region ExtLst-OfficeArtExtensionList
         #endregion ExtLst-OfficeArtExtensionList
 
-        #endregion Properties
-
         /// <summary>
         /// Actual text for the text run
         /// </summary>
         internal string Text;
+        /// <summary>
+        /// Creates the top nodes of the collection
+        /// </summary>
     }
 }

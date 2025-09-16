@@ -137,9 +137,20 @@ namespace EPPlusTest.Drawing
 
                     var pg2 = ws1.Drawings[1].As.Shape.TextBody.Paragraphs;
                     Assert.AreEqual(2, pg2[0].TabStops.Count);
+                    Assert.AreEqual(eTabStopParagraphAlignment.Decimal, pg2[0].TabStops[0].Alignment);
                 }
             }
-
+            [TestMethod]
+            public void AddParagraphsToShapes()
+            {
+                using (var p = OpenPackage("AddParagraphs.xlsx", true))
+                {
+                    var ws1 = p.Workbook.Worksheets.Add("sheet1");
+                    var shp = ws1.Drawings.AddShape("Shape1", eShapeStyle.Rect);
+                    var pg1 = shp.TextBody.Paragraphs.Add("Paragraph 1");
+                    pg1.DefaultRunProperties.LatinFont = "Aptos Narrow"; 
+                }
+            }
             [TestMethod]
             public void ReadParagraphsCharts()
             {

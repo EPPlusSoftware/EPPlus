@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Drawing
     public class ExcelDrawingParagraph : XmlHelper
     {
         Action _initXml;
-        IPictureRelationDocument _prd;
+        internal IPictureRelationDocument _prd;
         internal ExcelDrawingParagraph(IPictureRelationDocument prd, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
         {
             AddSchemaNodeOrder(schemaNodeOrder, ["lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzPct", "buSzTx", "buSzPts", "buFont", "buFontTx", "buAutoNum", "buChar", "buBlip", "buNone", "tabLst", "defRPr"]);
@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_textRun == null)
                 {
-                    _textRun = TextRunXmlReaderWriter.ReadTextRunCollection(this);
+                    _textRun = new ExcelDrawingTextRunCollection(this, NameSpaceManager, TopNode, _initXml);
                 }
                 return _textRun;
             }
@@ -323,5 +323,6 @@ namespace OfficeOpenXml.Drawing
                 SetXmlNodeString("a:pPr/@fontAlgn", v);
             }
         }
+
     }
 }

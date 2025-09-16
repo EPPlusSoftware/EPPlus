@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Drawing.Style.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
@@ -30,16 +29,12 @@ namespace OfficeOpenXml.Style
         internal XmlNode _rootNode;
         Action _initXml;
         IPictureRelationDocument _pictureRelationDocument;
-
-        internal readonly IPictureRelationDocument PictureRelationDocument;
-
-        internal ExcelTextFont(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager namespaceManager, XmlNode rootNode, string path, string[] schemaNodeOrder, Action initXml=null)
+        internal ExcelTextFont(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager namespaceManager, XmlNode rootNode, string path, string[] schemaNodeOrder, Action initXml = null)
             : base(namespaceManager, rootNode)
         {
-            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "bodyPr", "lstStyle","p", "pPr", "defRPr", "solidFill","highlight", "uFill", "latin","ea", "cs","sym","hlinkClick","hlinkMouseOver","rtl", "r", "rPr", "t" });
+            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "bodyPr", "lstStyle", "p", "pPr", "defRPr", "solidFill", "highlight", "uFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "r", "rPr", "t" });
             _rootNode = rootNode;
             _pictureRelationDocument = pictureRelationDocument;
-            PictureRelationDocument = _pictureRelationDocument;
             _initXml = initXml;
             if (path != "")
             {
@@ -50,97 +45,7 @@ namespace OfficeOpenXml.Style
                 }
             }
             _path = path;
-
-            TextRun = new RegularTextRun();
-            //Reads attribute values into textRun
-            ParseAttributesFromXML();
         }
-
-        internal RegularTextRun TextRun;
-
-        #region LineProperties
-        //TODO: Line Properties
-        #endregion LineProperties
-
-        #region Basic Fill
-        ExcelDrawingFill _fill;
-        /// <summary>
-        /// A reference to the fill properties
-        /// </summary>
-        public ExcelDrawingFill Fill
-        {
-            get
-            {
-                if (_fill == null)
-                {
-                    _fill = new ExcelDrawingFill(_pictureRelationDocument, NameSpaceManager, _rootNode, _path, SchemaNodeOrder, CreateTopNode);
-                }
-                return _fill;
-            }
-        }
-
-        //Below is quick-access to the drawing fill
-        string _colorPath = "a:solidFill/a:srgbClr/@val";
-        /// <summary>
-        /// Sets the default color of the text.
-        /// This sets the Fill to a SolidFill with the specified color.
-        /// <remark>
-        /// Use the Fill property for more options
-        /// </remark>
-        /// </summary>
-        public Color Color
-        {
-            get
-            {
-                string col = GetXmlNodeString(_colorPath);
-                if (col == "")
-                {
-                    return Color.Empty;
-                }
-                else
-                {
-                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
-                }
-            }
-            set
-            {
-                Fill.Style = eFillStyle.SolidFill;
-                Fill.SolidFill.Color.SetRgbColor(value);
-            }
-        }
-        #endregion Basic fill
-
-        //UnderlineLine underlineFill etc.
-        #region Underline
-        string _underLineColorPath = "a:uFill/a:solidFill/a:srgbClr/@val";
-        /// <summary>
-        /// The fonts underline color
-        /// </summary>
-        public Color UnderLineColor
-        {
-            get
-            {
-                string col = GetXmlNodeString(_underLineColorPath);
-                if (col == "")
-                {
-                    return Color.Empty;
-                }
-                else
-                {
-                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
-                }
-            }
-            set
-            {
-                CreateTopNode();
-                SetXmlNodeString(_underLineColorPath, value.ToArgb().ToString("X").Substring(2, 6));
-            }
-        }
-
-        #endregion Underline
-
-        #region FontNodes
-
         string _fontLatinPath = "a:latin/@typeface";
         /// <summary>
         /// The latin typeface name
@@ -190,60 +95,15 @@ namespace OfficeOpenXml.Style
             }
         }
 
-        string _fontSymPath = "a:sym/@typeface";
         /// <summary>
-        /// The symbol font typeface name
-        /// </summary>
-        public string SymbolFont
-        {
-            get
-            {
-                return GetXmlNodeString(_fontSymPath);
-            }
-            set
-            {
-                CreateTopNode();
-                SetXmlNodeString(_fontSymPath, value);
-            }
-        }
-
-        #endregion FontNodes
-
-        #region HyperLink
-        #endregion Hyperlink
-
-        string rtlPath = "/a:rtl/@w:val";
-
-        /// <summary>
-        /// Right to left
-        /// If ommitted it returns false AKA (left-to-right)
-        /// </summary>
-        internal bool rtl
-        {
-            get
-            {
-                return GetBoolFromNullString(rtlPath);
-            }
-            set
-            {
-                CreateTopNode();
-                SetBoolNode(rtlPath, value);
-            }
-        }
-
-        #region ExtLst-OfficeArtExtensionList
-        #endregion ExtLst-OfficeArtExtensionList
-
-
-        /// <summary> 
         /// Creates the top nodes of the collection
         /// </summary>
         protected internal void CreateTopNode()
         {
-            if (_path!="" && TopNode==_rootNode)
+            if (_path != "" && TopNode == _rootNode)
             {
                 _initXml?.Invoke();
-                if (TopNode == _rootNode && string.IsNullOrEmpty(_path)==false)
+                if (TopNode == _rootNode && string.IsNullOrEmpty(_path) == false)
                 {
                     CreateNode(_path);
                     TopNode = _rootNode.SelectSingleNode(_path, NameSpaceManager);
@@ -257,37 +117,7 @@ namespace OfficeOpenXml.Style
                 CreateNode("../../../a:lstStyle");
             }
         }
-
         string _boldPath = "@b";
-
-        string _innerTextPath = "../t";
-
-        internal void ParseNodesFromXML()
-        {
-            TextRun.Fill = Fill;
-            TextRun.rtl = rtl;
-            TextRun.UnderLineColor = UnderLineColor;
-            TextRun.LatinFont = LatinFont;
-            TextRun.EastAsianFont = EastAsianFont;
-            TextRun.ComplexFont = ComplexFont;
-            TextRun.SymbolFont = SymbolFont;
-            TextRun.Text = GetXmlNodeString(_innerTextPath);
-        }
-
-        internal void ParseAttributesFromXML()
-        {
-            TextRun.Bold = GetXmlNodeBool(_boldPath);
-            TextRun.UnderLine = GetXmlNodeString(_underLinePath).TranslateUnderline();
-            TextRun.Italic = GetXmlNodeBool(_italicPath);
-            TextRun.Strike = GetXmlNodeString(_strikePath).TranslateStrikeType();
-
-            //TODO: handle Int.MIN same as before
-            TextRun.FontSize = GetXmlNodeInt(_sizePath);
-            TextRun.Kerning = GetXmlNodeFontSize(_kernPath);
-
-            TextRun.Capitalization = GetXmlNodeString($"{_path}/@cap").ToEnum(eTextCapsType.None);
-            TextRun.Baseline = GetXmlNodePercentage($"{_path}/@baseline") ?? 0;
-        }
         /// <summary>
         /// If the font is bold
         /// </summary>
@@ -295,13 +125,12 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return TextRun.Bold;
+                return GetXmlNodeBool(_boldPath);
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodeString(_boldPath, value ? "1" : "0");
-                TextRun.Bold = value;
             }
         }
         string _underLinePath = "@u";
@@ -312,13 +141,12 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return TextRun.UnderLine;
+                return GetXmlNodeString(_underLinePath).TranslateUnderline();
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodeString(_underLinePath, value.TranslateUnderlineText());
-                TextRun.UnderLine = value;
             }
         }
 
@@ -329,9 +157,34 @@ namespace OfficeOpenXml.Style
             {
                 ((XmlElement)TopNode).SetAttribute(a.Name, a.NamespaceURI, a.Value);
             }
-            if(copyFromElement.HasChildNodes && !TopNode.HasChildNodes)
+            if (copyFromElement.HasChildNodes && !TopNode.HasChildNodes)
             {
                 TopNode.InnerXml = copyFromElement.InnerXml;
+            }
+        }
+
+        string _underLineColorPath = "a:uFill/a:solidFill/a:srgbClr/@val";
+        /// <summary>
+        /// The fonts underline color
+        /// </summary>
+        public Color UnderLineColor
+        {
+            get
+            {
+                string col = GetXmlNodeString(_underLineColorPath);
+                if (col == "")
+                {
+                    return Color.Empty;
+                }
+                else
+                {
+                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                }
+            }
+            set
+            {
+                CreateTopNode();
+                SetXmlNodeString(_underLineColorPath, value.ToArgb().ToString("X").Substring(2, 6));
             }
         }
         string _italicPath = "@i";
@@ -342,13 +195,12 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return TextRun.Italic;
+                return GetXmlNodeBool(_italicPath);
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodeString(_italicPath, value ? "1" : "0");
-                TextRun.Italic = value;
             }
         }
         string _strikePath = "@strike";
@@ -359,13 +211,12 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return TextRun.Strike;
+                return GetXmlNodeString(_strikePath).TranslateStrikeType();
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodeString(_strikePath, value.TranslateStrikeTypeText());
-                TextRun.Strike = value;
             }
         }
         string _sizePath = "@sz";
@@ -376,19 +227,60 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return (float)TextRun.FontSize;
-                //var c = GetXmlNodeInt(_sizePath);
-                //if(c==int.MinValue)
-                //{
-                //    return c;
-                //}
-                //return c / 100;
+                var c = GetXmlNodeInt(_sizePath);
+                if (c == int.MinValue)
+                {
+                    return c;
+                }
+                return c / 100;
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodeString(_sizePath, ((int)(value * 100)).ToString());
-                TextRun.FontSize = (float)value;
+            }
+        }
+        ExcelDrawingFill _fill;
+        /// <summary>
+        /// A reference to the fill properties
+        /// </summary>
+        public ExcelDrawingFill Fill
+        {
+            get
+            {
+                if (_fill == null)
+                {
+                    _fill = new ExcelDrawingFill(_pictureRelationDocument, NameSpaceManager, _rootNode, _path, SchemaNodeOrder, CreateTopNode);
+                }
+                return _fill;
+            }
+        }
+        string _colorPath = "a:solidFill/a:srgbClr/@val";
+        /// <summary>
+        /// Sets the default color of the text.
+        /// This sets the Fill to a SolidFill with the specified color.
+        /// <remark>
+        /// Use the Fill property for more options
+        /// </remark>
+        /// </summary>
+        public Color Color
+        {
+            get
+            {
+                string col = GetXmlNodeString(_colorPath);
+                if (col == "")
+                {
+                    return Color.Empty;
+                }
+                else
+                {
+                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                }
+            }
+            set
+            {
+                Fill.Style = eFillStyle.SolidFill;
+                Fill.SolidFill.Color.SetRgbColor(value);
             }
         }
         string _kernPath = "@kern";
@@ -399,24 +291,14 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return TextRun.Kerning;
+                return GetXmlNodeFontSize(_kernPath);
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodeFontSize(_kernPath, value, "Kerning");
-                TextRun.Kerning = value;
             }
         }
-        ///// <summary>
-        ///// The baseline for both the superscript and subscript fonts in percentage
-        ///// </summary>
-        //public double Baseline { get => textRun.Attributes.Baseline; set => textRun.Attributes.Baseline = value; }
-        ///// <summary>
-        ///// The capitalization that is to be applied
-        ///// </summary>
-        //public eTextCapsType Capitalization { get => textRun.Attributes.Capitalization; set => textRun.Attributes.Capitalization = value; }
-
         /// <summary>
         /// The capitalization that is to be applied
         /// </summary>
@@ -424,13 +306,20 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return TextRun.Capitalization;
+                switch(GetXmlNodeString($"{_path}/@cap"))
+                {
+                    case "all":
+                        return eTextCapsType.All;
+                    case "small":
+                        return eTextCapsType.Small;
+                    default:
+                        return eTextCapsType.None;
+                }
             }
             set
             {
                 CreateTopNode();
-                SetXmlNodeString($"{_path}/@kern", value.ToEnumString());
-                TextRun.Capitalization = value;
+                SetXmlNodeString($"{_path}/@cap", value.ToEnumString());
             }
         }
 
@@ -441,17 +330,14 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return TextRun.Baseline;
+                return GetXmlNodeDouble($"{_path}/@baseline");
             }
             set
             {
                 CreateTopNode();
                 SetXmlNodePercentage($"{_path}/@baseline", value);
-                TextRun.Baseline = value;
             }
         }
-
-        #region Methods
         /// <summary>
         /// Set the font style properties
         /// </summary>
@@ -469,7 +355,7 @@ namespace OfficeOpenXml.Style
             if (bold) Bold = bold;
             if (italic) Italic = italic;
             if (underline) UnderLine = eUnderLineType.Single;
-            if (strikeout) Strike = eStrikeType.Single;            
+            if (strikeout) Strike = eStrikeType.Single;
         }
 
         internal void GetHeightInPixels(out float textWidth, out float textHeight, string text)
@@ -513,12 +399,9 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return TopNode==null || (_rootNode==TopNode && string.IsNullOrEmpty(_path)==false) || (TopNode.ChildNodes.Count==0 && TopNode.Attributes.Count==0);
-            }            
+                return TopNode == null || (_rootNode == TopNode && string.IsNullOrEmpty(_path) == false) || (TopNode.ChildNodes.Count == 0 && TopNode.Attributes.Count == 0);
+            }
         }
-
-        
-
         internal XmlElement PathElement
         {
             get
@@ -533,7 +416,6 @@ namespace OfficeOpenXml.Style
                     return node;
                 }
             }
-        }
-        #endregion Methods
+        }        
     }
 }

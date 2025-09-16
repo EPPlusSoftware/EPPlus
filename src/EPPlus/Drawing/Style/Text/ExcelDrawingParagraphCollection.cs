@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
@@ -32,26 +33,59 @@ namespace OfficeOpenXml.Drawing
             _prd = prd;
             var pNodes = topNode.SelectNodes(path + "/a:p", nameSpaceManager);
             _path = path;
-            foreach(XmlElement pn in pNodes)
+            foreach (XmlElement pn in pNodes)
             {
-                _paragraphs.Add(new ExcelDrawingParagraph(prd, nameSpaceManager, pn, schemaNodeOrder,  initXml));
+                _paragraphs.Add(new ExcelDrawingParagraph(prd, nameSpaceManager, pn, schemaNodeOrder, initXml));
             }
         }
         public int Count { get => _paragraphs.Count; }
-        public ExcelDrawingParagraph this[int PositionID]
+
+        public bool IsReadOnly => throw new NotImplementedException();
+
+        public ExcelDrawingParagraph this[int index]
         {
             get
             {
-                return _paragraphs[PositionID];
+                return _paragraphs[index];
             }
+
         }
+        /// <summary>
+        /// Adds a new paragraph
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public ExcelDrawingParagraph Add(string text)
         {
-            var pn = CreateNode(_path + "/a:p", false, true);
+            if(_paragraphs.Count==0)
+            {
+                CreateTopNode();
+            }
+            var pn = CreateNode("a:p", false, true);
             var p = new ExcelDrawingParagraph(_prd, NameSpaceManager, pn, SchemaNodeOrder, _initXml);
-            p.TextRuns.AddRun(text);
+            p.TextRuns.Add(text);
             _paragraphs.Add(p);
             return p;
+        }
+        public void RemoveAt(int index)
+        {
+            if (index < 0 || index >= _paragraphs.Count)
+            {
+                throw new IndexOutOfRangeException("Paragraph index out of range.");
+            }
+            var pn = _paragraphs[index].TopNode;
+            pn.ParentNode.RemoveChild(pn);
+            _paragraphs.RemoveAt(index);
+        }
+        public void Remove(ExcelDrawingParagraph item)
+        {
+            if (!_paragraphs.Contains(item))
+            {
+                throw new ArgumentException("Paragraph item does not exist in the collection");
+            }
+            var pn = item.TopNode;
+            pn.ParentNode.RemoveChild(pn);
+            _paragraphs.Remove(item);
         }
         /// <summary>
         /// Gets the enumerator.
@@ -66,5 +100,41 @@ namespace OfficeOpenXml.Drawing
         {
             return GetEnumerator();
         }
+
+        public int IndexOf(ExcelDrawingParagraph item)
+        {
+            return _paragraphs.IndexOf(item);
+        }
+        /// <summary>
+        /// Clears all para
+        /// </summary>
+        public void Clear()
+        {
+            for (int i = 0; i < _paragraphs.Count; i++)
+            {
+                var pn= _paragraphs[i].TopNode;
+                pn.ParentNode.RemoveChild(pn);
+            }
+            _paragraphs.Clear();
+        }
+
+        public bool Contains(ExcelDrawingParagraph item)
+        {
+            return _paragraphs.Contains(item);
+        }
+        /// <summary> 
+        /// Creates the top nodes of the collection
+        /// </summary>
+        protected internal void CreateTopNode()
+        {
+            if (_paragraphs.Count == 0)
+            {
+                _initXml?.Invoke();
+                TopNode = CreateNode(_path);
+                CreateNode("a:bodyPr");
+                CreateNode("a:lstStyle");
+            }
+        }
     }
+
 }
