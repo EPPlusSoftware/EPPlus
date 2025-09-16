@@ -24,7 +24,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// The name used for a commercial organization
         /// </summary>
-        public string LegalName 
+        public string LegalName
         {
             get;
             private set;
@@ -100,17 +100,17 @@ namespace OfficeOpenXml
 
         private bool ValidateName(string name, out string msg)
         {
-            if(name.Length < 3)
+            if (name.Length < 3)
             {
                 msg = "The license holder name must be at least 3 characters.";
                 return false;
             }
-            if (name.Any(c => c=='/' || c=='\\' || c=='*' || char.IsControl(c) || c=='\t'))
+            if (name.Any(c => c == '/' || c == '\\' || c == '*' || char.IsControl(c) || c == '\t'))
             {
                 msg = "The license holder name contains invalid characters";
                 return false;
             }
-            if(name.Count(x=>char.IsLetter(x)) < 2)
+            if (name.Count(x => char.IsLetter(x)) < 2)
             {
                 msg = "The license holder name contains to few letters.";
                 return false;
@@ -136,9 +136,9 @@ namespace OfficeOpenXml
             LicenseKey = licenseKey;
             LicenseType = EPPlusLicenseType.Commercial;
             Source = EPPlusLicenseSource.Code;
-            if(_licenseSet==false)
+            if (_licenseSet == false)
             {
-                if(licenseInfo.Status==EPPlusLicenseStatus.InvalidLicenseKey)
+                if (licenseInfo.Status == EPPlusLicenseStatus.InvalidLicenseKey)
                 {
                     throw new InvalidLicenseKeyException(msg);
                 }
@@ -161,7 +161,7 @@ namespace OfficeOpenXml
             else
             {
                 v = v.Trim();
-                var s = v.Split([':',',']);
+                var s = v.Split([':', ',']);
                 if (s[0].Equals("noncommercialorganization", StringComparison.OrdinalIgnoreCase))
                 {
                     if (s.Length == 1)
@@ -189,7 +189,7 @@ namespace OfficeOpenXml
                 {
                     if (s.Length > 1 && v.StartsWith("commercial", StringComparison.OrdinalIgnoreCase))
                     {
-                        v = v.Substring(v.IndexOfAny([':',',']) + 1);
+                        v = v.Substring(v.IndexOfAny([':', ',']) + 1);
                     }
                     SetCommercial(v.Trim());
                     ExcelPackage.License.Source = inEnvironment ? EPPlusLicenseSource.EnvironmentVariable : EPPlusLicenseSource.ConfigFile;
@@ -237,7 +237,7 @@ namespace OfficeOpenXml
             LicenseKey = null;
             Source = null;
             LegalName = null;
-            LicenseInfo = null;            
+            LicenseInfo = null;
             _licenseSet = false;
         }
     }

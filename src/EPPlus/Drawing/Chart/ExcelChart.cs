@@ -10,20 +10,21 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Xml;
-using System.IO;
-using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
-using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
-using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.FileUtils;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -1136,6 +1137,28 @@ namespace OfficeOpenXml.Drawing.Chart
             }
 
             throw new InvalidOperationException($"Cannot change ValueAxis to CatAxis. Original Axis type: {currentType.ToString()}  New Axis type: {type.ToString()}");
+        }
+
+        internal override void SaveDrawing(bool hasLoadedPivotTables)
+        {
+            base.SaveDrawing(hasLoadedPivotTables);
+
+            var chartStream = Part.GetStream(FileMode.Create, FileAccess.Write);
+            ChartXml.PreserveWhitespace = true;
+            ChartXml.Save(chartStream);
+
+            if (this is ExcelChartStandard cs && cs.Drawings.Part != null)
+            {
+                foreach (var cd in cs.Drawings)
+                {
+                    cd.UpdatePositionAndSizeXml();
+                    cd.SaveDrawing(hasLoadedPivotTables); //Handle group shapes.
+                }
+
+                var xrd = new XmlTextWriter(cs.Drawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
+                xrd.Formatting = Formatting.None;
+                cs.Drawings.DrawingXml.Save(xrd);
+            }
         }
     }
 }

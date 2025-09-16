@@ -219,7 +219,10 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 xr.Read();
                             }
 
-                            dataBar.ReadInCTColor(xr);
+                            if (xr.LocalName.Contains("Color"))
+                            {
+                                dataBar.ReadInCTColor(xr);
+                            }
 
                             // /DataBar-> /cfRule -> xm:sqref -> textValue
                             xr.Read();
@@ -227,7 +230,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                             if (xr.LocalName != "cfRule")
                             {
                                 xr.Read();
-                                //If we need to handle ext adress it can be read here with xr.ReadContentAsString();
+                                //If we need to handle ext adress (xm:sqref) it can be read here with xr.ReadContentAsString();
+                                //Currently it seems using the non-exy ConditionalFormatting sqref is enough.
                                 // textValue -> /xm:sqref -> /conditionalFormatting
                                 xr.Read();
                                 xr.Read();

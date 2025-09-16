@@ -911,5 +911,19 @@ namespace OfficeOpenXml.Drawing.OleObject
             p.Save();
         }
         #endregion
+
+        internal override void SaveDrawing(bool hasLoadedPivotTables)
+        {
+            base.SaveDrawing(hasLoadedPivotTables);
+
+            if (IsExternalLink)
+            {
+                if (_oleObjectPart != null && _linkedOleObjectXml != null)
+                {
+                    _linkedOleObjectXml.Save(_oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+                }
+            }
+            UpdateXml();
+        }
     }
 }
