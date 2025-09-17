@@ -218,7 +218,7 @@ namespace OfficeOpenXml.Drawing.Chart
            {
                if (_font == null)
                {
-                   _font = new ExcelTextFont(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder, CreateDefaultText);
+                   _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder, CreateDefaultText);
                }
                return _font;
            }
@@ -268,7 +268,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:bodyPr", SchemaNodeOrder, Font.CreateTopNode);
+                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:bodyPr", SchemaNodeOrder, ((ExcelTextFontXml)Font).CreateTopNode);
                 }
                 return _textBody;
             }

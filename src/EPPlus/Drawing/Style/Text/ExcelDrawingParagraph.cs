@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.NetworkInformation;
+using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -35,7 +36,31 @@ namespace OfficeOpenXml.Drawing
             AddSchemaNodeOrder(schemaNodeOrder, ["lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzPct", "buSzTx", "buSzPts", "buFont", "buFontTx", "buAutoNum", "buChar", "buBlip", "buNone", "tabLst", "defRPr"]);
             _initXml = initXml;
             _prd = prd;
-            DefaultRunProperties = new ExcelTextFont(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
+            DefaultRunProperties = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
+            var normalStyle = _prd.Package.Workbook.Styles.GetNormalStyle();
+            if (normalStyle == null)
+            {
+                DefaultRunProperties.LatinFont = DefaultRunProperties.ComplexFont = "Calibri";
+            }
+            else
+            {
+                DefaultRunProperties.LatinFont = DefaultRunProperties.ComplexFont = normalStyle.Style.Font.Name;
+            }
+                
+            
+            //    parentNode = CreateNode(_path);
+            //    _paragraphs.Add((XmlElement)parentNode);
+            //    var defNode = CreateNode(_path + "/a:pPr/a:defRPr");
+            //    if (defNode.InnerXml == "")
+            //    {
+            //        ((XmlElement)defNode).SetAttribute("sz", (_defaultFontSize*100).ToString(CultureInfo.InvariantCulture));
+            //        var normalStyle = _drawing._drawings.Worksheet.Workbook.Styles.GetNormalStyle();
+            //        if (normalStyle == null)
+            //            defNode.InnerXml = "<a:latin typeface=\"Calibri\" /><a:cs typeface=\"Calibri\" />";
+            //        else
+            //            defNode.InnerXml = $"<a:latin typeface=\"{normalStyle.Style.Font.Name}\"/><a:cs typeface=\"{normalStyle.Style.Font.Name}\"/>";
+            //    }
+
         }
         /// <summary>
         /// Default font and fill properties for all text runs.
@@ -58,6 +83,21 @@ namespace OfficeOpenXml.Drawing
                     _textRun = new ExcelDrawingTextRunCollection(this, NameSpaceManager, TopNode, _initXml);
                 }
                 return _textRun;
+            }
+        }
+        /// <summary>
+        /// The text for the paragraph.
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                foreach(var tr in TextRuns)
+                {
+                    sb.Append(tr.Text);
+                }
+                return sb.ToString();
             }
         }
         /// <summary>
@@ -172,7 +212,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// The level of the paragraph in relation to the list style.
         /// </summary>
-        public int Level
+        public int IndentLevel
         {
             get
             {
@@ -324,6 +364,5 @@ namespace OfficeOpenXml.Drawing
                 SetXmlNodeString("a:pPr/@fontAlgn", v);
             }
         }
-
     }
 }

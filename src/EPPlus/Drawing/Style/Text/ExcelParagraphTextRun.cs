@@ -26,10 +26,9 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public class ExcelParagraphTextRun : ExcelParagraphTextRunBase
     {
-        internal ExcelParagraphTextRun(IPictureRelationDocument prd, XmlNamespaceManager ns, XmlNode topNode) : base(prd, ns, topNode)
+        internal ExcelParagraphTextRun(ExcelDrawingParagraph paragraph, XmlNamespaceManager ns, XmlNode topNode) : base(paragraph, ns, topNode)
         {
         }
-
         public override eParagraphRunType Type => eParagraphRunType.TextRun;
         public override string Text
         {

@@ -17,7 +17,7 @@ namespace OfficeOpenXml.Drawing
 {
     public class ExcelParagraphLineBreak : ExcelParagraphTextRunBase
     {
-        internal ExcelParagraphLineBreak(IPictureRelationDocument prd, XmlNamespaceManager ns, XmlNode topNode) : base(prd, ns, topNode)
+        internal ExcelParagraphLineBreak(ExcelDrawingParagraph paragraph, XmlNamespaceManager ns, XmlNode topNode) : base(paragraph, ns, topNode)
         {
         }
         public override eParagraphRunType Type => eParagraphRunType.LineBreak;

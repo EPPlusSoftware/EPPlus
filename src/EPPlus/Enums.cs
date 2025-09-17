@@ -112,7 +112,7 @@ namespace OfficeOpenXml
     public enum CompressionLevel
     {
         /// <summary>
-        /// Level 0, no compression
+        /// IndentLevel 0, no compression
         /// </summary>
         Level0 = 0,
         /// <summary>
@@ -120,7 +120,7 @@ namespace OfficeOpenXml
         /// </summary>
         None = 0,
         /// <summary>
-        /// Level 1, Best speed
+        /// IndentLevel 1, Best speed
         /// </summary>
         Level1 = 1,
         /// <summary>
@@ -128,43 +128,43 @@ namespace OfficeOpenXml
         /// </summary>
         BestSpeed = 1,
         /// <summary>
-        /// Level 2
+        /// IndentLevel 2
         /// </summary>
         Level2 = 2,
         /// <summary>
-        /// Level 3
+        /// IndentLevel 3
         /// </summary>
         Level3 = 3,
         /// <summary>
-        /// Level 4
+        /// IndentLevel 4
         /// </summary>
         Level4 = 4,
         /// <summary>
-        /// Level 5
+        /// IndentLevel 5
         /// </summary>
         Level5 = 5,
         /// <summary>
-        /// Level 6
+        /// IndentLevel 6
         /// </summary>
         Level6 = 6,
         /// <summary>
-        /// Default, Level 6
+        /// Default, IndentLevel 6
         /// </summary>
         Default = 6,
         /// <summary>
-        /// Level 7
+        /// IndentLevel 7
         /// </summary>
         Level7 = 7,
         /// <summary>
-        /// Level 8
+        /// IndentLevel 8
         /// </summary>
         Level8 = 8,
         /// <summary>
-        /// Level 9
+        /// IndentLevel 9
         /// </summary>
         BestCompression = 9,
         /// <summary>
-        /// Best compression, Level 9
+        /// Best compression, IndentLevel 9
         /// </summary>
         Level9 = 9,
     }

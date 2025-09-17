@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public class ExcelParagraphTextField : ExcelParagraphTextRunBase
     {
-        internal ExcelParagraphTextField(IPictureRelationDocument prd, XmlNamespaceManager ns, XmlNode topNode) : base(prd, ns, topNode)
+        internal ExcelParagraphTextField(ExcelDrawingParagraph paragraph, XmlNamespaceManager ns, XmlNode topNode) : base(paragraph, ns, topNode)
         {            
         }
 

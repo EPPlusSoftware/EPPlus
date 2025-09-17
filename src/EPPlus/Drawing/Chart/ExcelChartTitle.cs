@@ -113,7 +113,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _fill;
             }
         }
-        internal ExcelTextFont _font = null;
+        internal ExcelTextFontXml _font = null;
         /// <summary>
         /// A reference to the font properties
         /// </summary>
@@ -127,7 +127,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         RichText.Add("");
                     }
-                    _font = new ExcelTextFont(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+                    _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
                 }
                 return _font;
             }
@@ -225,7 +225,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 defFont = Convert.ToSingle(stylePart.DefaultTextRun.Size);
             }
-            _richText = new ExcelParagraphCollection(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p", SchemaNodeOrder, defFont);
+            _richText = new ExcelParagraphCollection(TextBody, _chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p", SchemaNodeOrder, defFont);
         }
 
         private ExcelChartStyleEntry GetStylePart()

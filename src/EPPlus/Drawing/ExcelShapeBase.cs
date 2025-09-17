@@ -212,7 +212,7 @@ namespace OfficeOpenXml.Drawing
                 return _tailEnd;
             }
         }
-        ExcelTextFont _font = null;
+        ExcelTextFontXml _font = null;
         /// <summary>
         /// Font properties
         /// </summary>
@@ -228,7 +228,7 @@ namespace OfficeOpenXml.Drawing
                         Text = "";    //Creates the node p element
                         node = TopNode.SelectSingleNode(_paragraphPath, NameSpaceManager);
                     }
-                    _font = new ExcelTextFont(_drawings, NameSpaceManager, TopNode, _fontPath, SchemaNodeOrder);
+                    _font = new ExcelTextFontXml(_drawings, NameSpaceManager, TopNode, _fontPath, SchemaNodeOrder);
                 }
                 return _font;
             }
@@ -301,7 +301,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_richText == null)
                 {
-                    _richText = new ExcelParagraphCollection(this, NameSpaceManager, TopNode, _paragraphPath, SchemaNodeOrder);
+                    _richText = new ExcelParagraphCollection(TextBody, this, NameSpaceManager, TopNode, _paragraphPath, SchemaNodeOrder);
                 }
                 return _richText;
             }
@@ -596,7 +596,7 @@ namespace OfficeOpenXml.Drawing
             if (_fill != null) _fill.SetTopNode(TopNode);
             if (_border != null) _border.TopNode = TopNode;
             if (_effect != null) _effect.TopNode = TopNode;
-            if (_font != null) _font.TopNode = TopNode;
+            if (_font != null) _font.XmlHelper.TopNode = TopNode;
             if (_threeD != null) _threeD.TopNode = TopNode;
             if (_tailEnd != null) _tailEnd.TopNode = TopNode;
             if (_headEnd != null) _headEnd.TopNode = TopNode;
@@ -607,12 +607,12 @@ namespace OfficeOpenXml.Drawing
         internal override void SaveDrawing(bool hasLoadedPivotTables)
         {
             base.SaveDrawing(hasLoadedPivotTables);
-            if(_richText != null)
-            {
-                //We set the end run after the user has set all properties for all given runs
-                //This ensures we need not update the node repeatedly.
-                RichText.UpdateXmlEndParagraphRunProperties();
-            }
+            //if(_richText != null)
+            //{
+            //    //We set the end run after the user has set all properties for all given runs
+            //    //This ensures we need not update the node repeatedly.
+            //    RichText.UpdateXmlEndParagraphRunProperties();
+            //}
         }
     }
 }

@@ -18,6 +18,7 @@ using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.Collections.Generic;
@@ -867,7 +868,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             }
             if (section.HasTextRun)
             {                
-                chartPartWithFont.Font.SetFromXml(section.DefaultTextRun.PathElement);                
+                ((ExcelTextFontXml)chartPartWithFont.Font).SetFromXml(section.DefaultTextRun.PathElement);                
             }
             if (section.FontReference.HasColor)
             {

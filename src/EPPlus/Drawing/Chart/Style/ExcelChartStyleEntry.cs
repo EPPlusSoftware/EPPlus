@@ -199,7 +199,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             {
                 if (_defaultTextRun == null)
                 {
-                    _defaultTextRun = new ExcelTextFont(_pictureRelationDocument, NameSpaceManager, TopNode, _defaultTextRunPath, SchemaNodeOrderTextRun);
+                    _defaultTextRun = new ExcelTextFontXml(_pictureRelationDocument, NameSpaceManager, TopNode, _defaultTextRunPath, SchemaNodeOrderTextRun);
                 }
                 return _defaultTextRun;
                 

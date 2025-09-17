@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_font == null)
                 {
-                    _font = new ExcelTextFont(_serie._chart, NameSpaceManager, TopNode, "c:trendlineLbl/c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+                    _font = new ExcelTextFontXml(_serie._chart, NameSpaceManager, TopNode, "c:trendlineLbl/c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
                 }
                 return _font;
             }
@@ -137,7 +137,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_richText == null)
                 {
-                    _richText = new ExcelParagraphCollection(_serie._chart, NameSpaceManager, TopNode, "c:trendlineLbl/c:tx/c:rich/a:p", SchemaNodeOrder);
+                    _richText = new ExcelParagraphCollection(TextBody, _serie._chart, NameSpaceManager, TopNode, "c:trendlineLbl/c:tx/c:rich/a:p", SchemaNodeOrder);
                 }
                 return _richText;
             }

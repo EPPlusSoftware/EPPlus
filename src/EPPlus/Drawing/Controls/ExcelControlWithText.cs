@@ -87,7 +87,7 @@ namespace OfficeOpenXml.Drawing.Controls
             {
                 if (_richText == null)
                 {
-                    _richText = new ExcelParagraphCollection(this, NameSpaceManager, TopNode, _paragraphPath, SchemaNodeOrder);
+                    _richText = new ExcelParagraphCollection(TextBody, this, NameSpaceManager, TopNode, _paragraphPath, SchemaNodeOrder);
                 }
                 return _richText;
             }

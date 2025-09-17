@@ -12,8 +12,10 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
+using System;
 using System.Drawing;
 using System.Xml;
 namespace OfficeOpenXml.Drawing
@@ -28,12 +30,14 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         string _defaultFontName;
         IPictureRelationDocument _prd;
-        //XmlNode _rootNode;
-        internal ExcelParagraphTextRunBase(IPictureRelationDocument prd, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
+        ExcelDrawingParagraph _paragraph;
+        internal ExcelParagraphTextRunBase(ExcelDrawingParagraph paragraph, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
         {
             SchemaNodeOrder = ["rPr", "pPr", "t"];
-            _prd = prd;
+            _paragraph = paragraph;
+            _prd = _paragraph._prd;
         }
+        internal ExcelDrawingParagraph Paragraph { get => _paragraph; }
         /// <summary>
         /// The type of text run
         /// </summary>
@@ -379,6 +383,43 @@ namespace OfficeOpenXml.Drawing
             if (underline) FontUnderLine = eUnderLineType.Single;
             if (strikeout) FontStrike = eStrikeType.Single;
         }
+
+        internal void GetHeightInPixels(out float textWidth, out float textHeight, string text)
+        {
+            var tm = _prd.Package.Settings.TextSettings.PrimaryTextMeasurer;
+            _prd.Package.Workbook.Styles.GetNormalStyle();
+            MeasurementFont f = GetMeasureFont();
+            var b = tm.MeasureText(text, f);
+            textWidth = b.Width;
+            textHeight = b.Height;
+        }
+        internal MeasurementFont GetMeasureFont()
+        {
+            return new MeasurementFont()
+            {
+                FontFamily = LatinFont,
+                Size = FontSize,
+                Style = GetFontStyle()
+            };
+        }
+        private MeasurementFontStyles GetFontStyle()
+        {
+            MeasurementFontStyles ret = MeasurementFontStyles.Regular;
+            if (FontBold)
+            {
+                ret |= MeasurementFontStyles.Bold;
+            }
+            if (FontItalic)
+            {
+                ret |= MeasurementFontStyles.Italic;
+            }
+            if (FontUnderLine != eUnderLineType.None)
+            {
+                ret |= MeasurementFontStyles.Underline;
+            }
+            return ret;
+        }
+
         internal bool IsEmpty
         {
             get
@@ -411,7 +452,24 @@ namespace OfficeOpenXml.Drawing
             set;
         }
         /// <summary>
-        /// Creates the top nodes of the collection
+        /// If the text item is the first item in the paragraph
         /// </summary>
+        public bool IsFirstInParagraph
+        {
+            get
+            {
+                return _paragraph.TextRuns.IndexOf(this) == 0;
+            }
+        }
+        /// <summary>
+        /// If the text item is the last item in the paragraph
+        /// </summary>
+        public bool IsLastInParagraph
+        {
+            get
+            {
+                return _paragraph.TextRuns.IndexOf(this) == _paragraph.TextRuns.Count-1;
+            }
+        }
     }
 }

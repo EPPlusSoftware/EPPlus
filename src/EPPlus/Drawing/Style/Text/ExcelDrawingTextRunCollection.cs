@@ -35,13 +35,13 @@ namespace OfficeOpenXml.Drawing
                 switch(node.LocalName)
                 {
                     case "r":
-                        _textRuns.Add(new ExcelParagraphTextRun(paragraph._prd, nsm, node));
+                        _textRuns.Add(new ExcelParagraphTextRun(paragraph, nsm, node));
                         break;
                     case "fld":
-                        _textRuns.Add(new ExcelParagraphTextField(paragraph._prd, nsm, node));
+                        _textRuns.Add(new ExcelParagraphTextField(paragraph, nsm, node));
                         break;
                     case "br":
-                        _textRuns.Add(new ExcelParagraphLineBreak(paragraph._prd, nsm, node));
+                        _textRuns.Add(new ExcelParagraphLineBreak(paragraph, nsm, node));
                         break;
 
                 }
@@ -102,7 +102,7 @@ namespace OfficeOpenXml.Drawing
         public ExcelParagraphTextRun Add(string text)
         {
             var rn=CreateNode("a:r", false, true);
-            var txtRun = new ExcelParagraphTextRun(_paragraph._prd, NameSpaceManager, rn);
+            var txtRun = new ExcelParagraphTextRun(_paragraph, NameSpaceManager, rn);
             txtRun.Text = text;
             _textRuns.Add(txtRun);
             return txtRun;
@@ -133,7 +133,15 @@ namespace OfficeOpenXml.Drawing
         {
             return _textRuns.Contains(item);
         }
-
+        /// <summary>
+        /// Returns the index in the collection of the supplied item.
+        /// </summary>
+        /// <param name="item">The item</param>
+        /// <returns>The index in the collection.</returns>
+        public int IndexOf(ExcelParagraphTextRunBase item)
+        {
+            return _textRuns.IndexOf(item);
+        }
         IEnumerator<ExcelParagraphTextRunBase> IEnumerable<ExcelParagraphTextRunBase>.GetEnumerator()
         {
             return ((IEnumerable<ExcelParagraphTextRunBase>)_textRuns).GetEnumerator();
@@ -142,6 +150,11 @@ namespace OfficeOpenXml.Drawing
         public IEnumerator<ExcelParagraphTextRunBase> GetEnumerator()
         {
             return _textRuns.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

@@ -1075,7 +1075,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_font == null)
                 {
-                    _font = new ExcelTextFont(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace", NameSpaceManager), "c:txPr/a:p/a:pPr/a:defRPr", _chartXmlHelper.SchemaNodeOrder);
+                    _font = new ExcelTextFontXml(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace", NameSpaceManager), "c:txPr/a:p/a:pPr/a:defRPr", _chartXmlHelper.SchemaNodeOrder);
                 }
                 return _font;
             }

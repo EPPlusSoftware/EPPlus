@@ -24,10 +24,10 @@ namespace OfficeOpenXml.Style
     /// <summary>
     /// Handles paragraph text
     /// </summary>
-    public sealed class ExcelParagraph : ExcelTextFont
+    public sealed class ExcelParagraph : ExcelTextFontRichText
     {
-        internal ExcelParagraph(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager ns, XmlNode rootNode, string path, string[] schemaNodeOrder) : 
-            base(pictureRelationDocument, ns, rootNode, path + "a:rPr", schemaNodeOrder)
+        internal ExcelParagraph(ExcelParagraphTextRunBase textRun) : 
+            base(textRun)
         {
         }
         const string AligPath = "../../a:pPr/@algn";
@@ -37,32 +37,12 @@ namespace OfficeOpenXml.Style
         public eTextAlignment HorizontalAlignment
         {
             get
-            {                
-                return GetXmlNodeString(AligPath).ToEnum(eTextAlignment.Left, new Dictionary<string, eTextAlignment>
-                {
-                    ["r"] = eTextAlignment.Right,
-                    ["ctr"] = eTextAlignment.Center,
-                    ["dist"] = eTextAlignment.Distributed,
-                    ["just"] = eTextAlignment.Justified,
-                    ["justLow"] = eTextAlignment.JustifiedLow,
-                    ["thaiDist"] = eTextAlignment.ThaiDistributed,
-                    ["l"] = eTextAlignment.Left,
-                }
-                );
+            {
+                return _textRun.Paragraph.HorizontalAlignment;
             }
             set
             {
-                CreateTopNode();
-                SetXmlNodeString(AligPath, value.ToEnumString(new Dictionary<Enum, string>
-                {
-                    [eTextAlignment.Right] = "r",
-                    [eTextAlignment.Center] = "ctr",
-                    [eTextAlignment.Distributed] = "dist",
-                    [eTextAlignment.Justified] = "just",
-                    [eTextAlignment.JustifiedLow] = "justLow",
-                    [eTextAlignment.ThaiDistributed] = "thaiDist",
-                    [eTextAlignment.Left] = "l",
-                }));
+                _textRun.Paragraph.HorizontalAlignment = value;
             }
         }
         const string IndentLevelPath = "../../a:pPr/@lvl";
@@ -73,127 +53,14 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return GetXmlNodeIntNull(IndentLevelPath);
+                return _textRun.Paragraph.IndentLevel;
             }
             set
             {
-                if(value.HasValue==false && (value < 0 || value > 8))
-                {
-                    throw new ArgumentOutOfRangeException("Indent level must be between 0 and 8.");
-                }
-                CreateTopNode();
-                SetXmlNodeInt(IndentLevelPath, value);
+                _textRun.Paragraph.IndentLevel = value ?? 0;
             }
         }
 
-        const string LineSpacingPath = "../../a:pPr/a:lnSpc";
-
-        /// <summary>
-        /// Set line spacing in Points
-        /// Returns null if only defined as Percent
-        /// </summary>
-        public double? LineSpacingPoints
-        {
-            get
-            {
-                return GetXmlNodeIntNull(LineSpacingPath + "/a:spcPts/@val") / 100;
-            }
-            set
-            {
-                _lineSpacingType = eDrawingTextLineSpacing.Exactly;
-                //the "maxInclusive value="15840000" on page 4045 of ECMA OOXML part 1
-                if (value.HasValue == false && (value < 0 || value > 158400))
-                {
-                    throw new ArgumentOutOfRangeException("Linespacing must be between 0 and 158400 pts.");
-                }
-                //Poins and Percent have the same position/node and there may only be one.
-                if(LineSpacingPercent != null)
-                {
-                    LineSpacingPercent = null;
-                }
-                SetXmlNodeInt(LineSpacingPath + "/a:spcPts/@val", (int)value * 100);
-            }
-        }
-        /// <summary>
-        /// Set line spacing in multiples of single lines
-        /// Returns null if only defined as Exactly
-        /// </summary>
-        public double? LineSpacingPercent
-        {
-            get
-            {
-                return GetXmlNodePercentage(LineSpacingPath + "/a:spcPct/@val");
-            }
-            set
-            {
-                if (value.HasValue == false && (value < 0 || value > 13200))
-                {
-                    throw new ArgumentOutOfRangeException("Linespacing in percent must be between 0 and 13200%");
-                }
-                //Poins and Percent have the same position/node and there may only be one.
-                if (LineSpacingPoints != null)
-                {
-                    LineSpacingPoints = null;
-                }
-
-                if(value == 1)
-                {
-                    _lineSpacingType = eDrawingTextLineSpacing.Single;
-                }
-                else if(value == 1.5)
-                {
-                    _lineSpacingType = eDrawingTextLineSpacing.OneAndAHalf;
-                }
-                else if(value == 2)
-                {
-                    _lineSpacingType = eDrawingTextLineSpacing.Double;
-                }
-
-                SetXmlNodePercentage(LineSpacingPath + "/a:spcPct/@val", value);
-            }
-        }
-
-       private eDrawingTextLineSpacing _lineSpacingType;
-
-        /// <summary>
-        /// If setting Exactly or Multiple it is recommended to use
-        /// LineSpacingExactly or LineSpacingMultiple propeties.
-        /// Otherwise they are set to default values 13.2 or 3
-        /// 
-        /// Note that Single, OneAndAHalf and Double are all techically just Multiple for values 1, 1,5 and 2
-        /// </summary>
-        public eDrawingTextLineSpacing LineSpacing
-        {
-            get
-            {
-                return _lineSpacingType;
-            }
-            set
-            {
-                switch (value)
-                {
-                    case eDrawingTextLineSpacing.Single:
-                        LineSpacingPercent = 1;
-                        break;
-                    case eDrawingTextLineSpacing.OneAndAHalf:
-                        LineSpacingPercent = 1.5;
-                        break;
-                    case eDrawingTextLineSpacing.Double:
-                        LineSpacingPercent = 2;
-                        break;
-                    case eDrawingTextLineSpacing.Exactly:
-                        LineSpacingPoints = 13;
-                        break;
-                    case eDrawingTextLineSpacing.Multiple:
-                        LineSpacingPercent = 3;
-                        break;
-                }
-                _lineSpacingType = value;
-            }
-        }
-
-
-        const string TextPath = "../a:t";
         /// <summary>
         /// Text
         /// </summary>
@@ -201,12 +68,11 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return GetXmlNodeString(TextPath);
+                return _textRun.Text;
             }
             set
             {
-                CreateTopNode();
-                SetXmlNodeString(TextPath, value);
+                _textRun.Text = Text;
             }
         }
         
@@ -217,15 +83,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                var parent = _rootNode.ParentNode;
-                for (int i=0;i<parent.ChildNodes.Count;i++)
-                {
-                    if (parent.ChildNodes[i].LocalName == "r")
-                    {
-                        return parent.ChildNodes[i] == _rootNode;
-                    }
-                }
-                return false;
+                return _textRun.IsFirstInParagraph;
             }
         }
         /// <summary>
@@ -235,15 +93,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                var parent = _rootNode.ParentNode;
-                for (int i = parent.ChildNodes.Count-1; i >=0 ; i--)
-                {
-                    if (parent.ChildNodes[i].LocalName == "r")
-                    {
-                        return parent.ChildNodes[i] == _rootNode;
-                    }
-                }
-                return false;
+                return _textRun.IsLastInParagraph;
             }
         }
     }

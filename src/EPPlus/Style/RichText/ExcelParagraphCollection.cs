@@ -29,32 +29,39 @@ namespace OfficeOpenXml.Style
         List<ExcelParagraph> _list = new List<ExcelParagraph>();
         private readonly ExcelDrawing _drawing;
         private readonly string _path;
-        private readonly List<XmlElement> _paragraphs=new List<XmlElement>();
         private readonly float _defaultFontSize;
         private readonly ExcelTextFont _defaultFont;
-        internal ExcelParagraphCollection(ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder, float defaultFontSize =11) :
+        private readonly ExcelTextBody _textBody;
+        internal ExcelParagraphCollection(ExcelTextBody tb,  ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder, float defaultFontSize =11) :
             base(ns, topNode)
         {
             _drawing = drawing;
             _defaultFontSize = defaultFontSize;
             AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef","rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount","pt","pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont","buNone", "buAutoNum", "buChar","buBlip", "tabLst","defRPr", "r","br","fld" ,"endParaRPr" });
-            _defaultFont = new ExcelTextFont(drawing._drawings, ns, TopNode, path+ "/a:pPr/a:defRPr", schemaNodeOrder);
+            _defaultFont = new ExcelTextFontXml(drawing._drawings, ns, TopNode, path+ "/a:pPr/a:defRPr", schemaNodeOrder);
             _path = path;
-            var pars = TopNode.SelectNodes(path, NameSpaceManager);
-            foreach(XmlElement par in pars)
+            //var pars = TopNode.SelectNodes(path, NameSpaceManager);
+            //foreach(XmlElement par in pars)
+            //{
+            //    _paragraphs.Add(par);
+            //    var nl = par.SelectNodes("a:r", NameSpaceManager);
+            //    if (nl != null)
+            //    {
+            //        foreach (XmlNode n in nl)
+            //        {
+            //            if (_list.Count == 0 || n.ParentNode != _list[_list.Count - 1].TopNode.ParentNode)
+            //            {
+            //                _paragraphs.Add((XmlElement)n.ParentNode);
+            //            }
+            //            _list.Add(new ExcelParagraph(drawing._drawings, ns, n, "", schemaNodeOrder));
+            //        }
+            //    }
+            //}
+            foreach(var p in tb.Paragraphs)
             {
-                _paragraphs.Add(par);
-                var nl = par.SelectNodes("a:r", NameSpaceManager);
-                if (nl != null)
+                foreach(var tr in p.TextRuns)
                 {
-                    foreach (XmlNode n in nl)
-                    {
-                        if (_list.Count == 0 || n.ParentNode != _list[_list.Count - 1].TopNode.ParentNode)
-                        {
-                            _paragraphs.Add((XmlElement)n.ParentNode);
-                        }
-                        _list.Add(new ExcelParagraph(drawing._drawings, ns, n, "", schemaNodeOrder));
-                    }
+                    _list.Add(new ExcelParagraph(tr));
                 }
             }
             var paths = path.Split('/');
@@ -85,70 +92,85 @@ namespace OfficeOpenXml.Style
         /// Add a rich text string
         /// </summary>
         /// <param name="Text">The text to add</param>
-        /// <param name="NewParagraph">This will be a new line. Is ignored for first item added to the collection</param>
+        /// <param name="NewParagraph">This will be a new line. </param>
         /// <returns></returns>
         public ExcelParagraph Add(string Text, bool NewParagraph=false)
         {
-            XmlDocument doc;
-            if (TopNode is XmlDocument)
+            ExcelDrawingParagraph p;
+            if(NewParagraph || _textBody.Paragraphs.Count==0)
             {
-                doc = TopNode as XmlDocument;
+                p = _textBody.Paragraphs.Add(Text);
             }
             else
             {
-                doc = TopNode.OwnerDocument;
+                p = _textBody.Paragraphs[_textBody.Paragraphs.Count - 1];
+                p.TextRuns.Add(Text);
             }
-            XmlNode parentNode;
-            if(NewParagraph && _list.Count!=0)
-            {
-                parentNode = CreateNode(_path, false, true);
-                _paragraphs.Add((XmlElement)parentNode);
-                var p = _list[0].TopNode.ParentNode.ParentNode.SelectSingleNode("a:pPr", NameSpaceManager);
-                if(p!=null)
-                {
-                    parentNode.InnerXml = p.OuterXml;
-                }                
-            }
-            else if(_paragraphs.Count > 1)
-            {
-                parentNode = _paragraphs[_paragraphs.Count - 1];
-            }
-            else 
-            {                
-                parentNode = CreateNode(_path);
-                _paragraphs.Add((XmlElement)parentNode);
-                var defNode = CreateNode(_path + "/a:pPr/a:defRPr");
-                if (defNode.InnerXml == "")
-                {
-                    ((XmlElement)defNode).SetAttribute("sz", (_defaultFontSize*100).ToString(CultureInfo.InvariantCulture));
-                    var normalStyle = _drawing._drawings.Worksheet.Workbook.Styles.GetNormalStyle();
-                    if (normalStyle == null)
-                        defNode.InnerXml = "<a:latin typeface=\"Calibri\" /><a:cs typeface=\"Calibri\" />";
-                    else
-                        defNode.InnerXml = $"<a:latin typeface=\"{normalStyle.Style.Font.Name}\"/><a:cs typeface=\"{normalStyle.Style.Font.Name}\"/>";
-                }
-            }
+            var item = new ExcelParagraph(p.TextRuns[p.TextRuns.Count - 1]);
+            _list.Add(item);
+            return item;
 
-            var node = doc.CreateElement("a", "r", ExcelPackage.schemaDrawings);
-            parentNode.AppendChild(node);
-            var childNode = doc.CreateElement("a", "rPr", ExcelPackage.schemaDrawings);
-            node.AppendChild(childNode);
-            var rt = new ExcelParagraph(_drawing._drawings, NameSpaceManager, node, "", SchemaNodeOrder);
-            rt.Text = Text;
-            _list.Add(rt);
-            return rt;
+            //XmlDocument doc;
+            //if (TopNode is XmlDocument)
+            //{
+            //    doc = TopNode as XmlDocument;
+            //}
+            //else
+            //{
+            //    doc = TopNode.OwnerDocument;
+            //}
+            //XmlNode parentNode;
+            //if(NewParagraph && _list.Count!=0)
+            //{
+            //    parentNode = CreateNode(_path, false, true);
+            //    _paragraphs.Add((XmlElement)parentNode);
+            //    var p = _list[0].TopNode.ParentNode.ParentNode.SelectSingleNode("a:pPr", NameSpaceManager);
+            //    if(p!=null)
+            //    {
+            //        parentNode.InnerXml = p.OuterXml;
+            //    }                
+            //}
+            //else if(_paragraphs.Count > 1)
+            //{
+            //    parentNode = _paragraphs[_paragraphs.Count - 1];
+            //}
+            //else 
+            //{                
+            //    parentNode = CreateNode(_path);
+            //    _paragraphs.Add((XmlElement)parentNode);
+            //    var defNode = CreateNode(_path + "/a:pPr/a:defRPr");
+            //    if (defNode.InnerXml == "")
+            //    {
+            //        ((XmlElement)defNode).SetAttribute("sz", (_defaultFontSize*100).ToString(CultureInfo.InvariantCulture));
+            //        var normalStyle = _drawing._drawings.Worksheet.Workbook.Styles.GetNormalStyle();
+            //        if (normalStyle == null)
+            //            defNode.InnerXml = "<a:latin typeface=\"Calibri\" /><a:cs typeface=\"Calibri\" />";
+            //        else
+            //            defNode.InnerXml = $"<a:latin typeface=\"{normalStyle.Style.Font.Name}\"/><a:cs typeface=\"{normalStyle.Style.Font.Name}\"/>";
+            //    }
+            //}
+
+            //var node = doc.CreateElement("a", "r", ExcelPackage.schemaDrawings);
+            //parentNode.AppendChild(node);
+            //var childNode = doc.CreateElement("a", "rPr", ExcelPackage.schemaDrawings);
+            //node.AppendChild(childNode);
+            //var rt = new ExcelParagraph(_drawing._drawings, NameSpaceManager, node, "", SchemaNodeOrder);
+            //rt.Text = Text;
+            //_list.Add(rt);
+            //return rt;
         }
         /// <summary>
         /// Removes all items in the collection
         /// </summary>
         public void Clear()
         {
-            for (int ix = 0 ; ix < _paragraphs.Count; ix++)
-            {
-                _paragraphs[ix].ParentNode?.RemoveChild(_paragraphs[ix]);
-            }
+            //for (int ix = 0 ; ix < _paragraphs.Count; ix++)
+            //{
+            //    _paragraphs[ix].ParentNode?.RemoveChild(_paragraphs[ix]);
+            //}
+            _textBody.Paragraphs.Clear();
             _list.Clear();
-            _paragraphs.Clear();
+            //_paragraphs.Clear();
         }
         /// <summary>
         /// Remove the item at the specified index
@@ -156,13 +178,14 @@ namespace OfficeOpenXml.Style
         /// <param name="Index">The index</param>
         public void RemoveAt(int Index)
         {
-            var node = _list[Index].TopNode;
-            while (node != null && node.Name != "a:r")
-            {
-                node = node.ParentNode;
-            }
-            node.ParentNode.RemoveChild(node);
-            _list.RemoveAt(Index);
+            Remove(_list[Index]);
+            //var node = _list[Index].TopNode;
+            //while (node != null && node.Name != "a:r")
+            //{
+            //    node = node.ParentNode;
+            //}
+            //node.ParentNode.RemoveChild(node);
+            //_list.RemoveAt(Index);
         }
         /// <summary>
         /// Remove the specified item
@@ -170,7 +193,12 @@ namespace OfficeOpenXml.Style
         /// <param name="Item">The item</param>
         public void Remove(ExcelParagraph Item)
         {
-            TopNode.RemoveChild(Item.TopNode);
+            var p = Item._textRun.Paragraph;
+            p.TextRuns.Remove(Item._textRun);
+            if (p.TextRuns.Count == 0 && _textBody.Paragraphs.Count != 0)
+            {
+                _textBody.Paragraphs.Remove(p);
+            }
         }
         /// <summary>
         /// The full text 
@@ -235,38 +263,38 @@ namespace OfficeOpenXml.Style
 
         #endregion
 
-        internal void UpdateXmlEndParagraphRunProperties()
-        {
-            if (_list.Count > 1)
-            {
-                for (int i = 1; i < _list.Count; i++)
-                {
-                    //Get the run node of previous paragraph if it exists
-                    var prevRunNode = _list[i-1].TopNode;
-                    if (prevRunNode != null)
-                    {
-                        var endParaNode = _list[i].TopNode.SelectSingleNode("../../a:endParaRPr", NameSpaceManager);
+        //internal void UpdateXmlEndParagraphRunProperties()
+        //{
+        //    if (_list.Count > 1)
+        //    {
+        //        for (int i = 1; i < _list.Count; i++)
+        //        {
+        //            //Get the run node of previous paragraph if it exists
+        //            var prevRunNode = _list[i-1].TopNode;
+        //            if (prevRunNode != null)
+        //            {
+        //                var endParaNode = _list[i].TopNode.SelectSingleNode("../../a:endParaRPr", NameSpaceManager);
 
-                        if(endParaNode != null)
-                        {
-                            endParaNode.ParentNode.RemoveChild(endParaNode);
-                        }
+        //                if(endParaNode != null)
+        //                {
+        //                    endParaNode.ParentNode.RemoveChild(endParaNode);
+        //                }
 
-                        endParaNode = _list[i].CreateNode("../../a:endParaRPr");
+        //                endParaNode = _list[i].CreateNode("../../a:endParaRPr");
 
-                        foreach(XmlAttribute attribute in prevRunNode.Attributes)
-                        {
-                            endParaNode.Attributes.Append((XmlAttribute)attribute.Clone());
-                        }
+        //                foreach(XmlAttribute attribute in prevRunNode.Attributes)
+        //                {
+        //                    endParaNode.Attributes.Append((XmlAttribute)attribute.Clone());
+        //                }
 
-                        foreach(XmlNode childnode in prevRunNode.ChildNodes)
-                        {
-                            endParaNode.AppendChild(childnode.Clone());
-                        }
-                    }
-                }
-            }
-        }
+        //                foreach(XmlNode childnode in prevRunNode.ChildNodes)
+        //                {
+        //                    endParaNode.AppendChild(childnode.Clone());
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         internal void GetHeightInPixels(out float textWidth, out float textHeight)
         {
@@ -330,12 +358,5 @@ namespace OfficeOpenXml.Style
             }
             return ret;
         }
-        public ExcelTextBody TextBody 
-        {
-            get
-            {
-                return null;
-            }            
-        } 
     }
 }

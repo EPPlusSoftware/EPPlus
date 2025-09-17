@@ -91,7 +91,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        ExcelTextFont _font = null;
+        ExcelTextFontXml _font = null;
         /// <summary>
         /// The Font properties
         /// </summary>
@@ -102,7 +102,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (_font == null)
                 {
                     CreateTopNode();
-                    _font = new ExcelTextFont(_chart, NameSpaceManager, TopNode, $"c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder, InitChartXml);                    
+                    _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, $"c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder, InitChartXml);                    
                 }
                 return _font;
             }

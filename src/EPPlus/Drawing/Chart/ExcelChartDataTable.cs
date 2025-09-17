@@ -149,7 +149,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         CreateNode("c:txPr/a:bodyPr");
                         CreateNode("c:txPr/a:lstStyle");
                     }
-                    _font = new ExcelTextFont(_chart, NameSpaceManager, TopNode, "c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+                    _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, "c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
                 }
                 return _font;
             }

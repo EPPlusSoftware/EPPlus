@@ -344,7 +344,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if (_font == null)
                 {
-                    _font = new ExcelTextFont(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace", NameSpaceManager), "cx:txPr/a:p/a:pPr/a:defRPr", _chartXmlHelper.SchemaNodeOrder);
+                    _font = new ExcelTextFontXml(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace", NameSpaceManager), "cx:txPr/a:p/a:pPr/a:defRPr", _chartXmlHelper.SchemaNodeOrder);
                 }
                 return _font;
             }

@@ -228,7 +228,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_font == null)
                 {
-                    _font = new ExcelTextFont(_chart,NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+                    _font = new ExcelTextFontXml(_chart,NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
                 }
                 return _font;
             }
