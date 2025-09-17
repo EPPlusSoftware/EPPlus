@@ -31,20 +31,25 @@ namespace OfficeOpenXml.Drawing
     {
         Action _initXml;
         internal IPictureRelationDocument _prd;
-        internal ExcelDrawingParagraph(IPictureRelationDocument prd, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
+        internal ExcelDrawingParagraphCollection _paragraphs;
+        internal ExcelDrawingParagraph(ExcelDrawingParagraphCollection paragraphs, IPictureRelationDocument prd, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
         {
+            _paragraphs = paragraphs;
             AddSchemaNodeOrder(schemaNodeOrder, ["lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzPct", "buSzTx", "buSzPts", "buFont", "buFontTx", "buAutoNum", "buChar", "buBlip", "buNone", "tabLst", "defRPr"]);
             _initXml = initXml;
             _prd = prd;
             DefaultRunProperties = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
             var normalStyle = _prd.Package.Workbook.Styles.GetNormalStyle();
-            if (normalStyle == null)
+            if (paragraphs.Count == 0 || paragraphs[0].DefaultRunProperties.IsEmpty)
             {
-                DefaultRunProperties.LatinFont = DefaultRunProperties.ComplexFont = "Calibri";
-            }
-            else
-            {
-                DefaultRunProperties.LatinFont = DefaultRunProperties.ComplexFont = normalStyle.Style.Font.Name;
+                if (normalStyle == null)
+                {
+                    DefaultRunProperties.LatinFont = DefaultRunProperties.ComplexFont = "Calibri";
+                }
+                else
+                {
+                    DefaultRunProperties.LatinFont = DefaultRunProperties.ComplexFont = normalStyle.Style.Font.Name;
+                }
             }
                 
             

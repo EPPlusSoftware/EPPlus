@@ -333,7 +333,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return _xml.GetXmlNodeDouble($"{_path}/@baseline");
+                return _xml.GetXmlNodeDouble($"{_path}/@baseline", 0);
             }
             set
             {

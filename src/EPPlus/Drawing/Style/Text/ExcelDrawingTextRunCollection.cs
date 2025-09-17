@@ -77,6 +77,7 @@ namespace OfficeOpenXml.Drawing
             }
             var pn = _textRuns[index].TopNode;
             pn.ParentNode.RemoveChild(pn);
+            _paragraph._paragraphs._removeTextRunCallback?.Invoke(_textRuns[index]);
             _textRuns.RemoveAt(index);
         }
         /// <summary>
@@ -92,6 +93,7 @@ namespace OfficeOpenXml.Drawing
             }
             var pn = item.TopNode;
             pn.ParentNode.RemoveChild(pn);
+            _paragraph._paragraphs._removeTextRunCallback?.Invoke(item);
             _textRuns.Remove(item);
         }
         /// <summary>
@@ -104,12 +106,12 @@ namespace OfficeOpenXml.Drawing
             var rn=CreateNode("a:r", false, true);
             var txtRun = new ExcelParagraphTextRun(_paragraph, NameSpaceManager, rn);
             txtRun.Text = text;
-            _textRuns.Add(txtRun);
-            return txtRun;
+            return Add(txtRun);
         }
         internal ExcelParagraphTextRun Add(ExcelParagraphTextRun txtRun)
         {
             _textRuns.Add(txtRun);
+            _paragraph._paragraphs._addCallback?.Invoke(txtRun);
             return txtRun;
         }
         /// <summary>
@@ -121,6 +123,7 @@ namespace OfficeOpenXml.Drawing
             {
                 var pn = _textRuns[i].TopNode;
                 pn.ParentNode.RemoveChild(pn);
+                _paragraph._paragraphs._removeTextRunCallback?.Invoke(_textRuns[i]);
             }
             _textRuns.Clear();
         }

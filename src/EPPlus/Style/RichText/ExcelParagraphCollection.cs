@@ -36,27 +36,11 @@ namespace OfficeOpenXml.Style
             base(ns, topNode)
         {
             _drawing = drawing;
+            _textBody = tb;
             _defaultFontSize = defaultFontSize;
             AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef","rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount","pt","pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont","buNone", "buAutoNum", "buChar","buBlip", "tabLst","defRPr", "r","br","fld" ,"endParaRPr" });
             _defaultFont = new ExcelTextFontXml(drawing._drawings, ns, TopNode, path+ "/a:pPr/a:defRPr", schemaNodeOrder);
             _path = path;
-            //var pars = TopNode.SelectNodes(path, NameSpaceManager);
-            //foreach(XmlElement par in pars)
-            //{
-            //    _paragraphs.Add(par);
-            //    var nl = par.SelectNodes("a:r", NameSpaceManager);
-            //    if (nl != null)
-            //    {
-            //        foreach (XmlNode n in nl)
-            //        {
-            //            if (_list.Count == 0 || n.ParentNode != _list[_list.Count - 1].TopNode.ParentNode)
-            //            {
-            //                _paragraphs.Add((XmlElement)n.ParentNode);
-            //            }
-            //            _list.Add(new ExcelParagraph(drawing._drawings, ns, n, "", schemaNodeOrder));
-            //        }
-            //    }
-            //}
             foreach(var p in tb.Paragraphs)
             {
                 foreach(var tr in p.TextRuns)
@@ -64,8 +48,52 @@ namespace OfficeOpenXml.Style
                     _list.Add(new ExcelParagraph(tr));
                 }
             }
+            tb.Paragraphs.SetUpdateCallbacks(AddParagraph, RemoveParagraph, RemoveTextRun);
             var paths = path.Split('/');
         }
+
+        private void AddParagraph(ExcelParagraphTextRunBase tr)
+        {
+            bool inParagraph = false;
+            for (int i=0;i < _list.Count;i++)
+            {                
+                var item = _list[i];
+                if(item._textRun.Paragraph==tr.Paragraph)
+                {
+                    inParagraph = true;
+                }
+                else if(inParagraph)
+                {
+                    _list.Insert(i - 1, new ExcelParagraph(tr));
+                    return;
+                }
+            }
+            _list.Add(new ExcelParagraph(tr));
+        }
+        private void RemoveTextRun(ExcelParagraphTextRunBase textRun)
+        {
+            for(int i=0;i<Count;i++)
+            {
+                if (_list[i].IsTextRun(textRun))
+                {
+                    _list.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        private void RemoveParagraph(ExcelDrawingParagraph paragraph)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (_list[i].IsInParagraph(paragraph))
+                {
+                    _list.RemoveAt(i--);
+                }
+            }
+        }
+
+
         /// <summary>
         /// The indexer for this collection
         /// </summary>

@@ -29,17 +29,20 @@ namespace OfficeOpenXml.Drawing
         string _path;
         Action _initXml = null;
         List<ExcelDrawingParagraph> _paragraphs = new List<ExcelDrawingParagraph>();
-        internal ExcelDrawingParagraphCollection(IPictureRelationDocument prd, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string path, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
+        internal Action<ExcelParagraphTextRunBase> _addCallback = null;
+        internal Action<ExcelDrawingParagraph> _removeParagraphCallback = null;
+        internal Action<ExcelParagraphTextRunBase> _removeTextRunCallback = null;
+        internal ExcelDrawingParagraphCollection(IPictureRelationDocument prd, XmlNamespaceManager nsm, XmlNode topNode, string path, string[] schemaNodeOrder, Action initXml) : base(nsm, topNode)
         {
             _prd = prd;
             var rootNode = GetNode(path);
             if (rootNode != null)
             {
                 TopNode = rootNode;
-                var pNodes = rootNode.SelectNodes("a:p", nameSpaceManager);
+                var pNodes = rootNode.SelectNodes("a:p", NameSpaceManager);
                 foreach (XmlElement pn in pNodes)
                 {
-                    _paragraphs.Add(new ExcelDrawingParagraph(prd, nameSpaceManager, pn, schemaNodeOrder, initXml));
+                    _paragraphs.Add(new ExcelDrawingParagraph(this, prd, NameSpaceManager, pn, schemaNodeOrder, initXml));
                 }
             }
             _path = path;
@@ -67,9 +70,10 @@ namespace OfficeOpenXml.Drawing
                 CreateTopNode();
             }
             var pn = CreateNode("a:p", false, true);
-            var p = new ExcelDrawingParagraph(_prd, NameSpaceManager, pn, SchemaNodeOrder, _initXml);
-            p.TextRuns.Add(text);
+            var p = new ExcelDrawingParagraph(this, _prd, NameSpaceManager, pn, SchemaNodeOrder, _initXml);
+            var tr = p.TextRuns.Add(text);
             _paragraphs.Add(p);
+            _addCallback?.Invoke(tr);
             return p;
         }
         /// <summary>
@@ -86,6 +90,7 @@ namespace OfficeOpenXml.Drawing
             var pn = _paragraphs[index].TopNode;
             pn.ParentNode.RemoveChild(pn);
             _paragraphs.RemoveAt(index);
+            _removeParagraphCallback?.Invoke(_paragraphs[index]);
         }
         /// <summary>
         /// Removes the item from the collection
@@ -101,6 +106,7 @@ namespace OfficeOpenXml.Drawing
             var pn = item.TopNode;
             pn.ParentNode.RemoveChild(pn);
             _paragraphs.Remove(item);
+            _removeParagraphCallback?.Invoke(item);
         }
         /// <summary>
         /// Gets the enumerator.
@@ -129,6 +135,7 @@ namespace OfficeOpenXml.Drawing
             {
                 var pn= _paragraphs[i].TopNode;
                 pn.ParentNode.RemoveChild(pn);
+                _removeParagraphCallback?.Invoke(_paragraphs[0]);
             }
             _paragraphs.Clear();
         }
@@ -175,6 +182,13 @@ namespace OfficeOpenXml.Drawing
                 CreateNode("a:bodyPr");
                 CreateNode("a:lstStyle");
             }
+        }
+
+        internal void SetUpdateCallbacks(Action<ExcelParagraphTextRunBase> addCallback, Action<ExcelDrawingParagraph> removeParagraphCallback, Action<ExcelParagraphTextRunBase> removeTextRunCallback)
+        {
+            _addCallback = addCallback;
+            _removeParagraphCallback = removeParagraphCallback;
+            _removeTextRunCallback = removeTextRunCallback;            
         }
     }
 

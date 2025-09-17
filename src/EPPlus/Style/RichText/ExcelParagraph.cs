@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
-                _textRun.Text = Text;
+                _textRun.Text = value;
             }
         }
         
@@ -95,6 +95,15 @@ namespace OfficeOpenXml.Style
             {
                 return _textRun.IsLastInParagraph;
             }
+        }
+
+        internal bool IsInParagraph(ExcelDrawingParagraph paragraph)
+        {
+            return _textRun.Paragraph.Equals(paragraph);
+        }
+        internal bool IsTextRun(ExcelParagraphTextRunBase paragraph)
+        {
+            return _textRun.Equals(paragraph);
         }
     }
 }

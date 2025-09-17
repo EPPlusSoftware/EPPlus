@@ -1172,12 +1172,18 @@ namespace OfficeOpenXml
                 }
             }
         }
-        internal double GetXmlNodeDouble(string path)
+        /// <summary>
+        /// Returns the xml value as double 
+        /// </summary>
+        /// <param name="path">xpath</param>
+        /// <param name="defaultValue">The value returned if the path does not exist.</param>
+        /// <returns>The double. If the value is not a double, double.NaN is returned.</returns>
+        internal double GetXmlNodeDouble(string path, double defaultValue = double.NaN)
         {
             string s = GetXmlNodeString(path);
             if (s == "")
             {
-                return double.NaN;
+                return defaultValue;
             }
             else
             {
