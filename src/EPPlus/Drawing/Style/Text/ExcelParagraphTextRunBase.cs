@@ -32,13 +32,6 @@ namespace OfficeOpenXml.Drawing
         internal ExcelParagraphTextRunBase(IPictureRelationDocument prd, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
         {
             SchemaNodeOrder = ["rPr", "pPr", "t"];
-
-            //if (topNode.LocalName == "r" ||
-            //   topNode.LocalName == "fld" ||
-            //   topNode.LocalName == "br")
-            //{
-            //    _rootNode = topNode;
-            //}
             _prd = prd;
         }
         /// <summary>

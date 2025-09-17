@@ -18,7 +18,7 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing
 {
-    public class ExcelDrawingTextRunCollection : XmlHelper, IEnumerable<ExcelParagraphTextRun>
+    public class ExcelDrawingTextRunCollection : XmlHelper, IEnumerable<ExcelParagraphTextRunBase>
     {
         List<ExcelParagraphTextRunBase> _textRuns;
         ExcelDrawingParagraph _paragraph;
@@ -64,10 +64,6 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        public IEnumerator GetEnumerator()
-        {
-            return ((IEnumerable)_textRuns).GetEnumerator();
-        }
         /// <summary>
         /// Removes the item at the index from the collection
         /// </summary>
@@ -138,9 +134,14 @@ namespace OfficeOpenXml.Drawing
             return _textRuns.Contains(item);
         }
 
-        IEnumerator<ExcelParagraphTextRun> IEnumerable<ExcelParagraphTextRun>.GetEnumerator()
+        IEnumerator<ExcelParagraphTextRunBase> IEnumerable<ExcelParagraphTextRunBase>.GetEnumerator()
         {
-            return ((IEnumerable<ExcelParagraphTextRun>)_textRuns).GetEnumerator();
+            return ((IEnumerable<ExcelParagraphTextRunBase>)_textRuns).GetEnumerator();
+        }
+
+        public IEnumerator<ExcelParagraphTextRunBase> GetEnumerator()
+        {
+            return _textRuns.GetEnumerator();
         }
     }
 }

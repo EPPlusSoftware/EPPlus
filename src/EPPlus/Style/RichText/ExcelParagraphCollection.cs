@@ -191,12 +191,14 @@ namespace OfficeOpenXml.Style
                         sb.Append(item.Text);
                     }
                 }
+                
                 var ret = sb.ToString();
                 if (ret.EndsWith(Environment.NewLine))
                 {
                     //Remove last NewLine
                     return ret.Substring(0, ret.Length - Environment.NewLine.Length);
                 }
+
                 return ret;
             }
             set

@@ -18,6 +18,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
+using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -130,6 +131,28 @@ namespace OfficeOpenXml.Drawing
                 pn.ParentNode.RemoveChild(pn);
             }
             _paragraphs.Clear();
+        }
+        /// <summary>
+        /// The text
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                if(Count==0) return "";
+                StringBuilder sb = new StringBuilder();
+                
+                foreach(var p in _paragraphs)
+                {
+                    foreach(var tr in p.TextRuns)
+                    {
+                        sb.Append(tr.Text);
+                    }
+                    sb.Append(Environment.NewLine);
+                }
+
+                return sb.ToString().Substring(0, sb.Length - Environment.NewLine.Length);
+            }
         }
         /// <summary>
         /// Returns true if the paragraph exists in the collection.
