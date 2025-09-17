@@ -21,7 +21,7 @@ namespace OfficeOpenXml.PDF.Pdfhelpers
             var desc = font.Os2Table.usWinDescent;
             var size = fontSize;
             var em = font.HeadTable.UnitsPerEm;
-            var lineHeight = asc - desc;
+            var lineHeight = asc + System.Math.Abs(desc);
             var lineHeightPt = lineHeight * (size / em);
             return lineHeightPt;
         }

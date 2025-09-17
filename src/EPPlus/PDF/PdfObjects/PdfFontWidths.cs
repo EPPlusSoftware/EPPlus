@@ -14,6 +14,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
             this.widths = widths.ToArray();
         }
 
+        //can Remove this construcotr probably.
         public PdfFontWidths(int objectNumber, Dictionary<FontMetricsClass, float> w, Dictionary<char, FontMetricsClass> m, int version = 0)
             : base(objectNumber, version)
         {

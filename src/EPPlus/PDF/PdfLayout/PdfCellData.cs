@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.PDF.PdfGraphics;
+﻿using OfficeOpenXml.PDF.Math;
+using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.PDF.PdfLayout
@@ -34,22 +35,28 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfCellFillData() { }
     }
 
-    internal struct PdfCellBordersData
+    internal class PdfCellBordersData
     {
-        public PdfCellBorderData Top;
-        public PdfCellBorderData Bottom;
-        public PdfCellBorderData Left;
-        public PdfCellBorderData Right;
-        public PdfCellBorderData DiagonalUp;
-        public PdfCellBorderData DiagonalDown;
+        public PdfCellBorderData Top = new PdfCellBorderData(2, -2);
+        public PdfCellBorderData Bottom = new PdfCellBorderData(2, 2);
+        public PdfCellBorderData Left = new PdfCellBorderData(2, -2);
+        public PdfCellBorderData Right = new PdfCellBorderData(-2, -2);
+        public PdfCellBorderData DiagonalUp = new PdfCellBorderData(2, 2);
+        public PdfCellBorderData DiagonalDown = new PdfCellBorderData(2, 2);
+
+        public PdfCellBordersData() { }
     }
 
-    internal struct PdfCellBorderData
+    internal class PdfCellBorderData
     {
         public ExcelBorderStyle BorderStyle = ExcelBorderStyle.None;
         public PdfColor BorderColor = PdfColor.Black;
+        public Vector2 DoubleBorderOffsets;
 
-        public PdfCellBorderData() { }
+        public PdfCellBorderData(double x, double y)
+        {
+            DoubleBorderOffsets = new Vector2(x, y);
+        }
     }
 
     internal struct PdfCellAlignmentData
