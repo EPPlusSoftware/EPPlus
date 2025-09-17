@@ -21,7 +21,8 @@ namespace OfficeOpenXml.PDF.Pdfhelpers
             var desc = font.Os2Table.usWinDescent;
             var size = fontSize;
             var em = font.HeadTable.UnitsPerEm;
-            var lineHeight = asc + System.Math.Abs(desc);
+            //var lineHeight = asc + System.Math.Abs(desc); //we should use this formula instead, but due to how layouting works we use the other one for now. Need to fix layouting stuff and the issue is when we swtich Y axis most likely.
+            var lineHeight = asc - desc;
             var lineHeightPt = lineHeight * (size / em);
             return lineHeightPt;
         }
