@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Drawing
             var p = new ExcelDrawingParagraph(this, _prd, NameSpaceManager, pn, SchemaNodeOrder, _initXml);
             var tr = p.TextRuns.Add(text);
             _paragraphs.Add(p);
-            _addCallback?.Invoke(tr);
+            //_addCallback?.Invoke(tr);
             return p;
         }
         /// <summary>

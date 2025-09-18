@@ -1127,8 +1127,8 @@ namespace EPPlusTest
             var shape = ws.Drawings.AddShape("FontChange", eShapeStyle.Rect);
             shape.Font.SetFromFont("Arial", 20);
             shape.Text = "Font";
-            //shape.RichText[0].SetFromFont("Calibri", 8);  //works
-            //shape.RichText.Add("New Line", true);
+            shape.RichText[0].SetFromFont("Calibri", 8);  //works
+            shape.RichText.Add("New Line", true);
 
             Assert.AreEqual("Arial", shape.Font.LatinFont);
             Assert.AreEqual("Arial", shape.Font.ComplexFont);
@@ -1239,7 +1239,17 @@ namespace EPPlusTest
                 var ws = p.Workbook.Worksheets["Sheet1"];
                 var d = ws.Drawings[0].As.Shape;
 
-                Assert.AreEqual(3, d.RichText.Count);
+                Assert.AreEqual(7, d.RichText.Count);
+                Assert.AreEqual(3, d.TextBody.Paragraphs.Count);
+                Assert.AreEqual("Rad 1", d.TextBody.Paragraphs[0].Text);
+
+                Assert.AreEqual(eTextAlignment.Right, d.TextBody.Paragraphs[0].HorizontalAlignment);
+                Assert.AreEqual(eTextAlignment.Center, d.TextBody.Paragraphs[1].HorizontalAlignment);
+                Assert.AreEqual(eTextAlignment.Left, d.TextBody.Paragraphs[2].HorizontalAlignment);
+
+                Assert.AreEqual(2, d.TextBody.Paragraphs[0].TextRuns.Count);
+                Assert.AreEqual("Rad", d.TextBody.Paragraphs[0].TextRuns[0].Text);
+                Assert.AreEqual(" 1", d.TextBody.Paragraphs[0].TextRuns[1].Text);
             }
         }        
     }
