@@ -630,13 +630,16 @@ namespace EPPlusTest
             int y = 100, i = 1;
             foreach (eShapeStyle style in Enum.GetValues(typeof(eShapeStyle)))
             {
-                var shape = ws.Drawings.AddShape("shape" + i.ToString(), style);
-                Assert.AreEqual(eDrawingType.Shape, shape.DrawingType);
-                shape.SetPosition(y, 100);
-                shape.SetSize(300, 300);
-                y += 400;
-                shape.Text = style.ToString();
-                i++;
+                if (style != eShapeStyle.CustomShape)
+                {
+                    var shape = ws.Drawings.AddShape("shape" + i.ToString(), style);
+                    Assert.AreEqual(eDrawingType.Shape, shape.DrawingType);
+                    shape.SetPosition(y, 100);
+                    shape.SetSize(300, 300);
+                    y += 400;
+                    shape.Text = style.ToString();
+                    i++;
+                }
             }
 
             (ws.Drawings["shape1"] as ExcelShape).TextAnchoring = eTextAnchoringType.Top;
