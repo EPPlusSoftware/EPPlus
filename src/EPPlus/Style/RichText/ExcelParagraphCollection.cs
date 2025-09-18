@@ -125,67 +125,18 @@ namespace OfficeOpenXml.Style
         public ExcelParagraph Add(string Text, bool NewParagraph=false)
         {
             ExcelDrawingParagraph p;
-            if(NewParagraph || _textBody.Paragraphs.Count==0)
+            ExcelParagraph item;
+            if (NewParagraph || _textBody.Paragraphs.Count==0)
             {
-                p = _textBody.Paragraphs.Add(Text);
+                _textBody.Paragraphs.Add(Text);
             }
             else
             {
                 p = _textBody.Paragraphs[_textBody.Paragraphs.Count - 1];
                 p.TextRuns.Add(Text);
             }
-            var item = new ExcelParagraph(p.TextRuns[p.TextRuns.Count - 1]);
-            _list.Add(item);
-            return item;
 
-            //XmlDocument doc;
-            //if (TopNode is XmlDocument)
-            //{
-            //    doc = TopNode as XmlDocument;
-            //}
-            //else
-            //{
-            //    doc = TopNode.OwnerDocument;
-            //}
-            //XmlNode parentNode;
-            //if(NewParagraph && _list.Count!=0)
-            //{
-            //    parentNode = CreateNode(_path, false, true);
-            //    _paragraphs.Add((XmlElement)parentNode);
-            //    var p = _list[0].TopNode.ParentNode.ParentNode.SelectSingleNode("a:pPr", NameSpaceManager);
-            //    if(p!=null)
-            //    {
-            //        parentNode.InnerXml = p.OuterXml;
-            //    }                
-            //}
-            //else if(_paragraphs.Count > 1)
-            //{
-            //    parentNode = _paragraphs[_paragraphs.Count - 1];
-            //}
-            //else 
-            //{                
-            //    parentNode = CreateNode(_path);
-            //    _paragraphs.Add((XmlElement)parentNode);
-            //    var defNode = CreateNode(_path + "/a:pPr/a:defRPr");
-            //    if (defNode.InnerXml == "")
-            //    {
-            //        ((XmlElement)defNode).SetAttribute("sz", (_defaultFontSize*100).ToString(CultureInfo.InvariantCulture));
-            //        var normalStyle = _drawing._drawings.Worksheet.Workbook.Styles.GetNormalStyle();
-            //        if (normalStyle == null)
-            //            defNode.InnerXml = "<a:latin typeface=\"Calibri\" /><a:cs typeface=\"Calibri\" />";
-            //        else
-            //            defNode.InnerXml = $"<a:latin typeface=\"{normalStyle.Style.Font.Name}\"/><a:cs typeface=\"{normalStyle.Style.Font.Name}\"/>";
-            //    }
-            //}
-
-            //var node = doc.CreateElement("a", "r", ExcelPackage.schemaDrawings);
-            //parentNode.AppendChild(node);
-            //var childNode = doc.CreateElement("a", "rPr", ExcelPackage.schemaDrawings);
-            //node.AppendChild(childNode);
-            //var rt = new ExcelParagraph(_drawing._drawings, NameSpaceManager, node, "", SchemaNodeOrder);
-            //rt.Text = Text;
-            //_list.Add(rt);
-            //return rt;
+            return _list[_list.Count-1];
         }
         /// <summary>
         /// Removes all items in the collection

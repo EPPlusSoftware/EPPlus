@@ -105,11 +105,13 @@ namespace OfficeOpenXml.Drawing.Style.Fill
                 _xml.SetXmlNodePercentage("a:path/a:fillToRect/@l", FocusPoint.LeftOffset, true, int.MaxValue / 10000);
                 _xml.SetXmlNodePercentage("a:path/a:fillToRect/@r", FocusPoint.RightOffset, true, int.MaxValue / 10000);
 
-                _xml.SetXmlNodePercentage("a:path/a:tileRect/@b", TileRectangle.BottomOffset, true, int.MaxValue / 10000);
-                _xml.SetXmlNodePercentage("a:path/a:tileRect/@t", TileRectangle.TopOffset, true, int.MaxValue / 10000);
-                _xml.SetXmlNodePercentage("a:path/a:tileRect/@l", TileRectangle.LeftOffset, true, int.MaxValue / 10000);
-                _xml.SetXmlNodePercentage("a:path/a:tileRect/@r", TileRectangle.RightOffset, true, int.MaxValue / 10000);
-
+                if (TileRectangle != null)
+                {
+                    _xml.SetXmlNodePercentage("a:path/a:tileRect/@b", TileRectangle.BottomOffset, true, int.MaxValue / 10000);
+                    _xml.SetXmlNodePercentage("a:path/a:tileRect/@t", TileRectangle.TopOffset, true, int.MaxValue / 10000);
+                    _xml.SetXmlNodePercentage("a:path/a:tileRect/@l", TileRectangle.LeftOffset, true, int.MaxValue / 10000);
+                    _xml.SetXmlNodePercentage("a:path/a:tileRect/@r", TileRectangle.RightOffset, true, int.MaxValue / 10000);
+                }
             }
         }
 
@@ -238,7 +240,6 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         {
             if (_xml == null) CreateXmlHelper();
             SetXml(_nsm, _xml.TopNode);
-            
         }
     }
 }
