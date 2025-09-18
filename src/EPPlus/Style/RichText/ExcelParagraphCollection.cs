@@ -259,16 +259,23 @@ namespace OfficeOpenXml.Style
             }
             set
             {
-                if (Count == 0)
+                if (_textBody.Paragraphs.Count == 0)
                 {
                     Add(value);
                 }
                 else
                 {
-                    this[0].Text = value;
-                    for (int ix = _list.Count - 1; ix > 0; ix--)
+                    if (Count == 0)
                     {
-                        RemoveAt(ix);
+                        _textBody.Paragraphs[0].TextRuns.Add(value);
+                    }
+                    else
+                    {
+                        this[0].Text = value;
+                        for (int ix = _list.Count - 1; ix > 0; ix--)
+                        {
+                            RemoveAt(ix);
+                        }
                     }
                 }
             }

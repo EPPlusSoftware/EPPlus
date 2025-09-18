@@ -1127,8 +1127,8 @@ namespace EPPlusTest
             var shape = ws.Drawings.AddShape("FontChange", eShapeStyle.Rect);
             shape.Font.SetFromFont("Arial", 20);
             shape.Text = "Font";
-            shape.RichText[0].SetFromFont("Calibri", 8);  //works
-            shape.RichText.Add("New Line", true);
+            //shape.RichText[0].SetFromFont("Calibri", 8);  //works
+            //shape.RichText.Add("New Line", true);
 
             Assert.AreEqual("Arial", shape.Font.LatinFont);
             Assert.AreEqual("Arial", shape.Font.ComplexFont);

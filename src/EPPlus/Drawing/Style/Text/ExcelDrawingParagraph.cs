@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Drawing
             _prd = prd;
             DefaultRunProperties = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
             var normalStyle = _prd.Package.Workbook.Styles.GetNormalStyle();
-            if (paragraphs.Count == 0 || paragraphs[0].DefaultRunProperties.IsEmpty)
+            if (paragraphs.Count == 1 && paragraphs[0].DefaultRunProperties.IsEmpty)
             {
                 if (normalStyle == null)
                 {
