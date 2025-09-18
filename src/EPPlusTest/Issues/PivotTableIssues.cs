@@ -600,9 +600,10 @@ namespace EPPlusTest.Issues
 
                 ws.Calculate();
 
-                var cell2 = ws.Cells["A1"].Value;
                 // print A1 cell value
                 var cell1 = ws.Cells["A1"].Text;
+
+                Assert.AreEqual("60000", cell1);
             }
         }
     }
