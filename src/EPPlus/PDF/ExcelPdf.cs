@@ -1,5 +1,4 @@
-﻿using OfficeOpenXml.PDF.PdfFontData;
-using OfficeOpenXml.PDF.PdfGraphics;
+﻿using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfObjects;
 using OfficeOpenXml.PDF.PdfSettings;
@@ -8,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.PDF.PdfLayout;
+using OfficeOpenXml.PDF.PdfResources;
 
 namespace OfficeOpenXml.PDF
 {
@@ -22,6 +22,7 @@ namespace OfficeOpenXml.PDF
         internal List<PdfObject> Document = new List<PdfObject>();
         internal string header = "%PDF-1.7\n";
         internal readonly Dictionary<string, PdfFontResource> fontResources = new Dictionary<string, PdfFontResource>();
+        internal readonly Dictionary<string, PdfPatternResource> patternResources = new Dictionary<string, PdfPatternResource>();
 
         /// <summary>
         /// Create a PDF Document from the worksheet and settings.

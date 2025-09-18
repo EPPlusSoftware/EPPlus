@@ -1,17 +1,15 @@
 ﻿using FontLab1;
 using FontLab1.GenericMeasurements;
-using OfficeOpenXml.PDF.PdfObjects;
+using OfficeOpenXml.PDF.PdfObjects.PdfFonts;
 using OfficeOpenXml.PDF.PdfSettings;
 using System;
 using System.Collections.Generic;
 
-namespace OfficeOpenXml.PDF.PdfFontData
+namespace OfficeOpenXml.PDF.PdfResources
 {
-    internal class PdfFontResource
+    internal class PdfFontResource : PdfResource
     {
         internal string fontName;
-        internal string labelPrefix = "F";
-        internal int labelNumber;
         internal int fontObjectNumber = -1;
         internal int descObjectNumber = -1;
         internal int widthObjectNumber = -1;
@@ -19,18 +17,10 @@ namespace OfficeOpenXml.PDF.PdfFontData
         private int firstChar = 32;
         private int lastChar = 255;
 
-        internal string Label
-        {
-            get
-            {
-                return labelPrefix + labelNumber;
-            }
-        }
-
-        public PdfFontResource(string fontName, string subFamily, int label, PdfPageSettings pageSettings)
+        public PdfFontResource(string fontName, string subFamily, int labelNumber, PdfPageSettings pageSettings)
+            : base("F", labelNumber)
         {
             this.fontName = fontName;
-            this.labelNumber = label;
             fontData = GenericFonts.GetFontData(pageSettings, fontName, subFamily);
         }
 
@@ -109,14 +99,14 @@ namespace OfficeOpenXml.PDF.PdfFontData
                 fontData.CmapTable.EncodingRecords[0].CharMappingsToGlyphIndex.TryGetValue((char)c, out ushort gi);
                 if (gi == 0 && c != 0)
                 {
-                    int normalizedWidth = (int)System.Math.Round((fallbackWidth / (double)fontData.HeadTable.UnitsPerEm) * 1000);
+                    int normalizedWidth = (int)System.Math.Round(fallbackWidth / (double)fontData.HeadTable.UnitsPerEm * 1000);
                     widths.Add(normalizedWidth);
                 }
                 else
                 {
                     var hhMetric = fontData.HmtxTable.hMetrics[gi];
                     var advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
-                    int normalizedWidth = (int)System.Math.Round((advanceWidth / (double)fontData.HeadTable.UnitsPerEm) * 1000);
+                    int normalizedWidth = (int)System.Math.Round(advanceWidth / (double)fontData.HeadTable.UnitsPerEm * 1000);
                     widths.Add(normalizedWidth);
                 }
             }

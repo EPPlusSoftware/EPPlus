@@ -1,5 +1,5 @@
-﻿using OfficeOpenXml.PDF.PdfFontData;
-using OfficeOpenXml.PDF.Pdfhelpers;
+﻿using OfficeOpenXml.PDF.Pdfhelpers;
+using OfficeOpenXml.PDF.PdfResources;
 using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
 using System.Collections.Generic;
 using System.Linq;

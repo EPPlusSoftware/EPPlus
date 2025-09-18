@@ -22,6 +22,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 {
                     CellFillData.BackgroundColor = new PdfColor(bkgc.LookupColor());
                 }
+                //
+                var gradient = cell.Style.Fill.Gradient;
+
                 CellFillData.PattenStyle = cell.Style.Fill.PatternType;
                 CellFillData.PatternColor = new PdfColor(cell.Style.Fill.PatternColor.LookupColor());
             }

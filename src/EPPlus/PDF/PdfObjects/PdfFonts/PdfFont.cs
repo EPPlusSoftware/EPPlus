@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace OfficeOpenXml.PDF.PdfObjects
+namespace OfficeOpenXml.PDF.PdfObjects.PdfFonts
 {
     public enum PdfFontSubType
     {
@@ -34,21 +34,21 @@ namespace OfficeOpenXml.PDF.PdfObjects
         public PdfFont(int objectNumber, string fontName = "Helvetica", PdfFontSubType subType = PdfFontSubType.Type1, int firstChar = -1, int lastChar = -1, int widthObjectNumber = -1, int fontDescObjectNumner = -1, PdfFontEncoding encoding = PdfFontEncoding.WinAnsiEncoding)
             : base(objectNumber, 0)
         {
-            this.baseFont = fontName;
+            baseFont = fontName;
             this.subType = subType;
             this.encoding = encoding;
             this.firstChar = firstChar;
             this.lastChar = lastChar;
             this.widthObjectNumber = widthObjectNumber;
-            this.fontDescriptorObjectNumber = fontDescObjectNumner;
+            fontDescriptorObjectNumber = fontDescObjectNumner;
         }
 
         internal override string RenderDictionary()
         {
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Font\n" +
-                   $"   /Subtype /{subType}\n" +
-                   $"   /BaseFont /{baseFont.Replace(" ", "")}");
+                            $"   /Subtype /{subType}\n" +
+                            $"   /BaseFont /{baseFont.Replace(" ", "")}");
             if (encoding == PdfFontEncoding.None)
             {
                 sb.Append(" >>");

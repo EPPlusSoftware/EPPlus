@@ -25,12 +25,25 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfCellFontData() { }
     }
 
+    internal struct PdfCellGradientFillData
+    {
+        public ExcelFillGradientType GradientType;
+        public PdfColor Color1;
+        public PdfColor Color2;
+        public double Degree;
+        public double Top;
+        public double Bottom;
+        public double Left;
+        public double Right;
+    }
+
     internal struct PdfCellFillData
     {
         public PdfColor BackgroundColor = PdfColor.None;
         public ExcelFillStyle PattenStyle = ExcelFillStyle.None;
         public PdfColor PatternColor = PdfColor.Black;
         //Fill Effects
+
 
         public PdfCellFillData() { }
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OfficeOpenXml.PDF.PdfObjects
+namespace OfficeOpenXml.PDF.PdfObjects.PdfFonts
 {
     internal class PdfFontWidths : PdfObject
     {
@@ -19,10 +19,10 @@ namespace OfficeOpenXml.PDF.PdfObjects
             : base(objectNumber, version)
         {
             float e = 2048;
-            float d = (72f / 96f);
+            float d = 72f / 96f;
             float r = e * d;
             float k = 1000f;
-            var l = (int)((w[m[' ']] * r * k) / e);
+            var l = (int)(w[m[' ']] * r * k / e);
             List<char> exsist = new List<char>();
             List<char> no = new List<char>();
             for (int i = 0; i <= 900; i++)
@@ -63,31 +63,31 @@ namespace OfficeOpenXml.PDF.PdfObjects
             //    (int)((w[m['ñ']]*r*k)/e), (int)((w[m['ò']]*r*k)/e), (int)((w[m['ó']]*r*k)/e), (int)((w[m['ô']]*r*k)/e), (int)((w[m['õ']]*r*k)/e), (int)((w[m['ö']]*r*k)/e), (int)((w[m['÷']]*r*k)/e), (int)((w[m['ø']]*r*k)/e), (int)((w[m['ù']]*r*k)/e), (int)((w[m['ú']]*r*k)/e),
             //    (int)((w[m['û']]*r*k)/e), (int)((w[m['ü']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m['þ']]*r*k)/e), (int)((w[m['ÿ']]*r*k)/e)
             //};
-            this.widths = new int[]
+            widths = new int[]
             {
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m['!']]*r*k)/e), (int)((w[m['"']]*r*k)/e), (int)((w[m['#']]*r*k)/e), (int)((w[m['$']]*r*k)/e), (int)((w[m['%']]*r*k)/e), (int)((w[m['&']]*r*k)/e), (int)((w[m['\'']]*r*k)/e), (int)((w[m['(']]*r*k)/e), (int)((w[m[')']]*r*k)/e),
-                (int)((w[m['*']]*r*k)/e), (int)((w[m['+']]*r*k)/e), (int)((w[m[',']]*r*k)/e), (int)((w[m['-']]*r*k)/e), (int)((w[m['.']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m['0']]*r*k)/e), (int)((w[m['1']]*r*k)/e), (int)((w[m['2']]*r*k)/e), (int)((w[m['3']]*r*k)/e),
-                (int)((w[m['4']]*r*k)/e), (int)((w[m['5']]*r*k)/e), (int)((w[m['6']]*r*k)/e), (int)((w[m['7']]*r*k)/e), (int)((w[m['8']]*r*k)/e), (int)((w[m['8']]*r*k)/e), (int)((w[m[':']]*r*k)/e), (int)((w[m[';']]*r*k)/e), (int)((w[m['<']]*r*k)/e), (int)((w[m['=']]*r*k)/e),
-                (int)((w[m['>']]*r*k)/e), (int)((w[m['?']]*r*k)/e), (int)((w[m['@']]*r*k)/e), (int)((w[m['A']]*r*k)/e), (int)((w[m['B']]*r*k)/e), (int)((w[m['C']]*r*k)/e), (int)((w[m['D']]*r*k)/e), (int)((w[m['E']]*r*k)/e), (int)((w[m['F']]*r*k)/e), (int)((w[m['G']]*r*k)/e),
-                (int)((w[m['H']]*r*k)/e), (int)((w[m['I']]*r*k)/e), (int)((w[m['J']]*r*k)/e), (int)((w[m['K']]*r*k)/e), (int)((w[m['L']]*r*k)/e), (int)((w[m['M']]*r*k)/e), (int)((w[m['N']]*r*k)/e), (int)((w[m['O']]*r*k)/e), (int)((w[m['P']]*r*k)/e), (int)((w[m['Q']]*r*k)/e),
-                (int)((w[m['R']]*r*k)/e), (int)((w[m['S']]*r*k)/e), (int)((w[m['W']]*r*k)/e), (int)((w[m['U']]*r*k)/e), (int)((w[m['V']]*r*k)/e), (int)((w[m['W']]*r*k)/e), (int)((w[m['X']]*r*k)/e), (int)((w[m['Y']]*r*k)/e), (int)((w[m['Z']]*r*k)/e), (int)((w[m['[']]*r*k)/e),
-               (int)((w[m['\\']]*r*k)/e), (int)((w[m[']']]*r*k)/e), (int)((w[m['^']]*r*k)/e), (int)((w[m['_']]*r*k)/e), (int)((w[m['`']]*r*k)/e), (int)((w[m['a']]*r*k)/e), (int)((w[m['b']]*r*k)/e), (int)((w[m['c']]*r*k)/e), (int)((w[m['d']]*r*k)/e), (int)((w[m['e']]*r*k)/e),
-                (int)((w[m['f']]*r*k)/e), (int)((w[m['g']]*r*k)/e), (int)((w[m['h']]*r*k)/e), (int)((w[m['i']]*r*k)/e), (int)((w[m['j']]*r*k)/e), (int)((w[m['k']]*r*k)/e), (int)((w[m['l']]*r*k)/e), (int)((w[m['m']]*r*k)/e), (int)((w[m['n']]*r*k)/e), (int)((w[m['o']]*r*k)/e),
-                (int)((w[m['p']]*r*k)/e), (int)((w[m['q']]*r*k)/e), (int)((w[m['r']]*r*k)/e), (int)((w[m['s']]*r*k)/e), (int)((w[m['t']]*r*k)/e), (int)((w[m['u']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m['w']]*r*k)/e), (int)((w[m['x']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m['z']]*r*k)/e), (int)((w[m['{']]*r*k)/e), (int)((w[m['|']]*r*k)/e), (int)((w[m['}']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e),
-                (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e), (int)((w[m[' ']]*r*k)/e)
+                (int)(w[m[' ']]*r*k/e), (int)(w[m['!']]*r*k/e), (int)(w[m['"']]*r*k/e), (int)(w[m['#']]*r*k/e), (int)(w[m['$']]*r*k/e), (int)(w[m['%']]*r*k/e), (int)(w[m['&']]*r*k/e), (int)(w[m['\'']]*r*k/e), (int)(w[m['(']]*r*k/e), (int)(w[m[')']]*r*k/e),
+                (int)(w[m['*']]*r*k/e), (int)(w[m['+']]*r*k/e), (int)(w[m[',']]*r*k/e), (int)(w[m['-']]*r*k/e), (int)(w[m['.']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m['0']]*r*k/e), (int)(w[m['1']]*r*k/e), (int)(w[m['2']]*r*k/e), (int)(w[m['3']]*r*k/e),
+                (int)(w[m['4']]*r*k/e), (int)(w[m['5']]*r*k/e), (int)(w[m['6']]*r*k/e), (int)(w[m['7']]*r*k/e), (int)(w[m['8']]*r*k/e), (int)(w[m['8']]*r*k/e), (int)(w[m[':']]*r*k/e), (int)(w[m[';']]*r*k/e), (int)(w[m['<']]*r*k/e), (int)(w[m['=']]*r*k/e),
+                (int)(w[m['>']]*r*k/e), (int)(w[m['?']]*r*k/e), (int)(w[m['@']]*r*k/e), (int)(w[m['A']]*r*k/e), (int)(w[m['B']]*r*k/e), (int)(w[m['C']]*r*k/e), (int)(w[m['D']]*r*k/e), (int)(w[m['E']]*r*k/e), (int)(w[m['F']]*r*k/e), (int)(w[m['G']]*r*k/e),
+                (int)(w[m['H']]*r*k/e), (int)(w[m['I']]*r*k/e), (int)(w[m['J']]*r*k/e), (int)(w[m['K']]*r*k/e), (int)(w[m['L']]*r*k/e), (int)(w[m['M']]*r*k/e), (int)(w[m['N']]*r*k/e), (int)(w[m['O']]*r*k/e), (int)(w[m['P']]*r*k/e), (int)(w[m['Q']]*r*k/e),
+                (int)(w[m['R']]*r*k/e), (int)(w[m['S']]*r*k/e), (int)(w[m['W']]*r*k/e), (int)(w[m['U']]*r*k/e), (int)(w[m['V']]*r*k/e), (int)(w[m['W']]*r*k/e), (int)(w[m['X']]*r*k/e), (int)(w[m['Y']]*r*k/e), (int)(w[m['Z']]*r*k/e), (int)(w[m['[']]*r*k/e),
+               (int)(w[m['\\']]*r*k/e), (int)(w[m[']']]*r*k/e), (int)(w[m['^']]*r*k/e), (int)(w[m['_']]*r*k/e), (int)(w[m['`']]*r*k/e), (int)(w[m['a']]*r*k/e), (int)(w[m['b']]*r*k/e), (int)(w[m['c']]*r*k/e), (int)(w[m['d']]*r*k/e), (int)(w[m['e']]*r*k/e),
+                (int)(w[m['f']]*r*k/e), (int)(w[m['g']]*r*k/e), (int)(w[m['h']]*r*k/e), (int)(w[m['i']]*r*k/e), (int)(w[m['j']]*r*k/e), (int)(w[m['k']]*r*k/e), (int)(w[m['l']]*r*k/e), (int)(w[m['m']]*r*k/e), (int)(w[m['n']]*r*k/e), (int)(w[m['o']]*r*k/e),
+                (int)(w[m['p']]*r*k/e), (int)(w[m['q']]*r*k/e), (int)(w[m['r']]*r*k/e), (int)(w[m['s']]*r*k/e), (int)(w[m['t']]*r*k/e), (int)(w[m['u']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m['w']]*r*k/e), (int)(w[m['x']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m['z']]*r*k/e), (int)(w[m['{']]*r*k/e), (int)(w[m['|']]*r*k/e), (int)(w[m['}']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e),
+                (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e), (int)(w[m[' ']]*r*k/e)
             };
 
         }

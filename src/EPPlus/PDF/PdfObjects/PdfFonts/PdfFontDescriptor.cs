@@ -1,7 +1,7 @@
 ﻿using OfficeOpenXml.PDF.PdfSettings;
 using System;
 
-namespace OfficeOpenXml.PDF.PdfObjects
+namespace OfficeOpenXml.PDF.PdfObjects.PdfFonts
 {
     /// <summary>
     /// Font descriptor flags
@@ -41,7 +41,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
             this.ascent = ascent;
             this.descent = descent;
             this.stemV = stemV;
-            this.capheight = capHeight;
+            capheight = capHeight;
         }
 
         internal override string RenderDictionary()

@@ -1,8 +1,8 @@
 ﻿using FontLab1;
 using OfficeOpenXml.PDF.Math;
-using OfficeOpenXml.PDF.PdfFontData;
 using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.Pdfhelpers;
+using OfficeOpenXml.PDF.PdfResources;
 using OfficeOpenXml.PDF.PdfSettings;
 using System.Collections.Generic;
 using System.Linq;

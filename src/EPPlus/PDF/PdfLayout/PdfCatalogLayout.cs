@@ -3,8 +3,8 @@ using OfficeOpenXml.PDF.PdfSettings;
 using OfficeOpenXml.PDF.Math;
 using System.Collections.Generic;
 using System.Linq;
-using OfficeOpenXml.PDF.PdfFontData;
 using System;
+using OfficeOpenXml.PDF.PdfResources;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
