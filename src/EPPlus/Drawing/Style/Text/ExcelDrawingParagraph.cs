@@ -157,7 +157,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Left margin in pixels. This is specified in addition to the text body inset and applies only to this text paragraph
         /// </summary>
-        public double? LeftMargin
+        public double LeftMargin
         {
             get
             {

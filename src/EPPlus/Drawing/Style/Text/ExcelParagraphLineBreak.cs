@@ -21,6 +21,7 @@ namespace OfficeOpenXml.Drawing
         {
         }
         public override eParagraphRunType Type => eParagraphRunType.LineBreak;
+
         public override string Text
         {
             get
