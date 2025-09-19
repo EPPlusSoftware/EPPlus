@@ -423,16 +423,21 @@ namespace OfficeOpenXml.Drawing
         internal const double DefaultTopBot = 45720d / ExcelDrawing.EMU_PER_POINT;
         internal const double DefaultRightLeft = 91440d / ExcelDrawing.EMU_PER_POINT;
 
-        //Set Defaults if no value has been set
-        
-        internal void initInserts()
+        /// <summary>
+        /// Get Insets in points
+        /// </summary>
+        /// <param name="Left"></param>
+        /// <param name="Top"></param>
+        /// <param name="Right"></param>
+        /// <param name="Bottom"></param>
+        internal void GetInsetsOrDefaults(out double Left, out double Top, out double Right, out double Bottom)
         {
-            LeftInsert = LeftInsert ?? DefaultRightLeft;
-            RightInsert = RightInsert ?? DefaultRightLeft;
-
-            TopInsert = TopInsert ?? DefaultTopBot;
-            BottomInsert = BottomInsert ?? DefaultTopBot;
+            Left = LeftInsert ?? DefaultRightLeft;
+            Top = RightInsert ?? DefaultRightLeft;
+            Right = TopInsert ?? DefaultTopBot;
+            Bottom = BottomInsert ?? DefaultTopBot;
         }
+
         ExcelDrawingParagraphCollection _paragraphs = null;
         /// <summary>
         /// A collection of paragraphs within a rich text in a drawing object.
