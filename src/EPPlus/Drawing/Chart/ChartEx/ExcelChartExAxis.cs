@@ -189,6 +189,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             return _title;
         }
 
+        internal override object[] GetAxisValues(int maxItems)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
         /// </summary>

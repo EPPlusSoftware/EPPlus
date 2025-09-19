@@ -190,6 +190,53 @@ namespace OfficeOpenXml.Drawing
             _removeParagraphCallback = removeParagraphCallback;
             _removeTextRunCallback = removeTextRunCallback;            
         }
+
+        internal void GetHeightInPixels(out float textWidth, out float textHeight)
+        {
+            textWidth = textHeight = 0;
+            //var tm = _prd.Package.Settings.TextSettings.PrimaryTextMeasurer;
+            //float lineWidth, lineHeight;
+            //textWidth = textHeight = lineWidth = lineHeight = 0;
+            //foreach (var p in _list)
+            //{
+            //    var fontName = string.IsNullOrEmpty(r.LatinFont) ? _defaultFont.LatinFont : r.LatinFont;
+            //    if (fontName.StartsWith("+"))
+            //    {
+            //        var t = _drawing._drawings._package.Workbook.ThemeManager.GetOrCreateTheme();
+            //        fontName = t.GetFontByCode(fontName);
+            //    }
+            //    var f = new MeasurementFont()
+            //    {
+            //        FontFamily = fontName,
+            //        Size = r.Size <= 0 ? _defaultFont.Size : r.Size,
+            //        Style = GetFontStyle(r)
+            //    };
+            //    var b = tm.MeasureText(r.Text, f);
+            //    if (r.IsFirstInParagraph)
+            //    {
+            //        lineWidth = b.Width;
+            //        lineHeight = b.Height;
+            //    }
+            //    else
+            //    {
+            //        lineWidth += b.Width;
+            //        if (lineHeight < b.Height)
+            //        {
+            //            lineHeight = b.Height;
+            //        }
+            //    }
+
+            //    if (r.IsLastInParagraph)
+            //    {
+            //        if (lineWidth > textWidth)
+            //        {
+            //            textWidth = lineWidth;
+            //        }
+            //        textHeight += lineHeight;
+            //    }
+            //}
+        }
+
     }
 
 }

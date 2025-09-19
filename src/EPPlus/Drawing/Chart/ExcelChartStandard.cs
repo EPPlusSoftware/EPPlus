@@ -236,11 +236,12 @@ namespace OfficeOpenXml.Drawing.Chart
         private void LoadAxis()
         {
             List<ExcelChartAxis> l = new List<ExcelChartAxis>();
+            int i = 0;
             foreach (XmlNode node in _chartNode.ParentNode.ChildNodes)
             {
                 if (node.LocalName.EndsWith("Ax"))
                 {
-                    ExcelChartAxis ax = new ExcelChartAxisStandard(this, NameSpaceManager, node, "c");
+                    ExcelChartAxis ax = new ExcelChartAxisStandard(this, NameSpaceManager, node, "c", i++);
                     l.Add(ax);
                 }
             }
@@ -757,8 +758,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 _axis = newAxis;
             }
 
-            _axis[_axis.Length - 2] = new ExcelChartAxisStandard(this, NameSpaceManager, catAx, "c");
-            _axis[_axis.Length - 1] = new ExcelChartAxisStandard(this, NameSpaceManager, valAx, "c");
+            _axis[_axis.Length - 2] = new ExcelChartAxisStandard(this, NameSpaceManager, catAx, "c", _axis.Length - 2);
+            _axis[_axis.Length - 1] = new ExcelChartAxisStandard(this, NameSpaceManager, valAx, "c", _axis.Length - 1);
             foreach (var chart in _plotArea.ChartTypes)
             {
                 chart._axis = _axis;

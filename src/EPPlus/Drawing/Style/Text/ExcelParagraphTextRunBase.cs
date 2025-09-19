@@ -384,21 +384,21 @@ namespace OfficeOpenXml.Drawing
             if (strikeout) FontStrike = eStrikeType.Single;
         }
 
-        internal void GetHeightInPixels(out float textWidth, out float textHeight, string text)
-        {
-            var tm = _prd.Package.Settings.TextSettings.PrimaryTextMeasurer;
-            _prd.Package.Workbook.Styles.GetNormalStyle();
-            MeasurementFont f = GetMeasureFont();
-            var b = tm.MeasureText(text, f);
-            textWidth = b.Width;
-            textHeight = b.Height;
-        }
-        internal MeasurementFont GetMeasureFont()
+        //internal void GetHeightInPixels(out float textWidth, out float textHeight, string text)
+        //{
+        //    var tm = _prd.Package.Settings.TextSettings.PrimaryTextMeasurer;
+        //    _prd.Package.Workbook.Styles.GetNormalStyle();
+        //    MeasurementFont f = GetMeasureFont();
+        //    var b = tm.MeasureText(text, f);
+        //    textWidth = b.Width;
+        //    textHeight = b.Height;
+        //}
+        internal MeasurementFont GetMeasureFont(string defaultName, float defaultSize)
         {
             return new MeasurementFont()
             {
-                FontFamily = LatinFont,
-                Size = FontSize,
+                FontFamily = (string.IsNullOrEmpty(LatinFont) ? defaultName : LatinFont),
+                Size = FontSize < 0 ? defaultSize : FontSize,
                 Style = GetFontStyle()
             };
         }

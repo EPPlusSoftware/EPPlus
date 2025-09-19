@@ -281,52 +281,6 @@ namespace OfficeOpenXml.Style
         //        }
         //    }
         //}
-
-        internal void GetHeightInPixels(out float textWidth, out float textHeight)
-        {
-            var tm = _drawing._drawings._package.Settings.TextSettings.PrimaryTextMeasurer;
-            float lineWidth, lineHeight;
-            textWidth = textHeight = lineWidth = lineHeight = 0;
-            foreach(var r in _list)
-            {
-                var fontName = string.IsNullOrEmpty(r.LatinFont) ? _defaultFont.LatinFont : r.LatinFont;
-                if (fontName.StartsWith("+"))
-                {
-                    var t=_drawing._drawings._package.Workbook.ThemeManager.GetOrCreateTheme();
-                    fontName = t.GetFontByCode(fontName);
-                }
-                var f = new MeasurementFont()
-                {
-                    FontFamily = fontName,
-                    Size = r.Size <= 0 ? _defaultFont.Size : r.Size,
-                    Style = GetFontStyle(r)
-                };
-                var b = tm.MeasureText(r.Text, f);
-                if (r.IsFirstInParagraph)
-                {
-                    lineWidth = b.Width;
-                    lineHeight = b.Height;
-                }
-                else
-                {
-                    lineWidth += b.Width;
-                    if (lineHeight < b.Height)
-                    {
-                        lineHeight = b.Height;
-                    }
-                }
-
-                if (r.IsLastInParagraph)
-                {
-                    if(lineWidth > textWidth)
-                    {
-                        textWidth = lineWidth;
-                    }
-                    textHeight += lineHeight;
-                }
-            }
-        }
-
         private MeasurementFontStyles GetFontStyle(ExcelParagraph r)
         {
             MeasurementFontStyles ret = MeasurementFontStyles.Regular;

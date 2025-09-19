@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         /// Only CR, LF or CRLF should be considered.
         /// </summary>
         public bool MeasureWrappedTextCells 
-{
+        {
             get; 
             set; 
         }

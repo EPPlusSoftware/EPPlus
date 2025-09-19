@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Drawing
     {
         List<ExcelParagraphTextRunBase> _textRuns;
         ExcelDrawingParagraph _paragraph;
-        Action _initXml;
+        Action _initXml;    
         internal ExcelDrawingTextRunCollection(ExcelDrawingParagraph paragraph, XmlNamespaceManager nsm, XmlNode topNode, Action initXml) : base(nsm, topNode)
         {
             _paragraph = paragraph;

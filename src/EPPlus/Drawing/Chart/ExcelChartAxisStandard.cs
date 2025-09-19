@@ -14,6 +14,9 @@ using System;
 using System.Xml;
 using System.Globalization;
 using OfficeOpenXml.Utils.EnumUtils;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -42,13 +45,15 @@ namespace OfficeOpenXml.Drawing.Chart
         };
         internal static string[] _schemaNodeOrderCat = new string[] { "auto", "lblAlgn", "lblOffset", "tickLblSkip", "tickMarkSkip", "noMultiLvlLbl", "extLst" };
         internal static string[] _schemaNodeOrderDate = new string[] { "auto", "lblOffset", "baseTimeUnit", "majorUnit", "majorTimeUnit", "minorUnit", "minorTimeUnit", "extLst" };
-        internal static string[] _schemaNodeOrderSer = new string[] { "tickLblSkip", "tickMarkSkip","extLst" };
-        internal static string[] _schemaNodeOrderVal = new string[] { "crossBetween", "majorUnit", "minorUnit", "dispUnits", "extLst" };      
+        internal static string[] _schemaNodeOrderSer = new string[] { "tickLblSkip", "tickMarkSkip", "extLst" };
+        internal static string[] _schemaNodeOrderVal = new string[] { "crossBetween", "majorUnit", "minorUnit", "dispUnits", "extLst" };
 
-        internal ExcelChartAxisStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string nsPrefix) : base(chart, nameSpaceManager, topNode, nsPrefix)
+        internal ExcelChartAxisStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string nsPrefix, int index) : base(chart, nameSpaceManager, topNode, nsPrefix)
         {
             AddSchemaNodeOrder(new string[] { "axId", "scaling", "delete", "axPos", "majorGridlines", "minorGridlines", "title", "numFmt", "majorTickMark", "minorTickMark", "tickLblPos", "spPr", "txPr", "crossAx", "crosses", "crossesAt", "crossBetween", "auto", "lblOffset", "baseTimeUnit", "majorUnit", "majorTimeUnit", "minorUnit", "minorTimeUnit", "tickLblSkip", "tickMarkSkip", "dispUnits", "noMultiLvlLbl", "logBase", "orientation", "max", "min" },
                 ExcelDrawing._schemaNodeOrderSpPr);
+            
+            Index = index;
         }
         internal override string Id
         {
@@ -647,6 +652,20 @@ namespace OfficeOpenXml.Drawing.Chart
             Title.LinkedCell = linkedCell;
             _chart.ApplyStyleOnPart(Title, _chart._styleManager?.Style?.AxisTitle);
         }
+        /// <summary>
+        /// The axis data is specified on the range data, not specified, for a date or category axis
+        /// </summary>
+        public bool Auto
+        {
+            get
+            {
+                return GetXmlNodeBool("c:auto/@val");
+            }
+            set
+            {
+                SetXmlNodeBool("c:auto/@val", value);
+            }
+        }
         ExcelLayout _layout = null;
         /// <summary>
         /// Contains layout properties, if the title is manually positioned.
@@ -660,6 +679,102 @@ namespace OfficeOpenXml.Drawing.Chart
                     _layout = new ExcelLayout(NameSpaceManager, TopNode, "c:Layout", "", SchemaNodeOrder);
                 }
                 return _layout;
+            }
+        }
+        /// <summary>
+        /// The index for the axis. 
+        /// </summary>
+        public int Index { get; private set; }
+
+        internal override object[] GetAxisValues(int maxItems)
+        {            
+            switch(AxisType)
+            {
+                case eAxisType.Date:
+                    break;
+                case eAxisType.Val:
+                    break;
+                case eAxisType.Serie:
+                    break;
+                default:
+                    break;
+            }
+            var hs = new HashSet<object>();
+            foreach (var ct in _chart.PlotArea.ChartTypes)
+            {
+                foreach (var serie in _chart.Series)
+                {
+                    if(AxisType==eAxisType.Cat)
+                    {
+                        AddFromSerie(hs, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
+                    }
+                    else
+                    {
+                        if (Index == 1 && !ct.UseSecondaryAxis)
+                        {
+                            AddFromSerie(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                        }
+                        else if (Index == 2 && ct.UseSecondaryAxis)
+                        {
+                            AddFromSerie(hs, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
+                        }
+                    }
+                    
+                    //if (Index == 0) //Category/Value Axis
+                    //{
+                    //    if(ExcelAddressBase.IsValidAddress(serie.Series))
+                    //    {
+                    //        AddFromSerie(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (Index == 1 && !ct.UseSecondaryAxis)
+                    //    {
+                    //        AddFromSerie(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                    //    }
+                    //    else if (Index == 2 && ct.UseSecondaryAxis)
+                    //    {
+                    //        AddFromSerie(hs, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
+                    //    }
+                    //}
+               }            
+            }
+            var values = hs.ToList();
+            if(Orientation==eAxisOrientation.MaxMin)
+            {
+                values.Reverse();
+            }
+            return values.ToArray();
+        }
+
+        private void AddFromSerie(HashSet<object> hs, string address, double[] numberLiterals, string[] stringLiterals)
+        {
+            if (numberLiterals?.Length > 0)
+            {                
+                foreach (var n in numberLiterals)
+                {
+                    hs.Add(n);
+                }
+            }
+            else if (stringLiterals?.Length > 0)
+            {
+                foreach (var s in numberLiterals)
+                {
+                    hs.Add(s);
+                }
+            }
+            else
+            {
+                var a = new ExcelAddressBase(address);
+                var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
+                if(ws != null) 
+                {
+                    foreach(var c in ws.Cells[a.Address])
+                    {
+                        hs.Add(c.Value);
+                    }
+                }
             }
         }
     }
