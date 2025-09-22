@@ -24,7 +24,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfFunctions
                             $"   /Domain [{domainStr}]\n" +
                             $"   /C0 [{c0Str}]\n" +
                             $"   /C1 [{c1Str}]\n" +
-                            $"   /N {N.ToPdfString()} >>");
+                            $"   /N {N.ToPdfString()} >> ");
             return sb.ToString();
         }
     }

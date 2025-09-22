@@ -94,7 +94,16 @@ namespace OfficeOpenXml.PDF
             return fontResources[fontName].Label;
         }
 
-        //Add Fonts //Need to update this method a bit. We should check for all default fonts and not onlt courier new?
+        internal string GetPatternLabel(string patternName)
+        {
+            if (!patternResources.ContainsKey(patternName))
+            {
+                return null;
+            }
+            return patternResources[patternName].Label;
+        }
+
+        //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new?
         internal void AddFontData()
         {
             foreach (var font in fontResources)
@@ -108,10 +117,20 @@ namespace OfficeOpenXml.PDF
             }
         }
 
+        //Add Patterns
+        internal void AddPatternData()
+        {
+            foreach (var pattern in patternResources)
+            {
+                Document.Add(pattern.Value.GetShadingObject(Document.Count + 1));
+                Document.Add(pattern.Value.GetShadingPatternObject(Document.Count + 1, Document.Count));
+            }
+        }
+
         //Create Page
         private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfPageSettings settings)
         {
-            var page = new PdfPage(Document.Count + 1, pagesObjectNumber, contentObjectNumbers, settings.PageSize, fontResources);
+            var page = new PdfPage(Document.Count + 1, pagesObjectNumber, contentObjectNumbers, settings.PageSize, fontResources, patternResources);
             Document.Add(page);
             return page;
         }
@@ -149,7 +168,7 @@ namespace OfficeOpenXml.PDF
                     switch (cellPart)
                     {
                         case PdfCellLayout layout:
-                            contentStream.AddCellLayout(layout);
+                            contentStream.AddCellLayout(layout, GetPatternLabel(layout.CellFillData.ToString()));
                             break;
                         case PdfCellContentLayout contentLayout:
                             contentStream.AddCellContentLayout(contentLayout, GetFontLabel(contentLayout.FontData.FontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));
@@ -177,13 +196,15 @@ namespace OfficeOpenXml.PDF
         public void CreatePdf(string Filename)
         {
             //Create Catalog
-            var catalogLayout = new PdfCatalogLayout(_workheets[0], PageSettings, fontResources);
+            var catalogLayout = new PdfCatalogLayout(_workheets[0], PageSettings, fontResources, patternResources);
             var catalog = AddCatalog(2);
             //Create Pages
             var pagesLayout = catalogLayout.ChildObjects[0];
             var pages = AddPages();
             //Create Fonts
             AddFontData();
+            //Create Patterns
+            AddPatternData();
             //Create Page and Content
             for (int i = 0; i < pagesLayout.ChildObjects.Count; i++)
             {

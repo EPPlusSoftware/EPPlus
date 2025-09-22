@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.PDF.Math;
 using OfficeOpenXml.PDF.PdfGraphics;
+using OfficeOpenXml.PDF.PdfSettings;
 using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.PDF.PdfLayout
@@ -25,16 +26,21 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfCellFontData() { }
     }
 
-    internal struct PdfCellGradientFillData
+    internal class PdfCellGradientFillData
     {
+        public string id;
         public ExcelFillGradientType GradientType;
+        public PdfColor Color0;
         public PdfColor Color1;
-        public PdfColor Color2;
         public double Degree;
         public double Top;
         public double Bottom;
         public double Left;
         public double Right;
+        public override string ToString()
+        {
+            return GradientType.ToString() + Color0.ToHexString() + Color1.ToHexString() + Degree + Top + Bottom + Left + Right;
+        }
     }
 
     internal struct PdfCellFillData
@@ -43,7 +49,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public ExcelFillStyle PattenStyle = ExcelFillStyle.None;
         public PdfColor PatternColor = PdfColor.Black;
         //Fill Effects
-
+        public PdfCellGradientFillData GradientFillData = null;
 
         public PdfCellFillData() { }
     }

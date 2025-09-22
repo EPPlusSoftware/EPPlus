@@ -1,18 +1,18 @@
-﻿using OfficeOpenXml.PDF.PdfObjects.PdfShadings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
 {
     internal  class PdfShadingPattern : PdfObject
     {
-        internal string shadingObjectNumber;
+        internal int shadingObjectNumber;
         internal double[] Matrix; //implement later
         //internal ExtGState dictionary //implement later
 
-        public PdfShadingPattern(int objectNumber, int version = 0) : base(objectNumber, version) { }
+        public PdfShadingPattern(int objectNumber, int shadingObjectNumber, int version = 0)
+            : base(objectNumber, version)
+        {
+            this.shadingObjectNumber = shadingObjectNumber;
+        }
 
         internal override string RenderDictionary()
         {

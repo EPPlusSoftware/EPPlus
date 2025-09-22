@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.PDF.Pdfhelpers;
+using OfficeOpenXml.PDF.PdfLayout;
 using OfficeOpenXml.PDF.PdfObjects.PdfFunctions;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,27 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfShadings
         internal PdfFunction Function;
         internal bool[] Extend = null;
 
-        public PdfAxialShading(int objectNumber, int version = 0) : base(objectNumber, version) { }
+        public PdfAxialShading(int objectNumber, PdfCellGradientFillData GradientFillData, int version = 0)
+            : base(objectNumber, version)
+        {
+            var cx = (GradientFillData.Left + GradientFillData.Right) / 2d;
+            var cy = (GradientFillData.Top + GradientFillData.Bottom) / 2d;
+            var halfLen = System.Math.Sqrt(System.Math.Pow(GradientFillData.Right - GradientFillData.Left, 2) + System.Math.Pow(GradientFillData.Top - GradientFillData.Bottom, 2)) / 2;
+            var rad = GradientFillData.Degree * System.Math.PI / 180d;
+            var dx = System.Math.Cos(rad) * halfLen;
+            var dy = System.Math.Sin(rad) * halfLen;
+            double x0 = cx - dx;
+            double y0 = cy - dy;
+            double x1 = cx + dx;
+            double y1 = cy + dy;
+            Coords = [x0, y0, x1, y1];
+            var func = new PdfExponentialInterpolationFunction(0);
+            func.C0 = [GradientFillData.Color0.R, GradientFillData.Color0.G, GradientFillData.Color0.B];
+            func.C1 = [GradientFillData.Color1.R, GradientFillData.Color1.G, GradientFillData.Color1.B];
+            func.Domain = [0, 1];
+            func.N = 1;
+            Function = func;
+        }
 
         internal override string RenderDictionary()
         {

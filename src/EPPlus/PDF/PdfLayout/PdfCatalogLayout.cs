@@ -20,11 +20,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
         {
         }
 
-        public PdfCatalogLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources)
+        public PdfCatalogLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources, Dictionary<string, PdfPatternResource> patternResources)
             : base(0, 0, 0, 0)
         {
             this.Name = worksheet.Name + " Catalog";
-            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, fontResources));
+            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, fontResources, patternResources));
             var PagesLayout = CreatePagesLayoutObject();
             CreatePageLayoutObjects(worksheet, pageSettings, WorksheetLayout, PagesLayout);
             AddCellsToPageLayout(WorksheetLayout, PagesLayout);

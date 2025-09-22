@@ -9,7 +9,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfWorksheetLayout : PdfTransform
     {
-        public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources)
+        public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources, Dictionary<string, PdfPatternResource> patternResources)
         {
             double x = 0d, y = 0d, totalWidth = 0d;
             List<string> checkedMergedCells = new List<string>();
@@ -29,7 +29,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     }
                     else
                     {
-                        HandleCell(pageSettings, fontResources, cell, x, y, width, height);
+                        HandleCell(pageSettings, fontResources, patternResources, cell, x, y, width, height);
                     }
                     HandleBorders(worksheet, cell, x, y, width, height);
                     x += width;
@@ -42,11 +42,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
         }
 
         //Create cell.
-        private void HandleCell(PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources, ExcelRangeBase cell, double x, double y, double width, double height)
+        private void HandleCell(PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources, Dictionary<string, PdfPatternResource> patternResources, ExcelRangeBase cell, double x, double y, double width, double height)
         {
             //We add empty cells for gridline calculation later. We just marked them for deletion by addng * to their name.
             string deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol) ? "" : "*";
-            var cl0 = new PdfCellLayout(cell, x, y, width, height, 1, 1, 0, this);
+            var cl0 = new PdfCellLayout(patternResources, cell, x, y, width, height, 1, 1, 0, this);
             cl0.Name = cell.Address + deleteMark;
             cl0.Z = 1;
             AddCellContent(pageSettings, fontResources, cell, x, y, width, height, 2);

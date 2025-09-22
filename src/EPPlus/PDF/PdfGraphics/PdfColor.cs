@@ -94,6 +94,15 @@ namespace OfficeOpenXml.PDF.PdfGraphics
             }
         }
 
+        public string ToHexString()
+        {
+            int r = (int)(R * 255);
+            int g = (int)(G * 255);
+            int b = (int)(B * 255);
+            int a = (int)(A * 255);
+            return $"#{r:X2}{g:X2}{b:X2}{a:X2}";
+        }
+
         public static PdfColor Red => new(1, 0, 0);
         public static PdfColor Green => new(0, 1, 0);
         public static PdfColor Blue => new(0, 0, 1);
