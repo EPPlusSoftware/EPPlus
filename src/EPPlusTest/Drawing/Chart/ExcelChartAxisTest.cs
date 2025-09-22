@@ -52,7 +52,7 @@ namespace EPPlusTest.Drawing.Chart
             xmlNsm.AddNamespace("a", ExcelPackage.schemaDrawings);
             var node = xmlDoc.CreateElement("axis");
             xmlDoc.DocumentElement.AppendChild(node);
-            axis = new ExcelChartAxisStandard(null, xmlNsm, node, "c");
+            axis = new ExcelChartAxisStandard(null, xmlNsm, node, "c", 0);
 
             p = OpenPackage("AxisDataSheet.xlsx", true);
             
