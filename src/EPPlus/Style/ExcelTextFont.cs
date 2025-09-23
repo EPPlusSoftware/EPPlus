@@ -733,6 +733,27 @@ namespace OfficeOpenXml.Style
             if (strikeout) Strike = eStrikeType.Single;
         }
 
+        internal MeasurementFont GetDefaultOrMeasurementFont()
+        {
+            string latinFont = LatinFont;
+            if(string.IsNullOrEmpty(latinFont))
+            {
+                latinFont = "Aptos Narrow";
+            }
+            float size = Size;
+            if(size <=0)
+            {
+                size = 11f;
+            }
+
+            return  new MeasurementFont()
+            {
+                FontFamily = latinFont,
+                Size = size,
+                Style = GetFontStyle()
+            };
+        }
+
         internal MeasurementFont GetMeasureFont()
         {
             return new MeasurementFont()

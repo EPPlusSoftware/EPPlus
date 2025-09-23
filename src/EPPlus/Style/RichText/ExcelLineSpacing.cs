@@ -30,12 +30,12 @@ namespace OfficeOpenXml.Style
             }
             else if (node.ChildNodes[0].LocalName== "spcPts")
             {
-                _subPath = "a:spcPts";
+                _subPath = "/a:spcPts";
                 LineSpacingType = eDrawingTextLineSpacing.Multiple;
             }
             else
             {
-                _subPath = "a:spcPct";
+                _subPath = "/a:spcPct";
                 LineSpacingType = eDrawingTextLineSpacing.Exactly;
             }
         }
@@ -75,7 +75,10 @@ namespace OfficeOpenXml.Style
             }
             set
             {
-                _initXml.Invoke();
+                if(_initXml != null)
+                {
+                    _initXml.Invoke();
+                }
                 SetXmlNodeInt($"{_path}{_subPath}/@val", GetXmlValue(value));               
             }
         }
@@ -138,7 +141,7 @@ namespace OfficeOpenXml.Style
             if(LineSpacingType != eDrawingTextLineSpacing.Exactly)
             {
                 DeleteNode($"{_path}{_subPath}");
-                _subPath = "a:spcPts";
+                _subPath = "/a:spcPts";
             }
             _lineSpacingType = eDrawingTextLineSpacing.Exactly;
             Value = inPoints;
@@ -152,7 +155,7 @@ namespace OfficeOpenXml.Style
             if (_lineSpacingType == eDrawingTextLineSpacing.Exactly)
             {
                 DeleteNode($"{_path}{_subPath}");
-                _subPath = "a:spcPct";
+                _subPath = "/a:spcPct";
             }
             _lineSpacingType = eDrawingTextLineSpacing.Multiple;
             Value = percent;

@@ -13,6 +13,7 @@
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
@@ -186,12 +187,13 @@ namespace OfficeOpenXml.Drawing
         }
         /// <summary>
         /// The indent size that is applied to the first line of text in the paragraph in pixels.
+        /// 0 means indent is same as MarL attribute.If this node would be null then it is considered -342900 (to counter the default value of MarL)
         /// </summary>
-        public double? Indent
+        public double Indent
         {
             get
             {
-                return GetXmlNodeEmuToPixelNull("a:pPr/@indent");
+                return GetXmlNodeEmuToPixel("a:pPr/@marL", -342900 / ExcelDrawing.EMU_PER_PIXEL);
             }
             set
             {
