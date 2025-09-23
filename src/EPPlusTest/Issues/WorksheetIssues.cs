@@ -934,5 +934,66 @@ namespace EPPlusTest.Issues
             excelPackage.Workbook.Calculate();
             Assert.AreEqual("64.066,27€", excelPackage.Workbook.Worksheets[0].Cells[1, 3].Text);
         }
+
+		[TestMethod]
+		public void s931()
+		{
+			using (ExcelPackage xlPackage = OpenPackage("s931.xlsx", true))
+            {
+                ExcelWorksheet sheet = xlPackage.Workbook.Worksheets.Add("test");
+
+                sheet.Cells[1, 1].Value = "a";
+                sheet.Cells[2, 1].Value = "b";
+                sheet.Cells[3, 1].Value = "c";
+                sheet.Cells[4, 1].Value = "d";
+                sheet.Cells[5, 1].Value = "e";
+                sheet.Cells[6, 1].Value = "f";
+                sheet.Cells[7, 1].Value = "g";
+                sheet.Cells[8, 1].Value = "h";
+                sheet.Cells[9, 1].Value = "i";
+                sheet.Cells[10, 1].Value = "j";
+                sheet.Cells[11, 1].Value = "k";
+                sheet.Cells[12, 1].Value = "l";
+
+                sheet.Row(1).Hidden = false;
+                sheet.Row(2).Hidden = false;
+
+                sheet.Row(3).Hidden = true;
+                sheet.Row(4).Hidden = true;
+                sheet.Row(5).Hidden = true;
+                sheet.Row(6).Hidden = true;
+                sheet.Row(7).Hidden = true;
+                sheet.Row(8).Hidden = true;
+                sheet.Row(9).Hidden = true;
+                sheet.Row(10).Hidden = true;
+
+                sheet.View.FreezePanes(11, 1);
+
+				sheet.Row(6).Hidden = false;
+				sheet.Row(7).Hidden = false;
+
+                //sheet.View.PaneSettings.YSplit = 10;
+
+                Assert.AreEqual(10, sheet.View.PaneSettings.YSplit);
+
+                ExcelWorksheet sheet2 = xlPackage.Workbook.Worksheets.Add("test2");
+
+                sheet2.Column(1).Hidden = true;
+                sheet2.Row(1).Hidden = true;
+                var address = sheet2.Cells["C3"];
+
+                var row = address.Start.Row;
+                var col = address.Start.Column;
+
+                address.Value = "Freeze here";
+                sheet2.View.FreezePanes(address.Start.Row, address.Start.Column);
+
+                var someval = sheet2.View.PaneSettings.YSplit;
+
+                //Assert.AreEqual(2, sheet2.View.PaneSettings.YSplit);
+
+                xlPackage.Save();
+            }
+        }
     }
 }
