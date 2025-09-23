@@ -709,5 +709,25 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             ws.Calculate();
             Assert.AreEqual(ErrorValues.ValueError, ws.Cells["A1"].Value);
         }
+        [TestMethod]
+        public void LambdaShouldCalcCorrectly()
+        {
+            using (var p = OpenTemplatePackage("LambdaTest.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                Assert.AreEqual(9D, ws.Cells["D1"].Value);
+                //ws.Cells["D2"].Formula = "SumViaLambda(H1:H11,2,4,0)";
+                ws.Calculate();
+                Assert.AreEqual(9D, ws.Cells["D1"].Value);
+                //Assert.AreEqual(3D, ws.Cells["D2"].Value);
+                ws.Cells["A1"].Value = 3;
+                ws.Calculate();
+                Assert.AreEqual(12D, ws.Cells["D1"].Value);
+                //Assert.AreEqual(6D, ws.Cells["D2"].Value);
+                SaveAndCleanup(p);
+            }
+        }
+
+
     }
 }
