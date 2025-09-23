@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -213,7 +214,36 @@ namespace OfficeOpenXml
                 SetXmlNodeInt(FirstSheet_PATH, value);
             }
         }
-
+        const string TabRatio_PATH = "d:bookViews/d:workbookView/@tabRatio";
+        /// <summary>
+        /// The ratio between the sheet tabs and the horizontal scrollbar. Default value is 600.
+        /// </summary>
+        public int TabRatio
+        {
+            get
+            {
+                return GetXmlNodeIntNull(TabRatio_PATH) ?? 600;
+            }
+            set
+            {
+                SetXmlNodeInt(TabRatio_PATH, value);
+            }
+        }
+        const string Visability_PATH = "d:bookViews/d:workbookView/@visibility";
+        /// <summary>
+        /// Represents the visible state of the workbook window.
+        /// </summary>
+        public eWorkbookVisibility Visibility
+        {
+            get
+            {
+                return GetXmlEnum(Visability_PATH, eWorkbookVisibility.Visible);
+            }
+            set
+            {
+                SetXmlNodeString(Visability_PATH, value.ToEnumString());
+            }
+        }
     }
 }
     
