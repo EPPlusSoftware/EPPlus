@@ -202,7 +202,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// The first visible worksheet in the worksheets collection. 
         /// </summary>
-        internal int? FirstSheet
+        public int? FirstSheet
         {
             get
             {
