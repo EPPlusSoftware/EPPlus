@@ -698,7 +698,7 @@ namespace EPPlusTest
         }
         [TestMethod]
         //[Ignore]
-        public void DrawingWorksheetCopy()
+        public void Z_DrawingWorksheetCopy()
         {
             using (var pck = OpenPackage("Drawingread.xlsx"))
             {
