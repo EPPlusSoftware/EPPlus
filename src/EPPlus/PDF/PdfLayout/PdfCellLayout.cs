@@ -72,7 +72,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 {
                     label = patternResources.Last().Value.labelNumber + 1;
                 }
-                var pr = new PdfPatternResource(label, CellFillData.GradientFillData);
+                var pr = new PdfPatternResource(label, CellFillData.GradientFillData); //send cell data here and calculate matrix for SHadingPattern(Need to recalculate y for cell...). Create the objects in constructor isntead of later when adding them to the document. (maybe do the same for font to keep it similar)
                 patternResources.Add(key, pr);
             }
             return key;

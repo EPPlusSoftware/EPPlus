@@ -94,13 +94,17 @@ namespace OfficeOpenXml.PDF
             return fontResources[fontName].Label;
         }
 
-        internal string GetPatternLabel(string patternName)
+        internal string GetPatternLabel(PdfCellLayout layout)
         {
-            if (!patternResources.ContainsKey(patternName))
+            if (layout.CellFillData.GradientFillData != null)
             {
-                return null;
+                var patternName = layout.CellFillData.GradientFillData.ToString();
+                if (patternResources.ContainsKey(patternName))
+                {
+                    return patternResources[patternName].Label;
+                }
             }
-            return patternResources[patternName].Label;
+            return null;
         }
 
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new?
@@ -160,7 +164,7 @@ namespace OfficeOpenXml.PDF
             }
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
-            //contentStream.AddMarginClipping(pageLayout, PageSettings.ContentBounds);
+            contentStream.AddMarginClipping(pageLayout, PageSettings.ContentBounds);
             foreach (var cell in cells)
             {
                 foreach (var cellPart in cell)
@@ -168,7 +172,7 @@ namespace OfficeOpenXml.PDF
                     switch (cellPart)
                     {
                         case PdfCellLayout layout:
-                            contentStream.AddCellLayout(layout, GetPatternLabel(layout.CellFillData.GradientFillData.ToString()));
+                            contentStream.AddCellLayout(layout, GetPatternLabel(layout));
                             break;
                         case PdfCellContentLayout contentLayout:
                             contentStream.AddCellContentLayout(contentLayout, GetFontLabel(contentLayout.FontData.FontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));

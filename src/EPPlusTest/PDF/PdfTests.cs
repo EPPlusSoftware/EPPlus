@@ -25,7 +25,7 @@ namespace EPPlusTest.PDF
             pageSettings.PageSize = PdfPageSize.A4;
             pageSettings.Orientation = Orientations.Portrait;
             pageSettings.Margins = PdfMargins.Normal;
-            pageSettings.ShowGridLines = false;
+            pageSettings.ShowGridLines = true;
             //Debug Flags
             pageSettings.Debug = true;
             pageSettings.PrintAsText = true;
