@@ -37,7 +37,8 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfShadings
         internal override string RenderDictionary()
         {
             var sb = new StringBuilder();
-            sb.AppendFormat($"<< /ShadingType 0" +
+            sb.AppendFormat($"<< /Type /Shading\n" +
+                            $"   /ShadingType 0\n" +
                             $"   /ColorSpace {ColorSpace.ToString()}");
             if (Background != null)
             {

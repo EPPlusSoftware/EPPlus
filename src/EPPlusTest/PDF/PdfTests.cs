@@ -17,6 +17,7 @@ namespace EPPlusTest.PDF
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
+            //using var p = OpenTemplatePackage("Gradient.xlsx");
             var ws = p.Workbook.Worksheets[0];
 
             PdfPageSettings pageSettings = new PdfPageSettings();
@@ -24,7 +25,7 @@ namespace EPPlusTest.PDF
             pageSettings.PageSize = PdfPageSize.A4;
             pageSettings.Orientation = Orientations.Portrait;
             pageSettings.Margins = PdfMargins.Normal;
-            pageSettings.ShowGridLines = true;
+            pageSettings.ShowGridLines = false;
             //Debug Flags
             pageSettings.Debug = true;
             pageSettings.PrintAsText = true;

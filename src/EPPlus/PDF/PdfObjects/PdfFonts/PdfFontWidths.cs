@@ -95,8 +95,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfFonts
         internal override string RenderDictionary()
         {
             var widthsStr = string.Join(" ", widths.Select(w => w.ToString()).ToArray());
-            return $"   [ {widthsStr}\n" +
-                   $"   ]";
+            return $"   [ {widthsStr}\n ]";
         }
     }
 }

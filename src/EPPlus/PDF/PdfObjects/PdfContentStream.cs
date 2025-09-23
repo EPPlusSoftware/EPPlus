@@ -27,21 +27,21 @@ namespace OfficeOpenXml.PDF.PdfObjects
 
         public void AddCellLayout(PdfCellLayout cell, string PatternLabel)
         {
-            if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.BackgroundColor.A >= 0.99999f)
+            if (cell.CellFillData.GradientFillData != null)
+            {
+                commands.Add("q");
+                commands.Add("/Pattern cs");
+                commands.Add($"/{PatternLabel} scn");
+                commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y - cell.Size.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
+                commands.Add("f");
+                commands.Add("Q");
+            }
+            else if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.BackgroundColor.A >= 0.99999f)
             {
                 commands.Add("q");
                 commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
                 commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
                 commands.Add(cell.CellFillData.BackgroundColor.ToStrokeCommand());
-                commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y - cell.Size.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
-                commands.Add("B");
-                commands.Add("Q");
-            }
-            else if(cell.CellFillData.GradientFillData != null)
-            {
-                commands.Add("q");
-                commands.Add($"/{PatternLabel} scn");
-                commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y - cell.Size.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
                 commands.Add("B");
                 commands.Add("Q");

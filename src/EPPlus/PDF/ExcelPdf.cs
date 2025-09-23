@@ -160,7 +160,7 @@ namespace OfficeOpenXml.PDF
             }
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
-            contentStream.AddMarginClipping(pageLayout, PageSettings.ContentBounds);
+            //contentStream.AddMarginClipping(pageLayout, PageSettings.ContentBounds);
             foreach (var cell in cells)
             {
                 foreach (var cellPart in cell)
@@ -168,7 +168,7 @@ namespace OfficeOpenXml.PDF
                     switch (cellPart)
                     {
                         case PdfCellLayout layout:
-                            contentStream.AddCellLayout(layout, GetPatternLabel(layout.CellFillData.ToString()));
+                            contentStream.AddCellLayout(layout, GetPatternLabel(layout.CellFillData.GradientFillData.ToString()));
                             break;
                         case PdfCellContentLayout contentLayout:
                             contentStream.AddCellContentLayout(contentLayout, GetFontLabel(contentLayout.FontData.FontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));

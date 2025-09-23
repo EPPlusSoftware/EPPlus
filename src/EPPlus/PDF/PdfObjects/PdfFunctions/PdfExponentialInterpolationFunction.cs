@@ -21,10 +21,10 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfFunctions
             var c1Str = string.Join(" ", C1.Select(w => w.ToPdfString()).ToArray());
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /FunctionType 2\n" +
-                            $"   /Domain [{domainStr}]\n" +
-                            $"   /C0 [{c0Str}]\n" +
-                            $"   /C1 [{c1Str}]\n" +
-                            $"   /N {N.ToPdfString()} >> ");
+                            $"   /Domain [ {domainStr} ]\n" +
+                            $"   /C0 [ {c0Str} ]\n" +
+                            $"   /C1 [ {c1Str} ]\n" +
+                            $"   /N {N.ToPdfString()} >>");
             return sb.ToString();
         }
     }
