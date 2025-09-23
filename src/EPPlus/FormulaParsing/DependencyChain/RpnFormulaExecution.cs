@@ -1133,6 +1133,21 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         if (localReturnAddress && returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
                         {
+                            if(f._tokenIndex + 1 < f._tokens.Count)
+                            {
+                                var ix = f._tokenIndex + 1;
+                                var nt = f._tokens[ix];
+                                while(f._tokenIndex + 1 < f._tokens.Count && nt.TokenType == TokenType.CellAddress)
+                                {
+                                    nt = f._tokens[++ix];
+                                }
+                                if (nt.TokenType == TokenType.Operator && nt.Value == ":")
+                                {
+                                    f._tokenIndex++;
+                                    continue;
+                                }
+
+                            }
                             return e.GetAddress();
                         }
                         break;
