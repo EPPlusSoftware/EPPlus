@@ -90,22 +90,6 @@ namespace EPPlusTest.Core
                     p.Workbook.Worksheets.Add(i.ToString());
                 }
                 p.Workbook.View.Visibility = eWorkbookVisibility.VeryHidden;
-                SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
-        public void ValidateWorkbookViewVisabilityVeryHidden2()
-        {
-            using (var p = OpenPackage("visabilityVeryHidden.xlsx", true))
-            {
-                for (var i = 0; i < 16; i++)
-                {
-                    p.Workbook.Worksheets.Add(i.ToString());
-                }
-                p.Workbook.Worksheets[0].Cells["A1"].Formula = "IMLN(\"3+4i\")";
-                p.Workbook.Worksheets[0].Calculate();
-                p.Workbook.Worksheets[0].Cells["C10"].Value = "Testing";
-                p.Workbook.View.Visibility = eWorkbookVisibility.VeryHidden;
                 Assert.AreEqual(eWorkbookVisibility.VeryHidden, p.Workbook.View.Visibility);
                 SaveAndCleanup(p);
             }
