@@ -8,26 +8,35 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/14/2024         EPPlus Software AB       Initial release EPPlus 7.3
+  08/20/2025         EPPlus Software AB       Initial release EPPlus 8.2
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    [DebuggerDisplay("VariableExpression - Name: {Name}, Value: {Value}")]
     internal class VariableExpression : Expression
     {
         public VariableExpression(string variableName, VariableFunctionExpression expression, bool isDeclaration)
         {
             Name = variableName;
             expression.DeclareVariable(variableName);
+            _scope = expression.Context.VariableStorage.GetById(expression.VariableScopeId);
             _variableFunctionExpression = expression;
             IsDeclaration = isDeclaration;
         }
 
+        public VariableExpression(string variableName, VariableStorageScope scope, bool isDeclaration)
+        {
+            Name = variableName;
+            _scope = scope;
+            IsDeclaration = isDeclaration;
+        }
+
         private readonly VariableFunctionExpression _variableFunctionExpression;
+        private readonly VariableStorageScope _scope;
         private bool _negate = false;
 
 
@@ -48,16 +57,51 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             get
             {
-                return _variableFunctionExpression.GetVariableValue(Name);
+                return GetValue(out bool hasValue);
             }
-
         }
+
+        private CompileResult GetValue(out bool hasValue)
+        {
+            hasValue = false;
+            if (_scope != null)
+            {
+                var v = _scope.GetVariableValue(Name);
+                hasValue = v.DataType != DataType.Empty && v.ResultValue != null;
+                return new VariableCompileResult(Name, v.ResultValue, v.DataType, v.Address);
+            }
+            else if (_variableFunctionExpression != null)
+            {
+                var v =  _variableFunctionExpression.GetVariableValue(Name);
+                hasValue = v.DataType != DataType.Empty && v.ResultValue != null;
+                return new VariableCompileResult(Name, v.ResultValue, v.DataType, v.Address);
+            }
+            return new VariableCompileResult(Name, null, DataType.Empty, null);
+        }
+
+        internal void SetValue(string variableName, CompileResult value)
+        {
+            if(_variableFunctionExpression != null)
+            {
+                _variableFunctionExpression.AddVariableValue(variableName, value);
+            }
+        }
+
 
 
         internal string Name { get; private set; }
 
         public override CompileResult Compile()
         {
+            if ((Status & ExpressionStatus.IsLambdaVariableDeclaration) == ExpressionStatus.IsLambdaVariableDeclaration)
+            {
+                var val = GetValue(out bool hasValue);
+                if(!hasValue)
+                {
+                    return new CompileResult(Name, DataType.LambdaVariableDeclaration);
+                }
+               
+            }
             return _negate ? Value.Negate() : Value;
         }
 

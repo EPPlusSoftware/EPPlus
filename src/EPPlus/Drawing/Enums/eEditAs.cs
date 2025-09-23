@@ -31,5 +31,9 @@ namespace OfficeOpenXml.Drawing
         /// For drawings inside a chart the drawing will resize when the chart is resized.
         /// </summary>
         TwoCell,
+        /// <summary>
+        /// The Drawing will move and resize according to it's parent chart. 
+        /// </summary>
+        RelSize
     }
 }

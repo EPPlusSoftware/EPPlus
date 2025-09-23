@@ -57,6 +57,22 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual(((ExcelErrorValue)_ws.Cells["G11"].Value).Type, eErrorType.NA);
             Assert.AreEqual(((ExcelErrorValue)_ws.Cells["G20"].Value).Type, eErrorType.NA);
         }
+
+        [TestMethod]
+        public void ArrayFormulaMultiplyRange2()
+        {
+            using var package = new ExcelPackage();
+            var ws = package.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Value = 1;
+            ws.Cells["A2"].Value = 2;
+            ws.Cells["A4"].Formula = "(A1:A2 + 1) * 2";
+            ws.Calculate();
+
+            Assert.AreEqual(4d, ws.Cells["A4"].Value);
+            Assert.AreEqual(6d, ws.Cells["A5"].Value);
+        }
+
+
         [TestMethod]
         public void ArrayFormula_Transpose()
         {

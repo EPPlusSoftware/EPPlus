@@ -22,6 +22,8 @@ namespace OfficeOpenXml
         Constant,
         Enumerable,
         Variable,
+        LambdaVariableDeclaration,
+        LambdaCalculation,
         WebImage,
         Group,
         ValueError,
@@ -33,6 +35,7 @@ namespace OfficeOpenXml
         MultiAddress,
         TableAddress,
         //RangeDefinition,
-        Empty
+        Empty,
+        LambdaInvoke
     }
 }

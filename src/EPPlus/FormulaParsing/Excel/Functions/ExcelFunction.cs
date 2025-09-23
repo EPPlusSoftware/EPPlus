@@ -107,7 +107,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 }
             }
 
-            return Execute(arguments, context);
+             return Execute(arguments, context);
         }
 
         /// <summary>
@@ -139,6 +139,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         }
 
         /// <summary>
+        /// Indicates if the function is Executing a LAMBDA.
+        /// </summary>
+        public virtual bool ExecutesLambda
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         /// Describes how the function works with input ranges and returning arrays.
         /// </summary>
         public virtual ExcelFunctionArrayBehaviour ArrayBehaviour
@@ -166,6 +174,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// Indicates whether the function handles variables (eg. LET, LAMBDA).
         /// </summary>
         public virtual bool HandlesVariables => false;
+
+        internal virtual void SetRpnFormula(RpnFormula formula)
+        {
+            // implement in subclass if needed.
+        }
 
         /// <summary>
         /// Used for some Lookupfunctions to indicate that function arguments should
@@ -726,6 +739,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return new DynamicArrayCompileResult(result, dataType);
         }
         /// <summary>
+        /// Use this method to create a result to return from Excel functions. 
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="dataType"></param>
+        /// <param name="compileResultType"></param>
+        /// <returns></returns>
+        protected CompileResult CreateDynamicArrayResult(object result, DataType dataType, CompileResultType compileResultType)
+        {
+            var validator = _compileResultValidators.GetValidator(dataType);
+            validator.Validate(result);
+            return new DynamicArrayCompileResult(result, dataType, null, compileResultType);
+        }
+        /// <summary>
         /// Use this method to create a result to return from Excel functions.
         /// </summary>
         /// <param name="result"></param>
@@ -737,6 +763,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var validator = _compileResultValidators.GetValidator(dataType);
             validator.Validate(result);
             return new DynamicArrayCompileResult(result, dataType, address);
+        }
+        /// <summary>
+        /// Use this method to create a result to return from Excel functions.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="dataType"></param>
+        /// <param name="address"></param>
+        /// <param name="compileResultType"></param>
+        /// <returns></returns>
+        protected CompileResult CreateDynamicArrayResult(object result, DataType dataType, FormulaRangeAddress address, CompileResultType compileResultType)
+        {
+            var validator = _compileResultValidators.GetValidator(dataType);
+            validator.Validate(result);
+            return new DynamicArrayCompileResult(result, dataType, address, compileResultType);
         }
         /// <summary>
         /// Use this method to create a result to return from Excel functions. 

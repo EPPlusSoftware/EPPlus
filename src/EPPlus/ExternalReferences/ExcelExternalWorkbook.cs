@@ -23,6 +23,7 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Utils.AttributesUtils;
+using OfficeOpenXml.FormulaParsing.DependencyChain;
 
 namespace OfficeOpenXml.ExternalReferences
 {
@@ -566,8 +567,9 @@ namespace OfficeOpenXml.ExternalReferences
         {
             var tokens = SourceCodeTokenizer.Default.Tokenize(formula);
 
-            IList<Token> rpnTokens = FormulaExecutor.CreateRPNTokens(tokens);
-            var expressions = FormulaExecutor.CompileExpressions(ref rpnTokens, wb.FormulaParser.ParsingContext);
+            var rpnTokens = FormulaExecutor.CreateRPNTokens(tokens);
+            LambdaFormulaSettings lambdaSettings = default;
+            var expressions = FormulaExecutor.CompileExpressions(ref lambdaSettings, ref rpnTokens, wb.FormulaParser.ParsingContext);
 
             foreach(var e in expressions.Values)
             {

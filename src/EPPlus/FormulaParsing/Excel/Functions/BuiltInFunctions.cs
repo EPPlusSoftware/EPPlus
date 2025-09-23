@@ -322,6 +322,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["switch"] = new Switch();
             Functions["xor"] = new Xor();
             Functions["let"] = new LetFunction();
+            Functions["lambda"] = new Lambda();
+            Functions["makearray"] = new MakeArray();
+            Functions["scan"] = new Scan();
+            Functions["map"] = new Map();
+            Functions["reduce"] = new Reduce();
+            Functions["bycol"] = new ByCol();
+            Functions["byrow"] = new ByRow();
+            Functions["isomitted"] = new IsOmitted();
             // Reference and lookup
             Functions["address"] = new Address();
             Functions["areas"] = new Areas();

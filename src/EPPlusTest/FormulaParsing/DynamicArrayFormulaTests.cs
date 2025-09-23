@@ -50,6 +50,7 @@ namespace EPPlusTest.FormulaParsing
             var ws = _package.Workbook.Worksheets.Add("SharedFormulaRef");
             ws.Cells["F1:N1"].Formula = "F2";
             ws.Cells["F2"].Formula = "Transpose(Data!A2:A10)"; //Spill Right
+            // A1:A2
             ws.Calculate();
             Assert.AreEqual(_ws.GetValue(2, 1), ws.GetValue(2, 6));
             Assert.AreEqual(_ws.GetValue(2, 1), ws.GetValue(2, 6));
