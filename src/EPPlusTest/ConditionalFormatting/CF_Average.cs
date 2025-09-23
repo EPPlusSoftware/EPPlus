@@ -38,20 +38,20 @@ namespace EPPlusTest.ConditionalFormatting
 
 
                 Assert.IsTrue(aboveAverageClass.ShouldApplyToCell(sheet.Cells["A8"]));
-                //Assert.IsFalse(aboveAverageClass.ShouldApplyToCell(sheet.Cells["A1"]));
-                //Assert.IsFalse(aboveAverageClass.ShouldApplyToCell(sheet.Cells["A6"]));
+                Assert.IsFalse(aboveAverageClass.ShouldApplyToCell(sheet.Cells["A1"]));
+                Assert.IsFalse(aboveAverageClass.ShouldApplyToCell(sheet.Cells["A6"]));
 
-                //Assert.IsFalse(aboveOrEqualAverageClass.ShouldApplyToCell(sheet.Cells["A5"]));
-                //Assert.IsTrue(aboveOrEqualAverageClass.ShouldApplyToCell(sheet.Cells["A6"]));
-                //Assert.IsTrue(aboveOrEqualAverageClass.ShouldApplyToCell(sheet.Cells["A7"]));
+                Assert.IsFalse(aboveOrEqualAverageClass.ShouldApplyToCell(sheet.Cells["A5"]));
+                Assert.IsTrue(aboveOrEqualAverageClass.ShouldApplyToCell(sheet.Cells["A6"]));
+                Assert.IsTrue(aboveOrEqualAverageClass.ShouldApplyToCell(sheet.Cells["A7"]));
 
-                //Assert.IsFalse(belowAverageClass.ShouldApplyToCell(sheet.Cells["A8"]));
-                //Assert.IsTrue(belowAverageClass.ShouldApplyToCell(sheet.Cells["A1"]));
-                //Assert.IsFalse(belowAverageClass.ShouldApplyToCell(sheet.Cells["A6"]));
+                Assert.IsFalse(belowAverageClass.ShouldApplyToCell(sheet.Cells["A8"]));
+                Assert.IsTrue(belowAverageClass.ShouldApplyToCell(sheet.Cells["A1"]));
+                Assert.IsFalse(belowAverageClass.ShouldApplyToCell(sheet.Cells["A6"]));
 
-                //Assert.IsTrue(belowOrQualAverageClass.ShouldApplyToCell(sheet.Cells["A5"]));
-                //Assert.IsTrue(belowOrQualAverageClass.ShouldApplyToCell(sheet.Cells["A6"]));
-                //Assert.IsFalse(belowOrQualAverageClass.ShouldApplyToCell(sheet.Cells["A7"]));
+                Assert.IsTrue(belowOrQualAverageClass.ShouldApplyToCell(sheet.Cells["A5"]));
+                Assert.IsTrue(belowOrQualAverageClass.ShouldApplyToCell(sheet.Cells["A6"]));
+                Assert.IsFalse(belowOrQualAverageClass.ShouldApplyToCell(sheet.Cells["A7"]));
             }
         }
 
