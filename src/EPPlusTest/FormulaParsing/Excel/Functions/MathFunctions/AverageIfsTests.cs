@@ -208,5 +208,38 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
                 SaveWorkbook("AverageIfsMultiArray.xlsx", package);
             }
         }
+        [TestMethod]
+        public void AverageIfsOutsideCriteriaShouldNotThrowCircularReferences()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
+                sheet1.Cells["A1"].Value = "AvgResult";
+                // This shouldn't be a circular reference, because the 1:1="AVG" condition should filter out A2 before the 2:2 filter is applied
+                sheet1.Cells["A2"].Formula = "AverageIfs(3:3, 1:1,\"AVG\",2:2,\"<>\")";
+
+                sheet1.Cells["B2"].Value = 1;
+                sheet1.Cells["C2"].Value = 2;
+                sheet1.Cells["E2"].Value = 4;
+                sheet1.Cells["F2"].Value = 5;
+                sheet1.Cells["G2"].Value = 6;
+
+                sheet1.Cells["C1"].Value = "AVG";
+                sheet1.Cells["D1"].Value = "AVG";
+                sheet1.Cells["E1"].Value = "AVG";
+                sheet1.Cells["G1"].Value = "AVG";
+
+                sheet1.Cells["B3"].Value = 1;
+                sheet1.Cells["C3"].Value = 2;
+                sheet1.Cells["E3"].Value = 4;
+                sheet1.Cells["F3"].Value = 5;
+                sheet1.Cells["G3"].Value = 6;
+
+                pck.Workbook.Calculate();
+
+                Assert.AreEqual(4D, sheet1.Cells["A2"].GetValue<double>(), 0.00);
+            }
+        }
+
     }
 }

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
@@ -27,16 +28,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class CountIfs : RangeCriteriaFunction
     {
         public override int ArgumentMinLength => 2;
-        //public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            if (argumentIndex % 2 == 1)
+            if(argumentIndex == 0)
             {
-                return FunctionParameterInformation.IgnoreErrorInPreExecute;
+                return FunctionParameterInformation.Normal;
             }
-            return FunctionParameterInformation.Normal;
+            if (argumentIndex % 2 == 0)
+            {
+                return FunctionParameterInformation.AdjustParameterAddress;
+            }
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }));
-
+        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+        {
+            if (args[index].Result is IRangeInfo criteriaRange)
+            {
+                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(0, args, index);
+                EnqueueMatchingAddresses(criteriaRange, matchIndexes, ref addresses);
+            }
+        }
         public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
             config.IgnoreNumberOfArgsFromStart = 1;

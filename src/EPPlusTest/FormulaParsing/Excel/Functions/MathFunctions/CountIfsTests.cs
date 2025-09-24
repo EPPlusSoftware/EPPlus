@@ -14,7 +14,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
         [TestMethod]
         public void CountIfsShouldNotCountNumericStringsAsNumbers()
         {
-            using(var package = new ExcelPackage())
+            using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells[1, 1].Value = "123";
@@ -264,6 +264,32 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
                 Assert.IsNull(sheet.Cells["D6"].Value);
 
                 SaveWorkbook("CountIfsMultiArray.xlsx", package);
+            }
+        }
+        [TestMethod]
+        public void CountIfs_CountThisRowWithoutCircularReferences()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
+                sheet1.Cells["A1"].Value = "SumResult";
+                // This shouldn't be a circular reference, because the 1:1="COUNTABLE" condition should filter out A2 before the 2:2 filter is applied
+                sheet1.Cells["A2"].Formula = "COUNTIFS(1:1,\"COUNTABLE\",2:2,\"<>\")";
+                
+                sheet1.Cells["B2"].Value = 1;
+                sheet1.Cells["C2"].Value = 2;
+                sheet1.Cells["E2"].Value = 4;
+                sheet1.Cells["F2"].Value = 5;
+                sheet1.Cells["G2"].Value = 6;
+
+                sheet1.Cells["C1"].Value = "COUNTABLE";
+                sheet1.Cells["D1"].Value = "COUNTABLE";
+                sheet1.Cells["E1"].Value = "COUNTABLE";
+                sheet1.Cells["G1"].Value = "COUNTABLE";
+
+                pck.Workbook.Calculate();
+
+                Assert.AreEqual(3D, sheet1.Cells["A2"].GetValue<double>(), 0.00);
             }
         }
     }
