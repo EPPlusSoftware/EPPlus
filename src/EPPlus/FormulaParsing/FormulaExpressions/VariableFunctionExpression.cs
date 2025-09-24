@@ -8,28 +8,52 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/14/2024         EPPlus Software AB       Initial release EPPlus 7.3
+  08/20/2025         EPPlus Software AB       Initial release EPPlus 8.2
  *************************************************************************************************/
-using System;
-using System.Collections;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    /// <summary>
+    /// Base class for functions that handles variables such as LET and LAMBDA.
+    /// </summary>
     internal class VariableFunctionExpression : FunctionExpression
     {
-
-
-        internal VariableFunctionExpression(string tokenValue, Stack<FunctionExpression> funcStack, ParsingContext ctx, int pos) : base(tokenValue, ctx, pos)
+        internal VariableFunctionExpression(string tokenValue, ParsingContext ctx, int pos, bool addVariableScope = true) : base(tokenValue, ctx, pos)
         {
-
+            _variableStorage = ctx.VariableStorage;
+            if (addVariableScope)
+            {
+                _storageScope = _variableStorage.AddNewScope();
+                _isOutOfVariableScope = false;
+            }
+            else if(!_variableStorage.IsEmpty)
+            {
+                _storageScope = _variableStorage.Peek();
+                _isOutOfVariableScope = false;
+            }
+            else
+            {
+                _isOutOfVariableScope = true;
+            }
+             VariableScopeId = _isOutOfVariableScope ? -1 : _storageScope.Id;
         }
 
-        private readonly Dictionary<string, CompileResult> _variables = new Dictionary<string, CompileResult>();
         private string _lastDeclaredVariable;
+        private readonly VariableStorageManager _variableStorage;
+        private readonly VariableStorageScope _storageScope;
+        private bool _isOutOfVariableScope = false;
+
+
+        internal int VariableScopeId { get; private set; }
+
+        internal VariableStorageScope VariableScope => _storageScope;
+
+        internal override void OnExecuteStarted()
+        {
+            
+        }
 
         internal override bool IsVariable(string name)
         {
@@ -38,16 +62,18 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         internal void DeclareVariable(string name)
         {
-            if (!_variables.ContainsKey(name))
+            if (_isOutOfVariableScope) return;
+            if (!_storageScope.ContainsVariable(name, true))
             {
-                _variables.Add(name, null);
+                _storageScope.SetVariableValue(name, null);
             }
             _lastDeclaredVariable = name;
         }
 
         internal bool VariableIsDeclared(string name)
         {
-            if (_variables.ContainsKey(name))
+            if (_isOutOfVariableScope) return false;
+            if (_storageScope.ContainsVariable(name, true))
             {
                 return true;
             }
@@ -56,30 +82,37 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         internal bool VariableIsSet(string name)
         {
-            if(_variables.ContainsKey(name) && _variables[name] !=null)
+            if (_isOutOfVariableScope) return false;
+            if(_storageScope.ContainsVariable(name) && _storageScope.GetVariableValue(name) != null)
             {
                 return true;
             }
             return false;
         }
 
-        internal int NumberOfVariables => _variables.Count;
+        internal int NumberOfVariables => _storageScope.NumberOfVariables;
 
         internal void AddVariableValue(CompileResult value)
         {
-            _variables[_lastDeclaredVariable] = value;
+            if (_isOutOfVariableScope) return;
+            _storageScope.SetVariableValue(_lastDeclaredVariable, value);
         }
 
         internal void AddVariableValue(string name, CompileResult value)
         {
-            _variables[name] = value;
+            if (_isOutOfVariableScope) return;
+            _storageScope.SetVariableValue(name, value);
         }
 
         internal CompileResult GetVariableValue(string variableName)
         {
-            if (_variables.ContainsKey(variableName) && _variables[variableName] != null)
+            if(_isOutOfVariableScope)
             {
-                return _variables[variableName];
+                return new CompileResult("oovs", DataType.Empty);
+            }
+            if (_storageScope.ContainsVariable(variableName))
+            {
+                return _storageScope.GetVariableValue(variableName) ?? CompileResult.Empty;
             }
             return CompileResult.Empty;
         }

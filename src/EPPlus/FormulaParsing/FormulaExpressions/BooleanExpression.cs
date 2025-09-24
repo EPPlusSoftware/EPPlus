@@ -13,9 +13,11 @@
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Data;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    [DebuggerDisplay("BooleanExpression: {_cachedCompileResult?.Result}")]
     internal class BooleanExpression : Expression
     {
         private BooleanExpression _negatedExpression;

@@ -47,5 +47,16 @@ namespace EPPlusTest.FormulaParsing
 			ws.Calculate();
 			Assert.AreEqual("Table1[[#This Row],[NumValue]]+1", ws.Cells["E5"].Formula);
 		}
-	}
+        [TestMethod]
+        public void ValidateMultipleColonAddresses()
+        {
+            var ws = _package.Workbook.Worksheets.Add("Sheet1");
+			ws.Cells["A1:C3"].FillNumber(1, 1);
+			ws.Cells["E1:G3"].Formula = "A1";
+			ws.Cells["D1"].Formula = "Sum(E1:F2:G3)";
+            ws.Calculate();
+            
+			Assert.AreEqual(18D, ws.Cells["D1"].Value);
+        }
+    }
 }

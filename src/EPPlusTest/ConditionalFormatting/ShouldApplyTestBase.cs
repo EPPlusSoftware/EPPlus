@@ -24,7 +24,7 @@ namespace EPPlusTest.ConditionalFormatting
             sheet.Cells["A3"].Style.Numberformat.Format = "yyyy-mm-dd";
             sheet.Cells["A3"].Formula = "=DATE(2023,6,5)";
 
-            sheet.Cells["A1:A5"].Calculate();
+           sheet.Cells["A1:A5"].Calculate();
 
             Assert.IsTrue(cfClass.ShouldApplyToCell(sheet.Cells["A1"]));
             Assert.IsFalse(cfClass.ShouldApplyToCell(sheet.Cells["A2"]));

@@ -10,10 +10,15 @@ using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    [DebuggerDisplay("RangeExpression: {_addressInfo.Address}")]
+    [DebuggerDisplay("RangeExpression: {GetAddressString()}")]
     internal class RangeExpression : Expression
     {
         protected FormulaRangeAddress _addressInfo;
+
+        internal string GetAddressString()
+        {
+            return _addressInfo != null ? _addressInfo.Address.ToString() : "<no address>";
+        }
         internal RangeExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {
             _cachedCompileResult = result;
@@ -90,6 +95,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             return new RangeExpression(_cachedCompileResult.Negate(), Context);
         }
+
+        public FormulaRangeAddress AddressInfo => _addressInfo;
+
         internal override ExpressionStatus Status
         {
             get;

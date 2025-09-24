@@ -11,9 +11,11 @@
   11/07/2022         EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.Diagnostics;
 using System.Globalization;
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    [DebuggerDisplay("ErrorExpression - {_cachedCompileResult?.Result}")]
     internal class ErrorExpression : Expression
     {
         internal static ErrorExpression RefError => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.Ref), null);

@@ -87,7 +87,12 @@ namespace OfficeOpenXml.Metadata
                 //var bk = _metadataDb.FutureMetadata.Get(ValueId);
                 var fmType = _metadataDb.MetadataTypes.Get(TypeId);
                 var fm = fmType.GetFirstOutgoingRelByType<FutureMetadataBase>();
-                if (fm == null) return null;
+                if (fm == null)
+                {
+                    fm = _parent.GetFirstOutgoingRelByType<FutureMetadataBase>();
+                    if(fm == null)
+                        return null;
+                }
                 if(fm is FutureMetadataDynamicArray futureMetadataDynamicArray)
                 {
                     return futureMetadataDynamicArray.Blocks.Any(x => x.Id == ValueId) ? 0 : null;

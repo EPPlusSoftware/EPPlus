@@ -657,14 +657,17 @@
 	<ItemGroup>
 		<Compile Remove="Core\Worksheet\Fonts\Tables\**" />
 		<Compile Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
+		<Compile Remove="FormulaParsing\FormulaExpressions\Variables\**" />
 		<Compile Remove="Settings\**" />
 		<Compile Remove="Utils\RecyclableMemoryStream\**" />
 		<EmbeddedResource Remove="Core\Worksheet\Fonts\Tables\**" />
 		<EmbeddedResource Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
+		<EmbeddedResource Remove="FormulaParsing\FormulaExpressions\Variables\**" />
 		<EmbeddedResource Remove="Settings\**" />
 		<EmbeddedResource Remove="Utils\RecyclableMemoryStream\**" />
 		<None Remove="Core\Worksheet\Fonts\Tables\**" />
 		<None Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
+		<None Remove="FormulaParsing\FormulaExpressions\Variables\**" />
 		<None Remove="Settings\**" />
 		<None Remove="Utils\RecyclableMemoryStream\**" />
 	</ItemGroup>
@@ -709,8 +712,8 @@
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
 		<PackageReference Include="System.Security.Cryptography.Pkcs" VersionOverride="9.0.3" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
-		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="9.0.3"/>
-		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="9.0.3"/>
+		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="9.0.3" />
+		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="9.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -740,6 +743,7 @@
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
+		<None Include="FormulaParsing\DependencyChain\LambdaFormulaSettings.cs" />
 		<None Include="readme.txt">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
@@ -763,8 +767,5 @@
 		<None Update="resources\SignatureLineTemplate.emf">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="FormulaParsing\FormulaExpressions\Variables\" />
 	</ItemGroup>
 </Project>

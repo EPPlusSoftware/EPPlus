@@ -61,11 +61,18 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 
             public bool IsGlobalVariable(string name)
             {
-                if (Variables.ContainsKey(name)) return true;
+                return IsGlobalVariable(name, out string tmp);
+            }
+
+            public bool IsGlobalVariable(string name, out string parsedName)
+            {
+                parsedName = name;
+                if (!parsedName.StartsWith("_xlpm.")) parsedName = $"_xlpm.{name}";
+                if (Variables.ContainsKey(parsedName)) return true;
                 var parentFunctions = _functions.Where(f => f.Start < Start && (f.End > Start || f.End == null));
                 foreach(var parentFunc in parentFunctions)
                 {
-                    if(parentFunc.Variables.ContainsKey(name)) return true;
+                    if(parentFunc.Variables.ContainsKey(parsedName)) return true;
                 }
                 return false;
             }
@@ -82,10 +89,12 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         internal static bool IsVariableParameterFunction(string funcName)
         {
             if(string.IsNullOrEmpty(funcName)) return false;
-            switch(funcName.ToLower())
+            var fn = funcName.ToLower().Replace("_xlfn.", "");
+            switch (fn)
             {
-                case "_xlfn.let":
                 case "let":
+                case "lambda":
+                case "isomitted":
                     return true;
                 default:
                     return false;
@@ -100,6 +109,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             {
                 case "let":
                     return argIndex % 2 == 0 && argIndex < argCount - 1;
+                case "lambda":
+                    return argIndex < argCount;
+                case "isomitted":
+                    return true;
                 default:
                     return false;
             }
@@ -116,9 +129,17 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 
         private void ProcessVariableArguments(VariableFunction func)
         {
+            if(func.Name.ToLower() == "isomitted")
+            {
+                var variableName = _tokens[func.Start + 2].Value;
+                _tokens[func.Start + 2] = new Token(variableName, TokenType.ParameterVariableDeclaration);
+                return;
+            }
             var commaIndexes = new List<int>();
+            var nameValueIndexes = new List<int>();
             var openParenthesis = 0;
             var openBrackets = 0;
+            var openEnumerables = 0;
             // 1. loop through the tokens and collect indexes of the commas until the end of the function args.
             for (var cIx = func.Start + 1; !(_tokens[cIx].TokenType == TokenType.ClosingParenthesis && openParenthesis == 1); cIx++)
             {
@@ -139,9 +160,21 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 {
                     openBrackets--;
                 }
-                if (_tokens[cIx].TokenType == TokenType.Comma && openParenthesis == 1 && openBrackets==0)
+                else if(t.TokenType == TokenType.OpeningEnumerable)
+                {
+                    openEnumerables++;
+                }
+                else if(t.TokenType == TokenType.ClosingEnumerable)
+                {
+                    openEnumerables--;
+                }
+                if (_tokens[cIx].TokenType == TokenType.Comma && openParenthesis == 1 && openBrackets==0 && openEnumerables == 0)
                 {
                     commaIndexes.Add(cIx);
+                }
+                else if (_tokens[cIx].TokenType == TokenType.NameValue)
+                {
+                    nameValueIndexes.Add(cIx);
                 }
             }
             // 2. Process the arguments and look for variables excluding the last arg
@@ -167,50 +200,71 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                     {
                         // Variables will per default have token type NameValue. Don't process tokens that have other token types.
                         var t = _tokens[ix];
-                        var variableName = ProcessVariableToken(_tokens[ix].Value);
-                        if (func.IsGlobalVariable(variableName))
+                        if(t.TokenType == TokenType.NameValue)
                         {
-                            if (variableName == lastDeclaredVariable)
+                            var variableName = ProcessVariableToken(_tokens[ix].Value);
+                            if (func.IsGlobalVariable(variableName))
                             {
-                                _tokens[ix] = new Token(variableName, TokenType.NameError);
-                            }
-                            else
-                            {
-                                _tokens[ix] = new Token(variableName, TokenType.ParameterVariable);
+                                if (variableName == lastDeclaredVariable)
+                                {
+                                    _tokens[ix] = new Token(variableName, TokenType.NameError);
+                                }
+                                else
+                                {
+                                    _tokens[ix] = new Token(variableName, TokenType.ParameterVariable);
+                                }
                             }
                         }
-
-
                         ix++;
                     }
                     lastDeclaredVariable = string.Empty;
                 }
             }
             // 3. Process variable names in the last argument (the calculation)
-            openParenthesis = 1;
-            int lastArgIx;
-            for (lastArgIx = commaIndexes.Last(); _tokens[lastArgIx].TokenType != TokenType.ClosingParenthesis && openParenthesis == 1; lastArgIx++)
+            if(commaIndexes != null && commaIndexes.Any())
             {
-                var candidate = _tokens[lastArgIx];
-                if (candidate.TokenType == TokenType.OpeningParenthesis)
+                openParenthesis = 1;
+                int lastArgIx;
+                if (IsMatchingFuncName(func.Name, "lambda"))
                 {
-                    openParenthesis++;
+                    _tokens[commaIndexes.Last()] = new Token(",", TokenType.CommaLambda);
                 }
-                else if (candidate.TokenType == TokenType.ClosingParenthesis)
+                //for (lastArgIx = commaIndexes.Last(); _tokens[lastArgIx].TokenType != TokenType.ClosingParenthesis && openParenthesis == 1; lastArgIx++)
+                for (lastArgIx = commaIndexes.Last(); lastArgIx < _tokens.Count; lastArgIx++)
                 {
-                    openParenthesis--;
-                }
-                // unresolved variable tokens will be interpreted as names
-                if (candidate.TokenType == TokenType.NameValue)
-                {
-                    var candidateVariableName = ProcessVariableToken(candidate.Value);
-                    if (func.IsGlobalVariable(candidateVariableName))
+                    var candidate = _tokens[lastArgIx];
+                    if (candidate.TokenType == TokenType.OpeningParenthesis)
                     {
-                        _tokens[lastArgIx] = new Token(candidateVariableName, TokenType.ParameterVariable);
+                        openParenthesis++;
+                    }
+                    else if (candidate.TokenType == TokenType.ClosingParenthesis)
+                    {
+                        openParenthesis--;
+                    }
+                    // unresolved variable tokens will be interpreted as names
+                    if (candidate.TokenType == TokenType.NameValue)
+                    {
+                        var candidateVariableName = ProcessVariableToken(candidate.Value);
+                        if (func.IsGlobalVariable(candidateVariableName))
+                        {
+                            _tokens[lastArgIx] = new Token(candidateVariableName, TokenType.ParameterVariable);
+                        }
+                    }
+                }
+                func.End = lastArgIx;
+            }
+
+            if (nameValueIndexes != null && nameValueIndexes.Any())
+            {
+                foreach (var i in nameValueIndexes)
+                {
+                    var t = _tokens[i];
+                    if (t.TokenType == TokenType.NameValue && func.IsGlobalVariable(t.Value, out string parsedName))
+                    {
+                        _tokens[i] = new Token(parsedName, TokenType.ParameterVariable);
                     }
                 }
             }
-            func.End = lastArgIx;
         }
 
         private static string ProcessVariableToken(string variableToken)
@@ -220,6 +274,18 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 return $"_xlpm.{variableToken.Trim()}";
             }
             return variableToken;
+        }
+
+        private bool IsMatchingFuncName(string candidate, string func)
+        {
+            var cf = candidate;
+            if (string.IsNullOrEmpty(candidate)) return false;
+            if(candidate.Contains("."))
+            {
+                var arr = candidate.Split('.');
+                cf = arr.Last();
+            }
+            return string.Compare(cf, func, StringComparison.OrdinalIgnoreCase) == 0;
         }
     }
 }

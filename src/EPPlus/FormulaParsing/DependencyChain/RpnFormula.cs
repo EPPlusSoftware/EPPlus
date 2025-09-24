@@ -1,9 +1,25 @@
-﻿using OfficeOpenXml.Core.CellStore;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  05/14/2024         EPPlus Software AB       Initial release EPPlus 7
+ *************************************************************************************************/
+using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.DependencyChain;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.AccessControl;
+using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -25,16 +41,18 @@ namespace OfficeOpenXml.FormulaParsing
         internal int _row;
         internal int _column;
         internal string _formula;
-        internal IList<Token> _tokens;
+        internal RpnTokens _tokens;
         internal Dictionary<int, Expression> _expressions;
         internal int _enumeratorWorksheetIx;
         internal CellStoreEnumerator<object> _formulaEnumerator;
         internal int _tokenIndex = 0;
+        internal short _openParenthesis = 0;
         internal Stack<Expression> _expressionStack;
         internal Stack<FunctionExpression> _funcStack;
         internal int _arrayIndex = -1;
         internal FormulaFlags _flags = 0;
         internal FunctionExpression _currentFunction = null;
+        private VariableStorageManager _variableStorage;
 
         public bool CanBeDynamicArray
         {
@@ -44,14 +62,148 @@ namespace OfficeOpenXml.FormulaParsing
             }
         }
 
+        public bool IgnoreCaching
+        {
+            get; set;
+        }
+
+        internal VariableStorageManager VariableStorage => _variableStorage;
+
+
         internal RpnFormula(ExcelWorksheet ws, int row, int column)
+            : this(ws, row, column, new VariableStorageManager())
+        {
+        }
+
+        internal RpnFormula(ExcelWorksheet ws, int row, int column, VariableStorageManager variableStorage)
         {
             _ws = ws;
             _row = row;
             _column = column;
             _expressionStack = new Stack<Expression>();
             _funcStack = new Stack<FunctionExpression>();
+            _variableStorage = variableStorage;
         }
+
+        private LambdaFormulaSettings _lambdaSettings;
+        internal LambdaFormulaSettings LambdaSettings
+        {
+            get
+            {
+                if(_lambdaSettings == null)
+                {
+                    _lambdaSettings = new LambdaFormulaSettings();
+                }
+                return _lambdaSettings;
+            }
+            set
+            {
+                _lambdaSettings = value;
+            }
+        }
+
+        internal Stack<Expression> ExpressionStack
+        {
+            get { return _expressionStack; }
+            set { _expressionStack = value; }
+        }
+
+        internal Stack<FunctionExpression> FunctionStack
+        {
+            get { return _funcStack; }
+            set { _funcStack = value; }
+        }
+
+        internal bool HasLambdaSettings => _lambdaSettings != null;
+
+        internal bool HasLambdaToken(int tokenIx)
+        {
+            return _lambdaSettings != null && _lambdaSettings.LambdaTokens != null && _lambdaSettings.LambdaTokens.Contains(tokenIx);
+        }
+
+        internal LambdaExpressionStackPosition GetCurrentLambdaExpressionStackPosition()
+        {
+            if (_lambdaSettings == null || _lambdaSettings.CurrentLambdaExpressions == null) return null;
+            return _lambdaSettings.CurrentLambdaExpressions.Count > 0 ? _lambdaSettings.CurrentLambdaExpressions.Peek() : null;
+        }
+
+        internal int GetNumberOfLambdaVariables()
+        {
+            if (_lambdaSettings == null || _lambdaSettings.NumberOfLambdaVariables == null || _lambdaSettings.NumberOfLambdaVariables.Count == 0) return 0;
+            return _lambdaSettings.NumberOfLambdaVariables.Peek();
+        }
+
+        internal bool ShouldInvokeLambda(Stack<Expression> s)
+        {
+            var nLambdaArgs = GetNumberOfLambdaVariables();
+            if(nLambdaArgs > 0)
+            {
+                return _lambdaSettings.CurrentLambdaExpressions.Count > 0 && (s.Count - _lambdaSettings.CurrentLambdaExpressions.Peek().StackIndex) == nLambdaArgs + 1;
+            }
+            return false;
+        }
+
+        internal void OnLambdaInvoked()
+        {
+            if(LambdaSettings != null)
+            {
+                if(LambdaSettings.CurrentLambdaExpressions.Count > 0)
+                {
+                    LambdaSettings.CurrentLambdaExpressions.Pop();
+                }
+                if(LambdaSettings.NumberOfLambdaVariables.Count > 0)
+                {
+                    LambdaSettings.NumberOfLambdaVariables.Pop();
+                }
+            }
+        }
+
+        internal short CurrentLambdaArgsAdded
+        {
+            get
+            {
+                if (_lambdaSettings == null) return 0;
+                return _lambdaSettings.CurrentLambdaArgsAdded;
+            }
+        }
+
+        internal void OpenParenthesis()
+        {
+            if(_expressionStack.Any())
+            {
+                var exp = _expressionStack.Peek();
+                if(_funcStack.Count > 0 && _funcStack.Peek().IsLambda)
+                {
+                    _openParenthesis++;
+                }
+                else if(exp.ExpressionType == ExpressionType.LambdaCalculation && exp is LambdaCalculationExpression lce && !lce.ArgumentCollectionStarted)
+                {
+                    lce.ArgumentCollectionStarted = true;
+                    LambdaSettings.InvokeLambdaAt.Push(_openParenthesis++);
+                }
+                else
+                {
+                    _openParenthesis++;
+                }
+            }
+            else
+            {
+                _openParenthesis++;
+            }
+        }
+
+        internal void CloseParenthesis(out bool shouldInvokeLambda)
+        {
+            shouldInvokeLambda = false;
+            _openParenthesis = _openParenthesis > (short)0 ? (short)(_openParenthesis - 1) : (short)0;
+            if(_lambdaSettings?.InvokeLambdaAt != null && _lambdaSettings.InvokeLambdaAt.Any() && _openParenthesis == _lambdaSettings.InvokeLambdaAt.Peek())
+            {
+                shouldInvokeLambda = true;
+                _lambdaSettings.InvokeLambdaAt.Pop();
+            }
+        }
+
+        internal int ParenthesisLevel => _openParenthesis;
 
         internal string GetAddress()
         {
@@ -76,15 +228,28 @@ namespace OfficeOpenXml.FormulaParsing
                     depChain._tokenizer.Tokenize(formula));
 
             _formula = formula;
-            _expressions = FormulaExecutor.CompileExpressions(ref _tokens, depChain._parsingContext);
+            _expressions = FormulaExecutor.CompileExpressions(ref _lambdaSettings, ref _tokens, depChain._parsingContext);
         }
 		internal void SetFormula(IList<Token> tokens, RpnOptimizedDependencyChain depChain)
 		{
 			_tokens = FormulaExecutor.CreateRPNTokens(tokens);
-			_expressions = FormulaExecutor.CompileExpressions(ref _tokens, depChain._parsingContext);
+			_expressions = FormulaExecutor.CompileExpressions(ref _lambdaSettings, ref _tokens, depChain._parsingContext);
 		}
 
-		public override string ToString()
+        internal void SetTokens(RpnTokens tokens, ParsingContext context, VariableStorageScope scope)
+        {
+            _tokens = tokens;
+            _variableStorage = context.VariableStorage;
+            var formula = new StringBuilder();
+            foreach (var token in tokens.Tokens)
+            {
+                formula.Append(token.Value);
+            }
+            _formula = formula.ToString();
+            _expressions = FormulaExecutor.CompileExpressions(ref _lambdaSettings, ref _tokens, context, scope);
+        }
+
+        public override string ToString()
         {
             if (_ws == null)
             {
