@@ -22,7 +22,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     {
         internal override bool IsLambda => true;
         internal override bool HandlesVariables => true;
-        private List<Token> _lambdaTokens;
         
         internal LambdaFunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(tokenValue, ctx, pos)
         {

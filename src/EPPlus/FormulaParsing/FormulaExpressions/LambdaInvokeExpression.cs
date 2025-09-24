@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             this._function = new Lambda();
         }
 
-        private bool _negate = false;
+//        private bool _negate = false;
         private readonly LambdaCalculationExpression _calculationExpression;
         private readonly List<CompileResult> _lambdaArguments = new List<CompileResult>();
 
@@ -52,14 +52,25 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 var arg = _lambdaArguments[i];
                 calculator.SetVariableValue(i, arg.Result, arg.DataType, Context, arg.Address);
             }
-            var result = calculator.Execute(Context);
-            return result;
-        }
 
-        public override Expression Negate()
-        {
-            _negate = !_negate;
-            return this;
+            var result = calculator.Execute(Context);
+
+            if (_negate != 0)
+            {
+                if (result.IsNumeric == false)
+                {
+                    if (Context.Debug)
+                    {
+                        var msg = string.Format("Trying to negate a non-numeric value ({0}) in a lambda function '{1}'",
+                            result.Result, nameof(_function));
+                        Context.Configuration.Logger.Log(Context, msg);
+                    }
+                    return new CompileResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
+                }
+                return new CompileResult(result.ResultNumeric * _negate, result.DataType);
+            }
+
+            return result;
         }
 
         internal override void OnDispose()

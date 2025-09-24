@@ -1275,7 +1275,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 }
                             }
                         }
-                        catch(Exception exp)
+                        catch
                         {
                             f._expressionStack.Push(ErrorExpression.ValueError);
                         }
