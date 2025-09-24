@@ -34,7 +34,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public void ConvertCoordinates(PdfPageSettings pageSettings)
         {
-            LocalPosition = new Vector2(LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(LocalPosition.Y));
+            LocalPosition = new Vector2(LocalPosition.X, (pageSettings.PageSize.HeightPu - System.Math.Abs(LocalPosition.Y)) - Size.Y);
         }
     }
 }

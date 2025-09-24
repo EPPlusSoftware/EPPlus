@@ -26,6 +26,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfShadings
             func.Domain = [0, 1];
             func.N = 1;
             Function = func;
+            //Extend = [true, true];
         }
 
         internal override string RenderDictionary()

@@ -7,7 +7,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
     internal  class PdfShadingPattern : PdfObject
     {
         internal int shadingObjectNumber;
-        internal double[] Matrix = [51.8125, 0, 0, 15.0625, 50.4879429133858, 772.889517716535];
+        internal double[] Matrix;
         //internal ExtGState dictionary //implement later
 
         public PdfShadingPattern(int objectNumber, int shadingObjectNumber, int version = 0)
@@ -24,7 +24,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
                             $"   /Shading {shadingObjectNumber} 0 R");
             if (Matrix != null)
             {
-                var matrixStr = string.Join(" ", Matrix.Select(w => w.ToPdfString()).ToArray());
+                var matrixStr = string.Join(" ", Matrix.Select(w => w.ToPdfStringF4()).ToArray());
                 sb.AppendFormat($"\n   /Matrix [ {matrixStr} ]");
             }
             sb.Append(" >>");

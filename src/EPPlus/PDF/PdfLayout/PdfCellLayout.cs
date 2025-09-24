@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.PDF.Math;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.PDF.Math;
 using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.PdfResources;
 using OfficeOpenXml.PDF.PdfSettings;
@@ -50,6 +51,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                             CellFillData.GradientFillData.Bottom = double.IsNaN(fill.Gradient.Bottom) ? y - height : fill.Gradient.Bottom;
                             CellFillData.GradientFillData.Left = double.IsNaN(fill.Gradient.Left) ? x : fill.Gradient.Left;
                             CellFillData.GradientFillData.Right = double.IsNaN(fill.Gradient.Right) ? x + width : fill.Gradient.Right;
+                            //CellFillData.GradientFillData.matrix = [width, 0d, 0d, height, x, y];
                             CellFillData.GradientFillData.id = AddPatternResourceData(patternResources, CellFillData.GradientFillData.ToString());
                         }
                     }
@@ -83,13 +85,23 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public void AdjustForGridLines()
         {
             Size = new Vector2(Size.X + GridLine.HalfWidth, Size.Y + GridLine.HalfWidth);
-            LocalPosition = new Vector2(LocalPosition.X + GridLine.FourthWidth, LocalPosition.Y + GridLine.HalfWidth + GridLine.FourthWidth);
+            LocalPosition = new Vector2(LocalPosition.X + GridLine.FourthWidth, LocalPosition.Y + GridLine.FourthWidth);
         }
 
         public void ConvertCoordinates(PdfPageSettings pageSettings)
         {
-            LocalPosition = new Vector2(LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(LocalPosition.Y));
-            //Convert other coordinates such as gradients
+            LocalPosition = new Vector2(LocalPosition.X, (pageSettings.PageSize.HeightPu - System.Math.Abs(LocalPosition.Y) - Size.Y));
+            if (CellFillData.GradientFillData != null)
+            {
+                var rad = -CellFillData.GradientFillData.Degree * System.Math.PI / 180d;
+                double cos = System.Math.Cos(rad);
+                double sin = System.Math.Sin(rad);
+                double a = Size.X * cos;
+                double b = Size.X * sin;
+                double c = -Size.Y * sin;
+                double d = Size.Y * cos;
+                CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X, LocalPosition.Y];
+            }
         }
     }
 }

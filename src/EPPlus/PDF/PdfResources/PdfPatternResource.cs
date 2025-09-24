@@ -32,7 +32,9 @@ namespace OfficeOpenXml.PDF.PdfResources
         public PdfShadingPattern GetShadingPatternObject(int objectNumber, int shadingObjectNumber, int version = 0)
         {
             shadingPatternobjectNumber = objectNumber;
-            return new PdfShadingPattern(objectNumber, shadingObjectNumber);
+            var shadingPattern = new PdfShadingPattern(objectNumber, shadingObjectNumber);
+            shadingPattern.Matrix = GradientFillData.matrix;
+            return shadingPattern;
         }
     }
 }

@@ -92,6 +92,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
             contentStream.AddCommand(dash);
         }
 
+        //This one could be made to look more fancy
         private void DrawDoubleBorder(PdfContentStream contentStream, PdfCellBorderData borderData, LineType lineType, double x1, double y1, double x2, double y2)
         {
             double offsetX = borderData.DoubleBorderOffsets.X;
@@ -121,8 +122,8 @@ namespace OfficeOpenXml.PDF.PdfObjects
             contentStream.AddCommand(lineType == LineType.DiagonalUp || lineType == LineType.DiagonalDown ? "0 J" : "2 J");
             if (lineType == LineType.Vertical)
             {
-                contentStream.AddCommand($"{(x1 + offsetX).ToPdfString()} {(y1 + offsetY).ToPdfString()} m");
-                contentStream.AddCommand($"{(x2 + offsetX).ToPdfString()} {(y2 + -offsetY).ToPdfString()} l");
+                contentStream.AddCommand($"{(x1 + offsetX).ToPdfString()} {(y1 + -offsetY).ToPdfString()} m");
+                contentStream.AddCommand($"{(x2 + offsetX).ToPdfString()} {(y2 + offsetY).ToPdfString()} l");
             }
             else if (lineType == LineType.DiagonalUp)
             {

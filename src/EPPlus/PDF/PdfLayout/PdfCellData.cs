@@ -37,9 +37,10 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public double Bottom;
         public double Left;
         public double Right;
+        public double[] matrix;
         public override string ToString()
         {
-            return GradientType.ToString() + Color0.ToHexString() + Color1.ToHexString() + Degree + Top + Bottom + Left + Right;
+            return GradientType.ToString() + Color0.ToHexString() + Color1.ToHexString() + Degree;
         }
     }
 

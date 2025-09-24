@@ -20,15 +20,15 @@ namespace OfficeOpenXml.PDF.PdfLayout
             foreach (var c in cells)
             {
                 if (c is PdfMergedCellLayout) continue;
-                yCoords.Add(c.LocalPosition.Y);             // Top
-                yCoords.Add(c.LocalPosition.Y - c.Size.Y);  // Bottom
+                yCoords.Add(c.LocalPosition.Y + c.Size.Y);             // Top
+                yCoords.Add(c.LocalPosition.Y);  // Bottom
                 xCoords.Add(c.LocalPosition.X);             // Left
                 xCoords.Add(c.LocalPosition.X + c.Size.X);  // Right
             }
             double minX = cells.Where(c => c is not PdfMergedCellLayout).Min(c => c.LocalPosition.X);
             double maxX = cells.Where(c => c is not PdfMergedCellLayout).Max(c => c.LocalPosition.X + c.Size.X);
-            double minY = cells.Where(c => c is not PdfMergedCellLayout).Min(c => c.LocalPosition.Y - c.Size.Y);
-            double maxY = cells.Where(c => c is not PdfMergedCellLayout).Max(c => c.LocalPosition.Y);
+            double minY = cells.Where(c => c is not PdfMergedCellLayout).Min(c => c.LocalPosition.Y);
+            double maxY = cells.Where(c => c is not PdfMergedCellLayout).Max(c => c.LocalPosition.Y + c.Size.Y);
             foreach (var x in xCoords.OrderBy(v => v))
             {
                 var line = new GridLine(x, minY, x, maxY);

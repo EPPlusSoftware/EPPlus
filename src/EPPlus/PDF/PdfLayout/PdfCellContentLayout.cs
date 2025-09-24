@@ -147,7 +147,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     Clipping = new PdfRect()
                     {
                         X = pcc[0].LocalPosition.X + rightMargin,
-                        Y = (pcc[0].LocalPosition.Y - pcc[0].Size.Y),
+                        Y = (pcc[0].LocalPosition.Y),
                         Width = pcc[0].Size.X - (rightMargin * 2),
                         Height = pcc[0].Size.Y
                     };
