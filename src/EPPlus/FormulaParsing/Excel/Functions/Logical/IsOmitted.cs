@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Logical,
-        EPPlusVersion = "8.1",
+        EPPlusVersion = "8.2",
         Description = "Applies a LAMBDA to each column and returns an array of the results. For example, if the original array is 3 columns by 2 rows, the returned array is 3 columns by 1 row.",
         IntroducedInExcelVersion = "2021")]
     internal class IsOmitted : ExcelFunction

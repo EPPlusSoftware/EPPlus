@@ -19,7 +19,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Logical,
-        EPPlusVersion = "7.2",
+        EPPlusVersion = "8.2",
         Description = "Returns a calculated array of a specified row and column size, by applying a LAMBDA",
         IntroducedInExcelVersion = "2021")]
     internal class MakeArray : ExcelFunction
