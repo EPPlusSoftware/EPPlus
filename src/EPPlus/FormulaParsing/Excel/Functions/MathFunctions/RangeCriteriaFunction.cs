@@ -196,9 +196,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return result;
         }
-        protected static Queue<FormulaRangeAddress> EnqueueMatchingAddresses(IRangeInfo valueRange, IEnumerable<int> matchIndexes)
+        protected static Queue<FormulaRangeAddress> EnqueueMatchingAddresses(IRangeInfo valueRange, IEnumerable<int> matchIndexes, ref Queue<FormulaRangeAddress> addresses)
         {
-            Queue<FormulaRangeAddress> addresses = new Queue<FormulaRangeAddress>();
+            if(addresses==null)
+            {
+                addresses=new Queue<FormulaRangeAddress>();
+            }
             var pIx = int.MinValue;
             var valueAddress = valueRange.GetAddressDimensionAdjusted(0);
             var extRef = valueAddress.ExternalReferenceIx;
@@ -243,12 +246,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
             return addresses;
         }
-        protected IEnumerable<int> GetMatchingIndicesFromArguments(int argStartIx, IList<CompileResult> args)
+        protected IEnumerable<int> GetMatchingIndicesFromArguments(int argStartIx, IList<CompileResult> args, int maxIndex=31)
         {
             //Return the addresses matching the criteria in the queue
             var argRanges = new List<RangeOrValue>();
             var criteria = new List<object>();
-            for (var ix = argStartIx; ix < 31; ix += 2)
+            for (var ix = argStartIx; ix < maxIndex; ix += 2)
             {
                 if (args.Count <= ix) break;
                 var arg = args[ix];
