@@ -33,7 +33,8 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.Filters
                 {
                     var ix = p.PageFieldSettings.SelectedItem;
                     if (ix < 0 || ix > p.Items.Count) return false;
-                    if(ix.Equals(recs.CacheItems[p.Index][r])==false)
+                    var cacheIx = p.Items[ix].X; 
+                    if(cacheIx.Equals(recs.CacheItems[p.Index][r])==false)
                     {
                         return true; //The item is hidden
                     }
