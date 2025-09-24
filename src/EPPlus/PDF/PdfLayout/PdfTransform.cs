@@ -28,7 +28,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 }
                 else
                 {
-                    LocalPosition = Parent.GetWorldMatrix().Inverse() * value;
+                    LocalPosition = value * Parent.GetWorldMatrix().Inverse();
                 }
             }
         }
@@ -183,7 +183,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 worldPos = child.Position;
                 child.Parent.RemoveChild(child);
                 var parentInverse = this.GetWorldMatrix().Inverse();
-                child.LocalPosition = parentInverse * worldPos;
+                child.LocalPosition = worldPos * parentInverse;
             }
             if (!ChildObjects.Contains(child))
             {
@@ -212,12 +212,12 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
         public Vector2 TransformPointToLocal(Vector2 point)
         {
-            return (GetWorldMatrix().Inverse()) * point;
+            return point * (GetWorldMatrix().Inverse());
         }
 
         public Vector2 TransformPointToWorld(Vector2 point)
         {
-            return (GetWorldMatrix()) * point;
+            return point * (GetWorldMatrix());
         }
 
         public Matrix3x3 GetLocalMatrix()
@@ -225,18 +225,18 @@ namespace OfficeOpenXml.PDF.PdfLayout
             var scale = Matrix3x3.Scaling(LocalScale.X, LocalScale.Y);
             var rotation = Matrix3x3.Rotation(LocalRotation);
             var translation = Matrix3x3.Translation(LocalPosition.X, LocalPosition.Y);
-            return translation * rotation * scale;
+            return scale * rotation * translation;
         }
 
         public Matrix3x3 GetWorldMatrix()
         {
-            return Parent != null ? Parent.GetWorldMatrix() * GetLocalMatrix() : GetLocalMatrix();
+            return Parent != null ? GetLocalMatrix() * Parent.GetWorldMatrix() : GetLocalMatrix();
         }
 
         public PdfRect GetGlobalBoundingbox()
         {
             var worldMatrix = GetWorldMatrix();
-            var corners = new[] { new Vector2(0, 0), new Vector2(Size.X, 0), new Vector2(0, Size.Y), new Vector2(Size.X, Size.Y) }.Select(p => worldMatrix * p);
+            var corners = new[] { new Vector2(0, 0), new Vector2(Size.X, 0), new Vector2(0, Size.Y), new Vector2(Size.X, Size.Y) }.Select(p => p * worldMatrix);
             var minX = corners.Min(p => p.X);
             var minY = corners.Min(p => p.Y);
             var maxX = corners.Max(p => p.X);

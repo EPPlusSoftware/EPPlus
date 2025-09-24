@@ -20,21 +20,21 @@ namespace OfficeOpenXml.PDF.Math
         public static Matrix3x3 Identity => new Matrix3x3(1,0,0, 0,1,0, 0,0,1);
 
         /// <summary>
-        /// Creates column-major order matrix. [c f i] = [0 0 1]
-        /// [a d g]
-        /// [b e h]
-        /// [c f i]
+        /// Creates matrix
+        /// [a b 0]
+        /// [c d 0]
+        /// [e f 1]
         /// </summary>
-        public Matrix3x3(double A, double B, double D, double E, double G, double H)
+        public Matrix3x3(double A, double B, double C, double D, double E, double F)
         {
             this.A = A;
             this.B = B;
+            this.C = C;
             this.D = D;
             this.E = E;
-            this.G = G;
-            this.H = H;
-            C = 0;
-            F = 0;
+            this.F = F;
+            G = 0;
+            H = 0;
             I = 1;
         }
 
@@ -53,31 +53,19 @@ namespace OfficeOpenXml.PDF.Math
 
         public static Matrix3x3 Invert(Matrix3x3 m) => m.Inverse();
 
-        //public Matrix3x3 Inverse()
-        //{
-        //    //MatrixHelper uses Row-Major order, so we transpose the matrix.
-        //    double[][] matrix = new double[3][] { new double[] { A, B, C }, new double[] { D, E, F }, new double[] { G, H, I } };
-        //    //double[][] matrix = new double[3][] { new double[] { A, D, G }, new double[] { B, E, H }, new double[] { C, F, I } };
-        //    var inverse = MatrixHelper.Inverse(matrix);
-        //    //Return the transposed result so we get Column-Major matrix.
-        //    return new Matrix3x3(inverse[0][0], inverse[1][0], inverse[2][0], inverse[0][1], inverse[1][1], inverse[2][1], inverse[0][2], inverse[1][2], inverse[2][2]);
-        //    //return new Matrix3x3(inverse[0][0], inverse[0][1], inverse[0][2], inverse[1][0], inverse[1][1], inverse[1][2], inverse[2][0], inverse[2][1], inverse[2][2]);
-        //}
-
         public Matrix3x3 Inverse()
         {
-            // Convert from column-major to row-major
             double[][] matrix = new double[3][]
             {
-                new double[] { A, D, G },
-                new double[] { B, E, H },
-                new double[] { C, F, I }
+                new double[] { A, B, G },
+                new double[] { C, D, H },
+                new double[] { E, F, I }
             };
             var inverse = MatrixHelper.Inverse(matrix);
-            // Convert back to column-major
             return new Matrix3x3(
-                inverse[0][0], inverse[1][0], inverse[2][0],
-                inverse[0][1], inverse[1][1], inverse[2][1],
+                inverse[0][0], inverse[0][1],
+                inverse[1][0], inverse[1][1],
+                inverse[2][0], inverse[2][1],
                 inverse[0][2], inverse[1][2], inverse[2][2]
             );
         }
@@ -94,50 +82,36 @@ namespace OfficeOpenXml.PDF.Math
             return new Matrix3x3(cos, sin, -sin, cos, 0, 0);
         }
 
-        //public static Matrix3x3 operator *(Matrix3x3 M1, Matrix3x3 M2)
-        //{
-        //    //MatrixHelper uses Row-Major order, so we transpose the matrices.
-        //    //double[][] a = new double[3][] { new double[] { M1.A, M1.B, M1.C }, new double[] { M1.D, M1.E, M1.F }, new double[] { M1.G, M1.H, M1.I } };
-        //    //double[][] b = new double[3][] { new double[] { M2.A, M2.B, M2.C }, new double[] { M2.D, M2.E, M2.F }, new double[] { M2.G, M2.H, M2.I } };
-        //    double[][] a = new double[3][] { new double[] { M1.A, M1.D, M1.G }, new double[] { M1.B, M1.E, M1.H }, new double[] { M1.C, M1.F, M1.I } };
-        //    double[][] b = new double[3][] { new double[] { M2.A, M2.D, M2.G }, new double[] { M2.B, M2.E, M2.H }, new double[] { M2.C, M2.F, M2.I } };
-        //    var result = MatrixHelper.Multiply(a, b);
-        //    //Return the transposed result so we get Column-Major matrix.
-        //    return new Matrix3x3(result[0][0], result[1][0], result[2][0], result[0][1], result[1][1], result[2][1], result[0][2], result[1][2], result[2][2]);
-        //    //return new Matrix3x3(result[0][0], result[0][1], result[0][2], result[1][0], result[1][1], result[1][2], result[2][0], result[2][1], result[2][2]);
-        //}
-
-        public static Matrix3x3 operator *(Matrix3x3 M1, Matrix3x3 M2)
+        public static Matrix3x3 operator* (Matrix3x3 M1, Matrix3x3 M2)
         {
-            // Convert both to row-major
             double[][] a = new double[3][]
             {
-                new double[] { M1.A, M1.D, M1.G },
-                new double[] { M1.B, M1.E, M1.H },
-                new double[] { M1.C, M1.F, M1.I }
+                new double[] { M1.A, M1.B, M1.G },
+                new double[] { M1.C, M1.D, M1.H },
+                new double[] { M1.E, M1.F, M1.I }
             };
             double[][] b = new double[3][]
             {
-                new double[] { M2.A, M2.D, M2.G },
-                new double[] { M2.B, M2.E, M2.H },
-                new double[] { M2.C, M2.F, M2.I }
+                new double[] { M2.A, M2.B, M2.G },
+                new double[] { M2.C, M2.D, M2.H },
+                new double[] { M2.E, M2.F, M2.I }
             };
             var result = MatrixHelper.Multiply(a, b);
-            // Convert back to column-major
             return new Matrix3x3
             (
-                result[0][0], result[1][0], result[2][0],
-                result[0][1], result[1][1], result[2][1],
+                result[0][0], result[0][1],
+                result[1][0], result[1][1],
+                result[2][0], result[2][1],
                 result[0][2], result[1][2], result[2][2]
             );
         }
 
-        public static Vector2 operator *(Matrix3x3 M, Vector2 V)
+        public static Vector2 operator* ( Vector2 V, Matrix3x3 M)
         {
             return new Vector2
             (
-                M.A * V.X + M.D * V.Y + M.G,
-                M.B * V.X + M.E * V.Y + M.H
+                M.A * V.X + M.C * V.Y + M.E,
+                M.B * V.X + M.D * V.Y + M.F
             );
         }
     }

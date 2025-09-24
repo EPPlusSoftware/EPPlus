@@ -1,9 +1,11 @@
-﻿using OfficeOpenXml.PDF.PdfGraphics;
+﻿using OfficeOpenXml.PDF.Math;
+using OfficeOpenXml.PDF.PdfGraphics;
+using OfficeOpenXml.PDF.PdfSettings;
 using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
-    internal class PdfCellBorderLayout : PdfTransform
+    internal class PdfCellBorderLayout : PdfTransform, ILayout
     {
         public PdfCellBordersData BorderData;
 
@@ -28,6 +30,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 BorderData.DiagonalDown.BorderStyle = cell.Style.Border.DiagonalDown ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
                 BorderData.DiagonalDown.BorderColor = new PdfColor(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
             }
+        }
+
+        public void ConvertCoordinates(PdfPageSettings pageSettings)
+        {
+            LocalPosition = new Vector2(LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(LocalPosition.Y));
         }
     }
 }

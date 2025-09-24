@@ -1,13 +1,14 @@
 ﻿using OfficeOpenXml.PDF.Math;
 using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.PdfResources;
+using OfficeOpenXml.PDF.PdfSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
-    internal class PdfCellLayout : PdfTransform
+    internal class PdfCellLayout : PdfTransform, ILayout
     {
         public PdfCellFillData CellFillData;
 
@@ -83,6 +84,12 @@ namespace OfficeOpenXml.PDF.PdfLayout
         {
             Size = new Vector2(Size.X + GridLine.HalfWidth, Size.Y + GridLine.HalfWidth);
             LocalPosition = new Vector2(LocalPosition.X + GridLine.FourthWidth, LocalPosition.Y + GridLine.HalfWidth + GridLine.FourthWidth);
+        }
+
+        public void ConvertCoordinates(PdfPageSettings pageSettings)
+        {
+            LocalPosition = new Vector2(LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(LocalPosition.Y));
+            //Convert other coordinates such as gradients
         }
     }
 }

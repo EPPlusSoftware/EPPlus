@@ -180,7 +180,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 foreach (var child in contentObjects)
                 {
                     page.AddChild(child);
-                    child.LocalPosition = new Vector2(child.LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(child.LocalPosition.Y));
+                    if (child is ILayout il)
+                        il.ConvertCoordinates(pageSettings);
                 }
                 page.RemoveChild(page.ChildObjects[0]);
                 page.GenerateGridLines();
@@ -202,7 +203,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     }
                     if (child is PdfCellContentLayout contentLayout)
                     {
-                        contentLayout.CreatetClippingRect(page.ChildObjects);
+                        contentLayout.CreateClippingRect(page.ChildObjects);
                     }
                 }
                 //Sort by Z ascending and the by Name descending

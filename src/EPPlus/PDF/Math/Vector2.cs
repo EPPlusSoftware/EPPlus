@@ -5,6 +5,8 @@
         public double X { get; set; } = 0;
         public double Y { get; set; } = 0;
 
+        public const double Z = 1; //Z is always 1 in pdf.
+
         public Vector2() { }
 
         public Vector2(double x, double y)

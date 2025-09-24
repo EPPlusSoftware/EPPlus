@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace OfficeOpenXml.PDF.PdfLayout
 {
-    internal class PdfCellContentLayout : PdfTransform
+    internal class PdfCellContentLayout : PdfTransform, ILayout
     {
         public PdfCellFontData FontData;
         public PdfCellAlignmentData CellAlignmentData;
@@ -137,7 +137,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         }
 
         //Create clipping rectangle.
-        internal void CreatetClippingRect(List<PdfTransform> cells)
+        internal void CreateClippingRect(List<PdfTransform> cells)
         {
             if (Clip)
             {
@@ -153,6 +153,12 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     };
                 }
             }
+        }
+
+        public void ConvertCoordinates(PdfPageSettings pageSettings)
+        {
+            LocalPosition = new Vector2(LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(LocalPosition.Y));
+            //Convert other coordinates
         }
     }
 }
