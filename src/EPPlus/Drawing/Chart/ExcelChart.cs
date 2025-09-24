@@ -1141,6 +1141,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
         internal override void SaveDrawing(bool hasLoadedPivotTables)
         {
+            TextBody.SaveTextBody();
             base.SaveDrawing(hasLoadedPivotTables);
 
             var chartStream = Part.GetStream(FileMode.Create, FileAccess.Write);

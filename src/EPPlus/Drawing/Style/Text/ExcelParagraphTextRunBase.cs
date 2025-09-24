@@ -36,7 +36,13 @@ namespace OfficeOpenXml.Drawing
             SchemaNodeOrder = ["rPr", "pPr", "t"];
             _paragraph = paragraph;
             _prd = _paragraph._prd;
+
+            if(paragraph.DefaultRunProperties != null)
+            {
+
+            }
         }
+
         internal ExcelDrawingParagraph Paragraph { get => _paragraph; }
         /// <summary>
         /// The type of text run

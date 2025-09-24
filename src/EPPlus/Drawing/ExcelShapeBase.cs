@@ -225,7 +225,9 @@ namespace OfficeOpenXml.Drawing
                     XmlNode node = TopNode.SelectSingleNode(_paragraphPath, NameSpaceManager);
                     if (node == null)
                     {
-                        Text = "";    //Creates the node p element
+                        //Creates the node p element without adding a paragraph item
+                        TextBody.Paragraphs.CreateParagraphPlaceHolder();
+                        //Text = "";    //Creates the node p element
                         node = TopNode.SelectSingleNode(_paragraphPath, NameSpaceManager);
                     }
                     _font = new ExcelTextFontXml(_drawings, NameSpaceManager, TopNode, _fontPath, SchemaNodeOrder);
@@ -301,7 +303,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_richText == null)
                 {
-                    _richText = new ExcelParagraphCollection(TextBody, this, NameSpaceManager, TopNode, _paragraphPath, SchemaNodeOrder);
+                     _richText = new ExcelParagraphCollection(TextBody, this, NameSpaceManager, TopNode, _paragraphPath, SchemaNodeOrder);
                 }
                 return _richText;
             }
@@ -607,6 +609,10 @@ namespace OfficeOpenXml.Drawing
         internal override void SaveDrawing(bool hasLoadedPivotTables)
         {
             base.SaveDrawing(hasLoadedPivotTables);
+            if(_textBody != null)
+            {
+                _textBody.SaveTextBody();
+            }
             //if(_richText != null)
             //{
             //    //We set the end run after the user has set all properties for all given runs

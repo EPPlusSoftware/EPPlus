@@ -39,7 +39,16 @@ namespace OfficeOpenXml.Style
             _textBody = tb;
             _defaultFontSize = defaultFontSize;
             AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef","rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount","pt","pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont","buNone", "buAutoNum", "buChar","buBlip", "tabLst","defRPr", "r","br","fld" ,"endParaRPr" });
-            _defaultFont = new ExcelTextFontXml(drawing._drawings, ns, TopNode, path+ "/a:pPr/a:defRPr", schemaNodeOrder);
+            
+            var tfXml = new ExcelTextFontXml(drawing._drawings, ns, TopNode, path + "/a:pPr/a:defRPr", schemaNodeOrder);
+            if(tfXml.XmlHelper.TopNode.LocalName != "defRPr")
+            {
+                var placeHolderNode = tb.Paragraphs.CreateAndReturnParagraphPlaceHolder();
+                tfXml.XmlHelper.TopNode = placeHolderNode;
+            }
+
+            _defaultFont = tfXml;
+
             _path = path;
             foreach(var p in tb.Paragraphs)
             {

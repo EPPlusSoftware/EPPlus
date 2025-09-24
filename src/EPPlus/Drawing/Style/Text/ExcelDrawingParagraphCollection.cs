@@ -65,16 +65,50 @@ namespace OfficeOpenXml.Drawing
         /// <returns></returns>
         public ExcelDrawingParagraph Add(string text)
         {
-            if(_paragraphs.Count==0)
+            XmlNode pn = placeHolderNode;
+            if (_paragraphs.Count == 0 && pn == null)
             {
                 CreateTopNode();
             }
-            var pn = CreateNode("a:p", false, true);
+
+            if (pn == null)
+            {
+                pn = CreateNode("a:p", false, true);
+            }
+
             var p = new ExcelDrawingParagraph(this, _prd, NameSpaceManager, pn, SchemaNodeOrder, _initXml);
             var tr = p.TextRuns.Add(text);
             _paragraphs.Add(p);
             //_addCallback?.Invoke(tr);
+            if(placeHolderNode != null)
+            {
+                placeHolderNode = null;
+            }
             return p;
+        }
+
+        XmlNode placeHolderNode = null;
+
+        internal void CreateParagraphPlaceHolder()
+        {
+            if(placeHolderNode == null)
+            {
+                if (_paragraphs.Count == 0)
+                {
+                    CreateTopNode();
+                }
+                var pn = CreateNode("a:p", false, true);
+                placeHolderNode = pn;
+            }
+        }
+
+        internal XmlNode CreateAndReturnParagraphPlaceHolder()
+        {
+            if(placeHolderNode == null)
+            {
+                CreateParagraphPlaceHolder();
+            }
+            return placeHolderNode;
         }
         /// <summary>
         /// Removes the item at the index from the collection

@@ -2879,6 +2879,7 @@ namespace OfficeOpenXml.Drawing
         internal virtual void SaveDrawing(bool hasLoadedPivotTables)
         {
             //Individual drawings that require certain saving actions do so by overriding this
+            
         }
     }
 }

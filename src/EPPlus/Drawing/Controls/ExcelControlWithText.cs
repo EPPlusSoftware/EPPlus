@@ -122,5 +122,11 @@ namespace OfficeOpenXml.Drawing.Controls
                 return _textBody;
             }
         }
+
+        internal override void SaveDrawing(bool hasLoadedPivotTables)
+        {
+            TextBody.SaveTextBody();
+            base.SaveDrawing(hasLoadedPivotTables);
+        }
     }
 }

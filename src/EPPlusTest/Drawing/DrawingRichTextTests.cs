@@ -151,9 +151,9 @@ namespace EPPlusTest.Drawing
                     shp.TextBody.TextAutofit = eTextAutofit.ShapeAutofit;
                     shp.TextBody.Anchor = eTextAnchoringType.Top;
                     Assert.AreEqual(0, shp.RichText.Count);
-                    var pg1 = shp.TextBody.Paragraphs[0];
+                    var pg1 = shp.TextBody.Paragraphs.Add("Paragraph");
                     pg1.HorizontalAlignment = eTextAlignment.Center;
-                    var tr1 = pg1.TextRuns.Add("Paragraph");
+                    var tr1 = pg1.TextRuns[0];
                     var tr2 = pg1.TextRuns.Add(" 1");
                     tr1.Fill.Color = Color.Green;
                     tr2.Fill.Color = Color.Red;

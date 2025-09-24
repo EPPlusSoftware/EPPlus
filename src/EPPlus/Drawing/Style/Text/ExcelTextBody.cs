@@ -454,5 +454,17 @@ namespace OfficeOpenXml.Drawing
                 return _paragraphs;
             }
         }
+        /// <summary>
+        /// Excel always creates textbodies with an empty paragraph if none exist.
+        /// We add one on save to avoid confusing the user
+        /// As otherwise there would always be a dummy paragraph at Paragraph[0]
+        /// </summary>
+        internal void SaveTextBody()
+        {
+            if (Paragraphs.Count == 0)
+            {
+                Paragraphs.Add("");
+            }
+        }
     }
 }

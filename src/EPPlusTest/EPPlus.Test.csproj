@@ -48,6 +48,9 @@
 		<Compile Update="Core\RichDataTests.cs">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Compile>
+		<Compile Update="Drawing\Style\DrawingParagraphTests.cs">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Compile>
 		<Compile Update="Filter\ValueFilterTest.cs" />
 		<Compile Update="Filter\DynamicFilterTest.cs" />
 		<Compile Update="Filter\AutoFilterReadWriteTest.cs" />
