@@ -12,6 +12,7 @@ using OfficeOpenXml.FormulaParsing.Ranges;
 using System.Diagnostics;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.FormulaParsing.DependencyChain;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -23,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal static ISourceCodeTokenizer _tokenizer = SourceCodeTokenizer.Default;
         internal static ISourceCodeTokenizer _tokenizerNWS = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true);
         internal IList<Token> Tokens;
-        internal IList<Token> RpnTokens;
+        internal RpnTokens RpnTokens;
         internal int AddressExpressionIndex;
         internal CellStoreEnumerator<object> _formulaEnumerator;
         internal ulong _id=ulong.MinValue;
@@ -254,11 +255,12 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {
                 SetFormula(_ws, Formula);
             }
+            LambdaFormulaSettings lambdaSettings = default;
             if (_compiledExpressions == null)
             {
-                _compiledExpressions = FormulaExecutor.CompileExpressions(ref RpnTokens, depChain._parsingContext);
+                _compiledExpressions = FormulaExecutor.CompileExpressions(ref lambdaSettings, ref RpnTokens, depChain._parsingContext);
             }
-            return new RpnFormula(_ws, row, col)
+            var f = new RpnFormula(_ws, row, col)
             {
                 _tokenIndex = 0,
                 _row = row,
@@ -266,24 +268,31 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 _tokens = RpnTokens,
                 _expressions = CloneExpressions(row, col)
             };
+            if(lambdaSettings != null)
+            {
+                f.LambdaSettings = lambdaSettings;
+            }
+            return f;
         }
         internal RpnFormula GetRpnArrayFormula(RpnOptimizedDependencyChain depChain, int startRow, int startCol, int endRow, int endCol)
         {
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws.IndexInList, startRow, startCol);
-            if (RpnTokens == null)
-            {
-                SetFormula(_ws, Formula);
-            }
+            LambdaFormulaSettings lambdaFormulaSettings = default;
             if (_compiledExpressions == null)
             {
-                _compiledExpressions = FormulaExecutor.CompileExpressions(ref RpnTokens, depChain._parsingContext);
+                _compiledExpressions = FormulaExecutor.CompileExpressions(ref lambdaFormulaSettings, ref RpnTokens, depChain._parsingContext);
             }
-            return new RpnArrayFormula(_ws, startRow, startCol, endRow, endCol)
+            var raf = new RpnArrayFormula(_ws, startRow, startCol, endRow, endCol)
             {
                 _tokenIndex = 0,
                 _tokens = RpnTokens,
                 _expressions = CloneExpressions(startRow, startCol)
             };
+            if(lambdaFormulaSettings != null)
+            {
+                raf.LambdaSettings = lambdaFormulaSettings;
+            }
+            return raf;
         }
 
         private Dictionary<int, Expression> CloneExpressions(int row, int col)

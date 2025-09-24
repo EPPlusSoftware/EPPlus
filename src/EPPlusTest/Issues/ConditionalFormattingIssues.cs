@@ -35,7 +35,6 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
         public void Test1_Input_ExpectedOutput()
         {
             var currentCulture = Thread.CurrentThread.CurrentCulture;

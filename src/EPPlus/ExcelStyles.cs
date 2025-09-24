@@ -557,7 +557,7 @@ namespace OfficeOpenXml
                                     }
                                     else
                                     {
-                                        int r = 0, c = col;
+                                        int c = col;
                                         if ( ws.ColumnLookup.TryGetExcelColumn(c, out ExcelColumn colVal) )
                                         {
                                             c = colVal.ColumnMin;

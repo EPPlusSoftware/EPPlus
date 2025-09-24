@@ -65,7 +65,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         {
             var leftResult = CompileResultFactory.Create(left);
             var rightResult = CompileResultFactory.Create(right);
-            var result = op.Apply(leftResult, rightResult, _parsingContext);
+            var result = op.Apply(leftResult, rightResult, _parsingContext, false);
             if (result.DataType != DataType.Boolean)
             {
                 return false;

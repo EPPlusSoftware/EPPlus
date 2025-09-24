@@ -1,14 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.CodeCoverage.Core.Reports.Coverage;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using System.Xml;
-using System.Linq;
-using System;
-using System.IO;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Table.PivotTable;
-using System.Diagnostics;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Data;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Xml;
 
 namespace EPPlusTest.Issues
 {
@@ -563,6 +565,45 @@ namespace EPPlusTest.Issues
 
                 Assert.AreEqual(123D ,ws.Cells["C37"].Value);
                 Assert.AreEqual(123D, ws.Cells["D38"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void s993()
+        {
+            using(var pck = OpenTemplatePackage("s993.xlsx"))
+            {
+                var calcOpts = new ExcelCalculationOption
+                {
+                    PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel,
+                    AllowCircularReferences = true,
+                    EnableUnicodeAwareStringOperations = true
+                };
+
+                // Calculate formulas first
+                pck.Workbook.Calculate(calcOpts);
+
+                // Refresh + calculate every pivot once
+                pck.Workbook.CalculateAllPivotTables(refresh: true);
+
+                // Recalculate any formulas that depend on pivot results
+                pck.Workbook.Calculate(calcOpts);
+
+                // Leave workbook in Manual mode and save
+                pck.Workbook.CalcMode = ExcelCalcMode.Manual;
+                SaveAndCleanup(pck);
+            }
+
+            using(var p = OpenPackage("s993.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Data"];
+
+                ws.Calculate();
+
+                // print A1 cell value
+                var cell1 = ws.Cells["A1"].Text;
+
+                Assert.AreEqual("60000", cell1);
             }
         }
     }

@@ -12,9 +12,11 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.Diagnostics;
 using System.Globalization;
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    [DebuggerDisplay("IntegerExpression - {_cachedCompileResult}")]
     internal class IntegerExpression : Expression
     {
         internal IntegerExpression(string tokenValue, ParsingContext ctx) : base(ctx)

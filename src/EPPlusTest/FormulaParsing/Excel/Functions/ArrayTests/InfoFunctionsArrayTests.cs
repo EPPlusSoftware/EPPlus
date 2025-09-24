@@ -111,9 +111,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 sheet.Cells["A3"].Value = ErrorValues.Div0Error;
                 sheet.Cells["B1:B3"].CreateArrayFormula("ISNA(A1:A3)");
                 sheet.Calculate();
-                Assert.IsTrue((bool)sheet.Cells["B1"].Value);
-                Assert.IsFalse((bool)sheet.Cells["B2"].Value);
-                Assert.IsFalse((bool)sheet.Cells["B3"].Value);
+                Assert.IsTrue((bool)sheet.Cells["B1"].Value, "Cell B1 did not have the boolean value true as expected");
+                Assert.IsFalse((bool)sheet.Cells["B2"].Value, "Cell B2 did not have the boolean value false as expected");
+                Assert.IsFalse((bool)sheet.Cells["B3"].Value, "Cell B3 did not have the boolean value false as expected");
             }
         }
 
@@ -128,9 +128,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 sheet.Cells["A3"].Value = 1;
                 sheet.Cells["B1:B3"].CreateArrayFormula("ISNONTEXT(A1:A3)");
                 sheet.Calculate();
-                Assert.IsTrue((bool)sheet.Cells["B1"].Value);
-                Assert.IsFalse((bool)sheet.Cells["B2"].Value);
-                Assert.IsTrue((bool)sheet.Cells["B3"].Value);
+                Assert.IsTrue((bool)sheet.Cells["B1"].Value, "Cell B1 did not have the boolean value true as expected");
+                Assert.IsFalse((bool)sheet.Cells["B2"].Value, "Cell B2 did not have the boolean value false as expected");
+                Assert.IsTrue((bool)sheet.Cells["B3"].Value, "Cell B3 did not have the boolean value true as expected");
             }
         }
 

@@ -1,4 +1,23 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.2.0
+### Features
+Added support for 8 new LAMBDA-based functions in workbook calculations. See [Using LAMBDA functions](https://github.com/EPPlusSoftware/EPPlus/wiki/Using-LAMBDA-functions):
+  * `LAMBDA`
+  * `MAKEARRAY`
+  * `SCAN`
+  * `MAP`
+  * `REDUCE`
+  * `BYROW`
+  * `BYCOL`
+  * `ISOMITTED`
+* Support for defining LAMBDA functions via defined names.
+* Added new properties: `TabRatio`, `Visibility`, and `FirstSheet` to the `ExcelWorkbookView` class.
+
+### Minor Features & Fixed Issues
+* The `GETPIVOTDATA` function sometimes returned an incorrect `#REF!` error.
+* The `Underline` property of the `ExcelComment.Font` object incorrectly returned `false` when it should have returned `true`.
+* The `FreezePanes` function did not handle hidden rows correctly in all cases.
+
 ## Version 8.1.1
 * The `SUMIF`, `SUMIFS`, and `AVERAGEIF` functions could return invalid addresses in the dependency chain, causing some dependent cells not to recalculate correctly.  
 * The `RichText.HtmlText` returned incorrectly encoded text when the input contained newline characters.  

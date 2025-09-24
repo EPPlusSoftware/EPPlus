@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     var rv = new RangeOrValue { Range = criteriaRange };                    
                     var  mi=GetMatchIndexes(rv, args[1].Result, null);
-                    addresses = EnqueueMatchingAddresses(valueRange, mi);
+                    addresses = EnqueueMatchingAddresses(valueRange, mi, ref addresses);
                 }
             }
         }

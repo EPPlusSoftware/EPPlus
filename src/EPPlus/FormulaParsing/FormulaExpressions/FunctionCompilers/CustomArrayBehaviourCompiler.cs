@@ -48,9 +48,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             for(var ix = 0; ix < children.Count(); ix++)
             {
                 var cr = children.ElementAt(ix);
-                if(cr.DataType == DataType.ExcelRange && Function.ArrayBehaviourConfig.CanBeArrayArg(ix))
+                if(cr.DataType == DataType.ExcelRange && Function.ArrayBehaviourConfig.CanBeArrayArg(ix) && (cr.Result is IRangeInfo || cr.Result is FormulaRangeAddress))
                 {
                     var range = cr.Result as IRangeInfo;
+                    if(range == null && cr.Result is FormulaRangeAddress fra)
+                    {
+                        range = new RangeInfo(fra);
+                    }
                     rangeArgs[ix] = range;
 
                     //OLD CODE left below in case otherArgs becomes a problem later. Range args when NCells == 1 is
@@ -67,6 +71,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                 }
                 else
                 {
+                    if(cr.DataType == DataType.ExcelRange)
+                    {
+                        cr = CompileResultFactory.Create(cr.Result);
+                    }
                     otherArgs[ix] = cr;
                 }
             }
@@ -146,6 +154,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                         else
                         {
                             var arg = otherArgs[argIx];
+                            if(arg.DataType == DataType.LambdaCalculation)
+                            {
+                                var calculator = arg.ResultValue as LambdaCalculator;
+                                calculator.BeginCalculation();
+                                calculator.ResetVariables();
+                            }
                             argList.Add(new FunctionArgument(arg));
                         }
                     }

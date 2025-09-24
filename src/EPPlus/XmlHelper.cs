@@ -1472,7 +1472,10 @@ namespace OfficeOpenXml
                     return ExcelRichText.GetUnderlineType(n.Attributes["val"].Value);
                 }
             }
-            val = false;
+            else
+            {
+                val = false;
+            }                
             return ExcelUnderLineType.None;
         }
 

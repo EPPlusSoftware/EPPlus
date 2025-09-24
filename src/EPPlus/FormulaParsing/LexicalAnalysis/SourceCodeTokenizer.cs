@@ -365,6 +365,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             else if (c == ')')
                             {
                                 paranthesesCount--;
+
                             }
                             else if (c == '[' && (pc != '\'' || (flags & statFlags.isLastCharQuote) == 0))
                             {
@@ -688,6 +689,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         if ((c == ':' || (l.Count > 0 && l[l.Count - 1] == _charTokens[':'])) && ExcelCellBase.IsColumnLetter(currentString))   //We have a full column address
                         {
                             l.Add(new Token(currentString, TokenType.FullColumnAddress));
+                        }
+                        else if(currentString?.StartsWith("_xleta.") ?? false)
+                        {
+                            l.Add(new Token(currentString, TokenType.EtaReducedLambda));
                         }
                         else
                         {

@@ -12,9 +12,11 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.Diagnostics;
 using System.Globalization;
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    [DebuggerDisplay("DecimalExpression - {_cachedCompileResult}")]
     internal class DecimalExpression : Expression
     {
         internal DecimalExpression(string tokenValue, ParsingContext ctx) : base(ctx)
