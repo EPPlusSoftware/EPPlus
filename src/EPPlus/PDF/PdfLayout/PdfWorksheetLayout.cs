@@ -9,7 +9,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfWorksheetLayout : PdfTransform
     {
-        public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources, Dictionary<string, PdfPatternResource> patternResources)
+        public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
         {
             double x = 0d, y = 0d, totalWidth = 0d;
             List<string> checkedMergedCells = new List<string>();
@@ -25,11 +25,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     var cell = worksheet.Cells[row, col];
                     if (cell.Merge)
                     {
-                        HandleMergedCell(worksheet, pageSettings, fontResources, cell, checkedMergedCells, x, y);
+                        HandleMergedCell(worksheet, pageSettings, dictionaries, cell, checkedMergedCells, x, y);
                     }
                     else
                     {
-                        HandleCell(pageSettings, fontResources, patternResources, cell, x, y, width, height);
+                        HandleCell(pageSettings, dictionaries, cell, x, y, width, height);
                     }
                     HandleBorders(worksheet, cell, x, y, width, height);
                     x += width;
@@ -42,18 +42,18 @@ namespace OfficeOpenXml.PDF.PdfLayout
         }
 
         //Create cell.
-        private void HandleCell(PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources, Dictionary<string, PdfPatternResource> patternResources, ExcelRangeBase cell, double x, double y, double width, double height)
+        private void HandleCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height)
         {
             //We add empty cells for gridline calculation later. We just marked them for deletion by addng * to their name.
             string deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol) ? "" : "*";
-            var cl0 = new PdfCellLayout(patternResources, cell, x, y, width, height, 1, 1, 0, this);
+            var cl0 = new PdfCellLayout(dictionaries, cell, x, y, width, height, 1, 1, 0, this);
             cl0.Name = cell.Address + deleteMark;
             cl0.Z = 1;
-            AddCellContent(pageSettings, fontResources, cell, x, y, width, height, 2);
+            AddCellContent(pageSettings, dictionaries, cell, x, y, width, height, 2);
         }
 
         //Create merged cell.
-        private void HandleMergedCell(ExcelWorksheet worksheet, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources, ExcelRangeBase cell, List<string> checkedMergedCells, double x, double y)
+        private void HandleMergedCell(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, List<string> checkedMergedCells, double x, double y)
         {
             string mergeAddress = worksheet.MergedCells[cell.Start.Row, cell.Start.Column];
             if (!checkedMergedCells.Contains(mergeAddress))
@@ -71,17 +71,17 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 var mergedCell = AddChild(new PdfMergedCellLayout(worksheet.Cells[address._fromRow, address._fromCol], x, y, width, height));
                 mergedCell.Name = cell.Address;
                 mergedCell.Z = 5;
-                AddCellContent(pageSettings, fontResources, cell, x, y, width, height, 6);
+                AddCellContent(pageSettings, dictionaries, cell, x, y, width, height, 6);
                 checkedMergedCells.Add(mergeAddress);
             }
         }
 
         //Create content.
-        private void AddCellContent(PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources, ExcelRangeBase cell, double x, double y, double width, double height, int zOrder)
+        private void AddCellContent(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, int zOrder)
         {
             if (!string.IsNullOrEmpty(cell.Text))
             {
-                var cellContent = new PdfCellContentLayout(cell, pageSettings, x, y, width, height, 1, 1, 0, this, fontResources);
+                var cellContent = new PdfCellContentLayout(cell, pageSettings, x, y, width, height, 1, 1, 0, this, dictionaries);
                 cellContent.Name = cell.Address;
                 cellContent.Z = zOrder;
             }

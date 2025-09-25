@@ -10,25 +10,25 @@ namespace OfficeOpenXml.PDF.PdfLayout
 {
     internal class PdfCatalogLayout : PdfTransform
     {
-        public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources)
+        public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
             : base(0, 0, 0, 0)
         {
         }
 
-        public PdfCatalogLayout(ExcelWorkbook workbook, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources)
+        public PdfCatalogLayout(ExcelWorkbook workbook, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
             : base(0, 0, 0, 0)
         {
         }
 
-        public PdfCatalogLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources, Dictionary<string, PdfPatternResource> patternResources)
+        public PdfCatalogLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
             : base(0, 0, 0, 0)
         {
             this.Name = worksheet.Name + " Catalog";
-            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, fontResources, patternResources));
+            var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, dictionaries));
             var PagesLayout = CreatePagesLayoutObject();
             CreatePageLayoutObjects(worksheet, pageSettings, WorksheetLayout, PagesLayout);
             AddCellsToPageLayout(WorksheetLayout, PagesLayout);
-            HandleMergedCellsAndDrawings(pageSettings, fontResources, WorksheetLayout, PagesLayout);
+            HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
             ConvertToPDFCoordiantes(pageSettings, PagesLayout);
             AdjustAndSort(PagesLayout);
             RemoveChild(WorksheetLayout);
@@ -133,7 +133,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         }
 
         //Handle merged cells and drawings by checking which pages intersects with them and then make copies for each page.
-        private void HandleMergedCellsAndDrawings(PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fontResources, PdfTransform WorksheetLayout, PdfPagesLayout pages)
+        private void HandleMergedCellsAndDrawings(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfTransform WorksheetLayout, PdfPagesLayout pages)
         {
             var mcd = WorksheetLayout.ChildObjects.Where(x => x is PdfMergedCellLayout || x is PdfCellContentLayout || x is PdfDrawingLayout).ToList();
             foreach (var mergedCell in mcd)
@@ -155,7 +155,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                         }
                         else if (c is PdfCellContentLayout)
                         {
-                            var copy = new PdfCellContentLayout(c.cell, pageSettings, c.LocalPosition.X, c.LocalPosition.Y, c.Size.X, c.Size.Y, c.LocalScale.X, c.LocalScale.Y, c.LocalRotation, WorksheetLayout, fontResources);
+                            var copy = new PdfCellContentLayout(c.cell, pageSettings, c.LocalPosition.X, c.LocalPosition.Y, c.Size.X, c.Size.Y, c.LocalScale.X, c.LocalScale.Y, c.LocalRotation, WorksheetLayout, dictionaries);
                             copy.Name = c.Name;
                             copy.Z = c.Z;
                             page.ChildObjects[0].AddChild(copy);

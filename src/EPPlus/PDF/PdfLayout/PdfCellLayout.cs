@@ -13,7 +13,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
     {
         public PdfCellFillData CellFillData;
 
-        public PdfCellLayout(Dictionary<string, PdfPatternResource> patternResources, ExcelRangeBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
+        public PdfCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
             :base(x, y, width, height, scaleX, scaleY, rotation, parent )
         {
             if (cell != null)
@@ -52,7 +52,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
                             CellFillData.GradientFillData.Left = double.IsNaN(fill.Gradient.Left) ? x : fill.Gradient.Left;
                             CellFillData.GradientFillData.Right = double.IsNaN(fill.Gradient.Right) ? x + width : fill.Gradient.Right;
                             //CellFillData.GradientFillData.matrix = [width, 0d, 0d, height, x, y];
-                            CellFillData.GradientFillData.id = AddPatternResourceData(patternResources, CellFillData.GradientFillData.ToString());
+                            //CellFillData.GradientFillData.id = AddPatternResourceData(dictionaries.Patterns, CellFillData.GradientFillData.ToString());
+                            CellFillData.GradientFillData.id = AddShadingResourceData(dictionaries.Shadings, CellFillData.GradientFillData.ToString());
                         }
                     }
                     catch(InvalidCastException)
@@ -81,6 +82,21 @@ namespace OfficeOpenXml.PDF.PdfLayout
             return key;
         }
 
+        private string AddShadingResourceData(Dictionary<string, PdfShadingResource> shadingResources, string key)
+        {
+            if (!shadingResources.ContainsKey(key))
+            {
+                int label = 1;
+                if (shadingResources.Count > 0)
+                {
+                    label = shadingResources.Last().Value.labelNumber + 1;
+                }
+                var pr = new PdfShadingResource(label, CellFillData.GradientFillData);
+                shadingResources.Add(key, pr);
+            }
+            return key;
+        }
+
         //Adjust size and position slightly for aesthetics.
         public void AdjustForGridLines()
         {
@@ -96,11 +112,45 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 var rad = -CellFillData.GradientFillData.Degree * System.Math.PI / 180d;
                 double cos = System.Math.Cos(rad);
                 double sin = System.Math.Sin(rad);
-                double a = Size.X * cos;
-                double b = Size.X * sin;
-                double c = -Size.Y * sin;
-                double d = Size.Y * cos;
-                CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X, LocalPosition.Y];
+                //Setting matrix in pattern object
+                //double a = Size.X * cos;
+                //double b = Size.X * sin;
+                //double c = -Size.Y * sin;
+                //double d = Size.Y * cos;
+                //if (CellFillData.GradientFillData.Degree == 0)
+                //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X, LocalPosition.Y];
+                //else if (CellFillData.GradientFillData.Degree == 45)
+                //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X, LocalPosition.Y + Size.Y];
+                //else if (CellFillData.GradientFillData.Degree == 90)
+                //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X, LocalPosition.Y + Size.Y * 2.5];
+                //else if (CellFillData.GradientFillData.Degree == 135)
+                //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X + Size.X, LocalPosition.Y + Size.Y];
+                //else if (CellFillData.GradientFillData.Degree == 180)
+                //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X + Size.X, LocalPosition.Y + Size.Y];
+                //else if (CellFillData.GradientFillData.Degree == 225)
+                //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X + Size.X, LocalPosition.Y];
+                //else if (CellFillData.GradientFillData.Degree == 270)
+                //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X, LocalPosition.Y - (Size.Y / 2)];
+                //else if (CellFillData.GradientFillData.Degree == 315)
+                //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X, LocalPosition.Y];
+                //Setting Coords in Shading object
+                // Midpoint of the rectangle
+                double cx = LocalPosition.X + Size.X / 2d;
+                double cy = LocalPosition.Y + Size.Y / 2d;
+
+                // Half-diagonal vector along the gradient axis
+                // We use max(w,h) to ensure gradient fully covers rectangle
+                double half = System.Math.Sqrt(Size.X * Size.X + Size.Y * Size.Y) / 2d;
+
+                double dx = cos * half;
+                double dy = sin * half;
+
+                // Coords
+                double x0 = cx - dx;
+                double y0 = cy - dy;
+                double x1 = cx + dx;
+                double y1 = cy + dy;
+                CellFillData.GradientFillData.coords = [x0, y0, x1, y1];
             }
         }
     }

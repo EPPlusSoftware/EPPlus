@@ -1,10 +1,4 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.PDF.PdfGraphics;
-using OfficeOpenXml.PDF.PdfSettings;
-using OfficeOpenXml.PDF.PdfObjects.PdfFunctions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using OfficeOpenXml.PDF.PdfSettings;
 using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfObjects.PdfShadings

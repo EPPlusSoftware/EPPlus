@@ -25,14 +25,15 @@ namespace OfficeOpenXml.PDF.PdfObjects
             commands.Add(command);
         }
 
-        public void AddCellLayout(PdfCellLayout cell, string PatternLabel)
+        public void AddCellLayout(PdfCellLayout cell, string label)
         {
             if (cell.CellFillData.GradientFillData != null)
             {
                 commands.Add("q");
-                commands.Add("/Pattern cs");
-                commands.Add($"/{PatternLabel} scn");
-                commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
+                //commands.Add("/Pattern cs");
+                //commands.Add($"/{PatternLabel} scn");
+                commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re W n");
+                commands.Add($"/{label} sh");
                 commands.Add("f");
                 commands.Add("Q");
             }

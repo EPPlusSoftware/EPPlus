@@ -1,11 +1,6 @@
 ﻿using OfficeOpenXml.PDF.PdfLayout;
 using OfficeOpenXml.PDF.PdfObjects.PdfPatterns;
 using OfficeOpenXml.PDF.PdfObjects.PdfShadings;
-using OfficeOpenXml.Style;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfResources
 {

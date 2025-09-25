@@ -10,28 +10,25 @@ namespace OfficeOpenXml.PDF.PdfObjects
     {
         private readonly int parentObjectNumber;
         internal readonly List<int> contentObjectNumbers;
-        internal readonly Dictionary<string, PdfFontResource> fontResources;
-        internal readonly Dictionary<string, PdfPatternResource> patternResources = new Dictionary<string, PdfPatternResource>();
-        internal readonly Dictionary<string, PdfPatternResource> shadingResources = new Dictionary<string, PdfPatternResource>();
+        PdfDictionaries dictionaries;
         internal PdfPageSize Size;
 
-        public PdfPage(int objectNumber, int parentObjectNumber, List<int> contentObjectNumbers, PdfPageSize size, Dictionary<string, PdfFontResource> fontResources, Dictionary<string, PdfPatternResource> patternResources, int version = 0)
+        public PdfPage(int objectNumber, int parentObjectNumber, List<int> contentObjectNumbers, PdfPageSize size, PdfDictionaries dictionaries, int version = 0)
             : base(objectNumber, version)
         {
             this.parentObjectNumber = parentObjectNumber;
             this.contentObjectNumbers = contentObjectNumbers;
-            this.fontResources = fontResources;
-            this.patternResources = patternResources;
+            this.dictionaries = dictionaries;
             Size = size;
         }
 
         internal override string RenderDictionary()
         {
-            var fontEntries = fontResources.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber} 0 R").ToArray();
+            var fontEntries = dictionaries.Fonts.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber} 0 R").ToArray();
             var fonts = string.Join(" ", fontEntries);
-            var patternEntries = patternResources.Select(p => $"/{p.Value.Label} {p.Value.shadingPatternobjectNumber} 0 R").ToArray();
+            var patternEntries = dictionaries.Patterns.Select(p => $"/{p.Value.Label} {p.Value.shadingPatternobjectNumber} 0 R").ToArray();
             var patterns = string.Join(" ", patternEntries);
-            var shadingEntries = shadingResources.Select(s => $"/{s.Value.Label} {s.Value.shadingPatternobjectNumber} 0 R").ToArray();
+            var shadingEntries = dictionaries.Shadings.Select(s => $"/{s.Value.Label} {s.Value.shadingObjectNumber} 0 R").ToArray();
             var shadings = string.Join(" ", shadingEntries);
             var contentEntries = contentObjectNumbers.Select(con => $"{con} 0 R").ToArray();
             return $"<< /Type /Page\n" +

@@ -19,7 +19,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         private double bottomMargin = 3.4d; //Guessed number
         private double rightMargin = 1.0d; //I guessed this one too..
 
-        public PdfCellContentLayout(ExcelRangeBase cell, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null, Dictionary<string, PdfFontResource> fontResources = null)
+        public PdfCellContentLayout(ExcelRangeBase cell, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null, PdfDictionaries dictionaries = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             FontData = new PdfCellFontData();
@@ -54,7 +54,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             CellAlignmentData.ShrinkToFit = cell.Style.ShrinkToFit; //Need to fix Transform issues and then implement a method that sets scale on the text object.
             CellAlignmentData.TextRotation = cell.Style.TextRotation; //EPPlus does probably not calculate cell width and height after setting rotation on text. So before we make pdf we need to calculate cell width and height based on text rotation
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
-            var ttfont = GetFontResourceData(fontResources, pageSettings);
+            var ttfont = GetFontResourceData(dictionaries.Fonts, pageSettings);
             double textLength = PdfTextData.MeasureText(FontData.Text, FontData.FontSize, ttfont);
             double fontHeight = PdfTextData.MeasureFontHeight(ttfont, FontData.FontSize);
             LocalPosition = CalculatePosition(cell, x, y, width, height, textLength, fontHeight);

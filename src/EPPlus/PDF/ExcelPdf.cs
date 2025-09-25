@@ -21,8 +21,7 @@ namespace OfficeOpenXml.PDF
         private PdfPageSettings PageSettings;
         internal List<PdfObject> Document = new List<PdfObject>();
         internal string header = "%PDF-1.7\n";
-        internal readonly Dictionary<string, PdfFontResource> fontResources = new Dictionary<string, PdfFontResource>();
-        internal readonly Dictionary<string, PdfPatternResource> patternResources = new Dictionary<string, PdfPatternResource>();
+        internal PdfDictionaries Dictionaries = new PdfDictionaries();
 
         /// <summary>
         /// Create a PDF Document from the worksheet and settings.
@@ -75,12 +74,12 @@ namespace OfficeOpenXml.PDF
         //Get font label //need to update this one too for same reasons as AddFontData
         internal string GetFontLabel(string fontName, string subFamily, double fontSize)
         {
-            if (!fontResources.ContainsKey(fontName))
+            if (!Dictionaries.Fonts.ContainsKey(fontName))
             {
                 int label = 1;
-                if (fontResources.Count > 0)
+                if (Dictionaries.Fonts.Count > 0)
                 {
-                    label = fontResources.Last().Value.labelNumber + 1;
+                    label = Dictionaries.Fonts.Last().Value.labelNumber + 1;
                 }
                 PdfFontResource fr = new PdfFontResource(fontName, subFamily, label, PageSettings);
                 if (fontName != "Courier New")
@@ -89,9 +88,9 @@ namespace OfficeOpenXml.PDF
                     Document.Add(fr.GetWidthsObject(Document.Count + 1));
                 }
                 Document.Add(fr.GetFontObject(Document.Count + 1));
-                fontResources.Add(fontName, fr);
+                Dictionaries.Fonts.Add(fontName, fr);
             }
-            return fontResources[fontName].Label;
+            return Dictionaries.Fonts[fontName].Label;
         }
 
         internal string GetPatternLabel(PdfCellLayout layout)
@@ -99,9 +98,22 @@ namespace OfficeOpenXml.PDF
             if (layout.CellFillData.GradientFillData != null)
             {
                 var patternName = layout.CellFillData.GradientFillData.ToString();
-                if (patternResources.ContainsKey(patternName))
+                if (Dictionaries.Patterns.ContainsKey(patternName))
                 {
-                    return patternResources[patternName].Label;
+                    return Dictionaries.Patterns[patternName].Label;
+                }
+            }
+            return null;
+        }
+
+        internal string GetShadingLabel(PdfCellLayout layout)
+        {
+            if (layout.CellFillData.GradientFillData != null)
+            {
+                var shadingName = layout.CellFillData.GradientFillData.ToString();
+                if (Dictionaries.Shadings.ContainsKey(shadingName))
+                {
+                    return Dictionaries.Shadings[shadingName].Label;
                 }
             }
             return null;
@@ -110,7 +122,7 @@ namespace OfficeOpenXml.PDF
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new?
         internal void AddFontData()
         {
-            foreach (var font in fontResources)
+            foreach (var font in Dictionaries.Fonts)
             {
                 if (font.Key != "Courier New")
                 {
@@ -124,17 +136,26 @@ namespace OfficeOpenXml.PDF
         //Add Patterns
         internal void AddPatternData()
         {
-            foreach (var pattern in patternResources)
+            foreach (var pattern in Dictionaries.Patterns)
             {
                 Document.Add(pattern.Value.GetShadingObject(Document.Count + 1));
                 Document.Add(pattern.Value.GetShadingPatternObject(Document.Count + 1, Document.Count));
             }
         }
 
+        //Add Patterns
+        internal void AddShadingsData()
+        {
+            foreach (var shading in Dictionaries.Shadings)
+            {
+                Document.Add(shading.Value.GetShadingObject(Document.Count + 1));
+            }
+        }
+
         //Create Page
         private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfPageSettings settings)
         {
-            var page = new PdfPage(Document.Count + 1, pagesObjectNumber, contentObjectNumbers, settings.PageSize, fontResources, patternResources);
+            var page = new PdfPage(Document.Count + 1, pagesObjectNumber, contentObjectNumbers, settings.PageSize, Dictionaries);
             Document.Add(page);
             return page;
         }
@@ -172,7 +193,7 @@ namespace OfficeOpenXml.PDF
                     switch (cellPart)
                     {
                         case PdfCellLayout layout:
-                            contentStream.AddCellLayout(layout, GetPatternLabel(layout));
+                            contentStream.AddCellLayout(layout, GetShadingLabel(layout));
                             break;
                         case PdfCellContentLayout contentLayout:
                             contentStream.AddCellContentLayout(contentLayout, GetFontLabel(contentLayout.FontData.FontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));
@@ -200,7 +221,7 @@ namespace OfficeOpenXml.PDF
         public void CreatePdf(string Filename)
         {
             //Create Catalog
-            var catalogLayout = new PdfCatalogLayout(_workheets[0], PageSettings, fontResources, patternResources);
+            var catalogLayout = new PdfCatalogLayout(_workheets[0], PageSettings, Dictionaries);
             var catalog = AddCatalog(2);
             //Create Pages
             var pagesLayout = catalogLayout.ChildObjects[0];
@@ -209,6 +230,8 @@ namespace OfficeOpenXml.PDF
             AddFontData();
             //Create Patterns
             AddPatternData();
+            //Create Shadings
+            AddShadingsData();
             //Create Page and Content
             for (int i = 0; i < pagesLayout.ChildObjects.Count; i++)
             {
