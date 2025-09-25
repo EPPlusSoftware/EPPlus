@@ -48,6 +48,12 @@
 		<Compile Update="Core\RichDataTests.cs">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Compile>
+		<Compile Update="Drawing\DrawingRichTextTests.cs">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Compile>
+		<Compile Update="Drawing\DrawingTest.cs">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Compile>
 		<Compile Update="Drawing\Style\DrawingParagraphTests.cs">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Compile>

@@ -16,7 +16,7 @@ namespace EPPlusTest.Drawing.Style
         [TestMethod]
         public void EnsureExpectedParagraphCount()
         {
-            using(var p = OpenPackage("DrawingParagraphCount.xlsx"))
+            using(var p = OpenPackage("DrawingParagraphCount.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("shapeParagraphs");
                 var shape = ws.Drawings.AddShape("shape1", eShapeStyle.Sun);

@@ -11,13 +11,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.Versioning;
 using System.Text;
 using System.Xml;
 
@@ -36,6 +32,7 @@ namespace OfficeOpenXml.Drawing
         {
             _prd = prd;
             var rootNode = GetNode(path);
+            _path = path;
             if (rootNode != null)
             {
                 TopNode = rootNode;
@@ -44,8 +41,12 @@ namespace OfficeOpenXml.Drawing
                 {
                     _paragraphs.Add(new ExcelDrawingParagraph(this, prd, NameSpaceManager, pn, schemaNodeOrder, initXml));
                 }
+
+                if (_paragraphs.Count == 0)
+                {
+                    CreateParagraphPlaceHolder();
+                }
             }
-            _path = path;
             AddSchemaNodeOrder(schemaNodeOrder, ["rPr", "pPr", "t"]);
         }
         public int Count { get => _paragraphs.Count; }
@@ -93,10 +94,6 @@ namespace OfficeOpenXml.Drawing
         {
             if(placeHolderNode == null)
             {
-                if (_paragraphs.Count == 0)
-                {
-                    CreateTopNode();
-                }
                 var pn = CreateNode("a:p", false, true);
                 placeHolderNode = pn;
             }
@@ -209,12 +206,15 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         protected internal void CreateTopNode()
         {
-            if (_paragraphs.Count == 0)
+            if (_paragraphs.Count == 0 && placeHolderNode == null)
             {
-                _initXml?.Invoke();
-                TopNode = CreateNode(_path);
-                CreateNode("a:bodyPr");
-                CreateNode("a:lstStyle");
+                if(GetNode(_path) == null)
+                {
+                    _initXml?.Invoke();
+                    TopNode = CreateNode(_path);
+                    CreateNode("a:bodyPr");
+                    CreateNode("a:lstStyle");
+                }
             }
         }
 
