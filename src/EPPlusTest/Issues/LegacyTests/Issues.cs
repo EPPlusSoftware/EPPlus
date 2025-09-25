@@ -2601,31 +2601,46 @@ namespace EPPlusTest
             var hiddenCols = 0;
             var hiddenRows = 0;
 
-            for (int i = 1; i < address.Start.Column; i++)
+            int? firstVisibleRow = null;
+            int? firstVisibleColumn = null;
+
+            for (int i = 1; i < col; i++)
             {
-                var coVar = ws.Column(i);
-                if (coVar != null && coVar.Hidden)
+                var currentCol = ws.Column(i);
+                if (currentCol != null && currentCol.Hidden)
                 {
                     hiddenCols++;
                 }
-            }
-
-            foreach (var rowVar in ws.Rows[0, address.Start.Row])
-            {
-                if (rowVar.Hidden == true)
+                else if (firstVisibleColumn == null)
                 {
-                    hiddenRows++;
+                    firstVisibleColumn = i;
                 }
             }
 
+            for (int i = 1; i < row; i++)
+            {
+                if (ws.Row(i).Hidden == true)
+                {
+                    hiddenRows++;
+                }
+                else if (firstVisibleRow == null)
+                {
+                    firstVisibleRow = i;
+                }
+            }
+
+            firstVisibleColumn = firstVisibleColumn ?? 1 + hiddenCols;
+            firstVisibleRow = firstVisibleRow ?? 1 + hiddenRows;
+
+
             var visibleRows = row - hiddenRows;
             var visibleColumns = col - hiddenCols;
-            
+
             if(visibleColumns != 1 && visibleRows != 1)
             {
                 Assert.AreEqual(ws.Cells[1 + hiddenRows, 1 + hiddenCols].Address, ws.View.TopLeftCell);
-                Assert.AreEqual(visibleColumns - 1d, ws.View.PaneSettings.XSplit);
-                Assert.AreEqual(visibleRows - 1d, ws.View.PaneSettings.YSplit);
+                Assert.AreEqual(col - firstVisibleColumn.Value, ws.View.PaneSettings.XSplit);
+                Assert.AreEqual(row - firstVisibleRow.Value, ws.View.PaneSettings.YSplit);
                 Assert.AreEqual(ePanePosition.BottomRight, ws.View.PaneSettings.ActivePanePosition);
             }
             else

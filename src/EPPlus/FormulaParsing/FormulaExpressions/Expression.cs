@@ -28,7 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         IsAddress = 2,
         OnExpressionList = 4,
         FunctionArgument = 8,
-        IsCached = 0x10
+        IsCached = 0x10,
+        IsLambdaVariableDeclaration = 0x20,
     }
     internal class EmptyExpression : Expression
     {
@@ -48,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal CompileResult _cachedCompileResult;
         internal Operators Operator;
         internal static EmptyExpression Empty=new EmptyExpression();
-        protected ParsingContext Context { get; private set; }
+        internal ParsingContext Context { get; private set; }
         internal abstract ExpressionType ExpressionType { get; }
         internal Expression()
         {

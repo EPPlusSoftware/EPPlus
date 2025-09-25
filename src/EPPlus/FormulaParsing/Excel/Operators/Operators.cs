@@ -93,6 +93,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         /// <summary>
         /// Intersect
         /// </summary>
-        Intersect
+        Intersect,
+        /// <summary>
+        /// Assign
+        /// </summary>
+        Assign
     }
 }

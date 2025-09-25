@@ -17,6 +17,8 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml;
 using System;
 using System.Linq;
+using System.Diagnostics;
+using System.Text;
 using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -24,6 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     /// <summary>
     /// Compile result
     /// </summary>
+    [DebuggerDisplay("CompileResult - DataType: {DataType}, ResultType: {ResultType}, ResultValue: {GetResultValue()}")]
     public class CompileResult : CompileResultBase
     {
         private static CompileResult _empty = new CompileResult(null, DataType.Empty);
@@ -51,8 +54,19 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         private static DynamicArrayCompileResult _arrayErrorCalc = new DynamicArrayCompileResult(ErrorValues.CalcError, DataType.ExcelError);
 
 
+
         //private static CompileResult _errorSpill = new CompileResult(ErrorValues.SpillError, DataType.ExcelError); //Spill should use the Spill error containing row and column offset.
 
+        internal string GetResultValue()
+        {
+            if (Result == null) return "<null>";
+            if(Result is LambdaCalculator calc)
+            {
+
+                return $"LambdaCalculator ({calc.GetDebugInfo()})";
+            }
+            return Result.ToString();
+        }
 
         /// <summary>
         /// Returns a CompileResult with a null value and data type set to DataType.Empty
@@ -359,6 +373,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             get { return Address != null; }
         }
+
+        /// <summary>
+        /// Returns true if the compile result from a variable
+        /// </summary>
+        public virtual bool IsVariableResult
+        {
+            get;
+        } = false;
+
         /// <summary>
         /// Range address
         /// </summary>

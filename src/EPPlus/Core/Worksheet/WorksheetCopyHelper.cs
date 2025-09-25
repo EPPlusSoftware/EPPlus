@@ -75,7 +75,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             ExcelWorksheet targetWorksheet = new ExcelWorksheet(nsm, pck, relID, uriWorksheet, name, sheetID, targetWorksheets.Count + pck._worksheetAdd, eWorkSheetHidden.Visible);
 
-            if(sourceWorksheet.SheetUid.HasValue)
+            if (sourceWorksheet.SheetUid.HasValue)
             {
                 targetWorksheet.SheetUid = Guid.NewGuid();
             }
@@ -220,7 +220,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 var sh = Copy._sharedFormulas[key].Clone();
                 sh._ws = added;
-				added._sharedFormulas.Add(key, sh);
+                added._sharedFormulas.Add(key, sh);
             }
 
             Dictionary<int, int> styleCashe = new Dictionary<int, int>();
@@ -270,7 +270,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         var s = added.Workbook.Styles.CloneStyle(Copy.Workbook.Styles, styleID);
                         styleCashe.Add(styleID, s);
                         added.SetStyleInner(row, col, s);
-                    }                    
+                    }
                 }
             }
 
@@ -411,7 +411,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 CopyBlipFillDrawing(target, partDraw, drawXml, sourceDraw, shp.Fill, uriDraw);
             }
-            else if(sourceDraw is ExcelOleObject ole)
+            else if (sourceDraw is ExcelOleObject ole)
             {
                 CopyOleObject(pck, target, ole, drawXml);
             }
@@ -443,7 +443,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     relAtt.Value = rel.Id;
                 }
-                
+
             }
         }
 
@@ -458,7 +458,7 @@ namespace OfficeOpenXml.Core.Worksheet
             var prevRelID = ctrl._control.RelationshipId;
             var rel = target.Part.CreateRelationship(UriHelper.GetRelativeUri(target.WorksheetUri, UriCtrl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/ctrlProp");
             var relAtts = target.WorksheetXml.SelectNodes(string.Format("//d:control/@r:id[.='{0}']", prevRelID), target.NameSpaceManager);
-            XmlAttribute relAtt = relAtts.Item(relAtts.Count-1) as XmlAttribute;
+            XmlAttribute relAtt = relAtts.Item(relAtts.Count - 1) as XmlAttribute;
             relAtt.Value = rel.Id;
         }
 
@@ -471,7 +471,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
             else
             {
-                if(target._nextControlId <= SourceOle._worksheet._nextControlId)
+                if (target._nextControlId <= SourceOle._worksheet._nextControlId)
                     target._nextControlId = ((target.PositionId + 1) * 1024 + 1);
                 oleShapeId = (++target._nextControlId).ToString();
             }
@@ -499,7 +499,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 //check if relationship exsist and get that relationship
                 bool relExsists = false;
                 var rels = target.Part.GetRelationships();
-                foreach( var rel in rels)
+                foreach (var rel in rels)
                 {
                     var relFile = Path.GetFileName(rel.TargetUri.ToString());
                     var iiFile = Path.GetFileName(ii.Uri.ToString());
@@ -593,11 +593,11 @@ namespace OfficeOpenXml.Core.Worksheet
                 var part = target._package.ZipPackage.CreatePart(oleUri, contentType, CompressionLevel.None, ext);
                 var rel = target.Part.CreateRelationship(oleUri, TargetMode.Internal, ExcelPackage.schemaRelationships + schemaRelEnding);
                 MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-                if(isMsOffDoc)
+                if (isMsOffDoc)
                 {
                     var p = (MemoryStream)SourceOle._oleObjectPart.GetStream();
                     var arr = p.ToArray();
-                    ms.Write(arr,0, arr.Length);
+                    ms.Write(arr, 0, arr.Length);
                 }
                 else
                 {
@@ -647,7 +647,7 @@ namespace OfficeOpenXml.Core.Worksheet
             else
             {
                 relNode = chart.TopNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", source.Drawings.NameSpaceManager);
-                if(relNode == null)//If null, we check the group shape path instead.
+                if (relNode == null)//If null, we check the group shape path instead.
                 {
                     relNode = chart.TopNode.SelectSingleNode("a:graphic/a:graphicData/c:chart/@r:id", source.Drawings.NameSpaceManager);
                 }
@@ -869,7 +869,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     var uri = UriHelper.ResolvePartUri(r.SourceUri, r.TargetUri);
                     if (!added.Part.Package.PartExists(uri))
-                    {                        
+                    {
                         var sourcePart = Copy._package.ZipPackage.GetPart(uri);
                         added._package.ZipPackage.CreatePart(uri, sourcePart);
                     }
@@ -904,7 +904,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else if (!string.IsNullOrEmpty(name.NameFormula))
                 {
-                    if(sameWorkbook==false && HasExternalReference(name.Formula))
+                    if (sameWorkbook == false && HasExternalReference(name.Formula))
                     {
                         continue;
                     }
@@ -936,7 +936,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         wbName.ChangeWorksheet(added.Name, added.Name);
                     }
                     else
-                    {   
+                    {
                         if (added.Workbook.Names.ContainsKey(name.Name)) continue;
                         wbName = added.Workbook.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
                     }
@@ -945,7 +945,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
             //Copy names from formulas.
-            if (sameWorkbook==false)
+            if (sameWorkbook == false)
             {
                 var formulaEnumerator = new CellStoreEnumerator<object>(Copy._formulas);
                 var nameLookup = Copy.Workbook.Names.Where(name => name != null).ToDictionary(name => name.Name, name => name);
@@ -1013,17 +1013,17 @@ namespace OfficeOpenXml.Core.Worksheet
             return string.Concat(ftokens.Select(t => t.Value));
         }
 
-		private static bool HasExternalReference(string formula)
-		{
-			if(formula!=null && formula.IndexOf('[') >= 0)
+        private static bool HasExternalReference(string formula)
+        {
+            if (formula != null && formula.IndexOf('[') >= 0)
             {
-                var t=SourceCodeTokenizer.Default.Tokenize(formula);
+                var t = SourceCodeTokenizer.Default.Tokenize(formula);
                 return t.Any(x => x.TokenType == TokenType.ExternalReference);
             }
             return false;
-		}
+        }
 
-		private static void CopyTable(ExcelWorksheet Copy, ExcelWorksheet added)
+        private static void CopyTable(ExcelWorksheet Copy, ExcelWorksheet added)
         {
             string prevName = "";
             //First copy the table XML
@@ -1192,14 +1192,14 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     copiedTbl.CacheDefinition._cacheReference._pivotTables.Add(copiedTbl);
                 }
-                
-                if(isPackageInternal==false)
+
+                if (isPackageInternal == false)
                 {
                     copiedTbl.CacheId = copiedTbl.CacheDefinition._cacheReference.CacheId;
                 }
 
                 if (copiedTbl.CacheDefinition.IsExternalReferernce) continue;
-                
+
                 ChangeToWsLocalPivotTable(added, nameMap);
                 foreach (var fld in copiedTbl.Fields)
                 {
@@ -1218,7 +1218,7 @@ namespace OfficeOpenXml.Core.Worksheet
             if (wbAdded._pivotTableCaches.TryGetValue(cacheAddress, out ExcelWorkbook.PivotTableCacheRangeInfo rangeInfo))
             {
                 newCache = rangeInfo.PivotCaches[0];
-                partTbl.CreateRelationship(newCache.CacheDefinitionUri, tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);                
+                partTbl.CreateRelationship(newCache.CacheDefinitionUri, tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);
             }
             else
             {
@@ -1249,7 +1249,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         rangeInfo.Address = cacheAddress;
                     }
                 }
-                if(tbl.CacheDefinition.SourceExternalReference!=null)
+                if (tbl.CacheDefinition.SourceExternalReference != null)
                 {
                     var rel = tbl.CacheDefinition._cacheReference.Part.GetRelationship(tbl.CacheDefinition._cacheReference.SourceRId);
                     var rId = partCache.CreateRelationship(rel.TargetUri, rel.TargetMode, rel.RelationshipType);
@@ -1290,7 +1290,7 @@ namespace OfficeOpenXml.Core.Worksheet
         private static void CopyDxfStylesTables(ExcelWorksheet copy, ExcelWorksheet added)
         {
             //Table formats
-            for(int i=0;i<copy.Tables.Count; i++)
+            for (int i = 0; i < copy.Tables.Count; i++)
             {
                 var tblFrom = copy.Tables[i];
                 var tblTo = added.Tables[tblFrom.Name]; //Use Name, as id can differ if the worksheets are in different workbooks.

@@ -191,5 +191,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
             var r2 = RoundingHelper.GetSignificantFigures(0.000111111111111173d, 15);
             Assert.AreEqual(0.000111111111111173, r2);
         }
+
+        [TestMethod]
+        public void MultipleAddresses()
+        {
+            // the logic seems to be
+            // that boolean values that originates from an evaluation with
+            // cell addresses are not counted as numeric values.
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "sum((A2,A3),A4)";
+                sheet.Calculate();
+            }
+        }
     }
 }

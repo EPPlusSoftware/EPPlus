@@ -25,6 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     internal class Proper : ExcelFunction
     {
         public override int ArgumentMinLength => 1;
+
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var text = ArgToString(arguments, 0);

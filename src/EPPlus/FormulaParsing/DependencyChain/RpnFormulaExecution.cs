@@ -1,4 +1,15 @@
-﻿using OfficeOpenXml.CellPictures;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  05/14/2024         EPPlus Software AB       Initial release EPPlus 7
+ *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
@@ -18,6 +29,9 @@ using static OfficeOpenXml.ExcelAddressBase;
 using static OfficeOpenXml.ExcelWorksheet;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.FormulaParsing.DependencyChain;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -54,7 +68,6 @@ namespace OfficeOpenXml.FormulaParsing
             //Range chain
             _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(cells._workbook, options);
-
             if (cells is ExcelNamedRange name)
             {
                 ExecuteName(depChain, name, options, true);
@@ -91,14 +104,13 @@ namespace OfficeOpenXml.FormulaParsing
         {
             _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(wb, options);
-
             return ExecuteChain(depChain, null, formula, options, true);
         }
         internal static object ExecutePivotFieldFormula(RpnOptimizedDependencyChain depChain, IList<Token> tokens, ExcelCalculationOption options)
         {
             var formula = new RpnFormula(null, 0, 0);
             formula.SetFormula(tokens, depChain);
-            return AddChainForFormula(depChain, formula, options, false);
+            return AddChainForFormula(depChain, formula, options, false).Result;
         }
 
         private static void ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelRangeBase range, ExcelCalculationOption options, bool writeToCell)
@@ -273,7 +285,7 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 var f = new RpnFormula(ws, cell.Row, cell.Column);
                 f.SetFormula(formula, depChain);
-                return AddChainForFormula(depChain, f, options, writeToCell);
+                return AddChainForFormula(depChain, f, options, writeToCell).Result;
             }
             catch (CircularReferenceException)
             {
@@ -293,7 +305,7 @@ namespace OfficeOpenXml.FormulaParsing
                 var f = new RpnFormula(ws, 0, 0);
                 f.SetFormula(formula, depChain);
                 f._row = -1;
-                return AddChainForFormula(depChain, f, options, writeToCell);
+                return AddChainForFormula(depChain, f, options, writeToCell).Result;
             }
             catch (CircularReferenceException)
             {
@@ -320,7 +332,7 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         isDynamic = ws.Workbook.Metadata.IsFormulaDynamic(md.cm);
                     }
-                    
+
                     if (isDynamic)
                     {
                         f = ws._sharedFormulas[ix].GetRpnFormula(depChain, sf.StartRow, sf.StartCol);
@@ -384,7 +396,18 @@ namespace OfficeOpenXml.FormulaParsing
             }
             return f;
         }
-        private static object AddChainForFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, bool writeToCell)
+
+        internal static CompileResult ExecutePartialFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, bool writeToCell)
+        {
+            return AddChainForFormula(depChain, f, options, writeToCell);
+        }
+
+        internal static CompileResult ExecutePartialFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, bool writeToCell, VariableStorageScope scope)
+        {
+            return AddChainForFormula(depChain, f, options, writeToCell, scope);
+        }
+
+        private static CompileResult AddChainForFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, bool writeToCell, VariableStorageScope scope = null)
         {
             FormulaRangeAddress[] addresses;
             //FormulaRangeAddress address = null;
@@ -458,7 +481,7 @@ namespace OfficeOpenXml.FormulaParsing
                     cr = f._expressionStack.Pop().Compile();
                 }
 
-                if (writeToCell || depChain._formulaStack.Count > 0)  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
+                if (cr != null && (writeToCell || depChain._formulaStack.Count > 0))  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
                 {
                     SetValueToWorkbook(depChain, f, rd, cr);
                 }
@@ -479,7 +502,7 @@ namespace OfficeOpenXml.FormulaParsing
                     rd = AddOrGetRDFromWsIx(depChain, f._enumeratorWorksheetIx);
                     goto NextFormula;
                 }
-                return cr.ResultValue;
+                return cr;
             FollowChain:
                 if (addresses.Length == 0)
                 {
@@ -570,7 +593,7 @@ namespace OfficeOpenXml.FormulaParsing
                     goto ExecuteFormula;
                 }
                 //goto CheckFormulaStack;
-                return errValue;
+                return new CompileResult(errValue, DataType.ExcelError);
             }
 
         }
@@ -667,6 +690,10 @@ namespace OfficeOpenXml.FormulaParsing
         }
         private static void SetValueToWorkbook(RpnOptimizedDependencyChain depChain, RpnFormula f, RangeHashset rd, CompileResult cr)
         {
+            if(cr.DataType == DataType.LambdaCalculation)
+            {
+                cr = CompileResult.GetDynamicArrayResultError(eErrorType.Calc);
+            }
             //Set the value.
             if (f._row >= 0)
             {
@@ -979,14 +1006,30 @@ namespace OfficeOpenXml.FormulaParsing
         {
             if (options.AllowCircularReferences)
             {
-                //var refFormula = depChain._formulaStack.Peek();
-                var fromCell = ExcelCellBase.GetCellId(f._ws.IndexInList, f._row, f._column);
-                depChain._circularReferences.Add(new CircularReference(fromCell, toCell));
+                var cr = new CircularReference(ExcelCellBase.GetCellId(f._ws.IndexInList, f._row, f._column), toCell);
+                if (depChain._circularReferences.Contains(cr)==false)
+                {
+                    depChain._circularReferences.Add(cr);
+                }
             }
             else
             {
                 throw new CircularReferenceException($"Circular reference in cell {f.GetAddress()}");
             }
+        }
+
+        private static bool IsSingleAddress(RpnFormula f)
+        {
+            var t = f._tokenIndex + 1;
+            while (t < f._tokens.Count && f._tokens[t].TokenTypeIsAddressToken)
+            {
+                if (f._tokens[t].TokenType == TokenType.Operator && f._tokens[t].Value == ":")
+                {
+                    return false;
+                }
+                t++;
+            }
+            return true;
         }
 
         private static FormulaRangeAddress[] ExecuteNextToken(RpnOptimizedDependencyChain depChain, RpnFormula f, bool returnAddresses)
@@ -995,8 +1038,18 @@ namespace OfficeOpenXml.FormulaParsing
             var s = f._expressionStack;
             while (f._tokenIndex < f._tokens.Count)
             {
+                if (f.HasLambdaToken(f._tokenIndex))
+                {
+                    f._tokenIndex++;
+                    continue;
+                }
+                if(LambdaExpressionFunctions.LastExpressionIsLambdaCalculation(s, out LambdaCalculationExpression lce))
+                {
+                    LambdaExpressionFunctions.PreProcessLambdaCalculation(s, f, lce);
+                }
+                var leStackPos = f.GetCurrentLambdaExpressionStackPosition();
                 var t = f._tokens[f._tokenIndex];
-                switch (t.TokenType)
+                 switch (t.TokenType)
                 {
                     case TokenType.Boolean:
                     case TokenType.Integer:
@@ -1005,7 +1058,45 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Array:
                     case TokenType.ParameterVariableDeclaration:
                     case TokenType.ParameterVariable:
-                        s.Push(f._expressions[f._tokenIndex]);
+                    case TokenType.CommaLambda:
+                    case TokenType.EmptyArgument:
+                    case TokenType.EtaReducedLambda:
+                        if(leStackPos != null)
+                        {
+                            var exp = f._expressions[f._tokenIndex];
+                            if (exp.ExpressionType == ExpressionType.LambdaVariableDeclaration || exp.ExpressionType == ExpressionType.Variable)
+                            {
+                                exp.Status |= ExpressionStatus.IsLambdaVariableDeclaration;
+                            }
+                            
+                            var cr = exp.Compile();
+                            if (cr.DataType == DataType.LambdaTokens)
+                            {
+                                s.Push(f._expressions[f._tokenIndex]);
+                            }
+                            else if(cr.IsVariableResult && f.FunctionStack.Count > 0 && f.FunctionStack.Peek().IsLambda)
+                            {
+                                s.Push(f._expressions[f._tokenIndex]);
+                            }
+                            else if (cr.DataType != DataType.LambdaVariableDeclaration && f.LambdaSettings.LambdaArgsAdded.Count > 0 && f.LambdaSettings.LambdaArgsAdded.Peek() < f.GetNumberOfLambdaVariables())
+                            {
+                                leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), cr.Result, cr.DataType, cr.Address);
+                                var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
+                                f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
+                            }
+                            else
+                            {
+                                s.Push(f._expressions[f._tokenIndex]);
+                            }
+                        }
+                        else
+                        {
+                            s.Push(f._expressions[f._tokenIndex]);
+                        }
+                        if(t.TokenType == TokenType.EtaReducedLambda)
+                        {
+                            ((FunctionExpression)f._expressions[f._tokenIndex]).SetRpnFormula(f);
+                        }
                         break;
                     case TokenType.Negator:
                         s.Push(s.Pop().Negate());
@@ -1016,12 +1107,48 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.FullRowAddress:
                         var e = f._expressions[f._tokenIndex];
                         s.Push(e);
-                        if (returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
+                        var localReturnAddress = true;
+                        if (leStackPos != null)
                         {
-                            if (IsSingleAddress(f))
+                            var addVariable = true;
+                            if(t.TokenType == TokenType.CellAddress)
                             {
-                                return e.GetAddress();
+                                var tIx = f._tokenIndex + 1;
+                                while(tIx < f._tokens.Count - 1 && f._tokens[tIx].TokenType == TokenType.CellAddress)
+                                {
+                                    addVariable = false;
+                                    localReturnAddress = false;
+                                    s.Push(f._expressions[tIx]);
+                                    f._tokenIndex++;
+                                    tIx++;
+                                }
                             }
+                            if(addVariable && f.LambdaSettings.LambdaArgsAdded.Count > 0)
+                            {
+                                var rangeCr = e.Compile();
+                                leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), rangeCr.ResultValue, rangeCr.DataType, rangeCr.Address);
+                                var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
+                                f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
+                            }
+                        }
+                        if (localReturnAddress && returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
+                        {
+                            if(f._tokenIndex + 1 < f._tokens.Count)
+                            {
+                                var ix = f._tokenIndex + 1;
+                                var nt = f._tokens[ix];
+                                while(f._tokenIndex + 1 < f._tokens.Count && nt.TokenType == TokenType.CellAddress)
+                                {
+                                    nt = f._tokens[++ix];
+                                }
+                                if (nt.TokenType == TokenType.Operator && nt.Value == ":")
+                                {
+                                    f._tokenIndex++;
+                                    continue;
+                                }
+
+                            }
+                            return e.GetAddress();
                         }
                         break;
                     case TokenType.NameValue:
@@ -1047,25 +1174,28 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         break;
                     case TokenType.Comma:
-                        if (f._funcStack.Count > 0)
+                        if(f.ShouldInvokeLambda(s))
+                        {
+                            CompileResult lambdaResult = LambdaInvoker.InvokeLambdaFunction(depChain, f);
+                            if (lambdaResult != null)
+                                PushResult(depChain._parsingContext, f, lambdaResult);
+                            f.OnLambdaInvoked();
+                        }
+                        else if(f._funcStack.Count > 0)
                         {
                             var fexp = f._funcStack.Peek();
-                            if (fexp.HandlesVariables && f._expressionStack.Count > 1 && !(f._expressionStack.Peek() is VariableExpression varExp && varExp.IsDeclaration))
+                            if(fexp.IsLet && f.CurrentLambdaArgsAdded == 0 && f._expressionStack.Count > 1 && !(f._expressionStack.First() is VariableExpression varExp && varExp.IsDeclaration))
                             {
                                 var exp1 = f._expressionStack.Pop();
-                                var exp2 = f._expressionStack.Pop();
-                                f._expressionStack.Push(exp2);
+                                var exp2 = f._expressionStack.Peek();
                                 f._expressionStack.Push(exp1);
                                 if (exp2 is VariableExpression vfe && vfe.IsDeclaration)
                                 {
                                     ((VariableFunctionExpression)fexp).AddVariableValue(vfe.Name, exp1.Compile());
+                                    f._expressionStack.Pop();
                                 }
                             }
 
-                            if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
-                            {
-                                f._expressionStack.Push(new EmptyExpression());
-                            }
                             var pi = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos++);
                             if (EnumUtil.HasFlag(pi, FunctionParameterInformation.Condition))
                             {
@@ -1099,6 +1229,10 @@ namespace OfficeOpenXml.FormulaParsing
                             if (f._currentFunction == null)
                             {
                                 funcExp = f._funcStack.Pop();
+                                if(funcExp.IsLet)
+                                {
+                                    f.IgnoreCaching = true;
+                                }
 
                                 if (PreExecFunc(depChain, f, funcExp))
                                 {
@@ -1123,9 +1257,15 @@ namespace OfficeOpenXml.FormulaParsing
                             }
 
                             var r = ExecFunc(depChain, f, funcExp);
+                            funcExp.OnDispose();
                             if (r.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
                             {
                                 f._flags |= FormulaFlags.IsAlwaysDynamic;
+                            }
+                            if (funcExp.IsLambda && funcExp is not LambdaNameFunctionExpression && r.Result is LambdaCalculator clc)
+                            {
+                                f.LambdaSettings.LambdaStackNumbers.Push(s.Count);
+                                f.LambdaSettings.NumberOfLambdaVariables.Push(clc.NumberOfVariables);
                             }
                             if (r.Address != null && returnAddresses)
                             {
@@ -1142,6 +1282,10 @@ namespace OfficeOpenXml.FormulaParsing
                         break;
                     case TokenType.StartFunctionArguments:
                         var fe = (FunctionExpression)f._expressions[f._tokenIndex];
+                        if(fe is VariableFunctionExpression varFuncExp && varFuncExp.VariableScope != null)
+                        {
+                            depChain._parsingContext.VariableStorage.Push(varFuncExp.VariableScope);
+                        }
                         if (fe._function == null)  //Function does not exists. Push #NAME?
                         {
                             f._tokenIndex = fe._endPos;
@@ -1153,7 +1297,7 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Operator:
                         ApplyOperator(depChain._parsingContext, t, f);
 
-                        if (s.Count > 0 && s.Peek().Status == ExpressionStatus.IsAddress)
+                        if (s.Count > 0 && s.Peek().Status == ExpressionStatus.IsAddress && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
                         {
                             var cr = s.Peek().Compile();
                             if (cr.Address != null)
@@ -1184,6 +1328,28 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Null:
                         s.Push(ErrorExpression.NullError);
                         break;
+                    case TokenType.OpeningParenthesis:
+                        f.OpenParenthesis();
+                        break;
+                    case TokenType.ClosingParenthesis:
+                        f.CloseParenthesis(out bool shouldInvokeLambda);
+                        if(shouldInvokeLambda)
+                        {
+                            var cr = LambdaInvoker.InvokeLambdaFunction(depChain, f);
+                            if(f.LambdaSettings.NumberOfLambdaVariables.Count > 0)
+                            {
+                                f.LambdaSettings.NumberOfLambdaVariables.Pop();
+                            }
+                            if (f.LambdaSettings.LambdaArgsAdded.Count > 0)
+                            {
+                                f.LambdaSettings.LambdaArgsAdded.Pop();
+                            }
+                            if (cr != null)
+                            {
+                                PushResult(depChain._parsingContext, f, cr);
+                            }
+                        }
+                        break;
                 }
 
                 f._tokenIndex++;
@@ -1197,20 +1363,6 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             }
             return null;
-        }
-
-        private static bool IsSingleAddress(RpnFormula f)
-        {
-            var t = f._tokenIndex + 1;
-            while (t < f._tokens.Count && f._tokens[t].TokenTypeIsAddressToken)
-            {
-                if (f._tokens[t].TokenType == TokenType.Operator && f._tokens[t].Value == ":")
-                {
-                    return false;
-                }
-                t++;
-            }
-            return true;
         }
 
         private static ExpressionCondition GetCondition(CompileResult v)
@@ -1328,10 +1480,37 @@ namespace OfficeOpenXml.FormulaParsing
 
             var c1 = v1.Compile();
             var c2 = v2.Compile();
+            if(c2.Result is LambdaCalculator lc)
+            {
+                lc.BeginCalculation();
+                var args = new List<Expression>();
+                while(f._expressionStack.Count > 0)
+                {
+                    args.Add(f._expressionStack.Pop());
+                }
+                if(args.Any())
+                {
+                    var cr = args.First().Compile();
+                    lc.SetVariableValue(0, cr.Result, cr.DataType, context);
+                }
+                c2 = lc.Execute(context);
+                if(c2.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
+                {
+                    f._flags |= FormulaFlags.IsAlwaysDynamic;
+                }
+            }
+            else if(c1.Result is LambdaCalculator lc2)
+            {
+                c1 = lc2.Execute(context);
+                if (c1.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
+                {
+                    f._flags |= FormulaFlags.IsAlwaysDynamic;
+                }
+            }
 
             if (OperatorsDict.AllOperators.TryGetValue(opToken.Value, out IOperator op))
             {
-                var result = op.Apply(c2, c1, context);
+                var result = op.Apply(c2, c1, context, true);
                 if (result.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
                 {
                     f._flags |= FormulaFlags.IsAlwaysDynamic;
@@ -1358,7 +1537,7 @@ namespace OfficeOpenXml.FormulaParsing
                 else
                 {
                     //Remove all function arguments from the stack
-                    for (int i = 0; i < funcExp.NumberOfArguments; i++)
+                    for (int i = 0; i < funcExp.NumberOfArguments && f._expressionStack.Count > 0; i++)
                     {
                         var si = f._expressionStack.Pop();
                     }
@@ -1376,14 +1555,15 @@ namespace OfficeOpenXml.FormulaParsing
         private static CompileResult ExecFunc(RpnOptimizedDependencyChain depChain, RpnFormula f, FunctionExpression funcExp)
         {
             CompileResult result;
-            if (funcExp.Status == ExpressionStatus.IsCached)
+            funcExp.SetRpnFormula(f);
+            if (funcExp.Status == ExpressionStatus.IsCached && !f.IgnoreCaching)
             {
                 result = funcExp._cachedCompileResult;
             }
             else
             {
                 result = funcExp.Compile();
-                if (_cacheExpressions)
+                if (_cacheExpressions && !f.IgnoreCaching)
                 {
                     funcExp._cachedCompileResult = result;
                     var key = funcExp.GetExpressionKey(f);
@@ -1445,6 +1625,9 @@ namespace OfficeOpenXml.FormulaParsing
                 case DataType.LocalImage:   //References to local images
                     f._expressionStack.Push(new RangeExpression(result.Address));
                     break;
+                case DataType.LambdaCalculation:
+                    f._expressionStack.Push(new LambdaCalculationExpression(result, context));
+                    break;
                 default:
                     //throw new InvalidOperationException($"Unhandled compile result for data type {result.DataType}");
                     f._expressionStack.Push(ErrorExpression.ValueError);
@@ -1461,15 +1644,30 @@ namespace OfficeOpenXml.FormulaParsing
                 f._expressionStack.Push(new EmptyExpression());
             }
             var s = f._expressionStack;
-            for (int i = 0; i < func.NumberOfArguments && s.Count > 0; i++)
+            if (func.IsLambda)
             {
-                var si = s.Pop();
-                if (si.ExpressionType != ExpressionType.Empty)
+                for (int i = 0; i < func.NumberOfArguments; i++)
                 {
-                    si.Status |= ExpressionStatus.FunctionArgument;
+                    var exp = s.Pop();
+                    exp.Status |= ExpressionStatus.IsLambdaVariableDeclaration;
+                    list.Insert(0, exp.Compile());
                 }
-                list.Insert(0, si.Compile());
             }
+            else
+            {
+                var nArgs = func.IsLet ? ((LetFunctionExpression)func).NumberOfVariables + 1 : func.NumberOfArguments;
+                for (int i = 0; i < nArgs && s.Count > 0; i++)
+                {
+                    var si = s.Pop();
+                    if (si.ExpressionType != ExpressionType.Empty)
+                    {
+                        si.Status |= ExpressionStatus.FunctionArgument;
+                    }
+                    var cr = si.Compile();
+                    list.Insert(0, cr);
+                }
+            }
+
             return list;
         }
 

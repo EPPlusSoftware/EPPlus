@@ -14,12 +14,15 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Ranges
 {
     /// <summary>
     /// EPPlus implementation of a range that keeps its data in memory
     /// </summary>
+    [DebuggerDisplay("{Size}")]
     public class InMemoryRange : IRangeInfo
     {
         /// <summary>
@@ -369,6 +372,30 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public FormulaRangeAddress GetAddressDimensionAdjusted(int index)
         {
             return _address;
+        }
+
+        internal IEnumerable<Token> SerializeToTokens()
+        {
+            var sb = new StringBuilder();
+            sb.Append("{");
+            for (var row = 0; row < Size.NumberOfRows; row++)
+            {
+                for (var col = 0; col < Size.NumberOfCols; col++)
+                {
+                    var val = GetOffset(row, col);
+                    sb.Append(val.ToString());
+                    if (col < Size.NumberOfCols - 1)
+                    {
+                        sb.Append(",");
+                    }
+                }
+                if(row < Size.NumberOfRows - 1)
+                {
+                    sb.Append(";");
+                }
+            }
+            sb.Append("}");
+            return SourceCodeTokenizer.Default.Tokenize(sb.ToString());
         }
         /// <summary>
         /// Gets the <see cref="IRangeInfo" /> for the range for the first and last value in the range (top-left to bottom-right)

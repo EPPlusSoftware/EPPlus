@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
             base.OnConnectedEntityDeleted(e);
-            if(e.DeletedEntity.EntityType == RichDataEntities.MetadataType)
+            if(e.DeletedEntity.EntityType == RichDataEntities.MetadataType || (e.DeletedEntity.EntityType == RichDataEntities.CellMetadataBlock && Name == DYNAMIC_ARRAY_NAME))
             {
                 DeleteMe();
             }

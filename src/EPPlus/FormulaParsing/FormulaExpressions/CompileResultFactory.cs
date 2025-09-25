@@ -18,6 +18,7 @@ using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Table.PivotTable;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -93,8 +94,56 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     {
                         return DataType.ExcelRange;
                     }
+                    else if (obj is FormulaRangeAddress fra)
+                    {
+                        obj = new RangeInfo(fra);
+                        return DataType.ExcelRange;
+                    }
+                    else if(obj is LambdaCalculator)
+                    {
+                        return DataType.LambdaCalculation;
+                    }
                     throw new ArgumentException("Non supported type " + t.FullName);
             }
+        }
+
+        public static DynamicArrayCompileResult CreateDynamicArrayResult(object result)
+        {
+            var dt = result is CompileResult cr ? cr.DataType : GetDataType(ref result);
+            return new DynamicArrayCompileResult(result, dt);
+        }
+
+        public static DynamicArrayCompileResult CreateDynamicArrayResult(object result, CompileResultType crType)
+        {
+            var dt = result is CompileResult cr ? cr.DataType : GetDataType(ref result);
+            return new DynamicArrayCompileResult(result, dt, null, crType);
+        }
+
+        public static DynamicArrayCompileResult CreateDynamicArrayResult(object result, DataType dataType)
+        {
+            return new DynamicArrayCompileResult(result, dataType);
+        }
+
+        public static DynamicArrayCompileResult CreateDynamicArrayResult(object result, FormulaRangeAddress address)
+        {
+            var dt = GetDataType(ref result);
+            return new DynamicArrayCompileResult(result, dt, address);
+        }
+
+        public static DynamicArrayCompileResult CreateDynamicArrayResult(object result, FormulaRangeAddress address, CompileResultType crType)
+        {
+            var dt = result is CompileResult cr ? cr.DataType : GetDataType(ref result);
+            return new DynamicArrayCompileResult(result, dt, address, crType);
+        }
+
+        public static DynamicArrayCompileResult CreateDynamicArrayResult(object result, DataType dataType, FormulaRangeAddress address)
+        {
+            return new DynamicArrayCompileResult(result, dataType, address);
+        }
+
+        public static DynamicArrayCompileResult CreateDynamicArrayResult(object result, DataType dataType, FormulaRangeAddress address, CompileResultType crType)
+        {
+            return new DynamicArrayCompileResult(result, dataType, address, crType);
         }
     }
 }

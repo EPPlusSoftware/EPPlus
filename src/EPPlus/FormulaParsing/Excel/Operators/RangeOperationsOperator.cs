@@ -136,6 +136,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             return (lSize.NumberOfCols == 1 && lSize.NumberOfRows == 1) || (rSize.NumberOfCols == 1 && rSize.NumberOfRows == 1);
         }
 
+        private static bool SingleRowSingleCol(RangeDefinition lSize, RangeDefinition rSize)
+        {
+            return (lSize.NumberOfRows == 1 && rSize.NumberOfCols == 1) || (lSize.NumberOfCols == 1 && rSize.NumberOfRows == 1);
+        }
+
         private static bool AddressIsNotAvailable(RangeDefinition lSize, RangeDefinition rSize, int row, int col)
         {
             if(row >= lSize.NumberOfRows || row >=rSize.NumberOfRows)
@@ -172,21 +177,37 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 
         private static object GetCellValue(IRangeInfo range, int rowOffset, int colOffset)
         {
-            if(range.IsInMemoryRange || range.Address == null)
+            try
             {
-                return range.GetOffset(rowOffset, colOffset);
+                if (range.IsInMemoryRange || range.Address == null)
+                {
+                    return range.GetOffset(rowOffset, colOffset);
+                }
+                else
+                {
+                    var col = range.Address.FromCol + colOffset;
+                    var row = range.Address.FromRow + rowOffset;
+                    return range.GetValue(row, col);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                var col = range.Address.FromCol + colOffset;
-                var row = range.Address.FromRow + rowOffset;
-                return range.GetValue(row, col);
+                throw ex;
             }
+           
         }
 
         public static InMemoryRange ApplySingleValueRight(CompileResult left, CompileResult right, Operators op, ParsingContext context)
         {
             var lr = left.Result as IRangeInfo;
+            if(lr == null && left.Result is FormulaRangeAddress fra)
+            {
+                lr = context.ExcelDataProvider.GetRange(fra);
+            }
+            else if(left.Address != null && left.Result is not InMemoryRange)
+            {
+                lr = context.ExcelDataProvider.GetRange(left.Address);
+            }
             var resultRange = CreateRange(lr, InMemoryRange.Empty, lr.Address);
             for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
             {
@@ -203,6 +224,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         public static InMemoryRange ApplySingleValueLeft(CompileResult left, CompileResult right, Operators op, ParsingContext context)
         {
             var rr = right.Result as IRangeInfo;
+            if (rr == null && right.Result is FormulaRangeAddress fra)
+            {
+                rr = context.ExcelDataProvider.GetRange(fra);
+            }
+            else if (right.Address != null && right.Result is not InMemoryRange)
+            {
+                rr = context.ExcelDataProvider.GetRange(right.Address);
+            }
             var resultRange = CreateRange(InMemoryRange.Empty, rr, rr.Address);
             for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
             {
@@ -221,11 +250,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         {
             var lr = left.Result as IRangeInfo;
             var rr = right.Result as IRangeInfo;
+            if(lr == null && left.Result is FormulaRangeAddress fral)
+            {
+                lr = new RangeInfo(fral);
+            }
+            if(rr == null && right.Result is FormulaRangeAddress frar)
+            {
+                rr = new RangeInfo(frar);
+            }
 
             var resultRange = CreateRange(lr, rr, intersectAddress);
             var shouldUseSingleCol = ShouldUseSingleCol(lr.Size, rr.Size);
             var shouldUseSingleRow = ShouldUseSingleRow(lr.Size, rr.Size);
             var shouldUseSingleCell = ShouldUseSingleCell(lr.Size, rr.Size);
+            var singleRowSingleCol = SingleRowSingleCol(lr.Size, rr.Size);
             for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
             {
                 for (var col = 0; col < resultRange.Size.NumberOfCols; col++)
@@ -272,6 +310,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         {
                             var leftVal = GetCellValue(lr, row, col);
                             var rightVal = GetCellValue(rr, 0, 0);
+                            SetValue(op, resultRange, row, col, CompileResultFactory.Create(leftVal), CompileResultFactory.Create(rightVal), context);
+                        }
+                    }
+                    else if (singleRowSingleCol)
+                    {
+                        if (lr.Size.NumberOfRows == 1)
+                        {
+                            var leftVal = GetCellValue(lr, 0, col);
+                            var rightVal = GetCellValue(rr, row, 0);
+                            SetValue(op, resultRange, row, col, CompileResultFactory.Create(leftVal), CompileResultFactory.Create(rightVal), context);
+                        }
+                        else
+                        {
+                            var leftVal = GetCellValue(lr, row, 0);
+                            var rightVal = GetCellValue(rr, 0, col);
                             SetValue(op, resultRange, row, col, CompileResultFactory.Create(leftVal), CompileResultFactory.Create(rightVal), context);
                         }
                     }

@@ -127,13 +127,36 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Creates an <see cref="ExcelErrorValue"/> from a <see cref="ExcelErrorValue"/>
+        /// Creates an <see cref="ExcelErrorValue"/> from a <see cref="eErrorType"/>
         /// </summary>
         /// <param name="errorType">The type of error to create</param>
         /// <returns>The <see cref="ExcelErrorValue"/></returns>
         public static ExcelErrorValue Create(eErrorType errorType)
         {
+            if(errorType == eErrorType.Calc ||  errorType == eErrorType.Busy)
+            {
+                return CreateRichDataError(errorType);
+            }
             return new ExcelErrorValue(errorType);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="ExcelRichDataErrorValue"/> from a <see cref="eErrorType"/>
+        /// </summary>
+        /// <param name="errorType">The type of error to create></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public static ExcelRichDataErrorValue CreateRichDataError(eErrorType errorType)
+        {
+            switch(errorType)
+            {
+                case eErrorType.Calc:
+                    return new ExcelCalcErrorValue();
+                case eErrorType.Busy:
+                    return new ExcelRichDataErrorValue(eErrorType.Busy);
+                default:
+                    throw new InvalidOperationException("Not supported rich data error type: " +  errorType);
+            }
         }
         /// <summary>
         /// Returns the error as a <see cref="CompileResult"/>

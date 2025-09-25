@@ -18,6 +18,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils.EnumUtils;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -29,6 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         Error = 2,
         Multi = 4
     }
+    [DebuggerDisplay("FunctionExpression: {_function?.GetType().Name}")]
     internal class FunctionExpression : Expression
     {
         internal ExcelFunction _function;
@@ -53,6 +55,27 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal override ExpressionType ExpressionType => ExpressionType.Function;
 
         internal virtual bool HandlesVariables => false;
+
+        internal virtual bool IsLet => false;
+
+        internal virtual bool IsLambda => false;
+
+        internal virtual bool ExecutesLambda => _function != null ? _function.ExecutesLambda : false;
+
+        internal virtual void OnExecuteStarted()
+        {
+
+        }
+
+        internal virtual void OnDispose()
+        {
+
+        }
+
+        internal virtual void SetRpnFormula(RpnFormula formula)
+        {
+
+        }
 
         internal virtual bool IsVariableArg(int arg, bool isLastArgument)
         {

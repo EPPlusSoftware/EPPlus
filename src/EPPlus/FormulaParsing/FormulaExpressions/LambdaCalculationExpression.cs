@@ -1,0 +1,105 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  08/20/2025         EPPlus Software AB       Initial release EPPlus 8.2
+ *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System;
+using System.Diagnostics;
+
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
+{
+    /// <summary>
+    /// Represents a Lambda calculation and encapsulates a <see cref="LambdaCalculator"/>. 
+    /// This expression is on the expression stack while the lambda arguments are collected and its 
+    /// <see cref="LambdaCalculationExpression.Compile"/> method will return a <see cref="LambdaCalculator"/> ready to execute.
+    /// </summary>
+    [DebuggerDisplay("LambdaCalculationExpression - _compileResult: {GetResultInfo()}")]
+    internal class LambdaCalculationExpression : Expression
+    {
+        public LambdaCalculationExpression(CompileResult cr, ParsingContext context) : base(context)
+        {
+            _compileResult = cr;
+            Id = Guid.NewGuid();
+        }
+
+        private readonly CompileResult _compileResult;
+
+        internal string GetResultInfo()
+        {
+            if (_compileResult == null) return "<null>";
+            if(_compileResult.Result is LambdaCalculator calc)
+            {
+                return calc.GetDebugInfo();
+            }
+            return _compileResult.ToString();   
+        }
+
+        internal override ExpressionType ExpressionType => ExpressionType.LambdaCalculation;
+
+        internal bool ArgumentCollectionStarted { get; set; }
+
+        internal override ExpressionStatus Status
+        {
+            get;
+            set;
+        } = ExpressionStatus.CanCompile;
+
+        public Guid Id { get; private set; }
+
+        public override CompileResult Compile()
+        {
+            if(_compileResult.DataType != DataType.LambdaCalculation)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
+            return _compileResult;
+        }
+
+        public override Expression Negate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsMe(LambdaCalculator testCalc)
+        {
+            if(testCalc != null && _compileResult.Result is LambdaCalculator calc)
+            {
+                return testCalc.Equals(calc);
+            }
+            return false;
+        }
+
+        public void SetVariable(int index, object val, DataType dt, FormulaRangeAddress fra)
+        {
+            if(_compileResult.Result is LambdaCalculator calculator)
+            {
+                calculator.SetVariableValue(index, val, dt, Context, fra);
+            }
+        }
+
+        public int GetNumberOfVariables()
+        {
+            if(_compileResult.Result is LambdaCalculator lce)
+            {
+                return lce.NumberOfVariables;
+            }
+            return 0;
+        }
+
+        public void BeginCalculation()
+        {
+            if (_compileResult.Result is LambdaCalculator calculator)
+            {
+                calculator.BeginCalculation();
+            }
+        }
+    }
+}
