@@ -567,6 +567,20 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(123D, ws.Cells["D38"].Value);
             }
         }
+        [TestMethod]
+        public void s942()
+        {
+            using (var p = OpenTemplatePackage("PivotTableCFRemoveTest.xlsx"))
+            {
+                var ws1 = p.Workbook.Worksheets["Sheet1"];
+                var ws2 = p.Workbook.Worksheets["Sheet2"];
+
+                ws1.DeleteRow(2, 5);
+
+                ws2.PivotTables[0].CacheDefinition.Refresh();
+                SaveAndCleanup(p);
+            }
+        }
 
         [TestMethod]
         public void s993()
