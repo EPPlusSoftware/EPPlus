@@ -38,7 +38,8 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                SetXmlNodeString("a:t", value, true);
+                //The node must always exist therefore false.
+                SetXmlNodeString("a:t", value, false);
             }
         }
     }

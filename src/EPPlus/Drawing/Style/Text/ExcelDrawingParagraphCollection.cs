@@ -92,7 +92,7 @@ namespace OfficeOpenXml.Drawing
 
         internal void CreateParagraphPlaceHolder()
         {
-            if(placeHolderNode == null)
+            if(placeHolderNode == null && _paragraphs.Count == 0)
             {
                 var pn = CreateNode("a:p", false, true);
                 placeHolderNode = pn;
