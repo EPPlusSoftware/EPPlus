@@ -33,6 +33,22 @@ namespace OfficeOpenXml.Drawing
             _pictureRelationDocument = pictureRelationDocument;
             _path = path;
 
+            //var propertyNode = topNode.SelectSingleNode(path, ns);
+            //if (propertyNode != null && propertyNode.ParentNode != null)
+            //{
+            //    //If the path exists, the path leads to the tbPR node.
+            //    //The parent of the tbPR node is the CT_TextBody body node.
+            //    //We want to operate directly on the CT_TextBody node rather than having topNode be the parent of 
+            //    //CT_Textbody as the parent node can be very different between exCharts and shapes for example
+
+            //    var ctTextBody = propertyNode.ParentNode;
+
+            //    var indexOfFirstNode = path.IndexOf("/");
+            //    _path = path.Substring(indexOfFirstNode+1, path.Length - indexOfFirstNode-1);
+            //   //set topNode to top of path string here??
+            //}
+
+
             _initXml = initXml;
 			AddSchemaNodeOrder(schemaNodeOrder, new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" });
         }
