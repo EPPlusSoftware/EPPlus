@@ -87,11 +87,6 @@ namespace OfficeOpenXml.Packaging
 
                 while (e != null)
                 {
-                    if(cancellationToken.IsCancellationRequested)
-                    {
-                        return;
-                    }
-
                     GetDirSeparator(e);
 
                     if (e.UncompressedSize > 0)
@@ -121,16 +116,12 @@ namespace OfficeOpenXml.Packaging
                         await ExtractEntryToPartAsync(_zip, e, cancellationToken);
                     }
                     e = _zip.GetNextEntry();
+                    cancellationToken.ThrowIfCancellationRequested();
                 }
 
                 if (_dirSeparator == '0') _dirSeparator = '/';
                 foreach (var p in Parts)
                 {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        return;
-                    }
-
                     string name = Path.GetFileName(p.Key);
                     string extension = Path.GetExtension(p.Key);
                     string relFile = string.Format("{0}_rels/{1}.rels", p.Key.Substring(0, p.Key.Length - name.Length), name);
@@ -146,6 +137,7 @@ namespace OfficeOpenXml.Packaging
                     {
                         p.Value.ContentType = _contentTypes[extension.Substring(1)].Name;
                     }
+                    cancellationToken.ThrowIfCancellationRequested();
                 }
                 if (!hasContentTypeXml)
                 {
@@ -173,10 +165,7 @@ namespace OfficeOpenXml.Packaging
                     var size = zip.Read(b, 0, bufferSize);  //Change to async when async support is added to .NET zip.
                     await part.Stream.WriteAsync(b, 0, size);
                     rest -= size;
-                    if(cancellationToken.IsCancellationRequested)
-                    {
-                        return;
-                    }
+                    cancellationToken.ThrowIfCancellationRequested();
                 }
             }
             Parts.Add(GetUriKey(e.FileName), part);
