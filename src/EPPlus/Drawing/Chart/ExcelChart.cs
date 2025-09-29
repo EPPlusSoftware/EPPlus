@@ -1120,6 +1120,22 @@ namespace OfficeOpenXml.Drawing.Chart
 
         Uri IPictureRelationDocument.RelatedUri => UriChart;
 
+        /// <summary>
+        /// Indicates if auto title is used. Set to false if auto title is used. Auto title is used on for example pivot charts to map to the data fields to the title and series.
+        /// Also see <seealso cref="ExcelChartTitleStandard.SetAutoTitle"/>
+        /// </summary>
+        public bool AutoTitleDeleted 
+        {
+            get
+            {
+                return _chartXmlHelper.GetXmlNodeBool("../../c:autoTitleDeleted/@val") || _chartXmlHelper.ExistsNode("../../c:autoTitleDeleted");
+            }
+            set
+            {
+                _chartXmlHelper.SetXmlNodeBool("../../c:autoTitleDeleted/@val", value);
+            }
+        }
+
         internal virtual bool IsAxisTypeSupported(eAxisType type, ExcelChartAxis axis)
         {
             var currentType = axis.AxisType;

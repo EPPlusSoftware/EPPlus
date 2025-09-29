@@ -10,15 +10,16 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -446,6 +447,13 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 _font = null;
             }
+        }
+        public void SetAutoTitle()
+        {
+            _chart.AutoTitleDeleted = false;
+            DeleteNode($"{_nsPrefix}:tx");
+            _fontPropertiesPath = $"{_nsPrefix}:txPr";
+
         }
         internal override bool HasLinkedCell => LinkedCell != null;
 
