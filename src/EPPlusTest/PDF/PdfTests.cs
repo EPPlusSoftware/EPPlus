@@ -19,7 +19,6 @@ namespace EPPlusTest.PDF
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
             //using var p = OpenTemplatePackage("Gradient.xlsx");
             var ws = p.Workbook.Worksheets[0];
-
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.ShowGridLines = true;
             pageSettings.PageSize = PdfPageSize.A4;

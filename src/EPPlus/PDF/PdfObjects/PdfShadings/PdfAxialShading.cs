@@ -20,12 +20,36 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfShadings
         {
             ColorSpace = DeviceColorSpace.DeviceRGB;
             Coords = [0, 0, 1, 0];
-            var func = new PdfExponentialInterpolationFunction(0);
-            func.C0 = [GradientFillData.Color0.R, GradientFillData.Color0.G, GradientFillData.Color0.B];
-            func.C1 = [GradientFillData.Color1.R, GradientFillData.Color1.G, GradientFillData.Color1.B];
-            func.Domain = [0, 1];
-            func.N = 1;
-            Function = func;
+            //check here which function to use.
+            if (!GradientFillData.Color3.Equals(PdfGraphics.PdfColor.None))
+            {
+                var func = new PdfStichingFunction(0);
+                func.Domain = [0d, 1d];
+                func.Bounds = [0.5d];
+                func.Encode = [0d, 1d, 1d, 0d];
+                var f1 = new PdfExponentialInterpolationFunction(0);
+                f1.C0 = [GradientFillData.Color1.R, GradientFillData.Color1.G, GradientFillData.Color1.B];
+                f1.C1 = [GradientFillData.Color3.R, GradientFillData.Color3.G, GradientFillData.Color3.B];
+                f1.Domain = [0, 1];
+                f1.N = 1;
+                func.Functions.Add(f1);
+                var f2 = new PdfExponentialInterpolationFunction(0);
+                f2.C0 = [GradientFillData.Color2.R, GradientFillData.Color2.G, GradientFillData.Color2.B];
+                f2.C1 = [GradientFillData.Color3.R, GradientFillData.Color3.G, GradientFillData.Color3.B];
+                f2.Domain = [0, 1];
+                f2.N = 1;
+                func.Functions.Add(f2);
+                Function = func;
+            }
+            else
+            {
+                var func = new PdfExponentialInterpolationFunction(0);
+                func.C0 = [GradientFillData.Color1.R, GradientFillData.Color1.G, GradientFillData.Color1.B];
+                func.C1 = [GradientFillData.Color2.R, GradientFillData.Color2.G, GradientFillData.Color2.B];
+                func.Domain = [0, 1];
+                func.N = 1;
+                Function = func;
+            }
             //Extend = [true, true];
         }
 
@@ -43,7 +67,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfShadings
                 var domainStr = string.Join(" ", Domain.Select(w => w.ToPdfString()).ToArray());
                 sb.AppendFormat($"\n   /Domain [ {domainStr} ]");
             }
-            if(Extend != null)
+            if (Extend != null)
             {
                 var extendStr = string.Join(" ", Extend.Select(w => w.ToString().ToLower()).ToArray());
                 sb.AppendFormat($"\n   /Extend [ {extendStr} ]");

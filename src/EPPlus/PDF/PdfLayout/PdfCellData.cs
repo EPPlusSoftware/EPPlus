@@ -1,6 +1,5 @@
 ﻿using OfficeOpenXml.PDF.Math;
 using OfficeOpenXml.PDF.PdfGraphics;
-using OfficeOpenXml.PDF.PdfSettings;
 using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.PDF.PdfLayout
@@ -30,8 +29,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
     {
         public string id;
         public ExcelFillGradientType GradientType;
-        public PdfColor Color0;
         public PdfColor Color1;
+        public PdfColor Color2;
+        public PdfColor Color3;
         public double Degree;
         public double Top;
         public double Bottom;
@@ -41,7 +41,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public double[] coords;
         public override string ToString()
         {
-            return GradientType.ToString() + Color0.ToHexString() + Color1.ToHexString() + Degree;
+            return GradientType.ToString() + Color1.ToHexString() + Color2.ToHexString() + Degree + Top + Bottom + Left + Right;
         }
     }
 

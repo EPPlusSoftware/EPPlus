@@ -197,6 +197,8 @@ namespace OfficeOpenXml.Style
                     return ((ExcelGradientFillXml)(_styles.Fills[Index])).GradientColor1;
                 case eStyleClass.FillGradientColor2:
                     return ((ExcelGradientFillXml)(_styles.Fills[Index])).GradientColor2;
+                case eStyleClass.FillGradientColor3:
+                    return ((ExcelGradientFillXml)(_styles.Fills[Index])).GradientColor3;
                 default:
                     throw(new Exception("Invalid style-class for Color"));
             }

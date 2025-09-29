@@ -9,7 +9,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfFunctions
     //    Implemented    Function type
     //    [ ]            0 Sampled function
     //    [X]            2 Exponential interpolation function
-    //    [ ]            3 Stitching function
+    //    [X]            3 Stitching function
     //    [ ]            4 PostScript calculator function
 
     internal abstract class PdfFunction : PdfObject

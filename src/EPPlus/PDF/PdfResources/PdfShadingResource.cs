@@ -23,9 +23,18 @@ namespace OfficeOpenXml.PDF.PdfResources
             this.shadingObjectNumber = objectNumber;
             if (GradientFillData != null)
             {
-                var pah = new PdfAxialShading(objectNumber, GradientFillData, version);
-                pah.Coords = GradientFillData.coords;
-                return pah;
+                if (GradientFillData.GradientType == Style.ExcelFillGradientType.Linear)
+                {
+                    var pas = new PdfAxialShading(objectNumber, GradientFillData, version);
+                    pas.Coords = GradientFillData.coords;
+                    return pas;
+                }
+                else if (GradientFillData.GradientType == Style.ExcelFillGradientType.Path)
+                {
+                    var prs = new PdfRadialShading(objectNumber, GradientFillData, version);
+                    prs.Coords = GradientFillData.coords;
+                    return prs;
+                }
             }
             return null;
         }

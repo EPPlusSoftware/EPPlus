@@ -29,6 +29,7 @@ namespace OfficeOpenXml.Style
         FillGradientColor1,
         FillGradientColor2,
         NamedStyle,
-        Style
+        Style,
+        FillGradientColor3,
     };
 }
