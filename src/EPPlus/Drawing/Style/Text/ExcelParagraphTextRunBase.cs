@@ -15,9 +15,12 @@ using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
-using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Xml;
+using OfficeOpenXml.Drawing;
+using System.Linq;
+
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
@@ -31,6 +34,8 @@ namespace OfficeOpenXml.Drawing
         string _defaultFontName;
         IPictureRelationDocument _prd;
         ExcelDrawingParagraph _paragraph;
+        List<string> Lines;
+
         internal ExcelParagraphTextRunBase(ExcelDrawingParagraph paragraph, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
         {
             SchemaNodeOrder = ["rPr", "pPr", "t"];
@@ -42,6 +47,24 @@ namespace OfficeOpenXml.Drawing
 
             }
         }
+
+        internal List<string> SplitIntoLines()
+        {
+            var strLst = Text.Split("\r\n".ToArray()).ToList();
+            return strLst;
+        }
+
+        ///// <summary>
+        ///// If lines should be wrapped the total number of lines Changes and therefore the total height.
+        ///// </summary>
+        ///// <param name="measurer">A value of null implies no wrapping</param>
+        ///// <param name="maxWrappedWidth">A value of 0 (default) implies no wrapping</param>
+        ///// <returns></returns>
+        //internal int GetNumberOfLines(ITextMeasurer measurer = null, double maxWrappedWidth = 0d)
+        //{
+
+        //}
+
 
         internal ExcelDrawingParagraph Paragraph { get => _paragraph; }
         /// <summary>
@@ -404,7 +427,7 @@ namespace OfficeOpenXml.Drawing
             return new MeasurementFont()
             {
                 FontFamily = (string.IsNullOrEmpty(LatinFont) ? defaultName : LatinFont),
-                Size = FontSize < 0 ? defaultSize : FontSize,
+                Size = FontSize <= 0 ? defaultSize : FontSize,
                 Style = GetFontStyle()
             };
         }

@@ -323,5 +323,16 @@ namespace OfficeOpenXml.Style
             }
             return ret;
         }
+
+        internal double GetTotalParagraphHeight(ITextMeasurerWrap textMeasurer)
+        {
+            double totHeight = 0;
+            foreach (var paragraph in _textBody.Paragraphs)
+            {
+                totHeight += paragraph.GetParagraphHeightInPixels(textMeasurer);
+            }
+
+            return totHeight;
+        }
     }
 }

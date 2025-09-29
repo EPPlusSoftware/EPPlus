@@ -14,14 +14,17 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Xml;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -379,6 +382,94 @@ namespace OfficeOpenXml.Drawing
 
                 SetXmlNodeString("a:pPr/@fontAlgn", v);
             }
+        }
+
+        /// <summary>
+        /// Get paragraph lineSpacing in points
+        /// </summary>
+        /// <param name="measurer"></param>
+        /// <param name="isFirstLine">The first line in a paragraph collection has special lineHeight</param>
+        /// <returns></returns>
+        private double GetParagraphLineSpacing(ITextMeasurerWrap measurer, bool isFirstLine)
+        {
+            if (LineSpacing.LineSpacingType == eDrawingTextLineSpacing.Exactly)
+            {
+                return LineSpacing.Value;
+            }
+            else
+            {
+                var multiplier = LineSpacing.Value / 100;
+                if(isFirstLine && this == _paragraphs[0])
+                {
+                    return multiplier * measurer.GetBaseLine();
+                }
+
+                return multiplier * measurer.GetSingleLineSpacing();
+            }
+        }
+
+        /// <summary>
+        /// Returns paragraph height in points
+        /// </summary>
+        /// <param name="measurer">The wrapping textMeasurer to use</param>
+        /// <param name="maxWidth">MaxWidth/Wrapping width in points. A value of 0 implies no wrapping.</param>
+        /// <returns></returns>
+        internal double GetParagraphHeight(ITextMeasurerWrap measurer, double maxWidth = 0)
+        {
+            double paragraphHeight = 0;
+
+            bool isFirstLine = true;
+
+            foreach (var txtRun in TextRuns)
+            {
+                //Split textrun text into line-breaks
+                var lines = txtRun.SplitIntoLines();
+                //For each line in each linebreak
+                foreach(var line in lines)
+                {
+                    //Get the length/height of the line via the font of the textRun
+                    var measurement = measurer.MeasureText(line, txtRun.GetMeasureFont("Aptos Narrow", 11));
+
+                    //If text wrapping is on each of the broken lines could potentially be wrapped
+                    List<string> finalLines = new List<string>();
+                    if (maxWidth != 0)
+                    {
+                        var maxWidthInPixels = (maxWidth / 72d) * 96d;
+                        finalLines = measurer.MeasureAndWrapText(line, txtRun.GetMeasureFont("Aptos Narrow", 11), maxWidthInPixels);
+                    }
+                    else
+                    {
+                        finalLines.Add(line);
+                    }
+
+
+                    //Could be just one line or mutliple lines.
+                    //Re-use same collection to avoid code repetition.
+                    //Line-spacing should be applied for each line
+                    foreach(var fLine in finalLines)
+                    {
+                        //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
+                        var lineSpacing = GetParagraphLineSpacing(measurer, isFirstLine);
+                        paragraphHeight += lineSpacing;
+                        isFirstLine = false;
+                    }
+                }
+            }
+
+            return paragraphHeight;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="measurer"></param>
+        /// <param name="maxWidth">must be entered in points</param>
+        /// <returns></returns>
+        internal double GetParagraphHeightInPixels(ITextMeasurerWrap measurer, double maxWidth = 0)
+        {
+            var pointHeight = GetParagraphHeight(measurer, maxWidth);
+            var pixelHeight = (pointHeight / 72d) * 96d;
+
+            return pixelHeight;
         }
     }
 }
