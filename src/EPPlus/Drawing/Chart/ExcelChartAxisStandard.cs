@@ -10,13 +10,14 @@
  *************************************************************************************************
   04/22/2020         EPPlus Software AB       Added this class
  *************************************************************************************************/
-using System;
-using System.Xml;
-using System.Globalization;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.EnumUtils;
-using System.Collections.Generic;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -688,17 +689,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
         internal override object[] GetAxisValues(int maxItems)
         {            
-            switch(AxisType)
-            {
-                case eAxisType.Date:
-                    break;
-                case eAxisType.Val:
-                    break;
-                case eAxisType.Serie:
-                    break;
-                default:
-                    break;
-            }
             var hs = new HashSet<object>();
             foreach (var ct in _chart.PlotArea.ChartTypes)
             {
@@ -706,39 +696,23 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     if(AxisType==eAxisType.Cat)
                     {
-                        AddFromSerie(hs, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
-                    }
-                    else
-                    {
-                        if (Index == 1 && !ct.UseSecondaryAxis)
+                        if(string.IsNullOrEmpty(serie.XSeries) && serie.NumberLiteralsX.Length==0 && serie.StringLiteralsX.Length==0)
                         {
-                            AddFromSerie(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                            AddCountFromSeries(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                         }
-                        else if (Index == 2 && ct.UseSecondaryAxis)
+                        else
                         {
                             AddFromSerie(hs, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
                         }
                     }
-                    
-                    //if (Index == 0) //Category/Value Axis
-                    //{
-                    //    if(ExcelAddressBase.IsValidAddress(serie.Series))
-                    //    {
-                    //        AddFromSerie(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    if (Index == 1 && !ct.UseSecondaryAxis)
-                    //    {
-                    //        AddFromSerie(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
-                    //    }
-                    //    else if (Index == 2 && ct.UseSecondaryAxis)
-                    //    {
-                    //        AddFromSerie(hs, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
-                    //    }
-                    //}
-               }            
+                    else
+                    {
+                        if ((Index == 1 && !ct.UseSecondaryAxis) || (Index == 2 && ct.UseSecondaryAxis))
+                        {
+                            AddFromSerie(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                        }
+                    }
+                }            
             }
             var values = hs.ToList();
             if(Orientation==eAxisOrientation.MaxMin)
@@ -746,6 +720,37 @@ namespace OfficeOpenXml.Drawing.Chart
                 values.Reverse();
             }
             return values.ToArray();
+        }
+
+        private void AddCountFromSeries(HashSet<object> hs, string address, double[] numberLiterals, string[] stringLiterals)
+        {
+            if (numberLiterals?.Length > 0)
+            {
+                for(int i=1;i<= numberLiterals?.Length;i++)
+                {
+                    hs.Add(i);
+                }
+            }
+            else if (stringLiterals?.Length > 0)
+            {
+                for (int i = 1; i <= stringLiterals?.Length; i++)
+                {
+                    hs.Add(i);
+                }
+            }
+            else
+            {
+                var a = new ExcelAddressBase(address);
+                var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
+                int i = 1;
+                if (ws != null)
+                {
+                    foreach (var c in ws.Cells[a.Address])
+                    {
+                        hs.Add(i++);
+                    }
+                }
+            }
         }
 
         private void AddFromSerie(HashSet<object> hs, string address, double[] numberLiterals, string[] stringLiterals)
@@ -759,7 +764,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             else if (stringLiterals?.Length > 0)
             {
-                foreach (var s in numberLiterals)
+                foreach (var s in stringLiterals)
                 {
                     hs.Add(s);
                 }
