@@ -27,6 +27,16 @@ namespace OfficeOpenXml.Configuration
     public class ExcelPackageConfiguration
     {
         /// <summary>
+        /// Constructor
+        /// </summary>
+        public ExcelPackageConfiguration()
+        {
+#if (Core)
+            Configuration = ExcelPackage.Configuration;
+#endif
+        }
+
+        /// <summary>
         /// If set to true errors/exceptions that occurs during initialization of the ExcelPackage class will
         /// be suppressed and logged in <see cref="ExcelPackage.InitializationErrors"/>.
         /// 

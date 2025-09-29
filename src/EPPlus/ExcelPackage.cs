@@ -803,6 +803,9 @@ namespace OfficeOpenXml
         public static void Configure(Action<ExcelPackageConfiguration> configHandler)
         {
             configHandler(_configuration);
+#if (Core)
+            License.SetConfiguration(_configuration.Configuration);
+#endif
         }
         /// <summary>
         /// Errors that has been logged during initialization of the ExcelPackage class.

@@ -1,4 +1,7 @@
-﻿using OfficeOpenXml.Configuration;
+﻿#if(Core)
+using Microsoft.Extensions.Configuration;
+#endif
+using OfficeOpenXml.Configuration;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -58,6 +61,17 @@ namespace OfficeOpenXml
                 return _licenseSet;
             }
         }
+
+#if (Core)
+        internal void SetConfiguration(IConfiguration configuration)
+        {
+            // we only set this if it wasn't already set
+            if(_configuration.Configuration == null)
+            {
+                _configuration.Configuration = configuration;
+            }
+        }
+#endif
 
         /// <summary>
         /// Use this license if you use EPPlus for personal noncommercial usage.
