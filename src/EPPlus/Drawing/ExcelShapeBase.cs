@@ -230,6 +230,7 @@ namespace OfficeOpenXml.Drawing
                         //Text = "";    //Creates the node p element
                         node = TopNode.SelectSingleNode(_paragraphPath, NameSpaceManager);
                     }
+                    //Create default run properties if it doesn't exist
                     _font = new ExcelTextFontXml(_drawings, NameSpaceManager, TopNode, _fontPath, SchemaNodeOrder);
                 }
                 return _font;

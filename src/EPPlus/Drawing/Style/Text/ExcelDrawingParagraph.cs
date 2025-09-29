@@ -39,6 +39,7 @@ namespace OfficeOpenXml.Drawing
             AddSchemaNodeOrder(schemaNodeOrder, ["lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzPct", "buSzTx", "buSzPts", "buFont", "buFontTx", "buAutoNum", "buChar", "buBlip", "buNone", "tabLst", "defRPr"]);
             _initXml = initXml;
             _prd = prd;
+
             DefaultRunProperties = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
             var normalStyle = _prd.Package.Workbook.Styles.GetNormalStyle();
             if (paragraphs.Count == 0)
@@ -49,7 +50,15 @@ namespace OfficeOpenXml.Drawing
                 }
                 else
                 {
-                    DefaultRunProperties.LatinFont = DefaultRunProperties.ComplexFont = normalStyle.Style.Font.Name;
+                    if(string.IsNullOrEmpty(DefaultRunProperties.LatinFont))
+                    {
+                        DefaultRunProperties.LatinFont = normalStyle.Style.Font.Name;
+                    }
+                    
+                    if(string.IsNullOrEmpty(DefaultRunProperties.ComplexFont))
+                    {
+                        DefaultRunProperties.ComplexFont = normalStyle.Style.Font.Name;
+                    }
                 }
             }
                 
