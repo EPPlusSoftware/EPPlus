@@ -188,6 +188,55 @@ namespace EPPlusTest.Drawing
                 }
             }
 
+            [TestMethod]
+            public void TextInShape()
+            {
+                using (var p = OpenPackage("TestTextInShapeNew.xlsx", true))
+                {
+                    var ws = p.Workbook.Worksheets.Add("ShapeWorksheet");
+
+                    var sunShape = ws.Drawings.AddShape("Sun", eShapeStyle.Sun);
+
+                    sunShape.Font.SetFromFont("Calibri", 14, true);
+
+                    sunShape.SetSize(500, 500);
+
+                    var rt1 = sunShape.RichText.Add("Text One", true);
+
+                    var rt2 = sunShape.RichText.Add("SubText One", false);
+
+                    rt2.LatinFont = "Algerian";
+
+                    var latinFontForRun = rt2.LatinFont;
+
+                    var rt3 = sunShape.RichText.Add("SubText two", false);
+
+                    var rt21 = sunShape.RichText.Add("Text Two", true);
+
+                    Assert.AreEqual("", rt21.LatinFont);
+                    Assert.IsTrue(float.IsNaN(rt21.Size));
+
+                    Assert.AreEqual("Calibri", sunShape.TextBody.Paragraphs[1].DefaultRunProperties.LatinFont);
+                    Assert.AreEqual(14, sunShape.TextBody.Paragraphs[1].DefaultRunProperties.Size);
+
+                    var rt22 = sunShape.RichText.Add("\r\n Subtext TwoOne \r\n", false);
+
+                    var size = rt22.Size;
+
+                    rt22.LatinFont = "Algerian";
+                    rt22.Size = 12;
+                    rt22.Color = Color.Red;
+                    rt22.Bold = false;
+                    rt22.Italic = true;
+
+                    var rt23 = sunShape.RichText.Add("Subtext TwoTwo", false);
+
+                    Assert.AreEqual("", rt23.LatinFont);
+                    Assert.IsTrue(float.IsNaN(rt23.Size));
+
+                    SaveAndCleanup(p);
+                }
+            }
         }
     }
 }

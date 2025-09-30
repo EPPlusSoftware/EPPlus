@@ -106,6 +106,11 @@ namespace OfficeOpenXml.Drawing
             var rn=CreateNode("a:r", false, true);
             var txtRun = new ExcelParagraphTextRun(_paragraph, NameSpaceManager, rn);
             txtRun.Text = text;
+            if(_paragraph.DefaultRunProperties is ExcelTextFontXml)
+            {
+                ((ExcelTextFontXml)_paragraph.DefaultRunProperties).TriggerCreateTopNodeOnTextSet();
+            }
+            
             return Add(txtRun);
         }
         internal ExcelParagraphTextRun Add(ExcelParagraphTextRun txtRun)

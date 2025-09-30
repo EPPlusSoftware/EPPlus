@@ -11,6 +11,8 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.XmlAccess;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,6 +51,7 @@ namespace OfficeOpenXml.Drawing
             }
             AddSchemaNodeOrder(schemaNodeOrder, ["rPr", "pPr", "t"]);
         }
+
         public int Count { get => _paragraphs.Count; }
 
         public ExcelDrawingParagraph this[int index]
@@ -81,11 +84,27 @@ namespace OfficeOpenXml.Drawing
             var tr = p.TextRuns.Add(text);
             _paragraphs.Add(p);
             //_addCallback?.Invoke(tr);
-            if(placeHolderNode != null)
+
+            if (placeHolderNode != null)
             {
                 placeHolderNode = null;
             }
             return p;
+        }
+        /// <summary>
+        /// Default run properties for the entire shape
+        /// </summary>
+        internal ExcelTextFont FirstDefaultRunProperties = null;
+
+        internal ExcelTextFont CreateOrGetDefaultRunProperties(string fontPath, XmlNode rootNode)
+        {
+            if(_paragraphs.Count != 0)
+            {
+                return _paragraphs[0].DefaultRunProperties;
+            }
+
+            FirstDefaultRunProperties = new ExcelTextFontXml(_prd, NameSpaceManager, rootNode, fontPath, SchemaNodeOrder, _initXml);
+            return FirstDefaultRunProperties;
         }
 
         XmlNode placeHolderNode = null;

@@ -307,7 +307,7 @@ namespace OfficeOpenXml.Drawing
                 var c = GetXmlNodeInt(_sizePath);
                 if (c == int.MinValue)
                 {
-                    return c;
+                    return float.NaN;
                 }
                 return c / 100;
             }

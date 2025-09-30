@@ -45,27 +45,43 @@ namespace OfficeOpenXml.Drawing
 
             DefaultRunProperties = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
             var normalStyle = _prd.Package.Workbook.Styles.GetNormalStyle();
+
+            //////Previously new paragraphs used the first DefaultRunProperties
+            //////Uncertain if we should keep this behaviour at least as an option. TODO: Decide if breaking change or legacy setting (or keep only previous paragraph's settings?)
+            //bool legacyDefaultRunPropertySetting = true;
+
             if (paragraphs.Count == 0)
             {
-                if (normalStyle == null)
+                if (_paragraphs.FirstDefaultRunProperties == null)
                 {
-                    DefaultRunProperties.LatinFont = DefaultRunProperties.ComplexFont = "Calibri";
-                }
-                else
-                {
-                    if(string.IsNullOrEmpty(DefaultRunProperties.LatinFont))
+                    if (normalStyle == null)
                     {
-                        DefaultRunProperties.LatinFont = normalStyle.Style.Font.Name;
+                        DefaultRunProperties.LatinFont = DefaultRunProperties.ComplexFont = "Calibri";
                     }
-                    
-                    if(string.IsNullOrEmpty(DefaultRunProperties.ComplexFont))
+                    else
                     {
-                        DefaultRunProperties.ComplexFont = normalStyle.Style.Font.Name;
+                        if (string.IsNullOrEmpty(DefaultRunProperties.LatinFont))
+                        {
+                            DefaultRunProperties.LatinFont = normalStyle.Style.Font.Name;
+                        }
+
+                        if (string.IsNullOrEmpty(DefaultRunProperties.ComplexFont))
+                        {
+                            DefaultRunProperties.ComplexFont = normalStyle.Style.Font.Name;
+                        }
                     }
                 }
             }
-                
-            
+            //else if (legacyDefaultRunPropertySetting)
+            //{
+            //    //var fontXml = ((ExcelTextFontXml)DefaultRunProperties);
+            //    ////TODO: See legacyDefaultRunPropertySetting comment
+            //    //fontXml.XmlHelper.TopNode = DefaultRunProperties.PathElement;
+            //    //fontXml.SetPath(".");
+            //    CopyElement(paragraphs[0].DefaultRunProperties.PathElement, DefaultRunProperties.PathElement);
+            //}
+
+            //var font = DefaultRunProperties.LatinFont;
             //    parentNode = CreateNode(_path);
             //    _paragraphs.Add((XmlElement)parentNode);
             //    var defNode = CreateNode(_path + "/a:pPr/a:defRPr");
