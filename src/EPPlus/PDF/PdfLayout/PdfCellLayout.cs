@@ -35,6 +35,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 }
                 else if (fill.PatternType != Style.ExcelFillStyle.None)
                 {
+                    CellFillData.PattenStyle = fill.PatternType;
+                    CellFillData.PatternColor = new PdfColor(fill.PatternColor.LookupColor());
+                    CellFillData.BackgroundColor = new PdfColor(fill.BackgroundColor.LookupColor());
                 }
                 else
                 {
@@ -62,9 +65,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
                     }
                 }
-                //Pattern Fill
-                CellFillData.PattenStyle = cell.Style.Fill.PatternType;
-                CellFillData.PatternColor = new PdfColor(cell.Style.Fill.PatternColor.LookupColor());
             }
         }
 
@@ -172,7 +172,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
                     // Default corner = top-left
                     double cx = x;
-                    double cy = y;
+                    double cy = y + height;
 
                     if (!double.IsNaN(left) && !double.IsNaN(right) && !double.IsNaN(top) && !double.IsNaN(bottom)) // bottom-right
                     {
@@ -198,11 +198,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
                         cx = x;
                         cy = y;
                     }
-                    else // default: top-left
-                    {
-                        cx = x;
-                        cy = y + height;
-                    }
+                    //else // default: top-left
+                    //{
+                    //    cx = x;
+                    //    cy = y + height;
+                    //}
 
                     // radius = diagonal length (corner to opposite corner)
                     double r = System.Math.Sqrt(width * width + height * height) / 2d;
