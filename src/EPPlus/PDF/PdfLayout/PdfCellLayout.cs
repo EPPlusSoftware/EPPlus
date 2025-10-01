@@ -36,8 +36,9 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 else if (fill.PatternType != Style.ExcelFillStyle.None)
                 {
                     CellFillData.PattenStyle = fill.PatternType;
-                    CellFillData.PatternColor = new PdfColor(fill.PatternColor.LookupColor());
-                    CellFillData.BackgroundColor = new PdfColor(fill.BackgroundColor.LookupColor());
+                    CellFillData.BackgroundColor = new PdfColor( fill.PatternColor.Rgb == null ? "#FFFFFFFF" : fill.PatternColor.LookupColor());
+                    CellFillData.PatternColor = new PdfColor(fill.BackgroundColor.LookupColor());
+                    CellFillData.id = AddPatternResourceData(dictionaries.Patterns, CellFillData.PattenStyle.ToString() + CellFillData.PatternColor.ToHexString() + CellFillData.BackgroundColor.ToHexString());
                 }
                 else
                 {
@@ -57,7 +58,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                             CellFillData.GradientFillData.Right = fill.Gradient.Right;
                             //CellFillData.GradientFillData.matrix = [width, 0d, 0d, height, x, y];
                             //CellFillData.GradientFillData.id = AddPatternResourceData(dictionaries.Patterns, CellFillData.GradientFillData.ToString());
-                            CellFillData.GradientFillData.id = AddShadingResourceData(dictionaries.Shadings, CellFillData.GradientFillData.ToString());
+                            CellFillData.id = AddShadingResourceData(dictionaries.Shadings, CellFillData.GradientFillData.ToString());
                         }
                     }
                     catch(InvalidCastException)
@@ -77,7 +78,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 {
                     label = patternResources.Last().Value.labelNumber + 1;
                 }
-                var pr = new PdfPatternResource(label, CellFillData.GradientFillData); //send cell data here and calculate matrix for SHadingPattern(Need to recalculate y for cell...). Create the objects in constructor isntead of later when adding them to the document. (maybe do the same for font to keep it similar)
+                var pr = new PdfPatternResource(label, CellFillData); //send cell data here and calculate matrix for SHadingPattern(Need to recalculate y for cell...). Create the objects in constructor isntead of later when adding them to the document. (maybe do the same for font to keep it similar)
                 patternResources.Add(key, pr);
             }
             return key;

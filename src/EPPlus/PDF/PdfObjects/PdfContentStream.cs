@@ -27,17 +27,15 @@ namespace OfficeOpenXml.PDF.PdfObjects
 
         public void AddCellLayout(PdfCellLayout cell, string label)
         {
-            if (cell.CellFillData.GradientFillData != null)
+            if (cell.CellFillData.GradientFillData != null && cell.CellFillData.PattenStyle != Style.ExcelFillStyle.Solid)
             {
                 commands.Add("q");
-                //commands.Add("/Pattern cs");
-                //commands.Add($"/{PatternLabel} scn");
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re W n");
                 commands.Add($"/{label} sh");
                 commands.Add("f");
                 commands.Add("Q");
             }
-            else if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.BackgroundColor.A >= 0.99999f)
+            else if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.PattenStyle == Style.ExcelFillStyle.Solid)
             {
                 commands.Add("q");
                 commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
@@ -45,6 +43,15 @@ namespace OfficeOpenXml.PDF.PdfObjects
                 commands.Add(cell.CellFillData.BackgroundColor.ToStrokeCommand());
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
                 commands.Add("B");
+                commands.Add("Q");
+            }
+            else if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.PattenStyle != Style.ExcelFillStyle.None)
+            {
+                commands.Add("q");
+                commands.Add("/Pattern cs");
+                commands.Add($"/{label} scn");
+                commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
+                commands.Add("f");
                 commands.Add("Q");
             }
         }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.PDF.PdfLayout;
 using OfficeOpenXml.PDF.PdfResources;
+using System;
 
 namespace OfficeOpenXml.PDF
 {
@@ -93,11 +94,21 @@ namespace OfficeOpenXml.PDF
             return Dictionaries.Fonts[fontName].Label;
         }
 
+        internal string GetLabel(PdfCellLayout layout)
+        {
+            string label;
+            label = GetPatternLabel(layout);
+            if(!string.IsNullOrEmpty(label)) return label;
+            label = GetShadingLabel(layout);
+            if(!string.IsNullOrEmpty(label)) return label;
+            return null;
+        }
+
         internal string GetPatternLabel(PdfCellLayout layout)
         {
-            if (layout.CellFillData.GradientFillData != null)
+            if (layout.CellFillData.PattenStyle != Style.ExcelFillStyle.Solid && layout.CellFillData.PattenStyle != Style.ExcelFillStyle.None)
             {
-                var patternName = layout.CellFillData.GradientFillData.ToString();
+                var patternName = layout.CellFillData.id;
                 if (Dictionaries.Patterns.ContainsKey(patternName))
                 {
                     return Dictionaries.Patterns[patternName].Label;
@@ -138,8 +149,9 @@ namespace OfficeOpenXml.PDF
         {
             foreach (var pattern in Dictionaries.Patterns)
             {
-                Document.Add(pattern.Value.GetShadingObject(Document.Count + 1));
-                Document.Add(pattern.Value.GetShadingPatternObject(Document.Count + 1, Document.Count));
+                Document.Add(pattern.Value.GetPatternObject(Document.Count + 1));
+                //Document.Add(pattern.Value.GetShadingObject(Document.Count + 1));
+                //Document.Add(pattern.Value.GetShadingPatternObject(Document.Count + 1, Document.Count));
             }
         }
 
@@ -193,7 +205,7 @@ namespace OfficeOpenXml.PDF
                     switch (cellPart)
                     {
                         case PdfCellLayout layout:
-                            contentStream.AddCellLayout(layout, GetShadingLabel(layout));
+                            contentStream.AddCellLayout(layout, GetLabel(layout));
                             break;
                         case PdfCellContentLayout contentLayout:
                             contentStream.AddCellContentLayout(contentLayout, GetFontLabel(contentLayout.FontData.FontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));
@@ -212,6 +224,16 @@ namespace OfficeOpenXml.PDF
             }
             Document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
+        }
+
+        private void AddFinalData()
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat($"<< /Author (EPPlus)\n" +
+                            $"   /CreationDate ({DateTime.Now.ToString()})\n" +
+                            $"   /ModDate ({DateTime.Now.ToString()})\n" +
+                            $"   /Producer (EPPlus PDF Exporter)\n" +
+                            $"   /Title ({_workheets[0].Workbook._package.File.Name}) >>");
         }
 
         /// <summary>
@@ -240,6 +262,7 @@ namespace OfficeOpenXml.PDF
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
+            AddFinalData();
             string debugString = "";
             //write to pdf
             PdfCrossRefTable crossRefTable = new PdfCrossRefTable();

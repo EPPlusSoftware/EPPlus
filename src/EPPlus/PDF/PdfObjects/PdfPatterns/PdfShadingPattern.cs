@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
 {
-    internal  class PdfShadingPattern : PdfObject
+    internal  class PdfShadingPattern : PdfPattern
     {
         internal int shadingObjectNumber;
         internal double[] Matrix;

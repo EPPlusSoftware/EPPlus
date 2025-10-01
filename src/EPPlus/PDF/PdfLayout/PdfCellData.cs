@@ -27,7 +27,6 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
     internal class PdfCellGradientFillData
     {
-        public string id;
         public ExcelFillGradientType GradientType;
         public PdfColor Color1;
         public PdfColor Color2;
@@ -47,6 +46,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
 
     internal struct PdfCellFillData
     {
+        public string id;
         public PdfColor BackgroundColor = PdfColor.None;
         public ExcelFillStyle PattenStyle = ExcelFillStyle.None;
         public PdfColor PatternColor = PdfColor.Black;
