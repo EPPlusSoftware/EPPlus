@@ -40,17 +40,17 @@ namespace OfficeOpenXml.Style
             _defaultFontSize = defaultFontSize;
             AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef","rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount","pt","pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont","buNone", "buAutoNum", "buChar","buBlip", "tabLst","defRPr", "r","br","fld" ,"endParaRPr" });
 
-            if (topNode.SelectSingleNode(path, ns) == null)
-            {
-                if (tb.Paragraphs.Count == 0)
-                {
-                    var paragraphParent = path.Substring(0, path.LastIndexOf('/'));
-                    var tmpTop = TopNode;
-                    TopNode = TopNode.SelectNodes(paragraphParent, ns)[0];
-                    var placeHolderNode = tb.Paragraphs.CreateAndReturnParagraphPlaceHolder();
-                    TopNode = tmpTop;
-                }
-            }
+            //if (topNode.SelectSingleNode(path, ns) == null)
+            //{
+            //    if (tb.Paragraphs.Count == 0)
+            //    {
+            //        var paragraphParent = path.Substring(0, path.LastIndexOf('/'));
+            //        var tmpTop = TopNode;
+            //        TopNode = TopNode.SelectNodes(paragraphParent, ns)[0];
+            //        var placeHolderNode = tb.Paragraphs.CreateAndReturnParagraphPlaceHolder();
+            //        TopNode = tmpTop;
+            //    }
+            //}
 
             //var tfXml = new ExcelTextFontXml(drawing._drawings, ns, TopNode, path + "/a:pPr/a:defRPr", schemaNodeOrder);
             ////if(tb.Paragraphs.Count == 0)

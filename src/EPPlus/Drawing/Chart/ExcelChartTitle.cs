@@ -128,7 +128,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         RichText.Add("");
                     }
-                    _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:bodyPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+                    _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
                 }
                 return _font;
             }
@@ -160,7 +160,7 @@ namespace OfficeOpenXml.Drawing.Chart
 			{
 				if (_textSettings == null)
 				{
-					_textSettings = new ExcelDrawingTextSettings(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:bodyPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+					_textSettings = new ExcelDrawingTextSettings(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
 				}
 				return _textSettings;
 			}
