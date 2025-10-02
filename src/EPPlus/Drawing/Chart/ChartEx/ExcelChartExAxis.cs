@@ -189,7 +189,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             return _title;
         }
 
-        internal override object[] GetAxisValues(int maxItems)
+        internal override object[] GetAxisValues()
         {
             throw new NotImplementedException();
         }

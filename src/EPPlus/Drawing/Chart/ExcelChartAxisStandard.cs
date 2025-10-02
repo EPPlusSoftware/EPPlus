@@ -687,7 +687,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         public int Index { get; private set; }
 
-        internal override object[] GetAxisValues(int maxItems)
+        internal override object[] GetAxisValues()
         {            
             var hs = new HashSet<object>();
             foreach (var ct in _chart.PlotArea.ChartTypes)
@@ -696,20 +696,20 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     if(AxisType==eAxisType.Cat)
                     {
-                        if(string.IsNullOrEmpty(serie.XSeries) && serie.NumberLiteralsX.Length==0 && serie.StringLiteralsX.Length==0)
+                        if(string.IsNullOrEmpty(serie.XSeries) && (serie.NumberLiteralsX == null || serie.NumberLiteralsX.Length==0) && (serie.StringLiteralsX==null || serie.StringLiteralsX?.Length==0))
                         {
                             AddCountFromSeries(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                         }
                         else
                         {
-                            AddFromSerie(hs, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
+                            AddFromSerie(hs, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true);
                         }
                     }
                     else
                     {
                         if ((Index == 1 && !ct.UseSecondaryAxis) || (Index == 2 && ct.UseSecondaryAxis))
                         {
-                            AddFromSerie(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                            AddFromSerie(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false);
                         }
                     }
                 }            
@@ -753,7 +753,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private void AddFromSerie(HashSet<object> hs, string address, double[] numberLiterals, string[] stringLiterals)
+        private void AddFromSerie(HashSet<object> hs, string address, double[] numberLiterals, string[] stringLiterals, bool useText)
         {
             if (numberLiterals?.Length > 0)
             {                
@@ -777,7 +777,14 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     foreach(var c in ws.Cells[a.Address])
                     {
-                        hs.Add(c.Value);
+                        if(useText)
+                        {
+                            hs.Add(c.Text);
+                        }
+                        else
+                        {
+                            hs.Add(c.Value);
+                        }
                     }
                 }
             }

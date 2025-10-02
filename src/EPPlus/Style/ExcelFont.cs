@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 
 namespace OfficeOpenXml.Style
 {
@@ -266,6 +267,22 @@ namespace OfficeOpenXml.Style
             Bold = bold;
             UnderLine = underline;
             Italic = italic;
+        }
+
+        internal MeasurementFont GetMeasureFont()
+        {
+            var fontStyle = MeasurementFontStyles.Regular;
+            if (Bold) fontStyle |= MeasurementFontStyles.Bold;
+            if (UnderLine) fontStyle |= MeasurementFontStyles.Underline;
+            if (Italic) fontStyle |= MeasurementFontStyles.Italic;
+            if (Strike) fontStyle |= MeasurementFontStyles.Strikeout;
+
+            return new MeasurementFont()
+            {
+                FontFamily = Name,
+                Size = Size,
+                Style = fontStyle
+            };
         }
 
         internal override string Id

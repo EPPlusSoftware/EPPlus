@@ -414,12 +414,18 @@ namespace OfficeOpenXml.Drawing
         /// <param name="measurer">The wrapping textMeasurer to use</param>
         /// <param name="maxWidth">MaxWidth/Wrapping width in points. A value of 0 implies no wrapping.</param>
         /// <returns></returns>
-        internal double GetParagraphHeight(ITextMeasurerWrap measurer, double maxWidth = 0)
+        internal RectBase GetParagraphSize(double maxWidth = 0, double maxHeight = 0)
         {
             double paragraphHeight = 0;
-
+            double paragraphWidth = 0;
+            var measurer = _prd.Package.Settings.TextSettings.GenericTextMeasurer;
             bool isFirstLine = true;
 
+            var maxWidthInPixels = (maxWidth / 72d) * 96d;
+
+            var ns = _prd.Package.Workbook.Styles.GetNormalStyle();
+            var defFont = ns.Style.Font.Name;            
+            var defFontSize = ns.Style.Font.Size;
             foreach (var txtRun in TextRuns)
             {
                 //Split textrun text into line-breaks
@@ -428,20 +434,19 @@ namespace OfficeOpenXml.Drawing
                 foreach(var line in lines)
                 {
                     //Get the length/height of the line via the font of the textRun
-                    var measurement = measurer.MeasureText(line, txtRun.GetMeasureFont("Aptos Narrow", 11));
+                    var measurement = measurer.MeasureText(line, txtRun.GetMeasureFont(defFont, defFontSize));
 
                     //If text wrapping is on each of the broken lines could potentially be wrapped
                     List<string> finalLines = new List<string>();
-                    if (maxWidth != 0)
+                    if (maxWidthInPixels != 0 && measurement.Width > maxWidthInPixels)
                     {
-                        var maxWidthInPixels = (maxWidth / 72d) * 96d;
-                        finalLines = measurer.MeasureAndWrapText(line, txtRun.GetMeasureFont("Aptos Narrow", 11), maxWidthInPixels);
+
+                        //finalLines = measurer.MeasureAndWrapText(line, txtRun.GetMeasureFont(defFont, defFontSize), maxWidthInPixels);
                     }
                     else
                     {
                         finalLines.Add(line);
                     }
-
 
                     //Could be just one line or mutliple lines.
                     //Re-use same collection to avoid code repetition.
@@ -449,27 +454,24 @@ namespace OfficeOpenXml.Drawing
                     foreach(var fLine in finalLines)
                     {
                         //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
-                        var lineSpacing = GetParagraphLineSpacing(measurer, isFirstLine);
+                        var lineSpacing = GetParagraphLineSpacing(null, isFirstLine);
                         paragraphHeight += lineSpacing;
                         isFirstLine = false;
                     }
                 }
             }
 
-            return paragraphHeight;
+            return new RectBase(paragraphWidth, paragraphHeight);
         }
 
         /// <summary>
         /// </summary>
-        /// <param name="measurer"></param>
         /// <param name="maxWidth">must be entered in points</param>
         /// <returns></returns>
-        internal double GetParagraphHeightInPixels(ITextMeasurerWrap measurer, double maxWidth = 0)
-        {
-            var pointHeight = GetParagraphHeight(measurer, maxWidth);
-            var pixelHeight = (pointHeight / 72d) * 96d;
-
-            return pixelHeight;
+        internal RectBase GetParagraphSizeInPixels(double maxWidth = 0, double maxHeight = 0)
+        {            
+            var pointHeight = GetParagraphSize(maxWidth, maxHeight);
+            return new RectBase((pointHeight.Width / 72d) * 96d, (pointHeight.Height / 72d) * 96d);
         }
     }
 }

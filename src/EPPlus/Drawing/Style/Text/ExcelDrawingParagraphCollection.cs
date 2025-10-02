@@ -10,7 +10,10 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Core.Worksheet.Fonts;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -224,10 +227,40 @@ namespace OfficeOpenXml.Drawing
             _removeParagraphCallback = removeParagraphCallback;
             _removeTextRunCallback = removeTextRunCallback;            
         }
-
-        internal void GetHeightInPixels(out float textWidth, out float textHeight)
+        internal RectBase GetSizeInPixels(double maxWidth, double maxHeight, string defaultText)
         {
-            textWidth = textHeight = 0;
+            var rect = new RectBase();
+            if (_paragraphs.Count == 0)
+            {
+                var ns = _prd.Package.Workbook.Styles.GetNormalStyle();
+                var defFont = ns.Style.Font.GetMeasureFont();
+                var t =_prd.Package.Settings.TextSettings.PrimaryTextMeasurer.MeasureText(defaultText, defFont); //TODO: use WrapMeasurer
+            }
+
+            foreach (var p in _paragraphs)
+            {
+                var pr = p.GetParagraphSizeInPixels(maxWidth, maxHeight);
+                if(rect.Width < pr.Width) rect.Right = pr.Width;
+                rect.Bottom += pr.Height;
+                //foreach(var tr in p.TextRuns)
+                //{
+                //    tr.Text
+                //    width += w;
+                //    if (height < h) height = h;
+                //}
+            }
+            return rect;
+        }
+        internal double GetHeightInPixels(ITextMeasurerWrap textMeasurer)
+        {
+            double totHeight = 0;
+            foreach (var paragraph in _paragraphs)
+            {
+                //totHeight += paragraph.GetParagraphHeightInPixels(textMeasurer);
+            }
+
+            return totHeight;
+            //textWidth = textHeight = 0;
             //var tm = _prd.Package.Settings.TextSettings.PrimaryTextMeasurer;
             //float lineWidth, lineHeight;
             //textWidth = textHeight = lineWidth = lineHeight = 0;

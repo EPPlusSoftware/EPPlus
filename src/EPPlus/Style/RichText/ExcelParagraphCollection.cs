@@ -326,13 +326,8 @@ namespace OfficeOpenXml.Style
 
         internal double GetTotalParagraphHeight(ITextMeasurerWrap textMeasurer)
         {
-            double totHeight = 0;
-            foreach (var paragraph in _textBody.Paragraphs)
-            {
-                totHeight += paragraph.GetParagraphHeightInPixels(textMeasurer);
-            }
-
-            return totHeight;
+            return 0;
+            //return _textBody.Paragraphs.GetHeightInPixels(out float w, out float h, textMeasurer, _defaultFontSize, _defaultFont.GetFontName(_drawing), GetFontStyle);
         }
     }
 }
