@@ -61,6 +61,28 @@ namespace OfficeOpenXml
         internal static string GetJsonConfigValue(string key, ExcelPackageConfiguration config, List<ExcelInitializationError> initErrors)
         {
             var supressInitExceptions = config.SuppressInitializationExceptions;
+            // try to read from the IConfiguration that can be supplied either via constructor of ExcelPackage or ExcelPackage.Configure
+            var cfg = ExcelPackage.Configuration;
+            if(cfg == null && config.Configuration != null)
+            {
+                cfg = config.Configuration;
+            }
+            if(cfg != null)
+            {
+                try
+                {
+                    var v = cfg[key];
+                    return v;
+                }
+                catch(Exception ex)
+                {
+                    var errorMessage = $"Could read value '{key}' from the supplied instance of IConfiguration.";
+                    var error = new ExcelInitializationError(errorMessage, ex);
+                    initErrors.Add(error);
+                    return null;
+                }
+            }
+            // use file paths of the configuration
             var basePath = config.JsonConfigBasePath;
             var configFileName = config.JsonConfigFileName;
             var configRoot = default(IConfigurationRoot);

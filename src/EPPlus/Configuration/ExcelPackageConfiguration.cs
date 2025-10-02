@@ -10,6 +10,9 @@
  *************************************************************************************************
   08/19/2022         EPPlus Software AB       Implementing handling of initialization errors in ExcelPackage class.
  *************************************************************************************************/
+#if(Core)
+using Microsoft.Extensions.Configuration;
+#endif
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,6 +38,13 @@ namespace OfficeOpenXml.Configuration
         {
             get; set;
         }
+
+#if(Core)
+        /// <summary>
+        /// A <see cref="IConfiguration" /> instance that will be used by EPPlus to read license information/key
+        /// </summary>
+        public IConfiguration Configuration { get; set; }
+#endif
 
         private string _jsonConfigBasePath = Directory.GetCurrentDirectory();
         /// <summary>
@@ -71,6 +81,9 @@ namespace OfficeOpenXml.Configuration
             _jsonConfigBasePath = other.JsonConfigBasePath;
             _jsonConfigFileName = other.JsonConfigFileName;
             SuppressInitializationExceptions = other.SuppressInitializationExceptions;
+#if(Core)
+            Configuration = other.Configuration;
+#endif
         }
 
         /// <summary>
