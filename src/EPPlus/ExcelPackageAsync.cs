@@ -161,7 +161,8 @@ namespace OfficeOpenXml
 
 				try
 				{
-					_zipPackage = new Packaging.ZipPackage(ms);
+					_zipPackage = new Packaging.ZipPackage(false);
+                    await _zipPackage.ReadStreamAsync(ms, cancellationToken);
 				}
 				catch (Exception ex)
 				{

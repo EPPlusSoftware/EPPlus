@@ -583,6 +583,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
             CreatespPrNode($"{_nsPrefix}:spPr");
         }
-        internal abstract object[] GetAxisValues(int maxItems);
+        internal abstract object[] GetAxisValues();
     }
 }

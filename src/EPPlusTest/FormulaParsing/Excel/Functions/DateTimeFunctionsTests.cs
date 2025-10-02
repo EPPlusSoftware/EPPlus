@@ -688,6 +688,34 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void NetworkdayIntlWithHourAndMinuteDate()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("test");
+                ws.Cells["A1"].Value = new DateTime(2025, 09, 30, 7, 30, 0);
+                ws.Cells["A2"].Value = new DateTime(2025, 09, 30, 17, 30, 0);
+                ws.Cells["A3"].Formula = "NETWORKDAYS.INTL(A1, A2)";
+                ws.Calculate();
+                Assert.AreEqual(1, ws.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void NetworkdayIntlWithSecondsDate()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("test");
+                ws.Cells["A1"].Value = new DateTime(2025, 09, 30, 7, 30, 0);
+                ws.Cells["A2"].Value = new DateTime(2025, 10, 30, 17, 30, 0, 48);
+                ws.Cells["A3"].Formula = "NETWORKDAYS.INTL(A1, A2)";
+                ws.Calculate();
+                Assert.AreEqual(23, ws.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
         public void TimeAddition()
         {
             using (var package = new ExcelPackage())

@@ -143,6 +143,9 @@ namespace OfficeOpenXml
         Stream _stream = null;
         private bool _isExternalStream = false;
         internal ExcelPackage _loadedPackage = null;
+#if(Core)
+        internal static IConfiguration Configuration { get; private set; }
+#endif
         #region Properties
         /// <summary>
         /// Extension Schema types
@@ -269,6 +272,8 @@ namespace OfficeOpenXml
             File = newFile;
             ConstructNewFile(null);
         }
+
+
         /// <summary>
 		/// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
 		/// </summary>
@@ -276,6 +281,106 @@ namespace OfficeOpenXml
         public ExcelPackage(string path)
             : this(new FileInfo(path))
         { }
+
+#if (Core)
+        /// <summary>
+        /// Create a new instance of the ExcelPackage. 
+        /// Output is accessed through the Stream property, using the <see cref="SaveAs(FileInfo)"/> method or later set the <see cref="File" /> property.
+        /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        /// </summary>
+        public ExcelPackage(IConfiguration configuration)
+        {
+            Configuration = configuration;
+            Init();
+            ConstructNewFile(null);
+        }
+        /// <summary>
+        ///  Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
+        /// </summary>
+        /// <param name="newFile">If newFile exists, it is opened.  Otherwise it is created from scratch.</param>
+        /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        public ExcelPackage(FileInfo newFile, IConfiguration configuration)
+        {
+            Configuration = configuration;
+            Init();
+            File = newFile;
+            ConstructNewFile(null);
+        }
+        /// <summary>
+        ///  Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
+        /// </summary>
+        /// <param name="path">If newFile exists, it is opened.  Otherwise it is created from scratch.</param>
+        /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        public ExcelPackage(string path, IConfiguration configuration)
+            : this(new FileInfo(path), configuration)
+        { }
+
+        /// <summary>
+        /// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
+        /// </summary>
+        /// <param name="newFile">If newFile exists, it is opened.  Otherwise it is created from scratch.</param>
+        /// <param name="password">Password for an encrypted package</param>
+        /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        public ExcelPackage(FileInfo newFile, string password, IConfiguration configuration)
+        {
+            Configuration = configuration;
+            Init();
+            File = newFile;
+            ConstructNewFile(password);
+        }
+
+        /// <summary>
+        /// Create a new instance of the ExcelPackage class based on a existing template.
+        /// If newFile exists, it will be overwritten when the Save method is called
+        /// </summary>
+        /// <param name="newFile">The name of the Excel file to be created</param>
+        /// <param name="template">The name of the Excel template to use as the basis of the new Excel file</param>
+        /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        public ExcelPackage(FileInfo newFile, FileInfo template, IConfiguration configuration)
+        {
+            Configuration = configuration;
+            Init();
+            File = newFile;
+            CreateFromTemplate(template, null);
+        }
+
+        /// <summary>
+        /// Create a new instance of the ExcelPackage class based on a existing template.
+        /// If newFile exists, it will be overwritten when the Save method is called
+        /// </summary>
+        /// <param name="newFile">The name of the Excel file to be created</param>
+        /// <param name="template">The name of the Excel template to use as the basis of the new Excel file</param>
+        /// <param name="password">Password to decrypted the template</param>
+        /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        public ExcelPackage(FileInfo newFile, FileInfo template, string password, IConfiguration configuration)
+        {
+            Configuration = configuration;
+            Init();
+            File = newFile;
+            CreateFromTemplate(template, password);
+        }
+
+        /// <summary>
+        /// Create a new instance of the ExcelPackage class based on a stream
+        /// </summary>
+        /// <param name="newStream">The stream object can be empty or contain a package. The stream must be Read/Write</param>
+        /// /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        public ExcelPackage(Stream newStream, IConfiguration configuration)
+        {
+            Configuration = configuration;
+            Init();
+            if (newStream.CanSeek && newStream.Length == 0)
+            {
+                _stream = newStream;
+                _isExternalStream = true;
+                ConstructNewFile(null);
+            }
+            else
+            {
+                Load(newStream);
+            }
+        }
+#endif
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
         /// </summary>
@@ -1110,14 +1215,21 @@ namespace OfficeOpenXml
                 return _compatibility;
             }
         }
+        ExcelPackageSettings _settings=null;
         /// <summary>
         /// Package generic settings
         /// </summary>
         public ExcelPackageSettings Settings
         {
-            get;
-            private set;
-        } = new ExcelPackageSettings();
+            get
+            {
+                if(_settings==null)
+                {
+                    _settings = new ExcelPackageSettings(this);
+                }
+                return _settings;
+            }
+        } 
 #if !NET35
         static MemorySettings _memorySettings = null;
         /// <summary>

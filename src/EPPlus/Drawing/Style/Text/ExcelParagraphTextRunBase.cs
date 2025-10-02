@@ -32,9 +32,10 @@ namespace OfficeOpenXml.Drawing
         /// for measuring
         /// </summary>
         string _defaultFontName;
+        double _defaultFontSize;
+
         IPictureRelationDocument _prd;
         ExcelDrawingParagraph _paragraph;
-        List<string> Lines;
 
         internal ExcelParagraphTextRunBase(ExcelDrawingParagraph paragraph, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
         {
@@ -44,7 +45,8 @@ namespace OfficeOpenXml.Drawing
 
             if(paragraph.DefaultRunProperties != null)
             {
-
+                _defaultFontName = paragraph.DefaultRunProperties.LatinFont;
+                _defaultFontSize = paragraph.DefaultRunProperties.Size;
             }
         }
 
