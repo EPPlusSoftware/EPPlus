@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics
 {
-    internal class FontMeasurerExact : ITextMeasurerWrap
+    internal class FontMeasurerTrueType : ITextMeasurerWrap
     {
         private TtfFont _defaultFont = TextData.GetFontData("Calibri", "Regular");
         private double _defaultSize = 11d;
@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics
         /// <summary>
         /// Creates a font measurer with the default font
         /// </summary>
-        internal FontMeasurerExact()
+        internal FontMeasurerTrueType()
         {
             //Set only to avoid warning. Set font already sets it.
             CurrentFont = _defaultFont;
@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics
         /// <param name="fontSize"></param>
         /// <param name="fontName"></param>
         /// <param name="fontSubFamily"></param>
-        internal FontMeasurerExact(double fontSize, string fontName, string fontSubFamily = "Regular") 
+        internal FontMeasurerTrueType(double fontSize, string fontName, string fontSubFamily = "Regular") 
         {
             CurrentFontName = string.IsNullOrEmpty(fontName) ? "" : fontName;
 
@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics
             }
         }
 
-        internal FontMeasurerExact(MeasurementFont mFont)
+        internal FontMeasurerTrueType(MeasurementFont mFont)
         {
             CurrentFontName = string.IsNullOrEmpty(mFont.FontFamily) ? "" : mFont.FontFamily;
 

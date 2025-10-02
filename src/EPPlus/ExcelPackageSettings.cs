@@ -31,9 +31,10 @@ namespace OfficeOpenXml
             get;
         } = new Dictionary<string, Dictionary<int, string>>(StringComparer.InvariantCultureIgnoreCase);
 
-        internal ExcelPackageSettings()
+        ExcelPackage _package;
+        internal ExcelPackageSettings(ExcelPackage package)
         {
-
+            _package = package;
         }
         /// <summary>
         /// Do not call garbage collection when ExcelPackage is disposed.
@@ -50,7 +51,7 @@ namespace OfficeOpenXml
             {
                 if (_textSettings == null)
                 {                    
-                    _textSettings = new ExcelTextSettings();
+                    _textSettings = new ExcelTextSettings(_package);
                 }
                 return _textSettings;
             }

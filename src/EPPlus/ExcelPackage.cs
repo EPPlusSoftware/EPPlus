@@ -1215,14 +1215,21 @@ namespace OfficeOpenXml
                 return _compatibility;
             }
         }
+        ExcelPackageSettings _settings=null;
         /// <summary>
         /// Package generic settings
         /// </summary>
         public ExcelPackageSettings Settings
         {
-            get;
-            private set;
-        } = new ExcelPackageSettings();
+            get
+            {
+                if(_settings==null)
+                {
+                    _settings = new ExcelPackageSettings(this);
+                }
+                return _settings;
+            }
+        } 
 #if !NET35
         static MemorySettings _memorySettings = null;
         /// <summary>
