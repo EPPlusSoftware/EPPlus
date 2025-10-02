@@ -238,7 +238,9 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:bodyPr", SchemaNodeOrder, ((ExcelTextFontXml)Font).CreateTopNode);
+                    //TODO: CreateTopNode of ExcelTextFontXML on init here somehow
+                    //Note: txPR is a CT_Textbody node. The only difference between txPr and TextBody
+                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:bodyPr", SchemaNodeOrder/*, ((ExcelTextFontXml)Font).CreateTopNode*/);
                 }
                 return _textBody;
             }

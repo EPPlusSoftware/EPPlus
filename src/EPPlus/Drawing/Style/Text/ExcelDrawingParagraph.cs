@@ -43,12 +43,21 @@ namespace OfficeOpenXml.Drawing
             _initXml = initXml;
             _prd = prd;
 
+            //if(_paragraphs.FirstDefaultRunProperties != null)
+            //{
+            //    DefaultRunProperties = _paragraphs.FirstDefaultRunProperties;
+            //}
+            //else
+            //{
+
+            //}
+
             DefaultRunProperties = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
             var normalStyle = _prd.Package.Workbook.Styles.GetNormalStyle();
 
             //////Previously new paragraphs used the first DefaultRunProperties
             //////Uncertain if we should keep this behaviour at least as an option. TODO: Decide if breaking change or legacy setting (or keep only previous paragraph's settings?)
-            //bool legacyDefaultRunPropertySetting = true;
+            bool legacyDefaultRunPropertySetting = true;
 
             if (paragraphs.Count == 0)
             {
@@ -72,14 +81,14 @@ namespace OfficeOpenXml.Drawing
                     }
                 }
             }
-            //else if (legacyDefaultRunPropertySetting)
-            //{
-            //    //var fontXml = ((ExcelTextFontXml)DefaultRunProperties);
-            //    ////TODO: See legacyDefaultRunPropertySetting comment
-            //    //fontXml.XmlHelper.TopNode = DefaultRunProperties.PathElement;
-            //    //fontXml.SetPath(".");
-            //    CopyElement(paragraphs[0].DefaultRunProperties.PathElement, DefaultRunProperties.PathElement);
-            //}
+            else if (legacyDefaultRunPropertySetting && _paragraphs.FirstDefaultRunProperties != null)
+            {
+                ((ExcelTextFontXml)DefaultRunProperties).TriggerCreateTopNodeOnTextSet();
+
+                var xmlFirstDefault = ((ExcelTextFontXml)paragraphs.FirstDefaultRunProperties).XmlHelper;
+                var xmlNewNode = ((ExcelTextFontXml)DefaultRunProperties).XmlHelper;
+                CopyElement((XmlElement)xmlFirstDefault.TopNode, (XmlElement)xmlNewNode.TopNode);
+            }
 
             //var font = DefaultRunProperties.LatinFont;
             //    parentNode = CreateNode(_path);

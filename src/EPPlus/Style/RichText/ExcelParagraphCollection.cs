@@ -52,18 +52,18 @@ namespace OfficeOpenXml.Style
                 }
             }
 
-            var tfXml = new ExcelTextFontXml(drawing._drawings, ns, TopNode, path + "/a:pPr/a:defRPr", schemaNodeOrder);
-            //if(tb.Paragraphs.Count == 0)
-            //{
-            //    if(tfXml._rootNode.SelectSingleNode("//a:p", tfXml.XmlHelper.NameSpaceManager) == null)
-            //    {
+            //var tfXml = new ExcelTextFontXml(drawing._drawings, ns, TopNode, path + "/a:pPr/a:defRPr", schemaNodeOrder);
+            ////if(tb.Paragraphs.Count == 0)
+            ////{
+            ////    if(tfXml._rootNode.SelectSingleNode("//a:p", tfXml.XmlHelper.NameSpaceManager) == null)
+            ////    {
 
-            //        var placeHolderNode = tb.Paragraphs.CreateAndReturnParagraphPlaceHolder();
-            //        tfXml.XmlHelper.TopNode = placeHolderNode;
-            //    }
-            //}
+            ////        var placeHolderNode = tb.Paragraphs.CreateAndReturnParagraphPlaceHolder();
+            ////        tfXml.XmlHelper.TopNode = placeHolderNode;
+            ////    }
+            ////}
 
-            _defaultFont = tfXml;
+            //_defaultFont = tfXml;
 
             _path = path;
             foreach(var p in tb.Paragraphs)
