@@ -10,10 +10,6 @@
  *************************************************************************************************
   12/26/2021         EPPlus Software AB       EPPlus 6.0
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Core.Worksheet.Fonts
 {
