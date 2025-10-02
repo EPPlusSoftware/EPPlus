@@ -15,7 +15,13 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
         internal double[] Matrix;
 
 
-        public PdfTilingPattern(int objectNumber, int version = 0) : base(objectNumber, version) { }
+         public PdfTilingPattern(int objectNumber, PdfPatternFill patternFill, double[] BBox, double XStep, double YStep, int version = 0) : base(objectNumber, version)
+        {
+            fill = patternFill;
+            this.BBox = BBox;
+            this.XStep = XStep;
+            this.YStep = YStep;
+        }
 
         internal override string RenderDictionary()
         {

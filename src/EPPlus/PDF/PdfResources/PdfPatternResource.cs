@@ -23,53 +23,43 @@ namespace OfficeOpenXml.PDF.PdfResources
             }
             else if (CellFillData.PattenStyle != Style.ExcelFillStyle.None && CellFillData.PattenStyle != Style.ExcelFillStyle.Solid)
             {
-                var tp = new PdfTilingPattern(objectNumber, version);
                 switch (CellFillData.PattenStyle)
                 {
                     case Style.ExcelFillStyle.DarkGray:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternDarkGray(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 2], 4, 2, version);
                     case Style.ExcelFillStyle.MediumGray:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternMediumGray(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 2, 2], 2, 2, version);
                     case Style.ExcelFillStyle.LightGray:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternLightGray(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 2], 4, 2, version);
                     case Style.ExcelFillStyle.Gray125:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternGray125(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 4], 4, 4, version);
                     case Style.ExcelFillStyle.Gray0625:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternGray0625(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 8, 4], 8, 4, version);
                     case Style.ExcelFillStyle.DarkVertical:
-                        tp.fill = new PdfPatternDarkVertical(CellFillData.PatternColor, CellFillData.BackgroundColor);
-                        tp.BBox = [0, 0, 2, 1];
-                        tp.XStep = 2;
-                        tp.YStep = 1;
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternDarkVertical(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 2, 1], 2, 1, version);
                     case Style.ExcelFillStyle.DarkHorizontal:
-                        tp.fill = new PdfPatternDarkHorizontal(CellFillData.PatternColor, CellFillData.BackgroundColor);
-                        tp.BBox = [0, 0, 1, 2];
-                        tp.XStep = 1;
-                        tp.YStep = 2;
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternDarkHorizontal(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 1, 2], 1, 2, version);
                     case Style.ExcelFillStyle.DarkDown:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternDarkDown(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 4], 4, 4, version);
                     case Style.ExcelFillStyle.DarkUp:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternDarkUp(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 4], 4, 4, version);
                     case Style.ExcelFillStyle.DarkGrid:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternDarkGrid(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 2, 2], 2, 2, version);
                     case Style.ExcelFillStyle.DarkTrellis:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternDarkTrellis(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 4], 4, 4, version);
                     case Style.ExcelFillStyle.LightVertical:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternLightVertical(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 1, 0.5d], 1, 0.5, version);
                     case Style.ExcelFillStyle.LightHorizontal:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternLightHorizontal(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 0.5d, 1], 0.5d, 1, version);
                     case Style.ExcelFillStyle.LightDown:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternLightDown(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 4], 4, 4, version);
                     case Style.ExcelFillStyle.LightUp:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternLightUp(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 4], 4, 4, version);
                     case Style.ExcelFillStyle.LightGrid:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternLightGrid(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 4], 4, 4, version);
                     case Style.ExcelFillStyle.LightTrellis:
-                        break;
+                        return new PdfTilingPattern(objectNumber, new PdfPatternLightTrellis(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 4], 4, 4, version);
                 }
-                return tp;
             }
             return null;
         }
