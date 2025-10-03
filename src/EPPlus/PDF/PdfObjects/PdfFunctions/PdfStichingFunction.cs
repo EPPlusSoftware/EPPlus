@@ -1,10 +1,7 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.PDF.Pdfhelpers;
-using System;
+﻿using OfficeOpenXml.PDF.Pdfhelpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingConstants;
 
 namespace OfficeOpenXml.PDF.PdfObjects.PdfFunctions
 {

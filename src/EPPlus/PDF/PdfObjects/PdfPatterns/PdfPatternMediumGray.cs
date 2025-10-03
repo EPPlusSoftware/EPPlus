@@ -5,9 +5,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
 {
     internal class PdfPatternMediumGray : PdfPatternFill
     {
-        public PdfPatternMediumGray(PdfColor foreground, PdfColor background) : base(foreground, background)
-        {
-        }
+        public PdfPatternMediumGray(PdfColor foreground, PdfColor background) : base(foreground, background) { }
 
         public override string CreatePatternResource()
         {

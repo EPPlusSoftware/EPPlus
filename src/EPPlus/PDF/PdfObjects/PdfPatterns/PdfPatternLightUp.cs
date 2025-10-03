@@ -5,9 +5,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
 {
     internal class PdfPatternLightUp : PdfPatternFill
     {
-        public PdfPatternLightUp(PdfColor foreground, PdfColor background) : base(foreground, background)
-        {
-        }
+        public PdfPatternLightUp(PdfColor foreground, PdfColor background) : base(foreground, background) { }
 
         public override string CreatePatternResource()
         {
@@ -21,7 +19,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
                             $"2 1 2 1 re\n" +
                             $"0 2 2 1 re\n" +
                             $"3 2 1 1 re\n" +
-                            $"0 3 3 1 re\n" +
+                            $" 3 3 1 re\n" +
                             $"f");
             return sb.ToString();
         }

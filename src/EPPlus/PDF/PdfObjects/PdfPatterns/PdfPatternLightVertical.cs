@@ -5,9 +5,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
 {
     internal class PdfPatternLightVertical : PdfPatternFill
     {
-        public PdfPatternLightVertical(PdfColor foreground, PdfColor background) : base(foreground, background)
-        {
-        }
+        public PdfPatternLightVertical(PdfColor foreground, PdfColor background) : base(foreground, background) { }
 
         public override string CreatePatternResource()
         {

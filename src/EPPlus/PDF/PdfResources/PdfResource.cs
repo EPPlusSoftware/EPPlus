@@ -1,10 +1,4 @@
-﻿using FontLab1;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.PDF.PdfResources
+﻿namespace OfficeOpenXml.PDF.PdfResources
 {
     internal class PdfResource
     {

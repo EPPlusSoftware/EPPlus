@@ -10,17 +10,17 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfShadings
         DeviceCMYK,
     }
 
-    //    Implemented    Function type
-    //    [ ]            1 Function-based shading
-    //    [X]            2 Axial shading
-    //    [ ]            3 Radial shading
-    //    [ ]            4 Free-form Gouraud-shaded triangle mesh
-    //    [ ]            5 Lattice-form Gouraud-shaded triangle mesh
-    //    [ ]            6 Coons patch mesh
-    //    [ ]            7 Tensor-product patch mesh
-
     internal class PdfShading : PdfObject
     {
+        //    Implemented    Function type
+        //    [ ]            1 Function-based shading
+        //    [X]            2 Axial shading
+        //    [ ]            3 Radial shading
+        //    [ ]            4 Free-form Gouraud-shaded triangle mesh
+        //    [ ]            5 Lattice-form Gouraud-shaded triangle mesh
+        //    [ ]            6 Coons patch mesh
+        //    [ ]            7 Tensor-product patch mesh
+
         internal DeviceColorSpace ColorSpace;
         internal double[] Background = null;
         internal PdfRect BBox = null;

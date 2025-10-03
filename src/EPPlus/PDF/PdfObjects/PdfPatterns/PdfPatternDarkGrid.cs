@@ -5,9 +5,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
 {
     internal class PdfPatternDarkGrid : PdfPatternFill
     {
-        public PdfPatternDarkGrid(PdfColor foreground, PdfColor background) : base(foreground, background)
-        {
-        }
+        public PdfPatternDarkGrid(PdfColor foreground, PdfColor background) : base(foreground, background) { }
 
         public override string CreatePatternResource()
         {

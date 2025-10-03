@@ -1,5 +1,4 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.PDF.Math;
+﻿using OfficeOpenXml.PDF.Math;
 using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.PdfResources;
 using OfficeOpenXml.PDF.PdfSettings;
@@ -56,15 +55,10 @@ namespace OfficeOpenXml.PDF.PdfLayout
                             CellFillData.GradientFillData.Bottom = fill.Gradient.Bottom;
                             CellFillData.GradientFillData.Left = fill.Gradient.Left;
                             CellFillData.GradientFillData.Right = fill.Gradient.Right;
-                            //CellFillData.GradientFillData.matrix = [width, 0d, 0d, height, x, y];
-                            //CellFillData.GradientFillData.id = AddPatternResourceData(dictionaries.Patterns, CellFillData.GradientFillData.ToString());
                             CellFillData.id = AddShadingResourceData(dictionaries.Shadings, CellFillData.GradientFillData.ToString());
                         }
                     }
-                    catch(InvalidCastException)
-                    {
-
-                    }
+                    catch(InvalidCastException) { }
                 }
             }
         }
@@ -118,42 +112,11 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     double sin = System.Math.Sin(rad);
                     double cx = LocalPosition.X + Size.X / 2d;
                     double cy = LocalPosition.Y + Size.Y / 2d;
-                    //Setting matrix in pattern object
-                    //double a = Size.X * cos;
-                    //double b = Size.X * sin;
-                    //double c = -Size.Y * sin;
-                    //double d = Size.Y * cos;
-                    //if (CellFillData.GradientFillData.Degree == 0)
-                    //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X, LocalPosition.Y];
-                    //else if (CellFillData.GradientFillData.Degree == 45)
-                    //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X, LocalPosition.Y + Size.Y];
-                    //else if (CellFillData.GradientFillData.Degree == 90)
-                    //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X, LocalPosition.Y + Size.Y * 2.5];
-                    //else if (CellFillData.GradientFillData.Degree == 135)
-                    //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X + Size.X, LocalPosition.Y + Size.Y];
-                    //else if (CellFillData.GradientFillData.Degree == 180)
-                    //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X + Size.X, LocalPosition.Y + Size.Y];
-                    //else if (CellFillData.GradientFillData.Degree == 225)
-                    //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X + Size.X, LocalPosition.Y];
-                    //else if (CellFillData.GradientFillData.Degree == 270)
-                    //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X, LocalPosition.Y - (Size.Y / 2)];
-                    //else if (CellFillData.GradientFillData.Degree == 315)
-                    //    CellFillData.GradientFillData.matrix = [a, b, c, d, LocalPosition.X, LocalPosition.Y];
-                    //Setting Coords in Shading object
-                    // Midpoint of the rectangle
-                    // Half-diagonal vector along the gradient axis
-                    // We use max(w,h) to ensure gradient fully covers rectangle
-                    //ouble half = System.Math.Sqrt(Size.X * Size.X + Size.Y * Size.Y) / 2d;
                     double projW = System.Math.Abs(Size.X * cos);
                     double projH = System.Math.Abs(Size.Y * sin);
-
-                    // Effective half-length of the gradient axis
                     double half = (projW + projH) / 2d;
-
                     double dx = cos * half;
                     double dy = sin * half;
-
-                    // Coords
                     double x0 = cx - dx;
                     double y0 = cy - dy;
                     double x1 = cx + dx;
@@ -170,11 +133,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     var bottom = CellFillData.GradientFillData.Bottom;
                     var left = CellFillData.GradientFillData.Left;
                     var right = CellFillData.GradientFillData.Right;
-
-                    // Default corner = top-left
                     double cx = x;
                     double cy = y + height;
-
                     if (!double.IsNaN(left) && !double.IsNaN(right) && !double.IsNaN(top) && !double.IsNaN(bottom)) // bottom-right
                     {
                         if (top < 1d && bottom < 1d &&left < 1d && right < 1d)
@@ -192,22 +152,13 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     {
                         cx = x + width;
                         cy = y + height;
-
                     }
                     else if (!double.IsNaN(top) && !double.IsNaN(bottom)) // top-right
                     {
                         cx = x;
                         cy = y;
                     }
-                    //else // default: top-left
-                    //{
-                    //    cx = x;
-                    //    cy = y + height;
-                    //}
-
-                    // radius = diagonal length (corner to opposite corner)
                     double r = System.Math.Sqrt(width * width + height * height) / 2d;
-
                     CellFillData.GradientFillData.coords = [cx, cy, 0, cx, cy, r];
                 }
             }

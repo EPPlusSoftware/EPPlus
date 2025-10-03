@@ -1,7 +1,6 @@
 ﻿using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfLayout;
 using OfficeOpenXml.PDF.PdfObjects.PdfFunctions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

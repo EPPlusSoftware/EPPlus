@@ -5,9 +5,7 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
 {
     internal class PdfPatternDarkTrellis : PdfPatternFill
     {
-        public PdfPatternDarkTrellis(PdfColor foreground, PdfColor background) : base(foreground, background)
-        {
-        }
+        public PdfPatternDarkTrellis(PdfColor foreground, PdfColor background) : base(foreground, background) { }
 
         public override string CreatePatternResource()
         {

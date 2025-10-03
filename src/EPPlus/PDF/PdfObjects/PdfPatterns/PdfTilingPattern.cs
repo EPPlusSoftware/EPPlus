@@ -1,6 +1,4 @@
 ﻿using OfficeOpenXml.PDF.Pdfhelpers;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -13,7 +11,6 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
         internal double XStep = 0d;
         internal double YStep = 0d;
         internal double[] Matrix;
-
 
          public PdfTilingPattern(int objectNumber, PdfPatternFill patternFill, double[] BBox, double XStep, double YStep, int version = 0) : base(objectNumber, version)
         {
