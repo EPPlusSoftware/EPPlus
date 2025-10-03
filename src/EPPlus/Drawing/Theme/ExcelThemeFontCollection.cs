@@ -180,6 +180,37 @@ namespace OfficeOpenXml.Drawing.Theme
                 return _lst.Count;
             }
         }
+
+        /// <summary>
+        /// Gets the first latin font for the theme in this collection. If no font exists, null is returned.
+        /// </summary>
+        public ExcelDrawingFontSpecial LatinFont 
+        { 
+            get
+            {
+                return _lst.FirstOrDefault(x => x is ExcelDrawingFontSpecial f && f.Type == eFontType.Latin) as ExcelDrawingFontSpecial;            
+            }
+        }
+        /// <summary>
+        /// Gets the first complex font for the theme in this collection. If no font exists, null is returned.
+        /// </summary>
+        public ExcelDrawingFontSpecial ComplexFont
+        {
+            get
+            {
+                return _lst.FirstOrDefault(x => x is ExcelDrawingFontSpecial f && f.Type == eFontType.Complex) as ExcelDrawingFontSpecial;
+            }
+        }
+        /// <summary>
+        /// Gets the first east asian font for the theme in this collection. If no font exists, null is returned.
+        /// </summary>
+        public ExcelDrawingFontSpecial EastAsianFont
+        {
+            get
+            {
+                return _lst.FirstOrDefault(x => x is ExcelDrawingFontSpecial f && f.Type == eFontType.EastAsian) as ExcelDrawingFontSpecial;
+            }
+        }
         /// <summary>
         /// Gets an enumerator for the collection
         /// </summary>

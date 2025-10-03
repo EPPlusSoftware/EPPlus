@@ -10,12 +10,15 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.TrueTypeFontReader;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.Style.Font;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Reflection.Emit;
 using System.Xml;
 
@@ -31,7 +34,7 @@ namespace OfficeOpenXml.Style
         internal XmlNode _rootNode;
         Action _initXml;
         IPictureRelationDocument _pictureRelationDocument;
-        internal ExcelTextFontXml(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager namespaceManager, XmlNode rootNode, string path, string[] schemaNodeOrder, Action initXml = null)            
+        internal ExcelTextFontXml(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager namespaceManager, XmlNode rootNode, string path, string[] schemaNodeOrder, Action initXml = null) : base(pictureRelationDocument)
         {
             _xml = XmlHelperFactory.Create(namespaceManager, rootNode);
             _xml.AddSchemaNodeOrder(schemaNodeOrder, new string[] { "bodyPr", "lstStyle", "p", "pPr", "defRPr", "solidFill", "highlight", "uFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "r", "rPr", "t" });
@@ -381,7 +384,7 @@ namespace OfficeOpenXml.Style
     public class ExcelTextFontRichText : ExcelTextFont
     {
         internal ExcelParagraphTextRunBase _textRun;
-        internal ExcelTextFontRichText(ExcelParagraphTextRunBase textRun)
+        internal ExcelTextFontRichText(ExcelParagraphTextRunBase textRun) : base(textRun._prd)
         {
             _textRun = textRun;
         }
@@ -595,6 +598,13 @@ namespace OfficeOpenXml.Style
     /// </summary>
     public abstract class ExcelTextFont 
     {
+        private IPictureRelationDocument _pictureRelationDocument;
+
+        internal ExcelTextFont(IPictureRelationDocument pictureRelationDocument)
+        {
+            _pictureRelationDocument = pictureRelationDocument;
+        }
+
         /// <summary>
         /// The latin typeface name
         /// </summary>
@@ -733,35 +743,59 @@ namespace OfficeOpenXml.Style
             if (strikeout) Strike = eStrikeType.Single;
         }
 
-        internal MeasurementFont GetDefaultOrMeasurementFont()
-        {
-            string latinFont = LatinFont;
-            if(string.IsNullOrEmpty(latinFont))
-            {
-                latinFont = "Aptos Narrow";
-            }
-            float size = Size;
-            if(size <=0)
-            {
-                size = 11f;
-            }
-
-            return  new MeasurementFont()
-            {
-                FontFamily = latinFont,
-                Size = size,
-                Style = GetFontStyle()
-            };
-        }
-
         internal MeasurementFont GetMeasureFont()
         {
-            return new MeasurementFont()
+            var mf = new MeasurementFont()
             {
-                FontFamily = LatinFont,
+                FontFamily = string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont,
                 Size = Size,
                 Style = GetFontStyle()
             };
+            if(string.IsNullOrEmpty(mf.FontFamily))
+            {
+                mf.FontFamily = EastAsianFont;
+            }
+
+            switch(mf.FontFamily)
+            {
+                case "+mn-lt":
+                    mf.FontFamily = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont.LatinFont?.Typeface;
+                    break;
+                case "+mj-lt":
+                    mf.FontFamily = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MajorFont.LatinFont?.Typeface;
+                    break;
+                case "+mn-cs":
+                    mf.FontFamily = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MajorFont.ComplexFont?.Typeface;
+                    break;
+                case "+mj-cs":
+                    mf.FontFamily = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MajorFont.ComplexFont?.Typeface;
+                    break;
+                case "+mn-ea":
+                    mf.FontFamily = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MajorFont.EastAsianFont?.Typeface;
+                    break;
+                case "+mj-ea    ":
+                    mf.FontFamily = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MajorFont.EastAsianFont?.Typeface;
+                    break;
+            }
+
+            if(string.IsNullOrEmpty(mf.FontFamily) || mf.Size <= 0)
+            {
+                var ns = _pictureRelationDocument.Package.Workbook.Styles.GetNormalStyle();
+                if(ns==null || string.IsNullOrEmpty(ns.Style.Font.Name))
+                {
+                    mf.FontFamily = "Aptos Narrow";
+                }
+                else
+                {
+                    mf.FontFamily = ns.Style.Font.Name;
+                }
+                if (mf.Size <= 0)
+                {
+                    mf.Size = ns.Style.Font.Size;
+                }
+            }
+
+            return mf;
         }
 
         private MeasurementFontStyles GetFontStyle()

@@ -464,8 +464,8 @@ namespace OfficeOpenXml.Drawing
             {
                 if(_paragraphs==null)
                 {
-                    var textBodyPath = _path.Substring(0, _path.LastIndexOf('/'));
-                    _paragraphs = new ExcelDrawingParagraphCollection(_pictureRelationDocument, NameSpaceManager, TopNode, textBodyPath, SchemaNodeOrder, _initXml);
+                    //var textBodyPath = _path.Substring(0, _path.LastIndexOf('/'));
+                    _paragraphs = new ExcelDrawingParagraphCollection(_pictureRelationDocument, NameSpaceManager, TopNode, _path, SchemaNodeOrder, _initXml);
                 }
                 return _paragraphs;
             }
