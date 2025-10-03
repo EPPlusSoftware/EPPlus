@@ -17,7 +17,7 @@ using OfficeOpenXml.Drawing.Style.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.EnumUtils; 
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -502,7 +502,7 @@ namespace OfficeOpenXml.Drawing
         {
             double paragraphHeight = 0;
             double paragraphWidth = 0;
-            var measurer = _prd.Package.Settings.TextSettings.GenericTextMeasurer;
+            var measurer = _prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
             bool isFirstLine = true;
 
             var maxWidthInPixels = (maxWidth / 72d) * 96d;

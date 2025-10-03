@@ -31,13 +31,14 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChart _chart;
         internal string _nsPrefix = "";
         internal string _fontPropertiesPath = "";
-
+        internal string _richTextPath = "";
         internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) :
             base(nameSpaceManager, node)
         {
             _chart = chart;
             _nsPrefix = nsPrefix;
-            _fontPropertiesPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";
+            _fontPropertiesPath = $"{_nsPrefix}:txPr";
+            _richTextPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";
             if (chart._isChartEx)
             {
                 AddSchemaNodeOrder(new string[] { "layout", "tx", "strRef", "rich", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
@@ -69,7 +70,7 @@ namespace OfficeOpenXml.Drawing.Chart
             return $"<{prefix}:tx><{prefix}:rich><a:bodyPr rot=\"0\" spcFirstLastPara=\"1\" vertOverflow=\"ellipsis\" vert=\"horz\" wrap=\"square\" anchor=\"ctr\" anchorCtr=\"1\" />" +
                     $"<a:lstStyle />" +
                     $"<a:p><a:pPr>" +
-                    $"<a:defRPr sz=\"1080\" b=\"1\" i=\"0\" u=\"none\" strike=\"noStrike\" kern=\"1200\" baseline=\"0\">" +
+                    $"<a:defRPr sz=\"1800\" b=\"1\" i=\"0\" u=\"none\" strike=\"noStrike\" kern=\"1200\" baseline=\"0\">" +
                     "<a:effectLst/><a:latin typeface=\"+mn-lt\"/><a:ea typeface=\"+mn-ea\"/><a:cs typeface=\"+mn-cs\"/></a:defRPr>" +
                     $"</a:pPr><a:r><a:t/></a:r></a:p></{prefix}:rich></{prefix}:tx><{prefix}:layout /><{prefix}:overlay val=\"0\" />" +
                     $"<{prefix}:spPr><a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/></{prefix}:spPr>";
@@ -124,10 +125,10 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_font == null)
                 {
-                    if (HasLinkedCell==false && (_richText == null || _richText.Count == 0))
-                    {
-                        RichText.Add("");
-                    }
+                    //if (HasLinkedCell==false && (_richText == null || _richText.Count == 0))
+                    //{
+                    //    RichText.Add("");
+                    //}
                     _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
                 }
                 return _font;
@@ -145,7 +146,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:bodyPr", SchemaNodeOrder);
+                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
                 }
                 return _textBody;
             }
@@ -160,7 +161,7 @@ namespace OfficeOpenXml.Drawing.Chart
 			{
 				if (_textSettings == null)
 				{
-					_textSettings = new ExcelDrawingTextSettings(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+					_textSettings = new ExcelDrawingTextSettings(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
 				}
 				return _textSettings;
 			}
@@ -226,7 +227,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 defFont = Convert.ToSingle(stylePart.DefaultTextRun.Size);
             }
-            _richText = new ExcelParagraphCollection(TextBody, _chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p", SchemaNodeOrder, defFont);
+            _richText = new ExcelParagraphCollection(TextBody, _chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:p", SchemaNodeOrder, defFont);
         }
 
         private ExcelChartStyleEntry GetStylePart()
@@ -467,7 +468,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_layout == null)
                 {
-                    _layout = new ExcelLayout(NameSpaceManager, TopNode, "c:Layout", "", SchemaNodeOrder);
+                    _layout = new ExcelLayout(NameSpaceManager, TopNode, "c:layout", "", SchemaNodeOrder);
                 }
                 return _layout;
             }

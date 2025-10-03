@@ -89,7 +89,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Returns an instace of the TrueType text measurer. This measurer requires the fonts to be present in the default font folders or custom configured paths.
         /// </summary>
-        public ITextMeasurerWrap GetTextMeasurerTrueType
+        public ITextMeasurerWrap GenericTextMeasurerTrueType
         {
             get
             {

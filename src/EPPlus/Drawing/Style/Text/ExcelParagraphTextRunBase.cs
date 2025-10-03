@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Drawing
         string _defaultFontName;
         double _defaultFontSize;
 
-        IPictureRelationDocument _prd;
+        internal IPictureRelationDocument _prd;
         ExcelDrawingParagraph _paragraph;
 
         internal ExcelParagraphTextRunBase(ExcelDrawingParagraph paragraph, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)

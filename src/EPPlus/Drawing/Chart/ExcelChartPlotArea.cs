@@ -173,7 +173,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_layout == null)
                 {
-                    _layout = new ExcelLayout(NameSpaceManager, TopNode, "c:Layout", "", SchemaNodeOrder);
+                    _layout = new ExcelLayout(NameSpaceManager, TopNode, "c:layout", "", SchemaNodeOrder);
                 }
                 return _layout;
             }

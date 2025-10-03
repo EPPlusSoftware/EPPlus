@@ -11,11 +11,13 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Core.Worksheet.Fonts;
+using OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.Utils;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -250,83 +252,27 @@ namespace OfficeOpenXml.Drawing
             _removeParagraphCallback = removeParagraphCallback;
             _removeTextRunCallback = removeTextRunCallback;            
         }
-        internal RectBase GetSizeInPixels(double maxWidth, double maxHeight, string defaultText)
+        internal RectBase GetSizeInPixels(double maxWidth, double maxHeight, string defaultText, ExcelTextFont font)
         {
-            var rect = new RectBase();
             if (_paragraphs.Count == 0)
             {
+                var mf = font.GetMeasureFont();
                 var ns = _prd.Package.Workbook.Styles.GetNormalStyle();
-                var defFont = ns.Style.Font.GetMeasureFont();
-                var t =_prd.Package.Settings.TextSettings.PrimaryTextMeasurer.MeasureText(defaultText, defFont); //TODO: use WrapMeasurer
+
+                var t =_prd.Package.Settings.TextSettings.PrimaryTextMeasurer.MeasureText(defaultText, mf); //TODO: use WrapMeasurer
+                return new RectBase(t.Width.PointToPixel(), t.Height.PointToPixel());
             }
 
+            var h = 0D;
+            var w = 0D;
             foreach (var p in _paragraphs)
             {
+                w = 0D;
                 var pr = p.GetParagraphSizeInPixels(maxWidth, maxHeight);
-                if(rect.Width < pr.Width) rect.Right = pr.Width;
-                rect.Bottom += pr.Height;
-                //foreach(var tr in p.TextRuns)
-                //{
-                //    tr.Text
-                //    width += w;
-                //    if (height < h) height = h;
-                //}
+                if(w < pr.Width) w = pr.Width;
+                h += pr.Height;
             }
-            return rect;
+            return new RectBase(w, h);
         }
-        internal double GetHeightInPixels(ITextMeasurerWrap textMeasurer)
-        {
-            double totHeight = 0;
-            foreach (var paragraph in _paragraphs)
-            {
-                //totHeight += paragraph.GetParagraphHeightInPixels(textMeasurer);
-            }
-
-            return totHeight;
-            //textWidth = textHeight = 0;
-            //var tm = _prd.Package.Settings.TextSettings.PrimaryTextMeasurer;
-            //float lineWidth, lineHeight;
-            //textWidth = textHeight = lineWidth = lineHeight = 0;
-            //foreach (var p in _list)
-            //{
-            //    var fontName = string.IsNullOrEmpty(r.LatinFont) ? _defaultFont.LatinFont : r.LatinFont;
-            //    if (fontName.StartsWith("+"))
-            //    {
-            //        var t = _drawing._drawings._package.Workbook.ThemeManager.GetOrCreateTheme();
-            //        fontName = t.GetFontByCode(fontName);
-            //    }
-            //    var f = new MeasurementFont()
-            //    {
-            //        FontFamily = fontName,
-            //        Size = r.Size <= 0 ? _defaultFont.Size : r.Size,
-            //        Style = GetFontStyle(r)
-            //    };
-            //    var b = tm.MeasureText(r.Text, f);
-            //    if (r.IsFirstInParagraph)
-            //    {
-            //        lineWidth = b.Width;
-            //        lineHeight = b.Height;
-            //    }
-            //    else
-            //    {
-            //        lineWidth += b.Width;
-            //        if (lineHeight < b.Height)
-            //        {
-            //            lineHeight = b.Height;
-            //        }
-            //    }
-
-            //    if (r.IsLastInParagraph)
-            //    {
-            //        if (lineWidth > textWidth)
-            //        {
-            //            textWidth = lineWidth;
-            //        }
-            //        textHeight += lineHeight;
-            //    }
-            //}
-        }
-
     }
-
 }
