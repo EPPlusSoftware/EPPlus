@@ -8,6 +8,9 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.TrueTypeFontRea
     {
         public NameTableLoader(MyBinaryReader reader, Dictionary<string, TableRecord> tables) : base(reader, tables, TableNames.Name)
         {
+#if NET5_0_OR_GREATER
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //Add Support for codepage 1252
+#endif
         }
 
         protected override NameTable LoadInternal()
@@ -79,12 +82,16 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.TrueTypeFontRea
 
         private Encoding GetWindowsEncoding(int encoding)
         {
-            //var encPrv = CodePagesEncodingProvider.Instance;
             switch (encoding)
             {
                 case 0:
-                    //return Encoding.GetEncoding(1038);
+#if NET8_0_OR_GREATER
                     return Encoding.GetEncoding(1252);
+                    //return Encoding.GetEncoding(1038);
+#elif NET35_OR_GREATER
+                    
+                    return Encoding.GetEncoding(1252);
+#endif
                 case 1:
                     return Encoding.GetEncoding("utf-16BE");
                 case 2:

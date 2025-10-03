@@ -429,7 +429,7 @@ namespace OfficeOpenXml.Drawing
             return new MeasurementFont()
             {
                 FontFamily = (string.IsNullOrEmpty(LatinFont) ? defaultName : LatinFont),
-                Size = FontSize <= 0 ? defaultSize : FontSize,
+                Size = (float.IsNaN(FontSize) | FontSize <= 0) ? defaultSize : FontSize,
                 Style = GetFontStyle()
             };
         }
