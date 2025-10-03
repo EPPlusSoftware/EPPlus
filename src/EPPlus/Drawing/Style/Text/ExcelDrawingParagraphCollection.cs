@@ -33,6 +33,7 @@ namespace OfficeOpenXml.Drawing
         internal Action<ExcelParagraphTextRunBase> _addCallback = null;
         internal Action<ExcelDrawingParagraph> _removeParagraphCallback = null;
         internal Action<ExcelParagraphTextRunBase> _removeTextRunCallback = null;
+        internal ExcelTextBody _tb;
         internal ExcelDrawingParagraphCollection(IPictureRelationDocument prd, XmlNamespaceManager nsm, XmlNode topNode, string path, string[] schemaNodeOrder, Action initXml) : base(nsm, topNode)
         {
             _prd = prd;

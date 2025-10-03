@@ -11,6 +11,7 @@
     9/11/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
@@ -433,6 +434,64 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
+
+        /// <summary>
+        /// Returns paragraph height in points
+        /// </summary>
+        /// <param name="measurer">The wrapping textMeasurer to use</param>
+        /// <param name="maxWidth">MaxWidth/Wrapping width in points. A value of 0 implies no wrapping.</param>
+        /// <returns></returns>
+        internal RectBase GetParagraphWrappedHeight(double maxWidth = 0, double maxHeight = 0)
+        {
+            double paragraphHeight = 0;
+            double paragraphWidth = 0;
+            var measurer = _prd.Package.Settings.TextSettings.GenericTextMeasurer;
+            bool isFirstLine = true;
+
+            var maxWidthInPixels = (maxWidth / 72d) * 96d;
+
+            var ns = _prd.Package.Workbook.Styles.GetNormalStyle();
+            var defFont = ns.Style.Font.Name;
+            var defFontSize = ns.Style.Font.Size;
+            foreach (var txtRun in TextRuns)
+            {
+                //Split textrun text into line-breaks
+                var lines = txtRun.SplitIntoLines();
+                //For each line in each linebreak
+                foreach (var line in lines)
+                {
+                    //Get the length/height of the line via the font of the textRun
+                    var measurement = measurer.MeasureText(line, txtRun.GetMeasureFont(defFont, defFontSize));
+
+                    //If text wrapping is on each of the broken lines could potentially be wrapped
+                    List<string> finalLines = new List<string>();
+                    if (maxWidthInPixels != 0 && measurement.Width > maxWidthInPixels)
+                    {
+
+                        //finalLines = measurer.MeasureAndWrapText(line, txtRun.GetMeasureFont(defFont, defFontSize), maxWidthInPixels);
+                    }
+                    else
+                    {
+                        finalLines.Add(line);
+                    }
+
+                    //Could be just one line or mutliple lines.
+                    //Re-use same collection to avoid code repetition.
+                    //Line-spacing should be applied for each line
+                    foreach (var fLine in finalLines)
+                    {
+                        var measurerTest = (FontMeasurerTrueType)_prd.Package.Settings.TextSettings.GetTextMeasurerTrueType;
+                        //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
+                        var lineSpacing = GetParagraphLineSpacing(measurerTest, isFirstLine);
+                        paragraphHeight += lineSpacing;
+                        isFirstLine = false;
+                    }
+                }
+            }
+
+            return new RectBase(paragraphWidth, paragraphHeight);
+        }
+
         /// <summary>
         /// Returns paragraph height in points
         /// </summary>
@@ -478,8 +537,9 @@ namespace OfficeOpenXml.Drawing
                     //Line-spacing should be applied for each line
                     foreach(var fLine in finalLines)
                     {
+                        var measurerTest = (FontMeasurerTrueType)_prd.Package.Settings.TextSettings.GetTextMeasurerTrueType;
                         //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
-                        var lineSpacing = GetParagraphLineSpacing(null, isFirstLine);
+                        var lineSpacing = GetParagraphLineSpacing(measurerTest, isFirstLine);
                         paragraphHeight += lineSpacing;
                         isFirstLine = false;
                     }
