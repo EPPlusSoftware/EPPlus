@@ -480,7 +480,7 @@ namespace OfficeOpenXml.Drawing
                     //Line-spacing should be applied for each line
                     foreach (var fLine in finalLines)
                     {
-                        var measurerTest = (FontMeasurerTrueType)_prd.Package.Settings.TextSettings.GetTextMeasurerTrueType;
+                        var measurerTest = (FontMeasurerTrueType)_prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
                         //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
                         var lineSpacing = GetParagraphLineSpacing(measurerTest, isFirstLine);
                         paragraphHeight += lineSpacing;
@@ -537,7 +537,7 @@ namespace OfficeOpenXml.Drawing
                     //Line-spacing should be applied for each line
                     foreach(var fLine in finalLines)
                     {
-                        var measurerTest = (FontMeasurerTrueType)_prd.Package.Settings.TextSettings.GetTextMeasurerTrueType;
+                        var measurerTest = (FontMeasurerTrueType)_prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
                         //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
                         var lineSpacing = GetParagraphLineSpacing(measurerTest, isFirstLine);
                         paragraphHeight += lineSpacing;
