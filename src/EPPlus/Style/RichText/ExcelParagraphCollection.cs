@@ -40,30 +40,30 @@ namespace OfficeOpenXml.Style
             _defaultFontSize = defaultFontSize;
             AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef","rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount","pt","pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont","buNone", "buAutoNum", "buChar","buBlip", "tabLst","defRPr", "r","br","fld" ,"endParaRPr" });
 
-            if (topNode.SelectSingleNode(path, ns) == null)
-            {
-                if (tb.Paragraphs.Count == 0)
-                {
-                    var paragraphParent = path.Substring(0, path.LastIndexOf('/'));
-                    var tmpTop = TopNode;
-                    TopNode = TopNode.SelectNodes(paragraphParent, ns)[0];
-                    var placeHolderNode = tb.Paragraphs.CreateAndReturnParagraphPlaceHolder();
-                    TopNode = tmpTop;
-                }
-            }
-
-            var tfXml = new ExcelTextFontXml(drawing._drawings, ns, TopNode, path + "/a:pPr/a:defRPr", schemaNodeOrder);
-            //if(tb.Paragraphs.Count == 0)
+            //if (topNode.SelectSingleNode(path, ns) == null)
             //{
-            //    if(tfXml._rootNode.SelectSingleNode("//a:p", tfXml.XmlHelper.NameSpaceManager) == null)
+            //    if (tb.Paragraphs.Count == 0)
             //    {
-
+            //        var paragraphParent = path.Substring(0, path.LastIndexOf('/'));
+            //        var tmpTop = TopNode;
+            //        TopNode = TopNode.SelectNodes(paragraphParent, ns)[0];
             //        var placeHolderNode = tb.Paragraphs.CreateAndReturnParagraphPlaceHolder();
-            //        tfXml.XmlHelper.TopNode = placeHolderNode;
+            //        TopNode = tmpTop;
             //    }
             //}
 
-            _defaultFont = tfXml;
+            //var tfXml = new ExcelTextFontXml(drawing._drawings, ns, TopNode, path + "/a:pPr/a:defRPr", schemaNodeOrder);
+            ////if(tb.Paragraphs.Count == 0)
+            ////{
+            ////    if(tfXml._rootNode.SelectSingleNode("//a:p", tfXml.XmlHelper.NameSpaceManager) == null)
+            ////    {
+
+            ////        var placeHolderNode = tb.Paragraphs.CreateAndReturnParagraphPlaceHolder();
+            ////        tfXml.XmlHelper.TopNode = placeHolderNode;
+            ////    }
+            ////}
+
+            //_defaultFont = tfXml;
 
             _path = path;
             foreach(var p in tb.Paragraphs)

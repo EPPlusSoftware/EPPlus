@@ -268,7 +268,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:bodyPr", SchemaNodeOrder, ((ExcelTextFontXml)Font).CreateTopNode);
+                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:bodyPr"/*, SchemaNodeOrder, ((ExcelTextFontXml)Font).CreateTopNode*/);
                 }
                 return _textBody;
             }

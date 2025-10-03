@@ -47,10 +47,18 @@ namespace OfficeOpenXml.Style
                 if (node != null)
                 {
                     _xml.TopNode = node;
+                    //topNode and current node becomes the same
+                    //path = ".";
                 }
             }
             _path = path;
         }
+
+        internal void TriggerCreateTopNodeOnTextSet()
+        {
+            CreateTopNode();
+        }
+
         internal XmlHelper XmlHelper { get { return _xml; } }
         string _fontLatinPath = "a:latin/@typeface";
         /// <summary>

@@ -27,31 +27,35 @@ namespace OfficeOpenXml.Drawing
         private readonly string _path;
         private readonly Action _initXml;
         private readonly IPictureRelationDocument _pictureRelationDocument;
-        internal ExcelTextBody(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder=null, Action initXml=null) :
+
+        internal ExcelTextBody(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder=null) :
             base(ns, topNode)   
         {
             _pictureRelationDocument = pictureRelationDocument;
             _path = path;
 
-            //var propertyNode = topNode.SelectSingleNode(path, ns);
-            //if (propertyNode != null && propertyNode.ParentNode != null)
+            //var bodyProperties = topNode.SelectSingleNode(path, ns);
+            //if (bodyProperties != null && bodyProperties.ParentNode != null)
             //{
             //    //If the path exists, the path leads to the tbPR node.
             //    //The parent of the tbPR node is the CT_TextBody body node.
             //    //We want to operate directly on the CT_TextBody node rather than having topNode be the parent of 
             //    //CT_Textbody as the parent node can be very different between exCharts and shapes for example
 
-            //    var ctTextBody = propertyNode.ParentNode;
+            //    var ctTextBody = bodyProperties.ParentNode;
 
             //    var indexOfFirstNode = path.IndexOf("/");
-            //    _path = path.Substring(indexOfFirstNode+1, path.Length - indexOfFirstNode-1);
-            //   //set topNode to top of path string here??
+            //    _path = path.Substring(indexOfFirstNode + 1, path.Length - indexOfFirstNode - 1);
+            //    TopNode = ctTextBody;
             //}
 
 
-            _initXml = initXml;
+            _initXml = null;
 			AddSchemaNodeOrder(schemaNodeOrder, new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" });
         }
+
+
+
         /// <summary>
         /// The anchoring position within the shape
         /// </summary>
