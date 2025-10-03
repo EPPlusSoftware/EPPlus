@@ -82,6 +82,8 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.TrueTypeFontRea
 
         private Encoding GetWindowsEncoding(int encoding)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //Add Support for codepage 1252
+#endif
             switch (encoding)
             {
                 case 0:
