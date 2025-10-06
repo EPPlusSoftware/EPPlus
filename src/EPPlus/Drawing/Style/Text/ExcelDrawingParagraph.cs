@@ -514,7 +514,7 @@ namespace OfficeOpenXml.Drawing
             var maxWidthInPixels = (maxWidth / 72d) * 96d;
 
             foreach (var txtRun in TextRuns)
-            {
+            {   
                 //Split textrun text into line-breaks
                 var lines = txtRun.SplitIntoLines();
                 //For each line in each linebreak
@@ -538,12 +538,27 @@ namespace OfficeOpenXml.Drawing
                     //Could be just one line or mutliple lines.
                     //Re-use same collection to avoid code repetition.
                     //Line-spacing should be applied for each line
+                    int i = 0;
                     foreach (var fLine in finalLines)
                     {
                         //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
                         var lineSpacing = GetParagraphLineSpacing(measurer, isFirstLine);
-                        paragraphHeight += lineSpacing;
+                        if(i==0)
+                        {
+                            if(lineSpacing>paragraphHeight)
+                            {
+                                paragraphHeight = lineSpacing;
+                            }
+                        }
+                        else
+                        {
+                            paragraphHeight += lineSpacing;
+                        }
                         isFirstLine = false;
+                    }
+                    if(finalLines.Count>1)
+                    {
+                        paragraphHeight = 0;
                     }
                 }
             }

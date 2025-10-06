@@ -267,7 +267,6 @@ namespace OfficeOpenXml.Drawing
             var w = 0D;
             foreach (var p in _paragraphs)
             {
-                w = 0D;
                 var pr = p.GetParagraphSizeInPixels(maxWidth, maxHeight);
                 if(w < pr.Width) w = pr.Width;
                 h += pr.Height;

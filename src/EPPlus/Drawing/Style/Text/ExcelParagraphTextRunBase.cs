@@ -20,9 +20,7 @@ using OfficeOpenXml.Utils.EnumUtils;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using OfficeOpenXml.Utils;
 using System.Xml;
-using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -36,15 +34,16 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         string _defaultFontName;
         double _defaultFontSize;
-
+        ExcelTextFont _dtr;
         internal IPictureRelationDocument _prd;
         ExcelDrawingParagraph _paragraph;
+
         internal ExcelParagraphTextRunBase(ExcelDrawingParagraph paragraph, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
         {
             SchemaNodeOrder = ["rPr", "pPr", "t"];
             _paragraph = paragraph;
             _prd = _paragraph._prd;
-
+            _dtr = _paragraph._paragraphs[0].DefaultRunProperties;
             if(paragraph.DefaultRunProperties != null)
             {
                 _defaultFontName = paragraph.DefaultRunProperties.LatinFont;
@@ -186,7 +185,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString(_fontLatinPath);
+                var v=GetXmlNodeString(_fontLatinPath);
+                if(string.IsNullOrEmpty(v))
+                {
+                    v = _dtr.LatinFont;
+                }
+                return v;
             }
             set
             {
@@ -201,7 +205,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString(_fontEaPath);
+                var v = GetXmlNodeString(_fontEaPath);
+                if (string.IsNullOrEmpty(v))
+                {
+                    v = _dtr.EastAsianFont;
+                }
+                return v;
             }
             set
             {
@@ -216,7 +225,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString(_fontCsPath);
+                var v = GetXmlNodeString(_fontCsPath);
+                if (string.IsNullOrEmpty(v))
+                {
+                    v = _dtr.ComplexFont;
+                }
+                return v;
             }
             set
             {
@@ -250,7 +264,7 @@ namespace OfficeOpenXml.Drawing
                 var v=GetXmlNodeBoolNullable(_boldPath);
                 if(v==null)
                 {
-                    v = _paragraph.DefaultRunProperties.Bold;
+                    v = _dtr.Bold;
                 }
                 return v??false;
             }
@@ -270,7 +284,7 @@ namespace OfficeOpenXml.Drawing
                 var v = GetXmlNodeString(_underLinePath)?.TranslateUnderline();
                 if (v == null)
                 {
-                    v = _paragraph.DefaultRunProperties.UnderLine;
+                    v = _dtr.UnderLine;
                 }
                 return v ?? eUnderLineType.None;
             }
@@ -291,7 +305,7 @@ namespace OfficeOpenXml.Drawing
                 var v = GetXmlNodeBoolNullable(_italicPath);
                 if (v == null)
                 {
-                    v = _paragraph.DefaultRunProperties.Italic;
+                    v = _dtr.Italic;
                 }
                 return v ?? false;
 
@@ -312,7 +326,7 @@ namespace OfficeOpenXml.Drawing
                 var v = GetXmlNodeString(_strikePath)?.TranslateStrikeType();
                 if (v == null)
                 {
-                    v = _paragraph.DefaultRunProperties.Strike;
+                    v = _dtr.Strike;
                 }
                 return v ?? eStrikeType.No;
             }
@@ -332,7 +346,7 @@ namespace OfficeOpenXml.Drawing
                 var v = GetXmlNodeDoubleNull(_sizePath);
                 if (v == null)
                 {
-                    return _paragraph.DefaultRunProperties.Size;
+                    return _dtr.Size;
                 }
                 else
                 {
@@ -355,7 +369,7 @@ namespace OfficeOpenXml.Drawing
                 var v = GetXmlNodeDoubleNull(_kernPath);
                 if(v==null)
                 {
-                    return _paragraph.DefaultRunProperties.Kerning;
+                    return _dtr.Kerning;
                 }
                 else
                 {
@@ -378,7 +392,7 @@ namespace OfficeOpenXml.Drawing
                 var v = GetXmlNodeString(_capPath);
                 if(v==null)
                 {
-                    return _paragraph.DefaultRunProperties.Capitalization;
+                    return _dtr.Capitalization;
                 }
                 else
                 {
@@ -410,7 +424,7 @@ namespace OfficeOpenXml.Drawing
                 var v=GetXmlNodeDoubleNull(_baselinePath);
                 if (v == null)
                 {
-                        return _paragraph.DefaultRunProperties.Baseline;
+                        return _dtr.Baseline;
                 }
                 else
                 {
@@ -441,7 +455,7 @@ namespace OfficeOpenXml.Drawing
                 var v = GetXmlNodeDoubleNull(_spacingPath);
                 if(v==null)
                 {
-                    return _paragraph.DefaultRunProperties.Spacing;
+                    return _dtr.Spacing;
                 }
                 else
                 {
@@ -487,7 +501,7 @@ namespace OfficeOpenXml.Drawing
             var lf = LatinFont;
             if (string.IsNullOrEmpty(lf))
             {
-                lf = _paragraph.DefaultRunProperties.LatinFont;
+                lf = _dtr.LatinFont;
             }
             var cf = ComplexFont;
             if (string.IsNullOrEmpty(cf))
