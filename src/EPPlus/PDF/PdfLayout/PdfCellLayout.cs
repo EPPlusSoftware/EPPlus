@@ -23,6 +23,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
                 if (fill.PatternType == Style.ExcelFillStyle.Solid)
                 {
                     var bkgc = fill.BackgroundColor;
+                    CellFillData.PattenStyle = fill.PatternType;
                     if (string.IsNullOrEmpty(bkgc.LookupColor()) && !string.IsNullOrEmpty(cell.Text))
                     {
                         CellFillData.BackgroundColor = PdfColor.None;

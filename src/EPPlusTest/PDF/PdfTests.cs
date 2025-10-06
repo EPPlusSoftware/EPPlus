@@ -14,11 +14,11 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void TestWritePdf()
         {
-            //using var p = OpenTemplatePackage("PDFTest.xlsx");
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
             //using var p = OpenTemplatePackage("Gradient.xlsx");
-            using var p = OpenTemplatePackage("PatternFill.xlsx");
+            //using var p = OpenTemplatePackage("PatternFill.xlsx");
             var ws = p.Workbook.Worksheets[0];
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.ShowGridLines = true;
