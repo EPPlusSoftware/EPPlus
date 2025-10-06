@@ -10,16 +10,17 @@
  *************************************************************************************************
   09/15/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.EnumUtils;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Xml;
-using OfficeOpenXml.Drawing;
 using System.Linq;
+using System.Xml;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -424,14 +425,28 @@ namespace OfficeOpenXml.Drawing
         //    textWidth = b.Width;
         //    textHeight = b.Height;
         //}
-        internal MeasurementFont GetMeasureFont(string defaultName, float defaultSize)
+        internal MeasurementFont GetMeasureFont()
         {
-            return new MeasurementFont()
+            var lf = LatinFont;
+            if (string.IsNullOrEmpty(lf))
             {
-                FontFamily = (string.IsNullOrEmpty(LatinFont) ? defaultName : LatinFont),
-                Size = (float.IsNaN(FontSize) | FontSize <= 0) ? defaultSize : FontSize,
-                Style = GetFontStyle()
-            };
+                lf = _paragraph.DefaultRunProperties.LatinFont;
+            }
+            var cf = ComplexFont;
+            if (string.IsNullOrEmpty(cf))
+            {
+                cf = _paragraph.DefaultRunProperties.ComplexFont;
+            }
+            var eaf = ComplexFont;
+            if (string.IsNullOrEmpty(eaf))
+            {
+                eaf = _paragraph.DefaultRunProperties.EastAsianFont;
+            }
+            if (double.IsNaN(FontSize))
+            {
+                FontSize = _paragraph.DefaultRunProperties.Size;
+            }
+            return FontUtil.GetMeasureFont(lf, cf, eaf, FontSize, GetFontStyle(), _prd.Package);
         }
         private MeasurementFontStyles GetFontStyle()
         {
