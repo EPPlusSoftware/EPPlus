@@ -20,7 +20,9 @@ using OfficeOpenXml.Utils.EnumUtils;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using OfficeOpenXml.Utils;
 using System.Xml;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -37,7 +39,6 @@ namespace OfficeOpenXml.Drawing
 
         internal IPictureRelationDocument _prd;
         ExcelDrawingParagraph _paragraph;
-
         internal ExcelParagraphTextRunBase(ExcelDrawingParagraph paragraph, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
         {
             SchemaNodeOrder = ["rPr", "pPr", "t"];
@@ -246,7 +247,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeBool(_boldPath);
+                var v=GetXmlNodeBoolNullable(_boldPath);
+                if(v==null)
+                {
+                    v = _paragraph.DefaultRunProperties.Bold;
+                }
+                return v??false;
             }
             set
             {
@@ -261,7 +267,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString(_underLinePath).TranslateUnderline();
+                var v = GetXmlNodeString(_underLinePath)?.TranslateUnderline();
+                if (v == null)
+                {
+                    v = _paragraph.DefaultRunProperties.UnderLine;
+                }
+                return v ?? eUnderLineType.None;
             }
             set
             {
@@ -277,7 +288,13 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeBool(_italicPath);
+                var v = GetXmlNodeBoolNullable(_italicPath);
+                if (v == null)
+                {
+                    v = _paragraph.DefaultRunProperties.Italic;
+                }
+                return v ?? false;
+
             }
             set
             {
@@ -292,7 +309,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString(_strikePath).TranslateStrikeType();
+                var v = GetXmlNodeString(_strikePath)?.TranslateStrikeType();
+                if (v == null)
+                {
+                    v = _paragraph.DefaultRunProperties.Strike;
+                }
+                return v ?? eStrikeType.No;
             }
             set
             {
@@ -307,12 +329,15 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                var c = GetXmlNodeInt(_sizePath);
-                if (c == int.MinValue)
+                var v = GetXmlNodeDoubleNull(_sizePath);
+                if (v == null)
                 {
-                    return float.NaN;
+                    return _paragraph.DefaultRunProperties.Size;
                 }
-                return c / 100;
+                else
+                {
+                    return (float)(v / 100);
+                }
             }
             set
             {
@@ -327,7 +352,15 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeFontSize(_kernPath);
+                var v = GetXmlNodeDoubleNull(_kernPath);
+                if(v==null)
+                {
+                    return _paragraph.DefaultRunProperties.Kerning;
+                }
+                else
+                {
+                    return (float)(v / 100);
+                }
             }
             set
             {
@@ -342,14 +375,22 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                switch (GetXmlNodeString(_capPath))
+                var v = GetXmlNodeString(_capPath);
+                if(v==null)
                 {
-                    case "all":
-                        return eTextCapsType.All;
-                    case "small":
-                        return eTextCapsType.Small;
-                    default:
-                        return eTextCapsType.None;
+                    return _paragraph.DefaultRunProperties.Capitalization;
+                }
+                else
+                {
+                    switch (v)
+                    {
+                        case "all":
+                            return eTextCapsType.All;
+                        case "small":
+                            return eTextCapsType.Small;
+                        default:
+                            return eTextCapsType.None;
+                    }
                 }
             }
             set
@@ -366,7 +407,15 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeDouble(_baselinePath);
+                var v=GetXmlNodeDoubleNull(_baselinePath);
+                if (v == null)
+                {
+                        return _paragraph.DefaultRunProperties.Baseline;
+                }
+                else
+                {
+                    return v.Value;
+                }
             }
             set
             {
@@ -389,7 +438,15 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return (GetXmlNodeDoubleNull(_spacingPath) ?? 0) / 100;
+                var v = GetXmlNodeDoubleNull(_spacingPath);
+                if(v==null)
+                {
+                    return _paragraph.DefaultRunProperties.Spacing;
+                }
+                else
+                {
+                    return v.Value / 100;
+                }
             }
             set
             {
