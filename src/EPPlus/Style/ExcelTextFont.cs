@@ -786,7 +786,7 @@ namespace OfficeOpenXml.Style
                     break;
             }
 
-            if(string.IsNullOrEmpty(mf.FontFamily) || mf.Size <= 0)
+            if(string.IsNullOrEmpty(mf.FontFamily) || float.IsNaN(mf.Size) || mf.Size <= 0)
             {
                 var ns = _pictureRelationDocument.Package.Workbook.Styles.GetNormalStyle();
                 if(ns==null || string.IsNullOrEmpty(ns.Style.Font.Name))

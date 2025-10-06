@@ -28,6 +28,14 @@ namespace OfficeOpenXml.Drawing
         private readonly Action _initXml;
         private readonly IPictureRelationDocument _pictureRelationDocument;
 
+        /// <summary>
+        /// Represents the TextBody AND the TextbodyProperties node (?)
+        /// </summary>
+        /// <param name="pictureRelationDocument"></param>
+        /// <param name="ns"></param>
+        /// <param name="topNode"></param>
+        /// <param name="path"></param>
+        /// <param name="schemaNodeOrder"></param>
         internal ExcelTextBody(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder=null) :
             base(ns, topNode)   
         {
@@ -35,6 +43,7 @@ namespace OfficeOpenXml.Drawing
             _path = path;
 
             //var bodyProperties = topNode.SelectSingleNode(path, ns);
+
             //if (bodyProperties != null && bodyProperties.ParentNode != null)
             //{
             //    //If the path exists, the path leads to the tbPR node.
@@ -43,10 +52,15 @@ namespace OfficeOpenXml.Drawing
             //    //CT_Textbody as the parent node can be very different between exCharts and shapes for example
 
             //    var ctTextBody = bodyProperties.ParentNode;
+            //    ctTextBodyPath = "../";
 
-            //    var indexOfFirstNode = path.IndexOf("/");
-            //    _path = path.Substring(indexOfFirstNode + 1, path.Length - indexOfFirstNode - 1);
-            //    TopNode = ctTextBody;
+            //    //var indexOfFirstNode = path.IndexOf("/");
+            //    //_path = path.Substring(indexOfFirstNode + 1, path.Length - indexOfFirstNode - 1);
+            //    //TopNode = ctTextBody;
+            //}
+            //else
+            //{
+            //    ctTextBodyPath = _path;
             //}
 
 
@@ -54,6 +68,7 @@ namespace OfficeOpenXml.Drawing
 			AddSchemaNodeOrder(schemaNodeOrder, new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" });
         }
 
+        string ctTextBodyPath;
 
 
         /// <summary>
@@ -468,8 +483,8 @@ namespace OfficeOpenXml.Drawing
             {
                 if(_paragraphs==null)
                 {
-                    //var textBodyPath = _path.Substring(0, _path.LastIndexOf('/'));
-                    _paragraphs = new ExcelDrawingParagraphCollection(_pictureRelationDocument, NameSpaceManager, TopNode, _path, SchemaNodeOrder, _initXml);
+                    var textBodyPath = _path.Substring(0, _path.LastIndexOf('/'));
+                    _paragraphs = new ExcelDrawingParagraphCollection(_pictureRelationDocument, NameSpaceManager, TopNode, textBodyPath, SchemaNodeOrder, _initXml);
                 }
                 return _paragraphs;
             }

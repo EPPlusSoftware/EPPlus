@@ -108,6 +108,11 @@ namespace OfficeOpenXml.Drawing
         {
             if(_paragraphs.Count != 0)
             {
+                if(FirstDefaultRunProperties == null)
+                {
+                    FirstDefaultRunProperties = _paragraphs[0].DefaultRunProperties;
+                }
+
                 return _paragraphs[0].DefaultRunProperties;
             }
 
