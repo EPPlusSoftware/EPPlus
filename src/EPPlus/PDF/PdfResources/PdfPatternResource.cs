@@ -40,7 +40,7 @@ namespace OfficeOpenXml.PDF.PdfResources
                     case Style.ExcelFillStyle.DarkHorizontal:
                         return new PdfTilingPattern(objectNumber, new PdfPatternDarkHorizontal(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 1, 2], 1, 2, version);
                     case Style.ExcelFillStyle.DarkDown:
-                        return new PdfTilingPattern(objectNumber, new PdfPatternDarkDown(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 4], 4, 4, version);
+                        return new PdfTilingPattern(objectNumber, new PdfPatternDarkDown(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 2, 2], 2, 2, version);
                     case Style.ExcelFillStyle.DarkUp:
                         return new PdfTilingPattern(objectNumber, new PdfPatternDarkUp(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 4], 4, 4, version);
                     case Style.ExcelFillStyle.DarkGrid:
