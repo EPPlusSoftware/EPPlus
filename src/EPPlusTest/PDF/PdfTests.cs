@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.PDF;
@@ -11,6 +10,52 @@ namespace EPPlusTest.PDF
     [TestClass]
     public class PdfTests : TestBase
     {
+        /* BIG PDF TODO
+         * Merged Cells: Fix Merged cells not cutting of text
+         * 
+         * Cells: Cutting Text in general. Check cells at text length
+         * Cells: Display errors option
+         * 
+         * HeaderFooter: Header Footer implementation
+         * 
+         * Tables: Table Implementation
+         * 
+         * Patterns: Adjust and make patterns look better
+         * 
+         * Gradients: Make diamond gradients instead of radial gradtient in from corner and center gradient
+         * Gradients: 45 degree gradients should go from one corner to the other instead of actually being a 45 degrees.
+         * 
+         * Text: Rich Text Implementation
+         * Text: Bold
+         * Text: Italic
+         * Text: Underline
+         * Text: Wrap text
+         * Text: Equations
+         * 
+         * Layout: Center on page Horizontal and vertical
+         * Layout: Scaling
+         * Layout: Fit to number of pages
+         * Layout: Row and column headings
+         * Layout: Background (Excel does not add this to pdf it seems)
+         * Layout: Comments and Notes
+         * Layout: Excel Workbook to pdf
+         * Layout: Selected worksheets to pdf
+         * Layout: Cell range to pdf
+         * Layout: Remove empty last page
+         * 
+         * Borders: Adjust and make border look better
+         * 
+         * Pivot Table: Pivot table implementation
+         * 
+         * Drawings: Shapes
+         * Drawings Pictures
+         * Drawings: Charts
+         * Drawings: 3D models
+         * 
+         */
+
+
+
         [TestMethod]
         public void TestWritePdf()
         {
