@@ -19,7 +19,7 @@ using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Drawing;
 using System.Linq;
-using System.Reflection.Emit;
+using OfficeOpenXml.Utils;
 using System.Xml;
 
 namespace OfficeOpenXml.Style
@@ -253,6 +253,18 @@ namespace OfficeOpenXml.Style
                 CreateTopNode();
                 _xml.SetXmlNodeString(_sizePath, ((int)(value * 100)).ToString());
             }
+        }
+        string _spacingPath = "@spc";
+        public override double Spacing 
+        {
+            get
+            {
+                return (_xml.GetXmlNodeDoubleNull(_spacingPath) ?? 0D) / 100;
+            }
+            set
+            {
+                _xml.SetXmlNodeDouble(_spacingPath, value * 100);
+            } 
         }
         ExcelDrawingFill _fill;
         /// <summary>
@@ -600,6 +612,20 @@ namespace OfficeOpenXml.Style
         internal override bool IsEmpty => _textRun.IsEmpty;
         internal override XmlElement PathElement => (XmlElement)_textRun.TopNode;
 
+        /// <summary>
+        /// The spacing between characters within a text run.
+        /// </summary>
+        public override double Spacing 
+        {
+            get
+            {
+                return _textRun.Spacing;
+            }
+            set
+            {
+                _textRun.Spacing = value;
+            }            
+        }
     }
     /// <summary>
     /// Used by Rich-text and Paragraphs.
@@ -731,6 +757,12 @@ namespace OfficeOpenXml.Style
             get;
             set;
         }
+        public abstract double Spacing 
+        { 
+            get; 
+            set; 
+        }
+
         /// <summary>
         /// Set the font style properties
         /// </summary>
@@ -752,60 +784,9 @@ namespace OfficeOpenXml.Style
         }
 
         internal MeasurementFont GetMeasureFont()
-        {
-            var mf = new MeasurementFont()
-            {
-                FontFamily = string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont,
-                Size = Size,
-                Style = GetFontStyle()
-            };
-            if(string.IsNullOrEmpty(mf.FontFamily))
-            {
-                mf.FontFamily = EastAsianFont;
-            }
-
-            switch(mf.FontFamily)
-            {
-                case "+mn-lt":
-                    mf.FontFamily = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont.LatinFont?.Typeface;
-                    break;
-                case "+mj-lt":
-                    mf.FontFamily = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MajorFont.LatinFont?.Typeface;
-                    break;
-                case "+mn-cs":
-                    mf.FontFamily = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MajorFont.ComplexFont?.Typeface;
-                    break;
-                case "+mj-cs":
-                    mf.FontFamily = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MajorFont.ComplexFont?.Typeface;
-                    break;
-                case "+mn-ea":
-                    mf.FontFamily = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MajorFont.EastAsianFont?.Typeface;
-                    break;
-                case "+mj-ea    ":
-                    mf.FontFamily = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MajorFont.EastAsianFont?.Typeface;
-                    break;
-            }
-
-            if(string.IsNullOrEmpty(mf.FontFamily) || mf.Size <= 0)
-            {
-                var ns = _pictureRelationDocument.Package.Workbook.Styles.GetNormalStyle();
-                if(ns==null || string.IsNullOrEmpty(ns.Style.Font.Name))
-                {
-                    mf.FontFamily = "Aptos Narrow";
-                }
-                else
-                {
-                    mf.FontFamily = ns.Style.Font.Name;
-                }
-                if (mf.Size <= 0)
-                {
-                    mf.Size = ns.Style.Font.Size;
-                }
-            }
-
-            return mf;
+        {            
+            return FontUtil.GetMeasureFont(LatinFont, ComplexFont, EastAsianFont, Size, GetFontStyle(), _pictureRelationDocument.Package);
         }
-
         private MeasurementFontStyles GetFontStyle()
         {
             MeasurementFontStyles ret = MeasurementFontStyles.Regular;
@@ -831,6 +812,6 @@ namespace OfficeOpenXml.Style
         internal abstract XmlElement PathElement
         {
             get;
-        }        
+        }
     }
 }

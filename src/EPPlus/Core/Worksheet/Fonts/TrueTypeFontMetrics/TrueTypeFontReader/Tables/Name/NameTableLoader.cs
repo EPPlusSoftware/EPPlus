@@ -82,18 +82,10 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.TrueTypeFontRea
 
         private Encoding GetWindowsEncoding(int encoding)
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //Add Support for codepage 1252
-#endif
             switch (encoding)
             {
                 case 0:
-#if NET8_0_OR_GREATER
                     return Encoding.GetEncoding(1252);
-                    //return Encoding.GetEncoding(1038);
-#elif NET35_OR_GREATER
-                    
-                    return Encoding.GetEncoding(1252);
-#endif
                 case 1:
                     return Encoding.GetEncoding("utf-16BE");
                 case 2:
