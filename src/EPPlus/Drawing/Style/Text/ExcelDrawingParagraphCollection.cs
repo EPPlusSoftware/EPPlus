@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Drawing
             if (rootNode != null)
             {
                 TopNode = rootNode;
-                var pNodes = rootNode.SelectNodes("a:p", NameSpaceManager);
+                var pNodes = rootNode.SelectNodes("../a:p", NameSpaceManager);
                 foreach (XmlElement pn in pNodes)
                 {
                     _paragraphs.Add(new ExcelDrawingParagraph(this, prd, NameSpaceManager, pn, schemaNodeOrder, initXml));
@@ -264,7 +264,7 @@ namespace OfficeOpenXml.Drawing
                 var mf = font.GetMeasureFont();
                 var ns = _prd.Package.Workbook.Styles.GetNormalStyle();
 
-                var t =_prd.Package.Settings.TextSettings.PrimaryTextMeasurer.MeasureText(defaultText, mf); //TODO: use WrapMeasurer
+                var t =_prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType.MeasureText(defaultText, mf); //TODO: use WrapMeasurer
                 return new RectBase(t.Width.PointToPixel(), t.Height.PointToPixel());
             }
 
