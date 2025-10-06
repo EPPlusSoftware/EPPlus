@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Utils
                     break;
             }
 
-            if (string.IsNullOrEmpty(mf.FontFamily) || mf.Size <= 0 || double.IsNaN(mf.Size))
+            if (string.IsNullOrEmpty(mf.FontFamily) || mf.Size <= 0 || float.IsNaN(mf.Size))
             {
                 var ns = pck.Workbook.Styles.GetNormalStyle();
                 if (string.IsNullOrEmpty(mf.FontFamily))

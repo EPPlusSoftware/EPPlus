@@ -220,42 +220,11 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                //if (_textBody == null)
-                //{
-                //    //Creates the node p element without adding a paragraph item
-                //    TextBody.Paragraphs.CreateParagraphPlaceHolder();
-                //}
-
                 if(_font == null)
                 {
                     _font = (ExcelTextFontXml)TextBody.Paragraphs.CreateOrGetDefaultRunProperties(_fontPath, TopNode);
                 }
                 return _font;
-                //if (_font == null)
-                //{
-                //    if(_textBody == null)
-                //    {
-
-                //    }
-                //    //XmlNode node = TopNode.SelectSingleNode(_paragraphPath, NameSpaceManager);
-
-                //    //if(node != null)
-                //    //{
-
-                //    //}
-
-                //    //if (node == null)
-                //    //{
-                //    //    //Creates the node p element without adding a paragraph item
-                //    //    TextBody.Paragraphs.CreateParagraphPlaceHolder();
-                //    //    //Creates the node p element
-                //    //    node = TopNode.SelectSingleNode(_paragraphPath, NameSpaceManager);
-                //    //}
-
-                //    ////Create default run properties if it doesn't exist
-                //    //_font = new ExcelTextFontXml(_drawings, NameSpaceManager, TopNode, _fontPath, SchemaNodeOrder);
-                //}
-                //return _font;
             }
         }
         private ExcelChartStyleEntry _themeStyles=null;

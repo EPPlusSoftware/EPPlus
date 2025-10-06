@@ -453,7 +453,7 @@ namespace OfficeOpenXml.Drawing
                 //For each line in each linebreak
                 foreach (var line in lines)
                 {
-                    var measurementFont = txtRun.GetMeasureFont();
+                    var measurementFont = txtRun.GetMeasurementFont();
                     //Get the length/height of the line via the font of the textRun
                     var measurement = measurer.MeasureText(line, measurementFont);
 
@@ -462,7 +462,7 @@ namespace OfficeOpenXml.Drawing
                     if (maxWidth != 0)
                     {
                         var maxWidthInPixels = (maxWidth / 72d) * 96d;
-                        finalLines = measurer.MeasureAndWrapText(line, txtRun.GetMeasureFont(), maxWidthInPixels);
+                        finalLines = measurer.MeasureAndWrapText(line, measurementFont, maxWidthInPixels);
                     }
                     else
                     {
@@ -522,6 +522,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     var measurementFont = txtRun.GetMeasureFont();
                     //Get the length/height of the line via the font of the textRun
+
                     var measurement = measurer.MeasureText(line, measurementFont);
 
                     //If text wrapping is on each of the broken lines could potentially be wrapped

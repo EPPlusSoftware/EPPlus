@@ -1,7 +1,9 @@
-﻿using System;
+﻿using OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.TrueTypeFontReader.Scanner;
+using OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.Utils.Platform;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.Utils.Platform;
+using System.Linq;
 
 namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.TrueTypeFontReader
 {

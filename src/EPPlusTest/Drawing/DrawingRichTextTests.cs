@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.TrueTypeFontReader;
 using OfficeOpenXml.Drawing;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 

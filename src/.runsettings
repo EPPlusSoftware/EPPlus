@@ -16,5 +16,6 @@
 	    <DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
 	    <DeploymentEnabled>False</DeploymentEnabled>
 	    <ConsiderFixturesAsSpecialTests>False</ConsiderFixturesAsSpecialTests>
+		<OrderTestsByNameInClass>true</OrderTestsByNameInClass>
     </MSTest>
 </RunSettings>

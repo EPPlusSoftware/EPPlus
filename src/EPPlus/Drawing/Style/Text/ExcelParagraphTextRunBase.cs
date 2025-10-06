@@ -44,11 +44,6 @@ namespace OfficeOpenXml.Drawing
             _paragraph = paragraph;
             _prd = _paragraph._prd;
             _dtr = _paragraph._paragraphs[0].DefaultRunProperties;
-            if(paragraph.DefaultRunProperties != null)
-            {
-                _defaultFontName = paragraph.DefaultRunProperties.LatinFont;
-                _defaultFontSize = paragraph.DefaultRunProperties.Size;
-            }
         }
 
         internal List<string> SplitIntoLines()
@@ -57,46 +52,37 @@ namespace OfficeOpenXml.Drawing
             return strLst;
         }
 
-        ///// <summary>
-        ///// If lines should be wrapped the total number of lines Changes and therefore the total height.
-        ///// </summary>
-        ///// <param name="measurer">A value of null implies no wrapping</param>
-        ///// <param name="maxWrappedWidth">A value of 0 (default) implies no wrapping</param>
-        ///// <returns></returns>
-        //internal int GetNumberOfLines(ITextMeasurer measurer = null, double maxWrappedWidth = 0d)
-        //{
-
-        //}
-
-
         internal ExcelDrawingParagraph Paragraph { get => _paragraph; }
         /// <summary>
         /// The type of text run
         /// </summary>
         public abstract eParagraphRunType Type { get; }
 
-        internal void SetDefaultFontName(string defaultName)
+        internal MeasurementFont GetMeasurementFont()
         {
-            _defaultFontName = defaultName;
-        }
+            var mf = new MeasurementFont()
+            {
+                FontFamily = string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont,
+                Size = FontSize,
+                Style = GetFontStyle()
+            };
 
-        internal string GetTextRunFontName()
-        {
-            if (string.IsNullOrEmpty(LatinFont))
+            if (string.IsNullOrEmpty(mf.FontFamily) || mf.Size <= 0 || float.IsNaN(mf.Size))
             {
-                if (string.IsNullOrEmpty(ComplexFont))
+                var defaultMeasurementFont = _paragraph.DefaultRunProperties.GetMeasureFont();
+
+                if (string.IsNullOrEmpty(mf.FontFamily))
                 {
-                    return _defaultFontName;
+                    mf.FontFamily = defaultMeasurementFont.FontFamily;
                 }
-                else
+
+                if(mf.Size <= 0 || float.IsNaN(mf.Size))
                 {
-                    return ComplexFont;
+                    mf.Size = defaultMeasurementFont.Size;
                 }
             }
-            else
-            {
-                return LatinFont;
-            }
+
+            return mf;
         }
 
         #region Basic Fill

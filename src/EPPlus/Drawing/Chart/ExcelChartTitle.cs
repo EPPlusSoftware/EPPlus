@@ -227,7 +227,8 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 defFont = Convert.ToSingle(stylePart.DefaultTextRun.Size);
             }
-            _richText = new ExcelParagraphCollection(TextBody, _chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:p", SchemaNodeOrder, defFont);
+            var tb = TextBody;
+            _richText = new ExcelParagraphCollection(tb, _chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:p", SchemaNodeOrder, defFont);
         }
 
         private ExcelChartStyleEntry GetStylePart()
