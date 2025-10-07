@@ -11,12 +11,18 @@
   05/31/2022         EPPlus Software AB           EPPlus 6.1
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
+using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 
 namespace OfficeOpenXml.FormulaParsing.Ranges
 {
@@ -68,7 +74,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public RangeInfo(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx, int extRef = -1)
         {
             var address = new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
-            address._ws = ws.Name;
+            address._ws = ws?.Name;
             SetAddress(ws, address, ctx);
             _addresses[0].ExternalReferenceIx = extRef;
         }
@@ -435,7 +441,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 if (d._fromRow > a.FromRow || d._toRow < a.ToRow ||
                     d._fromCol > a.FromCol || d._toCol < a.ToCol)
                 {
-                    return new FormulaRangeAddress(null, 0,
+                    return new FormulaRangeAddress(null, a.WorksheetIx,
                         Math.Max(d._fromRow, a.FromRow),
                         Math.Max(d._fromCol, a.FromCol),
                         Math.Min(d._toRow, a.ToRow),
@@ -450,6 +456,19 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             {
                 return a;
             }
+        }
+        /// <summary>
+        /// Gets the <see cref="IRangeInfo" /> for the range for the first and last value in the range (top-left to bottom-right)
+        /// </summary>
+        /// <returns>The range</returns>
+        public IRangeInfo GetRangeInfoByValue()
+        {
+            var fvc = ValueFinder.FirstValueCell(Worksheet, Address);
+            var lvc = ValueFinder.LastValueCell(Worksheet, Address);
+            ValueFinder.IterateColumns(fvc, lvc, Address, Worksheet._values);
+            var subrangeAddress = ValueFinder.IterateColumns(fvc, lvc, Address, Worksheet._values);
+
+            return GetOffset(subrangeAddress.FromRow, subrangeAddress.FromCol, subrangeAddress.ToRow, subrangeAddress.ToCol);
         }
     }
 }

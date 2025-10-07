@@ -17,6 +17,7 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -159,26 +160,53 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     for (var col = address.FromCol; col <= address.ToCol; col++)
                     {
                         var candidate = rangeInfo.GetValue(row, col);
-                        if (searched != null && Evaluate(candidate, searched, ctx, convertNumericString))
+
+                        if (searched != null)
                         {
-                            result.Add(internalIndex);
+                            if (searched is RangeOrValue critRange)
+                            {
+                                if (critRange.Range != null)
+                                {
+                                    foreach (var cell in critRange.Range)
+                                    {
+                                        if (Evaluate(candidate, cell.Value, ctx, convertNumericString))
+                                        {
+                                            result.Add(internalIndex);
+                                        }
+                                    }
+                                }
+                                else if(critRange.Value != null && Evaluate(candidate, critRange.Value, ctx, convertNumericString))
+                                {
+                                    result.Add(internalIndex);
+                                }
+                            }
+                            else if (Evaluate(candidate, searched, ctx, convertNumericString))
+                            {
+                                result.Add(internalIndex);
+                            }
                         }
+
                         internalIndex++;
                     }
                 }
             }
-            else if(Evaluate(rangeOrValue.Value, searched, ctx, convertNumericString))
+            else if (Evaluate(rangeOrValue.Value, searched, ctx, convertNumericString))
             {
                 result.Add(internalIndex);
             }
             return result;
         }
-        protected static Queue<FormulaRangeAddress> EnqueueMatchingAddresses(FormulaRangeAddress valueAddress, IEnumerable<int> matchIndexes)
+        protected static Queue<FormulaRangeAddress> EnqueueMatchingAddresses(IRangeInfo valueRange, IEnumerable<int> matchIndexes, ref Queue<FormulaRangeAddress> addresses)
         {
-            Queue<FormulaRangeAddress> addresses = new Queue<FormulaRangeAddress>();
+            if(addresses==null)
+            {
+                addresses=new Queue<FormulaRangeAddress>();
+            }
             var pIx = int.MinValue;
+            var valueAddress = valueRange.GetAddressDimensionAdjusted(0);
             var extRef = valueAddress.ExternalReferenceIx;
             var wsIx = valueAddress.WorksheetIx;
+            FormulaRangeAddress currentAddress=null;
             if (valueAddress.FromCol == valueAddress.ToCol)
             {
                 var c = valueAddress.FromCol;
@@ -186,12 +214,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     if (ix == pIx + 1)
                     {
-                        addresses.Peek().ToRow++;
+                        currentAddress.ToRow++;
                     }
                     else
                     {
                         var r = valueAddress.FromRow + ix;
-                        addresses.Enqueue(new FormulaRangeAddress() { ExternalReferenceIx=extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c });
+                        currentAddress = new FormulaRangeAddress() { ExternalReferenceIx = extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c };
+                        addresses.Enqueue(currentAddress);
                     }
                     pIx = ix;
                 }
@@ -203,12 +232,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     if (ix == pIx + 1)
                     {
-                        addresses.Peek().ToCol++;
+                        currentAddress.ToCol++;
                     }
                     else
                     {
                         var c = valueAddress.FromCol + ix;
-                        addresses.Enqueue(new FormulaRangeAddress() { ExternalReferenceIx = extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c });
+                        currentAddress = new FormulaRangeAddress() { ExternalReferenceIx = extRef, WorksheetIx = wsIx, FromRow = r, ToRow = r, FromCol = c, ToCol = c };
+                        addresses.Enqueue(currentAddress);
                     }
                     pIx = ix;
                 }
@@ -216,12 +246,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
             return addresses;
         }
-        protected IEnumerable<int> GetMatchingIndicesFromArguments(int argStartIx, IList<CompileResult> args)
+        protected IEnumerable<int> GetMatchingIndicesFromArguments(int argStartIx, IList<CompileResult> args, int maxIndex=31)
         {
             //Return the addresses matching the criteria in the queue
             var argRanges = new List<RangeOrValue>();
             var criteria = new List<object>();
-            for (var ix = argStartIx; ix < 31; ix += 2)
+            for (var ix = argStartIx; ix < maxIndex; ix += 2)
             {
                 if (args.Count <= ix) break;
                 var arg = args[ix];
@@ -233,7 +263,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     argRanges.Add(new RangeOrValue { Value = arg.ResultValue });
                 }
-                criteria.Add(args[ix + 1].ResultValue);
+
+                if (args[ix + 1].Result is IRangeInfo critInfo)
+                {
+                    criteria.Add(new RangeOrValue { Range = critInfo });
+                }
+                else
+                {
+                    criteria.Add(new RangeOrValue { Value = args[ix + 1].ResultValue });
+                }
             }
             IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criteria[0], null);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();

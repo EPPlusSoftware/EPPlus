@@ -11,10 +11,12 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Xml;
 
 namespace OfficeOpenXml
@@ -630,7 +632,9 @@ namespace OfficeOpenXml
         string _paneNodePath = "d:pane";
         string _selectionNodePath = "d:selection";
         /// <summary>
-        /// Freeze the columns and rows starting from <see cref="TopLeftCell"/>
+        /// Freeze the columns and rows starting from <see cref="TopLeftCell"/> <br/><br/>
+        /// 
+        /// Note that if the <br/>(<paramref name="Row"/> - hiddenRows == 1 &#38;&#38; <paramref name="Column"/> - hiddenCols == 1)<br/> UnFreezePanes() is called instead
         /// </summary>
         /// <param name="Row">Rows from the <see cref="TopLeftCell"/>. Starts from 1</param>
         /// <param name="Column">Columns from the <see cref="TopLeftCell"/>. Starts from 1</param>
@@ -639,7 +643,45 @@ namespace OfficeOpenXml
             //TODO:fix this method to handle splits as well.
             ValidateRows(Row, Column);
 
-            if (Row == 1 && Column == 1)
+            int hiddenCols = 0;
+            int hiddenRows = 0;
+
+            int? firstVisibleRow = null;
+            int? firstVisibleColumn = null;
+
+            for (int i = 1; i < Column; i++)
+            {
+                var col = _worksheet.Column(i);
+                if (col != null && col.Hidden)
+                {
+                    hiddenCols++;
+                }
+                else if(firstVisibleColumn == null)
+                {
+                    firstVisibleColumn = i;
+                }
+            }
+
+            for (int i = 1; i < Row; i++)
+            {
+                if (_worksheet.Row(i).Hidden == true)
+                {
+                    hiddenRows++;
+                }
+                else if(firstVisibleRow == null)
+                {
+                    firstVisibleRow = i;
+                }
+            }
+
+            firstVisibleColumn = firstVisibleColumn ?? 1 + hiddenCols;
+            firstVisibleRow = firstVisibleRow ?? 1 + hiddenRows;
+
+
+            var visibleRows = Row - hiddenRows;
+            var visibleColumns = Column - hiddenCols;
+
+            if (visibleRows == 1 && visibleColumns == 1)
             {
                 UnFreezePanes();
                 return;
@@ -659,11 +701,15 @@ namespace OfficeOpenXml
                 PaneSettings.TopNode.RemoveAll();
             }
 
-            var hiddenRows = _worksheet.Rows.Where(x => x.Hidden == true).Count();
-            var hiddenCols = _worksheet.Columns.Where(x => x.Hidden == true).Count();
+            //TopLeftCell must be topLeft Visible cell for the topnode
+            if(TopLeftCell == "")
+            {
+                TopLeftCell = ExcelCellBase.GetAddress(firstVisibleRow.Value, firstVisibleColumn.Value);
+            }
 
-            if (Column > 1) PaneSettings.XSplit = Column - 1 - hiddenCols;
-            if (Row > 1) PaneSettings.YSplit = Row - 1 - hiddenRows;
+            if (Column > 1) PaneSettings.XSplit = Column - firstVisibleColumn.Value;
+            if (Row > 1) PaneSettings.YSplit = Row - firstVisibleRow.Value;
+
             PaneSettings.TopLeftCell = ExcelCellBase.GetAddress(Row, Column);
             PaneSettings.State = isSplit ? ePaneState.FrozenSplit : ePaneState.Frozen;
 

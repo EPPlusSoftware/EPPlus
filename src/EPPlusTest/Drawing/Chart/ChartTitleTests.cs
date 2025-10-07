@@ -90,5 +90,17 @@ namespace EPPlusTest.Drawing.Chart
             chart.Series.Add("Data!N1:N10", "Data!K1:K10");
             chart.XAxis.AddTitle(ws.Cells["A1"]);
         }
+        [TestMethod]
+        public void AddPiePivotTableWithTitle()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotChartWithLinkedTitle");
+            LoadItemData(ws);
+            var pt = ws.PivotTables.Add(ws.Cells["A20"], ws.Cells["K1:O8"], "PivotTable1");
+            pt.RowFields.Add(pt.Fields["Category"]);
+            pt.DataFields.Add(pt.Fields["Price"]);
+            var chart = ws.Drawings.AddPieChart("barChart1", ePieChartType.Pie, pt);
+            chart.Title.SetAutoTitle();
+            chart.Font.Color = Color.Red;
+        }
     }
 }

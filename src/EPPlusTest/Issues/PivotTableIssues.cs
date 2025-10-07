@@ -1,11 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.CodeCoverage.Core.Reports.Coverage;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using System.Xml;
-using System.Linq;
-using System;
-using System.IO;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Table.PivotTable;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Xml;
 
 namespace EPPlusTest.Issues
 {
@@ -245,7 +250,7 @@ namespace EPPlusTest.Issues
             using (var p = OpenTemplatePackage("s744-2.xlsx"))
             {
                 ExcelWorkbook workbook = p.Workbook;
-                SaveAndCleanup(p); 
+                SaveAndCleanup(p);
             }
         }
         [TestMethod]
@@ -299,10 +304,320 @@ namespace EPPlusTest.Issues
                 var wb = p.Workbook;
                 foreach (var ws in wb.Worksheets)
                 {
-                    if (ws.PivotTables.Any()) 
+                    if (ws.PivotTables.Any())
                         Console.WriteLine(ws.Name);
                 }
                 SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i1968_1()
+        {
+            using var p = OpenTemplatePackage("i1968-1.xlsx");
+            var wb = p.Workbook;
+
+            foreach (var ws in wb.Worksheets)
+            {
+                if (ws.PivotTables.Any()) Console.WriteLine(ws.Name);
+            }
+
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void i1968_2()
+        {
+            using var p = OpenTemplatePackage("i1968-2.xlsx");
+            var wb = p.Workbook;
+            foreach (var ws in wb.Worksheets)
+            {
+                if (ws.PivotTables.Any()) Console.WriteLine(ws.Name);
+            }
+
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void i1968_2_del()
+        {
+            using var p = OpenTemplatePackage("i1968-2-del.xlsx");
+            var wb = p.Workbook;
+            foreach (var ws in wb.Worksheets)
+            {
+                if (ws.PivotTables.Any()) Console.WriteLine(ws.Name);
+            }
+
+            SaveAndCleanup(p);
+        }
+        public class Shown
+        {
+            public decimal? Amount { get; set; }
+            public DateTime? Date { get; set; }
+        }
+
+        [TestMethod]
+        public void i820()
+        {
+            var table = new List<Shown>();
+            for (int i = 0; i < 200; i++)
+            {
+                table.Add(new Shown { Date = DateTime.Today.AddDays(i), Amount = i % 5 == 0 ? 0 : (decimal)10000 });
+            }
+
+            using (var pck = OpenPackage("i820.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("data");
+
+                var aa = sheet.Cells["A1"].LoadFromCollection(table, true);
+                sheet.Cells["B194"].Value = null;
+                sheet.Cells[2, 2, aa.End.Row, 2].Style.Numberformat.Format = DateTimeFormatInfo.CurrentInfo.ShortDatePattern;
+                sheet.Cells[2, 1, aa.End.Row, 1].Style.Numberformat.Format = "#,##0.00";
+
+                var dataRange = sheet.Cells[1, 1, sheet.Dimension.End.Row, sheet.Dimension.End.Column];
+
+                CreatePivotTableWithDataGrouping(pck, dataRange);
+
+                pck.Save();
+            }
+        }
+        [TestMethod]
+        public void s880()
+        {
+            using var p = OpenTemplatePackage("s880.xlsx");
+            var ws = p.Workbook.Worksheets["Raw Data"];
+
+            ws.Cells[2, 1].Value = "123456";
+            ws.Cells[2, 2].Value = "Doe";
+            ws.Cells[2, 3].Value = "John";
+            ws.Cells[2, 4].Value = "Example Module";
+            ws.Cells[2, 5].Value = Convert.ToDateTime("1/1/2024");
+            ws.Cells[2, 6].Value = Convert.ToDateTime("1/1/2025");
+            ws.Cells[2, 7].Value = DBNull.Value;
+            ws.Cells[2, 8].Value = "Not Registered";
+            ws.Cells[2, 9].Value = "Yes";
+            //Skip 10 since it's a formula column
+            ws.Cells[2, 11].Value = "Example Division";
+            ws.Cells[2, 12].Value = "123456 - 111 Main Street";
+            ws.Cells[2, 13].Value = "123456 - Job Title";
+            ws.Cells[2, 14].Value = DBNull.Value;
+
+
+            ws.Cells[3, 1].Value = "1234567";
+            ws.Cells[3, 2].Value = "Doe";
+            ws.Cells[3, 3].Value = "Jane";
+            ws.Cells[3, 4].Value = "Example Module";
+            ws.Cells[3, 5].Value = Convert.ToDateTime("1/1/2024");
+            ws.Cells[3, 6].Value = Convert.ToDateTime("1/1/2025");
+            ws.Cells[3, 7].Value = DBNull.Value;
+            ws.Cells[3, 8].Value = "Not Registered";
+            ws.Cells[3, 9].Value = "Yes";
+            //Skip 10 since it's a formula column
+            ws.Cells[3, 11].Value = "Example Division";
+            ws.Cells[3, 12].Value = "123456 - 111 Main Street";
+            ws.Cells[3, 13].Value = "123456 - Job Title";
+            ws.Cells[3, 14].Value = "Example Department";
+
+
+            var headerRow = 1;
+            var totalDataRows = 2;
+            int firstRowToDelete = totalDataRows + headerRow + 1;
+            int deleteCount = ExcelPackage.MaxRows - firstRowToDelete + 1;
+            if (deleteCount > 0)
+            {
+                ws.DeleteRow(firstRowToDelete, deleteCount);
+            }
+
+            SaveAndCleanup(p);
+        }
+
+        private static void CreatePivotTableWithDataGrouping(ExcelPackage pck, ExcelRangeBase dataRange)
+        {
+            var wsPivot = pck.Workbook.Worksheets.Add("PivotDateGrp");
+            var pt = wsPivot.PivotTables.Add(wsPivot.Cells["B3"], dataRange, "Report");
+
+            //Add a row field
+            var rowField = pt.RowFields.Add(pt.Fields["Date"]);
+            rowField.AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Months);
+
+            //Add the data fields and format them
+            ExcelPivotTableDataField dataField = pt.DataFields.Add(pt.Fields["Amount"]);
+            dataField.Format = "#,##0.00";
+            dataField.Name = "Sum of Amount";
+
+            //We want the data fields to appear in columns
+            pt.DataOnRows = false;
+        }
+        [TestMethod]
+        public void s877()
+        {
+            using (var package = OpenTemplatePackage("s877.xlsx"))
+            {
+                var workbook = package.Workbook;
+
+                var table = new DataTable();
+                table.Columns.Add("id", typeof(int));
+                table.Columns.Add("Type1", typeof(string));
+                table.Columns.Add("Type2", typeof(string));
+
+                table.Rows.Add(4, "c", "z");
+                table.Rows.Add(5, "c", "z");
+                table.Rows.Add(6, "b", "t");
+                table.Rows.Add(7, "b", "t");
+
+                var worksheet = workbook.Worksheets["Sheet1"];
+                worksheet.Cells["A5"].LoadFromDataTable(table);
+
+                SaveAndCleanup(package, false);
+
+                //Commenting out this second save results in the expected output
+                SaveWorkbook("s877-2.xlsx", package);
+            }
+        }
+        [TestMethod]
+        public void s907()
+        {
+            using (var package = OpenTemplatePackage("s907.xlsx"))
+            {
+                var firstDataRow = 2;
+                var ws = package.Workbook.Worksheets["Raw Data"];
+
+
+                var firstRowToDelete = firstDataRow + 1;
+                ws.DeleteRow(firstRowToDelete, ExcelPackage.MaxRows - firstRowToDelete + 1);
+                ws.Cells[firstDataRow, 1].Value = "123456";
+
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s907_2()
+        {
+            using (var package = OpenTemplatePackage("s907-2.xlsx"))
+            {
+                var firstDataRow = 2;
+                var ws = package.Workbook.Worksheets["module_status_report"];
+
+
+                var firstRowToDelete = firstDataRow + 1;
+                ws.DeleteRow(firstRowToDelete, ExcelPackage.MaxRows - firstRowToDelete + 1);
+                ws.Cells[firstDataRow, 1].Value = "123456";
+                package.GetAsByteArray();
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s910()
+        {
+            using (var package = OpenTemplatePackage("s910.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets["Data"];
+                var t = ws.Tables[0];
+
+                LoadSomeData(ws, t);
+
+                /*
+                 * Call to Columns.Delete below works fine up to EPPlus version 8.0.3
+                 * From version 8.0.4 through to 8.0.8 it produces xlsx with incomplete pivot
+                 * i.e. "Total in Report Currency" just disappears from the pivot, even though it
+                 * is present in the table, and also present in the original pivot definition in the template
+                 */
+
+                //delete dummy columns 3..7
+                t.Columns.Delete(3, 5);
+
+                Assert.AreEqual(2, package.Workbook.Worksheets["Pivot"].PivotTables[0].DataFields.Count);
+                package.Workbook.Calculate();
+                SaveWorkbook("s910-Wrong.xlsx", package);
+            }
+        }
+        static void LoadSomeData(ExcelWorksheet ws, OfficeOpenXml.Table.ExcelTable t)
+        {
+            t.AddRow();
+            int row = t.Address.End.Row;
+            ws.Cells[row, t.Address.Start.Column + 0].Value = "Client A";
+            ws.Cells[row, t.Address.Start.Column + 1].Value = "Jan";
+            ws.Cells[row, t.Address.Start.Column + 2].Value = "abc123";
+            ws.Cells[row, t.Address.Start.Column + 8].Value = 150.00;
+
+            t.AddRow();
+            row = t.Address.End.Row;
+            ws.Cells[row, t.Address.Start.Column + 0].Value = "Client A";
+            ws.Cells[row, t.Address.Start.Column + 1].Value = "Feb";
+            ws.Cells[row, t.Address.Start.Column + 2].Value = "abc22";
+            ws.Cells[row, t.Address.Start.Column + 8].Value = 250.00;
+
+            t.AddRow();
+            row = t.Address.End.Row;
+            ws.Cells[row, t.Address.Start.Column + 0].Value = "Client B";
+            ws.Cells[row, t.Address.Start.Column + 1].Value = "Jan";
+            ws.Cells[row, t.Address.Start.Column + 2].Value = "cdf43";
+            ws.Cells[row, t.Address.Start.Column + 8].Value = 125.00;
+
+            t.DeleteRow(0); // delete 1st/template row
+        }
+        [TestMethod]
+        public void s919()
+        {
+            using (var p = OpenTemplatePackage("s919.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Aico Data"];
+                ws.Calculate();
+
+                Assert.AreEqual(123D ,ws.Cells["C37"].Value);
+                Assert.AreEqual(123D, ws.Cells["D38"].Value);
+            }
+        }
+        [TestMethod]
+        public void s942()
+        {
+            using (var p = OpenTemplatePackage("PivotTableCFRemoveTest.xlsx"))
+            {
+                var ws1 = p.Workbook.Worksheets["Sheet1"];
+                var ws2 = p.Workbook.Worksheets["Sheet2"];
+
+                ws1.DeleteRow(2, 5);
+
+                ws2.PivotTables[0].CacheDefinition.Refresh();
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void s993()
+        {
+            using(var pck = OpenTemplatePackage("s993.xlsx"))
+            {
+                var calcOpts = new ExcelCalculationOption
+                {
+                    PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel,
+                    AllowCircularReferences = true,
+                    EnableUnicodeAwareStringOperations = true
+                };
+
+                // Calculate formulas first
+                pck.Workbook.Calculate(calcOpts);
+
+                // Refresh + calculate every pivot once
+                pck.Workbook.CalculateAllPivotTables(refresh: true);
+
+                // Recalculate any formulas that depend on pivot results
+                pck.Workbook.Calculate(calcOpts);
+
+                // Leave workbook in Manual mode and save
+                pck.Workbook.CalcMode = ExcelCalcMode.Manual;
+                SaveAndCleanup(pck);
+            }
+
+            using(var p = OpenPackage("s993.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Data"];
+
+                ws.Calculate();
+
+                // print A1 cell value
+                var cell1 = ws.Cells["A1"].Text;
+
+                Assert.AreEqual("60000", cell1);
             }
         }
     }

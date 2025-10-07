@@ -21,7 +21,7 @@ namespace OfficeOpenXml.VBA
     /// <summary>
     /// A VBA code module. 
     /// </summary>
-    public class ExcelVBAModule
+    public class ExcelVBAModule : IExcelVBACollectionElement
     {
         string _name = "";
         ModuleNameChange _nameChangeCallback = null;

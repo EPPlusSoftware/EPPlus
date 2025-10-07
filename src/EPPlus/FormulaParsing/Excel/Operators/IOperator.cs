@@ -30,8 +30,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <param name="ctx"></param>
+        /// <param name="ignoreErrors"></param>
         /// <returns></returns>
-        CompileResult Apply(CompileResult left, CompileResult right, ParsingContext ctx);
+        CompileResult Apply(CompileResult left, CompileResult right, ParsingContext ctx, bool ignoreErrors = false);
 
         /// <summary>
         /// Precedence

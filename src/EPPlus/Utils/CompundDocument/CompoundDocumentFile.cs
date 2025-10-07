@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
         }
         internal CompoundDocumentFile(byte[] file)
         {
-            using (var ms = RecyclableMemory.GetStream(file))
+            using (var ms = EPPlusMemoryManager.GetStream(file))
             {
                 LoadFromMemoryStream(ms);
             }
@@ -210,7 +210,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
             var nextSector = _firstDIFATSectorLocation;
             while (nextSector > 0)
             {
-                using (var ms = RecyclableMemory.GetStream(_sectors[nextSector]))
+                using (var ms = EPPlusMemoryManager.GetStream(_sectors[nextSector]))
                 {
                     var brDI = new BinaryReader(ms);
                     var sect = -1;
@@ -242,7 +242,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
         }
         private void GetMiniSectors(byte[] miniFATStream)
         {
-            using (var ms = RecyclableMemory.GetStream(miniFATStream))
+            using (var ms = EPPlusMemoryManager.GetStream(miniFATStream))
             {
                 var br = new BinaryReader(ms);
                 _miniSectors = new List<byte[]>();
@@ -254,7 +254,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
         }
         private byte[] GetStream(int startingSectorLocation, long streamSize, List<int> FAT, List<byte[]> sectors)
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 var bw = new BinaryWriter(ms);
 
@@ -286,7 +286,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
             var nextSector = _firstMiniFATSectorLocation;
             while(nextSector!=END_OF_CHAIN)
             {
-                using (var ms = RecyclableMemory.GetStream(sectors[nextSector]))
+                using (var ms = EPPlusMemoryManager.GetStream(sectors[nextSector]))
                 {
                     var br = new BinaryReader(ms);
                     while (ms.Position < _sectorSize)
@@ -315,7 +315,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
             var l = new List<int>();
             foreach (var i in dwi.DIFAT)
             {
-                using (var ms = RecyclableMemory.GetStream(sectors[i]))
+                using (var ms = EPPlusMemoryManager.GetStream(sectors[i]))
                 {
                     var br = new BinaryReader(ms);
                     while (ms.Position < _sectorSize)
@@ -329,7 +329,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
         }
         private void ReadDirectory(List<byte[]> sectors, int index, List<CompoundDocumentItem> l)
         {
-            using (var ms = RecyclableMemory.GetStream(sectors[index]))
+            using (var ms = EPPlusMemoryManager.GetStream(sectors[index]))
             {
                 var br = new BinaryReader(ms);
 
@@ -868,10 +868,10 @@ namespace OfficeOpenXml.Utils.CompundDocument
         private byte[] SetMiniStream(List<CompoundDocumentItem> dirs)
         {
             //Create the miniStream
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 var bwMiniFATStream = new BinaryWriter(ms);
-                using (var msforBw = RecyclableMemory.GetStream())
+                using (var msforBw = EPPlusMemoryManager.GetStream())
                 {
                     var bwMiniFAT = new BinaryWriter(msforBw);
                     int pos = 0;

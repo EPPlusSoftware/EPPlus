@@ -417,5 +417,17 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 var result = sct.Tokenize(input, sheetName);
             }
         }
+
+
+        [TestMethod]
+        public void TokenizedRange()
+        {
+            string input = @"SUM({1,2,3;4,5,6})";
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = input;
+            sheet.Calculate();
+            var result = sheet.Cells["A1"].Value;
+        }
     }
 }

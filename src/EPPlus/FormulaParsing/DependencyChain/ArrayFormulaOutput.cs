@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  05/14/2024         EPPlus Software AB       Initial release EPPlus 7
+ *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Core.CellStore;
 using System;
 using System.Collections.Generic;
@@ -7,6 +19,8 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -31,7 +45,13 @@ namespace OfficeOpenXml.FormulaParsing
                     var col = sc + c;
                     if (r < nr && c < nc)
                     {
-                        ws.SetValueInner(row, col, array.GetOffset(r, c) ?? 0D);
+                        var val = array.GetOffset(r, c);
+                        if(ConvertUtil.IsNumeric(val) && val is double dbl &&  dbl == 0d)
+                        {
+                            // avoid -0
+                            val = 0d;
+                        }
+                        ws.SetValueInner(row, col, val ?? 0D);
                     }
                     else
                     {

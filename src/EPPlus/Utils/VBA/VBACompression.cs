@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Utils.VBA
         /// <returns></returns>
         internal static byte[] CompressPart(byte[] part)
         {
-            using (var ms = RecyclableMemory.GetStream(4096))
+            using (var ms = EPPlusMemoryManager.GetStream(4096))
             {
                 BinaryWriter br = new BinaryWriter(ms);
                 br.Write((byte)1);
@@ -154,7 +154,7 @@ namespace OfficeOpenXml.Utils.VBA
             {
                 return null;
             }
-            using (var ms = RecyclableMemory.GetStream(4096))
+            using (var ms = EPPlusMemoryManager.GetStream(4096))
             {
                 int compressPos = startPos + 1;
                 while (compressPos < part.Length - 1)

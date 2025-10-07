@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
 
             InitSeries(this, drawings.NameSpaceManager, _chartNode, PivotTableSource != null);
-            if(PivotTableSource != null) SetPivotSource(PivotTableSource);
+            if (PivotTableSource != null) SetPivotSource(PivotTableSource);
 
             if (topChart == null)
                 LoadAxis();
@@ -103,7 +103,7 @@ namespace OfficeOpenXml.Drawing.Chart
             _chartNode = chartNode;
             InitChartLoad(drawings, chartNode, PivotTableSource != null);
             ChartType = GetChartType(chartNode.LocalName);
-        } 
+        }
         internal ExcelChartStandard(ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(topChart, chartNode, parent, drawingPath, nvPrPath)
         {
@@ -128,7 +128,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             _isChartEx = chartNode.NamespaceURI == ExcelPackage.schemaChartExMain;
             _chartXmlHelper = XmlHelperFactory.Create(drawings.NameSpaceManager, chartNode);
-            _chartXmlHelper.AddSchemaNodeOrder(new string[] { "date1904", "lang", "roundedCorners", "AlternateContent", "style", "clrMapOvr", "pivotSource", "protection", "chart", "ofPieType", "title", "pivotFmt", "autoTitleDeleted", "view3D", "floor", "sideWall", "backWall", "plotArea", "wireframe", "barDir", "grouping", "scatterStyle", "radarStyle", "varyColors", "ser", "dLbls", "bubbleScale", "showNegBubbles", "firstSliceAng", "holeSize", "dropLines", "hiLowLines", "upDownBars", "marker", "smooth", "shape", "legend", "plotVisOnly", "dispBlanksAs", "gapWidth", "upBars", "downBars", "showDLblsOverMax", "overlap", "bandFmts", "axId", "spPr", "txPr", "printSettings" }, ExcelDrawing._schemaNodeOrderSpPr);
+            _chartXmlHelper.AddSchemaNodeOrder(new string[] { "date1904", "lang", "roundedCorners", "AlternateContent", "style", "clrMapOvr", "pivotSource", "protection", "chart", "ofPieType", "title", "autoTitleDeleted", "pivotFmts", "view3D", "floor", "sideWall", "backWall", "plotArea", "wireframe", "barDir", "grouping", "scatterStyle", "radarStyle", "varyColors", "ser", "dLbls", "bubbleScale", "showNegBubbles", "firstSliceAng", "holeSize", "dropLines", "hiLowLines", "upDownBars", "marker", "smooth", "shape", "legend", "plotVisOnly", "dispBlanksAs", "gapWidth", "upBars", "downBars", "showDLblsOverMax", "overlap", "bandFmts", "axId", "spPr", "txPr", "printSettings" }, ExcelDrawing._schemaNodeOrderSpPr);
             WorkSheet = drawings.Worksheet;
         }
         #endregion
@@ -248,12 +248,12 @@ namespace OfficeOpenXml.Drawing.Chart
 
             XmlNodeList nl = _chartNode.SelectNodes("c:axId", NameSpaceManager);
             foreach (XmlNode node in nl)
-            {                
+            {
                 string id = node.Attributes["val"].Value;
                 var ix = Array.FindIndex(_axis, x => x.Id == id);
-                if(ix>=0)
+                if (ix >= 0)
                 {
-                    if(XAxis==null)
+                    if (XAxis == null)
                     {
                         XAxis = (ExcelChartAxisStandard)_axis[ix];
                     }
@@ -328,7 +328,7 @@ namespace OfficeOpenXml.Drawing.Chart
             xml.AppendFormat("{0}{1}<c:plotArea><c:layout/>", AddPerspectiveXml(type), Add3DXml(type));
 
             string chartNodeText = GetChartNodeText();
-            if(type==eChartType.StockVHLC || type==eChartType.StockVOHLC)
+            if (type == eChartType.StockVHLC || type == eChartType.StockVOHLC)
             {
                 AppendStockChartXml(type, xml, chartNodeText);
             }
@@ -353,7 +353,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 xml.AppendFormat("<c:valAx><c:axId val=\"{1}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"l\"/><c:majorGridlines/><c:tickLblPos val=\"nextTo\"/>{2}<c:crossAx val=\"{0}\"/><c:crosses val=\"autoZero\"/><c:crossBetween val=\"between\"/></c:valAx>", axID, xAxID, GetAxisShapeProperties());
                 if (serAxID == 3) //Surface Chart
                 {
-                    if (IsTypeSurface() || ChartType==eChartType.Line3D)
+                    if (IsTypeSurface() || ChartType == eChartType.Line3D)
                     {
                         xml.AppendFormat("<c:serAx><c:axId val=\"{0}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"b\"/><c:tickLblPos val=\"nextTo\"/>{2}<c:crossAx val=\"{1}\"/><c:crosses val=\"autoZero\"/></c:serAx>", serAxID, xAxID, GetAxisShapeProperties());
                     }
@@ -432,7 +432,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             if (!IsTypePieDoughnut())
             {
-                if (serAxID>0)
+                if (serAxID > 0)
                 {
                     return string.Format("<c:axId val=\"{0}\"/><c:axId val=\"{1}\"/><c:axId val=\"{2}\"/>", axID, xAxID, serAxID);
                 }
@@ -1203,7 +1203,7 @@ namespace OfficeOpenXml.Drawing.Chart
             chart.PrependChild(fmts);
             fmts.InnerXml = "<c:pivotFmt><c:idx val=\"0\"/><c:marker><c:symbol val=\"none\"/></c:marker></c:pivotFmt>";
 
-            for(int i = 0; i < pivotTableSource.DataFields.Count; i++)
+            for (int i = 0; i < pivotTableSource.DataFields.Count; i++)
             {
                 Series.AddPivotSerie(pivotTableSource);
             }
@@ -1225,6 +1225,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         /// <summary>
         /// The X Axis
+        /// (Usually Category Axis)
         /// </summary>
         public new ExcelChartAxisStandard XAxis
         {
@@ -1239,6 +1240,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         /// <summary>
         /// The Y Axis
+        /// (Usually Value Axis)
         /// </summary>
         public new ExcelChartAxisStandard YAxis
         {
@@ -1266,6 +1268,5 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _chartDrawings;
             }
         }
-
     }
 }

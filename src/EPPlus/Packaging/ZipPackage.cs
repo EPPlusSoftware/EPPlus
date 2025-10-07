@@ -10,20 +10,24 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Xml;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.DigitalSignatures;
-using System.Security.Cryptography;
+using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using OfficeOpenXml.Utils.FileUtils;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading;
+#if(!NET35)
+using System.Threading.Tasks;
+#endif
+using System.Xml;
 
 namespace OfficeOpenXml.Packaging
 {
@@ -47,9 +51,9 @@ namespace OfficeOpenXml.Packaging
         Dictionary<string, ZipPackagePart> Parts = new Dictionary<string, ZipPackagePart>(StringComparer.OrdinalIgnoreCase);
         internal Dictionary<string, ContentType> _contentTypes = new Dictionary<string, ContentType>(StringComparer.OrdinalIgnoreCase);
         internal char _dirSeparator='0';
-        internal ZipPackage()
+        internal ZipPackage(bool addNew=true)
         {
-            AddNew();
+            if(addNew) AddNew();
         }
 
         private void AddNew()
@@ -59,6 +63,11 @@ namespace OfficeOpenXml.Packaging
         }
         internal ZipInputStream _zip;
         internal ZipPackage(Stream stream)
+        {
+            ReadStream(stream);
+        }
+#if !NET35 && !NET40
+        internal async Task ReadStreamAsync(Stream stream, CancellationToken cancellationToken)
         {
             bool hasContentTypeXml = false;
             if (stream == null || stream.Length == 0)
@@ -79,7 +88,111 @@ namespace OfficeOpenXml.Packaging
                 while (e != null)
                 {
                     GetDirSeparator(e);
-                        
+
+                    if (e.UncompressedSize > 0)
+                    {
+                        if (e.FileName.Equals("[content_types].xml", StringComparison.OrdinalIgnoreCase))
+                        {
+                            AddContentTypes(GetZipEntryAsString(_zip, e));
+                            hasContentTypeXml = true;
+                        }
+
+                        else if (e.FileName.Equals($"_rels{_dirSeparator}.rels", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ReadRelation(GetZipEntryAsString(_zip, e), "");
+                        }
+                        else if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
+                        {
+                            var relXml = GetZipEntryAsString(_zip, e);
+                            rels.Add(GetUriKey(e.FileName), relXml);
+                        }
+                        else
+                        {
+                            await ExtractEntryToPartAsync(_zip, e, cancellationToken);
+                        }
+                    }
+                    else if (e.FileName.StartsWith("_xmlsignatures/origin"))
+                    {
+                        await ExtractEntryToPartAsync(_zip, e, cancellationToken);
+                    }
+                    e = _zip.GetNextEntry();
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+
+                if (_dirSeparator == '0') _dirSeparator = '/';
+                foreach (var p in Parts)
+                {
+                    string name = Path.GetFileName(p.Key);
+                    string extension = Path.GetExtension(p.Key);
+                    string relFile = string.Format("{0}_rels/{1}.rels", p.Key.Substring(0, p.Key.Length - name.Length), name);
+                    if (rels.ContainsKey(relFile))
+                    {
+                        p.Value.ReadRelation(rels[relFile], p.Value.Uri.OriginalString);
+                    }
+                    if (_contentTypes.ContainsKey(p.Key))
+                    {
+                        p.Value.ContentType = _contentTypes[p.Key].Name;
+                    }
+                    else if (extension.Length > 1 && _contentTypes.ContainsKey(extension.Substring(1)))
+                    {
+                        p.Value.ContentType = _contentTypes[extension.Substring(1)].Name;
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+                if (!hasContentTypeXml)
+                {
+                    throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
+                }
+            }
+        }
+        private async Task ExtractEntryToPartAsync(ZipInputStream zip, ZipEntry e, CancellationToken cancellationToken)
+        {
+            var part = new ZipPackagePart(this, e);
+
+            var rest = e.UncompressedSize;
+            if (rest > int.MaxValue)
+            {
+                part.Stream = null; //Over 2GB, we use the zip stream directly instead.
+            }
+            else
+            {
+                const int BATCH_SIZE = 0x100000;
+                part.Stream = EPPlusMemoryManager.GetStream();
+                while (rest > 0)
+                {
+                    var bufferSize = rest > BATCH_SIZE ? BATCH_SIZE : (int)rest;
+                    var b = new byte[bufferSize];
+                    var size = zip.Read(b, 0, bufferSize);  //Change to async when async support is added to .NET zip.
+                    await part.Stream.WriteAsync(b, 0, size);
+                    rest -= size;
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+            }
+            Parts.Add(GetUriKey(e.FileName), part);
+        }
+#endif
+        private void ReadStream(Stream stream)
+        {
+            bool hasContentTypeXml = false;
+            if (stream == null || stream.Length == 0)
+            {
+                AddNew();
+            }
+            else
+            {
+                var rels = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                stream.Seek(0, SeekOrigin.Begin);
+                _zip = new ZipInputStream(stream);
+                var e = _zip.GetNextEntry();
+                if (e == null)
+                {
+                    throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
+                }
+
+                while (e != null)
+                {
+                    GetDirSeparator(e);
+
                     if (e.UncompressedSize > 0)
                     {
                         if (e.FileName.Equals("[content_types].xml", StringComparison.OrdinalIgnoreCase))
@@ -100,7 +213,7 @@ namespace OfficeOpenXml.Packaging
                         else
                         {
                             ExtractEntryToPart(_zip, e);
-                        }                            
+                        }
                     }
                     else if (e.FileName.StartsWith("_xmlsignatures/origin"))
                     {
@@ -126,10 +239,6 @@ namespace OfficeOpenXml.Packaging
                     {
                         p.Value.ContentType = _contentTypes[extension.Substring(1)].Name;
                     }
-                }
-                if (!hasContentTypeXml)
-                {
-                    throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
                 }
                 if (!hasContentTypeXml)
                 {
@@ -164,7 +273,7 @@ namespace OfficeOpenXml.Packaging
             else
             {
                 const int BATCH_SIZE = 0x100000;
-                part.Stream = RecyclableMemory.GetStream();
+                part.Stream = EPPlusMemoryManager.GetStream();
                 while (rest > 0)
                 {
                     var bufferSize = rest > BATCH_SIZE ? BATCH_SIZE : (int)rest;
@@ -512,6 +621,7 @@ namespace OfficeOpenXml.Packaging
             }
             _zip?.Dispose();
         }
+
         CompressionLevel _compression = CompressionLevel.Default;
         /// <summary>
         /// Compression level

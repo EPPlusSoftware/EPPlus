@@ -89,6 +89,18 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         /// <summary>
         /// Web image data type
         /// </summary>
-        WebImage = 16
+        WebImage = 16,
+        /// <summary>
+        /// Lambda variable declaration
+        /// </summary>
+        LambdaVariableDeclaration = 17,
+        /// <summary>
+        /// Lambda calculation expressions
+        /// </summary>
+        LambdaCalculation = 18,
+        /// <summary>
+        /// Lambda tokens
+        /// </summary>
+        LambdaTokens = 19
     }
 }

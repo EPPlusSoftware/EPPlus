@@ -585,7 +585,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// The numberformat to use for the column
+        /// The number format to use for the column
         /// </summary>
         public string Format { get; set; }
         #region Private & internal Methods
@@ -737,7 +737,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// Add numberic grouping to the field
+        /// Add numeric grouping to the field
         /// </summary>
         /// <param name="Start">Start value</param>
         /// <param name="End">End value</param>

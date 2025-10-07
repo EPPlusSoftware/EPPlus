@@ -45,13 +45,5 @@ namespace OfficeOpenXml.Compatibility
 #endif
 
         }
-        public static object GetPropertyValue(object v, string name)
-        {
-#if (Core)
-            return v.GetType().GetTypeInfo().GetProperty(name).GetValue(v, null);
-#else
-            return v.GetType().GetProperty(name).GetValue(v, null);
-#endif
-        }
     }
 }

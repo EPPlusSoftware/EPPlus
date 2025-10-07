@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Utils.String
             var styles = wb.Styles;
             ExcelFormatTranslator nf = GetNumberFormat(styleId, styles).FormatTranslator;
 
-            return FormatValue(v, forWidthCalc, nf, cultureInfo);
+            return FormatValue(v, forWidthCalc, nf, cultureInfo, out bool isValid);
         }
 
         internal static ExcelNumberFormatXml GetNumberFormat(int styleId, ExcelStyles styles)
@@ -71,10 +71,15 @@ namespace OfficeOpenXml.Utils.String
             return null;
         }
 
-        internal static string FormatValue(object v, bool forWidthCalc, ExcelFormatTranslator nf, CultureInfo overrideCultureInfo)
+        internal static string FormatValue(object v, bool forWidthCalc, ExcelFormatTranslator nf, CultureInfo overrideCultureInfo, out bool isValidFormat)
         {
             if (v == null) v = 0;
             var f = nf.GetFormatPart(v);
+            isValidFormat = f.IsValid;
+            if(isValidFormat == false)
+            {
+                return null;
+            }
             string format;
             if (forWidthCalc)
             {

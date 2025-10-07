@@ -266,5 +266,22 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
             var elapsed = sw.Elapsed;
             Console.WriteLine(string.Format("{0} seconds", elapsed.TotalSeconds));
         }
+
+        [TestMethod]
+        public void TextFunctionShouldHandleArrayArg()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Formula = "HSTACK(SEQUENCE(12,1,2025,0),TEXT(SEQUENCE(12,1,1,1),\"000\"))";
+            ws.Calculate();
+            var a1 = ws.Cells["A1"].Value;
+            var b1 = ws.Cells["B1"].Value;
+            var a2 = ws.Cells["A2"].Value;
+            var b2 = ws.Cells["B2"].Value;
+            Assert.AreEqual(2025d, a1);
+            Assert.AreEqual("001", b1);
+            Assert.AreEqual(2025d, a2);
+            Assert.AreEqual("002", b2);
+        }
     }
 }

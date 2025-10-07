@@ -127,13 +127,36 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Creates an <see cref="ExcelErrorValue"/> from a <see cref="ExcelErrorValue"/>
+        /// Creates an <see cref="ExcelErrorValue"/> from a <see cref="eErrorType"/>
         /// </summary>
         /// <param name="errorType">The type of error to create</param>
         /// <returns>The <see cref="ExcelErrorValue"/></returns>
         public static ExcelErrorValue Create(eErrorType errorType)
         {
+            if(errorType == eErrorType.Calc ||  errorType == eErrorType.Busy)
+            {
+                return CreateRichDataError(errorType);
+            }
             return new ExcelErrorValue(errorType);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="ExcelRichDataErrorValue"/> from a <see cref="eErrorType"/>
+        /// </summary>
+        /// <param name="errorType">The type of error to create></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public static ExcelRichDataErrorValue CreateRichDataError(eErrorType errorType)
+        {
+            switch(errorType)
+            {
+                case eErrorType.Calc:
+                    return new ExcelCalcErrorValue();
+                case eErrorType.Busy:
+                    return new ExcelRichDataErrorValue(eErrorType.Busy);
+                default:
+                    throw new InvalidOperationException("Not supported rich data error type: " +  errorType);
+            }
         }
         /// <summary>
         /// Returns the error as a <see cref="CompileResult"/>
@@ -254,12 +277,22 @@ namespace OfficeOpenXml
         {
            return (int)Type;
         }
-
+        /// <summary>
+        /// Determines whether the specified <see cref="ExcelErrorValue"/> are equal.
+        /// </summary>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The first object to compare.</param>
+        /// <returns>true if the specified objects are equal; otherwise, false.</returns>
         public bool Equals(ExcelErrorValue x, ExcelErrorValue y)
         {
             return x.Type==y.Type;
         }
 
+        /// <summary>
+        /// Returns a hash code for the specified object.
+        /// </summary>
+        /// <param name="obj">The <see cref="ExcelErrorValue"/> for which a hash code is to be returned</param>
+        /// <returns>A hash code for the specified object.</returns>
         public int GetHashCode(ExcelErrorValue obj)
         {
             if (obj == null) return -1;

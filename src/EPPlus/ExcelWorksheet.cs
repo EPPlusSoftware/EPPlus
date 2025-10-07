@@ -10,11 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Core.RichValues;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
@@ -28,6 +28,8 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
@@ -49,7 +51,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.XML;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.FileUtils;
@@ -747,6 +748,8 @@ namespace OfficeOpenXml
                     var xfs = styles.CellXfs[cse.Value._styleId];
                     var f = styles.Fonts[xfs.FontId];
                     double rh;
+                    
+                    
                     if (_textHeights.ContainsKey(cse.Value._styleId))
                     {
                         rh = _textHeights[cse.Value._styleId];
@@ -1250,7 +1253,7 @@ namespace OfficeOpenXml
 
             // now release stream buffer (already converted whole Xml into XmlDocument Object and String)
             stream.Dispose();
-            packPart.Stream = RecyclableMemory.GetStream();
+            packPart.Stream = EPPlusMemoryManager.GetStream();
 
             //first char is invalid sometimes?? 
             Encoding encoding = Encoding.UTF8;
@@ -1747,7 +1750,7 @@ namespace OfficeOpenXml
                             _formulas.SetValue(address._fromRow, address._fromCol, sfIndex);
                             SetValueInner(address._fromRow, address._fromCol, null);
                             string fAddress = xr.GetAttribute("ref");
-                            string formula = xr.ReadElementContentAsString();
+                            string formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
                             if (formula != "")
                             {
                                 _sharedFormulas.Add(sfIndex, new SharedFormula(this, row, col, fAddress, formula) { Index = sfIndex, FormulaType = FormulaType.Shared });
@@ -1761,7 +1764,7 @@ namespace OfficeOpenXml
                     else if (t == "array")
                     {
                         string refAddress = xr.GetAttribute("ref");
-                        string formula = xr.ReadElementContentAsString();
+                        string formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
                         var afIndex = GetMaxShareFunctionIndex(true);
                         if (!string.IsNullOrEmpty(refAddress))
                         {
@@ -1782,7 +1785,7 @@ namespace OfficeOpenXml
                         var dt2D = GetBoolFromString(xr.GetAttribute("dt2D"));
                         var r1 = xr.GetAttribute("r1") ?? "";
                         var r2 = xr.GetAttribute("r2") ?? "";
-                        var formula = xr.ReadElementContentAsString();
+                        var formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
 
                         var f = new SharedFormula(this, row, col, refAddress, formula)
                         {
@@ -2248,6 +2251,7 @@ namespace OfficeOpenXml
         public void InsertColumn(int columnFrom, int columns, int copyStylesFromColumn)
         {
             WorksheetRangeInsertHelper.InsertColumn(this, columnFrom, columns, copyStylesFromColumn);
+            ColumnLookup.InsertAndShift(columnFrom, columns);
         }
         #endregion
         #region DeleteRow
@@ -2481,7 +2485,7 @@ namespace OfficeOpenXml
 
             if (_worksheetXml != null)
             {
-                SaveDrawings(hasLoadedPivotTables);
+                Drawings.SaveDrawings(hasLoadedPivotTables);
                 if (!(this is ExcelChartsheet))
                 {
                     // save the header & footer (if defined)
@@ -2519,86 +2523,6 @@ namespace OfficeOpenXml
                         Workbook.Metadata.CreatePart();
                         Workbook.RichData.CreateParts();
                     }
-                }
-            }
-        }
-
-        private void SaveDrawings(bool hasLoadedPivotTables)
-        {
-            if (Drawings.UriDrawing != null)
-            {
-                if (Drawings.Count == 0)
-                {
-                    Part.DeleteRelationship(Drawings._drawingRelation.Id);
-                    _package.ZipPackage.DeletePart(Drawings.UriDrawing);
-                }
-                else
-                {
-                    RowHeightCache = new Dictionary<int, double>();
-                    foreach (ExcelDrawing d in Drawings)
-                    {
-                        d.AdjustPositionAndSize();
-                        d.UpdatePositionAndSizeXml();
-                        HandleSaveForIndividualDrawings(d, hasLoadedPivotTables);
-                    }
-                    Packaging.ZipPackagePart partPack = Drawings.Part;
-                    var partStream = partPack.GetStream(FileMode.Create, FileAccess.Write);
-                    Drawings.DrawingXml.Save(partStream);
-                }
-            }
-        }
-
-        private static void HandleSaveForIndividualDrawings(ExcelDrawing d, bool hasLoadedPivotTables)
-        {
-            if (d is ExcelChart c)
-            {
-                var chartStream = c.Part.GetStream(FileMode.Create, FileAccess.Write);
-                c.ChartXml.PreserveWhitespace = true;
-                c.ChartXml.Save(chartStream);
-
-                if (c is ExcelChartStandard cs && cs.Drawings.Part != null)
-                {
-                    var xrd = new XmlTextWriter(cs.Drawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
-                    xrd.Formatting = Formatting.None;
-                    cs.Drawings.DrawingXml.Save(xrd);
-                }
-            }
-            else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
-            {
-                s.Cache.SlicerCacheXml.PreserveWhitespace = true;
-                s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
-            }
-            else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
-            {
-                if (p.Cache == null) return;
-                if (hasLoadedPivotTables)
-                {
-                    p.Cache.UpdateItemsXml();
-                }
-                p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
-            }
-            else if (d is ExcelControl ctrl)
-            {
-                ctrl.ControlPropertiesXml.Save(ctrl.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
-                ctrl.ControlPropertiesXml.PreserveWhitespace = true;
-                ctrl.UpdateXml();
-            }
-            else if (d is ExcelOleObject o)
-            {
-                if (o.IsExternalLink)
-                {
-                    if (o._oleObjectPart != null && o._linkedOleObjectXml != null)
-                    {
-                        o._linkedOleObjectXml.Save(o._oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
-                    }
-                }
-                o.UpdateXml();
-            }
-            else if (d is ExcelGroupShape grp)
-            {
-                foreach (var sd in grp.Drawings)
-                {
-                    HandleSaveForIndividualDrawings(sd, hasLoadedPivotTables);
                 }
             }
         }
@@ -2905,6 +2829,40 @@ namespace OfficeOpenXml
             return string.Format("SUBTOTAL({0},{1}[{2}])", funcNum, col._tbl.Name, escapedName);
         }
 
+        private void EnsureIgnorablesAreCorrect()
+        {
+            WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
+            WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
+
+            List<string> mcIgnorables = new();
+
+            foreach(var uri in Workbook._package.IgnorableNamespaceUris)
+            {
+                var prefix = WorksheetXml.DocumentElement.GetPrefixOfNamespace(uri);
+                if (string.IsNullOrEmpty(prefix) == false)
+                {
+                    mcIgnorables.Add(prefix + " ");
+                }
+            }
+
+            var existingIgnorables = WorksheetXml.DocumentElement.GetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility);
+            if (string.IsNullOrEmpty(existingIgnorables) == false)
+            {
+                var namespaces = existingIgnorables.Split(' ');
+                if (!namespaces.Any(x => x == "xr"))
+                {
+                    WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, existingIgnorables + " xr");
+                }
+            }
+            else
+            {
+                var ignorablesConcatenated = string.Concat(mcIgnorables);
+
+                WorksheetXml.DocumentElement.SetAttributeNode("Ignorable", ExcelPackage.schemaMarkupCompatibility);
+                WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, ignorablesConcatenated);
+            }
+        }
+
         private void SaveXml(Stream stream)
         {
             //Create the nodes if they do not exist.
@@ -2932,28 +2890,7 @@ namespace OfficeOpenXml
                 {
                     CreateNode("d:extLst");
                 }
-
-                if (DataValidations != null && DataValidations.Count != 0 ||
-                    ConditionalFormatting != null && ConditionalFormatting.Count != 0)
-                {
-                    WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
-                    WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
-
-                    var ignorables = WorksheetXml.DocumentElement.GetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility);
-                    if (ignorables != null)
-                    {
-                        var namespaces = ignorables.Split(' ');
-                        if (!namespaces.Any(x => x == "xr"))
-                        {
-                            WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, ignorables + " xr");
-                        }
-                    }
-                    else
-                    {
-                        WorksheetXml.DocumentElement.SetAttributeNode("Ignorable", ExcelPackage.schemaMarkupCompatibility);
-                        WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, "xr");
-                    }
-                }
+                EnsureIgnorablesAreCorrect();
 
                 var prefix = GetNameSpacePrefix();
                 var xml = _worksheetXml.OuterXml;
@@ -3492,6 +3429,8 @@ namespace OfficeOpenXml
             DisposeInternal(_formulaTokens);
             DisposeInternal(_metadataStore);
 
+            ColumnLookup = null;
+
             _values = null;
             _formulas = null;
             _flags = null;
@@ -3615,6 +3554,7 @@ namespace OfficeOpenXml
             }
         }
 
+       
         internal bool IsDisposed
         {
             get
@@ -3664,6 +3604,8 @@ namespace OfficeOpenXml
             return _values.GetValue(row, col)._styleId;
         }
 
+        internal ColumnSpanDictionary<ExcelColumn> ColumnLookup = new ColumnSpanDictionary<ExcelColumn>();
+
         /// <summary>
         /// Set accessor of sheet value
         /// </summary>
@@ -3672,7 +3614,10 @@ namespace OfficeOpenXml
         /// <param name="value">value</param>
         internal void SetValueInner(int row, int col, object value)
         {
-            var styleId = GetStyleId(row, col);
+            var styleId = -1;
+
+            styleId = GetStyleId(row, col);
+
             if (FullPrecision)
             {
                 _values.SetValue(row, col, value, styleId);
@@ -3681,6 +3626,12 @@ namespace OfficeOpenXml
             {
                 var val = Workbook.Styles.RoundValueFromNumberFormat(value, styleId);
                 _values.SetValue(row, col, val, styleId);
+            }
+
+
+            if(row == 0 && value is ExcelColumn)
+            {
+                ColumnLookup.UpdateColumn(col, (ExcelColumn)value);
             }
         }
         internal void SetValueInner(int fromRow, int fromCol, int toRow, int toCol, object value)
@@ -3703,10 +3654,10 @@ namespace OfficeOpenXml
                 {
                     if (!ExistsStyleInner(0, col, ref s) && col > 1)
                     {
-                        var c = GetColumn(col);
-                        if (c != null)
+                        var existingColumn = ColumnLookup.GetExcelColumn(col);
+                        if (existingColumn != null)
                         {
-                            return c.StyleID;
+                            return ColumnLookup[existingColumn.ColumnMin].StyleID;
                         }
                     }
                 }
@@ -3733,10 +3684,18 @@ namespace OfficeOpenXml
                 v._styleId = styleId;
                 _values.SetValue(row, col, v);
             }
+            if(row == 0)
+            {
+                var colValue = GetColumn(col);
+                if (colValue != null)
+                {
+                    ColumnLookup.UpdateColumn(col, colValue);
+                }
+            }
         }
         internal void SetValueRow_Value(int row, int col, object[] array)
         {
-            _formulas.Clear(row, col, row, col + array.Length - 1);
+            _formulas.Clear(row, col, 1, array.Length);
             for (int c = 0; c < array.Length; c++)
             {
                 if (array[c] == DBNull.Value)
@@ -3903,7 +3862,6 @@ namespace OfficeOpenXml
                 }
             }
         }
-
         /// <summary>
         /// Existance check of sheet value
         /// </summary>
@@ -3922,7 +3880,16 @@ namespace OfficeOpenXml
         /// <returns>is exists</returns>
         internal bool ExistsStyleInner(int row, int col)
         {
-            return (_values.GetValue(row, col)._styleId > 0);
+            int styleId = -1;
+            if (row == 0 && ColumnLookup.TryGetExcelColumn(col, out ExcelColumn existingCol))
+            {
+                styleId = existingCol.StyleID;
+            }
+            else
+            {
+                styleId = _values.GetValue(row, col)._styleId;
+            }
+            return (styleId > 0);
         }
         /// <summary>
         /// Existence check of sheet value
@@ -3945,9 +3912,38 @@ namespace OfficeOpenXml
         /// <returns>is exists</returns>
         internal bool ExistsStyleInner(int row, int col, ref int styleId)
         {
-            styleId = _values.GetValue(row, col)._styleId;
+            if (row == 0 && ColumnLookup.TryGetExcelColumn(col, out ExcelColumn existingCol))
+            {
+                styleId = existingCol.StyleID;
+            }
+            else
+            {
+                styleId = _values.GetValue(row, col)._styleId;
+            }
             return (styleId > 0);
         }
+
+        internal bool ExistsStyleAndCacheRow(int row, ref int styleId)
+        {
+            if (Rows[row] != null)
+            {
+                styleId = _values.GetValue(row, 0)._styleId;
+                return (styleId > 0);
+            }
+            styleId = -1;
+            return false;
+        }
+
+        internal bool ExistsStyleAndCacheColumn(int colNum, ref int styleId)
+        {
+            if (Columns[colNum] != null)
+            {
+                styleId = _values.GetValue(0, colNum)._styleId;
+                return (styleId > 0);
+            }
+            return false;
+        }
+
         internal void RemoveSlicerReference(ExcelSlicerXmlSource xmlSource)
         {
             var node = GetNode($"d:extLst/d:ext/x14:slicerList/x14:slicer[@r:id='{xmlSource.Rel.Id}']");

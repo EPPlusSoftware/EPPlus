@@ -366,6 +366,14 @@ namespace OfficeOpenXml.Utils.TypeConversion
                      Replace("<", "&lt;").
                      Replace(">", "&gt;");
         }
+        internal static string HtmlEscapeString(string s)
+        {
+            return s.Replace("&", "&amp;").
+                     Replace("<", "&lt;").
+                     Replace(">", "&gt;").
+                     Replace("\"", "&quot;").
+                     Replace("'", "&#39;");
+        }
         /// <summary>
         /// Return true if preserve space attribute is set.
         /// </summary>

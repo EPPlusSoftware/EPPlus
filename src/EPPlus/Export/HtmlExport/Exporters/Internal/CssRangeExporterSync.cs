@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         /// <returns>A html table</returns>
         public string GetCssString()
         {
-            using (var ms = RecyclableMemory.GetStream())
+            using (var ms = EPPlusMemoryManager.GetStream())
             {
                 RenderCss(ms);
                 ms.Position = 0;

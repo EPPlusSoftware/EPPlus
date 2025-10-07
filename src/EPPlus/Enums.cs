@@ -234,5 +234,22 @@ namespace OfficeOpenXml
         /// </summary>
         Commercial = 1
     }
-
+    /// <summary>
+    ///  Represents the visible state of the workbook window.
+    /// </summary>
+    public enum eWorkbookVisibility
+    {
+        /// <summary>
+        /// The workbook window is hidden, but can be shown by the user via the user interface.
+        /// </summary>
+        Hidden,
+        /// <summary>
+        /// The workbook window is hidden and cannot be shown in the user interface. This state is only available programmatically.
+        /// </summary>
+        VeryHidden,
+        /// <summary>
+        /// The workbook window is visible.
+        /// </summary>
+        Visible
+    }
 }

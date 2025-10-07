@@ -30,15 +30,12 @@ namespace OfficeOpenXml.Metadata
     internal class ExcelMetadata
     {
         private ExcelWorkbook _wb;
-        //private readonly ExcelRichData _richData;
         private ZipPackagePart _part;
         private Uri _uri;
         
         //Preserve xml variables
         private string _metadataStringsXml;
         private string _metadataStringCount;
-        private string _mdxMetadataXml;
-        private string _mdxMetadataCount;
         public string _extLstXml;
 
        
@@ -92,7 +89,6 @@ namespace OfficeOpenXml.Metadata
                             break;
                         case "mdxMetadata":
                             //Currently not used. Preserve.
-                            _mdxMetadataCount = xr.GetAttribute("count");
                             ReadMdxMetadataItems(xr);
                             break;
                         case "futureMetadata":
@@ -333,8 +329,9 @@ namespace OfficeOpenXml.Metadata
         }
         internal void GetDynamicArrayId(out uint cmId)
         {
-            if(!DynamicArrayTypeId.HasValue)
+            if(!DynamicArrayTypeId.HasValue || !Db.CellMetadata.Any(x => x.Id == DynamicArrayTypeId.Value && !x.Deleted))
             {
+                Db.CellMetadata.ReIndex();
                 CreateDefaultXmlDynamicArray();
             }
             cmId  = DynamicArrayTypeId.Value;

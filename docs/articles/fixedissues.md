@@ -1,4 +1,99 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.2.0
+### Features
+Added support for 8 new LAMBDA-based functions in workbook calculations. See [Using LAMBDA functions](https://github.com/EPPlusSoftware/EPPlus/wiki/Using-LAMBDA-functions):
+  * `LAMBDA`
+  * `MAKEARRAY`
+  * `SCAN`
+  * `MAP`
+  * `REDUCE`
+  * `BYROW`
+  * `BYCOL`
+  * `ISOMITTED`
+* Support for defining LAMBDA functions via defined names.
+* Added new properties: `TabRatio`, `Visibility`, and `FirstSheet` to the `ExcelWorkbookView` class.
+
+### Minor Features & Fixed Issues
+* The `GETPIVOTDATA` function sometimes returned an incorrect `#REF!` error.
+* The `Underline` property of the `ExcelComment.Font` object incorrectly returned `false` when it should have returned `true`.
+* The `FreezePanes` function did not handle hidden rows correctly in all cases.
+
+## Version 8.1.1
+* The `SUMIF`, `SUMIFS`, and `AVERAGEIF` functions could return invalid addresses in the dependency chain, causing some dependent cells not to recalculate correctly.  
+* The `RichText.HtmlText` returned incorrectly encoded text when the input contained newline characters.  
+* Sorting a table could result in `#REF!` errors in formulas instead of maintaining correct table references. 
+* Reading workbooks where a conditional formatting Databar had the same color as the fill color now works as expected.
+* Performance for getting and setting the value of cells that had no styling or value was drastically improved via caching.
+* An array of values can no longer be set to a single cell. Instead, the first value in the array is assumed to be the intended value.
+## Version 8.1.0
+### Features
+* Add Shapes and Pictures to charts using the ExcelChartStandard.Drawings collection.
+* A new interface for styling headers and footers more easily.
+* Change chart axis type on standard charts using the ChangeAxisType(eAxisType). Mainly intended to change between value- and date- axis, used to change the axis appearance.
+### Minor features & fixed issues.
+* Several new methods added to the ExcelNamedRange class to change its value between a range, formula or a fixed value.
+* Added MeasureWrappedTextCells to ExcelTextSettings (package.Settings.TextSettings).
+* ExcelRangeBase.Copy has a new overload for copying specific objects using the ExcelRangeCopyOnly enum. 
+* Added methods CopyValues and CopyFormulas to ExcelRangeBase, to more easily values and formulas only.
+* If copying a worksheet or a range to a new workbook, the relevant defined names are also copied.
+* Improved performance for column lookups and conditional formatting's improving load of data.
+* Added validation to restrict adding multi-cell array formulas to tables.
+* ExcelWorksheet.View.FreezePanes now takes hidden cells and columns into account when freezing panes.
+* Lookup functions such as Vlookup and Hlookup can now consistently handle searching through null-values in cells above and below the target value cell.
+* Certain advanced conditional formatting's (Databar, ColorScale, Iconsets) did not updating addresses in their formulas appropriately when columns were deleted.
+* Referring to table columns and rows using the structured reference now works outside the table range.
+* The GETPIVOTDATA function did not identify the pivot table if the pivot address was set on the page filter rows, as Excel does. 
+
+## Version 8.0.8
+* Fix for FileLoadException due to System.Memory referenced by RecyclableMemoryStream.
+* Conditional formattings could cause invalid xml due to not using InvarianCulture when setting the numeric values.
+* ExcelRangeBase - LoadFromCollection/LoadFromDataTable sometimes cleared formulas outside the range.
+* The OFFSET function did not set height or width from reference if arguments was left empty.
+* Removed usage of reflection in VBA modules to improve AOT support - PR by oreadvanthink
+
+## Version 8.0.7
+* Added validation for number formats (brackets) during formula calculation. Also affects the Range.Text property.
+* Fix for REF errors in the OFFSET function.
+* Fixed wrong data type being returned from Bin2Hex function (Decimal->String). 
+* Fixed custom icon sets with 4 or more icons sometimes becoming a 3 icon set.
+* Fixed issues in the SORT, SUMIFS and LEFT with dynamic arrays.
+* The ANCHORARRAY function did not work as expected when only returning one cell only.
+* The ROUND function now rounds to a better precision.
+
+## Version 8.0.6
+* Changed to use “PackageLicenseExpression” in the Nuget package.
+* ExcelRangeBase.LoadFromDataTable sometimes cleared data outside the loaded range.
+* Add support for including new items in manual filter for pivot table when refreshing a cache.
+* IFERROR did not handle arrays in the second argument correctly.
+* The formula string for shared, array and data table formulas were not correctly decoded if 0xXXXX encoding was used.
+* The internal range dictionary returns true for non-accessed ranges in rare cases, causing the dependency chain to skip calculating dependent cells.
+* The VBA legacy signature had an invalid ASN1 record.
+* DBNull.Value was not handled as null in the pivot table calculation causing an unhandled exception.
+* During formula calculation, EPPlus does not handle double char Unicode characters (starting with a high-surrogate char and ending with a low-surrogate char) correctly. EPPlus will handle this if the new EnableUnicodeAwareStringOperations property on ExcelCalculationOption is set to true.
+* The TEXT function should handle arrays as input and be able to return an array instead of a single value.
+* The SORT function did not handle multiple indexes (second argument) correctly.
+* The SWITCH function did not handle an array as the first argument.
+* Fixed an issue that caused an Exception during calculation if an external workbook was not available.
+* A CircularReferenceException was thrown with dynamic arrays even if options.AllowCircularReferences was true.
+* The SORT function now works more like Excel. The function now orders the results with matching values after their original sorting.
+* Fixed several bugs and tweaked performance for binary lookup for the lookup and match functions.
+
+## Version 8.0.5
+* Fix for external links not getting saved in EPPlus 8.0.4
+
+## Version 8.0.4
+* SUMIFS, AVERAGEIFS and COUNTIFS sometimes miscalculate due to returning the incorrect addresses to the dependency chain.
+* Range.Sort did not sort update formula addresses in some cases.
+* Fixes array support for the SUBSTITUTE, SUMIFS, AVERAGEIFS and COUNTIFS functions.
+* Incorrect handing of meta data strings caused a corrupt workbook in some situations.
+* License key validation did not work in Blazor WASM.
+* The ExcelPicture.Image.Bounds was not set when loading drawings.
+* Pivot cache fields containing error values only, caused a corrupt workbook.
+* Pivot table date and number grouping can now handle empty cells.
+* Pivot table caches did not always reflect renamed/deleted fields in a source range when refreshing.
+* Concatenating two arrays or results of array formulas with the "&" operator sometimes yielded unexpected results.
+* A default options variable for RecyclableMemoryStream was initiated even when UseRecyclableMemory was set to false.
+
 ## Version 8.0.3
 * Added custom number formats where the formatId is not a built-in format.
 * SUMIFS and AVERAGEIFS sometimes miscalculated with multiple arguments.

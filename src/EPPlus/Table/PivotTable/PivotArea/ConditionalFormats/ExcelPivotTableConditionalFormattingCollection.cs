@@ -53,7 +53,12 @@ namespace OfficeOpenXml.Table.PivotTable
 
         internal void Remove(ExcelPivotTableConditionalFormatting x)
         {
-            x.TopNode.ParentNode.RemoveChild(x.TopNode);
+            var cfCollectionNode = x.TopNode.ParentNode;
+            cfCollectionNode.RemoveChild(x.TopNode);
+            if (cfCollectionNode.LocalName == "conditionalFormats" && cfCollectionNode.ChildNodes.Count == 0)
+            {
+                cfCollectionNode.ParentNode.RemoveChild(cfCollectionNode);
+            }
             _pt.WorkSheet.ConditionalFormatting.Remove(x.ConditionalFormatting);
             _list.Remove(x);
         }

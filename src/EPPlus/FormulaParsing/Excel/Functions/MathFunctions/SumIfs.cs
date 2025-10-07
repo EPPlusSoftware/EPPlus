@@ -13,9 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -47,18 +45,27 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 return FunctionParameterInformation.AdjustParameterAddress;
             }
-            if (argumentIndex % 2 == 0)
+            else if (argumentIndex % 2 == 0)
             {
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
-            return FunctionParameterInformation.Normal;
+            else if(argumentIndex==1)
+            {
+                return FunctionParameterInformation.Normal;
+            }
+            return FunctionParameterInformation.AdjustParameterAddress;
         }));
         public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
         {
-            if (index == 0)
+            if (index == 0 && args[0].Result is IRangeInfo valueRange)
             {
                 IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args);
-                addresses = EnqueueMatchingAddresses(args[0].Address, matchIndexes);
+                addresses = EnqueueMatchingAddresses(valueRange, matchIndexes, ref addresses);
+            }
+            else if(args[index].Result is IRangeInfo criteriaRange)
+            {
+                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args, index);
+                addresses = EnqueueMatchingAddresses(criteriaRange, matchIndexes, ref addresses);
             }
         }
 

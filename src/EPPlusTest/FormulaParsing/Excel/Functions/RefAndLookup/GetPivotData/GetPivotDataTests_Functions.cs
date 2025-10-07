@@ -291,5 +291,39 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(ErrorValues.RefError, ws.Cells["G9"].Value);
             Assert.AreEqual(0D, ws.Cells["G10"].Value);
         }
-	}
+
+        [TestMethod]
+        public void GetPivotData_Multiple_PivotTables()
+        {
+            var ws = _package.Workbook.Worksheets.Add("MultiplePT");
+            var pt1 = ws.PivotTables.Add(ws.Cells["A1"], _sheet.Cells["A1:D17"], "PivotTable1");
+            var rowField = pt1.RowFields.Add(pt1.Fields["Country"]);
+            pt1.DataFields.Add(pt1.Fields["Sales"]);
+            pt1.Calculate(true);
+
+            var pt2 = ws.PivotTables.Add(ws.Cells["J30"], _sheet.Cells["A1:D17"], "PivotTable2");
+            var columnField = pt2.ColumnFields.Add(pt2.Fields["Continent"]);
+            pt2.DataFields.Add(pt2.Fields["Sales"]);
+            pt2.Calculate(true);
+
+
+            pt1.GetPivotData("Sales", new List<PivotDataFieldItemSelection> { new PivotDataFieldItemSelection("Continent", "North America"), new PivotDataFieldItemSelection("Country", "USA") });
+            ws.Cells["G5"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Country\",\"USA\")";
+            ws.Cells["G6"].Formula = "GETPIVOTDATA(\"Sales\",$A$1)";
+            ws.Cells["G7"].Formula = "GETPIVOTDATA(\"Sales\",$A$1, \"Country\",\"Sweden\")";
+            ws.Cells["G8"].Formula = "GETPIVOTDATA(\"Sales\",$A$1,\"Invalid Field\",\"North America\")";
+
+            ws.Cells["G9"].Formula = "GETPIVOTDATA(\"Sales\",$J$30,\"Continent\",\"Europe\")";
+
+            ws.Calculate();
+
+            Assert.AreEqual(896D, ws.Cells["G5"].Value);
+            Assert.AreEqual(3188D, ws.Cells["G6"].Value);
+            Assert.AreEqual(187D, ws.Cells["G7"].Value);
+            Assert.AreEqual(ErrorValues.RefError, ws.Cells["G8"].Value);
+
+            Assert.AreEqual(818d, (double)ws.Cells["G9"].Value, 0.0000001);
+        }
+
+    }
 }

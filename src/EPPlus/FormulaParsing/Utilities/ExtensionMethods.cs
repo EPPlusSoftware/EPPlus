@@ -11,7 +11,10 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
+using System.Linq;
 namespace OfficeOpenXml.FormulaParsing.Utilities
 {
     internal static class ExtensionMethods
@@ -37,6 +40,42 @@ namespace OfficeOpenXml.FormulaParsing.Utilities
         {
             if (obj == null) return false;
             return (TypeCompat.IsPrimitive(obj) || obj is double || obj is decimal || obj is DateTime || obj is TimeSpan);
+        }
+
+        internal static bool IsLambdaFunction(this Token token)
+        {
+            return FunctionNameMatches(token, "lambda");
+        }
+
+        internal static bool IsLetFunction(this Token token)
+        {
+            return FunctionNameMatches(token, "let");
+        }
+
+        internal static bool IsIsOmittedFunction(this Token token)
+        {
+            return FunctionNameMatches(token, "isomitted");
+        }
+
+        internal static bool IsBuiltInFunction(this Token token, FunctionRepository repository)
+        {
+            var funcName = token.Value;
+            if (string.IsNullOrEmpty(funcName)) return false;
+            funcName = funcName.Replace("_xlfn.", string.Empty).Replace("_xlws.", string.Empty);
+            return repository.GetFunction(funcName) != null;
+        }
+
+        private static bool FunctionNameMatches(Token token, string functionName)
+        {
+            if ((token.TokenType != TokenType.StartFunctionArguments && token.TokenType != TokenType.Function) || string.IsNullOrEmpty(token.Value)) return false;
+            var funcName = token.Value.ToLower();
+            if(funcName.Contains("."))
+            {
+                var parts = funcName.Split('.');
+                if (parts.Length > 0 && !parts.Any(x => x?.ToLower().Contains("xlfn") ?? false)) return false;
+                funcName = parts.Last();
+            }
+            return string.Compare(funcName, functionName, StringComparison.OrdinalIgnoreCase) == 0;
         }
     }
 }

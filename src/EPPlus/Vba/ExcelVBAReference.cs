@@ -15,7 +15,7 @@ namespace OfficeOpenXml.VBA
     /// <summary>
     /// A VBA reference
     /// </summary>
-    public class ExcelVbaReference
+    public class ExcelVbaReference : IExcelVBACollectionElement
     {
         /// <summary>
         /// Constructor.

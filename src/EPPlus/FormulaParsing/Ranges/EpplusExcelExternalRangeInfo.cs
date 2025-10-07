@@ -10,17 +10,20 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System.Collections.Generic;
-using System.Linq;
+using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.ExternalReferences;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Style.XmlAccess;
-using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Table;
-using System;
-using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.ExternalReferences;
+using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.TypeConversion;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 
 namespace OfficeOpenXml.FormulaParsing.Ranges
 {
@@ -62,7 +65,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 ToRow = toRow,
                 ToCol = toCol
             };
-            _size = new RangeDefinition(toRow + fromCol + 1, (short)(toCol - fromCol + 1));
+            _size = new RangeDefinition(toRow - fromRow + 1, (short)(toCol - fromCol + 1));
             if (externalReferenceIx > 0 && ctx.Package != null && ctx.Package.Workbook.ExternalLinks.Count >= externalReferenceIx)
             {
                 var externalWb = ctx.Package.Workbook.ExternalLinks[externalReferenceIx-1].As.ExternalWorkbook;
@@ -370,6 +373,30 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public FormulaRangeAddress GetAddressDimensionAdjusted(int index)
         {
             return _address;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="IRangeInfo" /> for the range for the first and last value in the range (top-left to bottom-right)
+        /// </summary>
+        /// <returns>The range</returns>
+        public IRangeInfo GetRangeInfoByValue()
+        {
+            var cellValues = _externalWs.CellValues._values;
+            var address = Address.Clone();
+
+            if (_externalWs != null)
+            {
+                var dimension = _externalWs.GetDimension();
+                address.ToRow = dimension._toRow < Address.ToRow ? dimension._toRow : Address.ToRow;
+                address.ToCol = dimension._toCol < Address.ToCol ? dimension._toCol : Address.ToCol;
+            }
+
+            var fvc = ValueFinder.FirstValueCell(address, cellValues);
+            var lvc = ValueFinder.LastValueCell(address, cellValues);
+
+            var subrangeAddress = ValueFinder.IterateColumns(fvc, lvc, address, cellValues);
+
+            return GetOffset(subrangeAddress.FromRow, subrangeAddress.FromCol, subrangeAddress.ToRow, subrangeAddress.ToCol);
         }
     }
     /// <summary>

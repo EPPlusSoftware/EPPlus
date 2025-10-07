@@ -20,6 +20,7 @@ using System.Text.RegularExpressions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml
 {
@@ -466,17 +467,15 @@ namespace OfficeOpenXml
         /// <summary>
         /// Method for actions that must be taken before address is changed
         /// </summary>
-        internal protected virtual void BeforeChangeAddress()
+        internal protected virtual void BeforeChangeAddress(string value)
         {
         }
         /// <summary>
         /// Called when the address changes
         /// </summary>
-        internal protected virtual void ChangeAddress()
+        internal protected virtual void ChangeAddress(string value)
         {
         }
-
-
         private void SetWbWs(string address)
         {
             int pos;
@@ -700,6 +699,10 @@ namespace OfficeOpenXml
         {
             get
             {
+                if (Table != null)
+                {
+                    return _address;
+                }
                 return GetAddress(_fromRow, _fromCol, _toRow, _toCol, true, true, true, true);
             }
         }
@@ -710,6 +713,10 @@ namespace OfficeOpenXml
         {
             get
             {
+                if (Table != null)
+                {
+                    return _address;
+                }
                 string a="";
                 if(_addresses != null)
                 {

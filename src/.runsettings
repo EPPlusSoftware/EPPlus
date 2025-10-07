@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <!-- Configurations that affect the Test Framework -->
+  <RunConfiguration>
+    <MaxCpuCount>1</MaxCpuCount>
+	  <DisableAppDomain>True</DisableAppDomain>
+	  <!-- Path relative to solution directory -->
+    <ResultsDirectory>.\TestResults</ResultsDirectory>
+  </RunConfiguration>
+
+    <MSTest>
+		<DisableAppDomain>True</DisableAppDomain>
+		<ForcedLegacyMode>true</ForcedLegacyMode>
+	    <MapInconclusiveToFailed>false</MapInconclusiveToFailed>
+	    <CaptureTraceOutput>false</CaptureTraceOutput>
+	    <DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
+	    <DeploymentEnabled>False</DeploymentEnabled>
+	    <ConsiderFixturesAsSpecialTests>False</ConsiderFixturesAsSpecialTests>
+    </MSTest>
+</RunSettings>

@@ -219,7 +219,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             }
         }
         [TestMethod]
-        public void SumIfsShouldSumIfCircularReferenceOusideOfInCriteria()
+        public void SumIfsShouldSumIfsCircularReferenceOusideOfInCriteria()
         {
             using (var package = new ExcelPackage())
             {
@@ -366,6 +366,24 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 Assert.IsNull(sheet.Cells["D6"].Value);
 
                 SaveWorkbook("SumIfsMultiArray.xlsx", package);
+            }
+        }
+        [TestMethod]
+        public void SumIfsShouldHandle_DynamicArrayCriteria_Range()
+        {
+            using (var package = OpenPackage("SumIfsTest.xlsx",true))
+            {
+                var ws = package.Workbook.Worksheets.Add("sumIfsArrayRange");
+
+                ws.Cells["F3"].Formula = "VSTACK({1,2,3,11,12,13,25,26,27},{1,56,67,99,203})";
+                ws.Cells["D6"].Formula = "SUMIFS(ANCHORARRAY(F3),ANCHORARRAY(F3),HSTACK({\"<10\",\">99\"}))";
+
+                ws.Calculate();
+
+                Assert.AreEqual(7d, ws.Cells["D6"].Value);
+                Assert.AreEqual(203d, ws.Cells["E6"].Value);
+
+                SaveAndCleanup(package);
             }
         }
     }

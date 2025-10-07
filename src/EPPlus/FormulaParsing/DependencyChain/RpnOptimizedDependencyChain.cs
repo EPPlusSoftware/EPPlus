@@ -16,7 +16,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal Stack<RpnFormula> _formulaStack=new Stack<RpnFormula>();
         internal Dictionary<int, RangeHashset> accessedRanges = new Dictionary<int, RangeHashset>();
         internal HashSet<ulong> processedCells = new HashSet<ulong>();
-        internal List<CircularReference> _circularReferences = new List<CircularReference>();
+        internal HashSet<CircularReference> _circularReferences = new HashSet<CircularReference>();
         internal ISourceCodeTokenizer _tokenizer;
         internal FormulaExecutor _formulaExecutor;
         internal ParsingContext _parsingContext;
@@ -28,6 +28,8 @@ namespace OfficeOpenXml.FormulaParsing
         {
             _tokenizer = SourceCodeTokenizer.Default;
             _parsingContext = wb.FormulaParser.ParsingContext;
+            _parsingContext.DependencyChain = this;
+            _parsingContext.CalcOption = options;
             _formulaExecutor = new FormulaExecutor(_parsingContext);
             var parser = wb.FormulaParser;
             var filterInfo = new FilterInfo(wb);
@@ -39,6 +41,7 @@ namespace OfficeOpenXml.FormulaParsing
                 config.CacheExpressions = options.CacheExpressions;
                 config.PrecisionAndRoundingStrategy = options.PrecisionAndRoundingStrategy;
                 config.AlwaysRefreshImageFunction = options.AlwaysRefreshImageFunction;
+                config.EnableUnicodeAwareStringOperations = options.EnableUnicodeAwareStringOperations;
             });
 
         }
@@ -48,7 +51,11 @@ namespace OfficeOpenXml.FormulaParsing
             QuadTree<ulong> qr;
             foreach (var address in addresses)
             {
-                var ix = address.WorksheetIx; ;
+                if(address.ExternalReferenceIx > 0)
+                {
+                    return;
+                }
+                var ix = address.WorksheetIx;
                 if (FormulaRangeReferences.TryGetValue(ix, out qr) == false)
                 {
                     if (ix < 0)

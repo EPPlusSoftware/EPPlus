@@ -41,11 +41,33 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             var range = arg1.ValueAsRangeInfo;
             var rangeDef = new RangeDefinition(range.Size.NumberOfRows, range.Size.NumberOfCols);
-            var sortIndex = 1;
+            var sortIndexes = new List<int> { 1 };
             if(arguments.Count > 1)
             {
-                sortIndex = ArgToInt(arguments, 1, out ExcelErrorValue e1, 1);
-                if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+                if (arguments[1].IsExcelRange)
+                {
+                    sortIndexes.Clear();
+                    var rng = arguments[1].ValueAsRangeInfo;
+                    for(var row = 0; row < rng.Size.NumberOfRows; row++)
+                    {
+                        for(var col = 0; col < rng.Size.NumberOfCols; col++)
+                        {
+                            var indexObj = rng.GetOffset(row, col);
+                            if(indexObj is not int index)
+                            {
+                                return CompileResult.GetErrorResult(eErrorType.Value);
+                            }
+                            sortIndexes.Add(index);
+                        }
+                    }
+                }
+                else
+                {
+                    var sortIndex = ArgToInt(arguments, 1, out ExcelErrorValue e1, 1);
+                    if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+                    sortIndexes[0] = sortIndex;
+                }
+                
             }
             var sortOrder = 1;
             if(arguments.Count > 2)
@@ -59,19 +81,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 byCol = ArgToBool(arguments, 3, false);
             }
 
-            //Validate
-            var maxIndex = byCol ? range.Size.NumberOfCols : range.Size.NumberOfRows;
-            if (sortIndex < 1 || sortIndex > maxIndex) return CreateResult(eErrorType.Value);
+            //Validate (Excel allows the larger number of sort indicies despite them not being used)
+            var maxPotentialIndex = Math.Max(range.Size.NumberOfCols, range.Size.NumberOfRows);
+            foreach (var sortIndex in sortIndexes)
+            {
+                if (sortIndex < 1 || sortIndex > maxPotentialIndex) return CreateResult(eErrorType.Value);
+            }
+            
             if (sortOrder != -1 && sortOrder != 1) return CreateResult(eErrorType.Value);
-            var sortedRange = GetSortedRange(range, sortIndex, sortOrder, byCol);
+            var sortedRange = GetSortedRange(range, sortIndexes, sortOrder, byCol, context);
             return CreateDynamicArrayResult(sortedRange, DataType.ExcelRange);
         }
 
-        private InMemoryRange GetSortedRange(IRangeInfo sourceRange, int sortIndex, int sortOrder, bool byCol)
+        private InMemoryRange GetSortedRange(IRangeInfo sourceRange, List<int> sortIndexes, int sortOrder, bool byCol, ParsingContext context)
         {
             return byCol ?
-                _sorter.SortByCol(sourceRange, sortIndex, sortOrder) :
-                _sorter.SortByRow(sourceRange, sortIndex, sortOrder);
+                _sorter.SortByCol(sourceRange, sortIndexes, sortOrder, context) :
+                _sorter.SortByRow(sourceRange, sortIndexes, sortOrder, context);
         }
 		/// <summary>
 		/// If the function is allowed in a pivot table calculated field

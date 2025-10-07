@@ -1228,7 +1228,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     }
                     else if (dataBar.LowValue.Value != double.NaN)
                     {
-                        cache.Append($"<xm:f>{dataBar.LowValue.Value}</xm:f>");
+                        cache.Append($"<xm:f>{dataBar.LowValue.Value.ToString(CultureInfo.InvariantCulture)}</xm:f>");
                     }
                     cache.Append($"</x14:cfvo>");
                 }
@@ -1248,7 +1248,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     }
                     else
                     {
-                        cache.Append($"<xm:f>{dataBar.HighValue.Value}</xm:f>");
+                        cache.Append($"<xm:f>{dataBar.HighValue.Value.ToString(CultureInfo.InvariantCulture)}</xm:f>");
                     }
                     cache.Append($"</x14:cfvo>");
                 }
@@ -1349,10 +1349,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 cache.Append($"<{prefix}cfRule type=\"iconSet\" priority=\"{format.Priority}\" id=\"{{{uid}}}\">");
                 cache.Append($"<{prefix}iconSet ");
 
-                if (isCustom == false)
-                {
-                    cache.Append($"iconSet=\"{iconSetString}\"");
-                }
+                 cache.Append($"iconSet=\"{iconSetString}\"");
 
                 if (showValue == false)
                 {
@@ -1392,7 +1389,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     }
                     else if (icon.Value != double.NaN)
                     {
-                        cache.Append($"<xm:f>{icon.Value}</xm:f>");
+                        cache.Append($"<xm:f>{icon.Value.ToString(CultureInfo.InvariantCulture)}</xm:f>");
                     }
                     cache.Append($"</{prefix}cfvo>");
                 }
@@ -1800,7 +1797,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         }
                         else
                         {
-                            cache.Append($" val=\"{dataBar.LowValue.Value}\"");
+                            cache.Append($" val=\"{dataBar.LowValue.Value.ToString(CultureInfo.InvariantCulture)}\"");
                         }
                     }
 
@@ -1816,7 +1813,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         }
                         else
                         {
-                            cache.Append($" val=\"{dataBar.HighValue.Value}\"");
+                            cache.Append($" val=\"{dataBar.HighValue.Value.ToString(CultureInfo.InvariantCulture)}\"");
                         }
                     }
 

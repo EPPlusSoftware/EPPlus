@@ -144,6 +144,9 @@ namespace OfficeOpenXml
         Stream _stream = null;
         private bool _isExternalStream = false;
         internal ExcelPackage _loadedPackage = null;
+#if(Core)
+        internal static IConfiguration Configuration { get; private set; }
+#endif
         #region Properties
         /// <summary>
         /// Extension Schema types
@@ -205,6 +208,9 @@ namespace OfficeOpenXml
         internal const string schemaMainXm = "http://schemas.microsoft.com/office/excel/2006/main";
         internal const string schemaXr = "http://schemas.microsoft.com/office/spreadsheetml/2014/revision";
         internal const string schemaXr2 = "http://schemas.microsoft.com/office/spreadsheetml/2015/revision2";
+        internal const string schemaXr3 = "http://schemas.microsoft.com/office/spreadsheetml/2016/revision3";
+
+        internal const string schemaX14AlternateContent = @"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac";
 
         //Chart Ex
         internal const string schemaMc2006 = "http://schemas.openxmlformats.org/markup-compatibility/2006";
@@ -267,6 +273,8 @@ namespace OfficeOpenXml
             File = newFile;
             ConstructNewFile(null);
         }
+
+
         /// <summary>
 		/// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
 		/// </summary>
@@ -274,6 +282,106 @@ namespace OfficeOpenXml
         public ExcelPackage(string path)
             : this(new FileInfo(path))
         { }
+
+#if (Core)
+        /// <summary>
+        /// Create a new instance of the ExcelPackage. 
+        /// Output is accessed through the Stream property, using the <see cref="SaveAs(FileInfo)"/> method or later set the <see cref="File" /> property.
+        /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        /// </summary>
+        public ExcelPackage(IConfiguration configuration)
+        {
+            Configuration = configuration;
+            Init();
+            ConstructNewFile(null);
+        }
+        /// <summary>
+        ///  Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
+        /// </summary>
+        /// <param name="newFile">If newFile exists, it is opened.  Otherwise it is created from scratch.</param>
+        /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        public ExcelPackage(FileInfo newFile, IConfiguration configuration)
+        {
+            Configuration = configuration;
+            Init();
+            File = newFile;
+            ConstructNewFile(null);
+        }
+        /// <summary>
+        ///  Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
+        /// </summary>
+        /// <param name="path">If newFile exists, it is opened.  Otherwise it is created from scratch.</param>
+        /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        public ExcelPackage(string path, IConfiguration configuration)
+            : this(new FileInfo(path), configuration)
+        { }
+
+        /// <summary>
+        /// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
+        /// </summary>
+        /// <param name="newFile">If newFile exists, it is opened.  Otherwise it is created from scratch.</param>
+        /// <param name="password">Password for an encrypted package</param>
+        /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        public ExcelPackage(FileInfo newFile, string password, IConfiguration configuration)
+        {
+            Configuration = configuration;
+            Init();
+            File = newFile;
+            ConstructNewFile(password);
+        }
+
+        /// <summary>
+        /// Create a new instance of the ExcelPackage class based on a existing template.
+        /// If newFile exists, it will be overwritten when the Save method is called
+        /// </summary>
+        /// <param name="newFile">The name of the Excel file to be created</param>
+        /// <param name="template">The name of the Excel template to use as the basis of the new Excel file</param>
+        /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        public ExcelPackage(FileInfo newFile, FileInfo template, IConfiguration configuration)
+        {
+            Configuration = configuration;
+            Init();
+            File = newFile;
+            CreateFromTemplate(template, null);
+        }
+
+        /// <summary>
+        /// Create a new instance of the ExcelPackage class based on a existing template.
+        /// If newFile exists, it will be overwritten when the Save method is called
+        /// </summary>
+        /// <param name="newFile">The name of the Excel file to be created</param>
+        /// <param name="template">The name of the Excel template to use as the basis of the new Excel file</param>
+        /// <param name="password">Password to decrypted the template</param>
+        /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        public ExcelPackage(FileInfo newFile, FileInfo template, string password, IConfiguration configuration)
+        {
+            Configuration = configuration;
+            Init();
+            File = newFile;
+            CreateFromTemplate(template, password);
+        }
+
+        /// <summary>
+        /// Create a new instance of the ExcelPackage class based on a stream
+        /// </summary>
+        /// <param name="newStream">The stream object can be empty or contain a package. The stream must be Read/Write</param>
+        /// /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
+        public ExcelPackage(Stream newStream, IConfiguration configuration)
+        {
+            Configuration = configuration;
+            Init();
+            if (newStream.CanSeek && newStream.Length == 0)
+            {
+                _stream = newStream;
+                _isExternalStream = true;
+                ConstructNewFile(null);
+            }
+            else
+            {
+                Load(newStream);
+            }
+        }
+#endif
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
         /// </summary>
@@ -448,6 +556,8 @@ namespace OfficeOpenXml
             WorksheetValueMetadataRead?.Invoke(this, e);
         }
 
+        internal List<string> IgnorableNamespaceUris;
+
         /// <summary>
         /// Init values here
         /// </summary>
@@ -469,6 +579,8 @@ namespace OfficeOpenXml
                     Compatibility.IsWorksheets1Based = value;
                 }
             }
+
+            IgnorableNamespaceUris = new() { schemaX14AlternateContent, schemaXr, schemaXr2, schemaXr3, };
         }
 
         /// <summary>
@@ -487,9 +599,9 @@ namespace OfficeOpenXml
                     throw new IOException($"{template.FullName} cannot be a zero-byte file.");
                 }
                 if (_stream == null)
-                    _stream = RecyclableMemory.GetStream();
+                    _stream = EPPlusMemoryManager.GetStream();
 
-                var ms = RecyclableMemory.GetStream();
+                var ms = EPPlusMemoryManager.GetStream();
                 if(CompoundDocument.IsCompoundDocument(template))
                 {
                     Encryption.IsEncrypted = true;
@@ -529,7 +641,7 @@ namespace OfficeOpenXml
         }
         private void ConstructNewFile(string password)
         {
-            if (_stream == null) _stream = RecyclableMemory.GetStream();
+            if (_stream == null) _stream = EPPlusMemoryManager.GetStream();
             if (File != null) File.Refresh();
             if (File != null && File.Exists && File.Length > 0)
             {
@@ -543,7 +655,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    ms = RecyclableMemory.GetStream();
+                    ms = EPPlusMemoryManager.GetStream();
                     WriteFileToStream(File.FullName, ms);
                 }
                 try
@@ -573,7 +685,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="path">Path</param>
         /// <param name="stream">Stream</param>
-        private static void WriteFileToStream(string path, Stream stream)
+        private static void WriteFileToStream(string path, MemoryStream stream)
         {
             using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
@@ -703,7 +815,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Automaticlly adjust drawing size when column width/row height are adjusted, depending on the drawings editBy property.
+        /// Automatically adjust drawing size when column width/row height are adjusted, depending on the drawings editBy property.
         /// Default True
         /// </summary>
         public bool DoAdjustDrawings
@@ -871,7 +983,7 @@ namespace OfficeOpenXml
                     if (Encryption.IsEncrypted && (Encryption.Version == EncryptionVersion.Standard || Encryption.Version == EncryptionVersion.Agile))
                     {
                         byte[] file;
-                        using (var ms = RecyclableMemory.GetStream())
+                        using (var ms = EPPlusMemoryManager.GetStream())
                         {
                             _zipPackage.Save(ms);
                             file = ms.ToArray();
@@ -885,7 +997,7 @@ namespace OfficeOpenXml
 #if (!NET35)
                     else if (SensibilityLabels.Labels.Count > 0 && ExcelPackage.SensibilityLabelHandler != null)
                     {
-                        using (var ms = RecyclableMemory.GetStream())
+                        using (var ms = EPPlusMemoryManager.GetStream())
                         {
                             _zipPackage.Save(ms);
                             _stream = SensibilityLabels.ApplyLabel(ms.ToArray()).ConfigureAwait(false).GetAwaiter().GetResult(); 
@@ -1061,7 +1173,7 @@ namespace OfficeOpenXml
                 _stream.Dispose();
             }
 
-            _stream = RecyclableMemory.GetStream();
+            _stream = EPPlusMemoryManager.GetStream();
         }
         /// <summary>
         /// The output stream. This stream is the not the encrypted package.
@@ -1237,7 +1349,7 @@ namespace OfficeOpenXml
         /// <param name="input">The input.</param>
         public void Load(Stream input)
         {
-            Load(input, RecyclableMemory.GetStream(), null);            
+            Load(input, EPPlusMemoryManager.GetStream(), null);            
         }
         /// <summary>
         /// Loads the specified package data from a stream.
@@ -1246,7 +1358,7 @@ namespace OfficeOpenXml
         /// <param name="Password">The password to decrypt the document</param>
         public void Load(Stream input, string Password)
         {
-            Load(input, RecyclableMemory.GetStream(), Password);
+            Load(input, EPPlusMemoryManager.GetStream(), Password);
         }   
         /// <summary>
         /// 
@@ -1264,7 +1376,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                Stream ms = RecyclableMemory.GetStream();
+                Stream ms = EPPlusMemoryManager.GetStream();
                 StreamUtil.CopyStream(input, ref ms);
                 if(CompoundDocument.IsCompoundDocument((MemoryStream)ms))
                 {
@@ -1273,11 +1385,6 @@ namespace OfficeOpenXml
                     var decrStream = eph.DecryptPackage((MemoryStream)ms, Encryption);
                     ms.Dispose();
                     ms = decrStream;
-                }
-                else
-                {
-                    ms = RecyclableMemory.GetStream();
-                    StreamUtil.CopyStream(input, ref ms);
                 }
 
                 try

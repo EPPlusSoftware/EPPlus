@@ -653,7 +653,6 @@ namespace EPPlusTest
             rt.SetFromFont("Times new roman", 18, false, false, true);
             rt.UnderLineColor = Color.Green;
 
-
             (ws.Drawings["shape3"] as ExcelShape).TextAnchoring = eTextAnchoringType.Bottom;
             (ws.Drawings["shape3"] as ExcelShape).TextAnchoringControl = true;
 
@@ -699,7 +698,7 @@ namespace EPPlusTest
         }
         [TestMethod]
         //[Ignore]
-        public void DrawingWorksheetCopy()
+        public void Z_DrawingWorksheetCopy()
         {
             using (var pck = OpenPackage("Drawingread.xlsx"))
             {

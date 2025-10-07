@@ -1,0 +1,99 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  08/20/2025         EPPlus Software AB       Initial release EPPlus 8.2
+ *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using System.Collections.Generic;
+
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
+{
+    internal class LambdaInvokeExpression : FunctionExpression
+    {
+        internal LambdaInvokeExpression(LambdaCalculationExpression exp, ParsingContext ctx, int pos) : base("LAMBDAINVOKE", ctx, pos)
+        {
+            _calculationExpression = exp;
+            this._function = new Lambda();
+        }
+
+//        private bool _negate = false;
+        private readonly LambdaCalculationExpression _calculationExpression;
+        private readonly List<CompileResult> _lambdaArguments = new List<CompileResult>();
+
+        internal override ExpressionType ExpressionType => ExpressionType.LambdaInvoke;
+
+        internal void AddArgument(CompileResult compileResult)
+        {
+            _lambdaArguments.Add(compileResult);
+        }
+
+        public override CompileResult Compile()
+        {
+            if(_calculationExpression == null)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
+            var cr = _calculationExpression.Compile();
+            if(cr.DataType != DataType.LambdaCalculation || cr.Result == null)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
+            var calculator = cr.Result as LambdaCalculator;
+            if(!calculator.IsReadyForCalc)  calculator.BeginCalculation();
+            for (var i = 0; i < _lambdaArguments.Count; i++)
+            {
+                var arg = _lambdaArguments[i];
+                calculator.SetVariableValue(i, arg.Result, arg.DataType, Context, arg.Address);
+            }
+
+            var result = calculator.Execute(Context);
+
+            if (_negate != 0)
+            {
+                if (result.IsNumeric == false)
+                {
+                    if (Context.Debug)
+                    {
+                        var msg = string.Format("Trying to negate a non-numeric value ({0}) in a lambda function '{1}'",
+                            result.Result, nameof(_function));
+                        Context.Configuration.Logger.Log(Context, msg);
+                    }
+                    return new CompileResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
+                }
+                return new CompileResult(result.ResultNumeric * _negate, result.DataType);
+            }
+
+            return result;
+        }
+
+        internal override void OnDispose()
+        {
+            base.OnDispose();
+            Context.VariableStorage.Pop();
+        }
+
+        private ExpressionStatus _status = ExpressionStatus.NoSet;
+        internal override ExpressionStatus Status
+        {
+            get
+            {
+                if (_status == ExpressionStatus.NoSet)
+                {
+                    _status = ExpressionStatus.CanCompile;
+                }
+                return _status;
+            }
+            set
+            {
+                _status = value;
+            }
+        }
+    }
+}

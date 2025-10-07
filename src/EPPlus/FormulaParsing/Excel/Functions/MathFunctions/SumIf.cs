@@ -45,11 +45,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             if(index == 2)
             {
-                if (args[0].Result is IRangeInfo rangeInfo)
+                if (args[0].Result is IRangeInfo criteriaRange && args[2].Result is IRangeInfo valueRange)
                 {
-                    var rv = new RangeOrValue { Range = rangeInfo };
+                    var rv = new RangeOrValue { Range = criteriaRange };                    
                     var  mi=GetMatchIndexes(rv, args[1].Result, null);
-                    addresses = EnqueueMatchingAddresses(args[2].Address, mi);
+                    addresses = EnqueueMatchingAddresses(valueRange, mi, ref addresses);
                 }
             }
         }

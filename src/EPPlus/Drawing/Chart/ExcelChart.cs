@@ -10,20 +10,21 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Xml;
-using System.IO;
-using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
-using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
-using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.FileUtils;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -155,6 +156,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         #region "Properties"
+
         /// <summary>
         /// Reference to the worksheet
         /// </summary>
@@ -646,6 +648,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         #endregion
+
         internal void InitChartTheme(int fallBackStyleId)
         {
             var styleId = fallBackStyleId + 100;
@@ -754,6 +757,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 return null;
             }
         }
+
         internal static ExcelChartEx GetChartEx(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null)
         {
             XmlNode chartDrawingNode = node.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", drawings.NameSpaceManager);
@@ -1115,5 +1119,62 @@ namespace OfficeOpenXml.Drawing.Chart
         ZipPackagePart IPictureRelationDocument.RelatedPart => Part;
 
         Uri IPictureRelationDocument.RelatedUri => UriChart;
+
+        /// <summary>
+        /// Indicates if auto title is used. Set to false if auto title is used. Auto title is used on for example pivot charts to map to the data fields to the title and series.
+        /// Also see <seealso cref="ExcelChartTitleStandard.SetAutoTitle"/>
+        /// </summary>
+        public bool AutoTitleDeleted 
+        {
+            get
+            {
+                return _chartXmlHelper.GetXmlNodeBool("../../c:autoTitleDeleted/@val") || _chartXmlHelper.ExistsNode("../../c:autoTitleDeleted");
+            }
+            set
+            {
+                _chartXmlHelper.SetXmlNodeBool("../../c:autoTitleDeleted/@val", value);
+            }
+        }
+
+        internal virtual bool IsAxisTypeSupported(eAxisType type, ExcelChartAxis axis)
+        {
+            var currentType = axis.AxisType;
+
+            if (currentType == eAxisType.Val || currentType == eAxisType.Date)
+            {
+                if (type == eAxisType.Val || type == eAxisType.Date)
+                {
+                    return true;
+                }
+            }
+            else if (currentType == eAxisType.Cat || currentType == eAxisType.Serie)
+            {
+                return true;
+            }
+
+            throw new InvalidOperationException($"Cannot change ValueAxis to CatAxis. Original Axis type: {currentType.ToString()}  New Axis type: {type.ToString()}");
+        }
+
+        internal override void SaveDrawing(bool hasLoadedPivotTables)
+        {
+            base.SaveDrawing(hasLoadedPivotTables);
+
+            var chartStream = Part.GetStream(FileMode.Create, FileAccess.Write);
+            ChartXml.PreserveWhitespace = true;
+            ChartXml.Save(chartStream);
+
+            if (this is ExcelChartStandard cs && cs.Drawings.Part != null)
+            {
+                foreach (var cd in cs.Drawings)
+                {
+                    cd.UpdatePositionAndSizeXml();
+                    cd.SaveDrawing(hasLoadedPivotTables); //Handle group shapes.
+                }
+
+                var xrd = new XmlTextWriter(cs.Drawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
+                xrd.Formatting = Formatting.None;
+                cs.Drawings.DrawingXml.Save(xrd);
+            }
+        }
     }
 }

@@ -1356,7 +1356,7 @@ namespace OfficeOpenXml
         }
         internal static void LoadXmlSafe(XmlDocument xmlDoc, string xml, Encoding encoding)
         {
-            using (var stream = RecyclableMemory.GetStream(encoding.GetBytes(xml)))
+            using (var stream = EPPlusMemoryManager.GetStream(encoding.GetBytes(xml)))
             {
                 LoadXmlSafe(xmlDoc, stream);
             }
@@ -1454,7 +1454,10 @@ namespace OfficeOpenXml
                     return ExcelRichText.GetUnderlineType(n.Attributes["val"].Value);
                 }
             }
-            val = false;
+            else
+            {
+                val = false;
+            }                
             return ExcelUnderLineType.None;
         }
 

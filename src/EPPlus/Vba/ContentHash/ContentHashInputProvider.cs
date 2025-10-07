@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Vba.ContentHash
         {
             if(ms == null)
             {
-                ms = RecyclableMemory.GetStream();
+                ms = EPPlusMemoryManager.GetStream();
             }
             CreateHashInputInternal(ms);
         }

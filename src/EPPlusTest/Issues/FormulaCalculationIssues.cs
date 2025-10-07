@@ -911,6 +911,402 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(12273.13, sheet.Cells["AI61"].Value);
 			Assert.AreEqual(-472.69, sheet.Cells["AI70"].Value);
         }
+        [TestMethod]
+        public void s858()
+        {
+            using var p1 = OpenTemplatePackage("s858-1.xlsx");
+            var ws1 = p1.Workbook.Worksheets["Aico Data"];
+            ws1.Calculate();
+            var result1 = ws1.Cells["D55"].Value;
+            Assert.AreEqual(265509.38, result1);
+
+            using var p2 = OpenTemplatePackage("s858-2.xlsx");
+            var ws2 = p2.Workbook.Worksheets["Aico data"];
+            ws2.Calculate();
+            var result2 = ws2.Cells["E55"].Value;
+
+            Assert.AreEqual(12977661.57, result2);
+        }
+		[TestMethod]
+		public void i2012_Alt_Minimized_Col()
+		{
+			using (var pck = OpenTemplatePackage("SortColumn.xlsx"))
+			{
+				var ws = pck.Workbook.Worksheets[0];
+
+				ws.Cells["A13"].Formula = "SORT(A1:BB4,2,1,TRUE)";
+
+                ws.Cells["A13"].Calculate();
+				ws.ClearFormulas();
+
+                List<string> cellValues = new();
+                foreach (var cell in ws.Cells["A7:BB10"])
+                {
+                    cellValues.Add(cell.Text);
+                }
+
+                int i = 0;
+                foreach (var cell in ws.Cells["A13:BB16"])
+                {
+                    Assert.AreEqual(cell.Text, cellValues[i]);
+                    i++;
+                }
+
+                SaveAndCleanup(pck);
+            }
+		}
+		[TestMethod]
+		public void i2012_Alt_Minimized()
+		{
+			using (var pck = OpenTemplatePackage("MinimizedSort.xlsx"))
+			{
+				var ws = pck.Workbook.Worksheets.Add("EpplusSort");
+
+				ws.Cells["A1"].Formula = "SORT(Data!A1:D3,2,1,FALSE)";
+				ws.Cells["G1"].Formula = "SORT(Data!A5:D12,2,1,FALSE)";
+
+                ws.Calculate();
+				ws.ClearFormulas();
+
+				ws.Cells["G1:J8"].CopyTranspose(ws.Cells["L1"]);
+
+                ws.Cells["U1"].Formula = "SORT(L1:S4,3,1,TRUE)";
+				//ws.Cells["U1"].IsArrayFormula = false;
+
+                ws.Calculate();
+                ws.ClearFormulas();
+
+                ws.Cells["AH1"].Formula = "SORT(L1:S4,3,1,TRUE)";
+
+                ws.Calculate();
+
+                //ws.Cells["U7"].ClearFormulas();
+
+                SaveAndCleanup(pck);
+            }
+		}
+
+        [TestMethod]
+		public void i2012_Alt()
+		{
+			using (var pck = OpenTemplatePackage("BrokeOutProblem.xlsx"))
+			{
+				var wsExcel = pck.Workbook.Worksheets[0];
+				var wsEpplus = pck.Workbook.Worksheets.Add("EpplusCalc");
+
+				wsEpplus.Cells["A1"].Formula = wsExcel.Cells["A1"].Formula;
+
+                int i = 0;
+				wsEpplus.Cells["H1"].Formula = "SORT(Sheet2!A1:D54,{2,4},1,FALSE)";
+                wsEpplus.Calculate();
+
+                wsEpplus.ClearFormulas();
+
+                foreach (var cell in wsEpplus.Cells["B1:B55"])
+                {
+                    if (cell.Text != wsExcel.Cells[cell.Start.Row, cell.Start.Column].Text)
+                    {
+						cell.EntireRow.Style.Fill.SetBackground(System.Drawing.Color.DarkRed);
+                    }
+                    i++;
+                }
+
+                SaveAndCleanup(pck);
+            }
+		}
+
+        [TestMethod]
+		public void i2012()
+		{
+			using (var pck = OpenTemplatePackage("i2012.xlsx"))
+			{
+				var ws = pck.Workbook.Worksheets["Summary by Contract"];
+				var str = ws.Cells["A12"].Formula;
+
+				List<string> cellValues = new();
+                foreach (var cell in ws.Cells["D12:D100"])
+				{
+					cellValues.Add(cell.Text);
+				}
+
+				ws.Cells["A12:D200"].Clear();
+
+				ws.Cells["A12"].Formula = "IF('Contract Details'!F12 = \"[none]\", {\"[none]\",\"\",\"\",\"\"},\r\n _xlfn.VSTACK(\r\n_xlfn._xlws.SORT(_xlfn.VSTACK(\r\n_xlfn.HSTACK(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!A12),_xlfn.ANCHORARRAY('Contract Details'!B12))), REPT(name_Account_GL_Current,_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)), REPT(\"Current\",_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0))),\r\n_xlfn.HSTACK(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!A12),_xlfn.ANCHORARRAY('Contract Details'!B12))), REPT(name_Account_GL_NonCurrent,_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)), REPT(\"Non-Current\",_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0))),\r\n_xlfn.HSTACK(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!A12),_xlfn.ANCHORARRAY('Contract Details'!B12))), REPT(name_Account_GL_Total,_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)), REPT(\"🔼 Sub-Total\",_xlfn.SEQUENCE(COUNTA(_xlfn.UNIQUE(_xlfn.HSTACK(_xlfn.ANCHORARRAY('Contract Details'!B12)))),1,1,0)))\r\n), 2,1,FALSE),\r\n_xlfn.HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_Current,\"Current\"),\r\n_xlfn.HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_NonCurrent,\"Non-Current\"),\r\n_xlfn.HSTACK(name_CompanyCode,\"[All Contracts]\",name_Account_GL_Total,\"🔼 Total\")\r\n))";
+                ws.Cells["A12"].Calculate();
+
+                List<string> cellValuesAfter = new();
+				int i = 0;
+                foreach (var cell in ws.Cells["D12:D100"])
+                {
+					Assert.AreEqual(cell.Text, cellValues[i]);
+					i++;
+                }
+
+                ws.ClearFormulas();
+                SaveAndCleanup(pck);
+			}
+		}
+		public void s871()
+		{
+            using var epplusCalculated = OpenTemplatePackage("s871.xlsx");
+            using var excelCalculated = OpenTemplatePackage("s871.xlsx");
+
+            ExcelPackage.MemorySettings.UseRecyclableMemory = false;
+
+            Console.WriteLine("Calculating...");
+
+            var wbEPPlus = epplusCalculated.Workbook;
+            wbEPPlus.CalcMode = ExcelCalcMode.Manual;
+
+			epplusCalculated.Workbook.Calculate(new OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+			{
+				PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel,
+				AllowCircularReferences = true,
+				EnableUnicodeAwareStringOperations = true,
+			});
+
+			var trackCol = 7;
+            var trackRow = 12;
+
+			var sheet = wbEPPlus.Worksheets["Summary"];
+
+            object o;
+
+            o = sheet.Cells[trackRow, trackCol].Formula;
+
+            Assert.AreEqual(6384484.31, (double)sheet.Cells["G9"].Value); 
+            Assert.AreEqual(174125.25, (double)sheet.Cells["G10"].Value); 
+            Assert.AreEqual(71467.24, (double)sheet.Cells["G11"].Value);                       
+            Assert.AreEqual(32018.5, (double)sheet.Cells["G12"].Value);
+        }
+        [TestMethod]
+        public void s871_2()
+        {
+            using var p = OpenTemplatePackage("s871-2.xlsx");
+
+            Console.WriteLine("Calculating...");
+
+            var wbEPPlus = p.Workbook;
+
+			p.Workbook.Calculate(new ExcelCalculationOption
+			{
+				PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel,
+				AllowCircularReferences = true,
+				EnableUnicodeAwareStringOperations = true,
+			});
+
+
+			var sheet1 = wbEPPlus.Worksheets["FTE_BSTM"];
+            var sheet2 = wbEPPlus.Worksheets["Aico Data"];
+
+            Assert.AreEqual("CHF", sheet1.Cells["I51"].Value);
+            Assert.AreEqual("CHF", sheet1.Cells["I52"].Value);
+            Assert.AreEqual("0280",sheet2.Cells["A77"].Value);
+            Assert.AreEqual("CHF", sheet2.Cells["H77"].Value);
+        }
+        [TestMethod]
+
+        public void s875()
+        {
+            using (var p = OpenTemplatePackage("s875.xlsx"))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets["List of Orders"];
+				wb.Calculate();
+				Assert.AreEqual("", ws.Cells["A13"].Value);
+                Assert.AreEqual("Total", ws.Cells["F13"].Value);
+                Assert.AreEqual("[varioius]", ws.Cells["G13"].Value);
+                Assert.AreEqual(5505974.18, (double)ws.Cells["N13"].Value, 0.0001);
+                Assert.AreEqual(-4101976.8, (double)ws.Cells["O13"].Value, 0.0001);
+                Assert.AreEqual(-1083371.20, (double)ws.Cells["P13"].Value, 0.0001);
+            }
+        }
+        //-------
+
+        [TestMethod]
+        public void LeftHas_One_MinimumParameter()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("AnchorDynamic");
+
+                ws.Cells["B3"].Value = "Hello World!";
+                //Left with num_chars omitted takes 1 char.
+                ws.Cells["C3"].Formula = "LEFT(B3)";
+
+                ws.Calculate();
+
+                Assert.AreEqual("H", ws.Cells["C3"].Value);
+            }
+        }
+
+        //Part of s884
+        [TestMethod]
+        public void AnchorArray_DynamicArrayFormula_Single()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("AnchorDynamic");
+
+                //Set formulas that will produce value
+                ws.Cells["E4"].Formula = "SUM(2+2)";
+                ws.Cells["G4"].Formula = "HSTACK($E$4)";
+
+                //Set AnchorArray on single cells
+                ws.Cells["C3"].Formula = "ANCHORARRAY(E4)";
+                ws.Cells["C4"].Formula = "ANCHORARRAY(G4)";
+
+                //Single Cell Formulas with AnchorArray should return value after lookup, not #REF!
+                ws.Calculate();
+                Assert.AreEqual(4d, ws.Cells["C3"].Value);
+                Assert.AreEqual(4d, ws.Cells["C4"].Value);
+            }
+        }
+
+        //Part of s884
+        [TestMethod]
+        public void XlookupSingleValue()
+        {
+            using (var p = OpenPackage("TestXLookupSingle.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("xLookup");
+
+                //Create a lookup range of values
+                var lookupRange = ws.Cells["F2:G6"];
+                for (int i = 0; i < lookupRange.Rows; i++)
+                {
+                    for (int j = 0; j < lookupRange.Columns; j++)
+                    {
+                        lookupRange.SetCellValue(i, j, j == 0 ? i : i * 10);
+                    }
+                }
+
+                //Create spillover formula with only one value
+                ws.Cells["P2"].Value = 4;
+                ws.Cells["Q2"].Formula = "HSTACK($P$2)";
+                //Access it via AnchorArray and  run XLookup;
+                ws.Cells["A1"].Formula = "XLOOKUP(ANCHORARRAY($Q$2),F1:F6,G1:G6,\"fallbackValue\",0,1)";
+
+                ws.Calculate();
+
+                Assert.AreEqual(40, ws.Cells["A1"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void s884()
+        {
+            using (var p = OpenTemplatePackage("s884.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Summary"];
+                var technical = p.Workbook.Worksheets["Technical"];
+
+                var form = ws.Cells["A12"].Formula;
+                var formSimpler = technical.Cells["K19"].Formula;
+
+                ws.Calculate(o => o.EnableUnicodeAwareStringOperations = true);
+
+                var someVal = ws.Cells["E12"].Value;
+                var lcTest = ws.Cells["F12"].Value;
+                var amountLC = ws.Cells["G12"].Value;
+
+                Assert.AreEqual(ws.Cells["A12"].Text, "0110");
+                Assert.AreEqual(ws.Cells["B12"].Text, "200150");
+                Assert.AreEqual(ws.Cells["C12"].Text, "Sub-Total for EUR");
+                Assert.AreEqual(ws.Cells["D12"].Text, "EUR");
+                Assert.AreEqual(-200000d, ws.Cells["E12"].Value);
+                Assert.AreEqual(ws.Cells["F12"].Text, "CHF");
+                Assert.AreEqual(-200000d, ws.Cells["G12"].Value);
+
+                var dataSheet = p.Workbook.Worksheets[9];
+
+                dataSheet.Calculate(o => o.EnableUnicodeAwareStringOperations = true);
+
+                Assert.AreEqual(dataSheet.Cells["D31"].Text, "0280");
+                Assert.AreEqual(dataSheet.Cells["AG31"].Text, "0110_vs_0280_Loans_Current_Received_EUR");
+                Assert.AreEqual(dataSheet.Cells["AH31"].Text, "0110_vs_0280_Ref_");
+            }
+        }
+
+        [TestMethod]
+        public void s868()
+        {
+            using (var package = OpenTemplatePackage("s868.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets["aliss"];
+                wb.Worksheets.Add("AlissCopy", ws);
+                ws.Cells["CW151"].Calculate();
+                Assert.AreEqual(39.29, ws.Cells["CW151"].Value);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void Copy_Names_to_new_workbook()
+        {
+            using (ExcelPackage origPck = OpenPackage("i345_ORIG_Global_Names.xlsx", true))
+            {
+                var wbOrig = origPck.Workbook;
+                var wsOrig = wbOrig.Worksheets.Add("Testpage");
+
+                wbOrig.Names.AddFormula("MyDefinedFormula", "Testpage!C3");//This line fails
+                wbOrig.Names.AddValue("MyDefinedValue", 10);
+                var range = wbOrig.Names.Add("MyRange", wsOrig.Cells["C3:D4"]);
+
+                wsOrig.Cells["C3"].Formula = "5+5";
+                wsOrig.Cells["D4"].Formula = "MyDefinedFormula";
+                wsOrig.Cells["G10"].Formula = "MyRange";
+
+                wsOrig.Calculate();
+
+                using (ExcelPackage destPackage = OpenPackage("i345_DEST_Global_Names.xlsx", true))
+                {
+                    var target = destPackage.Workbook.Worksheets.Add("destWs", wsOrig);
+                    target.Calculate();
+                    SaveAndCleanup(destPackage);
+                }
+                SaveAndCleanup(origPck);
+            }
+        }
+        [TestMethod]
+        public void TestNames()
+        {
+            using (var origPck = OpenPackage("copyworkbooknames.xlsx", true))
+            {
+                var wbOrig = origPck.Workbook;
+                var wsOrig = wbOrig.Worksheets.Add("Testpage");
+
+                wbOrig.Names.AddFormula("MyDefinedFormula", "Testpage!C3");//This line fails
+                wbOrig.Names.AddValue("MyDefinedValue", 10);
+                var range = wbOrig.Names.Add("MyRange", wsOrig.Cells["C3:D4"]);
+
+                wsOrig.Cells["C3"].Formula = "5+5";
+                wsOrig.Cells["D4"].Formula = "MyDefinedFormula";
+                wsOrig.Cells["G10"].Formula = "MyRange";
+
+                wsOrig.Calculate();
+                origPck.Save();
+
+                using(ExcelPackage destPackage = new ExcelPackage(origPck.Stream))
+                {
+                    var target = destPackage.Workbook.Worksheets.Add("destWs", wsOrig);
+                    target.Calculate();
+                    SaveAndCleanup(destPackage);
+                }
+                SaveAndCleanup(origPck);
+            }
+        }
+        [TestMethod]
+        public void s927()
+        {
+            using var p = OpenTemplatePackage("s927.xlsx");
+            //using var p = OpenTemplatePackage("s927 - Calced.xlsx");
+            var ws = p.Workbook.Worksheets["Calculation sheet"];
+            ws.Calculate();
+            Assert.AreEqual(938643.13, ws.Cells["H10"].Value);
+        }
     }
 }
 

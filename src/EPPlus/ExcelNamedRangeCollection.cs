@@ -10,12 +10,16 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections;
-using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Utils.Formula;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml
 {
@@ -40,6 +44,7 @@ namespace OfficeOpenXml
         Dictionary<string, int> _dic = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         /// <summary>
         /// Adds a new named range
+        /// Also see <seealso cref="AddFormula(string, string)"/> and <seealso cref="AddValue(string, object)"/>
         /// </summary>
         /// <param name="Name">The name</param>
         /// <param name="Range">The range</param>
@@ -67,7 +72,26 @@ namespace OfficeOpenXml
         {
             return Add(Name, Range, false);
         }
-
+        /// <summary>
+        /// Adds a new defined named with a fixed value.
+        /// </summary>
+        /// <param name="Name">The name</param>
+        /// <param name="Value">The value</param>
+        public ExcelNamedRange Add(string Name, object Value)
+        {
+            return AddValue(Name, Value);
+        }
+        /// <summary>
+        /// Adds a new named range
+        /// </summary>
+        /// <param name="name">The name</param>
+        /// <param name="range">The range</param>
+        /// <param name="allowRelativeAddress"></param>
+        /// <returns></returns>
+        public ExcelNamedRange AddRange(string name, ExcelRangeBase range, bool allowRelativeAddress = false )
+        {
+            return Add(name, range, allowRelativeAddress);
+        }
         /// <summary>
         /// Adds the name without validation as Excel allows some names on load that is not permitted in the GUI
         /// </summary>
@@ -99,6 +123,7 @@ namespace OfficeOpenXml
             {
                 _list.RemoveAt(_dic[Name]);
                 _list.Insert(_dic[Name], item);
+                item.Index = _dic[Name];
             }
             else
             {
@@ -107,18 +132,17 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Add a defined name referencing value
+        /// Add a defined name referencing a value
         /// </summary>
         /// <param name="Name">The name</param>
         /// <param name="value">The value for the name</param>
         /// <returns></returns>
         public ExcelNamedRange AddValue(string Name, object value)
         {
-			if (!ExcelAddressUtil.IsValidName(Name))
-			{
-				throw (new ArgumentException("Name contains invalid characters or is not valid."));
-			}
-			
+            if (!ExcelAddressUtil.IsValidName(Name))
+            {
+            throw (new ArgumentException("Name contains invalid characters or is not valid."));
+            }
             var item = new ExcelNamedRange(Name,_wb, _ws, _dic.Count);
             item.NameValue = value;
             AddName(Name, item);
@@ -132,24 +156,25 @@ namespace OfficeOpenXml
         /// <param name="Formula"></param>
         /// <returns></returns>
         public ExcelNamedRange AddFormula(string Name, string Formula)
-		{
-			if (!ExcelAddressUtil.IsValidName(Name))
-			{
-				throw (new ArgumentException("Name contains invalid characters or is not valid."));
-			}
+        {
+        if (!ExcelAddressUtil.IsValidName(Name))
+        {
+            throw (new ArgumentException("Name contains invalid characters or is not valid."));
+        }
+            var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
+            item.NameFormula = Formula;
+            AddName(Name, item);
+            return item;
+        }
 
-			return AddFormulaNoValidation(Name, Formula);
-		}
-
-		internal ExcelNamedRange AddFormulaNoValidation(string Name, string Formula)
-		{
-			var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
-			item.NameFormula = Formula;
-			AddName(Name, item);
-			return item;
-		}
-
-		internal void Insert(int rowFrom, int colFrom, int rows, int cols, int lowerLimint = 0, int upperLimit = int.MaxValue)
+        internal ExcelNamedRange AddFormulaNoValidation(string Name, string Formula)
+        {
+            var item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
+            item.NameFormula = Formula;
+            AddName(Name, item);
+            return item;
+        }
+        internal void Insert(int rowFrom, int colFrom, int rows, int cols, int lowerLimint = 0, int upperLimit = int.MaxValue)
         {
             Insert(rowFrom, colFrom, rows, cols, n => true, lowerLimint, upperLimit);
         }
@@ -300,6 +325,29 @@ namespace OfficeOpenXml
             {
                 Remove(_list[0].Name);
             }
+        }
+
+        internal void AddFromOtherName(ExcelNamedRange source)
+        {
+            ExcelNamedRange dest;
+            if (source.NameValue!=null)
+            {
+                dest = new ExcelNamedRange(source.Name, _wb, _ws, _dic.Count, source.AllowRelativeAddress);
+                dest.NameValue = source.NameValue;
+            }
+            else if(source.NameFormula !=null)
+            {
+                dest = new ExcelNamedRange(source.Name, _wb, _ws, _dic.Count, source.AllowRelativeAddress);
+                dest.NameFormula = source.NameFormula;
+            }
+            else
+            {
+                dest = new ExcelNamedRange(source.Name, _wb, _ws, _dic.Count, source.AllowRelativeAddress);
+                dest.NameFormula = source.FullAddress;
+            }
+
+            dest.NameComment = source.NameComment;
+            AddName(source.Name, dest);
         }
     }
 }

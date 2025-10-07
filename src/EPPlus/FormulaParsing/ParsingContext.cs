@@ -19,6 +19,8 @@ using OfficeOpenXml.FormulaParsing.Logging;
 using System.Collections.Generic;
 using NvProvider = OfficeOpenXml.FormulaParsing.NameValueProvider;
 using OfficeOpenXml.Utils.RemoteCalls;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
+
 
 #if (!NET35)
 using System.Threading.Tasks;
@@ -88,6 +90,19 @@ namespace OfficeOpenXml.FormulaParsing
             get { return Configuration.Logger != null; }
         }
 
+        private VariableStorageManager _variableStorage;
+        internal VariableStorageManager VariableStorage
+        {
+            get
+            {
+                return _variableStorage;
+            }
+            set
+            {
+                _variableStorage = value;
+            }
+        }
+
         /// <summary>
         /// Factory method.
         /// </summary>
@@ -151,6 +166,12 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
         internal RemoteCallManager RemoteCallManager { get;  }= new RemoteCallManager();
+        /// <summary>
+        /// Calculation options/parameters set for the Calculate call.
+        /// </summary>
+        public ExcelCalculationOption CalcOption { get; set; }
+
+        internal RpnOptimizedDependencyChain DependencyChain { get; set; }
     }
 
 }
