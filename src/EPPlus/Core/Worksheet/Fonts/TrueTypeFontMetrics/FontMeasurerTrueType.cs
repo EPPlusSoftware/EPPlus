@@ -136,19 +136,9 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics
             return TextData.GetSingleLineSpacing(CurrentFont, FontSize);
         }
 
-        internal double GetSingleLineSpacingPX()
-        {
-            return TextData.GetSingleLineSpacing(CurrentFont, FontSize).PointToPixel();
-        }
-
         public double GetBaseLine()
         {
             return TextData.GetBaseLine(CurrentFont, FontSize);
-        }
-
-        internal double GetBaseLinePX()
-        {
-            return GetBaseLine().PointToPixel();
         }
 
         //bool? _validForEnvironment = null;

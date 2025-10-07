@@ -28,7 +28,10 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.TrueTypeFontRea
         {
             try
             {
-                return Directory.GetFiles(folder, "*.*", SearchOption.AllDirectories);
+                if(Directory.Exists(folder))
+                {
+                    return Directory.GetFiles(folder, "*.*", SearchOption.AllDirectories);
+                }
             }
             catch (UnauthorizedAccessException) {}
             catch (DirectoryNotFoundException) {}
