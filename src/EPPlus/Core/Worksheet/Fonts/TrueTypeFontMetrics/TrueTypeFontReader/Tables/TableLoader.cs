@@ -23,26 +23,28 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.TrueTypeFontRea
         protected readonly uint _offset;
         protected readonly uint _length;
         protected Dictionary<string, TableRecord> _tables;
-        private static Dictionary<string, object> _cachedTables = new Dictionary<string, object>();
 
         protected abstract T LoadInternal();
-
+        public static object _syncRoot = new object();
         public T Load(bool useCache = true)
         {
-            if(TableCache.Contains(_tableName) && useCache)
+            lock (_syncRoot)
             {
-                return TableCache.Get(_tableName) as T;
-            }
-            else if(!TableCache.Contains(_tableName))
-            {
-                _reader.BaseStream.Position = _offset;
-                var t = LoadInternal();
-                TableCache.Add(_tableName, t);
-                return t;
-            }
-            else
-            {
-                return default(T);
+                if (TableCache.Contains(_tableName))
+                {
+                    return TableCache.Get(_tableName) as T;
+                }
+                else if (!TableCache.Contains(_tableName))
+                {
+                    _reader.BaseStream.Position = _offset;
+                    var t = LoadInternal();
+                    TableCache.Add(_tableName, t);
+                    return t;
+                }
+                else
+                {
+                    return default(T);
+                }
             }
         }
     }

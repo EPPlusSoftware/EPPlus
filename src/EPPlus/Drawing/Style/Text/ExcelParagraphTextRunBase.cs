@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         string _defaultFontName;
         double _defaultFontSize;
-
+        ExcelTextFont _dtr;
         internal IPictureRelationDocument _prd;
         ExcelDrawingParagraph _paragraph;
 
@@ -43,6 +43,7 @@ namespace OfficeOpenXml.Drawing
             SchemaNodeOrder = ["rPr", "pPr", "t"];
             _paragraph = paragraph;
             _prd = _paragraph._prd;
+            _dtr = _paragraph._paragraphs.FirstOrDefault()?.DefaultRunProperties;
         }
 
         internal List<string> SplitIntoLines()
@@ -170,7 +171,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString(_fontLatinPath);
+                var v=GetXmlNodeString(_fontLatinPath);
+                if(string.IsNullOrEmpty(v))
+                {
+                    v = _dtr.LatinFont;
+                }
+                return v;
             }
             set
             {
@@ -185,7 +191,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString(_fontEaPath);
+                var v = GetXmlNodeString(_fontEaPath);
+                if (string.IsNullOrEmpty(v))
+                {
+                    v = _dtr.EastAsianFont;
+                }
+                return v;
             }
             set
             {
@@ -200,7 +211,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString(_fontCsPath);
+                var v = GetXmlNodeString(_fontCsPath);
+                if (string.IsNullOrEmpty(v))
+                {
+                    v = _dtr.ComplexFont;
+                }
+                return v;
             }
             set
             {
@@ -231,7 +247,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeBool(_boldPath);
+                var v=GetXmlNodeBoolNullable(_boldPath);
+                if(v==null)
+                {
+                    v = _dtr.Bold;
+                }
+                return v??false;
             }
             set
             {
@@ -246,7 +267,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString(_underLinePath).TranslateUnderline();
+                var v = GetXmlNodeString(_underLinePath)?.TranslateUnderline();
+                if (v == null)
+                {
+                    v = _dtr.UnderLine;
+                }
+                return v ?? eUnderLineType.None;
             }
             set
             {
@@ -262,7 +288,13 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeBool(_italicPath);
+                var v = GetXmlNodeBoolNullable(_italicPath);
+                if (v == null)
+                {
+                    v = _dtr.Italic;
+                }
+                return v ?? false;
+
             }
             set
             {
@@ -277,7 +309,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString(_strikePath).TranslateStrikeType();
+                var v = GetXmlNodeString(_strikePath)?.TranslateStrikeType();
+                if (v == null)
+                {
+                    v = _dtr.Strike;
+                }
+                return v ?? eStrikeType.No;
             }
             set
             {
@@ -292,12 +329,15 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                var c = GetXmlNodeInt(_sizePath);
-                if (c == int.MinValue)
+                var v = GetXmlNodeDoubleNull(_sizePath);
+                if (v == null)
                 {
-                    return float.NaN;
+                    return _dtr.Size;
                 }
-                return c / 100;
+                else
+                {
+                    return (float)(v / 100);
+                }
             }
             set
             {
@@ -312,7 +352,15 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeFontSize(_kernPath);
+                var v = GetXmlNodeDoubleNull(_kernPath);
+                if(v==null)
+                {
+                    return _dtr.Kerning;
+                }
+                else
+                {
+                    return (float)(v / 100);
+                }
             }
             set
             {
@@ -327,14 +375,22 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                switch (GetXmlNodeString(_capPath))
+                var v = GetXmlNodeString(_capPath);
+                if(v==null)
                 {
-                    case "all":
-                        return eTextCapsType.All;
-                    case "small":
-                        return eTextCapsType.Small;
-                    default:
-                        return eTextCapsType.None;
+                    return _dtr.Capitalization;
+                }
+                else
+                {
+                    switch (v)
+                    {
+                        case "all":
+                            return eTextCapsType.All;
+                        case "small":
+                            return eTextCapsType.Small;
+                        default:
+                            return eTextCapsType.None;
+                    }
                 }
             }
             set
@@ -351,7 +407,15 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeDouble(_baselinePath);
+                var v=GetXmlNodeDoubleNull(_baselinePath);
+                if (v == null)
+                {
+                        return _dtr.Baseline;
+                }
+                else
+                {
+                    return v.Value;
+                }
             }
             set
             {
@@ -374,7 +438,15 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return (GetXmlNodeDoubleNull(_spacingPath) ?? 0) / 100;
+                var v = GetXmlNodeDoubleNull(_spacingPath);
+                if(v==null)
+                {
+                    return _dtr.Spacing;
+                }
+                else
+                {
+                    return v.Value / 100;
+                }
             }
             set
             {
@@ -415,7 +487,7 @@ namespace OfficeOpenXml.Drawing
             var lf = LatinFont;
             if (string.IsNullOrEmpty(lf))
             {
-                lf = _paragraph.DefaultRunProperties.LatinFont;
+                lf = _dtr.LatinFont;
             }
             var cf = ComplexFont;
             if (string.IsNullOrEmpty(cf))
