@@ -48,6 +48,13 @@ namespace OfficeOpenXml.PDF.PdfObjects
             else if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.PattenStyle != Style.ExcelFillStyle.None)
             {
                 commands.Add("q");
+                commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
+                commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
+                commands.Add(cell.CellFillData.BackgroundColor.ToStrokeCommand());
+                commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
+                commands.Add("B");
+                commands.Add("Q");
+                commands.Add("q");
                 commands.Add("/Pattern cs");
                 commands.Add($"/{label} scn");
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {(cell.LocalPosition.Y).ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");

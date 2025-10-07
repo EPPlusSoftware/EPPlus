@@ -226,14 +226,11 @@ namespace OfficeOpenXml.PDF
             page.contentObjectNumbers.Add(contentStream.objectNumber);
         }
 
-        private void AddFinalData()
+        private PdfInfoObject AddInfoObject()
         {
-            var sb = new StringBuilder();
-            sb.AppendFormat($"<< /Author (EPPlus)\n" +
-                            $"   /CreationDate ({DateTime.Now.ToString()})\n" +
-                            $"   /ModDate ({DateTime.Now.ToString()})\n" +
-                            $"   /Producer (EPPlus PDF Exporter)\n" +
-                            $"   /Title ({_workheets[0].Workbook._package.File.Name}) >>");
+            var info = new PdfInfoObject(Document.Count + 1, _workheets[0].Workbook._package.File.Name);
+            Document.Add(info);
+            return info;
         }
 
         /// <summary>
@@ -262,7 +259,7 @@ namespace OfficeOpenXml.PDF
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
-            AddFinalData();
+            var info = AddInfoObject();
             string debugString = "";
             //write to pdf
             PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
@@ -285,8 +282,8 @@ namespace OfficeOpenXml.PDF
                     crossRefTable.Write(bw, fs.Position, Document.Count);
                     debugString += crossRefTable.WriteString(Document.Count);
                     // Write trailer
-                    PdfTrailer.Write(bw, Document.Count, catalog.objectNumber, crossRefTable.StartPosition);
-                    debugString += PdfTrailer.WriteString(Document.Count, catalog.objectNumber, crossRefTable.StartPosition);
+                    PdfTrailer.Write(bw, Document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+                    debugString += PdfTrailer.WriteString(Document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
                 }
             }
             //Write pdf as txt for debug.

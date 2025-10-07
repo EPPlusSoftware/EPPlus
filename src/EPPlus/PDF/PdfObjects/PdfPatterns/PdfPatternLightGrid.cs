@@ -14,7 +14,8 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
                             $"0 0 4 4 re\n" +
                             $"f\n" +
                             $"{Foreground.ToFillCommand()}\n" +
-                            $"0 1 3 3 re\n" +
+                            $"0 0 4 1 re\n" +
+                            $"3 0 1 4 re\n" +
                             $"f");
             return sb.ToString();
         }

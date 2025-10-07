@@ -48,7 +48,7 @@ namespace EPPlusTest.PDF
          * Layout: Cell range to pdf
          * Layout: Remove empty last page
          * 
-         * Borders: Adjust and make border look better
+         * Borders: Adjust and make border look better. Fixed: DarkUp, DarkDown
          * 
          * Pivot Table: Pivot table implementation
          * 
@@ -58,7 +58,6 @@ namespace EPPlusTest.PDF
          * Drawings: 3D models
          * 
          * PDF: Compress parts
-         * PDF: Info Object
          */
 
 

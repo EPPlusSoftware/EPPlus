@@ -10,24 +10,11 @@ namespace OfficeOpenXml.PDF.PdfObjects.PdfPatterns
         public override string CreatePatternResource()
         {
             var sb = new StringBuilder();
-            sb.AppendFormat($"{Background.ToFillCommand()}\n" +
-                            $"0 0 4 4 re\n" +
-                            $"f\n" +
-                            $"{Foreground.ToFillCommand()}\n" +
-                            $"0 3 1 1 re\n" +
-                            $"f\n" +
-                            $"{Foreground.ToFillCommand()}\n" +
-                            $"3 3 1 1 re\n" +
-                            $"f\n" +
-                            $"{Foreground.ToFillCommand()}\n" +
-                            $"2 2 2 1 re\n" +
-                            $"f\n" +
-                            $"{Foreground.ToFillCommand()}\n" +
-                            $"1 1 2 1 re\n" +
-                            $"f\n" +
-                            $"{Foreground.ToFillCommand()}\n" +
-                            $"0 0 2 1 re\n" +
-                            $"f");
+            sb.AppendFormat($"{Foreground.ToStrokeCommand()}\n" +
+                            $"1.4 w\n" +
+                            $"11.3137 0 m\n" +
+                            $"0 11.3137 l\n" +
+                            $"S");
             return sb.ToString();
         }
     }
