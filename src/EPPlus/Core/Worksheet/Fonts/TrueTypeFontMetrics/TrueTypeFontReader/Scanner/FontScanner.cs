@@ -8,7 +8,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.TrueTypeFontRea
 {
     internal static class FontScanner
     {
-        private static FontFormat? GetFormat(string file)
+        internal static FontFormat? GetFormat(string file)
         {
             var ext = Path.GetExtension(file).TrimStart('.').ToLowerInvariant();
             switch (ext)
