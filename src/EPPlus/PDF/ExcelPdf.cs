@@ -73,7 +73,7 @@ namespace OfficeOpenXml.PDF
         }
 
         //Get font label //need to update this one too for same reasons as AddFontData
-        internal string GetFontLabel(string fontName, string subFamily, double fontSize)
+        internal PdfFontResource GetFontResource(string fontName, string subFamily, double fontSize)
         {
             if (!Dictionaries.Fonts.ContainsKey(fontName))
             {
@@ -91,7 +91,7 @@ namespace OfficeOpenXml.PDF
                 Document.Add(fr.GetFontObject(Document.Count + 1));
                 Dictionaries.Fonts.Add(fontName, fr);
             }
-            return Dictionaries.Fonts[fontName].Label;
+            return Dictionaries.Fonts[fontName];
         }
 
         internal string GetLabel(PdfCellLayout layout)
@@ -208,7 +208,7 @@ namespace OfficeOpenXml.PDF
                             contentStream.AddCellLayout(layout, GetLabel(layout));
                             break;
                         case PdfCellContentLayout contentLayout:
-                            contentStream.AddCellContentLayout(contentLayout, GetFontLabel(contentLayout.FontData.FontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));
+                            contentStream.AddCellContentLayout(contentLayout, GetFontResource(contentLayout.FontData.Font, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));
                             break;
                         case PdfCellBorderLayout borderLayout:
                             contentStream.AddBorderLayout(borderLayout);

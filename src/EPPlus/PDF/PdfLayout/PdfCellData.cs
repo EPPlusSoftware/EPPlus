@@ -21,6 +21,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public string Text = "";
         //public NumberFormatting;
         //public ExcelRichTextCollection RichText;
+        public string Font
+        { get { return FontName + " " + SubFamily; } }
 
         public PdfCellFontData() { }
     }

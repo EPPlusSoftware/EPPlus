@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.PDF.PdfGraphics;
 using OfficeOpenXml.PDF.Pdfhelpers;
 using OfficeOpenXml.PDF.PdfLayout;
+using OfficeOpenXml.PDF.PdfResources;
 using OfficeOpenXml.PDF.PdfSettings;
 using System.Collections.Generic;
 using System.Text;
@@ -76,7 +77,7 @@ namespace OfficeOpenXml.PDF.PdfObjects
             commands.Add("Q");
         }
 
-        public void AddCellContentLayout(PdfCellContentLayout cell, string fontLabel)
+        public void AddCellContentLayout(PdfCellContentLayout cell, PdfFontResource font)
         {
             commands.Add("q");
             if (cell.Clip)
@@ -84,10 +85,24 @@ namespace OfficeOpenXml.PDF.PdfObjects
                 commands.Add($"{cell.Clipping.X.ToPdfString()} {cell.Clipping.Y.ToPdfString()} {cell.Clipping.Width.ToPdfString()} {cell.Clipping.Height.ToPdfString()} re W n");
             }
             commands.Add("BT");
-            commands.Add($"/{fontLabel} {cell.FontData.FontSize.ToPdfString()} Tf");
+            commands.Add($"/{font.Label} {cell.FontData.FontSize.ToPdfString()} Tf");
             commands.Add(cell.FontData.FontColor.ToFillCommand());
             double rot = cell.CellAlignmentData.TextRotation * System.Math.PI / 180.0;
-            commands.Add($"{System.Math.Cos(rot).ToPdfString()} {System.Math.Sin(rot).ToPdfString()} {(-System.Math.Sin(rot)).ToPdfString()} {System.Math.Cos(rot).ToPdfString()} {cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} Tm");
+            PDF.Math.Matrix3x3 m1 = new PDF.Math.Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), cell.LocalPosition.X, cell.LocalPosition.Y);
+            if (cell.FontData.Bold)
+            {
+                commands.Add("0.25 w");
+                commands.Add("2 Tr");
+            }
+            else if (cell.FontData.Italic)
+            {
+                var i = font.fontData.postTable.italicAngle;
+                if (i < 0) i = 12d;
+                PDF.Math.Matrix3x3 m2 = PDF.Math.Matrix3x3.Identity;
+                m2.C = System.Math.Tan(i);
+                m1 = m2 * m1;
+            }
+            commands.Add($"{m1.A.ToPdfString()} {m1.B.ToPdfString()} {m1.C.ToPdfString()} {m1.D.ToPdfString()} {m1.E.ToPdfString()} {m1.F.ToPdfString()} Tm");
             commands.Add($"({FixEscapeCharacters(cell.FontData.Text)}) Tj");
             commands.Add("ET");
             commands.Add("Q");

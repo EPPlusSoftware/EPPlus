@@ -9,7 +9,9 @@ namespace OfficeOpenXml.PDF
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat("trailer\n");
-            sb.AppendFormat($"<< /Size {bodyCount + 1} /Root {catalogObjectNumber} 0 R >>\n");
+            sb.AppendFormat($"<< /Size {bodyCount + 1}\n" +
+                            $"   /Root {catalogObjectNumber} 0 R\n" +
+                            $"   /Info {infoObjectNumber} 0 R >>\n");
             sb.AppendFormat("startxref\n");
             sb.AppendFormat($"{crossRefStartPosition}\n");
             sb.AppendFormat("%%EOF\n");

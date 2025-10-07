@@ -65,7 +65,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         //Get font data from fontResources. If font does not exsist, add it to fontResources.
         private TtfFont GetFontResourceData(Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings)
         {
-            if (!fontResources.ContainsKey(FontData.FontName))
+            if (!fontResources.ContainsKey(FontData.Font))
             {
                 int label = 1;
                 if (fontResources.Count > 0)
@@ -73,10 +73,10 @@ namespace OfficeOpenXml.PDF.PdfLayout
                     label = fontResources.Last().Value.labelNumber + 1;
                 }
                 PdfFontResource fr = new PdfFontResource(FontData.FontName, FontData.SubFamily, label, pageSettings);
-                fontResources.Add(FontData.FontName, fr);
+                fontResources.Add(FontData.Font, fr);
                 fontResources.Last().Value.fontData = PdfTextData.GetFontData(pageSettings, FontData.FontName, FontData.SubFamily);
             }
-            return fontResources[FontData.FontName].fontData;
+            return fontResources[FontData.Font].fontData;
         }
 
         //Calculate text position based on alignment and cell size.

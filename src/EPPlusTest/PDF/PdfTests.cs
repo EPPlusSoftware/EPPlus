@@ -25,7 +25,7 @@ namespace EPPlusTest.PDF
          * 
          * Tables: Table Implementation
          * 
-         * Patterns: Adjust and make patterns look better
+         * Patterns: Adjust and make patterns look better. Fixed: DarkUp, DarkDown
          * 
          * Gradients: Make diamond gradients instead of radial gradtient in from corner and center gradient
          * Gradients: 45 degree gradients should go from one corner to the other instead of actually being a 45 degrees.
@@ -36,6 +36,8 @@ namespace EPPlusTest.PDF
          * Text: Underline
          * Text: Wrap text
          * Text: Equations
+         * Text: Shrink To Fit
+         * Text: Rotation
          * 
          * Layout: Center on page Horizontal and vertical
          * Layout: Scaling
@@ -48,7 +50,7 @@ namespace EPPlusTest.PDF
          * Layout: Cell range to pdf
          * Layout: Remove empty last page
          * 
-         * Borders: Adjust and make border look better. Fixed: DarkUp, DarkDown
+         * Borders: Adjust and make border look better
          * 
          * Pivot Table: Pivot table implementation
          * 
