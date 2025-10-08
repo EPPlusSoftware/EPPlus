@@ -239,6 +239,57 @@ namespace EPPlusTest.Drawing
                     SaveAndCleanup(p);
                 }
             }
+
+            /// <summary>
+            /// Indicates font embedding licensing rights for the font. The interpretation of flags is as follows:
+            /// 0: Installable embedding: the font may be embedded, and may be permanently installed for use on a remote systems, or for use by other users.
+            /// 2: Restricted License embedding: the font must not be modified, embedded or exchanged in any manner without first obtaining explicit permission of the legal owner.
+            /// 4: Preview & Print embedding: the font may be embedded, and may be temporarily loaded on other systems for purposes of viewing or printing the document. Documents containing Preview & Print fonts must be opened “read-only”; no edits can be applied to the document.
+            /// 8: Editable embedding: the font may be embedded, and may be temporarily loaded on other systems. As with Preview & Print embedding, documents containing Editable fonts may be opened for reading. In addition, editing is permitted, including ability to format new text using the embedded font, and changes may be saved.
+            /// </summary>
+            string GetFsString(ushort fsId)
+            {
+                switch (fsId)
+                {
+                    case 0:
+                        return "Installable Embedding";
+                    case 2:
+                        return "Restricted Licence Embedding";
+                    case 4:
+                        return "Preview & Print Embedding";
+                    case 8:
+                        return "Editable Embedding";
+                    default:
+                        return $"UNKNOWN VALUE: '{fsId}' POTENTIALLY CORRUPT FONT";
+                }
+            }
+
+            [TestMethod]
+            public void TestAllFonts()
+            {
+                using (var p = OpenPackage("TestAllFonts.xlsx", true))
+                {
+                    var ws = p.Workbook.Worksheets.Add("allFonts");
+                    ws.Cells[1, 1].Value = "Font Name";
+                    ws.Cells[1, 2].Value = "Font Type ID";
+                    ws.Cells[1, 3].Value = "Font Type String (given by ID)";
+
+                    var isEqualCF = ws.Cells["B1:B500"].ConditionalFormatting.AddEqual();
+                    isEqualCF.Formula = "2";
+                    isEqualCF.Style.Fill.BackgroundColor.SetColor(Color.Red);
+
+                    List<string> additionalLocations = new List<string>();
+                    var allFontsList = GenericFonts.GetAllFontData(additionalLocations);
+
+                    for (int i = 0; i < allFontsList.Count; i++)
+                    {
+                        var j = i + 2;
+                        ws.Cells[j, 1].Value = allFontsList[i].FullName;
+                        ws.Cells[j, 2].Value = allFontsList[i].Os2Table.fsType;
+                        ws.Cells[j, 3].Value = GetFsString(allFontsList[i].Os2Table.fsType);
+                    }
+                }
+            }
         }
     }
 }
