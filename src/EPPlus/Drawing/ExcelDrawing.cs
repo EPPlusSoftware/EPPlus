@@ -402,7 +402,7 @@ namespace OfficeOpenXml.Drawing
         public override double EndX => _endX;
         public override double EndY => _endY;
     }
-    internal class DrawingPath
+    public class DrawingPath
     {
         public DrawingPath(DrawingPath clone)
         {
