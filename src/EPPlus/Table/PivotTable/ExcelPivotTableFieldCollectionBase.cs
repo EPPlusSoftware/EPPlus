@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Table.PivotTable
         public IEnumerator<T> GetEnumerator()
         {
             return _list.GetEnumerator();
-        }
+            }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
