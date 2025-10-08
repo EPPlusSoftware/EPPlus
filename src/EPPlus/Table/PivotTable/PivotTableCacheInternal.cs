@@ -275,7 +275,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         }
                         var fi = _fields.FindIndex(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
                         if (fi<0)
-                        {                            
+                        {
                             field = CreateField(name, -1, true, true, ix == 0 ? null : fields[ix - 1].TopNode);
                             movedFields.Add(-1);
                             field.TopNode.InnerXml = "<sharedItems/>";
@@ -504,7 +504,6 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                 }
                 rmFields.ForEach(f => pt.PageFields.Remove(f));
-                rmFields.Clear();
 
                 //Update styles
                 var newIndex = movedFields.Where(x => x >= 0).ToDictionary(x => x, x => movedFields.IndexOf(x));
