@@ -44,6 +44,7 @@ using OfficeOpenXml.Utils.XML;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.CustomXml;
 
 namespace OfficeOpenXml
 {
@@ -1345,6 +1346,18 @@ namespace OfficeOpenXml
             }
         }
         #endregion
+        ExcelCustomXmlCollection _customXml = null;
+        internal ExcelCustomXmlCollection CustomXml
+        {
+            get
+            {
+                if(_customXml == null)
+                {
+                    _customXml = new ExcelCustomXmlCollection(_package);
+                }
+                return _customXml;
+            }
+        }
         #region Workbook Private Methods
 
         #region Save // Workbook Save

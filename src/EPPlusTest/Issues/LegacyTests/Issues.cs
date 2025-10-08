@@ -57,6 +57,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
@@ -6276,6 +6277,41 @@ namespace EPPlusTest
             Assert.AreEqual(sheet.Cells["C1"].Formula, "_xlfn.XLOOKUP(B1,Tier_lookup4[Country],Tier_lookup4[AIR - Origin Currency])");
             sheet.Cells.Sort(column: 0);
             Assert.AreEqual(sheet.Cells["C1"].Formula, "_xlfn.XLOOKUP(B1,Tier_lookup4[Country],Tier_lookup4[AIR - Origin Currency])");
+        }
+        [TestMethod]
+        public void Connections()
+        {
+            using var p = OpenTemplatePackage("qt_csv.xlsx");
+            var b=p.Workbook.CustomXml.ReadPQ();
+
+            File.WriteAllBytes(@"c:\temp\\pq.bin", b);
+            //var cd = new CompoundDocument(b);
+            var ms = new MemoryStream(b);
+            var br = new BinaryReader(ms);
+            var version = br.ReadInt32();
+            var size = br.ReadInt32();
+            var pck = br.ReadBytes((int)size);
+            File.WriteAllBytes(@"c:\temp\\PowerQueryPackage.zip", pck);
+
+            size = br.ReadInt32();
+            var xml1 = Encoding.UTF8.GetString(br.ReadBytes((int)size));
+            File.WriteAllText(@"c:\temp\\Permissions.xml", xml1);
+            size = br.ReadInt32();
+            version = br.ReadInt32();
+            size = br.ReadInt32();
+            var xml2 = Encoding.UTF8.GetString(br.ReadBytes((int)size));
+            File.WriteAllText(@"c:\temp\\Metadata.xml", xml2);
+            size = br.ReadInt32();
+
+            pck = br.ReadBytes((int)size);
+            File.WriteAllBytes(@"c:\temp\\MetadataPackage.zip", pck);
+            size = br.ReadInt32();
+
+            pck = br.ReadBytes((int)size);
+            File.WriteAllBytes(@"c:\temp\\PackageBindings.bin", pck);
+#if(!Core)            
+            var protectedData=ProtectedData.Unprotect(pck, UTF8Encoding.UTF8.GetBytes("DataExplorer Package Components"), DataProtectionScope.CurrentUser);
+#endif
         }
     }
 }
