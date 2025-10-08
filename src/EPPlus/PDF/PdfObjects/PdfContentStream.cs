@@ -84,9 +84,8 @@ namespace OfficeOpenXml.PDF.PdfObjects
             {
                 commands.Add($"{cell.Clipping.X.ToPdfString()} {cell.Clipping.Y.ToPdfString()} {cell.Clipping.Width.ToPdfString()} {cell.Clipping.Height.ToPdfString()} re W n");
             }
-            commands.Add("BT");
-            commands.Add($"/{font.Label} {cell.FontData.FontSize.ToPdfString()} Tf");
-            commands.Add(cell.FontData.FontColor.ToFillCommand());
+            double size = cell.FontData.FontSize;
+            double scale = cell.FontData.FontSize / font.fontData.HeadTable.UnitsPerEm;
             double rot = cell.CellAlignmentData.TextRotation * System.Math.PI / 180.0;
             PDF.Math.Matrix3x3 m1 = new PDF.Math.Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), cell.LocalPosition.X, cell.LocalPosition.Y);
             if (cell.FontData.Bold)
@@ -94,17 +93,60 @@ namespace OfficeOpenXml.PDF.PdfObjects
                 commands.Add("0.25 w");
                 commands.Add("2 Tr");
             }
-            else if (cell.FontData.Italic)
+            if (cell.FontData.Italic)
             {
                 var i = font.fontData.postTable.italicAngle;
-                if (i < 0) i = 12d;
+                if (i <= 0) i = 12d * System.Math.PI / 180.0d;
                 PDF.Math.Matrix3x3 m2 = PDF.Math.Matrix3x3.Identity;
                 m2.C = System.Math.Tan(i);
                 m1 = m2 * m1;
             }
+            if (cell.FontData.SuperScript)
+            {
+                var supOffX = font.fontData.Os2Table.ySuperscriptXOffset * scale;
+                var supOffY = font.fontData.Os2Table.ySuperscriptYOffset * scale;
+                var supSizeX = font.fontData.Os2Table.ySuperscriptXSize * scale;
+                var supSizeY = font.fontData.Os2Table.ySuperscriptYSize * scale;
+                m1 = new PDF.Math.Matrix3x3(m1.A, m1.B, m1.C, m1.D, m1.E + supOffX, m1.F + supOffY);
+                size = supSizeY;
+            }
+            if (cell.FontData.SubScript)
+            {
+                var supOffX = font.fontData.Os2Table.ySubscriptXOffset * scale;
+                var supOffY = font.fontData.Os2Table.ySubscriptYOffset * scale;
+                var supSizeX = font.fontData.Os2Table.ySubscriptXSize * scale;
+                var supSizeY = font.fontData.Os2Table.ySubscriptYSize * scale;
+                m1 = new PDF.Math.Matrix3x3(m1.A, m1.B, m1.C, m1.D, m1.E + supOffX, m1.F + supOffY);
+                size = supSizeY;
+            }
+            commands.Add("BT");
+            commands.Add($"/{font.Label} {size.ToPdfString()} Tf");
+            commands.Add(cell.FontData.FontColor.ToFillCommand());
             commands.Add($"{m1.A.ToPdfString()} {m1.B.ToPdfString()} {m1.C.ToPdfString()} {m1.D.ToPdfString()} {m1.E.ToPdfString()} {m1.F.ToPdfString()} Tm");
             commands.Add($"({FixEscapeCharacters(cell.FontData.Text)}) Tj");
             commands.Add("ET");
+            if (cell.FontData.Underline)
+            {
+                var underlinePos = font.fontData.postTable.underlinePosition * scale;
+                var underlineWidth = font.fontData.postTable.underlineThickness * scale;
+                var start = m1.Transform(new Math.Vector2(0, underlinePos));
+                var end = m1.Transform(new Math.Vector2(cell.textLength, underlinePos));
+                commands.Add($"{underlineWidth.ToPdfString()} w");
+                commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
+                commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
+                commands.Add($"S");
+            }
+            if (cell.FontData.Strike)
+            {
+                var strikePos = font.fontData.Os2Table.yStrikeoutPosition * scale;
+                var strikeWidth = font.fontData.Os2Table.yStrikeoutSize * scale;
+                var start = m1.Transform(new Math.Vector2(0, strikePos));
+                var end = m1.Transform(new Math.Vector2(cell.textLength, strikePos));
+                commands.Add($"{strikeWidth.ToPdfString()} w");
+                commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
+                commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
+                commands.Add($"S");
+            }
             commands.Add("Q");
         }
 

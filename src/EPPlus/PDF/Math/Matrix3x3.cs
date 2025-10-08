@@ -17,7 +17,7 @@ namespace OfficeOpenXml.PDF.Math
         public double H = 0d;
         public double I = 0d;
 
-        public static Matrix3x3 Identity => new Matrix3x3(1,0,0, 0,1,0, 0,0,1);
+        public static Matrix3x3 Identity => new Matrix3x3(1,0,0, 1,0,0, 0,0,1);
 
         /// <summary>
         /// Creates matrix
@@ -80,6 +80,14 @@ namespace OfficeOpenXml.PDF.Math
             double cos = System.Math.Cos(radians);
             double sin = System.Math.Sin(radians);
             return new Matrix3x3(cos, sin, -sin, cos, 0, 0);
+        }
+
+        public Vector2 Transform(Vector2 p)
+        {
+            return new Vector2(
+                A * p.X + B * p.Y + E,
+                C * p.X + D * p.Y + F
+            );
         }
 
         public static Matrix3x3 operator* (Matrix3x3 M1, Matrix3x3 M2)

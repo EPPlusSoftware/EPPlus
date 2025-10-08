@@ -15,7 +15,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
         public PdfCellAlignmentData CellAlignmentData;
         public bool Clip;
         public PdfRect Clipping;
-
+        public double textLength = 0d;
         private double bottomMargin = 3.4d; //Guessed number
         private double rightMargin = 1.0d; //I guessed this one too..
 
@@ -31,6 +31,8 @@ namespace OfficeOpenXml.PDF.PdfLayout
             FontData.Strike = cell.Style.Font.Strike;
             FontData.Underline = cell.Style.Font.UnderLine;
             FontData.UnderlineType = cell.Style.Font.UnderLineType;
+            FontData.SuperScript = cell.Style.Font.VerticalAlign == Style.ExcelVerticalAlignmentFont.Superscript;
+            FontData.SubScript = cell.Style.Font.VerticalAlign == Style.ExcelVerticalAlignmentFont.Subscript;
             FontData.FontColor = new PdfColor(cell.Style.Font.Color.LookupColor());
             FontData.SubFamily = "Regular";
             if (FontData.Bold)
@@ -55,7 +57,7 @@ namespace OfficeOpenXml.PDF.PdfLayout
             CellAlignmentData.TextRotation = cell.Style.TextRotation; //EPPlus does probably not calculate cell width and height after setting rotation on text. So before we make pdf we need to calculate cell width and height based on text rotation
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
             var ttfont = GetFontResourceData(dictionaries.Fonts, pageSettings);
-            double textLength = PdfTextData.MeasureText(FontData.Text, FontData.FontSize, ttfont);
+            textLength = PdfTextData.MeasureText(FontData.Text, FontData.FontSize, ttfont);
             double fontHeight = PdfTextData.MeasureFontHeight(ttfont, FontData.FontSize);
             LocalPosition = CalculatePosition(cell, x, y, width, height, textLength, fontHeight);
             Size = new Vector2((x + width) - LocalPosition.X, (y + height) - LocalPosition.Y);

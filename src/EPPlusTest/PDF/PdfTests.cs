@@ -1,11 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.Packaging.Ionic.Zlib;
 using OfficeOpenXml.PDF;
 using OfficeOpenXml.PDF.PdfSettings;
 using OfficeOpenXml.PDF.PdfSettings.PdfPageSizes;
@@ -31,9 +29,12 @@ namespace EPPlusTest.PDF
          * Gradients: 45 degree gradients should go from one corner to the other instead of actually being a 45 degrees.
          * 
          * Text: Rich Text Implementation
-         * Text: Bold
-         * Text: Italic
+         * Text: Bold (Can now do back up bold if bold font not found)
+         * Text: Italic (Can now do back up italic if italic font not found)
          * Text: Underline
+         * Text: Strikethrough
+         * Text: Superscript
+         * Text: Subscript
          * Text: Wrap text
          * Text: Equations
          * Text: Shrink To Fit
@@ -49,6 +50,7 @@ namespace EPPlusTest.PDF
          * Layout: Selected worksheets to pdf
          * Layout: Cell range to pdf
          * Layout: Remove empty last page
+         * Layout: Calculate width and height of cells more correctly
          * 
          * Borders: Adjust and make border look better
          * 
@@ -86,7 +88,6 @@ namespace EPPlusTest.PDF
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
             pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest31.pdf");
         }
-
 
         static byte[] HexStringToBytes(string hex)
         {
