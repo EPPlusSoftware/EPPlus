@@ -18,6 +18,8 @@ namespace EPPlusTest.PDF
          * 
          * Cells: Cutting Text in general. Check cells at text length
          * Cells: Display errors option
+         * Cells: Icons
+         * Cells: Pictures in cells
          * 
          * HeaderFooter: Header Footer implementation
          * 
@@ -31,10 +33,10 @@ namespace EPPlusTest.PDF
          * Text: Rich Text Implementation
          * Text: Bold (Can now do back up bold if bold font not found)
          * Text: Italic (Can now do back up italic if italic font not found)
-         * Text: Underline
-         * Text: Strikethrough
-         * Text: Superscript
-         * Text: Subscript
+         * Text: Underline (Basic underline done, need double and single and double accounting)
+         * Text: Strikethrough (Done, small adjustments to line to match excel perhaps)
+         * Text: Superscript (Done, might need adjustments such as moving it towrds top of cell more)
+         * Text: Subscript (Done, might need adjustments. Excel adjusts cell height and moves subscript lower inside the cell)
          * Text: Wrap text
          * Text: Equations
          * Text: Shrink To Fit
