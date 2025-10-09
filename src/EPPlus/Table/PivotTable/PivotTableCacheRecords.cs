@@ -153,7 +153,7 @@ namespace EPPlusTest.Table.PivotTable
 							f._fieldRecordIndex[ix].Add(ciIx);
 						}
 						else
-						{
+						{   
 							f._fieldRecordIndex.Add(ix, new List<int> { ciIx });
 						}
 					}
