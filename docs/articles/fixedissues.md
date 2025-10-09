@@ -1,4 +1,13 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.2.1
+### Minor Features
+* Added new method `SetAutoTitle` to `ExcelChartTitleStandard` to map chart titles on pivot charts to the pivot tables data fields.
+* Possibility to provide the IConfiguration of the hosting application to the ExcelPackage constructor and/or the ExcelPackage.Configure method rather than EPPlus trying to read the config files directly for license information.
+### Fixed Issues
+* The pivot tables `conditionalFormatting` element was not removed if all conditional formatting’s were cleared, causing a corrupt workbook.
+* The function NETWORKDAYS.INTL rounded incorrectly if the date contained a time part.
+* Added cancellation tokens handing in the zip extract in the `ExcelPackage.LoadAsync` method. EPPlus will now throw an `OperationCanceledException` if the operation is cancelled.
+
 ## Version 8.2.0
 ### Features
 Added support for 8 new LAMBDA-based functions in workbook calculations. See [Using LAMBDA functions](https://github.com/EPPlusSoftware/EPPlus/wiki/Using-LAMBDA-functions):
