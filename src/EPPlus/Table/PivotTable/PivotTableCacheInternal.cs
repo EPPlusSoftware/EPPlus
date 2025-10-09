@@ -265,7 +265,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 else
                 {
                     var ws = r.Worksheet;
-                    var name = ws.GetValue(r._fromRow, col)?.ToString().Trim();
+                    var name = ws.GetValue(r._fromRow, col)?.ToString();
                     ExcelPivotTableCacheField field;
                     if (_fields==null || ix >= _fields?.Count || _fields[ix].Name != name)
                     {
@@ -469,23 +469,41 @@ namespace OfficeOpenXml.Table.PivotTable
                     pt.DeleteNode("d:dataFields");
                 }
 
+                var rmFields=new List<ExcelPivotTableField>();
                 //Update column field index
                 foreach (var cf in pt.ColumnFields)
                 {
                     UpdateRowColPathFieldXml(oldIndex, pt, cf, "d:colFields/d:field[@x={0}]", "x");
+                    if (!pt.Fields.Any(x => x.Name.Equals(cf.Name, StringComparison.CurrentCultureIgnoreCase)))
+                    {
+                        rmFields.Add(cf);
+                    }
                 }
+                rmFields.ForEach(f=>pt.ColumnFields.Remove(f));
+                rmFields.Clear();
 
                 //Update row field index
                 foreach (var rf in pt.RowFields)
                 {
                     UpdateRowColPathFieldXml(oldIndex, pt, rf, "d:rowFields/d:field[@x={0}]", "x");
+                    if (!pt.Fields.Any(x=>x.Name.Equals(rf.Name, StringComparison.CurrentCultureIgnoreCase)))
+                    {
+                        rmFields.Add(rf);
+                    }
                 }
+                rmFields.ForEach(f => pt.RowFields.Remove(f));
+                rmFields.Clear();
 
                 //Update page field index
                 foreach (var pf in pt.PageFields)
                 {
                     UpdateRowColPathFieldXml(oldIndex, pt, pf, "d:pageFields/d:pageField[@fld={0}]", "fld");
+                    if (!pt.Fields.Any(x => x.Name.Equals(pf.Name, StringComparison.CurrentCultureIgnoreCase)))
+                    {
+                        rmFields.Add(pf);
+                    }
                 }
+                rmFields.ForEach(f => pt.PageFields.Remove(f));
 
                 //Update styles
                 var newIndex = movedFields.Where(x => x >= 0).ToDictionary(x => x, x => movedFields.IndexOf(x));

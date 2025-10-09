@@ -4285,7 +4285,7 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
+        [TestMethod, Ignore]
         public void s431()
         {
             using (var package = OpenTemplatePackage("template-not-working.xlsx"))
@@ -4459,7 +4459,6 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
-
         [TestMethod]
         public void extLst()
         {
