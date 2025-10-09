@@ -172,6 +172,19 @@ namespace OfficeOpenXml.Style
 
             }
         }
+        ExcelColor _gradientColor3 = null;
+        internal ExcelColor Color3
+        {
+            get
+            {
+                if (_gradientColor3 == null)
+                {
+                    _gradientColor3 = new ExcelColor(_styles, _ChangedEvent, _positionID, _address, eStyleClass.FillGradientColor3, this);
+                }
+                return _gradientColor3;
+
+            }
+        }
         internal override string Id
         {
             get { return Degree.ToString() + Type + Color1.Id + Color2.Id + Top.ToString() + Bottom.ToString() + Left.ToString() + Right.ToString(); }

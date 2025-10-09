@@ -164,6 +164,9 @@ namespace OfficeOpenXml.Table
                 case eStyleClass.FillGradientColor2:
                     SetStyleColor(range.Style.Fill.Gradient.Color2, styleProperty, value);
                     break;
+                case eStyleClass.FillGradientColor3:
+                    SetStyleColor(range.Style.Fill.Gradient.Color3, styleProperty, value);
+                    break;
                 case eStyleClass.BorderTop:
                     SetStyleBorder(range.Style.Border.Top, styleProperty, value);
                     break;
