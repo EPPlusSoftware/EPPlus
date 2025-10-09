@@ -2404,7 +2404,6 @@ namespace OfficeOpenXml
         /// </summary>
         public void Dispose()
         {
-            //_worksheet = null;            
         }
 
         #endregion

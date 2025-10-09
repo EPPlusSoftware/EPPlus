@@ -4284,7 +4284,7 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
+        [TestMethod, Ignore]
         public void s431()
         {
             using (var package = OpenTemplatePackage("template-not-working.xlsx"))
@@ -4293,10 +4293,15 @@ namespace EPPlusTest
                     .Select(p => p as ExcelPicture).ToList();
 
                 var pic = pics.First(p => p.Name == "Image_ExistingInventoryImg");
-                var image = File.ReadAllBytes("c:\\temp\\img1.png");
-                pic.Image.SetImage(image, ePictureType.Png);
-                image = File.ReadAllBytes("c:\\temp\\img2.png");
-                pics[1].Image.SetImage(image, ePictureType.Png);
+                var img1 = "c:\\temp\\img1.png";
+                if (File.Exists(img1))
+                {
+                    var image = File.ReadAllBytes("c:\\temp\\img1.png");
+                    pic.Image.SetImage(image, ePictureType.Png);
+
+                    image = File.ReadAllBytes("c:\\temp\\img2.png");
+                    pics[1].Image.SetImage(image, ePictureType.Png);
+                }
 
                 SaveAndCleanup(package);
             }
