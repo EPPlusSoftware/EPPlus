@@ -197,6 +197,8 @@ namespace OfficeOpenXml.Style
                     return ((ExcelGradientFillXml)(_styles.Fills[Index])).GradientColor1;
                 case eStyleClass.FillGradientColor2:
                     return ((ExcelGradientFillXml)(_styles.Fills[Index])).GradientColor2;
+                case eStyleClass.FillGradientColor3:
+                    return ((ExcelGradientFillXml)(_styles.Fills[Index])).GradientColor3;
                 default:
                     throw(new Exception("Invalid style-class for Color"));
             }
@@ -209,16 +211,17 @@ namespace OfficeOpenXml.Style
         /// Return the RGB hex string for the Indexed or Tint property
         /// </summary>
         /// <returns>The RGB color starting with a #FF (alpha)</returns>
-        public string LookupColor()
+        public string LookupColor(StyleBase objectType = null)
         {
-            return LookupColor(this);
+            return LookupColor(this , objectType);
         }
         /// <summary>
         /// Return the RGB value as a string for the color object that uses the Indexed or Tint property
         /// </summary>
         /// <param name="theColor">The color object</param>
+        /// <param name="objectType">The object type. Some objects has different default colors</param>
         /// <returns>The RGB color starting with a #FF (alpha)</returns>
-        public string LookupColor(ExcelColor theColor)
+        public string LookupColor(ExcelColor theColor, StyleBase objectType = null)
         {
             if (theColor.Indexed >= 0 && theColor.Indexed < _styles.IndexedColors.Length)
             {
@@ -230,19 +233,23 @@ namespace OfficeOpenXml.Style
             {
                 return "#" + theColor.Rgb;
             }
-            else if(theColor.Theme.HasValue)
+            else if (theColor.Theme.HasValue)
             {
                 return GetThemeColor(theColor.Theme.Value, Convert.ToDouble(theColor.Tint));
             }
             else if (theColor.Auto)
             {
+                if (objectType is Border)
+                {
+                    return "#FF000000";
+                }
                 return GetThemeColor(eThemeSchemeColor.Background1, Convert.ToDouble(theColor.Tint));
             }
             else
             {
                 var s = theColor.GetSource();
                 if (!s.Exists) return string.Empty;
-                var c = ((int)(Math.Round((theColor.Tint+1) * 128))).ToString("X");
+                var c = ((int)(Math.Round((theColor.Tint + 1) * 128))).ToString("X");
                 return "#FF" + c + c + c;
             }
         }

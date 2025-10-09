@@ -35,7 +35,8 @@ namespace OfficeOpenXml.Style.XmlAccess
             Type = GetXmlNodeString(_typePath)=="path" ? ExcelFillGradientType.Path : ExcelFillGradientType.Linear;
             GradientColor1 = new ExcelColorXml(nsm, topNode.SelectSingleNode(_gradientColor1Path, nsm));
             GradientColor2 = new ExcelColorXml(nsm, topNode.SelectSingleNode(_gradientColor2Path, nsm));
-            
+            GradientColor3 = new ExcelColorXml(nsm, topNode.SelectSingleNode(_gradientColor3Path, nsm));
+
             Top = GetXmlNodeDouble(_topPath);
             Bottom = GetXmlNodeDouble(_bottomPath);
             Left = GetXmlNodeDouble(_leftPath);
@@ -73,6 +74,15 @@ namespace OfficeOpenXml.Style.XmlAccess
         /// Gradient color 2
         /// </summary>
         public ExcelColorXml GradientColor2
+        {
+            get;
+            private set;
+        }
+        const string _gradientColor3Path = "d:gradientFill/d:stop[@position=\"0.5\"]/d:color";
+        /// <summary>
+        /// Gradient color 2
+        /// </summary>
+        public ExcelColorXml GradientColor3
         {
             get;
             private set;
