@@ -10,28 +10,20 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
-namespace OfficeOpenXml.Connection
+using System;
+
+namespace OfficeOpenXml.Data.Connection
 {
-    /// <summary>
-    /// A reference to an HTML table in a web query connection.
-    /// </summary>
-    public class ExcelHtmlTableReference
+    public class ExcelConnectionOlapProperties
     {
-        /// <summary>
-        /// The index in order of the tables in the HTML document
-        /// </summary>
-        public int Index 
-        { 
-            get; 
-            set; 
+        public bool Local { get; set; } = false;
+        public string LocalConnection { get; set; }
+        public bool LocalRefresh { get; set; } = true;
+        public bool SendLocale { get; set; } = false;
+        public int? RowDrillCount { get; set; }
+        public bool ServerFill { get; set; } = true;
+        public bool ServerNumberFormat { get; set; } = true;
+        public bool ServerFont { get; set; } = true;
+        public bool ServerFontColor { get; set; } = true;
         }
-        /// <summary>
-        /// The name of the table, if specified in the HTML source using the "o:WebQueryTableName" attribute.   
-        /// </summary>
-        public string Name 
-        { 
-            get; 
-            set;
-        }
-    }
 }

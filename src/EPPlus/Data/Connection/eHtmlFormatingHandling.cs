@@ -10,31 +10,15 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
-using System.Collections.Generic;
-
-namespace OfficeOpenXml.Connection
+namespace OfficeOpenXml.Data.Connection
 {
-    public enum eCommandType
+    /// <summary>
+    /// How to handle formatting from the HTML source when bringing web query data into the worksheet.
+    /// </summary>
+    public enum eHtmlFormatingHandling
     {
-        /// <summary>
-        /// The command specifies a cube name.
-        /// </summary>
-        Cube = 1,
-        /// <summary>
-        /// The command is a SQL statment.
-        /// </summary>
-        SqlStatement = 2, 
-        /// <summary>
-        /// The command is a table.
-        /// </summary>
-        Table = 3,
-        /// <summary>
-        /// The command is left to the provider to interpret.
-        /// </summary>
-        ProviderInterpreted = 4,
-        /// <summary>
-        ///  Query is against a web based List Data Provider.
-        /// </summary>
-        WebBasedListDataProvider = 5
+        None = 1,
+        RTF = 2,
+        All = 3 
     }
 }

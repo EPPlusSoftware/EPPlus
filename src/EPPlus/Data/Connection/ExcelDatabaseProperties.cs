@@ -10,20 +10,28 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
-using System;
-
-namespace OfficeOpenXml.Connection
+namespace OfficeOpenXml.Data.Connection
 {
-    public class ExcelConnectionOlapProperties
+    /// <summary>
+    /// Database specific properties.
+    /// </summary>
+    public class ExcelDatabaseProperties
     {
-        public bool Local { get; set; } = false;
-        public string LocalConnection { get; set; }
-        public bool LocalRefresh { get; set; } = true;
-        public bool SendLocale { get; set; } = false;
-        public int? RowDrillCount { get; set; }
-        public bool ServerFill { get; set; } = true;
-        public bool ServerNumberFormat { get; set; } = true;
-        public bool ServerFont { get; set; } = true;
-        public bool ServerFontColor { get; set; } = true;
-        }
+        /// <summary>
+        /// A connection string used to initiate the connection.
+        /// </summary>
+        public string Connection { get; set; }
+        /// <summary>
+        /// The command to use. For example a table or a SQL statment.
+        /// </summary>
+        public string Command { get; set; }
+        /// <summary>
+        /// The type of command
+        /// </summary>
+        public eCommandType CommandType { get; set; }
+        /// <summary>
+        /// A second command text string that is persisted when PivotTable server-based page fields are in use.
+        /// </summary>
+        public string ServerCommand { get; set; }
+    }
 }

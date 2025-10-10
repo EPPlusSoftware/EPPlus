@@ -383,6 +383,10 @@ namespace OfficeOpenXml.Packaging
         {
             return Parts.FirstOrDefault(x => x.Value.ContentType==contentType).Value;
         }
+        internal IEnumerable<ZipPackagePart> GetByContentType(string contentType)
+        {
+            return Parts.Where(x => x.Value.ContentType == contentType).Select(x=>x.Value);
+        }
 
         internal string GetUriKey(string uri)
         {

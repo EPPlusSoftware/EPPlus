@@ -44,7 +44,8 @@ using OfficeOpenXml.Utils.XML;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Utils.EnumUtils;
-using OfficeOpenXml.CustomXml;
+using OfficeOpenXml.Data.CustomXml;
+using OfficeOpenXml.Data.Connection;
 
 namespace OfficeOpenXml
 {
@@ -1347,7 +1348,7 @@ namespace OfficeOpenXml
         }
         #endregion
         ExcelCustomXmlCollection _customXml = null;
-        internal ExcelCustomXmlCollection CustomXml
+        internal ExcelCustomXmlCollection CustomXmlDocuments
         {
             get
             {
@@ -1356,6 +1357,21 @@ namespace OfficeOpenXml
                     _customXml = new ExcelCustomXmlCollection(_package);
                 }
                 return _customXml;
+            }
+        }
+        ExcelConnectionCollection _connections=null;
+        /// <summary>
+        /// A collection of connections in the workbook.
+        /// </summary>
+        public ExcelConnectionCollection Connections
+        {
+            get
+            {
+                if(_connections == null)
+                {
+                    _connections = new ExcelConnectionCollection(_package);
+                }
+                return _connections;
             }
         }
         #region Workbook Private Methods
@@ -1419,6 +1435,10 @@ namespace OfficeOpenXml
             if (_properties != null)
             {
                 _properties.Save();
+            }
+            if(_customXml!=null)
+            {
+                _customXml.Save();
             }
 
             //Save the Theme

@@ -10,17 +10,31 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
-namespace OfficeOpenXml
+using System.Collections.Generic;
+
+namespace OfficeOpenXml.Data.Connection
 {
-    public enum eDataSourceType
+    public enum eCommandType
     {
-        ODBC = 1,
-        DAO = 2,
-        ApplicationDefined = 3,
-        WebQuery = 4,
-        OLEDB = 5,
-        Text = 6,
-        ADO=7,
-        DSP=8
+        /// <summary>
+        /// The command specifies a cube name.
+        /// </summary>
+        Cube = 1,
+        /// <summary>
+        /// The command is a SQL statment.
+        /// </summary>
+        SqlStatement = 2, 
+        /// <summary>
+        /// The command is a table.
+        /// </summary>
+        Table = 3,
+        /// <summary>
+        /// The command is left to the provider to interpret.
+        /// </summary>
+        ProviderInterpreted = 4,
+        /// <summary>
+        ///  Query is against a web based List Data Provider.
+        /// </summary>
+        WebBasedListDataProvider = 5
     }
 }

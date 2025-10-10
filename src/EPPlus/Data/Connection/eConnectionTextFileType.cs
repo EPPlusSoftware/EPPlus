@@ -10,28 +10,24 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
-namespace OfficeOpenXml.Connection
+namespace OfficeOpenXml.Data.Connection
 {
     /// <summary>
-    /// Database specific properties.
+    /// A file type for text data sources.
     /// </summary>
-    public class ExcelDatabaseProperties
+    public enum eConnectionTextFileType
     {
         /// <summary>
-        /// A connection string used to initiate the connection.
+        /// Windows
         /// </summary>
-        public string Connection { get; set; }
+        Win,
         /// <summary>
-        /// The command to use. For example a table or a SQL statment.
+        /// Mac
         /// </summary>
-        public string Command { get; set; }
+        Mac,
         /// <summary>
-        /// The type of command
+        /// Unix
         /// </summary>
-        public eCommandType CommandType { get; set; }
-        /// <summary>
-        /// A second command text string that is persisted when PivotTable server-based page fields are in use.
-        /// </summary>
-        public string ServerCommand { get; set; }
+        Unix
     }
 }

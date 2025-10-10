@@ -17,8 +17,11 @@ using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using static System.Net.WebRequestMethods;
 
-namespace OfficeOpenXml.Connection
+namespace OfficeOpenXml.Data.Connection
 {
+    /// <summary>
+    /// Connection properties for web queries.
+    /// </summary>
     public class ExcelWebProperties
     {
         /// <summary>
@@ -68,6 +71,9 @@ namespace OfficeOpenXml.Connection
         /// How to handle formatting from the HTML source when bringing web query data into the worksheet.Relevant when <see cref="IsXmlSourceData"/>is True
         /// </summary>
         public eHtmlFormatingHandling HtmlFormat { get; set; }
+        /// <summary>
+        /// A list of all tables in the HTML document that can be imported using the web query.
+        /// </summary>
         public List<ExcelHtmlTableReference> Tables { get; } = new List<ExcelHtmlTableReference>();
     }
 }

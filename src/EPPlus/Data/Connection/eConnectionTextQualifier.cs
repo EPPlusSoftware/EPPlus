@@ -10,15 +10,24 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
-namespace OfficeOpenXml
+namespace OfficeOpenXml.Data.Connection
 {
     /// <summary>
-    /// How to handle formatting from the HTML source when bringing web query data into the worksheet.
+    /// A text qualifier used for text data sources.
     /// </summary>
-    public enum eHtmlFormatingHandling
+    public enum eConnectionTextQualifier
     {
-        None = 1,
-        RTF = 2,
-        All = 3 
+        /// <summary>
+        /// A double quote (") is used as the text qualifier.
+        /// </summary>
+        DoubleQuote,
+        /// <summary>
+        /// A single quote (') is used as the text qualifier.
+        /// </summary>
+        SingleQuote,
+        /// <summary>
+        /// No text qualifier is used.
+        /// </summary>
+        None
     }
 }

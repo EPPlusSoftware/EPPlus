@@ -2637,7 +2637,7 @@ namespace EPPlusTest
             var visibleRows = row - hiddenRows;
             var visibleColumns = col - hiddenCols;
 
-            if(visibleColumns != 1 && visibleRows != 1)
+            if (visibleColumns != 1 && visibleRows != 1)
             {
                 Assert.AreEqual(ws.Cells[1 + hiddenRows, 1 + hiddenCols].Address, ws.View.TopLeftCell);
                 Assert.AreEqual(col - firstVisibleColumn.Value, ws.View.PaneSettings.XSplit);
@@ -6241,7 +6241,7 @@ namespace EPPlusTest
         public void i2078()
         {
             using var p = new ExcelPackage();
-            var ws =p.Workbook.Worksheets.Add("Sheet 1");
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
             //ws.HeaderFooter.OddHeader.LeftAlignedText = "&12&A";
             ws.HeaderFooter.OddHeader.LeftAligned.Add(new()
             {
@@ -6278,39 +6278,24 @@ namespace EPPlusTest
             Assert.AreEqual(sheet.Cells["C1"].Formula, "_xlfn.XLOOKUP(B1,Tier_lookup4[Country],Tier_lookup4[AIR - Origin Currency])");
         }
         [TestMethod]
-        public void Connections()
+        public void ReadCustomXml1()
         {
             using var p = OpenTemplatePackage("qt_csv.xlsx");
-            var b=p.Workbook.CustomXml.ReadPQ();
-
-            File.WriteAllBytes(@"c:\temp\\pq.bin", b);
-            //var cd = new CompoundDocument(b);
-            var ms = new MemoryStream(b);
-            var br = new BinaryReader(ms);
-            var version = br.ReadInt32();
-            var size = br.ReadInt32();
-            var pck = br.ReadBytes((int)size);
-            File.WriteAllBytes(@"c:\temp\\PowerQueryPackage.zip", pck);
-
-            size = br.ReadInt32();
-            var xml1 = Encoding.UTF8.GetString(br.ReadBytes((int)size));
-            File.WriteAllText(@"c:\temp\\Permissions.xml", xml1);
-            size = br.ReadInt32();
-            version = br.ReadInt32();
-            size = br.ReadInt32();
-            var xml2 = Encoding.UTF8.GetString(br.ReadBytes((int)size));
-            File.WriteAllText(@"c:\temp\\Metadata.xml", xml2);
-            size = br.ReadInt32();
-
-            pck = br.ReadBytes((int)size);
-            File.WriteAllBytes(@"c:\temp\\MetadataPackage.zip", pck);
-            size = br.ReadInt32();
-
-            pck = br.ReadBytes((int)size);
-            File.WriteAllBytes(@"c:\temp\\PackageBindings.bin", pck);
-#if(!Core)            
-            var protectedData=ProtectedData.Unprotect(pck, UTF8Encoding.UTF8.GetBytes("DataExplorer Package Components"), DataProtectionScope.CurrentUser);
-#endif
+            foreach (var cx in p.Workbook.CustomXmlDocuments)
+            {
+                Assert.AreEqual(1, cx.SchemasReferences.Count);
+            }
+            Assert.IsNotEmpty(p.Workbook.Connections.PowerQuerySettings.PowerQueryFormulas);
+        }
+        [TestMethod]
+        public void ReadCustomXml2()
+        {
+            using var p = OpenTemplatePackage("TestTemplate3.xlsx");
+            Assert.AreEqual(3, p.Workbook.CustomXmlDocuments.Count);
+            Assert.AreEqual(13, p.Workbook.CustomXmlDocuments[0].SchemasReferences.Count);
+            Assert.AreEqual(1, p.Workbook.CustomXmlDocuments[1].SchemasReferences.Count);
+            Assert.AreEqual(12, p.Workbook.CustomXmlDocuments[2].SchemasReferences.Count);
+            SaveAndCleanup(p);
         }
     }
 }

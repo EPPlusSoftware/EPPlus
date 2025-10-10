@@ -71,5 +71,7 @@ namespace OfficeOpenXml.Constants
 
         //Feature property bag (in-cell checkboxes)
         internal const string contentTypeFeaturePropertyBag = "application/vnd.ms-excel.featurepropertybag+xml";
+
+        internal const string contentTypeCustomXmlProperties = "application/vnd.openxmlformats-officedocument.customXmlProperties+xml";
     }
 }

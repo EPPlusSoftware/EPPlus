@@ -10,8 +10,11 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
-namespace OfficeOpenXml.Connection
+namespace OfficeOpenXml.Data.Connection
 {
+    /// <summary>
+    /// Represents a connection to an external data source in a workbook.
+    /// </summary>
     public class ExcelConnection
     {
         public int Id { get; set; } 
@@ -34,12 +37,12 @@ namespace OfficeOpenXml.Connection
         public bool SavePassword { get; set; }
         public string SingleSignOnId { get; set; }
         public string SourceDatabaseFile { get; set; }
-        public eDataSourceType Type { get; }
+        public eConnectionDataSourceType Type { get; }
         public ExcelDatabaseProperties DatabaseProperties { get; }
         public ExcelConnectionOlapProperties OlapProperties { get; }
         public ExcelWebProperties WebProperties { get; }
-        //public ExcelTextProperties TextProperties { get; }
-        //public ExcelConnectionParameters Parameters { get; }
+        public ExcelTextProperties TextProperties { get; }
+        public ExcelConnectionParameters Parameters { get; }
 
     }
 }
