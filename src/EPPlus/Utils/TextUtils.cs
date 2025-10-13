@@ -1,7 +1,7 @@
 ﻿using OfficeOpenXml.Drawing;
 using System;
 
-namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.Utils
+namespace OfficeOpenXml.Utils
 {
     internal static class TextUtils
     {
@@ -25,10 +25,10 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.Utils
 
         internal static double EmuToPoint(this double emuNumber)
         {
-           return emuNumber / ExcelDrawing.EMU_PER_POINT;
+            return emuNumber / ExcelDrawing.EMU_PER_POINT;
         }
 
-        
+
         internal static double EmuToPixels(this double? emuNumber) => emuNumber.HasValue ? emuNumber.Value.EmuToPixels() : 0D;
 
         internal static double EmuToPixels(this double emuNumber)

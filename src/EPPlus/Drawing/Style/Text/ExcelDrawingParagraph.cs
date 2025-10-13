@@ -11,7 +11,6 @@
     9/11/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
 using OfficeOpenXml.Core;
-using OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;

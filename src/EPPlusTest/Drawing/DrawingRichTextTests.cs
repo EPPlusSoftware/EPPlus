@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.Core.Worksheet.Fonts.TrueTypeFontMetrics.TrueTypeFontReader;
 using OfficeOpenXml.Drawing;
 using System.Collections.Generic;
 using System.Drawing;
@@ -261,33 +260,6 @@ namespace EPPlusTest.Drawing
                         return "Editable Embedding";
                     default:
                         return $"UNKNOWN VALUE: '{fsId}' POTENTIALLY CORRUPT FONT";
-                }
-            }
-
-            [TestMethod]
-            public void TestAllFonts()
-            {
-                using (var p = OpenPackage("TestAllFonts.xlsx", true))
-                {
-                    var ws = p.Workbook.Worksheets.Add("allFonts");
-                    ws.Cells[1, 1].Value = "Font Name";
-                    ws.Cells[1, 2].Value = "Font Type ID";
-                    ws.Cells[1, 3].Value = "Font Type String (given by ID)";
-
-                    var isEqualCF = ws.Cells["B1:B500"].ConditionalFormatting.AddEqual();
-                    isEqualCF.Formula = "2";
-                    isEqualCF.Style.Fill.BackgroundColor.SetColor(Color.Red);
-
-                    List<string> additionalLocations = new List<string>();
-                    var allFontsList = GenericFonts.GetAllFontData(additionalLocations);
-
-                    for (int i = 0; i < allFontsList.Count; i++)
-                    {
-                        var j = i + 2;
-                        ws.Cells[j, 1].Value = allFontsList[i].FullName;
-                        ws.Cells[j, 2].Value = allFontsList[i].Os2Table.fsType;
-                        ws.Cells[j, 3].Value = GetFsString(allFontsList[i].Os2Table.fsType);
-                    }
                 }
             }
         }
