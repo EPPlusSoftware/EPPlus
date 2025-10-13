@@ -22,26 +22,30 @@ using System.Xml;
 
 namespace OfficeOpenXml.Data.Connection
 {
+    /// <summary>
+    /// A collection of external connections in a workbook.
+    /// </summary>
     public class ExcelConnectionCollection : IEnumerable<ExcelConnection>
     {
         ExcelPackage _package;
-
-
         List<ExcelConnection> _list = new List<ExcelConnection>();
         internal  ExcelConnectionCollection(ExcelPackage package)
         {
             _package = package;
-            Part = _package.ZipPackage.GetByContentType(ContentTypes.contentTypeConnections);
+            Part = _package.ZipPackage.GetByContentType(ContentTypes.contentTypeConnections).FirstOrDefault();
             ConnectionXml = new XmlDocument();
-            var nsm = _package.Workbook.NameSpaceManager;
-            foreach (XmlNode node in ConnectionXml.DocumentElement.SelectNodes("d:connection", nsm)) 
+            if (Part!=null)
             {
-                _list.Add(new ExcelConnection(new ConnectionDataPartXmlHandler(nsm, node)));
+                XmlHelper.LoadXmlSafe(ConnectionXml, Part.GetStream());
+                var nsm = _package.Workbook.NameSpaceManager;
+                foreach (XmlNode node in ConnectionXml.DocumentElement.SelectNodes("d:connection", nsm))
+                {
+                    _list.Add(new ExcelConnection(new ConnectionDataPartXmlHandler(nsm, node)));
+                }
             }
         }
-        internal IEnumerable<ZipPackagePart> Part { get; private set; }
-        public XmlDocument ConnectionXml { get; private set; }
-
+        internal ZipPackagePart Part { get; private set; }
+        internal XmlDocument ConnectionXml { get; private set; }
         List<ExcelConnection> _connection = new List<ExcelConnection>();
         public IEnumerator<ExcelConnection> GetEnumerator()
         {
@@ -53,6 +57,9 @@ namespace OfficeOpenXml.Data.Connection
             return _connection.GetEnumerator();
         }
         ExcelPowerQuerySettings _powerQuerySettings = null;
+        /// <summary>
+        /// Settings for Power Query connections/queries.
+        /// </summary>
         public ExcelPowerQuerySettings PowerQuerySettings
         {
             get

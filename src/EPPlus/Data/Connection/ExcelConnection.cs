@@ -50,10 +50,10 @@ namespace OfficeOpenXml.Data.Connection
     /// <summary>
     /// Represents a connection to an external data source in a workbook.
     /// </summary>
-    public class ExcelConnection : IDocumentPart
+    public class ExcelConnection : IDocumentPartSave
     {
-        DocumentPartIO<ExcelConnection> _dp;
-        public ExcelConnection(DocumentPartIO<ExcelConnection> dp) : base()
+        IDocumentPart<ExcelConnection> _dp;
+        internal ExcelConnection(IDocumentPart<ExcelConnection> dp) : base()
         {
             _dp = dp;
             _dp.Read(this);

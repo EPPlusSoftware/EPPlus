@@ -15,7 +15,7 @@ using System.Xml;
 
 namespace OfficeOpenXml.Data.Connection
 {
-    internal class ConnectionDataPartXmlHandler : DocumentPartIO<ExcelConnection>
+    internal class ConnectionDataPartXmlHandler : IDocumentPart<ExcelConnection>
     {
         private XmlHelper _xml;
 
@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Data.Connection
         {
             _xml = XmlHelperFactory.Create(nsm, topNode);
         }
-        internal override void Read(ExcelConnection item)
+        void IDocumentPart<ExcelConnection>.Read(ExcelConnection item)
         {
             item.Id = _xml.GetXmlNodeInt("@id");
             item.Name = _xml.GetXmlNodeString("@name");
@@ -205,7 +205,7 @@ namespace OfficeOpenXml.Data.Connection
         public ExcelTextProperties TextProperties { get; }
         public ExcelConnectionParameters Parameters { get; }
 
-        internal override void Save(ExcelConnection item)
+        void IDocumentPart<ExcelConnection>.Save(ExcelConnection item)
         {
             throw new System.NotImplementedException();
         }

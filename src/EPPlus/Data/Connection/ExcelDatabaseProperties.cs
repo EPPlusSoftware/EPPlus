@@ -15,7 +15,7 @@ namespace OfficeOpenXml.Data.Connection
     /// <summary>
     /// Database specific properties.
     /// </summary>
-    public class ExcelDatabaseProperties : IDocumentPart
+    public class ExcelDatabaseProperties : IDocumentPartSave
     {
         /// <summary>
         /// A connection string used to initiate the connection.
