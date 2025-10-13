@@ -115,30 +115,20 @@ namespace OfficeOpenXml
         }
 
 
+
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="ExcelAddressBase"/> class
+        /// by combining multiple addresses into a single, comma-separated address string.
         /// </summary>
-        /// <param name="addresses"></param>
-        /// <param name="workbook"></param>
-        /// <param name="wsName"></param>
+        /// <param name="addresses">
+        /// A list of <see cref="ExcelAddressBase"/> instances to be combined. 
+        /// Each address in the list will be concatenated into a single address string, 
+        /// separated by commas.
+        /// </param>
+
         public ExcelAddressBase(List<ExcelAddressBase> addresses)
         {
-            //if(addresses == null || !addresses.Any())
-            //{
-            //    return;
-            //}
-            //var fa = addresses.First();
-            //_ws = fa.WorkSheetName;
-            //_fromRow = fa._fromRow;
-            //_fromRowFixed = fa._fromRowFixed;
-            //_fromCol = fa._fromCol;
-            //_fromColFixed = fa._fromColFixed;
-            //_toRow = fa._toRow;
-            //_toRowFixed = fa._toRowFixed;
-            //_toCol = fa._toCol;
-            //_toColFixed = fa._toColFixed;
-            //_address = fa._address;
-            //_addresses = addresses;
+            if (addresses == null || !addresses.Any()) return;
 
             var sb = new StringBuilder();
             foreach (var adr in addresses)
