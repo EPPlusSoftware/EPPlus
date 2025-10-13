@@ -73,5 +73,6 @@ namespace OfficeOpenXml.Constants
         internal const string contentTypeFeaturePropertyBag = "application/vnd.ms-excel.featurepropertybag+xml";
 
         internal const string contentTypeCustomXmlProperties = "application/vnd.openxmlformats-officedocument.customXmlProperties+xml";
+        internal const string contentTypeConnections = "application/vnd.openxmlformats-officedocument.spreadsheetml.connections+xml";
     }
 }

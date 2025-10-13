@@ -12,20 +12,36 @@
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Packaging;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Xml;
 
 namespace OfficeOpenXml.Data.Connection
 {
     public class ExcelConnectionCollection : IEnumerable<ExcelConnection>
     {
         ExcelPackage _package;
-        public ExcelConnectionCollection(ExcelPackage package)
+
+
+        List<ExcelConnection> _list = new List<ExcelConnection>();
+        internal  ExcelConnectionCollection(ExcelPackage package)
         {
             _package = package;
+            Part = _package.ZipPackage.GetByContentType(ContentTypes.contentTypeConnections);
+            ConnectionXml = new XmlDocument();
+            var nsm = _package.Workbook.NameSpaceManager;
+            foreach (XmlNode node in ConnectionXml.DocumentElement.SelectNodes("d:connection", nsm)) 
+            {
+                _list.Add(new ExcelConnection(new ConnectionDataPartXmlHandler(nsm, node)));
+            }
         }
+        internal IEnumerable<ZipPackagePart> Part { get; private set; }
+        public XmlDocument ConnectionXml { get; private set; }
+
         List<ExcelConnection> _connection = new List<ExcelConnection>();
         public IEnumerator<ExcelConnection> GetEnumerator()
         {
@@ -37,7 +53,7 @@ namespace OfficeOpenXml.Data.Connection
             return _connection.GetEnumerator();
         }
         ExcelPowerQuerySettings _powerQuerySettings = null;
-        public ExcelPowerQuerySettings PowerQuerySettings 
+        public ExcelPowerQuerySettings PowerQuerySettings
         {
             get
             {

@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Data.Connection;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
@@ -275,6 +276,33 @@ namespace OfficeOpenXml.Drawing
                     return "noStrike";
             }
         }
+        internal static eExternalConnectionType TranslateExternalConnectionType(this string value)
+        {
+            switch (value)
+            {
+                case "text":
+                    return eExternalConnectionType.Text;
+                case "MDY":
+                    return eExternalConnectionType.MonthDayYear;
+                case "DMY":
+                    return eExternalConnectionType.DayMonthYear;
+                case "YMD":
+                    return eExternalConnectionType.YearMonthDay;
+                case "MYD":
+                    return eExternalConnectionType.MonthYearDay;
+                case "DYM":
+                    return eExternalConnectionType.DayYearMonth;
+                case "YDM":
+                    return eExternalConnectionType.YearDayMonth;
+                case "skip":
+                    return eExternalConnectionType.SkipField;
+                case "EMD":
+                    return eExternalConnectionType.EastAsianYearMonthDay;
+                default:
+                    return eExternalConnectionType.General;
+            }
+        }
+
         internal static eErrorValueType TranslateErrorValueType(this string text)
         {
             switch (text)

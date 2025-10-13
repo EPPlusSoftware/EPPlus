@@ -14,6 +14,8 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.Xml;
+using System.Security.Policy;
 using System.Xml.Linq;
 using static System.Net.WebRequestMethods;
 
@@ -24,6 +26,10 @@ namespace OfficeOpenXml.Data.Connection
     /// </summary>
     public class ExcelWebProperties
     {
+        /// <summary>
+        /// True if the web query source is XML (versus HTML), otherwise false.
+        /// </summary>
+        public bool IsXml { get; set; }
         /// <summary>
         /// If XML source data should be imported instead of the HTML table itself. 
         /// Used when a web query exists to an HTML table with the following attribute.
@@ -62,6 +68,11 @@ namespace OfficeOpenXml.Data.Connection
         /// Returns or sets the string used with the post method of inputting data into a web server to return data from a web query.
         /// </summary>
         public string Post { get; set; }
+        /// <summary>
+        /// The URL of the user-facing web page showing the web query data. 
+        /// This URL is persisted in the case that <see cref="IsXmlSourceData"/> = "true" and url has been redirected to reference an XML file.
+        /// Then the user-facing page can be shown in the UI, and the XML data can be retrieved behind the scenes.
+        /// </summary>
         public string EditPage { get; set; }
         /// <summary>
         /// If web queries should only work on HTML tables.

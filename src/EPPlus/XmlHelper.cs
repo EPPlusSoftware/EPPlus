@@ -1204,11 +1204,11 @@ namespace OfficeOpenXml
 			}
 		}
 
-		internal string GetXmlNodeString(XmlNode node, string path)
+		internal string GetXmlNodeString(XmlNode node, string path, string defaultValue="")
         {
             if (node == null)
             {
-                return "";
+                return defaultValue;
             }
 
             XmlNode nameNode = node.SelectSingleNode(path, NameSpaceManager);
@@ -1226,12 +1226,12 @@ namespace OfficeOpenXml
             }
             else
             {
-                return "";
+                return defaultValue;
             }
         }
-        internal string GetXmlNodeString(string path)
+        internal string GetXmlNodeString(string path, string defaultValue = "")
         {
-            return GetXmlNodeString(TopNode, path);
+            return GetXmlNodeString(TopNode, path, defaultValue);
         }
         internal static Uri GetNewUri(Packaging.ZipPackage package, string sUri)
         {

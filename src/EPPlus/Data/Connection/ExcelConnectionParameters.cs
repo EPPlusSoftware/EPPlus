@@ -10,71 +10,90 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
+using System.Collections;
+using System.Collections.Generic;
+
 namespace OfficeOpenXml.Data.Connection
 {
     /// <summary>
-    /// Represents a parameter for an Excel connection.
+    /// A collection of connection parameters.
     /// </summary>
-    public class ExcelConnectionParameters
+    public class ExcelConnectionParameters : IEnumerable<ExcelConnectionParameter>
     {
-        /// <summary>
-        /// The name of the parameter.
-        /// </summary>
-        public string Name { get; set; }
+        List<ExcelConnectionParameter> _list = new List<ExcelConnectionParameter>();
 
         /// <summary>
-        /// The SQL type of the parameter. Defaults to 0.
+        /// Indexer for the collection
         /// </summary>
-        public int SqlType { get; set; } = 0;
-
+        /// <param name="index">The index of the parameter to get.</param>
+        /// <returns>The parameter.</returns>
+        public ExcelConnectionParameter this[int index]
+        {
+            get
+            {
+                return _list[index];
+            }
+        }
         /// <summary>
-        /// The type of the parameter. Defaults to Prompt.
+        /// The enumerator
         /// </summary>
-        public eConnectionParameterType ParameterType { get; set; } = eConnectionParameterType.Prompt;
+        /// <returns></returns>
+        public IEnumerator<ExcelConnectionParameter> GetEnumerator()
+        {
+            return _list.GetEnumerator();
+        }
 
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+        internal void Add(ExcelConnectionParameter parameter)
+        {
+            _list.Add(parameter);
+        }   
         /// <summary>
-        /// Indicates whether to refresh on change. Defaults to false.
+        /// Adds a new blank parameter to the collection and returns it.
         /// </summary>
-        public bool RefreshOnChange { get; set; } = false;
-
+        /// <returns></returns>
+        public ExcelConnectionParameter Add()
+        {
+            var para= new ExcelConnectionParameter();
+            _list.Add(para);
+            return para;
+        }
         /// <summary>
-        /// Prompt text for the parameter.
+        /// Remove the parameter at the index supplied
         /// </summary>
-        public string Prompt { get; set; }
-
+        /// <param name="index">The index of the parameter to remove.</param>
+        public void RemoveAt(int index)
+        {
+            _list.RemoveAt(index);
+        }
         /// <summary>
-        /// Boolean value for the parameter.
+        /// Removes the parameter from the collection.
         /// </summary>
-        public bool? Boolean { get; set; }
-
-        /// <summary>
-        /// Double value for the parameter.
-        /// </summary>
-        public double? Double { get; set; }
-
-        /// <summary>
-        /// Integer value for the parameter.
-        /// </summary>
-        public int? Integer { get; set; }
-
-        /// <summary>
-        /// String value for the parameter.
-        /// </summary>
-        public string String { get; set; }
-
-        /// <summary>
-        /// Cell reference for the parameter.
-        /// </summary>
-        public string Cell { get; set; }
+        /// <param name="parameter"></param>
+        public void Remove(ExcelConnectionParameter parameter)
+        {
+            _list.Remove(parameter);
+        }
     }
-
     /// <summary>
-    /// Example enum for parameter types. Replace or extend as needed.
+    /// Connection parameter types.
     /// </summary>
     public enum eConnectionParameterType
     {
+        /// <summary>
+        /// Prompt the user on each refresh for a parameter value
+        /// </summary>
         Prompt,
+        /// <summary>
+        /// Use a constant value on each refresh for the parameter value.
+        /// </summary>
         Value,
+        /// <summary>
+        /// Get the parameter value from a cell on each refresh
+        /// </summary>
         Cell
     }
 }

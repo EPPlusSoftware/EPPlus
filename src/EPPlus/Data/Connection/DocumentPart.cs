@@ -12,31 +12,13 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Data.Connection
 {
-    /// <summary>
-    /// Database specific properties.
-    /// </summary>
-    public class ExcelDatabaseProperties : IDocumentPart
+    public interface IDocumentPart
     {
-        /// <summary>
-        /// A connection string used to initiate the connection.
-        /// </summary>
-        public string Connection { get; set; }
-        /// <summary>
-        /// The command to use. For example a table or a SQL statment.
-        /// </summary>
-        public string Command { get; set; }
-        /// <summary>
-        /// The type of command
-        /// </summary>
-        public eCommandType CommandType { get; set; }
-        /// <summary>
-        /// A second command text string that is persisted when PivotTable server-based page fields are in use.
-        /// </summary>
-        public string ServerCommand { get; set; }
-
-        public void Save()
-        {
-            throw new System.NotImplementedException();
-        }
+        void Save();
+    }
+    public abstract class DocumentPartIO<T>
+    {
+        internal abstract void Read(T item);
+        internal abstract void Save(T item);
     }
 }

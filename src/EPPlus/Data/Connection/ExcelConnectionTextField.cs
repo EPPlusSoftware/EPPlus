@@ -16,7 +16,7 @@ namespace OfficeOpenXml.Data.Connection
 {
     public class ExcelConnectionTextField
     {
-        public eConnectionDataSourceType Type { get; set; }
+        public eExternalConnectionType Type { get; set; }
         public int Position { get; set; }
     }
 }
