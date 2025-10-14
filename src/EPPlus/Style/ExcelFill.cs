@@ -102,6 +102,14 @@ namespace OfficeOpenXml.Style
                 return _gradient;
             }
         }
+        internal bool HasGradient
+        {
+            get
+            {
+                return _gradient != null;
+            }
+        }
+
         internal override string Id
         {
             get
@@ -155,4 +163,3 @@ namespace OfficeOpenXml.Style
         }
     }
 }
-    
