@@ -12,13 +12,27 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Data.Connection
 {
-    public interface IDocumentPartSave
+    public abstract class DocumentPart<T> where T : DocumentPart<T>
     {
-        void Save();
+        internal IDocumentPart<T> _dp;
+        internal DocumentPart(IDocumentPart<T> dp)
+        {
+            _dp = dp;
+            _dp.Load((T)this);
+        }
+        internal virtual void Save() 
+        {
+            _dp.Save((T)this);
+        }
+        internal virtual void Remove()
+        {
+            _dp.Remove();
+        }
     }
     internal interface IDocumentPart<T>
     {
-        abstract void Read(T item);
-        abstract void Save(T item);
+        void Load(T item);
+        void Remove();
+        void Save(T item);
     }
 }

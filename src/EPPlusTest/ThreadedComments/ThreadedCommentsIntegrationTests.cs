@@ -106,7 +106,7 @@ namespace EPPlusTest.ThreadedComments
         //        sheet1.Cells["A1"].AddComment("testing", "Mats");
         //        sheet2.Cells["B1"].AddComment("testing testing", "Mats igen");
 
-        //        package.Save();
+        //        package.Remove();
         //    }
         //}
     }

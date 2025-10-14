@@ -1206,7 +1206,7 @@ namespace EPPlusTest.Table.PivotTable
                 pivotTable.ColumnFields.Add(pivotTable.Fields[1]);
                 pivotTable.DataFields.Add(pivotTable.Fields[2]);
 
-                // 👇 Equivalent to "Save source data with file" in PivotTable Options
+                // 👇 Equivalent to "Remove source data with file" in PivotTable Options
                 pivotTable.CacheDefinition.SaveData = false;
 
                 p.SaveAs(ms);

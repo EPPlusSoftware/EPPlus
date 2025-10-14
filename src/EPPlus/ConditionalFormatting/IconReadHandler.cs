@@ -23,7 +23,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         //This way we can determine type after reading the initial data.
         internal static ExcelConditionalFormattingRule ReadIcons(ExcelAddress address, XmlReader xr, ExcelWorksheet ws)
         {
-            //Read base rules
+            //Load base rules
             var priority = int.Parse(xr.GetAttribute("priority"));
             var stopIfTrue = xr.GetAttribute("stopIfTrue") == "1";
 

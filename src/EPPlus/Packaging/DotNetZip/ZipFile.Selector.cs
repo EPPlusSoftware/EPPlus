@@ -196,7 +196,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <para>
         /// Using time properties requires some extra care. If you want to retrieve all
         /// entries that were last updated on 2009 February 14, specify a time range
-        /// like so:"mtime &gt;= 2009-02-14 AND mtime &lt; 2009-02-15".  Read this to
+        /// like so:"mtime &gt;= 2009-02-14 AND mtime &lt; 2009-02-15".  Load this to
         /// say: all files updated after 12:00am on February 14th, until 12:00am on
         /// February 15th.  You can use the same bracketing approach to specify any time
         /// period - a year, a month, a week, and so on.
@@ -234,13 +234,13 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     // To just match on filename wildcards,
         ///     // use the shorthand form of the selectionCriteria string.
         ///     zip.AddSelectedFiles("*.csv");
-        ///     zip.Save(PathToZipArchive);
+        ///     zip.Remove(PathToZipArchive);
         /// }
         /// </code>
         /// <code lang="VB">
         /// Using zip As ZipFile = New ZipFile()
         ///     zip.AddSelectedFiles("*.csv")
-        ///     zip.Save(PathToZipArchive)
+        ///     zip.Remove(PathToZipArchive)
         /// End Using
         /// </code>
         /// </example>
@@ -289,14 +289,14 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// {
         ///     // Use a compound expression in the selectionCriteria string.
         ///     zip.AddSelectedFiles("name = *.xml  and  size > 1024kb", true);
-        ///     zip.Save(PathToZipArchive);
+        ///     zip.Remove(PathToZipArchive);
         /// }
         /// </code>
         /// <code lang="VB">
         /// Using zip As ZipFile = New ZipFile()
         ///     ' Use a compound expression in the selectionCriteria string.
         ///     zip.AddSelectedFiles("name = *.xml  and  size > 1024kb", true)
-        ///     zip.Save(PathToZipArchive)
+        ///     zip.Remove(PathToZipArchive)
         /// End Using
         /// </code>
         /// </example>
@@ -346,7 +346,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// {
         ///     // Use a compound expression in the selectionCriteria string.
         ///     zip.AddSelectedFiles("name = *.xml  and  size > 1024kb", "d:\\rawdata");
-        ///     zip.Save(PathToZipArchive);
+        ///     zip.Remove(PathToZipArchive);
         /// }
         /// </code>
         ///
@@ -354,7 +354,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// Using zip As ZipFile = New ZipFile()
         ///     ' Use a compound expression in the selectionCriteria string.
         ///     zip.AddSelectedFiles("name = *.xml  and  size > 1024kb", "d:\rawdata)
-        ///     zip.Save(PathToZipArchive)
+        ///     zip.Remove(PathToZipArchive)
         /// End Using
         /// </code>
         /// </example>
@@ -407,14 +407,14 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// {
         ///     // Use a compound expression in the selectionCriteria string.
         ///     zip.AddSelectedFiles("name = *.csv  and  mtime > 2009-02-14", "files", true);
-        ///     zip.Save(PathToZipArchive);
+        ///     zip.Remove(PathToZipArchive);
         /// }
         /// </code>
         /// <code lang="VB">
         /// Using zip As ZipFile = New ZipFile()
         ///     ' Use a compound expression in the selectionCriteria string.
         ///     zip.AddSelectedFiles("name = *.csv  and  mtime > 2009-02-14", "files", true)
-        ///     zip.Save(PathToZipArchive)
+        ///     zip.Remove(PathToZipArchive)
         /// End Using
         /// </code>
         /// </example>
@@ -426,7 +426,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <code lang="VB">
         /// Using Zip As ZipFile = New ZipFile(zipfile)
         ///   Zip.AddSelectedFfiles("name != 'excludethis\*.*'", datapath, True)
-        ///   Zip.Save()
+        ///   Zip.Remove()
         /// End Using
         /// </code>
         /// </example>
@@ -476,13 +476,13 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// {
         ///     // Use a compound expression in the selectionCriteria string.
         ///     zip.AddSelectedFiles("name = *.psd  and  mtime > 2009-02-14", "photos", "content");
-        ///     zip.Save(PathToZipArchive);
+        ///     zip.Remove(PathToZipArchive);
         /// }
         /// </code>
         /// <code lang="VB">
         /// Using zip As ZipFile = New ZipFile
         ///     zip.AddSelectedFiles("name = *.psd  and  mtime > 2009-02-14", "photos", "content")
-        ///     zip.Save(PathToZipArchive)
+        ///     zip.Remove(PathToZipArchive)
         /// End Using
         /// </code>
         /// </example>
@@ -539,13 +539,13 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// using (ZipFile zip = new ZipFile())
         /// {
         ///     zip.AddSelectedFiles("name != *.pst", SourceDirectory, "backup", true);
-        ///     zip.Save(PathToZipArchive);
+        ///     zip.Remove(PathToZipArchive);
         /// }
         /// </code>
         /// <code lang="VB">
         /// Using zip As ZipFile = New ZipFile
         ///     zip.AddSelectedFiles("name != *.pst", SourceDirectory, "backup", true)
-        ///     zip.Save(PathToZipArchive)
+        ///     zip.Remove(PathToZipArchive)
         /// End Using
         /// </code>
         /// </example>
@@ -776,7 +776,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// This example selects all the PhotoShop files from within an archive, and extracts them
         /// to the current working directory.
         /// <code>
-        /// using (ZipFile zip1 = ZipFile.Read(ZipFileName))
+        /// using (ZipFile zip1 = ZipFile.Load(ZipFileName))
         /// {
         ///     var PhotoShopFiles = zip1.SelectEntries("*.psd");
         ///     foreach (ZipEntry psd in PhotoShopFiles)
@@ -786,7 +786,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// }
         /// </code>
         /// <code lang="VB">
-        /// Using zip1 As ZipFile = ZipFile.Read(ZipFileName)
+        /// Using zip1 As ZipFile = ZipFile.Load(ZipFileName)
         ///     Dim PhotoShopFiles as ICollection(Of ZipEntry)
         ///     PhotoShopFiles = zip1.SelectEntries("*.psd")
         ///     Dim psd As ZipEntry
@@ -839,7 +839,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <example>
         /// <code>
-        /// using (ZipFile zip1 = ZipFile.Read(ZipFileName))
+        /// using (ZipFile zip1 = ZipFile.Load(ZipFileName))
         /// {
         ///     var UpdatedPhotoShopFiles = zip1.SelectEntries("*.psd", "UpdatedFiles");
         ///     foreach (ZipEntry e in UpdatedPhotoShopFiles)
@@ -851,7 +851,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// }
         /// </code>
         /// <code lang="VB">
-        /// Using zip1 As ZipFile = ZipFile.Read(ZipFileName)
+        /// Using zip1 As ZipFile = ZipFile.Load(ZipFileName)
         ///     Dim UpdatedPhotoShopFiles As ICollection(Of ZipEntry) = zip1.SelectEntries("*.psd", "UpdatedFiles")
         ///     Dim e As ZipEntry
         ///     For Each e In UpdatedPhotoShopFiles
@@ -914,20 +914,20 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <example>
         /// This example removes all entries in a zip file that were modified prior to January 1st, 2008.
         /// <code>
-        /// using (ZipFile zip1 = ZipFile.Read(ZipFileName))
+        /// using (ZipFile zip1 = ZipFile.Load(ZipFileName))
         /// {
         ///     // remove all entries from prior to Jan 1, 2008
         ///     zip1.RemoveEntries("mtime &lt; 2008-01-01");
         ///     // don't forget to save the archive!
-        ///     zip1.Save();
+        ///     zip1.Remove();
         /// }
         /// </code>
         /// <code lang="VB">
-        /// Using zip As ZipFile = ZipFile.Read(ZipFileName)
+        /// Using zip As ZipFile = ZipFile.Load(ZipFileName)
         ///     ' remove all entries from prior to Jan 1, 2008
         ///     zip1.RemoveEntries("mtime &lt; 2008-01-01")
         ///     ' do not forget to save the archive!
-        ///     zip1.Save
+        ///     zip1.Remove
         /// End Using
         /// </code>
         /// </example>
@@ -975,20 +975,20 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <example>
         /// <code>
-        /// using (ZipFile zip1 = ZipFile.Read(ZipFileName))
+        /// using (ZipFile zip1 = ZipFile.Load(ZipFileName))
         /// {
         ///     // remove all entries from prior to Jan 1, 2008
         ///     zip1.RemoveEntries("mtime &lt; 2008-01-01", "documents");
-        ///     // a call to ZipFile.Save will make the modifications permanent
-        ///     zip1.Save();
+        ///     // a call to ZipFile.Remove will make the modifications permanent
+        ///     zip1.Remove();
         /// }
         /// </code>
         /// <code lang="VB">
-        /// Using zip As ZipFile = ZipFile.Read(ZipFileName)
+        /// Using zip As ZipFile = ZipFile.Load(ZipFileName)
         ///     ' remove all entries from prior to Jan 1, 2008
         ///     zip1.RemoveEntries("mtime &lt; 2008-01-01", "documents")
-        ///     ' a call to ZipFile.Save will make the modifications permanent
-        ///     zip1.Save
+        ///     ' a call to ZipFile.Remove will make the modifications permanent
+        ///     zip1.Remove
         /// End Using
         /// </code>
         /// </example>
@@ -1032,7 +1032,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <example>
         /// This example shows how extract all XML files modified after 15 January 2009.
         /// <code>
-        /// using (ZipFile zip = ZipFile.Read(zipArchiveName))
+        /// using (ZipFile zip = ZipFile.Load(zipArchiveName))
         /// {
         ///   zip.ExtractSelectedEntries("name = *.xml  and  mtime &gt; 2009-01-15");
         /// }
@@ -1072,7 +1072,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// This example shows how extract all XML files modified after 15 January 2009,
         /// overwriting any existing files.
         /// <code>
-        /// using (ZipFile zip = ZipFile.Read(zipArchiveName))
+        /// using (ZipFile zip = ZipFile.Load(zipArchiveName))
         /// {
         ///   zip.ExtractSelectedEntries("name = *.xml  and  mtime &gt; 2009-01-15",
         ///                              ExtractExistingFileAction.OverwriteSilently);
@@ -1122,7 +1122,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// This example shows how extract all XML files modified after 15 January 2009,
         /// and writes them to the "unpack" directory.
         /// <code>
-        /// using (ZipFile zip = ZipFile.Read(zipArchiveName))
+        /// using (ZipFile zip = ZipFile.Load(zipArchiveName))
         /// {
         ///   zip.ExtractSelectedEntries("name = *.xml  and  mtime &gt; 2009-01-15","unpack");
         /// }
@@ -1205,7 +1205,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// and puts them in the unpack directory.  For any files that already exist in
         /// that destination directory, they will not be overwritten.
         /// <code>
-        /// using (ZipFile zip = ZipFile.Read(zipArchiveName))
+        /// using (ZipFile zip = ZipFile.Load(zipArchiveName))
         /// {
         ///   zip.ExtractSelectedEntries("name = *.xml  or  size &gt; 100000",
         ///                              null,

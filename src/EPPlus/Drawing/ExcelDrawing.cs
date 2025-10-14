@@ -1265,7 +1265,7 @@ namespace OfficeOpenXml.Drawing
             }
 
             GetPositionSize();
-            //Save the positions
+            //Remove the positions
             var top = _top;
             var left = _left;
             var width = _width;

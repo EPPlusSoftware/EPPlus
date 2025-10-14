@@ -101,7 +101,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   The name of the item may be a relative path or a fully-qualified path.
         ///   The item added by this call to the <c>ZipFile</c> is not read from the
         ///   disk nor written to the zip file archive until the application calls
-        ///   Save() on the <c>ZipFile</c>.
+        ///   Remove() on the <c>ZipFile</c>.
         /// </para>
         ///
         /// <para>
@@ -171,7 +171,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///       // will add Files or Dirs, recurses and flattens subdirectories
         ///       zip.AddItem(itemnames[i],"flat");
         ///     }
-        ///     zip.Save(ZipToCreate);
+        ///     zip.Remove(ZipToCreate);
         ///   }
         /// }
         /// catch (System.Exception ex1)
@@ -193,7 +193,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///               ' will add Files or Dirs, recursing and flattening subdirectories.
         ///               zip.AddItem(itemnames(i), "flat")
         ///           Next i
-        ///           zip.Save(ZipToCreate)
+        ///           zip.Remove(ZipToCreate)
         ///       End Using
         ///   Catch ex1 As Exception
         ///       Console.Error.WriteLine("exception: {0}", ex1.ToString())
@@ -221,7 +221,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <para>
         ///   This call collects metadata for the named file in the filesystem,
         ///   including the file attributes and the timestamp, and inserts that metadata
-        ///   into the resulting ZipEntry.  Only when the application calls Save() on
+        ///   into the resulting ZipEntry.  Only when the application calls Remove() on
         ///   the <c>ZipFile</c>, does DotNetZip read the file from the filesystem and
         ///   then write the content to the zip file archive.
         /// </para>
@@ -258,7 +258,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///        zip.AddFile("c:\\Desktop\\2008-Regional-Sales-Report.pdf");
         ///        zip.AddFile("ReadMe.txt");
         ///
-        ///        zip.Save("Package.zip");
+        ///        zip.Remove("Package.zip");
         ///      }
         ///    }
         ///    catch (System.Exception ex1)
@@ -273,7 +273,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///           zip.AddFile("c:\photos\personal\7440-N49th.png")
         ///           zip.AddFile("c:\Desktop\2008-Regional-Sales-Report.pdf")
         ///           zip.AddFile("ReadMe.txt")
-        ///           zip.Save("Package.zip")
+        ///           zip.Remove("Package.zip")
         ///       End Using
         ///   Catch ex1 As Exception
         ///       Console.Error.WriteLine("exception: {0}", ex1.ToString)
@@ -309,7 +309,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <remarks>
         /// <para>
         ///   The file added by this call to the <c>ZipFile</c> is not written to the
-        ///   zip file archive until the application calls Save() on the <c>ZipFile</c>.
+        ///   zip file archive until the application calls Remove() on the <c>ZipFile</c>.
         /// </para>
         ///
         /// <para>
@@ -354,7 +354,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     // files\\docs\\2008-Regional-Sales-Report.pdf  in the archive.
         ///     zip.Password = "EncryptMe!";
         ///     zip.AddFile("c:\\Desktop\\2008-Regional-Sales-Report.pdf", "files\\docs");
-        ///     zip.Save("Archive.zip");
+        ///     zip.Remove("Archive.zip");
         ///   }
         /// }
         /// catch (System.Exception ex1)
@@ -374,7 +374,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///           ' files\\docs\\2008-Regional-Sales-Report.pdf  in the archive.
         ///           zip.Password = "EncryptMe!"
         ///           zip.AddFile("c:\Desktop\2008-Regional-Sales-Report.pdf", "files\documents")
-        ///           zip.Save("Archive.zip")
+        ///           zip.Remove("Archive.zip")
         ///       End Using
         ///   Catch ex1 As Exception
         ///       Console.Error.WriteLine("exception: {0}", ex1)
@@ -498,7 +498,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   // Store all files found in the top level directory, into the zip archive.
         ///   String[] filenames = System.IO.Directory.GetFiles(DirectoryToZip);
         ///   zip.AddFiles(filenames);
-        ///   zip.Save(ZipFileToCreate);
+        ///   zip.Remove(ZipFileToCreate);
         /// }
         /// </code>
         ///
@@ -509,7 +509,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     ' Store all files found in the top level directory, into the zip archive.
         ///     Dim filenames As String() = System.IO.Directory.GetFiles(DirectoryToZip)
         ///     zip.AddFiles(filenames)
-        ///     zip.Save(ZipFileToCreate)
+        ///     zip.Remove(ZipFileToCreate)
         /// End Using
         /// </code>
         /// </example>
@@ -791,14 +791,14 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   zip1.UpdateFile("MyDocuments\\Readme.txt");
         ///   zip1.UpdateFile("CustomerList.csv");
         ///   zip1.Comment = "This zip archive has been created.";
-        ///   zip1.Save("Content.zip");
+        ///   zip1.Remove("Content.zip");
         /// }
         ///
-        /// using (ZipFile zip2 = ZipFile.Read("Content.zip"))
+        /// using (ZipFile zip2 = ZipFile.Load("Content.zip"))
         /// {
         ///   zip2.UpdateFile("Updates\\Readme.txt");
         ///   zip2.Comment = "This zip archive has been updated: The Readme.txt file has been changed.";
-        ///   zip2.Save();
+        ///   zip2.Remove();
         /// }
         ///
         /// </code>
@@ -808,13 +808,13 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///       zip1.UpdateFile("MyDocuments\Readme.txt")
         ///       zip1.UpdateFile("CustomerList.csv")
         ///       zip1.Comment = "This zip archive has been created."
-        ///       zip1.Save("Content.zip")
+        ///       zip1.Remove("Content.zip")
         ///   End Using
         ///
-        ///   Using zip2 As ZipFile = ZipFile.Read("Content.zip")
+        ///   Using zip2 As ZipFile = ZipFile.Load("Content.zip")
         ///       zip2.UpdateFile("Updates\Readme.txt")
         ///       zip2.Comment = "This zip archive has been updated: The Readme.txt file has been changed."
-        ///       zip2.Save
+        ///       zip2.Remove
         ///   End Using
         /// </code>
         /// </example>
@@ -1119,7 +1119,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   zip1.AddFile("MyDocuments\\Resume.doc", "files");
         ///   zip1.AddEntry("Readme.txt", Content);
         ///   zip1.Comment = "This zip file was created at " + System.DateTime.Now.ToString("G");
-        ///   zip1.Save("Content.zip");
+        ///   zip1.Remove("Content.zip");
         /// }
         ///
         /// </code>
@@ -1130,7 +1130,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     zip1.AddEntry("Readme.txt", Content)
         ///     zip1.AddFile("MyDocuments\Resume.doc", "files")
         ///     zip1.Comment = ("This zip file was created at " &amp; DateTime.Now.ToString("G"))
-        ///     zip1.Save("Content.zip")
+        ///     zip1.Remove("Content.zip")
         ///   End Using
         /// End Sub
         /// </code>
@@ -1270,7 +1270,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   {
         ///     ZipEntry entry= zip.AddEntry(fileNameInArchive, streamToRead);
         ///     zip.AddFile("Readme.txt");
-        ///     zip.Save(zipToCreate);  // the stream is read implicitly here
+        ///     zip.Remove(zipToCreate);  // the stream is read implicitly here
         ///   }
         /// }
         /// </code>
@@ -1282,7 +1282,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   Using zip As ZipFile = New ZipFile()
         ///     Dim entry as ZipEntry = zip.AddEntry(fileNameInArchive, streamToRead)
         ///     zip.AddFile("Readme.txt")
-        ///     zip.Save(zipToCreate)  '' the stream is read implicitly, here
+        ///     zip.Remove(zipToCreate)  '' the stream is read implicitly, here
         ///   End Using
         /// End Using
         /// </code>
@@ -1419,7 +1419,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// using(Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile())
         /// {
         ///     zip.AddEntry(zipEntryName, (name,stream) => ds1.WriteXml(stream) );
-        ///     zip.Save(zipFileName);
+        ///     zip.Remove(zipFileName);
         /// }
         /// </code>
         /// </example>
@@ -1434,7 +1434,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// the application could use the <c>WriteDelegate</c> to do it, in this way.
         ///
         /// <code lang="C#">
-        /// using (var input = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite ))
+        /// using (var input = File.Open(filename, FileMode.Open, FileAccess.Load, FileShare.ReadWrite ))
         /// {
         ///     using(Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile())
         ///     {
@@ -1442,7 +1442,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///             {
         ///                 byte[] buffer = new byte[BufferSize];
         ///                 int n;
-        ///                 while ((n = input.Read(buffer, 0, buffer.Length)) != 0)
+        ///                 while ((n = input.Load(buffer, 0, buffer.Length)) != 0)
         ///                 {
         ///                     // could transform the data here...
         ///                     output.Write(buffer, 0, n);
@@ -1450,7 +1450,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///                 }
         ///             });
         ///
-        ///         zip.Save(zipFileName);
+        ///         zip.Remove(zipFileName);
         ///     }
         /// }
         /// </code>
@@ -1471,11 +1471,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <code lang="VB">
         /// Private Sub WriteEntry (ByVal name As String, ByVal output As Stream)
-        ///     Using input As FileStream = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
+        ///     Using input As FileStream = File.Open(filename, FileMode.Open, FileAccess.Load, FileShare.ReadWrite)
         ///         Dim n As Integer = -1
         ///         Dim buffer As Byte() = New Byte(BufferSize){}
         ///         Do While n &lt;&gt; 0
-        ///             n = input.Read(buffer, 0, buffer.Length)
+        ///             n = input.Load(buffer, 0, buffer.Length)
         ///             output.Write(buffer, 0, n)
         ///         Loop
         ///     End Using
@@ -1484,7 +1484,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// Public Sub Run()
         ///     Using zip = New ZipFile
         ///         zip.AddEntry(zipEntryName, New WriteDelegate(AddressOf WriteEntry))
-        ///         zip.Save(zipFileName)
+        ///         zip.Remove(zipFileName)
         ///     End Using
         /// End Sub
         /// </code>
@@ -1517,7 +1517,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <para>
         ///   These delegates are called from within the scope of the call to
-        ///   ZipFile.Save().
+        ///   ZipFile.Remove().
         /// </para>
         ///
         /// <para>
@@ -1540,11 +1540,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// using(Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile())
         /// {
         ///     zip.AddEntry(zipEntryName,
-        ///                  (name) =>  File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite ),
+        ///                  (name) =>  File.Open(filename, FileMode.Open, FileAccess.Load, FileShare.ReadWrite ),
         ///                  (name, stream) =>  stream.Close()
         ///                  );
         ///
-        ///     zip.Save(zipFileName);
+        ///     zip.Remove(zipFileName);
         /// }
         /// </code>
         ///
@@ -1581,7 +1581,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///         For i = 0 To numFilesToAdd - 1
         ///             zip.AddEntry(String.Format("content-{0:000}.txt"), opener, closer)
         ///         Next i
-        ///         zip.Save(zipFileToCreate)
+        ///         zip.Remove(zipFileToCreate)
         ///     End Using
         /// End Sub
         ///
@@ -1590,8 +1590,8 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <param name="entryName">the name of the entry to add</param>
         /// <param name="opener">
-        ///  the delegate that will be invoked by ZipFile.Save() to get the
-        ///  readable stream for the given entry. ZipFile.Save() will call
+        ///  the delegate that will be invoked by ZipFile.Remove() to get the
+        ///  readable stream for the given entry. ZipFile.Remove() will call
         ///  read on this stream to obtain the data for the entry. This data
         ///  will then be compressed and written to the newly created zip
         ///  file.
@@ -1792,7 +1792,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <para>
         ///   The stream must be open and readable during the call to
-        ///   <c>ZipFile.Save</c>.  You can dispense the stream on a just-in-time basis
+        ///   <c>ZipFile.Remove</c>.  You can dispense the stream on a just-in-time basis
         ///   using the <see cref="ZipEntry.InputStream"/> property. Check the
         ///   documentation of that property for more information.
         /// </para>
@@ -1994,7 +1994,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   using (var zip = new ZipFile())
         ///   {
         ///     zip.AddDirectory(directory, System.IO.Path.GetFileName(directory));
-        ///     zip.Save(targetZip);
+        ///     zip.Remove(targetZip);
         ///   }
         /// }
         /// </code>

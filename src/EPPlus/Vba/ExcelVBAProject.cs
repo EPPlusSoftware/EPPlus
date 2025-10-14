@@ -667,7 +667,7 @@ namespace OfficeOpenXml.VBA
                 
                 Document = doc;
                 st.Flush();
-                //Save the digital signture
+                //Remove the digital signture
                 Signature.Save(this);
             }
         }

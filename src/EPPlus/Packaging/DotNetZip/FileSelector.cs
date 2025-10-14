@@ -808,7 +808,7 @@ namespace OfficeOpenXml.Packaging.Ionic
         /// <para>
         ///   Using time properties requires some extra care. If you want to
         ///   retrieve all entries that were last updated on 2009 February 14,
-        ///   specify "mtime &gt;= 2009-02-14 AND mtime &lt; 2009-02-15".  Read this
+        ///   specify "mtime &gt;= 2009-02-14 AND mtime &lt; 2009-02-15".  Load this
         ///   to say: all files updated after 12:00am on February 14th, until
         ///   12:00am on February 15th.  You can use the same bracketing approach to
         ///   specify any time period - a year, a month, a week, and so on.

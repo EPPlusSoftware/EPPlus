@@ -1805,7 +1805,7 @@ namespace OfficeOpenXml
                         }
 
                         _sharedFormulas.Add(afIndex, f);
-                        //xr.Read();
+                        //xr.Load();
                     }
                     else // ??? some other type
                     {
@@ -2657,7 +2657,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Save all table data
+        /// Remove all table data
         /// </summary>
         private void SaveTables()
         {
@@ -3239,7 +3239,7 @@ namespace OfficeOpenXml
                     {
                         _dataValidations.ReadDataValidations(xr);
                     }
-                    xr.Read(); //Read over ext end tag
+                    xr.Read(); //Load over ext end tag
 
                     stream.SetWriteToBuffer();
                 }

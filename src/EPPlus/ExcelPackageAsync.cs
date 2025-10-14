@@ -187,7 +187,7 @@ namespace OfficeOpenXml
 
         /// <summary>
         /// Saves all the components back into the package.
-        /// This method recursively calls the Save method on all sub-components.
+        /// This method recursively calls the Remove method on all sub-components.
         /// The package is closed after it has ben saved
         /// d to encrypt the workbook with. 
         /// </summary>
@@ -323,7 +323,7 @@ namespace OfficeOpenXml
 
         /// <summary>
         /// Saves all the components back into the package.
-        /// This method recursively calls the Save method on all sub-components.
+        /// This method recursively calls the Remove method on all sub-components.
         /// The package is closed after it has ben saved
         /// Supply a password to encrypt the workbook package. 
         /// </summary>

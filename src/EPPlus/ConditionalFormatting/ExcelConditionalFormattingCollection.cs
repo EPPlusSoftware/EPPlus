@@ -105,7 +105,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         }
 
         /// <summary>
-        /// Read conditionalFormatting info from extLst in xml via xr reader
+        /// Load conditionalFormatting info from extLst in xml via xr reader
         /// </summary>
         internal void ReadExtConditionalFormattings(XmlReader xr)
         {
@@ -114,7 +114,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 //Localname should always be 'conditionalFormatting' if another node or 'conditionalFormattings' if finished
                 if (xr.LocalName != "conditionalFormatting")
                 {
-                    xr.Read(); //Read beyond the end element
+                    xr.Read(); //Load beyond the end element
                     break;
                 }
 

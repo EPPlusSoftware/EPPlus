@@ -142,7 +142,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             _oleObject = oleObject;
             _worksheet = drawings.Worksheet;
             IsExternalLink = string.IsNullOrEmpty(_oleObject.Link);
-            //Read vml
+            //Load vml
             _vml = drawings.Worksheet.VmlDrawings[LegacySpId];
             _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
             //read emf file uri

@@ -90,7 +90,7 @@ namespace OfficeOpenXml.DataValidation
                         return retVal;
                     }
                 }
-                //Read over AlternateContent end node.
+                //Load over AlternateContent end node.
                 //to DataValidation or dataValidations end node
                 xr.Read();
             }

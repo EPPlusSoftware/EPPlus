@@ -1,4 +1,4 @@
-// ZipEntry.Read.cs
+// ZipEntry.Load.cs
 // ------------------------------------------------------------------
 //
 // Copyright (c) 2009-2011 Dino Chiesa
@@ -361,7 +361,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
             if (first) HandlePK00Prefix(s);
 
-            // Read entry header, including any encryption header
+            // Load entry header, including any encryption header
             if (!ReadHeader(entry, defaultEncoding)) return null;
 
             // Store the position in the stream for this entry

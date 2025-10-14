@@ -13,26 +13,21 @@
 namespace OfficeOpenXml.Data.Connection
 {
     /// <summary>
-    /// Database specific properties.
+    /// Connection parameter types.
     /// </summary>
-    public class ExcelDatabaseProperties
+    public enum eConnectionParameterType
     {
         /// <summary>
-        /// A connection string used to initiate the connection.
+        /// Prompt the user on each refresh for a parameter value
         /// </summary>
-        public string Connection { get; set; }
+        Prompt,
         /// <summary>
-        /// The command to use. For example a table or a SQL statment.
+        /// Use a constant value on each refresh for the parameter value.
         /// </summary>
-        public string Command { get; set; }
+        Value,
         /// <summary>
-        /// The type of command
+        /// Get the parameter value from a cell on each refresh
         /// </summary>
-        public eCommandType CommandType { get; set; } = eCommandType.SqlStatement;
-        /// <summary>
-        /// A second command text string that is persisted when PivotTable server-based page fields are in use.
-        /// </summary>
-        public string ServerCommand { get; set; }
-
+        Cell
     }
 }

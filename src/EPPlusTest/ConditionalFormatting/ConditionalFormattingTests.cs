@@ -2122,7 +2122,7 @@ namespace EPPlusTest.ConditionalFormatting
                     SaveAndCleanup(readPackage);
                 }
 
-                //Read in again just in case
+                //Load in again just in case
                 using (var beltAndBraces = OpenPackage("CF_pivotFlag.xlsx", false))
                 {
                     var cfCollection = beltAndBraces.Workbook.Worksheets[0].ConditionalFormatting;

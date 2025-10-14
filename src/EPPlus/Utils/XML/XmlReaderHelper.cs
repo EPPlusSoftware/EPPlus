@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Utils.XML
             return xr.ReadUntil(XmlNodeType.Element, tagName);
         }
         /// <summary>
-        /// Read file until a tag in tagName is found or EOF.
+        /// Load file until a tag in tagName is found or EOF.
         /// This requires more careful consideration than when specifying depth.
         /// As it will exit on end nodes and continue directly to end of file if nothing is found.
         /// </summary>

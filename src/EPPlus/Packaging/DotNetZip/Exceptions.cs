@@ -211,7 +211,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
     /// <summary>
     /// Indicates that an operation was attempted on a ZipFile which was not possible
-    /// given the state of the instance. For example, if you call <c>Save()</c> on a ZipFile
+    /// given the state of the instance. For example, if you call <c>Remove()</c> on a ZipFile
     /// which has no filename set, you can get this exception.
     /// </summary>
     public class BadStateException : ZipException

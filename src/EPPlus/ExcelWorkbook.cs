@@ -344,7 +344,7 @@ namespace OfficeOpenXml
         internal Dictionary<Uri, int> _pivotTableIds = new Dictionary<Uri, int>();
 
         /// <summary>
-        /// Read shared strings to list
+        /// Load shared strings to list
         /// </summary>
         private void GetSharedStrings()
         {
@@ -1168,7 +1168,7 @@ namespace OfficeOpenXml
                         _stylesXml = new XmlDocument();
                         _stylesXml.LoadXml(xml.ToString());
 
-                        //Save it to the package
+                        //Remove it to the package
                         StreamWriter stream = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
 
                         _stylesXml.Save(stream);
@@ -1381,7 +1381,7 @@ namespace OfficeOpenXml
         /// Saves the workbook and all its components to the package.
         /// For internal use only!
         /// </summary>
-        internal void Save()  // Workbook Save
+        internal void Save()  // Workbook Remove
         {
             if (Worksheets.Count == 0)
                 throw new InvalidOperationException("The workbook must contain at least one worksheet");
@@ -1436,14 +1436,18 @@ namespace OfficeOpenXml
             {
                 _properties.Save();
             }
+            
             if(_customXml!=null)
             {
                 _customXml.Save();
             }
 
-            //Save the Theme
+            if(_connections!=null)
+            {
+                Connections.Save();
+            }
+            //Remove the Theme
             ThemeManager.Save();
-
             // save the style sheet
             Styles.UpdateXml();
             _package.SavePart(StylesUri, this.StylesXml);
@@ -1471,7 +1475,7 @@ namespace OfficeOpenXml
                 SaveExternalLinks();
             }
 
-            //Save workbook xml
+            //Remove workbook xml
             if (_workbookXml != null)
             {
                 _package.SavePart(WorkbookUri, _workbookXml);
@@ -1739,7 +1743,7 @@ namespace OfficeOpenXml
             cache.Append("</sst>");
             sw.Write(cache.ToString());
             sw.Flush();
-            // Issue 15252: Save SharedStrings only once
+            // Issue 15252: Remove SharedStrings only once
             //Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, SharedStringsUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/sharedStrings");
         }
 

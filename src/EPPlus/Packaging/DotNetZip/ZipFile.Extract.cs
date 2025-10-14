@@ -123,7 +123,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <code>
         /// String TargetDirectory= "unpack";
-        /// using(ZipFile zip= ZipFile.Read(ZipFileToExtract))
+        /// using(ZipFile zip= ZipFile.Load(ZipFileToExtract))
         /// {
         ///     zip.ExtractExistingFile= ExtractExistingFileAction.OverwriteSilently;
         ///     zip.ExtractAll(TargetDirectory);
@@ -132,7 +132,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <code lang="VB">
         /// Dim TargetDirectory As String = "unpack"
-        /// Using zip As ZipFile = ZipFile.Read(ZipFileToExtract)
+        /// Using zip As ZipFile = ZipFile.Load(ZipFileToExtract)
         ///     zip.ExtractExistingFile= ExtractExistingFileAction.OverwriteSilently
         ///     zip.ExtractAll(TargetDirectory)
         /// End Using
@@ -193,7 +193,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// specified target directory.  It does not overwrite any existing files.
         /// <code>
         /// String TargetDirectory= "c:\\unpack";
-        /// using(ZipFile zip= ZipFile.Read(ZipFileToExtract))
+        /// using(ZipFile zip= ZipFile.Load(ZipFileToExtract))
         /// {
         ///   zip.ExtractAll(TargetDirectory, ExtractExistingFileAction.DontOverwrite);
         /// }
@@ -201,7 +201,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <code lang="VB">
         /// Dim TargetDirectory As String = "c:\unpack"
-        /// Using zip As ZipFile = ZipFile.Read(ZipFileToExtract)
+        /// Using zip As ZipFile = ZipFile.Load(ZipFileToExtract)
         ///     zip.ExtractAll(TargetDirectory, ExtractExistingFileAction.DontOverwrite)
         /// End Using
         /// </code>

@@ -238,7 +238,7 @@ namespace EPPlusTest.Drawing.Chart
                 SaveAndCleanup(p);
             }
 
-            //Read the file again and change axis type and data in the category column appropriately.
+            //Load the file again and change axis type and data in the category column appropriately.
             using (var p = OpenPackage("SimpleBarChart.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];

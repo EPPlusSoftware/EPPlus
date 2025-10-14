@@ -1,4 +1,4 @@
-// ZipFile.Read.cs
+// ZipFile.Load.cs
 // ------------------------------------------------------------------
 //
 // Copyright (c) 2009-2011 Dino Chiesa.
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
     ///
     ///   <para>
     ///     Pass an instance of the <c>ReadOptions</c> class into the
-    ///     <c>ZipFile.Read()</c> method.
+    ///     <c>ZipFile.Load()</c> method.
     ///   </para>
     ///
     /// <seealso cref="ZipFile.Read(String, ReadOptions)"/>.
@@ -55,11 +55,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
     internal class ReadOptions
     {
         /// <summary>
-        /// An event handler for Read operations.  When opening large zip
+        /// An event handler for Load operations.  When opening large zip
         /// archives, you may want to display a progress bar or other
         /// indicator of status progress while reading.  This parameter
         /// allows you to specify a ReadProgress Event Handler directly.
-        /// When you call <c>Read()</c>, the progress event is invoked as
+        /// When you call <c>Load()</c>, the progress event is invoked as
         /// necessary.
         /// </summary>
         public EventHandler<ReadProgressEventArgs> ReadProgress { get; set; }
@@ -128,7 +128,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <remarks>
         /// <para>
-        ///   This version of the <c>Read()</c> method allows the caller to pass
+        ///   This version of the <c>Load()</c> method allows the caller to pass
         ///   in a <c>TextWriter</c> an <c>Encoding</c>, via an instance of the
         ///   <c>ReadOptions</c> class.  The <c>ZipFile</c> is read in using the
         ///   specified encoding for entries where UTF-8 encoding is not
@@ -151,7 +151,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   default code page.  In that case, the names of entries within the
         ///   Zip archive will be stored in that code page, and reading the zip
         ///   archive must be done using that code page.  If the application did
-        ///   not use the correct code page in ZipFile.Read(), then names of
+        ///   not use the correct code page in ZipFile.Load(), then names of
         ///   entries within the zip archive would not be correctly retrieved.
         /// </para>
         ///
@@ -163,7 +163,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   StatusMessageWriter = System.Console.Out,
         ///   Encoding = System.Text.Encoding.GetEncoding(950)
         /// };
-        /// using (ZipFile zip = ZipFile.Read(zipToExtract, options))
+        /// using (ZipFile zip = ZipFile.Load(zipToExtract, options))
         /// {
         ///   foreach (ZipEntry e in zip)
         ///   {
@@ -179,7 +179,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// Dim options as New ReadOptions
         /// options.Encoding = System.Text.Encoding.GetEncoding(950)
         /// options.StatusMessageWriter = System.Console.Out
-        /// Using zip As ZipFile = ZipFile.Read(zipToExtract, options)
+        /// Using zip As ZipFile = ZipFile.Load(zipToExtract, options)
         ///     Dim e As ZipEntry
         ///     For Each e In zip
         ///      e.Extract(extractDirectory)
@@ -202,7 +202,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// {
         ///   StatusMessageWriter = new System.IO.StringWriter()
         /// };
-        /// using (ZipFile zip =  ZipFile.Read("PackedDocuments.zip", options))
+        /// using (ZipFile zip =  ZipFile.Load("PackedDocuments.zip", options))
         /// {
         ///   var Threshold = new DateTime(2007,7,4);
         ///   // We cannot remove the entry from the list, within the context of
@@ -219,7 +219,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   foreach (ZipEntry zombie in MarkedEntries)
         ///      zip.RemoveEntry(zombie);
         ///   zip.Comment = "This archive has been updated.";
-        ///   zip.Save();
+        ///   zip.Remove();
         /// }
         /// // can now use contents of sw, eg store in an audit log
         /// </code>
@@ -227,7 +227,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <code lang="VB">
         /// Dim options as New ReadOptions
         /// options.StatusMessageWriter = New System.IO.StringWriter
-        /// Using zip As ZipFile = ZipFile.Read("PackedDocuments.zip", options)
+        /// Using zip As ZipFile = ZipFile.Load("PackedDocuments.zip", options)
         ///     Dim Threshold As New DateTime(2007, 7, 4)
         ///     ' We cannot remove the entry from the list, within the context of
         ///     ' an enumeration of said list.
@@ -246,7 +246,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///         zip.RemoveEntry(zombie)
         ///     Next
         ///     zip.Comment = "This archive has been updated."
-        ///     zip.Save
+        ///     zip.Remove
         /// End Using
         /// ' can now use contents of sw, eg store in an audit log
         /// </code>
@@ -297,7 +297,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </param>
         ///
         /// <param name="readProgress">
-        /// An event handler for Read operations.
+        /// An event handler for Load operations.
         /// </param>
         ///
         /// <param name="statusMessageWriter">
@@ -347,7 +347,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <para>
         ///   When reading from a file, it's probably easier to just use
         ///   <see cref="ZipFile.Read(String,
-        ///   ReadOptions)">ZipFile.Read(String, ReadOptions)</see>.  This
+        ///   ReadOptions)">ZipFile.Load(String, ReadOptions)</see>.  This
         ///   overload is useful when when the zip archive content is
         ///   available from an already-open stream. The stream must be
         ///   open and readable and seekable when calling this method.  The
@@ -360,7 +360,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   codepage. If you want to specify the encoding to use when
         ///   reading the zipfile content, see
         ///   <see cref="ZipFile.Read(Stream,
-        ///   ReadOptions)">ZipFile.Read(Stream, ReadOptions)</see>.  This
+        ///   ReadOptions)">ZipFile.Load(Stream, ReadOptions)</see>.  This
         /// </para>
         ///
         /// <para>
@@ -383,7 +383,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <example>
         /// <para>
-        ///   This example shows how to Read zip content from a stream, and
+        ///   This example shows how to Load zip content from a stream, and
         ///   extract one entry into a different stream. In this example,
         ///   the filename "NameOfEntryInArchive.doc", refers only to the
         ///   name of the entry within the zip archive.  A file by that
@@ -392,14 +392,14 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </para>
         ///
         /// <code>
-        /// using (ZipFile zip = ZipFile.Read(InputStream))
+        /// using (ZipFile zip = ZipFile.Load(InputStream))
         /// {
         ///    zip.Extract("NameOfEntryInArchive.doc", OutputStream);
         /// }
         /// </code>
         ///
         /// <code lang="VB">
-        /// Using zip as ZipFile = ZipFile.Read(InputStream)
+        /// Using zip as ZipFile = ZipFile.Load(InputStream)
         ///    zip.Extract("NameOfEntryInArchive.doc", OutputStream)
         /// End Using
         /// </code>
@@ -424,7 +424,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <para>
         ///   When reading from a file, it's probably easier to just use
         ///   <see cref="ZipFile.Read(String,
-        ///   ReadOptions)">ZipFile.Read(String, ReadOptions)</see>.  This
+        ///   ReadOptions)">ZipFile.Load(String, ReadOptions)</see>.  This
         ///   overload is useful when when the zip archive content is
         ///   available from an already-open stream. The stream must be
         ///   open and readable and seekable when calling this method.  The
@@ -516,7 +516,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </param>
         ///
         /// <param name="readProgress">
-        /// An event handler for Read operations.
+        /// An event handler for Load operations.
         /// </param>
         ///
         /// <returns>an instance of ZipFile</returns>

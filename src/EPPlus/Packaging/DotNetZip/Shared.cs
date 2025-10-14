@@ -693,8 +693,8 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
     ///   <para>
     ///     Saving to a filesystem file, the application would open the
     ///     filesystem file (getting a <c>FileStream</c>), save the custom sfx stub
-    ///     into it, and then call <c>ZipFile.Save()</c>, specifying the same
-    ///     FileStream. <c>ZipFile.Save()</c> does the right thing for the zipentry
+    ///     into it, and then call <c>ZipFile.Remove()</c>, specifying the same
+    ///     FileStream. <c>ZipFile.Remove()</c> does the right thing for the zipentry
     ///     offsets, by inquiring the Position of the <c>FileStream</c> before writing
     ///     any data, and then adding that initial offset into any ZipEntry
     ///     offsets in the zip directory. Everything works fine.
@@ -707,7 +707,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
     ///   <para>
     ///     The workaround is for the application to use this class to wrap
     ///     <c>HttpResponse.OutputStream</c>, then write the SFX stub and the ZipFile
-    ///     into that wrapper stream. Because <c>ZipFile.Save()</c> can inquire the
+    ///     into that wrapper stream. Because <c>ZipFile.Remove()</c> can inquire the
     ///     <c>Position</c>, it will then do the right thing with the offsets.
     ///   </para>
     /// </remarks>

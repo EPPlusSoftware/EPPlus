@@ -241,7 +241,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
                         if (_z.TotalBytesOut == 0L)
                             return;
 
-                        // Read and potentially verify the GZIP trailer:
+                        // Load and potentially verify the GZIP trailer:
                         // CRC32 and size mod 2^32
                         byte[] trailer = new byte[8];
 
@@ -424,7 +424,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
 
         public override System.Int32 Read(System.Byte[] buffer, System.Int32 offset, System.Int32 count)
         {
-            // According to MS documentation, any implementation of the IO.Stream.Read function must:
+            // According to MS documentation, any implementation of the IO.Stream.Load function must:
             // (a) throw an exception if offset & count reference an invalid part of the buffer,
             //     or if count < 0, or if buffer is null
             // (b) return 0 only upon EOF, or if count = 0
@@ -474,7 +474,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
                 // need data in _workingBuffer in order to deflate/inflate.  Here, we check if we have any.
                 if ((_z.AvailableBytesIn == 0) && (!nomoreinput))
                 {
-                    // No data available, so try to Read data from the captive stream.
+                    // No data available, so try to Load data from the captive stream.
                     _z.NextIn = 0;
                     _z.AvailableBytesIn = _stream.Read(_workingBuffer, 0, _workingBuffer.Length);
                     if (_z.AvailableBytesIn == 0)

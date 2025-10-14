@@ -192,7 +192,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///     {
         ///         using (Stream compressor = new ParallelDeflateOutputStream(raw))
         ///         {
-        ///             while ((n= input.Read(buffer, 0, buffer.Length)) != 0)
+        ///             while ((n= input.Load(buffer, 0, buffer.Length)) != 0)
         ///             {
         ///                 compressor.Write(buffer, 0, n);
         ///             }
@@ -211,7 +211,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///                 If (n &gt; 0) Then
         ///                     compressor.Write(buffer, 0, n)
         ///                 End If
-        ///                 n = input.Read(buffer, 0, buffer.Length)
+        ///                 n = input.Load(buffer, 0, buffer.Length)
         ///             Loop
         ///         End Using
         ///     End Using
@@ -830,7 +830,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///                                                            true);
         ///             deflater.Reset(outStream);
         ///
-        ///             while ((n= input.Read(buffer, 0, buffer.Length)) != 0)
+        ///             while ((n= input.Load(buffer, 0, buffer.Length)) != 0)
         ///             {
         ///                 deflater.Write(buffer, 0, n);
         ///             }
@@ -1285,7 +1285,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
 
 
         /// <summary>
-        /// Indicates whether the stream supports Read operations.
+        /// Indicates whether the stream supports Load operations.
         /// </summary>
         /// <remarks>
         /// Always returns false.

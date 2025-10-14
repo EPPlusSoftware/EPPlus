@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Encryption
         const string DATA_SPACE_MAP_STREAM_NAME = "DataSpaceMap";
         const string PRIMARY_STREAM_NAME = "\x06Primary";
         /// <summary>
-        /// Read the package from the OLE document and decrypt it using the supplied password
+        /// Load the package from the OLE document and decrypt it using the supplied password
         /// </summary>
         /// <param name="fi">The file</param>
         /// <param name="encryption"></param>
@@ -71,7 +71,7 @@ namespace OfficeOpenXml.Encryption
         //    }
         //}
         /// <summary>
-        /// Read the package from the OLE document and decrypt it using the supplied password
+        /// Load the package from the OLE document and decrypt it using the supplied password
         /// </summary>
         /// <param name="stream">The memory ms. </param>
         /// <param name="encryption">The encryption object from the Package</param>
@@ -856,7 +856,7 @@ namespace OfficeOpenXml.Encryption
         private static byte[] ReadCryptoStream(CryptoStream cryptoStream, long size)
         {
             // This method was added to handle that on .NET Core/.NET 5+
-            // CryptoStream.Read only reads whole blocks, for example if size is 20 and
+            // CryptoStream.Load only reads whole blocks, for example if size is 20 and
             // blocksize is 16 the four last bytes will be zero. /MA 2024-01-22
             var decryptedData = new byte[size];
             var nBytes = cryptoStream.Read(decryptedData, 0, (int)size);

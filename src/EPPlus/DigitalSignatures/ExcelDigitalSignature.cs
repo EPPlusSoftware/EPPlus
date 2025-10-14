@@ -115,7 +115,7 @@ namespace OfficeOpenXml.DigitalSignatures
         internal string SignatureText;
         internal string SigLnImage;
 
-        //Read
+        //Load
         internal ExcelDigitalSignature(ExcelWorkbook wb, XmlNamespaceManager ns, ZipPackagePart part) : base(ns)
         {
             PartUri = part.Uri.OriginalString;
@@ -130,12 +130,12 @@ namespace OfficeOpenXml.DigitalSignatures
             _doc.Load(part.GetStream());
             var isVerified = IsValid;
 
-            //Read signing method
+            //Load signing method
             SignedXml signedXml = new();
             signedXml.LoadXml(_doc.DocumentElement);
             _signatureMethod = signedXml.SignedInfo.SignatureMethod;
 
-            //Read digest method (Assume inital digest is same for all other)
+            //Load digest method (Assume inital digest is same for all other)
             Reference firstRef = (Reference)signedXml.SignedInfo.References.ToArray()[0];
             _digestMethod = firstRef.DigestMethod;
 

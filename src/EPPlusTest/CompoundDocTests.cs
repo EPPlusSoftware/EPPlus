@@ -285,7 +285,7 @@ namespace EPPlusTest
             var fi = GetOutputFile("CompoundDocument", "small.bin");
             File.WriteAllBytes(fi.FullName, ms.ToArray());
 
-            //Read
+            //Load
             var cdRead = new CompoundDocument(fi);
             Assert.AreEqual(1, cdRead.Storage.DataStreams.Count);
         }
@@ -304,7 +304,7 @@ namespace EPPlusTest
             var fi = GetOutputFile("CompoundDocument", "small.bin");
             File.WriteAllBytes(fi.FullName, ms.ToArray());
 
-            //Read
+            //Load
             var cdRead = new CompoundDocument(fi);
             Assert.AreEqual(5, cdRead.Storage.DataStreams.Count);
         }

@@ -34,7 +34,7 @@ namespace OfficeOpenXml.DigitalSignatures
             SortReferencesAndAddToDoc();
         }
 
-        //Read manifest from signature
+        //Load manifest from signature
         internal DigSigManifest(XmlNode ManifestNode)
         {
             doc.PreserveWhitespace = true;

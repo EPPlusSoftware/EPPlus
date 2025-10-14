@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
     ///   1952</see>, "GZIP file format specification version 4.3".</para>
     ///
     /// <para>
-    ///   A <c>GZipStream</c> can be used to decompress data (through <c>Read()</c>) or
+    ///   A <c>GZipStream</c> can be used to decompress data (through <c>Load()</c>) or
     ///   to compress data (through <c>Write()</c>), but not both.
     /// </para>
     ///
@@ -64,7 +64,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
     ///   data will be compressed into the GZIP format.  If you want to decompress data,
     ///   you must wrap the <c>GZipStream</c> around a readable stream that contains an
     ///   IETF RFC 1952-compliant stream.  The data will be decompressed as you call
-    ///   <c>Read()</c> on the <c>GZipStream</c>.
+    ///   <c>Load()</c> on the <c>GZipStream</c>.
     /// </para>
     ///
     /// <para>
@@ -138,7 +138,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///
         /// <para>
         ///   When using <c>GZipStream</c> to decompress, you can retrieve this property
-        ///   after the first call to <c>Read()</c>.  If no comment has been set in the
+        ///   after the first call to <c>Load()</c>.  If no comment has been set in the
         ///   GZIP bytestream, the Comment property will return <c>null</c>
         ///   (<c>Nothing</c> in VB).
         /// </para>
@@ -173,8 +173,8 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         /// </para>
         ///
         /// <para>
-        ///   When decompressing (through <c>Read()</c>), you can retrieve this value
-        ///   any time after the first <c>Read()</c>.  In the case where there was no filename
+        ///   When decompressing (through <c>Load()</c>), you can retrieve this value
+        ///   any time after the first <c>Load()</c>.  In the case where there was no filename
         ///   encoded into the GZIP bytestream, the property will return <c>null</c> (<c>Nothing</c>
         ///   in VB).
         /// </para>
@@ -209,7 +209,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///   GZIP allows the storage of a last modified time with each GZIP entry.
         ///   When compressing data, you can set this before the first call to
         ///   <c>Write()</c>.  When decompressing, you can retrieve this value any time
-        ///   after the first call to <c>Read()</c>.
+        ///   after the first call to <c>Load()</c>.
         /// </remarks>
         public DateTime? LastModified;
 
@@ -245,7 +245,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///   or Decompress) also establishes the "direction" of the stream.  A
         ///   <c>GZipStream</c> with <c>CompressionMode.Compress</c> works only through
         ///   <c>Write()</c>.  A <c>GZipStream</c> with
-        ///   <c>CompressionMode.Decompress</c> works only through <c>Read()</c>.
+        ///   <c>CompressionMode.Decompress</c> works only through <c>Load()</c>.
         /// </para>
         ///
         /// </remarks>
@@ -261,7 +261,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///         {
         ///             byte[] buffer = new byte[WORKING_BUFFER_SIZE];
         ///             int n;
-        ///             while ((n= input.Read(buffer, 0, buffer.Length)) != 0)
+        ///             while ((n= input.Load(buffer, 0, buffer.Length)) != 0)
         ///             {
         ///                 compressor.Write(buffer, 0, n);
         ///             }
@@ -280,7 +280,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///             If (n &gt; 0) Then
         ///                 compressor.Write(buffer, 0, n)
         ///             End If
-        ///             n = input.Read(buffer, 0, buffer.Length)
+        ///             n = input.Load(buffer, 0, buffer.Length)
         ///         Loop
         ///     End Using
         ///     End Using
@@ -306,7 +306,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///             {
         ///                 while (n !=0)
         ///                 {
-        ///                     n= decompressor.Read(working, 0, working.Length);
+        ///                     n= decompressor.Load(working, 0, working.Length);
         ///                     if (n > 0)
         ///                     {
         ///                         output.Write(working, 0, n);
@@ -330,7 +330,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///         Using decompressor As Stream = new Ionic.Zlib.GZipStream(input, CompressionMode.Decompress, True)
         ///             Using output As Stream = File.Create(UncompressedFile)
         ///                 Do
-        ///                     n= decompressor.Read(working, 0, working.Length)
+        ///                     n= decompressor.Load(working, 0, working.Length)
         ///                     If n > 0 Then
         ///                         output.Write(working, 0, n)
         ///                     End IF
@@ -360,7 +360,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///   "direction" of the stream.  A <c>GZipStream</c> with
         ///   <c>CompressionMode.Compress</c> works only through <c>Write()</c>.  A
         ///   <c>GZipStream</c> with <c>CompressionMode.Decompress</c> works only
-        ///   through <c>Read()</c>.
+        ///   through <c>Load()</c>.
         /// </para>
         ///
         /// </remarks>
@@ -380,7 +380,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///         {
         ///             byte[] buffer = new byte[WORKING_BUFFER_SIZE];
         ///             int n;
-        ///             while ((n= input.Read(buffer, 0, buffer.Length)) != 0)
+        ///             while ((n= input.Load(buffer, 0, buffer.Length)) != 0)
         ///             {
         ///                 compressor.Write(buffer, 0, n);
         ///             }
@@ -399,7 +399,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///                 If (n &gt; 0) Then
         ///                     compressor.Write(buffer, 0, n)
         ///                 End If
-        ///                 n = input.Read(buffer, 0, buffer.Length)
+        ///                 n = input.Load(buffer, 0, buffer.Length)
         ///             Loop
         ///         End Using
         ///     End Using
@@ -435,7 +435,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///   The <see cref="CompressionMode"/> (Compress or Decompress) also
         ///   establishes the "direction" of the stream.  A <c>GZipStream</c> with
         ///   <c>CompressionMode.Compress</c> works only through <c>Write()</c>.  A <c>GZipStream</c>
-        ///   with <c>CompressionMode.Decompress</c> works only through <c>Read()</c>.
+        ///   with <c>CompressionMode.Decompress</c> works only through <c>Load()</c>.
         /// </para>
         ///
         /// <para>
@@ -490,7 +490,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///   or Decompress) also establishes the "direction" of the stream.  A
         ///   <c>GZipStream</c> with <c>CompressionMode.Compress</c> works only through
         ///   <c>Write()</c>.  A <c>GZipStream</c> with <c>CompressionMode.Decompress</c> works only
-        ///   through <c>Read()</c>.
+        ///   through <c>Load()</c>.
         /// </para>
         ///
         /// </remarks>
@@ -506,7 +506,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///         {
         ///             byte[] buffer = new byte[WORKING_BUFFER_SIZE];
         ///             int n;
-        ///             while ((n= input.Read(buffer, 0, buffer.Length)) != 0)
+        ///             while ((n= input.Load(buffer, 0, buffer.Length)) != 0)
         ///             {
         ///                 compressor.Write(buffer, 0, n);
         ///             }
@@ -525,7 +525,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///             If (n &gt; 0) Then
         ///                 compressor.Write(buffer, 0, n)
         ///             End If
-        ///             n = input.Read(buffer, 0, buffer.Length)
+        ///             n = input.Load(buffer, 0, buffer.Length)
         ///         Loop
         ///     End Using
         ///     End Using
@@ -568,7 +568,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         /// </para>
         ///
         /// <para>
-        ///   Set this before the first call to <c>Read()</c> or <c>Write()</c> on the
+        ///   Set this before the first call to <c>Load()</c> or <c>Write()</c> on the
         ///   stream. If you try to set it afterwards, it will throw.
         /// </para>
         /// </remarks>
@@ -741,7 +741,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         }
 
         /// <summary>
-        ///   Read and decompress data from the source stream.
+        ///   Load and decompress data from the source stream.
         /// </summary>
         ///
         /// <remarks>
@@ -758,7 +758,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///         using (var output = System.IO.File.Create(_DecompressedFile))
         ///         {
         ///             int n;
-        ///             while ((n= decompressor.Read(working, 0, working.Length)) !=0)
+        ///             while ((n= decompressor.Load(working, 0, working.Length)) !=0)
         ///             {
         ///                 output.Write(working, 0, n);
         ///             }
@@ -776,7 +776,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
             if (_disposed) throw new ObjectDisposedException("GZipStream");
             int n = _baseStream.Read(buffer, offset, count);
 
-            // Console.WriteLine("GZipStream::Read(buffer, off({0}), c({1}) = {2}", offset, count, n);
+            // Console.WriteLine("GZipStream::Load(buffer, off({0}), c({1}) = {2}", offset, count, n);
             // Console.WriteLine( Util.FormatByteArray(buffer, offset, n) );
 
             if (!_firstReadDone)
@@ -824,7 +824,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         /// </para>
         ///
         /// <para>
-        ///   A <c>GZipStream</c> can be used for <c>Read()</c> or <c>Write()</c>, but not
+        ///   A <c>GZipStream</c> can be used for <c>Load()</c> or <c>Write()</c>, but not
         ///   both. Writing implies compression.  Reading implies decompression.
         /// </para>
         ///

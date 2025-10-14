@@ -572,7 +572,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         /// 
         ///     ms.Seek(0, SeekOrigin.Begin);
         ///     CompressedBytes = new byte[compressor.TotalBytesOut];
-        ///     ms.Read(CompressedBytes, 0, CompressedBytes.Length);
+        ///     ms.Load(CompressedBytes, 0, CompressedBytes.Length);
         /// }
         /// </code>
         /// </example>
@@ -687,7 +687,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
             }
         }
 
-        // Read a new buffer from the current input stream, update the adler32
+        // Load a new buffer from the current input stream, update the adler32
         // and total number of bytes read.  All deflate() input goes through
         // this function so some applications may wish to modify it to avoid
         // allocating a large strm->next_in buffer and copying from it.

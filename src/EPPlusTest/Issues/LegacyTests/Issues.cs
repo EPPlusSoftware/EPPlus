@@ -817,7 +817,7 @@ namespace EPPlusTest
             //Create the worksheet 
             var sheet = pck.Workbook.Worksheets.Add(sheetName);
 
-            //Read the data into a range
+            //Load the data into a range
             var range = sheet.Cells["A1"].LoadFromCollection(cars, true);
 
             //Make the range a table

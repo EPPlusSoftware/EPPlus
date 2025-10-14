@@ -245,7 +245,7 @@ namespace OfficeOpenXml
         {
             var br = new BinaryReader(stream);
             var noFonts = br.ReadUInt16();
-            //Read all font names first
+            //Load all font names first
             var fonts = new Dictionary<string, uint>();
             var fno = 0;
             while (fno<noFonts)

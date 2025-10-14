@@ -770,6 +770,21 @@ namespace OfficeOpenXml
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
             }
         }
+        internal void SetXmlNodeInt(string path, int d, int deleteIfValue = int.MinValue, CultureInfo ci = null, bool allowNegative = true)
+        {
+            if (d == deleteIfValue)
+            {
+                DeleteNode(path);
+            }
+            else
+            {
+                if (allowNegative == false && d < 0)
+                {
+                    throw new ArgumentException("Negative value not permitted");
+                }
+                SetXmlNodeString(TopNode, path, d.ToString(ci ?? CultureInfo.InvariantCulture));
+            }
+        }
         internal void SetXmlNodeLong(string path, long? d, CultureInfo ci = null, bool allowNegative = true)
         {
             if (d == null)

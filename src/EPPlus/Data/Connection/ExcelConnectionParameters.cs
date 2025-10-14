@@ -35,6 +35,10 @@ namespace OfficeOpenXml.Data.Connection
             }
         }
         /// <summary>
+        /// Number of items in the collection.
+        /// </summary>
+        public int Count { get { return _list.Count; } }
+        /// <summary>
         /// The enumerator
         /// </summary>
         /// <returns></returns>
@@ -77,23 +81,5 @@ namespace OfficeOpenXml.Data.Connection
         {
             _list.Remove(parameter);
         }
-    }
-    /// <summary>
-    /// Connection parameter types.
-    /// </summary>
-    public enum eConnectionParameterType
-    {
-        /// <summary>
-        /// Prompt the user on each refresh for a parameter value
-        /// </summary>
-        Prompt,
-        /// <summary>
-        /// Use a constant value on each refresh for the parameter value.
-        /// </summary>
-        Value,
-        /// <summary>
-        /// Get the parameter value from a cell on each refresh
-        /// </summary>
-        Cell
     }
 }

@@ -10,6 +10,8 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
+using System;
+
 namespace OfficeOpenXml.Data.Connection
 {
 
@@ -50,13 +52,10 @@ namespace OfficeOpenXml.Data.Connection
     /// <summary>
     /// Represents a connection to an external data source in a workbook.
     /// </summary>
-    public class ExcelConnection : IDocumentPartSave
+    public class ExcelConnection : DocumentPart<ExcelConnection>
     {
-        IDocumentPart<ExcelConnection> _dp;
-        internal ExcelConnection(IDocumentPart<ExcelConnection> dp) : base()
+        internal ExcelConnection(IDocumentPart<ExcelConnection> dp) : base(dp)
         {
-            _dp = dp;
-            _dp.Read(this);
         }
         public int Id { get; set; } 
         public string Name { get; set; }
@@ -84,9 +83,5 @@ namespace OfficeOpenXml.Data.Connection
         public ExcelTextProperties TextProperties { get; internal set; }
         public ExcelConnectionParameters Parameters { get; internal set; }
 
-        public void Save()
-        {
-            _dp.Save(this);
-        }
     }
 }

@@ -398,7 +398,7 @@ namespace OfficeOpenXml.Table
         }
 
         /// <summary>
-        /// Save the table to json
+        /// Remove the table to json
         /// </summary>
         /// <param name="stream">The stream to save to.</param>
         /// <returns></returns>
@@ -408,7 +408,7 @@ namespace OfficeOpenXml.Table
             await SaveToJsonInternalAsync(stream, s);
         }
         /// <summary>
-        /// Save the table to json
+        /// Remove the table to json
         /// </summary>
         /// <param name="stream">The stream to save to.</param>
         /// <param name="settings">Settings for the json output.</param>
