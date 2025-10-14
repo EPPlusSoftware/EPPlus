@@ -192,19 +192,41 @@ namespace OfficeOpenXml
 
         internal void ResetAddress(string prevAddress)
         {
+            if(Addresses == null || Addresses.Count<2)
+            {
+                _address = ResetSingleAddress(this, prevAddress);
+
+            }
+            else
+            {
+                var sb=new StringBuilder();
+                foreach (var a in Addresses)
+                {
+                    var adr = ResetSingleAddress(a, a.Address);
+                    a.SetAddress(adr, null, _ws);
+                    sb.Append(a.Address);
+                    sb.Append(",");                    
+                }
+                _address = sb.ToString(0, sb.Length - 1);
+            }
+        }
+
+        private string ResetSingleAddress(ExcelAddressBase adr, string prevAddress)
+        {
             var prevAddressHasWs = prevAddress != null && prevAddress.IndexOf("!") > 0 && !prevAddress.EndsWith("!");
-            _address = GetAddress(_fromRow, _fromCol, _toRow, _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
+            var address = GetAddress(adr._fromRow, adr._fromCol, adr._toRow, adr._toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
             if (prevAddressHasWs && !string.IsNullOrEmpty(_ws))
             {
                 if (ExcelWorksheet.NameNeedsApostrophes(_ws))
                 {
-                    _address = $"'{_ws.Replace("'", "''")}'!{_address}";
+                    address = $"'{_ws.Replace("'", "''")}'!{address}";
                 }
                 else
                 {
-                    _address = $"{_ws}!{_address}";
+                    address = $"{_ws}!{address}";
                 }
             }
+            return address;
         }
 
         /// <summary>
