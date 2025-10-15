@@ -102,6 +102,7 @@ namespace OfficeOpenXml.Style
                 return _gradient;
             }
         }
+
         internal bool HasGradient
         {
             get
