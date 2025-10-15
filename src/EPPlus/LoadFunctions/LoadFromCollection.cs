@@ -211,11 +211,11 @@ namespace OfficeOpenXml.LoadFunctions
 #endif
                                 if (transpose)
                                 {
-                                    values[col++, row] = v;
+                                    values[col, row] = v;
                                 }
                                 else
                                 {
-                                    values[row, col++] = v;
+                                    values[row, col] = v;
                                 }
                             }
                             else if (!string.IsNullOrEmpty(colInfo.Formula))
@@ -226,6 +226,7 @@ namespace OfficeOpenXml.LoadFunctions
                             {
                                 formulaCells[colInfo.Index] = new FormulaCell { FormulaR1C1 = colInfo.FormulaR1C1 };
                             }
+                            col++;
                         }
                     }
                 }
