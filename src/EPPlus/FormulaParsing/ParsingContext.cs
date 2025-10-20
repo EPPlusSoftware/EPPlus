@@ -172,6 +172,9 @@ namespace OfficeOpenXml.FormulaParsing
         public ExcelCalculationOption CalcOption { get; set; }
 
         internal RpnOptimizedDependencyChain DependencyChain { get; set; }
+
+
+        internal Dictionary<string, Dictionary<string, double>> rangeValues;
     }
 
 }

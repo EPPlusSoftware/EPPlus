@@ -134,18 +134,48 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             return retVal.Get();
         }
 
+        //Dictionary<IRangeInfo, IEnumerable<string>> rangeExpressionsCache;
+        //Dictionary<IRangeInfo, Dictionary<string, double>> rangeValues;
+
         private double CalculateSingleRange(IRangeInfo range, IEnumerable<string> expressions, ParsingContext context)
         {
             KahanSum retVal = 0d;
-            foreach (var candidate in range)
+            var rangeValues = context.rangeValues;
+            if (rangeValues == null)
             {
-                if (IsNumeric(candidate.Value) && _evaluator.Evaluate(candidate.Value, expressions))
+                context.rangeValues = new();
+                rangeValues = context.rangeValues;
+            }
+
+            if (rangeValues.TryGetValue(range.Address.WorksheetAddress, out Dictionary<string, double> valueDict) == false)
+            {
+                valueDict = new Dictionary<string, double>();
+                foreach (var candidate in range)
                 {
-                    if (candidate.IsExcelError)
+                    if (IsNumeric(candidate.Value))
                     {
-                        ThrowExcelErrorValueException((ExcelErrorValue)candidate.Value);
+                        if (candidate.IsExcelError)
+                        {
+                            ThrowExcelErrorValueException((ExcelErrorValue)candidate.Value);
+                        }
+                        valueDict.Add(candidate.Address, candidate.ValueDouble);
+
+                        if (_evaluator.Evaluate(candidate.Value, expressions))
+                        {
+                            retVal += candidate.ValueDouble;
+                        }
                     }
-                    retVal += candidate.ValueDouble;
+                }
+                context.rangeValues.Add(range.Address.WorksheetAddress, valueDict);
+            }
+            else
+            {
+                foreach (var key in valueDict.Keys)
+                {
+                    if (_evaluator.Evaluate(valueDict[key], expressions))
+                    {
+                        retVal += valueDict[key];
+                    }
                 }
             }
             return retVal.Get();

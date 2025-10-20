@@ -28,6 +28,7 @@
  *******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -384,6 +385,27 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 Assert.AreEqual(203d, ws.Cells["E6"].Value);
 
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void SumIfSlow()
+        {
+            using (var package = OpenTemplatePackage("s954.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets["SUMIF"];
+                var sw = new Stopwatch();
+                sw.Start();
+                sheet.Cells["A1:A1000"].Calculate();
+                sw.Stop();
+
+                Trace.WriteLine($"Operation took: {sw.ElapsedMilliseconds} milliseconds");
+
+                //var sw = new Stopwatch();
+                ////// Act: Takes over a minute
+                //sw.Start();
+                //sheet.Calculate();
+                //sw.Stop();
+                //Trace.WriteLine($"Operation took: {sw.ElapsedMilliseconds} milliseconds");
             }
         }
     }
