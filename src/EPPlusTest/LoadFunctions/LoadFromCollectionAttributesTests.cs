@@ -44,6 +44,13 @@ namespace EPPlusTest.LoadFunctions
 
     }
 
+
+    internal class Actor3 : Actor
+    {
+        [EpplusTableColumn(Order = 10)]
+        public string Country { get; set; }
+    }
+
     [EpplusTable(TableStyle = TableStyles.None, PrintHeaders = true, AutofitColumns = true, AutoCalculate = true, ShowLastColumn = true)]
     internal class ActorTablestyleNone : Actor
     {
@@ -58,6 +65,13 @@ namespace EPPlusTest.LoadFunctions
             new Actor{ Salary = 256.24, Tax = 0.21, FirstName = "John", MiddleName = "Bernhard", LastName = "Doe", Birthdate = new DateTime(1950, 3, 15) },
             new Actor{ Salary = 278.55, Tax = 0.23, FirstName = "Sven", MiddleName = "Bertil", LastName = "Svensson", Birthdate = new DateTime(1962, 6, 10)},
             new Actor{ Salary = 315.34, Tax = 0.28, FirstName = "Lisa", MiddleName = "Maria", LastName = "Gonzales", Birthdate = new DateTime(1971, 10, 2)}
+        };
+
+        private readonly List<Actor3> _actors3 = new List<Actor3>
+        {
+            new Actor3{ Salary = 256.24, Tax = 0.21, FirstName = "John", MiddleName = "Bernhard", LastName = "Doe", Birthdate = new DateTime(1950, 3, 15), Country="United Kingdom"},
+            new Actor3{ Salary = 278.55, Tax = 0.23, FirstName = "Sven", MiddleName = "Bertil", LastName = "Svensson", Birthdate = new DateTime(1962, 6, 10), Country = "Sweden"},
+            new Actor3{ Salary = 315.34, Tax = 0.28, FirstName = "Lisa", MiddleName = "Maria", LastName = "Gonzales", Birthdate = new DateTime(1971, 10, 2), Country = "Spain"}
         };
 
         [TestMethod]
@@ -185,6 +199,23 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("ApprovedUtc", sheet.Cells["E1"].Value);
 
             }
+        }
+
+        [TestMethod]
+        public void  I2141_ShouldSortFormulaColumns()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("test");
+            var r = sheet.Cells["A1"].LoadFromCollection(_actors3, true, TableStyles.Dark4);
+            var table = sheet.Tables[0];
+            Assert.AreEqual(TableStyles.Dark4, table.TableStyle);
+            Assert.AreEqual("Birthdate", sheet.Cells["A1"].Value);
+            Assert.AreEqual("First name", sheet.Cells["B1"].Value);
+            Assert.AreEqual("Tax", sheet.Cells["F1"].Value);
+            Assert.AreEqual("John", sheet.Cells["B2"].Value);
+            Assert.AreEqual("Svensson", sheet.Cells["D3"].Value);
+            Assert.AreEqual(0.28, sheet.Cells["F4"].Value);
+            Assert.AreEqual("United Kingdom", sheet.Cells["I2"].Value);
         }
 
         [TestMethod]
