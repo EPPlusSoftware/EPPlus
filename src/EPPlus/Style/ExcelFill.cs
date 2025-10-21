@@ -89,12 +89,12 @@ namespace OfficeOpenXml.Style
         /// <summary>
         /// Access to properties for gradient fill.
         /// </summary>
-        public ExcelGradientFill Gradient 
+        public ExcelGradientFill Gradient
         {
             get
             {
                 if (_gradient == null)
-                {                    
+                {
                     _gradient = new ExcelGradientFill(_styles, _ChangedEvent, _positionID, _address, Index);
                     _backgroundColor = null;
                     _patternColor = null;
@@ -102,6 +102,15 @@ namespace OfficeOpenXml.Style
                 return _gradient;
             }
         }
+
+        public bool HasGradient
+        {
+            get
+            {
+                return _styles.Fills[Index] is ExcelGradientFillXml;
+            }
+        }
+
         internal override string Id
         {
             get
@@ -155,4 +164,3 @@ namespace OfficeOpenXml.Style
         }
     }
 }
-    
