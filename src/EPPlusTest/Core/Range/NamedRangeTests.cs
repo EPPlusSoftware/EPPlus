@@ -532,22 +532,31 @@ namespace EPPlusTest.Core.Range
             using (var p = OpenTemplatePackage("s953Target.xlsx"))
             {
                 int indexNum = 0;
-                var fi = new FileInfo("C:\\epplusTest\\Workbooks\\s953.xlsx");
-                p.Workbook.ExternalLinks.AddExternalWorkbook(fi);
+                var fileName = "s953.xlsx";
+                var fi = GetTemplateFile(fileName);
 
-                var ws = p.Workbook.Worksheets["披露附注"];
-                ws.Cells["D4584"].Formula = $"='[{indexNum}]披露表(IPO)'!A9";
-                var namedRange = ws.Names["_jds1150010220230"];
-                ws.Cells[namedRange.Start.Row, namedRange.Start.Column, namedRange.End.Row, namedRange.End.Column].Merge = false;
-                var startRow = namedRange.Start.Row;
-                var endRow = namedRange.End.Row;
-                var startColumn = namedRange.Start.Column;
-                var endColumn = namedRange.End.Column;
-                var columnToInsert = startColumn + 2;
-                var InsertCell = ws.Cells[startRow, columnToInsert, endRow, columnToInsert];
-                InsertCell.Insert(eShiftTypeInsert.Right);
-                // worksheet.InsertColumn(columnToInsert, 1);
-                await p.SaveAsync();
+                if (fi != null)
+                {
+                    p.Workbook.ExternalLinks.AddExternalWorkbook(fi);
+
+                    var ws = p.Workbook.Worksheets["披露附注"];
+                    ws.Cells["D4584"].Formula = $"='[{indexNum}]披露表(IPO)'!A9";
+                    var namedRange = ws.Names["_jds1150010220230"];
+                    ws.Cells[namedRange.Start.Row, namedRange.Start.Column, namedRange.End.Row, namedRange.End.Column].Merge = false;
+                    var startRow = namedRange.Start.Row;
+                    var endRow = namedRange.End.Row;
+                    var startColumn = namedRange.Start.Column;
+                    var endColumn = namedRange.End.Column;
+                    var columnToInsert = startColumn + 2;
+                    var InsertCell = ws.Cells[startRow, columnToInsert, endRow, columnToInsert];
+                    InsertCell.Insert(eShiftTypeInsert.Right);
+
+                    await p.SaveAsync();
+                }
+                else
+                {
+                    Assert.Inconclusive($"Template file {fileName} could not be found");
+                }
             }
         }
     }
