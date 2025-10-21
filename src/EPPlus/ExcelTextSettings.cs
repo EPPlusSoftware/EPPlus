@@ -101,6 +101,10 @@ namespace OfficeOpenXml
                 }
                 return _textMeasurerTrueType;
             }
+            set
+            {
+                _textMeasurerTrueType = value;
+            }
         }
         /// <summary>
         /// Measures a text with default settings when there is no other option left...

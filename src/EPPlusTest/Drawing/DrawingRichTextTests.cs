@@ -81,8 +81,8 @@ namespace EPPlusTest.Drawing
             [TestMethod]
             public void ReadThreeParagraphsAndValidate()
             {
-                AssertIfNotExists("DrawingRichTextRead.xlsx");
-                using (var p = OpenPackage("DrawingRichTextRead.xlsx"))
+                AssertIfNotExists("DrawingRichTextReadFunctional.xlsx");
+                using (var p = OpenPackage("DrawingRichTextReadFunctional.xlsx"))
                 {
                     var shape = (ExcelShape)p.Workbook.Worksheets[0].Drawings["shape1"];
                     Assert.AreEqual("Line1\r\nLine2\r\nLine3", shape.Text);
@@ -189,6 +189,12 @@ namespace EPPlusTest.Drawing
                 }
             }
 
+            /// <summary>
+            /// Design principle: The default font stays.
+            /// If you set a default paragraph Font then un-specified fonts will fall-back to that font
+            /// The last used font of a previous text-run is NOT automatically applied as Excel might.
+            /// This as if unspecified for a text-run it is assumed a user would want to use the default font for the paragraph.
+            /// </summary>
             [TestMethod]
             public void TextInShape()
             {
@@ -214,8 +220,8 @@ namespace EPPlusTest.Drawing
 
                     var rt21 = sunShape.RichText.Add("Text Two", true);
 
-                    Assert.AreEqual("", rt21.LatinFont);
-                    Assert.IsTrue(float.IsNaN(rt21.Size));
+                    Assert.AreEqual("Calibri", rt21.LatinFont);
+                    Assert.AreEqual(14f, rt21.Size);
 
                     Assert.AreEqual("Calibri", sunShape.TextBody.Paragraphs[1].DefaultRunProperties.LatinFont);
                     Assert.AreEqual(14, sunShape.TextBody.Paragraphs[1].DefaultRunProperties.Size);
@@ -230,36 +236,15 @@ namespace EPPlusTest.Drawing
                     rt22.Bold = false;
                     rt22.Italic = true;
 
+                    Assert.AreEqual("Algerian", rt22.LatinFont);
+                    Assert.AreEqual(12f, rt22.Size);
+
                     var rt23 = sunShape.RichText.Add("Subtext TwoTwo", false);
 
-                    Assert.AreEqual("", rt23.LatinFont);
-                    Assert.IsTrue(float.IsNaN(rt23.Size));
+                    Assert.AreEqual("Calibri", rt23.LatinFont);
+                    Assert.AreEqual(14f, rt23.Size);
 
                     SaveAndCleanup(p);
-                }
-            }
-
-            /// <summary>
-            /// Indicates font embedding licensing rights for the font. The interpretation of flags is as follows:
-            /// 0: Installable embedding: the font may be embedded, and may be permanently installed for use on a remote systems, or for use by other users.
-            /// 2: Restricted License embedding: the font must not be modified, embedded or exchanged in any manner without first obtaining explicit permission of the legal owner.
-            /// 4: Preview & Print embedding: the font may be embedded, and may be temporarily loaded on other systems for purposes of viewing or printing the document. Documents containing Preview & Print fonts must be opened “read-only”; no edits can be applied to the document.
-            /// 8: Editable embedding: the font may be embedded, and may be temporarily loaded on other systems. As with Preview & Print embedding, documents containing Editable fonts may be opened for reading. In addition, editing is permitted, including ability to format new text using the embedded font, and changes may be saved.
-            /// </summary>
-            string GetFsString(ushort fsId)
-            {
-                switch (fsId)
-                {
-                    case 0:
-                        return "Installable Embedding";
-                    case 2:
-                        return "Restricted Licence Embedding";
-                    case 4:
-                        return "Preview & Print Embedding";
-                    case 8:
-                        return "Editable Embedding";
-                    default:
-                        return $"UNKNOWN VALUE: '{fsId}' POTENTIALLY CORRUPT FONT";
                 }
             }
         }

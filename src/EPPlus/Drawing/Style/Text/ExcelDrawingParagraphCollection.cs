@@ -39,7 +39,8 @@ namespace OfficeOpenXml.Drawing
             if (rootNode != null)
             {
                 TopNode = rootNode;
-                var pNodes = rootNode.SelectNodes("../a:p", NameSpaceManager);
+                var pNodes = GetNodes("a:p");
+                pNodes = pNodes.Count == 0 ? GetNodes("../a:p") : pNodes;
                 foreach (XmlElement pn in pNodes)
                 {
                     _paragraphs.Add(new ExcelDrawingParagraph(this, prd, NameSpaceManager, pn, schemaNodeOrder, initXml));

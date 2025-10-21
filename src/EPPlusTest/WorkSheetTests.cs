@@ -45,6 +45,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using OfficeOpenXml.Utils.Formula;
+using System.Diagnostics;
 
 namespace EPPlusTest
 {
@@ -1117,13 +1118,13 @@ namespace EPPlusTest
                 var wb = p.Workbook;
                 var ws = p.Workbook.Worksheets[0];
 
-                using (var p2 = OpenPackage("CopyNamesEpplus_copied.xlsx",true))
+                using (var p2 = OpenPackage("CopyNamesEpplus_copied.xlsx", true))
                 {
                     var wb2 = p2.Workbook;
                     var ws2 = wb2.Worksheets.Add("CopyWs", ws);
                     var ws3 = wb2.Worksheets.Add("CopyWs2", ws);
 
-                    Assert.AreEqual(1 ,wb2.Names.Count());
+                    Assert.AreEqual(1, wb2.Names.Count());
                     Assert.AreEqual(wb2.Names.ContainsKey("AWorkbookRange"), wb.Names.ContainsKey("AWorkbookRange"));
                     SaveAndCleanup(p2);
                 }
@@ -1870,7 +1871,7 @@ namespace EPPlusTest
 
             Assert.AreEqual(img.Width, 426);
             img.Width /= 4;
-            Assert.AreEqual(img.Height, 49.5); 
+            Assert.AreEqual(img.Height, 49.5);
             img.Height /= 4;
             Assert.AreEqual(img.Left, 0);
             Assert.AreEqual(img.Top, 0);
@@ -1941,7 +1942,7 @@ namespace EPPlusTest
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            
+
             var t = ws.HeaderFooter.OddHeader.LeftAligned.AddText("Page: ");
             ws.HeaderFooter.OddHeader.LeftAligned.AddPageNumber();
             ws.HeaderFooter.OddHeader.LeftAligned.AddText(" of ");
@@ -2682,7 +2683,7 @@ namespace EPPlusTest
 
                 wsF.Cells["A1:A6"].Calculate();
 
-                for(int i = 1; i<= 6; i++ )
+                for (int i = 1; i <= 6; i++)
                 {
                     Assert.AreEqual((double)i, wsF.Cells[$"A{i}"].Value);
                 }

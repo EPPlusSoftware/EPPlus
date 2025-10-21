@@ -295,7 +295,8 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_richText == null)
                 {
-                     _richText = new ExcelParagraphCollection(TextBody, this, NameSpaceManager, TopNode, _paragraphPath, SchemaNodeOrder);
+                    var txtBody = TextBody;
+                    _richText = new ExcelParagraphCollection(txtBody, this, NameSpaceManager, TopNode, _paragraphPath, SchemaNodeOrder);
                 }
                 return _richText;
             }
