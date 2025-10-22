@@ -56,6 +56,8 @@ using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.Data.QueryTable;
+using OfficeOpenXml.Data.Connection.IOHandlers;
 
 namespace OfficeOpenXml
 {
@@ -2466,6 +2468,7 @@ namespace OfficeOpenXml
                 {
                     sf.Formula = ExcelCellBase.UpdateSheetNameInFormula(sf.Formula, oldName, newName);
                 }
+
                 using (var cse = new CellStoreEnumerator<object>(_formulas))
                 {
                     while (cse.Next())
@@ -2516,6 +2519,11 @@ namespace OfficeOpenXml
                     SaveTables();
                     if (hasLoadedPivotTables) SavePivotTables();
                     SaveSlicers();
+                    
+                    if(_queryTables!=null)
+                    {
+                        SaveLegacyQueryTables();
+                    }
 
                     //Meta data and rich data is currently used for #spill! and #calc! errors.
                     if (_metadataStore.HasValues)
@@ -2526,7 +2534,13 @@ namespace OfficeOpenXml
                 }
             }
         }
-
+        private void SaveLegacyQueryTables()
+        {
+            foreach(var qt in _queryTables)
+            {
+               qt.Save();
+            }
+        }
         private void SaveSlicers()
         {
             SlicerXmlSources.Save();
@@ -2740,6 +2754,11 @@ namespace OfficeOpenXml
                 {
                     var stream = tbl.Part.GetStream(FileMode.Create);
                     tbl.TableXml.Save(stream);
+                }
+
+                if(tbl.DataSourceType==TableDataSourceType.QueryTable)
+                {
+                    tbl.QueryTable.Save();
                 }
             }
         }
@@ -3170,10 +3189,35 @@ namespace OfficeOpenXml
             }
         }
         internal bool HasLoadedPivotTables
-        {
+        {   
             get
             {
                 return _pivotTables != null;
+            }
+        }
+        EPPlusReadOnlyList<ExcelQueryTable> _queryTables=null;
+        /// <summary>
+        /// A collection of query tables associated with the worksheet. 
+        /// These query tables are considered legacy and are used in older versions of Excel.
+        /// You cannot add new query tables using this collection, please use <see cref="ExcelTableCollection.AddQueryTable"/> instead.
+        /// </summary>
+        /// <remarks>Query tables are data tables that are linked to external data sources, such as databases or web queries.</remarks>
+        public EPPlusReadOnlyList<ExcelQueryTable> QueryTables
+        {
+            get
+            {
+                CheckSheetTypeAndNotDisposed();
+                if (_queryTables == null)
+                {
+                    _queryTables = new EPPlusReadOnlyList<ExcelQueryTable>();
+                    foreach(var rel in Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/queryTable"))
+                    {
+                        var qtHandler = new QueryTableDataPartXmlHandler(this, rel);
+                        var qt = new ExcelQueryTable(qtHandler);
+                        _queryTables.Add(qt);
+                    }
+                }
+                return _queryTables;
             }
         }
         private ExcelConditionalFormattingCollection _conditionalFormatting = null;

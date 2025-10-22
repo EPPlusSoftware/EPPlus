@@ -10,24 +10,23 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
-namespace OfficeOpenXml.Data.Connection
+namespace OfficeOpenXml.Core
 {
-    /// <summary>
-    /// How to handle formatting from the HTML source when bringing web query data into the worksheet.
-    /// </summary>
-    public enum eHtmlFormatingHandling
+    public abstract class DocumentPart<T> where T : DocumentPart<T>
     {
-        /// <summary>
-        /// No formatting is applied.
-        /// </summary>
-        None = 1,
-        /// <summary>
-        /// HTML formatting should be translated into rich text formatting when importing the data.
-        /// </summary>
-        RTF = 2,
-        /// <summary>
-        /// All HTML formatting should be preserved when importing the data.
-        /// </summary>
-        All = 3 
+        internal IDocumentPart<T> _dp;
+        internal DocumentPart(IDocumentPart<T> dp)
+        {
+            _dp = dp;
+            _dp.Load((T)this);
+        }
+        internal virtual void Save()
+        {
+            _dp.Save((T)this);
+        }
+        internal virtual void Remove()
+        {
+            _dp.Remove();
+        }
     }
 }

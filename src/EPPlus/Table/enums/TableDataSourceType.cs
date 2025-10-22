@@ -8,31 +8,26 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-namespace OfficeOpenXml.Data.Connection
+namespace OfficeOpenXml
 {
-    public abstract class DocumentPart<T> where T : DocumentPart<T>
+    /// <summary>
+    /// Specifies what the table data is based on.
+    /// </summary>
+    public enum TableDataSourceType
     {
-        internal IDocumentPart<T> _dp;
-        internal DocumentPart(IDocumentPart<T> dp)
-        {
-            _dp = dp;
-            _dp.Load((T)this);
-        }
-        internal virtual void Save() 
-        {
-            _dp.Save((T)this);
-        }
-        internal virtual void Remove()
-        {
-            _dp.Remove();
-        }
-    }
-    internal interface IDocumentPart<T>
-    {
-        void Load(T item);
-        void Remove();
-        void Save(T item);
+        /// <summary>
+        /// The table is based on a worksheet data range.
+        /// </summary>
+        Worksheet = 0,
+        /// <summary>
+        /// The table is based on an XML mapping.
+        /// </summary>
+        Xml = 1,
+        /// <summary>
+        /// The table is based on an external data query.
+        /// </summary>
+        QueryTable = 2
     }
 }

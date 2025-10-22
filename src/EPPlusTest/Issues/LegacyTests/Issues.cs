@@ -6280,12 +6280,25 @@ namespace EPPlusTest
         [TestMethod]
         public void ReadCustomXml1()
         {
-            using var p = OpenTemplatePackage("qt_csv.xlsx");
+            using var p = OpenTemplatePackage("qt_csv.xlsx"); 
             foreach (var cx in p.Workbook.CustomXmlDocuments)
             {
                 Assert.AreEqual(1, cx.SchemasReferences.Count);
             }
+            foreach(var ws in p.Workbook.Worksheets)
+            {
+                foreach(var t in ws.Tables)
+                {
+                    if(t.DataSourceType==TableDataSourceType.QueryTable)
+                    {
+                        Assert.IsNotNull(t.QueryTable);
+                    }
+                }
+            }
+            Assert.AreEqual(1, p.Workbook.Worksheets[2].QueryTables.Count);
             Assert.IsNotEmpty(p.Workbook.Connections.PowerQuerySettings.PowerQueryFormulas);
+            Assert.AreEqual(7, p.Workbook.Connections.Count);
+            SaveAndCleanup(p);
         }
         [TestMethod]
         public void ReadCustomXml2()

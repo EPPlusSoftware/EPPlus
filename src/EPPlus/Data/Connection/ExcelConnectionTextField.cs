@@ -16,6 +16,16 @@ namespace OfficeOpenXml.Data.Connection
 {
     public class ExcelConnectionTextField
     {
+        /// <summary>
+        /// Creates a new text field that can be added to <see cref="ExcelTextProperties.Fields"/>
+        /// </summary>
+        /// <param name="type">The datatype when importing the field</param>
+        /// <param name="position">The position of the field.</param>
+        public ExcelConnectionTextField(eExternalConnectionType type, int position)
+        {
+            Type= type; 
+            Position= position;
+        }
         public eExternalConnectionType Type { get; set; }
         public int Position { get; set; }
     }

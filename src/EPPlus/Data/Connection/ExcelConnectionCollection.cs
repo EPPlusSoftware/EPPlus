@@ -47,15 +47,18 @@ namespace OfficeOpenXml.Data.Connection
         }
         internal ZipPackagePart Part { get; private set; }
         internal XmlDocument ConnectionXml { get; private set; }
-        List<ExcelConnection> _connection = new List<ExcelConnection>();
+        /// <summary>
+        /// Number of items in the collection.
+        /// </summary>
+        public int Count { get { return _list.Count; } }
         public IEnumerator<ExcelConnection> GetEnumerator()
         {
-            return _connection.GetEnumerator();
+            return _list.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _connection.GetEnumerator();
+            return _list.GetEnumerator();
         }
 
         internal void Save()
@@ -78,6 +81,9 @@ namespace OfficeOpenXml.Data.Connection
             {
                 conn.Save();
             }
+            var connXmlStream = Part.GetStream(System.IO.FileMode.Create, System.IO.FileAccess.Write);
+            ConnectionXml.Save(connXmlStream);
+            connXmlStream.Flush();
         }
         /// <summary>
         /// Adds a connection of type database with the specified connection string.
@@ -87,6 +93,10 @@ namespace OfficeOpenXml.Data.Connection
         /// <returns>The connection</returns>
         public ExcelConnection AddDatabase(string connectionString)
         {
+            if(string.IsNullOrEmpty(connectionString?.Trim()))
+            {
+                throw new ArgumentException("Connection string cannot be null or empty", nameof(connectionString));
+            };
             ExcelConnection c = AddInternal();
             c.DatabaseProperties = new ExcelDatabaseProperties();
             c.DatabaseProperties.Connection = connectionString;

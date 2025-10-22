@@ -10,11 +10,15 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
+using OfficeOpenXml.Core;
 using System;
 
 namespace OfficeOpenXml.Data.Connection
 {
 
+    /// <summary>
+    /// Which credentials to use.
+    /// </summary>
     public enum eCredential
     {
         /// <summary>
@@ -34,6 +38,9 @@ namespace OfficeOpenXml.Data.Connection
         /// </summary>
         Prompt
     }
+    /// <summary>
+    /// How a connection object should reconnect. 
+    /// </summary>
     public enum eReconnectionMethod
     {
         /// <summary>

@@ -830,6 +830,10 @@ namespace OfficeOpenXml
         {
             SetXmlNodeString(TopNode, path, value, removeIfBlank, false);
         }
+        internal void SetXmlNodeString(string path, string value, bool removeIfBlank, bool insertFirst, bool removeLastOnly)
+        {
+            SetXmlNodeString(TopNode, path, value, removeIfBlank, insertFirst, removeLastOnly);
+        }
         internal void SetXmlNodeString(XmlNode node, string path, string value)
         {
             SetXmlNodeString(node, path, value, false, false);
@@ -838,7 +842,7 @@ namespace OfficeOpenXml
         {
             SetXmlNodeString(node, path, value, removeIfBlank, false);
         }
-        internal void SetXmlNodeString(XmlNode node, string path, string value, bool removeIfBlank, bool insertFirst)
+        internal void SetXmlNodeString(XmlNode node, string path, string value, bool removeIfBlank, bool insertFirst, bool removeLastOnly = false)
         {
             if (node == null)
             {
@@ -846,7 +850,14 @@ namespace OfficeOpenXml
             }
             if (string.IsNullOrEmpty(value) && removeIfBlank)
             {
-                DeleteAllNode(path);
+                if (removeLastOnly)
+                {
+                    DeleteNode(path);
+                }
+                else
+                {
+                    DeleteAllNode(path);
+                }
             }
             else
             {
@@ -867,6 +878,17 @@ namespace OfficeOpenXml
         internal void SetXmlNodeBoolVml(string path, bool value)
         {
             SetXmlNodeString(TopNode, path, value ? "t" : "f", false, false);
+        }
+        internal void SetXmlNodeBoolNull(string path, bool? value)
+        {
+            if (value.HasValue)
+            {
+                SetXmlNodeString(TopNode, path, value.Value ? "1" : "0", false, false);
+            }
+            else
+            {
+                DeleteNode(path);
+            }
         }
 
         internal void SetXmlNodeBool(string path, bool value, bool removeIf)

@@ -16,7 +16,11 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.Data.Connection;
+using OfficeOpenXml.Data.Connection.IOHandlers;
+using OfficeOpenXml.Data.QueryTable;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.RichData.Structures.Errors;
 namespace OfficeOpenXml.Table
 {
     /// <summary>
@@ -73,7 +77,30 @@ namespace OfficeOpenXml.Table
         {
             return AddInternal(Range, Name, null);
         }
-
+        /// <summary>
+        /// Adds a new query table to the collection. To add a new query table you need to specify the queries field names. 
+        /// </summary>
+        /// <param name="Range">The range to the table.</param>
+        /// <param name="Name">The name of the table</param>
+        /// <param name="connection">The connection in the <see cref="ExcelWorkbook.Connections" collection./> </param>
+        /// <param name="fields">The names of the fields. EPPlus does not execute the query, so you must set the field names and update the field properties in the <see cref="ExcelQueryTable.Fields" collection. /></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">If no fields are supplied</exception>
+        /// <exception cref="InvalidOperationException">If the connection is null or not in the package.</exception>
+        public ExcelTable AddQueryTable(ExcelAddressBase Range, string Name, ExcelConnection connection, params string[] fields)
+        {
+            if(fields==null || fields.Length==0 || !fields.Any(x=>string.IsNullOrEmpty(x)))
+            {
+                throw new ArgumentException("Supply at least one non-empty field for the query.");
+            }
+            if(connection == null || !_ws.Workbook.Connections.Contains(connection))
+            {
+                throw new InvalidOperationException("The connection is null or does not exist in the package.");
+            }
+            var tbl = AddInternal(Range, Name, null);
+            tbl.QueryTable = new ExcelQueryTable(new QueryTableDataPartXmlHandler(tbl, connection, fields));            
+            return tbl;
+        }
         internal ExcelTable AddInternal(ExcelAddressBase Range, string name, ExcelTable copy)
         {
             if (Range.WorkSheetName != null && Range.WorkSheetName != _ws.Name)

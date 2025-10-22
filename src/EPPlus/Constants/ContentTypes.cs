@@ -74,5 +74,6 @@ namespace OfficeOpenXml.Constants
 
         internal const string contentTypeCustomXmlProperties = "application/vnd.openxmlformats-officedocument.customXmlProperties+xml";
         internal const string contentTypeConnections = "application/vnd.openxmlformats-officedocument.spreadsheetml.connections+xml";
+        internal const string contentTypeQueryTable = "application/vnd.openxmlformats-officedocument.spreadsheetml.queryTable+xml";
     }
 }

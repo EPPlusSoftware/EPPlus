@@ -20,17 +20,12 @@ using System.Xml;
 namespace OfficeOpenXml.Data.Connection
 {
     /// <summary>
-    /// Settings for power query connections.
+    /// Settings for power query connections. These settings are read from the CustomXml in the package with the key DataMashup
     /// </summary>
     public class ExcelPowerQuerySettings
     {
         internal ExcelPowerQuerySettings()
         {
-            PermissionsXml = new XmlDocument();
-            XmlHelper.LoadXmlSafe(PermissionsXml, "<?xml version=\"1.0\" encoding=\"utf-8\"?><PermissionList xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><CanEvaluateFuturePackages>false</CanEvaluateFuturePackages><FirewallEnabled>true</FirewallEnabled></PermissionList>", Encoding.UTF8);
-            MetadataXml = new XmlDocument();
-            XmlHelper.LoadXmlSafe(MetadataXml, "<?xml version=\"1.0\" encoding=\"utf-8\"?><LocalPackageMetadataFile xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Items><Item><ItemLocation><ItemType>AllFormulas</ItemType><ItemPath /></ItemLocation><StableEntries><Entry Type=\"Relationships\" Value=\"sAAAAAA==\" /></StableEntries></Item></Items></LocalPackageMetadataFile>", Encoding.UTF8);
-            PowerQueryFormulas = "section Section1;\n";
         }
         internal ExcelPowerQuerySettings(byte[] blob)
         {
@@ -40,8 +35,22 @@ namespace OfficeOpenXml.Data.Connection
             var size = br.ReadInt32();
             var pck = br.ReadBytes((int)size);
             PQPackage = new ZipPackage(new MemoryStream(pck));
+            ZipPackagePart section1MPart;
 
-            var section1MPart = PQPackage.GetPartByContentType("application/x-ms-m");
+            if(PQPackage._contentTypes.TryGetValue("m", out ZipPackage.ContentType ct))
+            {
+                section1MPart = PQPackage.GetPartByContentType(ct.Name);
+            }
+            else
+            {
+                section1MPart = PQPackage.GetPart(new Uri("/section.m", UriKind.Absolute));
+            }
+
+            if (section1MPart == null)
+            {
+                section1MPart = PQPackage.GetPartByContentType("text/plain");
+            }
+
             using var mms = section1MPart.GetStream();
             using (var reader = new StreamReader(mms, Encoding.UTF8))
             {
@@ -66,18 +75,19 @@ namespace OfficeOpenXml.Data.Connection
             size = br.ReadInt32();
 
             var packageBinding = br.ReadBytes((int)size);
-#if(!Core)            
-            var protectedData = ProtectedData.Unprotect(packageBinding, UTF8Encoding.UTF8.GetBytes("DataExplorer Package Components"), DataProtectionScope.CurrentUser);
-            br = new BinaryReader(new MemoryStream(protectedData));
-            size = br.ReadInt32();
-            var hash1 = br.ReadBytes(size);
-            size = br.ReadInt32();
-            var hash2 = br.ReadBytes(size);
+            // Data protection (DPAPI) only works in windows as it's tied to the current user.
+            //#if(!Core)            
+            //            var protectedData = ProtectedData.Unprotect(packageBinding, UTF8Encoding.UTF8.GetBytes("DataExplorer Package Components"), DataProtectionScope.CurrentUser);
+            //            br = new BinaryReader(new MemoryStream(protectedData));
+            //            size = br.ReadInt32();
+            //            var hash1 = br.ReadBytes(size);
+            //            size = br.ReadInt32();
+            //            var hash2 = br.ReadBytes(size);
 
-            var sha = SHA256.Create();
-            var calcHash1 = sha.ComputeHash(pck);
-            var calcHash2 = sha.ComputeHash(permBytes);
-#endif
+            //            var sha = SHA256.Create();
+            //            var calcHash1 = sha.ComputeHash(pck);
+            //            var calcHash2 = sha.ComputeHash(permBytes);
+            //#endif
         }
         internal void Save()
         {
@@ -96,9 +106,11 @@ namespace OfficeOpenXml.Data.Connection
                 sectionMPart = PQPackage.GetPartByContentType("application/x-ms-m");
                 if(sectionMPart==null)
                 {
+                    PQPackage.GetPartByContentType("text/plain");
                     sectionMPart = PQPackage.CreatePart(new Uri("/Formulas/Section1.m", UriKind.Relative), "application/x-ms-m");
                 }
             }
+
             using var ms = sectionMPart.GetStream();
             var streamwriter = new StreamWriter(ms, Encoding.UTF8);
             streamwriter.Write(PowerQueryFormulas);
@@ -155,13 +167,13 @@ namespace OfficeOpenXml.Data.Connection
         /// <item><description>All section members SHOULD be shared.</description></item>
         /// </list>
         /// </summary>        
-        public string PowerQueryFormulas 
+        public string PowerQueryFormulas
         { 
             get; 
             set; 
         }
         /// <summary>
-        /// Permission setings for the Power Query connection.
+        /// Permission settings for the Power Query connection.
         /// </summary>
         public XmlDocument PermissionsXml
         {
@@ -175,6 +187,22 @@ namespace OfficeOpenXml.Data.Connection
         {
             get;            
             private set;
+        }
+        
+        /// <summary>
+        /// Creates an empty power query setting 
+        /// </summary>
+        public void CreateEmpty()
+        {
+            if(PermissionsXml!=null)
+            {
+                throw (new InvalidOperationException("Power query settings already exist in the package."));
+            }
+            PermissionsXml = new XmlDocument();
+            XmlHelper.LoadXmlSafe(PermissionsXml, "<?xml version=\"1.0\" encoding=\"utf-8\"?><PermissionList xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><CanEvaluateFuturePackages>false</CanEvaluateFuturePackages><FirewallEnabled>true</FirewallEnabled></PermissionList>", Encoding.UTF8);
+            MetadataXml = new XmlDocument();
+            XmlHelper.LoadXmlSafe(MetadataXml, "<?xml version=\"1.0\" encoding=\"utf-8\"?><LocalPackageMetadataFile xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Items><Item><ItemLocation><ItemType>AllFormulas</ItemType><ItemPath /></ItemLocation><StableEntries><Entry Type=\"Relationships\" Value=\"sAAAAAA==\" /></StableEntries></Item></Items></LocalPackageMetadataFile>", Encoding.UTF8);
+            PowerQueryFormulas = "section Section1;\n";
         }
     }
 }
