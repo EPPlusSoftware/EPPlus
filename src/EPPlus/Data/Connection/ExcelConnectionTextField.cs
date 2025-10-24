@@ -14,19 +14,28 @@ using System;
 
 namespace OfficeOpenXml.Data.Connection
 {
+    /// <summary>
+    /// Represents a text field in a text connection.
+    /// </summary>
     public class ExcelConnectionTextField
     {
         /// <summary>
         /// Creates a new text field that can be added to <see cref="ExcelTextProperties.Fields"/>
         /// </summary>
         /// <param name="type">The datatype when importing the field</param>
-        /// <param name="position">The position of the field.</param>
-        public ExcelConnectionTextField(eExternalConnectionType type, int position)
+        public ExcelConnectionTextField(eConnectionTextFieldType type)
         {
             Type= type; 
-            Position= position;
         }
-        public eExternalConnectionType Type { get; set; }
-        public int Position { get; set; }
+        internal ExcelConnectionTextField(eConnectionTextFieldType type, int position)
+        {
+            Type = type;
+            Position = position;
+        }
+        /// <summary>
+        /// The format to handle the data type of the field.
+        /// </summary>
+        public eConnectionTextFieldType Type { get; set; }
+        internal int Position { get; set; } = 0;
     }
 }

@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Data.Connection
         public eConnectionTextFileType FileType { get; set; } = eConnectionTextFileType.Win;
 
         /// <summary>
-        /// The character set to use.
+        /// The character set assosiated with the source file. Names are limited to the IANA charcter set, <see href="http://www.iana.org/assignments/character-sets." />
         /// </summary>
         public string CharacterSet { get; set; }
 

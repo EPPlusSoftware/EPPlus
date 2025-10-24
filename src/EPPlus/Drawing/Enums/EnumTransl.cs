@@ -276,30 +276,56 @@ namespace OfficeOpenXml.Drawing
                     return "noStrike";
             }
         }
-        internal static eExternalConnectionType TranslateExternalConnectionType(this string value)
+        internal static eConnectionTextFieldType TranslateConnectionTextFieldTypeType(this string value)
         {
             switch (value)
             {
                 case "text":
-                    return eExternalConnectionType.Text;
+                    return eConnectionTextFieldType.Text;
                 case "MDY":
-                    return eExternalConnectionType.MonthDayYear;
+                    return eConnectionTextFieldType.MonthDayYear;
                 case "DMY":
-                    return eExternalConnectionType.DayMonthYear;
+                    return eConnectionTextFieldType.DayMonthYear;
                 case "YMD":
-                    return eExternalConnectionType.YearMonthDay;
+                    return eConnectionTextFieldType.YearMonthDay;
                 case "MYD":
-                    return eExternalConnectionType.MonthYearDay;
+                    return eConnectionTextFieldType.MonthYearDay;
                 case "DYM":
-                    return eExternalConnectionType.DayYearMonth;
+                    return eConnectionTextFieldType.DayYearMonth;
                 case "YDM":
-                    return eExternalConnectionType.YearDayMonth;
+                    return eConnectionTextFieldType.YearDayMonth;
                 case "skip":
-                    return eExternalConnectionType.SkipField;
+                    return eConnectionTextFieldType.SkipField;
                 case "EMD":
-                    return eExternalConnectionType.EastAsianYearMonthDay;
+                    return eConnectionTextFieldType.EastAsianYearMonthDay;
                 default:
-                    return eExternalConnectionType.General;
+                    return eConnectionTextFieldType.General;
+            }
+        }
+        internal static string FromConnectionTextFieldTypeType(this eConnectionTextFieldType value)
+        {
+            switch (value)
+            {
+                case eConnectionTextFieldType.Text:
+                    return "text";
+                case eConnectionTextFieldType.MonthDayYear:
+                    return "MDY";
+                case eConnectionTextFieldType.DayMonthYear:
+                    return "DMY";
+                case eConnectionTextFieldType.YearMonthDay:
+                    return "YMD";
+                case eConnectionTextFieldType.MonthYearDay:
+                    return "MYD";
+                case eConnectionTextFieldType.DayYearMonth:
+                    return "DYM";
+                case eConnectionTextFieldType.YearDayMonth:
+                    return "YDM";
+                case eConnectionTextFieldType.SkipField:
+                    return "skip";
+                case eConnectionTextFieldType.EastAsianYearMonthDay:
+                    return "EMD";
+                default:
+                    return "general";
             }
         }
 

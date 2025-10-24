@@ -16,6 +16,7 @@ using OfficeOpenXml.Packaging;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Xml;
@@ -30,18 +31,21 @@ namespace OfficeOpenXml.Data.Connection
         ExcelPackage _package;
         XmlNamespaceManager _nsm;
         List<ExcelConnection> _list = new List<ExcelConnection>();
+        int _nextId=1;
         internal  ExcelConnectionCollection(ExcelPackage package)
         {
             _package = package;
             Part = _package.ZipPackage.GetByContentType(ContentTypes.contentTypeConnections).FirstOrDefault();
-            ConnectionXml = new XmlDocument();
             _nsm = _package.Workbook.NameSpaceManager;
             if (Part!=null)
             {
+                ConnectionXml = new XmlDocument();
                 XmlHelper.LoadXmlSafe(ConnectionXml, Part.GetStream());
                 foreach (XmlNode node in ConnectionXml.DocumentElement.SelectNodes("d:connection", _nsm))
                 {
-                    _list.Add(new ExcelConnection(new ConnectionDataPartXmlHandler(_nsm, node)));
+                    var c = new ExcelConnection(new ConnectionDataPartXmlHandler(_nsm, node));
+                    if(c.Id>=_nextId) _nextId= c.Id+1;
+                    _list.Add(c);
                 }
             }
         }
@@ -86,63 +90,144 @@ namespace OfficeOpenXml.Data.Connection
             connXmlStream.Flush();
         }
         /// <summary>
-        /// Adds a connection of type database with the specified connection string.
+        /// Adds a connection of type database with the specified connection string. 
+        /// EPPlus will set the <see cref="Type"/> of the connection to Odbc or OleDb, depending on the connection string. If you use another type, please set it manually.
         /// If the connection string is a power querty connection string, please also see <see cref="PowerQuerySettings"/>
         /// </summary>
+        /// <param name="name">The name of the connection.</param>
         /// <param name="connectionString">The connection string to the database.</param>
         /// <returns>The connection</returns>
-        public ExcelConnection AddDatabase(string connectionString)
+        public ExcelConnection AddDatabase(string name, string connectionString)
         {
-            if(string.IsNullOrEmpty(connectionString?.Trim()))
+            if (string.IsNullOrEmpty(connectionString?.Trim()))
             {
                 throw new ArgumentException("Connection string cannot be null or empty", nameof(connectionString));
-            };
-            ExcelConnection c = AddInternal();
+            }
+            ;
+            ExcelConnection c = AddInternal(name);
             c.DatabaseProperties = new ExcelDatabaseProperties();
             c.DatabaseProperties.Connection = connectionString;
+            c.Type = GetConnectionType(connectionString);
+            c.IsBackground = true;
+            c.SaveData = true;
+
             return c;
         }
+
+        private static eConnectionDataSourceType GetConnectionType(string connectionString)
+        {
+            var parameters = connectionString.Split(';');
+            foreach (var param in parameters)
+            {
+                var keyValue = param.Split('=');
+                switch (keyValue[0]?.Trim().ToLower())
+                {
+                    case "driver":
+                        return eConnectionDataSourceType.ODBC;
+                    case "provider":
+                        return eConnectionDataSourceType.OLEDB;
+                }
+            }
+            return eConnectionDataSourceType.ODBC;
+        }
+
         /// <summary>
         /// Adds a connection to a OLAP data source.
         /// </summary>
+        /// <param name="name">The uniqe name of the connection</param>
+        /// <param name="connectionString">The connection string </param>
+        /// <param name="command">The command, usually the name of the qube.</param>
         /// <returns>The connection</returns>
-        public ExcelConnection AddOlap()
+        public ExcelConnection AddOlap(string name, string connectionString, string command)
         {
-            ExcelConnection c = AddInternal();
+            if (string.IsNullOrEmpty(connectionString?.Trim()))
+            {
+                throw new ArgumentException("Connection string cannot be null or empty", nameof(connectionString));
+            }
+
+            ExcelConnection c = AddInternal(name);
+            c.DatabaseProperties = new ExcelDatabaseProperties()
+            {
+                Connection = connectionString,
+                CommandType = eCommandType.Cube,
+                Command = command
+            };
+            c.Type = GetConnectionType(connectionString);
             c.OlapProperties = new ExcelConnectionOlapProperties();
+            c.Type = eConnectionDataSourceType.OLEDB;
             return c;
         }
         /// <summary>
         /// Adds a connection to a web query data source.
         /// </summary>
         /// <returns>The connection</returns>
-        public ExcelConnection AddWeb()
+        public ExcelConnection AddWeb(string name, string url)
         {
-            ExcelConnection c = AddInternal();
+            if (string.IsNullOrEmpty(url?.Trim()))
+            {
+                throw new ArgumentException("Connection string cannot be null or empty", nameof(url));
+            }
+
+            ExcelConnection c = AddInternal(name);
             c.WebProperties = new ExcelWebProperties();
+            c.WebProperties.Url = url;
+            c.Type = eConnectionDataSourceType.WebQuery;
             return c;
         }
         /// <summary>
         /// Adds a connection to a text file data source.
         /// </summary>
+        /// <param name="name">The name of the connection</param>
+        /// <param name="sourceFile">The path to the text file to use to import external data. Can be expressed in URI or systemspecific file path notation.</param>
         /// <returns>The connection</returns>
-        public ExcelConnection AddText()
+        public ExcelConnection AddText(string name, string sourceFile)
         {
-            ExcelConnection c = AddInternal();
+            if(string.IsNullOrEmpty(sourceFile?.Trim()))
+            {
+                throw new ArgumentException($"Argument {nameof(sourceFile)} cannot be empty.");
+            }
+            ExcelConnection c = AddInternal(name);
             c.TextProperties = new ExcelTextProperties();
+            c.TextProperties.SourceFile=sourceFile;
+            c.Type = eConnectionDataSourceType.Text;
             return c;
         }
 
-        private ExcelConnection AddInternal()
+        private ExcelConnection AddInternal(string name)
         {
-            var node = ConnectionXml.CreateElement("d", "connection", Schemas.schemaMain);
+            if(Part==null)
+            {
+                CreatePartAndXml();
+            }
+            else
+            {
+                if (_list.Any(x=>x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    throw new ArgumentException("A connection with name {name} already exist in the collection.");
+                }
+            }
+            
+            var node = ConnectionXml.CreateElement("connection", Schemas.schemaMain);
             ConnectionXml.DocumentElement.AppendChild(node);
+            node.SetAttribute("uid", "http://schemas.microsoft.com/office/spreadsheetml/2017/revision16", "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}");
             var c = new ExcelConnection(new ConnectionDataPartXmlHandler(_nsm, node));
+            c.Id = _nextId++;
+            c.Name = name;
+            c.LastRefreshVersion = 8;
             c.Parameters = new ExcelConnectionParameters();
             _list.Add(c);
             return c;
         }
 
+        private void CreatePartAndXml()
+        {
+            var uri = new Uri("/xl/connections.xml", UriKind.Relative);
+            Part = _package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeConnections);
+            var rel = _package.Workbook.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/connections");
+            ConnectionXml = new XmlDocument();
+            var startXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><connections xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"xr16\" xmlns:xr16=\"http://schemas.microsoft.com/office/spreadsheetml/2017/revision16\"></connections>";
+            ConnectionXml.LoadXml(startXml);
+        }
         public void RemoveAt(int index)
         {
             _list[index].Remove();

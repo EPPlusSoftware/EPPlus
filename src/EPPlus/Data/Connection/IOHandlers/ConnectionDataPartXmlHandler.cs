@@ -13,6 +13,7 @@
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using OfficeOpenXml.Utils.Compare;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
@@ -41,37 +42,37 @@ namespace OfficeOpenXml.Data.Connection
             item.IsDeleted = _xml.GetXmlNodeBool("@deleted", false);
             item.RefreshOnLoad = _xml.GetXmlNodeBool("@refreshOnLoad", false);
             item.KeepAlive = _xml.GetXmlNodeBool("@keepAlive", false);
-            item.AutomaticRefreshInterval = _xml.GetXmlNodeInt("@automaticRefreshInterval", 0);
+            item.AutomaticRefreshInterval = _xml.GetXmlNodeInt("@interval", 0);
             item.ReconnectionMethod = _xml.GetXmlEnumNull<eReconnectionMethod>("@reconnectionMethod", eReconnectionMethod.AsRequired).Value;
-            item.MinimumRefreshableVersion =_xml.GetXmlNodeInt("@minimumRefreshableVersion", 0);
+            item.MinimumRefreshableVersion =_xml.GetXmlNodeInt("@minRefreshableVersion", 0);
             item.SavePassword = _xml.GetXmlNodeBool("@savePassword", false);
             item.IsNew = _xml.GetXmlNodeBool("@new", false);
             item.IsDeleted = _xml.GetXmlNodeBool("@deleted", false);
             item.OnlyUseConnectionFile = _xml.GetXmlNodeBool("@onlyUseConnectionFile", false);
             item.IsBackground = _xml.GetXmlNodeBool("@background", false);
-            item.RefreshOnLoad = _xml.GetXmlNodeBool("@refreshOnLoad", false);
+            item.LastRefreshVersion = _xml.GetXmlNodeInt("@refreshedVersion");
             item.SaveData = _xml.GetXmlNodeBool("@saveData", false);
             item.SingleSignOnId = _xml.GetXmlNodeString("@singleSignOnId");
-            item.LastRefreshVersion = _xml.GetXmlNodeInt("@refreshVersion", 0);
+            item.LastRefreshVersion = _xml.GetXmlNodeInt("@refreshedVersion", 0);
+            item.Type = _xml.GetXmlEnumNull<eConnectionDataSourceType>("@type");
 
-            if (_xml.ExistsNode("d:dbPr"))
+            if(_xml.ExistsNode("d:dbPr"))
             {
                 LoadDataProperties(item);
-
             }
-            else if(_xml.ExistsNode("d:olapPr"))
+            if(_xml.ExistsNode("d:olapPr"))
             {
                 LoadOlapProperties(item);
             }
-            else if(_xml.ExistsNode("d:webPr"))
+            if(_xml.ExistsNode("d:webPr"))
             {
                 LoadWebProperties(item);
             }
-            else if(_xml.ExistsNode("d:textPr"))
+            if(_xml.ExistsNode("d:textPr"))
             {
                 LoadTextProperties(item);
             }
-            LoadParameters(item);            
+            LoadParameters(item);
         }
         void IDocumentPart<ExcelConnection>.Remove()
         {
@@ -120,8 +121,9 @@ namespace OfficeOpenXml.Data.Connection
             foreach (XmlElement tfn in _xml.GetNodes("d:textPr/d:textFields"))
             {
                 var tf = XmlHelperFactory.Create(_xml.NameSpaceManager, tfn);
-                textPr.Fields.Add(new ExcelConnectionTextField(tf.GetXmlNodeString("@type").TranslateExternalConnectionType(), tf.GetXmlNodeInt("@position")));
+                textPr.Fields.Add(new ExcelConnectionTextField(tf.GetXmlNodeString("@type").TranslateConnectionTextFieldTypeType(), tf.GetXmlNodeInt("@position")));
             }
+            textPr.Fields.Sort((x,y) => x.Position.CompareTo(y.Position));
             item.TextProperties = textPr;
         }
 
@@ -192,7 +194,7 @@ namespace OfficeOpenXml.Data.Connection
         void IDocumentPart<ExcelConnection>.Save(ExcelConnection item)
         {
             _xml.SetXmlNodeInt("@id", item.Id);
-            _xml.SetXmlNodeString("@name", item.Name);
+            _xml.SetXmlNodeString("@name", item.Name, true);
             _xml.SetXmlNodeString("@description", item.Description, true);
             _xml.SetXmlNodeString("@credentials", item.Credentials.ToEnumString(eCredential.Integrated), true);
             _xml.SetXmlNodeString("@sourceFile", item.SourceDatabaseFile, true);
@@ -200,9 +202,9 @@ namespace OfficeOpenXml.Data.Connection
             _xml.SetXmlNodeBool("@deleted", item.IsDeleted, false);
             _xml.SetXmlNodeBool("@refreshOnLoad",item.RefreshOnLoad, false);
             _xml.SetXmlNodeBool("@keepAlive", item.KeepAlive, false);
-            _xml.SetXmlNodeInt("@automaticRefreshInterval", item.AutomaticRefreshInterval, 0);
+            _xml.SetXmlNodeInt("@interval", item.AutomaticRefreshInterval, 0);
             _xml.SetXmlNodeString("@reconnectionMethod", item.ReconnectionMethod.ToEnumString(eReconnectionMethod.AsRequired), true);
-            _xml.SetXmlNodeInt("@minimumRefreshableVersion", item.MinimumRefreshableVersion, 0);
+            _xml.SetXmlNodeInt("@minRefreshableVersion", item.MinimumRefreshableVersion, 0);
             _xml.SetXmlNodeBool("@savePassword", item.SavePassword, false);
             _xml.SetXmlNodeBool("@new", item.IsNew, false);
             _xml.SetXmlNodeBool("@deleted", item.IsDeleted, false);
@@ -211,7 +213,8 @@ namespace OfficeOpenXml.Data.Connection
             _xml.SetXmlNodeBool("@refreshOnLoad", item.RefreshOnLoad, false);
             _xml.SetXmlNodeBool("@saveData", item.SaveData, false);
             _xml.SetXmlNodeString("@singleSignOnId", item.SingleSignOnId, true);
-            _xml.SetXmlNodeInt("@refreshVersion", item.LastRefreshVersion, 0);
+            _xml.SetXmlNodeInt("@refreshedVersion", item.LastRefreshVersion);
+            _xml.SetXmlNodeInt("@type", (int)item.Type);
 
             SaveDataProperties(item.DatabaseProperties);
             SaveOlapProperties(item.OlapProperties);
@@ -252,37 +255,35 @@ namespace OfficeOpenXml.Data.Connection
         {
             if (textPr == null) return;
             _xml.SetXmlNodeBool("d:textPr/@prompt", textPr.Prompt, true);
-            _xml.SetXmlNodeString("d:textPr/@fileType", textPr.FileType.ToEnumString(eConnectionTextFileType.Win));
-            _xml.SetXmlNodeString("d:textPr/@characterSet", textPr.CharacterSet, true);
+            _xml.SetXmlNodeString("d:textPr/@fileType", textPr.FileType.ToEnumString(eConnectionTextFileType.Win), true, false, true);
+            _xml.SetXmlNodeString("d:textPr/@characterSet", textPr.CharacterSet, true, false, true);
             _xml.SetXmlNodeInt("d:textPr/@firstRow", (int)textPr.FirstRow, 1);
             _xml.SetXmlNodeString("d:textPr/@sourceFile", textPr.SourceFile, true);
             _xml.SetXmlNodeBool("d:textPr/@delimited", textPr.Delimited, true);
-            _xml.SetXmlNodeString("d:textPr/@decimal", textPr.Decimal, true);
-            _xml.SetXmlNodeString("d:textPr/@thousands", textPr.Thousands, true);
+            _xml.SetXmlNodeString("d:textPr/@decimal", textPr.Decimal, true, false, true);
+            _xml.SetXmlNodeString("d:textPr/@thousands", textPr.Thousands, true, false, true);
             _xml.SetXmlNodeBool("d:textPr/@tab",textPr.Tab, true);
             _xml.SetXmlNodeBool("d:textPr/@space", textPr.Space, false);
             _xml.SetXmlNodeBool("d:textPr/@semicolon", textPr.Semicolon, false);
             _xml.SetXmlNodeBool("d:textPr/@comma", textPr.Comma, false);
             _xml.SetXmlNodeBool("d:textPr/@consecutive", textPr.Consecutive, false);
-            _xml.SetXmlNodeString("d:textPr/@qualifier", textPr.Qualifier.ToEnumString(eConnectionTextQualifier.DoubleQuote), true);
-            _xml.SetXmlNodeString("d:textPr/@delimiter", textPr.Delimiter, true);
+            _xml.SetXmlNodeString("d:textPr/@qualifier", textPr.Qualifier.ToEnumString(eConnectionTextQualifier.DoubleQuote), true, false, true);
+            _xml.SetXmlNodeString("d:textPr/@delimiter", textPr.Delimiter, true, false, true);
+
             if (textPr.Fields.Count == 0)
             {
-                _xml.DeleteNode("d:textPr/d:textFields");
+                textPr.Fields.Add(new ExcelConnectionTextField(eConnectionTextFieldType.General));
             }
-            else
+            var fieldsNode = (XmlElement)_xml.CreateNode("d:textPr/d:textFields");
+            fieldsNode.RemoveAll();
+            foreach (var tf in textPr.Fields)
             {
-                var fieldsNode = (XmlElement)_xml.CreateNode("d:textPr/d:textFields");
-                fieldsNode.RemoveAll();
-                foreach (var tf in textPr.Fields)
-                {
-                    var node = fieldsNode.OwnerDocument.CreateElement("d", _xml.NameSpaceManager.LookupNamespace("d"));
-                    node.SetAttribute("type", tf.Type.ToEnumString());
-                    node.SetAttribute("position", tf.Position.ToString(CultureInfo.InvariantCulture));
-                    fieldsNode.AppendChild(node);
-                }
-                fieldsNode.SetAttribute("count", textPr.Fields.Count.ToString(CultureInfo.InvariantCulture));
+                var node = fieldsNode.OwnerDocument.CreateElement("d:textField", _xml.NameSpaceManager.LookupNamespace("d"));
+                node.SetAttribute("type", tf.Type.FromConnectionTextFieldTypeType());
+                node.SetAttribute("position", textPr.Fields.Count.ToString(CultureInfo.InvariantCulture));
+                fieldsNode.AppendChild(node);
             }
+            fieldsNode.SetAttribute("count", textPr.Fields.Count.ToString(CultureInfo.InvariantCulture));
         }
 
         private void SaveWebProperties(ExcelWebProperties webPr)
@@ -296,11 +297,11 @@ namespace OfficeOpenXml.Data.Connection
             _xml.SetXmlNodeBool("d:webPr/@xl97", webPr.IsExcel97, false);
             _xml.SetXmlNodeBool("d:webPr/@xl2000", webPr.IsExcel2000, false);
             _xml.SetXmlNodeBool("d:webPr/@textDates", webPr.TextDates, false);
-            _xml.SetXmlNodeString("d:webPr/@url", webPr.Url, true);
-            _xml.SetXmlNodeString("d:webPr/@post", webPr.Post, true);
+            _xml.SetXmlNodeString("d:webPr/@url", webPr.Url, true, false, true);
+            _xml.SetXmlNodeString("d:webPr/@post", webPr.Post, true, false, true);
             _xml.SetXmlNodeBool("d:webPr/@htmlTables", webPr.HtmlTables, false);
-            _xml.SetXmlNodeString("d:webPr/@htmlFormat", webPr.HtmlFormat.ToEnumString(eHtmlFormatingHandling.None), true);
-            _xml.SetXmlNodeString("d:webPr/editPage", webPr.EditPage, true);
+            _xml.SetXmlNodeString("d:webPr/@htmlFormat", webPr.HtmlFormat.ToEnumString(eHtmlFormatingHandling.None), true, false, true);
+            _xml.SetXmlNodeString("d:webPr/editPage", webPr.EditPage, true, false, true);
 
             if(webPr.Tables.Count==0)
             {
@@ -332,7 +333,6 @@ namespace OfficeOpenXml.Data.Connection
                     tablesNode.AppendChild(tableNode);
                 }
                 tablesNode.SetAttribute("count", webPr.Tables.Count.ToString(CultureInfo.InvariantCulture));
-
             }
         }
 
@@ -340,7 +340,7 @@ namespace OfficeOpenXml.Data.Connection
         {
             if (olapPr == null) return;
             _xml.SetXmlNodeBool("d:olapPr/@local", olapPr.Local, false);
-            _xml.SetXmlNodeString("d:olapPr/@localConnection", olapPr.LocalConnection, true);
+            _xml.SetXmlNodeString("d:olapPr/@localConnection", olapPr.LocalConnection, true, false, true);
             _xml.SetXmlNodeBool("d:olapPr/@localRefresh", olapPr.LocalRefresh, true);
             _xml.SetXmlNodeBool("d:olapPr/@sendLocale", olapPr.SendLocale, false);
             _xml.SetXmlNodeBool("d:olapPr/@serverFill", olapPr.ServerFill, true);
@@ -358,7 +358,7 @@ namespace OfficeOpenXml.Data.Connection
             }
             _xml.SetXmlNodeString("d:dbPr/@connection", dbPr.Connection);
             _xml.SetXmlNodeInt("d:dbPr/@commandType", (int)dbPr.CommandType, 2);
-            _xml.SetXmlNodeString("d:dbPr/@command", dbPr.Command);
+            _xml.SetXmlNodeString("d:dbPr/@command", dbPr.Command, true, false, true);
             _xml.SetXmlNodeString("d:dbPr/@serverCommand", dbPr.ServerCommand, true, false, true);
         }
     }

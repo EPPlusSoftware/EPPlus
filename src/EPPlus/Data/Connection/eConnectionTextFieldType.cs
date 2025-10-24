@@ -16,8 +16,21 @@ namespace OfficeOpenXml.Data.Connection
     /// Specifies the external connection data type and its date format order,
     /// used when importing or interpreting external data fields.
     /// </summary>
-    public enum eExternalConnectionType
+    public enum eConnectionTextFieldType
     {
+        /// <summary>
+        /// Decides the best-fit data type based on the content.
+        /// </summary>
+        General,
+        /// <summary>
+        /// Skip this field entirely — do not import it.
+        /// </summary>
+        SkipField,
+
+        /// <summary>
+        /// Field contains plain text.
+        /// </summary>
+        Text,
         /// <summary>
         /// Field contains a date in the order: day, month, year.
         /// </summary>
@@ -34,11 +47,6 @@ namespace OfficeOpenXml.Data.Connection
         EastAsianYearMonthDay,
 
         /// <summary>
-        /// Decides the best-fit data type based on the content.
-        /// </summary>
-        General,
-
-        /// <summary>
         /// Field contains a date in the order: month, day, year.
         /// </summary>
         MonthDayYear,
@@ -47,16 +55,6 @@ namespace OfficeOpenXml.Data.Connection
         /// Field contains a date in the order: month, year, day.
         /// </summary>
         MonthYearDay,
-
-        /// <summary>
-        /// Skip this field entirely — do not import it.
-        /// </summary>
-        SkipField,
-
-        /// <summary>
-        /// Field contains plain text.
-        /// </summary>
-        Text,
 
         /// <summary>
         /// Field contains a date in the order: year, day, month.

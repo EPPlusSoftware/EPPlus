@@ -64,12 +64,12 @@ namespace OfficeOpenXml.Data.CustomXml
             _xmlHelper.TopNode.InnerXml = "";
             foreach (var schemaRef in SchemasReferences)
             {
-                XmlElement schemaRefNode = (XmlElement)_xmlHelper.CreateNode("ds:schemaRef");
+                XmlElement schemaRefNode = (XmlElement)_xmlHelper.CreateNode("ds:schemaRefs/ds:schemaRef");
                 schemaRefNode.SetAttribute("ds:uri", schemaRef);
                 _xmlHelper.TopNode.AppendChild(schemaRefNode);
             }
 
-            var xmlSettings = new XmlWriterSettings();
+            var xmlSettings = new XmlWriterSettings() ;
 
             var stream = Part.GetStream(FileMode.Create, FileAccess.Write);
             var xmlWriter = XmlWriter.Create(stream, xmlSettings);

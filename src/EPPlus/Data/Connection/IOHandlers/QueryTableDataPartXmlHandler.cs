@@ -139,22 +139,22 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
             _xml.SetXmlNodeBool("@headers", item.RowNumbers, false);
             _xml.SetXmlNodeBool("@disableRefresh", item.DisableRefresh, false);
             _xml.SetXmlNodeBoolNull("@backgroundRefresh", item.BackgroundRefresh);
-            _xml.SetXmlNodeBoolNull("firstBackgroundRefresh", item.FirstBackgroundRefresh);
-            _xml.SetXmlNodeString("@growShrinkType", item.GrowShrinkType.ToEnumString(QueryTableGrowShrinkType.InsertDelete));
-            _xml.SetXmlNodeBool("refreshOnLoad", item.RefreshOnLoad, false);
-            _xml.SetXmlNodeBool("fillFormulas", item.FillFormulas, false);
-            _xml.SetXmlNodeBoolNull("removeDataOnSave", item.RemoveDataOnSave);
-            _xml.SetXmlNodeBool("disableEdit", item.DisableEdit, false);
-            _xml.SetXmlNodeBool("preserveFormatting", item.PreserveFormatting, true);
-            _xml.SetXmlNodeBool("adjustColumnWidth", item.AdjustColumnWidth, true);
-            _xml.SetXmlNodeBool("intermediate", item.Intermediate, false);
+            _xml.SetXmlNodeBoolNull("@firstBackgroundRefresh", item.FirstBackgroundRefresh);
+            _xml.SetXmlNodeString("@growShrinkType", item.GrowShrinkType.ToEnumString(QueryTableGrowShrinkType.InsertDelete), true, false, true);
+            _xml.SetXmlNodeBool("@refreshOnLoad", item.RefreshOnLoad, false);
+            _xml.SetXmlNodeBool("@fillFormulas", item.FillFormulas, false);
+            _xml.SetXmlNodeBoolNull("@removeDataOnSave", item.RemoveDataOnSave);
+            _xml.SetXmlNodeBool("@disableEdit", item.DisableEdit, false);
+            _xml.SetXmlNodeBool("@preserveFormatting", item.PreserveFormatting, true);
+            _xml.SetXmlNodeBool("@adjustColumnWidth", item.AdjustColumnWidth, true);
+            _xml.SetXmlNodeBool("@intermediate", item.Intermediate, false);
 
-            _xml.SetXmlNodeInt("autoFormatId", item.AutoFormatId);
-            _xml.SetXmlNodeBoolNull("applyNumberFormats", item.ApplyNumberFormats);
-            _xml.SetXmlNodeBoolNull("applyBorderFormats", item.ApplyBorderFormats);
-            _xml.SetXmlNodeBoolNull("applyFontFormats", item.ApplyFontFormats);
-            _xml.SetXmlNodeBoolNull("applyPatternFormats", item.ApplyPatternFormats);
-            _xml.SetXmlNodeBoolNull("applyAlignmentFormats", item.ApplyAlignmentFormats);
+            _xml.SetXmlNodeInt("@autoFormatId", item.AutoFormatId);
+            _xml.SetXmlNodeBoolNull("@applyNumberFormats", item.ApplyNumberFormats);
+            _xml.SetXmlNodeBoolNull("@applyBorderFormats", item.ApplyBorderFormats);
+            _xml.SetXmlNodeBoolNull("@applyFontFormats", item.ApplyFontFormats);
+            _xml.SetXmlNodeBoolNull("@applyPatternFormats", item.ApplyPatternFormats);
+            _xml.SetXmlNodeBoolNull("@applyAlignmentFormats", item.ApplyAlignmentFormats);
             _xml.SetXmlNodeBoolNull("applyWidthHeightFormats", item.ApplyWidthHeightFormats);
 
             if(item.Fields.Count > 0)
@@ -168,10 +168,10 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
                     xh.SetXmlNodeInt("@id", f.Id);
                     xh.SetXmlNodeString("@name", f.Name);
                     xh.SetXmlNodeInt("@tableColumnId", f.TableColumnId, 0);
-                    xh.SetXmlNodeBoolNull("@clipperColumn", f.ClippedColumn);
-                    xh.SetXmlNodeBoolNull("@dataBound", f.DataBoundColumn);
-                    xh.SetXmlNodeBool("@fillFormulas", f.FillFormulaOnRefresh);
-                    xh.SetXmlNodeBoolNull("@rowNumbers", f.RowNumbers);
+                    xh.SetXmlNodeBool("@clipped", f.ClippedColumn, false);
+                    xh.SetXmlNodeBool("@dataBound", f.DataBoundColumn, true);
+                    xh.SetXmlNodeBool("@fillFormulas", f.FillFormulaOnRefresh, false);
+                    xh.SetXmlNodeBool("@rowNumbers", f.RowNumbers, false);
                 }
                 fn.SetAttribute("count", item.Fields.Count.ToString(CultureInfo.InvariantCulture));
             }

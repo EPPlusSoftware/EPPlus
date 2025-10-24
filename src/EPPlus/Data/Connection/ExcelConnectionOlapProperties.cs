@@ -25,5 +25,5 @@ namespace OfficeOpenXml.Data.Connection
         public bool ServerNumberFormat { get; set; } = true;
         public bool ServerFont { get; set; } = true;
         public bool ServerFontColor { get; set; } = true;
-        }
+    }
 }
