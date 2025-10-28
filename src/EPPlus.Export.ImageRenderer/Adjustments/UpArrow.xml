@@ -1,0 +1,15 @@
+﻿<adjust type="UpArrow">
+	<objects>
+		<object ix="0" adjustmentType="LockToAdjustMin">
+			<commands>
+				<command ix="0" >
+					<pt ix="1" />
+					<pt ix="2" />
+					<pt ix="5" />
+					<pt ix="7" />
+					<pt ix="13" />					
+				</command>
+			</commands>
+		</object>
+	</objects>
+</adjust>

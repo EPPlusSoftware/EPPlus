@@ -1,0 +1,16 @@
+﻿<adjust type="ActionButtonHelp">
+	<objects>
+		<object ix="0" adjustmentType="AdjustToWidthHeight">
+			<commands>
+				<command ix="2" />
+				<command ix="3" />
+				<command ix="4" />
+				<command ix="5" />
+				<command ix="7" />
+				<command ix="8" />
+			</commands>
+		</object>
+		<object ix="1" adjustmentType="AdjustToWidthHeight" />
+		<object ix="2" adjustmentType="AdjustToWidthHeight" />
+	</objects>
+</adjust>

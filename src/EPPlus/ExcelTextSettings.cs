@@ -14,6 +14,7 @@ using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
+using EPPlus.Fonts.OpenType;
 
 namespace OfficeOpenXml
 {
@@ -96,8 +97,7 @@ namespace OfficeOpenXml
                 {
                     var ns = _package.Workbook.Styles.GetNormalStyle();
                     var mf = ns.Style.Font.GetMeasureFont();
-                    throw new InvalidOperationException("Exact Font Measurer only available in the 'Epplus Export' product");
-                    //_textMeasurerTrueType = new FontMeasurerTrueType(mf);
+                    _textMeasurerTrueType = new FontMeasurerTrueType(mf);
                 }
                 return _textMeasurerTrueType;
             }

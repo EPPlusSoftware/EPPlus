@@ -1,0 +1,15 @@
+﻿<adjust type="LeftArrow">
+	<objects>
+		<object ix="0" adjustmentType="LockToAdjustMin">
+			<commands>
+				<command ix="0" >
+					<pt ix="1" />
+					<pt ix="2" />
+					<pt ix="4" />
+					<pt ix="10" />
+					<pt ix="12" />
+				</command>
+			</commands>
+		</object>
+	</objects>
+</adjust>

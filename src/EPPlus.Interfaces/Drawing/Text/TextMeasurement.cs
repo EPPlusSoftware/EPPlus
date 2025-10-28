@@ -31,6 +31,11 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         /// </summary>
         public float Height { get; set; }
 
+        /// <summary>
+        /// Height of Font without linespacing.
+        /// </summary>
+        public float FontHeight { get; set; }
+
         public static TextMeasurement Empty
         {
             get { return new TextMeasurement(-1, -1); }

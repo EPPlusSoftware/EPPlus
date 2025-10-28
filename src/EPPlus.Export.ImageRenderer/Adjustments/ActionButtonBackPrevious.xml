@@ -1,0 +1,11 @@
+﻿<adjust type="ActionButtonBackPrevious">
+	<objects>
+		<object ix="0" adjustmentType="AdjustToWidthHeight">
+			<commands>
+				<command ix="2" />
+			</commands>
+		</object>
+		<object ix="1" adjustmentType="AdjustToWidthHeight" />
+		<object ix="2" adjustmentType="AdjustToWidthHeight" />
+	</objects>
+</adjust>

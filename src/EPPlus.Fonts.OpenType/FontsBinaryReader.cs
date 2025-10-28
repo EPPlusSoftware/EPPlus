@@ -1,0 +1,47 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+ *************************************************************************************************/
+using System;
+using System.IO;
+
+namespace EPPlus.Fonts.OpenType
+{
+    internal class FontsBinaryReader : BinaryReader
+    {
+        public FontsBinaryReader(Stream input) : base(input)
+        {
+        }
+
+        internal ushort ReadUInt16BigEndian()
+        {
+            var b = ReadBytes(2);
+            return BitConverter.ToUInt16(new byte[] { b[1], b[0] }, 0);
+        }
+        internal short ReadInt16BigEndian()
+        {
+            var b = ReadBytes(2);
+            return BitConverter.ToInt16(new byte[] { b[1], b[0] }, 0);
+        }
+        internal int ReadInt32BigEndian()
+        {
+            var b = ReadBytes(4);
+            return BitConverter.ToInt32(new byte[] { b[3], b[2], b[1], b[0] }, 0);
+        }
+
+        internal uint ReadUInt32BigEndian()
+        {
+            var b = ReadBytes(4);
+            return BitConverter.ToUInt32(new byte[] { b[3], b[2], b[1], b[0] }, 0);
+        }
+
+    }
+}
