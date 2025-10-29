@@ -89,8 +89,12 @@ namespace OfficeOpenXml.Data.Connection
             //            var calcHash2 = sha.ComputeHash(permBytes);
             //#endif
         }
-        internal void Save()
+        internal byte[] GetBytes()
         {
+            if(Exists==false)
+            {
+                return null;
+            }
             ZipPackagePart sectionMPart;
             if(PQPackage==null)
             {
@@ -117,11 +121,12 @@ namespace OfficeOpenXml.Data.Connection
             streamwriter.Flush();
             streamwriter.Close();
 
-            var packageStream = new MemoryStream();
+            using var packageStream = new MemoryStream();
             PQPackage.Save(packageStream);
             var pckbytes = packageStream.ToArray();
 
-            var bw= new BinaryWriter(new MemoryStream());
+            using var retMs = new MemoryStream();
+            var bw= new BinaryWriter(retMs);
             bw.Write(0);
             bw.Write(pckbytes.Length);
             bw.Write(pckbytes);
@@ -133,6 +138,9 @@ namespace OfficeOpenXml.Data.Connection
 
             // Permission binding. We set it to empty as DPAPI is only available on Windows.
             bw.Write(new byte[] { 1, 0 });
+            bw.Flush();
+
+            return retMs.ToArray();
         }
 
         private byte[] GetMetaDataBytes()
@@ -188,11 +196,21 @@ namespace OfficeOpenXml.Data.Connection
             get;            
             private set;
         }
-        
         /// <summary>
-        /// Creates an empty power query setting 
+        /// If any power query settings exists in the package. 
+        /// <seealso cref="Create()"/>"/>
         /// </summary>
-        public void CreateEmpty()
+        public bool Exists
+        {
+            get
+            {
+                return PermissionsXml != null;
+            }
+        }
+        /// <summary>
+        /// Creates an empty power query setting.
+        /// </summary>
+        public void Create()
         {
             if(PermissionsXml!=null)
             {

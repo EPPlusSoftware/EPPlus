@@ -144,25 +144,29 @@ namespace OfficeOpenXml.Data.Connection
             webPr.HtmlFormat = _xml.GetXmlEnum("d:webPr/@htmlFormat", eHtmlFormatingHandling.None);
             webPr.EditPage = _xml.GetXmlNodeString("d:webPr/editPage");
 
-            foreach (XmlElement tn in _xml.GetNodes("d:webPr/d:tables"))
+            var tsn = _xml.GetNode("d:webPr/d:tables") as XmlElement;
+            if(tsn!=null)
             {
-                var t = XmlHelperFactory.Create(_xml.NameSpaceManager, tn);
-                var ix = t.GetXmlNodeIntNull("d:ix/@v");
-                if (ix.HasValue)
+                foreach (XmlElement tn in tsn.ChildNodes)
                 {
-                    webPr.Tables.Add(new ExcelHtmlTableReference() { Index = ix.Value });
-                }
-                else
-                {
-                    var s = t.GetXmlNodeString("d:s/@v");
-                    if (string.IsNullOrEmpty(s) && t.ExistsNode("d:m"))
+                    var t = XmlHelperFactory.Create(_xml.NameSpaceManager, tn);
+                    switch (tn.LocalName)
                     {
-                        webPr.Tables.Add(new ExcelHtmlTableReference() { Index = -1 }); //Missing table
-                    }
-                    else
-                    {
-                        webPr.Tables.Add(new ExcelHtmlTableReference() { Name = s });
-                    }
+                        case "x":
+                            var ix = t.GetXmlNodeIntNull("@v");
+                            if (ix.HasValue)
+                            {
+                                webPr.Tables.Add(new ExcelHtmlTableReference() { Index = ix.Value });
+                            }
+                            break;
+                        case "s":                    
+                            var s = t.GetXmlNodeString("@v");
+                            webPr.Tables.Add(new ExcelHtmlTableReference() { Name = s });
+                            break;
+                        case "m":
+                            webPr.Tables.Add(new ExcelHtmlTableReference() { Index = -1 }); //Missing table
+                            break;
+                    } 
                 }
             }
             item.WebProperties = webPr;
@@ -316,19 +320,19 @@ namespace OfficeOpenXml.Data.Connection
                     XmlNode tableNode;
                     if(t.Index>=0)
                     {
-                        tableNode = tablesNode.OwnerDocument.CreateElement("d:x", _xml.NameSpaceManager.LookupNamespace("d"));
+                        tableNode = tablesNode.OwnerDocument.CreateElement("x", _xml.NameSpaceManager.LookupNamespace("d"));
                         tableNode.Attributes.Append(tablesNode.OwnerDocument.CreateAttribute("v"));
                         tableNode.Attributes[0].Value = t.Index.ToString(CultureInfo.InvariantCulture);
                     }
                     else if(string.IsNullOrEmpty(t.Name))
                     {
-                        tableNode = tablesNode.OwnerDocument.CreateElement("d:s", _xml.NameSpaceManager.LookupNamespace("d"));
+                        tableNode = tablesNode.OwnerDocument.CreateElement("s", _xml.NameSpaceManager.LookupNamespace("d"));
                         tableNode.Attributes.Append(tablesNode.OwnerDocument.CreateAttribute("v"));
                         tableNode.Attributes[0].Value = t.Name;
                     }
                     else
                     {
-                        tableNode = tablesNode.OwnerDocument.CreateElement("d:m", _xml.NameSpaceManager.LookupNamespace("d"));
+                        tableNode = tablesNode.OwnerDocument.CreateElement("m", _xml.NameSpaceManager.LookupNamespace("d"));
                     }
                     tablesNode.AppendChild(tableNode);
                 }

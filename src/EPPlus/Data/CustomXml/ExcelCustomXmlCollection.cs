@@ -54,7 +54,10 @@ namespace OfficeOpenXml.Data.CustomXml
         {
             return _list.GetEnumerator();
         }
-
+        internal void Add(ExcelCustomXml customXml)
+        {
+            _list.Add(customXml);
+        }
         internal void Save()
         {
             foreach(var item in _list)

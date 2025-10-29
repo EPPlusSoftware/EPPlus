@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Reflection.Metadata.Ecma335;
 using System.Xml;
 
 namespace OfficeOpenXml.Data.Connection
@@ -67,7 +68,7 @@ namespace OfficeOpenXml.Data.Connection
 
         internal void Save()
         {
-            if(_list.Count==0 && Part!=null)
+            if (_list.Count==0 && Part!=null)
             {
                 _package.ZipPackage.DeletePart(Part.Uri);
                 Part = null;
@@ -246,12 +247,12 @@ namespace OfficeOpenXml.Data.Connection
         {
             get
             {
-                if (_powerQuerySettings == null)
+                if (_powerQuerySettings != null)
                 {
                     var pqCustomXml = _package.Workbook.CustomXmlDocuments.FirstOrDefault(x => x.SchemasReferences.Any(x => x == Schemas.schemaDataMashup));
                     if (pqCustomXml == null)
                     {
-                        return null;
+                        return _powerQuerySettings = new ExcelPowerQuerySettings();
                     }
                     else
                     {

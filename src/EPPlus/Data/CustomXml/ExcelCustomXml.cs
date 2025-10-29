@@ -30,6 +30,10 @@ namespace OfficeOpenXml.Data.CustomXml
             get;
             private set;
         }
+        internal ExcelCustomXml()
+        {
+            
+        }
         internal ExcelCustomXml(ZipPackagePart part)
         {
             Part = part;
