@@ -1449,7 +1449,7 @@ namespace OfficeOpenXml
             //Remove the Theme
             ThemeManager.Save();
             // save the style sheet
-            Styles.UpdateXml();
+                Styles.UpdateXml();
             _package.SavePart(StylesUri, this.StylesXml);
 
             // save persons

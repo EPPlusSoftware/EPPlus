@@ -50,6 +50,7 @@ namespace EPPlusTest.Data
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
         public void AddWebPowerQuery()
         {
             var dbConn = _pck.Workbook.Connections.AddDatabase("PowerQueryDb", "Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=\"Table 6\";Extended Properties=\"\"");

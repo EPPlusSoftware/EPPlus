@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Data.CustomXml
             get;
             private set;
         }
-        internal ExcelCustomXml(ZipPackagePart part) 
+        internal ExcelCustomXml(ZipPackagePart part)
         {
             Part = part;
             var ms = part.GetStream();
@@ -48,24 +48,49 @@ namespace OfficeOpenXml.Data.CustomXml
             else
             {
                 PropertiesXml = null;
+                return;
             }
 
+            var nsm = CreateNsm();
+            var topNode = PropertiesXml.DocumentElement.SelectSingleNode("ds:schemaRefs", nsm);
+            if (topNode != null)
+            {
+                _xmlHelper = XmlHelperFactory.Create(nsm, topNode);
+                foreach (XmlElement n in _xmlHelper.GetNodes("ds:schemaRef"))
+                {
+                    SchemasReferences.Add(n.Attributes["ds:uri"].Value);
+                }
+            }
+        }
+
+        private static XmlNamespaceManager CreateNsm()
+        {
             var ns = new NameTable();
             var nsm = new XmlNamespaceManager(ns);
             nsm.AddNamespace("ds", "http://schemas.openxmlformats.org/officeDocument/2006/customXml");
-            _xmlHelper = XmlHelperFactory.Create(nsm, PropertiesXml.DocumentElement);
-            foreach (XmlElement n in _xmlHelper.GetNodes("ds:schemaRefs/ds:schemaRef"))
-            {
-                SchemasReferences.Add(n.Attributes["ds:uri"].Value);
-            }
+            return nsm;
         }
+
         internal void Save()
         {
+            if(_xmlHelper==null && SchemasReferences.Count > 0)
+            {
+                if(PropertiesXml==null)
+                {
+                    PropertiesPart = Part.Package.CreatePart(XmlHelper.GetNewUri(Part.Package, "itemProps{0}.xml"), ContentTypes.contentTypeCustomXmlProperties);
+                    PropertiesXml = new XmlDocument();
+                    PropertiesXml.LoadXml( $"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<ds:datastoreItem ds:itemID=\"{{{Guid.NewGuid().ToString()}}}\" xmlns:ds=\"http://schemas.openxmlformats.org/officeDocument/2006/customXml\"><ds:schemaRefs>");
+
+                    Part.CreateRelationship(PropertiesPart.Uri, TargetMode.Internal,  $"{ExcelPackage.schemaRelationships}/customXmlProps");                    
+                }
+                var nsm = CreateNsm();
+                _xmlHelper = XmlHelperFactory.Create(nsm, PropertiesXml.DocumentElement.SelectSingleNode("ds:schemaRefs", nsm));
+            }
             _xmlHelper.TopNode.InnerXml = "";
             foreach (var schemaRef in SchemasReferences)
             {
-                XmlElement schemaRefNode = (XmlElement)_xmlHelper.CreateNode("ds:schemaRefs/ds:schemaRef");
-                schemaRefNode.SetAttribute("ds:uri", schemaRef);
+                XmlElement schemaRefNode = (XmlElement)_xmlHelper.CreateNode("ds:schemaRef");
+                schemaRefNode.SetAttribute("uri", CreateNsm().LookupNamespace("ds"), schemaRef);
                 _xmlHelper.TopNode.AppendChild(schemaRefNode);
             }
 

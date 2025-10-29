@@ -72,24 +72,24 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
             item.Headers = _xml.GetXmlNodeBool("@headers", true);
             item.RowNumbers = _xml.GetXmlNodeBool("@headers", false);
             item.DisableRefresh = _xml.GetXmlNodeBool("@disableRefresh", false);
-            item.BackgroundRefresh = _xml.GetXmlNodeBool("@backgroundRefresh", true);
-            item.FirstBackgroundRefresh = _xml.GetXmlNodeBool("firstBackgroundRefresh", false);
+            item.BackgroundRefresh = _xml.GetXmlNodeBoolNullable("@backgroundRefresh");
+            item.FirstBackgroundRefresh = _xml.GetXmlNodeBoolNullable("firstBackgroundRefresh");
             item.GrowShrinkType = _xml.GetXmlEnum("@growShrinkType", QueryTableGrowShrinkType.InsertDelete);
-            item.RefreshOnLoad = _xml.GetXmlNodeBool("refreshOnLoad", false);
-            item.FillFormulas = _xml.GetXmlNodeBool("fillFormulas", false);
-            item.RemoveDataOnSave = _xml.GetXmlNodeBool("removeDataOnSave", false);
-            item.DisableEdit = _xml.GetXmlNodeBool("disableEdit", false);
-            item.PreserveFormatting = _xml.GetXmlNodeBool("preserveFormatting", true);
-            item.AdjustColumnWidth = _xml.GetXmlNodeBool("adjustColumnWidth", true);
-            item.Intermediate = _xml.GetXmlNodeBool("intermediate", false);
+            item.RefreshOnLoad = _xml.GetXmlNodeBool("@refreshOnLoad", false);
+            item.FillFormulas = _xml.GetXmlNodeBool("@fillFormulas", false);
+            item.RemoveDataOnSave = _xml.GetXmlNodeBoolNullable("@removeDataOnSave");
+            item.DisableEdit = _xml.GetXmlNodeBool("@disableEdit", false);
+            item.PreserveFormatting = _xml.GetXmlNodeBool("@preserveFormatting", true);
+            item.AdjustColumnWidth = _xml.GetXmlNodeBool("@adjustColumnWidth", true);
+            item.Intermediate = _xml.GetXmlNodeBool("@intermediate", false);
 
-            item.AutoFormatId = _xml.GetXmlNodeIntNull("autoFormatId");
-            item.ApplyNumberFormats = _xml.GetXmlNodeBoolNullable("applyNumberFormats");
-            item.ApplyBorderFormats = _xml.GetXmlNodeBoolNullable("applyBorderFormats");
-            item.ApplyFontFormats = _xml.GetXmlNodeBoolNullable("applyFontFormats");
-            item.ApplyPatternFormats = _xml.GetXmlNodeBoolNullable("applyPatternFormats");
-            item.ApplyAlignmentFormats = _xml.GetXmlNodeBoolNullable("applyAlignmentFormats");
-            item.ApplyWidthHeightFormats = _xml.GetXmlNodeBoolNullable("applyWidthHeightFormats");
+            item.AutoFormatId = _xml.GetXmlNodeIntNull("@autoFormatId");
+            item.ApplyNumberFormats = _xml.GetXmlNodeBoolNullable("@applyNumberFormats");
+            item.ApplyBorderFormats = _xml.GetXmlNodeBoolNullable("@applyBorderFormats");
+            item.ApplyFontFormats = _xml.GetXmlNodeBoolNullable("@applyFontFormats");
+            item.ApplyPatternFormats = _xml.GetXmlNodeBoolNullable("@applyPatternFormats");
+            item.ApplyAlignmentFormats = _xml.GetXmlNodeBoolNullable("@applyAlignmentFormats");
+            item.ApplyWidthHeightFormats = _xml.GetXmlNodeBoolNullable("@applyWidthHeightFormats");
 
             foreach (XmlElement node in _xml.GetNodes("d:queryTableRefresh/d:queryTableFields/d:queryTableField"))
             {
@@ -155,7 +155,7 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
             _xml.SetXmlNodeBoolNull("@applyFontFormats", item.ApplyFontFormats);
             _xml.SetXmlNodeBoolNull("@applyPatternFormats", item.ApplyPatternFormats);
             _xml.SetXmlNodeBoolNull("@applyAlignmentFormats", item.ApplyAlignmentFormats);
-            _xml.SetXmlNodeBoolNull("applyWidthHeightFormats", item.ApplyWidthHeightFormats);
+            _xml.SetXmlNodeBoolNull("@applyWidthHeightFormats", item.ApplyWidthHeightFormats);
 
             if(item.Fields.Count > 0)
             {
@@ -163,7 +163,7 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
                 fn.RemoveAll();
                 foreach (var f in item.Fields)
                 {
-                    var node = _xml.CreateNode("d:queryTableRefresh/d:queryTableFields/d:queryTableField");
+                    var node = _xml.CreateNode("d:queryTableRefresh/d:queryTableFields/d:queryTableField", false, true);
                     var xh = XmlHelperFactory.Create(_xml.NameSpaceManager, node);
                     xh.SetXmlNodeInt("@id", f.Id);
                     xh.SetXmlNodeString("@name", f.Name);
