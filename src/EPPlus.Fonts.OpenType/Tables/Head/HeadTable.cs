@@ -15,7 +15,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Head
     /// <summary>
     /// This table gives global information about the font.
     /// </summary>
-    public class HeadTable
+    public class HeadTable : FontTableBase
     {
         public enum IndexToLocFormats : short
         {
@@ -64,6 +64,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Head
         public BoundingRectangle GetDefaultBounds()
         {
             return new BoundingRectangle(Xmin, Ymin, Xmax, Ymax);
+        }
+
+        internal override void SerializeInternal(FontsBinaryWriter writer)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

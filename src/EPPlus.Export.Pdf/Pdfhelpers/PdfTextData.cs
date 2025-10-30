@@ -68,10 +68,12 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
             for (int i = 0; i < text.Length; i++)
             {
                 char c = text[i];
-                var encodingRecord = fontData.CmapTable.EncodingRecords.FirstOrDefault(er => er.PlatformId == Platforms.Windows && er.EncodingId == 1);
-                if (encodingRecord == null) throw new Exception("Could not find Microsoft Unicode cmap (PlatformID 3, EncodingID 1).");
-                GlyphMapping[] mappings = encodingRecord.Mappings;
-                encodingRecord.CharMappingsToGlyphIndex.TryGetValue(c, out ushort gi);
+                var subTable = fontData.CmapTable.GetSubtable4();
+                var gi = subTable.GetGlyphIndex(c);
+                //var encodingRecord = fontData.CmapTable.EncodingRecords.FirstOrDefault(er => er.PlatformId == Platforms.Windows && er.EncodingId == 1);
+                //if (encodingRecord == null) throw new Exception("Could not find Microsoft Unicode cmap (PlatformID 3, EncodingID 1).");
+                //GlyphMapping[] mappings = encodingRecord.Mappings;
+                //encodingRecord.CharMappingsToGlyphIndex.TryGetValue(c, out ushort gi);
                 int advanceWidth;
                 if (gi == 0 && c != 0)
                 {

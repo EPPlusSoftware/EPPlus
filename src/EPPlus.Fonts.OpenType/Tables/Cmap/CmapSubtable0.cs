@@ -15,7 +15,7 @@ using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
-    public class CmapSubtable0
+    public class CmapSubtable0 : CmapSubtableBase
     {
         internal CmapSubtable0(FontsBinaryReader reader)
         {
@@ -42,12 +42,45 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         private readonly FontsBinaryReader _reader;
 
-        public ushort Format { get; set; }
+        public override ushort Format { get; }
 
-        public ushort Length { get; set; }
+        public override ushort Length { get; }
 
-        public ushort Language { get; set; }
+        public override ushort Language { get; }
 
-        public GlyphMapping[] GlyphMappingArray { get; set; }
+        public override GlyphMapping[] GlyphMappingArray { get; }
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            // Write the subtable header: format, length, and language
+            writer.WriteUInt16BigEndian(Format);   // Format = 0
+            writer.WriteUInt16BigEndian(Length);   // Total length of the subtable (should be 262 bytes)
+            writer.WriteUInt16BigEndian(Language); // Language code
+
+            // Create a 256-byte array for the glyphIdArray (1 byte per character code 0–255)
+            byte[] glyphIdArray = new byte[256];
+
+            foreach (var mapping in GlyphMappingArray)
+            {
+                // Format 0 only supports character codes in the range 0–255
+                if (mapping.CharacterCode >= 256)
+                {
+                    throw new InvalidOperationException(
+                        $"Character code {mapping.CharacterCode} is out of range for format 0 (must be < 256).");
+                }
+
+                // Format 0 only supports glyph indices in the range 0–255 (1 byte)
+                if (mapping.GlyphIndex > 255)
+                {
+                    throw new InvalidOperationException(
+                        $"Glyph index {mapping.GlyphIndex} for character code {mapping.CharacterCode} exceeds 255 and cannot be encoded in format 0.");
+                }
+
+                glyphIdArray[mapping.CharacterCode] = (byte)mapping.GlyphIndex;
+            }
+
+            // Write the glyphIdArray to the stream
+            writer.Write(glyphIdArray);
+        }
     }
 }

@@ -44,19 +44,22 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                 if(format == 0)
                 {
                     var subtable = new CmapSubtable0(_reader);
-                    enc.Mappings = subtable.GlyphMappingArray;
+                    table.SubTables.Add(subtable);
+                    //enc.Mappings = subtable.GlyphMappingArray;
                 }
                 else if(format == 4)
                 {
                     var subtable = new CmapSubtable4(_reader);
-                    enc.Mappings = subtable.GlyphMappingArray;
-                    enc.GlyphIndexToCharMappings = subtable.GlyphIndexToCharMappings;
-                    enc.CharMappingsToGlyphIndex = subtable.CharMappingsToGlyphIndex;
+                    table.SubTables.Add(subtable);
+                    //enc.Mappings = subtable.GlyphMappingArray;
+                    //enc.GlyphIndexToCharMappings = subtable.GlyphIndexToCharMappings;
+                    //enc.CharMappingsToGlyphIndex = subtable.CharMappingsToGlyphIndex;
                 }
                 else if(format == 6)
                 {
                     var subtable = new CmapSubtable6(_reader);
-                    enc.Mappings = subtable.GlyphMappingArray;
+                    table.SubTables.Add(subtable);
+                    //enc.Mappings = subtable.GlyphMappingArray;
                 }
             }
             return table;

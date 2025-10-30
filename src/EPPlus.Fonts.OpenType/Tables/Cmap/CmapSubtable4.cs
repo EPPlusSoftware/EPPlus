@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -13,6 +10,11 @@ using System.Collections.Generic;
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
     /// <summary>
@@ -21,8 +23,14 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
     /// (U+0000 to U+FFFF).
     /// See https://docs.microsoft.com/en-us/typography/opentype/spec/cmap#format-4-segment-mapping-to-delta-values
     /// </summary>
-    public class CmapSubtable4
+    public class CmapSubtable4 : CmapSubtableBase
     {
+        public CmapSubtable4(CmapTable parent)
+        {
+            _parentTable = parent;
+        }
+
+        private readonly CmapTable _parentTable;
         private Dictionary<ushort, char> _glyphIndextoCharMappings = new Dictionary<ushort, char>();
         private Dictionary<char, ushort> _CharMappingstoglyphIndex = new Dictionary<char, ushort>();
         private void OnMappingDone(char c, ushort gIx)
@@ -37,10 +45,95 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             }
         }
 
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+
+            // Clone the segment list and add the required sentinel segment
+            var segments = new List<CmapSubtable4Segment>(Segments)
+            {
+                new CmapSubtable4Segment
+                {
+                    StartCode = 0xFFFF,
+                    EndCode = 0xFFFF,
+                    IdDelta = 1,
+                    IdRangeOffset = 0,
+                    GlyphIdArray = null
+                }
+            };
+
+            int segCount = segments.Count;
+            int segCountX2 = segCount * 2;
+
+            // Calculate search parameters
+            int power = (int)Math.Floor(Math.Log(segCount, 2));
+            ushort searchRange = (ushort)(Math.Pow(2, power) * 2);
+            ushort entrySelector = (ushort)power;
+            ushort rangeShift = (ushort)(segCountX2 - searchRange);
+
+            // Prepare arrays
+            ushort[] endCodes = segments.Select(s => s.EndCode).ToArray();
+            ushort[] startCodes = segments.Select(s => s.StartCode).ToArray();
+            short[] idDeltas = segments.Select(s => s.IdDelta).ToArray();
+            ushort[] idRangeOffsets = new ushort[segCount];
+            List<ushort> glyphIdArray = new();
+
+            // Calculate idRangeOffsets and build glyphIdArray
+            int offsetBase = 16 + segCount * 8 + 2; // Header + 4 arrays + reservedPad
+            for (int i = 0; i < segCount; i++)
+            {
+                var segment = segments[i];
+                if (segment.GlyphIdArray != null && segment.GlyphIdArray.Length > 0)
+                {
+                    // Offset in bytes from current idRangeOffset position to glyphIdArray start
+                    int offset = (segCount - i) * 2 + glyphIdArray.Count * 2;
+                    idRangeOffsets[i] = (ushort)offset;
+                    glyphIdArray.AddRange(segment.GlyphIdArray);
+                }
+                else
+                {
+                    idRangeOffsets[i] = 0;
+                }
+            }
+
+            // Calculate total length
+            int length = offsetBase + glyphIdArray.Count * 2;
+
+            // Write header
+            writer.WriteUInt16BigEndian(Format);        // format = 4
+            writer.WriteUInt16BigEndian((ushort)length);
+            writer.WriteUInt16BigEndian(Language);
+            writer.WriteUInt16BigEndian((ushort)segCountX2);
+            writer.WriteUInt16BigEndian(searchRange);
+            writer.WriteUInt16BigEndian(entrySelector);
+            writer.WriteUInt16BigEndian(rangeShift);
+
+            // Write segment arrays
+            foreach (var endCode in endCodes)
+                writer.WriteUInt16BigEndian(endCode);
+
+            writer.WriteUInt16BigEndian(0); // reservedPad
+
+            foreach (var startCode in startCodes)
+                writer.WriteUInt16BigEndian(startCode);
+
+            foreach (var delta in idDeltas)
+                writer.WriteInt16BigEndian(delta);
+
+            foreach (var offset in idRangeOffsets)
+                writer.WriteUInt16BigEndian(offset);
+
+            // Write glyphIdArray
+            foreach (var glyphId in glyphIdArray)
+                writer.WriteUInt16BigEndian(glyphId);
+
+        }
+
         internal CmapSubtable4(FontsBinaryReader reader)
         {
+
             _reader = reader;
             _initialPos = reader.BaseStream.Position;
+
             Format = 4;
             Length = _reader.ReadUInt16BigEndian();
             Language = _reader.ReadUInt16BigEndian();
@@ -49,83 +142,108 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             EntrySelector = _reader.ReadUInt16BigEndian();
             RangeShift = _reader.ReadUInt16BigEndian();
 
-            // start reading items...
-            var segCount = SegCountX2 / 2;
-            var endCodes = new List<ushort>();
-            for(var x = 0; x < segCount; x++)
+            int segCount = SegCountX2 / 2;
+
+            // Read segment arrays
+            var endCodes = new ushort[segCount];
+            for (int i = 0; i < segCount; i++)
             {
-                endCodes.Add(_reader.ReadUInt16BigEndian());
+                endCodes[i] = _reader.ReadUInt16BigEndian();
             }
-            var reservedPad = reader.ReadUInt16BigEndian();
-            var startCodes = new List<ushort>();
-            for (var x = 0; x < segCount; x++)
+
+            ushort reservedPad = _reader.ReadUInt16BigEndian();
+
+            var startCodes = new ushort[segCount];
+            for (int i = 0; i < segCount; i++)
             {
-                startCodes.Add(_reader.ReadUInt16BigEndian());
+                startCodes[i] = _reader.ReadUInt16BigEndian();
             }
-            var idDeltas = new List<short>();
-            for (var x = 0; x < segCount; x++)
+
+            var idDeltas = new short[segCount];
+            for (int i = 0; i < segCount; i++)
             {
-                idDeltas.Add(_reader.ReadInt16BigEndian());
+                idDeltas[i] = _reader.ReadInt16BigEndian();
             }
-            var idRangeOffsets = new List<ushort>();
-            for (var x = 0; x < segCount; x++)
+
+            var idRangeOffsets = new ushort[segCount];
+            for (int i = 0; i < segCount; i++)
             {
-                idRangeOffsets.Add(_reader.ReadUInt16BigEndian());
+                idRangeOffsets[i] = _reader.ReadUInt16BigEndian();
             }
+
+            // Calculate glyphIdArray start position
+            long glyphArrayStart = _reader.BaseStream.Position;
+
+            var segments = new List<CmapSubtable4Segment>();
             var glyphMappings = new List<GlyphMapping>();
-            var glyphIds = default(ushort[]);
-            for(var seg = 0; seg < segCount - 1; seg++)
+
+            for (int i = 0; i < segCount; i++)
             {
-                var rangeOffset = idRangeOffsets[seg];
-                var delta = idDeltas[seg];
-                for(var cc = startCodes[seg]; cc <= endCodes[seg]; cc++)
+                var segment = new CmapSubtable4Segment
                 {
-                    if(rangeOffset == 0)
+                    StartCode = startCodes[i],
+                    EndCode = endCodes[i],
+                    IdDelta = idDeltas[i],
+                    IdRangeOffset = idRangeOffsets[i]
+                };
+                if (segment.StartCode == 0xFFFF && segment.EndCode == 0xFFFF)
+                {
+                    // Sentinel segment – skip mapping
+                    continue;
+                }
+
+                if (segment.IdRangeOffset != 0)
+                {
+                    int rangeLength = segment.EndCode - segment.StartCode + 1;
+                    long offset = glyphArrayStart + (2 * (i + segment.IdRangeOffset / 2));
+                    long currentPos = _reader.BaseStream.Position;
+
+                    _reader.BaseStream.Seek(offset, SeekOrigin.Begin);
+                    segment.GlyphIdArray = new ushort[rangeLength];
+                    for (int j = 0; j < rangeLength; j++)
                     {
-                        glyphMappings.Add(new GlyphMapping
+                        segment.GlyphIdArray[j] = _reader.ReadUInt16BigEndian();
+                        ushort glyphIndex = segment.GlyphIdArray[j];
+                        ushort charCode = (ushort)(segment.StartCode + j);
+                        if (glyphIndex != 0)
                         {
-                            CharacterCode = cc,
-                            GlyphIndex = (ushort)(delta + cc)
-                        });
-                        OnMappingDone(Convert.ToChar(cc), (ushort)(delta + cc));
-                    }
-                    else
-                    {
-                        if(glyphIds == null)
-                        {
-                            var gIds = new List<ushort>();
-                            var hLength = reader.BaseStream.Position - _initialPos + 2;
-                            var nGlyphs = (Length - hLength) / 2;
-                            for(var x = 0; x < nGlyphs; x++)
+                            glyphMappings.Add(new GlyphMapping
                             {
-                                var gId = _reader.ReadUInt16BigEndian();
-                                gIds.Add(gId);
-                            }
-                            glyphIds = gIds.ToArray();
+                                CharacterCode = charCode,
+                                GlyphIndex = glyphIndex
+                            });
+                            OnMappingDone((char)charCode, glyphIndex);
                         }
-                        long offset = (rangeOffset / 2) + (cc - startCodes[seg]);
-                        var arrayIndex = offset - startCodes.Count + seg;
-                        var gm = new GlyphMapping
+                    }
+
+                    _reader.BaseStream.Seek(currentPos, SeekOrigin.Begin);
+                }
+                else
+                {
+                    for (ushort c = segment.StartCode; c <= segment.EndCode; c++)
+                    {
+                        ushort glyphIndex = (ushort)((c + segment.IdDelta) % 65536);
+                        if (glyphIndex != 0)
                         {
-                            CharacterCode = cc,
-                            GlyphIndex = glyphIds[arrayIndex]
-                        };
-                        glyphMappings.Add(gm);
-                        OnMappingDone(gm.Char, gm.GlyphIndex);
+                            glyphMappings.Add(new GlyphMapping
+                            {
+                                CharacterCode = c,
+                                GlyphIndex = glyphIndex
+                            });
+                            OnMappingDone((char)c, glyphIndex);
+                        }
                     }
                 }
+
+                segments.Add(segment);
             }
+
+            Segments = segments;
             GlyphMappingArray = glyphMappings.ToArray();
         }
 
         private readonly FontsBinaryReader _reader;
         private readonly long _initialPos;
-
-        public ushort Format { get; set; }
-
-        public ushort Length { get; set; }
-
-        public ushort Language { get; set; }
 
         public ushort SegCountX2 { get; set; }
 
@@ -135,9 +253,31 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         public ushort RangeShift { get; private set; }
 
-        public GlyphMapping[] GlyphMappingArray { get; set; }
-
         public IDictionary<ushort, char> GlyphIndexToCharMappings => _glyphIndextoCharMappings;
         public IDictionary<char, ushort> CharMappingsToGlyphIndex => _CharMappingstoglyphIndex;
+
+        public override ushort Format { get; }
+
+        public override ushort Length { get; }
+
+        public override ushort Language { get; }
+
+        public override GlyphMapping[] GlyphMappingArray { get; }
+
+        internal List<CmapSubtable4Segment> Segments { get; } = new();
+
+        /// <summary>
+        /// Returns glyph index of a character
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns>The glyph index or 0 if the glyph doesn't exist</returns>
+        public ushort GetGlyphIndex(char c)
+        {
+            if(_CharMappingstoglyphIndex != null && _CharMappingstoglyphIndex.TryGetValue(c, out ushort gi))
+            {
+                return gi;
+            }
+            return 0;
+        }
     }
 }

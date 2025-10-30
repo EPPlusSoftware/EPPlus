@@ -107,7 +107,8 @@ namespace EPPlus.Export.Pdf.PdfResources
             int fallbackWidth = fontData.Os2Table.xAvgCharWidth;
             for (int c = firstChar; c <= lastChar; c++)
             {
-                fontData.CmapTable.EncodingRecords[0].CharMappingsToGlyphIndex.TryGetValue((char)c, out ushort gi);
+                var subTable = fontData.CmapTable.GetSubtable4();
+                var gi = subTable.GetGlyphIndex((char)c);
                 if (gi == 0 && c != 0)
                 {
                     int normalizedWidth = (int)System.Math.Round(fallbackWidth / (double)fontData.HeadTable.UnitsPerEm * 1000);

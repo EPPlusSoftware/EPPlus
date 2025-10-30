@@ -12,7 +12,7 @@
  *************************************************************************************************/
 namespace EPPlus.Fonts.OpenType.Tables.Post
 {
-    public class PostTable
+    public class PostTable : FontTableBase
     {
         public int version { get; set; }
         public double italicAngle { get; set; }
@@ -23,5 +23,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
         public uint maxMemType42 { get; set; }
         public uint minMemType1 { get; set; }
         public uint maxMemType1 { get;set; }
+
+        internal override void SerializeInternal(FontsBinaryWriter writer)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

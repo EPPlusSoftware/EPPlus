@@ -14,7 +14,7 @@
  *************************************************************************************************/
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
-    public class EncodingRecord
+    public class EncodingRecord : FontTableElement
     {
         internal EncodingRecord(FontsBinaryReader reader)
         {
@@ -40,9 +40,17 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         public uint SubtableOffset { get; set; }
 
-        public GlyphMapping[] Mappings { get; set; }
+        //public GlyphMapping[] Mappings { get; set; }
 
-        public IDictionary<ushort, char> GlyphIndexToCharMappings { get; internal set; }
-        public IDictionary<char, ushort> CharMappingsToGlyphIndex { get; internal set; }
+        //public IDictionary<ushort, char> GlyphIndexToCharMappings { get; internal set; }
+        //public IDictionary<char, ushort> CharMappingsToGlyphIndex { get; internal set; }
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            writer.WriteUInt16BigEndian((ushort)PlatformId);
+            writer.WriteUInt16BigEndian(EncodingId);
+            writer.WriteUInt32BigEndian(SubtableOffset);
+
+        }
     }
 }

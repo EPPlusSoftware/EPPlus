@@ -24,6 +24,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         {
             TtfFont? font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
             Assert.IsNotNull(font);
+            var cmap = font.CmapTable;
             Assert.AreEqual("Roboto", font.FullName);
             Assert.AreEqual("Regular", font.SubFamily);
             Assert.AreEqual(1296, font.GlyphTable.Glyphs.Length);

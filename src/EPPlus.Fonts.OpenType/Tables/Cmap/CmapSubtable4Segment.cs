@@ -10,19 +10,19 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-namespace EPPlus.Fonts.OpenType.Tables.Loca
-{
-    /// <summary>
-    /// The indexToLoc table stores the offsets to the locations of the glyphs in the font, relative to the beginning of the glyphData table
-    /// https://docs.microsoft.com/en-us/typography/opentype/spec/loca
-    /// </summary>
-    public class LocaTable : FontTableBase
-    {
-        public uint[] Offsets { get; set; }
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
-        {
-            throw new System.NotImplementedException();
-        }
+namespace EPPlus.Fonts.OpenType.Tables.Cmap
+{
+    internal class CmapSubtable4Segment
+    {
+        public ushort StartCode { get; set; }
+        public ushort EndCode { get; set; }
+        public short IdDelta { get; set; }
+        public ushort IdRangeOffset { get; set; } // 0 if not used
+        public ushort[]? GlyphIdArray { get; set; } // Only if IdRangeOffset > 0
     }
 }

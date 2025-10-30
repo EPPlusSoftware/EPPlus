@@ -12,7 +12,7 @@
  *************************************************************************************************/
 namespace EPPlus.Fonts.OpenType.Tables.Name
 {
-    public class NameTable
+    public class NameTable : FontTableBase
     {
         public ushort format { get; set; }
 
@@ -21,5 +21,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
         public ushort stringOffset { get; set; }
 
         public NameRecord[] NameRecords { get; set; }
+
+        internal override void SerializeInternal(FontsBinaryWriter writer)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

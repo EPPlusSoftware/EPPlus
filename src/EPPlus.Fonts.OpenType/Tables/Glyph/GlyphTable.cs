@@ -16,8 +16,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
     /// This table contains information that describes the glyphs in the font in the TrueType outline format
     /// https://docs.microsoft.com/en-us/typography/opentype/spec/glyf
     /// </summary>
-    public class GlyphTable
+    public class GlyphTable : FontTableBase
     {
         public GlyphHeader[] Glyphs { get; set; }
+
+        internal override void SerializeInternal(FontsBinaryWriter writer)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

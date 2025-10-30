@@ -19,7 +19,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
     /// reserved areas must be set to 0.
     /// https://docs.microsoft.com/en-us/typography/opentype/spec/hhea
     /// </summary>
-    public class HheaTable
+    public class HheaTable : FontTableBase
     {
         /// <summary>
         /// Major version number of the horizontal header table — set to 1.
@@ -91,5 +91,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
         /// Number of hMetric entries in 'hmtx' table
         /// </summary>
         public ushort numberOfHMetrics { get; set; }
+
+        internal override void SerializeInternal(FontsBinaryWriter writer)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

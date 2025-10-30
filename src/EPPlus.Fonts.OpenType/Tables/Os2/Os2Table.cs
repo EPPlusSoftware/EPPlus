@@ -17,7 +17,7 @@ using EPPlus.Fonts.OpenType.Utils;
 
 namespace EPPlus.Fonts.OpenType.Tables.Os2
 {
-    public class Os2Table
+    public class Os2Table : FontTableBase
     {
         /// <summary>
         /// The version number for the OS/2 table: 0x0000 to 0x0005.
@@ -202,5 +202,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         public ushort usUpperOpticalPointSize { get; set; }
 
         public bool UseTypoMetrics => EnumUtil.HasFlag(SelectionFlags, FsSelectionFlags.UseTypoMetrics);
+
+        internal override void SerializeInternal(FontsBinaryWriter writer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

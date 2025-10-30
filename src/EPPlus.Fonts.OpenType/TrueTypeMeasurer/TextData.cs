@@ -192,10 +192,8 @@ namespace EPPlus.Fonts.OpenType
                 {
                     char c = line[i];
 
-                    var encodingRecord = fontData.CmapTable.EncodingRecords.FirstOrDefault(er => er.PlatformId == Platforms.Windows && er.EncodingId == 1);
-                    if (encodingRecord == null) throw new Exception("Could not find Microsoft Unicode cmap (PlatformID 3, EncodingID 1).");
-                    GlyphMapping[] mappings = encodingRecord.Mappings;
-                    encodingRecord.CharMappingsToGlyphIndex.TryGetValue(c, out ushort gi);
+                    var subTable = fontData.CmapTable.GetSubtable4();
+                    var gi = subTable.GetGlyphIndex(c);
                     int advanceWidth;
                     if (gi == 0 && c != 0)
                     {
@@ -294,10 +292,8 @@ namespace EPPlus.Fonts.OpenType
             {
                 char c = text[i];
 
-                var encodingRecord = fontData.CmapTable.EncodingRecords.FirstOrDefault(er => er.PlatformId == Platforms.Windows && er.EncodingId == 1);
-                if (encodingRecord == null) throw new Exception("Could not find Microsoft Unicode cmap (PlatformID 3, EncodingID 1).");
-                GlyphMapping[] mappings = encodingRecord.Mappings;
-                encodingRecord.CharMappingsToGlyphIndex.TryGetValue(c, out ushort gi);
+                var subTable = fontData.CmapTable.GetSubtable4();
+                var gi = subTable.GetGlyphIndex(c);
                 int advanceWidth;
                 if (gi == 0 && c != 0)
                 {

@@ -4,7 +4,7 @@ using System;
 namespace EPPlus.Fonts.OpenType.Tables
 {
     internal abstract class TableLoader<T>
-        where T : class
+        where T : FontTableBase
     {
         //internal bool TableExists { get; private set; } = true;
 
@@ -16,20 +16,6 @@ namespace EPPlus.Fonts.OpenType.Tables
                 _offset = tblSettings._tableRecordsRef[tableName].Offset;
                 _length = tblSettings._tableRecordsRef[tableName].Length;
             }
-
-            //else
-            //{
-            //    throw new Exception("The table does not Exist within the font file. " +
-            //        "Please assure font file type matches the reader.");
-            //}
-            //else
-            //{
-            //    if (_length == 0)
-            //    {
-            //        TableExists = false;
-            //    }
-            //}
-
             _tables = tblSettings._tableRecordsRef;
             _tableName = tableName;
             _reader.BaseStream.Position = _offset;

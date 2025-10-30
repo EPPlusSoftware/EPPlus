@@ -12,7 +12,7 @@
  *************************************************************************************************/
 namespace EPPlus.Fonts.OpenType.Tables.Kern
 {
-    public class KernTable
+    public class KernTable : FontTableBase
     {
         public ushort version { get; set; }
 
@@ -21,5 +21,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Kern
         public KernSubTable[] SubTables { get; set; }
 
         public ushort NumberOfFormat0Tables { get; set; }
+
+        internal override void SerializeInternal(FontsBinaryWriter writer)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

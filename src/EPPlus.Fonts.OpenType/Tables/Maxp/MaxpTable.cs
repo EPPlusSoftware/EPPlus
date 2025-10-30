@@ -12,9 +12,14 @@
  *************************************************************************************************/
 namespace EPPlus.Fonts.OpenType.Tables.Maxp
 {
-    public class MaxpTable
+    public class MaxpTable : FontTableBase
     {
         public int version { get; set; } 
         public ushort numGlyphs { get; set; }
+
+        internal override void SerializeInternal(FontsBinaryWriter writer)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

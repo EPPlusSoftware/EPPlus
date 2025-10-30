@@ -16,7 +16,7 @@ using System.Diagnostics;
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
     [DebuggerDisplay("{CharacterCode} - '{Char}': {GlyphIndex}")]
-    public class GlyphMapping
+    public class GlyphMapping : FontTableElement
     {
         public ushort CharacterCode { get; set; }
 
@@ -28,5 +28,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         {
             return Char.ToString() + ": " + GlyphIndex;
         }
+
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            writer.WriteUInt16BigEndian(CharacterCode);
+            writer.WriteUInt16BigEndian(GlyphIndex);
+        }
+
     }
 }

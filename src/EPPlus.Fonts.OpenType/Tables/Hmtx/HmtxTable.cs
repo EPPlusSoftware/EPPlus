@@ -19,7 +19,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
     /// metrics ('hmtx') table provides glyph advance widths and left side bearings.
     /// https://docs.microsoft.com/en-us/typography/opentype/spec/hmtx
     /// </summary>
-    public class HmtxTable
+    public class HmtxTable : FontTableBase
     {
         /// <summary>
         /// Paired advance width and left side bearing values for each glyph. Records are indexed by glyph ID.
@@ -30,5 +30,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
         /// Left side bearings for glyph IDs greater than or equal to numberOfHMetrics.
         /// </summary>
         public short[] leftSideBearings { get; set; }
+
+        internal override void SerializeInternal(FontsBinaryWriter writer)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
