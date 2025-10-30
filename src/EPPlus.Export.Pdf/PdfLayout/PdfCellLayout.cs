@@ -61,10 +61,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     CellFillData.GradientFillData.Color2 = new PdfColor(fill.Gradient.Color2.LookupColor());
                     CellFillData.GradientFillData.Color3 = new PdfColor(fill.Gradient.Color3.LookupColor());
                     CellFillData.GradientFillData.Degree = fill.Gradient.Degree;
-                    CellFillData.GradientFillData.Top = fill.Gradient.Top;
-                    CellFillData.GradientFillData.Bottom = fill.Gradient.Bottom;
-                    CellFillData.GradientFillData.Left = fill.Gradient.Left;
-                    CellFillData.GradientFillData.Right = fill.Gradient.Right;
+                    CellFillData.GradientFillData.Top    = double.IsNaN(fill.Gradient.Top)    ? 0 : fill.Gradient.Top;
+                    CellFillData.GradientFillData.Bottom = double.IsNaN(fill.Gradient.Bottom) ? 0 : fill.Gradient.Bottom;
+                    CellFillData.GradientFillData.Left   = double.IsNaN(fill.Gradient.Left)   ? 0 : fill.Gradient.Left;
+                    CellFillData.GradientFillData.Right  = double.IsNaN(fill.Gradient.Right)  ? 0 : fill.Gradient.Right;
                     CellFillData.id = CellFillData.GradientFillData.ToString();
                     AddShadingResourceData(dictionaries.Shadings, CellFillData.id);
                 }
@@ -155,33 +155,55 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     var bottom = CellFillData.GradientFillData.Bottom;
                     var left = CellFillData.GradientFillData.Left;
                     var right = CellFillData.GradientFillData.Right;
-                    double cx = x;
-                    double cy = y + height;
-                    if (!double.IsNaN(left) && !double.IsNaN(right) && !double.IsNaN(top) && !double.IsNaN(bottom)) // bottom-right
+                    double r = 1;
+                    if (top == 0 && bottom == 0 && left == 0 && right == 0)
                     {
-                        if (top < 1d && bottom < 1d &&left < 1d && right < 1d)
-                        {
-                            cx = x + width / 2d;
-                            cy = y + height / 2d;
-                        }
-                        else
-                        {
-                            cx = x + width;
-                            cy = y;
-                        }
+                        CellFillData.GradientFillData.coords = [0, 1, 0, 0, 1, r];
                     }
-                    else if (!double.IsNaN(left) && !double.IsNaN(right)) // bottom-left
+                    else if (top == 0 && bottom == 0 && left == 1 && right == 1)
                     {
-                        cx = x + width;
-                        cy = y + height;
+                        CellFillData.GradientFillData.coords = [1, 1, 0, 1, 1, r];
                     }
-                    else if (!double.IsNaN(top) && !double.IsNaN(bottom)) // top-right
+                    else if (top == 1 && bottom == 1 && left == 0 && right == 0)
                     {
-                        cx = x;
-                        cy = y;
+                        CellFillData.GradientFillData.coords = [0, 0, 0, 0, 0, r];
                     }
-                    double r = System.Math.Sqrt(width * width + height * height) / 2d;
-                    CellFillData.GradientFillData.coords = [cx, cy, 0, cx, cy, r];
+                    else if (top == 1 && bottom == 1 && left == 1 && right == 1)
+                    {
+                        CellFillData.GradientFillData.coords = [1, 0, 0, 1, 0, r];
+                    }
+                    else if (top == 0.5 && bottom == 0.5 && left == 0.5 && right == 0.5)
+                    {
+                        CellFillData.GradientFillData.coords = [0.5, 0.5, 0, 0.5, 0.5, r];
+                    }
+                    CellFillData.GradientFillData.matrix = [Size.X, 0, 0, Size.Y, LocalPosition.X, LocalPosition.Y];
+                    //double cx = x;
+                    //double cy = y + height;
+                    //if (!double.IsNaN(left) && !double.IsNaN(right) && !double.IsNaN(top) && !double.IsNaN(bottom)) // bottom-right
+                    //{
+                    //    if (top < 1d && bottom < 1d &&left < 1d && right < 1d)
+                    //    {
+                    //        cx = x + width / 2d;
+                    //        cy = y + height / 2d;
+                    //    }
+                    //    else
+                    //    {
+                    //        cx = x + width;
+                    //        cy = y;
+                    //    }
+                    //}
+                    //else if (!double.IsNaN(left) && !double.IsNaN(right)) // bottom-left
+                    //{
+                    //    cx = x + width;
+                    //    cy = y + height;
+                    //}
+                    //else if (!double.IsNaN(top) && !double.IsNaN(bottom)) // top-right
+                    //{
+                    //    cx = x;
+                    //    cy = y;
+                    //}
+                    //double r = System.Math.Sqrt(width * width + height * height) / 2d;
+                    //CellFillData.GradientFillData.coords = [cx, cy, 0, cx, cy, r];
                 }
             }
         }
