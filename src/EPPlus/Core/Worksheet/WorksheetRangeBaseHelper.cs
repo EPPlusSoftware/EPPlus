@@ -73,18 +73,18 @@ namespace OfficeOpenXml.Core.Worksheet
             if (cf is ExcelConditionalFormattingTwoColorScale)
             {
                 var colorScale = cf.As.TwoColorScale;
-                if (colorScale.LowValue.Formula != null)
+                if (string.IsNullOrEmpty(colorScale.LowValue.Formula) == false)
                 {
                     colorScale.LowValue.Formula = ExcelCellBase.UpdateFormulaReferences(colorScale.LowValue.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
                 }
-                if (colorScale.HighValue.Formula != null)
+                if (string.IsNullOrEmpty(colorScale.HighValue.Formula) == false)
                 {
                     colorScale.HighValue.Formula = ExcelCellBase.UpdateFormulaReferences(colorScale.HighValue.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
                 }
                 if (cf is ExcelConditionalFormattingThreeColorScale)
                 {
                     var threeColorScale = cf.As.ThreeColorScale;
-                    if (threeColorScale.MiddleValue.Formula != null)
+                    if (string.IsNullOrEmpty(threeColorScale.MiddleValue.Formula) == false)
                     {
                         threeColorScale.MiddleValue.Formula = ExcelCellBase.UpdateFormulaReferences(threeColorScale.MiddleValue.Formula, rows, columns, rowFrom, columnFrom, currentSheet, currentSheet);
                     }

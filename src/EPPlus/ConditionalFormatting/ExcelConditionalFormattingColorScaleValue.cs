@@ -158,6 +158,11 @@ namespace OfficeOpenXml.ConditionalFormatting
                     _value = double.NaN;
                     _formula = value;
                 }
+                else if(string.IsNullOrEmpty(value) && Type == eExcelConditionalFormattingValueObjectType.Percentile)
+                {
+                    //Edge-case. Allow to clear formula if type was something else previously/a row/col was deleted or the file was read
+                    _formula = null;
+                }
                 else
                 {
                     throw new InvalidOperationException("Cannot store formula in a percentile type.");
