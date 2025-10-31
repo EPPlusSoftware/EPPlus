@@ -33,7 +33,18 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
-            throw new System.NotImplementedException();
+            // Write hMetrics: advanceWidth + lsb for each glyph
+            foreach (var metric in hMetrics)
+            {
+                writer.WriteUInt16BigEndian(metric.advanceWidth);
+                writer.WriteInt16BigEndian(metric.lsb);
+            }
+
+            // Write leftSideBearings: only lsb values for glyphs beyond numberOfHMetrics
+            foreach (var lsb in leftSideBearings)
+            {
+                writer.WriteInt16BigEndian(lsb);
+            }
         }
     }
 }

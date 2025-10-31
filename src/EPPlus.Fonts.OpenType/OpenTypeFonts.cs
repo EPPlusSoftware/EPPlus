@@ -23,6 +23,8 @@ namespace EPPlus.Fonts.OpenType
 {
     public static class OpenTypeFonts
     {
+        private static object _syncRoot = new object();
+
         internal static List<string> winFontLocations = new List<string>()
         {
             Path.Combine(Environment.GetEnvironmentVariable("WINDIR") ?? @"C:\Windows", "Fonts"),
@@ -73,6 +75,17 @@ namespace EPPlus.Fonts.OpenType
         }
 
         static Dictionary<string, OpenTypeFont> CachedFonts;
+
+        public static void ClearFontCache()
+        {
+            lock (_syncRoot)
+            {
+                if (CachedFonts != null && CachedFonts.Count > 0)
+                {
+                    CachedFonts.Clear();
+                }
+            }
+        }
 
 
         public static OpenTypeFont? GetFontDataOpen(IEnumerable<string> fontDirectories, string fontName, string subFamily = "Regular", bool searchSystemDirectories = true)
@@ -189,10 +202,14 @@ namespace EPPlus.Fonts.OpenType
                 }
 
                 //another thread may have added it to the collection inbetween
-                if(!CachedFonts.ContainsKey(fullName))
+                lock(_syncRoot)
                 {
-                    CachedFonts.Add(fullName, fontData);
+                    if (!CachedFonts.ContainsKey(fullName))
+                    {
+                        CachedFonts.Add(fullName, fontData);
+                    }
                 }
+               
 
                 return fontData;
             }

@@ -43,5 +43,12 @@ namespace EPPlus.Fonts.OpenType
             return BitConverter.ToUInt32(new byte[] { b[3], b[2], b[1], b[0] }, 0);
         }
 
+        internal long ReadInt64BigEndian()
+        {
+            var b = ReadBytes(8);
+            return BitConverter.ToInt64(new byte[] { b[7], b[6], b[5], b[4], b[3], b[2], b[1], b[0] }, 0);
+        }
+
+
     }
 }

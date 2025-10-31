@@ -1,4 +1,5 @@
 ﻿using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Scanner;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Diagnostics;
 using static System.Net.Mime.MediaTypeNames;

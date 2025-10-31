@@ -6,6 +6,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<IsTestProject>true</IsTestProject>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>EPPlus.Fonts.OpenType.Tests.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 
 	<ItemGroup>

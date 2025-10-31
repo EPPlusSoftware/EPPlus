@@ -10,24 +10,16 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace EPPlus.Fonts.OpenType.Scanner
+namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serializers
 {
-    internal interface IScannedFont
+    internal abstract class CmapSubtableSerializerBase<T>
+        where T : CmapSubtableBase
     {
-        string? FontFamilyName { get; }
-
-        string? FontSubFamilyName { get; set; }
-
-        string FilePath { get; set; }
-
-        FontFormat Format { get; set; }
-
-        IEnumerable<ScannedFont>? SubFonts { get; }
-
-        long? TtcOffset { get; }
-
-        byte[] GetTableBytes(string tag);
+        internal abstract void Serialize(T subTable, FontsBinaryWriter writer);
     }
 }

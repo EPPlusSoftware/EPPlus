@@ -94,7 +94,24 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
-            throw new System.NotImplementedException();
+            writer.WriteUInt16BigEndian(majorVersion);
+            writer.WriteUInt16BigEndian(minorVersion);
+            writer.WriteInt16BigEndian(ascender);
+            writer.WriteInt16BigEndian(descender);
+            writer.WriteInt16BigEndian(lineGap);
+            writer.WriteUInt16BigEndian(advanceWidthMax);
+            writer.WriteInt16BigEndian(minLeftSideBearing);
+            writer.WriteInt16BigEndian(minRightSideBearing);
+            writer.WriteInt16BigEndian(xMaxExtent);
+            writer.WriteInt16BigEndian(caretSlopeRise);
+            writer.WriteInt16BigEndian(caretSlopeRun);
+            writer.WriteInt16BigEndian(caretOffset);
+            writer.WriteInt16BigEndian(0); // reserved1
+            writer.WriteInt16BigEndian(0); // reserved2
+            writer.WriteInt16BigEndian(0); // reserved3
+            writer.WriteInt16BigEndian(0); // reserved4
+            writer.WriteInt16BigEndian(metricDataFormat);
+            writer.WriteUInt16BigEndian(numberOfHMetrics);
         }
     }
 }

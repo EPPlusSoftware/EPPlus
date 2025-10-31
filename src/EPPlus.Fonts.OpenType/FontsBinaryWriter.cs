@@ -45,5 +45,18 @@ namespace EPPlus.Fonts.OpenType
             Write(bytes[0]);
         }
 
+        internal void WriteInt64BigEndian(long value)
+        {
+            var bytes = BitConverter.GetBytes(value);
+            Write(bytes[7]);
+            Write(bytes[6]);
+            Write(bytes[5]);
+            Write(bytes[4]);
+            Write(bytes[3]);
+            Write(bytes[2]);
+            Write(bytes[1]);
+            Write(bytes[0]);
+        }
+
     }
 }

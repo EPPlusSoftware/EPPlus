@@ -12,7 +12,9 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Name;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Scanner
@@ -125,6 +127,18 @@ namespace EPPlus.Fonts.OpenType.Scanner
                 };
                 _tableRecords.Add(record.Tag.Value, record);
             }
+        }
+
+        public byte[] GetTableBytes(string tag)
+        {
+            using var reader = new FontsBinaryReader(File.OpenRead(FilePath));
+            if (!_tableRecords.TryGetValue(tag, out var record))
+            {
+                throw new ArgumentException($"Table '{tag}' not found in font.");
+            }
+
+            reader.BaseStream.Position = record.Offset;
+            return reader.ReadBytes((int)record.Length);
         }
 
         //public override string ToString()
