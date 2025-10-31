@@ -1,0 +1,274 @@
+﻿using EPPlus.Fonts.OpenType.FontLocalization;
+using EPPlus.Fonts.OpenType.Tables;
+using EPPlus.Fonts.OpenType.Tables.Cmap;
+using EPPlus.Fonts.OpenType.Tables.Glyph;
+using EPPlus.Fonts.OpenType.Tables.Head;
+using EPPlus.Fonts.OpenType.Tables.Hhea;
+using EPPlus.Fonts.OpenType.Tables.Hmtx;
+using EPPlus.Fonts.OpenType.Tables.Kern;
+using EPPlus.Fonts.OpenType.Tables.Maxp;
+using EPPlus.Fonts.OpenType.Tables.Name;
+using EPPlus.Fonts.OpenType.Tables.Os2;
+using EPPlus.Fonts.OpenType.Tables.Post;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using EPPlus.Fonts.OpenType.Scanner;
+
+namespace EPPlus.Fonts.OpenType
+{
+    /// <summary>
+    /// Base class for open-type fonts
+    /// </summary>
+    public class OpenTypeFont
+    {
+        internal TableCache localTableCache;
+        internal TableLoaderSettings tblSettings;
+        public FontFormat Format;
+
+        internal OpenTypeFont(FontsBinaryReader reader, FontFormat format)
+            : this(reader, -1, format)
+        {
+        }
+
+        internal OpenTypeFont(FontsBinaryReader reader, long startOffset, FontFormat format)
+        {
+            Format = format;
+            _reader = reader;
+            if (startOffset > -1)
+            {
+                _reader.BaseStream.Position = startOffset;
+            }
+            Initialize();
+            ReadTableRecords();
+
+            localTableCache = new TableCache();
+
+            tblSettings = new TableLoaderSettings(_reader, _tableRecords, localTableCache);
+
+            //Ensure lazy-loading of individual tables via instanced table loaders.
+            _Os2TableLoader = TableLoaders.GetOs2TableLoader(tblSettings);
+            _NameTableLoader = TableLoaders.GetNameTableLoader(tblSettings);
+            _HheaTableLoader = TableLoaders.GetHheaTableLoader(tblSettings);
+            _HeadTableLoader = TableLoaders.GetHeadTableLoader(tblSettings);
+            _CmapTableLoader = TableLoaders.GetCmapTableLoader(tblSettings);
+            _HmtxTableLoader = TableLoaders.GetHtmxTableLoader(tblSettings);
+            _MaxpTableLoader = TableLoaders.GetMaxpTableLoader(tblSettings);
+            _PostTableLoader = TableLoaders.GetPostTableLoader(tblSettings);
+
+            //Common tables in ttf fonts
+            _GlyphTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? TableLoaders.GetGlyphTableLoader(tblSettings) : null;
+            _KernTableLoader = TableRecords.ContainsKey(TableNames.Kern) ? TableLoaders.GetKernTableLoader(tblSettings) : null;
+        }
+
+        Os2TableLoader _Os2TableLoader;
+        NameTableLoader _NameTableLoader;
+        HheaTableLoader _HheaTableLoader;
+        HeadTableLoader _HeadTableLoader;
+        CmapTableLoader _CmapTableLoader;
+        HmtxTableLoader _HmtxTableLoader;
+        MaxpTableLoader _MaxpTableLoader;
+        PostTableLoader _PostTableLoader;
+
+        internal GlyphTableLoader _GlyphTableLoader;
+        internal KernTableLoader _KernTableLoader;
+
+
+        /// <summary>
+        /// Any font file that does not contain all of the below tables can be considered corrupt as "the following tables are required for the font to function correctly"
+        /// source: https://learn.microsoft.com/en-us/typography/opentype/spec/otff
+        /// </summary>
+        #region Required Font Tables 
+        public CmapTable CmapTable 
+        { 
+            get 
+            {
+                return _CmapTableLoader.Load();
+            } 
+         }
+        public HeadTable HeadTable
+        {
+            get
+            {
+                return _HeadTableLoader.Load();
+            }
+        }
+        public HheaTable HheaTable
+        {
+            get
+            {
+                return _HheaTableLoader.Load();
+            }
+        }
+        public HmtxTable HmtxTable
+        {
+            get
+            {
+                return _HmtxTableLoader.Load();
+            }
+        }
+        public MaxpTable MaxpTable
+        {
+            get
+            {
+                return _MaxpTableLoader.Load();
+            }
+        }
+        public NameTable NameTable
+        {
+            get
+            {
+                return _NameTableLoader.Load();
+            }
+        }
+        public Os2Table Os2Table
+        {
+            get
+            {
+                return _Os2TableLoader.Load();
+            }
+        }
+        public PostTable PostTable
+        {
+            get
+            {
+                return _PostTableLoader.Load();
+            }
+        }
+        #endregion
+
+        //Extra accessors for common tables
+        public GlyphTable GlyphTable
+        {
+            get
+            {
+                if(_GlyphTableLoader != null)
+                {
+                    return _GlyphTableLoader.Load();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        public KernTable KernTable
+        {
+            get
+            {
+                if(_KernTableLoader != null)
+                {
+                    return _KernTableLoader.Load();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        private readonly FontsBinaryReader _reader;
+
+        protected Dictionary<string, TableRecord> _tableRecords;
+
+        private void Initialize()
+        {
+            SfntVersion = _reader.ReadUInt32BigEndian();
+            // Number of tables.
+            NumTables = _reader.ReadUInt16BigEndian();
+            // Maximum power of 2 less than or equal to numTables,
+            // times 16 ((2**floor(log2(numTables))) * 16,
+            // where “**” is an exponentiation operator).
+            SearchRange = _reader.ReadUInt16BigEndian();
+            // Log2 of the maximum power of 2 less than or equal to
+            // numTables (log2(searchRange/16), which is equal to
+            // floor(log2(numTables))).
+            EntrySelector = _reader.ReadUInt16BigEndian();
+            // numTables times 16, minus searchRange
+            // ((numTables * 16) - searchRange).
+            RangeShift = _reader.ReadUInt16BigEndian();
+        }
+
+        private void ReadTableRecords()
+        {
+            _tableRecords = new Dictionary<string, TableRecord>();
+            for (var x = 0; x < NumTables; x++)
+            {
+                var record = new TableRecord
+                {
+                    Tag = new Tag(_reader),
+                    Checksum = _reader.ReadUInt32BigEndian(),
+                    Offset = _reader.ReadUInt32BigEndian(),
+                    Length = _reader.ReadUInt32BigEndian()
+                };
+                _tableRecords.Add(record.Tag.Value, record);
+            }
+        }
+
+        public string FullName
+        {
+            get
+            {
+                var n = GetEnglishFullFontFamilyName();
+                if (string.IsNullOrEmpty(n))
+                {
+                    return "Unknown font";
+                }
+                return n;
+            }
+        }
+
+        public string SubFamily
+        {
+            get
+            {
+                var n = GetEnglishFontSubFamilyName();
+                if (string.IsNullOrEmpty(n))
+                {
+                    return "Unknown subfamily";
+                }
+                return n;
+            }
+        }
+
+        internal string GetEnglishFullFontFamilyName()
+        {
+            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FullFontName && x.LanguageMapping.Language == Languages.English)?.Name;
+        }
+
+        public string GetEnglishFontFamilyName()
+        {
+            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontFamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
+        }
+
+        internal string GetEnglishFontSubFamilyName()
+        {
+            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontSubfamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
+        }
+
+        public static bool TryParseEnum<T>(string value, out T result) where T : struct
+        {
+            try
+            {
+                result = (T)Enum.Parse(typeof(T), value, ignoreCase: true);
+                return true;
+            }
+            catch
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        internal uint SfntVersion { get; private set; }
+
+        internal ushort NumTables { get; private set; }
+
+        internal ushort SearchRange { get; private set; }
+
+        internal ushort EntrySelector { get; private set; }
+
+        internal ushort RangeShift { get; private set; }
+
+        internal IDictionary<string, TableRecord> TableRecords => _tableRecords;
+    }
+}

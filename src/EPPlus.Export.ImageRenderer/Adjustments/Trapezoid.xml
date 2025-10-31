@@ -1,0 +1,12 @@
+﻿<adjust type="Trapezoid">
+	<objects>
+		<object ix="0" adjustmentType="Adjust">
+			<commands>
+				<command ix="0" >
+					<pt ix="2" adjustPointName="adj" type="Linear" min="0" max="1" origin="0" />
+					<pt ix="4" adjustPointName="adj" type="Linear" min="0" max="1" origin="1" />
+				</command>
+			</commands>
+		</object>
+	</objects>
+</adjust>

@@ -1,0 +1,69 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  27/11/2025         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
+using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.Drawing;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+namespace EPPlusImageRenderer.RenderItems
+{
+    internal enum SvgFillType
+    {
+        SolidFill,
+        GradientFill,
+        PatternFill
+    }
+    internal abstract class SvgRenderItem : RenderItem
+    {
+        protected SvgRenderItem() : base()
+        {
+        }
+
+        internal SvgRenderItem(ExcelDrawing drawing) : base(drawing)
+        {
+        }
+        public override void Render(StringBuilder sb)
+        {
+            if (string.IsNullOrEmpty(FillColor) == false)
+            {
+                sb.Append($"fill=\"{FillColor}\" ");
+                if (FillOpacity != null && FillOpacity != 1)
+                {
+                    sb.Append($"opacity=\"{FillOpacity.Value.ToString(CultureInfo.InvariantCulture)}\" ");
+                }
+            }
+            if (string.IsNullOrEmpty(FilterName) == false)
+            {
+                sb.Append($"filter=\"{FilterName}\" ");
+            }
+
+            if (BorderWidth.HasValue && string.IsNullOrEmpty(BorderColor) == false)
+            {
+                sb.Append($"stroke=\"{BorderColor}\" ");
+            }
+            if (BorderWidth.HasValue)
+            {
+                var v = BorderWidth.Value * ExcelDrawing.EMU_PER_POINT / ExcelDrawing.EMU_PER_PIXEL;
+                sb.Append($"stroke-width=\"{v.ToString(CultureInfo.InvariantCulture)}\" ");
+
+                if (BorderDashArray != null)
+                {
+                    sb.Append($"stroke-dasharray=\"{string.Join(",", BorderDashArray.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray())}\" ");
+                }
+            }
+
+            sb.Append($"stroke-miterlimit =\"8\"");
+        }
+        internal abstract SvgRenderItem Clone(SvgShape svgDocument);
+    }
+}

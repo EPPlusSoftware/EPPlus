@@ -44,6 +44,10 @@ namespace OfficeOpenXml.Core
         internal void AutofitColumn(double MinimumWidth, double MaximumWidth)
         {
             var worksheet = _range._worksheet;
+            if(worksheet is not ExcelWorksheet ew2)
+            {
+
+            }
             if (worksheet.Dimension == null)
             {
                 return;
