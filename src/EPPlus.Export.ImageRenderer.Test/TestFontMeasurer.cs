@@ -29,10 +29,10 @@ namespace TestProject1
             var exactHeight = fontMeasurer.GetLargestPossibleHeightInPixels();
 
             //Ascent+Descent
-            var lineSpacing = fontMeasurer.GetSingleLineSpacing().PixelToPoint();
+            var lineSpacing = fontMeasurer.GetSingleLineSpacing().PointToPixel();
 
             //Distance between text baseline and top of box AKA Ascent
-            var getBaseLine = fontMeasurer.GetBaseLine().PixelToPoint();
+            var getBaseLine = fontMeasurer.GetBaseLine().PointToPixel();
 
             var approxHeight = fontMeasurer.InternalFontHeight().PointToPixel();
 
