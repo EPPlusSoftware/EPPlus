@@ -10,11 +10,16 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Data.CustomXml;
 using OfficeOpenXml.Packaging;
 using System;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Xml;
 
 namespace OfficeOpenXml.Data.Connection
@@ -37,25 +42,19 @@ namespace OfficeOpenXml.Data.Connection
             PQPackage = new ZipPackage(new MemoryStream(pck));
             ZipPackagePart section1MPart;
 
-            if(PQPackage._contentTypes.TryGetValue("m", out ZipPackage.ContentType ct))
+            section1MPart = PQPackage.GetPartByContentType(ContentTypes.contentTypeMLanguage);
+            if(section1MPart==null)
             {
-                section1MPart = PQPackage.GetPartByContentType(ct.Name);
+                section1MPart = PQPackage.GetPart(new Uri("/formulas/section.m"));
             }
-            else
-            {
-                section1MPart = PQPackage.GetPart(new Uri("/section.m", UriKind.Absolute));
-            }
+            var mms = section1MPart.GetStream();
+            var reader = new StreamReader(mms, Encoding.UTF8);
+            PowerQueryFormulas = reader.ReadToEnd();
 
-            if (section1MPart == null)
-            {
-                section1MPart = PQPackage.GetPartByContentType("text/plain");
-            }
-
-            using var mms = section1MPart.GetStream();
-            using (var reader = new StreamReader(mms, Encoding.UTF8))
-            {
-                PowerQueryFormulas = reader.ReadToEnd();
-            }
+            var configPart = PQPackage.GetPart(new Uri("/config/package.xml", UriKind.Relative));
+            var cms = configPart.GetStream();
+            PackageConfigXml = new XmlDocument();
+            XmlHelper.LoadXmlSafe(PackageConfigXml, cms);
 
             size = br.ReadInt32();
             var permBytes = br.ReadBytes((int)size);
@@ -77,7 +76,7 @@ namespace OfficeOpenXml.Data.Connection
             var packageBinding = br.ReadBytes((int)size);
             // Data protection (DPAPI) only works in windows as it's tied to the current user.
             //#if(!Core)            
-            //            var protectedData = ProtectedData.Unprotect(packageBinding, UTF8Encoding.UTF8.GetBytes("DataExplorer Package Components"), DataProtectionScope.CurrentUser);
+            //            var protectedData = ProtectedData.Unprotect(packageBinding, UTF8Encoding.UTF8.Save("DataExplorer Package Components"), DataProtectionScope.CurrentUser);
             //            br = new BinaryReader(new MemoryStream(protectedData));
             //            size = br.ReadInt32();
             //            var hash1 = br.ReadBytes(size);
@@ -89,19 +88,23 @@ namespace OfficeOpenXml.Data.Connection
             //            var calcHash2 = sha.ComputeHash(permBytes);
             //#endif
         }
-        internal byte[] GetBytes()
+        internal void Save(ExcelCustomXmlCollection customXml)
         {
-            if(Exists==false)
+            var cx = customXml.FirstOrDefault(x => x.SchemasReferences.Contains(Schemas.schemaDataMashup));
+
+            if (cx != null && Exists == false)
             {
-                return null;
+                customXml.Remove(cx);
+                return;
             }
+
             ZipPackagePart sectionMPart;
             if(PQPackage==null)
             {
                 PQPackage=new ZipPackage(new MemoryStream());
                 var pp = PQPackage.CreatePart(new Uri("/Config/Package.xml", UriKind.Relative), "text/xml");
                 var sw = new StreamWriter(pp.GetStream(), Encoding.UTF8); 
-                sw.Write("<?xml version=\"1.0\" encoding=\"utf-8\"?><Package xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Version>2.147.503.0</Version><MinVersion>2.21.0.0</MinVersion><Culture>en-SE</Culture></Package>");
+                sw.Write($"<?xml version=\"1.0\" encoding=\"utf-8\"?><Package xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Version>2.147.503.0</Version><MinVersion>2.21.0.0</MinVersion><Culture>{Thread.CurrentThread.CurrentCulture.Name}</Culture></Package>");
                 sw.Flush();
                 sectionMPart = PQPackage.CreatePart(new Uri("/Formulas/Section1.m", UriKind.Relative), "application/x-ms-m");
             }
@@ -115,13 +118,13 @@ namespace OfficeOpenXml.Data.Connection
                 }
             }
 
-            using var ms = sectionMPart.GetStream();
+            var ms = sectionMPart.GetStream();
             var streamwriter = new StreamWriter(ms, Encoding.UTF8);
             streamwriter.Write(PowerQueryFormulas);
             streamwriter.Flush();
-            streamwriter.Close();
+            //streamwriter.Close();
 
-            using var packageStream = new MemoryStream();
+            var packageStream = new MemoryStream();
             PQPackage.Save(packageStream);
             var pckbytes = packageStream.ToArray();
 
@@ -131,16 +134,25 @@ namespace OfficeOpenXml.Data.Connection
             bw.Write(pckbytes.Length);
             bw.Write(pckbytes);
             var permBytes = Encoding.UTF8.GetBytes(PermissionsXml.OuterXml);
+            bw.Write(permBytes.Length);
+            bw.Write(permBytes);
 
             var metadataBytes = GetMetaDataBytes();
             bw.Write(metadataBytes.Length);
             bw.Write(metadataBytes);
 
             // Permission binding. We set it to empty as DPAPI is only available on Windows.
-            bw.Write(new byte[] { 1, 0 });
+            bw.Write(1);
+            bw.Write((byte)0);
             bw.Flush();
 
-            return retMs.ToArray();
+            if (cx == null)
+            {
+                cx = new ExcelCustomXml() { SchemasReferences = { Schemas.schemaDataMashup}, CustomXml = new XmlDocument()  };
+            }
+
+            cx.CustomXml.LoadXml($"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><DataMashup xmlns=\"{Schemas.schemaDataMashup}\">{Convert.ToBase64String(retMs.ToArray())}</DataMashup>");
+            customXml.Add(cx);
         }
 
         private byte[] GetMetaDataBytes()
@@ -181,7 +193,7 @@ namespace OfficeOpenXml.Data.Connection
             set; 
         }
         /// <summary>
-        /// Permission settings for the Power Query connection.
+        /// Permission settings for the Power Query connection. See MS-QDEFF - 2.6
         /// </summary>
         public XmlDocument PermissionsXml
         {
@@ -189,12 +201,20 @@ namespace OfficeOpenXml.Data.Connection
             private set;
         }
         /// <summary>
-        /// Metadata settings for the Power Query connection.
+        /// Contains the Xml for the internal package configuration. See MS-QDEFF - 2.3.1
+        /// </summary>
+        public XmlDocument PackageConfigXml
+        {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// Metadata settings for the Power Query connection. See MS-QDEFF - 2.5.1
         /// </summary>
         public XmlDocument MetadataXml
         {
             get;            
-            private set;
+            set;
         }
         /// <summary>
         /// If any power query settings exists in the package. 

@@ -58,13 +58,25 @@ namespace OfficeOpenXml.Data.CustomXml
         {
             _list.Add(customXml);
         }
+        internal void Remove(ExcelCustomXml customXml)
+        {
+            _package.ZipPackage.DeletePart(customXml.Part.Uri);
+            _package.ZipPackage.DeletePart(customXml.PropertiesPart.Uri);
+            _list.Remove(customXml);
+        }
         internal void Save()
         {
             foreach(var item in _list)
             {
-                item.Save();
+                item.Save(_package);
             }
         }
+
+        internal void Add(object powerQuerySettings, byte[] bytes)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Number of items in the collection.
         /// </summary>

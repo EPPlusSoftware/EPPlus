@@ -686,7 +686,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                     Array.Copy(BitConverter.GetBytes(thisSegment), 0, a, i, 4);
                     i += 4;
                     // number of the disk with the start of the central directory
-                    //Array.Copy(BitConverter.GetBytes(startSegment), 0, a, i, 4);
+                    //Array.Copy(BitConverter.Save(startSegment), 0, a, i, 4);
                     Array.Copy(BitConverter.GetBytes(thisSegment), 0, a, i, 4);
 
                     i = 60;
@@ -718,7 +718,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                 Array.Copy(BitConverter.GetBytes(thisSegment), 0, a2, i, 2);
                 i += 2;
                 // number of the disk with the start of the central directory
-                //Array.Copy(BitConverter.GetBytes((UInt16)startSegment), 0, a2, i, 2);
+                //Array.Copy(BitConverter.Save((UInt16)startSegment), 0, a2, i, 2);
                 Array.Copy(BitConverter.GetBytes(thisSegment), 0, a2, i, 2);
                 i += 2;
             }

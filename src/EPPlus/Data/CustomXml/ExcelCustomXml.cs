@@ -32,7 +32,6 @@ namespace OfficeOpenXml.Data.CustomXml
         }
         internal ExcelCustomXml()
         {
-            
         }
         internal ExcelCustomXml(ZipPackagePart part)
         {
@@ -75,17 +74,23 @@ namespace OfficeOpenXml.Data.CustomXml
             return nsm;
         }
 
-        internal void Save()
+        internal void Save(ExcelPackage pck)
         {
             if(_xmlHelper==null && SchemasReferences.Count > 0)
             {
-                if(PropertiesXml==null)
+                if(Part==null)
                 {
-                    PropertiesPart = Part.Package.CreatePart(XmlHelper.GetNewUri(Part.Package, "itemProps{0}.xml"), ContentTypes.contentTypeCustomXmlProperties);
+                    var zp = pck.ZipPackage;
+                    int id=1;
+                    Part = zp.CreatePart(XmlHelper.GetNewUri(zp, "/customXml/item{0}.xml", ref id), string.Empty);
+                    PropertiesPart = zp.CreatePart(XmlHelper.GetNewUri(zp, "/customXml/itemProps{0}.xml", ref id), ContentTypes.contentTypeCustomXmlProperties);
+                    Part.CreateRelationship(UriHelper.ResolvePartUri(Part.Uri, PropertiesPart.Uri), TargetMode.Internal,  $"{ExcelPackage.schemaRelationships}/customXmlProps");  
+                    pck.Workbook.Part.CreateRelationship(UriHelper.ResolvePartUri(pck.Workbook.Part.Uri, Part.Uri), TargetMode.Internal, $"{ExcelPackage.schemaRelationships}/customXml");
+                }
+                if (PropertiesXml==null)
+                {
                     PropertiesXml = new XmlDocument();
-                    PropertiesXml.LoadXml( $"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<ds:datastoreItem ds:itemID=\"{{{Guid.NewGuid().ToString()}}}\" xmlns:ds=\"http://schemas.openxmlformats.org/officeDocument/2006/customXml\"><ds:schemaRefs>");
-
-                    Part.CreateRelationship(PropertiesPart.Uri, TargetMode.Internal,  $"{ExcelPackage.schemaRelationships}/customXmlProps");                    
+                    PropertiesXml.LoadXml( $"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<ds:datastoreItem ds:itemID=\"{{{Guid.NewGuid().ToString()}}}\" xmlns:ds=\"http://schemas.openxmlformats.org/officeDocument/2006/customXml\"><ds:schemaRefs/></ds:datastoreItem>");
                 }
                 var nsm = CreateNsm();
                 _xmlHelper = XmlHelperFactory.Create(nsm, PropertiesXml.DocumentElement.SelectSingleNode("ds:schemaRefs", nsm));

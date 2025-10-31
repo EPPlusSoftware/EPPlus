@@ -18,8 +18,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
-using System.Reflection.Metadata.Ecma335;
 using System.Xml;
 
 namespace OfficeOpenXml.Data.Connection
@@ -247,12 +245,12 @@ namespace OfficeOpenXml.Data.Connection
         {
             get
             {
-                if (_powerQuerySettings != null)
+                if (_powerQuerySettings == null)
                 {
                     var pqCustomXml = _package.Workbook.CustomXmlDocuments.FirstOrDefault(x => x.SchemasReferences.Any(x => x == Schemas.schemaDataMashup));
                     if (pqCustomXml == null)
                     {
-                        return _powerQuerySettings = new ExcelPowerQuerySettings();
+                        _powerQuerySettings = new ExcelPowerQuerySettings();
                     }
                     else
                     {

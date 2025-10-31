@@ -1440,22 +1440,7 @@ namespace OfficeOpenXml
             if (_connections != null) //Must be saved before custom XML as power query connections data are stored there.
             {
                 Connections.Save();
-                if(Connections.PowerQuerySettings.Exists)
-                {
-                    var b = Connections.PowerQuerySettings.GetBytes();
-                    var cx = CustomXmlDocuments.FirstOrDefault(x => x.SchemasReferences.Contains(Schemas.schemaDataMashup));
-                    if(cx==null)
-                    {
-                        cx = new ExcelCustomXml() { SchemasReferences = { Schemas.schemaDataMashup } };
-                        cx.CustomXml=new XmlDocument();
-                        cx.PropertiesXml.LoadXml($"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><DataMashup xmlns=\"{Schemas.schemaDataMashup}\">{Convert.ToBase64String(b)}</DataMashup>");
-                        CustomXmlDocuments.Add(cx);
-                    }
-                    else
-                    {
-                        CustomXmlDocuments.Add(eCustomXmlItemType.PowerQuerySettings, b);
-                    }
-                }
+                Connections.PowerQuerySettings.Save(CustomXmlDocuments);
             }
 
             if (_customXml!=null)
