@@ -362,8 +362,8 @@ namespace EPPlus.Fonts.OpenType
             {
                 if (subtable.Format0Subtable == null) continue;
                 // Format 0 only
-                int format = subtable.coverage._coverage >> 8;
-                bool isHorizontal = (subtable.coverage._coverage & 0x1) == 1;
+                int format = subtable.coverage.RawValue >> 8;
+                bool isHorizontal = (subtable.coverage.RawValue & 0x1) == 1;
                 if (format != 0 || !isHorizontal) continue;
                 KerningPair[] pairs = subtable.Format0Subtable.Pairs;
                 if (pairs == null) continue;

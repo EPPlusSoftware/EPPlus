@@ -71,7 +71,7 @@ namespace EPPlus.Export.Pdf.PdfResources
                 flag |= 1 << 5; // Nonsymbolic
             if (fontData.GetEnglishFontFamilyName().ToLower().Contains("script") || fontData.GetEnglishFontFamilyName().ToLower().Contains("cursive"))
                 flag |= 1 << 3;
-            if (fontData.PostTable.italicAngle != 0 || (fontData.Os2Table.fsSelection & 0x01) != 0)
+            if (fontData.PostTable.italicAngle.RawValue != 0 || (fontData.Os2Table.fsSelection & 0x01) != 0)
                 flag |= 1 << 6;
             if ((fontData.Os2Table.fsSelection & 0x100) != 0)
                 flag |= 1 << 16;
@@ -91,7 +91,7 @@ namespace EPPlus.Export.Pdf.PdfResources
                 fontName,
                 flag,
                 fontBBox,
-                fontData.PostTable.italicAngle,
+                Convert.ToDouble(fontData.PostTable.italicAngle.FloatValue),
                 fontData.Os2Table.sTypoAscender,
                 fontData.Os2Table.sTypoDescender,
                 0,

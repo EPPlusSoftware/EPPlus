@@ -22,10 +22,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
 
         protected override PostTable LoadInternal()
         {
-            var version = _reader.ReadInt32BigEndian();
-            var italicMajor = _reader.ReadInt16BigEndian();
-            var italicMinor = _reader.ReadUInt16BigEndian();
-            var italicAngle = italicMajor + (italicMinor / 65536.0);
+            var versionRaw = _reader.ReadInt32BigEndian();
+            var italicAngleRaw = _reader.ReadInt32BigEndian();
             var underlinePosition = _reader.ReadInt16BigEndian();
             var underlineThickness = _reader.ReadInt16BigEndian();
             var isFixedPitch = _reader.ReadUInt32BigEndian();
@@ -34,10 +32,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
             var minMemType1 = _reader.ReadUInt32BigEndian();
             var maxMemType1 = _reader.ReadUInt32BigEndian();
 
-            return new PostTable()
+            var post = new PostTable()
             {
-                version = version,
-                italicAngle = italicAngle,
+                version = new Version16Dot16(versionRaw),
+                italicAngle = new Fixed16Dot16(italicAngleRaw),
                 underlinePosition = underlinePosition,
                 underlineThickness = underlineThickness,
                 isFixedPitch = isFixedPitch,
@@ -46,6 +44,29 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
                 minMemType1 = minMemType1,
                 maxMemType1 = maxMemType1,
             };
+            if(post.version.Major == 2 && post.version.Minor == 0)
+            {
+                post.numGlyphs = _reader.ReadUInt16BigEndian();
+                post.glyphNameIndex = new ushort[post.numGlyphs];
+                for(var i = 0; i < post.numGlyphs; i++)
+                {
+                    post.glyphNameIndex[i] = _reader.ReadUInt16BigEndian();
+                }
+
+                // Read the Pascal-strings
+                var stringList = new List<string>();
+                while (_reader.BaseStream.Position < _offset + _length)
+                {
+                    byte len = _reader.ReadByte();
+                    var strBytes = _reader.ReadBytes(len);
+                    var str = System.Text.Encoding.ASCII.GetString(strBytes);
+                    stringList.Add(str);
+                }
+
+                post.glyphNames = stringList.ToArray();
+
+            }
+            return post;
         }
     }
 }

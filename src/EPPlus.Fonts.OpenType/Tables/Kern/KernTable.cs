@@ -24,7 +24,14 @@ namespace EPPlus.Fonts.OpenType.Tables.Kern
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
-            throw new System.NotImplementedException();
+
+            writer.WriteUInt16BigEndian(version);
+            writer.WriteUInt16BigEndian((ushort)SubTables.Length);
+
+            foreach (var subTable in SubTables)
+            {
+                subTable.Serialize(writer);
+            }
         }
     }
 }

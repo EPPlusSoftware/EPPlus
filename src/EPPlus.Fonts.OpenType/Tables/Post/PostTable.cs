@@ -10,12 +10,14 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System;
+
 namespace EPPlus.Fonts.OpenType.Tables.Post
 {
     public class PostTable : FontTableBase
     {
-        public int version { get; set; }
-        public double italicAngle { get; set; }
+        public Version16Dot16 version { get; set; }
+        public Fixed16Dot16 italicAngle { get; set; }
         public short underlinePosition {  get; set; }
         public short underlineThickness { get; set; }
         public uint isFixedPitch { get; set; }
@@ -24,9 +26,50 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
         public uint minMemType1 { get; set; }
         public uint maxMemType1 { get;set; }
 
+        // version 2
+
+        public ushort numGlyphs {  get; set; }
+        public ushort[] glyphNameIndex { get; set; }
+
+        public string[] glyphNames { get; set; }
+
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
-            throw new System.NotImplementedException();
+            version.Serialize(writer);
+            italicAngle.Serialize(writer);
+            writer.WriteInt16BigEndian(underlinePosition);
+            writer.WriteInt16BigEndian(underlineThickness);
+            writer.WriteUInt32BigEndian(isFixedPitch);
+            writer.WriteUInt32BigEndian(minMemType42);
+            writer.WriteUInt32BigEndian(maxMemType42);
+            writer.WriteUInt32BigEndian(minMemType1);
+            writer.WriteUInt32BigEndian(maxMemType1);
+            if(version.Major == 2 && version.Minor == 0)
+            {
+                writer.WriteUInt16BigEndian(numGlyphs);
+
+                // 1. Write glyphNameIndex[]
+                foreach (var index in glyphNameIndex)
+                {
+                    writer.WriteUInt16BigEndian(index);
+                }
+
+                // 2. Write Pascal strings for custom names (index >= 258)
+                for (int i = 0; i < glyphNameIndex.Length; i++)
+                {
+                    ushort index = glyphNameIndex[i];
+                    if (index >= 258)
+                    {
+                        string name = glyphNames[i];
+                        byte[] nameBytes = System.Text.Encoding.ASCII.GetBytes(name);
+                        if (nameBytes.Length > 255)
+                            throw new InvalidOperationException($"Glyph name '{name}' is too long (max 255 bytes).");
+
+                        writer.Write((byte)nameBytes.Length); // Pascal length
+                        writer.Write(nameBytes);              // ASCII name
+                    }
+                }
+            }
         }
     }
 }

@@ -46,5 +46,57 @@ namespace EPPlus.Fonts.OpenType.Tests
             Assert.AreEqual(originalBytes.Length, headBytes?.Length);
             CollectionAssert.AreEqual(originalBytes, headBytes);
         }
+
+        [TestMethod]
+        public void SerializeMaxpTable()
+        {
+            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", "Regular");
+            var originalBytes = sf.GetTableBytes("maxp");
+
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var maxpBytes = font?.MaxpTable.Serialize();
+
+            Assert.AreEqual(originalBytes.Length, maxpBytes?.Length);
+            CollectionAssert.AreEqual(originalBytes, maxpBytes);
+        }
+
+        [TestMethod]
+        public void SerializeHheaTable()
+        {
+            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", "Regular");
+            var originalBytes = sf.GetTableBytes("hhea");
+
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var hheaBytes = font?.HheaTable.Serialize();
+
+            Assert.AreEqual(originalBytes.Length, hheaBytes?.Length);
+            CollectionAssert.AreEqual(originalBytes, hheaBytes);
+        }
+
+        [TestMethod]
+        public void SerializePostTable()
+        {
+            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", "Regular");
+            var originalBytes = sf.GetTableBytes("post");
+
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var postBytes = font?.PostTable.Serialize();
+
+            Assert.AreEqual(originalBytes.Length, postBytes?.Length);
+            CollectionAssert.AreEqual(originalBytes, postBytes);
+        }
+
+        [TestMethod]
+        public void SerializeKernTable()
+        {
+            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", "Regular");
+            var originalBytes = sf.GetTableBytes("post");
+
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            //var kernBytes = font?.KernTable.Serialize();
+
+            //Assert.AreEqual(originalBytes.Length, kernBytes?.Length);
+            //CollectionAssert.AreEqual(originalBytes, kernBytes);
+        }
     }
 }
