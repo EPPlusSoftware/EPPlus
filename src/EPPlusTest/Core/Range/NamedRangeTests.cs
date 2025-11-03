@@ -1,11 +1,17 @@
 ﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Ranges;
+using System.Collections.Generic;
 
 namespace EPPlusTest.Core.Range
 {
@@ -557,6 +563,18 @@ namespace EPPlusTest.Core.Range
                 {
                     Assert.Inconclusive($"Template file {fileName} could not be found");
                 }
+            }
+        }
+
+        [TestMethod]
+        public void testValidation()
+        {
+           using(var p = OpenTemplatePackage("s958.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.First();
+                ws.DeleteRow(1);
+
+                SaveAndCleanup(p);
             }
         }
     }
