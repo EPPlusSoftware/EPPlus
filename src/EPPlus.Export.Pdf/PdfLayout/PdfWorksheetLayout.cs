@@ -42,6 +42,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if(worksheet.Column(col).Hidden) continue;
                     var width = PdfUnits.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
                     var cell = worksheet.Cells[row, col];
+                    PdfCellBorderLayout border = HandleBorders(cell, x, y, width, height);
                     if (cell.Merge)
                     {
                         HandleMergedCell(worksheet, pageSettings, dictionaries, cell, checkedMergedCells, x, y);
@@ -49,8 +50,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     else
                     {
                         HandleCell(pageSettings, dictionaries, cell, x, y, width, height);
+                        if(border!=null) border.InitDiagonalBorders(cell);
                     }
-                    HandleBorders(worksheet, cell, x, y, width, height);
+                    if (border != null) border.InitEdgeBorders(cell);
                     x += width;
                     totalWidth = System.Math.Max( x, totalWidth);
                 }
@@ -92,6 +94,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 mergedCell.Z = 5;
                 AddCellContent(pageSettings, dictionaries, cell, x, y, width, height, 6);
                 checkedMergedCells.Add(mergeAddress);
+                var border = HandleBorders(cell, x, y, width, height);
+                if (border != null)
+                {
+                    border.InitDiagonalBorders(cell);
+                }
             }
         }
 
@@ -107,15 +114,21 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create borders.
-        private void HandleBorders(ExcelWorksheet worksheet, ExcelRangeBase cell, double x, double y, double width, double height)
+        //TODO: Fix border by having having an array of border objects for each edge, but keep only one of the diagonal
+        //loop all cells in a merged cell and set border style for each cell
+        //calculate start and en position of diagonal
+        //store it and use them when creating pdf objects
+        private PdfCellBorderLayout HandleBorders(ExcelRangeBase cell, double x, double y, double width, double height)
         {
             bool allNone = new[] { cell.Style.Border.Top.Style, cell.Style.Border.Bottom.Style, cell.Style.Border.Left.Style, cell.Style.Border.Right.Style, cell.Style.Border.Diagonal.Style }.All(s => s == ExcelBorderStyle.None);
             if (!allNone)
             {
-                var clb0 = new PdfCellBorderLayout(cell, worksheet.Dimension, x, y, width, height, 1, 1, 0, this);
+                var clb0 = new PdfCellBorderLayout(cell, x, y, width, height, 1, 1, 0, this);
                 clb0.Name = cell.Address;
                 clb0.Z = 7;
+                return clb0;
             }
+            return null;
         }
 
         //Create drawings.

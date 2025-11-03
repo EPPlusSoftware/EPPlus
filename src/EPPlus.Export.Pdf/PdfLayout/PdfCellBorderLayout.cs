@@ -21,15 +21,24 @@ namespace EPPlus.Export.Pdf.PdfLayout
     internal class PdfCellBorderLayout : PdfTransform, ILayout
     {
         public PdfCellBordersData BorderData;
+        public bool IsMerged = false;
 
         public PdfCellBorderLayout() { }
 
-        public PdfCellBorderLayout(ExcelRangeBase cell, ExcelRangeBase dimension, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
+        public PdfCellBorderLayout(ExcelRangeBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             if (cell != null)
             {
                 BorderData = new PdfCellBordersData();
+                IsMerged = cell.Merge;
+            }
+        }
+
+        public void InitEdgeBorders(ExcelRangeBase cell)
+        {
+            if (cell != null)
+            {
                 BorderData.Top.BorderStyle = cell.Style.Border.Top.Style;
                 BorderData.Top.BorderColor = new PdfColor(cell.Style.Border.Top.Color.LookupColor(cell.Style.Border));
                 BorderData.Bottom.BorderStyle = cell.Style.Border.Bottom.Style;
@@ -38,6 +47,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 BorderData.Left.BorderColor = new PdfColor(cell.Style.Border.Left.Color.LookupColor(cell.Style.Border));
                 BorderData.Right.BorderStyle = cell.Style.Border.Right.Style;
                 BorderData.Right.BorderColor = new PdfColor(cell.Style.Border.Right.Color.LookupColor(cell.Style.Border));
+            }
+        }
+
+        public void InitDiagonalBorders(ExcelRangeBase cell)
+        {
+            if (cell != null)
+            {
                 BorderData.DiagonalUp.BorderStyle = cell.Style.Border.DiagonalUp ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
                 BorderData.DiagonalUp.BorderColor = new PdfColor(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
                 BorderData.DiagonalDown.BorderStyle = cell.Style.Border.DiagonalDown ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;

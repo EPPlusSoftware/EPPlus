@@ -212,6 +212,7 @@ namespace EPPlus.Export.Pdf
             }
             //Close the clipping rectangle
             contentStream.AddCommand("Q");
+            contentStream.AddCommand($"% Margin Clip End");
             if (PageSettings.ShowGridLines)
             {
                 contentStream.AddOuterGridBorder(pageLayout);

@@ -44,15 +44,18 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             if (cell.CellFillData.GradientFillData != null && cell.CellFillData.PattenStyle != ExcelFillStyle.Solid)
             {
+                commands.Add($"% Pattern Start: {cell.Name}");
                 commands.Add("q");
                 commands.Add("/Pattern cs");
                 commands.Add($"/{label} scn");
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
                 commands.Add("f");
                 commands.Add("Q");
+                commands.Add($"% Pattern End: {cell.Name}");
             }
             else if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.PattenStyle == ExcelFillStyle.Solid)
             {
+                commands.Add($"% Solid Fill Start: {cell.Name}");
                 commands.Add("q");
                 commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
                 commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
@@ -60,9 +63,11 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
                 commands.Add("B");
                 commands.Add("Q");
+                commands.Add($"% Solid Fill End: {cell.Name}");
             }
             else if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.PattenStyle != ExcelFillStyle.None)
             {
+                commands.Add($"% Gradient Start: {cell.Name}");
                 commands.Add("q");
                 commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
                 commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
@@ -76,24 +81,29 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
                 commands.Add("f");
                 commands.Add("Q");
+                commands.Add($"% Gradient End: {cell.Name}");
             }
         }
 
         public void AddBorderLayout(PdfCellBorderLayout cell)
         {
-            var borderRenderer = new PdfBorderRenderer();
-            commands.Add("q");
-            borderRenderer.RenderBorder(this, cell.BorderData.Top, LineType.Horizontal, cell.LocalPosition.X, cell.LocalPosition.Y + cell.Size.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y + cell.Size.Y);
-            borderRenderer.RenderBorder(this, cell.BorderData.Bottom, LineType.Horizontal, cell.LocalPosition.X, cell.LocalPosition.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y);
-            borderRenderer.RenderBorder(this, cell.BorderData.Left, LineType.Vertical, cell.LocalPosition.X, cell.LocalPosition.Y, cell.LocalPosition.X, cell.LocalPosition.Y + cell.Size.Y);
-            borderRenderer.RenderBorder(this, cell.BorderData.Right, LineType.Vertical, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y + cell.Size.Y);
-            borderRenderer.RenderBorder(this, cell.BorderData.DiagonalUp, LineType.DiagonalUp, cell.LocalPosition.X, cell.LocalPosition.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y + cell.Size.Y);
-            borderRenderer.RenderBorder(this, cell.BorderData.DiagonalDown, LineType.DiagonalDown, cell.LocalPosition.X, cell.LocalPosition.Y + cell.Size.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y);
-            commands.Add("Q");
+            var borderRenderer = new PdfBorderRenderer(cell);
+            borderRenderer.RenderBorder(this);
+            //commands.Add($"% Border Start: {cell.Name}");
+            //commands.Add("q");
+            //borderRenderer.RenderBorder(this, cell.BorderData.Top, LineType.Horizontal, cell.LocalPosition.X, cell.LocalPosition.Y + cell.Size.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y + cell.Size.Y);
+            //borderRenderer.RenderBorder(this, cell.BorderData.Bottom, LineType.Horizontal, cell.LocalPosition.X, cell.LocalPosition.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y);
+            //borderRenderer.RenderBorder(this, cell.BorderData.Left, LineType.Vertical, cell.LocalPosition.X, cell.LocalPosition.Y, cell.LocalPosition.X, cell.LocalPosition.Y + cell.Size.Y);
+            //borderRenderer.RenderBorder(this, cell.BorderData.Right, LineType.Vertical, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y + cell.Size.Y);
+            //borderRenderer.RenderBorder(this, cell.BorderData.DiagonalUp, LineType.DiagonalUp, cell.LocalPosition.X, cell.LocalPosition.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y + cell.Size.Y);
+            //borderRenderer.RenderBorder(this, cell.BorderData.DiagonalDown, LineType.DiagonalDown, cell.LocalPosition.X, cell.LocalPosition.Y + cell.Size.Y, cell.LocalPosition.X + cell.Size.X, cell.LocalPosition.Y);
+            //commands.Add("Q");
+            //commands.Add($"% Border End: {cell.Name}");
         }
 
         public void AddCellContentLayout(PdfCellContentLayout cell, PdfFontResource font)
         {
+            commands.Add($"% Content Start: {cell.Name}");
             commands.Add("q");
             if (cell.Clip)
             {
@@ -172,12 +182,14 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 commands.Add($"S");
             }
             commands.Add("Q");
+            commands.Add($"% Content End: {cell.Name}");
         }
 
         public void AddInnerGridLines(PdfTransform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
 
+            commands.Add($"% Gridlnes Start");
             commands.Add("q");
             commands.Add($"{GridLine.Width.ToPdfString()} w");
             commands.Add(PdfColor.Black.ToFillCommand());
@@ -198,12 +210,14 @@ namespace EPPlus.Export.Pdf.PdfObjects
             }
             commands.Add("f");
             commands.Add("Q");
+            commands.Add($"% Gridlines End");
         }
 
         public void AddOuterGridBorder(PdfTransform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
 
+            commands.Add($"% Gridlines Border Start");
             commands.Add("q");
             commands.Add("1.0 w");
             commands.Add("2 J");
@@ -216,12 +230,14 @@ namespace EPPlus.Export.Pdf.PdfObjects
             }
             commands.Add("S");
             commands.Add("Q");
+            commands.Add($"% Gridlines Border End");
         }
 
         public void AddMarginClipping(PdfTransform pageLayout, PdfContentBounds bounds)
         {
             if(pageLayout is not PdfPageLayout pl) return;
 
+            commands.Add($"% Margin Clip Start");
             double y = bounds.Top;
             double width = 0d;
             foreach (var line in pl.BorderLines)

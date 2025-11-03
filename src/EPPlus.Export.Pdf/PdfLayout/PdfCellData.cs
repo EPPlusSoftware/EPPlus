@@ -86,25 +86,50 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
     internal class PdfCellBordersData
     {
-        public PdfCellBorderData Top = new PdfCellBorderData(2, -2);
-        public PdfCellBorderData Bottom = new PdfCellBorderData(2, 2);
-        public PdfCellBorderData Left = new PdfCellBorderData(2, -2);
-        public PdfCellBorderData Right = new PdfCellBorderData(-2, -2);
-        public PdfCellBorderData DiagonalUp = new PdfCellBorderData(2, 2);
-        public PdfCellBorderData DiagonalDown = new PdfCellBorderData(2, 2);
+        public PdfCellBorderData Top = new PdfCellBorderData(LineType.Top);
+        public PdfCellBorderData Bottom = new PdfCellBorderData(LineType.Bottom);
+        public PdfCellBorderData Left = new PdfCellBorderData(LineType.Left);
+        public PdfCellBorderData Right = new PdfCellBorderData(LineType.Right);
+        public PdfCellBorderData DiagonalUp = new PdfCellBorderData(LineType.DiagonalUp);
+        public PdfCellBorderData DiagonalDown = new PdfCellBorderData(LineType.DiagonalDown);
 
         public PdfCellBordersData() { }
     }
 
+    internal enum LineType
+    {
+        Top = 0,
+        Bottom,
+        Left,
+        Right,
+        DiagonalUp,
+        DiagonalDown
+    }
+
     internal class PdfCellBorderData
     {
+        internal const double Hair = 0.5d;
+        internal const double Thin = 0.85d;
+        internal const double Small = 1.1d;
+        internal const double Medium = 1.5d;
+        internal const double Thick = 2.0d;
+
+        internal const string NoDash = "[] 0 d";
+        internal const string Dotted = "[0 2] 0 d";
+        internal const string DashDot = "[4 2 1 2] 0 d";
+        internal const string DashDotDot = "[4 2 1 2 1 2] 0 d";
+        internal const string Dashed = "[4 3] 0 d";
+        internal const string MediumDashDot = "[6 3 2 3] 0 d";
+        internal const string MediumDashDotDot = "[6 3 2 3 2 3] 0 d";
+        internal const string MediumDashed = "[6 4] 0 d";
+
         public ExcelBorderStyle BorderStyle = ExcelBorderStyle.None;
         public PdfColor BorderColor = PdfColor.Black;
-        public Vector2 DoubleBorderOffsets;
+        public readonly LineType LineType;
 
-        public PdfCellBorderData(double x, double y)
+        public PdfCellBorderData(LineType LineType)
         {
-            DoubleBorderOffsets = new Vector2(x, y);
+            this.LineType = LineType;
         }
     }
 

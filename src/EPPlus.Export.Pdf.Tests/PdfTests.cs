@@ -33,6 +33,8 @@ namespace EPPlusTest.PDF
          * Cells: Pictures in cells
          * Cells: Remove stroke from solid fill and adjust size and position of cell more precise and only use fill command.
          * 
+         * Merged Cells: Merged cells with no color set will have the color set to white to hide gridlines. They should not have color set to keep tranparency if we want to include background.
+         * 
          * HeaderFooter: Header Footer implementation
          * 
          * Tables: Table Implementation
@@ -86,6 +88,7 @@ namespace EPPlusTest.PDF
         public void TestWritePdf()
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
+            //using var p = OpenTemplatePackage("PdfBorders.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
             //using var p = OpenTemplatePackage("Gradient.xlsx");
@@ -102,7 +105,7 @@ namespace EPPlusTest.PDF
             pageSettings.PrintAsText = true;
 
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest33.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest34.pdf");
         }
 
         static byte[] HexStringToBytes(string hex)

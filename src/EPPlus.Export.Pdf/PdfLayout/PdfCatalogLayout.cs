@@ -144,11 +144,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
         //Handle merged cells and drawings by checking which pages intersects with them and then make copies for each page.
         private void HandleMergedCellsAndDrawings(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfTransform WorksheetLayout, PdfPagesLayout pages)
         {
-            var mcd = WorksheetLayout.ChildObjects.Where(x => x is PdfMergedCellLayout || x is PdfCellContentLayout || x is PdfDrawingLayout).ToList();
+            var mcd = WorksheetLayout.ChildObjects.Where(x => x is PdfMergedCellLayout || x is PdfCellContentLayout || x is PdfCellBorderLayout || x is PdfDrawingLayout).ToList();
             foreach (var mergedCell in mcd)
             {
                 var m = mergedCell as PdfMergedCellLayout;
                 var c = mergedCell as PdfCellContentLayout;
+                var b = mergedCell as PdfCellBorderLayout;
                 var d = mergedCell as PdfDrawingLayout;
                 var bounds = mergedCell.GetGlobalBoundingbox();
                 foreach (var page in pages.ChildObjects)
@@ -167,6 +168,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             var copy = new PdfCellContentLayout(c.cell, pageSettings, c.LocalPosition.X, c.LocalPosition.Y, c.Size.X, c.Size.Y, c.LocalScale.X, c.LocalScale.Y, c.LocalRotation, WorksheetLayout, dictionaries);
                             copy.Name = c.Name;
                             copy.Z = c.Z;
+                            page.ChildObjects[0].AddChild(copy);
+                        }
+                        else if (b is PdfCellBorderLayout)
+                        {
+                            var copy = new PdfCellBorderLayout(b.cell, b.LocalPosition.X, b.LocalPosition.Y, b.Size.X, b.Size.Y, b.LocalScale.X, b.LocalScale.Y, b.LocalRotation, WorksheetLayout);
+                            copy.Name = b.Name;
+                            copy.Z = b.Z;
+                            copy.BorderData = b.BorderData;
                             page.ChildObjects[0].AddChild(copy);
                         }
                         else if (d is PdfDrawingLayout) //NOT IMPLEMENTED
