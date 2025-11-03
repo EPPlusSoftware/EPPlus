@@ -40,6 +40,28 @@ using System.Threading;
     [TestClass]
     public abstract class TestBase
     {
+    protected TestBase()
+    {
+    }
+
+    private static void GetEnvironment(string key, ref string value, bool isPath)
+    {
+        var v = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Machine);
+        if(string.IsNullOrEmpty(v))
+        {
+            v= Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.User);
+            if (string.IsNullOrEmpty(v))
+            {
+                v = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Process);
+            }
+        }
+        if (!string.IsNullOrEmpty(v))
+        {
+            if(isPath && !v.EndsWith("\\")) v += "\\";
+            value = v;
+        }
+    }
+
         private class SalesData
         {
             public string Continent { get; set; }
@@ -56,27 +78,36 @@ using System.Threading;
         }
         //protected static FileInfo _file;
         protected static string _clipartPath ="";
-        protected static string _worksheetPath = @"c:\epplusTest\Testoutput\";
+        protected static string _worksheetPath = @"c:\epplusTest\Testoutput\";        
         protected static string _testInputPath = AppContext.BaseDirectory + "\\workbooks\\";
-        protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";
+        protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";           //Team shared workbooks for tests
+        protected static string _testInputLocalPathOptional = @"c:\epplusTest\workbooks\";      //Local workboks for tests
         protected static string _imagePath = @"c:\epplusTest\images\";
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
         public TestContext TestContext { get; set; }
-        
+        static bool _isInitialized = false;
         public static void InitBase()
         {
+            _isInitialized = true;
+            //Gets the paths from environment variables if set. Otherwise uses the default paths as specified in the declaration.
+            GetEnvironment("EPPlusTestOutputPath", ref _worksheetPath, true);
+            GetEnvironment("EPPlusTestTemplateLocalPath", ref _testInputLocalPathOptional, true);
+            GetEnvironment("EPPlusTestTemplateSharedPath", ref _testInputPathOptional, true);
+            GetEnvironment("EPPlusTestImagePath", ref _imagePath, true);
+
+
             _clipartPath = Path.Combine(Path.GetTempPath(), @"EPPlus clipart");
             if (!Directory.Exists(_clipartPath))
             {
                 Directory.CreateDirectory(_clipartPath);
             }
-            if(Environment.GetEnvironmentVariable("EPPlusTestInputPath")!=null)
-            {
-                _testInputPathOptional = Environment.GetEnvironmentVariable("EPPlusTestInputPath");
-            }
+            //if(Environment.GetEnvironmentVariable("EPPlusTestInputPath")!=null)
+            //{
+            //    _testInputPathOptional = Environment.GetEnvironmentVariable("EPPlusTestInputPath");
+            //}
             var asm = Assembly.GetExecutingAssembly();
             var validExtensions = new[]
                 {
@@ -116,6 +147,14 @@ using System.Threading;
                 pck.Save();
             }
             if(dispose) pck.Dispose();
+        }
+        protected static void SaveTextFileToWorkbook(string fileName, string content)
+        {
+            File.WriteAllText(_worksheetPath + fileName, content);
+        }
+        protected void SaveSvg(string fileName, string svg)
+        {
+            File.WriteAllText(_imagePath + fileName, svg);
         }
 
         protected static bool ExistsPackage(string name)
