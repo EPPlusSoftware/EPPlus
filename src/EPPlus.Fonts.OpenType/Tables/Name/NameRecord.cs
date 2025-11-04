@@ -16,7 +16,7 @@ using System.Diagnostics;
 namespace EPPlus.Fonts.OpenType.Tables.Name
 {
     [DebuggerDisplay("{RecordType}: {Name}")]
-    public class NameRecord
+    public class NameRecord : FontTableElement
     {
         /// <summary>
         /// Platform identifier code.
@@ -70,6 +70,17 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
         internal static bool IsNullOrWhiteSpace(string value)
         {
             return value == null || value.Trim().Length == 0;
+        }
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            writer.WriteUInt16BigEndian(platformId);
+            writer.WriteUInt16BigEndian(encodingId);
+            writer.WriteUInt16BigEndian(languageID);
+            writer.WriteUInt16BigEndian(nameId);
+            writer.WriteUInt16BigEndian(length);
+            writer.WriteUInt16BigEndian(offset);
+
         }
     }
 }

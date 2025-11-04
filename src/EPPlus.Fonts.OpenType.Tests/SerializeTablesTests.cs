@@ -87,16 +87,59 @@ namespace EPPlus.Fonts.OpenType.Tests
         }
 
         [TestMethod]
-        public void SerializeKernTable()
+        public void SerializeNameTable()
         {
             var sf = FontScanner.ScanFor(_fontFolder, "Roboto", "Regular");
-            var originalBytes = sf.GetTableBytes("post");
+            var originalBytes = sf.GetTableBytes("name");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
-            //var kernBytes = font?.KernTable.Serialize();
+            var nameBytes = font?.NameTable.Serialize();
 
-            //Assert.AreEqual(originalBytes.Length, kernBytes?.Length);
-            //CollectionAssert.AreEqual(originalBytes, kernBytes);
+            var failIndex = -1;
+            for (var i = 0; i < originalBytes.Length; i++)
+            {
+                var ob = originalBytes[i];
+                var nb = nameBytes[i];
+                if(ob != nb)
+                {
+                    failIndex = i;
+                    break;
+                }
+            }
+            var obAtFail = originalBytes[failIndex];
+            var nbAtFail = nameBytes[failIndex];
+            Assert.AreEqual(-1, failIndex);
+            //Assert.AreEqual(originalBytes.Length, nameBytes?.Length);
+            //CollectionAssert.AreEqual(originalBytes, nameBytes);
+        }
+
+        [TestMethod]
+        [Ignore("Was only able to find fonts with kern table among Windows fonts. These cannot be distributed with the test project due to licensing.")]
+        public void SerializeKernTable()
+        {
+            var sf = FontScanner.ScanFor(@"c:\windows\fonts", "Arial", "Regular");
+            var originalBytes = sf.GetTableBytes("kern");
+
+            var font = OpenTypeFonts.GetFontData(new List<string> { @"c:\windows\fonts" } , "Arial", "Regular", false);
+            var kernBytes = font?.KernTable.Serialize();
+
+            Assert.AreEqual(originalBytes.Length, kernBytes?.Length);
+            CollectionAssert.AreEqual(originalBytes, kernBytes);
+        }
+
+        [TestMethod]
+        public void FindKernTable()
+        {
+            var fonts = FontScanner.GetAllScannedFontsInPath(@"c:\windows\fonts");
+            var kernFonts = new List<ScannedFont>();
+            foreach (var font in fonts)
+            {
+                if (font.TableRecords.ContainsKey("kern") || font.TableRecords.ContainsKey("Kern"))
+                {
+                    kernFonts.Add(font);
+                }
+            }
+            var c = kernFonts.Count;
         }
     }
 }

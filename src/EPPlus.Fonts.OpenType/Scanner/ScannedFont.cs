@@ -14,11 +14,13 @@ using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Scanner
 {
+    [DebuggerDisplay("Fontfamily: {FontFamilyName} {FontSubFamilyName}")]
     public class ScannedFont : IScannedFont
     {
         internal ScannedFont(FontsBinaryReader reader, FontFormat format, string filePath)
@@ -73,6 +75,8 @@ namespace EPPlus.Fonts.OpenType.Scanner
         public IEnumerable<ScannedFont>? SubFonts { get; private set; }
 
         public long? TtcOffset { get; set; }
+
+        internal Dictionary<string, TableRecord> TableRecords => _tableRecords;
 
 
         private void InitializeTtc()

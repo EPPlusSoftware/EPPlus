@@ -31,9 +31,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Kern
             using var ms = new MemoryStream();
             using var tempWriter = new FontsBinaryWriter(ms);
 
-            // Write subtable to temp stream
-            coverage.Serialize(tempWriter);
-
             if (coverage.Format == 0 && Format0Subtable != null)
             {
                 Format0Subtable.Serialize(tempWriter);

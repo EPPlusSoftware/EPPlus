@@ -10,6 +10,9 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System.Collections.Generic;
+using System.Text;
+
 namespace EPPlus.Fonts.OpenType.Tables.Name
 {
     public class NameTable : FontTableBase
@@ -22,9 +25,54 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
 
         public NameRecord[] NameRecords { get; set; }
 
+
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
-            throw new System.NotImplementedException();
+            // Step 1: Write header
+            format = 0;
+            count = (ushort)(NameRecords?.Length ?? 0);
+            stringOffset = (ushort)(6 + count * 12); // 6 bytes header + 12 bytes per record
+
+            writer.WriteUInt16BigEndian(format);
+            writer.WriteUInt16BigEndian(count);
+            writer.WriteUInt16BigEndian(stringOffset);
+
+            // Step 2: Prepare string data
+            var stringData = new List<byte>();
+            foreach (var record in NameRecords)
+            {
+                var encoding = GetEncodingForRecord(record);
+                var encoded = encoding.GetBytes(record.Name ?? string.Empty);
+
+                record.length = (ushort)encoded.Length;
+                record.offset = (ushort)stringData.Count;
+
+                stringData.AddRange(encoded);
+            }
+
+            // Step 3: Write NameRecords
+            foreach (var record in NameRecords)
+            {
+                record.Serialize(writer);
+            }
+
+            // Step 4: Write string pool
+            writer.Write(stringData.ToArray());
+        }
+
+
+        private Encoding GetEncodingForRecord(NameRecord record)
+        {
+            if (record.platformId == 0)
+                return Encoding.GetEncoding("utf-16BE");
+
+            if (record.platformId == 1)
+                return Encoding.GetEncoding(10000); // MacRoman
+
+            if (record.platformId == 3)
+                return NameTableLoader.GetWindowsEncoding(record.encodingId);
+
+            return Encoding.UTF8; // Fallback
         }
     }
 }
