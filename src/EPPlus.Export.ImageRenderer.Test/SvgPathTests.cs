@@ -18,7 +18,7 @@ namespace TestProject1
         public void Rect()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = new ExcelPackage())
+            using (var p = OpenPackage("svg/rect.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var d = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.Rect);
@@ -27,8 +27,8 @@ namespace TestProject1
                 d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Bottom;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\rect.svg", svg);
-                p.SaveAs("c:\\temp\\svgdrawing.xlsx");
+                SaveTextFileToWorkbook("rect.svg", svg);
+                SaveAndCleanup(p);
             }
         }
         [TestMethod]
@@ -46,8 +46,8 @@ namespace TestProject1
 
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\Roundrect.svg", svg);
-                p.SaveAs("c:\\temp\\svgRoundRectdrawing.xlsx");
+                SaveTextFileToWorkbook("Roundrect.svg", svg);
+                SaveWorkbook("svgRoundRectdrawing.xlsx", p);
             }
         }
         [TestMethod]
@@ -63,8 +63,8 @@ namespace TestProject1
                 d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Center;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\Triangle.svg", svg);
-                p.SaveAs("c:\\temp\\svgTriangleDrawing.xlsx");
+                SaveTextFileToWorkbook("Triangle.svg", svg);
+                SaveWorkbook("svgTriangleDrawing.xlsx", p);
             }
         }
         [TestMethod]
@@ -78,8 +78,8 @@ namespace TestProject1
                 d.SetSize(100, 100);
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\RightArrow.svg", svg);
-                p.SaveAs("c:\\temp\\svgRightArrowDrawing.xlsx");
+                SaveTextFileToWorkbook("RightArrow.svg", svg);
+                SaveWorkbook("svgRightArrowDrawing.xlsx", p);
             }
         }
         [TestMethod]
@@ -93,8 +93,8 @@ namespace TestProject1
                 d.SetSize(800, 800);
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\SmileyFace.svg", svg);
-                p.SaveAs("c:\\temp\\svgSmileyFace.xlsx");
+                SaveTextFileToWorkbook("SmileyFace.svg", svg);
+                SaveWorkbook("svgSmileyFace.xlsx", p);
             }
         }
         [TestMethod]
@@ -108,8 +108,8 @@ namespace TestProject1
                 d.SetSize(800, 800);
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\VerticalScroll.svg", svg);
-                p.SaveAs("c:\\temp\\svgVerticalScroll.xlsx");
+                SaveTextFileToWorkbook("VerticalScroll.svg", svg);
+                SaveWorkbook("svgVerticalScroll.xlsx", p);
             }
         }
         [TestMethod]
@@ -123,8 +123,8 @@ namespace TestProject1
                 d.SetSize(800, 800);
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\CloudCallout.svg", svg);
-                p.SaveAs("c:\\temp\\svgCloudCallout.xlsx");
+                SaveTextFileToWorkbook("CloudCallout.svg", svg);
+                SaveWorkbook("svgCloudCallout.xlsx", p);
             }
         }
         [TestMethod]
@@ -138,8 +138,8 @@ namespace TestProject1
                 d.SetSize(800, 800);
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\IrregularSeal2.svg", svg);
-                p.SaveAs("c:\\temp\\IrregularSeal2.xlsx");
+                SaveTextFileToWorkbook("IrregularSeal2.svg", svg);
+                SaveWorkbook("IrregularSeal2.xlsx", p);
             }
         }
         [TestMethod]
@@ -153,8 +153,8 @@ namespace TestProject1
                 d.SetSize(800, 800);
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\LightningBolt.svg", svg);
-                p.SaveAs("c:\\temp\\svgLightningBolt.xlsx");
+                SaveTextFileToWorkbook("LightningBolt.svg", svg);
+                SaveWorkbook("svgLightningBolt.xlsx", p);
             }
         }
         [TestMethod]
@@ -168,8 +168,8 @@ namespace TestProject1
                 d.SetSize(800, 800);
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\FlowChartMagneticTape.svg", svg);
-                p.SaveAs("c:\\temp\\svgFlowChartMagneticTape.xlsx");
+                SaveTextFileToWorkbook("FlowChartMagneticTape.svg", svg);
+                SaveWorkbook("svgFlowChartMagneticTape.xlsx", p);
             }
         }
         [TestMethod]
@@ -183,8 +183,8 @@ namespace TestProject1
                 d.SetSize(800, 800);
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\MathNotEqual.svg", svg);
-                p.SaveAs("c:\\temp\\svgMathNotEqual.xlsx");
+                SaveTextFileToWorkbook("MathNotEqual.svg", svg);
+                SaveWorkbook("svgMathNotEqual.xlsx", p);
             }
         }
         [TestMethod]
@@ -200,8 +200,8 @@ namespace TestProject1
                 d.Fill.Color = Color.Orange;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\Sun.svg", svg);
-                p.SaveAs("c:\\temp\\svgSun.xlsx");
+                SaveTextFileToWorkbook("Sun.svg", svg);
+                SaveWorkbook("svgSun.xlsx", p);
             }
         }
         [TestMethod]
@@ -217,8 +217,8 @@ namespace TestProject1
                 d.Fill.Color = Color.Orange;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\Ellipse.svg", svg);
-                p.SaveAs("c:\\temp\\svgEllipse.xlsx");
+                SaveTextFileToWorkbook("Ellipse.svg", svg);
+                SaveWorkbook("svgEllipse.xlsx", p);
             }
         }
         [TestMethod]
@@ -234,8 +234,8 @@ namespace TestProject1
                 d.Fill.Color = Color.Red;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\Heart.svg", svg);
-                p.SaveAs("c:\\temp\\svgHeart.xlsx");
+                SaveTextFileToWorkbook("Heart.svg", svg);
+                SaveWorkbook("svgHeart.xlsx", p);
             }
         }
         [TestMethod]
@@ -251,8 +251,8 @@ namespace TestProject1
                 d.Fill.Color = Color.Red;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\bevelred.svg", svg);
-                p.SaveAs("c:\\temp\\svgBevelred.xlsx");
+                SaveTextFileToWorkbook("bevelred.svg", svg);
+                SaveWorkbook("svgBevelred.xlsx", p);
             }
         }
         [TestMethod]
@@ -267,8 +267,8 @@ namespace TestProject1
                 d.SetSize(804, 804);
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\bevel.svg", svg);
-                p.SaveAs("c:\\temp\\svgBevel.xlsx");
+                SaveTextFileToWorkbook("bevel.svg", svg);
+                SaveWorkbook("svgBevel.xlsx", p);
             }
         }
 
@@ -285,8 +285,8 @@ namespace TestProject1
                 d.Fill.Style = eFillStyle.NoFill;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\LeftBracket.svg", svg);
-                p.SaveAs("c:\\temp\\LeftBracket.xlsx");
+                SaveTextFileToWorkbook("LeftBracket.svg", svg);
+                SaveWorkbook("LeftBracket.xlsx", p);
             }
         }
         [TestMethod]
@@ -301,8 +301,8 @@ namespace TestProject1
                 d.SetSize(804, 200);
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\QuadArrowCallout.svg", svg);
-                p.SaveAs("c:\\temp\\QuadArrowCallout.xlsx");
+                SaveTextFileToWorkbook("QuadArrowCallout.svg", svg);
+                SaveWorkbook("QuadArrowCallout.xlsx", p);
             }
         }
         [TestMethod]
@@ -317,8 +317,8 @@ namespace TestProject1
                 d.SetSize(804, 804);
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\ActionButtonHome.svg", svg);
-                p.SaveAs("c:\\temp\\ActionButtonHome.xlsx");
+                SaveTextFileToWorkbook($"svg\\ActionButtonHome.svg", svg);
+                SaveWorkbook("ActionButtonHome.xlsx", p);
             }
         }
         [TestMethod]
@@ -333,15 +333,15 @@ namespace TestProject1
                 d.SetSize(804, 804);
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\ActionButtonMovie.svg", svg);
-                p.SaveAs("c:\\temp\\ActionButtonMovie.xlsx");
+                SaveTextFileToWorkbook($"svg\\ActionButtonMovie.svg", svg);
+                SaveWorkbook("ActionButtonMovie.xlsx", p);
             }
         }
         [TestMethod]
         public void CustomPath()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = new ExcelPackage(@"c:\temp\CustPath.xlsx"))
+            using (var p = OpenTemplatePackage(@"svg\CustPath.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 //var d = ws.Drawings[0].As.Shape;
@@ -352,122 +352,16 @@ namespace TestProject1
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
 
                 //var svg = renderer.RenderDrawingToSvg(d);
-                //File.WriteAllText("c:\\temp\\CustomDrawing1.svg", svg);
+                //SaveTextFileToWorkbook("CustomDrawing1.svg", svg);
 
                 var d = ws.Drawings[1].As.Shape;
                 var svg = renderer.RenderDrawingToSvg(d);
-                File.WriteAllText("c:\\temp\\CustomDrawing2.svg", svg);
+                SaveTextFileToWorkbook($"svg\\CustomDrawing2.svg", svg);
 
-                //p.SaveAs("c:\\temp\\svgdrawing.xlsx");
-            }
-        }
-        [TestMethod]
-        public void ReadSvgFilesAndRename()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = new ExcelPackage(@"c:\Users\Janne\Pictures\MacroToGetAllAutoShapes.xlsm"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var adjPoints = LoadPoints();
-                var sb = new StringBuilder();
-                for (int i = 0; i < ws.Drawings.Count; i++)
-                {
-                    var d = ws.Drawings[i].As.Shape;
-                    var file1 = $"c:\\Users\\Janne\\Pictures\\{d.Text}.svg";
-                    var file2 = $"c:\\Users\\Janne\\Pictures\\CorrectFileNames\\{d.As.Shape.Style}.svg";
-                    if (File.Exists(file1) && !File.Exists(file2))
-                    {
-                        File.Copy(file1, file2, true);
-                    }
-                    if (adjPoints.TryGetValue(d.Text, out List<double> list))
-                    {
-                        //sb.Append($"{{eShapeStyle.{d.Style}, new List<double>(){{");
-                        sb.Append($"{{eShapeStyle.{d.Style},new Dictionary<string, ShapeGuidePoint> {{ ");
-                        int x = 1;
-                        foreach (var ap in list)
-                        {
-                            if (list.Count == 1)
-                            {
-                                sb.Append($"{{\"adj\", {ap * 100000}}},");
-                            }   
-                            else
-                            {
-                                sb.Append($"{{\"adj{x++}\", {ap * 100000}}},");
-                            }
-                            //sb.Append($"{ap.ToString(CultureInfo.InvariantCulture)},");
-                        }
-                        sb.Length--;
-                        sb.Append("}},\r\n");
-                    }
-                }
-                File.WriteAllText("c:\\temp\\adjstCode.txt", sb.ToString());
+                //SaveWorkbook("svgdrawing.xlsx");
             }
         }
 
-        private Dictionary<string,List<double>> LoadPoints()
-        {
-            var lines = File.ReadAllLines("c:\\temp\\adjust.txt");            
-            var d = new Dictionary<string, List<double>>();
-            List<double>? list;
-            var hs = new HashSet<string>();
-            var pc = "";
-
-            foreach (var l in lines)
-            {
-                var cols = l.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                if (pc == cols[0] || hs.Contains(cols[0]) == false)
-                {
-                    if (!d.TryGetValue(cols[0], out list))
-                    {
-                        list = new List<double>();
-                        d.Add(cols[0], list);
-                    }
-                    list.Add(double.Parse(cols[1]));
-                }
-                pc = cols[0];
-            }
-            return d;
-        }
-
-        [TestMethod]
-        public void GetCorrectValuesForEnum()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = new ExcelPackage())
-            {
-                var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
-                var fc = TypeConv.ColorConverter.GetThemeColor(theme.ColorScheme.Accent1);
-
-                for (int i = 10; i < 100; i++)
-                {
-                    for (int o1 = 0; o1 <= 100; o1 += 10)
-                    {
-                        for (int o2 = 0; o2 <= 100; o2 += 10)
-                        {
-                            for (int s = 20; s <= 80; s++)
-                            {
-                                var c = TypeConv.ColorConverter.ApplySatMod(fc, s / 100D, o1 / 100);
-                                c = TypeConv.ColorConverter.ApplyLumMod(c, (double)i / 100, (double)o2 / 100);
-
-                                if (c.R == 0x43 && c.G == 0x7F && c.B == 0x9a)
-                                {
-                                    Debug.WriteLine(i, $"Color:{c.Name},Lum={i}, LOff={o2}, Sat={s}, SatOff={o1}");
-                                }
-                                //if (c.R == 0x73 && c.G == 0xA0)
-                                //{
-                                //    Debug.WriteLine(i, $"Color:{c.Name},Lum={i}, LOff={o2}, Sat={s}, SatOff={o1}");
-                                //}
-                            }
-                        }
-                    }
-                }
-
-                var darken = TypeConv.ColorConverter.ApplyLumMod(fc, 0.10, 0.15);   //#0D3A4E
-                var darkenless = TypeConv.ColorConverter.ApplyLumMod(fc, 0.3, 0.15); //#114D69
-                var lightenless = TypeConv.ColorConverter.ApplyTint(fc, 0.25); //#73A0B4
-                var light = TypeConv.ColorConverter.ApplyTint(fc, 0.60); //#437F9B
-            }
-        }
 
         [TestMethod]
         public void GenerateAllShapes()
@@ -488,7 +382,7 @@ namespace TestProject1
                     y += 700;
                     i++;
                 }
-                p.SaveAs("c:\\temp\\shapes.xlsx");
+                SaveWorkbook("shapes.xlsx", p);
             }
         }
 
@@ -523,7 +417,7 @@ namespace TestProject1
                 foreach (var d in ws.Drawings)
                 {
                     var svg = renderer.RenderDrawingToSvg(d);
-                    File.WriteAllText($"c:\\temp\\{d.Name}-{ix}.svg", svg);
+                    SaveTextFileToWorkbook($"svg\\{d.Name}-{ix}.svg", svg);
                     ix++;
                 }
             }
@@ -545,7 +439,7 @@ namespace TestProject1
                 foreach (var d in ws.Drawings)
                 {
                     var svg = renderer.RenderDrawingToSvg(d);
-                    File.WriteAllText($"c:\\temp\\{d.Name}-{ix}.svg", svg);
+                    SaveTextFileToWorkbook($"svg\\{d.Name}-{ix}.svg", svg);
                     ix++;
                 }
             }
@@ -563,7 +457,7 @@ namespace TestProject1
                 foreach (ExcelShape d in ws.Drawings)
                 {
                     var svg = renderer.RenderDrawingToSvg(d);
-                    File.WriteAllText($"c:\\temp\\Pattern-{d.Fill.PatternFill.PatternType}-{ix}.svg", svg);
+                    SaveTextFileToWorkbook($"svg\\Pattern-{d.Fill.PatternFill.PatternType}-{ix}.svg", svg);
                     ix++;
                 }
             }
@@ -581,11 +475,13 @@ namespace TestProject1
                 foreach (ExcelShape d in ws.Drawings)
                 {
                     var svg = renderer.RenderDrawingToSvg(d);
-                    File.WriteAllText($"c:\\temp\\Blip{ix}.svg", svg);
+                    SaveSvg($"Blip{ix}.svg", svg);
                     ix++;
                 }
             }
         }
+
+
         [TestMethod]
         public void GenerateSvgForCircle()
         {
@@ -602,12 +498,12 @@ namespace TestProject1
                 foreach (ExcelShape d in ws.Drawings)
                 {
                     var svg = renderer.RenderDrawingToSvg(d);
-                    File.WriteAllText($"c:\\temp\\DrawForSvg{ix}.svg", svg);
+                    SaveTextFileToWorkbook($"svg\\DrawForSvg{ix}.svg", svg);
                     ix++;
                 }
             }
         }
-        [TestMethod]
+        [TestMethod, Ignore]
         public void GenerateSvgForCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
@@ -622,7 +518,7 @@ namespace TestProject1
                 foreach (ExcelChart d in ws.Drawings)
                 {
                     var svg = renderer.RenderDrawingToSvg(d);
-                    File.WriteAllText($"c:\\temp\\ChartForSvg{ix}.svg", svg);
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix}.svg", svg);
                     ix++;
                 }
             }

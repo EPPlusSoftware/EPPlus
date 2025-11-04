@@ -26,7 +26,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellFillData CellFillData;
 
         public PdfCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
-            :base(x, y, width, height, scaleX, scaleY, rotation, parent )
+            : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             if (cell != null)
             {
@@ -49,11 +49,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 else if (fill.PatternType != ExcelFillStyle.None)
                 {
                     CellFillData.PattenStyle = fill.PatternType;
-                    CellFillData.BackgroundColor = new PdfColor( fill.PatternColor.Rgb == null ? "#FFFFFFFF" : fill.PatternColor.LookupColor());
+                    CellFillData.BackgroundColor = new PdfColor(fill.PatternColor.Rgb == null ? "#FFFFFFFF" : fill.PatternColor.LookupColor());
                     CellFillData.PatternColor = new PdfColor(fill.BackgroundColor.LookupColor());
                     CellFillData.id = AddPatternResourceData(dictionaries.Patterns, CellFillData.PattenStyle.ToString() + CellFillData.PatternColor.ToHexString() + CellFillData.BackgroundColor.ToHexString());
                 }
-                else if(fill.HasGradient)
+                else if (fill.HasGradient)
                 {
                     CellFillData.GradientFillData = new PdfCellGradientFillData();
                     CellFillData.GradientFillData.GradientType = fill.Gradient.Type;
@@ -61,10 +61,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     CellFillData.GradientFillData.Color2 = new PdfColor(fill.Gradient.Color2.LookupColor());
                     CellFillData.GradientFillData.Color3 = new PdfColor(fill.Gradient.Color3.LookupColor());
                     CellFillData.GradientFillData.Degree = fill.Gradient.Degree;
-                    CellFillData.GradientFillData.Top    = double.IsNaN(fill.Gradient.Top)    ? 0 : fill.Gradient.Top;
+                    CellFillData.GradientFillData.Top = double.IsNaN(fill.Gradient.Top) ? 0 : fill.Gradient.Top;
                     CellFillData.GradientFillData.Bottom = double.IsNaN(fill.Gradient.Bottom) ? 0 : fill.Gradient.Bottom;
-                    CellFillData.GradientFillData.Left   = double.IsNaN(fill.Gradient.Left)   ? 0 : fill.Gradient.Left;
-                    CellFillData.GradientFillData.Right  = double.IsNaN(fill.Gradient.Right)  ? 0 : fill.Gradient.Right;
+                    CellFillData.GradientFillData.Left = double.IsNaN(fill.Gradient.Left) ? 0 : fill.Gradient.Left;
+                    CellFillData.GradientFillData.Right = double.IsNaN(fill.Gradient.Right) ? 0 : fill.Gradient.Right;
                     CellFillData.id = CellFillData.GradientFillData.ToString();
                     AddShadingResourceData(dictionaries.Shadings, CellFillData.id);
                 }
@@ -73,7 +73,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         private string AddPatternResourceData(Dictionary<string, PdfPatternResource> patternResources, string key)
         {
-            if(!patternResources.ContainsKey(key))
+            if (!patternResources.ContainsKey(key))
             {
                 int label = 1;
                 if (patternResources.Count > 0)
@@ -115,7 +115,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             {
                 if (CellFillData.GradientFillData.GradientType == ExcelFillGradientType.Linear)
                 {
-                    switch(CellFillData.GradientFillData.Degree)
+                    switch (CellFillData.GradientFillData.Degree)
                     {
                         case 45d:
                             CellFillData.GradientFillData.coords = [0, 1, 1, 0];
@@ -145,7 +145,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                     CellFillData.GradientFillData.matrix = [Size.X, 0, 0, Size.Y, LocalPosition.X, LocalPosition.Y];
                 }
-                else if( CellFillData.GradientFillData.GradientType == ExcelFillGradientType.Path)
+                else if (CellFillData.GradientFillData.GradientType == ExcelFillGradientType.Path)
                 {
                     double x = LocalPosition.X;
                     double y = LocalPosition.Y;
