@@ -13,6 +13,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using System.Xml.XPath;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Data.Connection;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -53,6 +54,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal const string _sourceWorksheetPath = "d:cacheSource/d:worksheetSource/@sheet";
         internal const string _sourceNamePath = "d:cacheSource/d:worksheetSource/@name";
         internal const string _sourceAddressPath = "d:cacheSource/d:worksheetSource/@ref";
+        internal const string _sourceConnectionPath = "d:cacheSource/@connectionId";
         internal string Ref
         {
             get
@@ -147,6 +149,18 @@ namespace OfficeOpenXml.Table.PivotTable
                 return sourceRange;
             }
 
+        }
+        internal ExcelConnection Connection
+        {
+            get
+            {
+                var cid = GetXmlNodeIntNull(_sourceConnectionPath);
+                if(cid.HasValue)
+                {
+                    return _wb.Connections.FirstOrDefault(x => x.Id == cid.Value);
+                }
+                return null;
+            }
         }
         private ExcelRangeBase GetRangeByName(ExcelWorksheet w, string name)
         {

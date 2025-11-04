@@ -13,6 +13,7 @@
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -222,7 +223,7 @@ namespace OfficeOpenXml.Data.Connection
         {
             var uri = new Uri("/xl/connections.xml", UriKind.Relative);
             Part = _package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeConnections);
-            var rel = _package.Workbook.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/connections");
+            var rel = _package.Workbook.Part.CreateRelationship(UriHelper.GetRelativeUri(_package.Workbook.WorkbookUri, uri), TargetMode.Internal, ExcelPackage.schemaRelationships + "/connections");
             ConnectionXml = new XmlDocument();
             var startXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><connections xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"xr16\" xmlns:xr16=\"http://schemas.microsoft.com/office/spreadsheetml/2017/revision16\"></connections>";
             ConnectionXml.LoadXml(startXml);

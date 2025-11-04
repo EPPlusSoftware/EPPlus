@@ -14,13 +14,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using System.Xml.Linq;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Data.Connection;
 using OfficeOpenXml.Data.Connection.IOHandlers;
 using OfficeOpenXml.Data.QueryTable;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.RichData.Structures.Errors;
 namespace OfficeOpenXml.Table
 {
     /// <summary>
@@ -89,7 +87,7 @@ namespace OfficeOpenXml.Table
         /// <exception cref="InvalidOperationException">If the connection is null or not in the package.</exception>
         public ExcelTable AddQueryTable(ExcelAddressBase Range, string Name, ExcelConnection connection, params string[] fields)
         {
-            if(fields==null || fields.Length==0 || !fields.Any(x=>string.IsNullOrEmpty(x)))
+            if(fields==null || fields.Length==0 || !fields.Any(x=>!string.IsNullOrEmpty(x)))
             {
                 throw new ArgumentException("Supply at least one non-empty field for the query.");
             }
@@ -97,8 +95,42 @@ namespace OfficeOpenXml.Table
             {
                 throw new InvalidOperationException("The connection is null or does not exist in the package.");
             }
+            if(Range.Columns!= fields.Length)
+            {
+                throw new ArgumentException("The number of fields must match the number of columns in the range.");
+            }
             var tbl = AddInternal(Range, Name, null);
-            tbl.QueryTable = new ExcelQueryTable(new QueryTableDataPartXmlHandler(tbl, connection, fields));            
+            tbl.DataSourceType = TableDataSourceType.QueryTable;
+            int col = Range.Start.Column;
+
+            var qt = new ExcelQueryTable(new QueryTableDataPartXmlHandler(tbl, connection, fields));
+            qt.ConnectionId = connection.Id;
+            qt.Connection = connection;
+            qt.Name = connection.Name;
+            int ix = 1, tfIx=1;
+            //Set Column headers.
+            foreach (var f in fields)
+            {
+                if(string.IsNullOrEmpty(f))
+                {
+                    _ws.Cells[Range.Start.Row, col++].Value = $"Column {tfIx}";
+                }
+                else
+                {
+                    _ws.Cells[Range.Start.Row, col++].Value = f;
+                    //qt.Fields.Add(new ExcelQueryTableField() { Id=ix, Name=f, TableColumnId=tfIx });
+                }                
+                tfIx++;
+            }
+            tbl.QueryTable = qt;
+
+            if (tbl.WorkSheet.Names.ContainsKey(tbl.QueryTable.Name))
+            {
+                tbl.WorkSheet.Names.Remove(tbl.QueryTable.Name);
+            }
+            var qtName = tbl.WorkSheet.Names.Add(tbl.QueryTable.Name, tbl.Range);
+            qtName.IsNameHidden = true;
+
             return tbl;
         }
         internal ExcelTable AddInternal(ExcelAddressBase Range, string name, ExcelTable copy)

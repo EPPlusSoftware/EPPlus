@@ -34,11 +34,15 @@ namespace OfficeOpenXml.Data.Connection
         }
         internal ExcelPowerQuerySettings(byte[] blob)
         {
+            File.WriteAllBytes(@"c:\temp\pq\blob.bin", blob);
+
             using var ms = new MemoryStream(blob);
             var br = new BinaryReader(ms);
             var version = br.ReadInt32();
             var size = br.ReadInt32();
             var pck = br.ReadBytes((int)size);
+
+            File.WriteAllBytes(@"c:\temp\pq\pck.zip", pck);
             PQPackage = new ZipPackage(new MemoryStream(pck));
             ZipPackagePart section1MPart;
 
@@ -58,6 +62,7 @@ namespace OfficeOpenXml.Data.Connection
 
             size = br.ReadInt32();
             var permBytes = br.ReadBytes((int)size);
+            File.WriteAllBytes(@"c:\temp\pq\perm.xml", permBytes);
             var permissionXml = Encoding.UTF8.GetString(permBytes);
             PermissionsXml = new XmlDocument();
             XmlHelper.LoadXmlSafe(PermissionsXml, permissionXml, Encoding.UTF8);
@@ -66,12 +71,14 @@ namespace OfficeOpenXml.Data.Connection
             version = br.ReadInt32();
             size = br.ReadInt32();
             var metadataXml = Encoding.UTF8.GetString(br.ReadBytes((int)size));
+            File.WriteAllText(@"c:\temp\pq\md.xml", metadataXml);
             size = br.ReadInt32();
             MetadataXml = new XmlDocument();
             XmlHelper.LoadXmlSafe(MetadataXml, metadataXml, Encoding.UTF8);
 
             MetadataContentPackage = br.ReadBytes((int)size);
             size = br.ReadInt32();
+            File.WriteAllBytes(@"c:\temp\pq\mdcp.zip", MetadataContentPackage);
 
             var packageBinding = br.ReadBytes((int)size);
             // Data protection (DPAPI) only works in windows as it's tied to the current user.
@@ -103,7 +110,7 @@ namespace OfficeOpenXml.Data.Connection
             {
                 PQPackage=new ZipPackage(new MemoryStream());
                 var pp = PQPackage.CreatePart(new Uri("/Config/Package.xml", UriKind.Relative), "text/xml");
-                var sw = new StreamWriter(pp.GetStream(), Encoding.UTF8); 
+                var sw = new StreamWriter(pp.GetStream(), new UTF8Encoding()); 
                 sw.Write($"<?xml version=\"1.0\" encoding=\"utf-8\"?><Package xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Version>2.147.503.0</Version><MinVersion>2.21.0.0</MinVersion><Culture>{Thread.CurrentThread.CurrentCulture.Name}</Culture></Package>");
                 sw.Flush();
                 sectionMPart = PQPackage.CreatePart(new Uri("/Formulas/Section1.m", UriKind.Relative), "application/x-ms-m");
@@ -119,7 +126,7 @@ namespace OfficeOpenXml.Data.Connection
             }
 
             var ms = sectionMPart.GetStream();
-            var streamwriter = new StreamWriter(ms, Encoding.UTF8);
+            var streamwriter = new StreamWriter(ms, new UTF8Encoding(false));
             streamwriter.Write(PowerQueryFormulas);
             streamwriter.Flush();
             //streamwriter.Close();

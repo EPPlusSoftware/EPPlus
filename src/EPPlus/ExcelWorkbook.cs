@@ -1440,7 +1440,10 @@ namespace OfficeOpenXml
             if (_connections != null) //Must be saved before custom XML as power query connections data are stored there.
             {
                 Connections.Save();
-                Connections.PowerQuerySettings.Save(CustomXmlDocuments);
+                if (Connections.PowerQuerySettings.Exists)
+                {
+                    Connections.PowerQuerySettings.Save(CustomXmlDocuments);
+                }
             }
 
             if (_customXml!=null)

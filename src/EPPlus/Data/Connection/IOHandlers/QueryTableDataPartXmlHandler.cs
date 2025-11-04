@@ -31,41 +31,48 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
             if (qtRels.Any())
             {
                 var rel = qtRels.First();
-                CreateXmlHelper(table.WorkSheet._package, rel);
+                LoadAndCreateXmlHelper(table.WorkSheet._package, rel);
             }
         }
         public QueryTableDataPartXmlHandler(ExcelTable table, ExcelConnection connection, string[] fieldNames)
         {
-            var zp = _ws._package.ZipPackage;
-            int id = 1;
-            Part = zp.CreatePart(XmlHelper.GetNewUri(zp, "/xl/queryTables/queryTable{0}.xml", ref id), ContentTypes.contentTypeQueryTable, CompressionLevel.Default);
-            _table.Part.CreateRelationship(Part.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/queryTable");
-            XmlDocument xml = new XmlDocument();
+            _table = table;
+            _ws = table.WorkSheet;
             var sb = new StringBuilder();
-            sb.Append($"<?xml version=\"1.0\" encoding=\"utf-8\"?><queryTable xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"  xmlns:xr16=\"http://schemas.microsoft.com/office/spreadsheetml/2017/revision16\" mc:Ignorable=\"xr16\"><queryTableRefresh nextId=\"{fieldNames.Length + 1}\"><queryTableFields count=\"{fieldNames.Length}\">");
-            int fid=1;
+            sb.Append($"<?xml version=\"1.0\" encoding=\"utf-8\"?><queryTable xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xr16=\"http://schemas.microsoft.com/office/spreadsheetml/2017/revision16\" mc:Ignorable=\"xr16\"><queryTableRefresh nextId=\"{fieldNames.Length + 1}\"><queryTableFields count=\"{fieldNames.Length}\">");
+            int fid = 1;
             foreach (var fieldName in fieldNames)
             {
-                sb.Append($"<id=\"{fid}\" name=\"{fieldName}\" tableColumnId=\"{fid}\" />");
+                sb.Append($"<queryTableField id=\"{fid}\" name=\"{fieldName}\" tableColumnId=\"{fid}\" />");
                 fid++;
             }
-            xml.LoadXml("</queryTableFields></queryTableRefresh></queryTable>");
+            sb.Append("</queryTableFields></queryTableRefresh></queryTable>");
+
+            var xml = new XmlDocument();
+            XmlHelper.LoadXmlSafe(xml, sb.ToString(), Encoding.UTF8);
+            CreateXmlHelper(_ws._package, xml);
         }
         public QueryTableDataPartXmlHandler(ExcelWorksheet ws, ZipPackageRelationship rel)
         {
             _ws = ws;
-            CreateXmlHelper(ws._package, rel);
+            LoadAndCreateXmlHelper(ws._package, rel);
         }
-        private void CreateXmlHelper(ExcelPackage pck, ZipPackageRelationship rel)
+        private void LoadAndCreateXmlHelper(ExcelPackage pck, ZipPackageRelationship rel)
         {
             var uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
             Part = pck.ZipPackage.GetPart(uri);
             var xmlDoc = new XmlDocument();
             XmlHelper.LoadXmlSafe(xmlDoc, Part.GetStream());
+            CreateXmlHelper(pck, xmlDoc);
+        }
+
+        private void CreateXmlHelper(ExcelPackage pck, XmlDocument xmlDoc)
+        {
             _xml = XmlHelperFactory.Create(pck.Workbook.NameSpaceManager, xmlDoc.DocumentElement);
             _xml.SchemaNodeOrder = ["queryTableRefresh", "queryTableFields", "queryTableDeletedFields", "sortState"];
         }
-        public void Load(ExcelQueryTable item)
+
+        public void Load(ExcelQueryTable item)  
         {
             item.Name = _xml.GetXmlNodeString("@name");
             item.ConnectionId = _xml.GetXmlNodeInt("@connectionId");
@@ -134,7 +141,7 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
         public void Save(ExcelQueryTable item)
         {
             _xml.SetXmlNodeString("@name", item.Name);
-            _xml.GetXmlNodeInt("@connectionId", item.ConnectionId);
+            _xml.SetXmlNodeInt("@connectionId", item.ConnectionId);
             _xml.SetXmlNodeBool("@headers", item.Headers, true);
             _xml.SetXmlNodeBool("@headers", item.RowNumbers, false);
             _xml.SetXmlNodeBool("@disableRefresh", item.DisableRefresh, false);
@@ -197,6 +204,13 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
                 _xml.DeleteNode("d:queryTableRefresh/d:queryTableDeletedFields");
             }
 
+            int id = 1;
+            var zp = _ws._package.ZipPackage;
+            if (Part == null)
+            {
+                Part = zp.CreatePart(XmlHelper.GetNewUri(zp, "/xl/queryTables/queryTable{0}.xml", ref id), ContentTypes.contentTypeQueryTable, CompressionLevel.Default);
+                _table.Part.CreateRelationship(Part.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/queryTable");
+            }
             var qtXmlStream = Part.GetStream(System.IO.FileMode.Create, System.IO.FileAccess.Write);
             _xml.TopNode.OwnerDocument.Save(qtXmlStream);
             qtXmlStream.Flush();

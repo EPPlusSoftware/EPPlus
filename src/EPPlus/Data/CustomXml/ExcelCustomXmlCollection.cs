@@ -72,11 +72,6 @@ namespace OfficeOpenXml.Data.CustomXml
             }
         }
 
-        internal void Add(object powerQuerySettings, byte[] bytes)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Number of items in the collection.
         /// </summary>

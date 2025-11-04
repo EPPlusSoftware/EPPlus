@@ -20,6 +20,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Data.Connection;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -165,6 +166,11 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     throw (new ArgumentException("Cannot change the number of columns(fields) in the SourceRange"));
                 }
+                
+                if(Connection!=null)
+                {
+                    throw new ArgumentException("This pivot cache has an external connection as source and can not be changed to a range.");
+                }
 
                 if (value.FullAddress == SourceRange.FullAddress) return; //Same
                 if (_wb.GetPivotCacheFromAddress(value.FullAddress, out PivotTableCacheInternal cache))
@@ -202,7 +208,16 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-
+        /// <summary>
+        /// The external connection used as source for this pivot table.
+        /// </summary>
+        public ExcelConnection Connection
+        {
+            get
+            {
+                return _cacheReference.Connection;
+            }
+        }
         private void UpdateCacheInFields()
         {
             foreach (var field in PivotTable.Fields)

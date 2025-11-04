@@ -32,6 +32,8 @@ using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Data.QueryTable;
 using OfficeOpenXml.Data.Connection.IOHandlers;
+using OfficeOpenXml.Utils.EnumUtils;
+
 
 
 #if !NET35 && !NET40
@@ -243,6 +245,10 @@ namespace OfficeOpenXml.Table
             get
             {
                 return GetXmlEnum("@tableType", TableDataSourceType.Worksheet);
+            }
+            internal set
+            {
+                SetXmlNodeString("@tableType", value.ToEnumString());
             }
         }
         /// <summary>

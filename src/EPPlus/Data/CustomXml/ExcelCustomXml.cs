@@ -82,7 +82,7 @@ namespace OfficeOpenXml.Data.CustomXml
                 {
                     var zp = pck.ZipPackage;
                     int id=1;
-                    Part = zp.CreatePart(XmlHelper.GetNewUri(zp, "/customXml/item{0}.xml", ref id), string.Empty);
+                    Part = zp.CreatePart(XmlHelper.GetNewUri(zp, "/customXml/item{0}.xml", ref id), string.Empty, CompressionLevel.Default, "xml");
                     PropertiesPart = zp.CreatePart(XmlHelper.GetNewUri(zp, "/customXml/itemProps{0}.xml", ref id), ContentTypes.contentTypeCustomXmlProperties);
                     Part.CreateRelationship(UriHelper.ResolvePartUri(Part.Uri, PropertiesPart.Uri), TargetMode.Internal,  $"{ExcelPackage.schemaRelationships}/customXmlProps");  
                     pck.Workbook.Part.CreateRelationship(UriHelper.ResolvePartUri(pck.Workbook.Part.Uri, Part.Uri), TargetMode.Internal, $"{ExcelPackage.schemaRelationships}/customXml");
@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Data.CustomXml
                 if (PropertiesXml==null)
                 {
                     PropertiesXml = new XmlDocument();
-                    PropertiesXml.LoadXml( $"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<ds:datastoreItem ds:itemID=\"{{{Guid.NewGuid().ToString()}}}\" xmlns:ds=\"http://schemas.openxmlformats.org/officeDocument/2006/customXml\"><ds:schemaRefs/></ds:datastoreItem>");
+                    PropertiesXml.LoadXml( $"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n<ds:datastoreItem ds:itemID=\"{{{Guid.NewGuid().ToString().ToUpperInvariant()}}}\" xmlns:ds=\"http://schemas.openxmlformats.org/officeDocument/2006/customXml\"><ds:schemaRefs/></ds:datastoreItem>");
                 }
                 var nsm = CreateNsm();
                 _xmlHelper = XmlHelperFactory.Create(nsm, PropertiesXml.DocumentElement.SelectSingleNode("ds:schemaRefs", nsm));

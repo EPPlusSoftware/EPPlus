@@ -2728,6 +2728,11 @@ namespace OfficeOpenXml
                         {
                             throw (new InvalidDataException(string.Format("Table {0} Column {1} does not have a unique name.", tbl.Name, col.Name)));
                         }
+                        if(tbl.DataSourceType==TableDataSourceType.QueryTable)
+                        {
+                            col.UniqeName = (colVal.Count + 1).ToString(CultureInfo.InvariantCulture);
+                            col.QueryTableFieldId = tbl.QueryTable.Fields.FirstOrDefault(x => x.TableColumnId == col.Id)?.Id;
+                        }
                         colVal.Add(n);
                         colNum++;
                     }
