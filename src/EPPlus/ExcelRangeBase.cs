@@ -889,6 +889,14 @@ namespace OfficeOpenXml
             af.AutofitColumn(MinimumWidth, MaximumWidth);
 #endif
         }
+
+        public void AutoFitRows()
+        {
+            var af = new AutofitHelper(this);
+            af.AutofitRow();
+        }
+
+
         internal string TextForWidth
         {
             get

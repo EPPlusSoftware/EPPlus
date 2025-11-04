@@ -635,5 +635,47 @@ namespace EPPlusTest.Sorting
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void FindString()
+        {
+            using(var package = OpenPackage("testFinding.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("AWorksheet");
+
+                //ws.Cells["Z10"].Value = "Hello";
+
+                //ws.Cells["K2"].Value = "Hello";
+                //ws.Cells["A1"].Value = "Hello";
+                //ws.Cells["A2:A10"].Value = "Goodbye";
+
+
+                ws.Cells["I14:I17"].Value = 10;
+                ws.Cells["I18"].Value = 1;
+
+                ws.Cells["I20"].Formula = "SUM(I14:I17 - I18)";
+                ws.Cells["I20"].UseImplicitItersection = false;
+                //ws.Cells["I20"].FormulaR1C1 = "SUM(R[-6]C:R[-3]C - R[-2]C)";
+                //ws.Cells["I20"].UseImplicitItersection = false;
+                //ws.Cells["I20"].Calculate();
+
+                //var value = ws.Cells["I20"].Value;
+
+                var range = ws.Cells["A1:Z100"];
+
+
+                //var foundCell = range.Where(x => x.Value?.ToString() == "Hello");
+                /*
+                                //for (int i= range.va; i< range.Columns; i++)
+                                //{
+                                //    for(int j = 0; j< range.Rows; j++)
+                                //    {
+
+                                //    }
+                                //}
+                */
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

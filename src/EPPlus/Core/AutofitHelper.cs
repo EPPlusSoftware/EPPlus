@@ -14,6 +14,8 @@
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +42,81 @@ namespace OfficeOpenXml.Core
                 _fontWidthDefault = FontSize.FontWidths[FontSize.NonExistingFont];
             }
         }
+
+        internal void AutofitRow()
+        {
+            var worksheet = _range._worksheet;
+            if (worksheet.Dimension == null)
+            {
+                return;
+            }
+            if (_range._fromCol < 1 || _range._fromRow < 1)
+            {
+                _range.SetToSelectedRange();
+            }
+
+            var fromCol = Math.Max(_range._fromCol, worksheet.Dimension._fromCol);
+            var toCol = Math.Min(_range._toCol, worksheet.Dimension._toCol);
+            var fromRow = _range._fromRow;
+            var toRow = _textSettings.AutofitRows > 0 && _textSettings.AutofitRows < _range._toRow ? _textSettings.AutofitRows : _range._toRow;
+
+            var styles = worksheet.Workbook.Styles;
+            var normalStyle = styles.GetNormalStyle();
+            var normalXfId = normalStyle?.StyleXfId ?? 0;
+            if (normalXfId < 0 || normalXfId >= styles.CellStyleXfs.Count) normalXfId = 0;
+            var normalFont = styles.Fonts[styles.CellStyleXfs[normalXfId].FontId];
+            var fontStyle = MeasurementFontStyles.Regular;
+            if (normalFont.Bold) fontStyle |= MeasurementFontStyles.Bold;
+            if (normalFont.UnderLine) fontStyle |= MeasurementFontStyles.Underline;
+            if (normalFont.Italic) fontStyle |= MeasurementFontStyles.Italic;
+            if (normalFont.Strike) fontStyle |= MeasurementFontStyles.Strikeout;
+            var normalSize = Convert.ToSingle(FontSize.GetHeightPixels(normalFont.Name, normalFont.Size));
+
+            var maxRowHeight = 546d; //pixels
+            var measurer = _textSettings.GenericTextMeasurerTrueType;
+
+            for (int row = fromRow; row <= toRow; row++)
+            {
+                var wsRow = worksheet.Row(row);
+                var heightCurrentRow = wsRow.Height.PointToPixel();
+                foreach (var cell in worksheet.Cells[row, fromCol, row, toCol])
+                {
+                    var cellStyleId = styles.CellXfs[cell.StyleID];
+                    //if (cell.Merge == true) continue;
+                    double cellHeight;
+                    var measurementFont = cell.Style.Font.GetMeasureFont();
+                    if (cellStyleId.WrapText == false || _textSettings.MeasureWrappedTextCells == false)
+                    {
+                        var colWidth = worksheet.GetColumnWidthPixels(cell._fromCol, worksheet.Workbook.MaxFontWidth);
+
+                        var strings = measurer.MeasureAndWrapText(cell.TextForWidth, measurementFont, colWidth);
+                        
+                        cellHeight = measurer.GetSingleLineSpacing().PointToPixel() * strings.Count() + measurer.GetBaseLine().PointToPixel()/2;
+                    }
+                    else
+                    {
+                        var size = measurer.MeasureText(cell.TextForWidth, measurementFont);
+                        cellHeight = size.Height.PointToPixel();
+                    }
+                    //currentMaxWidth = GetTextLength(cell, textLengthCache, styles, cellStyleId, normalSize, MaximumWidth, currentMaxWidth);
+                    if (cellHeight >= maxRowHeight)
+                    {
+                        heightCurrentRow = maxRowHeight;
+                        break;
+                    }
+
+                    if (cellHeight > heightCurrentRow)
+                    {
+                        heightCurrentRow = cellHeight;
+                    }
+                }
+                if(wsRow.Height < heightCurrentRow)
+                {
+                    wsRow.Height = heightCurrentRow.PixelToPoint();
+                }
+            }
+        }
+
 
         internal void AutofitColumn(double MinimumWidth, double MaximumWidth)
         {

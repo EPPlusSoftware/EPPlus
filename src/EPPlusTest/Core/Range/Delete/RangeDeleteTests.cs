@@ -1,7 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using EPPlusTest.Drawing.Chart.Styling;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -321,7 +324,7 @@ namespace EPPlusTest.Core.Range.Delete
         {
             //Setup
             var ws = _pck.Workbook.Worksheets.Add("DeleteRangeDown");
-            SetValues(ws,3);
+            SetValues(ws, 3);
 
             //Act
             ws.Cells["B2"].Delete(eShiftTypeDelete.Up);
@@ -359,7 +362,7 @@ namespace EPPlusTest.Core.Range.Delete
 
             //Act 2
             ws.Cells["A1:B1"].Delete(eShiftTypeDelete.Left);
-            
+
             //Assert 2
             Assert.AreEqual("C1", ws.Cells["A1"].Value);
             Assert.IsNull(ws.Cells["B1"].Value);
@@ -381,7 +384,7 @@ namespace EPPlusTest.Core.Range.Delete
             AssertIsNull(ws.Cells["B3:C4"]);
 
             Assert.AreEqual("B3", ws.Cells["B1"].Value);
-            Assert.AreEqual("B4", ws.Cells["B2"].Value);            
+            Assert.AreEqual("B4", ws.Cells["B2"].Value);
             Assert.AreEqual("C3", ws.Cells["C1"].Value);
             Assert.AreEqual("C4", ws.Cells["C2"].Value);
         }
@@ -527,7 +530,7 @@ namespace EPPlusTest.Core.Range.Delete
 
             //Assert
             Assert.AreEqual("A2", ws.Cells["B1"].Formula);
-            Assert.AreEqual("",ws.Cells["B2"].Formula);
+            Assert.AreEqual("", ws.Cells["B2"].Formula);
             Assert.AreEqual("#REF!", ws.Cells["C1"].Formula);
             Assert.AreEqual("C1", ws.Cells["D1"].Formula);
             Assert.AreEqual("A1", ws.Cells["C3"].Formula);
@@ -1157,7 +1160,7 @@ namespace EPPlusTest.Core.Range.Delete
             ws.AutoFilter.Address = new ExcelAddressBase("B1:E100");
             ws.Cells["A1:A100"].Delete(eShiftTypeDelete.Left);
             Assert.AreEqual("A1:D100", ws.AutoFilter.Address.Address);
-            ws.Cells["C1:C100"].Delete(eShiftTypeDelete.Left); 
+            ws.Cells["C1:C100"].Delete(eShiftTypeDelete.Left);
             Assert.AreEqual("A1:C100", ws.AutoFilter.Address.Address);
         }
         [TestMethod]
@@ -1355,12 +1358,12 @@ namespace EPPlusTest.Core.Range.Delete
         [TestMethod]
         public void ValidateDeleteColumnFixedAddresses()
         {
-            using(var p=new ExcelPackage())
+            using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Names.Add("TestName1", ws.Cells["$A$1"]);
-                ws.Names.Add("TestName2", ws.Cells["$B$1"]); 
-                ws.Names.Add("TestName3", ws.Cells["$C$1"]); 
+                ws.Names.Add("TestName2", ws.Cells["$B$1"]);
+                ws.Names.Add("TestName3", ws.Cells["$C$1"]);
                 ws.Names.Add("TestName4", ws.Cells["$B$3:$D$3"]);
                 ws.Names.Add("TestName5", ws.Cells["$A$5:$C$5"]);
                 ws.Names.Add("TestName6", ws.Cells["$B$7:$C$7"]);
@@ -1521,17 +1524,17 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual(2d, sheet.Cells["A2"].Value, "Row 3 was not correctly shifted to 2");
             Assert.AreEqual(3d, sheet.Cells["A3"].Value, "Row 4 was not correctly shifted to 3");
         }
-		[TestMethod]
-		public void DeleteRowValidateArrayFormula()
-		{
-			using var package = new ExcelPackage();
-			var sheet = package.Workbook.Worksheets.Add("Sheet 1");
-			sheet.Cells["A2"].Formula = "XLOOKUP($A$3,$B:$B,$C:$C)";
+        [TestMethod]
+        public void DeleteRowValidateArrayFormula()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet 1");
+            sheet.Cells["A2"].Formula = "XLOOKUP($A$3,$B:$B,$C:$C)";
             sheet.Calculate();
             sheet.DeleteRow(1);
 
             Assert.AreEqual("XLOOKUP($A$2,$B:$B,$C:$C)", sheet.Cells["A1"].Formula);
-		}
+        }
         [TestMethod]
         //Part of s912 performance fix
         public void EnsureDeleteColumnsWorksWithColumnLookup()
@@ -1586,7 +1589,98 @@ namespace EPPlusTest.Core.Range.Delete
 
                 SaveAndCleanup(p);
             }
-        }
+        //}
 
+        //[TestMethod]
+        //public void DeleteRowPartlyFormulaTable()
+        //{
+        //    using (var p = OpenPackage("TestDeleteRow.xlsx", true))
+        //    {
+        //        var ws = p.Workbook.Worksheets.Add("Aws");
+
+        //        ws.Drawings.AddAreaChart("AChart", eAreaChartType.Area);
+        //        var chart = ws.Drawings.AddBarChart("BChart", eBarChartType.ColumnClustered);
+        //        ws.Drawings.AddTextbox("textBOX", "hello");
+
+        //        var drawingCopy = chart.Copy(ws, 0, 0, 0,0);
+        //        drawingCopy.Name = "something";
+
+        //        var allCharts = ws.Drawings.Where(x => x.DrawingType == eDrawingType.Chart);
+        //        var allPieCharts = ws.Drawings.Where(x => x.DrawingType == eDrawingType.Chart 
+        //                                             && x.As.Chart.BarChart.ChartType == eChartType.Pie);
+
+        //        ws.Cells["C10:D40"].Formula = "ROW()+COLUMN()";
+
+        //        ws.Cells["C12"].Formula = "ROW()";
+
+        //        ws.Cells["C20"].Formula = "ROW()";
+
+        //        ws.Cells["D15:D16"].Formula = "ROW()";
+
+        //        ws.DeleteRow(2,15);
+        //        ws.DeleteRow(2, 5);
+        //        ws.Cells["D2:D20"].Formula = "ROW()";
+        //        ws.DeleteRow(2,15);
+
+        //        SaveAndCleanup(p);
+        //    }
+        //}
+
+        //[TestMethod]
+        //public void CopyDrawings()
+        //{
+        //    using (var p = OpenPackage("chartCopyTest.xlsx", true))
+        //    {
+        //        var ws = p.Workbook.Worksheets.Add("chartCopyWs");
+        //        ws.Cells["A1"].Value = "Product code";
+        //        ws.Cells["B1"].Value = "Product price";
+
+        //        ws.Cells["A2:A10"].Formula = "ROW()*3";
+        //        ws.Cells["B2:B10"].Formula = "ROW()*1.22 + 100";
+
+        //        ws.Calculate();
+
+        //        var chart = ws.Drawings.AddPieChart("MyChart", ePieChartType.Pie);
+
+        //        chart.Series.Add(ws.Cells["A2:A10"]);
+        //        chart.Series.Add(ws.Cells["B2:B10"]);
+
+        //        //Set position to the right of the data
+        //        chart.SetPosition(0, 700);
+        //        chart.Title.Text = "Original";
+
+        //        var chartTemplate = chart.Copy(ws, 0, 0).As.Chart.PieChart;
+        //        //The copy still has the series data so we remove it.
+        //        for (int i = chartTemplate.Series.Count - 1; i >= 0; i--)
+        //        {
+        //            chartTemplate.Series.Delete(i);
+        //        }
+
+
+        //        //Now the chart template can be used to generate more copies without series data
+        //        //With offsets so all charts are visible
+        //        var newEmptyChart1 = chartTemplate.Copy(ws, 10, 10).As.Chart.PieChart;
+        //        newEmptyChart1.Title.Text = "Copy 1";
+        //        var newEmptyChart2 = chartTemplate.Copy(ws, 20, 10).As.Chart.PieChart;
+        //        newEmptyChart2.Title.Text = "Copy 2";
+
+        //        //Create new dummy values
+        //        ws.Cells["D2:D10"].Formula = "A2:A10 + 10";
+        //        ws.Cells["F2:F10"].Formula = "B2:B10 + 10";
+
+        //        var tmpValueRange = ws.Cells["D2:D10"];
+        //        var tmpLabelRange = ws.Cells["F2:F10"];
+
+        //        //Fill 
+        //        newEmptyChart1.Series.Add(tmpValueRange, tmpLabelRange);
+        //        newEmptyChart2.Series.Add(tmpValueRange, tmpLabelRange);
+
+        //        //Move template out of immediate view
+        //        chartTemplate.SetPosition(2000,2000);
+        //        chartTemplate.Title.Text = "Empty Template";
+
+        //        SaveAndCleanup(p);
+        //    }
+        //}
     }
 }

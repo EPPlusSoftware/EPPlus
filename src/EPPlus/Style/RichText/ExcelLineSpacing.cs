@@ -133,7 +133,7 @@ namespace OfficeOpenXml.Style
         }
 
         /// <summary>
-        /// Sets line spacing to Exactly inPoints
+        /// Sets line spacing to Exactly in Points
         /// </summary>
         /// <param name="inPoints"></param>
         public void SetExactly(double inPoints)
