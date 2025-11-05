@@ -26,6 +26,47 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double Offset;
     }
 
+    internal class PdfCellFontDataCollection
+    {
+        public List<PdfCellFontData> FontDataCollection = new List<PdfCellFontData>();
+        public double TextLength
+        {
+            get
+            {
+                double val = 0;
+                foreach (var fd in FontDataCollection)
+                {
+                    val += fd.TextLength;
+                }
+                return val;
+            }
+        }
+        public double LineHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var fd in FontDataCollection)
+                {
+                    val = fd.LineHeight > val ? fd.LineHeight : val;
+                }
+                return val;
+            }
+        }
+        public double FontHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var fd in FontDataCollection)
+                {
+                    val = fd.FontHeight > val ? fd.FontHeight : val;
+                }
+                return val;
+            }
+        }
+    }
+
     internal class PdfCellFontData
     {
         public string FontName = "Aptos Narrow";
@@ -44,8 +85,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double TextLength = 0d;
         public double LineHeight = 0d;
         public double FontHeight = 0d;
-        //public NumberFormatting;
-        //public ExcelRichTextCollection RichText;
         public string FullFontName
         { get { return FontName + " " + SubFamily; } }
 
@@ -92,6 +131,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellBorderData Right = new PdfCellBorderData(LineType.Right);
         public PdfCellBorderData DiagonalUp = new PdfCellBorderData(LineType.DiagonalUp);
         public PdfCellBorderData DiagonalDown = new PdfCellBorderData(LineType.DiagonalDown);
+
+        public bool[] NeighbourBorder = new bool[8];
 
         public PdfCellBordersData() { }
     }

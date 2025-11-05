@@ -18,6 +18,7 @@ using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects
@@ -101,7 +102,30 @@ namespace EPPlus.Export.Pdf.PdfObjects
             //commands.Add($"% Border End: {cell.Name}");
         }
 
-        public void AddCellContentLayout(PdfCellContentLayout cell, PdfFontResource font)
+
+        //Get font label //need to update this one too for same reasons as AddFontData
+        internal PdfFontResource GetFontResource(PdfDictionaries Dictionaries, PdfPageSettings PageSettings, string fontName, string subFamily, double fontSize)
+        {
+            if (!Dictionaries.Fonts.ContainsKey(fontName))
+            {
+                int label = 1;
+                if (Dictionaries.Fonts.Count > 0)
+                {
+                    label = Dictionaries.Fonts.Last().Value.labelNumber + 1;
+                }
+                PdfFontResource fr = new PdfFontResource(fontName, subFamily, label, PageSettings);
+                if (fontName != "Courier New")
+                {
+                    //Document.Add(fr.GetFontDescriptorObject(Document.Count + 1));
+                    //Document.Add(fr.GetWidthsObject(Document.Count + 1));
+                }
+                //Document.Add(fr.GetFontObject(Document.Count + 1));
+                Dictionaries.Fonts.Add(fontName, fr);
+            }
+            return Dictionaries.Fonts[fontName];
+        }
+
+        public void AddCellContentLayout(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
         {
             commands.Add($"% Content Start: {cell.Name}");
             commands.Add("q");
@@ -109,78 +133,89 @@ namespace EPPlus.Export.Pdf.PdfObjects
             {
                 commands.Add($"{cell.Clipping.X.ToPdfString()} {cell.Clipping.Y.ToPdfString()} {cell.Clipping.Width.ToPdfString()} {cell.Clipping.Height.ToPdfString()} re W n");
             }
-            double size = cell.FontData.FontSize;
-            double scale = cell.FontData.FontSize / font.fontData.HeadTable.UnitsPerEm;
-            double rot = cell.CellAlignmentData.TextRotation * System.Math.PI / 180.0;
-            Matrix3x3 m1 = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), cell.LocalPosition.X, cell.LocalPosition.Y);
-            if (cell.FontData.Bold)
-            {
-                commands.Add("0.25 w");
-                commands.Add("2 Tr");
-            }
-            if (cell.FontData.Italic)
-            {
-                var i = font.fontData.PostTable.italicAngle;
-                if (i <= 0) i = 12d * System.Math.PI / 180.0d;
-                Matrix3x3 m2 = Matrix3x3.Identity;
-                m2.C = System.Math.Tan(i);
-                m1 = m2 * m1;
-            }
-            if (cell.FontData.SuperScript)
-            {
-                var supOffX = font.fontData.Os2Table.ySuperscriptXOffset * scale;
-                var supOffY = font.fontData.Os2Table.ySuperscriptYOffset * scale;
-                var supSizeX = font.fontData.Os2Table.ySuperscriptXSize * scale;
-                var supSizeY = font.fontData.Os2Table.ySuperscriptYSize * scale;
-                m1 = new Matrix3x3(m1.A, m1.B, m1.C, m1.D, m1.E + supOffX, m1.F + supOffY);
-                size = supSizeY;
-            }
-            if (cell.FontData.SubScript)
-            {
-                var supOffX = font.fontData.Os2Table.ySubscriptXOffset * scale;
-                var supOffY = font.fontData.Os2Table.ySubscriptYOffset * scale;
-                var supSizeX = font.fontData.Os2Table.ySubscriptXSize * scale;
-                var supSizeY = font.fontData.Os2Table.ySubscriptYSize * scale;
-                m1 = new Matrix3x3(m1.A, m1.B, m1.C, m1.D, m1.E + supOffX, m1.F + supOffY);
-                size = supSizeY;
-            }
             commands.Add("BT");
-            commands.Add($"/{font.Label} {size.ToPdfString()} Tf");
-            commands.Add(cell.FontData.FontColor.ToFillCommand());
-            commands.Add($"{m1.A.ToPdfString()} {m1.B.ToPdfString()} {m1.C.ToPdfString()} {m1.D.ToPdfString()} {m1.E.ToPdfString()} {m1.F.ToPdfString()} Tm");
-            commands.Add($"{cell.FontData.LineHeight.ToPdfString()} TL");
-            for (int i = 0; i < cell.FontData.Lines.Count; i++)
+            double rot = cell.CellAlignmentData.TextRotation * System.Math.PI / 180.0;
+            Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), cell.LocalPosition.X, cell.LocalPosition.Y);
+            foreach (var fontData in cell.FontDataCollection.FontDataCollection)
             {
-                if (i > 0)
+                var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
+                double size = fontData.FontSize;
+                double scale = fontData.FontSize /  font.fontData.HeadTable.UnitsPerEm;
+                var m1 = textMatrix;
+                if (fontData.Bold)
                 {
-                    commands.Add($"T*");
-                    commands.Add($"{cell.FontData.Lines[i].Offset.ToPdfString()} 0 Td");
+                    commands.Add("0.25 w");
+                    commands.Add("2 Tr");
+                    commands.Add(fontData.FontColor.ToStrokeCommand());
                 }
-                commands.Add($"({FixEscapeCharacters(cell.FontData.Lines[i].Text)}) Tj");
+                else
+                {
+                    commands.Add("0 Tr");
+                }
+                if (fontData.Italic)
+                {
+                    var i = font.fontData.PostTable.italicAngle;
+                    if (i <= 0) i = 12d * System.Math.PI / 180.0d;
+                    Matrix3x3 m2 = Matrix3x3.Identity;
+                    m2.C = System.Math.Tan(i);
+                    m1 = m2 * m1;
+                }
+                if (fontData.SuperScript)
+                {
+                    var supOffX = font.fontData.Os2Table.ySuperscriptXOffset * scale;
+                    var supOffY = font.fontData.Os2Table.ySuperscriptYOffset * scale;
+                    var supSizeX = font.fontData.Os2Table.ySuperscriptXSize * scale;
+                    var supSizeY = font.fontData.Os2Table.ySuperscriptYSize * scale;
+                    m1 = new Matrix3x3(m1.A, m1.B, m1.C, m1.D, m1.E + supOffX, m1.F + supOffY);
+                    size = supSizeY;
+                }
+                if (fontData.SubScript)
+                {
+                    var supOffX = font.fontData.Os2Table.ySubscriptXOffset * scale;
+                    var supOffY = font.fontData.Os2Table.ySubscriptYOffset * scale;
+                    var supSizeX = font.fontData.Os2Table.ySubscriptXSize * scale;
+                    var supSizeY = font.fontData.Os2Table.ySubscriptYSize * scale;
+                    m1 = new Matrix3x3(m1.A, m1.B, m1.C, m1.D, m1.E + supOffX, m1.F + supOffY);
+                    size = supSizeY;
+                }
+                commands.Add($"/{font.Label} {size.ToPdfString()} Tf");
+                commands.Add(fontData.FontColor.ToFillCommand());
+                commands.Add($"{m1.A.ToPdfString()} {m1.B.ToPdfString()} {m1.C.ToPdfString()} {m1.D.ToPdfString()} {m1.E.ToPdfString()} {m1.F.ToPdfString()} Tm");
+                commands.Add($"{fontData.LineHeight.ToPdfString()} TL");
+                for (int i = 0; i < fontData.Lines.Count; i++)
+                {
+                    if (i > 0)
+                    {
+                        commands.Add($"T*");
+                        commands.Add($"{fontData.Lines[i].Offset.ToPdfString()} 0 Td");
+                    }
+                    commands.Add($"({FixEscapeCharacters(fontData.Lines[i].Text)}) Tj");
+                }
+                if (fontData.Underline)
+                {
+                    var underlinePos = font.fontData.PostTable.underlinePosition * scale;
+                    var underlineWidth = font.fontData.PostTable.underlineThickness * scale;
+                    var start = m1.Transform(new Vector2(0, underlinePos));
+                    var end = m1.Transform(new Vector2(fontData.TextLength, underlinePos));
+                    commands.Add($"{underlineWidth.ToPdfString()} w");
+                    commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
+                    commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
+                    commands.Add($"S");
+                }
+                if (fontData.Strike)
+                {
+                    var strikePos = font.fontData.Os2Table.yStrikeoutPosition * scale;
+                    var strikeWidth = font.fontData.Os2Table.yStrikeoutSize * scale;
+                    var start = m1.Transform(new Vector2(0, strikePos));
+                    var end = m1.Transform(new Vector2(fontData.TextLength, strikePos));
+                    commands.Add($"{strikeWidth.ToPdfString()} w");
+                    commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
+                    commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
+                    commands.Add($"S");
+                }
+                textMatrix = textMatrix * Matrix3x3.Translation(fontData.TextLength, 0);
             }
             commands.Add("ET");
-            if (cell.FontData.Underline)
-            {
-                var underlinePos = font.fontData.PostTable.underlinePosition * scale;
-                var underlineWidth = font.fontData.PostTable.underlineThickness * scale;
-                var start = m1.Transform(new Vector2(0, underlinePos));
-                var end = m1.Transform(new Vector2(cell.FontData.TextLength, underlinePos));
-                commands.Add($"{underlineWidth.ToPdfString()} w");
-                commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
-                commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
-                commands.Add($"S");
-            }
-            if (cell.FontData.Strike)
-            {
-                var strikePos = font.fontData.Os2Table.yStrikeoutPosition * scale;
-                var strikeWidth = font.fontData.Os2Table.yStrikeoutSize * scale;
-                var start = m1.Transform(new Vector2(0, strikePos));
-                var end = m1.Transform(new Vector2(cell.FontData.TextLength, strikePos));
-                commands.Add($"{strikeWidth.ToPdfString()} w");
-                commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
-                commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
-                commands.Add($"S");
-            }
             commands.Add("Q");
             commands.Add($"% Content End: {cell.Name}");
         }

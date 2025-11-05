@@ -202,7 +202,7 @@ namespace EPPlus.Export.Pdf
                             contentStream.AddCellLayout(layout, GetPatternLabel(layout));
                             break;
                         case PdfCellContentLayout contentLayout:
-                            contentStream.AddCellContentLayout(contentLayout, GetFontResource(contentLayout.FontData.FullFontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));
+                            contentStream.AddCellContentLayout(contentLayout, Dictionaries, PageSettings);
                             break;
                         case PdfCellBorderLayout borderLayout:
                             contentStream.AddBorderLayout(borderLayout);

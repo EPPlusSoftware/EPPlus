@@ -26,17 +26,17 @@ namespace EPPlus.Export.Pdf.PdfGraphics
 
         public PdfColor(float r, float g, float b)
         {
-            R = r;
-            G = g;
-            B = b;
+            R = r > 1f ? r / 255f : r;
+            G = g > 1f ? g / 255f : g;
+            B = b > 1f ? b / 255f : b;
         }
 
         public PdfColor(float r, float g, float b, float a)
         {
-            R = r;
-            G = g;
-            B = b;
-            A = a;
+            R = r > 1f ? r / 255f : r;
+            G = g > 1f ? g / 255f : g;
+            B = b > 1f ? b / 255f : b;
+            A = a > 1f ? a / 255f : a;
         }
 
         public PdfColor(string hex)
