@@ -2522,7 +2522,7 @@ namespace OfficeOpenXml
                     
                     if(_queryTables!=null)
                     {
-                        SaveLegacyQueryTables();
+                        _queryTables.Save();
                     }
 
                     //Meta data and rich data is currently used for #spill! and #calc! errors.
@@ -2532,13 +2532,6 @@ namespace OfficeOpenXml
                         Workbook.RichData.CreateParts();
                     }
                 }
-            }
-        }
-        private void SaveLegacyQueryTables()
-        {
-            foreach(var qt in _queryTables)
-            {
-               qt.Save();
             }
         }
         private void SaveSlicers()
@@ -3176,6 +3169,25 @@ namespace OfficeOpenXml
                 return _tables;
             }
         }
+        ExcelQueryTableCollection _queryTables = null;
+        /// <summary>
+        /// A collection of query tables associated with the worksheet. 
+        /// These query tables are considered legacy and are used in older versions of Excel.
+        /// Please consider to use <see cref="ExcelTableCollection.AddQueryTable"/> instead.
+        /// </summary>
+        /// <remarks>Query tables are data tables that are linked to external data sources, such as databases or web queries.</remarks>
+        public ExcelQueryTableCollection QueryTables
+        {
+            get
+            {
+                CheckSheetTypeAndNotDisposed();
+                if (_queryTables == null)
+                {
+                    _queryTables = new ExcelQueryTableCollection(this);
+                }
+                return _queryTables;
+            }
+        }
         internal ExcelPivotTableCollection _pivotTables = null;
         /// <summary>
         /// Pivot tables defined in the worksheet.
@@ -3198,31 +3210,6 @@ namespace OfficeOpenXml
             get
             {
                 return _pivotTables != null;
-            }
-        }
-        EPPlusReadOnlyList<ExcelQueryTable> _queryTables=null;
-        /// <summary>
-        /// A collection of query tables associated with the worksheet. 
-        /// These query tables are considered legacy and are used in older versions of Excel.
-        /// You cannot add new query tables using this collection, please use <see cref="ExcelTableCollection.AddQueryTable"/> instead.
-        /// </summary>
-        /// <remarks>Query tables are data tables that are linked to external data sources, such as databases or web queries.</remarks>
-        public EPPlusReadOnlyList<ExcelQueryTable> QueryTables
-        {
-            get
-            {
-                CheckSheetTypeAndNotDisposed();
-                if (_queryTables == null)
-                {
-                    _queryTables = new EPPlusReadOnlyList<ExcelQueryTable>();
-                    foreach(var rel in Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/queryTable"))
-                    {
-                        var qtHandler = new QueryTableDataPartXmlHandler(this, rel);
-                        var qt = new ExcelQueryTable(qtHandler);
-                        _queryTables.Add(qt);
-                    }
-                }
-                return _queryTables;
             }
         }
         private ExcelConditionalFormattingCollection _conditionalFormatting = null;

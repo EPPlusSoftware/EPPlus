@@ -10,11 +10,13 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Data.Connection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -71,7 +73,6 @@ namespace OfficeOpenXml.Table.PivotTable
             ValidateAdd(Range, Source, Name);
             return Add(new ExcelPivotTable(_ws, Range, Source, Name, _ws.Workbook._nextPivotTableID++));
         }
-
         private void ValidateAdd(ExcelAddressBase Range, ExcelRangeBase Source, string Name)
         {
             if (Source.Rows < 2)

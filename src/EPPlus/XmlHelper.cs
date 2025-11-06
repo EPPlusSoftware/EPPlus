@@ -1000,6 +1000,17 @@ namespace OfficeOpenXml
                 return true;
             }
         }
+        internal bool ExistsNode(string path, out XmlNode node)
+        {            
+            if (TopNode != null )
+            {
+                node = TopNode.SelectSingleNode(path, NameSpaceManager);
+                return node!=null;
+            }
+            node = null;
+            return false;
+        }
+
         internal bool ExistsNode(XmlNode node, string path)
         {
             if (node == null || node.SelectSingleNode(path, NameSpaceManager) == null)

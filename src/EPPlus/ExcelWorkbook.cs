@@ -1374,6 +1374,31 @@ namespace OfficeOpenXml
                 return _connections;
             }
         }
+        ExcelPowerQuerySettings _powerQuerySettings = null;
+        /// <summary>
+        /// Settings for Power Query connections/queries. 
+        /// These setting is loaded from the custom XML part with the DataMashup schema.
+        /// </summary>
+        public ExcelPowerQuerySettings PowerQuerySettings
+        {
+            get
+            {
+                if (_powerQuerySettings == null)
+                {
+                    var pqCustomXml = _package.Workbook.CustomXmlDocuments.FirstOrDefault(x => x.SchemasReferences.Any(x => x == Schemas.schemaDataMashup));
+                    if (pqCustomXml == null)
+                    {
+                        _powerQuerySettings = new ExcelPowerQuerySettings();
+                    }
+                    else
+                    {
+                        var blob = Convert.FromBase64String(pqCustomXml.CustomXml.DocumentElement.InnerText);
+                        _powerQuerySettings = new ExcelPowerQuerySettings(blob);
+                    }
+                }
+                return _powerQuerySettings;
+            }
+        }
         #region Workbook Private Methods
 
         #region Save // Workbook Save
@@ -1440,9 +1465,9 @@ namespace OfficeOpenXml
             if (_connections != null) //Must be saved before custom XML as power query connections data are stored there.
             {
                 Connections.Save();
-                if (Connections.PowerQuerySettings.Exists)
+                if (PowerQuerySettings.Exists)
                 {
-                    Connections.PowerQuerySettings.Save(CustomXmlDocuments);
+                    PowerQuerySettings.Save(CustomXmlDocuments);
                 }
             }
 

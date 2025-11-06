@@ -18,7 +18,6 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
     internal class QueryTableDataPartXmlHandler : IDocumentPart<ExcelQueryTable>
     {
         ZipPackagePart Part { get; set; }
-        public ExcelRangeBase DestinationRange { get; private set; }
 
         XmlHelper _xml;
         ExcelTable _table=null;
@@ -38,24 +37,43 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
         {
             _table = table;
             _ws = table.WorkSheet;
+            XmlDocument xml = CreateStartXml(fieldNames);
+            CreateXmlHelper(_ws._package, xml);
+        }
+
+        private static XmlDocument CreateStartXml(string[] fieldNames=null)
+        {
             var sb = new StringBuilder();
-            sb.Append($"<?xml version=\"1.0\" encoding=\"utf-8\"?><queryTable xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xr16=\"http://schemas.microsoft.com/office/spreadsheetml/2017/revision16\" mc:Ignorable=\"xr16\"><queryTableRefresh nextId=\"{fieldNames.Length + 1}\"><queryTableFields count=\"{fieldNames.Length}\">");
-            int fid = 1;
-            foreach (var fieldName in fieldNames)
+            sb.Append("<?xml version=\"1.0\" encoding=\"utf-8\"?><queryTable xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xr16=\"http://schemas.microsoft.com/office/spreadsheetml/2017/revision16\" mc:Ignorable=\"xr16\">");
+            if (fieldNames != null && fieldNames.Length > 0)
             {
-                sb.Append($"<queryTableField id=\"{fid}\" name=\"{fieldName}\" tableColumnId=\"{fid}\" />");
-                fid++;
+                sb.Append($"<queryTableRefresh nextId=\"{fieldNames.Length + 1}\"><queryTableFields count=\"{fieldNames.Length}\">");
+
+                int fid = 1;
+                foreach (var fieldName in fieldNames)
+                {
+                    sb.Append($"<queryTableField id=\"{fid}\" name=\"{fieldName}\" tableColumnId=\"{fid}\" />");
+                    fid++;
+                }
+                sb.Append("</queryTableFields></queryTableRefresh>");
             }
-            sb.Append("</queryTableFields></queryTableRefresh></queryTable>");
+            sb.Append("</queryTable>");
 
             var xml = new XmlDocument();
             XmlHelper.LoadXmlSafe(xml, sb.ToString(), Encoding.UTF8);
-            CreateXmlHelper(_ws._package, xml);
+            return xml;
         }
+
         public QueryTableDataPartXmlHandler(ExcelWorksheet ws, ZipPackageRelationship rel)
         {
             _ws = ws;
             LoadAndCreateXmlHelper(ws._package, rel);
+        }
+        public QueryTableDataPartXmlHandler(ExcelWorksheet ws)
+        {
+            _ws = ws;
+            var xmlDoc = CreateStartXml();
+            CreateXmlHelper(ws._package, xmlDoc);
         }
         private void LoadAndCreateXmlHelper(ExcelPackage pck, ZipPackageRelationship rel)
         {
@@ -120,15 +138,14 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
             item.Connection = _ws.Workbook.Connections.FirstOrDefault(x => x.Id == item.ConnectionId);
             if (_table == null)
             {
-                var name = _ws.Names[item.Name];
-                if (name != null)
+                if(_ws.Names.ContainsKey(item.Name))
                 {
-                    DestinationRange = name;
+                    item.DestinationRange = _ws.Names[item.Name];
                 }
             }
             else
             {
-                DestinationRange = _table.Range;
+                item.DestinationRange = _table.Range;
             }
         }
         public void Remove()
@@ -209,7 +226,14 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
             if (Part == null)
             {
                 Part = zp.CreatePart(XmlHelper.GetNewUri(zp, "/xl/queryTables/queryTable{0}.xml", ref id), ContentTypes.contentTypeQueryTable, CompressionLevel.Default);
-                _table.Part.CreateRelationship(Part.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/queryTable");
+                if (_table == null)
+                {
+                    _ws.Part.CreateRelationship(Part.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/queryTable");
+                }
+                else
+                {
+                    _table.Part.CreateRelationship(Part.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/queryTable");
+                }
             }
             var qtXmlStream = Part.GetStream(System.IO.FileMode.Create, System.IO.FileAccess.Write);
             _xml.TopNode.OwnerDocument.Save(qtXmlStream);

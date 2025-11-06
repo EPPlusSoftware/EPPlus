@@ -91,7 +91,9 @@ namespace OfficeOpenXml.Data.Connection
         /// The custom delimiter. Optional.
         /// </summary>
         public string Delimiter { get; set; }
+        /// <summary>
+        /// Fields describing the text fields data type and position.
+        /// </summary>
         public List<ExcelConnectionTextField> Fields { get;  } = new List<ExcelConnectionTextField>();
-
     }
 }

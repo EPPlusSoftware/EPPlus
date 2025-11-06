@@ -135,5 +135,9 @@ namespace OfficeOpenXml.Data.QueryTable
         /// Specifies whether the query table shall include a first column of row numbers.
         /// </summary>
         public bool RowNumbers { get; set; }
+        /// <summary>
+        /// The destination range for the query table.
+        /// </summary>
+        public ExcelAddressBase DestinationRange { get; internal set; }
     }
 }        

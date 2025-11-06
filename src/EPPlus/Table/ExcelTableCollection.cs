@@ -91,14 +91,23 @@ namespace OfficeOpenXml.Table
             {
                 throw new ArgumentException("Supply at least one non-empty field for the query.");
             }
+            
             if(connection == null || !_ws.Workbook.Connections.Contains(connection))
             {
                 throw new InvalidOperationException("The connection is null or does not exist in the package.");
             }
+            
             if(Range.Columns!= fields.Length)
             {
                 throw new ArgumentException("The number of fields must match the number of columns in the range.");
             }
+
+            if(connection.Type == eConnectionDataSourceType.Text ||
+               connection.Type == eConnectionDataSourceType.WebQuery)
+            {
+                throw new InvalidOperationException("Legacy web/text connections are not supported for table querys. This type of connection can only be used on worksheet related query tables. Please use the Worksheet.QueryTables.Add method for legacy queries or use a oledb power query connection.");
+            }
+
             var tbl = AddInternal(Range, Name, null);
             tbl.DataSourceType = TableDataSourceType.QueryTable;
             int col = Range.Start.Column;

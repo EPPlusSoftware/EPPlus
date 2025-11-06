@@ -22,20 +22,32 @@ namespace OfficeOpenXml.Data.Connection
         /// <summary>
         /// Creates a new text field that can be added to <see cref="ExcelTextProperties.Fields"/>
         /// </summary>
+        /// <param name="type">The field data type.</param>
+        /// <param name="position">The position. In a fixed index file this is the start position in record.</param>
+        public ExcelConnectionTextField(eConnectionTextFieldType type, int position)
+        {
+            Type = type;
+            Position = position;
+        }
+
+        /// <summary>
+        /// Creates a new text field that can be added to <see cref="ExcelTextProperties.Fields"/>
+        /// </summary>
         /// <param name="type">The datatype when importing the field</param>
         public ExcelConnectionTextField(eConnectionTextFieldType type)
         {
-            Type= type; 
+            Type= type;
+            Position = 0;
         }
-        internal ExcelConnectionTextField(eConnectionTextFieldType type, int position)
+        
+        public ExcelConnectionTextField(int position)
         {
-            Type = type;
             Position = position;
         }
         /// <summary>
         /// The format to handle the data type of the field.
         /// </summary>
-        public eConnectionTextFieldType Type { get; set; }
+        public eConnectionTextFieldType Type { get; set; } = eConnectionTextFieldType.General;
         internal int Position { get; set; } = 0;
     }
 }

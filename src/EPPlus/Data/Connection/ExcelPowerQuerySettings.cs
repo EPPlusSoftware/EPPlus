@@ -53,7 +53,7 @@ namespace OfficeOpenXml.Data.Connection
             }
             var mms = section1MPart.GetStream();
             var reader = new StreamReader(mms, Encoding.UTF8);
-            PowerQueryFormulas = reader.ReadToEnd();
+            Formulas = reader.ReadToEnd();
 
             var configPart = PQPackage.GetPart(new Uri("/config/package.xml", UriKind.Relative));
             var cms = configPart.GetStream();
@@ -127,7 +127,7 @@ namespace OfficeOpenXml.Data.Connection
 
             var ms = sectionMPart.GetStream();
             var streamwriter = new StreamWriter(ms, new UTF8Encoding(false));
-            streamwriter.Write(PowerQueryFormulas);
+            streamwriter.Write(Formulas);
             streamwriter.Flush();
             //streamwriter.Close();
 
@@ -194,7 +194,7 @@ namespace OfficeOpenXml.Data.Connection
         /// <item><description>All section members SHOULD be shared.</description></item>
         /// </list>
         /// </summary>        
-        public string PowerQueryFormulas
+        public string Formulas
         { 
             get; 
             set; 
@@ -235,7 +235,10 @@ namespace OfficeOpenXml.Data.Connection
             }
         }
         /// <summary>
-        /// Creates an empty power query setting.
+        /// Create the DataMashup xml used for power query setting in the CustomXml. 
+        /// This will initialize the PermissionsXml, MetadataXml and Formulas properties with empty settings.
+        /// This enables the possibility to add power query connections to the workbook (provider=Microsoft.Mashup.OleDb.1). 
+        /// Power query connections requires the M formula to be set in the <see cref="Formulas"/> under Section1 and meta data to be created in the <see cref="MetadataXml"/>.
         /// </summary>
         public void Create()
         {
@@ -247,7 +250,7 @@ namespace OfficeOpenXml.Data.Connection
             XmlHelper.LoadXmlSafe(PermissionsXml, "<?xml version=\"1.0\" encoding=\"utf-8\"?><PermissionList xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><CanEvaluateFuturePackages>false</CanEvaluateFuturePackages><FirewallEnabled>true</FirewallEnabled></PermissionList>", Encoding.UTF8);
             MetadataXml = new XmlDocument();
             XmlHelper.LoadXmlSafe(MetadataXml, "<?xml version=\"1.0\" encoding=\"utf-8\"?><LocalPackageMetadataFile xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Items><Item><ItemLocation><ItemType>AllFormulas</ItemType><ItemPath /></ItemLocation><StableEntries><Entry Type=\"Relationships\" Value=\"sAAAAAA==\" /></StableEntries></Item></Items></LocalPackageMetadataFile>", Encoding.UTF8);
-            PowerQueryFormulas = "section Section1;\n";
+            Formulas = "section Section1;\n";
         }
     }
 }

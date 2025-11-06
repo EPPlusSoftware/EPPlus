@@ -6296,7 +6296,7 @@ namespace EPPlusTest
                 }
             }
             Assert.AreEqual(1, p.Workbook.Worksheets[2].QueryTables.Count);
-            Assert.IsNotEmpty(p.Workbook.Connections.PowerQuerySettings.PowerQueryFormulas);
+            Assert.IsNotEmpty(p.Workbook.PowerQuerySettings.Formulas);
             Assert.AreEqual(7, p.Workbook.Connections.Count);
             SaveAndCleanup(p);
         }

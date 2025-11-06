@@ -68,11 +68,32 @@ namespace OfficeOpenXml.Data.Connection
             {
                 LoadWebProperties(item);
             }
-            if(_xml.ExistsNode("d:textPr"))
+            if(_xml.ExistsNode("d:textPr")) 
             {
                 LoadTextProperties(item);
             }
             LoadParameters(item);
+
+            if (_xml.ExistsNode($"d:extLst/d:ext[uri='{ExtLstUris.Connection2010Uri}']", out var extNode))
+            {
+                LoadExtLst(item, extNode);
+            }
+        }
+
+        private void LoadExtLst(ExcelConnection item, XmlNode extNode)
+        {
+            var extXml = XmlHelperFactory.Create(_xml.NameSpaceManager, extNode);
+            switch (item.Type)
+            {
+                case eConnectionDataSourceType.DataModelOLEDB:
+                    break;
+                case eConnectionDataSourceType.DataModelDataFeed:
+                    break;
+                case eConnectionDataSourceType.DataModelWorksheetData:
+                    break;
+                case eConnectionDataSourceType.DataModelText:
+                    break;
+            }
         }
         void IDocumentPart<ExcelConnection>.Remove()
         {
@@ -282,9 +303,9 @@ namespace OfficeOpenXml.Data.Connection
             fieldsNode.RemoveAll();
             foreach (var tf in textPr.Fields)
             {
-                var node = fieldsNode.OwnerDocument.CreateElement("d:textField", _xml.NameSpaceManager.LookupNamespace("d"));
-                node.SetAttribute("type", tf.Type.FromConnectionTextFieldTypeType());
-                node.SetAttribute("position", textPr.Fields.Count.ToString(CultureInfo.InvariantCulture));
+                var node = fieldsNode.OwnerDocument.CreateElement("textField", _xml.NameSpaceManager.LookupNamespace("d"));
+                if(tf.Type!=eConnectionTextFieldType.General) node.SetAttribute("type", tf.Type.FromConnectionTextFieldTypeType());
+                if (tf.Position > 0)  node.SetAttribute("position", tf.Position.ToString(CultureInfo.InvariantCulture));
                 fieldsNode.AppendChild(node);
             }
             fieldsNode.SetAttribute("count", textPr.Fields.Count.ToString(CultureInfo.InvariantCulture));

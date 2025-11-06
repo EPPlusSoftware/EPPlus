@@ -92,8 +92,8 @@ namespace OfficeOpenXml.Data.Connection
         /// <summary>
         /// Adds a connection of type database with the specified connection string. 
         /// EPPlus will set the <see cref="Type"/> of the connection to Odbc or OleDb, depending on the connection string. If you use another type, please set it manually.
-        /// If the connection string is a power querty connection string, please also see <see cref="PowerQuerySettings"/>
-        /// </summary>
+        /// If the connection string is a power querty connection string, please also see <see cref="ExcelWorkbook.PowerQuerySettings"/>
+        /// </summary>-
         /// <param name="name">The name of the connection.</param>
         /// <param name="connectionString">The connection string to the database.</param>
         /// <returns>The connection</returns>
@@ -102,8 +102,8 @@ namespace OfficeOpenXml.Data.Connection
             if (string.IsNullOrEmpty(connectionString?.Trim()))
             {
                 throw new ArgumentException("Connection string cannot be null or empty", nameof(connectionString));
-            }
-            ;
+            };
+
             ExcelConnection c = AddInternal(name);
             c.DatabaseProperties = new ExcelDatabaseProperties();
             c.DatabaseProperties.Connection = connectionString;
@@ -237,30 +237,6 @@ namespace OfficeOpenXml.Data.Connection
         {
             item.Remove();
             _list.Remove(item);
-        }
-        ExcelPowerQuerySettings _powerQuerySettings = null;
-        /// <summary>
-        /// Settings for Power Query connections/queries. These setting is loaded from the custom XML part with the DataMashup schema.
-        /// </summary>
-        public ExcelPowerQuerySettings PowerQuerySettings
-        {
-            get
-            {
-                if (_powerQuerySettings == null)
-                {
-                    var pqCustomXml = _package.Workbook.CustomXmlDocuments.FirstOrDefault(x => x.SchemasReferences.Any(x => x == Schemas.schemaDataMashup));
-                    if (pqCustomXml == null)
-                    {
-                        _powerQuerySettings = new ExcelPowerQuerySettings();
-                    }
-                    else
-                    {
-                        var blob = Convert.FromBase64String(pqCustomXml.CustomXml.DocumentElement.InnerText);
-                        _powerQuerySettings = new ExcelPowerQuerySettings(blob);
-                    }
-                }
-                return  _powerQuerySettings;
-            }        
         }
     }
 }

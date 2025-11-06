@@ -46,8 +46,24 @@ namespace OfficeOpenXml.Data.Connection
         /// </summary>
         ADO = 7,
         /// <summary>
-        /// A data source for a Microsoft Data Service Provider (MSDSP).
+        /// Document Source Provider
         /// </summary>
-        DSP = 8
+        DSP = 8,
+        /// <summary>
+        /// An OLEDB data source used in a Data Model.
+        /// </summary>
+        DataModelOLEDB = 100,
+        /// <summary>.
+        /// An Data feed data source used in a Data Model.
+        /// </summary>
+        DataModelDataFeed = 101,
+        /// <summary>
+        /// A worksheet range or table data source used in a Data Model.
+        /// </summary>
+        DataModelWorksheetData = 102,
+        /// <summary>
+        /// A text file data source used in a Data Model.
+        /// </summary>
+        DataModelText = 103
     }
 }

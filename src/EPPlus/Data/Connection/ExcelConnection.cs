@@ -13,6 +13,7 @@
 using OfficeOpenXml.Core;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using System;
+using System.Buffers.Text;
 using System.IO;
 
 namespace OfficeOpenXml.Data.Connection
@@ -139,11 +140,35 @@ namespace OfficeOpenXml.Data.Connection
         /// </summary>
         public string SingleSignOnId { get; set; }
         /// <summary>
+        /// If the connetion is a data model connection.
+        /// </summary>
+        public bool IsModel { get;  }
+        /// <summary>
+        /// Headers
+        /// </summary>
+        public bool ModelTextHeaders { get;  }
+        /// <summary>
+        /// If <see cref="Type"/> is set to <see cref="eConnectionDataSourceType.DataModelWorksheetData"/>, this is the source name."/>
+        /// </summary>
+        public string? RangeSourceName { get; set; }
+        /// <summary>
         /// Used when the external data source is file-based. When a connection to such a data source fails, the spreadsheet application attempts to connect directly to this file.Can be expressed in URI or system-specific file path notation.
         /// </summary>
         public string SourceDatabaseFile { get; set; }
         /// <summary>
         /// The type of data source for the connection.
+        /// 1. ODBC-based source
+        /// 2. DAO-based source
+        /// 3. ApplicationDefined
+        /// 4. Web query
+        /// 5. OLEDB-based source
+        /// 6. Text-based source
+        /// 7. ADO-based source
+        /// 8. DSP-Document Source Provider
+        /// 100-Data Model - OLEDB
+        /// 101-Data Model - Data feed
+        /// 102-Data Model - Worksheet Data
+        /// 103-Data Model - Text data
         /// </summary>
         public eConnectionDataSourceType? Type { get; set; } = null;
         /// <summary>
@@ -162,6 +187,10 @@ namespace OfficeOpenXml.Data.Connection
         /// Text specific properties for the connection. This property is null if the conenction is not a text connection.
         /// </summary>
         public ExcelTextProperties TextProperties { get; internal set; }
+        /// <summary>
+        /// Data model data feed properties for the connection. This property is null if the connection is not a data feed data model connection.
+        /// </summary>
+        public ExcelDataModelDataFeedProperties DataFeedProperties { get; internal set; }
         /// <summary>
         /// Parameters for the connection.
         /// </summary>

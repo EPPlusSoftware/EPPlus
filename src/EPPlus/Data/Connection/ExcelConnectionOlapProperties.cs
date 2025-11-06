@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.Data.Connection
 {
@@ -25,5 +26,14 @@ namespace OfficeOpenXml.Data.Connection
         public bool ServerNumberFormat { get; set; } = true;
         public bool ServerFont { get; set; } = true;
         public bool ServerFontColor { get; set; } = true;
+
+        /// <summary>
+        /// A list of tables used in the data model for the connection. This property only applies when <see cref="ExcelConnection.Type"/> is set to <see cref="eConnectionDataSourceType.DataModelOLEDB"/>."/>
+        /// </summary>
+        public List<string> Tables { get; } = new List<string>();
+        /// <summary>
+        /// The OLE DB command text that is used by a Model Data Source OLE DB. This property only applies when <see cref="ExcelConnection.Type"/> is set to <see cref="eConnectionDataSourceType.DataModelOLEDB"/>."/>
+        /// </summary>
+        public string DataModelCommand { get; } 
     }
 }
