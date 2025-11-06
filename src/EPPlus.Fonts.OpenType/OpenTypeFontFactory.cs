@@ -43,7 +43,7 @@ namespace EPPlus.Fonts.OpenType
         //    return 1.01f;
         //}
 
-        public TtfFont? Create(string fontFamily, string subFamily)
+        public TtfFont Create(string fontFamily, string subFamily)
         {
             var scannedFont = GetClosestScannedFont(fontFamily, subFamily);
             if (scannedFont != null)

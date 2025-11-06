@@ -13,6 +13,18 @@ namespace EPPlus.Fonts.OpenType
         {
         }
 
+        private int _bytesWritten = 0;
+        private bool _hit = false;
+
+        private void IncreaseBytesWritten(int nBytes)
+        {
+            _bytesWritten += nBytes;
+            if(_bytesWritten >= 53 && !_hit)
+            {
+                _hit = true;
+            }
+        }
+
         internal void WriteUInt16BigEndian(ushort value)
         {
             var bytes = BitConverter.GetBytes(value);
@@ -56,6 +68,42 @@ namespace EPPlus.Fonts.OpenType
             Write(bytes[2]);
             Write(bytes[1]);
             Write(bytes[0]);
+        }
+
+        public override void Write(byte[] buffer)
+        {
+            base.Write(buffer);
+            IncreaseBytesWritten(buffer.Length);
+        }
+
+        public override void Write(byte value)
+        {
+            base.Write(value);
+            IncreaseBytesWritten(1);
+        }
+
+        public override void Write(int i)
+        {
+            base.Write(i);
+            IncreaseBytesWritten(4);
+        }
+
+        public override void Write(uint i)
+        {
+            base.Write(i);
+            IncreaseBytesWritten(4);
+        }
+
+        public override void Write(ushort value)
+        {
+            base.Write(value);
+            IncreaseBytesWritten(2);
+        }
+
+        public override void Write(short value)
+        {
+            base.Write(value);
+            IncreaseBytesWritten(2);
         }
 
     }

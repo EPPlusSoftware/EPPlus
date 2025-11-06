@@ -33,7 +33,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
             var indexes = new List<uint>();
             if(headTable.IndexToLocFormat == HeadTable.IndexToLocFormats.Offset16)
             {
-                for(var x = 0; x <= maxpTable.numGlyphs + 1; x++)
+                for(var x = 0; x < maxpTable.numGlyphs + 1; x++)
                 {
                     var ix = Convert.ToUInt32(_reader.ReadUInt16BigEndian());
                     ix *= 2;
@@ -42,7 +42,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
             }
             else if(headTable.IndexToLocFormat == HeadTable.IndexToLocFormats.Offset32)
             {
-                for(var x = 0; x <= maxpTable.numGlyphs + 1; x++)
+                for(var x = 0; x < maxpTable.numGlyphs + 1; x++)
                 {
                     var ix = _reader.ReadUInt32BigEndian();
                     indexes.Add(ix);
@@ -51,7 +51,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
             }
             return new LocaTable
             {
-                Offsets = indexes.ToArray()
+                Offsets = indexes.ToArray(),
+                IndexToLocFormat = headTable.IndexToLocFormat
             };
         }
     }

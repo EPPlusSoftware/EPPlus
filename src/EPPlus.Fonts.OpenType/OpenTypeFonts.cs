@@ -88,7 +88,7 @@ namespace EPPlus.Fonts.OpenType
         }
 
 
-        public static OpenTypeFont? GetFontDataOpen(IEnumerable<string> fontDirectories, string fontName, string subFamily = "Regular", bool searchSystemDirectories = true)
+        public static OpenTypeFont GetFontDataOpen(IEnumerable<string> fontDirectories, string fontName, string subFamily = "Regular", bool searchSystemDirectories = true)
         {
             CachedFonts = CachedFonts == null ? new Dictionary<string, OpenTypeFont>() : CachedFonts;
 
@@ -100,7 +100,7 @@ namespace EPPlus.Fonts.OpenType
                 //We do not have the font cached. Check what paths to search:
                 List<string> fontLocations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
 
-                OpenTypeFont? fontData = null;
+                OpenTypeFont fontData = null;
                 foreach (var path in fontLocations)
                 {
                     var factory = new OpenTypeFontFactory(path);
@@ -180,7 +180,7 @@ namespace EPPlus.Fonts.OpenType
             return openTypeFontLst;
         }
 
-        public static TtfFont? GetFontData(IEnumerable<string> fontDirectories, string fontName, string subFamily = "Regular", bool searchSystemDirectories = true)
+        public static TtfFont GetFontData(IEnumerable<string> fontDirectories, string fontName, string subFamily = "Regular", bool searchSystemDirectories = true)
         {
             CachedFonts = CachedFonts == null ? new Dictionary<string, OpenTypeFont>() : CachedFonts;
 
@@ -192,7 +192,7 @@ namespace EPPlus.Fonts.OpenType
                 //We do not have the font cached. Check what paths to search:
                 List<string> fontLocations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
 
-                TtfFont? fontData = null;
+                TtfFont fontData = null;
                 foreach (var path in fontLocations)
                 {
                     var factory = new OpenTypeFontFactory(path);

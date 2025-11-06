@@ -59,18 +59,18 @@ namespace EPPlus.Fonts.OpenType.Scanner
 
         private readonly FontsBinaryReader _reader;
         private ushort _numTables;
-        private Dictionary<string, TableRecord> _tableRecords;
+        private readonly Dictionary<string, TableRecord> _tableRecords;
         private FontFormat _format;
 
-        public string? FontFamilyName { get; private set; }
+        public string FontFamilyName { get; private set; }
 
-        public string? FontSubFamilyName { get; set; }
+        public string FontSubFamilyName { get; set; }
 
         public string FilePath { get; set; }
 
         public FontFormat Format { get; set; }
 
-        public NameTable? NameTable { get; private set; }
+        public NameTable NameTable { get; private set; }
 
         public IEnumerable<ScannedFont>? SubFonts { get; private set; }
 

@@ -33,8 +33,8 @@ namespace EPPlus.Fonts.OpenType
 
         internal TtfFont(FontsBinaryReader reader, long startOffset, FontFormat format) : base(reader, startOffset, format)
         {
-            _GlyphTableLoader = TableLoaders.GetGlyphTableLoader(tblSettings);
-            _KernTableLoader = TableLoaders.GetKernTableLoader(tblSettings);
+            _glyphTableLoader = TableLoaders.GetGlyphTableLoader(tblSettings);
+            _kernTableLoader = TableLoaders.GetKernTableLoader(tblSettings);
         }
     }
 }

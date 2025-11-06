@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EPPlus.Fonts.OpenType.Scanner;
+using EPPlus.Fonts.OpenType.Tables.Loca;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -47,31 +48,33 @@ namespace EPPlus.Fonts.OpenType
             tblSettings = new TableLoaderSettings(_reader, _tableRecords, localTableCache);
 
             //Ensure lazy-loading of individual tables via instanced table loaders.
-            _Os2TableLoader = TableLoaders.GetOs2TableLoader(tblSettings);
-            _NameTableLoader = TableLoaders.GetNameTableLoader(tblSettings);
-            _HheaTableLoader = TableLoaders.GetHheaTableLoader(tblSettings);
-            _HeadTableLoader = TableLoaders.GetHeadTableLoader(tblSettings);
-            _CmapTableLoader = TableLoaders.GetCmapTableLoader(tblSettings);
-            _HmtxTableLoader = TableLoaders.GetHtmxTableLoader(tblSettings);
-            _MaxpTableLoader = TableLoaders.GetMaxpTableLoader(tblSettings);
-            _PostTableLoader = TableLoaders.GetPostTableLoader(tblSettings);
+            _os2TableLoader = TableLoaders.GetOs2TableLoader(tblSettings);
+            _nameTableLoader = TableLoaders.GetNameTableLoader(tblSettings);
+            _hheaTableLoader = TableLoaders.GetHheaTableLoader(tblSettings);
+            _headTableLoader = TableLoaders.GetHeadTableLoader(tblSettings);
+            _cmapTableLoader = TableLoaders.GetCmapTableLoader(tblSettings);
+            _hmtxTableLoader = TableLoaders.GetHtmxTableLoader(tblSettings);
+            _maxpTableLoader = TableLoaders.GetMaxpTableLoader(tblSettings);
+            _postTableLoader = TableLoaders.GetPostTableLoader(tblSettings);
+            _locaTableLoader = TableLoaders.GetLocaTableLoader(tblSettings);
 
             //Common tables in ttf fonts
-            _GlyphTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? TableLoaders.GetGlyphTableLoader(tblSettings) : null;
-            _KernTableLoader = TableRecords.ContainsKey(TableNames.Kern) ? TableLoaders.GetKernTableLoader(tblSettings) : null;
+            _glyphTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? TableLoaders.GetGlyphTableLoader(tblSettings) : null;
+            _kernTableLoader = TableRecords.ContainsKey(TableNames.Kern) ? TableLoaders.GetKernTableLoader(tblSettings) : null;
         }
 
-        Os2TableLoader _Os2TableLoader;
-        NameTableLoader _NameTableLoader;
-        HheaTableLoader _HheaTableLoader;
-        HeadTableLoader _HeadTableLoader;
-        CmapTableLoader _CmapTableLoader;
-        HmtxTableLoader _HmtxTableLoader;
-        MaxpTableLoader _MaxpTableLoader;
-        PostTableLoader _PostTableLoader;
+        Os2TableLoader _os2TableLoader;
+        NameTableLoader _nameTableLoader;
+        HheaTableLoader _hheaTableLoader;
+        HeadTableLoader _headTableLoader;
+        CmapTableLoader _cmapTableLoader;
+        HmtxTableLoader _hmtxTableLoader;
+        MaxpTableLoader _maxpTableLoader;
+        PostTableLoader _postTableLoader;
+        LocaTableLoader _locaTableLoader;
 
-        internal GlyphTableLoader _GlyphTableLoader;
-        internal KernTableLoader _KernTableLoader;
+        internal GlyphTableLoader _glyphTableLoader;
+        internal KernTableLoader _kernTableLoader;
 
 
         /// <summary>
@@ -83,56 +86,64 @@ namespace EPPlus.Fonts.OpenType
         { 
             get 
             {
-                return _CmapTableLoader.Load();
+                return _cmapTableLoader.Load();
             } 
          }
         public HeadTable HeadTable
         {
             get
             {
-                return _HeadTableLoader.Load();
+                return _headTableLoader.Load();
             }
         }
         public HheaTable HheaTable
         {
             get
             {
-                return _HheaTableLoader.Load();
+                return _hheaTableLoader.Load();
             }
         }
         public HmtxTable HmtxTable
         {
             get
             {
-                return _HmtxTableLoader.Load();
+                return _hmtxTableLoader.Load();
             }
         }
         public MaxpTable MaxpTable
         {
             get
             {
-                return _MaxpTableLoader.Load();
+                return _maxpTableLoader.Load();
             }
         }
         public NameTable NameTable
         {
             get
             {
-                return _NameTableLoader.Load();
+                return _nameTableLoader.Load();
             }
         }
         public Os2Table Os2Table
         {
             get
             {
-                return _Os2TableLoader.Load();
+                return _os2TableLoader.Load();
             }
         }
         public PostTable PostTable
         {
             get
             {
-                return _PostTableLoader.Load();
+                return _postTableLoader.Load();
+            }
+        }
+
+        public LocaTable LocaTable
+        {
+            get
+            {
+                return _locaTableLoader.Load();
             }
         }
         #endregion
@@ -142,9 +153,9 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_GlyphTableLoader != null)
+                if(_glyphTableLoader != null)
                 {
-                    return _GlyphTableLoader.Load();
+                    return _glyphTableLoader.Load();
                 }
                 else
                 {
@@ -156,9 +167,9 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_KernTableLoader != null)
+                if(_kernTableLoader != null)
                 {
-                    return _KernTableLoader.Load();
+                    return _kernTableLoader.Load();
                 }
                 else
                 {

@@ -37,18 +37,28 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             writer.WriteUInt16BigEndian(count);
             writer.WriteUInt16BigEndian(stringOffset);
 
-            // Step 2: Prepare string data
+
+            // Step 2: Prepare string data with deduplication
             var stringData = new List<byte>();
+            var stringOffsetMap = new Dictionary<string, ushort>();
+
             foreach (var record in NameRecords)
             {
                 var encoding = GetEncodingForRecord(record);
-                var encoded = encoding.GetBytes(record.Name ?? string.Empty);
+                var str = record.Name ?? string.Empty;
+                var encoded = encoding.GetBytes(str);
+
+                if (!stringOffsetMap.TryGetValue(str, out var offset))
+                {
+                    offset = (ushort)stringData.Count;
+                    stringOffsetMap[str] = offset;
+                    stringData.AddRange(encoded);
+                }
 
                 record.length = (ushort)encoded.Length;
-                record.offset = (ushort)stringData.Count;
-
-                stringData.AddRange(encoded);
+                record.offset = offset;
             }
+
 
             // Step 3: Write NameRecords
             foreach (var record in NameRecords)

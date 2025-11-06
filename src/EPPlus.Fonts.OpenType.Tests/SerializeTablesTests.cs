@@ -1,6 +1,8 @@
 ﻿using EPPlus.Fonts.OpenType.Scanner;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -95,22 +97,50 @@ namespace EPPlus.Fonts.OpenType.Tests
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
             var nameBytes = font?.NameTable.Serialize();
 
-            var failIndex = -1;
+            Assert.AreEqual(originalBytes.Length, nameBytes?.Length);
+            CollectionAssert.AreEqual(originalBytes, nameBytes);
+        }
+
+        [TestMethod]
+        [DataRow("Roboto", "Regular", 96)]
+        [DataRow("Roboto", "Italic", 96)]
+        [DataRow("EB Garamond", "Regular", 100)]
+        [DataRow("Mulish", "Regular", 100)]
+        public void SerializeOs2Table(string fontName, string subFamily, int expectedLength)
+        {
+            var sf = FontScanner.ScanFor(_fontFolder, fontName, subFamily);
+            var originalBytes = sf.GetTableBytes("OS/2");
+
+            var font = OpenTypeFonts.GetFontData(_fontFolders, fontName, subFamily, false);
+            var os2Bytes = font?.Os2Table.Serialize();
+
+            Assert.AreEqual(expectedLength, os2Bytes?.Length);
+            if(expectedLength > originalBytes.Length)
+            {
+                os2Bytes = os2Bytes?.Take(originalBytes.Length).ToArray();
+            }
+            CollectionAssert.AreEqual(originalBytes, os2Bytes);
+        }
+
+        [TestMethod]
+        public void SerializeLocaTable()
+        {
+            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", "Regular");
+            var originalBytes = sf.GetTableBytes("loca");
+
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var locaBytes = font.LocaTable.Serialize();
+
             for (var i = 0; i < originalBytes.Length; i++)
             {
-                var ob = originalBytes[i];
-                var nb = nameBytes[i];
-                if(ob != nb)
+                if (originalBytes[i] != locaBytes[i])
                 {
-                    failIndex = i;
-                    break;
+                    int i2 = 0;
                 }
             }
-            var obAtFail = originalBytes[failIndex];
-            var nbAtFail = nameBytes[failIndex];
-            Assert.AreEqual(-1, failIndex);
-            //Assert.AreEqual(originalBytes.Length, nameBytes?.Length);
-            //CollectionAssert.AreEqual(originalBytes, nameBytes);
+
+            Assert.AreEqual(originalBytes.Length, locaBytes?.Length);
+            CollectionAssert.AreEqual(originalBytes, locaBytes);
         }
 
         [TestMethod]

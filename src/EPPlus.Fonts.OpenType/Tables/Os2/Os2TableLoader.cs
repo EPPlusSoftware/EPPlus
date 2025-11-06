@@ -40,17 +40,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
             var yStrikeoutPosition = _reader.ReadInt16BigEndian();
             var familyClass = _reader.ReadInt16BigEndian();
             // read panose
-            var panose = new List<short>();
+            var panose = new byte[10];
             for(var x = 0; x < 10; x++)
             {
-                var p = _reader.ReadByte();
-                panose.Add(BitConverter.ToInt16(new byte[] { p, 0 }, 0));
+                panose[x] = _reader.ReadByte();
             }
             var ucr1 = _reader.ReadUInt32BigEndian();
             var ucr2 = _reader.ReadUInt32BigEndian();
             var ucr3 = _reader.ReadUInt32BigEndian();
             var ucr4 = _reader.ReadUInt32BigEndian();
-            var archVendId = new Tag(_reader);
+            var achVendId = new Tag(_reader);
             var fsSelection = _reader.ReadUInt16BigEndian();
             var usFirstCharIndex = _reader.ReadUInt16BigEndian();
             var usLastCharIndex = _reader.ReadUInt16BigEndian();
@@ -67,11 +66,17 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
             var usDefaultChar = _reader.ReadUInt16BigEndian();
             var usBreakChar = _reader.ReadUInt16BigEndian();
             var usMaxContext = _reader.ReadUInt16BigEndian();
-            var usLowerOpticalPointSize = _reader.ReadUInt16BigEndian();
-            var usUpperOpticalPointSize = _reader.ReadUInt16BigEndian();
+            ushort usLowerOpticalPointSize = default;
+            ushort usUpperOpticalPointSize = default;
+            if (version > 3)
+            {
+                usLowerOpticalPointSize = _reader.ReadUInt16BigEndian();
+                usUpperOpticalPointSize = _reader.ReadUInt16BigEndian();
+            }
+           
 
 
-            return new Os2Table
+            var table = new Os2Table
             {
                 version = version,
                 xAvgCharWidth = xAvgCharWidth,
@@ -89,12 +94,12 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
                 yStrikeoutSize = yStrikeoutSize,
                 yStrikeoutPosition = yStrikeoutPosition,
                 sFamilyClass = familyClass,
-                panose = panose.ToArray(),
+                panose = panose,
                 UnicodeRange1 = ucr1,
                 UnicodeRange2 = ucr2,
                 UnicodeRange3 = ucr3,
                 UnicodeRange4 = ucr4,
-                archVendId = archVendId,
+                achVendId = achVendId,
                 fsSelection = fsSelection,
                 usFirstCharIndex = usFirstCharIndex,
                 usLastCharIndex = usLastCharIndex,
@@ -111,9 +116,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
                 usDefaultChar = usDefaultChar,
                 usBreakChar = usBreakChar,
                 usMaxContext = usMaxContext,
-                usLowerOpticalPointSize = usLowerOpticalPointSize,
-                usUpperOpticalPointSize = usUpperOpticalPointSize,
             };
+            if(table.version > 3)
+            {
+                table.usLowerOpticalPointSize = usLowerOpticalPointSize;
+                table.usUpperOpticalPointSize = usUpperOpticalPointSize;
+            }
+            return table;
         }
     }
 }

@@ -10,6 +10,9 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Head;
+using System;
+
 namespace EPPlus.Fonts.OpenType.Tables.Loca
 {
     /// <summary>
@@ -20,9 +23,31 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
     {
         public uint[] Offsets { get; set; }
 
+        public HeadTable.IndexToLocFormats IndexToLocFormat { get; set; }
+
+
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
-            throw new System.NotImplementedException();
+            if (IndexToLocFormat == HeadTable.IndexToLocFormats.Offset16)
+            {
+                foreach (var offset in Offsets)
+                {
+                    ushort shortOffset = (ushort)(offset / 2);
+                    writer.WriteUInt16BigEndian(shortOffset);
+                }
+            }
+            else if (IndexToLocFormat == HeadTable.IndexToLocFormats.Offset32)
+            {
+                foreach (var offset in Offsets)
+                {
+                    writer.WriteUInt32BigEndian(offset);
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Unsupported IndexToLocFormat.");
+            }
         }
+
     }
 }

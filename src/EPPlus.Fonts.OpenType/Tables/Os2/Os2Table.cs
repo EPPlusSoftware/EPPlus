@@ -109,7 +109,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         /// This 10-byte series of numbers is used to describe the visual characteristics of a given typeface.
         /// See https://docs.microsoft.com/en-us/typography/opentype/spec/os2#panose
         /// </summary>
-        public short[] panose { get; set; }
+        public byte[] panose { get; set; }
 
         /// <summary>
         /// This field is used to specify the Unicode blocks or ranges encompassed by the font file 
@@ -128,7 +128,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         /// <summary>
         /// The four-character identifier for the vendor of the given type face.
         /// </summary>
-        public Tag archVendId { get; set; }
+        public Tag achVendId { get; set; }
 
         /// <summary>
         /// Contains information concerning the nature of the font patterns
@@ -205,7 +205,53 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
-            throw new NotImplementedException();
+            writer.WriteUInt16BigEndian(version);
+            writer.WriteInt16BigEndian(xAvgCharWidth);
+            writer.WriteUInt16BigEndian(usWeightClass);
+            writer.WriteUInt16BigEndian(usWidthClass);
+            writer.WriteUInt16BigEndian(fsType);
+            writer.WriteInt16BigEndian(ySubscriptXSize);
+            writer.WriteInt16BigEndian(ySubscriptYSize);
+            writer.WriteInt16BigEndian(ySubscriptXOffset);
+            writer.WriteInt16BigEndian(ySubscriptYOffset);
+            writer.WriteInt16BigEndian(ySuperscriptXSize);
+            writer.WriteInt16BigEndian(ySuperscriptYSize);
+            writer.WriteInt16BigEndian(ySuperscriptXOffset);
+            writer.WriteInt16BigEndian(ySuperscriptYOffset);
+            writer.WriteInt16BigEndian(yStrikeoutSize);
+            writer.WriteInt16BigEndian(yStrikeoutPosition);
+            writer.WriteInt16BigEndian(sFamilyClass);
+            writer.Write(panose); // 10 bytes
+
+            writer.WriteUInt32BigEndian(UnicodeRange1);
+            writer.WriteUInt32BigEndian(UnicodeRange2);
+            writer.WriteUInt32BigEndian(UnicodeRange3);
+            writer.WriteUInt32BigEndian(UnicodeRange4);
+
+            achVendId.Serialize(writer); // 4 bytes
+
+            writer.WriteUInt16BigEndian(fsSelection);
+            writer.WriteUInt16BigEndian(usFirstCharIndex);
+            writer.WriteUInt16BigEndian(usLastCharIndex);
+            writer.WriteInt16BigEndian(sTypoAscender);
+            writer.WriteInt16BigEndian(sTypoDescender);
+            writer.WriteInt16BigEndian(sTypoLineGap);
+            writer.WriteUInt16BigEndian(usWinAscent);
+            writer.WriteUInt16BigEndian(usWinDescent);
+
+            writer.WriteUInt32BigEndian(ulCodePageRange1);
+            writer.WriteUInt32BigEndian(ulCodePageRange2);
+
+            writer.WriteInt16BigEndian(sxHeight);
+            writer.WriteInt16BigEndian(sCapHeight);
+            writer.WriteUInt16BigEndian(usDefaultChar);
+            writer.WriteUInt16BigEndian(usBreakChar);
+            writer.WriteUInt16BigEndian(usMaxContext);
+            if(version > 3)
+            {
+                writer.WriteUInt16BigEndian(usLowerOpticalPointSize);
+                writer.WriteUInt16BigEndian(usUpperOpticalPointSize);
+            }
         }
     }
 }

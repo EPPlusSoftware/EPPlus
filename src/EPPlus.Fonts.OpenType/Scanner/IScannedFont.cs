@@ -16,9 +16,9 @@ namespace EPPlus.Fonts.OpenType.Scanner
 {
     internal interface IScannedFont
     {
-        string? FontFamilyName { get; }
+        string FontFamilyName { get; }
 
-        string? FontSubFamilyName { get; set; }
+        string FontSubFamilyName { get; set; }
 
         string FilePath { get; set; }
 
