@@ -406,10 +406,19 @@ namespace OfficeOpenXml.Core.CellStore
                         }
                         else if (fromRowAboveOrOnEndOfRangeItem)
                         {
-                            toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
+                            var result = toRowRangeItem - noRows;
+                            if (result != 1)
+                            {
+                                toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
+                            }
+                            else
+                            {
+                                toRowRangeItem = 1;
+                            }
                         }
 
                         ri.RowSpan = ((fromRowRangeItem - 1) << 20) | (toRowRangeItem - 1);
+                        
                         rows[i] = ri;
                     }
                 }

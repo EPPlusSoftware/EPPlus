@@ -1,7 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.SystemDrawing.Image;
 using OfficeOpenXml.SystemDrawing.Text;
 using System;
@@ -15,6 +19,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace EPPlusTest.Issues
 {
@@ -834,13 +839,13 @@ namespace EPPlusTest.Issues
             ws.Cells["C1:D2"].AutoFitColumns();
         }
 
-		//i2084
-		[TestMethod]
-		public void s912_Alternate()
-		{
-			//Optimizing for not overwriting existing styles
-			using (var package = OpenPackage("s912_alt.xlsx", true))
-			{
+        //i2084
+        [TestMethod]
+        public void s912_Alternate()
+        {
+            //Optimizing for not overwriting existing styles
+            using (var package = OpenPackage("s912_alt.xlsx", true))
+            {
                 var sheet = package.Workbook.Worksheets.Add("F1");
 
                 int nbLines = 10000;
@@ -865,7 +870,7 @@ namespace EPPlusTest.Issues
 
                 SaveAndCleanup(package);
             }
-		}
+        }
 
         [TestMethod]
         public void s912()
@@ -935,10 +940,10 @@ namespace EPPlusTest.Issues
             Assert.AreEqual("64.066,27€", excelPackage.Workbook.Worksheets[0].Cells[1, 3].Text);
         }
 
-		[TestMethod]
-		public void s931()
-		{
-			using (ExcelPackage xlPackage = OpenPackage("s931.xlsx", true))
+        [TestMethod]
+        public void s931()
+        {
+            using (ExcelPackage xlPackage = OpenPackage("s931.xlsx", true))
             {
                 ExcelWorksheet sheet = xlPackage.Workbook.Worksheets.Add("test");
 
@@ -969,8 +974,8 @@ namespace EPPlusTest.Issues
 
                 sheet.View.FreezePanes(11, 1);
 
-				sheet.Row(6).Hidden = false;
-				sheet.Row(7).Hidden = false;
+                sheet.Row(6).Hidden = false;
+                sheet.Row(7).Hidden = false;
 
                 //sheet.View.PaneSettings.YSplit = 10;
 
@@ -993,6 +998,124 @@ namespace EPPlusTest.Issues
                 //Assert.AreEqual(2, sheet2.View.PaneSettings.YSplit);
 
                 xlPackage.Save();
+            }
+        }
+        [TestMethod]
+        public void s961()
+        {
+            using(var package = OpenTemplatePackage("s961.xlsx"))
+            {
+                /* Get chart model */
+                var ws = package.Workbook.Worksheets[0];
+
+                var vCount = ws.Drawings.Count -1;
+                var chDrawing = ws.Drawings[vCount];
+
+                var name = "Graphique 2";
+
+                ExcelDrawing chChartObj = null;
+
+                if (chDrawing.Name == name)
+                {
+                    chChartObj = (ExcelChart)chDrawing;
+                    chChartObj.Name = "_modele";
+                }
+
+                /* Copy from chart model to chart */
+                var chChartTemp = (ExcelChart)chChartObj.Copy(ws, 0, 0);
+                chChartTemp.Name = "Template";
+
+                /* Remove series */
+                for (int i = chChartTemp.Series.Count - 1; i >= 0; i--)
+                {
+                    chChartTemp.Series.Delete(i);
+                }
+
+                /* Re-use the empty template to create empty copies*/
+                var chartCopies = CreateCopies(ws, chChartTemp, 3);
+
+                /* Create Data */
+                ws.Cells["D1"].Value = "dummyLabel1";
+                ws.Cells["D2"].Value = "dummyLabel2";
+                ws.Cells["D3"].Value = "dummyLabel3";
+
+                ws.Cells["E1"].Value = 1;
+                ws.Cells["E2"].Value = 2;
+                ws.Cells["E3"].Value = 3;
+
+                /*Create data for last chart*/
+                ws.Cells["F1"].Value = "NewDummy";
+                ws.Cells["F2"].Value = "NewDummy2";
+                ws.Cells["F3"].Value = "NewDummy3";
+
+                ws.Cells["G1"].Value = 4;
+                ws.Cells["G2"].Value = 5;
+                ws.Cells["G3"].Value = 6;
+
+                var cRangeTmpLabels = ws.Cells["D1:D3"];
+                var cRangeTmpValues = ws.Cells["E1:E3"];
+
+                var cRangeTmpLabelsNew = ws.Cells["F1:F3"];
+                var cRangeTmpValuesNew = ws.Cells["G1:G3"];
+
+                /* Set new serie data and position for each copy except the last */
+                for (int i = 0; i< chartCopies.Count-1; i++)
+                {
+                    chartCopies[i].Series.Add(cRangeTmpValues, cRangeTmpLabels);
+                    chartCopies[i].SetPosition(i * 300, 800);
+                }
+
+                /*Set new serie on the last one to a different range just to demonstrate */
+                chartCopies[2].Series.Add(cRangeTmpValuesNew, cRangeTmpLabelsNew);
+                chartCopies[2].SetPosition(2 * 300, 800);
+
+                /*Move template out of view*/
+                chChartTemp.SetPosition(2000, 2000);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        List<ExcelChart> CreateCopies(ExcelWorksheet targetWorksheet, ExcelChart originalChart, int n)
+        {
+            var listOfCopies = new List<ExcelChart>();
+
+            for (int i = 0; i < n; i++)
+            {
+                var copy = (ExcelChart)originalChart.Copy(targetWorksheet, 0, 0);
+                copy.Name = originalChart.Name + $"Copy{i + 1}";
+                listOfCopies.Add(copy);
+            }
+
+            return listOfCopies;
+        }
+
+        [TestMethod]
+        public void RemoveAndReAddDataValidationAfterDeletingRows()
+        {
+            using (var pck = OpenPackage("testValidations2154.xlsx",true))
+            {
+                // Add a worksheet
+                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
+
+                // Next, add a data validation list to the sheet
+                var dv = sheet1.Cells["A1:A10"].DataValidation.AddListDataValidation();
+                dv.Formula.Values.Add("Option A");
+                dv.Formula.Values.Add("Option B");
+
+                // Delete all except the first row
+                sheet1.DeleteRow(2, 9);
+
+                // Remove the data validation
+                sheet1.DataValidations.Remove(dv);
+                Assert.AreEqual(0, sheet1.DataValidations.Count);
+
+                // Now re-add the data validation
+                // THIS SHOULDN'T THROW AN EXCEPTION
+                sheet1.Cells["A1:A10"].DataValidation.AddListDataValidation();
+                dv.Formula.Values.Add("Option C");
+                dv.Formula.Values.Add("Option D");
+                SaveAndCleanup(pck);
             }
         }
     }
