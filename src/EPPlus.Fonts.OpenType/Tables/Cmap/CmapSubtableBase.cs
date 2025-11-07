@@ -27,18 +27,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         /// <summary>
         /// Length of the subtable in bytes
         /// </summary>
-        public abstract ushort Length { get; }
+        public abstract ushort Length { get; internal set; }
 
         /// <summary>
         /// Language code (optional usage depending on format)
         /// </summary>
-        public abstract ushort Language { get; }
-
-        /// <summary>
-        /// Array of glyph mappings (character code → glyph index)
-        /// </summary>
-        public abstract GlyphMapping[] GlyphMappingArray { get; }
-
-
+        public abstract ushort Language { get; internal set; }
     }
 }

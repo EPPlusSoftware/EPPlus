@@ -12,9 +12,10 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
-namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serializers
+namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
 {
     internal class CmapSubtable4Serializer : CmapSubtableSerializerBase<CmapSubtable4>
     {
@@ -22,16 +23,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serializers
         {
             // Clone the segment list and add the required sentinel segment
             var segments = new List<CmapSubtable4Segment>(subTable.Segments)
+        {
+            new CmapSubtable4Segment
             {
-                new CmapSubtable4Segment
-                {
-                    StartCode = 0xFFFF,
-                    EndCode = 0xFFFF,
-                    IdDelta = 1,
-                    IdRangeOffset = 0,
-                    GlyphIdArray = null
-                }
-            };
+                StartCode = 0xFFFF,
+                EndCode = 0xFFFF,
+                IdDelta = 1,
+                IdRangeOffset = 0,
+                GlyphIdArray = null
+            }
+        };
 
             int segCount = segments.Count;
             int segCountX2 = segCount * 2;
@@ -41,6 +42,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serializers
             ushort searchRange = (ushort)(Math.Pow(2, power) * 2);
             ushort entrySelector = (ushort)power;
             ushort rangeShift = (ushort)(segCountX2 - searchRange);
+
+            // Debug output: segment info
+            Debug.WriteLine($"Segment count (incl. sentinel): {segCount}");
+            Debug.WriteLine($"SearchRange: {searchRange}, EntrySelector: {entrySelector}, RangeShift: {rangeShift}");
 
             // Prepare arrays
             ushort[] endCodes = segments.Select(s => s.EndCode).ToArray();
@@ -56,7 +61,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serializers
                 var segment = segments[i];
                 if (segment.GlyphIdArray != null && segment.GlyphIdArray.Length > 0)
                 {
-                    // Offset in bytes from current idRangeOffset position to glyphIdArray start
                     int offset = (segCount - i) * 2 + glyphIdArray.Count * 2;
                     idRangeOffsets[i] = (ushort)offset;
                     glyphIdArray.AddRange(segment.GlyphIdArray);
@@ -65,10 +69,15 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serializers
                 {
                     idRangeOffsets[i] = 0;
                 }
+
+                Debug.WriteLine($"Segment {i}: Start={segment.StartCode}, End={segment.EndCode}, Delta={segment.IdDelta}, Offset={idRangeOffsets[i]}, Glyphs={(segment.GlyphIdArray?.Length ?? 0)}");
             }
+
+            Debug.WriteLine($"Total glyphIdArray entries: {glyphIdArray.Count}");
 
             // Calculate total length
             int length = offsetBase + glyphIdArray.Count * 2;
+            Debug.WriteLine($"Calculated Format 4 subtable length: {length}");
 
             // Write header
             writer.WriteUInt16BigEndian(subTable.Format);        // format = 4

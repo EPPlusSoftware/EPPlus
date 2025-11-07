@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using System.Linq;
 using System;
-using EPPlus.Fonts.OpenType.Tables.Cmap.Serializers;
+using EPPlus.Fonts.OpenType.Tables.Cmap.Serialization;
 
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
@@ -27,14 +27,14 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             Language = _reader.ReadUInt16BigEndian();
             var firstCode = _reader.ReadUInt16BigEndian();
             var entryCount = _reader.ReadUInt16BigEndian();
-            GlyphMappingArray = new GlyphMapping[entryCount];
+            //GlyphMappingArray = new GlyphMapping[entryCount];
             for(var x = 0; x < entryCount; x++)
             {
-                GlyphMappingArray[x] = new GlyphMapping
-                {
-                    CharacterCode = (char)(firstCode + x),
-                    GlyphIndex = _reader.ReadUInt16BigEndian()
-                };
+                //GlyphMappingArray[x] = new GlyphMapping
+                //{
+                //    CharacterCode = (char)(firstCode + x),
+                //    GlyphIndex = _reader.ReadUInt16BigEndian()
+                //};
             }
         }
 
@@ -42,10 +42,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         public override ushort Format { get; }
 
-        public override ushort Length => (ushort)(10 + GlyphMappingArray.Length * 2);
-        public override ushort Language { get; }
+        public override ushort Length { get; internal set; }// = (ushort)(10 + GlyphMappingArray.Length * 2);
+        public override ushort Language { get; internal set; }
 
-        public override GlyphMapping[] GlyphMappingArray { get; }
+       // public override GlyphMapping[] GlyphMappingArray { get; }
 
         internal override void Serialize(FontsBinaryWriter writer)
         {

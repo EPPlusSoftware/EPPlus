@@ -16,15 +16,21 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
     public class EncodingRecord : FontTableElement
     {
+
+        internal EncodingRecord(Platforms platformId, ushort encodingId, uint subtableOffset)
+        {
+            PlatformId = platformId;
+            EncodingId = encodingId;
+            SubtableOffset = subtableOffset;
+        }
+
+
         internal EncodingRecord(FontsBinaryReader reader)
         {
-            _reader = reader;
             PlatformId = (Platforms)reader.ReadUInt16BigEndian();
             EncodingId = reader.ReadUInt16BigEndian();
             SubtableOffset = reader.ReadUInt32BigEndian();
         }
-
-        private readonly FontsBinaryReader _reader;
         
         /// <summary>
         /// 0 - Unicode
@@ -40,17 +46,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         public uint SubtableOffset { get; set; }
 
-        //public GlyphMapping[] Mappings { get; set; }
-
-        //public IDictionary<ushort, char> GlyphIndexToCharMappings { get; internal set; }
-        //public IDictionary<char, ushort> CharMappingsToGlyphIndex { get; internal set; }
+        public CmapSubtableBase Subtable { get; internal set; }
 
         internal override void Serialize(FontsBinaryWriter writer)
         {
             writer.WriteUInt16BigEndian((ushort)PlatformId);
             writer.WriteUInt16BigEndian(EncodingId);
             writer.WriteUInt32BigEndian(SubtableOffset);
-
         }
     }
 }

@@ -50,5 +50,25 @@ namespace EPPlus.Fonts.OpenType
         }
 
 
+        internal ushort[] ReadUInt16ArrayBigEndian(int count)
+        {
+            var result = new ushort[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[i] = ReadUInt16BigEndian();
+            }
+            return result;
+        }
+
+        internal short[] ReadInt16ArrayBigEndian(int count)
+        {
+            var result = new short[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[i] = ReadInt16BigEndian();
+            }
+            return result;
+        }
+
     }
 }

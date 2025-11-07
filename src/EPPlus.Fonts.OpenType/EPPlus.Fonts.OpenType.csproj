@@ -69,4 +69,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\EPPlus\src\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Tables\Cmap\Builders\" />
+	</ItemGroup>
 </Project>

@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using System;
 
-namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serializers
+namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
 {
     internal class CmapSubtable0Serializer : CmapSubtableSerializerBase<CmapSubtable0>
     {
@@ -26,24 +26,24 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serializers
             // Create a 256-byte array for the glyphIdArray (1 byte per character code 0–255)
             byte[] glyphIdArray = new byte[256];
 
-            foreach (var mapping in subTable.GlyphMappingArray)
-            {
-                // Format 0 only supports character codes in the range 0–255
-                if (mapping.CharacterCode >= 256)
-                {
-                    throw new InvalidOperationException(
-                        $"Character code {mapping.CharacterCode} is out of range for format 0 (must be < 256).");
-                }
+            //foreach (var mapping in subTable.GlyphMappingArray)
+            //{
+            //    // Format 0 only supports character codes in the range 0–255
+            //    if (mapping.CharacterCode >= 256)
+            //    {
+            //        throw new InvalidOperationException(
+            //            $"Character code {mapping.CharacterCode} is out of range for format 0 (must be < 256).");
+            //    }
 
-                // Format 0 only supports glyph indices in the range 0–255 (1 byte)
-                if (mapping.GlyphIndex > 255)
-                {
-                    throw new InvalidOperationException(
-                        $"Glyph index {mapping.GlyphIndex} for character code {mapping.CharacterCode} exceeds 255 and cannot be encoded in format 0.");
-                }
+            //    // Format 0 only supports glyph indices in the range 0–255 (1 byte)
+            //    if (mapping.GlyphIndex > 255)
+            //    {
+            //        throw new InvalidOperationException(
+            //            $"Glyph index {mapping.GlyphIndex} for character code {mapping.CharacterCode} exceeds 255 and cannot be encoded in format 0.");
+            //    }
 
-                glyphIdArray[mapping.CharacterCode] = (byte)mapping.GlyphIndex;
-            }
+            //    glyphIdArray[mapping.CharacterCode] = (byte)mapping.GlyphIndex;
+            //}
 
             // Write the glyphIdArray to the stream
             writer.Write(glyphIdArray);

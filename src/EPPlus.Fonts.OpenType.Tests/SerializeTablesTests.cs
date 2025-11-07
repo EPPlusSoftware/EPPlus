@@ -131,16 +131,21 @@ namespace EPPlus.Fonts.OpenType.Tests
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
             var locaBytes = font.LocaTable.Serialize();
 
-            for (var i = 0; i < originalBytes.Length; i++)
-            {
-                if (originalBytes[i] != locaBytes[i])
-                {
-                    int i2 = 0;
-                }
-            }
-
             Assert.AreEqual(originalBytes.Length, locaBytes?.Length);
             CollectionAssert.AreEqual(originalBytes, locaBytes);
+        }
+
+        [TestMethod]
+        public void SerializeCmapTable()
+        {
+            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", "Regular");
+            var originalBytes = sf.GetTableBytes("cmap");
+
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var cmapBytes = font.CmapTable.Serialize();
+
+            Assert.AreEqual(originalBytes.Length, cmapBytes?.Length);
+            CollectionAssert.AreEqual(originalBytes, cmapBytes);
         }
 
         [TestMethod]

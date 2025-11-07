@@ -10,7 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Tables.Cmap.Serializers;
+using EPPlus.Fonts.OpenType.Tables.Cmap.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -56,10 +56,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         {
 
             _reader = reader;
-            _initialPos = reader.BaseStream.Position;
+            //_initialPos = reader.BaseStream.Position;
 
             Format = 4;
-            Length = _reader.ReadUInt16BigEndian();
+            var length = _reader.ReadUInt16BigEndian();
             Language = _reader.ReadUInt16BigEndian();
             SegCountX2 = _reader.ReadUInt16BigEndian();
             SearchRange = _reader.ReadUInt16BigEndian();
@@ -163,11 +163,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             }
 
             Segments = segments;
-            GlyphMappingArray = glyphMappings.ToArray();
+            //GlyphMappingArray = glyphMappings.ToArray();
         }
 
         private readonly FontsBinaryReader _reader;
-        private readonly long _initialPos;
 
         public ushort SegCountX2 { get; set; }
 
@@ -182,11 +181,28 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         public override ushort Format { get; }
 
-        public override ushort Length { get; }
+        public override ushort Length
+        {
+            get
+            {
+                var segmentsWithSentinel = Segments.Count + 1;
+                int offsetBase = 16 + segmentsWithSentinel * 8 + 2; // header + arrays + reservedPad
+                int glyphArrayLength = Segments
+                    .Where(s => s.GlyphIdArray != null)
+                    .SelectMany(s => s.GlyphIdArray)
+                    .Count();
 
-        public override ushort Language { get; }
+                return (ushort)(offsetBase + glyphArrayLength * 2);
+            }
+            internal set
+            {
+                throw new InvalidOperationException();
+            }
+        }
 
-        public override GlyphMapping[] GlyphMappingArray { get; }
+        public override ushort Language { get; internal set; }
+
+        //public override GlyphMapping[] GlyphMappingArray { get; }
 
         internal List<CmapSubtable4Segment> Segments { get; } = new();
 

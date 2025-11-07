@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serializers
+namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
 {
     internal abstract class CmapSubtableSerializerBase<T>
         where T : CmapSubtableBase
