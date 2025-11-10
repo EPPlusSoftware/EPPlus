@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.Style;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -84,6 +85,37 @@ namespace EPPlusImageRenderer.Svg
                 CalculateTextWrapping(textMaxX);
             }
         }
+
+        internal SvgTextRun(ExcelRichText textRun, double lineSpacing, double textMaxX, double textMaxY, double xPosition, double yPosition, MeasurementFont mf, ExcelHorizontalAlignment horAlign, double baselineLineSpacing = double.NaN) : base()
+        {
+            originalText = textRun.Text;
+            Lines = SplitIntoLines(originalText);
+
+            fmExact = new FontMeasurerTrueType(mf);
+            measurementFont = mf;
+
+            horizontalTextAlignment = (eTextAlignment)horAlign;
+
+            LineSpacingPerNewLine = fmExact.GetSingleLineSpacing().PointToPixel();
+
+            //Used for the first line
+            BaselineSpacing = fmExact.GetBaseLine().PointToPixel();
+
+            _xPosition = xPosition;
+            _yPosition = yPosition;
+
+            fontSizeInPixels = ((double)mf.Size).PointToPixel();
+
+            ClippingHeight = textMaxY;
+            //No idea how to get this property now since we have no access to textbody
+            bool wrapText = true;
+            if (wrapText)
+            {
+                CalculateTextWrapping(textMaxX);
+            }
+        }
+
+
         public RectBase textArea;
 
         public override SvgItemType Type => SvgItemType.TSpan;
@@ -108,7 +140,7 @@ namespace EPPlusImageRenderer.Svg
 
                 var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
 
-                finalString += $"<tspan {visibility} x=\"{_xPosition}\" font-size=\"{(fontSizeInPixels).ToString(CultureInfo.InvariantCulture)}px\" dy=\"{yIncreaseString}px\">";
+                finalString += $"<tspan {visibility} x=\"{(_xPosition).ToString(CultureInfo.InvariantCulture)}\" font-size=\"{(fontSizeInPixels).ToString(CultureInfo.InvariantCulture)}px\" dy=\"{yIncreaseString}px\">";
                 finalString += line;
                 finalString += "</tspan>";
             }
@@ -193,7 +225,8 @@ namespace EPPlusImageRenderer.Svg
         }
         internal double CalculateBottomPositionInPixels()
         {
-            var bottomPosition = (((double)measurementFont.Size).PointToPixel() + origin.Y) * GetNumberOfLines();
+            var lineSize = ((double)measurementFont.Size).PointToPixel() + origin.Y;
+            var bottomPosition = lineSize * GetNumberOfLines();
             return bottomPosition;
         }
 

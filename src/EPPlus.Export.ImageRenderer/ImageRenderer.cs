@@ -12,7 +12,9 @@
  *************************************************************************************************/
 
 using EPPlus.Export.ImageRenderer;
+using EPPlus.Export.ImageRenderer.Svg;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using System;
@@ -43,6 +45,31 @@ namespace EPPlusImageRenderer
             }
 
             throw new NotImplementedException("Image rendering for drawing type not implemented.");
+        }
+        public string RenderRangeToSvg(ExcelRange range)
+        {
+            var ws = range.Worksheet;
+
+            //ws.Workbook.Styles.CellXfs.
+
+            double totalWidth = 0;
+            foreach (var col in range.EntireColumn)
+            {
+                totalWidth += ExcelColumn.ColumnWidthToPixels(col.Width, range.Worksheet.Workbook.MaxFontWidth);
+            }
+            double totalHeight = 0;
+            foreach (var row in range.EntireRow)
+            {
+                totalHeight = row.Height;
+            }
+
+            var sRange = new SvgRange(range, totalWidth, totalHeight);
+
+            var sb = new StringBuilder();
+            sb.Append($"<svg width=\"{500}\" height=\"{500}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" overflow=\"hidden\">");
+            sRange.Render(sb);
+            sb.Append($"</svg>");
+            return sb.ToString();
         }
     }
 }
