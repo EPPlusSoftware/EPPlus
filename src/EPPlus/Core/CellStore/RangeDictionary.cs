@@ -407,14 +407,15 @@ namespace OfficeOpenXml.Core.CellStore
                         else if (fromRowAboveOrOnEndOfRangeItem)
                         {
                             var result = toRowRangeItem - noRows;
-                            if (result != 1)
-                            {
-                                toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
-                            }
-                            else
-                            {
-                                toRowRangeItem = 1;
-                            }
+                            toRowRangeItem = Math.Max(fromRow -1, result);
+                            //if (result != 1)
+                            //{
+                            //    toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
+                            //}
+                            //else
+                            //{
+                            //    toRowRangeItem = 1;
+                            //}
                         }
 
                         ri.RowSpan = ((fromRowRangeItem - 1) << 20) | (toRowRangeItem - 1);
