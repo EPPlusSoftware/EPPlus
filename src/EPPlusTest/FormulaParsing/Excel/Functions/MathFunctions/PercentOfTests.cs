@@ -89,5 +89,37 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
                 Assert.AreEqual(0d, result);
             }
         }
+
+        [TestMethod]
+        public void PercentOfShouldReturnNum()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = ErrorValues.RefError;
+                sheet.Cells["A2"].Value = "snail";
+                sheet.Cells["A3"].Value = 30.234;
+                sheet.Cells["B1"].Formula = "PERCENTOF(A1:A2, A3)";
+                sheet.Calculate();
+                var result = sheet.Cells["B1"].Value;
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Num), result);
+            }
+        }
+
+        [TestMethod]
+        public void PercentOfShouldReturnNum2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 2.1;
+                sheet.Cells["A2"].Value = ErrorValues.RefError;
+                sheet.Cells["A3"].Value = 30.234;
+                sheet.Cells["B1"].Formula = "PERCENTOF(A1, A2:A3)";
+                sheet.Calculate();
+                var result = sheet.Cells["B1"].Value;
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Num), result);
+            }
+        }
     }
  }

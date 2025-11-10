@@ -19,9 +19,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
     [FunctionMetadata(
           Category = ExcelFunctionCategory.MathAndTrig,
-          EPPlusVersion = "8.0",
+          EPPlusVersion = "8.3",
           Description = "The PERCENTOF function sums the values in the subset and divides it by all the values.",
-          SupportsArrays = true)]
+          SupportsArrays = false)]
     internal class PercentOf : ExcelFunction
     {       
         public override int ArgumentMinLength => 2;
