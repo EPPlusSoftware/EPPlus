@@ -24,7 +24,6 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Xml;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OfficeOpenXml.Drawing
 {

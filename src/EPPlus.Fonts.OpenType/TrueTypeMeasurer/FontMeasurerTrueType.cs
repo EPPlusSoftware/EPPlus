@@ -161,7 +161,6 @@ namespace EPPlus.Fonts.OpenType
             return TextMeasurement;
         }
 
-
         /// <summary>
         /// Measures text width and height in points
         /// </summary>
@@ -193,6 +192,25 @@ namespace EPPlus.Fonts.OpenType
         {
             var wrappedStrings = TextData.MeasureAndWrapText(text, FontSize, CurrentFont, MaxWidthInPixels.PixelToPoint());
             return wrappedStrings;
+        }
+        /// <summary>
+        /// This assumes the first line is "Ascent only" as is usually the case in Paragraphs
+        /// And that the last line has a full line of linespacing under it.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="firstLine"></param>
+        /// <returns></returns>
+        public double GetHeightOfText(List<string> text)
+        {
+            var distToBaselineFromTopOfContainer = GetBaseLine();
+            var distBaselineToBaseline = GetSingleLineSpacing();
+
+            var finalHeight = (distBaselineToBaseline * (text.Count));
+            return finalHeight;
+        }
+        public double GetHeightOfTextInPixels(List<string> text)
+        {
+            return GetHeightOfText(text).PointToPixel();
         }
     }
 }

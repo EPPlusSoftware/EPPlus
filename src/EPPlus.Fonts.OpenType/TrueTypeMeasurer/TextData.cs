@@ -330,6 +330,12 @@ namespace EPPlus.Fonts.OpenType
                     int kerning = GetKerningAdjustment(lastGlyphIndex, gi, fontData);
                     totalAdvanceWidth += kerning;
                 }
+                else
+                {
+                    //First char has no kerning but it does have a left side value.
+                    var firstCharLsb = Convert.ToInt16(fontData.HmtxTable.hMetrics[gi].lsb);
+                    totalAdvanceWidth += firstCharLsb;
+                }
 
                 ////For if we want to calculate the total glyph height within a specific string
                 //var yMax = fontData.GlyphTable.Glyphs[gi].yMax;
