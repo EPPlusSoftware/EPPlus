@@ -135,7 +135,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
             }
             commands.Add("BT");
             double rot = cell.CellAlignmentData.TextRotation * System.Math.PI / 180.0;
-            Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), cell.LocalPosition.X, cell.LocalPosition.Y);
+            Matrix3x3 OriginalMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), cell.LocalPosition.X, cell.LocalPosition.Y);
+            Matrix3x3 textMatrix = OriginalMatrix;
             foreach (var fontData in cell.FontDataCollection.FontDataCollection)
             {
                 var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
@@ -180,7 +181,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 }
                 commands.Add($"/{font.Label} {size.ToPdfString()} Tf");
                 commands.Add(fontData.FontColor.ToFillCommand());
-                commands.Add($"{m1.A.ToPdfString()} {m1.B.ToPdfString()} {m1.C.ToPdfString()} {m1.D.ToPdfString()} {m1.E.ToPdfString()} {m1.F.ToPdfString()} Tm");
+                commands.Add($"{m1.A.ToPdfString()} {m1.B.ToPdfString()} {m1.C.ToPdfString()} {m1.D.ToPdfString()} {m1.E.ToPdfString()} {m1.F.ToPdfString()} Tm"); //testa flytta denna utanför loopen och gör endast operation på skew
                 commands.Add($"{fontData.LineHeight.ToPdfString()} TL");
                 for (int i = 0; i < fontData.Lines.Count; i++)
                 {
@@ -195,8 +196,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 {
                     var underlinePos = font.fontData.PostTable.underlinePosition * scale;
                     var underlineWidth = font.fontData.PostTable.underlineThickness * scale;
-                    var start = m1.Transform(new Vector2(0, underlinePos));
-                    var end = m1.Transform(new Vector2(fontData.TextLength, underlinePos));
+                    var start = textMatrix.Transform(new Vector2(0, underlinePos));
+                    var end = textMatrix.Transform(new Vector2(fontData.TextLength, underlinePos));
                     commands.Add($"{underlineWidth.ToPdfString()} w");
                     commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
                     commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
@@ -206,8 +207,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 {
                     var strikePos = font.fontData.Os2Table.yStrikeoutPosition * scale;
                     var strikeWidth = font.fontData.Os2Table.yStrikeoutSize * scale;
-                    var start = m1.Transform(new Vector2(0, strikePos));
-                    var end = m1.Transform(new Vector2(fontData.TextLength, strikePos));
+                    var start = textMatrix.Transform(new Vector2(0, strikePos));
+                    var end = textMatrix.Transform(new Vector2(fontData.TextLength, strikePos));
                     commands.Add($"{strikeWidth.ToPdfString()} w");
                     commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
                     commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");

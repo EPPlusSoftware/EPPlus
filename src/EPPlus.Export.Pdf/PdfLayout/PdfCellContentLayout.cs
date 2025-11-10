@@ -45,6 +45,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
             FontDataCollection = new PdfCellFontDataCollection();
             if (cell.IsRichText)
             {
+                double totalWidth=0;
+                FontDataCollection.IsRichText = true;
                 foreach (var rt in cell.RichText)
                 {
                     PdfCellFontData FontData = new PdfCellFontData();
@@ -88,9 +90,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     FontData.TextLength = result.Width;
                     FontData.LineHeight = result.Height;
                     FontData.FontHeight = result.FontHeight;
-                    if (width < FontData.TextLength && cell.Style.WrapText)
+                    totalWidth += result.Width;
+                    if (width < totalWidth && cell.Style.WrapText)
                     {
-                        var lines = fontMeasurerTrueType.MeasureAndWrapTextPoints(rt.Text, font, width);
+                        //cut text here
+                        var prevWidth = totalWidth - result.Width;
+                        var newWidth = width - prevWidth;
+                        totalWidth = 0d;
+                        var lines = fontMeasurerTrueType.MeasureAndWrapTextPoints(rt.Text, font, newWidth);
                         foreach (var line in lines)
                         {
                             PdfTextLine l = new PdfTextLine();
@@ -159,7 +166,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 FontData.FontHeight = result.FontHeight;
                 if (width < FontData.TextLength && cell.Style.WrapText)
                 {
-
                     var lines = fontMeasurerTrueType.MeasureAndWrapTextPoints(cell.Text, font, width);
                     foreach (var line in lines)
                     {

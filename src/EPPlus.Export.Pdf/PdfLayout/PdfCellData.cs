@@ -29,6 +29,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
     internal class PdfCellFontDataCollection
     {
         public List<PdfCellFontData> FontDataCollection = new List<PdfCellFontData>();
+        public bool IsRichText = false;
         public double TextLength
         {
             get
