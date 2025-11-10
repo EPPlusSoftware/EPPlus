@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Math;
 using EPPlus.Export.Pdf.PdfGraphics;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
 
@@ -26,16 +27,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double Offset;
     }
 
-    internal class PdfCellFontDataCollection
+    internal class PdfCellTextLineItem
     {
-        public List<PdfCellFontData> FontDataCollection = new List<PdfCellFontData>();
+        public List<PdfCellTextItem> TextItems = new List<PdfCellTextItem>();
         public bool IsRichText = false;
+        public string Text;
+        public double Offset;
         public double TextLength
         {
             get
             {
                 double val = 0;
-                foreach (var fd in FontDataCollection)
+                foreach (var fd in TextItems)
                 {
                     val += fd.TextLength;
                 }
@@ -47,7 +50,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             get
             {
                 double val = 0;
-                foreach (var fd in FontDataCollection)
+                foreach (var fd in TextItems)
                 {
                     val = fd.LineHeight > val ? fd.LineHeight : val;
                 }
@@ -59,7 +62,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             get
             {
                 double val = 0;
-                foreach (var fd in FontDataCollection)
+                foreach (var fd in TextItems)
                 {
                     val = fd.FontHeight > val ? fd.FontHeight : val;
                 }
@@ -68,7 +71,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
     }
 
-    internal class PdfCellFontData
+    internal class PdfCellTextItem
     {
         public string FontName = "Aptos Narrow";
         public int FontFamily = 0;
@@ -82,14 +85,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public bool Underline = false;
         public ExcelUnderLineType UnderlineType = ExcelUnderLineType.None;
         public PdfColor FontColor = PdfColor.Black;
-        public List<PdfTextLine> Lines = new List<PdfTextLine>();
+        public string Text;
         public double TextLength = 0d;
         public double LineHeight = 0d;
         public double FontHeight = 0d;
         public string FullFontName
         { get { return FontName + " " + SubFamily; } }
 
-        public PdfCellFontData() { }
+        public PdfCellTextItem() { }
     }
 
     internal class PdfCellGradientFillData
