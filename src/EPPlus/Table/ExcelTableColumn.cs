@@ -390,7 +390,7 @@ namespace OfficeOpenXml.Table
                     var f = ExcelCellBase.TranslateFromR1C1(r1c1Formula, row, colNum);
                     ws.SetFormula(row, colNum, f);
                 }
-                else if (ws._formulas.Exists(row, colNum) == false)
+                else 
                 {
                     ws.SetFormula(row, colNum, CalculatedColumnFormula);
                 }
