@@ -26,6 +26,19 @@ namespace EPPlus.Fonts.OpenType
         }
 
         /// <summary>
+        /// Get difference between winAscent and typoAscent in points
+        /// </summary>
+        /// <param name="font"></param>
+        /// <param name="fontSize"></param>
+        /// <returns></returns>
+        internal static double GetDeltaAscent(TtfFont font, double fontSize)
+        {
+            var winAscent = GetWinAscent(font, fontSize);
+            var typoAscent = GetTypoAscent(font, fontSize);
+            return winAscent - typoAscent;
+        }
+
+        /// <summary>
         /// Calculates the height above the baseline minus the height below the baseline
         /// Returning the resulting middle line or x-height of the font
         /// </summary>
@@ -43,6 +56,21 @@ namespace EPPlus.Fonts.OpenType
             return lineHeightPt;
         }
 
+        internal static double GetTypoAscent(TtfFont font, double fontSize)
+        {
+            var typoAscent = font.Os2Table.sTypoAscender;
+            var em = font.HeadTable.UnitsPerEm;
+
+            return typoAscent * (fontSize / em);
+        }
+
+        internal static double GetWinAscent(TtfFont font, double fontSize)
+        {
+            var asc = font.Os2Table.usWinAscent;
+            var em = font.HeadTable.UnitsPerEm;
+            return asc * (fontSize / em);
+        }
+
         /// <summary>
         /// ASCENT is in shapes in Excel the distance between
         /// The top of the shape (or more likely for non-rect shapes the top of the inset rect textbox) 
@@ -55,18 +83,11 @@ namespace EPPlus.Fonts.OpenType
         {
             if(font.Os2Table.UseTypoMetrics)
             {
-                var typoAscent = font.Os2Table.sTypoAscender;
-                var em = font.HeadTable.UnitsPerEm;
-
-                //var pixelSize = (typoAscent * fontSize * 96d) / (72d * em);
-
-                return typoAscent * (fontSize / em);
+                return GetTypoAscent(font, fontSize);
             }
             else
             {
-                var asc = font.Os2Table.usWinAscent;
-                var em = font.HeadTable.UnitsPerEm;
-                return asc * (fontSize / em);
+                return GetWinAscent(font, fontSize);
             }
         }
 
@@ -332,9 +353,9 @@ namespace EPPlus.Fonts.OpenType
                 }
                 else
                 {
-                    //First char has no kerning but it does have a left side value.
-                    var firstCharLsb = Convert.ToInt16(fontData.HmtxTable.hMetrics[gi].lsb);
-                    totalAdvanceWidth += firstCharLsb;
+                    ////First char has no kerning but it does have a left side value.
+                    //var firstCharLsb = Convert.ToInt16(fontData.HmtxTable.hMetrics[gi].lsb);
+                    //totalAdvanceWidth += firstCharLsb;
                 }
 
                 ////For if we want to calculate the total glyph height within a specific string

@@ -4,6 +4,12 @@ using EPPlus.Fonts.OpenType.Utils;
 
 namespace EPPlus.Fonts.OpenType
 {
+    public enum TextUnit
+    {
+        Points,
+        Pixels
+    }
+
     public class FontMeasurerTrueType : ITextMeasurerWrap
     {
         private TtfFont _defaultFont = TextData.GetFontData("Calibri", "Regular");
@@ -211,6 +217,16 @@ namespace EPPlus.Fonts.OpenType
         public double GetHeightOfTextInPixels(List<string> text)
         {
             return GetHeightOfText(text).PointToPixel();
+        }
+
+        public double GetDeltaAscent(TextUnit unit = TextUnit.Points)
+        {
+            var dAscent = TextData.GetDeltaAscent(CurrentFont, FontSize);
+            if (unit == TextUnit.Pixels)
+            {
+                return dAscent.PointToPixel();
+            }
+            return dAscent;
         }
     }
 }
