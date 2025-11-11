@@ -408,14 +408,6 @@ namespace OfficeOpenXml.Core.CellStore
                         {
                             var result = toRowRangeItem - noRows;
                             toRowRangeItem = Math.Max(fromRow -1, result);
-                            //if (result != 1)
-                            //{
-                            //    toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
-                            //}
-                            //else
-                            //{
-                            //    toRowRangeItem = 1;
-                            //}
                         }
 
                         ri.RowSpan = ((fromRowRangeItem - 1) << 20) | (toRowRangeItem - 1);
