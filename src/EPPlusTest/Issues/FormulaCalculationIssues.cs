@@ -1317,6 +1317,22 @@ namespace EPPlusTest.Issues
             ws.Calculate();
             Assert.AreEqual(938643.13, ws.Cells["H10"].Value);
         }
+        [TestMethod]
+        public void s965_1()
+        {
+            using var p = OpenTemplatePackage("Aico\\s965-1.xlsx");
+            var ws = p.Workbook.Worksheets["Calculation"];
+            ws.Calculate();
+            Assert.AreEqual(40D, ws.Cells["A100"].Value);
+        }
+        [TestMethod]
+        public void s965_2()
+        {
+            using var p = OpenTemplatePackage("Aico\\s965-2.xlsx");
+            var ws = p.Workbook.Worksheets["Aico Data"];
+            ws.Calculate();
+            Assert.AreEqual(40D, ws.Cells["A100"].Value);
+        }
     }
 }
 
