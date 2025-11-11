@@ -18,6 +18,7 @@ using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
@@ -175,6 +176,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     foreach (var line in lines)
                     {
                         lineItem.Text = line;
+                        FontData.Text = line;
                         var r = fontMeasurerTrueType.MeasureText(line, font);
                         lineItem.TextItems.Add(FontData);
                         lineItem = new PdfCellTextLineItem();
@@ -183,6 +185,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 else
                 {
                     lineItem.Text = cell.Text;
+                    FontData.Text = cell.Text;
                     lineItem.TextItems.Add(FontData);
                 }
                 TextLines.Add(lineItem);
@@ -196,7 +199,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CellAlignmentData.TextRotation = cell.Style.TextRotation; //EPPlus does probably not calculate cell width and height after setting rotation on text. So before we make pdf we need to calculate cell width and height based on text rotation
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
             //LocalPosition = CalculatePosition(cell, x, y, width, height, FontData.TextLength, FontData.LineHeight);
-            LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height);
+            LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height); 
             Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y);
             CheckClipping(cell, width);
         }
@@ -218,12 +221,23 @@ namespace EPPlus.Export.Pdf.PdfLayout
             return fontResources[FontData.FullFontName].fontData;
         }
 
+        private double GetLongestLine()
+        {
+            double length = 0;
+            foreach (var line in TextLines)
+            {
+                length = line.TextLength > length ? line.TextLength : length;
+            }
+            return length;
+        }
+
+
         private Vector2 CalculateAlignmentPositionAndTextOffsets(ExcelRangeBase cell, double cellX, double CellY, double cellWidth, double cellHeight)
         {
             double x = 0d;
             double y = 0d;
-            double textLength = 0d; //TextLines.TextLength;
-            double fontHeight = 0d;// TextLines.FontHeight;
+            double textLength = GetLongestLine();
+            double fontHeight = TextLines[0].FontHeight;
             switch (CellAlignmentData.HorizontalAlignment)
             {
                 case ExcelHorizontalAlignment.Fill:
@@ -267,7 +281,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     break;
             }
             var yOffset = 0d;
-            for (int i = 0; i < TextLines.Count; i++)
+            for (int i = 1; i < TextLines.Count; i++)
             {
                 yOffset += TextLines[i].LineHeight;
                 switch (CellAlignmentData.HorizontalAlignment)
