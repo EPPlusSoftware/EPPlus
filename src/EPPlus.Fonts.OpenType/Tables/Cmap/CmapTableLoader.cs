@@ -35,12 +35,22 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                 table.EncodingRecords.Add(enc);
             }
 
+            // Deduplicate subtables by offset
+            var subtableCache = new Dictionary<uint, CmapSubtableBase>();
+
             for (var x = 0; x < table.NumTables; x++)
             {
                 var enc = table.EncodingRecords[x];
                 var currentPos = _offset + enc.SubtableOffset;
-                _reader.BaseStream.Position = currentPos;
 
+                if (subtableCache.TryGetValue(enc.SubtableOffset, out var existingSubtable))
+                {
+                    // Reuse existing subtable
+                    enc.Subtable = existingSubtable;
+                    continue;
+                }
+
+                _reader.BaseStream.Position = currentPos;
                 var format = _reader.ReadUInt16BigEndian();
                 _reader.BaseStream.Position = currentPos; // rewind to start of subtable
 
@@ -49,19 +59,35 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                     case 0:
                         var sub0 = new CmapSubtable0Deserializer(_reader).Deserialize(currentPos);
                         table.SubTables.Add(sub0);
+                        subtableCache[enc.SubtableOffset] = sub0;
                         enc.Subtable = sub0;
                         break;
 
                     case 4:
                         var sub4 = new CmapSubtable4Deserializer(_reader).Deserialize(currentPos);
                         table.SubTables.Add(sub4);
+                        subtableCache[enc.SubtableOffset] = sub4;
                         enc.Subtable = sub4;
                         break;
 
                     case 6:
                         var sub6 = new CmapSubtable6Deserializer(_reader).Deserialize(currentPos);
                         table.SubTables.Add(sub6);
+                        subtableCache[enc.SubtableOffset] = sub6;
                         enc.Subtable = sub6;
+                        break;
+
+                    case 12:
+                        var sub12 = new CmapSubtable12Deserializer(_reader).Deserialize(currentPos);
+                        table.SubTables.Add(sub12);
+                        subtableCache[enc.SubtableOffset] = sub12;
+                        enc.Subtable = sub12;
+                        break;
+                    case 14:
+                        var sub14 = new CmapSubtable14Deserializer(_reader).Deserialize(currentPos);
+                        table.SubTables.Add(sub14);
+                        subtableCache[enc.SubtableOffset] = sub14;
+                        enc.Subtable = sub14;
                         break;
 
                     default:

@@ -63,13 +63,13 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
         internal static double MeasureText(string text, double fontSize, OpenTypeFont fontData)
         {
             double totalAdvanceWidth = 0;
-            ushort lastGlyphIndex = 0;
+            ushort? lastGlyphIndex = 0;
             bool firstChar = true;
+            var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
             for (int i = 0; i < text.Length; i++)
             {
                 char c = text[i];
-                var subTable = fontData.CmapTable.GetSubtable4();
-                var gi = subTable.GetGlyphIndex(c);
+                var gi = glyphMappings.GetGlyphIndex(c);
                 //var encodingRecord = fontData.CmapTable.EncodingRecords.FirstOrDefault(er => er.PlatformId == Platforms.Windows && er.EncodingId == 1);
                 //if (encodingRecord == null) throw new Exception("Could not find Microsoft Unicode cmap (PlatformID 3, EncodingID 1).");
                 //GlyphMapping[] mappings = encodingRecord.Mappings;
@@ -81,14 +81,14 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
                 }
                 else
                 {
-                    var hhMetric = fontData.HmtxTable.hMetrics[gi];
+                    var hhMetric = fontData.HmtxTable.hMetrics[gi ?? 0];
                     advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
                 }
                 totalAdvanceWidth += advanceWidth;
                 // Kerning adjustment
                 if (!firstChar)
                 {
-                    int kerning = GetKerningAdjustment(lastGlyphIndex, gi, fontData);
+                    int kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fontData);
                     totalAdvanceWidth += kerning;
                 }
                 lastGlyphIndex = gi;

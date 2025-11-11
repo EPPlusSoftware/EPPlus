@@ -10,7 +10,6 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,27 +17,19 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
-    public abstract class CmapSubtableBase : FontTableElement
+    public class SequencialMapGroup : FontTableElement
     {
-        /// <summary>
-        /// Format identifier (0, 4, 6, etc.)
-        /// </summary>
-        public abstract ushort Format { get; }
+        public uint StartCharCode { get; internal set; }
 
-        /// <summary>
-        /// Length of the subtable in bytes
-        /// </summary>
-        public abstract uint Length { get; internal set; }
+        public uint EndCharCode { get; internal set; }
 
-        /// <summary>
-        /// Language code (optional usage depending on format)
-        /// </summary>
-        public abstract uint Language { get; internal set; }
+        public uint StartGlyphId { get; internal set; }
 
-        /// <summary>
-        /// Returns <see cref="GlyphMappings"/> for the subtable.
-        /// </summary>
-        /// <returns></returns>
-        public abstract GlyphMappings GetGlyphMappings();
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            writer.WriteUInt32BigEndian(StartCharCode);
+            writer.WriteUInt32BigEndian(EndCharCode);
+            writer.WriteUInt32BigEndian(StartGlyphId);
+        }
     }
 }

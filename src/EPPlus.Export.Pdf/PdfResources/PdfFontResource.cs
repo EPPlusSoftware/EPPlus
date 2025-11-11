@@ -105,10 +105,10 @@ namespace EPPlus.Export.Pdf.PdfResources
         {
             List<int> widths = new List<int>();
             int fallbackWidth = fontData.Os2Table.xAvgCharWidth;
+            var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
             for (int c = firstChar; c <= lastChar; c++)
             {
-                var subTable = fontData.CmapTable.GetSubtable4();
-                var gi = subTable.GetGlyphIndex((char)c);
+                var gi = glyphMappings.GetGlyphIndex((char)c);
                 if (gi == 0 && c != 0)
                 {
                     int normalizedWidth = (int)System.Math.Round(fallbackWidth / (double)fontData.HeadTable.UnitsPerEm * 1000);
@@ -116,7 +116,7 @@ namespace EPPlus.Export.Pdf.PdfResources
                 }
                 else
                 {
-                    var hhMetric = fontData.HmtxTable.hMetrics[gi];
+                    var hhMetric = fontData.HmtxTable.hMetrics[gi ?? 0];
                     var advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
                     int normalizedWidth = (int)System.Math.Round(advanceWidth / (double)fontData.HeadTable.UnitsPerEm * 1000);
                     widths.Add(normalizedWidth);

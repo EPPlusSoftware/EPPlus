@@ -16,12 +16,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
         private readonly FontsBinaryReader _reader;
 
 
-        public CmapSubtable4_2 Deserialize(uint startIndex)
+        public CmapSubtable4 Deserialize(uint startIndex)
         {
 
             _reader.BaseStream.Seek(startIndex, SeekOrigin.Begin);
+            var format = _reader.ReadUInt16();
 
-            var table = new CmapSubtable4_2
+            var table = new CmapSubtable4
             {
                 Length = _reader.ReadUInt16BigEndian(),
                 Language = _reader.ReadUInt16BigEndian(),
@@ -41,7 +42,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
 
             // Calculate how many bytes remain for the GlyphIdArray
             int bytesRead = 14 + segCount * 8 + 2; // 14 bytes header + 4 arrays (each segCount entries) + ReservedPad
-            int glyphArrayBytes = table.Length - bytesRead;
+            int glyphArrayBytes = (ushort)table.Length - bytesRead;
             int glyphCount = glyphArrayBytes / 2;
 
             table.GlyphIdArray = _reader.ReadUInt16ArrayBigEndian(glyphCount);

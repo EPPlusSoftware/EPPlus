@@ -48,30 +48,41 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         public List<CmapSubtableBase> SubTables { get; private set; }
 
 
+
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
-            // Write version and number of encoding records
+            // Start of cmap table
+            long tableStart = writer.BaseStream.Position;
+
+            // Write header
             writer.WriteUInt16BigEndian(Version);
             writer.WriteUInt16BigEndian((ushort)EncodingRecords.Count);
 
-            // Reserve space for encoding records (each is 8 bytes)
+            // Reserve space for encoding records
             long encodingRecordStart = writer.BaseStream.Position;
             foreach (var _ in EncodingRecords)
             {
                 writer.Write(new byte[8]); // placeholder
             }
 
-            // Serialize each subtable to a buffer and track offsets
-            var subtableBuffers = new List<byte[]>();
-            var subtableOffsets = new List<uint>();
-            long subtableStart = writer.BaseStream.Position;
-
-            foreach (var subtable in SubTables)
+            // Precompute offsets for unique subtables
+            var subtableOffsetsMap = new Dictionary<CmapSubtableBase, uint>();
+            var subTableStartIndex = writer.BaseStream.Position;
+            var encRecordsToSerialize = EncodingRecords.OrderBy(er => er.SubtableOffset);
+            var usedSubtables = new Dictionary<uint, uint>();
+            foreach(var encRecord in encRecordsToSerialize)
             {
-                byte[] data = subtable.Serialize();
-                subtableBuffers.Add(data);
-                subtableOffsets.Add((uint)(writer.BaseStream.Position - encodingRecordStart));
-                writer.Write(data);
+                if (usedSubtables.ContainsKey(encRecord.SubtableOffset))
+                {
+                    encRecord.SubtableOffset = usedSubtables[encRecord.SubtableOffset];
+                    continue;
+                }
+                var subTableBytes = encRecord.Subtable.Serialize();
+                writer.Write(subTableBytes);
+                usedSubtables.Add(encRecord.SubtableOffset, (uint)subTableStartIndex);
+                encRecord.SubtableOffset = (uint)subTableStartIndex;
+                subTableStartIndex += subTableBytes.Length;
+                
             }
 
             // Go back and write encoding records with correct offsets
@@ -83,27 +94,39 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                 var record = EncodingRecords[i];
                 writer.WriteUInt16BigEndian((ushort)record.PlatformId);
                 writer.WriteUInt16BigEndian(record.EncodingId);
-                writer.WriteUInt32BigEndian(subtableOffsets[i]);
+                writer.WriteUInt32BigEndian(record.SubtableOffset);
             }
 
             // Return to end of stream
             writer.BaseStream.Seek(currentPos, SeekOrigin.Begin);
-
         }
 
-        public CmapSubtable4 GetSubtable4(bool throwExceptionIfNull = true)
+
+
+        public CmapSubtableBase GetPreferredSubtable()
         {
-            var enc = EncodingRecords.FirstOrDefault(er => er.PlatformId == Platforms.Windows && er.EncodingId == 1);
-            if (enc == null)
+
+            // Prioritetsordning: Format 12 > Format 4 > Format 6 > Format 0
+            var preferredFormats = new ushort[] { 12, 4, 6, 0 };
+
+            foreach (var format in preferredFormats)
             {
-                if(throwExceptionIfNull)
+                for (int i = 0; i < EncodingRecords.Count; i++)
                 {
-                    throw new Exception("Could not find Microsoft Unicode cmap (PlatformID 3, EncodingID 1).");
+                    var record = EncodingRecords[i];
+                    if (record.PlatformId == Platforms.Windows && record.EncodingId == 1)
+                    {
+                        var subtable = EncodingRecords[i].Subtable;
+                        if (subtable != null && subtable.Format == format)
+                        {
+                            return subtable;
+                        }
+                    }
                 }
-                return null;
             }
-            var subTableIx = EncodingRecords.IndexOf(enc);
-            return SubTables[subTableIx] as CmapSubtable4;
+
+            return null;
+
         }
 
     }

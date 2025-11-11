@@ -15,11 +15,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
             _reader = reader;
         }
 
-        public CmapSubtable6_2 Deserialize(uint startIndex)
+        public CmapSubtable6 Deserialize(uint startIndex)
         {
             _reader.BaseStream.Seek(startIndex, SeekOrigin.Begin);
 
-            var table = new CmapSubtable6_2
+            var table = new CmapSubtable6
             {
                 Length = _reader.ReadUInt16BigEndian(),
                 Language = _reader.ReadUInt16BigEndian(),

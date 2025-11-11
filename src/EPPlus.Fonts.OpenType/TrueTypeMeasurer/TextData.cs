@@ -171,7 +171,7 @@ namespace EPPlus.Fonts.OpenType
         internal static List<string> MeasureAndWrapText(string text, double fontSize, TtfFont fontData, double maxWidth)
         {
             double totalAdvanceWidth = 0;
-            ushort lastGlyphIndex = 0;
+            ushort? lastGlyphIndex = 0;
             bool firstChar = true;
 
             //Split strings on line endings
@@ -184,6 +184,7 @@ namespace EPPlus.Fonts.OpenType
             //Convert maxWidth from points to font design units
             maxWidth = (maxWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize;
 
+            var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
             foreach (var line in splitStrings)
             {
                 int previousLineIndex = 0;
@@ -191,9 +192,7 @@ namespace EPPlus.Fonts.OpenType
                 for (int i = 0; i < line.Length; i++)
                 {
                     char c = line[i];
-
-                    var subTable = fontData.CmapTable.GetSubtable4();
-                    var gi = subTable.GetGlyphIndex(c);
+                    var gi = glyphMappings.GetGlyphIndex(c);
                     int advanceWidth;
                     if (gi == 0 && c != 0)
                     {
@@ -201,7 +200,7 @@ namespace EPPlus.Fonts.OpenType
                     }
                     else
                     {
-                        var hhMetric = fontData.HmtxTable.hMetrics[gi];
+                        var hhMetric = fontData.HmtxTable.hMetrics[gi ?? 0];
                         advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
                     }
 
@@ -210,7 +209,7 @@ namespace EPPlus.Fonts.OpenType
                     // Kerning adjustment
                     if (!firstChar)
                     {
-                        int kerning = GetKerningAdjustment(lastGlyphIndex, gi, fontData);
+                        int kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fontData);
                         newWidth += kerning;
                     }
 
@@ -279,7 +278,7 @@ namespace EPPlus.Fonts.OpenType
         internal static double MeasureText(string text, double fontSize, TtfFont fontData, bool wrapText = false)
         {
             double totalAdvanceWidth = 0;
-            ushort lastGlyphIndex = 0;
+            ushort? lastGlyphIndex = 0;
             bool firstChar = true;
 
             ////For if we want to calculate the total glyph height within a specific string
@@ -288,12 +287,12 @@ namespace EPPlus.Fonts.OpenType
 
             double largestWidth = 0;
 
+            var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
             for (int i = 0; i < text.Length; i++)
             {
                 char c = text[i];
 
-                var subTable = fontData.CmapTable.GetSubtable4();
-                var gi = subTable.GetGlyphIndex(c);
+                var gi = glyphMappings.GetGlyphIndex(c);
                 int advanceWidth;
                 if (gi == 0 && c != 0)
                 {
@@ -301,7 +300,7 @@ namespace EPPlus.Fonts.OpenType
                 }
                 else
                 {
-                    var hhMetric = fontData.HmtxTable.hMetrics[gi];
+                    var hhMetric = fontData.HmtxTable.hMetrics[gi ?? 0];
                     advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
                 }
 
@@ -323,7 +322,7 @@ namespace EPPlus.Fonts.OpenType
                 // Kerning adjustment
                 if (!firstChar)
                 {
-                    int kerning = GetKerningAdjustment(lastGlyphIndex, gi, fontData);
+                    int kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fontData);
                     totalAdvanceWidth += kerning;
                 }
 

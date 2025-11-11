@@ -31,6 +31,14 @@ namespace EPPlus.Fonts.OpenType
             var b = ReadBytes(2);
             return BitConverter.ToInt16(new byte[] { b[1], b[0] }, 0);
         }
+
+        internal uint ReadUInt24BigEndian()
+        {
+            var b = ReadBytes(3);
+            return (uint)((b[0] << 16) | (b[1] << 8) | b[2]);
+        }
+
+
         internal int ReadInt32BigEndian()
         {
             var b = ReadBytes(4);

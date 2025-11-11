@@ -1,5 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType.Scanner;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -142,6 +143,19 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = sf.GetTableBytes("cmap");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var cmapBytes = font.CmapTable.Serialize();
+
+            Assert.AreEqual(originalBytes.Length, cmapBytes?.Length);
+            CollectionAssert.AreEqual(originalBytes, cmapBytes);
+        }
+
+        [TestMethod]
+        public void SerializeCmapTable_Format12()
+        {
+            var sf = FontScanner.ScanFor(_fontFolder, "Noto Emoji", "Regular");
+            var originalBytes = sf.GetTableBytes("cmap");
+
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Noto Emoji", "Regular", false);
             var cmapBytes = font.CmapTable.Serialize();
 
             Assert.AreEqual(originalBytes.Length, cmapBytes?.Length);

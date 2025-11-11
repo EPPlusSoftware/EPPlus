@@ -7,7 +7,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
 {
     internal class CmapSubtable6_2Serializer
     {
-        public void Serialize(CmapSubtable6_2 table, FontsBinaryWriter writer)
+        public void Serialize(CmapSubtable6 table, FontsBinaryWriter writer)
         {
             if (table.GlyphIdArray == null || table.GlyphIdArray.Length != table.EntryCount)
                 throw new InvalidOperationException("GlyphIdArray length must match EntryCount.");
@@ -17,8 +17,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
                 table.Length = (ushort)(10 + 2 * table.EntryCount);
 
             writer.WriteUInt16BigEndian(table.Format);
-            writer.WriteUInt16BigEndian(table.Length);
-            writer.WriteUInt16BigEndian(table.Language);
+            writer.WriteUInt16BigEndian((ushort)table.Length);
+            writer.WriteUInt16BigEndian((ushort)table.Language);
             writer.WriteUInt16BigEndian(table.FirstCode);
             writer.WriteUInt16BigEndian(table.EntryCount);
 

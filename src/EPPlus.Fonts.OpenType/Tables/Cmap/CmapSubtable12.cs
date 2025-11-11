@@ -7,34 +7,33 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
-    internal class CmapSubtable0 : CmapSubtableBase
+    internal class CmapSubtable12 : CmapSubtableBase
     {
-        public CmapSubtable0()
-        {
-            GlyphIdArray = new byte[256];
-        }
-
-        public override ushort Format { get { return 0; } }
+        public override ushort Format { get; } = 12;
 
         public override uint Length { get; internal set; }
 
         public override uint Language { get; internal set; }
 
-        /// <summary>
-        /// Maps character codes 0–255 to glyph indices.
-        /// </summary>
-        public byte[] GlyphIdArray { get; internal set; }
+        public ushort Reserved { get; } = 0;
 
+        public uint NumGroups { get; internal set; }
+
+        public List<SequencialMapGroup> Groups { get; } = new List<SequencialMapGroup>();
 
         public override GlyphMappings GetGlyphMappings()
         {
             var mapping = new GlyphMappings();
 
-            for (uint charCode = 0; charCode < 256; charCode++)
+            foreach (var group in Groups)
             {
-                ushort glyphIndex = GlyphIdArray[charCode];
-                if (glyphIndex != 0)
+                uint startCharCode = group.StartCharCode;
+                uint endCharCode = group.EndCharCode;
+                uint startGlyphId = group.StartGlyphId;
+
+                for (uint charCode = startCharCode; charCode <= endCharCode; charCode++)
                 {
+                    ushort glyphIndex = (ushort)(startGlyphId + (charCode - startCharCode));
                     mapping.AddMapping(charCode, glyphIndex);
                 }
             }
@@ -42,12 +41,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             return mapping;
         }
 
-
         internal override void Serialize(FontsBinaryWriter writer)
         {
-            var serializer = new CmapSubtable02Serializer();
+            var serializer = new CmapSubtable12Serializer();
             serializer.Serialize(this, writer);
-
         }
     }
 }

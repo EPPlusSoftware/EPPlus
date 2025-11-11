@@ -53,6 +53,11 @@
 	  <Deterministic>False</Deterministic>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="Tables\Cmap\Builders\**" />
+	  <EmbeddedResource Remove="Tables\Cmap\Builders\**" />
+	  <None Remove="Tables\Cmap\Builders\**" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Include="EPPlusLogo.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
@@ -68,8 +73,5 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\EPPlus\src\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Tables\Cmap\Builders\" />
 	</ItemGroup>
 </Project>

@@ -39,6 +39,19 @@ namespace EPPlus.Fonts.OpenType
             Write(bytes[0]);
         }
 
+
+        internal void WriteUInt24BigEndian(uint value)
+        {
+            if (value > 0xFFFFFF)
+                throw new ArgumentOutOfRangeException(nameof(value), "Value exceeds 24-bit range.");
+
+            var bytes = BitConverter.GetBytes(value);
+            Write(bytes[2]); // high byte
+            Write(bytes[1]); // mid byte
+            Write(bytes[0]); // low byte
+        }
+
+
         internal void WriteUInt32BigEndian(uint value)
         {
             var bytes = BitConverter.GetBytes(value);
