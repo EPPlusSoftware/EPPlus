@@ -113,25 +113,44 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         private double CalculateWithSumRange(IRangeInfo range, IEnumerable<string> criteria, IRangeInfo sumRange, ParsingContext context)
         {
             KahanSum retVal = 0d;
-            foreach (var cell in range)
+            if (criteria.Any(x=>x==""))
             {
-                if (_evaluator.Evaluate(cell.Value, criteria))
+                var adrDA = range.GetAddressDimensionAdjusted(0).Address;
+                for(int r=adrDA.FromRow; r <= adrDA.ToRow; r++)
                 {
-                    var rowOffset = cell.Row - range.Address.FromRow;
-                    var columnOffset = cell.Column - range.Address.FromCol;
-                    if (sumRange.Address.FromRow + rowOffset <= sumRange.Address.ToRow &&
-                       sumRange.Address.FromCol + columnOffset <= sumRange.Address.ToCol)
+                    for(int c= adrDA.FromCol; c <= adrDA.ToCol; c++)
                     {
-                        var val = sumRange.GetOffset(rowOffset, columnOffset);
-                        if (val is ExcelErrorValue)
-                        {
-                            ThrowExcelErrorValueException((ExcelErrorValue)val);
-                        }                        
-                        retVal += ConvertUtil.GetValueDouble(val, true);
+                        CalculateCell(range, criteria, sumRange, r, c, range.GetValue(r,c), ref retVal);
                     }
                 }
             }
+            else
+            {
+                foreach (var cell in range)
+                {
+                    CalculateCell(range, criteria, sumRange, cell.Row, cell.Column, cell.Value, ref retVal);
+                }
+            }
             return retVal.Get();
+        }
+
+        private void CalculateCell(IRangeInfo range, IEnumerable<string> criteria, IRangeInfo sumRange, int row, int col, object value, ref KahanSum retVal)
+        {
+            if (_evaluator.Evaluate(value, criteria))
+            {
+                var rowOffset = row - range.Address.FromRow;
+                var columnOffset = col - range.Address.FromCol;
+                if (sumRange.Address.FromRow + rowOffset <= sumRange.Address.ToRow &&
+                   sumRange.Address.FromCol + columnOffset <= sumRange.Address.ToCol)
+                {
+                    var val = sumRange.GetOffset(rowOffset, columnOffset);
+                    if (val is ExcelErrorValue)
+                    {
+                        ThrowExcelErrorValueException((ExcelErrorValue)val);
+                    }
+                    retVal += ConvertUtil.GetValueDouble(val, true);
+                }
+            }
         }
 
         private double CalculateSingleRange(IRangeInfo range, IEnumerable<string> expressions, ParsingContext context)
