@@ -11,11 +11,6 @@
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
 using OfficeOpenXml.Core;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using System;
-using System.Buffers.Text;
-using System.IO;
-
 namespace OfficeOpenXml.Data.Connection
 {
 
@@ -70,7 +65,7 @@ namespace OfficeOpenXml.Data.Connection
         /// <summary>
         /// Gets or sets the unique identifier for the connection.
         /// </summary>
-        public int Id { get; set; } 
+        public int Id { get; set; }
         /// <summary>
         /// Gets or sets the name associated with the connection. Each connection should have a unique name.
         /// </summary>
@@ -140,18 +135,6 @@ namespace OfficeOpenXml.Data.Connection
         /// </summary>
         public string SingleSignOnId { get; set; }
         /// <summary>
-        /// If the connetion is a data model connection.
-        /// </summary>
-        public bool IsModel { get;  }
-        /// <summary>
-        /// Headers
-        /// </summary>
-        public bool ModelTextHeaders { get;  }
-        /// <summary>
-        /// If <see cref="Type"/> is set to <see cref="eConnectionDataSourceType.DataModelWorksheetData"/>, this is the source name."/>
-        /// </summary>
-        public string? RangeSourceName { get; set; }
-        /// <summary>
         /// Used when the external data source is file-based. When a connection to such a data source fails, the spreadsheet application attempts to connect directly to this file.Can be expressed in URI or system-specific file path notation.
         /// </summary>
         public string SourceDatabaseFile { get; set; }
@@ -161,7 +144,7 @@ namespace OfficeOpenXml.Data.Connection
         /// 2. DAO-based source
         /// 3. ApplicationDefined
         /// 4. Web query
-        /// 5. OLEDB-based source
+        /// 5. OLEDB-based source.
         /// 6. Text-based source
         /// 7. ADO-based source
         /// 8. DSP-Document Source Provider
@@ -188,13 +171,25 @@ namespace OfficeOpenXml.Data.Connection
         /// </summary>
         public ExcelTextProperties TextProperties { get; internal set; }
         /// <summary>
-        /// Data model data feed properties for the connection. This property is null if the connection is not a data feed data model connection.
-        /// </summary>
-        public ExcelDataModelDataFeedProperties DataFeedProperties { get; internal set; }
-        /// <summary>
         /// Parameters for the connection.
         /// </summary>
         public ExcelConnectionParameters Parameters { get; internal set; }
+        /// <summary>
+        /// If the connection is a data model connection, this property contains data model specific properties.
+        /// </summary>
+        public ExcelConnectionDataModel DataModel{get;set;}
 
+        /// <summary>
+        /// If the connection is not to be refreshed on Refresh All.
+        /// </summary>
+        public bool ExcludeFromRefreshAll { get; set; }
+        /// <summary>
+        /// If the connection should be automatically deleted when all data features which use it are deleted.
+        /// </summary>
+        public bool AutoDelete { get; set; }
+        /// <summary>
+        /// If the connection is used by an addin component and will not be deleted with any data feature that uses it.
+        /// </summary>
+        public bool UsedByAddin { get; set; }
     }
 }

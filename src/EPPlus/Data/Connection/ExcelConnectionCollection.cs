@@ -64,7 +64,6 @@ namespace OfficeOpenXml.Data.Connection
         {
             return _list.GetEnumerator();
         }
-
         internal void Save()
         {
             if (_list.Count==0 && Part!=null)

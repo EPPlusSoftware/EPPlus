@@ -6261,7 +6261,7 @@ namespace EPPlusTest
             FileInfo pic = new FileInfo(Resources.GetImageFullFileName("epplusobject.png"));
             var drawing = ws.HeaderFooter.FirstHeader.InsertPicture(pic, PictureAlignment.Left);
             drawing.Height = 40;
-
+            
             ws.HeaderFooter.FirstHeader.CenteredText = "pageTitle";
             ws.HeaderFooter.FirstFooter.LeftAlignedText = $"{ExcelHeaderFooter.CurrentDate} {ExcelHeaderFooter.CurrentTime}";
             ws.HeaderFooter.FirstFooter.RightAlignedText = $"Printing: {"user.DisplayName"} - {ExcelHeaderFooter.PageNumber}/{ExcelHeaderFooter.NumberOfPages}";

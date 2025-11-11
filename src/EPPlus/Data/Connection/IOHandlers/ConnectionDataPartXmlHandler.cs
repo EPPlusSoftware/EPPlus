@@ -13,6 +13,7 @@
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using OfficeOpenXml.Utils.Compare;
 using OfficeOpenXml.Utils.EnumUtils;
@@ -29,7 +30,7 @@ namespace OfficeOpenXml.Data.Connection
         internal ConnectionDataPartXmlHandler(XmlNamespaceManager nsm, XmlNode topNode)
         {
             _xml = XmlHelperFactory.Create(nsm, topNode);
-            _xml.SchemaNodeOrder = ["dbPr", "olapPr", "webPr", "textPr", "parameters"];
+            _xml.SchemaNodeOrder = ["dbPr", "olapPr", "webPr", "textPr", "modelTextPr", "rangePr","oleDbPr", "dataFeedPr", "parameters"];
         }
         void IDocumentPart<ExcelConnection>.Load(ExcelConnection item)
         {
@@ -74,7 +75,7 @@ namespace OfficeOpenXml.Data.Connection
             }
             LoadParameters(item);
 
-            if (_xml.ExistsNode($"d:extLst/d:ext[uri='{ExtLstUris.Connection2010Uri}']", out var extNode))
+            if (_xml.ExistsNode($"d:extLst/d:ext[@uri='{ExtLstUris.Connection2010Uri}']/x15:connection", out var extNode))
             {
                 LoadExtLst(item, extNode);
             }
@@ -83,18 +84,103 @@ namespace OfficeOpenXml.Data.Connection
         private void LoadExtLst(ExcelConnection item, XmlNode extNode)
         {
             var extXml = XmlHelperFactory.Create(_xml.NameSpaceManager, extNode);
+            item.DataModel = new ExcelConnectionDataModel();
+            item.DataModel.Id = extXml.GetXmlNodeString("@id");
+            item.DataModel.IsModel = extXml.GetXmlNodeBool("@model");
+            
+            //Non-data model properties.
+            item.ExcludeFromRefreshAll = extXml.GetXmlNodeBool("@excludeFromRefreshAll");
+            item.AutoDelete = extXml.GetXmlNodeBool("@autoDelete");
+            item.UsedByAddin = extXml.GetXmlNodeBool("@usedByAddin");
+
             switch (item.Type)
             {
                 case eConnectionDataSourceType.DataModelOLEDB:
+                    LoadDataModelOleDb(item, extXml);
                     break;
                 case eConnectionDataSourceType.DataModelDataFeed:
+                    item.DataModel.DataFeedProperties = new ExcelDataModelDataFeedProperties();
+                    LoadDataModelDataFeed(item.DataModel.DataFeedProperties, extXml);
                     break;
                 case eConnectionDataSourceType.DataModelWorksheetData:
+                    item.DataModel.RangeSourceName = extXml.GetXmlNodeString("x15:rangePr/@sourceName");
                     break;
                 case eConnectionDataSourceType.DataModelText:
+                    item.DataModel.ModelTextHeaders = extXml.GetXmlNodeBool("x15:modelTextPr/@headers", false);
+                    item.TextProperties = new ExcelTextProperties();
+
                     break;
             }
         }
+        private void SaveExtLst(ExcelConnection item)
+        {
+            var extNode = _xml.CreateNode("d:extLst/d:ext/x15:connection");
+            ((XmlElement)extNode.ParentNode).SetAttribute("uri", ExtLstUris.Connection2010Uri);
+            var extXml = XmlHelperFactory.Create(_xml.NameSpaceManager, extNode);
+            extXml.SetXmlNodeString("@id", item.DataModel.Id, false);
+            extXml.SetXmlNodeBool("@model", item.DataModel.IsModel, false);
+
+            //Non-data model properties.
+            extXml.SetXmlNodeBool("@excludeFromRefreshAll", item.ExcludeFromRefreshAll, false);
+            extXml.SetXmlNodeBool("@autoDelete", item.AutoDelete, false);
+            extXml.SetXmlNodeBool("@usedByAddin", item.UsedByAddin, false);
+
+
+            if (item.DataModel.OleDbProperties != null && item.Type == eConnectionDataSourceType.DataModelOLEDB)
+            {
+                var odp = item.DataModel.OleDbProperties;
+                if (string.IsNullOrEmpty(odp.Command))
+                {
+                    foreach(var t in odp.Tables)
+                    {
+                        if (string.IsNullOrEmpty(t)) continue;
+                        var tblNode = (XmlElement)extXml.CreateNode("x15:oleDbPr/x15:dbTables/x15:dbTable", false, true);
+                        tblNode.SetAttribute("name", t);
+                    }
+                }
+                else
+                {
+                    extXml.SetXmlNodeString("x15:oleDbPr/x15:dbCommand/@text", odp.Command);
+                }
+                extXml.SetXmlNodeString("x15:oleDbPr/@connection", odp.Connection, true);
+            }
+            
+            if (item.DataModel.DataFeedProperties != null && item.Type == eConnectionDataSourceType.DataModelDataFeed)
+            {
+                foreach (var t in item.DataModel.DataFeedProperties.Tables)
+                {
+                    if (string.IsNullOrEmpty(t)) continue;
+                    var tblNode = (XmlElement)extXml.CreateNode("x15:dataFeedPr/x15:dbTables/x15:dbTable", false, true);
+                    tblNode.SetAttribute("name", t);
+                }
+                extXml.SetXmlNodeString("x15:dataFeedPr/@connection", item.DataModel.DataFeedProperties.Connection, true);
+            }
+
+            if (item.DataModel.ModelTextHeaders && item.Type == eConnectionDataSourceType.DataModelText)
+            {
+                extXml.SetXmlNodeBool("x15:modelTextPr/@headers", item.DataModel.ModelTextHeaders, false);
+            }
+            if(string.IsNullOrEmpty(item.DataModel.RangeSourceName) == false && item.Type==eConnectionDataSourceType.DataModelWorksheetData)
+            {
+                extXml.SetXmlNodeString("x15:rangePr/@sourceName", item.DataModel.RangeSourceName);
+            }
+        }
+        private void LoadDataModelOleDb(ExcelConnection item, XmlHelper extXml)
+        {
+            item.DataModel.OleDbProperties = new ExcelDataModelOleDbProperties();
+            LoadDataModelDataFeed(item.DataModel.OleDbProperties, extXml);
+            item.DataModel.OleDbProperties.Command = extXml.GetXmlNodeString("x15:oleDbPr/x15:dbCommand/@text");
+        }
+
+        private static void LoadDataModelDataFeed(ExcelDataModelDataFeedProperties item, XmlHelper extXml)
+        {
+            item.Connection = extXml.GetXmlNodeString("x15:oleDbPr/@connection");
+            foreach (XmlElement n in extXml.GetNodes("x15:oleDbPr/x15:dbTables/x15:dbTable"))
+            {
+                item.Tables.Add(n.Attributes["name"].Value);
+            }
+        }
+
         void IDocumentPart<ExcelConnection>.Remove()
         {
             _xml.TopNode.ParentNode.RemoveChild(_xml.TopNode);
@@ -245,6 +331,10 @@ namespace OfficeOpenXml.Data.Connection
             SaveOlapProperties(item.OlapProperties);
             SaveWebProperties(item.WebProperties);
             SaveTextProperties(item.TextProperties);
+            if(item.DataModel!=null)
+            {
+                SaveExtLst(item);
+            }
             SaveParameters(item.Parameters);
         }
 

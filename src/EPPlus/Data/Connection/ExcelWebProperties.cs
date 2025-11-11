@@ -10,14 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.Xml;
-using System.Security.Policy;
-using System.Xml.Linq;
-using static System.Net.WebRequestMethods;
 
 namespace OfficeOpenXml.Data.Connection
 {
