@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using EPPlus.Fonts.OpenType.Utils;
+using System;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -79,6 +80,19 @@ namespace EPPlus.Fonts.OpenType
             CurrentFontName = fontName;
             CurrentFont = TextData.GetFontData(fontName, subFamily);
             FontSize = fontSize;
+        }
+
+        public void SetFont(MeasurementFont mFont)
+        {
+            CurrentFontName = string.IsNullOrEmpty(mFont.FontFamily) ? "" : mFont.FontFamily;
+
+            var styleName = Enum.GetName(typeof(MeasurementFontStyles), mFont.Style);
+            SetFont(mFont.Size, mFont.FontFamily, styleName);
+
+            if (CurrentFont == null)
+            {
+                CurrentFont = _defaultFont;
+            }
         }
 
         /// <summary>

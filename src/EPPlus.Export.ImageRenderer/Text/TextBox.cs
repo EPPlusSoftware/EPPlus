@@ -187,7 +187,7 @@ namespace EPPlusImageRenderer.Text
 
             //The first run in the first paragraph must apply different line-spacing
             bool isFirst = Paragraphs.Count == 0;
-            var svgParagraph = new SvgParagraph(item, area, vertAlignAttribute, posY);
+            var svgParagraph = new SvgParagraph(item, area, vertAlignAttribute, posY, isFirst);
 
             svgParagraph.FillColor = string.IsNullOrEmpty(fontColor) ? item.DefaultRunProperties.Fill.Color.Name : fontColor;
 

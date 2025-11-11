@@ -8,6 +8,7 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
     public interface ITextMeasurerWrap : ITextMeasurer
     {
         public List<string> MeasureAndWrapText(string text, MeasurementFont font, double MaxWidthInPixels);
+        public void SetFont(MeasurementFont mFont);
 
         public double GetSingleLineSpacing();
 

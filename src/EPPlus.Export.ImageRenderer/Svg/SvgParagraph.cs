@@ -96,6 +96,7 @@ namespace EPPlusImageRenderer.Svg
             var fmtt = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
 
             _MeasurementFont = p.DefaultRunProperties.GetMeasureFont();
+            fmtt.SetFont(_MeasurementFont);
             vertAlignAttribute = VertAlign;
             
             //Seperated out in case of some final render item

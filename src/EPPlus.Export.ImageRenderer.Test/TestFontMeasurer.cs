@@ -30,7 +30,7 @@ namespace TestProject1
 
             //Ascent+Descent
             var lineSpacing = fontMeasurer.GetSingleLineSpacing().PointToPixel();
-
+            
             //Distance between text baseline and top of box AKA Ascent
             var getBaseLine = fontMeasurer.GetBaseLine().PointToPixel();
 

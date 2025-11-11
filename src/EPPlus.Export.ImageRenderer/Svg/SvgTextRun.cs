@@ -131,7 +131,9 @@ namespace EPPlusImageRenderer.Svg
                 var yIncrease = isFirst && useBaselineSpacing ? BaselineSpacing : LineSpacingPerNewLine;
                 isFirst = false;
 
-                _yPosition += TextUtils.RoundToWhole(yIncrease);
+                yIncrease = TextUtils.RoundToWhole(yIncrease);
+
+                _yPosition += yIncrease;
                 string visibility = "";
                 if (_yPosition >= ClippingHeight)
                 {
