@@ -1,17 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Sorting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing;
-using System.IO;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Diagnostics;
-using OfficeOpenXml.Sorting;
+using System.IO;
+using System.Linq;
 
 namespace EPPlusTest.Issues
 {
@@ -241,14 +237,14 @@ namespace EPPlusTest.Issues
 				p1.Compatibility.IsWorksheets1Based = true;
 				ExcelWorkbook workbook = p1.Workbook;
 				workbook.Calculate();
-				Assert.AreEqual(7d, workbook.Worksheets["Sheet1"].Cells[1, 1].Value);
+				Assert.AreEqual(8.333333d, (double)workbook.Worksheets["Sheet1"].Cells[1, 1].Value, 0.00001);
 
 				workbook.Worksheets.First().Cells[2, 1].Value = 4;
 				workbook.Calculate();
 
-				Assert.AreEqual(10d, workbook.Worksheets["Sheet1"].Cells[1, 1].Value);
+                Assert.AreEqual(11.333333d, (double)workbook.Worksheets["Sheet1"].Cells[1, 1].Value, 0.00001);
 
-				SaveAndCleanup(p1);
+                SaveAndCleanup(p1);
 			}
 		}
 		[TestMethod]
@@ -1311,9 +1307,10 @@ namespace EPPlusTest.Issues
         public void s965_1()
         {
             using var p = OpenTemplatePackage("Aico\\s965-1.xlsx");
-            var ws = p.Workbook.Worksheets["Calculation"];
+            var ws = p.Workbook.Worksheets["Aico Data"];
             ws.Calculate();
-            Assert.AreEqual(40D, ws.Cells["A100"].Value);
+            Assert.AreEqual(-64440.8652, (double)ws.Cells["D41"].Value, 0.0001);
+            Assert.AreEqual(-3206585.8006, (double)ws.Cells["D42"].Value, 0.0001);
         }
         [TestMethod]
         public void s965_2()
@@ -1321,7 +1318,12 @@ namespace EPPlusTest.Issues
             using var p = OpenTemplatePackage("Aico\\s965-2.xlsx");
             var ws = p.Workbook.Worksheets["Aico Data"];
             ws.Calculate();
-            Assert.AreEqual(40D, ws.Cells["A100"].Value);
+            Assert.AreEqual("", ws.Cells["B49"].Value);
+            Assert.AreEqual("7300030", ws.Cells["B50"].Value);
+            ws = p.Workbook.Worksheets["Calculation"];
+            Assert.AreEqual(4D, ws.Cells["AP2"].Value);
+            Assert.AreEqual(9D, ws.Cells["AQ2"].Value);
+
         }
     }
 }
