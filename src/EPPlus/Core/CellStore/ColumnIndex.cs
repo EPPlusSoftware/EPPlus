@@ -175,15 +175,15 @@ namespace OfficeOpenXml.Core.CellStore
                     else
                     {
 
-                        if (_pages[p].IndexOffset + _pages[p].Rows[0].Index < row)
+                        if (_pages[p].IndexOffset + _pages[p].Rows[0].Index > row)
                         {
-                            if (p + 1 >= PageCount)
+                            if (p - 1 < 0)
                             {
                                 return -1;
                             }
                             else
                             {
-                                return _pages[p + 1].IndexOffset + _pages[p].Rows[0].Index;
+                                return _pages[p - 1].IndexOffset + _pages[p].Rows[0].Index;
                             }
                         }
                         else

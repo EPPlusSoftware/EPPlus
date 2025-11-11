@@ -995,5 +995,17 @@ namespace EPPlusTest.Issues
                 xlPackage.Save();
             }
         }
+        [TestMethod]
+
+        public void Issue2157()
+        {
+            using (var p = OpenTemplatePackage("i2157.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var dv = ws.DimensionByValue;
+                Assert.AreEqual(2, dv.Columns);
+            }
+        }
+
     }
 }
