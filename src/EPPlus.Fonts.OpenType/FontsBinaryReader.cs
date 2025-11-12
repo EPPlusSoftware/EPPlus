@@ -21,6 +21,24 @@ namespace EPPlus.Fonts.OpenType
         {
         }
 
+
+        private string _context;
+        private int _numberOfReadBytes = 0;
+
+
+        internal void SetContext(string name)
+        {
+            _context = name;
+            _numberOfReadBytes = 0;
+        }
+
+        public override byte[] ReadBytes(int count)
+        {
+            var b = base.ReadBytes(count);
+            _numberOfReadBytes += b.Length;
+            return b;
+        }
+
         internal ushort ReadUInt16BigEndian()
         {
             var b = ReadBytes(2);

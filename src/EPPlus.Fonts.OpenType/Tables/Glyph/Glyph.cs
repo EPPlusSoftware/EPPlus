@@ -10,19 +10,37 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 namespace EPPlus.Fonts.OpenType.Tables.Glyph
 {
-    /// <summary>
-    /// This table contains information that describes the glyphs in the font in the TrueType outline format
-    /// https://docs.microsoft.com/en-us/typography/opentype/spec/glyf
-    /// </summary>
-    public class GlyphTable : FontTableBase
+    public class Glyph : FontTableElement
     {
-        public GlyphHeader[] Glyphs { get; set; }
+        public GlyphHeader Header { get; internal set; }
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        public SimpleGlyph SimpleData { get; internal set; }
+
+        public CompositeGlyph CompositeData { get; internal set; }
+
+
+
+        internal override void Serialize(FontsBinaryWriter writer)
         {
-            throw new System.NotImplementedException();
+            Header.Serialize(writer);
+
+            if (Header.numberOfContours > 0 && SimpleData != null)
+            {
+                SimpleData.Serialize(writer);
+            }
+            else if (Header.numberOfContours < 0 && CompositeData != null)
+            {
+                CompositeData.Serialize(writer);
+            }
+            // If numberOfContours == 0 → empty glyph, only header
         }
+
     }
 }

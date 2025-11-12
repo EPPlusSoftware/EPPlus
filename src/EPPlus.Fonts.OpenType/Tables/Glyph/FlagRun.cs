@@ -15,22 +15,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlus.Fonts.OpenType.Tables.Cmap
+namespace EPPlus.Fonts.OpenType.Tables.Glyph
 {
 
-    public class NonDefaultUvsTable : FontTableElement
+    public class FlagRun
     {
-        public List<UvsMapping> Mappings { get; internal set; } = new();
-
-        internal override void Serialize(FontsBinaryWriter writer)
+        internal FlagRun()
         {
-            writer.WriteUInt32BigEndian((uint)Mappings.Count);
-
-            foreach (var mapping in Mappings)
-            {
-                mapping.Serialize(writer);
-            }
+            
         }
+        public byte Flag { get; set; }
+        public byte RepeatCount { get; set; } // 0 = no repeat
     }
 
 }

@@ -15,7 +15,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
     /// <summary>
     /// Each glyph description begins with a header
     /// </summary>
-    public class GlyphHeader
+    public class GlyphHeader : FontTableElement
     {
         internal GlyphHeader()
         {
@@ -51,5 +51,14 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
         /// Maximum y for coordinate data.
         /// </summary>
         public short yMax { get; set; }
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            writer.WriteInt16BigEndian(numberOfContours);
+            writer.WriteInt16BigEndian(xMin);
+            writer.WriteInt16BigEndian(yMin);
+            writer.WriteInt16BigEndian(xMax);
+            writer.WriteInt16BigEndian(yMax);
+        }
     }
 }

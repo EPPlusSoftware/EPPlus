@@ -1,4 +1,16 @@
-﻿using EPPlus.Fonts.OpenType.FontLocalization;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+ *************************************************************************************************/
+using EPPlus.Fonts.OpenType.FontLocalization;
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
@@ -53,13 +65,13 @@ namespace EPPlus.Fonts.OpenType
             _hheaTableLoader = TableLoaders.GetHheaTableLoader(tblSettings);
             _headTableLoader = TableLoaders.GetHeadTableLoader(tblSettings);
             _cmapTableLoader = TableLoaders.GetCmapTableLoader(tblSettings);
-            _hmtxTableLoader = TableLoaders.GetHtmxTableLoader(tblSettings);
+            _hmtxTableLoader = TableLoaders.GetHmtxTableLoader(tblSettings);
             _maxpTableLoader = TableLoaders.GetMaxpTableLoader(tblSettings);
             _postTableLoader = TableLoaders.GetPostTableLoader(tblSettings);
             _locaTableLoader = TableLoaders.GetLocaTableLoader(tblSettings);
 
             //Common tables in ttf fonts
-            _glyphTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? TableLoaders.GetGlyphTableLoader(tblSettings) : null;
+            _glyfTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? TableLoaders.GetGlyfTableLoader(tblSettings) : null;
             _kernTableLoader = TableRecords.ContainsKey(TableNames.Kern) ? TableLoaders.GetKernTableLoader(tblSettings) : null;
         }
 
@@ -73,7 +85,7 @@ namespace EPPlus.Fonts.OpenType
         PostTableLoader _postTableLoader;
         LocaTableLoader _locaTableLoader;
 
-        internal GlyphTableLoader _glyphTableLoader;
+        internal GlyfTableLoader _glyfTableLoader;
         internal KernTableLoader _kernTableLoader;
 
 
@@ -149,13 +161,13 @@ namespace EPPlus.Fonts.OpenType
         #endregion
 
         //Extra accessors for common tables
-        public GlyphTable GlyphTable
+        public GlyfTable GlyfTable
         {
             get
             {
-                if(_glyphTableLoader != null)
+                if(_glyfTableLoader != null)
                 {
-                    return _glyphTableLoader.Load();
+                    return _glyfTableLoader.Load();
                 }
                 else
                 {

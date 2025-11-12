@@ -25,9 +25,24 @@ namespace EPPlus.Fonts.OpenType
     {
         private static object _syncRoot = new object();
 
+        private static string GetWindowsFolder()
+        {
+            var winfolder = @"c:\Windows";
+#if !NET35
+            var wf = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+            if (!string.IsNullOrEmpty(wf) && Directory.Exists(wf)) return wf;
+#endif
+            var ewf = Environment.GetEnvironmentVariable("WINDIR");
+            if(!string.IsNullOrEmpty(ewf) && Directory.Exists(ewf))
+            {
+                winfolder = ewf;
+            }
+            return winfolder;
+        }
+
         internal static List<string> winFontLocations = new List<string>()
         {
-            Path.Combine(Environment.GetEnvironmentVariable("WINDIR") ?? @"C:\Windows", "Fonts"),
+            Path.Combine(GetWindowsFolder(), "Fonts"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft\\Windows\\Fonts"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft\\Windows\\Fonts"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft\\FontCache"),
@@ -180,7 +195,7 @@ namespace EPPlus.Fonts.OpenType
             return openTypeFontLst;
         }
 
-        public static TtfFont GetFontData(IEnumerable<string> fontDirectories, string fontName, string subFamily = "Regular", bool searchSystemDirectories = true)
+        public static OpenTypeFont GetFontData(IEnumerable<string> fontDirectories, string fontName, string subFamily = "Regular", bool searchSystemDirectories = true)
         {
             CachedFonts = CachedFonts == null ? new Dictionary<string, OpenTypeFont>() : CachedFonts;
 
@@ -192,7 +207,7 @@ namespace EPPlus.Fonts.OpenType
                 //We do not have the font cached. Check what paths to search:
                 List<string> fontLocations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
 
-                TtfFont fontData = null;
+                OpenTypeFont fontData = null;
                 foreach (var path in fontLocations)
                 {
                     var factory = new OpenTypeFontFactory(path);
@@ -215,7 +230,7 @@ namespace EPPlus.Fonts.OpenType
             }
             else
             {
-                return (TtfFont)cachedFont;
+                return cachedFont;
             }
         }
     }

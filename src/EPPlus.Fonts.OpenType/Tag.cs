@@ -1,6 +1,4 @@
-﻿using EPPlus.Fonts.OpenType.Tables;
-using System;
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -13,6 +11,8 @@ using System;
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using System.IO;
+using System;
+using EPPlus.Fonts.OpenType.Tables;
 
 namespace EPPlus.Fonts.OpenType
 {

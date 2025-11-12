@@ -6,10 +6,10 @@ namespace EPPlus.Fonts.OpenType
 {
     public class FontMeasurerTrueType : ITextMeasurerWrap
     {
-        private TtfFont _defaultFont = TextData.GetFontData("Calibri", "Regular");
+        private OpenTypeFont _defaultFont = TextData.GetFontData("Calibri", "Regular");
         private double _defaultSize = 11d;
 
-        TtfFont CurrentFont;
+        OpenTypeFont CurrentFont;
         private double _widthInPoints;
         private double _heightInPoints;
 

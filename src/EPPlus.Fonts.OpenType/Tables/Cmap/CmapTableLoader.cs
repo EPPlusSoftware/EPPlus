@@ -1,7 +1,4 @@
-﻿using EPPlus.Fonts.OpenType.Tables.Cmap.Serialization;
-using System.Collections.Generic;
-
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -13,6 +10,9 @@ using System.Collections.Generic;
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Cmap.Serialization;
+using System.Collections.Generic;
+
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
     internal class CmapTableLoader : TableLoader<CmapTable>

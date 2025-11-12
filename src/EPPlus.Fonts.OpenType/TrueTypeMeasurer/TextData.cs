@@ -20,7 +20,7 @@ namespace EPPlus.Fonts.OpenType
         /// </summary>
         public static bool SearchSystemDirectories = true;
 
-        internal static TtfFont GetFontData(string fontName, string subFamily)
+        internal static OpenTypeFont GetFontData(string fontName, string subFamily)
         {
             return OpenTypeFonts.GetFontData(FontDirectories, fontName, subFamily, SearchSystemDirectories);
         }
@@ -32,7 +32,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double MeasureFontHeight(TtfFont font, double fontSize)
+        internal static double MeasureFontHeight(OpenTypeFont font, double fontSize)
         {
             var asc = font.Os2Table.usWinAscent;
             var desc = font.Os2Table.usWinDescent;
@@ -51,7 +51,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double GetBaseLine(TtfFont font, double fontSize)
+        internal static double GetBaseLine(OpenTypeFont font, double fontSize)
         {
             if(font.Os2Table.UseTypoMetrics)
             {
@@ -76,7 +76,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double GetSingleLineSpacing(TtfFont font, double fontSize)
+        internal static double GetSingleLineSpacing(OpenTypeFont font, double fontSize)
         {
             var singleLineSpacing = font.Os2Table.UseTypoMetrics ? MeasureSingleLineSpacing_sTypo(font, fontSize) : MeasureFontHeight(font, fontSize);
 
@@ -93,7 +93,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double MeasureSingleLineSpacing_sTypo(TtfFont font, double fontSize)
+        internal static double MeasureSingleLineSpacing_sTypo(OpenTypeFont font, double fontSize)
         {
             var typoAscent = font.Os2Table.sTypoAscender;
             var typoDescent = font.Os2Table.sTypoDescender;
@@ -117,7 +117,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double MeasureBoundingBoxHeight(TtfFont font, double fontSize)
+        internal static double MeasureBoundingBoxHeight(OpenTypeFont font, double fontSize)
         {
             var max = font.HeadTable.Ymax;
             var min = font.HeadTable.Ymin;
@@ -136,7 +136,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double MeasureBoundingBoxWidth(TtfFont font, double fontSize)
+        internal static double MeasureBoundingBoxWidth(OpenTypeFont font, double fontSize)
         {
             var max = font.HeadTable.Xmax;
             var min = font.HeadTable.Xmin;
@@ -149,12 +149,12 @@ namespace EPPlus.Fonts.OpenType
             return widthPt;
         }
 
-        internal static double MeasureAscent(TtfFont font, double fontSize)
+        internal static double MeasureAscent(OpenTypeFont font, double fontSize)
         {
             return font.Os2Table.usWinAscent * (fontSize / font.HeadTable.UnitsPerEm);
         }
 
-        internal static double MeasureDescent(TtfFont font, double fontSize)
+        internal static double MeasureDescent(OpenTypeFont font, double fontSize)
         {
             return font.Os2Table.usWinDescent * (fontSize / font.HeadTable.UnitsPerEm);
         }
@@ -168,7 +168,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="maxWidth"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        internal static List<string> MeasureAndWrapText(string text, double fontSize, TtfFont fontData, double maxWidth)
+        internal static List<string> MeasureAndWrapText(string text, double fontSize, OpenTypeFont fontData, double maxWidth)
         {
             double totalAdvanceWidth = 0;
             ushort? lastGlyphIndex = 0;
@@ -275,7 +275,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="wrapText"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        internal static double MeasureText(string text, double fontSize, TtfFont fontData, bool wrapText = false)
+        internal static double MeasureText(string text, double fontSize, OpenTypeFont fontData, bool wrapText = false)
         {
             double totalAdvanceWidth = 0;
             ushort? lastGlyphIndex = 0;
@@ -355,7 +355,7 @@ namespace EPPlus.Fonts.OpenType
             return (largestWidth / (double)fontData.HeadTable.UnitsPerEm) * fontSize;
         }
 
-        private static int GetKerningAdjustment(ushort left, ushort right, TtfFont fontData)
+        private static int GetKerningAdjustment(ushort left, ushort right, OpenTypeFont fontData)
         {
             foreach (var subtable in fontData.KernTable.SubTables)
             {

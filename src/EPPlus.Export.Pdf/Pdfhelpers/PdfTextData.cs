@@ -50,12 +50,12 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
             return lineHeightPt;
         }
 
-        internal static double MeasureAscent(TtfFont font, double fontSize)
+        internal static double MeasureAscent(OpenTypeFont font, double fontSize)
         {
             return font.Os2Table.usWinAscent * (fontSize / font.HeadTable.UnitsPerEm);
         }
 
-        internal static double MeasureDescent(TtfFont font, double fontSize)
+        internal static double MeasureDescent(OpenTypeFont font, double fontSize)
         {
             return font.Os2Table.usWinDescent * (fontSize / font.HeadTable.UnitsPerEm);
         }

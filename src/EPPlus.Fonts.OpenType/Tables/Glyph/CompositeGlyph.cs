@@ -15,22 +15,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlus.Fonts.OpenType.Tables.Cmap
+namespace EPPlus.Fonts.OpenType.Tables.Glyph
 {
-
-    public class NonDefaultUvsTable : FontTableElement
+    public class CompositeGlyph : FontTableElement
     {
-        public List<UvsMapping> Mappings { get; internal set; } = new();
+        public List<GlyphComponent> Components { get; set; } = new List<GlyphComponent>();
+        public byte[] Instructions { get; set; } = new byte[0];
 
         internal override void Serialize(FontsBinaryWriter writer)
         {
-            writer.WriteUInt32BigEndian((uint)Mappings.Count);
-
-            foreach (var mapping in Mappings)
+            foreach (var component in Components)
             {
-                mapping.Serialize(writer);
+                component.Serialize(writer);
+            }
+
+            // Kontrollera om sista komponenten har WE_HAVE_INSTRUCTIONS-flaggan
+            if ((Components.Last().Flags & CompositeGlyphFlags.WE_HAVE_INSTRUCTIONS) != 0)
+            {
+                writer.WriteUInt16BigEndian((ushort)Instructions.Length);
+                writer.Write(Instructions);
             }
         }
     }
-
 }

@@ -43,7 +43,7 @@ namespace EPPlus.Fonts.OpenType
         //    return 1.01f;
         //}
 
-        public TtfFont Create(string fontFamily, string subFamily)
+        public OpenTypeFont Create(string fontFamily, string subFamily)
         {
             var scannedFont = GetClosestScannedFont(fontFamily, subFamily);
             if (scannedFont != null)
@@ -56,12 +56,12 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
-        private TtfFont HandleScannedFont(IScannedFont scannedFont, string subFamily, float widthScaleFactor = 1f)
+        private OpenTypeFont HandleScannedFont(IScannedFont scannedFont, string subFamily, float widthScaleFactor = 1f)
         {
             var reader = new FontsBinaryReader(File.OpenRead(scannedFont.FilePath));
             return scannedFont.TtcOffset.HasValue ?
-                new TtfFont(reader, scannedFont.TtcOffset.Value, scannedFont.Format) :
-                new TtfFont(reader, scannedFont.Format);
+                new OpenTypeFont(reader, scannedFont.TtcOffset.Value, scannedFont.Format) :
+                new OpenTypeFont(reader, scannedFont.Format);
         }
 
         public OpenTypeFont CreateBase(string fontFamily, string subFamily)
