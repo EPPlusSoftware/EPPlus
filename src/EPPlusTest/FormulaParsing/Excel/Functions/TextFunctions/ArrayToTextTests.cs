@@ -9,11 +9,12 @@ using FakeItEasy.Configuration;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
 {
     [TestClass]
-    public class ArrayToTextTests
+    public class ArrayToTextTests : TestBase
     {
         [TestMethod]
         public void ArrayToText_NumericConsiseFormat()
         {
+            SwitchToCulture();
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Value = 1;
@@ -24,6 +25,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
             Assert.AreEqual("1; 3; 2; 4", result);
+            SwitchBackToCurrentCulture();
         }
 
         [TestMethod]
