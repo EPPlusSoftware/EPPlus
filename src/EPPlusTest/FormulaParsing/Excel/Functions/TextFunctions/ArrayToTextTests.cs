@@ -31,6 +31,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         [TestMethod]
         public void ArrayToText_NumericStrictFormat()
         {
+            SwitchToCulture();
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Value = 1;
@@ -41,11 +42,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
             Assert.AreEqual("{1\\3;2\\4}", result);
+            SwitchBackToCurrentCulture();
         }
 
         [TestMethod]
         public void ArrayToText_ShouldIncludeError()
         {
+            SwitchToCulture();
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Value = 1;
@@ -56,11 +59,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
             Assert.AreEqual("1; 3; #DIV/0!; 4", result);
+            SwitchBackToCurrentCulture();
         }
 
         [TestMethod]
         public void ArrayToText_StringStrictFormat()
         {
+            SwitchToCulture();
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Value = "Hello";
@@ -71,11 +76,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
             Assert.AreEqual("{\"Hello\"\\3;2\\4}", result);
+            SwitchBackToCurrentCulture();
         }
 
         [TestMethod]
         public void ArrayToText_StringConcise()
         {
+            SwitchToCulture();
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var dt = new DateTime(2025, 04, 11);
@@ -88,11 +95,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
             Assert.AreEqual($"{oaDate}; 1416; TRUE; Katt; ;", result);
+            SwitchBackToCurrentCulture();
         }
 
         [TestMethod]
         public void ArrayToText_StringStrict()
         {
+            SwitchToCulture();
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var dt = new DateTime(2025, 04, 11);
@@ -105,10 +114,12 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             var result = sheet.Cells["C1"].Value;
             var oaDate = dt.ToOADate();
             Assert.AreEqual("{\"2025-04-11\"\\1416;TRUE\\\"Katt\";\\}", result);
+            SwitchBackToCurrentCulture();
         }
         [TestMethod]
         public void ArrayToText_StringConcise2()
         {
+            SwitchToCulture();
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var dt = new DateTime(2025, 04, 11);
@@ -123,11 +134,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             var result = sheet.Cells["B5"].Value;
             var oaDate = dt.ToOADate();
             Assert.AreEqual("TRUE; Katt; ; ; 1416; TRUE; 500; \"KATTEN\"", result);
+            SwitchBackToCurrentCulture();
         }
 
         [TestMethod]
         public void ArrayToText_StringStrict2()
         {
+            SwitchToCulture();
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var dt = new DateTime(2025, 04, 11);
@@ -142,6 +155,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             var result = sheet.Cells["B5"].Value;
             var oaDate = dt.ToOADate();
             Assert.AreEqual("{TRUE\\\"Katt\";\\;1416\\TRUE;500\\\"\"\"KATTEN\"\"\"}", result);
+            SwitchBackToCurrentCulture();
         }
     }
 }
