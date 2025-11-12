@@ -48,14 +48,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             if (arg0.IsExcelRange)
             {
                 var range = arg0.ValueAsRangeInfo;
-
                 var ret = new InMemoryRange(range.Size);
-                
+                for (var row = 0; row < range.Size.NumberOfRows; row++)
+                {
+                    for (var col = 0; col < range.Size.NumberOfCols; col++)
+                    {
+                        var val = range.GetOffset(row, col);
+                        string strVal = GetStringVal(val, format);
+                        ret.SetValue(row, col, strVal);
+                    }
+                }
+
                 return CreateDynamicArrayResult(ret, DataType.ExcelRange);
             }
             else
             {
-                var stringRes = GetStringVal(arg0, format);
+                var val = arg0.Value;
+                string stringRes = GetStringVal(val, format);
                 return CreateResult(stringRes, DataType.String);
             }            
         }
