@@ -24,7 +24,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Cells["C1"].Formula = "ARRAYTOTEXT(A1:B2, 0)";
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
-            Assert.AreEqual("1; 3; 2; 4", result);
+            Assert.AreEqual("1, 3, 2, 4", result);
             SwitchBackToCurrentCulture();
         }
 
@@ -41,7 +41,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Cells["C1"].Formula = "ARRAYTOTEXT(A1:B2, 1)";
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
-            Assert.AreEqual("{1\\3;2\\4}", result);
+            Assert.AreEqual("{1,3;2,4}", result);
             SwitchBackToCurrentCulture();
         }
 
@@ -58,7 +58,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Cells["C1"].Formula = "ARRAYTOTEXT(A1:B2, 0)";
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
-            Assert.AreEqual("1; 3; #DIV/0!; 4", result);
+            Assert.AreEqual("1, 3, #DIV/0!, 4", result);
             SwitchBackToCurrentCulture();
         }
 
@@ -75,7 +75,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Cells["C1"].Formula = "ARRAYTOTEXT(A1:B2, 1)";
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
-            Assert.AreEqual("{\"Hello\"\\3;2\\4}", result);
+            Assert.AreEqual("{\"Hello\",3;2,4}", result);
             SwitchBackToCurrentCulture();
         }
 
@@ -94,7 +94,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Cells["C1"].Formula = "ARRAYTOTEXT(A1:B3, 0)";
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
-            Assert.AreEqual($"{oaDate}; 1416; TRUE; Katt; ;", result);
+            Assert.AreEqual($"{oaDate}, 1416, TRUE, Katt, ,", result);
             SwitchBackToCurrentCulture();
         }
 
@@ -113,7 +113,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
             var oaDate = dt.ToOADate();
-            Assert.AreEqual("{\"2025-04-11\"\\1416;TRUE\\\"Katt\";\\}", result);
+            Assert.AreEqual("{\"2025-04-11\",1416;TRUE,\"Katt\";,}", result);
             SwitchBackToCurrentCulture();
         }
         [TestMethod]
@@ -133,7 +133,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             var result = sheet.Cells["B5"].Value;
             var oaDate = dt.ToOADate();
-            Assert.AreEqual("TRUE; Katt; ; ; 1416; TRUE; 500; \"KATTEN\"", result);
+            Assert.AreEqual("TRUE, Katt, , , 1416, TRUE, 500, \"KATTEN\"", result);
             SwitchBackToCurrentCulture();
         }
 
@@ -154,7 +154,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             var result = sheet.Cells["B5"].Value;
             var oaDate = dt.ToOADate();
-            Assert.AreEqual("{TRUE\\\"Katt\";\\;1416\\TRUE;500\\\"\"\"KATTEN\"\"\"}", result);
+            Assert.AreEqual("{TRUE,\"Katt\";,;1416,TRUE;500,\"\"\"KATTEN\"\"\"}", result);
             SwitchBackToCurrentCulture();
         }
     }

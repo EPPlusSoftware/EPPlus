@@ -63,9 +63,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 {
                     var val = range.GetOffset(row, col);
                     string strVal = GetStringVal(val, format); 
-                    var rowDelimiter = separator.Equals(",") ? ';' : ',';
+                    var rowDelimiter = separator.Equals(",") ? ";" : ";"; // Dessa är samma.
+                    var colDelimiter = separator.Equals(",") ? "\\" : ",";
+
                     if (format == ConciceFormat)
                     {
+                        if(separator != ",") { rowDelimiter = colDelimiter; } 
                         result.Append(strVal);
                         if (row == range.Size.NumberOfRows - 1 && col == range.Size.NumberOfCols - 1) continue;
                         result.Append(rowDelimiter + " ");                                                 
@@ -74,7 +77,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                     {
                         // Strict format
                         result.Append(strVal);
-                        var colDelimiter = separator.Equals(",") ? "\\" : ";";
+                        if (row == range.Size.NumberOfRows - 1 && col == range.Size.NumberOfCols - 1) continue;
 
                         if (col < range.Size.NumberOfCols - 1)
                         {
@@ -87,7 +90,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                     }
                 }
             }
-            var resultStr = format == StrictFormat ? result.ToString().TrimEnd(';', ' ') : result.ToString().TrimEnd(',', ' ');
+            //var resultStr = format == StrictFormat ? result.ToString().TrimEnd(';', ' ') : result.ToString().TrimEnd(',', ' ');
+            var resultStr = result.ToString().TrimEnd(' ');
             if (format == StrictFormat)
             {
                 resultStr += "}";
