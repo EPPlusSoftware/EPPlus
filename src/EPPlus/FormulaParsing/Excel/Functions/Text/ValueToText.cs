@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
@@ -43,19 +44,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                     return CompileResult.GetErrorResult(eErrorType.Value);
                 }
             }
-            var val = arguments[0];
-
-            if(format == ConciceFormat)
+            var arg0 = arguments[0];
+            if (arg0.IsExcelRange)
             {
+                var range = arg0.ValueAsRangeInfo;
 
+                var ret = new InMemoryRange(range.Size);
+                
+                return CreateDynamicArrayResult(ret, DataType.ExcelRange);
             }
-            var result = new StringBuilder();
-            if (format == StrictFormat)
+            else
             {
-                result.Append('{');
-            }
-            return CompileResult(result.ToString(), DataType.String);
+                var stringRes = GetStringVal(arg0, format);
+                return CreateResult(stringRes, DataType.String);
+            }            
         }
+
         private static string GetStringVal(object val, int format)
         {
             string strVal = string.Empty;
