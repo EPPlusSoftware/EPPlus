@@ -62,13 +62,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 for (var col = 0; col < range.Size.NumberOfCols; col++)
                 {
                     var val = range.GetOffset(row, col);
-                    string strVal = GetStringVal(val, format); // Lägger dit paranteser, om det ska appliceras runt vår input.
+                    string strVal = GetStringVal(val, format); 
                     var rowDelimiter = separator.Equals(",") ? ';' : ',';
                     if (format == ConciceFormat)
                     {
                         result.Append(strVal);
                         if (row == range.Size.NumberOfRows - 1 && col == range.Size.NumberOfCols - 1) continue;
-                        result.Append(rowDelimiter + " "); // Ändrat från ","                                                
+                        result.Append(rowDelimiter + " ");                                                 
                     }
                     else
                     {
@@ -114,7 +114,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 {
                     var escaped = str.Replace("\"", "\"\"");
                     strVal = $"\"{escaped}\"";
-                    //strVal = $"\"{str}\""; 
                 }
                 else
                 {

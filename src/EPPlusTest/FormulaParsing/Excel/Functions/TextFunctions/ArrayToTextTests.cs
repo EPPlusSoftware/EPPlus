@@ -79,7 +79,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             var dt = new DateTime(2025, 04, 11);
             var oaDate = dt.ToOADate();
             sheet.Cells["A1"].Value = oaDate;
-            //sheet.Cells["A1"].Value = "2025-04-11";
             sheet.Cells["B1"].Value = 1416;
             sheet.Cells["A2"].Value = true;
             sheet.Cells["B2"].Value = "Katt";
