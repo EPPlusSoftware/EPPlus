@@ -18,18 +18,9 @@ using System.Collections.Generic;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfTextLine
+    internal class PdfCellTextLine
     {
-        public string Text;
-        public double TextLength;
-        public double LineHeight;
-        public double FontHeight;
-        public double Offset;
-    }
-
-    internal class PdfCellTextLineItem
-    {
-        public List<PdfCellTextItem> TextItems = new List<PdfCellTextItem>();
+        public List<PdfCellTextItem> TextItemCollection = new List<PdfCellTextItem>();
         public bool IsRichText = false;
         public string Text;
         public double Offset;
@@ -38,9 +29,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
             get
             {
                 double val = 0;
-                foreach (var fd in TextItems)
+                foreach (var tp in TextItemCollection)
                 {
-                    val += fd.TextLength;
+                    val += tp.TextLength;
                 }
                 return val;
             }
@@ -50,9 +41,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
             get
             {
                 double val = 0;
-                foreach (var fd in TextItems)
+                foreach (var tp in TextItemCollection)
                 {
-                    val = fd.LineHeight > val ? fd.LineHeight : val;
+                    val = tp.LineHeight > val ? tp.LineHeight : val;
                 }
                 return val;
             }
@@ -62,9 +53,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
             get
             {
                 double val = 0;
-                foreach (var fd in TextItems)
+                foreach (var tp in TextItemCollection)
                 {
-                    val = fd.FontHeight > val ? fd.FontHeight : val;
+                    val = tp.FontHeight > val ? tp.FontHeight : val;
                 }
                 return val;
             }
@@ -89,6 +80,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double TextLength = 0d;
         public double LineHeight = 0d;
         public double FontHeight = 0d;
+
         public string FullFontName
         { get { return FontName + " " + SubFamily; } }
 
@@ -135,7 +127,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellBorderData Right = new PdfCellBorderData(LineType.Right);
         public PdfCellBorderData DiagonalUp = new PdfCellBorderData(LineType.DiagonalUp);
         public PdfCellBorderData DiagonalDown = new PdfCellBorderData(LineType.DiagonalDown);
-
         public bool[] NeighbourBorder = new bool[8];
 
         public PdfCellBordersData() { }
@@ -158,7 +149,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal const double Small = 1.1d;
         internal const double Medium = 1.5d;
         internal const double Thick = 2.0d;
-
         internal const string NoDash = "[] 0 d";
         internal const string Dotted = "[0 2] 0 d";
         internal const string DashDot = "[4 2 1 2] 0 d";

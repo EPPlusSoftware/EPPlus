@@ -28,7 +28,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 {
     internal class PdfCellContentLayout : PdfTransform, ILayout
     {
-        public List<PdfCellTextLineItem> TextLines = new List<PdfCellTextLineItem>();
+        public List<PdfCellTextLine> TextLines = new List<PdfCellTextLine>();
         public PdfCellAlignmentData CellAlignmentData;
         public bool Clip;
         public PdfRect Clipping;
@@ -45,150 +45,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
             this.cell = cell;
             if (cell.IsRichText)
             {
-                double totalWidth=0;
-                int i = 0;
-                int j = 0;
-                var t = string.Empty;
-                PdfCellTextLineItem lineItem = new PdfCellTextLineItem();
-                lineItem.IsRichText = true;
-                while (i < cell.RichText.Count)
-                {
-                    var rt = cell.RichText[i];
-                    var result = fontMeasurerTrueType.MeasureText(rt.Text, font);
-                    totalWidth += result.Width;
-                    if (width < totalWidth && cell.Style.WrapText)
-                    {
-                        t = string.Empty;
-                        while (j < i)
-                        {
-                            t += cell.RichText[j].Text;
-                            j++;
-                        }
-                        lineItem.Text = t;
-                        j = i - 1;
-                        TextLines.Add(lineItem);
-                        lineItem = new PdfCellTextLineItem();
-                        totalWidth = 0;
-                    }
-                    else
-                    {
-                        PdfCellTextItem FontData = new PdfCellTextItem();
-                        FontData.FontName = rt.FontName;
-                        FontData.FontFamily = rt.Family;
-                        FontData.FontSize = rt.Size;
-                        FontData.Bold = rt.Bold;
-                        FontData.Italic = rt.Italic;
-                        FontData.Strike = rt.Strike;
-                        FontData.Underline = rt.UnderLine;
-                        FontData.UnderlineType = rt.UnderLineType;
-                        FontData.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
-                        FontData.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-                        FontData.FontColor = new PdfColor(rt.Color.R, rt.Color.G, rt.Color.B, rt.Color.A);
-                        FontData.SubFamily = "Regular";
-                        if (FontData.Bold)
-                        {
-                            FontData.SubFamily = "Bold";
-                            if (FontData.Italic)
-                            {
-                                FontData.SubFamily += " Italic";
-                            }
-                        }
-                        else if (FontData.Italic)
-                        {
-                            FontData.SubFamily = "Italic";
-                        }
-                        var otfont = GetFontResourceData(dictionaries.Fonts, pageSettings, FontData);
-                        font.FontFamily = FontData.FontName;
-                        font.Size = (float)FontData.FontSize;
-                        font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
-                                        (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
-                                        (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
-                                        (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
-                                        switch
-                        {
-                            0 => MeasurementFontStyles.Regular,
-                            var s => s
-                        };
-                        FontData.TextLength = result.Width;
-                        FontData.LineHeight = result.Height;
-                        FontData.FontHeight = result.FontHeight;
-                        FontData.Text = rt.Text;
-                        lineItem.TextItems.Add(FontData);
-                        i++;
-                    }
-                }
-                t = string.Empty;
-                while (j < i) 
-                {
-                    t += cell.RichText[j].Text;
-                    j++;
-                }
-                lineItem.Text = t;
-                TextLines.Add(lineItem);
+                HandleRichText(pageSettings, dictionaries, width);
             }
             else
             {
-                PdfCellTextItem FontData = new PdfCellTextItem();
-                FontData.FontName = cell.Style.Font.Name;
-                FontData.FontFamily = cell.Style.Font.Family;
-                FontData.FontSize = cell.Style.Font.Size;
-                FontData.Bold = cell.Style.Font.Bold;
-                FontData.Italic = cell.Style.Font.Italic;
-                FontData.Strike = cell.Style.Font.Strike;
-                FontData.Underline = cell.Style.Font.UnderLine;
-                FontData.UnderlineType = cell.Style.Font.UnderLineType;
-                FontData.SuperScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
-                FontData.SubScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-                FontData.FontColor = new PdfColor(cell.Style.Font.Color.LookupColor());
-                FontData.SubFamily = "Regular";
-                if (FontData.Bold)
-                {
-                    FontData.SubFamily = "Bold";
-                    if (FontData.Italic)
-                    {
-                        FontData.SubFamily += " Italic";
-                    }
-                }
-                else if (FontData.Italic)
-                {
-                    FontData.SubFamily = "Italic";
-                }
-                var otfont = GetFontResourceData(dictionaries.Fonts, pageSettings, FontData);
-                font.FontFamily = FontData.FontName;
-                font.Size = (float)FontData.FontSize;
-                font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
-                                (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
-                                (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
-                                (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
-                                switch
-                {
-                    0 => MeasurementFontStyles.Regular,
-                    var s => s
-                };
-                var result = fontMeasurerTrueType.MeasureText(cell.Text, font);
-                FontData.TextLength = result.Width;
-                FontData.LineHeight = result.Height;
-                FontData.FontHeight = result.FontHeight;
-                PdfCellTextLineItem lineItem = new PdfCellTextLineItem();
-                if (width < FontData.TextLength && cell.Style.WrapText)
-                {
-                    var lines = fontMeasurerTrueType.MeasureAndWrapTextPoints(cell.Text, font, width);
-                    foreach (var line in lines)
-                    {
-                        lineItem.Text = line;
-                        FontData.Text = line;
-                        var r = fontMeasurerTrueType.MeasureText(line, font);
-                        lineItem.TextItems.Add(FontData);
-                        lineItem = new PdfCellTextLineItem();
-                    }
-                }
-                else
-                {
-                    lineItem.Text = cell.Text;
-                    FontData.Text = cell.Text;
-                    lineItem.TextItems.Add(FontData);
-                }
-                TextLines.Add(lineItem);
+                HandleText(pageSettings, dictionaries, width);
             }
             CellAlignmentData = new PdfCellAlignmentData();
             CellAlignmentData.HorizontalAlignment = cell.Style.HorizontalAlignment;
@@ -202,6 +63,157 @@ namespace EPPlus.Export.Pdf.PdfLayout
             LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height); 
             Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y);
             CheckClipping(cell, width);
+        }
+
+        //Handle rich text from cell.
+        private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double width)
+        {
+            int i = 0;
+            int j = 0;
+            double totalWidth = 0;
+            var text = string.Empty;
+            PdfCellTextLine textLine = new PdfCellTextLine();
+            textLine.IsRichText = true;
+            while (i < cell.RichText.Count)
+            {
+                var rt = cell.RichText[i];
+                font.FontFamily = rt.FontName;
+                font.Size = (float)rt.Size;
+                font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
+                              (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
+                              (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
+                              (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
+                              switch
+                              {
+                                  0 => MeasurementFontStyles.Regular,
+                                  var s => s
+                              };
+                var measurement = fontMeasurerTrueType.MeasureText(rt.Text, font);
+                totalWidth += measurement.Width;
+                if (width < totalWidth && cell.Style.WrapText)
+                {
+                    text = string.Empty;
+                    while (j < i)
+                    {
+                        text += cell.RichText[j].Text;
+                        j++;
+                    }
+                    textLine.Text = text;
+                    j = i - 1;
+                    TextLines.Add(textLine);
+                    textLine = new PdfCellTextLine();
+                    totalWidth = 0;
+                }
+                else
+                {
+                    PdfCellTextItem textItem = new PdfCellTextItem();
+                    textItem.Text = rt.Text;
+                    textItem.FontName = rt.FontName;
+                    textItem.FontFamily = rt.Family;
+                    textItem.FontSize = rt.Size;
+                    textItem.Bold = rt.Bold;
+                    textItem.Italic = rt.Italic;
+                    textItem.Strike = rt.Strike;
+                    textItem.Underline = rt.UnderLine;
+                    textItem.UnderlineType = rt.UnderLineType;
+                    textItem.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
+                    textItem.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
+                    textItem.FontColor = new PdfColor(rt.Color.R, rt.Color.G, rt.Color.B, rt.Color.A);
+                    textItem.TextLength = measurement.Width;
+                    textItem.LineHeight = measurement.Height;
+                    textItem.FontHeight = measurement.FontHeight;
+                    textItem.SubFamily = "Regular";
+                    if (textItem.Bold)
+                    {
+                        textItem.SubFamily = "Bold";
+                        if (textItem.Italic)
+                        {
+                            textItem.SubFamily += " Italic";
+                        }
+                    }
+                    else if (textItem.Italic)
+                    {
+                        textItem.SubFamily = "Italic";
+                    }
+                    GetFontResourceData(dictionaries.Fonts, pageSettings, textItem);
+                    textLine.TextItemCollection.Add(textItem);
+                    i++;
+                }
+            }
+            text = string.Empty;
+            while (j < i)
+            {
+                text += cell.RichText[j].Text;
+                j++;
+            }
+            textLine.Text = text;
+            TextLines.Add(textLine);
+        }
+
+        //Handle text from cell.
+        private void HandleText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double width)
+        {
+            PdfCellTextItem textItem = new PdfCellTextItem();
+            font.FontFamily = textItem.FontName;
+            font.Size = (float)textItem.FontSize;
+            font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
+                          (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
+                          (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
+                          (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
+                          switch
+                          {
+                              0 => MeasurementFontStyles.Regular,
+                              var s => s
+                          };
+            var result = fontMeasurerTrueType.MeasureText(cell.Text, font);
+            textItem.TextLength = result.Width;
+            textItem.LineHeight = result.Height;
+            textItem.FontHeight = result.FontHeight;
+            textItem.FontName = cell.Style.Font.Name;
+            textItem.FontFamily = cell.Style.Font.Family;
+            textItem.FontSize = cell.Style.Font.Size;
+            textItem.Bold = cell.Style.Font.Bold;
+            textItem.Italic = cell.Style.Font.Italic;
+            textItem.Strike = cell.Style.Font.Strike;
+            textItem.Underline = cell.Style.Font.UnderLine;
+            textItem.UnderlineType = cell.Style.Font.UnderLineType;
+            textItem.SuperScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
+            textItem.SubScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
+            textItem.FontColor = new PdfColor(cell.Style.Font.Color.LookupColor());
+            textItem.SubFamily = "Regular";
+            if (textItem.Bold)
+            {
+                textItem.SubFamily = "Bold";
+                if (textItem.Italic)
+                {
+                    textItem.SubFamily += " Italic";
+                }
+            }
+            else if (textItem.Italic)
+            {
+                textItem.SubFamily = "Italic";
+            }
+            GetFontResourceData(dictionaries.Fonts, pageSettings, textItem);
+            PdfCellTextLine lineItem = new PdfCellTextLine();
+            if (width < textItem.TextLength && cell.Style.WrapText)
+            {
+                var lines = fontMeasurerTrueType.MeasureAndWrapTextPoints(cell.Text, font, width);
+                foreach (var line in lines)
+                {
+                    lineItem.Text = line;
+                    textItem.Text = line;
+                    var r = fontMeasurerTrueType.MeasureText(line, font);
+                    lineItem.TextItemCollection.Add(textItem);
+                    lineItem = new PdfCellTextLine();
+                }
+            }
+            else
+            {
+                lineItem.Text = cell.Text;
+                textItem.Text = cell.Text;
+                lineItem.TextItemCollection.Add(textItem);
+            }
+            TextLines.Add(lineItem);
         }
 
         //Get font data from fontResources. If font does not exsist, add it to fontResources.
@@ -221,6 +233,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             return fontResources[FontData.FullFontName].fontData;
         }
 
+        //Get the length of the longest line of text.
         private double GetLongestLine()
         {
             double length = 0;
@@ -231,7 +244,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             return length;
         }
 
-
+        //Calculate text position from alignment and offsets for each line of text.
         private Vector2 CalculateAlignmentPositionAndTextOffsets(ExcelRangeBase cell, double cellX, double CellY, double cellWidth, double cellHeight)
         {
             double x = 0d;
@@ -311,95 +324,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
             return new Vector2(x, y-yOffset);
         }
 
-
-        //Calculate text position based on alignment and cell size.
-        private Vector2 CalculatePosition(ExcelRangeBase cell, double cellX, double CellY, double cellWidth, double cellHeight, double textLength, double fontHeight)
-        {
-            /*take a list of strings
-             * one line for each line
-             * calculate text matrix
-             * calculate offset for each line depending on alignment
-             * 
-             * Alignmet coords are calculated from cell left, right and top and bottom
-             * Top for text needs to be at Y = top - firstRowLineHeight - margin
-             * Right for text is X = left + width - margin = right - margin
-             * Left is X = left + margin
-             * Down is Y = down + margin
-             * 
-             * Next step is to take Line heights and text widths into consideration
-             * For Center:
-             * X = X + CellWidth / 2
-             * X = X - TextWidth / 2
-             * 
-             * For Right:
-             * X = X + cellWidth
-             * X = X - TextWidth
-             * 
-             * For Left:
-             * X = X
-             * 
-             * For Top:
-             * Y = Y + CellHeight - FirstLineHeight
-             * 
-             * For Bottom:
-             * Y = Y + AllLineHeightsExceptFirst
-             * 
-             * For Center:
-             * diff = CellHeight - AllLineHeights
-             * Y = Y + diff/2
-             * 
-             * WE need height of each line for Y placement
-             * WE need length of each text line
-             * We need to store the offset for PDF Td operator
-             * 
-             * KEEP IN MIND axis has not been flipped to bottom left yet. We are still in top right. Math may be adjusted
-            */
-
-
-
-
-
-
-            double x = 0d;
-            double y = 0d;
-            switch (CellAlignmentData.HorizontalAlignment)
-            {
-                case ExcelHorizontalAlignment.Fill:
-                case ExcelHorizontalAlignment.General:
-                    if (double.TryParse(cell.Value.ToString(), out double value))
-                    {
-                        x = cellX + (cellWidth - textLength) - rightMargin;
-                    }
-                    else
-                    {
-                        x = cellX + rightMargin;
-                    }
-                    break;
-                case ExcelHorizontalAlignment.Left:
-                    x = cellX + rightMargin;
-                    break;
-                case ExcelHorizontalAlignment.Center:
-                    x = cellX + (cellWidth - textLength) / 2d;
-                    break;
-                case ExcelHorizontalAlignment.Right:
-                    x = cellX + (cellWidth - textLength) - rightMargin;
-                    break;
-            }
-            switch (CellAlignmentData.VerticalAlignment)
-            {
-                case ExcelVerticalAlignment.Top:
-                    y = CellY + fontHeight + bottomMargin;
-                    break;
-                case ExcelVerticalAlignment.Center:
-                    y = CellY + (cellHeight - fontHeight) / 2d + fontHeight;
-                    break;
-                case ExcelVerticalAlignment.Bottom:
-                    y = CellY + (cellHeight - fontHeight) + fontHeight - bottomMargin;
-                    break;
-            }
-            return new Vector2(x, y);
-        }
-
         //Check if clipping is needed.
         private void CheckClipping(ExcelRangeBase cell, double width)
         {
@@ -442,10 +366,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
+        //Convert to pdf coordinates.
         public void ConvertCoordinates(PdfPageSettings pageSettings)
         {
             LocalPosition = new Vector2(LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(LocalPosition.Y));
-            //Convert other coordinates
         }
     }
 }
