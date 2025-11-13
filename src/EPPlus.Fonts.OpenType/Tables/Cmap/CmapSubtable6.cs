@@ -44,6 +44,22 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             return mapping;
         }
 
+
+        internal override int MapCodePointToGlyph(int codePoint)
+        {
+            if (codePoint < FirstCode || codePoint >= FirstCode + EntryCount)
+                return -1; // Not found
+
+            int index = codePoint - FirstCode;
+            if (index >= 0 && index < GlyphIdArray.Length)
+            {
+                return GlyphIdArray[index];
+            }
+
+            return -1;
+        }
+
+
         internal override void Serialize(FontsBinaryWriter writer)
         {
             var serializer = new CmapSubtable6_2Serializer();

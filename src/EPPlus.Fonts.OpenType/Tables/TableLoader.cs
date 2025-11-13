@@ -59,5 +59,10 @@ namespace EPPlus.Fonts.OpenType.Tables
                 }
             }
         }
+
+        public void SetTable(string tableName, T value)
+        {
+            tableCache.AddOrReplace(tableName, value);
+        }
     }
 }

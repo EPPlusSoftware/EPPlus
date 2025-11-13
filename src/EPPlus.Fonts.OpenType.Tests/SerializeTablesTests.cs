@@ -163,40 +163,33 @@ namespace EPPlus.Fonts.OpenType.Tests
         }
 
         [TestMethod]
-        public void SerializeGlyfTable()
+        [DataRow("Roboto", "Regular")]
+        [DataRow("Noto Emoji", "Regular")]
+        [DataRow("EB Garamond", "Regular")]
+        [DataRow("Mulish", "Regular")]
+        public void SerializeGlyfTable(string fontName, string subFamily, string fontFolder = "")
         {
-            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", "Regular");
+            var fontFolders = new List<string> { };
+            if (string.IsNullOrEmpty(fontFolder))
+            {
+                fontFolder = _fontFolder;
+                fontFolders = new List<string> { fontFolder };
+            }
+            else
+            {
+                fontFolders = new List<string> { fontFolder };
+            }
+            if (string.IsNullOrEmpty(fontFolder)) fontFolder = _fontFolder;
+            
+            var sf = FontScanner.ScanFor(fontFolder, fontName, subFamily);
             var originalBytes = sf.GetTableBytes("glyf");
 
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(fontFolders, fontName, subFamily, false);
             var glyfBytes = font.GlyfTable.Serialize();
 
-            ExcelPackage.License.SetNonCommercialPersonal("EPPlus Test");
-            var path = @"c:\Temp\Glyf.xlsx";
-            if (File.Exists(path)) File.Delete(path);
-            using var package = new ExcelPackage();
-            var sheet = package.Workbook.Worksheets.Add("Sheet 1");
-            sheet.Cells[1, 1].Value = "Index";
-            sheet.Cells[1, 2].Value = "Original";
-            sheet.Cells[1, 3].Value = "Serialized";
-            var row = 1;
-            for (var i = 0; i < Math.Min(originalBytes.Length, glyfBytes.Length); i++)
-            {
-                var b1 = originalBytes[i];
-                var b2 = glyfBytes[i];
-                if (b1 != b2)
-                {
-                    row++;
-                    sheet.Cells[row, 1].Value = i;
-                    sheet.Cells[row, 2].Value = b1;
-                    sheet.Cells[row, 3].Value = b2;
-                }
-            }
-            package.SaveAs(path);
-
-            Assert.AreEqual(originalBytes.Length, glyfBytes?.Length);
-            CollectionAssert.AreEqual(originalBytes, glyfBytes);
-        }
+            Assert.AreEqual(originalBytes.Length, glyfBytes?.Length, $"Font {fontName} {subFamily} Length differ ");
+            CollectionAssert.AreEqual(originalBytes, glyfBytes, $"Font {fontName} {subFamily} Bytes differ ");
+        } 
 
         [TestMethod]
         [Ignore("Was only able to find fonts with kern table among Windows fonts. These cannot be distributed with the test project due to licensing.")]

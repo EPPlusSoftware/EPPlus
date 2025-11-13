@@ -42,6 +42,14 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             return mapping;
         }
 
+        internal override int MapCodePointToGlyph(int codePoint)
+        {
+            if (codePoint < 0 || codePoint > 255)
+                return -1; // Utanför intervallet
+
+            return GlyphIdArray[codePoint];
+        }
+
 
         internal override void Serialize(FontsBinaryWriter writer)
         {

@@ -253,5 +253,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
                 writer.WriteUInt16BigEndian(usUpperOpticalPointSize);
             }
         }
+
+        internal override void Clear()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

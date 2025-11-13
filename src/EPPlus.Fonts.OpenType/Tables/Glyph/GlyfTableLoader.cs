@@ -13,6 +13,8 @@
 
 
 using EPPlus.Fonts.OpenType.Tables.Glyph.Serialization;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tables.Glyph
 {
@@ -23,7 +25,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
 
         public GlyfTableLoader(TableLoaderSettings settings) : base(settings, TableNames.Glyf)
         {
-            _glyphOffsets = TableLoaders.GetLocaTableLoader(settings).Load().Offsets;
+            _glyphOffsets = TableLoaders.GetLocaTableLoader(settings).Load().Offsets.ToArray();
             _emptyGlyph = TableLoaders.GetHeadTableLoader(settings).Load().GetDefaultBounds();
             _settings = settings;
         }
@@ -49,7 +51,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
                 glyphs[i] = GlyphDeserializer.Deserialize(_reader);
             }
             _reader.SetContext(string.Empty);
-            return new GlyfTable(_settings) { Glyphs = glyphs };
+            return new GlyfTable(_settings) { Glyphs = new List<Glyph>(glyphs) };
         }
     }
 }

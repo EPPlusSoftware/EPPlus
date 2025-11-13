@@ -17,7 +17,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
     internal class CmapTableLoader : TableLoader<CmapTable>
     {
-        public CmapTableLoader(TableLoaderSettings settings) : base(settings, "cmap")
+        public CmapTableLoader(TableLoaderSettings settings) : base(settings, TableNames.Cmap)
         {
         }
 

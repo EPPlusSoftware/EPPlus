@@ -25,6 +25,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
 
         public NameRecord[] NameRecords { get; set; }
 
+        internal override void Clear()
+        {
+            throw new System.NotImplementedException();
+        }
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {

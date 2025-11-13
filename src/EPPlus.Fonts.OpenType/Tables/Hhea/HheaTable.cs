@@ -92,6 +92,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
         /// </summary>
         public ushort numberOfHMetrics { get; set; }
 
+        internal override void Clear()
+        {
+            throw new System.NotImplementedException();
+        }
+
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
             writer.WriteUInt16BigEndian(majorVersion);

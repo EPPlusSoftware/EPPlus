@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.Tables.Post
 {
@@ -29,9 +30,26 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
         // version 2
 
         public ushort numGlyphs {  get; set; }
-        public ushort[] glyphNameIndex { get; set; }
 
-        public string[] glyphNames { get; set; }
+        public List<ushort> glyphNameIndex { get; set; } = new List<ushort>();
+        public List<string> glyphNames { get; set; } = new List<string>();
+
+
+
+        internal override void Clear()
+        {
+            underlinePosition = 0;
+            underlineThickness = 0;
+            isFixedPitch = 0;
+            minMemType42 = 0;
+            maxMemType42 = 0;
+            minMemType1 = 0;
+            maxMemType1 = 0;
+
+            glyphNameIndex.Clear();
+            glyphNames.Clear();
+        }
+
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
@@ -55,7 +73,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
                 }
 
                 // 2. Write Pascal strings for custom names (index >= 258)
-                for (int i = 0; i < glyphNameIndex.Length; i++)
+                for (int i = 0; i < glyphNameIndex.Count; i++)
                 {
                     ushort index = glyphNameIndex[i];
                     if (index >= 258)

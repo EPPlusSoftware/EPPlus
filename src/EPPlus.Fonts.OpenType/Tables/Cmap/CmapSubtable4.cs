@@ -93,6 +93,30 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             return mapping;
         }
 
+        internal override int MapCodePointToGlyph(int codePoint)
+        {
+            var segCount = EndCode.Length;
+            for (int i = 0; i < segCount; i++)
+            {
+                if (codePoint >= StartCode[i] && codePoint <= EndCode[i])
+                {
+                    if (IdRangeOffset[i] == 0)
+                    {
+                        return (codePoint + IdDelta[i]) & 0xFFFF;
+                    }
+                    else
+                    {
+                        int offset = IdRangeOffset[i] / 2 + (codePoint - StartCode[i]) - (segCount - i);
+                        if (offset >= 0 && offset < GlyphIdArray.Length)
+                        {
+                            return GlyphIdArray[offset];
+                        }
+                    }
+                }
+            }
+            return -1; // Not found
+
+        }
 
         internal override void Serialize(FontsBinaryWriter writer)
         {

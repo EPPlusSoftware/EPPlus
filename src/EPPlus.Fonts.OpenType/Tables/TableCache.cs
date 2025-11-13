@@ -21,6 +21,15 @@ namespace EPPlus.Fonts.OpenType.Tables
             _cachedTables.Add(key, val);
         }
 
+        public void AddOrReplace(string key, object val)
+        {
+            if (_cachedTables.ContainsKey(key))
+            {
+                _cachedTables.Remove(key);
+            }
+            _cachedTables[key] = val;
+        }
+
         public void Clear()
         {
             _cachedTables.Clear();

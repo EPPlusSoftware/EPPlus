@@ -10,6 +10,8 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System.Collections.Generic;
+
 namespace EPPlus.Fonts.OpenType.Tables.Hmtx
 {
     /// <summary>
@@ -21,26 +23,23 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
     /// </summary>
     public class HmtxTable : FontTableBase
     {
-        /// <summary>
-        /// Paired advance width and left side bearing values for each glyph. Records are indexed by glyph ID.
-        /// </summary>
-        public LongHorMetric[] hMetrics { get; set; }
+        public List<LongHorMetric> hMetrics { get; set; } = new List<LongHorMetric>();
+        public List<short> leftSideBearings { get; set; } = new List<short>();
 
-        /// <summary>
-        /// Left side bearings for glyph IDs greater than or equal to numberOfHMetrics.
-        /// </summary>
-        public short[] leftSideBearings { get; set; }
+        internal override void Clear()
+        {
+            hMetrics.Clear();
+            leftSideBearings.Clear();
+        }
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
-            // Write hMetrics: advanceWidth + lsb for each glyph
             foreach (var metric in hMetrics)
             {
                 writer.WriteUInt16BigEndian(metric.advanceWidth);
                 writer.WriteInt16BigEndian(metric.lsb);
             }
 
-            // Write leftSideBearings: only lsb values for glyphs beyond numberOfHMetrics
             foreach (var lsb in leftSideBearings)
             {
                 writer.WriteInt16BigEndian(lsb);

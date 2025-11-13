@@ -11,6 +11,8 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Loca;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tables.Glyph
 {
@@ -30,16 +32,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
         /// <summary>
         /// All glyphs in the font, indexed by glyph ID.
         /// </summary>
-        public Glyph[] Glyphs { get; set; }
+        public List<Glyph> Glyphs { get; set; }
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
-            if (Glyphs == null || Glyphs.Length == 0)
+            if (Glyphs == null || Glyphs.Count == 0)
                 return;
             var locaOffsets = TableLoaders.GetLocaTableLoader(_tableLoaderSettings).Load().Offsets;
             long startPosition = writer.BaseStream.Position;
 
-            for (int i = 0; i < Glyphs.Length; i++)
+            for (int i = 0; i < Glyphs.Count; i++)
             {
                 long glyphStart = writer.BaseStream.Position;
                 Glyph glyph = Glyphs[i];
@@ -50,7 +52,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
                 long glyphEnd = writer.BaseStream.Position;
                 int writtenLength = (int)(glyphEnd - glyphStart);
 
-                if (i + 1 < locaOffsets.Length)
+                if (i + 1 < locaOffsets.Count)
                 {
                     int expectedLength = (int)(locaOffsets[i + 1] - locaOffsets[i]);
 
@@ -64,5 +66,36 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
             }
 
         }
+
+        internal override void Clear()
+        {
+            Glyphs.Clear();
+        }
+
+
+        public void ResolveCompositeGlyphs(HashSet<ushort> glyphSet)
+        {
+            bool addedNew;
+            do
+            {
+                addedNew = false;
+                foreach (var glyphId in glyphSet.ToList())
+                {
+                    var glyph = Glyphs[glyphId];
+                    if (glyph.Header.numberOfContours < 0 && glyph.CompositeData != null)
+                    {
+                        foreach (var component in glyph.CompositeData.Components)
+                        {
+                            if (!glyphSet.Contains(component.GlyphIndex))
+                            {
+                                glyphSet.Add(component.GlyphIndex);
+                                addedNew = true;
+                            }
+                        }
+                    }
+                }
+            } while (addedNew);
+        }
+
     }
 }

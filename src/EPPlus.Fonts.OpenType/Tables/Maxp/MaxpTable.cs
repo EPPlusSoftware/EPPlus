@@ -80,6 +80,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Maxp
 
         public ushort maxComponentDepth { get; set; }
 
+        internal override void Clear()
+        {
+            throw new System.NotImplementedException();
+        }
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
@@ -101,6 +105,28 @@ namespace EPPlus.Fonts.OpenType.Tables.Maxp
                 writer.WriteUInt16BigEndian(maxComponentElements);
                 writer.WriteUInt16BigEndian(maxComponentDepth);
             }
+        }
+
+        public MaxpTable Clone()
+        {
+            return new MaxpTable
+            {
+                version = new Version16Dot16(this.version.RawValue), // Skapa ny instans
+                numGlyphs = this.numGlyphs,
+                maxPoints = this.maxPoints,
+                maxContours = this.maxContours,
+                maxCompositePoints = this.maxCompositePoints,
+                maxCompositeContours = this.maxCompositeContours,
+                maxZones = this.maxZones,
+                maxTwilightPoints = this.maxTwilightPoints,
+                maxStorage = this.maxStorage,
+                maxFunctionDefs = this.maxFunctionDefs,
+                maxInstructionDefs = this.maxInstructionDefs,
+                maxStackElements = this.maxStackElements,
+                maxSizeOfInstructions = this.maxSizeOfInstructions,
+                maxComponentElements = this.maxComponentElements,
+                maxComponentDepth = this.maxComponentDepth
+            };
         }
     }
 }

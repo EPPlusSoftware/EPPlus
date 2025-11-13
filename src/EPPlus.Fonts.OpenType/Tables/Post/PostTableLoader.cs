@@ -47,10 +47,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
             if(post.version.Major == 2 && post.version.Minor == 0)
             {
                 post.numGlyphs = _reader.ReadUInt16BigEndian();
-                post.glyphNameIndex = new ushort[post.numGlyphs];
+                post.glyphNameIndex = new List<ushort>();
                 for(var i = 0; i < post.numGlyphs; i++)
                 {
-                    post.glyphNameIndex[i] = _reader.ReadUInt16BigEndian();
+                    post.glyphNameIndex.Add(_reader.ReadUInt16BigEndian());
                 }
 
                 // Read the Pascal-strings
@@ -63,7 +63,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
                     stringList.Add(str);
                 }
 
-                post.glyphNames = stringList.ToArray();
+                post.glyphNames = stringList;
 
             }
             return post;

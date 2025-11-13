@@ -40,5 +40,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         /// </summary>
         /// <returns></returns>
         public abstract GlyphMappings GetGlyphMappings();
+
+        internal abstract int MapCodePointToGlyph(int codePoint);
     }
 }

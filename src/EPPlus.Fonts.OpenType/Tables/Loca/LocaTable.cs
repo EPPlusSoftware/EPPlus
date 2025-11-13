@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Head;
 using System;
+using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.Tables.Loca
 {
@@ -21,10 +22,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
     /// </summary>
     public class LocaTable : FontTableBase
     {
-        public uint[] Offsets { get; set; }
-
+        public List<uint> Offsets { get; set; } = new List<uint>();
         public HeadTable.IndexToLocFormats IndexToLocFormat { get; set; }
 
+        internal override void Clear()
+        {
+            Offsets.Clear();
+        }
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
@@ -48,6 +52,5 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
                 throw new InvalidOperationException("Unsupported IndexToLocFormat.");
             }
         }
-
     }
 }

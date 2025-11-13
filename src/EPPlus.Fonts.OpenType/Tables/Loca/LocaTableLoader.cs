@@ -51,7 +51,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
             }
             return new LocaTable
             {
-                Offsets = indexes.ToArray(),
+                Offsets = indexes,
                 IndexToLocFormat = headTable.IndexToLocFormat
             };
         }

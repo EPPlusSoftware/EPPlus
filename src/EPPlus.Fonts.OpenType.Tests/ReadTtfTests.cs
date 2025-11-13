@@ -28,7 +28,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var cmap = font.CmapTable;
             Assert.AreEqual("Roboto", font.FullName);
             Assert.AreEqual("Regular", font.SubFamily);
-            Assert.AreEqual(1295, font.GlyfTable.Glyphs.Length);
+            Assert.AreEqual(1295, font.GlyfTable.Glyphs.Count);
         }
 
         [TestMethod]

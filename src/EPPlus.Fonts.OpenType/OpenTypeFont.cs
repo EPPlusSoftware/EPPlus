@@ -268,6 +268,68 @@ namespace EPPlus.Fonts.OpenType
             return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontSubfamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
         }
 
+        internal void ReplaceTable<T>(string tableName, T table)
+            where T : FontTableBase
+        {
+            switch(tableName)
+            {
+                case TableNames.Head:
+                    _headTableLoader.SetTable(TableNames.Head, table as HeadTable);
+                    break;
+                case TableNames.Maxp:
+                    _maxpTableLoader.SetTable(TableNames.Maxp, table as MaxpTable); 
+                    break;
+                case TableNames.Glyf:
+                    _glyfTableLoader.SetTable(TableNames.Glyf, table as GlyfTable);
+                    break;
+                case TableNames.Loca:
+                    _locaTableLoader.SetTable(TableNames.Loca, table as LocaTable);
+                    break;
+                case TableNames.Hmtx:
+                    _hmtxTableLoader.SetTable(TableNames.Hmtx, table as HmtxTable);
+                    break;
+                case TableNames.Cmap:
+                    _cmapTableLoader.SetTable(TableNames.Cmap, table as CmapTable);
+                    break;
+                default:
+                    return;
+            }
+        }
+
+        public OpenTypeFont CreateSubset(IEnumerable<char> usedChars)
+        {
+            // 1. Map chars to glyph IDs
+            var glyphIds = new HashSet<ushort>();
+            foreach (var ch in usedChars)
+            {
+                var glyphId = CmapTable.MapCharToGlyph(ch);
+                if (glyphId >= 0)
+                    glyphIds.Add((ushort)glyphId);
+            }
+            glyphIds.Add(0); // Always include .notdef
+
+            // 2. Handle composite glyphs
+            GlyfTable.ResolveCompositeGlyphs(glyphIds);
+
+            // 3. Create new font instance
+            var subsetFont = new OpenTypeFont(_reader, Format);
+
+            // 4. Copy and filter tables
+            subsetFont.ReplaceTable(TableNames.Head, HeadTable.Clone());
+            subsetFont.ReplaceTable(TableNames.Maxp, MaxpTable.Clone());
+            subsetFont.MaxpTable.numGlyphs = (ushort)glyphIds.Count;
+
+            //subsetFont.ReplaceTable(TableNames.Glyf, GlyfTable.CreateSubset(glyphIds));
+            //subsetFont.LocaTable = this.LocaTable.CreateSubset(glyphIds);
+            //subsetFont.HmtxTable = this.HmtxTable.CreateSubset(glyphIds);
+            //subsetFont.CmapTable = this.CmapTable.CreateSubset(usedChars);
+
+            //// 5. Recalculate checksums
+            //subsetFont.RecalculateChecksums();
+
+            return subsetFont;
+        }
+
         public static bool TryParseEnum<T>(string value, out T result) where T : struct
         {
             try

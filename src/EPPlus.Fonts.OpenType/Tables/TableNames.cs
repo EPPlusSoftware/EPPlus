@@ -12,5 +12,6 @@
         public const string Name = "name";
         public const string Kern = "kern";
         public const string Post = "post";
+        public const string Cmap = "cmap";
     }
 }

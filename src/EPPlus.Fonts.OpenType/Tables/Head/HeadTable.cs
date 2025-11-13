@@ -144,5 +144,37 @@ namespace EPPlus.Fonts.OpenType.Tables.Head
             writer.WriteInt16BigEndian((short)IndexToLocFormat);
             writer.WriteInt16BigEndian(GlyphDataFormat);
         }
+
+        internal override void Clear()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public HeadTable Clone()
+        {
+            return new HeadTable
+            {
+                MajorVersion = this.MajorVersion,
+                MinorVersion = this.MinorVersion,
+                FontRevision = this.FontRevision,
+                ChecksumAdjustment = this.ChecksumAdjustment,
+                MagicNumber = this.MagicNumber,
+                Flags = this.Flags,
+                UnitsPerEm = this.UnitsPerEm,
+                Created = this.Created,
+                Modified = this.Modified,
+                Xmin = this.Xmin,
+                Ymin = this.Ymin,
+                Xmax = this.Xmax,
+                Ymax = this.Ymax,
+                MacStyle = this.MacStyle,
+                LowestRecPPEM = this.LowestRecPPEM,
+                FontDirectionHint = this.FontDirectionHint,
+                IndexToLocFormat = this.IndexToLocFormat,
+                GlyphDataFormat = this.GlyphDataFormat
+            };
+        }
     }
+
+    
 }

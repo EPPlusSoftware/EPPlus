@@ -102,6 +102,20 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         }
 
 
+        public int MapCharToGlyph(char ch)
+        {
+            int codePoint = ch; // Unicode value
+            foreach (var subtable in SubTables)
+            {
+                int glyphId = subtable.MapCodePointToGlyph(codePoint);
+                if (glyphId >= 0)
+                    return glyphId;
+            }
+            return -1; // Not found
+        }
+
+
+
 
         public CmapSubtableBase GetPreferredSubtable()
         {
@@ -129,5 +143,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         }
 
+        internal override void Clear()
+        {
+            NumTables = 0;
+            EncodingRecords.Clear();
+            SubTables.Clear();
+        }
     }
 }

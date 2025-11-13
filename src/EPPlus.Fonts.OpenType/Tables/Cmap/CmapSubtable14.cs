@@ -53,6 +53,26 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             return mapping;
         }
 
+
+        internal override int MapCodePointToGlyph(int codePoint)
+        {
+            foreach (var selector in VariationSelectors)
+            {
+                if (selector.NonDefaultUvsTable != null)
+                {
+                    foreach (var entry in selector.NonDefaultUvsTable.Mappings)
+                    {
+                        if (entry.UnicodeValue == codePoint)
+                        {
+                            return entry.GlyphId;
+                        }
+                    }
+                }
+            }
+            return -1; // Not found
+        }
+
+
         internal override void Serialize(FontsBinaryWriter writer)
         {
             var serializer = new CmapSubtable14Serializer();

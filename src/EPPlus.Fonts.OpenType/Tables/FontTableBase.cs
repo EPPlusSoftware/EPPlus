@@ -21,5 +21,7 @@ namespace EPPlus.Fonts.OpenType.Tables
             SerializeInternal(writer);
         }
         internal abstract void SerializeInternal(FontsBinaryWriter writer);
+
+        internal abstract void Clear();
     }
 }
