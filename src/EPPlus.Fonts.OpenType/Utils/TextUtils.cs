@@ -14,6 +14,11 @@ namespace EPPlus.Fonts.OpenType.Utils
             return pointSize / 72 * 96;
         }
 
+        public static double PointToPixel(this double pointSize, bool isFonts)
+        {
+            return PointToPixel(pointSize);
+        }
+
         public static float PointToPixel(this float pointSize)
         {
             //1 inch is 72 pts. "Inches * dots/inch = dots" aka Pixels

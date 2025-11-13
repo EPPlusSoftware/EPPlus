@@ -82,6 +82,11 @@ namespace EPPlusImageRenderer.Svg
 
         bool IsFirstParagraph = false;
 
+        ITextMeasurerWrap fmtt;
+
+        eDrawingTextLineSpacing lnType;
+        double? lnMultiplier = null;
+
         /// <summary>
         /// First paragraph must use different linespacing
         /// </summary>
@@ -93,7 +98,7 @@ namespace EPPlusImageRenderer.Svg
         /// <param name="isFirstParagraph"></param>
         public SvgParagraph(ExcelDrawingParagraph p, RectBase paragraphArea, string VertAlign, double yPosition, bool isFirstParagraph = false)
         {
-            var fmtt = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
+            fmtt = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
 
             _MeasurementFont = p.DefaultRunProperties.GetMeasureFont();
             fmtt.SetFont(_MeasurementFont);
@@ -120,6 +125,8 @@ namespace EPPlusImageRenderer.Svg
 
             var paragraphHeight = p.GetParagraphHeightInPixels(fmtt, textMaxWidth.PixelToPoint());
             //var paragraphHeight = p.GetParagraphSizeInPixels(textMaxWidth.PixelToPoint());
+
+            lnType = p.LineSpacing.LineSpacingType;
 
             foreach (var run in p.TextRuns)
             {
@@ -163,6 +170,7 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 var multiplier = (p.LineSpacing.Value / 100);
+                lnMultiplier = multiplier;
                 if (IsFirstParagraph)
                 {
                     LineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine().PointToPixel();
@@ -208,6 +216,13 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 textRun = new SvgTextRun(txtRun, lineSpacing, textMaxWidth, clippingHeight, XPos, yPosition);
+
+                //If there are multiple sizes/multiple fonts with multiple sizes
+                //if (lnType != eDrawingTextLineSpacing.Exactly && txtRun.FontSize != _MeasurementFont.Size)
+                if(lnMultiplier.HasValue)
+                {
+                    textRun.AdjustLineSpacing(lnMultiplier.Value);
+                }
             }
 
             TextRuns.Add(textRun);

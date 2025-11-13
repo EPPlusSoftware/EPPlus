@@ -1,6 +1,7 @@
 ﻿using EPPlus.Fonts.OpenType;
 using EPPlusImageRenderer.Text;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
@@ -39,18 +40,24 @@ namespace EPPlus.Export.ImageRenderer.Text
         }
 
 
+        public RectBase GetTextArea()
+        {
+            return GetInnerRect();
+        }
+
+
         //To create a placeholder with default values
         public TextContainer()  : base() 
         {
             ResizeToFit = false;
             MeasurementFont = new MeasurementFont()
             {
-                FontFamily = "Aptos",
+                FontFamily = "Aptos Narrow",
                 Style = MeasurementFontStyles.Regular,
                 Size = 11
             };
 
-            //Excel at 100% size appears to have this pixel right and left for cells
+            //Excel at 100% size appears to have this pixel right and bottom for cells
             Left = 0; Top = 0; Right = 64; Bottom = 20d;
 
             //Initalize margins to 0

@@ -21,6 +21,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -48,17 +49,22 @@ namespace EPPlusImageRenderer.Svg
         string originalText;
 
         double _xPosition;
+
+        string fontStyleAttributes;
+
         /// <summary>
         /// constructor. enter linespacing in pixels
         /// </summary>
         /// <param name="textRun"></param>
         /// <param name="lineSpacing"></param>
-        internal SvgTextRun(ExcelParagraphTextRunBase textRun, double lineSpacing, double textMaxX, double textMaxY, double xPosition, double yPosition , double baselineLineSpacing = double.NaN) : base()
+        internal SvgTextRun(ExcelParagraphTextRunBase textRun, double lineSpacing, double textMaxX, double textMaxY, double xPosition, double yPosition, double baselineLineSpacing = double.NaN) : base()
         {
             originalText = textRun.Text;
             Lines = SplitIntoLines(originalText);
 
             measurementFont = textRun.GetMeasureFont();
+
+            FillColor = textRun.Fill.Color.To6CharHexString();
 
             fmExact = new FontMeasurerTrueType(measurementFont);
 
@@ -75,7 +81,7 @@ namespace EPPlusImageRenderer.Svg
             //origin.X = xPosition;
             //origin.Y = yPosition;
 
-            fontSizeInPixels = ((double)measurementFont.Size).PointToPixel();
+            fontSizeInPixels = ((double)measurementFont.Size).PointToPixel(true);
 
             ClippingHeight = textMaxY;
             //No idea how to get this property now since we have no access to textbody
@@ -83,6 +89,57 @@ namespace EPPlusImageRenderer.Svg
             if (wrapText)
             {
                 CalculateTextWrapping(textMaxX);
+            }
+
+            if (textRun.FontItalic)
+            {
+                fontStyleAttributes += " font-style=\"italic\" ";
+            }
+            if(textRun.FontBold)
+            {
+                fontStyleAttributes += "font-weight=\"bold\" ";
+            }
+            if(textRun.FontUnderLine != eUnderLineType.None | textRun.FontStrike != eStrikeType.No)
+            {
+
+                fontStyleAttributes += "text-decoration=\"";
+                if (textRun.FontUnderLine != eUnderLineType.None)
+                {
+                    switch (textRun.FontUnderLine)
+                    {
+                        case eUnderLineType.Single:
+                            fontStyleAttributes += "underline";
+                            break;
+                        //These are all css only apparently
+                        //case eUnderLineType.Double:
+                        //    fontStyleAttributes += "double";
+                        //    break;
+                        //case eUnderLineType.Dotted:
+                        //    fontStyleAttributes += "dotted";
+                        //    break;
+                        //case eUnderLineType.Dash:
+                        //    fontStyleAttributes += "dashed";
+                        //    break;
+                        //case eUnderLineType.Wavy:
+                        //    fontStyleAttributes += "wavy";
+                        //    break;
+                        default:
+                            fontStyleAttributes += "underline";
+                            break;
+                            //throw new NotImplementedException("Not implemented yet");
+                    }
+                }
+                
+                if(textRun.FontStrike == eStrikeType.Single)
+                {
+                    if(textRun.FontUnderLine != eUnderLineType.None)
+                    {
+                        fontStyleAttributes += ",";
+                    }
+                    fontStyleAttributes += "line-through";
+                }
+
+                fontStyleAttributes += "\" ";
             }
         }
 
@@ -96,15 +153,15 @@ namespace EPPlusImageRenderer.Svg
 
             horizontalTextAlignment = (eTextAlignment)horAlign;
 
-            LineSpacingPerNewLine = fmExact.GetSingleLineSpacing().PointToPixel();
+            LineSpacingPerNewLine = fmExact.GetSingleLineSpacing().PointToPixel(true);
 
             //Used for the first line
-            BaselineSpacing = fmExact.GetBaseLine().PointToPixel();
+            BaselineSpacing = fmExact.GetBaseLine().PointToPixel(true);
 
             _xPosition = xPosition;
             _yPosition = yPosition;
 
-            fontSizeInPixels = ((double)mf.Size).PointToPixel();
+            fontSizeInPixels = ((double)mf.Size).PointToPixel(true);
 
             ClippingHeight = textMaxY;
             //No idea how to get this property now since we have no access to textbody
@@ -115,6 +172,10 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
+        internal void AdjustLineSpacing(double lineMultiplier)
+        {
+            LineSpacingPerNewLine = lineMultiplier * fmExact.GetSingleLineSpacing().PointToPixel(true);
+        }
 
         public RectBase textArea;
 
@@ -131,7 +192,7 @@ namespace EPPlusImageRenderer.Svg
                 var yIncrease = isFirst && useBaselineSpacing ? BaselineSpacing : LineSpacingPerNewLine;
                 isFirst = false;
 
-                yIncrease = TextUtils.RoundToWhole(yIncrease);
+                yIncrease = EPPlus.Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
 
                 _yPosition += yIncrease;
                 string visibility = "";
@@ -142,7 +203,12 @@ namespace EPPlusImageRenderer.Svg
 
                 var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
 
-                finalString += $"<tspan {visibility} x=\"{(_xPosition).ToString(CultureInfo.InvariantCulture)}\" font-size=\"{(fontSizeInPixels).ToString(CultureInfo.InvariantCulture)}px\" dy=\"{yIncreaseString}px\">";
+                finalString += $"<tspan {visibility} x=\"{(_xPosition).ToString(CultureInfo.InvariantCulture)}\" dy=\"{yIncreaseString}px\" " + $"{fontStyleAttributes}";
+                if (measurementFont != null)
+                {
+                    finalString += $"font-family=\"{measurementFont.FontFamily},{measurementFont.FontFamily}_MSFontService,sans-serif\" " + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\"";
+                }
+                finalString += ">";
                 finalString += line;
                 finalString += "</tspan>";
             }
@@ -227,7 +293,7 @@ namespace EPPlusImageRenderer.Svg
         }
         internal double CalculateBottomPositionInPixels()
         {
-            var lineSize = ((double)measurementFont.Size).PointToPixel() + origin.Y;
+            var lineSize = ((double)measurementFont.Size).PointToPixel(true) + origin.Y;
             var bottomPosition = lineSize * GetNumberOfLines();
             return bottomPosition;
         }
