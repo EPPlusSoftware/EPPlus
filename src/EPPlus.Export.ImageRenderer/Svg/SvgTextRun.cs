@@ -64,7 +64,10 @@ namespace EPPlusImageRenderer.Svg
 
             measurementFont = textRun.GetMeasureFont();
 
-            FillColor = textRun.Fill.Color.To6CharHexString();
+            if(textRun.HasFill())
+            {
+                FillColor = textRun.Fill.Color.To6CharHexString();
+            }
 
             fmExact = new FontMeasurerTrueType(measurementFont);
 
@@ -203,11 +206,16 @@ namespace EPPlusImageRenderer.Svg
 
                 var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
 
-                finalString += $"<tspan {visibility} x=\"{(_xPosition).ToString(CultureInfo.InvariantCulture)}\" dy=\"{yIncreaseString}px\" " + $"{fontStyleAttributes}";
+                finalString += $"<tspan {visibility} x=\"{(_xPosition).ToString(CultureInfo.InvariantCulture)}\" dy=\"{yIncreaseString}px\" " + $"{fontStyleAttributes}" ;
                 if (measurementFont != null)
                 {
-                    finalString += $"font-family=\"{measurementFont.FontFamily},{measurementFont.FontFamily}_MSFontService,sans-serif\" " + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\"";
+                    finalString += $"font-family=\"{measurementFont.FontFamily},{measurementFont.FontFamily}_MSFontService,sans-serif\" " + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
                 }
+                sb.Append(finalString);
+                //Get color etc.
+                base.Render(sb);
+                finalString = "";
+
                 finalString += ">";
                 finalString += line;
                 finalString += "</tspan>";

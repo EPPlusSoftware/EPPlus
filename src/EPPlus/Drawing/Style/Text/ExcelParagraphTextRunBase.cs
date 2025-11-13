@@ -102,6 +102,15 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
+        /// <summary>
+        /// Check if textrun has a Fill property as Accessing "Fill" creates a fill
+        /// </summary>
+        /// <returns></returns>
+        public bool HasFill()
+        {
+            return _fill != null;
+        }
+
         ////Below is quick-access to the drawing fill
         //string _colorPath = "a:rPr/a:solidFill/a:srgbClr/@val";
         ///// <summary>
