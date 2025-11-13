@@ -221,7 +221,10 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     if (useModifiedMatrix) commands.Add($"{textRunMatrix.A.ToPdfString()} {textRunMatrix.B.ToPdfString()} {textRunMatrix.C.ToPdfString()} {textRunMatrix.D.ToPdfString()} {textRunMatrix.E.ToPdfString()} {textRunMatrix.F.ToPdfString()} Tm");
                     useModifiedMatrix = false;
                 }
-                lineMatrix = textRunMatrix * Matrix3x3.Translation(-lineLength, -Line.LineHeight);
+                if (j + 1 < cell.TextLines.Count)
+                {
+                    lineMatrix = textRunMatrix * Matrix3x3.Translation(-lineLength + cell.TextLines[j + 1].Offset, -cell.TextLines[j + 1].LineHeight);
+                }
                 commands.Add("ET");
             }
             commands.Add("Q");
