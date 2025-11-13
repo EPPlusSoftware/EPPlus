@@ -292,6 +292,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["growth"] = new Growth();
 
             // Information
+            Functions["base"] = new Base();
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
             Functions["istext"] = new IsText();

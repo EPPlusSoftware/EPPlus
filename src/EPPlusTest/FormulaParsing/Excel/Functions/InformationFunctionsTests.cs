@@ -351,5 +351,35 @@ namespace EPPlusTest.Excel.Functions
                 Assert.AreEqual(2, sheet.Cells["A1"].Value);
             }
         }
+
+        [TestMethod]
+        public void BaseShouldReturnCorrectResult()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 6;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Formula = "BASE(A1, A2)";
+                sheet.Calculate();
+                var result = sheet.Cells["A3"].Value;
+                Assert.AreEqual("110", result);
+            }
+        }
+
+        [TestMethod]
+        public void BaseShouldReturnCorrectResult2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 400;
+                sheet.Cells["A2"].Value = 36;
+                sheet.Cells["A3"].Formula = "BASE(A1, A2)";
+                sheet.Calculate();
+                var result = sheet.Cells["A3"].Value;
+                Assert.AreEqual("B4", result);
+            }
+        }
     }
 }
