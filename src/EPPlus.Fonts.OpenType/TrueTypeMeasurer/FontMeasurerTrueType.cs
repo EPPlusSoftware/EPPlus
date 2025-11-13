@@ -117,6 +117,11 @@ namespace EPPlus.Fonts.OpenType
             return _widthInPoints.PointToPixel();
         }
 
+        public double GetMinXInPixels()
+        {
+            return ((Math.Abs((double)167)/2048d) * FontSize).PointToPixel();
+        }
+
         /// <summary>
         /// Gets the height of a bounding box that can contain every glyph in the font.
         /// Nothing should be able to go beyond this height unless we've missed some edge-case.

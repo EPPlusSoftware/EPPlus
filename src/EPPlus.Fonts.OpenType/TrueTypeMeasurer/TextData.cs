@@ -330,7 +330,7 @@ namespace EPPlus.Fonts.OpenType
                     advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
                 }
 
-                if (wrapText && (c == '\n' || c == '\r'))
+                if ((c == '\n' || c == '\r'))
                 {
                     if (i > 0 && c == '\r' && text[i - 1] == '\n')
                     {
