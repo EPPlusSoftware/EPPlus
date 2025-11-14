@@ -451,32 +451,36 @@ namespace OfficeOpenXml.Drawing
                 //For each line in each linebreak
                 foreach (var line in lines)
                 {
-                    var measurementFont = txtRun.GetMeasurementFont();
-                    //Get the length/height of the line via the font of the textRun
-                    var measurement = measurer.MeasureText(line, measurementFont);
-
-                    //If text wrapping is on each of the broken lines could potentially be wrapped
-                    List<string> finalLines = new List<string>();
-                    if (maxWidth != 0)
+                    //Despite new textrun it could still be on the same line as previous textrun
+                    if (line != lines[0] | txtRun.IsFirstInParagraph)
                     {
-                        var maxWidthInPixels = (maxWidth / 72d) * 96d;
-                        finalLines = measurer.MeasureAndWrapText(line, measurementFont, maxWidthInPixels);
-                    }
-                    else
-                    {
-                        finalLines.Add(line);
-                    }
+                        var measurementFont = txtRun.GetMeasurementFont();
+                        //Get the length/height of the line via the font of the textRun
+                        var measurement = measurer.MeasureText(line, measurementFont);
+
+                        //If text wrapping is on each of the broken lines could potentially be wrapped
+                        List<string> finalLines = new List<string>();
+                        if (maxWidth != 0)
+                        {
+                            var maxWidthInPixels = (maxWidth / 72d) * 96d;
+                            finalLines = measurer.MeasureAndWrapText(line, measurementFont, maxWidthInPixels);
+                        }
+                        else
+                        {
+                            finalLines.Add(line);
+                        }
 
 
-                    //Could be just one line or mutliple lines.
-                    //Re-use same collection to avoid code repetition.
-                    //Line-spacing should be applied for each line
-                    foreach (var fLine in finalLines)
-                    {
-                        //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
-                        var lineSpacing = GetParagraphLineSpacing(measurer, isFirstLine);
-                        paragraphHeight += lineSpacing;
-                        isFirstLine = false;
+                        //Could be just one line or mutliple lines.
+                        //Re-use same collection to avoid code repetition.
+                        //Line-spacing should be applied for each line
+                        foreach (var fLine in finalLines)
+                        {
+                            //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
+                            var lineSpacing = GetParagraphLineSpacing(measurer, isFirstLine);
+                            paragraphHeight += lineSpacing;
+                            isFirstLine = false;
+                        }
                     }
                 }
             }

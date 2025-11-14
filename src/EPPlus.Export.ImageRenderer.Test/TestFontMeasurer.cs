@@ -64,5 +64,43 @@ namespace TestProject1
             Assert.AreEqual("hello the", strings[0]);
             Assert.AreEqual("most", strings[1]);
         }
+
+        [TestMethod]
+        public void TestWrapTextLongContinous()
+        {
+            string testString = "Hello World! a b c d e f g h i j k l m n o p q r s t u v w x y z \r\n" +
+                   "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z " +
+                   "Sooooo " +
+                   "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " +
+                   "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB" +
+                   "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC";
+            string fontName = "Aptos Narrow";
+            double fontSize = 11.0d;
+            //double MaxPixelWidth = 750d;
+            double MaxPixelWidth = 750d;
+
+            MeasurementFont mf = new MeasurementFont()
+            {
+                FontFamily = fontName,
+                Size = (float)fontSize,
+                Style = MeasurementFontStyles.Regular
+            };
+            FontMeasurerTrueType fontMeasurer = new FontMeasurerTrueType(fontSize, fontName);
+            var strings = fontMeasurer.MeasureAndWrapText(testString, mf, MaxPixelWidth);
+
+            Assert.AreEqual("Hello World! a b c d e f g h i j k l m n o p q r s t u v w x y z ", strings[0]);
+            Assert.AreEqual("A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Sooooo", strings[1]);
+            string actual = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            string left=    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+            Assert.AreEqual("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", strings[2]);
+            string actual2 = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            Assert.AreEqual("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", strings[3]);
+            Assert.AreEqual("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", strings[4]);
+            Assert.AreEqual("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", strings[5]);
+            Assert.AreEqual("BBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC", strings[6]);
+            Assert.AreEqual("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC", strings[7]);
+            Assert.AreEqual("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC", strings[8]);
+        }
     }
 }

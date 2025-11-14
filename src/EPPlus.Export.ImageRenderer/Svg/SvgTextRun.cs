@@ -52,6 +52,8 @@ namespace EPPlusImageRenderer.Svg
 
         string fontStyleAttributes;
 
+        bool isFirstInParagraph;
+
         /// <summary>
         /// constructor. enter linespacing in pixels
         /// </summary>
@@ -64,9 +66,11 @@ namespace EPPlusImageRenderer.Svg
 
             measurementFont = textRun.GetMeasureFont();
 
+            isFirstInParagraph = textRun.IsFirstInParagraph;
+
             if(textRun.HasFill())
             {
-                FillColor = textRun.Fill.Color.To6CharHexString();
+                FillColor = "#"+textRun.Fill.Color.To6CharHexString();
             }
 
             fmExact = new FontMeasurerTrueType(measurementFont);
@@ -187,26 +191,34 @@ namespace EPPlusImageRenderer.Svg
         public override void Render(StringBuilder sb)
         {
             string finalString = "";
-            bool isFirst = true;
             bool useBaselineSpacing = double.IsNaN(BaselineSpacing) == false;
 
             foreach (var line in Lines)
             {
-                var yIncrease = isFirst && useBaselineSpacing ? BaselineSpacing : LineSpacingPerNewLine;
-                isFirst = false;
-
-                yIncrease = EPPlus.Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
-
-                _yPosition += yIncrease;
+                finalString += $"<tspan ";
                 string visibility = "";
-                if (_yPosition >= ClippingHeight)
+                //Despite new textrun it could still be on the same line as previous textrun
+                if (line != Lines[0] | isFirstInParagraph)
                 {
-                    visibility = "display=\"none\"";
+                    var yIncrease = isFirstInParagraph && useBaselineSpacing ? BaselineSpacing : LineSpacingPerNewLine;
+                    isFirstInParagraph = false;
+
+                    yIncrease = EPPlus.Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
+
+                    _yPosition += yIncrease;
+                    if (_yPosition >= ClippingHeight)
+                    {
+                        visibility = "display=\"none\"";
+                    }
+
+                    var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
+                    var xString = $"x =\"{(_xPosition).ToString(CultureInfo.InvariantCulture)}\" ";
+                    var dyString = $"dy =\"{yIncreaseString}px\" ";
+                    finalString += xString;
+                    finalString += dyString;
                 }
 
-                var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
-
-                finalString += $"<tspan {visibility} x=\"{(_xPosition).ToString(CultureInfo.InvariantCulture)}\" dy=\"{yIncreaseString}px\" " + $"{fontStyleAttributes}" ;
+                finalString += $"{visibility}" + $"{fontStyleAttributes}" ;
                 if (measurementFont != null)
                 {
                     finalString += $"font-family=\"{measurementFont.FontFamily},{measurementFont.FontFamily}_MSFontService,sans-serif\" " + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
