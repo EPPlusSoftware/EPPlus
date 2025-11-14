@@ -117,14 +117,18 @@ namespace OfficeOpenXml.Data.Connection
             var extNode = _xml.CreateNode("d:extLst/d:ext/x15:connection");
             ((XmlElement)extNode.ParentNode).SetAttribute("uri", ExtLstUris.Connection2010Uri);
             var extXml = XmlHelperFactory.Create(_xml.NameSpaceManager, extNode);
-            extXml.SetXmlNodeString("@id", item.DataModel.Id, false);
-            extXml.SetXmlNodeBool("@model", item.DataModel.IsModel, false);
-
             //Non-data model properties.
             extXml.SetXmlNodeBool("@excludeFromRefreshAll", item.ExcludeFromRefreshAll, false);
             extXml.SetXmlNodeBool("@autoDelete", item.AutoDelete, false);
             extXml.SetXmlNodeBool("@usedByAddin", item.UsedByAddin, false);
+            if (item.DataModel == null)
+            {
+                extXml.SetXmlNodeString("@id", "", false);
+                return;
+            }
 
+            extXml.SetXmlNodeString("@id", item.DataModel.Id, false);
+            extXml.SetXmlNodeBool("@model", item.DataModel.IsModel, false);
 
             if (item.DataModel.OleDbProperties != null && item.Type == eConnectionDataSourceType.DataModelOLEDB)
             {
@@ -331,7 +335,7 @@ namespace OfficeOpenXml.Data.Connection
             SaveOlapProperties(item.OlapProperties);
             SaveWebProperties(item.WebProperties);
             SaveTextProperties(item.TextProperties);
-            if(item.DataModel!=null)
+            if(item.DataModel!=null || item.AutoDelete || item.ExcludeFromRefreshAll || item.UsedByAddin)
             {
                 SaveExtLst(item);
             }

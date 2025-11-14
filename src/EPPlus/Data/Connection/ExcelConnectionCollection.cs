@@ -177,7 +177,17 @@ namespace OfficeOpenXml.Data.Connection
         /// Adds a connection to a text file data source.
         /// </summary>
         /// <param name="name">The name of the connection</param>
-        /// <param name="sourceFile">The path to the text file to use to import external data. Can be expressed in URI or systemspecific file path notation.</param>
+        /// <param name="sourceFile">The path to the text file to use to import external data. Can be expressed in URI or system specific file path notation.</param>
+        /// <returns>The connection</returns>
+        public ExcelConnection AddText(string name, FileInfo sourceFile)
+        {
+            return AddText(name, sourceFile.FullName);
+        }
+        /// <summary>
+        /// Adds a connection to a text file data source.
+        /// </summary>
+        /// <param name="name">The name of the connection</param>
+        /// <param name="sourceFile">The path to the text file to use to import external data. Can be expressed in URI or system specific file path notation.</param>
         /// <returns>The connection</returns>
         public ExcelConnection AddText(string name, string sourceFile)
         {

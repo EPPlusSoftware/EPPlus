@@ -12,11 +12,15 @@
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Data.CustomXml;
+using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -29,12 +33,26 @@ namespace OfficeOpenXml.Data.Connection
     /// </summary>
     public class ExcelPowerQuerySettings
     {
+        XmlNamespaceManager _nsm;
         internal ExcelPowerQuerySettings()
         {
+            _nsm = CreateNsm();
         }
+
+        private XmlNamespaceManager CreateNsm()
+        {
+            var nsm = new XmlNamespaceManager(new NameTable());
+            nsm.AddNamespace("d", "http://schemas.microsoft.com/DataMashup");
+            nsm.AddNamespace("xsd", "http://www.w3.org/2001/XMLSchema");
+            nsm.AddNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            return nsm;
+        }
+
+
         internal ExcelPowerQuerySettings(byte[] blob)
         {
-            File.WriteAllBytes(@"c:\temp\pq\blob.bin", blob);
+            //File.WriteAllBytes(@"c:\temp\pq\blob.bin", blob);
+            _nsm = CreateNsm();
 
             using var ms = new MemoryStream(blob);
             var br = new BinaryReader(ms);
@@ -42,7 +60,7 @@ namespace OfficeOpenXml.Data.Connection
             var size = br.ReadInt32();
             var pck = br.ReadBytes((int)size);
 
-            File.WriteAllBytes(@"c:\temp\pq\pck.zip", pck);
+            //File.WriteAllBytes(@"c:\temp\pq\pck.zip", pck);
             PQPackage = new ZipPackage(new MemoryStream(pck));
             ZipPackagePart section1MPart;
 
@@ -57,28 +75,26 @@ namespace OfficeOpenXml.Data.Connection
 
             var configPart = PQPackage.GetPart(new Uri("/config/package.xml", UriKind.Relative));
             var cms = configPart.GetStream();
-            PackageConfigXml = new XmlDocument();
-            XmlHelper.LoadXmlSafe(PackageConfigXml, cms);
 
+            reader = new StreamReader(cms, Encoding.UTF8);
+            LoadPackageInfo(reader.ReadToEnd());
+            
             size = br.ReadInt32();
             var permBytes = br.ReadBytes((int)size);
-            File.WriteAllBytes(@"c:\temp\pq\perm.xml", permBytes);
+            //File.WriteAllBytes(@"c:\temp\pq\perm.xml", permBytes);
             var permissionXml = Encoding.UTF8.GetString(permBytes);
-            PermissionsXml = new XmlDocument();
-            XmlHelper.LoadXmlSafe(PermissionsXml, permissionXml, Encoding.UTF8);
-
+            LoadPermissions(permissionXml);
+            
             size = br.ReadInt32();
             version = br.ReadInt32();
             size = br.ReadInt32();
             var metadataXml = Encoding.UTF8.GetString(br.ReadBytes((int)size));
-            File.WriteAllText(@"c:\temp\pq\md.xml", metadataXml);
-            size = br.ReadInt32();
-            MetadataXml = new XmlDocument();
-            XmlHelper.LoadXmlSafe(MetadataXml, metadataXml, Encoding.UTF8);
-
+            LoadMetadataXml(metadataXml);
+            
+            size = br.ReadInt32();            
             MetadataContentPackage = br.ReadBytes((int)size);
             size = br.ReadInt32();
-            File.WriteAllBytes(@"c:\temp\pq\mdcp.zip", MetadataContentPackage);
+            //File.WriteAllBytes(@"c:\temp\pq\mdcp.zip", MetadataContentPackage);
 
             var packageBinding = br.ReadBytes((int)size);
             // Data protection (DPAPI) only works in windows as it's tied to the current user.
@@ -95,6 +111,98 @@ namespace OfficeOpenXml.Data.Connection
             //            var calcHash2 = sha.ComputeHash(permBytes);
             //#endif
         }
+        internal XmlHelper _permissionsXh;
+        internal XmlHelper _packageInfoXh;
+        internal XmlHelper _metaDataXh;
+        private void LoadPackageInfo(string xml)
+        {
+            var xmlDoc = new XmlDocument();
+            XmlHelper.LoadXmlSafe(xmlDoc, xml, Encoding.UTF8);
+            _packageInfoXh = XmlHelperFactory.Create(_nsm, xmlDoc.DocumentElement);
+            Version = _packageInfoXh.GetXmlNodeString("Version");
+            MinimumVersion = _packageInfoXh.GetXmlNodeString("MinVersion");
+            CultureCode = _packageInfoXh.GetXmlNodeString("Culture");
+        }
+        private void SavePackageInfo()
+        {
+            _packageInfoXh.SetXmlNodeString("Version", Version);
+            _packageInfoXh.SetXmlNodeString("MinVersion", MinimumVersion);
+            if (string.IsNullOrEmpty(CultureCode))
+            {
+                CultureCode = Thread.CurrentThread.CurrentCulture.Name;
+            }
+            _packageInfoXh.SetXmlNodeString("Culture", CultureCode);
+        }
+        private void LoadPermissions(string xml)
+        {
+            var xmlDoc = new XmlDocument();
+            XmlHelper.LoadXmlSafe(xmlDoc, xml, Encoding.UTF8);
+            _permissionsXh = XmlHelperFactory.Create(_nsm, xmlDoc.DocumentElement);
+            Permissions = new ExcelPowerQueryPermissions();
+            Permissions.CanEvaluateFuturePackages = _permissionsXh.GetXmlNodeBool("CanEvaluateFuturePackages");
+            Permissions.FirewallEnabled = _permissionsXh.GetXmlNodeBool("FirewallEnabled");
+            Permissions.PrivacyLevel = _permissionsXh.GetXmlEnum("WorkbookGroupType", eWorkbookGroupType.None);
+        }
+        private void SavePermissions()
+        {
+            _permissionsXh.SetXmlNodeBool("CanEvaluateFuturePackages", Permissions.CanEvaluateFuturePackages);
+            _permissionsXh.SetXmlNodeBool("FirewallEnabled", Permissions.FirewallEnabled);
+            _permissionsXh.SetXmlNodeString("WorkbookGroupType", Permissions.PrivacyLevel.ToEnumString(eWorkbookGroupType.None), true);
+        }
+        /// <summary>
+        /// Loads meta data from a xml document formatted according to the MS-QDEFF docmument - section 2.5.1.
+        /// See also <seealso cref="MetadataXml"/>
+        /// </summary>
+        /// <param name="xml">The xml document</param>
+        /// <exception cref="ArgumentException">If the xml fails to load or does not contain any items.</exception>
+        public void LoadMetadataXml(string xml)
+        {
+            MetadataXml = new XmlDocument();
+            try
+            {
+                XmlHelper.LoadXmlSafe(MetadataXml, xml, Encoding.UTF8);
+            }
+            catch(Exception ex)
+            {
+                throw new ArgumentException("The xml supplied failed to load. See inner exception for more details", ex);
+            }
+
+            _metaDataXh = XmlHelperFactory.Create(_nsm, MetadataXml.DocumentElement);
+            var culture = new CultureInfo(CultureCode);
+            MetadataItems.Clear();
+            foreach (XmlNode n in _metaDataXh.GetNodes("Items/Item"))
+            {
+                MetadataItems.Add(new ExcelPowerQueryMetadataItem(_nsm, n, culture));
+            }
+            if (MetadataItems.Count == 0)
+            {                
+                LoadMetadataXml(defaultMetadataXml);
+                throw (new ArgumentException("The meta data xml must contain at least one item. "));
+            }
+        }
+        private void SaveMetaData()
+        {
+            var itemsNode = _metaDataXh.GetNode("Items");
+            itemsNode.InnerXml = "";
+            var culture = new CultureInfo(CultureCode);
+
+            foreach (var item in MetadataItems)
+            {
+                var itemNode = _metaDataXh.CreateNode("Items/Item", false, true);
+                var itemXh = XmlHelperFactory.Create(_nsm, itemNode);
+                itemXh.SetXmlNodeString("ItemLocation/ItemType", item.ItemType.ToString());
+                itemXh.SetXmlNodeString("ItemLocation/ItemPath", item.ItemPath);
+
+                itemXh.CreateNode("StableEntries");
+                foreach(var entry in item.Entries)
+                {
+                    XmlElement e = (XmlElement)itemXh.CreateNode("StableEntries/Entry", false, true);
+                    e.SetAttribute("Type", entry.EntryType);
+                    e.SetAttribute("Value", entry.GetValueAsText(culture));
+                }
+            }
+        }
+
         internal void Save(ExcelCustomXmlCollection customXml)
         {
             var cx = customXml.FirstOrDefault(x => x.SchemasReferences.Contains(Schemas.schemaDataMashup));
@@ -105,6 +213,9 @@ namespace OfficeOpenXml.Data.Connection
                 return;
             }
 
+            SavePackageInfo();
+            SavePermissions();
+            SaveMetaData();
             ZipPackagePart sectionMPart;
             if(PQPackage==null)
             {
@@ -140,7 +251,7 @@ namespace OfficeOpenXml.Data.Connection
             bw.Write(0);
             bw.Write(pckbytes.Length);
             bw.Write(pckbytes);
-            var permBytes = Encoding.UTF8.GetBytes(PermissionsXml.OuterXml);
+            var permBytes = Encoding.UTF8.GetBytes(_permissionsXh.TopNode.OwnerDocument.OuterXml);
             bw.Write(permBytes.Length);
             bw.Write(permBytes);
 
@@ -148,7 +259,7 @@ namespace OfficeOpenXml.Data.Connection
             bw.Write(metadataBytes.Length);
             bw.Write(metadataBytes);
 
-            // Permission binding. We set it to empty as DPAPI is only available on Windows.
+            // Permissions binding. We set it to empty as DPAPI is only available on Windows.
             bw.Write(1);
             bw.Write((byte)0);
             bw.Flush();
@@ -162,11 +273,12 @@ namespace OfficeOpenXml.Data.Connection
             customXml.Add(cx);
         }
 
+
         private byte[] GetMetaDataBytes()
         {
             var bw = new BinaryWriter(new MemoryStream());
             bw.Write(0); //Version
-            var mdBytes = Encoding.UTF8.GetBytes(MetadataXml.OuterXml);
+            var mdBytes = Encoding.UTF8.GetBytes(_metaDataXh.TopNode.OwnerDocument.OuterXml);
             bw.Write(mdBytes.Length);
             bw.Write(mdBytes);
             if(MetadataContentPackage == null)
@@ -199,30 +311,33 @@ namespace OfficeOpenXml.Data.Connection
             get; 
             set; 
         }
+        internal string Version { get; set; }
+        internal string MinimumVersion { get; set; }
         /// <summary>
-        /// Permission settings for the Power Query connection. See MS-QDEFF - 2.6
+        /// The culture code used to set parse numbers and dates
         /// </summary>
-        public XmlDocument PermissionsXml
+        public string CultureCode {  get; set; }
+        /// <summary>
+        /// Permission settings
+        /// </summary>
+        public ExcelPowerQueryPermissions Permissions
         {
             get;
             private set;
-        }
-        /// <summary>
-        /// Contains the Xml for the internal package configuration. See MS-QDEFF - 2.3.1
-        /// </summary>
-        public XmlDocument PackageConfigXml
-        {
-            get;
-            private set;
-        }
+        } = null;
+
         /// <summary>
         /// Metadata settings for the Power Query connection. See MS-QDEFF - 2.5.1
         /// </summary>
         public XmlDocument MetadataXml
         {
-            get;            
-            set;
+            get;
+            private set;
         }
+        /// <summary>
+        /// A collection of meta data items to describe the power query formulas.
+        /// </summary>
+        public List<ExcelPowerQueryMetadataItem> MetadataItems { get; } = new List<ExcelPowerQueryMetadataItem>();
         /// <summary>
         /// If any power query settings exists in the package. 
         /// <seealso cref="Create()"/>"/>
@@ -231,9 +346,12 @@ namespace OfficeOpenXml.Data.Connection
         {
             get
             {
-                return PermissionsXml != null;
+                return Permissions != null;
             }
         }
+        const string defaultPackageInfoXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Package xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Version>2.147.503.0</Version><MinVersion>2.21.0.0</MinVersion><Culture>{0}</Culture></Package>";
+        const string defaultPermissionXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><PermissionList xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><CanEvaluateFuturePackages>false</CanEvaluateFuturePackages><FirewallEnabled>true</FirewallEnabled></PermissionList>";
+        const string defaultMetadataXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><LocalPackageMetadataFile xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Items><Item><ItemLocation><ItemType>AllFormulas</ItemType><ItemPath /></ItemLocation><StableEntries><Entry Type=\"Relationships\" Value=\"sAAAAAA==\" /></StableEntries></Item></Items></LocalPackageMetadataFile>";
         /// <summary>
         /// Create the DataMashup xml used for power query setting in the CustomXml. 
         /// This will initialize the PermissionsXml, MetadataXml and Formulas properties with empty settings.
@@ -242,14 +360,13 @@ namespace OfficeOpenXml.Data.Connection
         /// </summary>
         public void Create()
         {
-            if(PermissionsXml!=null)
+            if(Permissions!=null)
             {
                 throw (new InvalidOperationException("Power query settings already exist in the package."));
             }
-            PermissionsXml = new XmlDocument();
-            XmlHelper.LoadXmlSafe(PermissionsXml, "<?xml version=\"1.0\" encoding=\"utf-8\"?><PermissionList xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><CanEvaluateFuturePackages>false</CanEvaluateFuturePackages><FirewallEnabled>true</FirewallEnabled></PermissionList>", Encoding.UTF8);
-            MetadataXml = new XmlDocument();
-            XmlHelper.LoadXmlSafe(MetadataXml, "<?xml version=\"1.0\" encoding=\"utf-8\"?><LocalPackageMetadataFile xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Items><Item><ItemLocation><ItemType>AllFormulas</ItemType><ItemPath /></ItemLocation><StableEntries><Entry Type=\"Relationships\" Value=\"sAAAAAA==\" /></StableEntries></Item></Items></LocalPackageMetadataFile>", Encoding.UTF8);
+            LoadPackageInfo(string.Format(defaultPackageInfoXml, Thread.CurrentThread.CurrentCulture.Name));
+            LoadPermissions(defaultPermissionXml);
+            LoadMetadataXml(defaultMetadataXml);
             Formulas = "section Section1;\n";
         }
     }

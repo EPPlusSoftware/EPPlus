@@ -70,7 +70,6 @@ namespace EPPlusTest.Issues
 				ws.Cells["D4"].Value = 14;
 				ws.Cells["D5"].Value = 15;
 
-
 				p.Workbook.Calculate();
 
 				Assert.AreEqual(10, ws.Cells["A1"].Value);
