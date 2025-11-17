@@ -191,7 +191,7 @@ namespace EPPlus.Fonts.OpenType
         /// <exception cref="Exception"></exception>
         internal static List<string> MeasureAndWrapText(string text, double fontSize, TtfFont fontData, double maxWidth)
         {
-            double totalAdvanceWidth = 0;
+            int totalAdvanceWidth = 0;
             ushort lastGlyphIndex = 0;
             bool firstChar = true;
 
@@ -210,8 +210,7 @@ namespace EPPlus.Fonts.OpenType
             foreach (var line in splitStrings)
             {
                 int nextLineStartIndex = 0;
-                List<int> overWidthIndicies = new List<int>();
-                List<int> NewLineStartIndicies = new List<int>();
+                int totalAdvanceFromLastWord = 0;
 
                 for (int i = 0; i < line.Length; i++)
                 {
@@ -242,10 +241,15 @@ namespace EPPlus.Fonts.OpenType
                         newWidth += kerning;
                     }
 
+                    totalAdvanceFromLastWord += (advanceWidth + kerning);
+
+                    if (c == ' ')
+                    {
+                        totalAdvanceFromLastWord = 0;
+                    }
+
                     if (newWidth > maxWidth)
                     {
-                        overWidthIndicies.Add(i);
-
                         var charCountFromLast = i - nextLineStartIndex;
 
                         var txt = line.Substring(nextLineStartIndex, charCountFromLast);
@@ -265,17 +269,8 @@ namespace EPPlus.Fonts.OpenType
                             //Calculate the new line index
                             nextLineStartIndex = i - stringOverMax.Length;
 
-                            var leftOverInPoints = MeasureText(stringOverMax, fontSize, fontData);
-                            var leftOverInDesignUnits = (leftOverInPoints / fontSize) * (double)fontData.HeadTable.UnitsPerEm;
-
-                            var somePx = leftOverInPoints * 1.33333333333333333333333333333333333333333333;
-
-                            totalAdvanceWidth = leftOverInDesignUnits;
-
-                            ////Inefficent but we have no idea the new line width as we don't store
-                            ////The widths per char. The left over line could be any length less than max lenght.
-                            ////Only way to know is to count again from It's start. Unless we logged current width at each index.
-                            //i = previousLineIndex;
+                            //In this case we do not count current character as that is part of next line
+                            totalAdvanceWidth = totalAdvanceFromLastWord - advanceWidth;
                         }
                         else
                         {
@@ -299,19 +294,12 @@ namespace EPPlus.Fonts.OpenType
                                 wrappedStrings.Add(wrappedString);
                                 //The current character is part of the new line
                                 //We should start at the index of the current character and add its width to the new line
-                                nextLineStartIndex = i-1;
+                                nextLineStartIndex = i -1;
                                 totalAdvanceWidth = advanceWidth;
                             }
-                            //var someText = txt.Remove(charCountFromLast -1); /*txt.Remove(charCountFromLast-1);*/
-                            //wrappedStrings.Add(someText);
-                            //previousLineIndex = c == ' ' ? i + 1 : i -1;
-                            //totalAdvanceWidth = advanceWidth;
                         }
-                        NewLineStartIndicies.Add(nextLineStartIndex);
-                        //if(wrappedStrings.Last() == "" | wrappedStrings.Last() == "S")
-                        //{
-                        //    string errorText = "error";
-                        //}
+                        //New line means both totals are equal
+                        totalAdvanceFromLastWord = totalAdvanceWidth;
                     }
                     else
                     {
@@ -323,10 +311,6 @@ namespace EPPlus.Fonts.OpenType
                 }
 
                 var remainingLine = line.Substring(nextLineStartIndex);
-                //if(remainingLine == "")
-                //{
-                //    string errorText = "error";
-                //}
                 wrappedStrings.Add(remainingLine);
                 totalAdvanceWidth = 0;
             }
@@ -460,21 +444,21 @@ namespace EPPlus.Fonts.OpenType
                     {
                         var pairItem = pairs[index];
 
-                        //Extra verification in case something has gone wrong
+                        //Extra verification in case something has gone wrong/the exact item does not exist
                         if (pairItem.left == left && pairItem.right == right)
                         {
                             return pairItem.value;
                         }
-                        else
-                        {
-                            foreach (var pair in pairs)
-                            {
-                                if (pair.right == right && pair.left == left)
-                                {
-                                    return pair.value;
-                                }
-                            }
-                        }
+                        //else
+                        //{
+                        //    foreach (var pair in pairs)
+                        //    {
+                        //        if (pair.right == right && pair.left == left)
+                        //        {
+                        //            return pair.value;
+                        //        }
+                        //    }
+                        //}
                     }
                     else
                     {
