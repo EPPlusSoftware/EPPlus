@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
+using System.Security.Cryptography;
 
 namespace TestProject1
 {
@@ -99,9 +100,29 @@ namespace TestProject1
 
             //Note: We wrap differently from Excel. We assume the kerning is applied correctly which means one extra 'C' fits in these two rows
             //And is therefore not part of the last one.
-            Assert.AreEqual("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC", strings[6]);
-            Assert.AreEqual("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC", strings[7]);
-            Assert.AreEqual("CCCCCCCCCCCCCCCCCCCCCCCC", strings[8]);
+            Assert.AreEqual("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC", strings[6]); //In excel one less 'C'
+            Assert.AreEqual("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC", strings[7]); //In excel one less 'C'
+            Assert.AreEqual("CCCCCCCCCCCCCCCCCCCCCCCC", strings[8]);//In excel two more 'C' chars
+
+
+            mf.Size = 12f;
+
+            var strings12Size = fontMeasurer.MeasureAndWrapText(testString, mf, MaxPixelWidth);
+            Assert.AreEqual("Hello World! a b c d e f g h i j k l m n o p q r s t u v w x y z ", strings12Size[0]);
+            Assert.AreEqual("A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Sooooo", strings12Size[1]);
+            var actual =    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            var render =    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            Assert.AreEqual("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", strings12Size[2]);
+            Assert.AreEqual("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", strings12Size[3]);
+
+            Assert.AreEqual("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", strings12Size[4]);
+            Assert.AreEqual("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", strings12Size[5]);
+            Assert.AreEqual("BBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC", strings12Size[6]);
+
+            //Note: We wrap differently from Excel. We assume the kerning is applied correctly which means one extra 'C' fits in these two rows
+            //And is therefore not part of the last one.
+            Assert.AreEqual("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC", strings12Size[7]); //In excel one less 'C'
+            Assert.AreEqual("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC", strings12Size[8]); //In excel one less 'C'
         }
     }
 }
