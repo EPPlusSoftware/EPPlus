@@ -10,7 +10,10 @@
  *************************************************************************************************
   13/11/2025         EPPlus Software AB           EPPlus v8
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
@@ -100,9 +103,57 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                 if(radix < 2 || radix > 36) { return CompileResult.GetErrorResult(eErrorType.Num); }
             }
 
-            
-            int rows = numberRange.Size.NumberOfRows;
-            int cols = radixRange.Size.NumberOfCols;
+            var size = new RangeDefinition(numberRange.Size.NumberOfRows, radixRange.Size.NumberOfCols);
+            var retRange = new InMemoryRange(size);
+            for (int r = 0; r < retRange.Size.NumberOfRows; r++)
+            {
+                for (int c = 0; c < retRange.Size.NumberOfCols; c++)
+                {
+                    // Check if the cell exists in numberRange and radixRange
+                    bool hasNumber = r < numberRange.Size.NumberOfRows;
+                    bool hasRadix = c < radixRange.Size.NumberOfCols;
+
+                    if (!hasNumber || !hasRadix)
+                    {
+                        // According to your rule #3:
+                        retRange.SetValue(r, c, ExcelErrorValue.Create(eErrorType.Num));
+                        continue;
+                    }
+
+                    // Get values
+                    object numObj = numberRange.GetValue(r, 0);
+
+                    if (numObj == null || !double.TryParse(numObj.ToString(), out double number))
+                    {
+                        retRange.SetValue(r, c, ExcelErrorValue.Create(eErrorType.Num));
+                        continue;
+                    }
+                    object radObj = radixRange.GetValue(0, c);
+
+                    if (radObj == null || !double.TryParse(radObj.ToString(), out double radix))
+                    {
+                        retRange.SetValue(r, c, ExcelErrorValue.Create(eErrorType.Num));
+                        continue;
+                    }
+
+
+                    int numInt = (int)number;
+                    int radInt = (int)radix;
+
+                    // Base conversion
+                    string baseStr = GetBaseValue(numInt, radInt);
+
+                    retRange.SetValue(r, c, baseStr);
+                }
+            }
+
+            //for (var row = 0; row < numberRange.Size.NumberOfRows; row++)
+            //{
+            //    for(var col = 0; col< radixRange.Size.NumberOfCols; col++)
+            //    {
+
+            //    }
+            //}
 
             ExcelErrorValue errora2 = null;
             var minLength = arguments.Count() < 2 ? ArgToInt(arguments, 2, out errora2) : 0;
@@ -110,15 +161,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
 
             if(minLength < 0) { return CompileResult.GetErrorResult(eErrorType.Num); }
             
-            var result = string.Empty;
-            while (numberVal > 0)
-            {
-                int remainder = numberVal % radix;
-                result = Digits[remainder] + result;
-                numberVal /= radix;
-            }
+            
 
             return CreateResult(result, DataType.String);
+        }
+
+        private string GetBaseValue(int value, int radix)
+        {
+            var result = string.Empty;
+            while (value > 0)
+            {
+                int remainder = value % radix;
+                result = Digits[remainder] + result;
+                value /= radix;
+            }
+            return result;
         }
     }
 }
