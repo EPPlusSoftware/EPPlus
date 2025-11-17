@@ -17,8 +17,6 @@ using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using OfficeOpenXml;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
@@ -57,9 +55,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CellAlignmentData.Indent = cell.Style.Indent;
             CellAlignmentData.WrapText = cell.Style.WrapText;
             CellAlignmentData.ShrinkToFit = cell.Style.ShrinkToFit; //Need to fix Transform issues and then implement a method that sets scale on the text object.
-            CellAlignmentData.TextRotation = cell.Style.TextRotation; //EPPlus does probably not calculate cell width and height after setting rotation on text. So before we make pdf we need to calculate cell width and height based on text rotation
+            CellAlignmentData.TextRotation = cell.Style.TextRotation >= 90 ? 90 - cell.Style.TextRotation : cell.Style.TextRotation ; //EPPlus does probably not calculate cell width and height after setting rotation on text. So before we make pdf we need to calculate cell width and height based on text rotation
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
-            //LocalPosition = CalculatePosition(cell, x, y, width, height, FontData.TextLength, FontData.LineHeight);
             LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height); 
             Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y);
             CheckClipping(cell, width);
@@ -331,6 +328,22 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     y = CellY + (cellHeight - fontHeight) + fontHeight - bottomMargin;
                     break;
             }
+            if (CellAlignmentData.TextRotation == 255)
+            {
+
+            }
+            else if (CellAlignmentData.TextRotation < 0)
+            {
+                double rot = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
+                x += textLength * (1 - System.Math.Cos(rot));
+                y += textLength * System.Math.Sin(rot);
+            }
+            else if (CellAlignmentData.TextRotation > 0)
+            {
+                double rot = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
+                x += textLength * (1 - System.Math.Cos(rot));
+            }
+
             var yOffset = 0d;
             for (int i = 1; i < TextLines.Count; i++)
             {
