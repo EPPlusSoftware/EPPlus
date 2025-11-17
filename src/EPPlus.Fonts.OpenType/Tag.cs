@@ -25,6 +25,8 @@ namespace EPPlus.Fonts.OpenType
             var b3 = reader.ReadByte();
             var b4 = reader.ReadByte();
 
+            Bytes = new byte[4] { b1, b2, b3, b4 };
+
             var c1 = Convert.ToChar(b1);
             var c2 = Convert.ToChar(b2);
             var c3 = Convert.ToChar(b3);
@@ -39,6 +41,8 @@ namespace EPPlus.Fonts.OpenType
         }
 
         public string Value { get; private set; }
+
+        public byte[] Bytes { get; private set; }
 
         internal override void Serialize(FontsBinaryWriter writer)
         {

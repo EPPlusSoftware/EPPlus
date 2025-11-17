@@ -81,5 +81,41 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             var serializer = new CmapSubtable12Serializer();
             serializer.Serialize(this, writer);
         }
+
+        public void BuildFromMappings(List<CharGlyphMapping> mappings)
+        {
+            Groups.Clear();
+            if (mappings.Count == 0) return;
+
+            uint startChar = mappings[0].CharCode;
+            uint startGlyph = mappings[0].GlyphId;
+            uint prevChar = startChar;
+
+            for (int i = 1; i < mappings.Count; i++)
+            {
+                CharGlyphMapping map = mappings[i];
+                if (map.CharCode != prevChar + 1 || map.GlyphId != (ushort)(startGlyph + (map.CharCode - startChar)))
+                {
+                    Groups.Add(new SequencialMapGroup
+                    {
+                        StartCharCode = startChar,
+                        EndCharCode = prevChar,
+                        StartGlyphId = startGlyph
+                    });
+                    startChar = map.CharCode;
+                    startGlyph = map.GlyphId;
+                }
+                prevChar = map.CharCode;
+            }
+
+            Groups.Add(new SequencialMapGroup
+            {
+                StartCharCode = startChar,
+                EndCharCode = prevChar,
+                StartGlyphId = startGlyph
+            });
+
+            NumGroups = (uint)Groups.Count;
+        }
     }
 }

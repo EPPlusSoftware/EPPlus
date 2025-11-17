@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Cmap.Serialization;
+using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
@@ -64,6 +65,26 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         {
             var serializer = new CmapSubtable6_2Serializer();
             serializer.Serialize(this, writer);
+        }
+
+        public void BuildFromMappings(List<CharGlyphMapping> mappings)
+        {
+            if (mappings.Count == 0)
+            {
+                FirstCode = 0;
+                EntryCount = 0;
+                GlyphIdArray = new ushort[0];
+                return;
+            }
+
+            FirstCode = (ushort)mappings[0].CharCode;
+            EntryCount = (ushort)mappings.Count;
+
+            GlyphIdArray = new ushort[mappings.Count];
+            for (int i = 0; i < mappings.Count; i++)
+            {
+                GlyphIdArray[i] = mappings[i].GlyphId;
+            }
         }
     }
 }

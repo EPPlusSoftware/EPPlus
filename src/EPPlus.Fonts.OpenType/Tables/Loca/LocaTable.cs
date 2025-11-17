@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Maxp;
 using System;
@@ -92,6 +93,32 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
             {
                 throw new InvalidOperationException($"Unsupported IndexToLocFormat: {IndexToLocFormat}");
             }
+        }
+
+        public LocaTable CreateSubset(GlyfTable glyfTable, HeadTable.IndexToLocFormats indexToLocFormat)
+        {
+            if (glyfTable == null || glyfTable.Glyphs == null || glyfTable.Glyphs.Count == 0)
+                throw new ArgumentNullException(nameof(glyfTable));
+
+            var offsets = new List<uint>(glyfTable.Glyphs.Count + 1);
+            uint currentOffset = 0;
+            offsets.Add(currentOffset);
+
+            foreach (var glyph in glyfTable.Glyphs)
+            {
+                int size = glyph.GetSize();
+                currentOffset += (uint)size;
+                offsets.Add(currentOffset);
+            }
+
+            // Create new LocaTable
+            var newLocaTable = new LocaTable(_maxpTable)
+            {
+                Offsets = offsets,
+                IndexToLocFormat = indexToLocFormat
+            };
+
+            return newLocaTable;
         }
     }
 }

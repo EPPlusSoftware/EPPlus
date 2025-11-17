@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tables.Hmtx
 {
@@ -44,6 +45,43 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
             {
                 writer.WriteInt16BigEndian(lsb);
             }
+        }
+
+        public HmtxTable CreateSubset(HashSet<ushort> glyphIds, Dictionary<ushort, ushort> idMapping)
+        {
+            var sortedGlyphIds = glyphIds.OrderBy(id => id).ToList();
+            var newHmtx = new HmtxTable();
+
+            // Copy metrics for each glyph in subset
+            foreach (var oldId in sortedGlyphIds)
+            {
+                LongHorMetric metric;
+                if (oldId < hMetrics.Count)
+                {
+                    metric = new LongHorMetric
+                    {
+                        advanceWidth = hMetrics[oldId].advanceWidth,
+                        lsb = hMetrics[oldId].lsb
+                    };
+                }
+                else
+                {
+                    // Fallback: use .notdef metrics
+                    metric = new LongHorMetric
+                    {
+                        advanceWidth = hMetrics[0].advanceWidth,
+                        lsb = hMetrics[0].lsb
+                    };
+                }
+
+                newHmtx.hMetrics.Add(metric);
+            }
+
+            // leftSideBearings are usually for glyphs beyond numOfLongHorMetrics
+            // In subset, we can skip or keep empty because we only include used glyphs
+            newHmtx.leftSideBearings.Clear();
+
+            return newHmtx;
         }
     }
 }

@@ -149,5 +149,71 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             EncodingRecords.Clear();
             SubTables.Clear();
         }
+
+        public CmapTable CreateSubset(IEnumerable<char> usedChars, Dictionary<ushort, ushort> idMapping)
+        {
+            var newCmap = new CmapTable { Version = 0 };
+
+            // Build mappings: charCode -> new glyph ID
+            List<CharGlyphMapping> mappings = new List<CharGlyphMapping>();
+            foreach (char ch in usedChars)
+            {
+                int oldGlyphId = this.MapCharToGlyph(ch);
+                if (oldGlyphId >= 0 && idMapping.ContainsKey((ushort)oldGlyphId))
+                {
+                    ushort newGlyphId = idMapping[(ushort)oldGlyphId];
+                    mappings.Add(new CharGlyphMapping((uint)ch, newGlyphId));
+                }
+            }
+
+            mappings.Sort(delegate (CharGlyphMapping a, CharGlyphMapping b)
+            {
+                return a.CharCode.CompareTo(b.CharCode);
+            });
+
+            CmapSubtableBase newSubtable;
+            CmapSubtableBase preferred = GetPreferredSubtable();
+            if (preferred == null)
+                throw new InvalidOperationException("No suitable cmap subtable found.");
+
+            switch (preferred.Format)
+            {
+                case 12:
+                    CmapSubtable12 sub12 = new CmapSubtable12();
+                    sub12.BuildFromMappings(mappings);
+                    newSubtable = sub12;
+                    break;
+
+                case 4:
+                    CmapSubtable4 sub4 = new CmapSubtable4();
+                    sub4.BuildFromMappings(mappings);
+                    newSubtable = sub4;
+                    break;
+
+                case 6:
+                    CmapSubtable6 sub6 = new CmapSubtable6();
+                    sub6.BuildFromMappings(mappings);
+                    newSubtable = sub6;
+                    break;
+
+                case 0:
+                    CmapSubtable0 sub0 = new CmapSubtable0();
+                    sub0.BuildFromMappings(mappings);
+                    newSubtable = sub0;
+                    break;
+
+                default:
+                    throw new NotSupportedException("Cmap format " + preferred.Format + " not supported for subset.");
+            }
+
+            EncodingRecord record = new EncodingRecord(Platforms.Windows, 1, 0);
+            record.Subtable = newSubtable;
+
+            newCmap.EncodingRecords.Add(record);
+            newCmap.SubTables.Add(newSubtable);
+            newCmap.NumTables = (ushort)newCmap.EncodingRecords.Count;
+
+            return newCmap;
+        }
     }
 }

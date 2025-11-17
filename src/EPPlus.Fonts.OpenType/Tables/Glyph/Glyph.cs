@@ -53,5 +53,65 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
             // If numberOfContours == 0 → empty glyph, only header
         }
 
+        public Glyph Clone()
+        {
+            var clone = new Glyph
+            {
+                Header = new GlyphHeader
+                {
+                    numberOfContours = this.Header.numberOfContours,
+                    xMin = this.Header.xMin,
+                    yMin = this.Header.yMin,
+                    xMax = this.Header.xMax,
+                    yMax = this.Header.yMax
+                }
+            };
+
+            // Clone SimpleGlyph if present
+            if (this.SimpleData != null)
+            {
+                clone.SimpleData = new SimpleGlyph
+                {
+                    EndPtsOfContours = (ushort[])this.SimpleData.EndPtsOfContours.Clone(),
+                    Instructions = (byte[])this.SimpleData.Instructions.Clone(),
+                    XBytes = (byte[])this.SimpleData.XBytes.Clone(),
+                    YBytes = (byte[])this.SimpleData.YBytes.Clone(),
+                    Flags = new List<byte>(this.SimpleData.Flags),
+                    FlagRuns = this.SimpleData.FlagRuns
+                        .Select(fr => new FlagRun { Flag = fr.Flag, RepeatCount = fr.RepeatCount })
+                        .ToList(),
+                    Points = this.SimpleData.Points
+                        .Select(p => new GlyphPoint { X = p.X, Y = p.Y, OnCurve = p.OnCurve })
+                        .ToList()
+                };
+            }
+
+            // Clone CompositeGlyph if present
+            if (this.CompositeData != null)
+            {
+                clone.CompositeData = new CompositeGlyph
+                {
+                    Instructions = (byte[])this.CompositeData.Instructions.Clone(),
+                    Components = this.CompositeData.Components
+                        .Select(c => new GlyphComponent
+                        {
+                            Flags = c.Flags,
+                            GlyphIndex = c.GlyphIndex, // Will be remapped later in GlyfTable.CreateSubset
+                            Argument1 = c.Argument1,
+                            Argument2 = c.Argument2,
+                            Scale = c.Scale,
+                            XScale = c.XScale,
+                            YScale = c.YScale,
+                            Scale01 = c.Scale01,
+                            Scale10 = c.Scale10
+                        })
+                        .ToList()
+                };
+            }
+
+            return clone;
+        }
+
+
     }
 }

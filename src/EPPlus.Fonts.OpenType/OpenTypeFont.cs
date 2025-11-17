@@ -357,7 +357,7 @@ namespace EPPlus.Fonts.OpenType
             return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontSubfamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
         }
 
-        internal void AddOrReplaceTable<T>(string tableName, T table)
+        internal T AddOrReplaceTable<T>(string tableName, T table)
             where T : FontTableBase
         {
             _localTableCache.AddOrReplace(tableName, table);
@@ -376,7 +376,7 @@ namespace EPPlus.Fonts.OpenType
                 _tableRecords.Remove(tableName);
             }
             _tableRecords[tableName] = record;
-
+            return table;
         }
 
         public OpenTypeFont CreateSubset(IEnumerable<char> usedChars)
@@ -394,18 +394,26 @@ namespace EPPlus.Fonts.OpenType
             // 2. Handle composite glyphs
             GlyfTable.ResolveCompositeGlyphs(glyphIds);
 
-            // 3. Create new font instance
+            // 3. Sort glyph IDs and create mapping old -> new
+            var sortedGlyphIds = glyphIds.OrderBy(id => id).ToList();
+            var idMapping = new Dictionary<ushort, ushort>();
+            for (ushort i = 0; i < sortedGlyphIds.Count; i++)
+            {
+                idMapping[sortedGlyphIds[i]] = i;
+            }
+
+
+            // 4. Create new font instance
             var subsetFont = new OpenTypeFont(_reader, Format);
 
-            // 4. Copy and filter tables
+            // 5. Copy and filter tables
             subsetFont.AddOrReplaceTable(TableNames.Head, HeadTable.Clone());
             subsetFont.AddOrReplaceTable(TableNames.Maxp, MaxpTable.Clone());
             subsetFont.MaxpTable.numGlyphs = (ushort)glyphIds.Count;
-
-            //subsetFont.ReplaceTable(TableNames.Glyf, GlyfTable.CreateSubset(glyphIds));
-            //subsetFont.LocaTable = this.LocaTable.CreateSubset(glyphIds);
-            //subsetFont.HmtxTable = this.HmtxTable.CreateSubset(glyphIds);
-            //subsetFont.CmapTable = this.CmapTable.CreateSubset(usedChars);
+            var newGlyf = subsetFont.AddOrReplaceTable(TableNames.Glyf, GlyfTable.CreateSubset(sortedGlyphIds, idMapping));
+            subsetFont.AddOrReplaceTable(TableNames.Loca, newGlyf);
+            subsetFont.AddOrReplaceTable(TableNames.Hmtx, HmtxTable.CreateSubset(glyphIds, idMapping));
+            subsetFont.AddOrReplaceTable(TableNames.Cmap, CmapTable.CreateSubset(usedChars, idMapping));
 
             //// 5. Recalculate checksums
             //subsetFont.RecalculateChecksums();
@@ -438,5 +446,60 @@ namespace EPPlus.Fonts.OpenType
         internal ushort RangeShift { get; private set; }
 
         internal IDictionary<string, TableRecord> TableRecords => _tableRecords;
+
+        public void RecalculateChecksums()
+        {
+            uint totalSum = 0;
+
+            // Calculate checksums for each table
+            foreach (var entry in TableRecords)
+            {
+                byte[] tableData = entry.Value.GetTableBytes(this);
+                uint checksum = CalculateChecksum(tableData);
+                entry.Value.Length = (uint)tableData.Length;
+                entry.Value.Checksum = checksum;
+                totalSum += checksum;
+            }
+
+            // Add sum of table directory entries
+            foreach (var dirEntry in TableRecords)
+            {
+                totalSum += (uint)dirEntry.Value.Tag.Bytes[0] << 24 |
+                            (uint)dirEntry.Value.Tag.Bytes[1] << 16 |
+                            (uint)dirEntry.Value.Tag.Bytes[2] << 8 |
+                            (uint)dirEntry.Value.Tag.Bytes[3];
+                totalSum += dirEntry.Value.Checksum;
+                totalSum += dirEntry.Value.Offset;
+                totalSum += dirEntry.Value.Length;
+            }
+
+            // Adjust head.checkSumAdjustment
+            uint adjustment = 0xB1B0AFBA - totalSum;
+            HeadTable.ChecksumAdjustment = adjustment;
+        }
+
+        private uint CalculateChecksum(byte[] data)
+        {
+            uint sum = 0;
+            int length = data.Length;
+            int i = 0;
+
+            while (length > 3)
+            {
+                sum += (uint)(data[i] << 24 | data[i + 1] << 16 | data[i + 2] << 8 | data[i + 3]);
+                i += 4;
+                length -= 4;
+            }
+
+            // Pad remaining bytes
+            uint last = 0;
+            for (int j = 0; j < length; j++)
+            {
+                last |= (uint)data[i + j] << (24 - j * 8);
+            }
+            sum += last;
+
+            return sum;
+        }
     }
 }

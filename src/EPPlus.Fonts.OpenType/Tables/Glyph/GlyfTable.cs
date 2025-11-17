@@ -126,5 +126,36 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
             } while (addedNew);
         }
 
+        public GlyfTable CreateSubset(List<ushort> sortedGlyphIds, Dictionary<ushort, ushort> idMapping)
+        {
+            var newGlyphs = new List<Glyph>(sortedGlyphIds.Count);
+
+            foreach (var oldId in sortedGlyphIds)
+            {
+                var originalGlyph = Glyphs[oldId];
+                var clonedGlyph = originalGlyph.Clone();
+
+                // Remap composite glyph references
+                if (clonedGlyph.Header.numberOfContours < 0 && clonedGlyph.CompositeData != null)
+                {
+                    foreach (var component in clonedGlyph.CompositeData.Components)
+                    {
+                        if (idMapping.TryGetValue(component.GlyphIndex, out ushort newIndex))
+                        {
+                            component.GlyphIndex = newIndex;
+                        }
+                        else
+                        {
+                            component.GlyphIndex = 0; // fallback to .notdef
+                        }
+                    }
+                }
+
+                newGlyphs.Add(clonedGlyph);
+            }
+
+            return new GlyfTable(newGlyphs);
+        }
+
     }
 }

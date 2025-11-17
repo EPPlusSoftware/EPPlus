@@ -21,5 +21,36 @@ namespace EPPlus.Fonts.OpenType
         public uint Offset { get; set; }
 
         public uint Length { get; set; }
+
+        public byte[] GetTableBytes(OpenTypeFont font)
+        {
+            switch(Tag.Value.ToLower())
+            {
+                case "glyf":
+                    return font.GlyfTable?.Serialize() ?? new byte[0];
+                case "os/2":
+                    return font.Os2Table.Serialize();
+                case "cmap":
+                    return font.CmapTable.Serialize();
+                case "head":
+                    return font.HeadTable.Serialize();
+                case "hhea":
+                    return font.HheaTable.Serialize();
+                case "hmtx":
+                    return font.HmtxTable.Serialize();
+                case "kern":
+                    return font.KernTable?.Serialize() ?? new byte[0];
+                case "loca":
+                    return font.LocaTable.Serialize();
+                case "maxp":
+                    return font.MaxpTable.Serialize();
+                case "name":
+                    return font.NameTable.Serialize();
+                case "post":
+                    return font.PostTable.Serialize();
+                default:
+                    return new byte[0];
+            }
+        }
     }
 }

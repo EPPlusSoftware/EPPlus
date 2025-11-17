@@ -123,5 +123,31 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             var serializer = new CmapSubtable4Serializer();
             serializer.Serialize(this, writer);
         }
+
+        public void BuildFromMappings(List<CharGlyphMapping> mappings)
+        {
+            if (mappings.Count == 0) return;
+
+            List<ushort> startCodes = new List<ushort>();
+            List<ushort> endCodes = new List<ushort>();
+            List<short> deltas = new List<short>();
+
+            foreach (CharGlyphMapping map in mappings)
+            {
+                startCodes.Add((ushort)map.CharCode);
+                endCodes.Add((ushort)map.CharCode);
+                deltas.Add((short)(map.GlyphId - map.CharCode));
+            }
+
+            StartCode = startCodes.ToArray();
+            EndCode = endCodes.ToArray();
+            IdDelta = deltas.ToArray();
+            IdRangeOffset = new ushort[startCodes.Count]; // all zeros
+            ReservedPad = 0;
+            SegCountX2 = (ushort)(startCodes.Count * 2);
+            SearchRange = (ushort)(2 * (1 << (int)Math.Floor(Math.Log(startCodes.Count, 2))));
+            EntrySelector = (ushort)(Math.Log(SearchRange / 2, 2));
+            RangeShift = (ushort)(SegCountX2 - SearchRange);
+        }
     }
 }
