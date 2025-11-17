@@ -748,6 +748,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
                 var part = drawings.Part.Package.GetPart(uriChart);
                 var chartXml = new XmlDocument();
+                chartXml.PreserveWhitespace = true;
                 LoadXmlSafe(chartXml, part.GetStream());
 
                 return CreateChartFromXml(drawings, node, uriChart, part, chartXml, parent);
