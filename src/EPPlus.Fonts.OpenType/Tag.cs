@@ -33,6 +33,11 @@ namespace EPPlus.Fonts.OpenType
             Value = new string(new char[] { c1, c2, c3, c4 });
         }
 
+        internal Tag(string value)
+        {
+            Value = value;
+        }
+
         public string Value { get; private set; }
 
         internal override void Serialize(FontsBinaryWriter writer)

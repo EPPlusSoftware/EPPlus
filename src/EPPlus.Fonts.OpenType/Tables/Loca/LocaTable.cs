@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Head;
+using EPPlus.Fonts.OpenType.Tables.Maxp;
 using System;
 using System.Collections.Generic;
 
@@ -22,6 +23,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
     /// </summary>
     public class LocaTable : FontTableBase
     {
+        public LocaTable(MaxpTable maxpTable)
+        {
+            _maxpTable = maxpTable;
+        }
+
+        private readonly MaxpTable _maxpTable;
+
         public List<uint> Offsets { get; set; } = new List<uint>();
         public HeadTable.IndexToLocFormats IndexToLocFormat { get; set; }
 
@@ -30,12 +38,45 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
             Offsets.Clear();
         }
 
+
+        internal static LocaTable CreateSubset(List<uint> offsets, HeadTable.IndexToLocFormats indexToLocFormat, MaxpTable maxpTable)
+        {
+            var newLocaTable = new LocaTable(maxpTable)
+            {
+                Offsets = offsets,
+                IndexToLocFormat = indexToLocFormat
+            };
+            return newLocaTable;
+        }
+
+
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
+            // Kontrollera att antalet offsets matchar numGlyphs + 1
+            if (Offsets == null || Offsets.Count == 0)
+                throw new InvalidOperationException("Offsets list cannot be null or empty.");
+
+            // Hämta numGlyphs från Maxp-tabellen via fonten (eller injicera värdet)
+            // Här antar vi att LocaTable har en referens eller att du skickar in det vid konstruktion
+            int expectedCount = _maxpTable.numGlyphs + 1; // eller injicera värdet
+            if (Offsets.Count != expectedCount)
+                throw new InvalidOperationException($"Offsets count ({Offsets.Count}) does not match numGlyphs + 1 ({expectedCount}).");
+
+            // Kontrollera att offsets är sorterade och inte negativa
+            for (int i = 1; i < Offsets.Count; i++)
+            {
+                if (Offsets[i] < Offsets[i - 1])
+                    throw new InvalidOperationException("Offsets must be in ascending order.");
+            }
+
+            // Serialisering baserat på IndexToLocFormat
             if (IndexToLocFormat == HeadTable.IndexToLocFormats.Offset16)
             {
                 foreach (var offset in Offsets)
                 {
+                    if (offset > 0x1FFFF) // 131072 bytes är max för 16-bit format (eftersom offset/2)
+                        throw new InvalidOperationException($"Offset {offset} exceeds maximum allowed for Offset16 format.");
+
                     ushort shortOffset = (ushort)(offset / 2);
                     writer.WriteUInt16BigEndian(shortOffset);
                 }
@@ -49,7 +90,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
             }
             else
             {
-                throw new InvalidOperationException("Unsupported IndexToLocFormat.");
+                throw new InvalidOperationException($"Unsupported IndexToLocFormat: {IndexToLocFormat}");
             }
         }
     }

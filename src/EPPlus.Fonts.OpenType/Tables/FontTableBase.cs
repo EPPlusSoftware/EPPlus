@@ -23,5 +23,10 @@ namespace EPPlus.Fonts.OpenType.Tables
         internal abstract void SerializeInternal(FontsBinaryWriter writer);
 
         internal abstract void Clear();
+
+        public int GetLength()
+        {
+            return Serialize().Length;
+        }
     }
 }

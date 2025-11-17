@@ -27,6 +27,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
             _tableLoaderSettings = settings;
         }
 
+        internal GlyfTable(List<Glyph> glyphs)
+        {
+            Glyphs = glyphs ?? new List<Glyph>();
+        }
+
         private readonly TableLoaderSettings _tableLoaderSettings;
 
         /// <summary>
@@ -38,38 +43,62 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
         {
             if (Glyphs == null || Glyphs.Count == 0)
                 return;
-            var locaOffsets = TableLoaders.GetLocaTableLoader(_tableLoaderSettings).Load().Offsets;
-            long startPosition = writer.BaseStream.Position;
 
-            for (int i = 0; i < Glyphs.Count; i++)
+            if (_tableLoaderSettings != null)
             {
-                long glyphStart = writer.BaseStream.Position;
-                Glyph glyph = Glyphs[i];
-
-                if (glyph != null)
-                    glyph.Serialize(writer);
-
-                long glyphEnd = writer.BaseStream.Position;
-                int writtenLength = (int)(glyphEnd - glyphStart);
-
-                if (i + 1 < locaOffsets.Count)
+                // Originalfont: use locaOffsets from loader
+                var locaOffsets = TableLoaders.GetLocaTableLoader(_tableLoaderSettings).Load().Offsets;
+                for (int i = 0; i < Glyphs.Count; i++)
                 {
-                    int expectedLength = (int)(locaOffsets[i + 1] - locaOffsets[i]);
+                    long glyphStart = writer.BaseStream.Position;
+                    Glyph glyph = Glyphs[i];
 
-                    if (expectedLength > writtenLength)
+                    if (glyph != null)
+                        glyph.Serialize(writer);
+
+                    long glyphEnd = writer.BaseStream.Position;
+                    int writtenLength = (int)(glyphEnd - glyphStart);
+
+                    if (i + 1 < locaOffsets.Count)
                     {
-                        int padding = expectedLength - writtenLength;
-                        for (int p = 0; p < padding; p++)
-                            writer.Write((byte)0);
+                        int expectedLength = (int)(locaOffsets[i + 1] - locaOffsets[i]);
+                        if (expectedLength > writtenLength)
+                        {
+                            int padding = expectedLength - writtenLength;
+                            for (int p = 0; p < padding; p++)
+                                writer.Write((byte)0);
+                        }
                     }
                 }
             }
+            else
+            {
+                // Subset-font: align every glyph to 4 bytes
+                foreach (var glyph in Glyphs)
+                {
+                    long start = writer.BaseStream.Position;
+                    glyph.Serialize(writer);
+                    long end = writer.BaseStream.Position;
 
+                    int writtenLength = (int)(end - start);
+                    int padding = (4 - (writtenLength % 4)) % 4;
+                    for (int p = 0; p < padding; p++)
+                        writer.Write((byte)0);
+                }
+            }
         }
 
         internal override void Clear()
         {
             Glyphs.Clear();
+        }
+
+        public Glyph GetGlyph(ushort glyphId)
+        {
+            if (Glyphs == null || glyphId >= Glyphs.Count)
+                return null;
+
+            return Glyphs[glyphId];
         }
 
 

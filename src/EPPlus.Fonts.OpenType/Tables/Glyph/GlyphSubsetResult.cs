@@ -12,46 +12,17 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tables.Glyph
 {
-    public class Glyph : FontTableElement
+
+    internal class GlyphSubsetResult
     {
-        public GlyphHeader Header { get; internal set; }
-
-        public SimpleGlyph SimpleData { get; internal set; }
-
-        public CompositeGlyph CompositeData { get; internal set; }
-
-
-        public int GetSize()
-        {
-            using (var ms = new MemoryStream())
-            using (var writer = new FontsBinaryWriter(ms))
-            {
-                Serialize(writer);
-                return (int)ms.Length;
-            }
-        }
-
-
-        internal override void Serialize(FontsBinaryWriter writer)
-        {
-            Header.Serialize(writer);
-
-            if (Header.numberOfContours > 0 && SimpleData != null)
-            {
-                SimpleData.Serialize(writer);
-            }
-            else if (Header.numberOfContours < 0 && CompositeData != null)
-            {
-                CompositeData.Serialize(writer);
-            }
-            // If numberOfContours == 0 → empty glyph, only header
-        }
+        public GlyfTable GlyfTable { get; set; }
+        public List<uint> LocaOffsets { get; set; }
 
     }
+
 }

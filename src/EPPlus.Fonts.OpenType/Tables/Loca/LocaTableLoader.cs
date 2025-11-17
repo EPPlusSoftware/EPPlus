@@ -46,10 +46,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
                 {
                     var ix = _reader.ReadUInt32BigEndian();
                     indexes.Add(ix);
-                }
-                
+                } 
             }
-            return new LocaTable
+            return new LocaTable(maxpTable)
             {
                 Offsets = indexes,
                 IndexToLocFormat = headTable.IndexToLocFormat
