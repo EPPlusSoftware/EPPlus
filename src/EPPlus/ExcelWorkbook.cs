@@ -1479,7 +1479,8 @@ namespace OfficeOpenXml
             //Remove the Theme
             ThemeManager.Save();
             // save the style sheet
-                Styles.UpdateXml();
+
+            Styles.UpdateXml();
             _package.SavePart(StylesUri, this.StylesXml);
 
             // save persons
@@ -1640,23 +1641,29 @@ namespace OfficeOpenXml
                         continue;
                     }
                     //Rewrite the pivot table address again if any rows or columns have been inserted or deleted
-                    var r = cache.SourceRange;
-                    if (r != null && r.Worksheet != null)              //Source does not exist
+                    if (cache.Connection == null)
                     {
-                        ExcelTable t = r.Worksheet.Tables.GetFromRange(r);
-
-                        var fields =
-                            cache.CacheDefinitionXml.SelectNodes(
-                                "d:pivotCacheDefinition/d:cacheFields/d:cacheField", NameSpaceManager);
-                        if (fields != null)
+                        var r = cache.SourceRange;
+                        if (r != null && r.Worksheet != null)              //Source does not exist
                         {
-                            FixFieldNamesAndUpdateSharedItems(cache, t, fields);
-                        }
+                            ExcelTable t = r.Worksheet.Tables.GetFromRange(r);
 
-                        cache.RefreshOnLoad = true;
-                        cache.CacheDefinitionXml.Save(cache.Part.GetStream(FileMode.Create));
-                        cache.ResetRecordXml(_package.ZipPackage);
+                            var fields =
+                                cache.CacheDefinitionXml.SelectNodes(
+                                    "d:pivotCacheDefinition/d:cacheFields/d:cacheField", NameSpaceManager);
+                            if (fields != null)
+                            {
+                                FixFieldNamesAndUpdateSharedItems(cache, t, fields);
+                            }
+                        }
                     }
+                    else
+                    {
+                        cache.RefreshFields(true);
+                    }
+                    cache.RefreshOnLoad = true;
+                    cache.CacheDefinitionXml.Save(cache.Part.GetStream(FileMode.Create));
+                    cache.ResetRecordXml(_package.ZipPackage);
                 }
             }
         }
@@ -1994,23 +2001,38 @@ namespace OfficeOpenXml
 
                 pivotCachesNode.AppendChild(item);
             }
-
+            string id;
             if (cacheReference.CacheSource == eSourceType.Worksheet)
             {
-                string address = cacheReference.GetSourceAddress();
-
-                if (_pivotTableCaches.TryGetValue(address, out PivotTableCacheRangeInfo cacheInfo))
+                id = cacheReference.GetSourceAddress();
+            }
+            else if(cacheReference.CacheSource == eSourceType.External)
+            {
+                if(cacheReference.Connection!=null)
                 {
-                    cacheInfo.PivotCaches.Add(cacheReference);
+                    id = cacheReference.Connection.Id.ToString(CultureInfo.InvariantCulture);
                 }
                 else
                 {
-                    _pivotTableCaches.Add(address, new PivotTableCacheRangeInfo()
-                    {
-                        Address = address,
-                        PivotCaches = new List<PivotTableCacheInternal>() { cacheReference }
-                    });
+                    id = cacheReference.GetSourceAddress();
                 }
+            }
+            else
+            {
+                return;
+            }
+
+            if (_pivotTableCaches.TryGetValue(id, out PivotTableCacheRangeInfo cacheInfo))
+            {
+                cacheInfo.PivotCaches.Add(cacheReference);
+            }
+            else
+            {
+                _pivotTableCaches.Add(id, new PivotTableCacheRangeInfo()
+                {
+                    Address = id,
+                    PivotCaches = new List<PivotTableCacheInternal>() { cacheReference }
+                });
             }
         }
         internal void RemovePivotTableCache(int cacheId)

@@ -112,7 +112,30 @@ namespace OfficeOpenXml.Data.Connection
 
             return c;
         }
-
+        /// <summary>
+        /// Adds a power query connection with the specified connection string. 
+        /// EPPlus will set the <see cref="Type"/> of the connection to OleDb.
+        /// A power query connection requires a connection string with the OleDb provide Microsoft.Mashup.OleDb.1 and a M-Formula containing the query.
+        /// </summary>
+        /// <param name="name">The name of the connection.</param>
+        /// <param name="connectionString">The connection string to the database. Power query connection string usually uses the Microsoft.Mashup.OleDb.1 OleDb provider. For example: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Table 1";Extended Properties=""</param>
+        /// <param name="mFormula">The M formulas to use for the power query connection, without the Section1 declaration. This formula is appended to the Formulas property of the <see cref="ExcelWorkbook.PowerQuerySettings"/> object.</param>
+        /// <returns>The connection</returns>
+        public ExcelConnection AddPowerQuery(string name, string connectionString, string mFormula)
+        {
+            var c = AddDatabase(name, connectionString);
+            if (_package.Workbook.PowerQuerySettings.Exists == false)
+            {
+                _package.Workbook.PowerQuerySettings.Create();
+            }
+            if(_package.Workbook.PowerQuerySettings.Formulas.EndsWith("\r") ||
+               _package.Workbook.PowerQuerySettings.Formulas.EndsWith("\n"))
+            {
+                _package.Workbook.PowerQuerySettings.Formulas += "\r\n";
+            }
+            _package.Workbook.PowerQuerySettings.Formulas += mFormula;
+            return c;
+        }
         private static eConnectionDataSourceType GetConnectionType(string connectionString)
         {
             var parameters = connectionString.Split(';');

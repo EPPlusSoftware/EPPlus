@@ -177,7 +177,7 @@ namespace OfficeOpenXml.Data.Connection
             if (MetadataItems.Count == 0)
             {                
                 LoadMetadataXml(defaultMetadataXml);
-                throw (new ArgumentException("The meta data xml must contain at least one item. "));
+                throw (new ArgumentException("The meta data xml must contain at least one item."));
             }
         }
         private void SaveMetaData()

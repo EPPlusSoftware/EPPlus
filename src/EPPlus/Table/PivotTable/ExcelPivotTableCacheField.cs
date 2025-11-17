@@ -907,20 +907,28 @@ namespace OfficeOpenXml.Table.PivotTable
 
 		private void UpdateStartEndValue(out DateTime startDate, out DateTime endDate)
 		{
-            startDate = DateTime.MaxValue;
-            endDate = DateTime.MinValue;
             var ix = Grouping.BaseIndex.Value;
             var fld = _cache.Fields[ix];
-            fld.UpdateSharedItems();
-            foreach(var item in fld.SharedItems)
+            if (_cache.Connection == null)
             {
-                if(item is DateTime dt)
+                startDate = DateTime.MaxValue;
+                endDate = DateTime.MinValue;
+                fld.UpdateSharedItems();
+                foreach (var item in fld.SharedItems)
                 {
-					if(startDate > dt) startDate = dt;
-                    if(endDate < dt) endDate = dt;
-				}
+                    if (item is DateTime dt)
+                    {
+                        if (startDate > dt) startDate = dt;
+                        if (endDate < dt) endDate = dt;
+                    }
+                }
             }
-		}
+            else
+            {
+                startDate = new DateTime(1899,12,31);
+                endDate = DateTime.MaxValue;
+            }
+        }
 
 		private void UpdateSharedItems()
 		{
