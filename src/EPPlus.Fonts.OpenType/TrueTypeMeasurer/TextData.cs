@@ -279,20 +279,24 @@ namespace EPPlus.Fonts.OpenType
                         }
                         else
                         {
-                            //The current char has crossed the max
-                            //Therefore remove it from the text to be added.
-                            var wrappedString = txt.Substring(0,txt.Length - 1);
-                            wrappedStrings.Add(wrappedString);
 
                             //If the char was a space it should not be added to the next line
                             //Therefore we do not add its width and the index of the next line starts at the next character.
                             if (c == ' ')
                             {
+                                //The current char has crossed the max
+                                //Therefore remove it from the text to be added.
+                                var wrappedString = txt.Substring(0, txt.Length);
+                                wrappedStrings.Add(wrappedString);
                                 nextLineStartIndex = i + 1;
                                 totalAdvanceWidth = 0;
                             }
                             else
                             {
+                                //The current char has crossed the max
+                                //Therefore remove it from the text to be added.
+                                var wrappedString = txt.Substring(0, txt.Length - 1);
+                                wrappedStrings.Add(wrappedString);
                                 //The current character is part of the new line
                                 //We should start at the index of the current character and add its width to the new line
                                 nextLineStartIndex = i-1;
