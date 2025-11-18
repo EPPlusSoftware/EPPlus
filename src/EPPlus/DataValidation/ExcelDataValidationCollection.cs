@@ -82,7 +82,7 @@ namespace OfficeOpenXml.DataValidation
             ReadDataValidations(xr);
         }
         /// <summary>
-        /// Load data validation from xml via xr reader
+        /// Read data validation from xml via xr reader
         /// </summary>
         public void ReadDataValidations(XmlReader xr)
         {

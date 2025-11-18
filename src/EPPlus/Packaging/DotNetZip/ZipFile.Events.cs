@@ -42,9 +42,9 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         #region Save
 
         /// <summary>
-        ///   An event handler invoked when a Remove() starts, before and after each
-        ///   entry has been written to the archive, when a Remove() completes, and
-        ///   during other Remove events.
+        ///   An event handler invoked when a Save() starts, before and after each
+        ///   entry has been written to the archive, when a Save() completes, and
+        ///   during other Save events.
         /// </summary>
         ///
         /// <remarks>
@@ -64,14 +64,14 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <item>
         /// <term>ZipProgressEventType.Saving_Started</term>
-        /// <description>Fired when ZipFile.Remove() begins.
+        /// <description>Fired when ZipFile.Save() begins.
         /// </description>
         /// </item>
         ///
         /// <item>
         /// <term>ZipProgressEventType.Saving_BeforeSaveEntry</term>
         /// <description>
-        ///   Fired within ZipFile.Remove(), just before writing data for each
+        ///   Fired within ZipFile.Save(), just before writing data for each
         ///   particular entry.
         /// </description>
         /// </item>
@@ -79,14 +79,14 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <item>
         /// <term>ZipProgressEventType.Saving_AfterSaveEntry</term>
         /// <description>
-        ///   Fired within ZipFile.Remove(), just after having finished writing data
+        ///   Fired within ZipFile.Save(), just after having finished writing data
         ///   for each particular entry.
         /// </description>
         /// </item>
         ///
         /// <item>
         /// <term>ZipProgressEventType.Saving_Completed</term>
-        /// <description>Fired when ZipFile.Remove() has completed.
+        /// <description>Fired when ZipFile.Save() has completed.
         /// </description>
         /// </item>
         ///
@@ -129,7 +129,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <term>ZipProgressEventType.Saving_BytesRead</term>
         /// <description>
         ///   Set during the save of a particular entry, to update progress of the
-        ///   Remove().  When this EventType is set, the BytesTransferred is the
+        ///   Save().  When this EventType is set, the BytesTransferred is the
         ///   number of bytes that have been read from the source stream.  The
         ///   TotalBytesToTransfer is the number of bytes in the uncompressed
         ///   file.
@@ -159,7 +159,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///       }
         ///    };
         ///
-        ///    zip.Remove(fs);
+        ///    zip.Save(fs);
         /// }
         /// </code>
         /// </example>
@@ -207,7 +207,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   using (var zip = new ZipFile()) {
         ///     zip.SaveProgress += SaveProgress;
         ///     zip.AddDirectory(directory);
-        ///     zip.Remove(targetZip);
+        ///     zip.Save(targetZip);
         ///   }
         /// }
         ///
@@ -218,7 +218,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     Using zip As ZipFile = New ZipFile
         ///         AddHandler zip.SaveProgress, AddressOf MySaveProgress
         ///         zip.AddDirectory(directory)
-        ///         zip.Remove(targetZip)
+        ///         zip.Save(targetZip)
         ///     End Using
         /// End Sub
         ///
@@ -387,7 +387,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///             else if (options.ZipFlavor == 2)
         ///                 zip1.SaveSelfExtractor(options.ZipName, SelfExtractorFlavor.ConsoleApplication);
         ///             else
-        ///                 zip1.Remove(options.ZipName);
+        ///                 zip1.Save(options.ZipName);
         ///         }
         ///     }
         ///     catch (System.Exception exc1)
@@ -600,13 +600,13 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <item>
         /// <term>ZipProgressEventType.Reading_Started</term>
-        /// <description>Fired just as ZipFile.Load() begins. Meaningful properties: ArchiveName.
+        /// <description>Fired just as ZipFile.Read() begins. Meaningful properties: ArchiveName.
         /// </description>
         /// </item>
         ///
         /// <item>
         /// <term>ZipProgressEventType.Reading_Completed</term>
-        /// <description>Fired when ZipFile.Load() has completed. Meaningful properties: ArchiveName.
+        /// <description>Fired when ZipFile.Read() has completed. Meaningful properties: ArchiveName.
         /// </description>
         /// </item>
         ///
@@ -804,7 +804,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// public static ExtractZip(string zipToExtract, string directory)
         /// {
         ///   string TargetDirectory= "extract";
-        ///   using (var zip = ZipFile.Load(zipToExtract)) {
+        ///   using (var zip = ZipFile.Read(zipToExtract)) {
         ///     zip.ExtractProgress += ExtractProgress;
         ///     foreach (var e in zip1)
         ///     {
@@ -819,7 +819,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     Dim ZipToUnpack As String = "C1P3SML.zip"
         ///     Dim TargetDir As String = "ExtractTest_Extract"
         ///     Console.WriteLine("Extracting file {0} to {1}", ZipToUnpack, TargetDir)
-        ///     Using zip1 As ZipFile = ZipFile.Load(ZipToUnpack)
+        ///     Using zip1 As ZipFile = ZipFile.Read(ZipToUnpack)
         ///         AddHandler zip1.ExtractProgress, AddressOf MyExtractProgress
         ///         Dim e As ZipEntry
         ///         For Each e In zip1
@@ -984,7 +984,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     {
         ///         zip.AddProgress += AddProgressHandler;
         ///         zip.AddDirectory(System.IO.Path.GetFileName(DirToZip));
-        ///         zip.Remove(ZipFileToCreate);
+        ///         zip.Save(ZipFileToCreate);
         ///     }
         /// }
         ///
@@ -1010,7 +1010,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     Using zip as ZipFile = New ZipFile
         ///         AddHandler zip.AddProgress, AddressOf AddProgressHandler
         ///         zip.AddDirectory(System.IO.Path.GetFileName(DirToZip))
-        ///         zip.Remove(ZipFileToCreate);
+        ///         zip.Save(ZipFileToCreate);
         ///     End Using
         /// End Sub
         ///
@@ -1070,11 +1070,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <remarks>
         ///  <para>
         ///     Errors can occur as a file is being saved to the zip archive.  For
-        ///     example, the File.Open may fail, or a File.Load may fail, because of
+        ///     example, the File.Open may fail, or a File.Read may fail, because of
         ///     lock conflicts or other reasons.  If you add a handler to this event,
         ///     you can handle such errors in your own code.  If you don't add a
         ///     handler, the library will throw an exception if it encounters an I/O
-        ///     error during a call to <c>Remove()</c>.
+        ///     error during a call to <c>Save()</c>.
         ///  </para>
         ///
         ///  <para>
@@ -1086,7 +1086,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///    The handler you add applies to all <see cref="ZipEntry"/> items that are
         ///    subsequently added to the <c>ZipFile</c> instance. If you set this
         ///    property after you have added items to the <c>ZipFile</c>, but before you
-        ///    have called <c>Remove()</c>, errors that occur while saving those items
+        ///    have called <c>Save()</c>, errors that occur while saving those items
         ///    will not cause the error handler to be invoked.
         ///  </para>
         ///
@@ -1106,7 +1106,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///    you don't set it at all, the library will throw the exception. (It is the
         ///    same as if you had set the <c>ZipEntry.ZipErrorAction</c> property on the
         ///    <c>ZipEntry</c> to <c>ZipErrorAction.Throw</c>.) If you set the
-        ///    <c>ZipErrorEventArgs.Cancel</c> to true, the entire <c>Remove()</c> will be
+        ///    <c>ZipErrorEventArgs.Cancel</c> to true, the entire <c>Save()</c> will be
         ///    canceled.
         ///  </para>
         ///
@@ -1166,7 +1166,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     // set the event handler before adding any entries
         ///     zip.ZipError += MyZipError;
         ///     zip.AddDirectory(directoryToZip, directoryInArchive);
-        ///     zip.Remove(zipFileToCreate);
+        ///     zip.Save(zipFileToCreate);
         ///   }
         /// }
         /// </code>
@@ -1189,7 +1189,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///         ' set the event handler before adding any entries
         ///         AddHandler zipArchive.ZipError, AddressOf MyZipError
         ///         zipArchive.AddDirectory(directoryToZip, directoryInArchive)
-        ///         zipArchive.Remove(zipFileToCreate)
+        ///         zipArchive.Save(zipFileToCreate)
         ///     End Using
         /// End Sub
         ///

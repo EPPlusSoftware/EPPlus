@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
     /// </para>
     ///
     /// <para> Using this stream, applications can compress or decompress data via
-    /// stream <c>Load()</c> and <c>Write()</c> operations.  Either compresssion or
+    /// stream <c>Read()</c> and <c>Write()</c> operations.  Either compresssion or
     /// decompression can occur through either reading or writing. The compression
     /// format used is ZLIB, which is documented in <see
     /// href="http://www.ietf.org/rfc/rfc1950.txt">IETF RFC 1950</see>, "ZLIB Compressed
@@ -100,7 +100,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///         {
         ///             byte[] buffer = new byte[WORKING_BUFFER_SIZE];
         ///             int n;
-        ///             while ((n= input.Load(buffer, 0, buffer.Length)) != 0)
+        ///             while ((n= input.Read(buffer, 0, buffer.Length)) != 0)
         ///             {
         ///                 compressor.Write(buffer, 0, n);
         ///             }
@@ -118,7 +118,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///             If (n &gt; 0) Then
         ///                 compressor.Write(buffer, 0, n)
         ///             End If
-        ///             n = input.Load(buffer, 0, buffer.Length)
+        ///             n = input.Read(buffer, 0, buffer.Length)
         ///         Loop
         ///     End Using
         ///     End Using
@@ -162,7 +162,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///         {
         ///             byte[] buffer = new byte[WORKING_BUFFER_SIZE];
         ///             int n;
-        ///             while ((n= input.Load(buffer, 0, buffer.Length)) != 0)
+        ///             while ((n= input.Read(buffer, 0, buffer.Length)) != 0)
         ///             {
         ///                 compressor.Write(buffer, 0, n);
         ///             }
@@ -181,7 +181,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///                 If (n &gt; 0) Then
         ///                     compressor.Write(buffer, 0, n)
         ///                 End If
-        ///                 n = input.Load(buffer, 0, buffer.Length)
+        ///                 n = input.Read(buffer, 0, buffer.Length)
         ///             Loop
         ///         End Using
         ///     End Using
@@ -276,7 +276,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///         {
         ///             byte[] buffer = new byte[WORKING_BUFFER_SIZE];
         ///             int n;
-        ///             while ((n= input.Load(buffer, 0, buffer.Length)) != 0)
+        ///             while ((n= input.Read(buffer, 0, buffer.Length)) != 0)
         ///             {
         ///                 compressor.Write(buffer, 0, n);
         ///             }
@@ -295,7 +295,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///                 If (n &gt; 0) Then
         ///                     compressor.Write(buffer, 0, n)
         ///                 End If
-        ///                 n = input.Load(buffer, 0, buffer.Length)
+        ///                 n = input.Read(buffer, 0, buffer.Length)
         ///             Loop
         ///         End Using
         ///     End Using
@@ -351,7 +351,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         /// </para>
         ///
         /// <para>
-        ///   Set this before the first call to <c>Load()</c> or <c>Write()</c> on the
+        ///   Set this before the first call to <c>Read()</c> or <c>Write()</c> on the
         ///   stream. If you try to set it afterwards, it will throw.
         /// </para>
         /// </remarks>
@@ -513,7 +513,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         }
 
         /// <summary>
-        /// Load data from the stream.
+        /// Read data from the stream.
         /// </summary>
         ///
         /// <remarks>
@@ -521,16 +521,16 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         /// <para>
         ///   If you wish to use the <c>ZlibStream</c> to compress data while reading,
         ///   you can create a <c>ZlibStream</c> with <c>CompressionMode.Compress</c>,
-        ///   providing an uncompressed data stream.  Then call <c>Load()</c> on that
+        ///   providing an uncompressed data stream.  Then call <c>Read()</c> on that
         ///   <c>ZlibStream</c>, and the data read will be compressed.  If you wish to
         ///   use the <c>ZlibStream</c> to decompress data while reading, you can create
         ///   a <c>ZlibStream</c> with <c>CompressionMode.Decompress</c>, providing a
-        ///   readable compressed data stream.  Then call <c>Load()</c> on that
+        ///   readable compressed data stream.  Then call <c>Read()</c> on that
         ///   <c>ZlibStream</c>, and the data will be decompressed as it is read.
         /// </para>
         ///
         /// <para>
-        ///   A <c>ZlibStream</c> can be used for <c>Load()</c> or <c>Write()</c>, but
+        ///   A <c>ZlibStream</c> can be used for <c>Read()</c> or <c>Write()</c>, but
         ///   not both.
         /// </para>
         ///
@@ -601,7 +601,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         /// </para>
         ///
         /// <para>
-        ///   A <c>ZlibStream</c> can be used for <c>Load()</c> or <c>Write()</c>, but not both.
+        ///   A <c>ZlibStream</c> can be used for <c>Read()</c> or <c>Write()</c>, but not both.
         /// </para>
         /// </remarks>
         /// <param name="buffer">The buffer holding data to write to the stream.</param>

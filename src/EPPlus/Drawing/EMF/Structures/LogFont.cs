@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class LogFont
     {
-        //Load and written properties
+        //Read and written properties
         int height;
         internal int Width;
         internal int Escapement;

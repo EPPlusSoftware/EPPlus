@@ -354,7 +354,7 @@ namespace OfficeOpenXml.Style
         }
 
         /// <summary>
-        /// Load RichText attributes from xml.
+        /// Read RichText attributes from xml.
         /// </summary>
         /// <param name="xr"></param>
         internal void ReadrPr(XmlReader xr)

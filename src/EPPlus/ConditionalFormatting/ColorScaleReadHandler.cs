@@ -22,7 +22,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         //This way we can determine type after reading the initial data.
         internal static ExcelConditionalFormattingRule CreateScales(ExcelAddress address, XmlReader xr, ExcelWorksheet ws)
         {
-            //Load base rules
+            //Read base rules
             var priority = int.Parse(xr.GetAttribute("priority"));
             var stopIfTrue = xr.GetAttribute("stopIfTrue") == "1";
 

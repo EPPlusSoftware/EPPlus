@@ -664,7 +664,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Crc
         }
 
         /// <summary>
-        /// Load from the stream
+        /// Read from the stream
         /// </summary>
         /// <param name="buffer">the buffer to read</param>
         /// <param name="offset">the offset at which to start</param>

@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
     ///     using (var zip = new ZipFile())
     ///     {
     ///         zip.AddEntry(zipEntryName, WriteEntry);
-    ///         zip.Remove(zipFileName);
+    ///         zip.Save(zipFileName);
     ///     }
     /// }
     /// </code>
@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
     /// Public Sub Run()
     ///     Using zip = New ZipFile
     ///         zip.AddEntry(zipEntryName, New WriteDelegate(AddressOf WriteEntry))
-    ///         zip.Remove(zipFileName)
+    ///         zip.Save(zipFileName)
     ///     End Using
     /// End Sub
     /// </code>
@@ -165,7 +165,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         Adding_Completed,
 
         /// <summary>
-        /// Indicates that a Load() operation has started.
+        /// Indicates that a Read() operation has started.
         /// </summary>
         Reading_Started,
 
@@ -180,18 +180,18 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         Reading_AfterReadEntry,
 
         /// <summary>
-        /// Indicates that a Load() operation has completed.
+        /// Indicates that a Read() operation has completed.
         /// </summary>
         Reading_Completed,
 
         /// <summary>
         /// The given event reports the number of bytes read so far
-        /// during a Load() operation.
+        /// during a Read() operation.
         /// </summary>
         Reading_ArchiveBytesRead,
 
         /// <summary>
-        /// Indicates that a Remove() operation has started.
+        /// Indicates that a Save() operation has started.
         /// </summary>
         Saving_Started,
 
@@ -206,37 +206,37 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         Saving_AfterWriteEntry,
 
         /// <summary>
-        /// Indicates that a Remove() operation has completed.
+        /// Indicates that a Save() operation has completed.
         /// </summary>
         Saving_Completed,
 
         /// <summary>
         /// Indicates that the zip archive has been created in a
-        /// temporary location during a Remove() operation.
+        /// temporary location during a Save() operation.
         /// </summary>
         Saving_AfterSaveTempArchive,
 
         /// <summary>
         /// Indicates that the temporary file is about to be renamed to the final archive
-        /// name during a Remove() operation.
+        /// name during a Save() operation.
         /// </summary>
         Saving_BeforeRenameTempArchive,
 
         /// <summary>
         /// Indicates that the temporary file is has just been renamed to the final archive
-        /// name during a Remove() operation.
+        /// name during a Save() operation.
         /// </summary>
         Saving_AfterRenameTempArchive,
 
         /// <summary>
         /// Indicates that the self-extracting archive has been compiled
-        /// during a Remove() operation.
+        /// during a Save() operation.
         /// </summary>
         Saving_AfterCompileSelfExtractor,
 
         /// <summary>
         /// The given event is reporting the number of source bytes that have run through the compressor so far
-        /// during a Remove() operation.
+        /// during a Save() operation.
         /// </summary>
         Saving_EntryBytesRead,
 
@@ -279,7 +279,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// Indicates that an error has occurred while saving a zip file.
         /// This generally means the file cannot be opened, because it has been
         /// removed, or because it is locked by another process.  It can also
-        /// mean that the file cannot be Load, because of a range lock conflict.
+        /// mean that the file cannot be Read, because of a range lock conflict.
         /// </summary>
         Error_Saving,
     }
@@ -380,7 +380,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
     /// <summary>
-    /// Provides information about the progress of a Load operation.
+    /// Provides information about the progress of a Read operation.
     /// </summary>
     internal class ReadProgressEventArgs : ZipProgressEventArgs
     {

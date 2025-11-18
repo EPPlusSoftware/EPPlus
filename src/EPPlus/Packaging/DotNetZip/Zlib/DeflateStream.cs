@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
     ///
     /// <para>
     ///   Using this stream, applications can compress or decompress data via stream
-    ///   <c>Load</c> and <c>Write</c> operations.  Either compresssion or decompression
+    ///   <c>Read</c> and <c>Write</c> operations.  Either compresssion or decompression
     ///   can occur through either reading or writing. The compression format used is
     ///   DEFLATE, which is documented in <see
     ///   href="http://www.ietf.org/rfc/rfc1951.txt">IETF RFC 1951</see>, "DEFLATE
@@ -93,7 +93,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///         {
         ///             byte[] buffer = new byte[WORKING_BUFFER_SIZE];
         ///             int n;
-        ///             while ((n= input.Load(buffer, 0, buffer.Length)) != 0)
+        ///             while ((n= input.Read(buffer, 0, buffer.Length)) != 0)
         ///             {
         ///                 compressor.Write(buffer, 0, n);
         ///             }
@@ -112,7 +112,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///                 If (n &gt; 0) Then
         ///                     compressor.Write(buffer, 0, n)
         ///                 End If
-        ///                 n = input.Load(buffer, 0, buffer.Length)
+        ///                 n = input.Read(buffer, 0, buffer.Length)
         ///             Loop
         ///         End Using
         ///     End Using
@@ -160,7 +160,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///             {
         ///                 if (n &gt; 0)
         ///                     compressor.Write(buffer, 0, n);
-        ///                 n= input.Load(buffer, 0, buffer.Length);
+        ///                 n= input.Read(buffer, 0, buffer.Length);
         ///             }
         ///         }
         ///     }
@@ -177,7 +177,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///                 If (n &gt; 0) Then
         ///                     compressor.Write(buffer, 0, n)
         ///                 End If
-        ///                 n = input.Load(buffer, 0, buffer.Length)
+        ///                 n = input.Read(buffer, 0, buffer.Length)
         ///             Loop
         ///         End Using
         ///     End Using
@@ -276,7 +276,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///             {
         ///                 if (n &gt; 0)
         ///                     compressor.Write(buffer, 0, n);
-        ///                 n= input.Load(buffer, 0, buffer.Length);
+        ///                 n= input.Read(buffer, 0, buffer.Length);
         ///             }
         ///         }
         ///     }
@@ -294,7 +294,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///                 If (n &gt; 0) Then
         ///                     compressor.Write(buffer, 0, n)
         ///                 End If
-        ///                 n = input.Load(buffer, 0, buffer.Length)
+        ///                 n = input.Read(buffer, 0, buffer.Length)
         ///             Loop
         ///         End Using
         ///     End Using
@@ -342,7 +342,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         /// </para>
         ///
         /// <para>
-        ///   Set this before the first call to <c>Load()</c> or <c>Write()</c> on the
+        ///   Set this before the first call to <c>Read()</c> or <c>Write()</c> on the
         ///   stream. If you try to set it afterwards, it will throw.
         /// </para>
         /// </remarks>
@@ -532,7 +532,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         }
 
         /// <summary>
-        /// Load data from the stream.
+        /// Read data from the stream.
         /// </summary>
         /// <remarks>
         ///
@@ -540,16 +540,16 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///   If you wish to use the <c>DeflateStream</c> to compress data while
         ///   reading, you can create a <c>DeflateStream</c> with
         ///   <c>CompressionMode.Compress</c>, providing an uncompressed data stream.
-        ///   Then call Load() on that <c>DeflateStream</c>, and the data read will be
+        ///   Then call Read() on that <c>DeflateStream</c>, and the data read will be
         ///   compressed as you read.  If you wish to use the <c>DeflateStream</c> to
         ///   decompress data while reading, you can create a <c>DeflateStream</c> with
         ///   <c>CompressionMode.Decompress</c>, providing a readable compressed data
-        ///   stream.  Then call Load() on that <c>DeflateStream</c>, and the data read
+        ///   stream.  Then call Read() on that <c>DeflateStream</c>, and the data read
         ///   will be decompressed as you read.
         /// </para>
         ///
         /// <para>
-        ///   A <c>DeflateStream</c> can be used for <c>Load()</c> or <c>Write()</c>, but not both.
+        ///   A <c>DeflateStream</c> can be used for <c>Read()</c> or <c>Write()</c>, but not both.
         /// </para>
         ///
         /// </remarks>
@@ -604,7 +604,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         /// </para>
         ///
         /// <para>
-        ///   A <c>DeflateStream</c> can be used for <c>Load()</c> or <c>Write()</c>,
+        ///   A <c>DeflateStream</c> can be used for <c>Read()</c> or <c>Write()</c>,
         ///   but not both.
         /// </para>
         ///

@@ -1137,7 +1137,7 @@ namespace OfficeOpenXml.Drawing
             //XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             //var type = PictureStore.GetPictureType(ImageFile.Extension);
             //var pic = new ExcelPicture(this, drawNode, Hyperlink, type);
-            //await pic.LoadImageAsync(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Load), type);
+            //await pic.LoadImageAsync(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
             //AddPicture(Name, pic);
             return pic;
         }
@@ -2105,7 +2105,7 @@ namespace OfficeOpenXml.Drawing
         {
             double[,] pos = new double[Count, 2];
             int ix = 0;
-            //Remove the size for all drawings
+            //Save the size for all drawings
             foreach (ExcelDrawing d in this)
             {
                 pos[ix, 0] = d.GetPixelLeft();
@@ -2117,7 +2117,7 @@ namespace OfficeOpenXml.Drawing
         {
             double[,] pos = new double[Count, 2];
             int ix = 0;
-            //Remove the size for all drawings
+            //Save the size for all drawings
             foreach (ExcelDrawing d in this)
             {
                 pos[ix, 0] = d.GetPixelTop();
@@ -2156,7 +2156,7 @@ namespace OfficeOpenXml.Drawing
         }
 
         /// <summary>
-        /// Load the drawings coordinates, height and width.
+        /// Save the drawings coordinates, height and width.
         /// </summary>
         internal void ReadPositionsAndSize()
         {

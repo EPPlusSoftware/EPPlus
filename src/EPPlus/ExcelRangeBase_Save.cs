@@ -742,7 +742,7 @@ namespace OfficeOpenXml
         #region SaveToJson Async
 #if !NET35 && !NET40
         /// <summary>
-        /// Remove the range to json
+        /// Save the range to json
         /// </summary>
         /// <param name="stream">The stream to save to.</param>
         /// <returns></returns>
@@ -752,7 +752,7 @@ namespace OfficeOpenXml
             await re.ExportAsync(stream);
         }
         /// <summary>
-        /// Remove the range to json
+        /// Save the range to json
         /// </summary>
         /// <param name="stream">The stream to save to.</param>
         /// <param name="settings">Settings for the json output.</param>

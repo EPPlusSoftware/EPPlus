@@ -59,7 +59,7 @@ namespace OfficeOpenXml.DataValidation
         }
 
         /// <summary>
-        /// Load-Only property for seeing if this dataValidation type has an operator.
+        /// Read-Only property for seeing if this dataValidation type has an operator.
         /// </summary>
         public override bool AllowsOperator { get { return false; } }
 

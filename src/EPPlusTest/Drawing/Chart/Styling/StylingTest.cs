@@ -126,7 +126,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             Assert.AreEqual(25, chart.StyleManager.Style.AxisTitle.FontReference.Color.Transforms[1].Value);
             Assert.AreEqual(12, chart.StyleManager.Style.AxisTitle.DefaultTextRun.Kerning);
             Assert.AreEqual(true, chart.StyleManager.Style.AxisTitle.DefaultTextRun.Bold);
-            Assert.AreEqual(9, chart.StyleManager.Style.AxisTitle.DefaultTextRun.   FontSize);
+            Assert.AreEqual(9, chart.StyleManager.Style.AxisTitle.DefaultTextRun.FontSize);
 
             //CategoryAxis
             Assert.AreEqual(eDrawingColorType.Scheme, chart.StyleManager.Style.CategoryAxis.FontReference.Color.ColorType);

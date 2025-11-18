@@ -355,7 +355,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         //Canonize
         //Transform
         //Hash
-        //Load as string
+        //Read as string
 
         [TestMethod]
         public void SignSaveTemplateSimple()

@@ -668,7 +668,7 @@ namespace EPPlusTest.Drawing
                 SaveAndCleanup(target);
             }
 
-            //Load and copy images between the workbooks
+            //Read and copy images between the workbooks
             using (var src = OpenPackage($"{wbName}1.xlsx"))
             {
                 var wbFirst = src.Workbook;

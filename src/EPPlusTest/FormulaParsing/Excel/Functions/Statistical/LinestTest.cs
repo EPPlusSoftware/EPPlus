@@ -681,7 +681,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
         //        worksheet.Cells["K62"].Formula = "LINEST(K50:K54, L50:N54, FALSE, TRUE)";
         //        worksheet.Calculate();
 
-        //        package.Remove();
+        //        package.Save();
         //    }
         //}
 

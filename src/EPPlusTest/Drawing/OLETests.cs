@@ -15,7 +15,7 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void ReadEmbeddedOleObject()
         {
-            //Load generic ole object.
+            //Read generic ole object.
             var genericOlePackage = OpenTemplatePackage("OleObjectTest_Embed_GENERIC.xlsx");
             var genericOleWs = genericOlePackage.Workbook.Worksheets[0];
             var genericOle = genericOleWs.Drawings["MyTextFile"];
@@ -24,7 +24,7 @@ namespace EPPlusTest.Drawing
             var embededOle = genericOle as ExcelOleObject;
             Assert.IsFalse(embededOle.IsExternalLink);
 
-            //Load PDF Object
+            //Read PDF Object
             var pdfOlePackage = OpenTemplatePackage("OleObjectTest_Embed_PDF.xlsx");
             var pdfOleWs = pdfOlePackage.Workbook.Worksheets[0];
             var pdfOle = pdfOleWs.Drawings[0];
@@ -33,7 +33,7 @@ namespace EPPlusTest.Drawing
             embededOle = pdfOle as ExcelOleObject;
             Assert.IsFalse(embededOle.IsExternalLink);
 
-            //Load DOCX Object
+            //Read DOCX Object
             var docxOlePackage = OpenTemplatePackage("OleObjectTest_Embed_DOCX.xlsx");
             var docxOleWs = docxOlePackage.Workbook.Worksheets[0];
             var docxOle = docxOleWs.Drawings[0];
@@ -42,7 +42,7 @@ namespace EPPlusTest.Drawing
             embededOle = docxOle as ExcelOleObject;
             Assert.IsFalse(embededOle.IsExternalLink);
 
-            //Load PPTX Object
+            //Read PPTX Object
             var pptxOlePackage = OpenTemplatePackage("OleObjectTest_Embed_PPTX.xlsx");
             var pptxOleWs = pptxOlePackage.Workbook.Worksheets[0];
             var pptxOle = pptxOleWs.Drawings[0];
@@ -51,7 +51,7 @@ namespace EPPlusTest.Drawing
             embededOle = pptxOle as ExcelOleObject;
             Assert.IsFalse(embededOle.IsExternalLink);
 
-            //Load XLSX Object
+            //Read XLSX Object
             var xlsxOlePackage = OpenTemplatePackage("OleObjectTest_Embed_XLSX.xlsx");
             var xlsxOleWs = xlsxOlePackage.Workbook.Worksheets[0];
             var xlsxOle = xlsxOleWs.Drawings[0];
@@ -60,7 +60,7 @@ namespace EPPlusTest.Drawing
             embededOle = xlsxOle as ExcelOleObject;
             Assert.IsFalse(embededOle.IsExternalLink);
 
-            //Load ODS Object
+            //Read ODS Object
             var odsOlePackage = OpenTemplatePackage("OleObjectTest_Embed_ODS.xlsx");
             var odsOleWs = odsOlePackage.Workbook.Worksheets[0];
             var odsOle = odsOleWs.Drawings[0];
@@ -69,7 +69,7 @@ namespace EPPlusTest.Drawing
             embededOle = odsOle as ExcelOleObject;
             Assert.IsFalse(embededOle.IsExternalLink);
 
-            //Load ODP Object
+            //Read ODP Object
             var odpOlePackage = OpenTemplatePackage("OleObjectTest_Embed_ODP.xlsx");
             var odpOleWs = odpOlePackage.Workbook.Worksheets[0];
             var odpOle = odpOleWs.Drawings[0];
@@ -78,7 +78,7 @@ namespace EPPlusTest.Drawing
             embededOle = odpOle as ExcelOleObject;
             Assert.IsFalse(embededOle.IsExternalLink);
 
-            //Load ODT Object
+            //Read ODT Object
             var odtOlePackage = OpenTemplatePackage("OleObjectTest_Embed_ODT.xlsx");
             var odtOleWs = odtOlePackage.Workbook.Worksheets[0];
             var odtOle = odtOleWs.Drawings[0];
@@ -91,7 +91,7 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void ReadLinkedOleObject()
         {
-            //Load generic ole object.
+            //Read generic ole object.
             var genericOlePackage = OpenTemplatePackage("OleObjectTest_Link_GENERIC.xlsx");
             var genericOleWs = genericOlePackage.Workbook.Worksheets[0];
             var genericOle = genericOleWs.Drawings[0];
@@ -100,7 +100,7 @@ namespace EPPlusTest.Drawing
             var linkedOle = genericOle as ExcelOleObject;
             Assert.IsTrue(linkedOle.IsExternalLink);
 
-            //Load PDF Object
+            //Read PDF Object
             var pdfOlePackage = OpenTemplatePackage("OleObjectTest_Link_PDF.xlsx");
             var pdfOleWs = pdfOlePackage.Workbook.Worksheets[0];
             var pdfOle = pdfOleWs.Drawings[0];
@@ -109,7 +109,7 @@ namespace EPPlusTest.Drawing
             linkedOle = pdfOle as ExcelOleObject;
             Assert.IsTrue(linkedOle.IsExternalLink);
 
-            //Load DOCX Object
+            //Read DOCX Object
             var docxOlePackage = OpenTemplatePackage("OleObjectTest_Link_DOCX.xlsx");
             var docxOleWs = docxOlePackage.Workbook.Worksheets[0];
             var docxOle = docxOleWs.Drawings[0];
@@ -118,7 +118,7 @@ namespace EPPlusTest.Drawing
             linkedOle = docxOle as ExcelOleObject;
             Assert.IsTrue(linkedOle.IsExternalLink);
 
-            //Load PPTX Object
+            //Read PPTX Object
             var pptxOlePackage = OpenTemplatePackage("OleObjectTest_Link_PPTX.xlsx");
             var pptxOleWs = pptxOlePackage.Workbook.Worksheets[0];
             var pptxOle = pptxOleWs.Drawings[0];
@@ -127,7 +127,7 @@ namespace EPPlusTest.Drawing
             linkedOle = pptxOle as ExcelOleObject;
             Assert.IsTrue(linkedOle.IsExternalLink);
 
-            //Load XLSX Object
+            //Read XLSX Object
             var xlsxOlePackage = OpenTemplatePackage("OleObjectTest_Link_XLSX.xlsx");
             var xlsxOleWs = xlsxOlePackage.Workbook.Worksheets[0];
             var xlsxOle = xlsxOleWs.Drawings[0];
@@ -136,7 +136,7 @@ namespace EPPlusTest.Drawing
             linkedOle = xlsxOle as ExcelOleObject;
             Assert.IsTrue(linkedOle.IsExternalLink);
 
-            //Load ODS Object
+            //Read ODS Object
             var odsOlePackage = OpenTemplatePackage("OleObjectTest_Link_ODS.xlsx");
             var odsOleWs = odsOlePackage.Workbook.Worksheets[0];
             var odsOle = odsOleWs.Drawings[0];
@@ -145,7 +145,7 @@ namespace EPPlusTest.Drawing
             linkedOle = odsOle as ExcelOleObject;
             Assert.IsTrue(linkedOle.IsExternalLink);
 
-            //Load ODT Object
+            //Read ODT Object
             var odtOlePackage = OpenTemplatePackage("OleObjectTest_Link_ODT.xlsx");
             var odtOleWs = odtOlePackage.Workbook.Worksheets[0];
             var odtOle = odtOleWs.Drawings[0];
@@ -154,7 +154,7 @@ namespace EPPlusTest.Drawing
             linkedOle = odtOle as ExcelOleObject;
             Assert.IsTrue(linkedOle.IsExternalLink);
 
-            //Load ODP Object
+            //Read ODP Object
             var odpOlePackage = OpenTemplatePackage("OleObjectTest_Link_ODP.xlsx");
             var odpOleWs = odpOlePackage.Workbook.Worksheets[0];
             var odpOle = odpOleWs.Drawings[0];
@@ -552,7 +552,7 @@ namespace EPPlusTest.Drawing
             }
             //Copy worksheet
             p.Workbook.Worksheets.Add("Worksheet Copy", ws);
-            //Remove
+            //Save
             SaveAndCleanup(p);
             p1.SaveAs(@"C:\epplusTest\Testoutput\NewOleObjects.xlsx");
         }
@@ -758,28 +758,28 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void ExtractDataFromOleObjectTest()
         {
-            //Load generic ole bytes.
+            //Read generic ole bytes.
             var genericOlePackage = OpenTemplatePackage("OleObjectTest_Embed_GENERIC.xlsx");
             var genericOleWs = genericOlePackage.Workbook.Worksheets[0];
             var genericOle = genericOleWs.Drawings["MyTextFile"] as ExcelOleObject;
             var genericOleBytes = genericOle.GetEmbeddedObjectBytes();
             Assert.IsNotNull(genericOleBytes);
 
-            //Load PDF bytes
+            //Read PDF bytes
             var pdfOlePackage = OpenTemplatePackage("OleObjectTest_Embed_PDF.xlsx");
             var pdfOleWs = pdfOlePackage.Workbook.Worksheets[0];
             var pdfOle = pdfOleWs.Drawings[0] as ExcelOleObject;
             var pdfOleBytes = pdfOle.GetEmbeddedObjectBytes();
             Assert.IsNotNull(pdfOleBytes);
 
-            //Load ODT bytes
+            //Read ODT bytes
             var odtOlePackage = OpenTemplatePackage("OleObjectTest_Embed_ODT.xlsx");
             var odtOleWs = odtOlePackage.Workbook.Worksheets[0];
             var odtOle = odtOleWs.Drawings[0] as ExcelOleObject;
             var odtOleBytes = odtOle.GetEmbeddedObjectBytes();
             Assert.IsNotNull(odtOleBytes);
 
-            //Load DOCX bytes
+            //Read DOCX bytes
             var docxOlePackage = OpenTemplatePackage("OleObjectTest_Embed_XLSX - Copy.xlsx");
             var docxOleWs = docxOlePackage.Workbook.Worksheets[0];
             var docxOle = docxOleWs.Drawings[0] as ExcelOleObject;
@@ -788,7 +788,7 @@ namespace EPPlusTest.Drawing
             var sp = new ExcelPackage(ms);
             Assert.IsNotNull(docxOleBytes);
 
-            //Load generic linked ole object.
+            //Read generic linked ole object.
             var linkOlePackage = OpenTemplatePackage("OleObjectTest_Link_GENERIC.xlsx");
             var linkOleWs = linkOlePackage.Workbook.Worksheets[0];
             var linkOle = linkOleWs.Drawings[0] as ExcelOleObject;

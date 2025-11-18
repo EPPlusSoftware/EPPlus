@@ -702,7 +702,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         }
 
 
-        // Remove the match info and tally the frequency counts. Return true if
+        // Save the match info and tally the frequency counts. Return true if
         // the current block must be flushed.
         internal bool _tr_tally(int dist, int lc)
         {
@@ -1744,7 +1744,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
                     pending[pendingCount++] = (byte)(header >> 8);
                     pending[pendingCount++] = (byte)header;
                 }
-                // Remove the adler32 of the preset dictionary:
+                // Save the adler32 of the preset dictionary:
                 if (strstart != 0)
                 {
                     pending[pendingCount++] = (byte)((_codec._Adler32 & 0xFF000000) >> 24);

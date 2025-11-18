@@ -344,7 +344,7 @@ namespace OfficeOpenXml
         internal Dictionary<Uri, int> _pivotTableIds = new Dictionary<Uri, int>();
 
         /// <summary>
-        /// Load shared strings to list
+        /// Read shared strings to list
         /// </summary>
         private void GetSharedStrings()
         {
@@ -1168,7 +1168,7 @@ namespace OfficeOpenXml
                         _stylesXml = new XmlDocument();
                         _stylesXml.LoadXml(xml.ToString());
 
-                        //Remove it to the package
+                        //Save it to the package
                         StreamWriter stream = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
 
                         _stylesXml.Save(stream);
@@ -1406,7 +1406,7 @@ namespace OfficeOpenXml
         /// Saves the workbook and all its components to the package.
         /// For internal use only!
         /// </summary>
-        internal void Save()  // Workbook Remove
+        internal void Save()  // Workbook Save
         {
             if (Worksheets.Count == 0)
                 throw new InvalidOperationException("The workbook must contain at least one worksheet");
@@ -1780,7 +1780,7 @@ namespace OfficeOpenXml
             cache.Append("</sst>");
             sw.Write(cache.ToString());
             sw.Flush();
-            // Issue 15252: Remove SharedStrings only once
+            // Issue 15252: Save SharedStrings only once
             //Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, SharedStringsUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/sharedStrings");
         }
 

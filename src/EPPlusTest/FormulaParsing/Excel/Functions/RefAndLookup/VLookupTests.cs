@@ -324,7 +324,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                     Assert.AreEqual(resultValues[i], formulaCell.Value);
                 }
 
-                //Remove Workbook
+                //Save Workbook
                 SaveAndCleanup(p);
             }
         }

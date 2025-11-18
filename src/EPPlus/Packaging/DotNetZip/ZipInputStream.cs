@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
     ///   to read and extract zip files.  Both of them support many of the common zip
     ///   features, including Unicode, different compression levels, and ZIP64.  The
     ///   programming models differ. For example, when extracting entries via calls to
-    ///   the <c>GetNextEntry()</c> and <c>Load()</c> methods on the
+    ///   the <c>GetNextEntry()</c> and <c>Read()</c> methods on the
     ///   <c>ZipInputStream</c> class, the caller is responsible for creating the file,
     ///   writing the bytes into the file, setting the attributes on the file, and
     ///   setting the created, last modified, and last accessed timestamps on the
@@ -123,7 +123,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   to read and extract zip files.  Both of them support many of the common zip
         ///   features, including Unicode, different compression levels, and ZIP64.  The
         ///   programming models differ. For example, when extracting entries via calls to
-        ///   the <c>GetNextEntry()</c> and <c>Load()</c> methods on the
+        ///   the <c>GetNextEntry()</c> and <c>Read()</c> methods on the
         ///   <c>ZipInputStream</c> class, the caller is responsible for creating the file,
         ///   writing the bytes into the file, setting the attributes on the file, and
         ///   setting the created, last modified, and last accessed timestamps on the
@@ -182,7 +182,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// {
         ///     byte[] buffer= new byte[2048];
         ///     int n;
-        ///     using (var raw = File.Open(inputFileName, FileMode.Open, FileAccess.Load))
+        ///     using (var raw = File.Open(inputFileName, FileMode.Open, FileAccess.Read))
         ///     {
         ///         using (var input= new ZipInputStream(raw))
         ///         {
@@ -193,7 +193,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///                 string outputPath = Path.Combine(extractDir, e.FileName);
         ///                 using (var output = File.Open(outputPath, FileMode.Create, FileAccess.ReadWrite))
         ///                 {
-        ///                     while ((n= input.Load(buffer, 0, buffer.Length)) > 0)
+        ///                     while ((n= input.Read(buffer, 0, buffer.Length)) > 0)
         ///                     {
         ///                         output.Write(buffer,0,n);
         ///                     }
@@ -209,7 +209,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     Dim inputFileName As String = "MyArchive.zip"
         ///     Dim extractDir As String = "extract"
         ///     Dim buffer As Byte() = New Byte(2048) {}
-        ///     Using raw As FileStream = File.Open(inputFileName, FileMode.Open, FileAccess.Load)
+        ///     Using raw As FileStream = File.Open(inputFileName, FileMode.Open, FileAccess.Read)
         ///         Using input As ZipInputStream = New ZipInputStream(raw)
         ///             Dim e As ZipEntry
         ///             Do While (Not e = input.GetNextEntry Is Nothing)
@@ -217,7 +217,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///                     Using output As FileStream = File.Open(Path.Combine(extractDir, e.FileName), _
         ///                                                            FileMode.Create, FileAccess.ReadWrite)
         ///                         Dim n As Integer
-        ///                         Do While (n = input.Load(buffer, 0, buffer.Length) > 0)
+        ///                         Do While (n = input.Read(buffer, 0, buffer.Length) > 0)
         ///                             output.Write(buffer, 0, n)
         ///                         Loop
         ///                     End Using
@@ -276,7 +276,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///             string outputPath = Path.Combine(extractDir, e.FileName);
         ///             using (var output = File.Open(outputPath, FileMode.Create, FileAccess.ReadWrite))
         ///             {
-        ///                 while ((n= input.Load(buffer, 0, buffer.Length)) > 0)
+        ///                 while ((n= input.Read(buffer, 0, buffer.Length)) > 0)
         ///                 {
         ///                     output.Write(buffer,0,n);
         ///                 }
@@ -298,7 +298,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///                 Using output As FileStream = File.Open(Path.Combine(extractDir, e.FileName), _
         ///                                                        FileMode.Create, FileAccess.ReadWrite)
         ///                     Dim n As Integer
-        ///                     Do While (n = input.Load(buffer, 0, buffer.Length) > 0)
+        ///                     Do While (n = input.Read(buffer, 0, buffer.Length) > 0)
         ///                         output.Write(buffer, 0, n)
         ///                     Loop
         ///                 End Using
@@ -392,7 +392,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   When reading a zip archive, this password is used to read and decrypt the
         ///   entries that are encrypted within the zip file. When entries within a zip
         ///   file use different passwords, set the appropriate password for the entry
-        ///   before the first call to <c>Load()</c> for each entry.
+        ///   before the first call to <c>Read()</c> for each entry.
         /// </para>
         ///
         /// <para>
@@ -410,7 +410,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <code lang="C#">
         /// byte[] buffer= new byte[2048];
         /// int n;
-        /// using (var raw = File.Open(_inputFileName, FileMode.Open, FileAccess.Load ))
+        /// using (var raw = File.Open(_inputFileName, FileMode.Open, FileAccess.Read ))
         /// {
         ///     using (var input= new ZipInputStream(raw))
         ///     {
@@ -422,7 +422,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///             string outputPath = Path.Combine(_extractDir, e.FileName);
         ///             using (var output = File.Open(outputPath, FileMode.Create, FileAccess.ReadWrite))
         ///             {
-        ///                 while ((n= input.Load(buffer,0,buffer.Length)) > 0)
+        ///                 while ((n= input.Read(buffer,0,buffer.Length)) > 0)
         ///                 {
         ///                     output.Write(buffer,0,n);
         ///                 }
@@ -468,7 +468,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
         /// <summary>
-        ///   Load the data from the stream into the buffer.
+        ///   Read the data from the stream into the buffer.
         /// </summary>
         ///
         /// <remarks>
@@ -479,7 +479,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <para>
         ///   You must set the <see cref="Password"/> property before calling
-        ///   <c>Load()</c> the first time for an encrypted entry.  To determine if an
+        ///   <c>Read()</c> the first time for an encrypted entry.  To determine if an
         ///   entry is encrypted and requires a password, check the <see
         ///   cref="ZipEntry.Encryption">ZipEntry.Encryption</see> property.
         /// </para>
@@ -522,15 +522,15 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
         /// <summary>
-        ///   Load the next entry from the zip file.
+        ///   Read the next entry from the zip file.
         /// </summary>
         ///
         /// <remarks>
         /// <para>
         ///   Call this method just before calling <see cref="Read(byte[], int, int)"/>,
         ///   to position the pointer in the zip file to the next entry that can be
-        ///   read.  Subsequent calls to <c>Load()</c>, will decrypt and decompress the
-        ///   data in the zip file, until <c>Load()</c> returns 0.
+        ///   read.  Subsequent calls to <c>Read()</c>, will decrypt and decompress the
+        ///   data in the zip file, until <c>Read()</c> returns 0.
         /// </para>
         ///
         /// <para>
@@ -543,7 +543,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <para>
         ///   This method returns the <c>ZipEntry</c>. Using a stream approach, you will
-        ///   read the raw bytes for an entry in a zip file via calls to <c>Load()</c>.
+        ///   read the raw bytes for an entry in a zip file via calls to <c>Read()</c>.
         ///   Alternatively, you can extract an entry into a file, or a stream, by
         ///   calling <see cref="ZipEntry.Extract()"/>, or one of its siblings.
         /// </para>

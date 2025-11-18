@@ -43,7 +43,7 @@ namespace OfficeOpenXml.VBA.Signatures
             si.timestampUrlOffset = br.ReadUInt32();
             si.signature = br.ReadBytes((int)si.cbSignature);
 
-            //Load serialized Properties MS-OSHARED 2.3.2.5.5 VBASigSerializedCertStore
+            //Read serialized Properties MS-OSHARED 2.3.2.5.5 VBASigSerializedCertStore
             si.version = br.ReadUInt32();
             si.fileType = br.ReadUInt32();
 
@@ -100,7 +100,7 @@ namespace OfficeOpenXml.VBA.Signatures
 
                 if (indirectDataContentOid == IndirectDataContentOidV2) //V2
                 {
-                    //Load
+                    //Read
                     var SigFormatDescriptorV1_size = BitConverter.ToInt32(digestValue, 0);    //12
                     var SigFormatDescriptorV1_version = BitConverter.ToInt32(digestValue, 4); //1
                     var SigFormatDescriptorV1_format = BitConverter.ToInt32(digestValue, 8);  //1

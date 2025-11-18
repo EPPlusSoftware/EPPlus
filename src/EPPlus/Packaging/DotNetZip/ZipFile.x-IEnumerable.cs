@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// entries in that zip file, and displays the information about each
         /// entry on the Console.
         /// <code>
-        /// using (ZipFile zip = ZipFile.Load(zipfile))
+        /// using (ZipFile zip = ZipFile.Read(zipfile))
         /// {
         ///   bool header = true;
         ///   foreach (ZipEntry e in zip)
@@ -91,7 +91,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <code lang="VB">
         ///   Dim ZipFileToExtract As String = "c:\foo.zip"
-        ///   Using zip As ZipFile = ZipFile.Load(ZipFileToExtract)
+        ///   Using zip As ZipFile = ZipFile.Read(ZipFileToExtract)
         ///       Dim header As Boolean = True
         ///       Dim e As ZipEntry
         ///       For Each e In zip

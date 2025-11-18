@@ -159,10 +159,10 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <para>
         ///   This flag is effective only when calling <see
         ///   cref="Initialize(string)"/>. Normally you would read a ZipFile with the
-        ///   static <see cref="ZipFile.Read(String)">ZipFile.Load</see>
+        ///   static <see cref="ZipFile.Read(String)">ZipFile.Read</see>
         ///   method. But you can't set the <c>FullScan</c> property on the
         ///   <c>ZipFile</c> instance when you use a static factory method like
-        ///   <c>ZipFile.Load</c>.
+        ///   <c>ZipFile.Read</c>.
         /// </para>
         ///
         /// </remarks>
@@ -177,7 +177,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// {
         ///     zip.FullScan = true;
         ///     zip.Initialize(zipFileName);
-        ///     zip.Remove(newName);
+        ///     zip.Save(newName);
         /// }
         /// </code>
         ///
@@ -185,7 +185,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// Using zip As New ZipFile
         ///     zip.FullScan = True
         ///     zip.Initialize(zipFileName)
-        ///     zip.Remove(newName)
+        ///     zip.Save(newName)
         /// End Using
         /// </code>
         /// </example>
@@ -212,7 +212,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// {
         ///     zip.AddFiles(filesToAdd);
         ///     zip.SortEntriesBeforeSaving = true;
-        ///     zip.Remove(name);
+        ///     zip.Save(name);
         /// }
         /// </code>
         ///
@@ -220,7 +220,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// Using zip As New ZipFile
         ///     zip.AddFiles(filesToAdd)
         ///     zip.SortEntriesBeforeSaving = True
-        ///     zip.Remove(name)
+        ///     zip.Save(name)
         /// End Using
         /// </code>
         /// </example>
@@ -252,7 +252,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// {
         ///     zip.AddDirectoryWillTraverseReparsePoints = false;
         ///     zip.AddDirectory(dirToZip,"fodder");
-        ///     zip.Remove(zipFileToCreate);
+        ///     zip.Save(zipFileToCreate);
         /// }
         /// </code>
         /// </example>
@@ -311,7 +311,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     zip.AddDirectory(directoryToZip, "");
         ///     zip.UseZip64WhenSaving = Zip64Option.Always;
         ///     zip.BufferSize = 65536*8; // 65536 * 8 = 512k
-        ///     zip.Remove(ZipFileToCreate);
+        ///     zip.Save(ZipFileToCreate);
         /// }
         /// </code>
         /// </example>
@@ -334,7 +334,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     is no more uncompressed data to compress. This property sets the
         ///     size of the buffer that will be used for chunk-wise compression. In
         ///     order for the setting to take effect, your application needs to set
-        ///     this property before calling one of the <c>ZipFile.Remove()</c>
+        ///     this property before calling one of the <c>ZipFile.Save()</c>
         ///     overloads.
         ///   </para>
         ///   <para>
@@ -415,7 +415,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <para>
         ///   When the <c>ZipFile</c> instance was created by reading an archive using
-        ///   one of the <c>ZipFile.Load</c> methods, this property represents the name
+        ///   one of the <c>ZipFile.Read</c> methods, this property represents the name
         ///   of the zip file that was read.  When the <c>ZipFile</c> instance was
         ///   created by using the no-argument constructor, this value is <c>null</c>
         ///   (<c>Nothing</c> in VB).
@@ -457,7 +457,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///    instance will cause the specified <c>CompressionLevel</c> to be used on all
         ///    <see cref="ZipEntry"/> items that are subsequently added to the
         ///    <c>ZipFile</c> instance. If you set this property after you have added
-        ///    items to the <c>ZipFile</c>, but before you have called <c>Remove()</c>,
+        ///    items to the <c>ZipFile</c>, but before you have called <c>Save()</c>,
         ///    those items will not use the specified compression level.
         ///  </para>
         ///
@@ -510,7 +510,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   This property is read/write. It allows the application to specify a
         ///   comment for the <c>ZipFile</c>, or read the comment for the
         ///   <c>ZipFile</c>.  After setting this property, changes are only made
-        ///   permanent when you call a <c>Remove()</c> method.
+        ///   permanent when you call a <c>Save()</c> method.
         /// </para>
         ///
         /// <para>
@@ -536,14 +536,14 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   alternate encoding only if the default encoding is not sufficient for
         ///   encoding the comment - in other words if decoding the result does not
         ///   produce the original string.  This decision is taken at the time of
-        ///   the call to <c>ZipFile.Remove()</c>.
+        ///   the call to <c>ZipFile.Save()</c>.
         /// </para>
         ///
         /// <para>
         ///   When creating a zip archive using this library, it is possible to change
         ///   the value of <see cref="AlternateEncoding" /> between each
         ///   entry you add, and between adding entries and the call to
-        ///   <c>Remove()</c>. Don't do this.  It will likely result in a zip file that is
+        ///   <c>Save()</c>. Don't do this.  It will likely result in a zip file that is
         ///   not readable by any tool or application.  For best interoperability, leave
         ///   <see cref="AlternateEncoding"/> alone, or specify it only
         ///   once, before adding any entries to the <c>ZipFile</c> instance.
@@ -654,7 +654,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     zip.EmitTimesInWindowsFormatWhenSaving = false;
         ///     zip.EmitTimesInUnixFormatWhenSaving = true;
         ///     zip.AddDirectory(directoryToZip, "files");
-        ///     zip.Remove(outputFile);
+        ///     zip.Save(outputFile);
         /// }
         /// </code>
         ///
@@ -664,7 +664,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     zip.EmitTimesInWindowsFormatWhenSaving = False
         ///     zip.EmitTimesInUnixFormatWhenSaving = True
         ///     zip.AddDirectory(directoryToZip, "files")
-        ///     zip.Remove(outputFile)
+        ///     zip.Save(outputFile)
         /// End Using
         /// </code>
         /// </example>
@@ -993,11 +993,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </para>
         ///
         /// <para>
-        ///   You may set the property at any time before calling Remove().
+        ///   You may set the property at any time before calling Save().
         /// </para>
         ///
         /// <para>
-        ///   When reading a zip file via the <c>Zipfile.Load()</c> method, DotNetZip
+        ///   When reading a zip file via the <c>Zipfile.Read()</c> method, DotNetZip
         ///   will properly read ZIP64-endowed zip archives, regardless of the value of
         ///   this property.  DotNetZip will always read ZIP64 archives.  This property
         ///   governs only whether DotNetZip will write them. Therefore, when updating
@@ -1009,7 +1009,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   An interesting question is, if you have set this property to
         ///   <c>AsNecessary</c>, and then successfully saved, does the resulting
         ///   archive use ZIP64 extensions or not?  To learn this, check the <see
-        ///   cref="OutputUsedZip64"/> property, after calling <c>Remove()</c>.
+        ///   cref="OutputUsedZip64"/> property, after calling <c>Save()</c>.
         /// </para>
         ///
         /// <para>
@@ -1051,9 +1051,9 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   compressed size of any entry is larger than 0xFFFFFFFF; the relative
         ///   offset of any entry within the zip archive is larger than 0xFFFFFFFF; or
         ///   there are more than 65534 entries in the archive.  (0xFFFFFFFF =
-        ///   4,294,967,295).  The result may not be known until a <c>Remove()</c> is attempted
+        ///   4,294,967,295).  The result may not be known until a <c>Save()</c> is attempted
         ///   on the zip archive.  The Value of this <see cref="System.Nullable"/>
-        ///   property may be set only AFTER one of the Remove() methods has been called.
+        ///   property may be set only AFTER one of the Save() methods has been called.
         /// </para>
         ///
         /// <para>
@@ -1070,7 +1070,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   cref="ZipFile.UseZip64WhenSaving"/> property is set to <see
         ///   cref="Zip64Option.AsNecessary"/> and the output stream was not
         ///   seekable. Use the <see cref="OutputUsedZip64"/> property to determine if
-        ///   the most recent <c>Remove()</c> method resulted in an archive that utilized
+        ///   the most recent <c>Save()</c> method resulted in an archive that utilized
         ///   the ZIP64 extensions.
         /// </para>
         ///
@@ -1100,7 +1100,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
         /// <summary>
-        ///   Indicates whether the most recent <c>Remove()</c> operation used ZIP64 extensions.
+        ///   Indicates whether the most recent <c>Save()</c> operation used ZIP64 extensions.
         /// </summary>
         ///
         /// <remarks>
@@ -1109,7 +1109,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   for interoperability concerns, it may be desired to NOT use ZIP64 if
         ///   possible.  The <see cref="ZipFile.UseZip64WhenSaving"/> property can be
         ///   set to use ZIP64 extensions only when necessary.  In those cases,
-        ///   Sometimes applications want to know whether a Remove() actually used ZIP64
+        ///   Sometimes applications want to know whether a Save() actually used ZIP64
         ///   extensions.  Applications can query this read-only property to learn
         ///   whether ZIP64 has been used in a just-saved <c>ZipFile</c>.
         /// </para>
@@ -1121,7 +1121,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <para>
         ///   Non-null values (<c>HasValue</c> is true) indicate whether ZIP64
-        ///   extensions were used during the most recent <c>Remove()</c> operation.  The
+        ///   extensions were used during the most recent <c>Save()</c> operation.  The
         ///   ZIP64 extensions may have been used as required by any particular entry
         ///   because of its uncompressed or compressed size, or because the archive is
         ///   larger than 4294967295 bytes, or because there are more than 65534 entries
@@ -1146,7 +1146,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
         /// <summary>
-        ///   Indicates whether the most recent <c>Load()</c> operation read a zip file that uses
+        ///   Indicates whether the most recent <c>Read()</c> operation read a zip file that uses
         ///   ZIP64 extensions.
         /// </summary>
         ///
@@ -1220,7 +1220,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   When creating a zip archive using this library, it is possible to change
         ///   the value of <see cref="ProvisionalAlternateEncoding" /> between each
         ///   entry you add, and between adding entries and the call to
-        ///   <c>Remove()</c>. Don't do this. It will likely result in a zipfile that is
+        ///   <c>Save()</c>. Don't do this. It will likely result in a zipfile that is
         ///   not readable.  For best interoperability, either leave <see
         ///   cref="ProvisionalAlternateEncoding" /> alone, or specify it only once,
         ///   before adding any entries to the <c>ZipFile</c> instance.  There is one
@@ -1243,7 +1243,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <para>
         ///   The way you specify the code page to use when reading a zip file varies
         ///   depending on the tool or library you use to read the zip.  In DotNetZip,
-        ///   you use a ZipFile.Load() method that accepts an encoding parameter.  It
+        ///   you use a ZipFile.Read() method that accepts an encoding parameter.  It
         ///   isn't possible with Windows Explorer, as far as I know, to specify an
         ///   explicit codepage to use when reading a zip.  If you use an incorrect
         ///   codepage when reading a zipfile, you will get entries with filenames that
@@ -1268,7 +1268,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <para>
         ///   When using DotNetZip to read a zip archive, and the zip archive uses an
         ///   arbitrary code page, you must specify the encoding to use before or when
-        ///   the <c>Zipfile</c> is READ.  This means you must use a <c>ZipFile.Load()</c>
+        ///   the <c>Zipfile</c> is READ.  This means you must use a <c>ZipFile.Read()</c>
         ///   method that allows you to specify a System.Text.Encoding parameter.  Setting
         ///   the ProvisionalAlternateEncoding property after your application has read in
         ///   the zip archive will not affect the entry names of entries that have already
@@ -1286,7 +1286,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   <c>ProvisionalAlternateEncoding</c> to your desired region-specific code
         ///   page, once before adding any entries, and then reset
         ///   <c>ProvisionalAlternateEncoding</c> to IBM437 before setting the <see
-        ///   cref="Comment"/> property and calling Remove().
+        ///   cref="Comment"/> property and calling Save().
         /// </para>
         /// </remarks>
         ///
@@ -1298,10 +1298,10 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// CP950 set as the default code page.  In that case, the names of entries
         /// within the Zip archive will be stored in that code page, and reading the zip
         /// archive must be done using that code page.  If the application did not use
-        /// the correct code page in <c>ZipFile.Load()</c>, then names of entries within the
+        /// the correct code page in <c>ZipFile.Read()</c>, then names of entries within the
         /// zip archive would not be correctly retrieved.
         /// <code>
-        /// using (var zip = ZipFile.Load(zipFileName, System.Text.Encoding.GetEncoding("big5")))
+        /// using (var zip = ZipFile.Read(zipFileName, System.Text.Encoding.GetEncoding("big5")))
         /// {
         ///     // retrieve and extract an entry using a name encoded with CP950
         ///     zip[MyDesiredEntry].Extract("unpack");
@@ -1309,7 +1309,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </code>
         ///
         /// <code lang="VB">
-        /// Using zip As ZipFile = ZipFile.Load(ZipToExtract, System.Text.Encoding.GetEncoding("big5"))
+        /// Using zip As ZipFile = ZipFile.Read(ZipToExtract, System.Text.Encoding.GetEncoding("big5"))
         ///     ' retrieve and extract an entry using a name encoded with CP950
         ///     zip(MyDesiredEntry).Extract("unpack")
         /// End Using
@@ -1336,7 +1336,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
         /// <summary>
         ///   A Text Encoding to use when encoding the filenames and comments for
-        ///   all the ZipEntry items, during a ZipFile.Remove() operation.
+        ///   all the ZipEntry items, during a ZipFile.Save() operation.
         /// </summary>
         /// <remarks>
         ///   <para>
@@ -1396,7 +1396,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <remarks>
         ///   If the TextWriter is set to a non-null value, then verbose output is sent
-        ///   to the <c>TextWriter</c> during <c>Add</c><c>, Load</c><c>, Remove</c> and
+        ///   to the <c>TextWriter</c> during <c>Add</c><c>, Read</c><c>, Save</c> and
         ///   <c>Extract</c> operations.  Typically, console applications might use
         ///   <c>Console.Out</c> and graphical or headless applications might use a
         ///   <c>System.IO.StringWriter</c>. The output of this is suitable for viewing
@@ -1412,7 +1412,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </para>
         ///
         /// <code lang="C#">
-        /// using (ZipFile zip= ZipFile.Load(FilePath))
+        /// using (ZipFile zip= ZipFile.Read(FilePath))
         /// {
         ///   zip.StatusMessageTextWriter= System.Console.Out;
         ///   // messages are sent to the console during extraction
@@ -1421,7 +1421,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </code>
         ///
         /// <code lang="VB">
-        /// Using zip As ZipFile = ZipFile.Load(FilePath)
+        /// Using zip As ZipFile = ZipFile.Read(FilePath)
         ///   zip.StatusMessageTextWriter= System.Console.Out
         ///   'Status Messages will be sent to the console during extraction
         ///   zip.ExtractAll()
@@ -1437,7 +1437,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <code lang="C#">
         /// var sw = new System.IO.StringWriter();
-        /// using (ZipFile zip= ZipFile.Load(FilePath))
+        /// using (ZipFile zip= ZipFile.Read(FilePath))
         /// {
         ///   zip.StatusMessageTextWriter= sw;
         ///   zip.ExtractAll();
@@ -1447,7 +1447,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <code lang="VB">
         /// Dim sw as New System.IO.StringWriter
-        /// Using zip As ZipFile = ZipFile.Load(FilePath)
+        /// Using zip As ZipFile = ZipFile.Read(FilePath)
         ///   zip.StatusMessageTextWriter= sw
         ///   zip.ExtractAll()
         /// End Using
@@ -1472,7 +1472,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <remarks>
         /// <para>
         ///   This library will create a temporary file when saving a Zip archive to a
-        ///   file.  This file is written when calling one of the <c>Remove()</c> methods
+        ///   file.  This file is written when calling one of the <c>Save()</c> methods
         ///   that does not save to a stream, or one of the <c>SaveSelfExtractor()</c>
         ///   methods.
         /// </para>
@@ -1497,14 +1497,14 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   exist; if it does not an exception is thrown.  The application should have
         ///   write and delete permissions on the folder.  The permissions are not
         ///   explicitly checked ahead of time; if the application does not have the
-        ///   appropriate rights, an exception will be thrown at the time <c>Remove()</c>
+        ///   appropriate rights, an exception will be thrown at the time <c>Save()</c>
         ///   is called.
         /// </para>
         ///
         /// <para>
         ///   There is no temporary file created when reading a zip archive.  When
         ///   saving to a Stream, there is no temporary file created.  For example, if
-        ///   the application is an ASP.NET application and calls <c>Remove()</c>
+        ///   the application is an ASP.NET application and calls <c>Save()</c>
         ///   specifying the <c>Response.OutputStream</c> as the output stream, there is
         ///   no temporary file created.
         /// </para>
@@ -1573,7 +1573,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   set the password, add an entry, then set the password to <c>null</c>
         ///   (<c>Nothing</c> in VB), and add another entry, the first entry is
         ///   encrypted and the second is not.  If you call <c>AddFile()</c>, then set
-        ///   the <c>Password</c> property, then call <c>ZipFile.Remove</c>, the file
+        ///   the <c>Password</c> property, then call <c>ZipFile.Save</c>, the file
         ///   added will not be password-protected, and no warning will be generated.
         /// </para>
         ///
@@ -1589,7 +1589,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <para>
         ///   All of the preceding applies to writing zip archives, in other words when
-        ///   you use one of the Remove methods.  To use this property when reading or an
+        ///   you use one of the Save methods.  To use this property when reading or an
         ///   existing ZipFile, do the following: set the Password property on the
         ///   <c>ZipFile</c>, then call one of the Extract() overloads on the <see
         ///   cref="ZipEntry" />. In this case, the entry is extracted using the
@@ -1634,11 +1634,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     zip.Password= "!Secret1";
         ///     zip.AddFile("MapToTheSite-7440-N49th.png");
         ///     zip.AddFile("2008-Regional-Sales-Report.pdf");
-        ///     zip.Remove("EncryptedArchive.zip");
+        ///     zip.Save("EncryptedArchive.zip");
         /// }
         ///
         /// // extract entries that use encryption
-        /// using (ZipFile zip = ZipFile.Load("EncryptedArchive.zip"))
+        /// using (ZipFile zip = ZipFile.Read("EncryptedArchive.zip"))
         /// {
         ///     zip.Password= "!Secret1";
         ///     zip.ExtractAll("extractDir");
@@ -1653,12 +1653,12 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     zip.AddFile("MapToTheSite-7440-N49th.png")
         ///     zip.Password= "!Secret1";
         ///     zip.AddFile("2008-Regional-Sales-Report.pdf")
-        ///     zip.Remove("EncryptedArchive.zip")
+        ///     zip.Save("EncryptedArchive.zip")
         /// End Using
         ///
         ///
         /// ' extract entries that use encryption
-        /// Using (zip as ZipFile = ZipFile.Load("EncryptedArchive.zip"))
+        /// Using (zip as ZipFile = ZipFile.Read("EncryptedArchive.zip"))
         ///     zip.Password= "!Secret1"
         ///     zip.ExtractAll("extractDir")
         /// End Using
@@ -1728,7 +1728,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <remarks>
         ///  <para>
         ///    Errors can occur as a file is being saved to the zip archive.  For
-        ///    example, the File.Open may fail, or a File.Load may fail, because of
+        ///    example, the File.Open may fail, or a File.Read may fail, because of
         ///    lock conflicts or other reasons.
         ///  </para>
         ///
@@ -1768,7 +1768,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///    instance will cause the specified <c>ZipErrorAction</c> to be used on all
         ///    <see cref="ZipEntry"/> items that are subsequently added to the
         ///    <c>ZipFile</c> instance. If you set this property after you have added
-        ///    items to the <c>ZipFile</c>, but before you have called <c>Remove()</c>,
+        ///    items to the <c>ZipFile</c>, but before you have called <c>Save()</c>,
         ///    those items will not use the specified error handling action.
         ///  </para>
         ///
@@ -1780,9 +1780,9 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         ///  <para>
         ///    If you set this property to <c>ZipErrorAction.Skip</c> and you'd like to
-        ///    learn which files may have been skipped after a <c>Remove()</c>, you can
+        ///    learn which files may have been skipped after a <c>Save()</c>, you can
         ///    set the <see cref="StatusMessageTextWriter" /> on the ZipFile before
-        ///    calling <c>Remove()</c>. A message will be emitted into that writer for
+        ///    calling <c>Save()</c>. A message will be emitted into that writer for
         ///    each skipped file, if any.
         ///  </para>
         ///
@@ -1790,7 +1790,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <example>
         ///   This example shows how to tell DotNetZip to skip any files for which an
-        ///   error is generated during the Remove().
+        ///   error is generated during the Save().
         /// <code lang="VB">
         /// Public Sub SaveZipFile()
         ///     Dim SourceFolder As String = "fodder"
@@ -1801,7 +1801,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///         zipArchive.ZipErrorAction = ZipErrorAction.Skip
         ///         zipArchive.StatusMessageTextWriter = sw
         ///         zipArchive.AddDirectory(SourceFolder)
-        ///         zipArchive.Remove(DestFile)
+        ///         zipArchive.Save(DestFile)
         ///     End Using
         ///     ' examine sw here to see any messages
         /// End Sub
@@ -1853,7 +1853,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   <c>EncryptionAlgorithm</c> to be used on all <see cref="ZipEntry"/> items
         ///   that are subsequently added to the <c>ZipFile</c> instance. In other
         ///   words, if you set this property after you have added items to the
-        ///   <c>ZipFile</c>, but before you have called <c>Remove()</c>, those items will
+        ///   <c>ZipFile</c>, but before you have called <c>Save()</c>, those items will
         ///   not be encrypted or protected with a password in the resulting zip
         ///   archive. To get a zip archive with encrypted entries, set this property,
         ///   along with the <see cref="Password"/> property, before calling
@@ -1866,15 +1866,15 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   encrypted entry, only by setting the <c>Encryption</c> property on the
         ///   <c>ZipEntry</c> itself.  Setting the <c>Encryption</c> property on the
         ///   <c>ZipFile</c>, once it has been created via a call to
-        ///   <c>ZipFile.Load()</c>, does not affect entries that were previously read.
+        ///   <c>ZipFile.Read()</c>, does not affect entries that were previously read.
         /// </para>
         ///
         /// <para>
         ///   For example, suppose you read a <c>ZipFile</c>, and there is an encrypted
         ///   entry.  Setting the <c>Encryption</c> property on that <c>ZipFile</c> and
-        ///   then calling <c>Remove()</c> on the <c>ZipFile</c> does not update the
+        ///   then calling <c>Save()</c> on the <c>ZipFile</c> does not update the
         ///   <c>Encryption</c> used for the entries in the archive.  Neither is an
-        ///   exception thrown. Instead, what happens during the <c>Remove()</c> is that
+        ///   exception thrown. Instead, what happens during the <c>Save()</c> is that
         ///   all previously existing entries are copied through to the new zip archive,
         ///   with whatever encryption and password that was used when originally
         ///   creating the zip archive. Upon re-reading that archive, to extract
@@ -1886,7 +1886,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   Suppose an application reads a <c>ZipFile</c>, and there is an encrypted
         ///   entry.  Setting the <c>Encryption</c> property on that <c>ZipFile</c> and
         ///   then adding new entries (via <c>AddFile()</c>, <c>AddEntry()</c>, etc)
-        ///   and then calling <c>Remove()</c> on the <c>ZipFile</c> does not update the
+        ///   and then calling <c>Save()</c> on the <c>ZipFile</c> does not update the
         ///   <c>Encryption</c> on any of the entries that had previously been in the
         ///   <c>ZipFile</c>.  The <c>Encryption</c> property applies only to the
         ///   newly-added entries.
@@ -1911,12 +1911,12 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     zip.Password= "Top.Secret.No.Peeking!";
         ///     zip.AddFile("7440-N49th.png");
         ///     zip.AddFile("2008-Regional-Sales-Report.pdf");
-        ///     zip.Remove("EncryptedArchive.zip");
+        ///     zip.Save("EncryptedArchive.zip");
         /// }
         ///
         /// // Extract a zip archive that uses AES Encryption.
         /// // You do not need to specify the algorithm during extraction.
-        /// using (ZipFile zip = ZipFile.Load("EncryptedArchive.zip"))
+        /// using (ZipFile zip = ZipFile.Read("EncryptedArchive.zip"))
         /// {
         ///     zip.Password= "Top.Secret.No.Peeking!";
         ///     zip.ExtractAll("extractDirectory");
@@ -1931,12 +1931,12 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     zip.AddFile("ReadMe.txt")
         ///     zip.AddFile("7440-N49th.png")
         ///     zip.AddFile("2008-Regional-Sales-Report.pdf")
-        ///     zip.Remove("EncryptedArchive.zip")
+        ///     zip.Save("EncryptedArchive.zip")
         /// End Using
         ///
         /// ' Extract a zip archive that uses AES Encryption.
         /// ' You do not need to specify the algorithm during extraction.
-        /// Using (zip as ZipFile = ZipFile.Load("EncryptedArchive.zip"))
+        /// Using (zip as ZipFile = ZipFile.Read("EncryptedArchive.zip"))
         ///     zip.Password= "Top.Secret.No.Peeking!"
         ///     zip.ExtractAll("extractDirectory")
         /// End Using
@@ -1972,9 +1972,9 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <para>
         ///   With this callback, the DotNetZip library allows the application to
         ///   determine whether compression will be used, at the time of the
-        ///   <c>Remove</c>. This may be useful if the application wants to favor
+        ///   <c>Save</c>. This may be useful if the application wants to favor
         ///   speed over size, and wants to defer the decision until the time of
-        ///   <c>Remove</c>.
+        ///   <c>Save</c>.
         /// </para>
         ///
         /// <para>
@@ -1988,9 +1988,9 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <para>
         ///   This callback allows the application to defer the decision on the
         ///   <c>CompressionLevel</c> to use, until the time of the call to
-        ///   <c>ZipFile.Remove()</c>. The callback is invoked once per <c>ZipEntry</c>,
+        ///   <c>ZipFile.Save()</c>. The callback is invoked once per <c>ZipEntry</c>,
         ///   at the time the data for the entry is being written out as part of a
-        ///   <c>Remove()</c> operation. The application can use whatever criteria it
+        ///   <c>Save()</c> operation. The application can use whatever criteria it
         ///   likes in determining the level to return.  For example, an application may
         ///   wish that no .mp3 files should be compressed, because they are already
         ///   compressed and the extra compression is not worth the CPU time incurred,
@@ -2040,7 +2040,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     The value of this property determines the maximum size of a split
         ///     segment when writing a split archive.  For example, suppose you have a
         ///     <c>ZipFile</c> that would save to a single file of 200k. If you set the
-        ///     <c>MaxOutputSegmentSize</c> to 65536 before calling <c>Remove()</c>, you
+        ///     <c>MaxOutputSegmentSize</c> to 65536 before calling <c>Save()</c>, you
         ///     will get four distinct output files. On the other hand if you set this
         ///     property to 256k, then you will get a single-file archive for that
         ///     <c>ZipFile</c>.
@@ -2083,8 +2083,8 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         ///   <para>
         ///     If you read a split archive, with <see cref="ZipFile.Read(string)"/> and
-        ///     then subsequently call <c>ZipFile.Remove()</c>, unless you set this
-        ///     property before calling <c>Remove()</c>, you will get a normal,
+        ///     then subsequently call <c>ZipFile.Save()</c>, unless you set this
+        ///     property before calling <c>Save()</c>, you will get a normal,
         ///     single-file archive.
         ///   </para>
         /// </remarks>
@@ -2106,18 +2106,18 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
         /// <summary>
-        ///   Returns the number of segments used in the most recent Remove() operation.
+        ///   Returns the number of segments used in the most recent Save() operation.
         /// </summary>
         /// <remarks>
         ///   <para>
         ///     This is normally zero, unless you have set the <see
         ///     cref="MaxOutputSegmentSize"/> property.  If you have set <see
         ///     cref="MaxOutputSegmentSize"/>, and then you save a file, after the call to
-        ///     Remove() completes, you can read this value to learn the number of segments that
+        ///     Save() completes, you can read this value to learn the number of segments that
         ///     were created.
         ///   </para>
         ///   <para>
-        ///     If you call Remove("Archive.zip"), and it creates 5 segments, then you
+        ///     If you call Save("Archive.zip"), and it creates 5 segments, then you
         ///     will have filesystem files named Archive.z01, Archive.z02, Archive.z03,
         ///     Archive.z04, and Archive.zip, and the value of this property will be 5.
         ///   </para>
@@ -2274,7 +2274,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <para>
         ///   The application can set this value at any time
-        ///   before calling <c>ZipFile.Remove()</c>.
+        ///   before calling <c>ZipFile.Save()</c>.
         /// </para>
         /// </remarks>
         ///
@@ -2403,15 +2403,15 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   passing the name of a file that does not exist.  The name may be a fully
         ///   qualified path. Then the application can add directories or files to the
         ///   <c>ZipFile</c> via <c>AddDirectory()</c>, <c>AddFile()</c>, <c>AddItem()</c>
-        ///   and then write the zip archive to the disk by calling <c>Remove()</c>. The
+        ///   and then write the zip archive to the disk by calling <c>Save()</c>. The
         ///   zip file is not actually opened and written to the disk until the
-        ///   application calls <c>ZipFile.Remove()</c>.  At that point the new zip file
+        ///   application calls <c>ZipFile.Save()</c>.  At that point the new zip file
         ///   with the given name is created.
         /// </para>
         ///
         /// <para>
         ///   If you won't know the name of the <c>Zipfile</c> until the time you call
-        ///   <c>ZipFile.Remove()</c>, or if you plan to save to a stream (which has no
+        ///   <c>ZipFile.Save()</c>, or if you plan to save to a stream (which has no
         ///   name), then you should use the no-argument constructor.
         /// </para>
         ///
@@ -2419,7 +2419,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   The application can also call this constructor to read an existing zip
         ///   archive.  passing the name of a valid zip file that does exist. But, it's
         ///   better form to use the static <see cref="ZipFile.Read(String)"/> method,
-        ///   passing the name of the zip file, because using <c>ZipFile.Load()</c> in
+        ///   passing the name of the zip file, because using <c>ZipFile.Read()</c> in
         ///   your code communicates very clearly what you are doing.  In either case,
         ///   the file is then read into the <c>ZipFile</c> instance.  The app can then
         ///   enumerate the entries or can modify the zip file, for example adding
@@ -2461,7 +2461,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   // Store all files found in the top level directory, into the zip archive.
         ///   String[] filenames = System.IO.Directory.GetFiles(DirectoryToZip);
         ///   zip.AddFiles(filenames, "files");
-        ///   zip.Remove(ZipFileToCreate);
+        ///   zip.Save(ZipFileToCreate);
         /// }
         /// </code>
         ///
@@ -2471,7 +2471,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// Using zip As ZipFile = New ZipFile()
         ///     Dim filenames As String() = System.IO.Directory.GetFiles(DirectoryToZip)
         ///     zip.AddFiles(filenames, "files")
-        ///     zip.Remove(ZipFileToCreate)
+        ///     zip.Save(ZipFileToCreate)
         /// End Using
         /// </code>
         /// </example>
@@ -2565,7 +2565,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   COM interop.)  If you call the no-argument <see cref="Save()"/> method
         ///   without having set the <c>Name</c> of the <c>ZipFile</c>, either through
         ///   the parameterized constructor or through the explicit property , the
-        ///   Remove() will throw, because there is no place to save the file.  </para>
+        ///   Save() will throw, because there is no place to save the file.  </para>
         ///
         /// <para>
         ///   Instances of the <c>ZipFile</c> class are not multi-thread safe.  You may
@@ -2584,7 +2584,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   // note: this code does not recurse subdirectories!
         ///   String[] filenames = System.IO.Directory.GetFiles(DirectoryToZip);
         ///   zip.AddFiles(filenames, "files");
-        ///   zip.Remove("Backup.zip");
+        ///   zip.Save("Backup.zip");
         /// }
         /// </code>
         ///
@@ -2594,7 +2594,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     ' note: this code does not recurse subdirectories!
         ///     Dim filenames As String() = System.IO.Directory.GetFiles(DirectoryToZip)
         ///     zip.AddFiles(filenames, "files")
-        ///     zip.Remove("Backup.zip")
+        ///     zip.Save("Backup.zip")
         /// End Using
         /// </code>
         /// </example>
@@ -2679,7 +2679,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   // Status messages will be written to Console.Out
         ///   String[] filenames = System.IO.Directory.GetFiles(DirectoryToZip);
         ///   zip.AddFiles(filenames);
-        ///   zip.Remove();
+        ///   zip.Save();
         /// }
         /// </code>
         ///
@@ -2690,7 +2690,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     ' Status messages will be written to Console.Out
         ///     Dim filenames As String() = System.IO.Directory.GetFiles(DirectoryToZip)
         ///     zip.AddFiles(filenames)
-        ///     zip.Remove()
+        ///     zip.Save()
         /// End Using
         /// </code>
         /// </example>
@@ -2803,7 +2803,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </para>
         ///
         /// <para>
-        ///   .NET applications are encouraged to use the <c>ZipFile.Load()</c> methods
+        ///   .NET applications are encouraged to use the <c>ZipFile.Read()</c> methods
         ///   for better clarity.
         /// </para>
         ///
@@ -2962,7 +2962,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <example>
         /// This example extracts only the entries in a zip file that are .txt files.
         /// <code>
-        /// using (ZipFile zip = ZipFile.Load("PackedDocuments.zip"))
+        /// using (ZipFile zip = ZipFile.Read("PackedDocuments.zip"))
         /// {
         ///   foreach (string s1 in zip.EntryFilenames)
         ///   {
@@ -2972,7 +2972,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// }
         /// </code>
         /// <code lang="VB">
-        ///   Using zip As ZipFile = ZipFile.Load("PackedDocuments.zip")
+        ///   Using zip As ZipFile = ZipFile.Read("PackedDocuments.zip")
         ///       Dim s1 As String
         ///       For Each s1 In zip.EntryFilenames
         ///           If s1.EndsWith(".txt") Then
@@ -3100,7 +3100,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <code lang="VB">
         ///   Dim zipFileToRead As String = "PackedDocuments.zip"
         ///   Dim candidate As String = "DatedMaterial.xps"
-        ///   Using zip As ZipFile.Load(ZipFileToRead)
+        ///   Using zip As ZipFile.Read(ZipFileToRead)
         ///       If zip.EntryFilenames.Contains(candidate) Then
         ///           Console.WriteLine("The file '{0}' exists in the zip archive '{1}'", _
         ///                       candidate, _
@@ -3170,7 +3170,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   This example fills a Windows Forms ListView with the entries in a zip file.
         ///
         /// <code lang="C#">
-        /// using (ZipFile zip = ZipFile.Load(zipFile))
+        /// using (ZipFile zip = ZipFile.Read(zipFile))
         /// {
         ///     foreach (ZipEntry entry in zip.EntriesSorted)
         ///     {
@@ -3235,7 +3235,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <remarks>
         /// <para>
-        ///   After calling <c>RemoveEntry</c>, the application must call <c>Remove</c> to
+        ///   After calling <c>RemoveEntry</c>, the application must call <c>Save</c> to
         ///   make the changes permanent.
         /// </para>
         /// </remarks>
@@ -3252,7 +3252,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <code>
         /// String ZipFileToRead = "ArchiveToModify.zip";
         /// System.DateTime Threshold = new System.DateTime(2007,12,31);
-        /// using (ZipFile zip = ZipFile.Load(ZipFileToRead))
+        /// using (ZipFile zip = ZipFile.Read(ZipFileToRead))
         /// {
         ///   var EntriesToRemove = new System.Collections.Generic.List&lt;ZipEntry&gt;();
         ///   foreach (ZipEntry e in zip)
@@ -3274,14 +3274,14 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///                              System.DateTime.Now.ToString("G"));
         ///
         ///   // save with a different name
-        ///   zip.Remove("Archive-Updated.zip");
+        ///   zip.Save("Archive-Updated.zip");
         /// }
         /// </code>
         ///
         /// <code lang="VB">
         ///   Dim ZipFileToRead As String = "ArchiveToModify.zip"
         ///   Dim Threshold As New DateTime(2007, 12, 31)
-        ///   Using zip As ZipFile = ZipFile.Load(ZipFileToRead)
+        ///   Using zip As ZipFile = ZipFile.Read(ZipFileToRead)
         ///       Dim EntriesToRemove As New System.Collections.Generic.List(Of ZipEntry)
         ///       Dim e As ZipEntry
         ///       For Each e In zip
@@ -3300,7 +3300,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///       Next
         ///       zip.Comment = String.Format("This zip archive was updated at {0}.", DateTime.Now.ToString("G"))
         ///       'save as a different name
-        ///       zip.Remove("Archive-Updated.zip")
+        ///       zip.Save("Archive-Updated.zip")
         ///   End Using
         /// </code>
         /// </example>
@@ -3351,7 +3351,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <remarks>
         /// <para>
-        ///   After calling <c>RemoveEntry</c>, the application must call <c>Remove</c> to
+        ///   After calling <c>RemoveEntry</c>, the application must call <c>Save</c> to
         ///   make the changes permanent.
         /// </para>
         ///
@@ -3374,25 +3374,25 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <code>
         /// String zipFileToRead= "PackedDocuments.zip";
         /// string candidate = "DatedMaterial.xps";
-        /// using (ZipFile zip = ZipFile.Load(zipFileToRead))
+        /// using (ZipFile zip = ZipFile.Read(zipFileToRead))
         /// {
         ///   if (zip.EntryFilenames.Contains(candidate))
         ///   {
         ///     zip.RemoveEntry(candidate);
         ///     zip.Comment= String.Format("The file '{0}' has been removed from this archive.",
         ///                                Candidate);
-        ///     zip.Remove();
+        ///     zip.Save();
         ///   }
         /// }
         /// </code>
         /// <code lang="VB">
         ///   Dim zipFileToRead As String = "PackedDocuments.zip"
         ///   Dim candidate As String = "DatedMaterial.xps"
-        ///   Using zip As ZipFile = ZipFile.Load(zipFileToRead)
+        ///   Using zip As ZipFile = ZipFile.Read(zipFileToRead)
         ///       If zip.EntryFilenames.Contains(candidate) Then
         ///           zip.RemoveEntry(candidate)
         ///           zip.Comment = String.Format("The file '{0}' has been removed from this archive.", Candidate)
-        ///           zip.Remove
+        ///           zip.Save
         ///       End If
         ///   End Using
         /// </code>
@@ -3450,7 +3450,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// This example extracts an entry selected by name, from the Zip file to the
         /// Console.
         /// <code>
-        /// using (ZipFile zip = ZipFile.Load(zipfile))
+        /// using (ZipFile zip = ZipFile.Read(zipfile))
         /// {
         ///   foreach (ZipEntry e in zip)
         ///   {
@@ -3461,7 +3461,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </code>
         ///
         /// <code lang="VB">
-        /// Using zip As ZipFile = ZipFile.Load(zipfile)
+        /// Using zip As ZipFile = ZipFile.Read(zipfile)
         ///     Dim e As ZipEntry
         ///     For Each e In zip
         ///       If WantThisEntry(e.FileName) Then

@@ -430,7 +430,7 @@ namespace OfficeOpenXml.Table
         }
 
         /// <summary>
-        /// Remove the table to json
+        /// Save the table to json
         /// </summary>
         /// <param name="stream">The stream to save to.</param>
         /// <returns></returns>

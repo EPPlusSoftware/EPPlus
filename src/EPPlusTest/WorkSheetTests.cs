@@ -1111,7 +1111,7 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
 
-            //Load values and copy them.
+            //Read values and copy them.
             using (var p = OpenPackage("CopyNamesEpplus_src.xlsx"))
             {
                 var wb = p.Workbook;

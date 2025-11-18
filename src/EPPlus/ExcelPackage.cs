@@ -128,7 +128,7 @@ namespace OfficeOpenXml
     ///         package.Workbook.Properties.SetCustomPropertyValue("AssemblyName", "EPPlus");
     ///
     ///         // save our new workbook and we are done!
-    ///         package.Remove();
+    ///         package.Save();
     ///
     ///       }
     ///
@@ -332,7 +332,7 @@ namespace OfficeOpenXml
 
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a existing template.
-        /// If newFile exists, it will be overwritten when the Remove method is called
+        /// If newFile exists, it will be overwritten when the Save method is called
         /// </summary>
         /// <param name="newFile">The name of the Excel file to be created</param>
         /// <param name="template">The name of the Excel template to use as the basis of the new Excel file</param>
@@ -347,7 +347,7 @@ namespace OfficeOpenXml
 
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a existing template.
-        /// If newFile exists, it will be overwritten when the Remove method is called
+        /// If newFile exists, it will be overwritten when the Save method is called
         /// </summary>
         /// <param name="newFile">The name of the Excel file to be created</param>
         /// <param name="template">The name of the Excel template to use as the basis of the new Excel file</param>
@@ -364,7 +364,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a stream
         /// </summary>
-        /// <param name="newStream">The stream object can be empty or contain a package. The stream must be Load/Write</param>
+        /// <param name="newStream">The stream object can be empty or contain a package. The stream must be Read/Write</param>
         /// /// <param name="configuration">An instance of <see cref="IConfiguration"/> provided by the hosting application.</param>
         public ExcelPackage(Stream newStream, IConfiguration configuration)
         {
@@ -403,7 +403,7 @@ namespace OfficeOpenXml
         { }
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a existing template.
-        /// If newFile exists, it will be overwritten when the Remove method is called
+        /// If newFile exists, it will be overwritten when the Save method is called
         /// </summary>
         /// <param name="newFile">The name of the Excel file to be created</param>
         /// <param name="template">The name of the Excel template to use as the basis of the new Excel file</param>
@@ -415,7 +415,7 @@ namespace OfficeOpenXml
         }
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a existing template.
-        /// If newFile exists, it will be overwritten when the Remove method is called
+        /// If newFile exists, it will be overwritten when the Save method is called
         /// </summary>
         /// <param name="newFile">The name of the Excel file to be created</param>
         /// <param name="template">The name of the Excel template to use as the basis of the new Excel file</param>
@@ -428,7 +428,7 @@ namespace OfficeOpenXml
         }
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a existing template.
-        /// If newFile exists, it will be overwritten when the Remove method is called
+        /// If newFile exists, it will be overwritten when the Save method is called
         /// </summary>
         /// <param name="newFilePath">The name of the Excel file to be created</param>
         /// <param name="templatePath">The name of the Excel template to use as the basis of the new Excel file</param>
@@ -468,7 +468,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a stream
         /// </summary>
-        /// <param name="newStream">The stream object can be empty or contain a package. The stream must be Load/Write</param>
+        /// <param name="newStream">The stream object can be empty or contain a package. The stream must be Read/Write</param>
         public ExcelPackage(Stream newStream)
         {
             Init();
@@ -486,7 +486,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a stream
         /// </summary>
-        /// <param name="newStream">The stream object can be empty or contain a package. The stream must be Load/Write</param>
+        /// <param name="newStream">The stream object can be empty or contain a package. The stream must be Read/Write</param>
         /// <param name="Password">The password to decrypt the document</param>
         public ExcelPackage(Stream newStream, string Password)
         {
@@ -949,7 +949,7 @@ namespace OfficeOpenXml
 
         /// <summary>
         /// Saves all the components back into the package.
-        /// This method recursively calls the Remove method on all sub-components.
+        /// This method recursively calls the Save method on all sub-components.
         /// We close the package after the save is done.
         /// </summary>
         public void Save()
@@ -1076,7 +1076,7 @@ namespace OfficeOpenXml
         }
         /// <summary>
         /// Saves all the components back into the package.
-        /// This method recursively calls the Remove method on all sub-components.
+        /// This method recursively calls the Save method on all sub-components.
         /// The package is closed after it has ben saved
         /// Supply a password to encrypt the workbook with. 
         /// </summary>

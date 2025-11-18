@@ -279,7 +279,7 @@ namespace OfficeOpenXml.Drawing.EMF
         }
 
         /// <summary>
-        /// Remove before and restore playback state after a record range
+        /// Save before and restore playback state after a record range
         /// </summary>
         /// <param name="startRecord">Record before which to place the EMR_SAVEDC record</param>
         /// <param name="endRecord">Record after which to place the EMR_RESTOREDC record</param>

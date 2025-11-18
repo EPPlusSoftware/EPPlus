@@ -114,7 +114,7 @@ namespace OfficeOpenXml
                 // Create a the part and add to the package
                 Packaging.ZipPackagePart part = _package.ZipPackage.CreatePart(uri, contentType);
 
-                // Remove it to the package
+                // Save it to the package
                 StreamWriter stream = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
                 xmlDoc.Save(stream);
                 //stream.Close();

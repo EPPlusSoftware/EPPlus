@@ -45,7 +45,7 @@ namespace OfficeOpenXml.DataValidation
         }
 
         /// <summary>
-        /// Load-File Constructor
+        /// Read-File Constructor
         /// </summary>
         /// <param name="xr"></param>
         /// <param name="ws">The worksheet</param>
@@ -372,7 +372,7 @@ namespace OfficeOpenXml.DataValidation
                 }
             }
 
-            //Load to next dataValidation or dataValidations end node
+            //Read to next dataValidation or dataValidations end node
             xr.Read();
         }
 

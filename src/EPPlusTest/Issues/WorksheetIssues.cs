@@ -555,7 +555,7 @@ namespace EPPlusTest.Issues
         public void Issue1794_1()
         {
             // This tests creates a workbook without errors. When this workbook is opened in Excel
-            // and then closed without changing anything, Excel still shows a "Remove changes" dialog.
+            // and then closed without changing anything, Excel still shows a "Save changes" dialog.
             // this seems to be related to that Excel renames the worksheet xml files.
             // EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
             // this bug was fixed in GitHub Issue 1794 /MA
@@ -576,7 +576,7 @@ namespace EPPlusTest.Issues
         public void Issue1794_2()
         {
             // This tests creates a workbook without errors. When this workbook is opened in Excel
-            // and then closed without changing anything, Excel still shows a "Remove changes" dialog.
+            // and then closed without changing anything, Excel still shows a "Save changes" dialog.
             // this seems to be related to that Excel renames the worksheet xml files.
             // EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
             // this bug was fixed in github Issue 1794 /MA

@@ -404,7 +404,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         ///  
         ///  compressor.InitializeDeflate(CompressionLevel.Default);
         ///  
-        ///  compressor.InputBuffer = System.String.ASCIIEncoding.ASCII.Save(TextToCompress);
+        ///  compressor.InputBuffer = System.String.ASCIIEncoding.ASCII.GetBytes(TextToCompress);
         ///  compressor.NextIn = 0;
         ///  compressor.AvailableBytesIn = compressor.InputBuffer.Length;
         ///  
@@ -572,7 +572,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         /// 
         ///     ms.Seek(0, SeekOrigin.Begin);
         ///     CompressedBytes = new byte[compressor.TotalBytesOut];
-        ///     ms.Load(CompressedBytes, 0, CompressedBytes.Length);
+        ///     ms.Read(CompressedBytes, 0, CompressedBytes.Length);
         /// }
         /// </code>
         /// </example>
@@ -687,7 +687,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
             }
         }
 
-        // Load a new buffer from the current input stream, update the adler32
+        // Read a new buffer from the current input stream, update the adler32
         // and total number of bytes read.  All deflate() input goes through
         // this function so some applications may wish to modify it to avoid
         // allocating a large strm->next_in buffer and copying from it.

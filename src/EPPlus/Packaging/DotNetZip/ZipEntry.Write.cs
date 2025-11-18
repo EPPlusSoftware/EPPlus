@@ -604,7 +604,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             // case ZipOption.AsNecessary:
             // workitem 6513: when writing, use the alternative encoding
             // only when _actualEncoding is not yet set (it can be set
-            // during Load), and when ibm437 will not do.
+            // during Read), and when ibm437 will not do.
 
             byte[] result = ibm437.GetBytes(s1);
             // need to use this form of GetString() for .NET CF
@@ -1266,7 +1266,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
         /// <summary>
         /// Copy metadata that may have been changed by the app.  We do this when
-        /// resetting the zipFile instance.  If the app calls Remove() on a ZipFile, then
+        /// resetting the zipFile instance.  If the app calls Save() on a ZipFile, then
         /// tries to party on that file some more, we may need to Reset() it , which
         /// means re-reading the entries and then copying the metadata.  I think.
         /// </summary>
@@ -1299,7 +1299,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
         private void _WriteEntryData(Stream s)
         {
-            // Load in the data from the input stream (often a file in the filesystem),
+            // Read in the data from the input stream (often a file in the filesystem),
             // and write it to the output stream, calculating a CRC on it as we go.
             // We will also compress and encrypt as necessary.
 
@@ -2045,7 +2045,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                     // just copy data for a ZipEntry from the source zipfile to the
                     // destination, as a block, without decompressing and
                     // recompressing, etc.  But, in some cases the app modifies the
-                    // properties on a ZipEntry prior to calling Remove(). A change to
+                    // properties on a ZipEntry prior to calling Save(). A change to
                     // any of the metadata - the FileName, CompressioLeve and so on,
                     // means DotNetZip cannot simply copy through the existing
                     // ZipEntry data unchanged.
@@ -2227,7 +2227,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             // these values are the same.  So we need to update them.  This takes
             // care of the boundary case where a single zipfile instance can be
             // saved multiple times, with distinct changes to the properties on
-            // the entries, in between each Remove().
+            // the entries, in between each Save().
             _Encryption_FromZipFile = _Encryption;
             _CompressionMethod_FromZipFile = _CompressionMethod;
             _restreamRequiredOnSave = false;

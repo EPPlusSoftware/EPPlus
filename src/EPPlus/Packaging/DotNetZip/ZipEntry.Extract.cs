@@ -141,7 +141,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// This example extracts only the entries in a zip file that are .txt files,
         /// into a directory called "textfiles".
         /// <code lang="C#">
-        /// using (ZipFile zip = ZipFile.Load("PackedDocuments.zip"))
+        /// using (ZipFile zip = ZipFile.Read("PackedDocuments.zip"))
         /// {
         ///   foreach (string s1 in zip.EntryFilenames)
         ///   {
@@ -153,7 +153,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// }
         /// </code>
         /// <code lang="VB">
-        ///   Using zip As ZipFile = ZipFile.Load("PackedDocuments.zip")
+        ///   Using zip As ZipFile = ZipFile.Read("PackedDocuments.zip")
         ///       Dim s1 As String
         ///       For Each s1 In zip.EntryFilenames
         ///           If s1.EndsWith(".txt") Then
@@ -205,7 +205,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// String sZipPath = "Airborne.zip";
         /// String sFilePath = "Readme.txt";
         /// String sRootFolder = "Digado";
-        /// using (ZipFile zip = ZipFile.Load(sZipPath))
+        /// using (ZipFile zip = ZipFile.Read(sZipPath))
         /// {
         ///   if (zip.EntryFileNames.Contains(sFilePath))
         ///   {
@@ -220,7 +220,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// Dim sZipPath as String = "Airborne.zip"
         /// Dim sFilePath As String = "Readme.txt"
         /// Dim sRootFolder As String = "Digado"
-        /// Using zip As ZipFile = ZipFile.Load(sZipPath)
+        /// Using zip As ZipFile = ZipFile.Read(sZipPath)
         ///   If zip.EntryFileNames.Contains(sFilePath)
         ///     ' use the string indexer on the zip file
         ///     zip(sFilePath).Extract(sRootFolder, _
@@ -275,7 +275,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   In this example, entries that use encryption are extracted using a
         ///   particular password.
         /// <code>
-        /// using (var zip = ZipFile.Load(FilePath))
+        /// using (var zip = ZipFile.Read(FilePath))
         /// {
         ///     foreach (ZipEntry e in zip)
         ///     {
@@ -287,7 +287,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// }
         /// </code>
         /// <code lang="VB">
-        /// Using zip As ZipFile = ZipFile.Load(FilePath)
+        /// Using zip As ZipFile = ZipFile.Read(FilePath)
         ///     Dim e As ZipEntry
         ///     For Each e In zip
         ///         If (e.UsesEncryption)
@@ -507,7 +507,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     byte[] buffer = new byte[4096];
         ///     int n, totalBytesRead= 0;
         ///     do {
-        ///       n = s.Load(buffer,0, buffer.Length);
+        ///       n = s.Read(buffer,0, buffer.Length);
         ///       totalBytesRead+=n;
         ///     } while (n&gt;0);
         ///      if (s.Crc32 != e1.Crc32)
@@ -525,7 +525,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///           Dim buffer As Byte() = New Byte(4096) {}
         ///           Dim totalBytesRead As Integer = 0
         ///           Do
-        ///               n = s.Load(buffer, 0, buffer.Length)
+        ///               n = s.Read(buffer, 0, buffer.Length)
         ///               totalBytesRead = (totalBytesRead + n)
         ///           Loop While (n &gt; 0)
         ///           If (s.Crc32 &lt;&gt; e1.Crc32) Then

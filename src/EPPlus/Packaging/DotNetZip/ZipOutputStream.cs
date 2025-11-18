@@ -184,11 +184,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///                 System.Console.WriteLine("file: {0}", inputFileName);
         ///
         ///                 output.PutNextEntry(inputFileName);
-        ///                 using (var input = File.Open(inputFileName, FileMode.Open, FileAccess.Load, FileShare.Load | FileShare.Write ))
+        ///                 using (var input = File.Open(inputFileName, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Write ))
         ///                 {
         ///                     byte[] buffer= new byte[2048];
         ///                     int n;
-        ///                     while ((n= input.Load(buffer,0,buffer.Length)) > 0)
+        ///                     while ((n= input.Read(buffer,0,buffer.Length)) > 0)
         ///                     {
         ///                         output.Write(buffer,0,n);
         ///                     }
@@ -214,10 +214,10 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///                 For Each inputFileName In filesToZip
         ///                     Console.WriteLine("file: {0}", inputFileName)
         ///                     output.PutNextEntry(inputFileName)
-        ///                     Using input As FileStream = File.Open(inputFileName, FileMode.Open, FileAccess.Load, FileShare.ReadWrite)
+        ///                     Using input As FileStream = File.Open(inputFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
         ///                         Dim n As Integer
         ///                         Dim buffer As Byte() = New Byte(2048) {}
-        ///                         Do While (n = input.Load(buffer, 0, buffer.Length) > 0)
+        ///                         Do While (n = input.Read(buffer, 0, buffer.Length) > 0)
         ///                             output.Write(buffer, 0, n)
         ///                         Loop
         ///                     End Using
@@ -269,12 +269,12 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///             System.Console.WriteLine("file: {0}", inputFileName);
         ///
         ///             output.PutNextEntry(inputFileName);
-        ///             using (var input = File.Open(inputFileName, FileMode.Open, FileAccess.Load,
-        ///                                          FileShare.Load | FileShare.Write ))
+        ///             using (var input = File.Open(inputFileName, FileMode.Open, FileAccess.Read,
+        ///                                          FileShare.Read | FileShare.Write ))
         ///             {
         ///                 byte[] buffer= new byte[2048];
         ///                 int n;
-        ///                 while ((n= input.Load(buffer,0,buffer.Length)) > 0)
+        ///                 while ((n= input.Read(buffer,0,buffer.Length)) > 0)
         ///                 {
         ///                     output.Write(buffer,0,n);
         ///                 }
@@ -298,10 +298,10 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///             For Each inputFileName In filesToZip
         ///                 Console.WriteLine("file: {0}", inputFileName)
         ///                 output.PutNextEntry(inputFileName)
-        ///                 Using input As FileStream = File.Open(inputFileName, FileMode.Open, FileAccess.Load, FileShare.ReadWrite)
+        ///                 Using input As FileStream = File.Open(inputFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
         ///                     Dim n As Integer
         ///                     Dim buffer As Byte() = New Byte(2048) {}
-        ///                     Do While (n = input.Load(buffer, 0, buffer.Length) > 0)
+        ///                     Do While (n = input.Read(buffer, 0, buffer.Length) > 0)
         ///                         output.Write(buffer, 0, n)
         ///                     Loop
         ///                 End Using
@@ -630,7 +630,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   alternate encoding only if the default encoding is not sufficient for
         ///   encoding the comment - in other words if decoding the result does not
         ///   produce the original string.  This decision is taken at the time of
-        ///   the call to <c>ZipFile.Remove()</c>.
+        ///   the call to <c>ZipFile.Save()</c>.
         /// </para>
         ///
         /// </remarks>
@@ -975,7 +975,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
         /// <summary>
         ///   A Text Encoding to use when encoding the filenames and comments for
-        ///   all the ZipEntry items, during a ZipFile.Remove() operation.
+        ///   all the ZipEntry items, during a ZipFile.Save() operation.
         /// </summary>
         /// <remarks>
         ///   <para>
@@ -1348,11 +1348,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///             output.Password = "VerySecret!";
         ///             output.Encryption = EncryptionAlgorithm.WinZipAes256;
         ///             output.PutNextEntry("entry1.txt");
-        ///             byte[] buffer= System.Text.Encoding.ASCII.Save("This is the content for entry #1.");
+        ///             byte[] buffer= System.Text.Encoding.ASCII.GetBytes("This is the content for entry #1.");
         ///             output.Write(buffer,0,buffer.Length);
         ///             output.PutNextEntry("entry2.txt");  // this will be zero length
         ///             output.PutNextEntry("entry3.txt");
-        ///             buffer= System.Text.Encoding.ASCII.Save("This is the content for entry #3.");
+        ///             buffer= System.Text.Encoding.ASCII.GetBytes("This is the content for entry #3.");
         ///             output.Write(buffer,0,buffer.Length);
         ///         }
         ///     }

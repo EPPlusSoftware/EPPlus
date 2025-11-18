@@ -84,7 +84,7 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
             CommitmentTypeQualifiers = typeQualifiers;
         }
 
-        //Load
+        //Read
         internal SignedDataObjectProperties(string prefix, XmlElement SignedDataObjectPropertiesNode, List<string> typeQualifiers, ref CommitmentType type)
         {
             Prefix = prefix;

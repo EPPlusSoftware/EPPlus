@@ -17,7 +17,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
 {
     /// <summary>
     /// Reads and writes a compound documents.
-    /// Load spec here https://winprotocoldoc.blob.core.windows.net/productionwindowsarchives/MS-CFB/[MS-CFB].pdf
+    /// Read spec here https://winprotocoldoc.blob.core.windows.net/productionwindowsarchives/MS-CFB/[MS-CFB].pdf
     /// </summary>
     internal partial class CompoundDocumentFile : IDisposable
     {
@@ -146,7 +146,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
     #region Read
     internal void Read(BinaryReader br)
         {
-            br.ReadBytes(8);    //Load header
+            br.ReadBytes(8);    //Read header
             br.ReadBytes(16);   //Header CLSID (16 bytes): Reserved and unused class ID that MUST be set to all zeroes (CLSID_NULL). 
             minorVersion = br.ReadInt16();
             majorVersion = br.ReadInt16();

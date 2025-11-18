@@ -1,4 +1,4 @@
-// ZipFile.Remove.cs
+// ZipFile.Save.cs
 // ------------------------------------------------------------------
 //
 // Copyright (c) 2009 Dino Chiesa.
@@ -19,7 +19,7 @@
 //
 // ------------------------------------------------------------------
 //
-// This module defines the methods for Remove operations on zip files.
+// This module defines the methods for Save operations on zip files.
 //
 // ------------------------------------------------------------------
 //
@@ -78,8 +78,8 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <remarks>
         /// <para>
         ///   The <c>ZipFile</c> instance is written to storage, typically a zip file
-        ///   in a filesystem, only when the caller calls <c>Remove</c>.  In the typical
-        ///   case, the Remove operation writes the zip content to a temporary file, and
+        ///   in a filesystem, only when the caller calls <c>Save</c>.  In the typical
+        ///   case, the Save operation writes the zip content to a temporary file, and
         ///   then renames the temporary file to the desired name. If necessary, this
         ///   method will delete a pre-existing file before the rename.
         /// </para>
@@ -93,18 +93,18 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <para>
         ///   When using a filesystem file for the Zip output, it is possible to call
-        ///   <c>Remove</c> multiple times on the <c>ZipFile</c> instance. With each
+        ///   <c>Save</c> multiple times on the <c>ZipFile</c> instance. With each
         ///   call the zip content is re-written to the same output file.
         /// </para>
         ///
         /// <para>
         ///   Data for entries that have been added to the <c>ZipFile</c> instance is
-        ///   written to the output when the <c>Remove</c> method is called. This means
+        ///   written to the output when the <c>Save</c> method is called. This means
         ///   that the input streams for those entries must be available at the time
-        ///   the application calls <c>Remove</c>.  If, for example, the application
+        ///   the application calls <c>Save</c>.  If, for example, the application
         ///   adds entries with <c>AddEntry</c> using a dynamically-allocated
         ///   <c>MemoryStream</c>, the memory stream must not have been disposed
-        ///   before the call to <c>Remove</c>. See the <see
+        ///   before the call to <c>Save</c>. See the <see
         ///   cref="ZipEntry.InputStream"/> property for more discussion of the
         ///   availability requirements of the input stream for an entry, and an
         ///   approach for providing just-in-time stream lifecycle management.
@@ -387,7 +387,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
         /// <summary>
-        /// Remove the file to a new zipfile, with the given name.
+        /// Save the file to a new zipfile, with the given name.
         /// </summary>
         ///
         /// <remarks>
@@ -404,7 +404,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <para>
         /// The <c>ZipFile</c> instance is written to storage, typically a zip file in a
-        /// filesystem, only when the caller calls <c>Remove</c>.  The Remove operation writes
+        /// filesystem, only when the caller calls <c>Save</c>.  The Save operation writes
         /// the zip content to a temporary file, and then renames the temporary file
         /// to the desired name. If necessary, this method will delete a pre-existing file
         /// before the rename.
@@ -422,19 +422,19 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </param>
         ///
         /// <example>
-        /// This example shows how to create and Remove a zip file.
+        /// This example shows how to create and Save a zip file.
         /// <code>
         /// using (ZipFile zip = new ZipFile())
         /// {
         ///   zip.AddDirectory(@"c:\reports\January");
-        ///   zip.Remove("January.zip");
+        ///   zip.Save("January.zip");
         /// }
         /// </code>
         ///
         /// <code lang="VB">
         /// Using zip As New ZipFile()
         ///   zip.AddDirectory("c:\reports\January")
-        ///   zip.Remove("January.zip")
+        ///   zip.Save("January.zip")
         /// End Using
         /// </code>
         ///
@@ -443,17 +443,17 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <example>
         /// This example shows how to update a zip file.
         /// <code>
-        /// using (ZipFile zip = ZipFile.Load("ExistingArchive.zip"))
+        /// using (ZipFile zip = ZipFile.Read("ExistingArchive.zip"))
         /// {
         ///   zip.AddFile("NewData.csv");
-        ///   zip.Remove("UpdatedArchive.zip");
+        ///   zip.Save("UpdatedArchive.zip");
         /// }
         /// </code>
         ///
         /// <code lang="VB">
-        /// Using zip As ZipFile = ZipFile.Load("ExistingArchive.zip")
+        /// Using zip As ZipFile = ZipFile.Read("ExistingArchive.zip")
         ///   zip.AddFile("NewData.csv")
-        ///   zip.Remove("UpdatedArchive.zip")
+        ///   zip.Save("UpdatedArchive.zip")
         /// End Using
         /// </code>
         ///
@@ -464,7 +464,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             // that was originally instantiated with a stream.  In that case,
             // the _name will be null. If so, we set _writestream to null,
             // which insures that we'll cons up a new WriteStream (with a filesystem
-            // file backing it) in the Remove() method.
+            // file backing it) in the Save() method.
             if (_name == null)
                 _writestream = null;
 
@@ -480,21 +480,21 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
         /// <summary>
-        ///   Remove the zip archive to the specified stream.
+        ///   Save the zip archive to the specified stream.
         /// </summary>
         ///
         /// <remarks>
         /// <para>
         ///   The <c>ZipFile</c> instance is written to storage - typically a zip file
         ///   in a filesystem, but using this overload, the storage can be anything
-        ///   accessible via a writable stream - only when the caller calls <c>Remove</c>.
+        ///   accessible via a writable stream - only when the caller calls <c>Save</c>.
         /// </para>
         ///
         /// <para>
         ///   Use this method to save the zip content to a stream directly.  A common
         ///   scenario is an ASP.NET application that dynamically generates a zip file
         ///   and allows the browser to download it. The application can call
-        ///   <c>Remove(Response.OutputStream)</c> to write a zipfile directly to the
+        ///   <c>Save(Response.OutputStream)</c> to write a zipfile directly to the
         ///   output stream, without creating a zip file on the disk on the ASP.NET
         ///   server.
         /// </para>
@@ -523,7 +523,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///     zip.Encryption = EncryptionAlgorithm.WinZipAes128;
         ///     zip.AddFile(sourceFileName);
         ///     MemoryStream output = new MemoryStream();
-        ///     zip.Remove(output);
+        ///     zip.Save(output);
         ///
         ///     byte[] zipbytes = output.ToArray();
         /// }
@@ -540,10 +540,10 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <code lang="C#">
         /// using (var fs = new FileSteeam(filename, FileMode.Open))
         /// {
-        ///   using (var zip = Ionic.Zip.ZipFile.Load(inputStream))
+        ///   using (var zip = Ionic.Zip.ZipFile.Read(inputStream))
         ///   {
         ///     zip.AddEntry("Name1.txt", "this is the content");
-        ///     zip.Remove(inputStream);  // NO NO NO!!
+        ///     zip.Save(inputStream);  // NO NO NO!!
         ///   }
         /// }
         /// </code>
@@ -553,10 +553,10 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// </para>
         ///
         /// <code lang="C#">
-        /// using (var zip = Ionic.Zip.ZipFile.Load(filename))
+        /// using (var zip = Ionic.Zip.ZipFile.Read(filename))
         /// {
         ///     zip.AddEntry("Name1.txt", "this is the content");
-        ///     zip.Remove();  // YES!
+        ///     zip.Save();  // YES!
         /// }
         /// </code>
         ///
@@ -565,8 +565,8 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// <param name="outputStream">
         ///   The <c>System.IO.Stream</c> to write to. It must be
         ///   writable. If you created the ZipFile instanct by calling
-        ///   ZipFile.Load(), this stream must not be the same stream
-        ///   you passed to ZipFile.Load().
+        ///   ZipFile.Read(), this stream must not be the same stream
+        ///   you passed to ZipFile.Read().
         /// </param>
         public void Save(Stream outputStream)
         {
@@ -686,7 +686,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                     Array.Copy(BitConverter.GetBytes(thisSegment), 0, a, i, 4);
                     i += 4;
                     // number of the disk with the start of the central directory
-                    //Array.Copy(BitConverter.Save(startSegment), 0, a, i, 4);
+                    //Array.Copy(BitConverter.GetBytes(startSegment), 0, a, i, 4);
                     Array.Copy(BitConverter.GetBytes(thisSegment), 0, a, i, 4);
 
                     i = 60;
@@ -718,7 +718,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                 Array.Copy(BitConverter.GetBytes(thisSegment), 0, a2, i, 2);
                 i += 2;
                 // number of the disk with the start of the central directory
-                //Array.Copy(BitConverter.Save((UInt16)startSegment), 0, a2, i, 2);
+                //Array.Copy(BitConverter.GetBytes((UInt16)startSegment), 0, a2, i, 2);
                 Array.Copy(BitConverter.GetBytes(thisSegment), 0, a2, i, 2);
                 i += 2;
             }
