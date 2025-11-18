@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.LoadFunctions.ReflectionHelpers;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils.FileUtils;
 using System;
@@ -64,6 +65,19 @@ namespace OfficeOpenXml.Data.Connection
         {
             return _list.GetEnumerator();
         }
+        /// <summary>
+        /// Returns the connection at the supplied position.
+        /// </summary>
+        /// <param name="index">The index of the connection to return.</param>
+        /// <returns>The connection</returns>
+        public ExcelConnection this[int index]
+        {
+            get
+            {
+                return _list[index];
+            }
+        }
+
         internal void Save()
         {
             if (_list.Count==0 && Part!=null)
@@ -109,7 +123,7 @@ namespace OfficeOpenXml.Data.Connection
             c.Type = GetConnectionType(connectionString);
             c.IsBackground = true;
             c.SaveData = true;
-
+            
             return c;
         }
         /// <summary>
@@ -176,7 +190,6 @@ namespace OfficeOpenXml.Data.Connection
             };
             c.Type = GetConnectionType(connectionString);
             c.OlapProperties = new ExcelConnectionOlapProperties();
-            c.Type = eConnectionDataSourceType.OLEDB;
             return c;
         }
         /// <summary>
@@ -260,15 +273,36 @@ namespace OfficeOpenXml.Data.Connection
             var startXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><connections xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"xr16\" xmlns:xr16=\"http://schemas.microsoft.com/office/spreadsheetml/2017/revision16\"></connections>";
             ConnectionXml.LoadXml(startXml);
         }
+        /// <summary>
+        /// Removes the connection at the given position. Please note that any related Power Query formula is not removed for the <see cref="ExcelPowerQuerySettings.Formulas"/>.
+        /// </summary>
+        /// <param name="index">The position of the connection to remove.</param>
         public void RemoveAt(int index)
         {
             _list[index].Remove();
             _list.RemoveAt(index);
         }
-        public void Remove(ExcelConnection item)
+        /// <summary>
+        /// Removes the connection at the given position. Please note that any related Power Query formula is not removed for the <see cref="ExcelPowerQuerySettings.Formulas"/>.
+        /// </summary>
+        /// <param name="connection">The connection to remove.</param>
+        public void Remove(ExcelConnection connection)
         {
-            item.Remove();
-            _list.Remove(item);
+            foreach(var ws in _package.Workbook.Worksheets)
+            {
+                if(ws.QueryTables.Any(x => x.ConnectionId == connection.Id))
+                {
+                    var qt = ws.QueryTables.First(x => x.ConnectionId == connection.Id);
+                    throw new InvalidOperationException($"Can not remove connection with id {connection.Id}. The connection is used by a query table in the worksheet {ws.Name} in range {qt.DestinationRange.Address}.");
+                }
+                if(ws.Tables.Any(t => t.DataSourceType == TableDataSourceType.QueryTable && t.QueryTable.ConnectionId == connection.Id))
+                {
+                    var t = ws.Tables.First(t => t.DataSourceType == TableDataSourceType.QueryTable && t.QueryTable.ConnectionId == connection.Id);
+                    throw new InvalidOperationException($"Can not remove connection with id {connection.Id}. The connection is used by a table {t.Name} in the worksheet {ws.Name}.");
+                }
+            }
+            connection.Remove();
+            _list.Remove(connection);
         }
     }
 }

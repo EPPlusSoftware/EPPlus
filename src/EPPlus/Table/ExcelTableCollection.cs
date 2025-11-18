@@ -229,7 +229,7 @@ namespace OfficeOpenXml.Table
 
 
         /// <summary>
-        /// Delete the table
+        /// Delete the table and removes it from the collection
         /// </summary>
         /// <param name="Table">The table object</param>
         /// <param name="ClearRange">Clear the table range</param>
@@ -264,6 +264,15 @@ namespace OfficeOpenXml.Table
                 {
                     var range = _ws.Cells[Table.Address.Address];
                     range.Clear();
+                }
+                if(Table.DataSourceType==TableDataSourceType.QueryTable && Table.QueryTable!=null)
+                {
+                    var qtName = Table.WorkSheet.Names[Table.QueryTable.Name];
+                    if (qtName != null)
+                    {
+                        Table.WorkSheet.Names.Remove(qtName.Name);
+                    }
+                    Table.QueryTable.Remove();
                 }
             }
         }

@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Data.QueryTable
             _list = new List<ExcelQueryTable>();
 
             var rels = ws.Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/queryTable");
-            foreach(var rel in rels)
+            foreach (var rel in rels)
             {
                 var qt = new ExcelQueryTable(new QueryTableDataPartXmlHandler(ws, rel));
                 _list.Add(qt);
@@ -70,16 +70,17 @@ namespace OfficeOpenXml.Data.QueryTable
             }
         }
         /// <summary>
-        /// Adds a new query table to the collection.
+        /// Adds a new query table to the collection. Worksheet level query tables are legacy objects and can only be used for older types of connection. 
+        /// For newer types of connections like PowerQuery, use <see cref="ExcelTableCollection.AddQueryTable(ExcelAddressBase, string, ExcelConnection, string[])"/> instead.
         /// </summary>
         /// <param name="address">The address</param>
-        /// <param name="name">The name of the query table</param>
+        /// <param name="name">The name of the query table.</param>
         /// <param name="connection">The connection </param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         public ExcelQueryTable Add(ExcelAddressBase address, string name, ExcelConnection connection)
         {
-            if(_ws.Workbook.Connections.Contains(connection)==false)
+            if (_ws.Workbook.Connections.Contains(connection) == false)
             {
                 throw new ArgumentException("The connection must be from the same workbook.", nameof(connection));
             }
@@ -87,7 +88,7 @@ namespace OfficeOpenXml.Data.QueryTable
             {
                 throw new ArgumentException("Name cannot be null or empty", nameof(name));
             }
-            if(_list.Any(x=> x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
+            if (_list.Any(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
             {
                 throw new ArgumentException($"A query table with the name '{name}' already exists in the collection", nameof(name));
             }
@@ -96,7 +97,7 @@ namespace OfficeOpenXml.Data.QueryTable
             qt.Name = name;
             qt.ConnectionId = connection.Id;
             qt.Connection = connection;
-            
+
             var definedName = _ws.Names.Add(qt.Name, _ws.Cells[address.Address]);
             qt.DestinationRange = definedName;
             _list.Add(qt);
@@ -105,7 +106,7 @@ namespace OfficeOpenXml.Data.QueryTable
         /// <summary>
         /// The number of query tables in the collection
         /// </summary>
-        public int Count 
+        public int Count
         {
             get
             {
@@ -127,10 +128,34 @@ namespace OfficeOpenXml.Data.QueryTable
         }
         internal void Save()
         {
-            foreach(var qt in _list)
+            foreach (var qt in _list)
             {
                 qt.Save();
             }
+        }
+        /// <summary>
+        /// Removes the query table from the collection.
+        /// </summary>
+        /// <param name="queryTable"></param>
+        public void Remove(ExcelQueryTable queryTable)
+        {
+            var qtName = _ws.Names[queryTable.Name];
+            if (qtName != null)
+            {
+                _ws.Names.Remove(qtName.Name);
+            }
+
+            queryTable.Remove();
+            _list.Remove(queryTable);
+        }
+        /// <summary>
+        /// Removes the query table at the given index from the collection.
+        /// </summary>
+        /// <param name="index"></param>
+        public void RemoveAt(int index)
+        {
+            var qt = this[index];
+            Remove(qt);
         }
     }
 }

@@ -152,7 +152,14 @@ namespace OfficeOpenXml.Data.Connection.IOHandlers
         {
             if (Part != null)
             {
-                _table.WorkSheet.Workbook._package.ZipPackage.DeletePart(Part.Uri);
+                if (_table == null)
+                {
+                    _ws.Workbook._package.ZipPackage.DeletePart(Part.Uri);
+                }
+                else
+                {
+                    _table.WorkSheet.Workbook._package.ZipPackage.DeletePart(Part.Uri);
+                }
             }
         }
         public void Save(ExcelQueryTable item)
