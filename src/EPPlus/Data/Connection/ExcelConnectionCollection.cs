@@ -274,7 +274,7 @@ namespace OfficeOpenXml.Data.Connection
             ConnectionXml.LoadXml(startXml);
         }
         /// <summary>
-        /// Removes the connection at the given position. Please note that any related Power Query formula is not removed for the <see cref="ExcelPowerQuerySettings.Formulas"/>.
+        /// Removes the connection at the given position. Please note that any related Power Query formula is not removed for the <see cref="ExcelPowerQuerySettings.Formulas"/> by this method.
         /// </summary>
         /// <param name="index">The position of the connection to remove.</param>
         public void RemoveAt(int index)
@@ -283,7 +283,7 @@ namespace OfficeOpenXml.Data.Connection
             _list.RemoveAt(index);
         }
         /// <summary>
-        /// Removes the connection at the given position. Please note that any related Power Query formula is not removed for the <see cref="ExcelPowerQuerySettings.Formulas"/>.
+        /// Removes the connection at the given position. Please note that any related Power Query formula is not removed from the <see cref="ExcelPowerQuerySettings.Formulas"/> by this method.
         /// </summary>
         /// <param name="connection">The connection to remove.</param>
         public void Remove(ExcelConnection connection)
