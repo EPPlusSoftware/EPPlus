@@ -17,10 +17,11 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
 {
@@ -40,140 +41,118 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
             var numberVal = arguments[0];
             var radixVal = arguments[1];
 
-            InMemoryRange numberRange = null;
-            InMemoryRange radixRange = null;
-            if (numberVal.IsExcelRange)
+            var retRange = GetReturnRange(numberVal, radixVal);
+            for(var row = 0; row < retRange.Size.NumberOfRows; row++)
             {
-                var src =  numberVal.ValueAsRangeInfo;
-                numberRange = new InMemoryRange(src.Size);
-
-                for (var row = 0; row < src.Size.NumberOfRows; row++)
+                for(var col = 0; col < retRange.Size.NumberOfCols; col++)
                 {
-                    for (var col = 0; col < src.Size.NumberOfCols; col++)
-                    {
-                        var val = numberRange.GetOffset(row, col);
-                        double num;
-                        var ret = new InMemoryRange(numberRange.Size);
-                        if (double.TryParse(val?.ToString(), out num))
-                        {
-                            if (num != Math.Truncate(num))
-                            {
-                                num = Math.Truncate(num);
-                            }
-                        }
-                        numberRange.SetValue(row, col, num);
-                    }
+                    var number = GetArgValue(numberVal, row, col);
+                    var radix = GetArgValue(radixVal, row, col);
+                    var res = GetBaseValue(number, radix);
+                    retRange.SetValue(row, col, res);
                 }
             }
-            else
-            {
-                var number = ArgToInt(arguments, 0, out ExcelErrorValue errora0);  
-                if (errora0 != null) { return CompileResult.GetErrorResult(errora0.Type); }
-                if(number < 0 || number > Math.Pow(2, 53)) { return CompileResult.GetErrorResult(eErrorType.Num); }
-            }
-
-            if (radixVal.IsExcelRange)
-            {
-                var src = radixVal.ValueAsRangeInfo;
-                radixRange = new InMemoryRange(src.Size);
-
-                for (var row = 0; row < radixRange.Size.NumberOfRows; row++)
-                {
-                    for (var col = 0; col < radixRange.Size.NumberOfCols; col++)
-                    {
-                        var val = radixRange.GetOffset(row, col);
-                        double num;
-                        var retRadixRange = new InMemoryRange(radixRange.Size);
-
-                        if (double.TryParse(val?.ToString(), out num))
-                        {
-                            if (num != Math.Truncate(num))
-                            {
-                                num = Math.Truncate(num);
-                            }
-                        }
-                        retRadixRange.SetValue(row, col, num);
-                    }
-                }
-            }
-            else
-            {
-                var radix = ArgToInt(arguments, 1, out ExcelErrorValue errora1);
-                if (errora1 != null) { return CompileResult.GetErrorResult(errora1.Type); }
-                if(radix < 2 || radix > 36) { return CompileResult.GetErrorResult(eErrorType.Num); }
-            }
-
-            var size = new RangeDefinition(numberRange.Size.NumberOfRows, radixRange.Size.NumberOfCols);
-            var retRange = new InMemoryRange(size);
-            for (int r = 0; r < retRange.Size.NumberOfRows; r++)
-            {
-                for (int c = 0; c < retRange.Size.NumberOfCols; c++)
-                {
-                    // Check if the cell exists in numberRange and radixRange
-                    bool hasNumber = r < numberRange.Size.NumberOfRows;
-                    bool hasRadix = c < radixRange.Size.NumberOfCols;
-
-                    if (!hasNumber || !hasRadix)
-                    {
-                        // According to your rule #3:
-                        retRange.SetValue(r, c, ExcelErrorValue.Create(eErrorType.Num));
-                        continue;
-                    }
-
-                    // Get values
-                    object numObj = numberRange.GetValue(r, 0);
-
-                    if (numObj == null || !double.TryParse(numObj.ToString(), out double number))
-                    {
-                        retRange.SetValue(r, c, ExcelErrorValue.Create(eErrorType.Num));
-                        continue;
-                    }
-                    object radObj = radixRange.GetValue(0, c);
-
-                    if (radObj == null || !double.TryParse(radObj.ToString(), out double radix))
-                    {
-                        retRange.SetValue(r, c, ExcelErrorValue.Create(eErrorType.Num));
-                        continue;
-                    }
-
-
-                    int numInt = (int)number;
-                    int radInt = (int)radix;
-
-                    // Base conversion
-                    string baseStr = GetBaseValue(numInt, radInt);
-
-                    retRange.SetValue(r, c, baseStr);
-                }
-            }
-
-            //for (var row = 0; row < numberRange.Size.NumberOfRows; row++)
-            //{
-            //    for(var col = 0; col< radixRange.Size.NumberOfCols; col++)
-            //    {
-
-            //    }
-            //}
-
-            ExcelErrorValue errora2 = null;
-            var minLength = arguments.Count() < 2 ? ArgToInt(arguments, 2, out errora2) : 0;
-            if (errora2 != null) { return CompileResult.GetErrorResult(errora2.Type); }
-
-            if(minLength < 0) { return CompileResult.GetErrorResult(eErrorType.Num); }
-            
-            
-
-            return CreateResult(result, DataType.String);
+            return CreateDynamicArrayResult(retRange, DataType.ExcelRange);           
         }
 
-        private string GetBaseValue(int value, int radix)
+        private object GetArgValue(FunctionArgument arg, int row, int col)
+        {
+            if (arg.IsExcelRange)
+            {
+                var r = arg.ValueAsRangeInfo;
+                if(r.Size.NumberOfRows == 1)
+                {
+                    if(r.Size.NumberOfCols == 1)
+                    {
+                        return r.GetOffset(0, 0);
+                    }
+                    if(r.Size.NumberOfCols <= col)
+                    {
+                        return ErrorValues.NAError; // Dessa kan ju inte vara här?
+                    }
+                    return r.GetOffset(0, col); 
+                }
+                else
+                {
+                    if (r.Size.NumberOfCols == 1)
+                    {
+                        return r.GetOffset(row, 0); 
+                    }
+                    if (r.Size.NumberOfRows <= row)
+                    {
+                        return ErrorValues.NAError;
+                    }
+                    return r.GetOffset(row, col);
+                }
+            }
+            else
+            {
+                return arg.ValueFirst;
+            }
+        }
+
+        private InMemoryRange GetReturnRange(FunctionArgument numberVal, FunctionArgument radixVal)
+        {
+            int rows, cols;
+            if (numberVal.IsExcelRange)
+            {
+                rows = numberVal.ValueAsRangeInfo.Size.NumberOfRows;
+                cols = numberVal.ValueAsRangeInfo.Size.NumberOfCols;
+            }
+            else
+            {
+                rows = 1;
+                cols = 1;
+            }
+            if (radixVal.IsExcelRange)
+            {
+                var radixRange = radixVal.ValueAsRangeInfo;
+                if (rows < radixRange.Size.NumberOfRows)
+                {
+                    rows = radixRange.Size.NumberOfRows;
+                }
+                if (cols < radixRange.Size.NumberOfCols)
+                {
+                    cols = radixRange.Size.NumberOfCols;
+                }
+            }
+            return new InMemoryRange(rows, (short)cols);                
+        }
+
+        private object GetBaseValue(object value, object radix)
         {
             var result = string.Empty;
-            while (value > 0)
+            if (value is ExcelErrorValue)
             {
-                int remainder = value % radix;
+                return value;
+            }
+            if(radix is ExcelErrorValue)
+            {
+                return radix;
+            }
+            //if(value is null || radix is null)
+            //{
+            //    return result = "0";
+            //}
+            var numberDec = ConvertUtil.GetValueDouble(value, true, true, true);
+            var radixDec = ConvertUtil.GetValueDouble(radix, true, true, true);
+            if (double.IsNaN(numberDec) || double.IsNaN(radixDec))
+            {
+                return ErrorValues.ValueError;
+            }
+            else if (numberDec < 0 || numberDec > Math.Pow(2, 53) || radixDec < 2 || radixDec > 36) 
+            {
+                return ErrorValues.NumError;
+            }
+            numberDec = Math.Truncate(numberDec);
+            radixDec = Math.Truncate(radixDec);
+            int numberInt = (int)numberDec;
+            int radixInt = (int)radixDec;   
+            while (numberInt > 0)
+            {
+                int remainder = numberInt % radixInt;
                 result = Digits[remainder] + result;
-                value /= radix;
+                numberInt /= radixInt;
             }
             return result;
         }
