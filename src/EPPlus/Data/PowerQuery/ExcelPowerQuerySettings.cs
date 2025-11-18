@@ -141,13 +141,13 @@ namespace OfficeOpenXml.Data.Connection
             Permissions = new ExcelPowerQueryPermissions();
             Permissions.CanEvaluateFuturePackages = _permissionsXh.GetXmlNodeBool("CanEvaluateFuturePackages");
             Permissions.FirewallEnabled = _permissionsXh.GetXmlNodeBool("FirewallEnabled");
-            Permissions.PrivacyLevel = _permissionsXh.GetXmlEnum("WorkbookGroupType", eWorkbookGroupType.None);
+            Permissions.PrivacyLevel = _permissionsXh.GetXmlEnum("WorkbookGroupType", ePowerQueryPermissionWorkbookGroupType.None);
         }
         private void SavePermissions()
         {
             _permissionsXh.SetXmlNodeBool("CanEvaluateFuturePackages", Permissions.CanEvaluateFuturePackages);
             _permissionsXh.SetXmlNodeBool("FirewallEnabled", Permissions.FirewallEnabled);
-            _permissionsXh.SetXmlNodeString("WorkbookGroupType", Permissions.PrivacyLevel.ToEnumString(eWorkbookGroupType.None), true);
+            _permissionsXh.SetXmlNodeString("WorkbookGroupType", Permissions.PrivacyLevel.ToEnumString(ePowerQueryPermissionWorkbookGroupType.None), true);
         }
         /// <summary>
         /// Loads meta data from a xml document formatted according to the MS-QDEFF docmument - section 2.5.1.

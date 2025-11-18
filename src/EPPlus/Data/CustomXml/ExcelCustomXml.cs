@@ -10,7 +10,7 @@ using System.Xml;
 namespace OfficeOpenXml.Data.CustomXml
 {
     /// <summary>
-    /// Represnets a custom XML part in the package.
+    /// Represents a custom XML part in the package.
     /// </summary>
     public class ExcelCustomXml
     {

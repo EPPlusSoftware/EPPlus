@@ -10,26 +10,28 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
-using System.Xml;
-
 namespace OfficeOpenXml.Data.Connection
 {
     /// <summary>
-    /// Power query permission settings
+    /// Permision level for the 
     /// </summary>
-    public class ExcelPowerQueryPermissions 
+    public enum ePowerQueryPermissionWorkbookGroupType
     {
         /// <summary>
-        ///  If the client is allowed to read files created in a newer version of the client. This value is ignored when read, and is written as "false".
+        /// No privacy settings.
         /// </summary>
-        internal bool CanEvaluateFuturePackages { get; set; }
+        None,
         /// <summary>
-        /// if the privacy Level settings are used when combining data. See the [MSFT-Support] article <see href="https://support.microsoft.com/en-us/office/set-privacy-levels-power-query-cc3ede4d-359e-4b28-bc72-9bee7900b540">Set Privacy levels (Power Query)</see> for more information.
+        /// Public data source.
         /// </summary>
-        public bool FirewallEnabled { get; set; }
+        Public,
         /// <summary>
-        /// The Privacy Level of the current spreadsheet. See the [MSFT-Support] article <see href="https://support.microsoft.com/en-us/office/set-privacy-levels-power-query-cc3ede4d-359e-4b28-bc72-9bee7900b540">Set Privacy levels (Power Query)</see> for more information.
+        /// Organizational data source.
         /// </summary>
-        public ePowerQueryPermissionWorkbookGroupType PrivacyLevel { get; set; } = ePowerQueryPermissionWorkbookGroupType.None;
+        Organizational,
+        /// <summary>
+        /// Private data source. The Privacy Level of the current spreadsheet.
+        /// </summary>
+        SeparatePrivate
     }
 }

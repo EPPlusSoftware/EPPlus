@@ -245,7 +245,7 @@ namespace OfficeOpenXml
         {
             var br = new BinaryReader(stream);
             var noFonts = br.ReadUInt16();
-            //Load all font names first
+            //Read all font names first
             var fonts = new Dictionary<string, uint>();
             var fno = 0;
             while (fno<noFonts)
@@ -265,7 +265,6 @@ namespace OfficeOpenXml
                 AddFont(br, font.Key, font.Value);
             }
         }
-
         private static void AddFont(BinaryReader br, string fontName, uint dataPos)
         {
             var fontHeights = new Dictionary<float, short>();

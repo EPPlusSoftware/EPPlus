@@ -19,7 +19,7 @@ using System.Threading;
 namespace OfficeOpenXml.Data.Connection
 {
     /// <summary>
-    /// An entry in the 
+    /// An entity in the meta data entity collection for Power Query.
     /// </summary>
     public class ExcelPowerQueryMetaDataEntry
     {
@@ -138,6 +138,11 @@ namespace OfficeOpenXml.Data.Connection
         /// The value for the entry. 
         /// </summary>
         public object Value { get; }
+        /// <summary>
+        /// Get the value formatted according to the supplied culture.
+        /// </summary>
+        /// <param name="culture"></param>
+        /// <returns></returns>
         public string GetValueAsText(CultureInfo culture)
         {
             culture = culture ?? Thread.CurrentThread.CurrentCulture;

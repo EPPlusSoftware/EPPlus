@@ -2156,7 +2156,7 @@ namespace OfficeOpenXml.Drawing
         }
 
         /// <summary>
-        /// Save the drawings coordinates, height and width.
+        /// Read the drawings coordinates, height and width.
         /// </summary>
         internal void ReadPositionsAndSize()
         {

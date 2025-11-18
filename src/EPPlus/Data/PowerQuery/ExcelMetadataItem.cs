@@ -19,6 +19,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Data.Connection
 {
+    /// <summary>
+    /// A power query metadata item used for describing the M-Formula.
+    /// </summary>
     public class ExcelPowerQueryMetadataItem
     {
         internal ExcelPowerQueryMetadataItem(XmlNamespaceManager nsm, XmlNode topNode, CultureInfo culture)
@@ -69,7 +72,7 @@ namespace OfficeOpenXml.Data.Connection
         /// </summary>
         public string ItemPath { get; set; }
         /// <summary>
-        /// 
+        /// A collection of metadata entries.
         /// </summary>
         public List<ExcelPowerQueryMetaDataEntry> Entries 
         {

@@ -388,7 +388,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     throw (new ArgumentOutOfRangeException("Indent level must be between 0 and 8"));
                 }
-                SetXmlNodeString    (_indentAlignPath, value.ToString());
+                SetXmlNodeString(_indentAlignPath, value.ToString());
             }
         }
 		/// <summary>
