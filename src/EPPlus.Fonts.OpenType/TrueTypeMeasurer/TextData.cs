@@ -250,6 +250,7 @@ namespace EPPlus.Fonts.OpenType
 
                     if (newWidth > maxWidth)
                     {
+                        var lastLineIndex = nextLineStartIndex;
                         var charCountFromLast = i - nextLineStartIndex;
 
                         var txt = line.Substring(nextLineStartIndex, charCountFromLast);
@@ -266,11 +267,10 @@ namespace EPPlus.Fonts.OpenType
                             //Add only part of the text before the overflowing word
                             wrappedStrings.Add(spacedString);
 
-                            //Calculate the new line index
-                            nextLineStartIndex = i - stringOverMax.Length;
+                            //The start index of the first character in the overflow (After space)
+                            nextLineStartIndex = lastLineIndex + startIndex;
 
-                            //In this case we do not count current character as that is part of next line
-                            totalAdvanceWidth = totalAdvanceFromLastWord - advanceWidth;
+                            totalAdvanceWidth = totalAdvanceFromLastWord;
                         }
                         else
                         {
@@ -290,11 +290,11 @@ namespace EPPlus.Fonts.OpenType
                             {
                                 //The current char has crossed the max
                                 //Therefore remove it from the text to be added.
-                                var wrappedString = txt.Substring(0, txt.Length - 1);
+                                var wrappedString = txt.Substring(0, txt.Length);
                                 wrappedStrings.Add(wrappedString);
                                 //The current character is part of the new line
                                 //We should start at the index of the current character and add its width to the new line
-                                nextLineStartIndex = i -1;
+                                nextLineStartIndex = i;
                                 totalAdvanceWidth = advanceWidth;
                             }
                         }

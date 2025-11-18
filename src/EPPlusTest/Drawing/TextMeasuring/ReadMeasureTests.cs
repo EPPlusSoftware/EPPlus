@@ -27,5 +27,15 @@ namespace EPPlusTest.Drawing.TextMeasuring
                 //var height = theShape.TextBody.Paragraphs.GetSizeInPixels(theShape.GetPixelWidth(), theShape.GetPixelHeight(), theShape.Text, theShape.Font);
             }
         }
+        [TestMethod]
+        public void ReadLoremIpsum()
+        {
+            using (var p = OpenTemplatePackage("LoremIpsums20.xlsx"))
+            {
+                var ws1 = p.Workbook.Worksheets[0];
+                var shape1 = ws1.Drawings[0].As.Shape;
+                var someText = shape1.TextBody.Paragraphs;
+            }
+        }
     }
 }
