@@ -60,6 +60,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 return val;
             }
         }
+
+        public object Clone() => this.MemberwiseClone();
     }
 
     internal class PdfCellTextItem
@@ -85,6 +87,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
         { get { return FontName + " " + SubFamily; } }
 
         public PdfCellTextItem() { }
+
+        public object Clone() => this.MemberwiseClone();
     }
 
     internal class PdfCellGradientFillData
@@ -177,6 +181,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public bool ShrinkToFit = false;
         public int TextRotation = 0;
         public ExcelReadingOrder TextDirection = ExcelReadingOrder.ContextDependent;
+        public bool IsVertical = false;
 
         public PdfCellAlignmentData() { }
     }
