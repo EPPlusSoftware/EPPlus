@@ -1,4 +1,34 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.3.0
+### Features
+Support for adding external connections and query tables [External connections and query tables](https://github.com/EPPlusSoftware/EPPlus/wiki/External-Connections-&-Query-Tables)
+* Adding, updating and removing connections.
+  * Power query connections.
+  * Database connections
+  * OLAP connections
+  * Web connections
+  * Text connections
+* Adding range and table query tables
+* Adding pivot tables with external connections as source.
+* 3 new functions:
+  * `PERCENTOF`
+  * `VALUETOTEXT`
+  * `BASE`
+Fixed issues 
+* The `RichText.Clear` caused any previous reference to the RichText object not to work.
+* EPPlus will now throw a `ObjectDisposedException` when a rich text object has been disposed.
+* Implemented shifting of multi-addresses in defined names on insert/delete (i.e a1:a3,c1:c3).
+* New constructor for `ExcelAddressBase` taking a list of addresses.
+* Fixed several formatting issues in the `ARRAYTOTEXT` function.
+* Fixed an issue with incorrect mapping of formula columns in the `ExcelRangeBase.LoadFromCollection` method.
+* `ExcelRangeBase.InsertColumn` could throw an unhandled Exception in rare cases, when a formula contain references to external workbooks.
+* `ExcelRange.DeleteRow` throw an unhandled exception when having a conditional formatting colors scales rule with an empty formula.
+* A calculated column formula of a table could not be set after it had been cleared.
+* `ExcelWorksheet.DimensionByValue` sometimes returned an incorrect range.
+* COUNTIF did not compare numeric strings as numeric.
+* SUMIF and AVERAGEIF did not take empty cells in the into account in the criteria.
+* Deleting a data validation and then add a new one to the same range sometimes failed.
+
 ## Version 8.2.1
 ### Minor Features
 * Added new method `SetAutoTitle` to `ExcelChartTitleStandard` to map chart titles on pivot charts to the pivot tables data fields.
