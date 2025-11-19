@@ -14,6 +14,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         [TestMethod]
         public void ValueToTextTestSingleCell()
         {
+            SwitchToCulture();
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Value = 1;
@@ -21,11 +22,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
             Assert.AreEqual("1", result);
+            SwitchBackToCurrentCulture();
         }
 
         [TestMethod]
         public void ValueToTextSingleCellStrict()
         {
+            SwitchToCulture();
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Value = "katt";
@@ -33,11 +36,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             sheet.Calculate();
             var result = sheet.Cells["C1"].Value;
             Assert.AreEqual("\"katt\"", result);
+            SwitchBackToCurrentCulture();
         }
 
         [TestMethod]
         public void ValueToTextRangeConcise()
         {
+            SwitchToCulture();
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Value = "katt";
@@ -54,11 +59,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             Assert.AreEqual("TRUE", result2);
             Assert.AreEqual("123,1", result3);
             Assert.AreEqual("#DIV/0!", result4);
+            SwitchBackToCurrentCulture();
         }
 
         [TestMethod]
         public void ValueToTextRangeStrict()
         {
+            SwitchToCulture();
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Value = "katt";
@@ -75,6 +82,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             Assert.AreEqual("TRUE", result2);
             Assert.AreEqual("123,1", result3);
             Assert.AreEqual("#DIV/0!", result4);
+            SwitchBackToCurrentCulture();
         }
     }
 }
