@@ -180,16 +180,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
             PdfCellTextLine lineItem = new PdfCellTextLine();
             string lineText = string.Empty;
+            int textLength = textItem.Text.Length;
+            double lineHeight = textItem.LineHeight;
             if (cell.Style.WrapText)
             {
                 if (rotation == 255)
                 {
-                    for (int i = 0; i < textItem.Text.Length; i++)
+                    for (int i = 0; i < textLength; i++)
                     {
                         if (TextHeight + textItem.LineHeight >= height)
                         {
-                            lineItem.Text = lineText;
-                            textItem.Text = lineText;
+                            lineItem.Text = lineText.Trim();
+                            textItem.Text = lineText.Trim();
                             result = fontMeasurerTrueType.MeasureText(lineText, font);
                             textItem.TextLength = result.Width;
                             textItem.LineHeight = result.Height;
@@ -198,9 +200,22 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             TextLines.Add(lineItem);
                             textItem = CreateTextItem();
                             lineItem = new PdfCellTextLine();
+                            TextHeight = 0;
+                            lineText = string.Empty;
                         }
-                        TextHeight += textItem.LineHeight;
+                        TextHeight += lineHeight;
                         lineText += textItem.Text[i];
+                    }
+                    if (!string.IsNullOrEmpty(lineText))
+                    {
+                        lineItem.Text = lineText.Trim();
+                        textItem.Text = lineText.Trim();
+                        result = fontMeasurerTrueType.MeasureText(lineText, font);
+                        textItem.TextLength = result.Width;
+                        textItem.LineHeight = result.Height;
+                        textItem.FontHeight = result.FontHeight;
+                        lineItem.TextItemCollection.Add(textItem);
+                        TextLines.Add(lineItem);
                     }
                 }
                 else
@@ -208,8 +223,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     var lines = fontMeasurerTrueType.MeasureAndWrapTextPoints(cell.Text, font, width);
                     foreach (var line in lines)
                     {
-                        lineItem.Text = line;
-                        textItem.Text = line;
+                        lineItem.Text = line.Trim();
+                        textItem.Text = line.Trim();
                         result = fontMeasurerTrueType.MeasureText(line, font);
                         textItem.TextLength = result.Width;
                         textItem.LineHeight = result.Height;
@@ -338,10 +353,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     y = CellY + (cellHeight - fontHeight) + fontHeight - bottomMargin;
                     break;
             }
-            if (CellAlignmentData.TextRotation == 255)
+            if (CellAlignmentData.IsVertical)
             {
                 //set textRotation to 0 and then set bool isVertical
-                //In content stream check is vertical and 
+                //In content stream check is vertical andr
+                return new Vector2(x, y);
             }
             else if (CellAlignmentData.TextRotation < 0)
             {

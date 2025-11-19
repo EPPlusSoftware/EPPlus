@@ -238,6 +238,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
             commands.Add($"% Content End: {cell.Name}");
         }
 
+        //THis will need to be updated later when we look at asian fonts. 
         private void AddCellContentLayoutVerticalText(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
         {
             double rot = cell.CellAlignmentData.TextRotation * System.Math.PI / 180.0;
@@ -254,7 +255,10 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 for (int i = 0; i < Line.TextItemCollection.Count; i++)
                 {
                     var fontData = Line.TextItemCollection[i];
-                    for (int k = fontData.Text.Length-1; k >= 0 ; k--)
+                    var neg = j == 0 ? fontData.Text.Length - 1 : fontData.Text.Length;
+                    textRunMatrix = textRunMatrix * Matrix3x3.Translation(0, (neg * fontData.LineHeight));
+                    lineMatrix = textRunMatrix;
+                    for (int k = 0; k < fontData.Text.Length; k++)
                     {
                         commands.Add($"{lineMatrix.A.ToPdfString()} {lineMatrix.B.ToPdfString()} {lineMatrix.C.ToPdfString()} {lineMatrix.D.ToPdfString()} {lineMatrix.E.ToPdfString()} {lineMatrix.F.ToPdfString()} Tm");
                         var c = fontData.Text[k].ToString();
@@ -329,17 +333,16 @@ namespace EPPlus.Export.Pdf.PdfObjects
                         }
                         lineLength += fontData.TextLength;
                         lineHeight = fontData.LineHeight;
-                        textRunMatrix = textRunMatrix * Matrix3x3.Translation(/*fontData.TextLength*/0d, lineHeight);
+                        textRunMatrix = textRunMatrix * Matrix3x3.Translation(/*fontData.TextLength*/0d, -lineHeight);
                         if (useModifiedMatrix) commands.Add($"{textRunMatrix.A.ToPdfString()} {textRunMatrix.B.ToPdfString()} {textRunMatrix.C.ToPdfString()} {textRunMatrix.D.ToPdfString()} {textRunMatrix.E.ToPdfString()} {textRunMatrix.F.ToPdfString()} Tm");
                         useModifiedMatrix = false;
                         lineMatrix = textRunMatrix;
                     }
-                    //translate line matrix in X and reset Y
                 }
-                if (j + 1 < cell.TextLines.Count)
-                {
-                    lineMatrix = textRunMatrix * Matrix3x3.Translation(-lineLength + cell.TextLines[j + 1].Offset, -cell.TextLines[j + 1].LineHeight);
-                }
+                //if (j + 1 < cell.TextLines.Count)
+                //{
+                //    lineMatrix = textRunMatrix * Matrix3x3.Translation(-lineLength + cell.TextLines[j + 1].Offset, -cell.TextLines[j + 1].LineHeight);
+                //}
                 lineLength = 0;
                 commands.Add("ET");
             }
