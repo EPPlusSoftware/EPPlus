@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
 using OfficeOpenXml.Core;
+
 namespace OfficeOpenXml.Data.Connection
 {
     /// <summary>

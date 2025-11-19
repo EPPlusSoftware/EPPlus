@@ -11,8 +11,6 @@
   10/07/2025         EPPlus Software AB       Initial release EPPlus 8.3
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.LoadFunctions.ReflectionHelpers;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils.FileUtils;
 using System;

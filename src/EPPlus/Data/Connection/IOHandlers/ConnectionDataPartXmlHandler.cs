@@ -13,13 +13,9 @@
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
-using OfficeOpenXml.Utils.Compare;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Globalization;
-using System.Net;
 using System.Xml;
 
 namespace OfficeOpenXml.Data.Connection

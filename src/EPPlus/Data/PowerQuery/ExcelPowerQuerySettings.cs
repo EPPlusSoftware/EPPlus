@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Data.CustomXml;
-using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
@@ -20,8 +19,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Xml;
