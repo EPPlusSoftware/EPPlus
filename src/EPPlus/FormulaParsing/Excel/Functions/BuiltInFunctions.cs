@@ -68,6 +68,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["textbefore"] = new TextBefore(DelimiterFunction.TextBefore);
             Functions["textafter"] = new TextAfter(DelimiterFunction.TextAfter);
             Functions["arraytotext"] = new ArrayToText();
+            Functions["valuetotext"] = new ValueToText();
             // Numbers
             Functions["int"] = new IntFunction();
             // Math
