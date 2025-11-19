@@ -806,27 +806,30 @@ namespace OfficeOpenXml.Drawing.Chart
         internal static ExcelChart CreateChartFromXml(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, ExcelGroupShape parent = null)
         {
             ExcelChart topChart = null;
-            foreach (XmlElement n in chartXml.SelectSingleNode(topPath + "/" + plotAreaPath, drawings.NameSpaceManager).ChildNodes)
+            foreach (var n in chartXml.SelectSingleNode(topPath + "/" + plotAreaPath, drawings.NameSpaceManager).ChildNodes)
             {
-                if (n.LocalName.EndsWith("Chart"))
-                {
-                    if (topChart == null)
+                if(n is XmlElement element)
+                { 
+                    if (element.LocalName.EndsWith("Chart"))
                     {
-                        if (part == null)
+                        if (topChart == null)
                         {
-                            topChart = GetChart(drawings, node);
+                            if (part == null)
+                            {
+                                topChart = GetChart(drawings, node);
+                            }
+                            else
+                            {
+                                topChart = GetChart(element, drawings, node, uriChart, part, chartXml, null, parent);
+                            }
                         }
                         else
                         {
-                            topChart = GetChart(n, drawings, node, uriChart, part, chartXml, null, parent);
-                        }
-                    }
-                    else
-                    {
-                        var subChart = GetChart(n, null, null, null, null, null, topChart, parent);
-                        if (subChart != null)
-                        {
-                            topChart.PlotArea.ChartTypes.Add(subChart);
+                            var subChart = GetChart(element, null, null, null, null, null, topChart, parent);
+                            if (subChart != null)
+                            {
+                                topChart.PlotArea.ChartTypes.Add(subChart);
+                            }
                         }
                     }
                 }
