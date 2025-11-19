@@ -99,7 +99,7 @@ namespace EPPlusTest.Data
             tbl.Columns[3].SetFormula("Count(Table_6[[#This Row],[Column1]])");
             tbl.QueryTable.RefreshOnLoad = true;            
 
-            ws.QueryTables.Add(ws.Cells["H100:K102"], "PQWebToRange", dbConn);
+            ws.QueryTables.Add(ws.Cells["H100:K102"], "PQWebToRange2", dbConn);
         }
         [TestMethod]
         public void VerifyRemoveQueryTablesAndConnection_New()
@@ -110,11 +110,11 @@ namespace EPPlusTest.Data
             dbConn.DatabaseProperties.Command = "SELECT * FROM [Table 7]";
             dbConn.KeepAlive = true;
 
-            var ws = _pck.Workbook.Worksheets[0];
+            var ws = _pck.Workbook.Worksheets.Add("RemoveConnectionSheet");
             var tbl = ws.Tables.AddQueryTable(ws.Cells["H150:J152"], "qtTable_7", dbConn, ["Column1", "Column2", "Column3"]);
             tbl.QueryTable.RefreshOnLoad = true;
 
-            var qt = ws.QueryTables.Add(ws.Cells["H100:J102"], "PQWebToRange", dbConn);
+            var qt = ws.QueryTables.Add(ws.Cells["H100:J102"], "tblPQWebToRange2", dbConn);
 
             ws.QueryTables.Remove(qt);
             ws.Tables.Delete(0);

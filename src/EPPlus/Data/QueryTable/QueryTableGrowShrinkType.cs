@@ -1,5 +1,8 @@
 ﻿namespace OfficeOpenXml
 {
+    /// <summary>
+    /// How to handle variable numbers of rows when refreshing a query table.
+    /// </summary>
     public enum QueryTableGrowShrinkType
     {
         /// <summary>
