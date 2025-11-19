@@ -1,6 +1,9 @@
 ﻿using EPPlusTest.Table.PivotTable;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Data.Connection;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,11 +11,6 @@ using System.Linq;
 using System.Security;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.ConditionalFormatting;
-using System.Xml.XPath;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -26,8 +24,9 @@ namespace OfficeOpenXml.Table.PivotTable
         public PivotTableCacheInternal(XmlNamespaceManager nsm, ExcelWorkbook wb) : base(nsm)
         {
             _wb = wb;
+            SchemaNodeOrder = ["cacheSource", "cacheFields", "cacheHierarchies", "kpis", "tupleCache", "calculatedItems","calculatedMembers", "dimensions", "measureGroups", "maps"];
         }
-        public PivotTableCacheInternal(ExcelWorkbook wb, Uri uri, int cacheId) : base (wb.NameSpaceManager)
+        public PivotTableCacheInternal(ExcelWorkbook wb, Uri uri, int cacheId) : this(wb.NameSpaceManager, wb)
         {
             _wb = wb;
             CacheDefinitionUri = uri;
@@ -50,9 +49,11 @@ namespace OfficeOpenXml.Table.PivotTable
 
             _wb.SetNewPivotCacheId(cacheId);
         }
+        internal const string _sourceCacheSourcePath = "d:cacheSource";
         internal const string _sourceWorksheetPath = "d:cacheSource/d:worksheetSource/@sheet";
         internal const string _sourceNamePath = "d:cacheSource/d:worksheetSource/@name";
         internal const string _sourceAddressPath = "d:cacheSource/d:worksheetSource/@ref";
+        internal const string _sourceConnectionPath = "d:cacheSource/@connectionId";
         internal string Ref
         {
             get
@@ -147,6 +148,24 @@ namespace OfficeOpenXml.Table.PivotTable
                 return sourceRange;
             }
 
+        }
+        internal ExcelConnection Connection
+        {
+            get
+            {
+                var cid = GetXmlNodeIntNull(_sourceConnectionPath);
+                if(cid.HasValue)
+                {
+                    return _wb.Connections.FirstOrDefault(x => x.Id == cid.Value);
+                }
+                return null;
+            }
+            set
+            {
+                DeleteNode(_sourceCacheSourcePath);
+                SetXmlNodeInt(_sourceConnectionPath, value.Id);
+                SetXmlNodeString(_sourceCacheSourcePath + "/@type", eSourceType.External.ToEnumString());
+            }
         }
         private ExcelRangeBase GetRangeByName(ExcelWorksheet w, string name)
         {
@@ -245,20 +264,30 @@ namespace OfficeOpenXml.Table.PivotTable
 
         internal void RefreshFields(bool checkSourceValid)
         {
-            if(checkSourceValid && IsSourceValid()==false) //If the source is not valid on save, skip refresh.
+            if (checkSourceValid && Connection==null && IsSourceValid() == false) //If the source is not valid on save, skip refresh.
             {
                 return;
             }
             UpdatePageFieldValues();
-            var fields = new List<ExcelPivotTableCacheField>();
+            UpdateFieldsFromRangeOrder();
+
+            RefreshPivotTableItems();
+            if (Records == null) Records = new PivotTableCacheRecords(this);
+            Records.CreateRecords();
+        }
+
+        private void UpdateFieldsFromRangeOrder()
+        {
+            if (Connection != null) return;
             var r = SourceRange;
-            bool cacheUpdated=false;
-            var  movedFields = new List<int>();
+            var fields = new List<ExcelPivotTableCacheField>();
+            bool cacheUpdated = false;
+            var movedFields = new List<int>();
             var fieldsNode = GetNode("d:cacheFields");
             for (int col = r._fromCol; col <= r._toCol; col++)
             {
                 var ix = col - r._fromCol;
-                if (_fields!=null && ix < _fields.Count && _fields[ix].Grouping != null)
+                if (_fields != null && ix < _fields.Count && _fields[ix].Grouping != null)
                 {
                     fields.Add(_fields[ix]);
                 }
@@ -267,14 +296,14 @@ namespace OfficeOpenXml.Table.PivotTable
                     var ws = r.Worksheet;
                     var name = ws.GetValue(r._fromRow, col)?.ToString();
                     ExcelPivotTableCacheField field;
-                    if (_fields==null || ix >= _fields?.Count || _fields[ix].Name != name)
+                    if (_fields == null || ix >= _fields?.Count || _fields[ix].Name != name)
                     {
                         if (string.IsNullOrEmpty(name))
                         {
                             throw new InvalidOperationException($"Pivot Cache with id {CacheId} is invalid . Contains reference to a column with an empty header");
                         }
                         var fi = _fields.FindIndex(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-                        if (fi<0)
+                        if (fi < 0)
                         {
                             field = CreateField(name, -1, true, true, ix == 0 ? null : fields[ix - 1].TopNode);
                             movedFields.Add(-1);
@@ -283,21 +312,21 @@ namespace OfficeOpenXml.Table.PivotTable
                         else
                         {
                             var x = 2;
-                            while(movedFields.Contains(fi))
+                            while (movedFields.Contains(fi))
                             {
                                 var dupName = name + x.ToString();
                                 fi = _fields.FindIndex(cField => cField.Name.Equals(dupName, StringComparison.OrdinalIgnoreCase));
-                                if(fi<0 && movedFields.Contains(fi))
+                                if (fi < 0 && movedFields.Contains(fi))
                                 {
                                     //there are somehow multiple duplicate col headers. Add number of already existing dupes.
-                                    x = movedFields.Where(anInt => anInt.Equals(-1)).Count()+x;
+                                    x = movedFields.Where(anInt => anInt.Equals(-1)).Count() + x;
                                     break;
                                 }
                                 x++;
                             }
-                            if(fi<0)
+                            if (fi < 0)
                             {
-                                field = CreateField(name + (x-1).ToString(), -1, true, true, ix == 0 ? null : fields[ix - 1].TopNode);
+                                field = CreateField(name + (x - 1).ToString(), -1, true, true, ix == 0 ? null : fields[ix - 1].TopNode);
                                 field.TopNode.InnerXml = "<sharedItems/>";
                                 movedFields.Add(-1);
                             }
@@ -317,8 +346,8 @@ namespace OfficeOpenXml.Table.PivotTable
                         field = _fields[ix];
                         movedFields.Add(ix);
                         field.SharedItems.Clear();
-                        if(field._cacheLookup!=null) field._cacheLookup.Clear();
-                        if (cacheUpdated == false && string.IsNullOrEmpty(name)==false && !field.Name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) cacheUpdated=true;
+                        if (field._cacheLookup != null) field._cacheLookup.Clear();
+                        if (cacheUpdated == false && string.IsNullOrEmpty(name) == false && !field.Name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) cacheUpdated = true;
                     }
 
                     var shNode = field.TopNode.SelectSingleNode("d:sharedItems", NameSpaceManager);
@@ -361,11 +390,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 _fields = fields;
             }
-
-            RefreshPivotTableItems();
-            if (Records == null) Records = new PivotTableCacheRecords(this);
-            Records.CreateRecords();
-         }
+        }
 
         private void UpdateAndRemoveFields(List<ExcelPivotTableCacheField> fields, List<int> movedFields)
         {
@@ -641,7 +666,35 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-        internal void InitNew(ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress, string xml)
+        internal void InitNewFromConnection(ExcelPivotTable pivotTable, ExcelConnection connection, string[] fields, string xml)
+        {
+            var pck = pivotTable.WorkSheet._package.ZipPackage;
+            CacheDefinitionXml = new XmlDocument();
+            if (xml == null)
+            {
+                LoadXmlSafe(CacheDefinitionXml, GetStartXml(fields, connection), Encoding.UTF8);
+                TopNode = CacheDefinitionXml.DocumentElement;
+            }
+            else
+            {
+                CacheDefinitionXml = new XmlDocument();
+                CacheDefinitionXml.LoadXml(xml);
+                TopNode = CacheDefinitionXml.DocumentElement;
+            }
+
+            CacheId = ExtLstCacheId = _wb.GetNewPivotCacheId();
+
+            var c = CacheId;
+            CacheDefinitionUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref c);
+            Part = pck.CreatePart(CacheDefinitionUri, ContentTypes.contentTypePivotCacheDefinition);
+            Connection = connection;
+
+            AddRecordsXml();
+            LoadFields();
+            CacheDefinitionXml.Save(Part.GetStream());
+            _pivotTables.Add(pivotTable);
+        }
+        internal void InitNewFromRange(ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress, string xml)
         {
             var pck = pivotTable.WorkSheet._package.ZipPackage;
 
@@ -745,6 +798,34 @@ namespace OfficeOpenXml.Table.PivotTable
 
             return xml;
         }
+        private string GetStartXml(string[] fields, ExcelConnection connection)
+        {
+            string xml = "<pivotCacheDefinition xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"\" refreshOnLoad=\"1\" refreshedBy=\"SomeUser\" refreshedDate=\"40504.582403125001\" createdVersion=\"6\" refreshedVersion=\"6\" recordCount=\"5\" upgradeOnRefresh=\"1\">";
+
+            xml += $"<cacheSource type=\"connection\" connectionId=\"{connection.Id}\" />";
+            xml += string.Format("<cacheFields count=\"{0}\">", fields.Length);
+            for (int col = 0; col < fields.Length; col++)
+            {
+                string name = fields[col];
+
+                if (name == null || name.ToString() == "")
+                {
+                    xml += string.Format("<cacheField name=\"Column{0}\" numFmtId=\"0\">", col + 1);
+                }
+                else
+                {
+                    xml += string.Format("<cacheField name=\"{0}\" numFmtId=\"0\">", SecurityElement.Escape(name.ToString()));
+                }
+                xml += "<sharedItems containsBlank=\"1\" /> ";
+                xml += "</cacheField>";
+            }
+            xml += "</cacheFields>";
+            xml += $"<extLst><ext xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\" uri=\"{ExtLstUris.PivotCacheDefinitionUri}\"><x14:pivotCacheDefinition pivotCacheId=\"0\"/></ext></extLst>";
+            xml += "</pivotCacheDefinition>";
+
+            return xml;
+        }
+
         internal void SetSourceName(string name)
         {
             DeleteNode(_sourceAddressPath); //Remove any address if previously set.

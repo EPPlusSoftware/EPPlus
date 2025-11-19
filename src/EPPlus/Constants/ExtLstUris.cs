@@ -58,6 +58,8 @@ namespace OfficeOpenXml.Constants
 
         //Feature property bag refrence used for checkboxes is styling.
         internal const string FeaturePropertyBag = "{C7286773-470A-42A8-94C5-96B5CB345126}";
+
+        internal const string Connection2010Uri = "{DE250136-89BD-433C-8126-D09CA5730AF9}";
     }
 }
 

@@ -26,7 +26,6 @@ namespace OfficeOpenXml.Style
     {
         internal ExcelGradientFill(ExcelStyles styles, OfficeOpenXml.XmlHelper.ChangedEventHandler ChangedEvent, int PositionID, string address, int index) :
             base(styles, ChangedEvent, PositionID, address)
-
         {
             Index = index;
         }

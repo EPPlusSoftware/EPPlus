@@ -265,7 +265,6 @@ namespace OfficeOpenXml
                 AddFont(br, font.Key, font.Value);
             }
         }
-
         private static void AddFont(BinaryReader br, string fontName, uint dataPos)
         {
             var fontHeights = new Dictionary<float, short>();

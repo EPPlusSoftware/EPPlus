@@ -1045,7 +1045,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             if (cacheLookup == null) return;
             
-            if (cacheLookup.Count==0)
+            if (cacheLookup.Count==0 && (SubTotalFunctions==eSubTotalFunctions.None || Items.Count==0))
             {
                 DeleteNode("d:items");       //Creates or return the existing node
             }

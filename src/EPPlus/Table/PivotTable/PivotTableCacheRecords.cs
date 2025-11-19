@@ -119,6 +119,7 @@ namespace EPPlusTest.Table.PivotTable
 
 		internal void CreateRecords()
         {
+            if (Cache.Connection != null) return;
             CacheItems.Clear();
             var sr = Cache.SourceRange;
             var ws = sr.Worksheet;
