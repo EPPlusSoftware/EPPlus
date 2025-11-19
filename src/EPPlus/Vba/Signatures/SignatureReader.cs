@@ -146,13 +146,13 @@ namespace OfficeOpenXml.VBA.Signatures
                     }
                     else if(lengthBytes.Length == 2)
                     {
-                        Array.Reverse(lengthBytes);
-                        return BitConverter.ToInt16(lengthBytes.ToArray(), 0);
+                        //Array.Reverse(lengthBytes);
+                        return BitConverter.ToInt16(lengthBytes.AsEnumerable().Reverse().ToArray(), 0);
                     }
                     else
                     {
                         Array.Reverse(lengthBytes);
-                        return BitConverter.ToInt32(lengthBytes.ToArray(), 0);
+                        return BitConverter.ToInt32(lengthBytes.AsEnumerable().Reverse().ToArray(), 0);
                     }
                 }                
                 return b;
