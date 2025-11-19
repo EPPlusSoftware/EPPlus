@@ -304,9 +304,9 @@ namespace OfficeOpenXml.Drawing.Chart
             //numberLiterals = new double[childNodes.Count];
             List<double> numLits = new();
 
-            foreach (XmlElement node in childNodes)
+            foreach (XmlNode node in childNodes)
             {
-                if(node.LocalName == "pt")
+                if(node.NodeType==XmlNodeType.Element && node.LocalName == "pt")
                 {
                     if(double.TryParse(node.InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out double numLit) == false)
                     {
@@ -327,9 +327,9 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 var childNodes = parentNode.ChildNodes;
 
-                foreach (XmlElement node in childNodes)
+                foreach (XmlNode node in childNodes)
                 {
-                    if (node.LocalName == "pt")
+                    if (node.NodeType == XmlNodeType.Element && node.LocalName == "pt")
                     {
                         strLits.Add(node.InnerText);
                     }

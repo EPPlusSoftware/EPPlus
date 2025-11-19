@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Data.Connection;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
@@ -275,6 +276,59 @@ namespace OfficeOpenXml.Drawing
                     return "noStrike";
             }
         }
+        internal static eConnectionTextFieldType TranslateConnectionTextFieldTypeType(this string value)
+        {
+            switch (value)
+            {
+                case "text":
+                    return eConnectionTextFieldType.Text;
+                case "MDY":
+                    return eConnectionTextFieldType.MonthDayYear;
+                case "DMY":
+                    return eConnectionTextFieldType.DayMonthYear;
+                case "YMD":
+                    return eConnectionTextFieldType.YearMonthDay;
+                case "MYD":
+                    return eConnectionTextFieldType.MonthYearDay;
+                case "DYM":
+                    return eConnectionTextFieldType.DayYearMonth;
+                case "YDM":
+                    return eConnectionTextFieldType.YearDayMonth;
+                case "skip":
+                    return eConnectionTextFieldType.SkipField;
+                case "EMD":
+                    return eConnectionTextFieldType.EastAsianYearMonthDay;
+                default:
+                    return eConnectionTextFieldType.General;
+            }
+        }
+        internal static string FromConnectionTextFieldTypeType(this eConnectionTextFieldType value)
+        {
+            switch (value)
+            {
+                case eConnectionTextFieldType.Text:
+                    return "text";
+                case eConnectionTextFieldType.MonthDayYear:
+                    return "MDY";
+                case eConnectionTextFieldType.DayMonthYear:
+                    return "DMY";
+                case eConnectionTextFieldType.YearMonthDay:
+                    return "YMD";
+                case eConnectionTextFieldType.MonthYearDay:
+                    return "MYD";
+                case eConnectionTextFieldType.DayYearMonth:
+                    return "DYM";
+                case eConnectionTextFieldType.YearDayMonth:
+                    return "YDM";
+                case eConnectionTextFieldType.SkipField:
+                    return "skip";
+                case eConnectionTextFieldType.EastAsianYearMonthDay:
+                    return "EMD";
+                default:
+                    return "general";
+            }
+        }
+
         internal static eErrorValueType TranslateErrorValueType(this string text)
         {
             switch (text)

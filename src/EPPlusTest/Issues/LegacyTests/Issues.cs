@@ -57,6 +57,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
@@ -816,7 +817,7 @@ namespace EPPlusTest
             //Create the worksheet 
             var sheet = pck.Workbook.Worksheets.Add(sheetName);
 
-            //Read the data into a range
+            //Load the data into a range
             var range = sheet.Cells["A1"].LoadFromCollection(cars, true);
 
             //Make the range a table
@@ -2636,7 +2637,7 @@ namespace EPPlusTest
             var visibleRows = row - hiddenRows;
             var visibleColumns = col - hiddenCols;
 
-            if(visibleColumns != 1 && visibleRows != 1)
+            if (visibleColumns != 1 && visibleRows != 1)
             {
                 Assert.AreEqual(ws.Cells[1 + hiddenRows, 1 + hiddenCols].Address, ws.View.TopLeftCell);
                 Assert.AreEqual(col - firstVisibleColumn.Value, ws.View.PaneSettings.XSplit);
@@ -4293,10 +4294,15 @@ namespace EPPlusTest
                     .Select(p => p as ExcelPicture).ToList();
 
                 var pic = pics.First(p => p.Name == "Image_ExistingInventoryImg");
-                var image = File.ReadAllBytes("c:\\temp\\img1.png");
-                pic.Image.SetImage(image, ePictureType.Png);
-                image = File.ReadAllBytes("c:\\temp\\img2.png");
-                pics[1].Image.SetImage(image, ePictureType.Png);
+                var img1 = "c:\\temp\\img1.png";
+                if (File.Exists(img1))
+                {
+                    var image = File.ReadAllBytes("c:\\temp\\img1.png");
+                    pic.Image.SetImage(image, ePictureType.Png);
+
+                    image = File.ReadAllBytes("c:\\temp\\img2.png");
+                    pics[1].Image.SetImage(image, ePictureType.Png);
+                }
 
                 SaveAndCleanup(package);
             }
@@ -6240,7 +6246,7 @@ namespace EPPlusTest
         public void i2078()
         {
             using var p = new ExcelPackage();
-            var ws =p.Workbook.Worksheets.Add("Sheet 1");
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
             //ws.HeaderFooter.OddHeader.LeftAlignedText = "&12&A";
             ws.HeaderFooter.OddHeader.LeftAligned.Add(new()
             {
@@ -6260,7 +6266,7 @@ namespace EPPlusTest
             FileInfo pic = new FileInfo(Resources.GetImageFullFileName("epplusobject.png"));
             var drawing = ws.HeaderFooter.FirstHeader.InsertPicture(pic, PictureAlignment.Left);
             drawing.Height = 40;
-
+            
             ws.HeaderFooter.FirstHeader.CenteredText = "pageTitle";
             ws.HeaderFooter.FirstFooter.LeftAlignedText = $"{ExcelHeaderFooter.CurrentDate} {ExcelHeaderFooter.CurrentTime}";
             ws.HeaderFooter.FirstFooter.RightAlignedText = $"Printing: {"user.DisplayName"} - {ExcelHeaderFooter.PageNumber}/{ExcelHeaderFooter.NumberOfPages}";
@@ -6275,6 +6281,39 @@ namespace EPPlusTest
             Assert.AreEqual(sheet.Cells["C1"].Formula, "_xlfn.XLOOKUP(B1,Tier_lookup4[Country],Tier_lookup4[AIR - Origin Currency])");
             sheet.Cells.Sort(column: 0);
             Assert.AreEqual(sheet.Cells["C1"].Formula, "_xlfn.XLOOKUP(B1,Tier_lookup4[Country],Tier_lookup4[AIR - Origin Currency])");
+        }
+        [TestMethod]
+        public void ReadCustomXml1()
+        {
+            using var p = OpenTemplatePackage("qt_csv.xlsx"); 
+            foreach (var cx in p.Workbook.CustomXmlDocuments)
+            {
+                Assert.AreEqual(1, cx.SchemasReferences.Count);
+            }
+            foreach(var ws in p.Workbook.Worksheets)
+            {
+                foreach(var t in ws.Tables)
+                {
+                    if(t.DataSourceType==TableDataSourceType.QueryTable)
+                    {
+                        Assert.IsNotNull(t.QueryTable);
+                    }
+                }
+            }
+            Assert.AreEqual(1, p.Workbook.Worksheets[2].QueryTables.Count);
+            Assert.IsNotEmpty(p.Workbook.PowerQuerySettings.Formulas);
+            Assert.AreEqual(7, p.Workbook.Connections.Count);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void ReadCustomXml2()
+        {
+            using var p = OpenTemplatePackage("TestTemplate3.xlsx");
+            Assert.AreEqual(3, p.Workbook.CustomXmlDocuments.Count);
+            Assert.AreEqual(13, p.Workbook.CustomXmlDocuments[0].SchemasReferences.Count);
+            Assert.AreEqual(1, p.Workbook.CustomXmlDocuments[1].SchemasReferences.Count);
+            Assert.AreEqual(12, p.Workbook.CustomXmlDocuments[2].SchemasReferences.Count);
+            SaveAndCleanup(p);
         }
     }
 }

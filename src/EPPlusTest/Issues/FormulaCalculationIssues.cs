@@ -66,7 +66,6 @@ namespace EPPlusTest.Issues
 				ws.Cells["D4"].Value = 14;
 				ws.Cells["D5"].Value = 15;
 
-
 				p.Workbook.Calculate();
 
 				Assert.AreEqual(10, ws.Cells["A1"].Value);
@@ -229,7 +228,17 @@ namespace EPPlusTest.Issues
 
 			//        }
 		}
-		[TestMethod]
+        [TestMethod]
+        public void FormulaDemo()
+        {
+            using (var p1 = OpenTemplatePackage("s684.xlsx"))
+            {
+                ExcelWorkbook workbook = p1.Workbook;
+                workbook.Worksheets[0].Cells["A1"].Calculate();
+            }
+        }
+
+        [TestMethod]
 		public void s684()
 		{
 			using (var p1 = OpenTemplatePackage("s684.xlsx"))

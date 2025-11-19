@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Threading;
+//using Microsoft.Extensions.Primitives;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
@@ -33,54 +35,64 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if(!arguments.First().IsExcelRange)
+            if (!arguments.First().IsExcelRange)
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
             var range = arguments.First().ValueAsRangeInfo;
             var format = ConciceFormat;
-            if(arguments.Count > 1)
+            if (arguments.Count > 1)
             {
                 format = ArgToInt(arguments, 1, out ExcelErrorValue e1);
                 if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-                if(format < 0 || format > 1)
+                if (format < 0 || format > 1)
                 {
                     return CompileResult.GetErrorResult(eErrorType.Value);
                 }
             }
             var result = new StringBuilder();
-            if(format == StrictFormat)
+            if (format == StrictFormat)
             {
                 result.Append('{');
             }
-            for (var col = 0; col < range.Size.NumberOfCols; col++)
+            var separator = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+
+            for (var row = 0; row < range.Size.NumberOfRows; row++)
             {
-                for (var row = 0; row < range.Size.NumberOfRows; row++)
+                for (var col = 0; col < range.Size.NumberOfCols; col++)
                 {
                     var val = range.GetOffset(row, col);
-                    string strVal = GetStringVal(val, format);
-                    if(format == ConciceFormat)
+                    string strVal = GetStringVal(val, format); 
+                    var rowDelimiter = separator.Equals(",") ? ";" : ";"; // Dessa är samma.
+                    var colDelimiter = separator.Equals(",") ? "\\" : ",";
+
+                    if (format == ConciceFormat)
                     {
+                        if(separator != ",") { rowDelimiter = colDelimiter; } 
                         result.Append(strVal);
-                        result.Append(',');
+                        if (row == range.Size.NumberOfRows - 1 && col == range.Size.NumberOfCols - 1) continue;
+                        result.Append(rowDelimiter + " ");                                                 
                     }
                     else
                     {
                         // Strict format
                         result.Append(strVal);
-                        if (row < range.Size.NumberOfRows - 1)
+                        if (row == range.Size.NumberOfRows - 1 && col == range.Size.NumberOfCols - 1) continue;
+
+                        if (col < range.Size.NumberOfCols - 1)
                         {
-                            result.Append(',');
+                            result.Append(colDelimiter);
                         }
                         else
                         {
-                            result.Append(';');
+                            result.Append(rowDelimiter);
                         }
                     }
                 }
             }
-            var resultStr = format == StrictFormat ? result.ToString().TrimEnd(';') : result.ToString().TrimEnd(',');
-            if(format == StrictFormat)
+            //var resultStr = format == StrictFormat ? result.ToString().TrimEnd(';', ' ') : result.ToString().TrimEnd(',', ' ');
+            var resultStr = result.ToString().TrimEnd(' ');
+            if (format == StrictFormat)
             {
                 resultStr += "}";
             }
@@ -89,20 +101,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
         private static string GetStringVal(object val, int format)
         {
-            string strVal;
-            if (format == ConciceFormat)
+            string strVal = string.Empty;
+            if (val is bool bVal)
             {
-                strVal = val.ToString();
+                strVal = bVal ? "TRUE" : "FALSE";
             }
-            else
+            else if (format == ConciceFormat && val is not null)
+            {
+                {
+                    strVal = val.ToString();
+                }
+            }
+            else if (format == StrictFormat && val is not null)
             {
                 if (val is string str)
                 {
-                    strVal = $"\"{str}\"";
-                }
-                else if(val is bool bVal)
-                {
-                    strVal = bVal ? "TRUE" : "FALSE";
+                    var escaped = str.Replace("\"", "\"\"");
+                    strVal = $"\"{escaped}\"";
                 }
                 else
                 {

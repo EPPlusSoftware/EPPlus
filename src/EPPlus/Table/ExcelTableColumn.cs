@@ -310,6 +310,28 @@ namespace OfficeOpenXml.Table
                 }
             }
         }
+        internal string UniqeName 
+        {
+            get
+            {
+                return GetXmlNodeString("@uniqueName");
+            } 
+            set
+            {
+                SetXmlNodeString("@uniqueName", value);
+            }
+        }
+        internal int? QueryTableFieldId 
+        {
+            get
+            {
+                return GetXmlNodeIntNull("@queryTableFieldId");
+            }
+            set
+            {
+                SetXmlNodeInt("@queryTableFieldId", value);
+            }
+        }
         internal void SetFormula(string formula)
         {
             SetXmlNodeString(CALCULATEDCOLUMNFORMULA_PATH, formula);
@@ -339,6 +361,7 @@ namespace OfficeOpenXml.Table
                  
             }        
         }
+
 
         internal void SetTableFormula(bool clear)
         {

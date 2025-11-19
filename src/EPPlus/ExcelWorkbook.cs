@@ -44,6 +44,8 @@ using OfficeOpenXml.Utils.XML;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Data.CustomXml;
+using OfficeOpenXml.Data.Connection;
 
 namespace OfficeOpenXml
 {
@@ -1345,6 +1347,58 @@ namespace OfficeOpenXml
             }
         }
         #endregion
+        ExcelCustomXmlCollection _customXml = null;
+        internal ExcelCustomXmlCollection CustomXmlDocuments
+        {
+            get
+            {
+                if(_customXml == null)
+                {
+                    _customXml = new ExcelCustomXmlCollection(_package);
+                }
+                return _customXml;
+            }
+        }
+        ExcelConnectionCollection _connections=null;
+        /// <summary>
+        /// A collection of connections in the workbook.
+        /// </summary>
+        public ExcelConnectionCollection Connections
+        {
+            get
+            {
+                if(_connections == null)
+                {
+                    _connections = new ExcelConnectionCollection(_package);
+                }
+                return _connections;
+            }
+        }
+        ExcelPowerQuerySettings _powerQuerySettings = null;
+        /// <summary>
+        /// Settings for Power Query connections/queries. 
+        /// These setting is loaded from the custom XML part with the DataMashup schema.
+        /// </summary>
+        public ExcelPowerQuerySettings PowerQuerySettings
+        {
+            get
+            {
+                if (_powerQuerySettings == null)
+                {
+                    var pqCustomXml = _package.Workbook.CustomXmlDocuments.FirstOrDefault(x => x.SchemasReferences.Any(x => x == Schemas.schemaDataMashup));
+                    if (pqCustomXml == null)
+                    {
+                        _powerQuerySettings = new ExcelPowerQuerySettings();
+                    }
+                    else
+                    {
+                        var blob = Convert.FromBase64String(pqCustomXml.CustomXml.DocumentElement.InnerText);
+                        _powerQuerySettings = new ExcelPowerQuerySettings(blob);
+                    }
+                }
+                return _powerQuerySettings;
+            }
+        }
         #region Workbook Private Methods
 
         #region Save // Workbook Save
@@ -1408,10 +1462,24 @@ namespace OfficeOpenXml
                 _properties.Save();
             }
 
-            //Save the Theme
-            ThemeManager.Save();
+            if (_connections != null) //Must be saved before custom XML as power query connections data are stored there.
+            {
+                Connections.Save();
+                if (PowerQuerySettings.Exists)
+                {
+                    PowerQuerySettings.Save(CustomXmlDocuments);
+                }
+            }
 
+            if (_customXml!=null)
+            {
+                _customXml.Save();
+            }
+
+            //Remove the Theme
+            ThemeManager.Save();
             // save the style sheet
+
             Styles.UpdateXml();
             _package.SavePart(StylesUri, this.StylesXml);
 
@@ -1438,7 +1506,7 @@ namespace OfficeOpenXml
                 SaveExternalLinks();
             }
 
-            //Save workbook xml
+            //Remove workbook xml
             if (_workbookXml != null)
             {
                 _package.SavePart(WorkbookUri, _workbookXml);
@@ -1573,23 +1641,29 @@ namespace OfficeOpenXml
                         continue;
                     }
                     //Rewrite the pivot table address again if any rows or columns have been inserted or deleted
-                    var r = cache.SourceRange;
-                    if (r != null && r.Worksheet != null)              //Source does not exist
+                    if (cache.Connection == null)
                     {
-                        ExcelTable t = r.Worksheet.Tables.GetFromRange(r);
-
-                        var fields =
-                            cache.CacheDefinitionXml.SelectNodes(
-                                "d:pivotCacheDefinition/d:cacheFields/d:cacheField", NameSpaceManager);
-                        if (fields != null)
+                        var r = cache.SourceRange;
+                        if (r != null && r.Worksheet != null)              //Source does not exist
                         {
-                            FixFieldNamesAndUpdateSharedItems(cache, t, fields);
-                        }
+                            ExcelTable t = r.Worksheet.Tables.GetFromRange(r);
 
-                        cache.RefreshOnLoad = true;
-                        cache.CacheDefinitionXml.Save(cache.Part.GetStream(FileMode.Create));
-                        cache.ResetRecordXml(_package.ZipPackage);
+                            var fields =
+                                cache.CacheDefinitionXml.SelectNodes(
+                                    "d:pivotCacheDefinition/d:cacheFields/d:cacheField", NameSpaceManager);
+                            if (fields != null)
+                            {
+                                FixFieldNamesAndUpdateSharedItems(cache, t, fields);
+                            }
+                        }
                     }
+                    else
+                    {
+                        cache.RefreshFields(true);
+                    }
+                    cache.RefreshOnLoad = true;
+                    cache.CacheDefinitionXml.Save(cache.Part.GetStream(FileMode.Create));
+                    cache.ResetRecordXml(_package.ZipPackage);
                 }
             }
         }
@@ -1927,23 +2001,38 @@ namespace OfficeOpenXml
 
                 pivotCachesNode.AppendChild(item);
             }
-
+            string id;
             if (cacheReference.CacheSource == eSourceType.Worksheet)
             {
-                string address = cacheReference.GetSourceAddress();
-
-                if (_pivotTableCaches.TryGetValue(address, out PivotTableCacheRangeInfo cacheInfo))
+                id = cacheReference.GetSourceAddress();
+            }
+            else if(cacheReference.CacheSource == eSourceType.External)
+            {
+                if(cacheReference.Connection!=null)
                 {
-                    cacheInfo.PivotCaches.Add(cacheReference);
+                    id = cacheReference.Connection.Id.ToString(CultureInfo.InvariantCulture);
                 }
                 else
                 {
-                    _pivotTableCaches.Add(address, new PivotTableCacheRangeInfo()
-                    {
-                        Address = address,
-                        PivotCaches = new List<PivotTableCacheInternal>() { cacheReference }
-                    });
+                    id = cacheReference.GetSourceAddress();
                 }
+            }
+            else
+            {
+                return;
+            }
+
+            if (_pivotTableCaches.TryGetValue(id, out PivotTableCacheRangeInfo cacheInfo))
+            {
+                cacheInfo.PivotCaches.Add(cacheReference);
+            }
+            else
+            {
+                _pivotTableCaches.Add(id, new PivotTableCacheRangeInfo()
+                {
+                    Address = id,
+                    PivotCaches = new List<PivotTableCacheInternal>() { cacheReference }
+                });
             }
         }
         internal void RemovePivotTableCache(int cacheId)

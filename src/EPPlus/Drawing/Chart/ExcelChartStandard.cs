@@ -238,7 +238,7 @@ namespace OfficeOpenXml.Drawing.Chart
             List<ExcelChartAxis> l = new List<ExcelChartAxis>();
             foreach (XmlNode node in _chartNode.ParentNode.ChildNodes)
             {
-                if (node.LocalName.EndsWith("Ax"))
+                if (node.NodeType == XmlNodeType.Element && node.LocalName.EndsWith("Ax"))
                 {
                     ExcelChartAxis ax = new ExcelChartAxisStandard(this, NameSpaceManager, node, "c");
                     l.Add(ax);

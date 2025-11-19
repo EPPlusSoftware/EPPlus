@@ -20,6 +20,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Data.Connection;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -34,11 +35,11 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable)
         {
             Relationship = pivotTable.Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/pivotCacheDefinition").FirstOrDefault();
-            var cacheDefinitionUri = UriHelper.ResolvePartUri(Relationship.SourceUri, Relationship.TargetUri); 
+            var cacheDefinitionUri = UriHelper.ResolvePartUri(Relationship.SourceUri, Relationship.TargetUri);
             PivotTable = pivotTable;
             _wb = pivotTable.WorkSheet.Workbook;
             _nsm = nsm;
-            var c = _wb._pivotTableCaches.Values.FirstOrDefault(x => x.PivotCaches.Exists(y=>y.CacheDefinitionUri.OriginalString == cacheDefinitionUri.OriginalString));
+            var c = _wb._pivotTableCaches.Values.FirstOrDefault(x => x.PivotCaches.Exists(y => y.CacheDefinitionUri.OriginalString == cacheDefinitionUri.OriginalString));
             if (c == null)
             {
                 var pck = pivotTable.WorkSheet._package.ZipPackage;
@@ -65,7 +66,17 @@ namespace OfficeOpenXml.Table.PivotTable
             _wb = PivotTable.WorkSheet.Workbook;
             _nsm = nsm;
             _cacheReference = new PivotTableCacheInternal(nsm, _wb);
-            _cacheReference.InitNew(pivotTable, sourceRange, null);
+            _cacheReference.InitNewFromRange(pivotTable, sourceRange, null);
+            _wb.AddPivotTableCache(_cacheReference);
+            Relationship = pivotTable.Part.CreateRelationship(UriHelper.ResolvePartUri(pivotTable.PivotTableUri, _cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
+        }
+        internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable, ExcelConnection connection, string[] fields)
+        {
+            PivotTable = pivotTable;
+            _wb = PivotTable.WorkSheet.Workbook;
+            _nsm = nsm;
+            _cacheReference = new PivotTableCacheInternal(nsm, _wb);
+            _cacheReference.InitNewFromConnection(pivotTable, connection, fields, null);
             _wb.AddPivotTableCache(_cacheReference);
             Relationship = pivotTable.Part.CreateRelationship(UriHelper.ResolvePartUri(pivotTable.PivotTableUri, _cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
         }
@@ -165,6 +176,11 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     throw (new ArgumentException("Cannot change the number of columns(fields) in the SourceRange"));
                 }
+                
+                if(Connection!=null)
+                {
+                    throw new ArgumentException("This pivot cache has an external connection as source and can not be changed to a range.");
+                }
 
                 if (value.FullAddress == SourceRange.FullAddress) return; //Same
                 if (_wb.GetPivotCacheFromAddress(value.FullAddress, out PivotTableCacheInternal cache))
@@ -194,7 +210,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     _cacheReference._pivotTables.Remove(PivotTable);
                     var xml = _cacheReference.CacheDefinitionXml;
                     _cacheReference = new PivotTableCacheInternal(_nsm, _wb);
-                    _cacheReference.InitNew(PivotTable, value, xml.InnerXml);
+                    _cacheReference.InitNewFromRange(PivotTable, value, xml.InnerXml);
                     PivotTable.CacheId = _cacheReference.CacheId;
                     _wb.AddPivotTableCache(_cacheReference);
                     Relationship.TargetUri = _cacheReference.CacheDefinitionUri;
@@ -202,7 +218,16 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-
+        /// <summary>
+        /// The external connection used as source for this pivot table.
+        /// </summary>
+        public ExcelConnection Connection
+        {
+            get
+            {
+                return _cacheReference.Connection;
+            }
+        }
         private void UpdateCacheInFields()
         {
             foreach (var field in PivotTable.Fields)
