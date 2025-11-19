@@ -57,7 +57,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             var result4 = sheet.Cells["D2"].Value;
             Assert.AreEqual("katt", result);
             Assert.AreEqual("TRUE", result2);
-            Assert.AreEqual("123,1", result3);
+            Assert.AreEqual("123.1", result3);
             Assert.AreEqual("#DIV/0!", result4);
             SwitchBackToCurrentCulture();
         }
@@ -80,7 +80,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             var result4 = sheet.Cells["D2"].Value;
             Assert.AreEqual("\"katt\"", result);
             Assert.AreEqual("TRUE", result2);
-            Assert.AreEqual("123,1", result3);
+            Assert.AreEqual("123.1", result3);
             Assert.AreEqual("#DIV/0!", result4);
             SwitchBackToCurrentCulture();
         }
