@@ -3653,7 +3653,11 @@ namespace OfficeOpenXml
             var styleId = -1;
 
             styleId = GetStyleId(row, col);
-
+            if(_flags.GetFlagValue(row, col, CellFlags.RichText))
+            {
+                var rtc = _values.GetValue(row, col)._value as ExcelRichTextCollection;
+                rtc?.Dispose();
+            }   
             if (FullPrecision)
             {
                 _values.SetValue(row, col, value, styleId);
