@@ -10,24 +10,18 @@
  *************************************************************************************************
   13/11/2025         EPPlus Software AB           EPPlus v8
  *************************************************************************************************/
-using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
 {
     [FunctionMetadata(
     Category = ExcelFunctionCategory.Information,
-    EPPlusVersion = "8",
+    EPPlusVersion = "8.3",
     Description = "Converts a number into a text representation with the given base.",
     SupportsArrays = true)]
     internal class Base : ExcelFunction

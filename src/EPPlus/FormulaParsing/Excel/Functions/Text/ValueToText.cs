@@ -10,20 +10,16 @@
  *************************************************************************************************
   22/11/2024         EPPlus Software AB           EPPlus v8
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Text,
-        EPPlusVersion = "8",
+        EPPlusVersion = "8.3",
         Description = "Returns text from any specified value. It passes text values unchanged, and converts non-text values to text.")]
     internal class ValueToText : ExcelFunction
     {
