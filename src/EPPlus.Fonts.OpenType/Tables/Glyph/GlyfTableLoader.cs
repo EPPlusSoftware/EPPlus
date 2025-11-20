@@ -25,8 +25,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
 
         public GlyfTableLoader(TableLoaderSettings settings) : base(settings, TableNames.Glyf)
         {
-            _glyphOffsets = TableLoaders.GetLocaTableLoader(settings).Load().Offsets.ToArray();
-            _emptyGlyph = TableLoaders.GetHeadTableLoader(settings).Load().GetDefaultBounds();
+            _glyphOffsets = settings.TableLoaders.GetLocaTableLoader(settings).Load().Offsets.ToArray();
+            _emptyGlyph = settings.TableLoaders.GetHeadTableLoader(settings).Load().GetDefaultBounds();
             _settings = settings;
         }
 

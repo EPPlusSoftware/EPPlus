@@ -24,7 +24,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
 
         FontFormat Format { get; set; }
 
-        IEnumerable<ScannedFont>? SubFonts { get; }
+        IEnumerable<ScannedFont> SubFonts { get; }
 
         long? TtcOffset { get; }
 

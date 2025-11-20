@@ -47,7 +47,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
             if (_tableLoaderSettings != null)
             {
                 // Originalfont: use locaOffsets from loader
-                var locaOffsets = TableLoaders.GetLocaTableLoader(_tableLoaderSettings).Load().Offsets;
+                var locaOffsets = _tableLoaderSettings.TableLoaders
+                    .GetLocaTableLoader(_tableLoaderSettings)
+                    .Load().Offsets;
+
                 for (int i = 0; i < Glyphs.Count; i++)
                 {
                     long glyphStart = writer.BaseStream.Position;
@@ -73,17 +76,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
             }
             else
             {
-                // Subset-font: align every glyph to 4 bytes
+                // Subset-font: glyph handles its own padding
                 foreach (var glyph in Glyphs)
                 {
-                    long start = writer.BaseStream.Position;
-                    glyph.Serialize(writer);
-                    long end = writer.BaseStream.Position;
-
-                    int writtenLength = (int)(end - start);
-                    int padding = (4 - (writtenLength % 4)) % 4;
-                    for (int p = 0; p < padding; p++)
-                        writer.Write((byte)0);
+                    glyph.Serialize(writer); // Glyph.Serialize ska lägga till 4-byte alignment
                 }
             }
         }
@@ -157,5 +153,21 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
             return new GlyfTable(newGlyphs);
         }
 
+        public List<uint> CalculateOffsets()
+        {
+            var offsets = new List<uint>();
+            uint currentOffset = 0;
+
+            foreach (var glyph in Glyphs) // Glyphs är subset-listan i GlyfTable
+            {
+                offsets.Add(currentOffset);
+                currentOffset += (uint)glyph.GetSize(); // GetLength() = antal bytes för glyfen
+            }
+
+            // Lägg till sista offset (slutet av sista glyfen)
+            offsets.Add(currentOffset);
+
+            return offsets;
+        }
     }
 }

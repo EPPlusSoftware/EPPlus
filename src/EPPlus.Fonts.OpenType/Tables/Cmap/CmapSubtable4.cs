@@ -128,26 +128,45 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         {
             if (mappings.Count == 0) return;
 
-            List<ushort> startCodes = new List<ushort>();
-            List<ushort> endCodes = new List<ushort>();
-            List<short> deltas = new List<short>();
+            mappings = mappings.OrderBy(m => m.CharCode).ToList();
 
-            foreach (CharGlyphMapping map in mappings)
+            var startCodes = new List<ushort>();
+            var endCodes = new List<ushort>();
+            var deltas = new List<short>();
+            var rangeOffsets = new List<ushort>();
+
+            foreach (var map in mappings)
             {
                 startCodes.Add((ushort)map.CharCode);
                 endCodes.Add((ushort)map.CharCode);
                 deltas.Add((short)(map.GlyphId - map.CharCode));
+                rangeOffsets.Add(0);
             }
+
+            // Terminator segment
+            startCodes.Add(0xFFFF);
+            endCodes.Add(0xFFFF);
+            deltas.Add(0); // safer than 1
+            rangeOffsets.Add(0);
 
             StartCode = startCodes.ToArray();
             EndCode = endCodes.ToArray();
             IdDelta = deltas.ToArray();
-            IdRangeOffset = new ushort[startCodes.Count]; // all zeros
+            IdRangeOffset = rangeOffsets.ToArray();
             ReservedPad = 0;
-            SegCountX2 = (ushort)(startCodes.Count * 2);
-            SearchRange = (ushort)(2 * (1 << (int)Math.Floor(Math.Log(startCodes.Count, 2))));
-            EntrySelector = (ushort)(Math.Log(SearchRange / 2, 2));
+
+            int segCount = startCodes.Count;
+            SegCountX2 = (ushort)(segCount * 2);
+
+            int log2 = (int)Math.Floor(Math.Log(segCount, 2));
+            ushort maxPower = (ushort)(1 << log2);
+            SearchRange = (ushort)(maxPower * 2);
+            EntrySelector = (ushort)log2;
             RangeShift = (ushort)(SegCountX2 - SearchRange);
+
+            GlyphIdArray = new ushort[0];
+
+            Length = (ushort)(16 + segCount * 8 + 2 + GlyphIdArray.Length * 2);
         }
     }
 }

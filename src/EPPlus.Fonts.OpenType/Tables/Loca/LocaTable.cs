@@ -53,29 +53,29 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
-            // Kontrollera att antalet offsets matchar numGlyphs + 1
+            // Verify that the number of offsets matches numGlyphs + 1
             if (Offsets == null || Offsets.Count == 0)
                 throw new InvalidOperationException("Offsets list cannot be null or empty.");
 
-            // Hämta numGlyphs från Maxp-tabellen via fonten (eller injicera värdet)
-            // Här antar vi att LocaTable har en referens eller att du skickar in det vid konstruktion
-            int expectedCount = _maxpTable.numGlyphs + 1; // eller injicera värdet
+            // Retrieve numGlyphs from the Maxp table via the font (or inject the value)
+            // Here we assume that LocaTable has a reference or that you pass it in during construction
+            int expectedCount = _maxpTable.numGlyphs + 1; // or inject the value
             if (Offsets.Count != expectedCount)
                 throw new InvalidOperationException($"Offsets count ({Offsets.Count}) does not match numGlyphs + 1 ({expectedCount}).");
 
-            // Kontrollera att offsets är sorterade och inte negativa
+            // Verify that offsets are sorted and not negative
             for (int i = 1; i < Offsets.Count; i++)
             {
                 if (Offsets[i] < Offsets[i - 1])
                     throw new InvalidOperationException("Offsets must be in ascending order.");
             }
 
-            // Serialisering baserat på IndexToLocFormat
+            // Serialization based on IndexToLocFormat
             if (IndexToLocFormat == HeadTable.IndexToLocFormats.Offset16)
             {
                 foreach (var offset in Offsets)
                 {
-                    if (offset > 0x1FFFF) // 131072 bytes är max för 16-bit format (eftersom offset/2)
+                    if (offset > 0x1FFFF) // 131072 bytes is the max for 16-bit format (since offset/2)
                         throw new InvalidOperationException($"Offset {offset} exceeds maximum allowed for Offset16 format.");
 
                     ushort shortOffset = (ushort)(offset / 2);

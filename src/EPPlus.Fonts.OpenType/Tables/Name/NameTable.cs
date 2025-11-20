@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.FontLocalization;
 using System.Collections.Generic;
 using System.Text;
 
@@ -87,6 +88,40 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
                 return NameTableLoader.GetWindowsEncoding(record.encodingId);
 
             return Encoding.UTF8; // Fallback
+        }
+
+        public NameTable Clone()
+        {
+            var clone = new NameTable
+            {
+                format = this.format,
+                count = this.count,
+                stringOffset = this.stringOffset
+            };
+
+            if (this.NameRecords != null)
+            {
+                clone.NameRecords = new NameRecord[this.NameRecords.Length];
+                for (int i = 0; i < this.NameRecords.Length; i++)
+                {
+                    var nr = this.NameRecords[i];
+                    clone.NameRecords[i] = new NameRecord
+                    {
+                        platformId = nr.platformId,
+                        encodingId = nr.encodingId,
+                        languageID = nr.languageID,
+                        nameId = nr.nameId,
+                        RecordType = nr.RecordType,
+                        length = nr.length,
+                        offset = nr.offset,
+                        Name = nr.Name, // strängar är immutable
+                        LanguageMapping = nr.LanguageMapping != null
+                            ? LanguageMapping.Create(nr.LanguageMapping.code, nr.LanguageMapping.Language)
+                            : null
+                    };
+                }
+            }
+            return clone;
         }
     }
 }

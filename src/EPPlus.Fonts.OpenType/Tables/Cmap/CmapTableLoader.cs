@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Cmap.Serialization;
 using System.Collections.Generic;
+using System.IO;
 
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
@@ -53,6 +54,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                 _reader.BaseStream.Position = currentPos;
                 var format = _reader.ReadUInt16BigEndian();
                 _reader.BaseStream.Position = currentPos; // rewind to start of subtable
+                var arr = ((MemoryStream)_reader.BaseStream).ToArray();
 
                 switch (format)
                 {

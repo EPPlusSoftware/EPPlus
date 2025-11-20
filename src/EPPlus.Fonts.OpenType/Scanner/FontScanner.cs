@@ -145,7 +145,8 @@ namespace EPPlus.Fonts.OpenType.Scanner
 
                 foreach (var file in files)
                 {
-                    using (var reader = new FontsBinaryReader(File.OpenRead(file)))
+                    var ms = new MemoryStream(File.ReadAllBytes(file));
+                    using (var reader = new FontsBinaryReader(ms, file))
                     {
                         var format = GetFormat(file);
                         if (!format.HasValue) continue;
@@ -204,7 +205,8 @@ namespace EPPlus.Fonts.OpenType.Scanner
 
             foreach (var file in files)
             {
-                using (var reader = new FontsBinaryReader(File.OpenRead(file)))
+                var ms = new MemoryStream(File.ReadAllBytes(file));
+                using (var reader = new FontsBinaryReader(ms, file))
                 {
                     var format = GetFormat(file);
                     if (!format.HasValue) continue;

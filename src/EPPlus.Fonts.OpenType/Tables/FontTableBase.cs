@@ -8,14 +8,6 @@ namespace EPPlus.Fonts.OpenType.Tables
 {
     public abstract class FontTableBase
     {
-        internal byte[] Serialize()
-        {
-            using var ms = new MemoryStream();
-            using var writer = new FontsBinaryWriter(ms);
-            SerializeInternal(writer);
-            return ms.ToArray();
-        }
-
         internal void Serialize(FontsBinaryWriter writer)
         {
             SerializeInternal(writer);
@@ -26,7 +18,10 @@ namespace EPPlus.Fonts.OpenType.Tables
 
         public int GetLength()
         {
-            return Serialize().Length;
+            using var ms = new MemoryStream();
+            using var writer = new FontsBinaryWriter(ms);
+            SerializeInternal(writer);
+            return (int)ms.Length;
         }
     }
 }

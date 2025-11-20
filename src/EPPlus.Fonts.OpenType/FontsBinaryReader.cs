@@ -17,13 +17,21 @@ namespace EPPlus.Fonts.OpenType
 {
     internal class FontsBinaryReader : BinaryReader
     {
-        public FontsBinaryReader(Stream input) : base(input)
+        public FontsBinaryReader(Stream stream, string filePath) : base(stream)
+        { 
+            _fileName = filePath;
+        }
+
+        public FontsBinaryReader(Stream stream) : base(stream)
         {
         }
 
 
         private string _context;
         private int _numberOfReadBytes = 0;
+        private readonly string _fileName;
+
+        public string FileName => _fileName;
 
 
         internal void SetContext(string name)

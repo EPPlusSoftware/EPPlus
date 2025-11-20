@@ -11,11 +11,14 @@ namespace EPPlus.Fonts.OpenType.Tables
         internal Dictionary<string, TableRecord> _tableRecordsRef { get; private set; }
         internal TableCache _tblCacheRef { get; private set; }
 
-        internal TableLoaderSettings(FontsBinaryReader reader, Dictionary<string, TableRecord> records, TableCache tblCache) 
+        internal TableLoaders TableLoaders { get; private set; }
+
+        internal TableLoaderSettings(FontsBinaryReader reader, Dictionary<string, TableRecord> records, TableCache tblCache, TableLoaders tableLoaders) 
         {
             _readerRef = reader;
             _tableRecordsRef = records;
             _tblCacheRef = tblCache;
+            TableLoaders = tableLoaders;
         }
     }
 }

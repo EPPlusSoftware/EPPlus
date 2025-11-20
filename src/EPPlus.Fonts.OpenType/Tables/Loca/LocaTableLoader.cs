@@ -18,17 +18,17 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
 {
     internal class LocaTableLoader : TableLoader<LocaTable>
     {
-        private TableLoaderSettings LoadingSettingsRef;
+        private TableLoaderSettings _tableLoaderSettings;
 
         public LocaTableLoader(TableLoaderSettings tblSettings) : base(tblSettings, TableNames.Loca)
         {
-            LoadingSettingsRef = tblSettings;
+            _tableLoaderSettings = tblSettings;
         }
 
         protected override LocaTable LoadInternal()
         {
-            var headTable = TableLoaders.GetHeadTableLoader(LoadingSettingsRef).Load();
-            var maxpTable = TableLoaders.GetMaxpTableLoader(LoadingSettingsRef).Load();
+            var headTable = _tableLoaderSettings.TableLoaders.GetHeadTableLoader(_tableLoaderSettings).Load();
+            var maxpTable = _tableLoaderSettings.TableLoaders.GetMaxpTableLoader(_tableLoaderSettings).Load();
             _reader.BaseStream.Position = _offset;
             var indexes = new List<uint>();
             if(headTable.IndexToLocFormat == HeadTable.IndexToLocFormats.Offset16)

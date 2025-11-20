@@ -51,9 +51,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
-            // Start of cmap table
-            long tableStart = writer.BaseStream.Position;
-
             // Write header
             writer.WriteUInt16BigEndian(Version);
             writer.WriteUInt16BigEndian((ushort)EncodingRecords.Count);
@@ -70,7 +67,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             var subTableStartIndex = writer.BaseStream.Position;
             var encRecordsToSerialize = EncodingRecords.OrderBy(er => er.SubtableOffset);
             var usedSubtables = new Dictionary<uint, uint>();
-            foreach(var encRecord in encRecordsToSerialize)
+            foreach (var encRecord in encRecordsToSerialize)
             {
                 if (usedSubtables.ContainsKey(encRecord.SubtableOffset))
                 {
@@ -82,7 +79,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                 usedSubtables.Add(encRecord.SubtableOffset, (uint)subTableStartIndex);
                 encRecord.SubtableOffset = (uint)subTableStartIndex;
                 subTableStartIndex += subTableBytes.Length;
-                
             }
 
             // Go back and write encoding records with correct offsets
@@ -94,7 +90,12 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                 var record = EncodingRecords[i];
                 writer.WriteUInt16BigEndian((ushort)record.PlatformId);
                 writer.WriteUInt16BigEndian(record.EncodingId);
-                writer.WriteUInt32BigEndian(record.SubtableOffset);
+                //writer.WriteUInt32BigEndian(record.SubtableOffset);
+
+                // *** Minimal change: make offset relative to start of cmap table ***
+                uint relativeOffset = record.SubtableOffset - (uint)encodingRecordStart;
+                writer.WriteUInt32BigEndian(relativeOffset);
+
             }
 
             // Return to end of stream

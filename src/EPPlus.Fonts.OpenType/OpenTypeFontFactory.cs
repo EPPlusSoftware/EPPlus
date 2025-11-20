@@ -58,7 +58,8 @@ namespace EPPlus.Fonts.OpenType
 
         private OpenTypeFont HandleScannedFont(IScannedFont scannedFont, string subFamily, float widthScaleFactor = 1f)
         {
-            var reader = new FontsBinaryReader(File.OpenRead(scannedFont.FilePath));
+            var ms = new MemoryStream(File.ReadAllBytes(scannedFont.FilePath));
+            var reader = new FontsBinaryReader(ms, scannedFont.FilePath);
             return scannedFont.TtcOffset.HasValue ?
                 new OpenTypeFont(reader, scannedFont.TtcOffset.Value, scannedFont.Format) :
                 new OpenTypeFont(reader, scannedFont.Format);
@@ -79,7 +80,8 @@ namespace EPPlus.Fonts.OpenType
 
         internal OpenTypeFont HandleScannedFontBase(IScannedFont scannedFont, string subFamily, float widthScaleFactor = 1f)
         {
-            var reader = new FontsBinaryReader(File.OpenRead(scannedFont.FilePath));
+            var ms = new MemoryStream(File.ReadAllBytes(scannedFont.FilePath));
+            var reader = new FontsBinaryReader(ms, scannedFont.FilePath);
 
             return scannedFont.TtcOffset.HasValue ?
                 new OpenTypeFont(reader, scannedFont.TtcOffset.Value, scannedFont.Format) :

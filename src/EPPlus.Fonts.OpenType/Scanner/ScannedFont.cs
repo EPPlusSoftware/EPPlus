@@ -50,8 +50,8 @@ namespace EPPlus.Fonts.OpenType.Scanner
             }
             if (_tableRecords.ContainsKey(TableNames.Name))
             {
-                var tblSettings = new TableLoaderSettings(reader, _tableRecords, null);
-                NameTable = TableLoaders.GetNameTableLoader(tblSettings).Load(false);
+                var tblSettings = new TableLoaderSettings(reader, _tableRecords, null, new TableLoaders());
+                NameTable = tblSettings.TableLoaders.GetNameTableLoader(tblSettings).Load(false);
                 FontFamilyName = NameTable.NameRecords.FirstOrDefault(x => x.RecordType == NameRecordTypes.FontFamilyName && !string.IsNullOrEmpty(x.Name))?.Name;
                 FontSubFamilyName = NameTable.NameRecords.FirstOrDefault(x => x.RecordType == NameRecordTypes.FontSubfamilyName && !string.IsNullOrEmpty(x.Name))?.Name;
             }
@@ -72,7 +72,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
 
         public NameTable NameTable { get; private set; }
 
-        public IEnumerable<ScannedFont>? SubFonts { get; private set; }
+        public IEnumerable<ScannedFont> SubFonts { get; private set; }
 
         public long? TtcOffset { get; set; }
 
@@ -135,7 +135,8 @@ namespace EPPlus.Fonts.OpenType.Scanner
 
         public byte[] GetTableBytes(string tag)
         {
-            using var reader = new FontsBinaryReader(File.OpenRead(FilePath));
+            var ms = new MemoryStream(File.ReadAllBytes(FilePath));
+            using var reader = new FontsBinaryReader(ms, FilePath);
             if (!_tableRecords.TryGetValue(tag, out var record))
             {
                 throw new ArgumentException($"Table '{tag}' not found in font.");

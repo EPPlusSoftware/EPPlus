@@ -35,10 +35,19 @@ namespace EPPlus.Fonts.OpenType
             Value = new string(new char[] { c1, c2, c3, c4 });
         }
 
-        internal Tag(string value)
+
+        public Tag(string value)
         {
+            if (string.IsNullOrEmpty(value))
+                throw new ArgumentException("Tag value cannot be null or empty.", nameof(value));
+
+            if (value.Length != 4)
+                throw new ArgumentException("Tag must be exactly 4 characters.", nameof(value));
+
             Value = value;
+            Bytes = System.Text.Encoding.ASCII.GetBytes(value); // Sätt Bytes direkt
         }
+
 
         public string Value { get; private set; }
 

@@ -10,8 +10,12 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System;
+using System.Diagnostics;
+
 namespace EPPlus.Fonts.OpenType
 {
+    [DebuggerDisplay("TableRecord: {Tag.Value}, Length: {Length}, Offset: {Offset}")]
     public class TableRecord
     {
         public Tag Tag { get; set; }
@@ -22,35 +26,47 @@ namespace EPPlus.Fonts.OpenType
 
         public uint Length { get; set; }
 
-        public byte[] GetTableBytes(OpenTypeFont font)
+        //public byte[] GetTableBytes(OpenTypeFont font, FontsBinaryWriter writer)
+        //{
+        //    switch(Tag.Value.ToLower())
+        //    {
+        //        case "glyf":
+        //            return font.GlyfTable?.Serialize(writer) ?? new byte[0];
+        //        case "os/2":
+        //            return font.Os2Table.Serialize(writer);
+        //        case "cmap":
+        //            return font.CmapTable.Serialize(writer);
+        //        case "head":
+        //            return font.HeadTable.Serialize(writer);
+        //        case "hhea":
+        //            return font.HheaTable.Serialize();
+        //        case "hmtx":
+        //            return font.HmtxTable.Serialize();
+        //        case "kern":
+        //            return font.KernTable?.Serialize() ?? new byte[0];
+        //        case "loca":
+        //            return font.LocaTable.Serialize();
+        //        case "maxp":
+        //            return font.MaxpTable.Serialize();
+        //        case "name":
+        //            return font.NameTable.Serialize();
+        //        case "post":
+        //            return font.PostTable.Serialize();
+        //        default:
+        //            return new byte[0];
+        //    }
+        //}
+
+
+        internal void Serialize(FontsBinaryWriter writer)
         {
-            switch(Tag.Value.ToLower())
-            {
-                case "glyf":
-                    return font.GlyfTable?.Serialize() ?? new byte[0];
-                case "os/2":
-                    return font.Os2Table.Serialize();
-                case "cmap":
-                    return font.CmapTable.Serialize();
-                case "head":
-                    return font.HeadTable.Serialize();
-                case "hhea":
-                    return font.HheaTable.Serialize();
-                case "hmtx":
-                    return font.HmtxTable.Serialize();
-                case "kern":
-                    return font.KernTable?.Serialize() ?? new byte[0];
-                case "loca":
-                    return font.LocaTable.Serialize();
-                case "maxp":
-                    return font.MaxpTable.Serialize();
-                case "name":
-                    return font.NameTable.Serialize();
-                case "post":
-                    return font.PostTable.Serialize();
-                default:
-                    return new byte[0];
-            }
+            if (writer == null) throw new ArgumentNullException(nameof(writer));
+
+            writer.Write(Tag.Bytes);                // 4 bytes
+            writer.WriteUInt32BigEndian(Checksum); // 4 bytes
+            writer.WriteUInt32BigEndian(Offset);   // 4 bytes
+            writer.WriteUInt32BigEndian(Length);   // 4 bytes
         }
+
     }
 }

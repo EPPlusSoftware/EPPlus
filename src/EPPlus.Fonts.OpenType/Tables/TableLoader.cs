@@ -18,7 +18,10 @@ namespace EPPlus.Fonts.OpenType.Tables
             }
             _tables = tblSettings._tableRecordsRef;
             _tableName = tableName;
-            _reader.BaseStream.Position = _offset;
+            if(_reader != null)
+            {
+                _reader.BaseStream.Position = _offset;
+            }
             tableCache = tblSettings._tblCacheRef;
         }
 

@@ -50,6 +50,29 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
             glyphNames.Clear();
         }
 
+        public PostTable Clone()
+        {
+            var clone = new PostTable
+            {
+                version = new Version16Dot16(this.version.RawValue), // new instance, same raw value
+                italicAngle = new Fixed16Dot16(this.italicAngle.RawValue), // new instance, same raw value
+                underlinePosition = this.underlinePosition,
+                underlineThickness = this.underlineThickness,
+                isFixedPitch = this.isFixedPitch,
+                minMemType42 = this.minMemType42,
+                maxMemType42 = this.maxMemType42,
+                minMemType1 = this.minMemType1,
+                maxMemType1 = this.maxMemType1,
+                numGlyphs = this.numGlyphs
+            };
+
+            // Deep copy of lists
+            clone.glyphNameIndex = new List<ushort>(this.glyphNameIndex);
+            clone.glyphNames = new List<string>(this.glyphNames);
+
+            return clone;
+        }
+
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {

@@ -258,5 +258,63 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         {
             throw new NotImplementedException();
         }
+
+        public Os2Table Clone()
+        {
+            var clone = new Os2Table
+            {
+                version = this.version,
+                xAvgCharWidth = this.xAvgCharWidth,
+                usWeightClass = this.usWeightClass,
+                usWidthClass = this.usWidthClass,
+                fsType = this.fsType,
+                ySubscriptXSize = this.ySubscriptXSize,
+                ySubscriptYSize = this.ySubscriptYSize,
+                ySubscriptXOffset = this.ySubscriptXOffset,
+                ySubscriptYOffset = this.ySubscriptYOffset,
+                ySuperscriptXSize = this.ySuperscriptXSize,
+                ySuperscriptYSize = this.ySuperscriptYSize,
+                ySuperscriptXOffset = this.ySuperscriptXOffset,
+                ySuperscriptYOffset = this.ySuperscriptYOffset,
+                yStrikeoutSize = this.yStrikeoutSize,
+                yStrikeoutPosition = this.yStrikeoutPosition,
+                sFamilyClass = this.sFamilyClass,
+                UnicodeRange1 = this.UnicodeRange1,
+                UnicodeRange2 = this.UnicodeRange2,
+                UnicodeRange3 = this.UnicodeRange3,
+                UnicodeRange4 = this.UnicodeRange4,
+                fsSelection = this.fsSelection,
+                usFirstCharIndex = this.usFirstCharIndex,
+                usLastCharIndex = this.usLastCharIndex,
+                sTypoAscender = this.sTypoAscender,
+                sTypoDescender = this.sTypoDescender,
+                sTypoLineGap = this.sTypoLineGap,
+                usWinAscent = this.usWinAscent,
+                usWinDescent = this.usWinDescent,
+                ulCodePageRange1 = this.ulCodePageRange1,
+                ulCodePageRange2 = this.ulCodePageRange2,
+                sxHeight = this.sxHeight,
+                sCapHeight = this.sCapHeight,
+                usDefaultChar = this.usDefaultChar,
+                usBreakChar = this.usBreakChar,
+                usMaxContext = this.usMaxContext,
+                usLowerOpticalPointSize = this.usLowerOpticalPointSize,
+                usUpperOpticalPointSize = this.usUpperOpticalPointSize
+            };
+
+            // Djup kopia av panose-array
+            if (this.panose != null)
+            {
+                clone.panose = (byte[])this.panose.Clone();
+            }
+
+            // Kopiera achVendId (Tag)
+            if (this.achVendId != null)
+            {
+                clone.achVendId = new Tag(this.achVendId.Value); // antar att Tag har en Value eller liknande
+            }
+
+            return clone;
+        }
     }
 }

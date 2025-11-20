@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Tables.Loca;
+using System.IO;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -37,6 +38,7 @@ namespace EPPlus.Fonts.OpenType
     {
         internal TableCache _localTableCache;
         internal TableLoaderSettings _tblSettings;
+        internal TableLoaders _tableLoaders;
         private readonly FontsBinaryReader _reader;
         protected Dictionary<string, TableRecord> _tableRecords;
         public FontFormat Format;
@@ -47,6 +49,8 @@ namespace EPPlus.Fonts.OpenType
             Format = format;
             _tableRecords = new Dictionary<string, TableRecord>();
             _localTableCache = new TableCache();
+            _tableLoaders = new TableLoaders();
+            _tblSettings = new TableLoaderSettings(null, _tableRecords, _localTableCache, _tableLoaders);
         }
 
 
@@ -63,27 +67,28 @@ namespace EPPlus.Fonts.OpenType
             {
                 _reader.BaseStream.Position = startOffset;
             }
+            _tableLoaders = new TableLoaders();
             Initialize();
             ReadTableRecords();
 
             _localTableCache = new TableCache();
 
-            _tblSettings = new TableLoaderSettings(_reader, _tableRecords, _localTableCache);
+            _tblSettings = new TableLoaderSettings(_reader, _tableRecords, _localTableCache, _tableLoaders);
 
             //Ensure lazy-loading of individual tables via instanced table loaders.
-            _os2TableLoader = TableLoaders.GetOs2TableLoader(_tblSettings);
-            _nameTableLoader = TableLoaders.GetNameTableLoader(_tblSettings);
-            _hheaTableLoader = TableLoaders.GetHheaTableLoader(_tblSettings);
-            _headTableLoader = TableLoaders.GetHeadTableLoader(_tblSettings);
-            _cmapTableLoader = TableLoaders.GetCmapTableLoader(_tblSettings);
-            _hmtxTableLoader = TableLoaders.GetHmtxTableLoader(_tblSettings);
-            _maxpTableLoader = TableLoaders.GetMaxpTableLoader(_tblSettings);
-            _postTableLoader = TableLoaders.GetPostTableLoader(_tblSettings);
-            _locaTableLoader = TableLoaders.GetLocaTableLoader(_tblSettings);
+            _os2TableLoader = _tableLoaders.GetOs2TableLoader(_tblSettings);
+            _nameTableLoader = _tableLoaders.GetNameTableLoader(_tblSettings);
+            _hheaTableLoader = _tableLoaders.GetHheaTableLoader(_tblSettings);
+            _headTableLoader = _tableLoaders.GetHeadTableLoader(_tblSettings);
+            _cmapTableLoader = _tableLoaders.GetCmapTableLoader(_tblSettings);
+            _hmtxTableLoader = _tableLoaders.GetHmtxTableLoader(_tblSettings);
+            _maxpTableLoader = _tableLoaders.GetMaxpTableLoader(_tblSettings);
+            _postTableLoader = _tableLoaders.GetPostTableLoader(_tblSettings);
+            _locaTableLoader = _tableLoaders.GetLocaTableLoader(_tblSettings);
 
             //Common tables in ttf fonts
-            _glyfTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? TableLoaders.GetGlyfTableLoader(_tblSettings) : null;
-            _kernTableLoader = TableRecords.ContainsKey(TableNames.Kern) ? TableLoaders.GetKernTableLoader(_tblSettings) : null;
+            _glyfTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? _tableLoaders.GetGlyfTableLoader(_tblSettings) : null;
+            _kernTableLoader = TableRecords.ContainsKey(TableNames.Kern) ? _tableLoaders.GetKernTableLoader(_tblSettings) : null;
         }
 
         Os2TableLoader _os2TableLoader;
@@ -312,7 +317,7 @@ namespace EPPlus.Fonts.OpenType
                     Offset = _reader.ReadUInt32BigEndian(),
                     Length = _reader.ReadUInt32BigEndian()
                 };
-                _tableRecords.Add(record.Tag.Value, record);
+                _tableRecords.Add(record.Tag.Value.ToLower(), record);
             }
         }
 
@@ -402,21 +407,34 @@ namespace EPPlus.Fonts.OpenType
                 idMapping[sortedGlyphIds[i]] = i;
             }
 
-
             // 4. Create new font instance
-            var subsetFont = new OpenTypeFont(_reader, Format);
+            var subsetFont = new OpenTypeFont(Format);
 
-            // 5. Copy and filter tables
+            // 5. Copy unchanged tables
             subsetFont.AddOrReplaceTable(TableNames.Head, HeadTable.Clone());
+            subsetFont.AddOrReplaceTable(TableNames.Hhea, HheaTable.Clone());
+            subsetFont.AddOrReplaceTable(TableNames.Post, PostTable.Clone());
+            subsetFont.AddOrReplaceTable(TableNames.Name, NameTable.Clone());
+            subsetFont.AddOrReplaceTable(TableNames.Os2, Os2Table.Clone());
             subsetFont.AddOrReplaceTable(TableNames.Maxp, MaxpTable.Clone());
+
+            // 6. Copy and filter tables
             subsetFont.MaxpTable.numGlyphs = (ushort)glyphIds.Count;
-            var newGlyf = subsetFont.AddOrReplaceTable(TableNames.Glyf, GlyfTable.CreateSubset(sortedGlyphIds, idMapping));
-            subsetFont.AddOrReplaceTable(TableNames.Loca, newGlyf);
+
+            // Create new Glyf table
+            var newGlyfTable = GlyfTable.CreateSubset(sortedGlyphIds, idMapping);
+            subsetFont.AddOrReplaceTable(TableNames.Glyf, newGlyfTable);
+
+            // Calculate offsets for Loca
+            var offsets = newGlyfTable.CalculateOffsets(); // Du behöver en metod som returnerar List<uint>
+
+            // Create the Loca-table
+            var newLoca = LocaTable.CreateSubset(offsets, HeadTable.IndexToLocFormat, subsetFont.MaxpTable);
+            subsetFont.AddOrReplaceTable(TableNames.Loca, newLoca);
+
+            // Hmtx and Cmap
             subsetFont.AddOrReplaceTable(TableNames.Hmtx, HmtxTable.CreateSubset(glyphIds, idMapping));
             subsetFont.AddOrReplaceTable(TableNames.Cmap, CmapTable.CreateSubset(usedChars, idMapping));
-
-            //// 5. Recalculate checksums
-            //subsetFont.RecalculateChecksums();
 
             return subsetFont;
         }
@@ -447,36 +465,36 @@ namespace EPPlus.Fonts.OpenType
 
         internal IDictionary<string, TableRecord> TableRecords => _tableRecords;
 
-        public void RecalculateChecksums()
-        {
-            uint totalSum = 0;
+        //public void RecalculateChecksums()
+        //{
+        //    uint totalSum = 0;
 
-            // Calculate checksums for each table
-            foreach (var entry in TableRecords)
-            {
-                byte[] tableData = entry.Value.GetTableBytes(this);
-                uint checksum = CalculateChecksum(tableData);
-                entry.Value.Length = (uint)tableData.Length;
-                entry.Value.Checksum = checksum;
-                totalSum += checksum;
-            }
+        //    // Calculate checksums for each table
+        //    foreach (var entry in TableRecords)
+        //    {
+        //        byte[] tableData = entry.Value.GetTableBytes(this);
+        //        uint checksum = CalculateChecksum(tableData);
+        //        entry.Value.Length = (uint)tableData.Length;
+        //        entry.Value.Checksum = checksum;
+        //        totalSum += checksum;
+        //    }
 
-            // Add sum of table directory entries
-            foreach (var dirEntry in TableRecords)
-            {
-                totalSum += (uint)dirEntry.Value.Tag.Bytes[0] << 24 |
-                            (uint)dirEntry.Value.Tag.Bytes[1] << 16 |
-                            (uint)dirEntry.Value.Tag.Bytes[2] << 8 |
-                            (uint)dirEntry.Value.Tag.Bytes[3];
-                totalSum += dirEntry.Value.Checksum;
-                totalSum += dirEntry.Value.Offset;
-                totalSum += dirEntry.Value.Length;
-            }
+        //    // Add sum of table directory entries
+        //    foreach (var dirEntry in TableRecords)
+        //    {
+        //        totalSum += (uint)dirEntry.Value.Tag.Bytes[0] << 24 |
+        //                    (uint)dirEntry.Value.Tag.Bytes[1] << 16 |
+        //                    (uint)dirEntry.Value.Tag.Bytes[2] << 8 |
+        //                    (uint)dirEntry.Value.Tag.Bytes[3];
+        //        totalSum += dirEntry.Value.Checksum;
+        //        totalSum += dirEntry.Value.Offset;
+        //        totalSum += dirEntry.Value.Length;
+        //    }
 
-            // Adjust head.checkSumAdjustment
-            uint adjustment = 0xB1B0AFBA - totalSum;
-            HeadTable.ChecksumAdjustment = adjustment;
-        }
+        //    // Adjust head.checkSumAdjustment
+        //    uint adjustment = 0xB1B0AFBA - totalSum;
+        //    HeadTable.ChecksumAdjustment = adjustment;
+        //}
 
         private uint CalculateChecksum(byte[] data)
         {
@@ -500,6 +518,112 @@ namespace EPPlus.Fonts.OpenType
             sum += last;
 
             return sum;
+        }
+
+        public byte[] Serialize()
+        {
+            // 1. Sort tables alphabetically by tag (spec requirement)
+            var tables = _tableRecords
+                .Where(x => _tblSettings.TableLoaders.IsSupportedTable(x.Key))
+                .OrderBy(t => t.Key)
+                .ToList();
+
+            using (var ms = new MemoryStream())
+            using (var writer = new FontsBinaryWriter(ms))
+            {
+                // 2. Write sfnt header
+                writer.WriteUInt32BigEndian(Format == FontFormat.Ttf ? 0x00010000u : 0x4F54544Fu);
+
+                ushort numTables = (ushort)tables.Count;
+                writer.WriteUInt16BigEndian(numTables);
+
+                // Calculate searchRange, entrySelector, rangeShift
+                ushort maxPower = (ushort)Math.Pow(2, Math.Floor(Math.Log(numTables) / Math.Log(2)));
+                ushort searchRange = (ushort)(maxPower * 16);
+                ushort entrySelector = (ushort)Math.Floor(Math.Log(maxPower) / Math.Log(2));
+                ushort rangeShift = (ushort)(numTables * 16 - searchRange);
+
+                writer.WriteUInt16BigEndian(searchRange);
+                writer.WriteUInt16BigEndian(entrySelector);
+                writer.WriteUInt16BigEndian(rangeShift);
+
+                // 3. Reserve space for TableRecords (16 bytes each)
+                long tableDirPos = ms.Position;
+                writer.Write(new byte[numTables * 16]); // placeholder
+
+                // 4. Write tables and record offsets
+                var tableRecords = new List<TableRecord>();
+                foreach (var kvp in tables)
+                {
+                    var tag = kvp.Key;
+                    var tableRecord = kvp.Value;
+                    var table = _tblSettings.TableLoaders.GetTable(tag, _tblSettings);
+
+                    long offset = ms.Position;
+                    table.Serialize(writer); // Writes table data
+                    long length = ms.Position - offset;
+
+                    // Align to 4 bytes
+                    while (writer.BaseStream.Position % 4 != 0)
+                        writer.Write((byte)0);
+
+                    tableRecords.Add(new TableRecord
+                    {
+                        Tag = new Tag(tag),
+                        Offset = (uint)offset,
+                        Length = (uint)length
+                        // Checksum will be calculated later
+                    });
+                }
+
+                // 5. Calculate checksums from actual written data
+                foreach (var record in tableRecords)
+                {
+                    ms.Position = record.Offset;
+                    byte[] tableBytes = new byte[record.Length];
+                    ms.Read(tableBytes, 0, tableBytes.Length);
+                    record.Checksum = CalculateChecksum(tableBytes);
+                }
+
+                // 6. Calculate totalSum for checkSumAdjustment
+                uint totalSum = 0;
+
+                // Sum of table directory entries
+                foreach (var record in tableRecords)
+                {
+                    totalSum += (uint)record.Tag.Bytes[0] << 24 |
+                                (uint)record.Tag.Bytes[1] << 16 |
+                                (uint)record.Tag.Bytes[2] << 8 |
+                                (uint)record.Tag.Bytes[3];
+                    totalSum += record.Checksum;
+                    totalSum += record.Offset;
+                    totalSum += record.Length;
+                }
+
+                // Add sfnt header (already written)
+                ms.Position = 0;
+                byte[] headerBytes = new byte[12]; // sfnt header size
+                ms.Read(headerBytes, 0, headerBytes.Length);
+                totalSum += CalculateChecksum(headerBytes);
+
+                // Adjust head.checkSumAdjustment
+                uint adjustment = 0xB1B0AFBA - totalSum;
+                var headRecord = tableRecords.FirstOrDefault(r => r.Tag.ToString() == "head");
+                if (headRecord != null)
+                {
+                    ms.Position = headRecord.Offset + 8; // checkSumAdjustment offset in head table
+                    writer.WriteUInt32BigEndian(adjustment);
+                }
+
+                // 7. Go back and write TableRecords
+                ms.Position = tableDirPos;
+                foreach (var record in tableRecords)
+                {
+                    record.Serialize(writer); // Writes Tag, Checksum, Offset, Length
+                }
+
+                return ms.ToArray();
+            }
         }
     }
 }

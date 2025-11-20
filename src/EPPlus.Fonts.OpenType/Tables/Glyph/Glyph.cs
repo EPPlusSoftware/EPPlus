@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -38,10 +39,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
         }
 
 
+
         internal override void Serialize(FontsBinaryWriter writer)
         {
+            // Spara startpositionen
+            long start = writer.BaseStream.Position;
+
+            // Skriv header
             Header.Serialize(writer);
 
+            // Skriv glyfdata beroende på typ
             if (Header.numberOfContours > 0 && SimpleData != null)
             {
                 SimpleData.Serialize(writer);
@@ -50,8 +57,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
             {
                 CompositeData.Serialize(writer);
             }
-            // If numberOfContours == 0 → empty glyph, only header
+            // Om numberOfContours == 0 → tom glyf, bara header
+
+            // Lägg till padding till 4-byte boundary
+            long end = writer.BaseStream.Position;
+            int writtenLength = (int)(end - start);
+            int padding = (4 - (writtenLength % 4)) % 4;
+            for (int p = 0; p < padding; p++)
+                writer.Write((byte)0);
         }
+
 
         public Glyph Clone()
         {
@@ -111,7 +126,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
 
             return clone;
         }
-
 
     }
 }

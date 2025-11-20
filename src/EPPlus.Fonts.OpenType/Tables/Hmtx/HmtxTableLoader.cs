@@ -16,16 +16,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
 {
     internal class HmtxTableLoader : TableLoader<HmtxTable>
     {
-        private TableLoaderSettings tableLoaderSettingsRef;
+        private TableLoaderSettings _tableLoaderSettings;
         public HmtxTableLoader(TableLoaderSettings settings) : base(settings, TableNames.Hmtx)
         {
-            tableLoaderSettingsRef = settings;
+            _tableLoaderSettings = settings;
         }
 
         protected override HmtxTable LoadInternal()
         {
-            var hheaTable = TableLoaders.GetHheaTableLoader(tableLoaderSettingsRef).Load();
-            var maxpTable = TableLoaders.GetMaxpTableLoader(tableLoaderSettingsRef).Load();
+            var hheaTable = _tableLoaderSettings.TableLoaders.GetHheaTableLoader(_tableLoaderSettings).Load();
+            var maxpTable = _tableLoaderSettings.TableLoaders.GetMaxpTableLoader(_tableLoaderSettings).Load();
             _reader.BaseStream.Position = _offset;
             var metrics = new List<LongHorMetric>();
             for(var x = 0; x  < hheaTable.numberOfHMetrics; x++)
