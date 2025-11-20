@@ -21,8 +21,8 @@ Fixed issues
 * New constructor for `ExcelAddressBase` taking a list of addresses.
 * Fixed several formatting issues in the `ARRAYTOTEXT` function.
 * Fixed an issue with incorrect mapping of formula columns in the `ExcelRangeBase.LoadFromCollection` method.
-* `ExcelRangeBase.InsertColumn` could throw an unhandled Exception in rare cases, when a formula contain references to external workbooks.
-* `ExcelRange.DeleteRow` throw an unhandled exception when having a conditional formatting colors scales rule with an empty formula.
+* `ExcelRangeBase.InsertColumn` could throw an unhandled Exception in rare cases, when a formula contains references to external workbooks.
+* `ExcelRange.DeleteRow` throw an unhandled exception when having a conditional formatting color scale rules with an empty formula.
 * A calculated column formula of a table could not be set after it had been cleared.
 * `ExcelWorksheet.DimensionByValue` sometimes returned an incorrect range.
 * COUNTIF did not compare numeric strings as numeric.
