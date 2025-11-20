@@ -63,7 +63,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <param name="Range">The range address including header and total row</param>
         /// <param name="Source">The Source data range address</param>
         /// <param name="Name">The name of the pivottable. Must be unique </param>
-        /// <returns>The pivottable object</returns>
+        /// <returns>The pivot table object</returns>
         public ExcelPivotTable Add(ExcelAddressBase Range, ExcelRangeBase Source, string Name)
         {
             if (string.IsNullOrEmpty(Name))
@@ -73,14 +73,23 @@ namespace OfficeOpenXml.Table.PivotTable
             ValidateAddRange(Range, Source, Name);
             return Add(new ExcelPivotTable(_ws, Range, Source, Name, _ws.Workbook._nextPivotTableID++));
         }
-        public ExcelPivotTable Add(ExcelAddressBase Range, ExcelConnection connection, string Name, string[] fields)
+        /// <summary>
+        /// Create a pivot table with an external connection as source. 
+        /// Please note the EPPlus do not excute the connection query, so EPPlus will depend on the spread sheet application to calculate and render the pivot table.
+        /// </summary>
+        /// <param name="Range">The range address including header and total row</param>
+        /// <param name="Connection">The connection to use as source.</param>
+        /// <param name="Name">The name of the pivottable. Must be unique </param>
+        /// <param name="Fields">Field names matching the output of the pivot table.</param>
+        /// <returns>The pivot table object</returns>
+        public ExcelPivotTable Add(ExcelAddressBase Range, ExcelConnection Connection, string Name, string[] Fields)
         {
             if (string.IsNullOrEmpty(Name))
             {
                 Name = GetNewTableName();
             }
-            ValidateAddConnection(Range, Name, fields);
-            return Add(new ExcelPivotTable(_ws, Range, connection, fields, Name, _ws.Workbook._nextPivotTableID++));
+            ValidateAddConnection(Range, Name, Fields);
+            return Add(new ExcelPivotTable(_ws, Range, Connection, Fields, Name, _ws.Workbook._nextPivotTableID++));
         }
 
         private void ValidateAddConnection(ExcelAddressBase Range, string Name, string[] fields)

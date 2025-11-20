@@ -321,7 +321,9 @@ namespace OfficeOpenXml.Style
         {
             return _list.GetEnumerator();
         }
-
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
         public void Dispose()
         {
             _cells.Dispose();

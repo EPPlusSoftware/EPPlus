@@ -38,7 +38,11 @@ namespace OfficeOpenXml.Data.Connection
             Type= type;
             Position = 0;
         }
-        
+
+        /// <summary>
+        /// Create a new text field that can be added to <see cref="ExcelTextProperties.Fields"/>
+        /// </summary>
+        /// <param name="position">The position. In a fixed index file this is the start position in record.</param>
         public ExcelConnectionTextField(int position)
         {
             Position = position;

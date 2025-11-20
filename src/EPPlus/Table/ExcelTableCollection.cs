@@ -80,8 +80,8 @@ namespace OfficeOpenXml.Table
         /// </summary>
         /// <param name="Range">The range to the table.</param>
         /// <param name="Name">The name of the table</param>
-        /// <param name="connection">The connection in the <see cref="ExcelWorkbook.Connections" collection./> </param>
-        /// <param name="fields">The names of the fields. EPPlus does not execute the query, so you must set the field names and update the field properties in the <see cref="ExcelQueryTable.Fields" collection. /></param>
+        /// <param name="connection">The connection in the <see cref="ExcelWorkbook.Connections" /> collection.</param>
+        /// <param name="fields">The names of the fields. EPPlus does not execute the query, so you must set the field names and update the field properties in the <see cref="ExcelQueryTable.Fields"/> collection.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException">If no fields are supplied</exception>
         /// <exception cref="InvalidOperationException">If the connection is null or not in the package.</exception>
@@ -116,7 +116,7 @@ namespace OfficeOpenXml.Table
             qt.ConnectionId = connection.Id;
             qt.Connection = connection;
             qt.Name = connection.Name;
-            int ix = 1, tfIx=1;
+            var tfIx=1;
             //Set Column headers.
             foreach (var f in fields)
             {

@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Data.QueryTable
         /// </summary>
         public bool ClippedColumn { get; set; }
         /// <summary>
-        /// If this column is a user-defined column or comes from the external data query. User defined columns shall be preserved during data refresh operations. Userdefined columns are only supported on query tables that are attached to table objects
+        /// If this column is a user-defined column or comes from the external data query. User defined columns shall be preserved during data refresh operations. User defined columns are only supported on query tables that are attached to table objects
         /// </summary>
         public bool DataBoundColumn { get; set; }
         /// <summary>

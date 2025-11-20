@@ -13,6 +13,9 @@
 
 namespace OfficeOpenXml.Data.Connection
 {
+    /// <summary>
+    /// The type of command used by the <see cref="ExcelConnection"/>.
+    /// </summary>
     public enum eCommandType
     {
         /// <summary>

@@ -148,7 +148,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             return div;
         }
 
-        private void SumAndCount(int row, int col, object value, string criteria, IRangeInfo argRange, IRangeInfo sumRange, ref KahanSum returnValue, ref int nMatches, out ExcelErrorValue? eev)
+        private void SumAndCount(int row, int col, object value, string criteria, IRangeInfo argRange, IRangeInfo sumRange, ref KahanSum returnValue, ref int nMatches, out ExcelErrorValue eev)
         {
             if (criteria != null && Evaluate(value, criteria))
             {

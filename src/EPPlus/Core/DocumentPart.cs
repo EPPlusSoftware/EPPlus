@@ -12,6 +12,10 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Core
 {
+    /// <summary>
+    /// The base class for loading/saving and deleting OOXML part or other formats storage containers.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class DocumentPart<T> where T : DocumentPart<T>
     {
         internal IDocumentPart<T> _dp;

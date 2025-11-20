@@ -54,6 +54,10 @@ namespace OfficeOpenXml.Data.Connection
         /// Number of items in the collection.
         /// </summary>
         public int Count { get { return _list.Count; } }
+        /// <summary>
+        /// The enumerator for the collection.
+        /// </summary>
+        /// <returns>The enmerator</returns>
         public IEnumerator<ExcelConnection> GetEnumerator()
         {
             return _list.GetEnumerator();

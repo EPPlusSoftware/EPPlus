@@ -14,6 +14,9 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.Data.Connection
 {
+    /// <summary>
+    /// Properties for text file connections.
+    /// </summary>
     public class ExcelTextProperties
     {
         /// <summary>
