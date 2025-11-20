@@ -108,8 +108,12 @@ namespace EPPlusImageRenderer.Svg
             //Seperated out in case of some final render item
             //needing to adjust without changing the original values
             RightMargin = p.RightMargin;
-           
-            LeftMargin = p.LeftMargin + p.Indent;
+
+            //p.Indent
+            //0.5 inches per indent level 48 pixels
+
+            var indent = 48 * p.IndentLevel;
+            LeftMargin = p.LeftMargin + p.Indent + indent;
 
             ParagraphArea = paragraphArea;
             HorizontalAlignment = p.HorizontalAlignment;
@@ -173,7 +177,7 @@ namespace EPPlusImageRenderer.Svg
                 var multiplier = (p.LineSpacing.Value / 100);
                 lnMultiplier = multiplier;
                 if (IsFirstParagraph)
-                {
+                {  
                     LineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine().PointToPixel();
                 }
                 return multiplier * fmExact.GetSingleLineSpacing().PointToPixel();
@@ -188,7 +192,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 case eTextAlignment.Left:
                 default:
-                    x = area.Left;
+                    x = area.Left + LeftMargin;
                     break;
                 case eTextAlignment.Center:
                     x = (area.Right / 2) + LeftMargin - RightMargin;

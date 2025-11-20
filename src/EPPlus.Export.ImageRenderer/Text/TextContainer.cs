@@ -115,7 +115,7 @@ namespace EPPlus.Export.ImageRenderer.Text
             foreach ( var line in TextContent)
             {
                 var lineWidth = _textMeasurerTrueType.MeasureTextWidthInPixels(line);
-                var lineWidthAlt = _textMeasurerTrueType.MeasureTextWidthInPixels(line+"\r\n");
+                //var lineWidthAlt = _textMeasurerTrueType.MeasureTextWidthInPixels(line+"\r\n");
                 //lineWidth += _textMeasurerTrueType.GetMinXInPixels();
                 if (lineWidth > maxWidth)
                 {

@@ -13,6 +13,7 @@
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
@@ -179,6 +180,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Default width in pixels for a TAB character.
         /// </summary>
+        //If omitted default in office is 914400 EMUs
         public double? DefaultTabSize
         {
             get
@@ -263,16 +265,19 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
+                //From the docs:
+                //"-1 and -2 for outline mode levels that should only exist in memory"
+                //ECMA december_2016 part1 page 20.1.10.71 ST_TextIndentLevelType (Text Indent Level Type)
                 if (value < -2 && value > 8)
                 {
-                    throw new ArgumentOutOfRangeException("Level must be between -2 and 8");
+                    throw new ArgumentOutOfRangeException("Level must be between 0 and 8");
                 }
                 _initXml?.Invoke();
                 SetXmlNodeInt("a:pPr/@lvl", value);
             }
         }
         /// <summary>
-        /// If an Latin word can be broken in half and wrapped onto the next line without a hyphen being added.
+        /// If a Latin word can be broken in half and wrapped onto the next line without a hyphen being added.
         /// </summary>
         public bool LatinLineBreak
         {
