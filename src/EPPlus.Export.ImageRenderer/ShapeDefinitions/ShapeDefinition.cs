@@ -10,12 +10,14 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.Text;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Security.Cryptography.Xml;
 
 namespace EPPlusImageRenderer.ShapeDefinitions
 {
@@ -293,9 +295,52 @@ namespace EPPlusImageRenderer.ShapeDefinitions
             //var adjustedWidth = shape._width - 10.5d;
             var adjustedWidth = shape._width;
 
+            var hOld = adjustedHeight;
+            var wOld = adjustedWidth;
 
-            var w = (double)(adjustedWidth * (double)ExcelDrawing.EMU_PER_PIXEL);
+            if (shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit)
+            {
+
+                var txt = shape.Text;
+
+                var newContainer = new TextContainer(txt, shape.TextBody.Paragraphs.FirstDefaultRunProperties.GetMeasureFont(), true);
+
+                adjustedHeight = newContainer.Height;
+                adjustedWidth = newContainer.Width;
+
+                TextBoxRect.RightValue = adjustedHeight;
+                TextBoxRect.BottomValue = adjustedWidth;
+            }
+
             var h = (double)(adjustedHeight * (double)ExcelDrawing.EMU_PER_PIXEL);
+            var w = (double)(adjustedWidth * (double)ExcelDrawing.EMU_PER_PIXEL);
+
+
+            ////This might be neccesary if there are several fonts/fontsizes
+            ////Could maybe work better inside a singular text container taking Paragraphs as input
+            //Containers for each "line"
+            //List<TextContainer> textContainers = new List<TextContainer>();
+
+            //double largestHeight = -1;
+            //double largestWidth = -1;
+
+            //if(shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit)
+            //{
+            //    foreach( var paragraph in shape.TextBody.Paragraphs)
+            //    {
+            //        foreach(var txtRun in paragraph.TextRuns)
+            //        {
+            //            var lineContainer = new TextContainer(txtRun.Text, txtRun.GetMeasureFont(), true);
+            //            textContainers.Add(lineContainer);
+            //            if(lineContainer.Width > largestWidth)
+            //            {
+            //                largestWidth = lineContainer.Width;
+            //            }
+            //        }
+            //    }
+            //}
+
+
             //Longest side
             var ls = Math.Max(h, w);
             //Shortest side

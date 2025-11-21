@@ -133,7 +133,7 @@ namespace EPPlusImageRenderer.ShapeDefinitions
                             psd.ShapeConnectionSite = LoadConnectionLst(xr);
                             break;
                         case "rect":
-                            psd.TextBoxRect = new TextBoxRect() { TopName = xr.GetAttribute("t"), BottomName = xr.GetAttribute("b"), LeftName = xr.GetAttribute("l"), RightName = xr.GetAttribute("r") };
+                            psd.TextBoxRect = LoadRect(xr);
                             break;
                         case "pathLst":
                             psd.ShapePaths = LoadShapePaths(xr);
@@ -145,6 +145,20 @@ namespace EPPlusImageRenderer.ShapeDefinitions
                     return;
                 }
             }
+        }
+
+        private static TextBoxRect LoadRect(XmlReader xr)
+        {
+           //  < rect l = "l" t = "y1" r = "x4" b = "b" xmlns = "http://schemas.openxmlformats.org/drawingml/2006/main" />
+            var rect = new TextBoxRect()
+            {
+                TopName = xr.GetAttribute("t"),
+                BottomName = xr.GetAttribute("b"),
+                LeftName = xr.GetAttribute("l"),
+                RightName = xr.GetAttribute("r")
+            };
+
+            return rect;
         }
 
         private static List<ShapeConnectionSite> LoadConnectionLst(XmlReader xr)
