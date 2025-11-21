@@ -1334,6 +1334,100 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(9D, ws.Cells["AQ2"].Value);
 
         }
+
+        [TestMethod]
+        public void s968()
+        {
+            using var p = OpenTemplatePackage("s968.xlsx");
+            var ws = p.Workbook.Worksheets["Messages"];
+            ws.Calculate();
+            var b18 = ws.Cells["B18"].Value;
+            var b19 = ws.Cells["B19"].Value;
+            var d44 = ws.Cells["D44"].Value;
+            var e44 = ws.Cells["E44"].Value;
+            var d53 = ws.Cells["D53"].Value;
+
+        }
+
+        [TestMethod]
+        public void s968_2()
+        {
+            using var p = OpenTemplatePackage("s968.xlsx");
+            var ws = p.Workbook.Worksheets["Messages"];
+            ws.Calculate();
+            var h44 = ws.Cells["H44"].Value;
+            var h51 = ws.Cells["H51"].Value;
+        }
+
+        [TestMethod]
+        public void s968_3()
+        {
+            using var p = OpenTemplatePackage("s968.xlsx");
+            var ws = p.Workbook.Worksheets["Messages"];
+            ws.Calculate();
+            var d60 = ws.Cells["D60"].Value;
+            var e60 = ws.Cells["E60"].Value;
+            var e66 = ws.Cells["E66"].Value;
+        }
+
+        [TestMethod]
+        public void s968_4()
+        {
+            using var p = OpenTemplatePackage("s968.xlsx");
+            var ws = p.Workbook.Worksheets["Messages"];
+            ws.Calculate();
+            var d68 = ws.Cells["D68"].Value;
+            var e68 = ws.Cells["E68"].Value;
+            var d82 = ws.Cells["D82"].Value;
+            var e82 = ws.Cells["E82"].Value;
+            var d91 = ws.Cells["D91"].Value;
+            var e91 = ws.Cells["E91"].Value;
+        }
+
+        [TestMethod]
+        public void s968_5()
+        {
+            using var p = OpenTemplatePackage("s968.xlsx");
+            var ws = p.Workbook.Worksheets["Messages"];
+            ws.Calculate();
+            var d93 = ws.Cells["D93"].Value;
+            var d94 = ws.Cells["D94"].Value;
+            var d116 = ws.Cells["D116"].Value;
+        }
+
+        [TestMethod]
+        public void s968_6()
+        {
+            using var p = OpenTemplatePackage("s968.xlsx");
+            var ws = p.Workbook.Worksheets["Messages"];
+            ws.Calculate();
+            var d118 = ws.Cells["D118"].Value;
+            var e118 = ws.Cells["E118"].Value;
+            var d119 = ws.Cells["D119"].Value;
+            var e119 = ws.Cells["E119"].Value;
+        }
+
+        [TestMethod]
+        public void s968_7()
+        {
+            using var p = OpenTemplatePackage("s968.xlsx");
+            var ws = p.Workbook.Worksheets["Messages"];
+            ws.Calculate();
+            var d143 = ws.Cells["D143"].Value;
+            var e143 = ws.Cells["E143"].Value;
+            var d144 = ws.Cells["D144"].Value;
+            var d151 = ws.Cells["D151"].Value;
+            var d152 = ws.Cells["D152"].Value;
+        }
+
+        [TestMethod]
+        public void s968_8()
+        {
+            using var p = OpenTemplatePackage("s968.xlsx");
+            var ws = p.Workbook.Worksheets["Messages"];
+            ws.Cells["D17"].Calculate();
+            var d18 = ws.Cells["D18"].Value;
+        }
     }
 }
 
