@@ -82,6 +82,12 @@ namespace EPPlusImageRenderer.Svg
 
         bool IsFirstParagraph = false;
 
+        ITextMeasurerWrap fmtt;
+
+        eDrawingTextLineSpacing lnType;
+        double? lnMultiplier = null;
+        double paragraphHeight;
+
         /// <summary>
         /// First paragraph must use different linespacing
         /// </summary>
@@ -93,16 +99,21 @@ namespace EPPlusImageRenderer.Svg
         /// <param name="isFirstParagraph"></param>
         public SvgParagraph(ExcelDrawingParagraph p, RectBase paragraphArea, string VertAlign, double yPosition, bool isFirstParagraph = false)
         {
-            var fmtt = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
+            fmtt = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
 
             _MeasurementFont = p.DefaultRunProperties.GetMeasureFont();
+            fmtt.SetFont(_MeasurementFont);
             vertAlignAttribute = VertAlign;
             
             //Seperated out in case of some final render item
             //needing to adjust without changing the original values
             RightMargin = p.RightMargin;
-           
-            LeftMargin = p.LeftMargin + p.Indent;
+
+            //p.Indent
+            //0.5 inches per indent level 48 pixels
+
+            var indent = 48 * p.IndentLevel;
+            LeftMargin = p.LeftMargin + p.Indent + indent;
 
             ParagraphArea = paragraphArea;
             HorizontalAlignment = p.HorizontalAlignment;
@@ -117,8 +128,10 @@ namespace EPPlusImageRenderer.Svg
             GetBounds(out double l, out double t, out double r, out double b);
             var textMaxWidth = r - l;
 
-            var paragraphHeight = p.GetParagraphHeightInPixels(fmtt, textMaxWidth.PixelToPoint());
+            paragraphHeight = p.GetParagraphHeightInPixels(fmtt, textMaxWidth.PixelToPoint());
             //var paragraphHeight = p.GetParagraphSizeInPixels(textMaxWidth.PixelToPoint());
+
+            lnType = p.LineSpacing.LineSpacingType;
 
             foreach (var run in p.TextRuns)
             {
@@ -162,8 +175,9 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 var multiplier = (p.LineSpacing.Value / 100);
+                lnMultiplier = multiplier;
                 if (IsFirstParagraph)
-                {
+                {  
                     LineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine().PointToPixel();
                 }
                 return multiplier * fmExact.GetSingleLineSpacing().PointToPixel();
@@ -178,7 +192,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 case eTextAlignment.Left:
                 default:
-                    x = area.Left;
+                    x = area.Left + LeftMargin;
                     break;
                 case eTextAlignment.Center:
                     x = (area.Right / 2) + LeftMargin - RightMargin;
@@ -207,6 +221,13 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 textRun = new SvgTextRun(txtRun, lineSpacing, textMaxWidth, clippingHeight, XPos, yPosition);
+
+                //If there are multiple sizes/multiple fonts with multiple sizes
+                //if (lnType != eDrawingTextLineSpacing.Exactly && txtRun.FontSize != _MeasurementFont.Size)
+                if(lnMultiplier.HasValue)
+                {
+                    textRun.AdjustLineSpacing(lnMultiplier.Value);
+                }
             }
 
             TextRuns.Add(textRun);
@@ -214,25 +235,27 @@ namespace EPPlusImageRenderer.Svg
 
         internal double GetBottomYPosition()
         {
-            int numberOfLines = 0;
-            foreach (var textRun in TextRuns)
-            {
-                numberOfLines += textRun.GetLineCount();
-            }
+            //int numberOfLines = 0;
+            //foreach (var textRun in TextRuns)
+            //{
+            //    numberOfLines += textRun.GetLineCount();
+            //}
 
-            double lineSpacingTotal;
-            if(IsFirstParagraph)
-            {
-                lineSpacingTotal = LineSpacingAscendantOnly + LineSpacing * (numberOfLines - 1);
-            }
-            else
-            {
-                lineSpacingTotal = LineSpacing * numberOfLines;
-            }
+            //double lineSpacingTotal;
+            //if(IsFirstParagraph)
+            //{
+            //    lineSpacingTotal = LineSpacingAscendantOnly + LineSpacing * (numberOfLines - 1);
+            //}
+            //else
+            //{
+            //    lineSpacingTotal = LineSpacing * numberOfLines;
+            //}
 
-            var totalY = ParagraphArea.Top + lineSpacingTotal;
+            //heigh
 
-            return totalY;
+            //var totalY = ParagraphArea.Top + lineSpacingTotal;
+
+            return ParagraphArea.Top + paragraphHeight;
         }
     }
 }

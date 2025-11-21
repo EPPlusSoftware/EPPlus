@@ -25,6 +25,7 @@ using EPPlus.Fonts.OpenType;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using EPPlus.Export.ImageRenderer.Text;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -34,6 +35,7 @@ namespace EPPlusImageRenderer.Svg
         TextBox textBox;
         private ExcelTheme _theme;
         ExcelWorkbook _wb;
+        TextContainer _textContainer;
 
         public SvgShape(ExcelShape shape) : base(shape)
         {
@@ -273,6 +275,7 @@ namespace EPPlusImageRenderer.Svg
         {
             if(_renderTextBox != null)
             {
+                var container = new TextContainer();
                 return new TextBox(_shape.TextBody, _renderTextBox);
             }
             else

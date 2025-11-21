@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Drawing
             SchemaNodeOrder = ["rPr", "pPr", "t"];
             _paragraph = paragraph;
             _prd = _paragraph._prd;
-            _dtr = _paragraph._paragraphs.FirstDefaultRunProperties;
+            _dtr = _paragraph.DefaultRunProperties;
         }
 
         internal List<string> SplitIntoLines()
@@ -100,6 +100,15 @@ namespace OfficeOpenXml.Drawing
                 }
                 return _fill;
             }
+        }
+
+        /// <summary>
+        /// Check if textrun has a Fill property as Accessing "Fill" creates a fill
+        /// </summary>
+        /// <returns></returns>
+        public bool HasFill()
+        {
+            return _fill != null;
         }
 
         ////Below is quick-access to the drawing fill

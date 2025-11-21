@@ -26,6 +26,19 @@ namespace EPPlus.Fonts.OpenType
         }
 
         /// <summary>
+        /// Get difference between winAscent and typoAscent in points
+        /// </summary>
+        /// <param name="font"></param>
+        /// <param name="fontSize"></param>
+        /// <returns></returns>
+        internal static double GetDeltaAscent(TtfFont font, double fontSize)
+        {
+            var winAscent = GetWinAscent(font, fontSize);
+            var typoAscent = GetTypoAscent(font, fontSize);
+            return winAscent - typoAscent;
+        }
+
+        /// <summary>
         /// Calculates the height above the baseline minus the height below the baseline
         /// Returning the resulting middle line or x-height of the font
         /// </summary>
@@ -43,6 +56,21 @@ namespace EPPlus.Fonts.OpenType
             return lineHeightPt;
         }
 
+        internal static double GetTypoAscent(TtfFont font, double fontSize)
+        {
+            var typoAscent = font.Os2Table.sTypoAscender;
+            var em = font.HeadTable.UnitsPerEm;
+
+            return typoAscent * (fontSize / em);
+        }
+
+        internal static double GetWinAscent(TtfFont font, double fontSize)
+        {
+            var asc = font.Os2Table.usWinAscent;
+            var em = font.HeadTable.UnitsPerEm;
+            return asc * (fontSize / em);
+        }
+
         /// <summary>
         /// ASCENT is in shapes in Excel the distance between
         /// The top of the shape (or more likely for non-rect shapes the top of the inset rect textbox) 
@@ -55,18 +83,11 @@ namespace EPPlus.Fonts.OpenType
         {
             if(font.Os2Table.UseTypoMetrics)
             {
-                var typoAscent = font.Os2Table.sTypoAscender;
-                var em = font.HeadTable.UnitsPerEm;
-
-                //var pixelSize = (typoAscent * fontSize * 96d) / (72d * em);
-
-                return typoAscent * (fontSize / em);
+                return GetTypoAscent(font, fontSize);
             }
             else
             {
-                var asc = font.Os2Table.usWinAscent;
-                var em = font.HeadTable.UnitsPerEm;
-                return asc * (fontSize / em);
+                return GetWinAscent(font, fontSize);
             }
         }
 
@@ -170,7 +191,7 @@ namespace EPPlus.Fonts.OpenType
         /// <exception cref="Exception"></exception>
         internal static List<string> MeasureAndWrapText(string text, double fontSize, TtfFont fontData, double maxWidth)
         {
-            double totalAdvanceWidth = 0;
+            int totalAdvanceWidth = 0;
             ushort lastGlyphIndex = 0;
             bool firstChar = true;
 
@@ -178,15 +199,18 @@ namespace EPPlus.Fonts.OpenType
             var newLine = Environment.NewLine;
             var splitStrings = text.Split([newLine], StringSplitOptions.None);
 
+            var testArray = splitStrings.Last().ToCharArray();
+
             //Initalise collection to return
             List<string> wrappedStrings = new List<string>();
-
+            var inputMaxWidth = maxWidth;
             //Convert maxWidth from points to font design units
             maxWidth = (maxWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize;
 
             foreach (var line in splitStrings)
             {
-                int previousLineIndex = 0;
+                int nextLineStartIndex = 0;
+                int totalAdvanceFromLastWord = 0;
 
                 for (int i = 0; i < line.Length; i++)
                 {
@@ -209,16 +233,27 @@ namespace EPPlus.Fonts.OpenType
 
                     var newWidth = totalAdvanceWidth + advanceWidth;
 
+                    int kerning = 0;
                     // Kerning adjustment
                     if (!firstChar)
                     {
-                        int kerning = GetKerningAdjustment(lastGlyphIndex, gi, fontData);
+                        kerning = GetKerningAdjustment(lastGlyphIndex, gi, fontData);
                         newWidth += kerning;
+                    }
+
+                    totalAdvanceFromLastWord += (advanceWidth + kerning);
+
+                    if (c == ' ')
+                    {
+                        totalAdvanceFromLastWord = 0;
                     }
 
                     if (newWidth > maxWidth)
                     {
-                        var txt = line.Substring(previousLineIndex, i - previousLineIndex);
+                        var lastLineIndex = nextLineStartIndex;
+                        var charCountFromLast = i - nextLineStartIndex;
+
+                        var txt = line.Substring(nextLineStartIndex, charCountFromLast);
 
                         //Ensure whole words get moved down if part of its letters are overflowing
                         var splitLines = txt.Split(' ');
@@ -232,21 +267,39 @@ namespace EPPlus.Fonts.OpenType
                             //Add only part of the text before the overflowing word
                             wrappedStrings.Add(spacedString);
 
-                            //Calculate the new line index
-                            previousLineIndex = i - stringOverMax.Length;
+                            //The start index of the first character in the overflow (After space)
+                            nextLineStartIndex = lastLineIndex + startIndex;
 
-                            totalAdvanceWidth = advanceWidth;
+                            totalAdvanceWidth = totalAdvanceFromLastWord;
                         }
                         else
                         {
-                            wrappedStrings.Add(txt.Remove(i - previousLineIndex));
-                            previousLineIndex = c == ' ' ? i + 1 : i;
-                            totalAdvanceWidth = 0;
+
+                            //If the char was a space it should not be added to the next line
+                            //Therefore we do not add its width and the index of the next line starts at the next character.
+                            if (c == ' ')
+                            {
+                                //The current char has crossed the max
+                                //Therefore remove it from the text to be added.
+                                var wrappedString = txt.Substring(0, txt.Length);
+                                wrappedStrings.Add(wrappedString);
+                                nextLineStartIndex = i + 1;
+                                totalAdvanceWidth = 0;
+                            }
+                            else
+                            {
+                                //The current char has crossed the max
+                                //Therefore remove it from the text to be added.
+                                var wrappedString = txt.Substring(0, txt.Length);
+                                wrappedStrings.Add(wrappedString);
+                                //The current character is part of the new line
+                                //We should start at the index of the current character and add its width to the new line
+                                nextLineStartIndex = i;
+                                totalAdvanceWidth = advanceWidth;
+                            }
                         }
-                        //if(wrappedStrings.Last() == "" | wrappedStrings.Last() == "S")
-                        //{
-                        //    string errorText = "error";
-                        //}
+                        //New line means both totals are equal
+                        totalAdvanceFromLastWord = totalAdvanceWidth;
                     }
                     else
                     {
@@ -257,11 +310,7 @@ namespace EPPlus.Fonts.OpenType
                     firstChar = false;
                 }
 
-                var remainingLine = line.Substring(previousLineIndex);
-                //if(remainingLine == "")
-                //{
-                //    string errorText = "error";
-                //}
+                var remainingLine = line.Substring(nextLineStartIndex);
                 wrappedStrings.Add(remainingLine);
                 totalAdvanceWidth = 0;
             }
@@ -309,7 +358,7 @@ namespace EPPlus.Fonts.OpenType
                     advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
                 }
 
-                if (wrapText && (c == '\n' || c == '\r'))
+                if ((c == '\n' || c == '\r'))
                 {
                     if (i > 0 && c == '\r' && text[i - 1] == '\n')
                     {
@@ -329,6 +378,12 @@ namespace EPPlus.Fonts.OpenType
                 {
                     int kerning = GetKerningAdjustment(lastGlyphIndex, gi, fontData);
                     totalAdvanceWidth += kerning;
+                }
+                else
+                {
+                    ////First char has no kerning but it does have a left side value.
+                    //var firstCharLsb = Convert.ToInt16(fontData.HmtxTable.hMetrics[gi].lsb);
+                    //totalAdvanceWidth += firstCharLsb;
                 }
 
                 ////For if we want to calculate the total glyph height within a specific string
@@ -389,11 +444,21 @@ namespace EPPlus.Fonts.OpenType
                     {
                         var pairItem = pairs[index];
 
-                        //Extra verification in case something has gone wrong
+                        //Extra verification in case something has gone wrong/the exact item does not exist
                         if (pairItem.left == left && pairItem.right == right)
                         {
                             return pairItem.value;
                         }
+                        //else
+                        //{
+                        //    foreach (var pair in pairs)
+                        //    {
+                        //        if (pair.right == right && pair.left == left)
+                        //        {
+                        //            return pair.value;
+                        //        }
+                        //    }
+                        //}
                     }
                     else
                     {

@@ -19,6 +19,11 @@ namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderRectItem : SvgRenderItem
     {
+        public SvgRenderRectItem() : base()
+        {
+
+        }
+
         public SvgRenderRectItem(ExcelDrawing drawing) : base(drawing)
         {
 
