@@ -190,11 +190,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     return range.GetValue(row, col);
                 }
             }
-            catch(Exception ex)
+            catch
             {
-                throw ex;
-            }
-           
+                throw;
+            }           
         }
 
         public static InMemoryRange ApplySingleValueRight(CompileResult left, CompileResult right, Operators op, ParsingContext context)

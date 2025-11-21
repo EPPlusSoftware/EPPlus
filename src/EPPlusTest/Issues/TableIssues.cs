@@ -384,5 +384,31 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void RemoveAndReAddCalculatedColumnFormula()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
+
+                // Add a table to the worksheet
+                sheet1.Cells["A1"].Value = "Col1";
+                var table1 = sheet1.Tables.Add(sheet1.Cells["A1:A2"], "Table1");
+
+                // Set a calculated column formula in the first column
+                table1.Columns[0].CalculatedColumnFormula = "ROW()-1";
+                pck.Workbook.Calculate();
+
+                // Check the formula was applied to the cell
+                Assert.AreEqual("ROW()-1", sheet1.Cells["A2"].Formula);
+
+                // Now remove and re-add the calculated column formula
+                table1.Columns[0].CalculatedColumnFormula = "";
+                table1.Columns[0].CalculatedColumnFormula = "ROW()-1";
+
+                // Check the formula was reapplied to the cell
+                Assert.AreEqual("ROW()-1", sheet1.Cells["A2"].Formula);
+            }
+        }
     }
 }

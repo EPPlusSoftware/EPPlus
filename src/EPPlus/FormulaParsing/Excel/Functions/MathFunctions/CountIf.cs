@@ -84,7 +84,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                             }
                             else
                             {
-                                if (ConvertUtil.IsNumericOrDate(v, true, true) && ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(arg1))
+                                if (ConvertUtil.IsNumericOrDate(v, true, true) && ConvertUtil.GetValueDouble(v, false, false, true) == ConvertUtil.GetValueDouble(arg1, false, false, true))
                                 {
                                     result++;
                                 }
@@ -118,7 +118,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                         else
                         {
                             var v = cse.Value._value;
-                            if (ConvertUtil.IsNumericOrDate(v,true,true) && ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(arg1))
+                            if (ConvertUtil.IsNumericOrDate(v,true,true) && ConvertUtil.GetValueDouble(v, false, false,true) == ConvertUtil.GetValueDouble(arg1, false,false, true))
                             {
                                 result++;
                             }
@@ -145,7 +145,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     }
                     else
                     {
-                        if (ConvertUtil.GetValueDouble(arg.Value) == ConvertUtil.GetValueDouble(arg1))
+                        if (ConvertUtil.GetValueDouble(arg.Value, false, false, true) == ConvertUtil.GetValueDouble(arg1, false, false, true))
                         {
                             result++;
                         }
@@ -163,7 +163,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 else
                 {
-                    if (range.Value != null && ConvertUtil.GetValueDouble(range.Value) == ConvertUtil.GetValueDouble(arg1))
+                    if (range.Value != null && ConvertUtil.GetValueDouble(range.Value, false, false, true) == ConvertUtil.GetValueDouble(arg1, false, false, true))
                     {
                         result++;
                     }

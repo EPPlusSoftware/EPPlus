@@ -1,9 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using System;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Ranges;
+using System.Collections.Generic;
 
 namespace EPPlusTest.Core.Range
 {
@@ -456,6 +464,118 @@ namespace EPPlusTest.Core.Range
                 }
             }
         }
+        [TestMethod]
+        public void AddRowToDefinedNamesWithMultipleAddresses()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Add two worksheets
+                var sheet1 = p.Workbook.Worksheets.Add("Sheet1");
+                var wb = p.Workbook;
+                //Workbook level.
+                wb.Names.Add("WbName", sheet1.Cells["A5:F6,C7:D11,D4"]);
+                sheet1.Names.Add("SheetName", sheet1.Cells["A5,D7:D11,D1:D7"]);
+                sheet1.InsertRow(6, 2);
 
+                Assert.AreEqual("$A$5:$F$8,$C$9:$D$13,$D$4", wb.Names["wbName"].Address);
+                Assert.AreEqual("$A$5,$D$9:$D$13,$D$1:$D$9", sheet1.Names["sheetName"].Address);
+            }
+        }
+        [TestMethod]
+        public void DeleteRowToDefinedNamesWithMultipleAddresses()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Add two worksheets
+                var sheet1 = p.Workbook.Worksheets.Add("Sheet1");
+                var wb = p.Workbook;
+                //Workbook level.
+                wb.Names.Add("WbName", sheet1.Cells["A5:F6,C7:D11,D4"]);
+                sheet1.Names.Add("SheetName", sheet1.Cells["A5,D7:D11,D1:D7"]);
+                sheet1.DeleteRow(6, 2);
+
+                Assert.AreEqual("$A$5:$F$5,$C$6:$D$9,$D$4", wb.Names["wbName"].Address);
+                Assert.AreEqual("$A$5,$D$6:$D$9,$D$1:$D$5", sheet1.Names["sheetName"].Address);
+            }
+        }
+        [TestMethod]
+        public void DeleteColumnToDefinedNamesWithMultipleAddresses()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Add two worksheets
+                var sheet1 = p.Workbook.Worksheets.Add("Sheet1");
+                var wb = p.Workbook;
+                //Workbook level.
+                wb.Names.Add("WbName", sheet1.Cells["A5:F6,C7:D11,D4"]);
+                sheet1.Names.Add("SheetName", sheet1.Cells["A5,D7:D11,D1:D7"]);
+                sheet1.DeleteColumn(2, 2);
+
+                Assert.AreEqual("$A$5:$D$6,$B$7:$B$11,$B$4", wb.Names["wbName"].Address);
+                Assert.AreEqual("$A$5,$B$7:$B$11,$B$1:$B$7", sheet1.Names["sheetName"].Address);
+            }
+        }
+        [TestMethod]
+        public void AddColumnToDefinedNamesWithMultipleAddresses()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Add two worksheets
+                var sheet1 = p.Workbook.Worksheets.Add("Sheet1");
+                var wb = p.Workbook;
+                //Workbook level.
+                wb.Names.Add("WbName", sheet1.Cells["A5:F6,C7:D11,D4"]);
+                sheet1.Names.Add("SheetName", sheet1.Cells["A5,D7:D11,D1:D7"]);
+                sheet1.InsertColumn(2, 2);
+
+                Assert.AreEqual("$A$5:$H$6,$E$7:$F$11,$F$4", wb.Names["wbName"].Address);
+                Assert.AreEqual("$A$5,$F$7:$F$11,$F$1:$F$7", sheet1.Names["sheetName"].Address);
+            }
+        }
+        [TestMethod]
+        public async Task InsertColumn()
+        {
+            using (var p = OpenTemplatePackage("s953Target.xlsx"))
+            {
+                int indexNum = 0;
+                var fileName = "s953.xlsx";
+                var fi = GetTemplateFile(fileName);
+
+                if (fi != null)
+                {
+                    p.Workbook.ExternalLinks.AddExternalWorkbook(fi);
+
+                    var ws = p.Workbook.Worksheets["披露附注"];
+                    ws.Cells["D4584"].Formula = $"='[{indexNum}]披露表(IPO)'!A9";
+                    var namedRange = ws.Names["_jds1150010220230"];
+                    ws.Cells[namedRange.Start.Row, namedRange.Start.Column, namedRange.End.Row, namedRange.End.Column].Merge = false;
+                    var startRow = namedRange.Start.Row;
+                    var endRow = namedRange.End.Row;
+                    var startColumn = namedRange.Start.Column;
+                    var endColumn = namedRange.End.Column;
+                    var columnToInsert = startColumn + 2;
+                    var InsertCell = ws.Cells[startRow, columnToInsert, endRow, columnToInsert];
+                    InsertCell.Insert(eShiftTypeInsert.Right);
+
+                    await p.SaveAsync();
+                }
+                else
+                {
+                    Assert.Inconclusive($"Template file {fileName} could not be found");
+                }
+            }
+        }
+
+        [TestMethod]
+        public void testValidation()
+        {
+           using(var p = OpenTemplatePackage("s958.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.First();
+                ws.DeleteRow(1);
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

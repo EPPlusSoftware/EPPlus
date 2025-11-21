@@ -211,5 +211,53 @@ namespace EPPlusTest.Core.Range
             Assert.AreEqual(1, range.RichText.Count);
             Assert.AreEqual("1", range.Text);  // FAILS as "12"
         }
+        [TestMethod]
+        public void ValidateRichText_ClearShould()
+        {
+            var package = new ExcelPackage();
+            var ws = package.Workbook.Worksheets.Add("Test");
+            var rtc = ws.Cells[1, 1].RichText;
+            var rt1 = rtc.Add("A");
+            var rt2 = rtc.Add("B");
+
+            Assert.IsTrue(ws.Cells[1, 1].IsRichText);
+
+            Assert.AreEqual("AB", rtc.Text);
+            Assert.AreEqual("AB", ws.Cells[1, 1].Text);
+            Assert.AreEqual("AB", ws.Cells[1, 1].RichText.Text);
+
+            rtc.Clear();
+            Assert.AreEqual("", rtc.Text);
+            Assert.AreEqual("", ws.Cells[1, 1].Text);
+            Assert.AreEqual("", ws.Cells[1, 1].RichText.Text);
+            Assert.IsFalse(ws.Cells[1, 1].IsRichText);
+        }
+        [TestMethod]
+        public void ValidateRichText_ShouldThrowWhenCellHasBeenOverwritten()
+        {
+            var package = new ExcelPackage();
+            var ws = package.Workbook.Worksheets.Add("Test");
+            var rtc = ws.Cells[1, 1].RichText;
+            var rt1 = rtc.Add("A");
+            var rt2 = rtc.Add("B");
+
+            ws.Cells[1, 1].Value = "SomeValue";
+
+            Assert.ThrowsExactly<ObjectDisposedException>(() =>{
+                rtc.Add("c");
+            });
+
+            Assert.ThrowsExactly<ObjectDisposedException>(() => {
+                rtc.Insert(0, "d");
+            });
+            
+            Assert.ThrowsExactly<ObjectDisposedException>(() => {
+                rtc.Clear();
+            });
+
+            Assert.ThrowsExactly<ObjectDisposedException>(() => {
+                rtc.Text = "ABCD";
+            });
+        }
     }
 }

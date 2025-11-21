@@ -56,6 +56,8 @@ using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.Data.QueryTable;
+using OfficeOpenXml.Data.Connection.IOHandlers;
 
 namespace OfficeOpenXml
 {
@@ -2466,6 +2468,7 @@ namespace OfficeOpenXml
                 {
                     sf.Formula = ExcelCellBase.UpdateSheetNameInFormula(sf.Formula, oldName, newName);
                 }
+
                 using (var cse = new CellStoreEnumerator<object>(_formulas))
                 {
                     while (cse.Next())
@@ -2516,6 +2519,11 @@ namespace OfficeOpenXml
                     SaveTables();
                     if (hasLoadedPivotTables) SavePivotTables();
                     SaveSlicers();
+                    
+                    if(_queryTables!=null)
+                    {
+                        _queryTables.Save();
+                    }
 
                     //Meta data and rich data is currently used for #spill! and #calc! errors.
                     if (_metadataStore.HasValues)
@@ -2531,7 +2539,6 @@ namespace OfficeOpenXml
         {
             Drawings.SaveDrawings(hasLoadedPivotTables);
         }
-
         private void SaveSlicers()
         {
             SlicerXmlSources.Save();
@@ -2719,6 +2726,11 @@ namespace OfficeOpenXml
                         {
                             throw (new InvalidDataException(string.Format("Table {0} Column {1} does not have a unique name.", tbl.Name, col.Name)));
                         }
+                        if(tbl.DataSourceType==TableDataSourceType.QueryTable)
+                        {
+                            col.UniqeName = (colVal.Count + 1).ToString(CultureInfo.InvariantCulture);
+                            col.QueryTableFieldId = tbl.QueryTable.Fields.FirstOrDefault(x => x.TableColumnId == col.Id)?.Id;
+                        }
                         colVal.Add(n);
                         colNum++;
                     }
@@ -2745,6 +2757,11 @@ namespace OfficeOpenXml
                 {
                     var stream = tbl.Part.GetStream(FileMode.Create);
                     tbl.TableXml.Save(stream);
+                }
+
+                if(tbl.DataSourceType==TableDataSourceType.QueryTable)
+                {
+                    tbl.QueryTable.Save();
                 }
             }
         }
@@ -3157,6 +3174,25 @@ namespace OfficeOpenXml
                 return _tables;
             }
         }
+        ExcelQueryTableCollection _queryTables = null;
+        /// <summary>
+        /// A collection of query tables associated with the worksheet. 
+        /// These query tables are considered legacy and are used in older versions of Excel.
+        /// Please consider to use <see cref="ExcelTableCollection.AddQueryTable"/> instead.
+        /// </summary>
+        /// <remarks>Query tables are data tables that are linked to external data sources, such as databases or web queries.</remarks>
+        public ExcelQueryTableCollection QueryTables
+        {
+            get
+            {
+                CheckSheetTypeAndNotDisposed();
+                if (_queryTables == null)
+                {
+                    _queryTables = new ExcelQueryTableCollection(this);
+                }
+                return _queryTables;
+            }
+        }
         internal ExcelPivotTableCollection _pivotTables = null;
         /// <summary>
         /// Pivot tables defined in the worksheet.
@@ -3175,7 +3211,7 @@ namespace OfficeOpenXml
             }
         }
         internal bool HasLoadedPivotTables
-        {
+        {   
             get
             {
                 return _pivotTables != null;
@@ -3622,7 +3658,11 @@ namespace OfficeOpenXml
             var styleId = -1;
 
             styleId = GetStyleId(row, col);
-
+            if(_flags.GetFlagValue(row, col, CellFlags.RichText))
+            {
+                var rtc = _values.GetValue(row, col)._value as ExcelRichTextCollection;
+                rtc?.Dispose();
+            }   
             if (FullPrecision)
             {
                 _values.SetValue(row, col, value, styleId);

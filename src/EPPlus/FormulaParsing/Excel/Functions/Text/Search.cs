@@ -43,6 +43,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 startIndex = ArgToInt(arguments, 2, out ExcelErrorValue e2) - 1;
                 if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             }
+            if(searchIn==null)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
             var result = searchIn.IndexOf(search, startIndex, System.StringComparison.OrdinalIgnoreCase);
             if (result == -1)
             {
