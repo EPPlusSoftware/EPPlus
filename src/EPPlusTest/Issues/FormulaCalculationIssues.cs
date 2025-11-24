@@ -1332,7 +1332,20 @@ namespace EPPlusTest.Issues
             ws = p.Workbook.Worksheets["Calculation"];
             Assert.AreEqual(4D, ws.Cells["AP2"].Value);
             Assert.AreEqual(9D, ws.Cells["AQ2"].Value);
+        }
+        [TestMethod]
+        public void s968()
+        {
+            using var p = OpenTemplatePackage("s968.xlsx");
+            var ws = p.Workbook.Worksheets["Messages"];
 
+            ws.Cells["D17"].Calculate();
+
+            Assert.AreEqual("Error", ws.Cells["D18"].Value);
+            Assert.AreEqual("Warning", ws.Cells["D26"].Value);
+            Assert.AreEqual("Error", ws.Cells["D40"].Value);
+            Assert.AreEqual("One or more errors occurred during the valuation run\r\n", ws.Cells["E40"].Value);
+            Assert.IsNull(ws.Cells["D41"].Value);
         }
     }
 }
