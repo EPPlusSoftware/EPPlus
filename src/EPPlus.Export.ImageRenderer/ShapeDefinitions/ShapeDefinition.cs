@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography.Xml;
 
 namespace EPPlusImageRenderer.ShapeDefinitions
@@ -124,6 +125,7 @@ namespace EPPlusImageRenderer.ShapeDefinitions
         /// Paths to draw the shape
         /// </summary>
         public List<DrawingPath> ShapePaths { get; set; }
+
         public void Calculate(ExcelShape shape)
         {
             InitCalculatedValues(shape);
@@ -196,6 +198,57 @@ namespace EPPlusImageRenderer.ShapeDefinitions
                 }
             }
 
+            double overrideWidthRatio = 1;
+            double overrideHeightRatio = 1;
+
+            if (TextBoxRect != null)
+            {
+                if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
+                {
+                    TextBoxRect.LeftValue = GetValue(TextBoxRect.LeftName) / (double)ExcelDrawing.EMU_PER_PIXEL;
+                    TextBoxRect.RightValue = GetValue(TextBoxRect.RightName) / (double)ExcelDrawing.EMU_PER_PIXEL;
+                    TextBoxRect.TopValue = GetValue(TextBoxRect.TopName) / (double)ExcelDrawing.EMU_PER_PIXEL;
+                    TextBoxRect.BottomValue = GetValue(TextBoxRect.BottomName) / (double)ExcelDrawing.EMU_PER_PIXEL;
+                }
+                else
+                {
+                    var txt = shape.Text;
+
+                    //TODO: This needs to actually iterate through the individual paragraphs/txtRuns when differing fonts/font sizes exist
+                    var newContainer = new TextContainer(txt, shape.TextBody.Paragraphs.FirstDefaultRunProperties.GetMeasureFont(), true);
+
+                    var cW = newContainer.Width;
+                    var cH = newContainer.Height;
+
+                    var expectedWidth = (GetValue(TextBoxRect.RightName) - GetValue(TextBoxRect.LeftName)) / (double)ExcelDrawing.EMU_PER_PIXEL;
+                    var expectedHeight = (GetValue(TextBoxRect.BottomName) - GetValue(TextBoxRect.TopName)) / (double)ExcelDrawing.EMU_PER_PIXEL;
+
+                    //TODO: This is the ratio between the textbox we've calculated and the one that
+                    // we should scale to. Scaling the entire shape by this ratio (and then fixing the scaled position)
+                    // should give the correct width and height for the shape
+                    // But I can't quite find the right place to apply it.
+                    var overrideWidthRatio2 = cW / expectedWidth;
+                    var overrideHeightRatio2 = cH / expectedHeight;
+
+                    //shape._width *= overrideWidthRatio;
+                    //shape._height *= overrideHeightRatio;
+
+                    TextBoxRect.RightValue = cW;
+                    TextBoxRect.BottomValue = cH;
+
+                    //shape.SetSize()
+                    //shape._width *= overrideWidthRatio;
+                    //shape._height *= overrideHeightRatio;
+                    //if(ShapeGuides.Where(x => x.Name == TextBoxRect.RightValue))
+                    //{
+
+                    //}
+
+                    //TextBoxRect.RightValue = adjustedHeight;
+                    //TextBoxRect.BottomValue = adjustedWidth;
+                }
+            }
+
             if (ShapePaths.Count > 0)
             {
                 foreach(var item in ShapePaths)
@@ -205,6 +258,10 @@ namespace EPPlusImageRenderer.ShapeDefinitions
 
                     var widthRatio = item.Width.HasValue ? (double)shapeWidth / (double)item.Width : 1D;
                     var heightRatio = item.Height.HasValue ? (double)shapeWidth / (double)item.Height : 1D;
+
+                    widthRatio *= overrideWidthRatio;
+                    heightRatio *= overrideHeightRatio;
+
                     item.Width = shapeWidth;
                     item.Height = shapeHeight;
 
@@ -218,7 +275,7 @@ namespace EPPlusImageRenderer.ShapeDefinitions
                                 var arc = (ArcTo)p;
                                 if (string.IsNullOrEmpty(arc.WidthRadiusName) == false)
                                 {
-                                    arc.WidthRadius = _calculatedValues[arc.WidthRadiusName];
+                                    arc.WidthRadius = _calculatedValues[arc.WidthRadiusName] * overrideWidthRatio;
                                 }
                                 else
                                 {
@@ -226,7 +283,7 @@ namespace EPPlusImageRenderer.ShapeDefinitions
                                 }
                                 if (string.IsNullOrEmpty(arc.HeightRadiusName) == false)
                                 {
-                                    arc.HeightRadius = _calculatedValues[arc.HeightRadiusName];
+                                    arc.HeightRadius = _calculatedValues[arc.HeightRadiusName] * overrideHeightRatio;
                                 }
                                 else
                                 {
@@ -242,7 +299,7 @@ namespace EPPlusImageRenderer.ShapeDefinitions
                                     var c = pb.Coordinates[i];
                                     if (string.IsNullOrEmpty(c.XName) == false)
                                     {
-                                        c.X = _calculatedValues[c.XName];
+                                        c.X = _calculatedValues[c.XName] * overrideWidthRatio;
                                     }
                                     else
                                     {
@@ -251,7 +308,7 @@ namespace EPPlusImageRenderer.ShapeDefinitions
 
                                     if (string.IsNullOrEmpty(c.YName) == false)
                                     {
-                                        c.Y = _calculatedValues[c.YName];
+                                        c.Y = _calculatedValues[c.YName] * overrideHeightRatio;
                                     }
                                     else
                                     {
@@ -262,13 +319,6 @@ namespace EPPlusImageRenderer.ShapeDefinitions
                         }
                     }
                 }
-            }
-            if(TextBoxRect != null)
-            {
-                TextBoxRect.LeftValue = GetValue(TextBoxRect.LeftName) / (double)ExcelDrawing.EMU_PER_PIXEL;
-                TextBoxRect.RightValue = GetValue(TextBoxRect.RightName) / (double)ExcelDrawing.EMU_PER_PIXEL;
-                TextBoxRect.TopValue = GetValue(TextBoxRect.TopName) / (double)ExcelDrawing.EMU_PER_PIXEL;
-                TextBoxRect.BottomValue = GetValue(TextBoxRect.BottomName) / (double)ExcelDrawing.EMU_PER_PIXEL;
             }
         }
 
@@ -295,22 +345,27 @@ namespace EPPlusImageRenderer.ShapeDefinitions
             //var adjustedWidth = shape._width - 10.5d;
             var adjustedWidth = shape._width;
 
-            var hOld = adjustedHeight;
-            var wOld = adjustedWidth;
+            //var hOld = adjustedHeight;
+            //var wOld = adjustedWidth;
 
-            if (shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit)
-            {
+            //if (shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit)
+            //{
 
-                var txt = shape.Text;
+            //    var txt = shape.Text;
 
-                var newContainer = new TextContainer(txt, shape.TextBody.Paragraphs.FirstDefaultRunProperties.GetMeasureFont(), true);
+            //    var newContainer = new TextContainer(txt, shape.TextBody.Paragraphs.FirstDefaultRunProperties.GetMeasureFont(), true);
 
-                adjustedHeight = newContainer.Height;
-                adjustedWidth = newContainer.Width;
+            //    adjustedHeight = newContainer.Height;
+            //    adjustedWidth = newContainer.Width;
 
-                TextBoxRect.RightValue = adjustedHeight;
-                TextBoxRect.BottomValue = adjustedWidth;
-            }
+            //    //if(ShapeGuides.Where(x => x.Name == TextBoxRect.RightValue))
+            //    //{
+
+            //    //}
+
+            //    TextBoxRect.RightValue = adjustedHeight;
+            //    TextBoxRect.BottomValue = adjustedWidth;
+            //}
 
             var h = (double)(adjustedHeight * (double)ExcelDrawing.EMU_PER_PIXEL);
             var w = (double)(adjustedWidth * (double)ExcelDrawing.EMU_PER_PIXEL);
