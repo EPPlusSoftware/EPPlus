@@ -1,0 +1,361 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  commentId: T:OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  id: eConnectionTextFieldType
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.eConnectionTextFieldType.DayMonthYear
+  - OfficeOpenXml.Data.Connection.eConnectionTextFieldType.DayYearMonth
+  - OfficeOpenXml.Data.Connection.eConnectionTextFieldType.EastAsianYearMonthDay
+  - OfficeOpenXml.Data.Connection.eConnectionTextFieldType.General
+  - OfficeOpenXml.Data.Connection.eConnectionTextFieldType.MonthDayYear
+  - OfficeOpenXml.Data.Connection.eConnectionTextFieldType.MonthYearDay
+  - OfficeOpenXml.Data.Connection.eConnectionTextFieldType.SkipField
+  - OfficeOpenXml.Data.Connection.eConnectionTextFieldType.Text
+  - OfficeOpenXml.Data.Connection.eConnectionTextFieldType.YearDayMonth
+  - OfficeOpenXml.Data.Connection.eConnectionTextFieldType.YearMonthDay
+  langs:
+  - csharp
+  - vb
+  name: eConnectionTextFieldType
+  nameWithType: eConnectionTextFieldType
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eConnectionTextFieldType
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: >-
+    Specifies the external connection data type and its date format order,
+
+    used when importing or interpreting external data fields.
+  example: []
+  syntax:
+    content: public enum eConnectionTextFieldType
+    content.vb: Public Enum eConnectionTextFieldType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.General
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFieldType.General
+  id: General
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  langs:
+  - csharp
+  - vb
+  name: General
+  nameWithType: eConnectionTextFieldType.General
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.General
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: General
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Decides the best-fit data type based on the content.
+  example: []
+  syntax:
+    content: General = 0
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.SkipField
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFieldType.SkipField
+  id: SkipField
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  langs:
+  - csharp
+  - vb
+  name: SkipField
+  nameWithType: eConnectionTextFieldType.SkipField
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.SkipField
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SkipField
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Skip this field entirely — do not import it.
+  example: []
+  syntax:
+    content: SkipField = 1
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.Text
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFieldType.Text
+  id: Text
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  langs:
+  - csharp
+  - vb
+  name: Text
+  nameWithType: eConnectionTextFieldType.Text
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.Text
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Field contains plain text.
+  example: []
+  syntax:
+    content: Text = 2
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.DayMonthYear
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFieldType.DayMonthYear
+  id: DayMonthYear
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  langs:
+  - csharp
+  - vb
+  name: DayMonthYear
+  nameWithType: eConnectionTextFieldType.DayMonthYear
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.DayMonthYear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DayMonthYear
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: 'Field contains a date in the order: day, month, year.'
+  example: []
+  syntax:
+    content: DayMonthYear = 3
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.DayYearMonth
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFieldType.DayYearMonth
+  id: DayYearMonth
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  langs:
+  - csharp
+  - vb
+  name: DayYearMonth
+  nameWithType: eConnectionTextFieldType.DayYearMonth
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.DayYearMonth
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DayYearMonth
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: 'Field contains a date in the order: day, year, month.'
+  example: []
+  syntax:
+    content: DayYearMonth = 4
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.EastAsianYearMonthDay
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFieldType.EastAsianYearMonthDay
+  id: EastAsianYearMonthDay
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  langs:
+  - csharp
+  - vb
+  name: EastAsianYearMonthDay
+  nameWithType: eConnectionTextFieldType.EastAsianYearMonthDay
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.EastAsianYearMonthDay
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EastAsianYearMonthDay
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: 'Field contains an East Asian date in the order: year, month, day.'
+  example: []
+  syntax:
+    content: EastAsianYearMonthDay = 5
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.MonthDayYear
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFieldType.MonthDayYear
+  id: MonthDayYear
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  langs:
+  - csharp
+  - vb
+  name: MonthDayYear
+  nameWithType: eConnectionTextFieldType.MonthDayYear
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.MonthDayYear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonthDayYear
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: 'Field contains a date in the order: month, day, year.'
+  example: []
+  syntax:
+    content: MonthDayYear = 6
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.MonthYearDay
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFieldType.MonthYearDay
+  id: MonthYearDay
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  langs:
+  - csharp
+  - vb
+  name: MonthYearDay
+  nameWithType: eConnectionTextFieldType.MonthYearDay
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.MonthYearDay
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonthYearDay
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: 'Field contains a date in the order: month, year, day.'
+  example: []
+  syntax:
+    content: MonthYearDay = 7
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.YearDayMonth
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFieldType.YearDayMonth
+  id: YearDayMonth
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  langs:
+  - csharp
+  - vb
+  name: YearDayMonth
+  nameWithType: eConnectionTextFieldType.YearDayMonth
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.YearDayMonth
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YearDayMonth
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: 'Field contains a date in the order: year, day, month.'
+  example: []
+  syntax:
+    content: YearDayMonth = 8
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.YearMonthDay
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFieldType.YearMonthDay
+  id: YearMonthDay
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  langs:
+  - csharp
+  - vb
+  name: YearMonthDay
+  nameWithType: eConnectionTextFieldType.YearMonthDay
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.YearMonthDay
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YearMonthDay
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFieldType.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: 'Field contains a date in the order: year, month, day.'
+  example: []
+  syntax:
+    content: YearMonthDay = 9
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  commentId: T:OfficeOpenXml.Data.Connection.eConnectionTextFieldType
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.eConnectionTextFieldType.html
+  name: eConnectionTextFieldType
+  nameWithType: eConnectionTextFieldType
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFieldType

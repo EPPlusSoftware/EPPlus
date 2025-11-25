@@ -1,0 +1,61 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.CustomXml
+  commentId: N:OfficeOpenXml.Data.CustomXml
+  id: OfficeOpenXml.Data.CustomXml
+  children:
+  - OfficeOpenXml.Data.CustomXml.ExcelCustomXml
+  - OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Data.CustomXml
+  nameWithType: OfficeOpenXml.Data.CustomXml
+  fullName: OfficeOpenXml.Data.CustomXml
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXml
+  commentId: T:OfficeOpenXml.Data.CustomXml.ExcelCustomXml
+  parent: OfficeOpenXml.Data.CustomXml
+  href: OfficeOpenXml.Data.CustomXml.ExcelCustomXml.html
+  name: ExcelCustomXml
+  nameWithType: ExcelCustomXml
+  fullName: OfficeOpenXml.Data.CustomXml.ExcelCustomXml
+- uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection
+  commentId: T:OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection
+  href: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.html
+  name: ExcelCustomXmlCollection
+  nameWithType: ExcelCustomXmlCollection
+  fullName: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection
+- uid: OfficeOpenXml.Data.CustomXml
+  commentId: N:OfficeOpenXml.Data.CustomXml
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.CustomXml
+  nameWithType: OfficeOpenXml.Data.CustomXml
+  fullName: OfficeOpenXml.Data.CustomXml
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.CustomXml
+    name: CustomXml
+    href: OfficeOpenXml.Data.CustomXml.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.CustomXml
+    name: CustomXml
+    href: OfficeOpenXml.Data.CustomXml.html

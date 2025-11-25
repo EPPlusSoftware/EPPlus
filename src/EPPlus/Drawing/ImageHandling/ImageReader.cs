@@ -751,9 +751,17 @@ namespace OfficeOpenXml.Drawing
         }
         private static bool IsPng(BinaryReader br)
         {
-            br.BaseStream.Position = 0;
+            br.BaseStream.Seek(0, SeekOrigin.Begin);
             var signature = br.ReadBytes(8);
-            return signature.SequenceEqual(new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 });
+            var pngSignature = new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 };
+            for (int b=0;b<signature.Length;b++)
+            {
+                if (signature[b] != pngSignature[b])
+                {
+                    return false;
+                }
+            }
+            return true;
         }
         private static string ReadPngChunkHeader(BinaryReader br, out int length)
         {

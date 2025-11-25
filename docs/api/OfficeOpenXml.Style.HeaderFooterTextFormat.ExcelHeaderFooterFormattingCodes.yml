@@ -1,0 +1,329 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  commentId: T:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  id: ExcelHeaderFooterFormattingCodes
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat
+  children:
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.CurrentDate
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.CurrentTime
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.FileName
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.FilePath
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.Image
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.NumberOfPages
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.PageNumber
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.SheetName
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.Text
+  langs:
+  - csharp
+  - vb
+  name: ExcelHeaderFooterFormattingCodes
+  nameWithType: ExcelHeaderFooterFormattingCodes
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelHeaderFooterFormattingCodes
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+    startLine: 9
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Enum for inserting format codes into an ExcelHeaderFooterTextCollection.
+  example: []
+  syntax:
+    content: public enum ExcelHeaderFooterFormattingCodes
+    content.vb: Public Enum ExcelHeaderFooterFormattingCodes
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.Text
+  commentId: F:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.Text
+  id: Text
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  langs:
+  - csharp
+  - vb
+  name: Text
+  nameWithType: ExcelHeaderFooterFormattingCodes.Text
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.Text
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+    startLine: 14
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Indicates that the format is a text.
+  example: []
+  syntax:
+    content: Text = 0
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.PageNumber
+  commentId: F:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.PageNumber
+  id: PageNumber
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  langs:
+  - csharp
+  - vb
+  name: PageNumber
+  nameWithType: ExcelHeaderFooterFormattingCodes.PageNumber
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.PageNumber
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PageNumber
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Inserts page number.
+  example: []
+  syntax:
+    content: PageNumber = 1
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.NumberOfPages
+  commentId: F:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.NumberOfPages
+  id: NumberOfPages
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  langs:
+  - csharp
+  - vb
+  name: NumberOfPages
+  nameWithType: ExcelHeaderFooterFormattingCodes.NumberOfPages
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.NumberOfPages
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NumberOfPages
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Inserts the number of pages.
+  example: []
+  syntax:
+    content: NumberOfPages = 2
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.SheetName
+  commentId: F:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.SheetName
+  id: SheetName
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  langs:
+  - csharp
+  - vb
+  name: SheetName
+  nameWithType: ExcelHeaderFooterFormattingCodes.SheetName
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.SheetName
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SheetName
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Inserts sheet name.
+  example: []
+  syntax:
+    content: SheetName = 3
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.FilePath
+  commentId: F:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.FilePath
+  id: FilePath
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  langs:
+  - csharp
+  - vb
+  name: FilePath
+  nameWithType: ExcelHeaderFooterFormattingCodes.FilePath
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.FilePath
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FilePath
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Inserts file path.
+  example: []
+  syntax:
+    content: FilePath = 4
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.FileName
+  commentId: F:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.FileName
+  id: FileName
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  langs:
+  - csharp
+  - vb
+  name: FileName
+  nameWithType: ExcelHeaderFooterFormattingCodes.FileName
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.FileName
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FileName
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Inserts file name.
+  example: []
+  syntax:
+    content: FileName = 5
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.CurrentDate
+  commentId: F:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.CurrentDate
+  id: CurrentDate
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  langs:
+  - csharp
+  - vb
+  name: CurrentDate
+  nameWithType: ExcelHeaderFooterFormattingCodes.CurrentDate
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.CurrentDate
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurrentDate
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Inserts current date.
+  example: []
+  syntax:
+    content: CurrentDate = 6
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.CurrentTime
+  commentId: F:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.CurrentTime
+  id: CurrentTime
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  langs:
+  - csharp
+  - vb
+  name: CurrentTime
+  nameWithType: ExcelHeaderFooterFormattingCodes.CurrentTime
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.CurrentTime
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurrentTime
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Inserts current time.
+  example: []
+  syntax:
+    content: CurrentTime = 7
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.Image
+  commentId: F:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.Image
+  id: Image
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  langs:
+  - csharp
+  - vb
+  name: Image
+  nameWithType: ExcelHeaderFooterFormattingCodes.Image
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.Image
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Image
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextItem.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Indicates an image is inserted.
+  example: []
+  syntax:
+    content: Image = 8
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+references:
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat
+  commentId: N:OfficeOpenXml.Style.HeaderFooterTextFormat
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Style.HeaderFooterTextFormat
+  nameWithType: OfficeOpenXml.Style.HeaderFooterTextFormat
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Style
+    name: Style
+    href: OfficeOpenXml.Style.html
+  - name: .
+  - uid: OfficeOpenXml.Style.HeaderFooterTextFormat
+    name: HeaderFooterTextFormat
+    href: OfficeOpenXml.Style.HeaderFooterTextFormat.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Style
+    name: Style
+    href: OfficeOpenXml.Style.html
+  - name: .
+  - uid: OfficeOpenXml.Style.HeaderFooterTextFormat
+    name: HeaderFooterTextFormat
+    href: OfficeOpenXml.Style.HeaderFooterTextFormat.html
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  commentId: T:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.html
+  name: ExcelHeaderFooterFormattingCodes
+  nameWithType: ExcelHeaderFooterFormattingCodes
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes

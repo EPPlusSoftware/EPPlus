@@ -1,0 +1,184 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+  commentId: T:OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+  id: ePowerQueryPermissionWorkbookGroupType
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.None
+  - OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.Organizational
+  - OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.Public
+  - OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.SeparatePrivate
+  langs:
+  - csharp
+  - vb
+  name: ePowerQueryPermissionWorkbookGroupType
+  nameWithType: ePowerQueryPermissionWorkbookGroupType
+  fullName: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Data/PowerQuery/ePowerQueryPermissionWorkbookGroupType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePowerQueryPermissionWorkbookGroupType
+    path: ../src/EPPlus/Data/PowerQuery/ePowerQueryPermissionWorkbookGroupType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Permision level for the
+  example: []
+  syntax:
+    content: public enum ePowerQueryPermissionWorkbookGroupType
+    content.vb: Public Enum ePowerQueryPermissionWorkbookGroupType
+- uid: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.None
+  commentId: F:OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.None
+  id: None
+  parent: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ePowerQueryPermissionWorkbookGroupType.None
+  fullName: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/PowerQuery/ePowerQueryPermissionWorkbookGroupType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Data/PowerQuery/ePowerQueryPermissionWorkbookGroupType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: No privacy settings.
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+- uid: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.Public
+  commentId: F:OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.Public
+  id: Public
+  parent: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+  langs:
+  - csharp
+  - vb
+  name: Public
+  nameWithType: ePowerQueryPermissionWorkbookGroupType.Public
+  fullName: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.Public
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/PowerQuery/ePowerQueryPermissionWorkbookGroupType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Public
+    path: ../src/EPPlus/Data/PowerQuery/ePowerQueryPermissionWorkbookGroupType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Public data source.
+  example: []
+  syntax:
+    content: Public = 1
+    return:
+      type: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+- uid: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.Organizational
+  commentId: F:OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.Organizational
+  id: Organizational
+  parent: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+  langs:
+  - csharp
+  - vb
+  name: Organizational
+  nameWithType: ePowerQueryPermissionWorkbookGroupType.Organizational
+  fullName: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.Organizational
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/PowerQuery/ePowerQueryPermissionWorkbookGroupType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Organizational
+    path: ../src/EPPlus/Data/PowerQuery/ePowerQueryPermissionWorkbookGroupType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Organizational data source.
+  example: []
+  syntax:
+    content: Organizational = 2
+    return:
+      type: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+- uid: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.SeparatePrivate
+  commentId: F:OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.SeparatePrivate
+  id: SeparatePrivate
+  parent: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+  langs:
+  - csharp
+  - vb
+  name: SeparatePrivate
+  nameWithType: ePowerQueryPermissionWorkbookGroupType.SeparatePrivate
+  fullName: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.SeparatePrivate
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/PowerQuery/ePowerQueryPermissionWorkbookGroupType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SeparatePrivate
+    path: ../src/EPPlus/Data/PowerQuery/ePowerQueryPermissionWorkbookGroupType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Private data source. The Privacy Level of the current spreadsheet.
+  example: []
+  syntax:
+    content: SeparatePrivate = 3
+    return:
+      type: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+  commentId: T:OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.html
+  name: ePowerQueryPermissionWorkbookGroupType
+  nameWithType: ePowerQueryPermissionWorkbookGroupType
+  fullName: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType

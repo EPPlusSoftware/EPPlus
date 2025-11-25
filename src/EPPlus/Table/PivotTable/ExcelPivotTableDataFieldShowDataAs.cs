@@ -255,7 +255,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             if (baseItem != null)
             {
-                if (baseItem<0 || baseItem >= baseField.Items.Count)
+                if (baseItem<0 || (baseItem >= baseField.Items.Count && baseField.Items.Count>0))
                 {
                     throw new ArgumentException("Base items must be within an index the fields item collection. Please refresh the Items collection of the field to get the items from source.", nameof(baseField));
                 }
