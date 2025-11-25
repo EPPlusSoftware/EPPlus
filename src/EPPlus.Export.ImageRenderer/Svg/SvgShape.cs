@@ -42,6 +42,7 @@ namespace EPPlusImageRenderer.Svg
             _wb = shape._drawings.Worksheet.Workbook;
             _theme = _wb.ThemeManager.GetOrCreateTheme();
             var style = shape.Style;
+
             if(style==eShapeStyle.CustomShape)
             {
                 _renderTextBox = null;
@@ -79,14 +80,29 @@ namespace EPPlusImageRenderer.Svg
                 {
                     if (shapeDef.TextBoxRect != null)
                     {
-                        var rectItem = new SvgRenderRectItem(_shape);
+                        if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
+                        {
+                            var rectItem = new SvgRenderRectItem(_shape);
 
-                        rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
-                        rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
-                        rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.X;
-                        rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
-                        rectItem.FillOpacity = 0.3d;
-                        _renderTextBox = rectItem;
+                            rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
+                            rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
+                            rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.X;
+                            rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
+                            rectItem.FillOpacity = 0.3d;
+                            _renderTextBox = rectItem;
+                        }
+                        else
+                        {
+
+                            var rectItem = new SvgRenderRectItem(_shape);
+
+                            rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
+                            rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
+                            rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.X;
+                            rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
+                            rectItem.FillOpacity = 0.3d;
+                            _renderTextBox = rectItem;
+                        }
                     }
                     else
                     {

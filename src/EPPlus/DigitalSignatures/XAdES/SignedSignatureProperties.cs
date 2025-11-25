@@ -133,7 +133,6 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
             _info = info;
 
             var bytes = Cert.GetSerialNumber();
-            //Array.Reverse(bytes);
             bytes = bytes.AsEnumerable().Reverse().ToArray();
             Serial = BytesToNumericString(bytes);
         }

@@ -91,9 +91,7 @@ namespace EPPlusImageRenderer.Svg
             fontSizeInPixels = ((double)measurementFont.Size).PointToPixel(true);
 
             ClippingHeight = textMaxY;
-            //No idea how to get this property now since we have no access to textbody
-            bool wrapText = true;
-            if (wrapText)
+            if (textRun.Paragraph._paragraphs.WrapText == eTextWrappingType.Square)
             {
                 CalculateTextWrapping(textMaxX);
             }
@@ -150,6 +148,86 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
+        //internal SvgTextRun(ExcelRichText textRun, double lineSpacing, double textMaxX, double textMaxY, double xPosition, double yPosition, MeasurementFont mf, ExcelHorizontalAlignment horAlign, double baselineLineSpacing = double.NaN) : base()
+        //{
+        //    originalText = textRun.Text;
+        //    Lines = SplitIntoLines(originalText);
+
+        //    fmExact = new FontMeasurerTrueType(mf);
+        //    measurementFont = mf;
+
+        //    horizontalTextAlignment = (eTextAlignment)horAlign;
+
+        //    LineSpacingPerNewLine = fmExact.GetSingleLineSpacing().PointToPixel(true);
+
+        //    //Used for the first line
+        //    BaselineSpacing = fmExact.GetBaseLine().PointToPixel(true);
+
+        //    _xPosition = xPosition;
+        //    _yPosition = yPosition;
+
+        //    fontSizeInPixels = ((double)mf.Size).PointToPixel(true);
+
+        //    ClippingHeight = textMaxY;
+        //    //No idea how to get this property now since we have no access to textbody/there may not be a direct text body as this might be a cell
+        //    bool wrapText = true;
+        //    if (wrapText)
+        //    {
+        //        CalculateTextWrapping(textMaxX);
+        //    }
+
+        //    if (textRun.FontItalic)
+        //    {
+        //        fontStyleAttributes += " font-style=\"italic\" ";
+        //    }
+        //    if(textRun.FontBold)
+        //    {
+        //        fontStyleAttributes += "font-weight=\"bold\" ";
+        //    }
+        //    if(textRun.FontUnderLine != eUnderLineType.None | textRun.FontStrike != eStrikeType.No)
+        //    {
+
+        //        fontStyleAttributes += "text-decoration=\"";
+        //        if (textRun.FontUnderLine != eUnderLineType.None)
+        //        {
+        //            switch (textRun.FontUnderLine)
+        //            {
+        //                case eUnderLineType.Single:
+        //                    fontStyleAttributes += "underline";
+        //                    break;
+        //                //These are all css only apparently
+        //                //case eUnderLineType.Double:
+        //                //    fontStyleAttributes += "double";
+        //                //    break;
+        //                //case eUnderLineType.Dotted:
+        //                //    fontStyleAttributes += "dotted";
+        //                //    break;
+        //                //case eUnderLineType.Dash:
+        //                //    fontStyleAttributes += "dashed";
+        //                //    break;
+        //                //case eUnderLineType.Wavy:
+        //                //    fontStyleAttributes += "wavy";
+        //                //    break;
+        //                default:
+        //                    fontStyleAttributes += "underline";
+        //                    break;
+        //                    //throw new NotImplementedException("Not implemented yet");
+        //            }
+        //        }
+                
+        //        if(textRun.FontStrike == eStrikeType.Single)
+        //        {
+        //            if(textRun.FontUnderLine != eUnderLineType.None)
+        //            {
+        //                fontStyleAttributes += ",";
+        //            }
+        //            fontStyleAttributes += "line-through";
+        //        }
+
+        //        fontStyleAttributes += "\" ";
+        //    }
+        //}
+
         internal SvgTextRun(ExcelRichText textRun, double lineSpacing, double textMaxX, double textMaxY, double xPosition, double yPosition, MeasurementFont mf, ExcelHorizontalAlignment horAlign, double baselineLineSpacing = double.NaN) : base()
         {
             originalText = textRun.Text;
@@ -198,6 +276,9 @@ namespace EPPlusImageRenderer.Svg
                 finalString += $"<tspan ";
                 string visibility = "";
                 //Despite new textrun it could still be on the same line as previous textrun
+                //Therefore only do line increase if we are first in paragraph or if we are not Lines[0].
+                //This as line == Lines[0] && isFirstInParagraph == false means we are continuing on the same line as previous textRun
+                //This is important if for example we have rich text where two letters on the same line has different colors.
                 if (line != Lines[0] | isFirstInParagraph)
                 {
                     var yIncrease = isFirstInParagraph && useBaselineSpacing ? BaselineSpacing : LineSpacingPerNewLine;
@@ -218,10 +299,10 @@ namespace EPPlusImageRenderer.Svg
                     finalString += dyString;
                 }
 
-                finalString += $"{visibility}" + $"{fontStyleAttributes}" ;
+                finalString += $"{visibility} " + $"{fontStyleAttributes} ";
                 if (measurementFont != null)
                 {
-                    finalString += $"font-family=\"{measurementFont.FontFamily},{measurementFont.FontFamily}_MSFontService,sans-serif\" " + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
+                    finalString += $" font-family=\"{measurementFont.FontFamily},{measurementFont.FontFamily}_MSFontService,sans-serif\" " + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
                 }
                 sb.Append(finalString);
                 //Get color etc.
