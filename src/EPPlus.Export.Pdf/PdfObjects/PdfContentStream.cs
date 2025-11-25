@@ -16,6 +16,7 @@ using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
+using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -244,6 +245,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
             double rot = cell.CellAlignmentData.TextRotation * System.Math.PI / 180.0;
             double lineLength = 0;
             double lineHeight = 0;
+            double startW = cell.Position.X;
             Matrix3x3 lineMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), cell.LocalPosition.X, cell.LocalPosition.Y);
             for (int j = 0; j < cell.TextLines.Count; j++)
             {
@@ -256,10 +258,12 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 {
                     var fontData = Line.TextItemCollection[i];
                     var neg = j == 0 ? fontData.Text.Length - 1 : fontData.Text.Length;
-                    textRunMatrix = textRunMatrix * Matrix3x3.Translation(0, (neg * fontData.LineHeight));
+                    textRunMatrix = textRunMatrix * Matrix3x3.Translation(fontData.GlyphBox.Width, (neg * fontData.GlyphBox.Height));
                     lineMatrix = textRunMatrix;
                     for (int k = 0; k < fontData.Text.Length; k++)
                     {
+                        var offset = fontData.characterOffset.ContainsKey(fontData.Text[k]) ? fontData.characterOffset[fontData.Text[k]] : Vector2.Zero;
+                        lineMatrix = lineMatrix * Matrix3x3.Translation(offset.X, offset.Y);
                         commands.Add($"{lineMatrix.A.ToPdfString()} {lineMatrix.B.ToPdfString()} {lineMatrix.C.ToPdfString()} {lineMatrix.D.ToPdfString()} {lineMatrix.E.ToPdfString()} {lineMatrix.F.ToPdfString()} Tm");
                         var c = fontData.Text[k].ToString();
                         var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
@@ -332,7 +336,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                             commands.Add($"S");
                         }
                         lineLength += fontData.TextLength;
-                        lineHeight = fontData.LineHeight;
+                        lineHeight = fontData.GlyphBox.Height;
                         textRunMatrix = textRunMatrix * Matrix3x3.Translation(/*fontData.TextLength*/0d, -lineHeight);
                         if (useModifiedMatrix) commands.Add($"{textRunMatrix.A.ToPdfString()} {textRunMatrix.B.ToPdfString()} {textRunMatrix.C.ToPdfString()} {textRunMatrix.D.ToPdfString()} {textRunMatrix.E.ToPdfString()} {textRunMatrix.F.ToPdfString()} Tm");
                         useModifiedMatrix = false;

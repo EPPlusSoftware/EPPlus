@@ -47,7 +47,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
             else
             {
-                HandleText(pageSettings, dictionaries, width, height, cell.Style.TextRotation);
+                HandleText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation);
             }
             CellAlignmentData = new PdfCellAlignmentData();
             CellAlignmentData.HorizontalAlignment = cell.Style.HorizontalAlignment;
@@ -148,19 +148,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
             TextLines.Add(textLine);
         }
 
-        /*
-         * Measure text in width and height
-         * if rotation is 255
-         * measure the line of text for each cahracter and sum lineheight
-         * do the same thing we do now for width but height instead
-         */
-
-
         //Handle text from cell.
-        private void HandleText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double width, double height, int rotation)
+        private void HandleText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double width, double height, int rotation)
         {
             var textItem = CreateTextItem();
-            GetFontResourceData(dictionaries.Fonts, pageSettings, textItem);
+            var fontData = GetFontResourceData(dictionaries.Fonts, pageSettings, textItem);
             font.FontFamily = textItem.FontName;
             font.Size = (float)textItem.FontSize;
             font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
@@ -176,8 +168,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
             textItem.TextLength = result.Width;
             textItem.LineHeight = result.Height;
             textItem.FontHeight = result.FontHeight;
+            double gbox = (fontData.Os2Table.sTypoAscender - fontData.Os2Table.sTypoDescender) * (cell.Style.Font.Size / fontData.HeadTable.UnitsPerEm);
+            textItem.GlyphBox.Width = gbox;
+            textItem.GlyphBox.Height = gbox;
             double TextHeight = 0d;
-
             PdfCellTextLine lineItem = new PdfCellTextLine();
             string lineText = string.Empty;
             int textLength = textItem.Text.Length;
@@ -196,6 +190,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             textItem.TextLength = result.Width;
                             textItem.LineHeight = result.Height;
                             textItem.FontHeight = result.FontHeight;
+                            textItem.GlyphBox.Width = gbox;
+                            textItem.GlyphBox.Height = gbox;
                             lineItem.TextItemCollection.Add(textItem);
                             TextLines.Add(lineItem);
                             textItem = CreateTextItem();
@@ -205,6 +201,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         }
                         TextHeight += lineHeight;
                         lineText += textItem.Text[i];
+                        if (!textItem.characterOffset.ContainsKey(textItem.Text[i]))
+                        {
+                            var character = fontMeasurerTrueType.MeasureText(textItem.Text[i].ToString(), font);
+                            var offset = x + (textItem.GlyphBox.Width - character.Width) / 2d;
+                            offset = offset - x;
+                            textItem.characterOffset.Add(textItem.Text[i], new Vector2(offset, 0));
+                        }
                     }
                     if (!string.IsNullOrEmpty(lineText))
                     {
@@ -214,6 +217,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         textItem.TextLength = result.Width;
                         textItem.LineHeight = result.Height;
                         textItem.FontHeight = result.FontHeight;
+                        textItem.GlyphBox.Width = gbox;
+                        textItem.GlyphBox.Height = gbox;
                         lineItem.TextItemCollection.Add(textItem);
                         TextLines.Add(lineItem);
                     }
@@ -229,6 +234,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         textItem.TextLength = result.Width;
                         textItem.LineHeight = result.Height;
                         textItem.FontHeight = result.FontHeight;
+                        textItem.GlyphBox.Width = gbox;
+                        textItem.GlyphBox.Height = gbox;
                         lineItem.TextItemCollection.Add(textItem);
                         TextLines.Add(lineItem);
                         textItem = CreateTextItem();
@@ -241,6 +248,16 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 lineItem.Text = cell.Text;
                 lineItem.TextItemCollection.Add(textItem);
                 TextLines.Add(lineItem);
+                for (int k = 0; k < textItem.Text.Length; k++)
+                {
+                    if (!textItem.characterOffset.ContainsKey(textItem.Text[k]))
+                    {
+                        var character = fontMeasurerTrueType.MeasureText(textItem.Text[k].ToString(), font);
+                        var offset = x + (textItem.GlyphBox.Width - character.Width) / 2d;
+                        offset = offset - x;
+                        textItem.characterOffset.Add(textItem.Text[k], new Vector2(offset, 0));
+                    }
+                }
             }
         }
 
