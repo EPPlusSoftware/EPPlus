@@ -310,6 +310,28 @@ namespace OfficeOpenXml.Table
                 }
             }
         }
+        internal string UniqeName 
+        {
+            get
+            {
+                return GetXmlNodeString("@uniqueName");
+            } 
+            set
+            {
+                SetXmlNodeString("@uniqueName", value);
+            }
+        }
+        internal int? QueryTableFieldId 
+        {
+            get
+            {
+                return GetXmlNodeIntNull("@queryTableFieldId");
+            }
+            set
+            {
+                SetXmlNodeInt("@queryTableFieldId", value);
+            }
+        }
         internal void SetFormula(string formula)
         {
             SetXmlNodeString(CALCULATEDCOLUMNFORMULA_PATH, formula);
@@ -339,6 +361,7 @@ namespace OfficeOpenXml.Table
                  
             }        
         }
+
 
         internal void SetTableFormula(bool clear)
         {
@@ -390,7 +413,7 @@ namespace OfficeOpenXml.Table
                     var f = ExcelCellBase.TranslateFromR1C1(r1c1Formula, row, colNum);
                     ws.SetFormula(row, colNum, f);
                 }
-                else if (ws._formulas.Exists(row, colNum) == false)
+                else 
                 {
                     ws.SetFormula(row, colNum, CalculatedColumnFormula);
                 }

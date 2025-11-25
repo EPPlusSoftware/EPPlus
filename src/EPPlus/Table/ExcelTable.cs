@@ -30,6 +30,12 @@ using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using System.Linq;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Data.QueryTable;
+using OfficeOpenXml.Data.Connection.IOHandlers;
+using OfficeOpenXml.Utils.EnumUtils;
+
+
+
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -54,7 +60,12 @@ namespace OfficeOpenXml.Table
             LoadXmlSafe(TableXml, Part.GetStream());
             Init();
             Address = new ExcelAddressBase(GetXmlNodeString("@ref"));
-            _tableStyle = GetTableStyle(StyleName);            
+            _tableStyle = GetTableStyle(StyleName);
+            
+            if(DataSourceType==TableDataSourceType.QueryTable)
+            {
+                QueryTable = new ExcelQueryTable(new QueryTableDataPartXmlHandler(this));
+            }
         }
         internal ExcelTable(ExcelWorksheet sheet, ExcelAddressBase address, string name, int tblId, ExcelTable copy = null) : 
             base(sheet.NameSpaceManager)
@@ -226,7 +237,28 @@ namespace OfficeOpenXml.Table
                 SetNameAndDisplayName(value);
             }
         }
-
+        /// <summary>
+        /// Specifies what the table's data is based on.
+        /// </summary>
+        public TableDataSourceType DataSourceType
+        {
+            get
+            {
+                return GetXmlEnum("@tableType", TableDataSourceType.Worksheet);
+            }
+            internal set
+            {
+                SetXmlNodeString("@tableType", value.ToEnumString());
+            }
+        }
+        /// <summary>
+        /// It the table's <see cref="DataSourceType"/> is <see cref="TableDataSourceType.QueryTable"/>, this property contains the query table.
+        /// </summary>
+        public ExcelQueryTable QueryTable
+        {
+            get;
+            internal set;
+        }
         internal void SetNameAndDisplayName(string value)
         {
             SetXmlNodeString(NAME_PATH, value);
@@ -408,7 +440,7 @@ namespace OfficeOpenXml.Table
             await SaveToJsonInternalAsync(stream, s);
         }
         /// <summary>
-        /// Save the table to json
+        /// Remove the table to json
         /// </summary>
         /// <param name="stream">The stream to save to.</param>
         /// <param name="settings">Settings for the json output.</param>

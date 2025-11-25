@@ -463,5 +463,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
                 Assert.AreEqual(8d, sheet.Cells["B4"].Value);
             }
         }
+        [TestMethod]
+        public void SumNullWithSumRange()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Not Empty";
+                sheet.Cells["A2"].Value = string.Empty;
+                sheet.Cells["B1"].Value = 1d;
+                sheet.Cells["B2"].Value = 3d;
+                sheet.Cells["B3"].Value = 5d;
+
+                sheet.Cells["B4"].Formula = "SUMIF(A1:A3,\"\",B1:B3)";
+                sheet.Calculate();
+                Assert.AreEqual(8d, sheet.Cells["B4"].Value);
+            }
+        }
+
     }
 }

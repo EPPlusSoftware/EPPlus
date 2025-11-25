@@ -491,6 +491,11 @@ namespace OfficeOpenXml.ExternalReferences
                 var formulas = new CellStoreEnumerator<object>(ws._formulas);
                 foreach (var f in formulas)
                 {
+                    if(f == null)
+                    {
+                        continue;
+                    }
+
                     if (f is int sfIx)
                     {
                         var sf = ws._sharedFormulas[sfIx];

@@ -148,6 +148,86 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
+        //internal SvgTextRun(ExcelRichText textRun, double lineSpacing, double textMaxX, double textMaxY, double xPosition, double yPosition, MeasurementFont mf, ExcelHorizontalAlignment horAlign, double baselineLineSpacing = double.NaN) : base()
+        //{
+        //    originalText = textRun.Text;
+        //    Lines = SplitIntoLines(originalText);
+
+        //    fmExact = new FontMeasurerTrueType(mf);
+        //    measurementFont = mf;
+
+        //    horizontalTextAlignment = (eTextAlignment)horAlign;
+
+        //    LineSpacingPerNewLine = fmExact.GetSingleLineSpacing().PointToPixel(true);
+
+        //    //Used for the first line
+        //    BaselineSpacing = fmExact.GetBaseLine().PointToPixel(true);
+
+        //    _xPosition = xPosition;
+        //    _yPosition = yPosition;
+
+        //    fontSizeInPixels = ((double)mf.Size).PointToPixel(true);
+
+        //    ClippingHeight = textMaxY;
+        //    //No idea how to get this property now since we have no access to textbody/there may not be a direct text body as this might be a cell
+        //    bool wrapText = true;
+        //    if (wrapText)
+        //    {
+        //        CalculateTextWrapping(textMaxX);
+        //    }
+
+        //    if (textRun.FontItalic)
+        //    {
+        //        fontStyleAttributes += " font-style=\"italic\" ";
+        //    }
+        //    if(textRun.FontBold)
+        //    {
+        //        fontStyleAttributes += "font-weight=\"bold\" ";
+        //    }
+        //    if(textRun.FontUnderLine != eUnderLineType.None | textRun.FontStrike != eStrikeType.No)
+        //    {
+
+        //        fontStyleAttributes += "text-decoration=\"";
+        //        if (textRun.FontUnderLine != eUnderLineType.None)
+        //        {
+        //            switch (textRun.FontUnderLine)
+        //            {
+        //                case eUnderLineType.Single:
+        //                    fontStyleAttributes += "underline";
+        //                    break;
+        //                //These are all css only apparently
+        //                //case eUnderLineType.Double:
+        //                //    fontStyleAttributes += "double";
+        //                //    break;
+        //                //case eUnderLineType.Dotted:
+        //                //    fontStyleAttributes += "dotted";
+        //                //    break;
+        //                //case eUnderLineType.Dash:
+        //                //    fontStyleAttributes += "dashed";
+        //                //    break;
+        //                //case eUnderLineType.Wavy:
+        //                //    fontStyleAttributes += "wavy";
+        //                //    break;
+        //                default:
+        //                    fontStyleAttributes += "underline";
+        //                    break;
+        //                    //throw new NotImplementedException("Not implemented yet");
+        //            }
+        //        }
+                
+        //        if(textRun.FontStrike == eStrikeType.Single)
+        //        {
+        //            if(textRun.FontUnderLine != eUnderLineType.None)
+        //            {
+        //                fontStyleAttributes += ",";
+        //            }
+        //            fontStyleAttributes += "line-through";
+        //        }
+
+        //        fontStyleAttributes += "\" ";
+        //    }
+        //}
+
         internal SvgTextRun(ExcelRichText textRun, double lineSpacing, double textMaxX, double textMaxY, double xPosition, double yPosition, MeasurementFont mf, ExcelHorizontalAlignment horAlign, double baselineLineSpacing = double.NaN) : base()
         {
             originalText = textRun.Text;
@@ -169,7 +249,7 @@ namespace EPPlusImageRenderer.Svg
             fontSizeInPixels = ((double)mf.Size).PointToPixel(true);
 
             ClippingHeight = textMaxY;
-            //No idea how to get this property now since we have no access to textbody/there may not be a direct text body as this might be a cell
+            //No idea how to get this property now since we have no access to textbody
             bool wrapText = true;
             if (wrapText)
             {

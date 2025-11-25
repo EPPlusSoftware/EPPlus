@@ -1,7 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.SystemDrawing.Image;
 using OfficeOpenXml.SystemDrawing.Text;
 using System;
@@ -15,6 +19,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace EPPlusTest.Issues
 {
@@ -834,13 +839,13 @@ namespace EPPlusTest.Issues
             ws.Cells["C1:D2"].AutoFitColumns();
         }
 
-		//i2084
-		[TestMethod]
-		public void s912_Alternate()
-		{
-			//Optimizing for not overwriting existing styles
-			using (var package = OpenPackage("s912_alt.xlsx", true))
-			{
+        //i2084
+        [TestMethod]
+        public void s912_Alternate()
+        {
+            //Optimizing for not overwriting existing styles
+            using (var package = OpenPackage("s912_alt.xlsx", true))
+            {
                 var sheet = package.Workbook.Worksheets.Add("F1");
 
                 int nbLines = 10000;
@@ -865,7 +870,7 @@ namespace EPPlusTest.Issues
 
                 SaveAndCleanup(package);
             }
-		}
+        }
 
         [TestMethod]
         public void s912()
@@ -935,10 +940,10 @@ namespace EPPlusTest.Issues
             Assert.AreEqual("64.066,27€", excelPackage.Workbook.Worksheets[0].Cells[1, 3].Text);
         }
 
-		[TestMethod]
-		public void s931()
-		{
-			using (ExcelPackage xlPackage = OpenPackage("s931.xlsx", true))
+        [TestMethod]
+        public void s931()
+        {
+            using (ExcelPackage xlPackage = OpenPackage("s931.xlsx", true))
             {
                 ExcelWorksheet sheet = xlPackage.Workbook.Worksheets.Add("test");
 
@@ -969,8 +974,8 @@ namespace EPPlusTest.Issues
 
                 sheet.View.FreezePanes(11, 1);
 
-				sheet.Row(6).Hidden = false;
-				sheet.Row(7).Hidden = false;
+                sheet.Row(6).Hidden = false;
+                sheet.Row(7).Hidden = false;
 
                 //sheet.View.PaneSettings.YSplit = 10;
 
@@ -995,5 +1000,17 @@ namespace EPPlusTest.Issues
                 xlPackage.Save();
             }
         }
+        [TestMethod]
+
+        public void Issue2157()
+        {
+            using (var p = OpenTemplatePackage("i2157.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var dv = ws.DimensionByValue;
+                Assert.AreEqual(2, dv.Columns);
+            }
+        }
+
     }
 }

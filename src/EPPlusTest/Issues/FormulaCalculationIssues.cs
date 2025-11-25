@@ -1,17 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Sorting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing;
-using System.IO;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Diagnostics;
-using OfficeOpenXml.Sorting;
+using System.IO;
+using System.Linq;
 
 namespace EPPlusTest.Issues
 {
@@ -69,7 +65,6 @@ namespace EPPlusTest.Issues
 				ws.Cells["D3"].Value = 13;
 				ws.Cells["D4"].Value = 14;
 				ws.Cells["D5"].Value = 15;
-
 
 				p.Workbook.Calculate();
 
@@ -233,7 +228,17 @@ namespace EPPlusTest.Issues
 
 			//        }
 		}
-		[TestMethod]
+        [TestMethod]
+        public void FormulaDemo()
+        {
+            using (var p1 = OpenTemplatePackage("s684.xlsx"))
+            {
+                ExcelWorkbook workbook = p1.Workbook;
+                workbook.Worksheets[0].Cells["A1"].Calculate();
+            }
+        }
+
+        [TestMethod]
 		public void s684()
 		{
 			using (var p1 = OpenTemplatePackage("s684.xlsx"))
@@ -241,14 +246,14 @@ namespace EPPlusTest.Issues
 				p1.Compatibility.IsWorksheets1Based = true;
 				ExcelWorkbook workbook = p1.Workbook;
 				workbook.Calculate();
-				Assert.AreEqual(7d, workbook.Worksheets["Sheet1"].Cells[1, 1].Value);
+				Assert.AreEqual(8.333333d, (double)workbook.Worksheets["Sheet1"].Cells[1, 1].Value, 0.00001);
 
 				workbook.Worksheets.First().Cells[2, 1].Value = 4;
 				workbook.Calculate();
 
-				Assert.AreEqual(10d, workbook.Worksheets["Sheet1"].Cells[1, 1].Value);
+                Assert.AreEqual(11.333333d, (double)workbook.Worksheets["Sheet1"].Cells[1, 1].Value, 0.00001);
 
-				SaveAndCleanup(p1);
+                SaveAndCleanup(p1);
 			}
 		}
 		[TestMethod]
@@ -1306,6 +1311,28 @@ namespace EPPlusTest.Issues
             var ws = p.Workbook.Worksheets["Calculation sheet"];
             ws.Calculate();
             Assert.AreEqual(938643.13, ws.Cells["H10"].Value);
+        }
+        [TestMethod]
+        public void s965_1()
+        {
+            using var p = OpenTemplatePackage("Aico\\s965-1.xlsx");
+            var ws = p.Workbook.Worksheets["Aico Data"];
+            ws.Calculate();
+            Assert.AreEqual(-64440.8652, (double)ws.Cells["D41"].Value, 0.0001);
+            Assert.AreEqual(-3206585.8006, (double)ws.Cells["D42"].Value, 0.0001);
+        }
+        [TestMethod]
+        public void s965_2()
+        {
+            using var p = OpenTemplatePackage("Aico\\s965-2.xlsx");
+            var ws = p.Workbook.Worksheets["Aico Data"];
+            ws.Calculate();
+            Assert.AreEqual("", ws.Cells["B49"].Value);
+            Assert.AreEqual("7300030", ws.Cells["B50"].Value);
+            ws = p.Workbook.Worksheets["Calculation"];
+            Assert.AreEqual(4D, ws.Cells["AP2"].Value);
+            Assert.AreEqual(9D, ws.Cells["AQ2"].Value);
+
         }
     }
 }

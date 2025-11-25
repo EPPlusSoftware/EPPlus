@@ -45,7 +45,7 @@ namespace EPPlusTest.Issues
 		{
 			var template = "s798.xlsx";
 			string dv = "";
-            using (var p1 = OpenTemplatePackage(template))
+			using (var p1 = OpenTemplatePackage(template))
 			{
 				var ws = p1.Workbook.Worksheets[1];
 				dv = ws.DataValidations[2].As.ListValidation.Formula.Values[3];
@@ -57,6 +57,36 @@ namespace EPPlusTest.Issues
 				Assert.AreEqual(dv, ws.DataValidations[2].As.ListValidation.Formula.Values[3]);
 				SaveWorkbook("s798-saved.xlsx", p2);
 			}
-        }
-    }
+		}
+
+		[TestMethod]
+		//Removing and adding data validation after removing and adding rows.
+		public void i2154()
+		{
+			using (var pck = OpenPackage("testValidations2154.xlsx", true))
+			{
+				// Add a worksheet
+				var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
+
+				// Next, add a data validation list to the sheet
+				var dv = sheet1.Cells["A1:A10"].DataValidation.AddListDataValidation();
+				dv.Formula.Values.Add("Option A");
+				dv.Formula.Values.Add("Option B");
+
+				// Delete all except the first row
+				sheet1.DeleteRow(2, 9);
+
+				// Remove the data validation
+				sheet1.DataValidations.Remove(dv);
+				Assert.AreEqual(0, sheet1.DataValidations.Count);
+
+				// Now re-add the data validation
+				// THIS SHOULDN'T THROW AN EXCEPTION
+				sheet1.Cells["A1:A10"].DataValidation.AddListDataValidation();
+				dv.Formula.Values.Add("Option C");
+				dv.Formula.Values.Add("Option D");
+				SaveAndCleanup(pck);
+			}
+		}
+	}
 }

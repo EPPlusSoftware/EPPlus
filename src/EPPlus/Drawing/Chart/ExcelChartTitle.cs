@@ -450,6 +450,9 @@ namespace OfficeOpenXml.Drawing.Chart
                 _font = null;
             }
         }
+        /// <summary>
+        /// Sets the title to automatic, for example when the chart is connected to a pivot table data source.
+        /// </summary>
         public void SetAutoTitle()
         {
             _chart.AutoTitleDeleted = false;

@@ -46,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             return CreateResult(retVal.Get(), DataType.Decimal);
         }
 
-        private double Calculate(FunctionArgument arg, ParsingContext context, out eErrorType? errType)
+        internal static double Calculate(FunctionArgument arg, ParsingContext context, out eErrorType? errType)
         {
             KahanSum retVal = 0d;
             errType = default;
