@@ -1,0 +1,1061 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  commentId: T:OfficeOpenXml.Data.Connection.ExcelTextProperties
+  id: ExcelTextProperties
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.CharacterSet
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.Comma
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.Consecutive
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.Decimal
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimited
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimiter
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.Fields
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.FileType
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.FirstRow
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.Prompt
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.Qualifier
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.Semicolon
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.SourceFile
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.Space
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.Tab
+  - OfficeOpenXml.Data.Connection.ExcelTextProperties.Thousands
+  langs:
+  - csharp
+  - vb
+  name: ExcelTextProperties
+  nameWithType: ExcelTextProperties
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTextProperties
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Properties for text file connections.
+  example: []
+  syntax:
+    content: public class ExcelTextProperties
+    content.vb: Public Class ExcelTextProperties
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Prompt
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.Prompt
+  id: Prompt
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: Prompt
+  nameWithType: ExcelTextProperties.Prompt
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Prompt
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Prompt
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Indicates whether to prompt the user. Defaults to true.
+  example: []
+  syntax:
+    content: public bool Prompt { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Prompt As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.Prompt*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.FileType
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.FileType
+  id: FileType
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: FileType
+  nameWithType: ExcelTextProperties.FileType
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.FileType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FileType
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Specifies the file type. Defaults to "Win".
+  example: []
+  syntax:
+    content: public eConnectionTextFileType FileType { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFileType
+    content.vb: Public Property FileType As eConnectionTextFileType
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.FileType*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.CharacterSet
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.CharacterSet
+  id: CharacterSet
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: CharacterSet
+  nameWithType: ExcelTextProperties.CharacterSet
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.CharacterSet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CharacterSet
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The character set assosiated with the source file. Names are limited to the IANA charcter set, <a href="http://www.iana.org/assignments/character-sets.">http://www.iana.org/assignments/character-sets.</a>
+  example: []
+  syntax:
+    content: public string CharacterSet { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property CharacterSet As String
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.CharacterSet*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.FirstRow
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.FirstRow
+  id: FirstRow
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: FirstRow
+  nameWithType: ExcelTextProperties.FirstRow
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.FirstRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstRow
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The first row to read. Defaults to 1.
+  example: []
+  syntax:
+    content: public uint FirstRow { get; set; }
+    parameters: []
+    return:
+      type: System.UInt32
+    content.vb: Public Property FirstRow As UInteger
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.FirstRow*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.SourceFile
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.SourceFile
+  id: SourceFile
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: SourceFile
+  nameWithType: ExcelTextProperties.SourceFile
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.SourceFile
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SourceFile
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The source file path. Defaults to an empty string.
+  example: []
+  syntax:
+    content: public string SourceFile { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property SourceFile As String
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.SourceFile*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimited
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimited
+  id: Delimited
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: Delimited
+  nameWithType: ExcelTextProperties.Delimited
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimited
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Delimited
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Indicates whether the file is delimited. Defaults to true.
+  example: []
+  syntax:
+    content: public bool Delimited { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Delimited As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimited*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Decimal
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.Decimal
+  id: Decimal
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: Decimal
+  nameWithType: ExcelTextProperties.Decimal
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Decimal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Decimal
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The decimal separator. Defaults to ".".
+  example: []
+  syntax:
+    content: public string Decimal { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property [Decimal] As String
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.Decimal*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Thousands
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.Thousands
+  id: Thousands
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: Thousands
+  nameWithType: ExcelTextProperties.Thousands
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Thousands
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Thousands
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 59
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The thousands separator. Defaults to ",".
+  example: []
+  syntax:
+    content: public string Thousands { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Thousands As String
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.Thousands*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Tab
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.Tab
+  id: Tab
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: Tab
+  nameWithType: ExcelTextProperties.Tab
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Tab
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tab
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Indicates if tab is a delimiter. Defaults to true.
+  example: []
+  syntax:
+    content: public bool Tab { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Tab As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.Tab*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Space
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.Space
+  id: Space
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: Space
+  nameWithType: ExcelTextProperties.Space
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Space
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Space
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 69
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Indicates if space is a delimiter. Defaults to false.
+  example: []
+  syntax:
+    content: public bool Space { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Space As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.Space*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Comma
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.Comma
+  id: Comma
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: Comma
+  nameWithType: ExcelTextProperties.Comma
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Comma
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Comma
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Indicates if comma is a delimiter. Defaults to false.
+  example: []
+  syntax:
+    content: public bool Comma { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Comma As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.Comma*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Semicolon
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.Semicolon
+  id: Semicolon
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: Semicolon
+  nameWithType: ExcelTextProperties.Semicolon
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Semicolon
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Semicolon
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Indicates if semicolon is a delimiter. Defaults to false.
+  example: []
+  syntax:
+    content: public bool Semicolon { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Semicolon As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.Semicolon*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Consecutive
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.Consecutive
+  id: Consecutive
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: Consecutive
+  nameWithType: ExcelTextProperties.Consecutive
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Consecutive
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Consecutive
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 84
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Indicates if consecutive delimiters are treated as one. Defaults to false.
+  example: []
+  syntax:
+    content: public bool Consecutive { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Consecutive As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.Consecutive*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Qualifier
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.Qualifier
+  id: Qualifier
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: Qualifier
+  nameWithType: ExcelTextProperties.Qualifier
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Qualifier
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Qualifier
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 89
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The text qualifier used. Defaults to double quote.
+  example: []
+  syntax:
+    content: public eConnectionTextQualifier Qualifier { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+    content.vb: Public Property Qualifier As eConnectionTextQualifier
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.Qualifier*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimiter
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimiter
+  id: Delimiter
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: Delimiter
+  nameWithType: ExcelTextProperties.Delimiter
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimiter
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Delimiter
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The custom delimiter. Optional.
+  example: []
+  syntax:
+    content: public string Delimiter { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Delimiter As String
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimiter*
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Fields
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelTextProperties.Fields
+  id: Fields
+  parent: OfficeOpenXml.Data.Connection.ExcelTextProperties
+  langs:
+  - csharp
+  - vb
+  name: Fields
+  nameWithType: ExcelTextProperties.Fields
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Fields
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelTextProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Fields
+    path: ../src/EPPlus/Data/Connection/ExcelTextProperties.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Fields describing the text fields data type and position.
+  example: []
+  syntax:
+    content: public List<ExcelConnectionTextField> Fields { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{OfficeOpenXml.Data.Connection.ExcelConnectionTextField}
+    content.vb: Public ReadOnly Property Fields As List(Of ExcelConnectionTextField)
+  overload: OfficeOpenXml.Data.Connection.ExcelTextProperties.Fields*
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Prompt*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.Prompt
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_Prompt
+  name: Prompt
+  nameWithType: ExcelTextProperties.Prompt
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Prompt
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.FileType*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.FileType
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_FileType
+  name: FileType
+  nameWithType: ExcelTextProperties.FileType
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.FileType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFileType
+  commentId: T:OfficeOpenXml.Data.Connection.eConnectionTextFileType
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.eConnectionTextFileType.html
+  name: eConnectionTextFileType
+  nameWithType: eConnectionTextFileType
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFileType
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.CharacterSet*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.CharacterSet
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_CharacterSet
+  name: CharacterSet
+  nameWithType: ExcelTextProperties.CharacterSet
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.CharacterSet
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.FirstRow*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.FirstRow
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_FirstRow
+  name: FirstRow
+  nameWithType: ExcelTextProperties.FirstRow
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.FirstRow
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.SourceFile*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.SourceFile
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_SourceFile
+  name: SourceFile
+  nameWithType: ExcelTextProperties.SourceFile
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.SourceFile
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimited*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimited
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_Delimited
+  name: Delimited
+  nameWithType: ExcelTextProperties.Delimited
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimited
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Decimal*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.Decimal
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_Decimal
+  name: Decimal
+  nameWithType: ExcelTextProperties.Decimal
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Decimal
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Thousands*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.Thousands
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_Thousands
+  name: Thousands
+  nameWithType: ExcelTextProperties.Thousands
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Thousands
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Tab*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.Tab
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_Tab
+  name: Tab
+  nameWithType: ExcelTextProperties.Tab
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Tab
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Space*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.Space
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_Space
+  name: Space
+  nameWithType: ExcelTextProperties.Space
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Space
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Comma*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.Comma
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_Comma
+  name: Comma
+  nameWithType: ExcelTextProperties.Comma
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Comma
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Semicolon*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.Semicolon
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_Semicolon
+  name: Semicolon
+  nameWithType: ExcelTextProperties.Semicolon
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Semicolon
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Consecutive*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.Consecutive
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_Consecutive
+  name: Consecutive
+  nameWithType: ExcelTextProperties.Consecutive
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Consecutive
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Qualifier*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.Qualifier
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_Qualifier
+  name: Qualifier
+  nameWithType: ExcelTextProperties.Qualifier
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Qualifier
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+  commentId: T:OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.eConnectionTextQualifier.html
+  name: eConnectionTextQualifier
+  nameWithType: eConnectionTextQualifier
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimiter*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimiter
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_Delimiter
+  name: Delimiter
+  nameWithType: ExcelTextProperties.Delimiter
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Delimiter
+- uid: OfficeOpenXml.Data.Connection.ExcelTextProperties.Fields*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelTextProperties.Fields
+  href: OfficeOpenXml.Data.Connection.ExcelTextProperties.html#OfficeOpenXml_Data_Connection_ExcelTextProperties_Fields
+  name: Fields
+  nameWithType: ExcelTextProperties.Fields
+  fullName: OfficeOpenXml.Data.Connection.ExcelTextProperties.Fields
+- uid: System.Collections.Generic.List{OfficeOpenXml.Data.Connection.ExcelConnectionTextField}
+  commentId: T:System.Collections.Generic.List{OfficeOpenXml.Data.Connection.ExcelConnectionTextField}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<ExcelConnectionTextField>
+  nameWithType: List<ExcelConnectionTextField>
+  fullName: System.Collections.Generic.List<OfficeOpenXml.Data.Connection.ExcelConnectionTextField>
+  nameWithType.vb: List(Of ExcelConnectionTextField)
+  fullName.vb: System.Collections.Generic.List(Of OfficeOpenXml.Data.Connection.ExcelConnectionTextField)
+  name.vb: List(Of ExcelConnectionTextField)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: OfficeOpenXml.Data.Connection.ExcelConnectionTextField
+    name: ExcelConnectionTextField
+    href: OfficeOpenXml.Data.Connection.ExcelConnectionTextField.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: OfficeOpenXml.Data.Connection.ExcelConnectionTextField
+    name: ExcelConnectionTextField
+    href: OfficeOpenXml.Data.Connection.ExcelConnectionTextField.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic

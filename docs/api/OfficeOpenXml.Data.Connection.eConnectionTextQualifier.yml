@@ -1,0 +1,155 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+  commentId: T:OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+  id: eConnectionTextQualifier
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.eConnectionTextQualifier.DoubleQuote
+  - OfficeOpenXml.Data.Connection.eConnectionTextQualifier.None
+  - OfficeOpenXml.Data.Connection.eConnectionTextQualifier.SingleQuote
+  langs:
+  - csharp
+  - vb
+  name: eConnectionTextQualifier
+  nameWithType: eConnectionTextQualifier
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextQualifier.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eConnectionTextQualifier
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextQualifier.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A text qualifier used for text data sources.
+  example: []
+  syntax:
+    content: public enum eConnectionTextQualifier
+    content.vb: Public Enum eConnectionTextQualifier
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextQualifier.DoubleQuote
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextQualifier.DoubleQuote
+  id: DoubleQuote
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+  langs:
+  - csharp
+  - vb
+  name: DoubleQuote
+  nameWithType: eConnectionTextQualifier.DoubleQuote
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextQualifier.DoubleQuote
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextQualifier.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DoubleQuote
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextQualifier.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A double quote (") is used as the text qualifier.
+  example: []
+  syntax:
+    content: DoubleQuote = 0
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextQualifier.SingleQuote
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextQualifier.SingleQuote
+  id: SingleQuote
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+  langs:
+  - csharp
+  - vb
+  name: SingleQuote
+  nameWithType: eConnectionTextQualifier.SingleQuote
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextQualifier.SingleQuote
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextQualifier.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SingleQuote
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextQualifier.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A single quote (') is used as the text qualifier.
+  example: []
+  syntax:
+    content: SingleQuote = 1
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextQualifier.None
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextQualifier.None
+  id: None
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eConnectionTextQualifier.None
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextQualifier.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextQualifier.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextQualifier.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: No text qualifier is used.
+  example: []
+  syntax:
+    content: None = 2
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+  commentId: T:OfficeOpenXml.Data.Connection.eConnectionTextQualifier
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.eConnectionTextQualifier.html
+  name: eConnectionTextQualifier
+  nameWithType: eConnectionTextQualifier
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextQualifier

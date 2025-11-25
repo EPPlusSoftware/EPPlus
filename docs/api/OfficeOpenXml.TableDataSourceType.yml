@@ -1,0 +1,131 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.TableDataSourceType
+  commentId: T:OfficeOpenXml.TableDataSourceType
+  id: TableDataSourceType
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.TableDataSourceType.QueryTable
+  - OfficeOpenXml.TableDataSourceType.Worksheet
+  - OfficeOpenXml.TableDataSourceType.Xml
+  langs:
+  - csharp
+  - vb
+  name: TableDataSourceType
+  nameWithType: TableDataSourceType
+  fullName: OfficeOpenXml.TableDataSourceType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableDataSourceType
+    path: ../src/EPPlus/Table/enums/TableDataSourceType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Specifies what the table data is based on.
+  example: []
+  syntax:
+    content: public enum TableDataSourceType
+    content.vb: Public Enum TableDataSourceType
+- uid: OfficeOpenXml.TableDataSourceType.Worksheet
+  commentId: F:OfficeOpenXml.TableDataSourceType.Worksheet
+  id: Worksheet
+  parent: OfficeOpenXml.TableDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: Worksheet
+  nameWithType: TableDataSourceType.Worksheet
+  fullName: OfficeOpenXml.TableDataSourceType.Worksheet
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Worksheet
+    path: ../src/EPPlus/Table/enums/TableDataSourceType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: The table is based on a worksheet data range.
+  example: []
+  syntax:
+    content: Worksheet = 0
+    return:
+      type: OfficeOpenXml.TableDataSourceType
+- uid: OfficeOpenXml.TableDataSourceType.Xml
+  commentId: F:OfficeOpenXml.TableDataSourceType.Xml
+  id: Xml
+  parent: OfficeOpenXml.TableDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: Xml
+  nameWithType: TableDataSourceType.Xml
+  fullName: OfficeOpenXml.TableDataSourceType.Xml
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Xml
+    path: ../src/EPPlus/Table/enums/TableDataSourceType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: The table is based on an XML mapping.
+  example: []
+  syntax:
+    content: Xml = 1
+    return:
+      type: OfficeOpenXml.TableDataSourceType
+- uid: OfficeOpenXml.TableDataSourceType.QueryTable
+  commentId: F:OfficeOpenXml.TableDataSourceType.QueryTable
+  id: QueryTable
+  parent: OfficeOpenXml.TableDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: QueryTable
+  nameWithType: TableDataSourceType.QueryTable
+  fullName: OfficeOpenXml.TableDataSourceType.QueryTable
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: QueryTable
+    path: ../src/EPPlus/Table/enums/TableDataSourceType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: The table is based on an external data query.
+  example: []
+  syntax:
+    content: QueryTable = 2
+    return:
+      type: OfficeOpenXml.TableDataSourceType
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.TableDataSourceType
+  commentId: T:OfficeOpenXml.TableDataSourceType
+  parent: OfficeOpenXml
+  href: OfficeOpenXml.TableDataSourceType.html
+  name: TableDataSourceType
+  nameWithType: TableDataSourceType
+  fullName: OfficeOpenXml.TableDataSourceType

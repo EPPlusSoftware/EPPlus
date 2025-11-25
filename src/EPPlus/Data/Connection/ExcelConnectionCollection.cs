@@ -82,11 +82,14 @@ namespace OfficeOpenXml.Data.Connection
 
         internal void Save()
         {
-            if (_list.Count==0 && Part!=null)
+            if (_list.Count==0)
             {
-                _package.ZipPackage.DeletePart(Part.Uri);
-                Part = null;
-                ConnectionXml = null;
+                if (Part != null)
+                {
+                    _package.ZipPackage.DeletePart(Part.Uri);
+                    Part = null;
+                    ConnectionXml = null;
+                }
                 return;
             }
             if(Part==null)

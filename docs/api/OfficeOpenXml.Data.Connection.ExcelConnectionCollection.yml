@@ -1,0 +1,1141 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  commentId: T:OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  id: ExcelConnectionCollection
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddDatabase(System.String,System.String)
+  - OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddOlap(System.String,System.String,System.String)
+  - OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddPowerQuery(System.String,System.String,System.String)
+  - OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText(System.String,System.IO.FileInfo)
+  - OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText(System.String,System.String)
+  - OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddWeb(System.String,System.String)
+  - OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Count
+  - OfficeOpenXml.Data.Connection.ExcelConnectionCollection.GetEnumerator
+  - OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Item(System.Int32)
+  - OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Remove(OfficeOpenXml.Data.Connection.ExcelConnection)
+  - OfficeOpenXml.Data.Connection.ExcelConnectionCollection.RemoveAt(System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: ExcelConnectionCollection
+  nameWithType: ExcelConnectionCollection
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelConnectionCollection
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A collection of external connections in a workbook.
+  example: []
+  syntax:
+    content: 'public class ExcelConnectionCollection : IEnumerable<ExcelConnection>, IEnumerable'
+    content.vb: Public Class ExcelConnectionCollection Implements IEnumerable(Of ExcelConnection), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnection}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Count
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Count
+  id: Count
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelConnectionCollection.Count
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Number of items in the collection.
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Count*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelConnectionCollection.GetEnumerator()
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The enumerator for the collection.
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelConnection> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Data.Connection.ExcelConnection}
+      description: The enmerator
+    content.vb: Public Function GetEnumerator() As IEnumerator(Of ExcelConnection)
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnection}.GetEnumerator
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  langs:
+  - csharp
+  - vb
+  name: this[int]
+  nameWithType: ExcelConnectionCollection.this[int]
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.this[int]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Returns the connection at the supplied position.
+  example: []
+  syntax:
+    content: public ExcelConnection this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the connection to return.
+    return:
+      type: OfficeOpenXml.Data.Connection.ExcelConnection
+      description: The connection
+    content.vb: Public ReadOnly Default Property this[](index As Integer) As ExcelConnection
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Item*
+  nameWithType.vb: ExcelConnectionCollection.this[](Integer)
+  fullName.vb: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.this[](Integer)
+  name.vb: this[](Integer)
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddDatabase(System.String,System.String)
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddDatabase(System.String,System.String)
+  id: AddDatabase(System.String,System.String)
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  langs:
+  - csharp
+  - vb
+  name: AddDatabase(string, string)
+  nameWithType: ExcelConnectionCollection.AddDatabase(string, string)
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddDatabase(string, string)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDatabase
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: >-
+    Adds a connection of type database with the specified connection string. 
+
+    EPPlus will set the <xref href="System.Type" data-throw-if-not-resolved="false"></xref> of the connection to Odbc or OleDb, depending on the connection string. If you use another type, please set it manually.
+
+    If the connection string is a power querty connection string, please also see <xref href="OfficeOpenXml.ExcelWorkbook.PowerQuerySettings" data-throw-if-not-resolved="false"></xref>
+  example: []
+  syntax:
+    content: public ExcelConnection AddDatabase(string name, string connectionString)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the connection.
+    - id: connectionString
+      type: System.String
+      description: The connection string to the database.
+    return:
+      type: OfficeOpenXml.Data.Connection.ExcelConnection
+      description: The connection
+    content.vb: Public Function AddDatabase(name As String, connectionString As String) As ExcelConnection
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddDatabase*
+  nameWithType.vb: ExcelConnectionCollection.AddDatabase(String, String)
+  fullName.vb: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddDatabase(String, String)
+  name.vb: AddDatabase(String, String)
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddPowerQuery(System.String,System.String,System.String)
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddPowerQuery(System.String,System.String,System.String)
+  id: AddPowerQuery(System.String,System.String,System.String)
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  langs:
+  - csharp
+  - vb
+  name: AddPowerQuery(string, string, string)
+  nameWithType: ExcelConnectionCollection.AddPowerQuery(string, string, string)
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddPowerQuery(string, string, string)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPowerQuery
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+    startLine: 140
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: >-
+    Adds a power query connection with the specified connection string. 
+
+    EPPlus will set the <xref href="System.Type" data-throw-if-not-resolved="false"></xref> of the connection to OleDb.
+
+    A power query connection requires a connection string with the OleDb provide Microsoft.Mashup.OleDb.1 and a M-Formula containing the query.
+
+    The <xref href="OfficeOpenXml.ExcelWorkbook.PowerQuerySettings" data-throw-if-not-resolved="false"></xref> property will be created, if it does not exist.
+  example: []
+  syntax:
+    content: public ExcelConnection AddPowerQuery(string name, string connectionString, string mFormula)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the connection.
+    - id: connectionString
+      type: System.String
+      description: 'The connection string to the database. Power query connection string usually uses the Microsoft.Mashup.OleDb.1 OleDb provider. For example: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Table 1";Extended Properties=""'
+    - id: mFormula
+      type: System.String
+      description: The M formulas to use for the power query connection, without the Section1 declaration. This formula is appended to the Formulas property of the <xref href="OfficeOpenXml.ExcelWorkbook.PowerQuerySettings" data-throw-if-not-resolved="false"></xref> object.
+    return:
+      type: OfficeOpenXml.Data.Connection.ExcelConnection
+      description: The connection
+    content.vb: Public Function AddPowerQuery(name As String, connectionString As String, mFormula As String) As ExcelConnection
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddPowerQuery*
+  nameWithType.vb: ExcelConnectionCollection.AddPowerQuery(String, String, String)
+  fullName.vb: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddPowerQuery(String, String, String)
+  name.vb: AddPowerQuery(String, String, String)
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddOlap(System.String,System.String,System.String)
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddOlap(System.String,System.String,System.String)
+  id: AddOlap(System.String,System.String,System.String)
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  langs:
+  - csharp
+  - vb
+  name: AddOlap(string, string, string)
+  nameWithType: ExcelConnectionCollection.AddOlap(string, string, string)
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddOlap(string, string, string)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddOlap
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+    startLine: 187
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Adds a connection to a OLAP data source.
+  example: []
+  syntax:
+    content: public ExcelConnection AddOlap(string name, string connectionString, string command)
+    parameters:
+    - id: name
+      type: System.String
+      description: The uniqe name of the connection
+    - id: connectionString
+      type: System.String
+      description: The connection string
+    - id: command
+      type: System.String
+      description: The command, usually the name of the qube.
+    return:
+      type: OfficeOpenXml.Data.Connection.ExcelConnection
+      description: The connection
+    content.vb: Public Function AddOlap(name As String, connectionString As String, command As String) As ExcelConnection
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddOlap*
+  nameWithType.vb: ExcelConnectionCollection.AddOlap(String, String, String)
+  fullName.vb: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddOlap(String, String, String)
+  name.vb: AddOlap(String, String, String)
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddWeb(System.String,System.String)
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddWeb(System.String,System.String)
+  id: AddWeb(System.String,System.String)
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  langs:
+  - csharp
+  - vb
+  name: AddWeb(string, string)
+  nameWithType: ExcelConnectionCollection.AddWeb(string, string)
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddWeb(string, string)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddWeb
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+    startLine: 209
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Adds a connection to a web query data source.
+  example: []
+  syntax:
+    content: public ExcelConnection AddWeb(string name, string url)
+    parameters:
+    - id: name
+      type: System.String
+    - id: url
+      type: System.String
+    return:
+      type: OfficeOpenXml.Data.Connection.ExcelConnection
+      description: The connection
+    content.vb: Public Function AddWeb(name As String, url As String) As ExcelConnection
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddWeb*
+  nameWithType.vb: ExcelConnectionCollection.AddWeb(String, String)
+  fullName.vb: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddWeb(String, String)
+  name.vb: AddWeb(String, String)
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText(System.String,System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText(System.String,System.IO.FileInfo)
+  id: AddText(System.String,System.IO.FileInfo)
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  langs:
+  - csharp
+  - vb
+  name: AddText(string, FileInfo)
+  nameWithType: ExcelConnectionCollection.AddText(string, FileInfo)
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText(string, System.IO.FileInfo)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddText
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+    startLine: 228
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Adds a connection to a text file data source.
+  example: []
+  syntax:
+    content: public ExcelConnection AddText(string name, FileInfo sourceFile)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the connection
+    - id: sourceFile
+      type: System.IO.FileInfo
+      description: The path to the text file to use to import external data. Can be expressed in URI or system specific file path notation.
+    return:
+      type: OfficeOpenXml.Data.Connection.ExcelConnection
+      description: The connection
+    content.vb: Public Function AddText(name As String, sourceFile As FileInfo) As ExcelConnection
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText*
+  nameWithType.vb: ExcelConnectionCollection.AddText(String, FileInfo)
+  fullName.vb: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText(String, System.IO.FileInfo)
+  name.vb: AddText(String, FileInfo)
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText(System.String,System.String)
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText(System.String,System.String)
+  id: AddText(System.String,System.String)
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  langs:
+  - csharp
+  - vb
+  name: AddText(string, string)
+  nameWithType: ExcelConnectionCollection.AddText(string, string)
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText(string, string)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddText
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+    startLine: 238
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Adds a connection to a text file data source.
+  example: []
+  syntax:
+    content: public ExcelConnection AddText(string name, string sourceFile)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the connection
+    - id: sourceFile
+      type: System.String
+      description: The path to the text file to use to import external data. Can be expressed in URI or system specific file path notation.
+    return:
+      type: OfficeOpenXml.Data.Connection.ExcelConnection
+      description: The connection
+    content.vb: Public Function AddText(name As String, sourceFile As String) As ExcelConnection
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText*
+  nameWithType.vb: ExcelConnectionCollection.AddText(String, String)
+  fullName.vb: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText(String, String)
+  name.vb: AddText(String, String)
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.RemoveAt(System.Int32)
+  id: RemoveAt(System.Int32)
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(int)
+  nameWithType: ExcelConnectionCollection.RemoveAt(int)
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.RemoveAt(int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAt
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+    startLine: 290
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Removes the connection at the given position. Please note that any related Power Query formula is not removed for the <xref href="OfficeOpenXml.Data.Connection.ExcelPowerQuerySettings.Formulas" data-throw-if-not-resolved="false"></xref> by this method.
+  example: []
+  syntax:
+    content: public void RemoveAt(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The position of the connection to remove.
+    content.vb: Public Sub RemoveAt(index As Integer)
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.RemoveAt*
+  nameWithType.vb: ExcelConnectionCollection.RemoveAt(Integer)
+  fullName.vb: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.RemoveAt(Integer)
+  name.vb: RemoveAt(Integer)
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Remove(OfficeOpenXml.Data.Connection.ExcelConnection)
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Remove(OfficeOpenXml.Data.Connection.ExcelConnection)
+  id: Remove(OfficeOpenXml.Data.Connection.ExcelConnection)
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelConnection)
+  nameWithType: ExcelConnectionCollection.Remove(ExcelConnection)
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Remove(OfficeOpenXml.Data.Connection.ExcelConnection)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionCollection.cs
+    startLine: 299
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Removes the connection at the given position. Please note that any related Power Query formula is not removed from the <xref href="OfficeOpenXml.Data.Connection.ExcelPowerQuerySettings.Formulas" data-throw-if-not-resolved="false"></xref> by this method.
+  example: []
+  syntax:
+    content: public void Remove(ExcelConnection connection)
+    parameters:
+    - id: connection
+      type: OfficeOpenXml.Data.Connection.ExcelConnection
+      description: The connection to remove.
+    content.vb: Public Sub Remove(connection As ExcelConnection)
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Remove*
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnection}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnection}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<ExcelConnection>
+  nameWithType: IEnumerable<ExcelConnection>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Data.Connection.ExcelConnection>
+  nameWithType.vb: IEnumerable(Of ExcelConnection)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Data.Connection.ExcelConnection)
+  name.vb: IEnumerable(Of ExcelConnection)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: OfficeOpenXml.Data.Connection.ExcelConnection
+    name: ExcelConnection
+    href: OfficeOpenXml.Data.Connection.ExcelConnection.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: OfficeOpenXml.Data.Connection.ExcelConnection
+    name: ExcelConnection
+    href: OfficeOpenXml.Data.Connection.ExcelConnection.html
+  - name: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ienumerable
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Count*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Count
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.html#OfficeOpenXml_Data_Connection_ExcelConnectionCollection_Count
+  name: Count
+  nameWithType: ExcelConnectionCollection.Count
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.GetEnumerator
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.html#OfficeOpenXml_Data_Connection_ExcelConnectionCollection_GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelConnectionCollection.GetEnumerator
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnection}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnection}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnection}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelConnection>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Data.Connection.ExcelConnection>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelConnection).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Data.Connection.ExcelConnection).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnection}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnection}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Data.Connection.ExcelConnection}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Data.Connection.ExcelConnection}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<ExcelConnection>
+  nameWithType: IEnumerator<ExcelConnection>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Data.Connection.ExcelConnection>
+  nameWithType.vb: IEnumerator(Of ExcelConnection)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Data.Connection.ExcelConnection)
+  name.vb: IEnumerator(Of ExcelConnection)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - uid: OfficeOpenXml.Data.Connection.ExcelConnection
+    name: ExcelConnection
+    href: OfficeOpenXml.Data.Connection.ExcelConnection.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: OfficeOpenXml.Data.Connection.ExcelConnection
+    name: ExcelConnection
+    href: OfficeOpenXml.Data.Connection.ExcelConnection.html
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Item*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Item
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.html#OfficeOpenXml_Data_Connection_ExcelConnectionCollection_Item_System_Int32_
+  name: this
+  nameWithType: ExcelConnectionCollection.this
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.this
+  nameWithType.vb: ExcelConnectionCollection.this[]
+  fullName.vb: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.this[]
+  name.vb: this[]
+- uid: OfficeOpenXml.Data.Connection.ExcelConnection
+  commentId: T:OfficeOpenXml.Data.Connection.ExcelConnection
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.ExcelConnection.html
+  name: ExcelConnection
+  nameWithType: ExcelConnection
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnection
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: OfficeOpenXml.ExcelWorkbook.PowerQuerySettings
+  commentId: P:OfficeOpenXml.ExcelWorkbook.PowerQuerySettings
+  href: OfficeOpenXml.ExcelWorkbook.html#OfficeOpenXml_ExcelWorkbook_PowerQuerySettings
+  name: PowerQuerySettings
+  nameWithType: ExcelWorkbook.PowerQuerySettings
+  fullName: OfficeOpenXml.ExcelWorkbook.PowerQuerySettings
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddDatabase*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddDatabase
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.html#OfficeOpenXml_Data_Connection_ExcelConnectionCollection_AddDatabase_System_String_System_String_
+  name: AddDatabase
+  nameWithType: ExcelConnectionCollection.AddDatabase
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddDatabase
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddPowerQuery*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddPowerQuery
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.html#OfficeOpenXml_Data_Connection_ExcelConnectionCollection_AddPowerQuery_System_String_System_String_System_String_
+  name: AddPowerQuery
+  nameWithType: ExcelConnectionCollection.AddPowerQuery
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddPowerQuery
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddOlap*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddOlap
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.html#OfficeOpenXml_Data_Connection_ExcelConnectionCollection_AddOlap_System_String_System_String_System_String_
+  name: AddOlap
+  nameWithType: ExcelConnectionCollection.AddOlap
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddOlap
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddWeb*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddWeb
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.html#OfficeOpenXml_Data_Connection_ExcelConnectionCollection_AddWeb_System_String_System_String_
+  name: AddWeb
+  nameWithType: ExcelConnectionCollection.AddWeb
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddWeb
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.html#OfficeOpenXml_Data_Connection_ExcelConnectionCollection_AddText_System_String_System_IO_FileInfo_
+  name: AddText
+  nameWithType: ExcelConnectionCollection.AddText
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.AddText
+- uid: System.IO.FileInfo
+  commentId: T:System.IO.FileInfo
+  parent: System.IO
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.io.fileinfo
+  name: FileInfo
+  nameWithType: FileInfo
+  fullName: System.IO.FileInfo
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.IO
+    name: IO
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.io
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.IO
+    name: IO
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.io
+- uid: OfficeOpenXml.Data.Connection.ExcelPowerQuerySettings.Formulas
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelPowerQuerySettings.Formulas
+  href: OfficeOpenXml.Data.Connection.ExcelPowerQuerySettings.html#OfficeOpenXml_Data_Connection_ExcelPowerQuerySettings_Formulas
+  name: Formulas
+  nameWithType: ExcelPowerQuerySettings.Formulas
+  fullName: OfficeOpenXml.Data.Connection.ExcelPowerQuerySettings.Formulas
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.RemoveAt*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.RemoveAt
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.html#OfficeOpenXml_Data_Connection_ExcelConnectionCollection_RemoveAt_System_Int32_
+  name: RemoveAt
+  nameWithType: ExcelConnectionCollection.RemoveAt
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.RemoveAt
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Remove*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Remove
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.html#OfficeOpenXml_Data_Connection_ExcelConnectionCollection_Remove_OfficeOpenXml_Data_Connection_ExcelConnection_
+  name: Remove
+  nameWithType: ExcelConnectionCollection.Remove
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionCollection.Remove

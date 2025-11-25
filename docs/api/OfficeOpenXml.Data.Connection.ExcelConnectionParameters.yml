@@ -1,0 +1,815 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters
+  commentId: T:OfficeOpenXml.Data.Connection.ExcelConnectionParameters
+  id: ExcelConnectionParameters
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Add
+  - OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Count
+  - OfficeOpenXml.Data.Connection.ExcelConnectionParameters.GetEnumerator
+  - OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Item(System.Int32)
+  - OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Remove(OfficeOpenXml.Data.Connection.ExcelConnectionParameter)
+  - OfficeOpenXml.Data.Connection.ExcelConnectionParameters.RemoveAt(System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: ExcelConnectionParameters
+  nameWithType: ExcelConnectionParameters
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelConnectionParameters
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A collection of connection parameters.
+  example: []
+  syntax:
+    content: 'public class ExcelConnectionParameters : IEnumerable<ExcelConnectionParameter>, IEnumerable'
+    content.vb: Public Class ExcelConnectionParameters Implements IEnumerable(Of ExcelConnectionParameter), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnectionParameter}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionParameters
+  langs:
+  - csharp
+  - vb
+  name: this[int]
+  nameWithType: ExcelConnectionParameters.this[int]
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.this[int]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Indexer for the collection
+  example: []
+  syntax:
+    content: public ExcelConnectionParameter this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the parameter to get.
+    return:
+      type: OfficeOpenXml.Data.Connection.ExcelConnectionParameter
+      description: The parameter.
+    content.vb: Public ReadOnly Default Property this[](index As Integer) As ExcelConnectionParameter
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Item*
+  nameWithType.vb: ExcelConnectionParameters.this[](Integer)
+  fullName.vb: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.this[](Integer)
+  name.vb: this[](Integer)
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Count
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Count
+  id: Count
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionParameters
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelConnectionParameters.Count
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Number of items in the collection.
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Count*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.GetEnumerator
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionParameters.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionParameters
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelConnectionParameters.GetEnumerator()
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The enumerator
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelConnectionParameter> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Data.Connection.ExcelConnectionParameter}
+      description: ''
+    content.vb: Public Function GetEnumerator() As IEnumerator(Of ExcelConnectionParameter)
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnectionParameter}.GetEnumerator
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Add
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Add
+  id: Add
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionParameters
+  langs:
+  - csharp
+  - vb
+  name: Add()
+  nameWithType: ExcelConnectionParameters.Add()
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Add()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Adds a new blank parameter to the collection and returns it.
+  example: []
+  syntax:
+    content: public ExcelConnectionParameter Add()
+    return:
+      type: OfficeOpenXml.Data.Connection.ExcelConnectionParameter
+      description: ''
+    content.vb: Public Function Add() As ExcelConnectionParameter
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Add*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionParameters.RemoveAt(System.Int32)
+  id: RemoveAt(System.Int32)
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionParameters
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(int)
+  nameWithType: ExcelConnectionParameters.RemoveAt(int)
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.RemoveAt(int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAt
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Remove the parameter at the index supplied
+  example: []
+  syntax:
+    content: public void RemoveAt(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the parameter to remove.
+    content.vb: Public Sub RemoveAt(index As Integer)
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.RemoveAt*
+  nameWithType.vb: ExcelConnectionParameters.RemoveAt(Integer)
+  fullName.vb: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.RemoveAt(Integer)
+  name.vb: RemoveAt(Integer)
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Remove(OfficeOpenXml.Data.Connection.ExcelConnectionParameter)
+  commentId: M:OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Remove(OfficeOpenXml.Data.Connection.ExcelConnectionParameter)
+  id: Remove(OfficeOpenXml.Data.Connection.ExcelConnectionParameter)
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionParameters
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelConnectionParameter)
+  nameWithType: ExcelConnectionParameters.Remove(ExcelConnectionParameter)
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Remove(OfficeOpenXml.Data.Connection.ExcelConnectionParameter)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionParameters.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Removes the parameter from the collection.
+  example: []
+  syntax:
+    content: public void Remove(ExcelConnectionParameter parameter)
+    parameters:
+    - id: parameter
+      type: OfficeOpenXml.Data.Connection.ExcelConnectionParameter
+      description: ''
+    content.vb: Public Sub Remove(parameter As ExcelConnectionParameter)
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Remove*
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnectionParameter}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnectionParameter}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<ExcelConnectionParameter>
+  nameWithType: IEnumerable<ExcelConnectionParameter>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Data.Connection.ExcelConnectionParameter>
+  nameWithType.vb: IEnumerable(Of ExcelConnectionParameter)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Data.Connection.ExcelConnectionParameter)
+  name.vb: IEnumerable(Of ExcelConnectionParameter)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameter
+    name: ExcelConnectionParameter
+    href: OfficeOpenXml.Data.Connection.ExcelConnectionParameter.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameter
+    name: ExcelConnectionParameter
+    href: OfficeOpenXml.Data.Connection.ExcelConnectionParameter.html
+  - name: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ienumerable
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Item*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Item
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.html#OfficeOpenXml_Data_Connection_ExcelConnectionParameters_Item_System_Int32_
+  name: this
+  nameWithType: ExcelConnectionParameters.this
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.this
+  nameWithType.vb: ExcelConnectionParameters.this[]
+  fullName.vb: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.this[]
+  name.vb: this[]
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameter
+  commentId: T:OfficeOpenXml.Data.Connection.ExcelConnectionParameter
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionParameter.html
+  name: ExcelConnectionParameter
+  nameWithType: ExcelConnectionParameter
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameter
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Count*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Count
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.html#OfficeOpenXml_Data_Connection_ExcelConnectionParameters_Count
+  name: Count
+  nameWithType: ExcelConnectionParameters.Count
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Count
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionParameters.GetEnumerator
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.html#OfficeOpenXml_Data_Connection_ExcelConnectionParameters_GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelConnectionParameters.GetEnumerator
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnectionParameter}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnectionParameter}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnectionParameter}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelConnectionParameter>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Data.Connection.ExcelConnectionParameter>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelConnectionParameter).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Data.Connection.ExcelConnectionParameter).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnectionParameter}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.Connection.ExcelConnectionParameter}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Data.Connection.ExcelConnectionParameter}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Data.Connection.ExcelConnectionParameter}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<ExcelConnectionParameter>
+  nameWithType: IEnumerator<ExcelConnectionParameter>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Data.Connection.ExcelConnectionParameter>
+  nameWithType.vb: IEnumerator(Of ExcelConnectionParameter)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Data.Connection.ExcelConnectionParameter)
+  name.vb: IEnumerator(Of ExcelConnectionParameter)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameter
+    name: ExcelConnectionParameter
+    href: OfficeOpenXml.Data.Connection.ExcelConnectionParameter.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameter
+    name: ExcelConnectionParameter
+    href: OfficeOpenXml.Data.Connection.ExcelConnectionParameter.html
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Add*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Add
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.html#OfficeOpenXml_Data_Connection_ExcelConnectionParameters_Add
+  name: Add
+  nameWithType: ExcelConnectionParameters.Add
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Add
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.RemoveAt*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionParameters.RemoveAt
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.html#OfficeOpenXml_Data_Connection_ExcelConnectionParameters_RemoveAt_System_Int32_
+  name: RemoveAt
+  nameWithType: ExcelConnectionParameters.RemoveAt
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.RemoveAt
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Remove*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Remove
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.html#OfficeOpenXml_Data_Connection_ExcelConnectionParameters_Remove_OfficeOpenXml_Data_Connection_ExcelConnectionParameter_
+  name: Remove
+  nameWithType: ExcelConnectionParameters.Remove
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionParameters.Remove
