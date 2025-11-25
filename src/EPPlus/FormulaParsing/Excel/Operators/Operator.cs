@@ -246,7 +246,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     var left = l.ResultNumeric;
                     var right = r.ResultNumeric;
-                    if (Math.Abs(right - 0d) < double.Epsilon)
+                    if (r.DataType != DataType.ExcelRange && Math.Abs(right - 0d) < double.Epsilon)
                     {
                         var eVal = ExcelErrorValue.Create(eErrorType.Div0);
                         return CreateCompileResult(l.ResultType, r.ResultType, eVal, DataType.ExcelError);
