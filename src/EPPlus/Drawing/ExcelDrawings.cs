@@ -1401,10 +1401,6 @@ namespace OfficeOpenXml.Drawing
         }
         internal ExcelShape AddShape(string Name, eShapeStyle Style, object container = null)
         {
-            if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
-            {
-                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
-            }
             if (_drawingNames.ContainsKey(Name))
             {
                 throw new Exception("Name already exists in the drawings collection");
@@ -1524,10 +1520,6 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The shape object</returns>
         public ExcelShape AddShape(string Name, ExcelShape Source)
         {
-            if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
-            {
-                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
-            }
             if (_drawingNames.ContainsKey(Name))
             {
                 throw new Exception("Name already exists in the drawings collection");
