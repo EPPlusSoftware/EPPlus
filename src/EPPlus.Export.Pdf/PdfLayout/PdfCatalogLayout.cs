@@ -49,6 +49,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             ConvertToPDFCoordiantes(pageSettings, PagesLayout);
             AdjustAndSort(PagesLayout);
             RemoveChild(WorksheetLayout);
+            AddHeaderFooter(worksheet, PagesLayout);
             string FinalPagesLayout = ToHierarchyString();
         }
 
@@ -236,6 +237,29 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         return string.Compare(b.Name, a.Name, StringComparison.OrdinalIgnoreCase);
                     return cmp;
                 });
+            }
+        }
+
+        private void AddHeaderFooter(ExcelWorksheet ws, PdfPagesLayout pages)
+        {
+            //check if we have header or footer for early exit
+
+            int pageNumber = 1;
+            //loop pages and check which header it should use
+            for (int i = 0; i < pages.ChildObjects.Count; i++)
+            {
+                if (pageNumber == 1)
+                {
+                    //check first header/footer if null use odd or even
+                }
+                else if (pageNumber % 2 == 0)
+                {
+                    //check even header if null use odd
+                }
+                else if (pageNumber % 2 == 1)
+                {
+                    //check odd header if null use even
+                }
             }
         }
     }

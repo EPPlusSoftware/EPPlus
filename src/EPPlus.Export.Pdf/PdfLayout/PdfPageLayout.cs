@@ -20,6 +20,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal List<GridLine> GridLines = new List<GridLine>();
         internal List<GridLine> BorderLines = new List<GridLine>();
 
+        internal PdfHeaderFooterLayout TL;
+        internal PdfHeaderFooterLayout TC;
+        internal PdfHeaderFooterLayout TR;
+        internal PdfHeaderFooterLayout BL;
+        internal PdfHeaderFooterLayout BC;
+        internal PdfHeaderFooterLayout BR;
+
         public PdfPageLayout(double x, double y, double width, double height)
             :base(x, y, width, height) { }
 
