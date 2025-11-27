@@ -1344,7 +1344,7 @@ namespace EPPlusTest.Issues
             Assert.AreEqual("Error", ws.Cells["D18"].Value);
             Assert.AreEqual("Warning", ws.Cells["D26"].Value);
             Assert.AreEqual("Error", ws.Cells["D40"].Value);
-            Assert.AreEqual("One or more errors occurred during the valuation run\r\n", ws.Cells["E40"].Value);
+            Assert.AreEqual("One or more errors occurred during the valuation run", ws.Cells["E40"].Value);
             Assert.IsNull(ws.Cells["D41"].Value);
         }
     }

@@ -1,0 +1,1015 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  commentId: T:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  id: ExcelQueryTableCollection
+  parent: OfficeOpenXml.Data.QueryTable
+  children:
+  - OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Add(OfficeOpenXml.ExcelAddressBase,System.String,OfficeOpenXml.Data.Connection.ExcelConnection)
+  - OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Count
+  - OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.GetEnumerator
+  - OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Item(System.Int32)
+  - OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Item(System.String)
+  - OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Remove(OfficeOpenXml.Data.QueryTable.ExcelQueryTable)
+  - OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.RemoveAt(System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: ExcelQueryTableCollection
+  nameWithType: ExcelQueryTableCollection
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelQueryTableCollection
+    path: ../src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.QueryTable
+  summary: >-
+    A collection of legacy query tables in a worksheet.
+
+    Also see <xref href="OfficeOpenXml.Table.ExcelTableCollection.AddQueryTable(OfficeOpenXml.ExcelAddressBase%2cSystem.String%2cOfficeOpenXml.Data.Connection.ExcelConnection%2cSystem.String%5b%5d)" data-throw-if-not-resolved="false"></xref>
+  example: []
+  syntax:
+    content: 'public class ExcelQueryTableCollection : IEnumerable<ExcelQueryTable>, IEnumerable'
+    content.vb: Public Class ExcelQueryTableCollection Implements IEnumerable(Of ExcelQueryTable), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.QueryTable.ExcelQueryTable}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  langs:
+  - csharp
+  - vb
+  name: this[int]
+  nameWithType: ExcelQueryTableCollection.this[int]
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.this[int]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.QueryTable
+  summary: The query table index.
+  example: []
+  syntax:
+    content: public ExcelQueryTable this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index in the collection.
+    return:
+      type: OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+      description: The query table
+    content.vb: Public ReadOnly Default Property this[](index As Integer) As ExcelQueryTable
+  overload: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Item*
+  nameWithType.vb: ExcelQueryTableCollection.this[](Integer)
+  fullName.vb: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.this[](Integer)
+  name.vb: this[](Integer)
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Item(System.String)
+  commentId: P:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Item(System.String)
+  id: Item(System.String)
+  parent: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  langs:
+  - csharp
+  - vb
+  name: this[string]
+  nameWithType: ExcelQueryTableCollection.this[string]
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.this[string]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.QueryTable
+  summary: Indexer
+  example: []
+  syntax:
+    content: public ExcelQueryTable this[string name] { get; }
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the table
+    return:
+      type: OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+      description: The table. Null if the table name is not found in the collection
+    content.vb: Public ReadOnly Default Property this[](name As String) As ExcelQueryTable
+  overload: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Item*
+  nameWithType.vb: ExcelQueryTableCollection.this[](String)
+  fullName.vb: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.this[](String)
+  name.vb: this[](String)
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Add(OfficeOpenXml.ExcelAddressBase,System.String,OfficeOpenXml.Data.Connection.ExcelConnection)
+  commentId: M:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Add(OfficeOpenXml.ExcelAddressBase,System.String,OfficeOpenXml.Data.Connection.ExcelConnection)
+  id: Add(OfficeOpenXml.ExcelAddressBase,System.String,OfficeOpenXml.Data.Connection.ExcelConnection)
+  parent: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelAddressBase, string, ExcelConnection)
+  nameWithType: ExcelQueryTableCollection.Add(ExcelAddressBase, string, ExcelConnection)
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Add(OfficeOpenXml.ExcelAddressBase, string, OfficeOpenXml.Data.Connection.ExcelConnection)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.QueryTable
+  summary: >-
+    Adds a new query table to the collection. Worksheet level query tables are legacy objects and can only be used for older types of connection. 
+
+    For newer types of connections like PowerQuery, use <xref href="OfficeOpenXml.Table.ExcelTableCollection.AddQueryTable(OfficeOpenXml.ExcelAddressBase%2cSystem.String%2cOfficeOpenXml.Data.Connection.ExcelConnection%2cSystem.String%5b%5d)" data-throw-if-not-resolved="false"></xref> instead.
+  example: []
+  syntax:
+    content: public ExcelQueryTable Add(ExcelAddressBase address, string name, ExcelConnection connection)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddressBase
+      description: The address
+    - id: name
+      type: System.String
+      description: The name of the query table.
+    - id: connection
+      type: OfficeOpenXml.Data.Connection.ExcelConnection
+      description: The connection
+    return:
+      type: OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+      description: ''
+    content.vb: Public Function Add(address As ExcelAddressBase, name As String, connection As ExcelConnection) As ExcelQueryTable
+  overload: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Add*
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: ''
+  nameWithType.vb: ExcelQueryTableCollection.Add(ExcelAddressBase, String, ExcelConnection)
+  fullName.vb: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Add(OfficeOpenXml.ExcelAddressBase, String, OfficeOpenXml.Data.Connection.ExcelConnection)
+  name.vb: Add(ExcelAddressBase, String, ExcelConnection)
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Count
+  commentId: P:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Count
+  id: Count
+  parent: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelQueryTableCollection.Count
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+    startLine: 107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.QueryTable
+  summary: The number of query tables in the collection
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Count*
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelQueryTableCollection.GetEnumerator()
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.QueryTable
+  summary: The enumerator for the collection
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelQueryTable> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Data.QueryTable.ExcelQueryTable}
+      description: ''
+    content.vb: Public Function GetEnumerator() As IEnumerator(Of ExcelQueryTable)
+  overload: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.QueryTable.ExcelQueryTable}.GetEnumerator
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Remove(OfficeOpenXml.Data.QueryTable.ExcelQueryTable)
+  commentId: M:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Remove(OfficeOpenXml.Data.QueryTable.ExcelQueryTable)
+  id: Remove(OfficeOpenXml.Data.QueryTable.ExcelQueryTable)
+  parent: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelQueryTable)
+  nameWithType: ExcelQueryTableCollection.Remove(ExcelQueryTable)
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Remove(OfficeOpenXml.Data.QueryTable.ExcelQueryTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.QueryTable
+  summary: Removes the query table from the collection.
+  example: []
+  syntax:
+    content: public void Remove(ExcelQueryTable queryTable)
+    parameters:
+    - id: queryTable
+      type: OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+      description: ''
+    content.vb: Public Sub Remove(queryTable As ExcelQueryTable)
+  overload: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Remove*
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.RemoveAt(System.Int32)
+  id: RemoveAt(System.Int32)
+  parent: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(int)
+  nameWithType: ExcelQueryTableCollection.RemoveAt(int)
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.RemoveAt(int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAt
+    path: ../src/EPPlus/Data/QueryTable/ExcelQueryTableCollection.cs
+    startLine: 153
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.QueryTable
+  summary: Removes the query table at the given index from the collection.
+  example: []
+  syntax:
+    content: public void RemoveAt(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    content.vb: Public Sub RemoveAt(index As Integer)
+  overload: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.RemoveAt*
+  nameWithType.vb: ExcelQueryTableCollection.RemoveAt(Integer)
+  fullName.vb: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.RemoveAt(Integer)
+  name.vb: RemoveAt(Integer)
+references:
+- uid: OfficeOpenXml.Table.ExcelTableCollection.AddQueryTable(OfficeOpenXml.ExcelAddressBase,System.String,OfficeOpenXml.Data.Connection.ExcelConnection,System.String[])
+  commentId: M:OfficeOpenXml.Table.ExcelTableCollection.AddQueryTable(OfficeOpenXml.ExcelAddressBase,System.String,OfficeOpenXml.Data.Connection.ExcelConnection,System.String[])
+  isExternal: true
+  href: OfficeOpenXml.Table.ExcelTableCollection.html#OfficeOpenXml_Table_ExcelTableCollection_AddQueryTable_OfficeOpenXml_ExcelAddressBase_System_String_OfficeOpenXml_Data_Connection_ExcelConnection_System_String___
+  name: AddQueryTable(ExcelAddressBase, string, ExcelConnection, params string[])
+  nameWithType: ExcelTableCollection.AddQueryTable(ExcelAddressBase, string, ExcelConnection, params string[])
+  fullName: OfficeOpenXml.Table.ExcelTableCollection.AddQueryTable(OfficeOpenXml.ExcelAddressBase, string, OfficeOpenXml.Data.Connection.ExcelConnection, params string[])
+  nameWithType.vb: ExcelTableCollection.AddQueryTable(ExcelAddressBase, String, ExcelConnection, ParamArray String())
+  fullName.vb: OfficeOpenXml.Table.ExcelTableCollection.AddQueryTable(OfficeOpenXml.ExcelAddressBase, String, OfficeOpenXml.Data.Connection.ExcelConnection, ParamArray String())
+  name.vb: AddQueryTable(ExcelAddressBase, String, ExcelConnection, ParamArray String())
+  spec.csharp:
+  - uid: OfficeOpenXml.Table.ExcelTableCollection.AddQueryTable(OfficeOpenXml.ExcelAddressBase,System.String,OfficeOpenXml.Data.Connection.ExcelConnection,System.String[])
+    name: AddQueryTable
+    href: OfficeOpenXml.Table.ExcelTableCollection.html#OfficeOpenXml_Table_ExcelTableCollection_AddQueryTable_OfficeOpenXml_ExcelAddressBase_System_String_OfficeOpenXml_Data_Connection_ExcelConnection_System_String___
+  - name: (
+  - uid: OfficeOpenXml.ExcelAddressBase
+    name: ExcelAddressBase
+    href: OfficeOpenXml.ExcelAddressBase.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: OfficeOpenXml.Data.Connection.ExcelConnection
+    name: ExcelConnection
+    href: OfficeOpenXml.Data.Connection.ExcelConnection.html
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: OfficeOpenXml.Table.ExcelTableCollection.AddQueryTable(OfficeOpenXml.ExcelAddressBase,System.String,OfficeOpenXml.Data.Connection.ExcelConnection,System.String[])
+    name: AddQueryTable
+    href: OfficeOpenXml.Table.ExcelTableCollection.html#OfficeOpenXml_Table_ExcelTableCollection_AddQueryTable_OfficeOpenXml_ExcelAddressBase_System_String_OfficeOpenXml_Data_Connection_ExcelConnection_System_String___
+  - name: (
+  - uid: OfficeOpenXml.ExcelAddressBase
+    name: ExcelAddressBase
+    href: OfficeOpenXml.ExcelAddressBase.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: OfficeOpenXml.Data.Connection.ExcelConnection
+    name: ExcelConnection
+    href: OfficeOpenXml.Data.Connection.ExcelConnection.html
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+  - name: )
+- uid: OfficeOpenXml.Data.QueryTable
+  commentId: N:OfficeOpenXml.Data.QueryTable
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.QueryTable
+  nameWithType: OfficeOpenXml.Data.QueryTable
+  fullName: OfficeOpenXml.Data.QueryTable
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.QueryTable
+    name: QueryTable
+    href: OfficeOpenXml.Data.QueryTable.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.QueryTable
+    name: QueryTable
+    href: OfficeOpenXml.Data.QueryTable.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.QueryTable.ExcelQueryTable}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.QueryTable.ExcelQueryTable}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<ExcelQueryTable>
+  nameWithType: IEnumerable<ExcelQueryTable>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Data.QueryTable.ExcelQueryTable>
+  nameWithType.vb: IEnumerable(Of ExcelQueryTable)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Data.QueryTable.ExcelQueryTable)
+  name.vb: IEnumerable(Of ExcelQueryTable)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+    name: ExcelQueryTable
+    href: OfficeOpenXml.Data.QueryTable.ExcelQueryTable.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+    name: ExcelQueryTable
+    href: OfficeOpenXml.Data.QueryTable.ExcelQueryTable.html
+  - name: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ienumerable
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Item*
+  commentId: Overload:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Item
+  href: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.html#OfficeOpenXml_Data_QueryTable_ExcelQueryTableCollection_Item_System_Int32_
+  name: this
+  nameWithType: ExcelQueryTableCollection.this
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.this
+  nameWithType.vb: ExcelQueryTableCollection.this[]
+  fullName.vb: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.this[]
+  name.vb: this[]
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+  commentId: T:OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+  parent: OfficeOpenXml.Data.QueryTable
+  href: OfficeOpenXml.Data.QueryTable.ExcelQueryTable.html
+  name: ExcelQueryTable
+  nameWithType: ExcelQueryTable
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.ArgumentException
+  commentId: T:System.ArgumentException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentexception
+  name: ArgumentException
+  nameWithType: ArgumentException
+  fullName: System.ArgumentException
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Add*
+  commentId: Overload:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Add
+  href: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.html#OfficeOpenXml_Data_QueryTable_ExcelQueryTableCollection_Add_OfficeOpenXml_ExcelAddressBase_System_String_OfficeOpenXml_Data_Connection_ExcelConnection_
+  name: Add
+  nameWithType: ExcelQueryTableCollection.Add
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Add
+- uid: OfficeOpenXml.ExcelAddressBase
+  commentId: T:OfficeOpenXml.ExcelAddressBase
+  parent: OfficeOpenXml
+  href: OfficeOpenXml.ExcelAddressBase.html
+  name: ExcelAddressBase
+  nameWithType: ExcelAddressBase
+  fullName: OfficeOpenXml.ExcelAddressBase
+- uid: OfficeOpenXml.Data.Connection.ExcelConnection
+  commentId: T:OfficeOpenXml.Data.Connection.ExcelConnection
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.ExcelConnection.html
+  name: ExcelConnection
+  nameWithType: ExcelConnection
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnection
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Count*
+  commentId: Overload:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Count
+  href: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.html#OfficeOpenXml_Data_QueryTable_ExcelQueryTableCollection_Count
+  name: Count
+  nameWithType: ExcelQueryTableCollection.Count
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Count
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.GetEnumerator
+  href: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.html#OfficeOpenXml_Data_QueryTable_ExcelQueryTableCollection_GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelQueryTableCollection.GetEnumerator
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.QueryTable.ExcelQueryTable}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.QueryTable.ExcelQueryTable}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.QueryTable.ExcelQueryTable}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelQueryTable>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Data.QueryTable.ExcelQueryTable>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelQueryTable).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Data.QueryTable.ExcelQueryTable).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.QueryTable.ExcelQueryTable}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.QueryTable.ExcelQueryTable}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Data.QueryTable.ExcelQueryTable}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Data.QueryTable.ExcelQueryTable}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<ExcelQueryTable>
+  nameWithType: IEnumerator<ExcelQueryTable>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Data.QueryTable.ExcelQueryTable>
+  nameWithType.vb: IEnumerator(Of ExcelQueryTable)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Data.QueryTable.ExcelQueryTable)
+  name.vb: IEnumerator(Of ExcelQueryTable)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+    name: ExcelQueryTable
+    href: OfficeOpenXml.Data.QueryTable.ExcelQueryTable.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+    name: ExcelQueryTable
+    href: OfficeOpenXml.Data.QueryTable.ExcelQueryTable.html
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Remove*
+  commentId: Overload:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Remove
+  href: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.html#OfficeOpenXml_Data_QueryTable_ExcelQueryTableCollection_Remove_OfficeOpenXml_Data_QueryTable_ExcelQueryTable_
+  name: Remove
+  nameWithType: ExcelQueryTableCollection.Remove
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.Remove
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.RemoveAt*
+  commentId: Overload:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.RemoveAt
+  href: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.html#OfficeOpenXml_Data_QueryTable_ExcelQueryTableCollection_RemoveAt_System_Int32_
+  name: RemoveAt
+  nameWithType: ExcelQueryTableCollection.RemoveAt
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.RemoveAt

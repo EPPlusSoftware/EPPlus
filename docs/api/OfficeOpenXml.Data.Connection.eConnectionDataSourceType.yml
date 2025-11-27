@@ -1,0 +1,418 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  commentId: T:OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  id: eConnectionDataSourceType
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.eConnectionDataSourceType.ADO
+  - OfficeOpenXml.Data.Connection.eConnectionDataSourceType.ApplicationDefined
+  - OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DAO
+  - OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DSP
+  - OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelDataFeed
+  - OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelOLEDB
+  - OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelText
+  - OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelWorksheetData
+  - OfficeOpenXml.Data.Connection.eConnectionDataSourceType.ODBC
+  - OfficeOpenXml.Data.Connection.eConnectionDataSourceType.OLEDB
+  - OfficeOpenXml.Data.Connection.eConnectionDataSourceType.Text
+  - OfficeOpenXml.Data.Connection.eConnectionDataSourceType.WebQuery
+  langs:
+  - csharp
+  - vb
+  name: eConnectionDataSourceType
+  nameWithType: eConnectionDataSourceType
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eConnectionDataSourceType
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The type of data source for a connection.
+  example: []
+  syntax:
+    content: public enum eConnectionDataSourceType
+    content.vb: Public Enum eConnectionDataSourceType
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.ODBC
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.ODBC
+  id: ODBC
+  parent: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: ODBC
+  nameWithType: eConnectionDataSourceType.ODBC
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.ODBC
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ODBC
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: An ODBC data source.
+  example: []
+  syntax:
+    content: ODBC = 1
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DAO
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DAO
+  id: DAO
+  parent: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: DAO
+  nameWithType: eConnectionDataSourceType.DAO
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DAO
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DAO
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A DAO data source.
+  example: []
+  syntax:
+    content: DAO = 2
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.ApplicationDefined
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.ApplicationDefined
+  id: ApplicationDefined
+  parent: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: ApplicationDefined
+  nameWithType: eConnectionDataSourceType.ApplicationDefined
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.ApplicationDefined
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ApplicationDefined
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: An application-defined data source.
+  example: []
+  syntax:
+    content: ApplicationDefined = 3
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.WebQuery
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.WebQuery
+  id: WebQuery
+  parent: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: WebQuery
+  nameWithType: eConnectionDataSourceType.WebQuery
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.WebQuery
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WebQuery
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A web query data source.
+  example: []
+  syntax:
+    content: WebQuery = 4
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.OLEDB
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.OLEDB
+  id: OLEDB
+  parent: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: OLEDB
+  nameWithType: eConnectionDataSourceType.OLEDB
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.OLEDB
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OLEDB
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: An OLEDB data source.
+  example: []
+  syntax:
+    content: OLEDB = 5
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.Text
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.Text
+  id: Text
+  parent: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: Text
+  nameWithType: eConnectionDataSourceType.Text
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.Text
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A text file data source.
+  example: []
+  syntax:
+    content: Text = 6
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.ADO
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.ADO
+  id: ADO
+  parent: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: ADO
+  nameWithType: eConnectionDataSourceType.ADO
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.ADO
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ADO
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: An ADO data source.
+  example: []
+  syntax:
+    content: ADO = 7
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DSP
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DSP
+  id: DSP
+  parent: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: DSP
+  nameWithType: eConnectionDataSourceType.DSP
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DSP
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DSP
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Document Source Provider
+  example: []
+  syntax:
+    content: DSP = 8
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelOLEDB
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelOLEDB
+  id: DataModelOLEDB
+  parent: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: DataModelOLEDB
+  nameWithType: eConnectionDataSourceType.DataModelOLEDB
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelOLEDB
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataModelOLEDB
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: An OLEDB data source used in a Data Model.
+  example: []
+  syntax:
+    content: DataModelOLEDB = 100
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelDataFeed
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelDataFeed
+  id: DataModelDataFeed
+  parent: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: DataModelDataFeed
+  nameWithType: eConnectionDataSourceType.DataModelDataFeed
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelDataFeed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataModelDataFeed
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: >-
+    .
+        An Data feed data source used in a Data Model.
+  example: []
+  syntax:
+    content: DataModelDataFeed = 101
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelWorksheetData
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelWorksheetData
+  id: DataModelWorksheetData
+  parent: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: DataModelWorksheetData
+  nameWithType: eConnectionDataSourceType.DataModelWorksheetData
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelWorksheetData
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataModelWorksheetData
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A worksheet range or table data source used in a Data Model.
+  example: []
+  syntax:
+    content: DataModelWorksheetData = 102
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelText
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelText
+  id: DataModelText
+  parent: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  langs:
+  - csharp
+  - vb
+  name: DataModelText
+  nameWithType: eConnectionDataSourceType.DataModelText
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataModelText
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionDataSourceType.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A text file data source used in a Data Model.
+  example: []
+  syntax:
+    content: DataModelText = 103
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  commentId: T:OfficeOpenXml.Data.Connection.eConnectionDataSourceType
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.html
+  name: eConnectionDataSourceType
+  nameWithType: eConnectionDataSourceType
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType

@@ -1,0 +1,202 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelRangeCopyOnly
+  commentId: T:OfficeOpenXml.ExcelRangeCopyOnly
+  id: ExcelRangeCopyOnly
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelRangeCopyOnly.Comments
+  - OfficeOpenXml.ExcelRangeCopyOnly.Formats
+  - OfficeOpenXml.ExcelRangeCopyOnly.Formulas
+  - OfficeOpenXml.ExcelRangeCopyOnly.Validations
+  - OfficeOpenXml.ExcelRangeCopyOnly.Values
+  langs:
+  - csharp
+  - vb
+  name: ExcelRangeCopyOnly
+  nameWithType: ExcelRangeCopyOnly
+  fullName: OfficeOpenXml.ExcelRangeCopyOnly
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelRangeCopyOnly
+    path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
+    startLine: 145
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: >-
+    <p>Flags to only copy certain parts of a range.</p>
+
+    This provides the options of Excel's "Paste Special"
+  example: []
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum ExcelRangeCopyOnly
+    content.vb: >-
+      <Flags>
+
+      Public Enum ExcelRangeCopyOnly
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+- uid: OfficeOpenXml.ExcelRangeCopyOnly.Formulas
+  commentId: F:OfficeOpenXml.ExcelRangeCopyOnly.Formulas
+  id: Formulas
+  parent: OfficeOpenXml.ExcelRangeCopyOnly
+  langs:
+  - csharp
+  - vb
+  name: Formulas
+  nameWithType: ExcelRangeCopyOnly.Formulas
+  fullName: OfficeOpenXml.ExcelRangeCopyOnly.Formulas
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formulas
+    path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
+    startLine: 155
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Paste only formulas.
+  example: []
+  syntax:
+    content: Formulas = 104956
+    return:
+      type: OfficeOpenXml.ExcelRangeCopyOnly
+- uid: OfficeOpenXml.ExcelRangeCopyOnly.Values
+  commentId: F:OfficeOpenXml.ExcelRangeCopyOnly.Values
+  id: Values
+  parent: OfficeOpenXml.ExcelRangeCopyOnly
+  langs:
+  - csharp
+  - vb
+  name: Values
+  nameWithType: ExcelRangeCopyOnly.Values
+  fullName: OfficeOpenXml.ExcelRangeCopyOnly.Values
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Values
+    path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
+    startLine: 159
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Paste only values
+  example: []
+  syntax:
+    content: Values = 104957
+    return:
+      type: OfficeOpenXml.ExcelRangeCopyOnly
+- uid: OfficeOpenXml.ExcelRangeCopyOnly.Formats
+  commentId: F:OfficeOpenXml.ExcelRangeCopyOnly.Formats
+  id: Formats
+  parent: OfficeOpenXml.ExcelRangeCopyOnly
+  langs:
+  - csharp
+  - vb
+  name: Formats
+  nameWithType: ExcelRangeCopyOnly.Formats
+  fullName: OfficeOpenXml.ExcelRangeCopyOnly.Formats
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formats
+    path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
+    startLine: 163
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Paste only formatting
+  example: []
+  syntax:
+    content: Formats = 104699
+    return:
+      type: OfficeOpenXml.ExcelRangeCopyOnly
+- uid: OfficeOpenXml.ExcelRangeCopyOnly.Comments
+  commentId: F:OfficeOpenXml.ExcelRangeCopyOnly.Comments
+  id: Comments
+  parent: OfficeOpenXml.ExcelRangeCopyOnly
+  langs:
+  - csharp
+  - vb
+  name: Comments
+  nameWithType: ExcelRangeCopyOnly.Comments
+  fullName: OfficeOpenXml.ExcelRangeCopyOnly.Comments
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Comments
+    path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
+    startLine: 167
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Paste only Comments and Threaded Comments
+  example: []
+  syntax:
+    content: Comments = 104935
+    return:
+      type: OfficeOpenXml.ExcelRangeCopyOnly
+- uid: OfficeOpenXml.ExcelRangeCopyOnly.Validations
+  commentId: F:OfficeOpenXml.ExcelRangeCopyOnly.Validations
+  id: Validations
+  parent: OfficeOpenXml.ExcelRangeCopyOnly
+  langs:
+  - csharp
+  - vb
+  name: Validations
+  nameWithType: ExcelRangeCopyOnly.Validations
+  fullName: OfficeOpenXml.ExcelRangeCopyOnly.Validations
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Validations
+    path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
+    startLine: 171
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Paste only validation
+  example: []
+  syntax:
+    content: Validations = 104831
+    return:
+      type: OfficeOpenXml.ExcelRangeCopyOnly
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ExcelRangeCopyOnly
+  commentId: T:OfficeOpenXml.ExcelRangeCopyOnly
+  parent: OfficeOpenXml
+  href: OfficeOpenXml.ExcelRangeCopyOnly.html
+  name: ExcelRangeCopyOnly
+  nameWithType: ExcelRangeCopyOnly
+  fullName: OfficeOpenXml.ExcelRangeCopyOnly

@@ -1,0 +1,155 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.eConnectionParameterType
+  commentId: T:OfficeOpenXml.Data.Connection.eConnectionParameterType
+  id: eConnectionParameterType
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.eConnectionParameterType.Cell
+  - OfficeOpenXml.Data.Connection.eConnectionParameterType.Prompt
+  - OfficeOpenXml.Data.Connection.eConnectionParameterType.Value
+  langs:
+  - csharp
+  - vb
+  name: eConnectionParameterType
+  nameWithType: eConnectionParameterType
+  fullName: OfficeOpenXml.Data.Connection.eConnectionParameterType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionParameterType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eConnectionParameterType
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionParameterType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Connection parameter types.
+  example: []
+  syntax:
+    content: public enum eConnectionParameterType
+    content.vb: Public Enum eConnectionParameterType
+- uid: OfficeOpenXml.Data.Connection.eConnectionParameterType.Prompt
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionParameterType.Prompt
+  id: Prompt
+  parent: OfficeOpenXml.Data.Connection.eConnectionParameterType
+  langs:
+  - csharp
+  - vb
+  name: Prompt
+  nameWithType: eConnectionParameterType.Prompt
+  fullName: OfficeOpenXml.Data.Connection.eConnectionParameterType.Prompt
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionParameterType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Prompt
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionParameterType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Prompt the user on each refresh for a parameter value
+  example: []
+  syntax:
+    content: Prompt = 0
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionParameterType
+- uid: OfficeOpenXml.Data.Connection.eConnectionParameterType.Value
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionParameterType.Value
+  id: Value
+  parent: OfficeOpenXml.Data.Connection.eConnectionParameterType
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: eConnectionParameterType.Value
+  fullName: OfficeOpenXml.Data.Connection.eConnectionParameterType.Value
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionParameterType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionParameterType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Use a constant value on each refresh for the parameter value.
+  example: []
+  syntax:
+    content: Value = 1
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionParameterType
+- uid: OfficeOpenXml.Data.Connection.eConnectionParameterType.Cell
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionParameterType.Cell
+  id: Cell
+  parent: OfficeOpenXml.Data.Connection.eConnectionParameterType
+  langs:
+  - csharp
+  - vb
+  name: Cell
+  nameWithType: eConnectionParameterType.Cell
+  fullName: OfficeOpenXml.Data.Connection.eConnectionParameterType.Cell
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionParameterType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cell
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionParameterType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Get the parameter value from a cell on each refresh
+  example: []
+  syntax:
+    content: Cell = 2
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionParameterType
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: OfficeOpenXml.Data.Connection.eConnectionParameterType
+  commentId: T:OfficeOpenXml.Data.Connection.eConnectionParameterType
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.eConnectionParameterType.html
+  name: eConnectionParameterType
+  nameWithType: eConnectionParameterType
+  fullName: OfficeOpenXml.Data.Connection.eConnectionParameterType

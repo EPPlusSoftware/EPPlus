@@ -1,0 +1,381 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties
+  commentId: T:OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties
+  id: ExcelDataModelOleDbProperties
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties.Command
+  langs:
+  - csharp
+  - vb
+  name: ExcelDataModelOleDbProperties
+  nameWithType: ExcelDataModelOleDbProperties
+  fullName: OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelDataModelOleDbProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDataModelOleDbProperties
+    path: ../src/EPPlus/Data/Connection/ExcelDataModelOleDbProperties.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: OleDb properties for Data Model connections.
+  example: []
+  syntax:
+    content: 'public class ExcelDataModelOleDbProperties : ExcelDataModelDataFeedProperties'
+    content.vb: Public Class ExcelDataModelOleDbProperties Inherits ExcelDataModelDataFeedProperties
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties
+  inheritedMembers:
+  - OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties.Connection
+  - OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties.Tables
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties.Command
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties.Command
+  id: Command
+  parent: OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties
+  langs:
+  - csharp
+  - vb
+  name: Command
+  nameWithType: ExcelDataModelOleDbProperties.Command
+  fullName: OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties.Command
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelDataModelOleDbProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Command
+    path: ../src/EPPlus/Data/Connection/ExcelDataModelOleDbProperties.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A command used for the connection. If this property is set, <xref href="OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties.Tables" data-throw-if-not-resolved="false"></xref> must be empty.
+  example: []
+  syntax:
+    content: public string Command { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Command As String
+  overload: OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties.Command*
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties
+  commentId: T:OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties.html
+  name: ExcelDataModelDataFeedProperties
+  nameWithType: ExcelDataModelDataFeedProperties
+  fullName: OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties
+- uid: OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties.Connection
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties.Connection
+  parent: OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties
+  href: OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties.html#OfficeOpenXml_Data_Connection_ExcelDataModelDataFeedProperties_Connection
+  name: Connection
+  nameWithType: ExcelDataModelDataFeedProperties.Connection
+  fullName: OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties.Connection
+- uid: OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties.Tables
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties.Tables
+  parent: OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties
+  href: OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties.html#OfficeOpenXml_Data_Connection_ExcelDataModelDataFeedProperties_Tables
+  name: Tables
+  nameWithType: ExcelDataModelDataFeedProperties.Tables
+  fullName: OfficeOpenXml.Data.Connection.ExcelDataModelDataFeedProperties.Tables
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties.Command*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties.Command
+  href: OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties.html#OfficeOpenXml_Data_Connection_ExcelDataModelOleDbProperties_Command
+  name: Command
+  nameWithType: ExcelDataModelOleDbProperties.Command
+  fullName: OfficeOpenXml.Data.Connection.ExcelDataModelOleDbProperties.Command
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String

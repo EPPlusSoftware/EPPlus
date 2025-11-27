@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 cfCollectionNode.ParentNode.RemoveChild(cfCollectionNode);
             }
-            _pt.WorkSheet.ConditionalFormatting.Remove(x.ConditionalFormatting);
+            if(x.ConditionalFormatting!=null) _pt.WorkSheet.ConditionalFormatting.Remove(x.ConditionalFormatting);
             _list.Remove(x);
         }
         internal void RemoveAt(int index)

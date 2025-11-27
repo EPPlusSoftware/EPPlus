@@ -1,0 +1,1902 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  commentId: T:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  id: ExcelHeaderFooterTextCollection
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat
+  children:
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Add(OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentDate
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentTime
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFileName
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFilePath
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage(System.IO.FileInfo)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage(System.IO.Stream,OfficeOpenXml.Drawing.ePictureType)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddNumberOfPages
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddPageNumber(System.Int32)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddSheetName
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddText(System.String)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Clear
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Count
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Insert(System.Int32,OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentDate(System.Int32)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentTime(System.Int32)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFileName(System.Int32)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFilePath(System.Int32)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage(System.Int32,System.IO.FileInfo)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage(System.Int32,System.IO.Stream,OfficeOpenXml.Drawing.ePictureType)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertNumberOfPages(System.Int32)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertPageNumber(System.Int32,System.Int32)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertSheetName(System.Int32)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertText(System.Int32,System.String)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Item(System.Int32)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Picture
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Remove(OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemoveAt(System.Int32)
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemovePicture
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Text
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.TextLength
+  langs:
+  - csharp
+  - vb
+  name: ExcelHeaderFooterTextCollection
+  nameWithType: ExcelHeaderFooterTextCollection
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelHeaderFooterTextCollection
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 16
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: The collection of ExcelHeaderFooterTextItems.
+  example: []
+  syntax:
+    content: 'public class ExcelHeaderFooterTextCollection : IEnumerable<ExcelHeaderFooterTextItem>, IEnumerable'
+    content.vb: Public Class ExcelHeaderFooterTextCollection Implements IEnumerable(Of ExcelHeaderFooterTextItem), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Picture
+  commentId: P:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Picture
+  id: Picture
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: Picture
+  nameWithType: ExcelHeaderFooterTextCollection.Picture
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Picture
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Picture
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: The drawing vml reference to inserted picture.
+  example: []
+  syntax:
+    content: public ExcelVmlDrawingPicture Picture { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPicture
+    content.vb: Public Property Picture As ExcelVmlDrawingPicture
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Picture*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.TextLength
+  commentId: P:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.TextLength
+  id: TextLength
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: TextLength
+  nameWithType: ExcelHeaderFooterTextCollection.TextLength
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.TextLength
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TextLength
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: The length of the text of left, center and right header footer fields.
+  example: []
+  syntax:
+    content: public int TextLength { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property TextLength As Integer
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.TextLength*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: this[int]
+  nameWithType: ExcelHeaderFooterTextCollection.this[int]
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.this[int]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Returns the ExcelHeaderFooterTextItem at index
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem this[int index] { get; set; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: the index of item to return.
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Default Property this[](index As Integer) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Item*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.this[](Integer)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.this[](Integer)
+  name.vb: this[](Integer)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Add(OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Add(OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  id: Add(OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelHeaderFooterTextItem)
+  nameWithType: ExcelHeaderFooterTextCollection.Add(ExcelHeaderFooterTextItem)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Add(OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 91
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Add an ExcelHeaderFooterTextItem to the end of the collection.
+  example: []
+  syntax:
+    content: public void Add(ExcelHeaderFooterTextItem textItem)
+    parameters:
+    - id: textItem
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Sub Add(textItem As ExcelHeaderFooterTextItem)
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Add*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddText(System.String)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddText(System.String)
+  id: AddText(System.String)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: AddText(string)
+  nameWithType: ExcelHeaderFooterTextCollection.AddText(string)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddText(string)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddText
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Add a string to the end of the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem AddText(string text)
+    parameters:
+    - id: text
+      type: System.String
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function AddText(text As String) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddText*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.AddText(String)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddText(String)
+  name.vb: AddText(String)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddPageNumber(System.Int32)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddPageNumber(System.Int32)
+  id: AddPageNumber(System.Int32)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: AddPageNumber(int)
+  nameWithType: ExcelHeaderFooterTextCollection.AddPageNumber(int)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddPageNumber(int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPageNumber
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 113
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Add the page number to the end of the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem AddPageNumber(int number = 0)
+    parameters:
+    - id: number
+      type: System.Int32
+      description: Amount to offset the page number with. Default is 0.
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function AddPageNumber(number As Integer = 0) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddPageNumber*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.AddPageNumber(Integer)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddPageNumber(Integer)
+  name.vb: AddPageNumber(Integer)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddNumberOfPages
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddNumberOfPages
+  id: AddNumberOfPages
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: AddNumberOfPages()
+  nameWithType: ExcelHeaderFooterTextCollection.AddNumberOfPages()
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddNumberOfPages()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNumberOfPages
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 129
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Add the number of pages to the end of the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem AddNumberOfPages()
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function AddNumberOfPages() As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddNumberOfPages*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddSheetName
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddSheetName
+  id: AddSheetName
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: AddSheetName()
+  nameWithType: ExcelHeaderFooterTextCollection.AddSheetName()
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddSheetName()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddSheetName
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 137
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Add the sheet name to the end of the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem AddSheetName()
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function AddSheetName() As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddSheetName*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFilePath
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFilePath
+  id: AddFilePath
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: AddFilePath()
+  nameWithType: ExcelHeaderFooterTextCollection.AddFilePath()
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFilePath()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddFilePath
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 145
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Add the file path to the end of the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem AddFilePath()
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function AddFilePath() As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFilePath*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFileName
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFileName
+  id: AddFileName
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: AddFileName()
+  nameWithType: ExcelHeaderFooterTextCollection.AddFileName()
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFileName()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddFileName
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 153
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Add the file name to the end of the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem AddFileName()
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function AddFileName() As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFileName*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentDate
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentDate
+  id: AddCurrentDate
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: AddCurrentDate()
+  nameWithType: ExcelHeaderFooterTextCollection.AddCurrentDate()
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentDate()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddCurrentDate
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 161
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Add the current date to the end of the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem AddCurrentDate()
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function AddCurrentDate() As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentDate*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentTime
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentTime
+  id: AddCurrentTime
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: AddCurrentTime()
+  nameWithType: ExcelHeaderFooterTextCollection.AddCurrentTime()
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentTime()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddCurrentTime
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 169
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Add the current time to the end of the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem AddCurrentTime()
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function AddCurrentTime() As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentTime*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage(System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage(System.IO.FileInfo)
+  id: AddImage(System.IO.FileInfo)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: AddImage(FileInfo)
+  nameWithType: ExcelHeaderFooterTextCollection.AddImage(FileInfo)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage(System.IO.FileInfo)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddImage
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Add a picture to the end of the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem AddImage(FileInfo pictureFile)
+    parameters:
+    - id: pictureFile
+      type: System.IO.FileInfo
+      description: The FileInfo object for the picture.
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function AddImage(pictureFile As FileInfo) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage(System.IO.Stream,OfficeOpenXml.Drawing.ePictureType)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage(System.IO.Stream,OfficeOpenXml.Drawing.ePictureType)
+  id: AddImage(System.IO.Stream,OfficeOpenXml.Drawing.ePictureType)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: AddImage(Stream, ePictureType)
+  nameWithType: ExcelHeaderFooterTextCollection.AddImage(Stream, ePictureType)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage(System.IO.Stream, OfficeOpenXml.Drawing.ePictureType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddImage
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 189
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Add the file path to the end of the collection using a stream.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem AddImage(Stream pictureStream, ePictureType pictureType)
+    parameters:
+    - id: pictureStream
+      type: System.IO.Stream
+      description: The picture stream.
+    - id: pictureType
+      type: OfficeOpenXml.Drawing.ePictureType
+      description: The file type of the picture.
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function AddImage(pictureStream As Stream, pictureType As ePictureType) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Insert(System.Int32,OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Insert(System.Int32,OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  id: Insert(System.Int32,OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: Insert(int, ExcelHeaderFooterTextItem)
+  nameWithType: ExcelHeaderFooterTextCollection.Insert(int, ExcelHeaderFooterTextItem)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Insert(int, OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Insert
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 209
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Insert an ExcelHeaderFooterTextItem at specified position in the collection.
+  example: []
+  syntax:
+    content: public void Insert(int index, ExcelHeaderFooterTextItem item)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    - id: item
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Sub Insert(index As Integer, item As ExcelHeaderFooterTextItem)
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Insert*
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: ''
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: ''
+  nameWithType.vb: ExcelHeaderFooterTextCollection.Insert(Integer, ExcelHeaderFooterTextItem)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Insert(Integer, OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  name.vb: Insert(Integer, ExcelHeaderFooterTextItem)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertText(System.Int32,System.String)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertText(System.Int32,System.String)
+  id: InsertText(System.Int32,System.String)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: InsertText(int, string)
+  nameWithType: ExcelHeaderFooterTextCollection.InsertText(int, string)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertText(int, string)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertText
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 224
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Insert a string at specified position in the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem InsertText(int index, string text)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    - id: text
+      type: System.String
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function InsertText(index As Integer, text As String) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertText*
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: ''
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: ''
+  nameWithType.vb: ExcelHeaderFooterTextCollection.InsertText(Integer, String)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertText(Integer, String)
+  name.vb: InsertText(Integer, String)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertPageNumber(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertPageNumber(System.Int32,System.Int32)
+  id: InsertPageNumber(System.Int32,System.Int32)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: InsertPageNumber(int, int)
+  nameWithType: ExcelHeaderFooterTextCollection.InsertPageNumber(int, int)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertPageNumber(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertPageNumber
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 239
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Insert the page number at specified position in the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem InsertPageNumber(int index, int number = 0)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    - id: number
+      type: System.Int32
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function InsertPageNumber(index As Integer, number As Integer = 0) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertPageNumber*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.InsertPageNumber(Integer, Integer)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertPageNumber(Integer, Integer)
+  name.vb: InsertPageNumber(Integer, Integer)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertNumberOfPages(System.Int32)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertNumberOfPages(System.Int32)
+  id: InsertNumberOfPages(System.Int32)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: InsertNumberOfPages(int)
+  nameWithType: ExcelHeaderFooterTextCollection.InsertNumberOfPages(int)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertNumberOfPages(int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertNumberOfPages
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 256
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Insert the number of pages at specified position in the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem InsertNumberOfPages(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function InsertNumberOfPages(index As Integer) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertNumberOfPages*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.InsertNumberOfPages(Integer)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertNumberOfPages(Integer)
+  name.vb: InsertNumberOfPages(Integer)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertSheetName(System.Int32)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertSheetName(System.Int32)
+  id: InsertSheetName(System.Int32)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: InsertSheetName(int)
+  nameWithType: ExcelHeaderFooterTextCollection.InsertSheetName(int)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertSheetName(int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertSheetName
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 265
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Insert the sheet name at specified position in the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem InsertSheetName(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function InsertSheetName(index As Integer) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertSheetName*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.InsertSheetName(Integer)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertSheetName(Integer)
+  name.vb: InsertSheetName(Integer)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFilePath(System.Int32)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFilePath(System.Int32)
+  id: InsertFilePath(System.Int32)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: InsertFilePath(int)
+  nameWithType: ExcelHeaderFooterTextCollection.InsertFilePath(int)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFilePath(int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertFilePath
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 274
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Insert the file path at specified position in the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem InsertFilePath(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function InsertFilePath(index As Integer) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFilePath*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.InsertFilePath(Integer)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFilePath(Integer)
+  name.vb: InsertFilePath(Integer)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFileName(System.Int32)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFileName(System.Int32)
+  id: InsertFileName(System.Int32)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: InsertFileName(int)
+  nameWithType: ExcelHeaderFooterTextCollection.InsertFileName(int)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFileName(int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertFileName
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 283
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Insert the file name at specified position in the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem InsertFileName(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function InsertFileName(index As Integer) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFileName*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.InsertFileName(Integer)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFileName(Integer)
+  name.vb: InsertFileName(Integer)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentDate(System.Int32)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentDate(System.Int32)
+  id: InsertCurrentDate(System.Int32)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: InsertCurrentDate(int)
+  nameWithType: ExcelHeaderFooterTextCollection.InsertCurrentDate(int)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentDate(int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertCurrentDate
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 292
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Insert the current date at specified position in the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem InsertCurrentDate(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function InsertCurrentDate(index As Integer) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentDate*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.InsertCurrentDate(Integer)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentDate(Integer)
+  name.vb: InsertCurrentDate(Integer)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentTime(System.Int32)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentTime(System.Int32)
+  id: InsertCurrentTime(System.Int32)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: InsertCurrentTime(int)
+  nameWithType: ExcelHeaderFooterTextCollection.InsertCurrentTime(int)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentTime(int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertCurrentTime
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 301
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Insert the current time at specified position in the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem InsertCurrentTime(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function InsertCurrentTime(index As Integer) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentTime*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.InsertCurrentTime(Integer)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentTime(Integer)
+  name.vb: InsertCurrentTime(Integer)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage(System.Int32,System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage(System.Int32,System.IO.FileInfo)
+  id: InsertImage(System.Int32,System.IO.FileInfo)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: InsertImage(int, FileInfo)
+  nameWithType: ExcelHeaderFooterTextCollection.InsertImage(int, FileInfo)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage(int, System.IO.FileInfo)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertImage
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 311
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Insert a picture at specified position in the collection.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem InsertImage(int index, FileInfo pictureFile)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    - id: pictureFile
+      type: System.IO.FileInfo
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function InsertImage(index As Integer, pictureFile As FileInfo) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.InsertImage(Integer, FileInfo)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage(Integer, System.IO.FileInfo)
+  name.vb: InsertImage(Integer, FileInfo)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage(System.Int32,System.IO.Stream,OfficeOpenXml.Drawing.ePictureType)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage(System.Int32,System.IO.Stream,OfficeOpenXml.Drawing.ePictureType)
+  id: InsertImage(System.Int32,System.IO.Stream,OfficeOpenXml.Drawing.ePictureType)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: InsertImage(int, Stream, ePictureType)
+  nameWithType: ExcelHeaderFooterTextCollection.InsertImage(int, Stream, ePictureType)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage(int, System.IO.Stream, OfficeOpenXml.Drawing.ePictureType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertImage
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 332
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Insert a picture at specified position in the collection using a stream.
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterTextItem InsertImage(int index, Stream pictureStream, ePictureType pictureType)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    - id: pictureStream
+      type: System.IO.Stream
+      description: ''
+    - id: pictureType
+      type: OfficeOpenXml.Drawing.ePictureType
+      description: ''
+    return:
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Function InsertImage(index As Integer, pictureStream As Stream, pictureType As ePictureType) As ExcelHeaderFooterTextItem
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.InsertImage(Integer, Stream, ePictureType)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage(Integer, System.IO.Stream, OfficeOpenXml.Drawing.ePictureType)
+  name.vb: InsertImage(Integer, Stream, ePictureType)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Remove(OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Remove(OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  id: Remove(OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelHeaderFooterTextItem)
+  nameWithType: ExcelHeaderFooterTextCollection.Remove(ExcelHeaderFooterTextItem)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Remove(OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 358
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Remove the specified item from the collection.
+  example: []
+  syntax:
+    content: public void Remove(ExcelHeaderFooterTextItem item)
+    parameters:
+    - id: item
+      type: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+      description: ''
+    content.vb: Public Sub Remove(item As ExcelHeaderFooterTextItem)
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Remove*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemoveAt(System.Int32)
+  id: RemoveAt(System.Int32)
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(int)
+  nameWithType: ExcelHeaderFooterTextCollection.RemoveAt(int)
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemoveAt(int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAt
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 372
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Remove the specified item at index in collection.
+  example: []
+  syntax:
+    content: public void RemoveAt(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    content.vb: Public Sub RemoveAt(index As Integer)
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemoveAt*
+  nameWithType.vb: ExcelHeaderFooterTextCollection.RemoveAt(Integer)
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemoveAt(Integer)
+  name.vb: RemoveAt(Integer)
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemovePicture
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemovePicture
+  id: RemovePicture
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: RemovePicture()
+  nameWithType: ExcelHeaderFooterTextCollection.RemovePicture()
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemovePicture()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemovePicture
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 385
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Remove the picture from the header or footer.
+  example: []
+  syntax:
+    content: public void RemovePicture()
+    content.vb: Public Sub RemovePicture()
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemovePicture*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Clear
+  commentId: M:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Clear
+  id: Clear
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelHeaderFooterTextCollection.Clear()
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 402
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Clear the collection.
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear()
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Clear*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Count
+  commentId: P:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Count
+  id: Count
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelHeaderFooterTextCollection.Count
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 421
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: The number of objects in the collection.
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Count*
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Text
+  commentId: P:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Text
+  id: Text
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  langs:
+  - csharp
+  - vb
+  name: Text
+  nameWithType: ExcelHeaderFooterTextCollection.Text
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Text
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text
+    path: ../src/EPPlus/Style/HeaderFooterTextFormat/ExcelHeaderFooterTextCollection.cs
+    startLine: 428
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.HeaderFooterTextFormat
+  summary: Get the raw text of the collection.
+  example: []
+  syntax:
+    content: public string Text { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Text As String
+  overload: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Text*
+references:
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat
+  commentId: N:OfficeOpenXml.Style.HeaderFooterTextFormat
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Style.HeaderFooterTextFormat
+  nameWithType: OfficeOpenXml.Style.HeaderFooterTextFormat
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Style
+    name: Style
+    href: OfficeOpenXml.Style.html
+  - name: .
+  - uid: OfficeOpenXml.Style.HeaderFooterTextFormat
+    name: HeaderFooterTextFormat
+    href: OfficeOpenXml.Style.HeaderFooterTextFormat.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Style
+    name: Style
+    href: OfficeOpenXml.Style.html
+  - name: .
+  - uid: OfficeOpenXml.Style.HeaderFooterTextFormat
+    name: HeaderFooterTextFormat
+    href: OfficeOpenXml.Style.HeaderFooterTextFormat.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<ExcelHeaderFooterTextItem>
+  nameWithType: IEnumerable<ExcelHeaderFooterTextItem>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem>
+  nameWithType.vb: IEnumerable(Of ExcelHeaderFooterTextItem)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem)
+  name.vb: IEnumerable(Of ExcelHeaderFooterTextItem)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+    name: ExcelHeaderFooterTextItem
+    href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+    name: ExcelHeaderFooterTextItem
+    href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem.html
+  - name: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ienumerable
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Picture*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Picture
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_Picture
+  name: Picture
+  nameWithType: ExcelHeaderFooterTextCollection.Picture
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Picture
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPicture
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPicture
+  parent: OfficeOpenXml.Drawing.Vml
+  href: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPicture.html
+  name: ExcelVmlDrawingPicture
+  nameWithType: ExcelVmlDrawingPicture
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPicture
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Drawing
+    name: Drawing
+    href: OfficeOpenXml.Drawing.html
+  - name: .
+  - uid: OfficeOpenXml.Drawing.Vml
+    name: Vml
+    href: OfficeOpenXml.Drawing.Vml.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Drawing
+    name: Drawing
+    href: OfficeOpenXml.Drawing.html
+  - name: .
+  - uid: OfficeOpenXml.Drawing.Vml
+    name: Vml
+    href: OfficeOpenXml.Drawing.Vml.html
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.TextLength*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.TextLength
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_TextLength
+  name: TextLength
+  nameWithType: ExcelHeaderFooterTextCollection.TextLength
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.TextLength
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Item*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Item
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_Item_System_Int32_
+  name: this
+  nameWithType: ExcelHeaderFooterTextCollection.this
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.this
+  nameWithType.vb: ExcelHeaderFooterTextCollection.this[]
+  fullName.vb: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.this[]
+  name.vb: this[]
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+  commentId: T:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem.html
+  name: ExcelHeaderFooterTextItem
+  nameWithType: ExcelHeaderFooterTextItem
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Add*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Add
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_Add_OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextItem_
+  name: Add
+  nameWithType: ExcelHeaderFooterTextCollection.Add
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Add
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddText*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddText
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_AddText_System_String_
+  name: AddText
+  nameWithType: ExcelHeaderFooterTextCollection.AddText
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddText
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddPageNumber*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddPageNumber
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_AddPageNumber_System_Int32_
+  name: AddPageNumber
+  nameWithType: ExcelHeaderFooterTextCollection.AddPageNumber
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddPageNumber
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddNumberOfPages*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddNumberOfPages
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_AddNumberOfPages
+  name: AddNumberOfPages
+  nameWithType: ExcelHeaderFooterTextCollection.AddNumberOfPages
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddNumberOfPages
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddSheetName*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddSheetName
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_AddSheetName
+  name: AddSheetName
+  nameWithType: ExcelHeaderFooterTextCollection.AddSheetName
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddSheetName
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFilePath*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFilePath
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_AddFilePath
+  name: AddFilePath
+  nameWithType: ExcelHeaderFooterTextCollection.AddFilePath
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFilePath
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFileName*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFileName
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_AddFileName
+  name: AddFileName
+  nameWithType: ExcelHeaderFooterTextCollection.AddFileName
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddFileName
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentDate*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentDate
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_AddCurrentDate
+  name: AddCurrentDate
+  nameWithType: ExcelHeaderFooterTextCollection.AddCurrentDate
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentDate
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentTime*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentTime
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_AddCurrentTime
+  name: AddCurrentTime
+  nameWithType: ExcelHeaderFooterTextCollection.AddCurrentTime
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddCurrentTime
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_AddImage_System_IO_FileInfo_
+  name: AddImage
+  nameWithType: ExcelHeaderFooterTextCollection.AddImage
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.AddImage
+- uid: System.IO.FileInfo
+  commentId: T:System.IO.FileInfo
+  parent: System.IO
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.io.fileinfo
+  name: FileInfo
+  nameWithType: FileInfo
+  fullName: System.IO.FileInfo
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.IO
+    name: IO
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.io
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.IO
+    name: IO
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.io
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.io.stream
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: OfficeOpenXml.Drawing.ePictureType
+  commentId: T:OfficeOpenXml.Drawing.ePictureType
+  parent: OfficeOpenXml.Drawing
+  name: ePictureType
+  nameWithType: ePictureType
+  fullName: OfficeOpenXml.Drawing.ePictureType
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Drawing
+    name: Drawing
+    href: OfficeOpenXml.Drawing.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Drawing
+    name: Drawing
+    href: OfficeOpenXml.Drawing.html
+- uid: System.IndexOutOfRangeException
+  commentId: T:System.IndexOutOfRangeException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.indexoutofrangeexception
+  name: IndexOutOfRangeException
+  nameWithType: IndexOutOfRangeException
+  fullName: System.IndexOutOfRangeException
+- uid: System.ArgumentException
+  commentId: T:System.ArgumentException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentexception
+  name: ArgumentException
+  nameWithType: ArgumentException
+  fullName: System.ArgumentException
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Insert*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Insert
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_Insert_System_Int32_OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextItem_
+  name: Insert
+  nameWithType: ExcelHeaderFooterTextCollection.Insert
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Insert
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertText*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertText
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_InsertText_System_Int32_System_String_
+  name: InsertText
+  nameWithType: ExcelHeaderFooterTextCollection.InsertText
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertText
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertPageNumber*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertPageNumber
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_InsertPageNumber_System_Int32_System_Int32_
+  name: InsertPageNumber
+  nameWithType: ExcelHeaderFooterTextCollection.InsertPageNumber
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertPageNumber
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertNumberOfPages*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertNumberOfPages
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_InsertNumberOfPages_System_Int32_
+  name: InsertNumberOfPages
+  nameWithType: ExcelHeaderFooterTextCollection.InsertNumberOfPages
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertNumberOfPages
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertSheetName*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertSheetName
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_InsertSheetName_System_Int32_
+  name: InsertSheetName
+  nameWithType: ExcelHeaderFooterTextCollection.InsertSheetName
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertSheetName
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFilePath*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFilePath
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_InsertFilePath_System_Int32_
+  name: InsertFilePath
+  nameWithType: ExcelHeaderFooterTextCollection.InsertFilePath
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFilePath
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFileName*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFileName
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_InsertFileName_System_Int32_
+  name: InsertFileName
+  nameWithType: ExcelHeaderFooterTextCollection.InsertFileName
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertFileName
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentDate*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentDate
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_InsertCurrentDate_System_Int32_
+  name: InsertCurrentDate
+  nameWithType: ExcelHeaderFooterTextCollection.InsertCurrentDate
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentDate
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentTime*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentTime
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_InsertCurrentTime_System_Int32_
+  name: InsertCurrentTime
+  nameWithType: ExcelHeaderFooterTextCollection.InsertCurrentTime
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertCurrentTime
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_InsertImage_System_Int32_System_IO_FileInfo_
+  name: InsertImage
+  nameWithType: ExcelHeaderFooterTextCollection.InsertImage
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.InsertImage
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Remove*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Remove
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_Remove_OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextItem_
+  name: Remove
+  nameWithType: ExcelHeaderFooterTextCollection.Remove
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Remove
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemoveAt*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemoveAt
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_RemoveAt_System_Int32_
+  name: RemoveAt
+  nameWithType: ExcelHeaderFooterTextCollection.RemoveAt
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemoveAt
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemovePicture*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemovePicture
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_RemovePicture
+  name: RemovePicture
+  nameWithType: ExcelHeaderFooterTextCollection.RemovePicture
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.RemovePicture
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Clear*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Clear
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_Clear
+  name: Clear
+  nameWithType: ExcelHeaderFooterTextCollection.Clear
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Clear
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Count*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Count
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_Count
+  name: Count
+  nameWithType: ExcelHeaderFooterTextCollection.Count
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Count
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Text*
+  commentId: Overload:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Text
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html#OfficeOpenXml_Style_HeaderFooterTextFormat_ExcelHeaderFooterTextCollection_Text
+  name: Text
+  nameWithType: ExcelHeaderFooterTextCollection.Text
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.Text

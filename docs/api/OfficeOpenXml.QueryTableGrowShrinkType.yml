@@ -1,0 +1,131 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.QueryTableGrowShrinkType
+  commentId: T:OfficeOpenXml.QueryTableGrowShrinkType
+  id: QueryTableGrowShrinkType
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.QueryTableGrowShrinkType.InsertClear
+  - OfficeOpenXml.QueryTableGrowShrinkType.InsertDelete
+  - OfficeOpenXml.QueryTableGrowShrinkType.OverwriteClear
+  langs:
+  - csharp
+  - vb
+  name: QueryTableGrowShrinkType
+  nameWithType: QueryTableGrowShrinkType
+  fullName: OfficeOpenXml.QueryTableGrowShrinkType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Data/QueryTable/QueryTableGrowShrinkType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: QueryTableGrowShrinkType
+    path: ../src/EPPlus/Data/QueryTable/QueryTableGrowShrinkType.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: How to handle variable numbers of rows when refreshing a query table.
+  example: []
+  syntax:
+    content: public enum QueryTableGrowShrinkType
+    content.vb: Public Enum QueryTableGrowShrinkType
+- uid: OfficeOpenXml.QueryTableGrowShrinkType.InsertClear
+  commentId: F:OfficeOpenXml.QueryTableGrowShrinkType.InsertClear
+  id: InsertClear
+  parent: OfficeOpenXml.QueryTableGrowShrinkType
+  langs:
+  - csharp
+  - vb
+  name: InsertClear
+  nameWithType: QueryTableGrowShrinkType.InsertClear
+  fullName: OfficeOpenXml.QueryTableGrowShrinkType.InsertClear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/QueryTable/QueryTableGrowShrinkType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertClear
+    path: ../src/EPPlus/Data/QueryTable/QueryTableGrowShrinkType.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Insert Clear
+  example: []
+  syntax:
+    content: InsertClear = 0
+    return:
+      type: OfficeOpenXml.QueryTableGrowShrinkType
+- uid: OfficeOpenXml.QueryTableGrowShrinkType.InsertDelete
+  commentId: F:OfficeOpenXml.QueryTableGrowShrinkType.InsertDelete
+  id: InsertDelete
+  parent: OfficeOpenXml.QueryTableGrowShrinkType
+  langs:
+  - csharp
+  - vb
+  name: InsertDelete
+  nameWithType: QueryTableGrowShrinkType.InsertDelete
+  fullName: OfficeOpenXml.QueryTableGrowShrinkType.InsertDelete
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/QueryTable/QueryTableGrowShrinkType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertDelete
+    path: ../src/EPPlus/Data/QueryTable/QueryTableGrowShrinkType.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Insert Delete
+  example: []
+  syntax:
+    content: InsertDelete = 1
+    return:
+      type: OfficeOpenXml.QueryTableGrowShrinkType
+- uid: OfficeOpenXml.QueryTableGrowShrinkType.OverwriteClear
+  commentId: F:OfficeOpenXml.QueryTableGrowShrinkType.OverwriteClear
+  id: OverwriteClear
+  parent: OfficeOpenXml.QueryTableGrowShrinkType
+  langs:
+  - csharp
+  - vb
+  name: OverwriteClear
+  nameWithType: QueryTableGrowShrinkType.OverwriteClear
+  fullName: OfficeOpenXml.QueryTableGrowShrinkType.OverwriteClear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/QueryTable/QueryTableGrowShrinkType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OverwriteClear
+    path: ../src/EPPlus/Data/QueryTable/QueryTableGrowShrinkType.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Overwrite Clear
+  example: []
+  syntax:
+    content: OverwriteClear = 2
+    return:
+      type: OfficeOpenXml.QueryTableGrowShrinkType
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.QueryTableGrowShrinkType
+  commentId: T:OfficeOpenXml.QueryTableGrowShrinkType
+  parent: OfficeOpenXml
+  href: OfficeOpenXml.QueryTableGrowShrinkType.html
+  name: QueryTableGrowShrinkType
+  nameWithType: QueryTableGrowShrinkType
+  fullName: OfficeOpenXml.QueryTableGrowShrinkType
