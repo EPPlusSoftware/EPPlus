@@ -25,17 +25,17 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
 
         public string GetSubFamily()
         {
-            if(Style == MeasurementFontStyles.Bold)
+            if((Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) == (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
+            {
+                return "Bold Italic";
+            }
+            else if((Style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
             {
                 return "Bold";
             }
-            else if(Style == MeasurementFontStyles.Italic)
+            else if((Style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
             {
                 return "Italic";
-            }
-            else if(Style == (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
-            {
-                return "Bold Italic";
             }
 
             return "Regular";
