@@ -15,7 +15,7 @@
 		<PackageReference Include="MSTest.TestAdapter" />
 		<PackageReference Include="MSTest.TestFramework" />
 	</ItemGroup>
-	
+	<ItemGroup>
 		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" />
 		<ProjectReference Include="..\EPPlus\EPPlus.csproj" />
 	</ItemGroup>

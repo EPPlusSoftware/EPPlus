@@ -31,7 +31,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double GetDeltaAscent(TtfFont font, double fontSize)
+        internal static double GetDeltaAscent(OpenTypeFont font, double fontSize)
         {
             var winAscent = GetWinAscent(font, fontSize);
             var typoAscent = GetTypoAscent(font, fontSize);
@@ -56,7 +56,7 @@ namespace EPPlus.Fonts.OpenType
             return lineHeightPt;
         }
 
-        internal static double GetTypoAscent(TtfFont font, double fontSize)
+        internal static double GetTypoAscent(OpenTypeFont font, double fontSize)
         {
             var typoAscent = font.Os2Table.sTypoAscender;
             var em = font.HeadTable.UnitsPerEm;
@@ -64,7 +64,7 @@ namespace EPPlus.Fonts.OpenType
             return typoAscent * (fontSize / em);
         }
 
-        internal static double GetWinAscent(TtfFont font, double fontSize)
+        internal static double GetWinAscent(OpenTypeFont font, double fontSize)
         {
             var asc = font.Os2Table.usWinAscent;
             var em = font.HeadTable.UnitsPerEm;
@@ -234,7 +234,7 @@ namespace EPPlus.Fonts.OpenType
                     // Kerning adjustment
                     if (!firstChar)
                     {
-                        kerning = GetKerningAdjustment(lastGlyphIndex, gi, fontData);
+                        kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fontData);
                         newWidth += kerning;
                     }
 
