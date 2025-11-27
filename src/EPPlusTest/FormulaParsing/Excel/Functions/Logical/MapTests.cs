@@ -200,5 +200,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(false, sheet.Cells["B2"].Value);  // "hello" → FALSE
             Assert.AreEqual(false, sheet.Cells["B3"].Value);  // "" → FALSE
         }
+
+        [TestMethod]
+        public void Map_ShouldWorkInsideOtherFunction()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+            sheet.Cells["A1"].Value = 1;
+            sheet.Cells["A2"].Formula = "1/0";
+            sheet.Cells["A3"].Value = 3;
+
+            sheet.Cells["B1"].Formula = "IFERROR(MAP(A1:A3, _xleta.SUM), \"Error!\")";
+            sheet.Calculate();
+
+            Assert.AreEqual(1d, sheet.Cells["B1"].Value);
+            Assert.AreEqual("Error!", sheet.Cells["B2"].Value);
+            Assert.AreEqual(3d, sheet.Cells["B3"].Value);
+        }
     }
 }
