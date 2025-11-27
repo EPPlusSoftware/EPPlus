@@ -403,7 +403,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="arg"></param>
         /// <returns></returns>
-        protected double? GetDecimalSingleArgument(FunctionArgument arg)
+        protected static double? GetDecimalSingleArgument(FunctionArgument arg)
         {
             if (arg.DataType == DataType.Boolean)
             {

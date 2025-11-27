@@ -150,6 +150,10 @@ namespace OfficeOpenXml.Table
         /// <returns>The inserted range</returns>
         public ExcelRangeBase Insert(int position, int columns = 1)
         {
+            if(Table.DataSourceType!=TableDataSourceType.Worksheet)
+            {
+                throw new InvalidOperationException("Columns can only be inserted in tables with a worksheet data source.");
+            }
             lock(Table)
             {
                 var range = Table.InsertColumn(position, columns);

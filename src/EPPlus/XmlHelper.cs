@@ -772,6 +772,21 @@ namespace OfficeOpenXml
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
             }
         }
+        internal void SetXmlNodeInt(string path, int d, int deleteIfValue = int.MinValue, CultureInfo ci = null, bool allowNegative = true)
+        {
+            if (d == deleteIfValue)
+            {
+                DeleteNode(path);
+            }
+            else
+            {
+                if (allowNegative == false && d < 0)
+                {
+                    throw new ArgumentException("Negative value not permitted");
+                }
+                SetXmlNodeString(TopNode, path, d.ToString(ci ?? CultureInfo.InvariantCulture));
+            }
+        }
         internal void SetXmlNodeLong(string path, long? d, CultureInfo ci = null, bool allowNegative = true)
         {
             if (d == null)
@@ -817,6 +832,10 @@ namespace OfficeOpenXml
         {
             SetXmlNodeString(TopNode, path, value, removeIfBlank, false);
         }
+        internal void SetXmlNodeString(string path, string value, bool removeIfBlank, bool insertFirst, bool removeLastOnly)
+        {
+            SetXmlNodeString(TopNode, path, value, removeIfBlank, insertFirst, removeLastOnly);
+        }
         internal void SetXmlNodeString(XmlNode node, string path, string value)
         {
             SetXmlNodeString(node, path, value, false, false);
@@ -825,7 +844,7 @@ namespace OfficeOpenXml
         {
             SetXmlNodeString(node, path, value, removeIfBlank, false);
         }
-        internal void SetXmlNodeString(XmlNode node, string path, string value, bool removeIfBlank, bool insertFirst)
+        internal void SetXmlNodeString(XmlNode node, string path, string value, bool removeIfBlank, bool insertFirst, bool removeLastOnly = false)
         {
             if (node == null)
             {
@@ -833,7 +852,14 @@ namespace OfficeOpenXml
             }
             if (string.IsNullOrEmpty(value) && removeIfBlank)
             {
-                DeleteAllNode(path);
+                if (removeLastOnly)
+                {
+                    DeleteNode(path);
+                }
+                else
+                {
+                    DeleteAllNode(path);
+                }
             }
             else
             {
@@ -854,6 +880,17 @@ namespace OfficeOpenXml
         internal void SetXmlNodeBoolVml(string path, bool value)
         {
             SetXmlNodeString(TopNode, path, value ? "t" : "f", false, false);
+        }
+        internal void SetXmlNodeBoolNull(string path, bool? value)
+        {
+            if (value.HasValue)
+            {
+                SetXmlNodeString(TopNode, path, value.Value ? "1" : "0", false, false);
+            }
+            else
+            {
+                DeleteNode(path);
+            }
         }
 
         internal void SetXmlNodeBool(string path, bool value, bool removeIf)
@@ -965,6 +1002,17 @@ namespace OfficeOpenXml
                 return true;
             }
         }
+        internal bool ExistsNode(string path, out XmlNode node)
+        {            
+            if (TopNode != null )
+            {
+                node = TopNode.SelectSingleNode(path, NameSpaceManager);
+                return node!=null;
+            }
+            node = null;
+            return false;
+        }
+
         internal bool ExistsNode(XmlNode node, string path)
         {
             if (node == null || node.SelectSingleNode(path, NameSpaceManager) == null)
@@ -1218,11 +1266,11 @@ namespace OfficeOpenXml
 			}
 		}
 
-		internal string GetXmlNodeString(XmlNode node, string path)
+		internal string GetXmlNodeString(XmlNode node, string path, string defaultValue="")
         {
             if (node == null)
             {
-                return "";
+                return defaultValue;
             }
 
             XmlNode nameNode = node.SelectSingleNode(path, NameSpaceManager);
@@ -1240,12 +1288,12 @@ namespace OfficeOpenXml
             }
             else
             {
-                return "";
+                return defaultValue;
             }
         }
-        internal string GetXmlNodeString(string path)
+        internal string GetXmlNodeString(string path, string defaultValue = "")
         {
-            return GetXmlNodeString(TopNode, path);
+            return GetXmlNodeString(TopNode, path, defaultValue);
         }
         internal static Uri GetNewUri(Packaging.ZipPackage package, string sUri)
         {

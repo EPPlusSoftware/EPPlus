@@ -13,7 +13,6 @@
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.Pkcs;
@@ -147,11 +146,11 @@ namespace OfficeOpenXml.VBA.Signatures
                     }
                     else if(lengthBytes.Length == 2)
                     {
-                        return BitConverter.ToInt16(lengthBytes.Reverse().ToArray(), 0);
+                        return BitConverter.ToInt16(lengthBytes.AsEnumerable().Reverse().ToArray(), 0);
                     }
                     else
                     {
-                        return BitConverter.ToInt32(lengthBytes.Reverse().ToArray(), 0);
+                        return BitConverter.ToInt32(lengthBytes.AsEnumerable().Reverse().ToArray(), 0);
                     }
                 }                
                 return b;

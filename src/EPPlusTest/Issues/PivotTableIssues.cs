@@ -620,5 +620,29 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual("60000", cell1);
             }
         }
+        [TestMethod]
+        public void TestPivot()
+        {
+            var package = OpenTemplatePackage("TestTemplate3.xlsx");
+            var pivotTableCollections = package.Workbook.Worksheets.Select(x => x.PivotTables).ToList();
+            // Iterate through each collection of pivot tables and refresh them
+            foreach (var pivotTables in pivotTableCollections)
+            {
+                foreach (var pivotTable in pivotTables)
+                {
+                    var pivotData = pivotTable.CalculatedData;
+
+                    if (pivotTable.CacheDefinition != null)
+                    {
+                        pivotTable.CacheDefinition.Refresh();
+                        pivotTable.CacheDefinition.SaveData = true;
+                    }
+
+                    pivotTable.Calculate(false);
+                }
+            }
+            SaveAndCleanup(package);
+        }
+
     }
 }

@@ -25,6 +25,7 @@ using EPPlus.Fonts.OpenType;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using EPPlus.Export.ImageRenderer.Text;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -34,12 +35,14 @@ namespace EPPlusImageRenderer.Svg
         TextBox textBox;
         private ExcelTheme _theme;
         ExcelWorkbook _wb;
+        TextContainer _textContainer;
 
         public SvgShape(ExcelShape shape) : base(shape)
         {
             _wb = shape._drawings.Worksheet.Workbook;
             _theme = _wb.ThemeManager.GetOrCreateTheme();
             var style = shape.Style;
+
             if(style==eShapeStyle.CustomShape)
             {
                 _renderTextBox = null;
@@ -77,14 +80,29 @@ namespace EPPlusImageRenderer.Svg
                 {
                     if (shapeDef.TextBoxRect != null)
                     {
-                        var rectItem = new SvgRenderRectItem(_shape);
+                        if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
+                        {
+                            var rectItem = new SvgRenderRectItem(_shape);
 
-                        rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
-                        rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
-                        rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.X;
-                        rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
-                        rectItem.FillOpacity = 0.3d;
-                        _renderTextBox = rectItem;
+                            rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
+                            rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
+                            rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.X;
+                            rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
+                            rectItem.FillOpacity = 0.3d;
+                            _renderTextBox = rectItem;
+                        }
+                        else
+                        {
+
+                            var rectItem = new SvgRenderRectItem(_shape);
+
+                            rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
+                            rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
+                            rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.X;
+                            rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
+                            rectItem.FillOpacity = 0.3d;
+                            _renderTextBox = rectItem;
+                        }
                     }
                     else
                     {
@@ -273,6 +291,7 @@ namespace EPPlusImageRenderer.Svg
         {
             if(_renderTextBox != null)
             {
+                var container = new TextContainer();
                 return new TextBox(_shape.TextBody, _renderTextBox);
             }
             else

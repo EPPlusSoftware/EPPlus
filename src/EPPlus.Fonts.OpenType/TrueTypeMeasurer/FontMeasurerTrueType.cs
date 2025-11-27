@@ -1,9 +1,16 @@
 ﻿using System.Collections.Generic;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using EPPlus.Fonts.OpenType.Utils;
+using System;
 
 namespace EPPlus.Fonts.OpenType
 {
+    public enum TextUnit
+    {
+        Points,
+        Pixels
+    }
+
     public class FontMeasurerTrueType : ITextMeasurerWrap
     {
         private OpenTypeFont _defaultFont = TextData.GetFontData("Calibri", "Regular");
@@ -75,6 +82,19 @@ namespace EPPlus.Fonts.OpenType
             FontSize = fontSize;
         }
 
+        public void SetFont(MeasurementFont mFont)
+        {
+            CurrentFontName = string.IsNullOrEmpty(mFont.FontFamily) ? "" : mFont.FontFamily;
+
+            var styleName = Enum.GetName(typeof(MeasurementFontStyles), mFont.Style);
+            SetFont(mFont.Size, mFont.FontFamily, styleName);
+
+            if (CurrentFont == null)
+            {
+                CurrentFont = _defaultFont;
+            }
+        }
+
         /// <summary>
         /// Returns exact textWidth in points
         /// </summary>
@@ -95,6 +115,11 @@ namespace EPPlus.Fonts.OpenType
         {
             MeasureTextWidth(text);
             return _widthInPoints.PointToPixel();
+        }
+
+        public double GetMinXInPixels()
+        {
+            return ((Math.Abs((double)167)/2048d) * FontSize).PointToPixel();
         }
 
         /// <summary>
@@ -161,7 +186,6 @@ namespace EPPlus.Fonts.OpenType
             return TextMeasurement;
         }
 
-
         /// <summary>
         /// Measures text width and height in points
         /// </summary>
@@ -193,6 +217,35 @@ namespace EPPlus.Fonts.OpenType
         {
             var wrappedStrings = TextData.MeasureAndWrapText(text, FontSize, CurrentFont, MaxWidthInPixels.PixelToPoint());
             return wrappedStrings;
+        }
+        /// <summary>
+        /// This assumes the first line is "Ascent only" as is usually the case in Paragraphs
+        /// And that the last line has a full line of linespacing under it.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="firstLine"></param>
+        /// <returns></returns>
+        public double GetHeightOfText(List<string> text)
+        {
+            var distToBaselineFromTopOfContainer = GetBaseLine();
+            var distBaselineToBaseline = GetSingleLineSpacing();
+
+            var finalHeight = (distBaselineToBaseline * (text.Count));
+            return finalHeight;
+        }
+        public double GetHeightOfTextInPixels(List<string> text)
+        {
+            return GetHeightOfText(text).PointToPixel();
+        }
+
+        public double GetDeltaAscent(TextUnit unit = TextUnit.Points)
+        {
+            var dAscent = TextData.GetDeltaAscent(CurrentFont, FontSize);
+            if (unit == TextUnit.Pixels)
+            {
+                return dAscent.PointToPixel();
+            }
+            return dAscent;
         }
     }
 }

@@ -25,12 +25,13 @@ namespace EPPlusTest.PDF
     public class PdfTests : TestBase
     {
         /* BIG PDF TODO
-         * Merged Cells: Fix Merged cells not cutting of text
+         * This should be turned into tickets on github..
          * 
          * Cells: Cutting Text in general. Check cells at text length
          * Cells: Display errors option
          * Cells: Icons
          * Cells: Pictures in cells
+         * Cells: Remove stroke from solid fill and adjust size and position of cell more precise and only use fill command.
          * 
          * HeaderFooter: Header Footer implementation
          * 
@@ -39,7 +40,6 @@ namespace EPPlusTest.PDF
          * Patterns: Adjust and make patterns look better. Fixed: DarkUp, DarkDown
          * 
          * Gradients: Make diamond gradients instead of radial gradtient in from corner and center gradient
-         * Gradients: 45 degree gradients should go from one corner to the other instead of actually being a 45 degrees.
          * 
          * Text: Rich Text Implementation
          * Text: Bold (Can now do back up bold if bold font not found)
@@ -66,6 +66,9 @@ namespace EPPlusTest.PDF
          * Layout: Calculate width and height of cells more correctly
          * 
          * Borders: Adjust and make border look better
+         * Borders: Check Adjecent cells for border decied which cells border to use
+         * Borders: Handle Merged cells with borders
+         * Borders: Fix diagnal border in merged cell
          * 
          * Pivot Table: Pivot table implementation
          * 

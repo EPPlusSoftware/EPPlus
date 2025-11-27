@@ -889,6 +889,11 @@ namespace OfficeOpenXml
             af.AutofitColumn(MinimumWidth, MaximumWidth);
 #endif
         }
+        public void AutoFitRows()
+        {
+            var af = new AutofitHelper(this);
+            af.AutofitRow();
+        }
         internal string TextForWidth
         {
             get
@@ -2404,7 +2409,6 @@ namespace OfficeOpenXml
         /// </summary>
         public void Dispose()
         {
-            //_worksheet = null;            
         }
 
         #endregion
