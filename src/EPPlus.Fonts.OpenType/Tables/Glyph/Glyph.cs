@@ -1,0 +1,57 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+ *************************************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+
+namespace EPPlus.Fonts.OpenType.Tables.Glyph
+{
+    public class Glyph : FontTableElement
+    {
+        public GlyphHeader Header { get; internal set; }
+
+        public SimpleGlyph SimpleData { get; internal set; }
+
+        public CompositeGlyph CompositeData { get; internal set; }
+
+
+        public int GetSize()
+        {
+            using (var ms = new MemoryStream())
+            using (var writer = new FontsBinaryWriter(ms))
+            {
+                Serialize(writer);
+                return (int)ms.Length;
+            }
+        }
+
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            Header.Serialize(writer);
+
+            if (Header.numberOfContours > 0 && SimpleData != null)
+            {
+                SimpleData.Serialize(writer);
+            }
+            else if (Header.numberOfContours < 0 && CompositeData != null)
+            {
+                CompositeData.Serialize(writer);
+            }
+            // If numberOfContours == 0 → empty glyph, only header
+        }
+
+    }
+}

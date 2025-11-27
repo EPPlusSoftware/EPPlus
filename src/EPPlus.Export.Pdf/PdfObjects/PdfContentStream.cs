@@ -110,8 +110,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
             }
             if (cell.FontData.Italic)
             {
-                var i = font.fontData.PostTable.italicAngle;
-                if (i <= 0) i = 12d * System.Math.PI / 180.0d;
+                var i = font.fontData.PostTable.italicAngle.FloatValue;
+                if (i <= 0) i = 12f * (float)System.Math.PI / 180.0f;
                 Matrix3x3 m2 = Matrix3x3.Identity;
                 m2.C = System.Math.Tan(i);
                 m1 = m2 * m1;

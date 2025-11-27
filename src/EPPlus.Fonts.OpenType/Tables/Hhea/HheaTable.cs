@@ -19,7 +19,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
     /// reserved areas must be set to 0.
     /// https://docs.microsoft.com/en-us/typography/opentype/spec/hhea
     /// </summary>
-    public class HheaTable
+    public class HheaTable : FontTableBase
     {
         /// <summary>
         /// Major version number of the horizontal header table — set to 1.
@@ -91,5 +91,32 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
         /// Number of hMetric entries in 'hmtx' table
         /// </summary>
         public ushort numberOfHMetrics { get; set; }
+
+        internal override void Clear()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal override void SerializeInternal(FontsBinaryWriter writer)
+        {
+            writer.WriteUInt16BigEndian(majorVersion);
+            writer.WriteUInt16BigEndian(minorVersion);
+            writer.WriteInt16BigEndian(ascender);
+            writer.WriteInt16BigEndian(descender);
+            writer.WriteInt16BigEndian(lineGap);
+            writer.WriteUInt16BigEndian(advanceWidthMax);
+            writer.WriteInt16BigEndian(minLeftSideBearing);
+            writer.WriteInt16BigEndian(minRightSideBearing);
+            writer.WriteInt16BigEndian(xMaxExtent);
+            writer.WriteInt16BigEndian(caretSlopeRise);
+            writer.WriteInt16BigEndian(caretSlopeRun);
+            writer.WriteInt16BigEndian(caretOffset);
+            writer.WriteInt16BigEndian(0); // reserved1
+            writer.WriteInt16BigEndian(0); // reserved2
+            writer.WriteInt16BigEndian(0); // reserved3
+            writer.WriteInt16BigEndian(0); // reserved4
+            writer.WriteInt16BigEndian(metricDataFormat);
+            writer.WriteUInt16BigEndian(numberOfHMetrics);
+        }
     }
 }

@@ -1,53 +1,61 @@
-﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
- *************************************************************************************************/
+﻿using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
+using EPPlus.Fonts.OpenType.Tables.Cmap.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
-    public class CmapSubtable0
+    internal class CmapSubtable0 : CmapSubtableBase
     {
-        internal CmapSubtable0(FontsBinaryReader reader)
+        public CmapSubtable0()
         {
-            _reader = reader;
-            Format = 0;
-            Length = _reader.ReadUInt16BigEndian();
-            Language = _reader.ReadUInt16BigEndian();
-            var mappings = new List<GlyphMapping>();
-            for(var c = 0; c < 256; c++)
-            {
-                var b = reader.ReadByte();
-                var ix = BitConverter.ToUInt16(new byte[] { b, 0 }, 0);
-                if(ix != 0)
-                {
-                    mappings.Add(new GlyphMapping
-                    {
-                        CharacterCode = Convert.ToChar(c),
-                        GlyphIndex = ix
-                    });
-                }
-            }
-            GlyphMappingArray = mappings.ToArray();
+            GlyphIdArray = new byte[256];
         }
 
-        private readonly FontsBinaryReader _reader;
+        public override ushort Format { get { return 0; } }
 
-        public ushort Format { get; set; }
+        public override uint Length { get; internal set; }
 
-        public ushort Length { get; set; }
+        public override uint Language { get; internal set; }
 
-        public ushort Language { get; set; }
+        /// <summary>
+        /// Maps character codes 0–255 to glyph indices.
+        /// </summary>
+        public byte[] GlyphIdArray { get; internal set; }
 
-        public GlyphMapping[] GlyphMappingArray { get; set; }
+
+        public override GlyphMappings GetGlyphMappings()
+        {
+            var mapping = new GlyphMappings();
+
+            for (uint charCode = 0; charCode < 256; charCode++)
+            {
+                ushort glyphIndex = GlyphIdArray[charCode];
+                if (glyphIndex != 0)
+                {
+                    mapping.AddMapping(charCode, glyphIndex);
+                }
+            }
+
+            return mapping;
+        }
+
+        internal override int MapCodePointToGlyph(int codePoint)
+        {
+            if (codePoint < 0 || codePoint > 255)
+                return -1; // Utanför intervallet
+
+            return GlyphIdArray[codePoint];
+        }
+
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            var serializer = new CmapSubtable02Serializer();
+            serializer.Serialize(this, writer);
+
+        }
     }
 }

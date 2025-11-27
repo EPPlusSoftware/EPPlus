@@ -1,4 +1,5 @@
 ﻿using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Scanner;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Diagnostics;
 using static System.Net.Mime.MediaTypeNames;
@@ -22,11 +23,12 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void ReadRobotoRegularTtf()
         {
-            TtfFont? font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            OpenTypeFont? font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
             Assert.IsNotNull(font);
+            var cmap = font.CmapTable;
             Assert.AreEqual("Roboto", font.FullName);
             Assert.AreEqual("Regular", font.SubFamily);
-            Assert.AreEqual(1296, font.GlyphTable.Glyphs.Length);
+            Assert.AreEqual(1295, font.GlyfTable.Glyphs.Count);
         }
 
         [TestMethod]

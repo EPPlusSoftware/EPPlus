@@ -28,12 +28,12 @@ namespace EPPlus.Fonts.OpenType.Tables.Kern
             var table = new KernTable
             {
                 version = v,
-                nTables = Convert.ToUInt16(nt)
+                numberOfFormat0Tables = Convert.ToUInt16(nt)
             };
             var subTables = new List<KernSubTable>();
             var nextTablePos = _reader.BaseStream.Position;
             ushort nPairs = 0;
-            for (var x = 0; x < table.nTables; x++)
+            for (var x = 0; x < table.numberOfFormat0Tables; x++)
             {
                 var subTable = new KernSubTable
                 {
@@ -60,8 +60,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Kern
                 }
                 _reader.BaseStream.Position = nextTablePos;
             }
-            table.SubTables = subTables.ToArray();
-            table.NumberOfFormat0Tables = nPairs;
+            table.SubTables = subTables;
+            table.numberOfFormat0Tables = nPairs;
             return table;
         }
     }

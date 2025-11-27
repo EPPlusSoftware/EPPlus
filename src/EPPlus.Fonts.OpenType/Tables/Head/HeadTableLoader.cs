@@ -25,13 +25,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Head
             _reader.BaseStream.Position = _offset;
             var major = _reader.ReadUInt16BigEndian();
             var minor = _reader.ReadUInt16BigEndian();
-            var fontRevision = _reader.ReadInt32();
-            var checksumAdjustoment = _reader.ReadUInt32BigEndian();
+            var fontRevision = _reader.ReadInt32BigEndian();
+            var checksumAdjustment = _reader.ReadUInt32BigEndian();
             var magicNumber = _reader.ReadUInt32BigEndian();
             var flags = _reader.ReadUInt16BigEndian();
             var unitsPerEm = _reader.ReadUInt16BigEndian();
-            var createdDate = _reader.ReadInt64();
-            var modifiedDate = _reader.ReadInt64();
+            var createdDate = _reader.ReadInt64BigEndian();
+            var modifiedDate = _reader.ReadInt64BigEndian();
             var xMin = _reader.ReadInt16BigEndian();
             var yMin = _reader.ReadInt16BigEndian();
             var xMax = _reader.ReadInt16BigEndian();
@@ -44,12 +44,19 @@ namespace EPPlus.Fonts.OpenType.Tables.Head
             {
                 MajorVersion = major,
                 MinorVersion = minor,
+                FontRevision = fontRevision,
+                ChecksumAdjustment = checksumAdjustment,
+                MagicNumber = magicNumber,
+                Flags = flags,
                 UnitsPerEm = unitsPerEm,
+                Created = createdDate,
+                Modified = modifiedDate,
                 Xmin = xMin,
                 Ymin = yMin,
                 Xmax = xMax,
                 Ymax = yMax,
                 LowestRecPPEM = lowestRecPPEM,
+                FontDirectionHint = fontDirectionHint,
                 IndexToLocFormat = (HeadTable.IndexToLocFormats)indexToLocFormat
             };
 

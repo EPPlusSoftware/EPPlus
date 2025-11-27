@@ -1,48 +1,68 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<IsTestProject>true</IsTestProject>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>EPPlus.Fonts.OpenType.Tests.snk</AssemblyOriginatorKeyFile>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
 		<PackageReference Include="MSTest.TestAdapter" />
 		<PackageReference Include="MSTest.TestFramework" />
 	</ItemGroup>
-	
-  <ItemGroup>
-    <ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" />
+		<ProjectReference Include="..\EPPlus\EPPlus.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" />
+		<PackageReference Include="MSTest.TestAdapter" />
+		<PackageReference Include="MSTest.TestFramework" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="Fonts\BIZUDGothic-Bold.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\BIZUDGothic-Regular.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\Roboto-Bold.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\Roboto-BoldItalic.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\Roboto-Italic.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\Roboto-Regular.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\SourceSans3-Regular.otf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="Fonts\BIZUDGothic-Bold.ttf">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\BIZUDGothic-Regular.ttf">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\CrimsonText-Regular.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\EBGaramond-Regular.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\Mulish-Regular.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\NotoEmoji-Regular.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\OpenSans-Regular.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\Roboto-Bold.ttf">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\Roboto-BoldItalic.ttf">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\Roboto-Italic.ttf">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\Roboto-Regular.ttf">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\SourceSans3-Regular.otf">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>
