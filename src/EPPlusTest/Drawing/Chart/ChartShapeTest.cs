@@ -12,6 +12,17 @@ namespace EPPlusTest.Drawing.Chart
     public class ChartShapeTest : TestBase
     {
         [TestMethod]
+        public void ShapeInChart()
+        {
+            using var p = OpenTemplatePackage("Cheert.xlsx");
+            var cheert = p.Workbook.Worksheets["Chart1"];
+            var chart = cheert.Drawings[0] as ExcelChartStandard;
+            chart.Drawings.AddShape("myshpe", eShapeStyle.ActionButtonReturn);
+            SaveAndCleanup(p);
+        }
+
+
+        [TestMethod]
         public void ShapeInChartTest()
         {
             using var p = OpenTemplatePackage("ShapeInChart.xlsx");
