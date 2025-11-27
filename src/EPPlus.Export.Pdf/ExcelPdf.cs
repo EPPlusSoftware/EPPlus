@@ -221,6 +221,12 @@ namespace EPPlus.Export.Pdf
             page.contentObjectNumbers.Add(contentStream.objectNumber);
         }
 
+        //Add Header Footer
+        private void AddHeaderFooter(PdfTransform pageLayout, PdfPage page)
+        {
+
+        }
+
         private PdfInfoObject AddInfoObject()
         {
             var info = new PdfInfoObject(Document.Count + 1, _workheets[0].Workbook._package.File.Name);
@@ -252,6 +258,7 @@ namespace EPPlus.Export.Pdf
                 var pageLayout = pagesLayout.ChildObjects[i];
                 var page = AddPage(2, new List<int>(), PageSettings);
                 AddContent(pageLayout, page);
+                AddHeaderFooter(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
             var info = AddInfoObject();

@@ -251,14 +251,30 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 if (pageNumber == 1)
                 {
                     //check first header/footer if null use odd or even
+                    if (ws.HeaderFooter.FirstHeader != null)
+                    {
+                        ws.HeaderFooter.FirstHeader.LeftAlignedText
+                    }
+                    else if (ws.HeaderFooter.OddFooter != null)
+                    { }
+                    else if (ws.HeaderFooter.EvenFooter != null)
+                    { }
                 }
                 else if (pageNumber % 2 == 0)
                 {
                     //check even header if null use odd
+                    if (ws.HeaderFooter.EvenFooter != null)
+                    { }
+                    else if (ws.HeaderFooter.OddFooter != null)
+                    { }
                 }
                 else if (pageNumber % 2 == 1)
                 {
                     //check odd header if null use even
+                    if (ws.HeaderFooter.OddFooter != null)
+                    { }
+                    else if (ws.HeaderFooter.EvenFooter != null)
+                    { }
                 }
             }
         }
