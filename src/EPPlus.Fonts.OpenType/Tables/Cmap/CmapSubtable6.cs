@@ -56,7 +56,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                 return GlyphIdArray[index];
             }
 
-            return -1;
+            return -1; // Not found
         }
 
 
