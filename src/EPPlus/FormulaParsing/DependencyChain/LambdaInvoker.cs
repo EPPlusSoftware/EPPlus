@@ -60,6 +60,7 @@ namespace OfficeOpenXml.FormulaParsing.DependencyChain
                     }
                 }
             }
+            f.OnLambdaInvoked();
             return result;
         }
     }
