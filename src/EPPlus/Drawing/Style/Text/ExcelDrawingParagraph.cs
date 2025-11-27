@@ -475,7 +475,6 @@ namespace OfficeOpenXml.Drawing
                             finalLines.Add(line);
                         }
 
-
                         //Could be just one line or mutliple lines.
                         //Re-use same collection to avoid code repetition.
                         //Line-spacing should be applied for each line
@@ -511,13 +510,12 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="maxWidth">MaxWidth/Wrapping width in points. A value of 0 implies no wrapping.</param>
         /// <returns></returns>
-        internal RectBase GetParagraphSize(double maxWidth = 0, double maxHeight = 0)
+        internal RectBase GetParagraphSize(double maxWidth = 0, double maxHeight = 0, bool isFirstLine=true)
         {
             double paragraphHeight = 0;
             double paragraphWidth = 0;
+            double lineWidth = 0;
             var measurer = _prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
-            bool isFirstLine = true;
-
             var maxWidthInPixels = (maxWidth / 72d) * 96d;
 
             foreach (var txtRun in TextRuns)
@@ -525,8 +523,13 @@ namespace OfficeOpenXml.Drawing
                 //Split textrun text into line-breaks
                 var lines = txtRun.SplitIntoLines();
                 //For each line in each linebreak
-                foreach (var line in lines)
+                for(int x = 0;x < lines.Count;x++)
                 {
+                    var line = lines[x];
+                    if (x > 0)
+                    {
+                        lineWidth = 0;
+                    }
                     var measurementFont = txtRun.GetMeasureFont();
                     //Get the length/height of the line via the font of the textRun
 
@@ -542,7 +545,8 @@ namespace OfficeOpenXml.Drawing
                     {
                         finalLines.Add(line);
                     }
-                    if (measurement.Width > paragraphWidth) paragraphWidth = measurement.Width;
+                    lineWidth += measurement.Width;
+                    if (lineWidth > paragraphWidth) paragraphWidth = lineWidth;
                     //Could be just one line or mutliple lines.
                     //Re-use same collection to avoid code repetition.
                     //Line-spacing should be applied for each line
@@ -578,9 +582,9 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="maxWidth">must be entered in points</param>
         /// <returns></returns>
-        internal RectBase GetParagraphSizeInPixels(double maxWidth = 0, double maxHeight = 0)
+        internal RectBase GetParagraphSizeInPixels(double maxWidth = 0, double maxHeight = 0, bool isFirstLine=true)
         {
-            var pointHeight = GetParagraphSize(maxWidth, maxHeight);
+            var pointHeight = GetParagraphSize(maxWidth, maxHeight, isFirstLine);
             return new RectBase((pointHeight.Width / 72d) * 96d, (pointHeight.Height / 72d) * 96d);
         }
     }

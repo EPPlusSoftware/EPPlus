@@ -79,11 +79,12 @@ namespace EPPlusTest.FormulaParsing
         private void VerifyCalculationInPackage(string xlFile, string logFile)
         {
             Stopwatch sw = new Stopwatch(); 
-            sw.Start();            
-            if(File.Exists(logFile))    
+            sw.Start();
+            if(File.Exists(logFile))
             {
-                File.Delete(logFile);   
+                File.Delete(logFile);
             }
+
             var extension = Path.GetExtension(xlFile);
 
             var logWriter = new StreamWriter(File.OpenWrite(logFile));

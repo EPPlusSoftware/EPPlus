@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.FontLocalization;
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using System.Collections.Generic;
@@ -47,10 +48,24 @@ namespace EPPlus.Fonts.OpenType.Scanner
             if (_tableRecords.ContainsKey(TableNames.Name))
             {
                 var tblSettings = new TableLoaderSettings(reader, _tableRecords, null);
-                NameTable = TableLoaders.GetNameTableLoader(tblSettings).Load(false);
-                FontFamilyName = NameTable.NameRecords.FirstOrDefault(x => x.RecordType == NameRecordTypes.FontFamilyName && !string.IsNullOrEmpty(x.Name))?.Name;
-                FontSubFamilyName = NameTable.NameRecords.FirstOrDefault(x => x.RecordType == NameRecordTypes.FontSubfamilyName && !string.IsNullOrEmpty(x.Name))?.Name;
+                NameTable = TableLoaders.GetNameTableLoader(tblSettings).Load(false);                
+                FontFamilyName = GetEnglishFontFamilyName();
+                FontSubFamilyName = GetEnglishFontSubFamilyName();
             }
+        }
+        internal string GetEnglishFullFontFamilyName()
+        {
+            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FullFontName && x.LanguageMapping.Language == Languages.English)?.Name;
+        }
+
+        public string GetEnglishFontFamilyName()
+        {
+            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontFamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
+        }
+
+        internal string GetEnglishFontSubFamilyName()
+        {
+            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontSubfamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
         }
 
         private readonly FontsBinaryReader _reader;
