@@ -17,6 +17,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
 {
     public class NameTable : FontTableBase
     {
+        public override string Name => TableNames.Name;
         public ushort format { get; set; }
 
         public ushort count { get; set; }

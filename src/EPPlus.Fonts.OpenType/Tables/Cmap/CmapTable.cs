@@ -27,6 +27,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             EncodingRecords = new List<EncodingRecord>();
             SubTables = new List<CmapSubtableBase>();
         }
+
+        public override string Name => TableNames.Cmap;
         /// <summary>
         /// Table version number (0).
         /// </summary>

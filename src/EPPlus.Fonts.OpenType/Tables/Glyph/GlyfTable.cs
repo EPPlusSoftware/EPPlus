@@ -34,6 +34,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
 
         private readonly TableLoaderSettings _tableLoaderSettings;
 
+        public override string Name => TableNames.Glyf;
+
         /// <summary>
         /// All glyphs in the font, indexed by glyph ID.
         /// </summary>

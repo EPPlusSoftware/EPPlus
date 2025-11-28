@@ -15,19 +15,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlus.Fonts.OpenType.Tables
-{
-    internal class TableLoaderSettings
-    {
-        internal FontsBinaryReader _readerRef { get; private set; }
-        internal Dictionary<string, TableRecord> _tableRecordsRef { get; private set; }
-        internal TableCache _tblCacheRef { get; private set; }
 
-        internal TableLoaderSettings(FontsBinaryReader reader, Dictionary<string, TableRecord> records, TableCache tblCache) 
+namespace EPPlus.Fonts.OpenType.FontValidation
+{
+    public class TableValidationResult
+    {
+        private readonly List<FontValidationMessage> _messages = new List<FontValidationMessage>();
+
+        public string TableName { get; set; }
+
+        public IEnumerable<FontValidationMessage> Messages => _messages;
+
+        public bool IsValid => !_messages.Any(m => m.Severity == FontValidationSeverity.Error);
+
+        public void AddMessage(FontValidationSeverity severity, string message)
         {
-            _readerRef = reader;
-            _tableRecordsRef = records;
-            _tblCacheRef = tblCache;
+            _messages.Add(new FontValidationMessage(severity, message));
         }
+
+        public IEnumerable<FontValidationMessage> Errors => _messages.Where(m => m.Severity == FontValidationSeverity.Error);
+        public IEnumerable<FontValidationMessage> Warnings => _messages.Where(m => m.Severity == FontValidationSeverity.Warning);
+        public IEnumerable<FontValidationMessage> Information => _messages.Where(m => m.Severity == FontValidationSeverity.Information);
     }
 }

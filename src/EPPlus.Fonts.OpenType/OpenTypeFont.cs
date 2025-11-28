@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Tables.Loca;
+using EPPlus.Fonts.OpenType.FontValidation;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -98,6 +99,13 @@ namespace EPPlus.Fonts.OpenType
 
         internal GlyfTableLoader _glyfTableLoader;
         internal KernTableLoader _kernTableLoader;
+
+
+        public FontValidationReport ValidateFont()
+        {
+            var validator = new FontValidator();
+            return validator.Validate(this);
+        }
 
 
         /// <summary>
@@ -438,5 +446,21 @@ namespace EPPlus.Fonts.OpenType
         internal ushort RangeShift { get; private set; }
 
         internal IDictionary<string, TableRecord> TableRecords => _tableRecords;
+
+
+        /// <summary>
+        /// Total length (in bytes) of the underlying font stream.
+        /// Returns 0 if reader is null.
+        /// </summary>
+        internal long FileLength
+        {
+            get
+            {
+                return _reader != null && _reader.BaseStream != null
+                    ? _reader.BaseStream.Length
+                    : 0L;
+            }
+        }
+
     }
 }

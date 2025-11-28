@@ -10,43 +10,47 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.FontValidation;
 using System.Collections.Generic;
 
-namespace EPPlus.Fonts.OpenType.Tables
+public class FontValidationReport
 {
-    internal class TableCache
+    private readonly List<TableValidationResult> _results = new List<TableValidationResult>();
+
+    public IList<TableValidationResult> Results
     {
-        private Dictionary<string, object> _cachedTables = new Dictionary<string, object>();
+        get { return _results; }
+    }
 
-        public object Get(string key)
+    public bool IsValid
+    {
+        get
         {
-            return _cachedTables[key];
-        }
-
-        public bool Contains(string key)
-        {
-            return _cachedTables.ContainsKey(key);
-        }
-
-        public void Add(string key, object val)
-        {
-            _cachedTables.Add(key, val);
-        }
-
-        public void AddOrReplace(string key, object val)
-        {
-            if (_cachedTables.ContainsKey(key))
+            foreach (var r in _results)
             {
-                _cachedTables.Remove(key);
+                if (!r.IsValid) return false;
             }
-            _cachedTables[key] = val;
+            return true;
         }
+    }
 
-        public void Clear()
+    public void AddResult(TableValidationResult result)
+    {
+        _results.Add(result);
+    }
+
+    public string FormatSummary()
+    {
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine("Font Validation Summary:");
+        foreach (var r in _results)
         {
-            _cachedTables.Clear();
+            sb.AppendLine("[" + r.TableName + "] " + (r.IsValid ? "Valid" : "Invalid"));
+            foreach (var msg in r.Messages)
+            {
+                sb.AppendLine(msg.ToString());
+            }
         }
-
-        public int Count => _cachedTables.Keys.Count;
+        return sb.ToString();
     }
 }

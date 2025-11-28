@@ -16,6 +16,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Kern
 {
     public class KernTable : FontTableBase
     {
+        public override string Name => TableNames.Kern;
         public ushort version { get; set; }
         public ushort numberOfFormat0Tables { get; set; }
 

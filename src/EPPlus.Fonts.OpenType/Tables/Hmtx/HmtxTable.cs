@@ -23,6 +23,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
     /// </summary>
     public class HmtxTable : FontTableBase
     {
+        public override string Name => TableNames.Hmtx;
         public List<LongHorMetric> hMetrics { get; set; } = new List<LongHorMetric>();
         public List<short> leftSideBearings { get; set; } = new List<short>();
 

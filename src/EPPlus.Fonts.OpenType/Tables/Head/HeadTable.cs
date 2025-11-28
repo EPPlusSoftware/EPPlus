@@ -22,6 +22,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Head
             Offset16 = 0,
             Offset32 = 1
         }
+
+        public override string Name => TableNames.Head;
+
         public ushort MajorVersion { get; set; }
 
         public ushort MinorVersion { get; set; }

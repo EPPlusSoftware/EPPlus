@@ -11,23 +11,26 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace EPPlus.Fonts.OpenType.Tables
+namespace EPPlus.Fonts.OpenType.FontValidation
 {
-    internal class TableLoaderSettings
-    {
-        internal FontsBinaryReader _readerRef { get; private set; }
-        internal Dictionary<string, TableRecord> _tableRecordsRef { get; private set; }
-        internal TableCache _tblCacheRef { get; private set; }
 
-        internal TableLoaderSettings(FontsBinaryReader reader, Dictionary<string, TableRecord> records, TableCache tblCache) 
+    internal static class LongDateTimeLimits
+    {
+        // Epoch
+        private static readonly DateTime EpochUtc = new DateTime(1904, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        // Precompute boundaries in seconds since epoch
+        public static readonly long MinSeconds = 0L; // 1904-01-01
+        public static long MaxSeconds // now + 10 years
         {
-            _readerRef = reader;
-            _tableRecordsRef = records;
-            _tblCacheRef = tblCache;
+            get
+            {
+                DateTime max = DateTime.UtcNow.AddYears(10);
+                TimeSpan span = max - EpochUtc;
+                return (long)span.TotalSeconds;
+            }
         }
     }
+
 }

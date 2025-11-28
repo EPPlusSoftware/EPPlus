@@ -30,6 +30,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
 
         private readonly MaxpTable _maxpTable;
 
+        public override string Name => TableNames.Loca;
+
         public List<uint> Offsets { get; set; } = new List<uint>();
         public HeadTable.IndexToLocFormats IndexToLocFormat { get; set; }
 

@@ -21,6 +21,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
     /// </summary>
     public class HheaTable : FontTableBase
     {
+        public override string Name => TableNames.Hhea;
         /// <summary>
         /// Major version number of the horizontal header table — set to 1.
         /// </summary>
