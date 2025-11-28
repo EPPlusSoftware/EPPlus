@@ -24,7 +24,7 @@ namespace TestProject1
                 var shape = ws.Drawings.AddShape("Rect1", OfficeOpenXml.Drawing.eShapeStyle.Rect);
 
                 PresetShapeDefinitions.ShapeDefinitions[shape.Style].Calculate(shape);
-                p.SaveAs("c:\\temp\\rect.xlsx");
+                await p.SaveAsAsync("c:\\temp\\rect.xlsx");
             }
         }
 

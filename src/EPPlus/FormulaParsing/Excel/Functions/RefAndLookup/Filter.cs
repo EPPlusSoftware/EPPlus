@@ -51,7 +51,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
 
-            if(s1.NumberOfRows==s2.NumberOfRows)
+            if(s1.NumberOfRows==s2.NumberOfRows & s1.NumberOfRows > 1)
             {
                 return FilterOnRow(arg1, arg2, arg3);
             }
@@ -79,7 +79,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var s1 = arg1.Size;
             var s2 = arg2.Size;
 
-            if (s2.NumberOfCols != 1)
+            if (s2.NumberOfCols != 1 && s1.NumberOfCols != s2.NumberOfCols)
             {
                 return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
@@ -127,7 +127,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var s1 = arg1.Size;
             var s2 = arg2.Size;
 
-            if (s2.NumberOfRows != 1)
+            if (s2.NumberOfRows != 1 && s1.NumberOfRows != s2.NumberOfRows)
             {
                 return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
@@ -149,13 +149,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
                 if (boolValue != 0)
                 {
-                    var row = new List<object>();
-
-                    for (int r = 0; r < s1.NumberOfCols; r++)
+                    for (int r = 0; r < s1.NumberOfRows; r++)
                     {
-                        row.Add(arg1.GetOffset(r, c));
+                        if (filteredData.Count <= r)
+                        {
+                            filteredData.Add(new List<object>());
+                        }
+                        filteredData[r].Add(arg1.GetOffset(r, c));
                     }
-                    filteredData.Add(row);
                 }
             }
             if (filteredData.Count == 0)

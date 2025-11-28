@@ -30,9 +30,9 @@ namespace EPPlus.Fonts.OpenType.Tables
             return new CmapTableLoader(settings);
         }
 
-        public static GlyphTableLoader GetGlyphTableLoader(TableLoaderSettings settings)
+        public static GlyfTableLoader GetGlyfTableLoader(TableLoaderSettings settings)
         {
-            return new GlyphTableLoader(settings);
+            return new GlyfTableLoader(settings);
         }
 
         public static Os2TableLoader GetOs2TableLoader(TableLoaderSettings settings)
@@ -50,7 +50,7 @@ namespace EPPlus.Fonts.OpenType.Tables
             return new MaxpTableLoader(settings);
         }
 
-        public static HmtxTableLoader GetHtmxTableLoader(TableLoaderSettings settings)
+        public static HmtxTableLoader GetHmtxTableLoader(TableLoaderSettings settings)
         {
             return new HmtxTableLoader(settings);
         }

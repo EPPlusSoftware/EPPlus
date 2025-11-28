@@ -10,20 +10,55 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System;
+
 namespace EPPlus.Fonts.OpenType.Tables.Kern
 {
-    public class KernSubTableFormat0
+    public class KernSubTableFormat0 : FontTableElement
     {
         internal KernSubTableFormat0(FontsBinaryReader reader)
         {
             nPairs = reader.ReadUInt16BigEndian();
-            var searchRange = reader.ReadUInt16BigEndian();
-            var entrySelector = reader.ReadUInt16BigEndian();
-            var rangeShift = reader.ReadUInt16BigEndian();
+            SearchRange = reader.ReadUInt16BigEndian();
+            EntrySelector = reader.ReadUInt16BigEndian();
+            RangeShift = reader.ReadUInt16BigEndian();
         }
 
         public ushort nPairs { get; set; }
 
+        public ushort SearchRange { get; set; }
+        public ushort EntrySelector { get; set; }
+        public ushort RangeShift { get; set; }
+
         public KerningPair[] Pairs { get; set; }
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+
+
+            writer.WriteUInt16BigEndian(nPairs);
+
+            // Beräkna sökparametrar
+            ushort maxPowerOf2 = 1;
+            while (maxPowerOf2 * 2 <= nPairs)
+                maxPowerOf2 *= 2;
+
+            ushort searchRange = (ushort)(maxPowerOf2 * 6);
+            ushort entrySelector = (ushort)(Math.Log(maxPowerOf2) / Math.Log(2));
+            ushort rangeShift = (ushort)((nPairs * 6) - searchRange);
+
+            writer.WriteUInt16BigEndian(searchRange);
+            writer.WriteUInt16BigEndian(entrySelector);
+            writer.WriteUInt16BigEndian(rangeShift);
+
+            // Skriv kerningpar
+            foreach (var pair in Pairs)
+            {
+                writer.WriteUInt16BigEndian(pair.left);
+                writer.WriteUInt16BigEndian(pair.right);
+                writer.WriteInt16BigEndian(pair.value);
+            }
+
+        }
     }
 }

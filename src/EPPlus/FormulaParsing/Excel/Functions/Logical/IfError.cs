@@ -33,8 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             config.SetArrayParameterIndexes(0, 1);
         }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
-        {
-            
+        { 
             var arg1 = arguments[0];
             var arg2 = arguments[1];
             if (arg1.ValueIsExcelError)

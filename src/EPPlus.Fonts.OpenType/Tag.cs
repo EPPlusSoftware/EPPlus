@@ -1,5 +1,4 @@
-﻿using System;
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -12,10 +11,12 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using System.IO;
+using System;
+using EPPlus.Fonts.OpenType.Tables;
 
 namespace EPPlus.Fonts.OpenType
 {
-    public class Tag
+    public class Tag : FontTableElement
     {
         internal Tag(BinaryReader reader)
         {
@@ -32,6 +33,22 @@ namespace EPPlus.Fonts.OpenType
             Value = new string(new char[] { c1, c2, c3, c4 });
         }
 
+        internal Tag(string value)
+        {
+            Value = value;
+        }
+
         public string Value { get; private set; }
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            if (Value == null || Value.Length != 4)
+                throw new InvalidOperationException("Tag must contain exactly 4 characters.");
+
+            foreach (char c in Value)
+            {
+                writer.Write((byte)c); // ASCII encoding
+            }
+        }
     }
 }

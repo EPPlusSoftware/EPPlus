@@ -18,6 +18,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         Macintosh = 1,
         ISO_Deprecated = 2,
         Windows = 3,
-        Customer = 4
+        Custom = 4
     }
 }

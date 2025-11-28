@@ -234,7 +234,7 @@ namespace EPPlusImageRenderer.Text
             }
             groupItem.RenderEndGroup(sb);
         }
-        private void RenderTextRuns(StringBuilder sb)
+        internal void RenderTextRuns(StringBuilder sb)
         {
             var groupItem = new SvgGroupItem("");
             groupItem.Render(sb);

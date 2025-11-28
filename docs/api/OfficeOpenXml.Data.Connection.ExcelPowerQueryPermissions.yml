@@ -1,0 +1,402 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions
+  commentId: T:OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions
+  id: ExcelPowerQueryPermissions
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.FirewallEnabled
+  - OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.PrivacyLevel
+  langs:
+  - csharp
+  - vb
+  name: ExcelPowerQueryPermissions
+  nameWithType: ExcelPowerQueryPermissions
+  fullName: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Data/PowerQuery/ExcelPowerQueryPermissions.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPowerQueryPermissions
+    path: ../src/EPPlus/Data/PowerQuery/ExcelPowerQueryPermissions.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Power query permission settings
+  example: []
+  syntax:
+    content: public class ExcelPowerQueryPermissions
+    content.vb: Public Class ExcelPowerQueryPermissions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.FirewallEnabled
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.FirewallEnabled
+  id: FirewallEnabled
+  parent: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions
+  langs:
+  - csharp
+  - vb
+  name: FirewallEnabled
+  nameWithType: ExcelPowerQueryPermissions.FirewallEnabled
+  fullName: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.FirewallEnabled
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/PowerQuery/ExcelPowerQueryPermissions.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirewallEnabled
+    path: ../src/EPPlus/Data/PowerQuery/ExcelPowerQueryPermissions.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: if the privacy Level settings are used when combining data. See the [MSFT-Support] article <a href="https://support.microsoft.com/en-us/office/set-privacy-levels-power-query-cc3ede4d-359e-4b28-bc72-9bee7900b540">Set Privacy levels (Power Query)</a> for more information.
+  example: []
+  syntax:
+    content: public bool FirewallEnabled { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property FirewallEnabled As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.FirewallEnabled*
+- uid: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.PrivacyLevel
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.PrivacyLevel
+  id: PrivacyLevel
+  parent: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions
+  langs:
+  - csharp
+  - vb
+  name: PrivacyLevel
+  nameWithType: ExcelPowerQueryPermissions.PrivacyLevel
+  fullName: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.PrivacyLevel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/PowerQuery/ExcelPowerQueryPermissions.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PrivacyLevel
+    path: ../src/EPPlus/Data/PowerQuery/ExcelPowerQueryPermissions.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The Privacy Level of the current spreadsheet. See the [MSFT-Support] article <a href="https://support.microsoft.com/en-us/office/set-privacy-levels-power-query-cc3ede4d-359e-4b28-bc72-9bee7900b540">Set Privacy levels (Power Query)</a> for more information.
+  example: []
+  syntax:
+    content: public ePowerQueryPermissionWorkbookGroupType PrivacyLevel { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+    content.vb: Public Property PrivacyLevel As ePowerQueryPermissionWorkbookGroupType
+  overload: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.PrivacyLevel*
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.FirewallEnabled*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.FirewallEnabled
+  href: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.html#OfficeOpenXml_Data_Connection_ExcelPowerQueryPermissions_FirewallEnabled
+  name: FirewallEnabled
+  nameWithType: ExcelPowerQueryPermissions.FirewallEnabled
+  fullName: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.FirewallEnabled
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.PrivacyLevel*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.PrivacyLevel
+  href: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.html#OfficeOpenXml_Data_Connection_ExcelPowerQueryPermissions_PrivacyLevel
+  name: PrivacyLevel
+  nameWithType: ExcelPowerQueryPermissions.PrivacyLevel
+  fullName: OfficeOpenXml.Data.Connection.ExcelPowerQueryPermissions.PrivacyLevel
+- uid: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+  commentId: T:OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType.html
+  name: ePowerQueryPermissionWorkbookGroupType
+  nameWithType: ePowerQueryPermissionWorkbookGroupType
+  fullName: OfficeOpenXml.Data.Connection.ePowerQueryPermissionWorkbookGroupType

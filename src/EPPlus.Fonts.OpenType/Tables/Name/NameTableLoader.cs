@@ -11,7 +11,9 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontLocalization;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tables.Name
@@ -57,30 +59,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             {
                 _reader.BaseStream.Position = globalStringOffset + record.offset;
                 var bytes = _reader.ReadBytes(record.length);
-                //var encodingProvider = CodePagesEncodingProvider.Instance;
-                
-                // Macintosh platform
-                if(record.platformId == 1)
-                {
-                    continue;
-                    //var enc = encodingProvider.GetEncoding(10000);
-                    //record.Name = enc.GetString(bytes);
-                    //record.LanguageMapping = MacintoshLanguageMappings.Mappings[record.languageID];
-                }
-                else if(record.platformId == 0)
-                {
-                    record.Name = Encoding.GetEncoding("utf-16BE").GetString(bytes);
-                }
-                // Windows platform
-                else if(record.platformId == 3)
-                {
-                    if(WindowsLanguageMappings.Mappings.ContainsKey((int)record.languageID))
-                    {
-                        record.LanguageMapping = WindowsLanguageMappings.Mappings[record.languageID];
-                    }
-                    var enc = GetWindowsEncoding(record.encodingId);
-                    record.Name = Encoding.GetEncoding("utf-16BE").GetString(bytes);
-                }
+                SetName(record, bytes);
             }
             
             return new NameTable
@@ -92,24 +71,86 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             };
         }
 
-        private Encoding GetWindowsEncoding(int encoding)
+        private void SetName(NameRecord record, byte[] bytes)
         {
-            //var encPrv = CodePagesEncodingProvider.Instance;
-            switch(encoding)
+            // Macintosh platform
+            if (record.platformId == 1)
             {
-                case 0:
-                    //return Encoding.GetEncoding(1038);
-                    return Encoding.GetEncoding(1252);
-                case 1:
-                    return Encoding.GetEncoding("utf-16BE");
-                case 2:
-                    return Encoding.GetEncoding("Shift-JIS");
-                case 4:
-                    return Encoding.GetEncoding("Big5");
-                case 6:
-                    return Encoding.GetEncoding("Johab");
-                default:
-                    return Encoding.Unicode;
+                if (!Encoding.GetEncodings().Any(x => x.CodePage == 10000)) return;
+                var enc = Encoding.GetEncoding(10000);
+                record.Name = enc.GetString(bytes);
+                if(MacintoshLanguageMappings.Mappings.ContainsKey(record.languageID))
+                {
+                    record.LanguageMapping = MacintoshLanguageMappings.Mappings[record.languageID];
+                }
+            }
+            // Unicode platform
+            else if (record.platformId == 0)
+            {
+                record.Name = Encoding.GetEncoding("utf-16BE").GetString(bytes);
+            }
+            // Windows platform
+            else if (record.platformId == 3)
+            {
+                if (WindowsLanguageMappings.Mappings.ContainsKey((int)record.languageID))
+                {
+                    record.LanguageMapping = WindowsLanguageMappings.Mappings[record.languageID];
+                }
+                var enc = GetWindowsEncoding(record.encodingId);
+                record.Name = enc.GetString(bytes);
+            }
+        }
+
+        internal static Encoding GetWindowsEncoding(int encodingId)
+        {
+            // Ensure CodePagesEncodingProvider is registered before calling this method:
+            // Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            try
+            {
+                switch (encodingId)
+                {
+                    case 0:
+                        // Symbol encoding – not Unicode. Fallback to Windows-1252 for compatibility.
+                        return Encoding.GetEncoding(1252);
+
+                    case 1:
+                        // Unicode BMP (UCS-2) – typically stored as UTF-16BE in font files.
+                        return Encoding.GetEncoding("utf-16BE");
+
+                    case 2:
+                        // Shift-JIS – used for Japanese.
+                        return Encoding.GetEncoding(932);
+
+                    case 3:
+                        // PRC – Simplified Chinese (GB2312).
+                        return Encoding.GetEncoding(936);
+
+                    case 4:
+                        // Big5 – Traditional Chinese.
+                        return Encoding.GetEncoding(950);
+
+                    case 5:
+                        // Wansung – Korean.
+                        return Encoding.GetEncoding(949);
+
+                    case 6:
+                        // Johab – Korean (alternative encoding).
+                        return Encoding.GetEncoding(1361);
+
+                    case 10:
+                        // Unicode full repertoire – UTF-32BE.
+                        return Encoding.GetEncoding("utf-32BE");
+
+                    default:
+                        // Fallback to UTF-16LE (default in .NET) for unknown or unsupported encodings.
+                        return Encoding.Unicode;
+                }
+            }
+            catch (NotSupportedException)
+            {
+                // If the requested encoding is not available, fallback to UTF-16LE.
+                return Encoding.Unicode;
             }
         }
     }

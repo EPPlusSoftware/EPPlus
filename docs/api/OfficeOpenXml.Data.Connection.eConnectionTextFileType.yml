@@ -1,0 +1,155 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFileType
+  commentId: T:OfficeOpenXml.Data.Connection.eConnectionTextFileType
+  id: eConnectionTextFileType
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.eConnectionTextFileType.Mac
+  - OfficeOpenXml.Data.Connection.eConnectionTextFileType.Unix
+  - OfficeOpenXml.Data.Connection.eConnectionTextFileType.Win
+  langs:
+  - csharp
+  - vb
+  name: eConnectionTextFileType
+  nameWithType: eConnectionTextFileType
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFileType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFileType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eConnectionTextFileType
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFileType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A file type for text data sources.
+  example: []
+  syntax:
+    content: public enum eConnectionTextFileType
+    content.vb: Public Enum eConnectionTextFileType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFileType.Win
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFileType.Win
+  id: Win
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFileType
+  langs:
+  - csharp
+  - vb
+  name: Win
+  nameWithType: eConnectionTextFileType.Win
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFileType.Win
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFileType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Win
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFileType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Windows
+  example: []
+  syntax:
+    content: Win = 0
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFileType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFileType.Mac
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFileType.Mac
+  id: Mac
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFileType
+  langs:
+  - csharp
+  - vb
+  name: Mac
+  nameWithType: eConnectionTextFileType.Mac
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFileType.Mac
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFileType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Mac
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFileType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Mac
+  example: []
+  syntax:
+    content: Mac = 1
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFileType
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFileType.Unix
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionTextFileType.Unix
+  id: Unix
+  parent: OfficeOpenXml.Data.Connection.eConnectionTextFileType
+  langs:
+  - csharp
+  - vb
+  name: Unix
+  nameWithType: eConnectionTextFileType.Unix
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFileType.Unix
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eConnectionTextFileType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Unix
+    path: ../src/EPPlus/Data/Connection/Enums/eConnectionTextFileType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Unix
+  example: []
+  syntax:
+    content: Unix = 2
+    return:
+      type: OfficeOpenXml.Data.Connection.eConnectionTextFileType
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: OfficeOpenXml.Data.Connection.eConnectionTextFileType
+  commentId: T:OfficeOpenXml.Data.Connection.eConnectionTextFileType
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.eConnectionTextFileType.html
+  name: eConnectionTextFileType
+  nameWithType: eConnectionTextFileType
+  fullName: OfficeOpenXml.Data.Connection.eConnectionTextFileType

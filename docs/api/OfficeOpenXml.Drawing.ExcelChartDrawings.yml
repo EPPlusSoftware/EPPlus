@@ -1,0 +1,1390 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings
+  commentId: T:OfficeOpenXml.Drawing.ExcelChartDrawings
+  id: ExcelChartDrawings
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.IO.FileInfo)
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.IO.FileInfo,System.Uri)
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.IO.Stream)
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.IO.Stream,System.Uri)
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.String)
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.String,OfficeOpenXml.ExcelHyperLink)
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.AddShape(System.String,OfficeOpenXml.Drawing.eShapeStyle)
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.Count
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.Dispose
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.DrawingXml
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.GetEnumerator
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.Item(System.Int32)
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.Item(System.String)
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(System.Int32)
+  - OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(System.String)
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartDrawings
+  nameWithType: ExcelChartDrawings
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartDrawings
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 12
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Collection of drawings inside a chart
+  example: []
+  syntax:
+    content: 'public class ExcelChartDrawings : IEnumerable<ExcelDrawing>, IEnumerable, IDisposable'
+    content.vb: Public Class ExcelChartDrawings Implements IEnumerable(Of ExcelDrawing), IEnumerable, IDisposable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}
+  - System.Collections.IEnumerable
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.DrawingXml
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartDrawings.DrawingXml
+  id: DrawingXml
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: DrawingXml
+  nameWithType: ExcelChartDrawings.DrawingXml
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.DrawingXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DrawingXml
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: A reference to the drawing xml document
+  example: []
+  syntax:
+    content: public XmlDocument DrawingXml { get; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public ReadOnly Property DrawingXml As XmlDocument
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.DrawingXml*
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.AddShape(System.String,OfficeOpenXml.Drawing.eShapeStyle)
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartDrawings.AddShape(System.String,OfficeOpenXml.Drawing.eShapeStyle)
+  id: AddShape(System.String,OfficeOpenXml.Drawing.eShapeStyle)
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddShape(string, eShapeStyle)
+  nameWithType: ExcelChartDrawings.AddShape(string, eShapeStyle)
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.AddShape(string, OfficeOpenXml.Drawing.eShapeStyle)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddShape
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Adds a shape to the chart
+  example: []
+  syntax:
+    content: public ExcelShape AddShape(string Name, eShapeStyle Style)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the shape
+    - id: Style
+      type: OfficeOpenXml.Drawing.eShapeStyle
+      description: The type of shape
+    return:
+      type: OfficeOpenXml.Drawing.ExcelShape
+      description: The shape
+    content.vb: Public Function AddShape(Name As String, Style As eShapeStyle) As ExcelShape
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.AddShape*
+  nameWithType.vb: ExcelChartDrawings.AddShape(String, eShapeStyle)
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartDrawings.AddShape(String, OfficeOpenXml.Drawing.eShapeStyle)
+  name.vb: AddShape(String, eShapeStyle)
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.String)
+  id: AddPicture(System.String,System.String)
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(string, string)
+  nameWithType: ExcelChartDrawings.AddPicture(string, string)
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(string, string)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Adds a picture to the chart
+  example: []
+  syntax:
+    content: public ExcelPicture AddPicture(string Name, string ImagePath)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the shape
+    - id: ImagePath
+      type: System.String
+      description: The path to the image file.
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: The shape
+    content.vb: Public Function AddPicture(Name As String, ImagePath As String) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture*
+  nameWithType.vb: ExcelChartDrawings.AddPicture(String, String)
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(String, String)
+  name.vb: AddPicture(String, String)
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.String,OfficeOpenXml.ExcelHyperLink)
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.String,OfficeOpenXml.ExcelHyperLink)
+  id: AddPicture(System.String,System.String,OfficeOpenXml.ExcelHyperLink)
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(string, string, ExcelHyperLink)
+  nameWithType: ExcelChartDrawings.AddPicture(string, string, ExcelHyperLink)
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(string, string, OfficeOpenXml.ExcelHyperLink)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 76
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Adds a picture to the chart
+  example: []
+  syntax:
+    content: public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink HyperLink)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the shape
+    - id: ImagePath
+      type: System.String
+      description: The path to the image file.
+    - id: HyperLink
+      type: OfficeOpenXml.ExcelHyperLink
+      description: A hyperlink for the shape
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: The shape
+    content.vb: Public Function AddPicture(Name As String, ImagePath As String, HyperLink As ExcelHyperLink) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture*
+  nameWithType.vb: ExcelChartDrawings.AddPicture(String, String, ExcelHyperLink)
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(String, String, OfficeOpenXml.ExcelHyperLink)
+  name.vb: AddPicture(String, String, ExcelHyperLink)
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.IO.FileInfo)
+  id: AddPicture(System.String,System.IO.FileInfo)
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(string, FileInfo)
+  nameWithType: ExcelChartDrawings.AddPicture(string, FileInfo)
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(string, System.IO.FileInfo)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Adds a picture to the chart
+  example: []
+  syntax:
+    content: public ExcelPicture AddPicture(string Name, FileInfo ImageFile)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the shape
+    - id: ImageFile
+      type: System.IO.FileInfo
+      description: The image file.
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: The shape
+    content.vb: Public Function AddPicture(Name As String, ImageFile As FileInfo) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture*
+  nameWithType.vb: ExcelChartDrawings.AddPicture(String, FileInfo)
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(String, System.IO.FileInfo)
+  name.vb: AddPicture(String, FileInfo)
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.IO.FileInfo,System.Uri)
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.IO.FileInfo,System.Uri)
+  id: AddPicture(System.String,System.IO.FileInfo,System.Uri)
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(string, FileInfo, Uri)
+  nameWithType: ExcelChartDrawings.AddPicture(string, FileInfo, Uri)
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(string, System.IO.FileInfo, System.Uri)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Adds a picture to the chart
+  example: []
+  syntax:
+    content: public ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri HyperLink)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the shape
+    - id: ImageFile
+      type: System.IO.FileInfo
+      description: The image file.
+    - id: HyperLink
+      type: System.Uri
+      description: A hyperlink for the shape
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: The shape
+    content.vb: Public Function AddPicture(Name As String, ImageFile As FileInfo, HyperLink As Uri) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture*
+  nameWithType.vb: ExcelChartDrawings.AddPicture(String, FileInfo, Uri)
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(String, System.IO.FileInfo, System.Uri)
+  name.vb: AddPicture(String, FileInfo, Uri)
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.IO.Stream)
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.IO.Stream)
+  id: AddPicture(System.String,System.IO.Stream)
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(string, Stream)
+  nameWithType: ExcelChartDrawings.AddPicture(string, Stream)
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(string, System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 109
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Adds a picture to the chart
+  example: []
+  syntax:
+    content: public ExcelPicture AddPicture(string Name, Stream ImageStream)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the shape
+    - id: ImageStream
+      type: System.IO.Stream
+      description: The stream containing image file.
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: The shape
+    content.vb: Public Function AddPicture(Name As String, ImageStream As Stream) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture*
+  nameWithType.vb: ExcelChartDrawings.AddPicture(String, Stream)
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(String, System.IO.Stream)
+  name.vb: AddPicture(String, Stream)
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.IO.Stream,System.Uri)
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(System.String,System.IO.Stream,System.Uri)
+  id: AddPicture(System.String,System.IO.Stream,System.Uri)
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(string, Stream, Uri)
+  nameWithType: ExcelChartDrawings.AddPicture(string, Stream, Uri)
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(string, System.IO.Stream, System.Uri)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 120
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Adds a picture to the chart
+  example: []
+  syntax:
+    content: public ExcelPicture AddPicture(string Name, Stream ImageStream, Uri HyperLink)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the shape
+    - id: ImageStream
+      type: System.IO.Stream
+      description: The stream containing image file.
+    - id: HyperLink
+      type: System.Uri
+      description: A hyperlink for the shape
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: The shape
+    content.vb: Public Function AddPicture(Name As String, ImageStream As Stream, HyperLink As Uri) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture*
+  nameWithType.vb: ExcelChartDrawings.AddPicture(String, Stream, Uri)
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture(String, System.IO.Stream, System.Uri)
+  name.vb: AddPicture(String, Stream, Uri)
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartDrawings.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: this[int]
+  nameWithType: ExcelChartDrawings.this[int]
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.this[int]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 151
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Returns the drawing at the specified position.
+  example: []
+  syntax:
+    content: public ExcelDrawing this[int PositionID] { get; }
+    parameters:
+    - id: PositionID
+      type: System.Int32
+      description: The position of the drawing. 0-base
+    return:
+      type: OfficeOpenXml.Drawing.ExcelDrawing
+      description: The drawing
+    content.vb: Public ReadOnly Default Property this[](PositionID As Integer) As ExcelDrawing
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.Item*
+  nameWithType.vb: ExcelChartDrawings.this[](Integer)
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartDrawings.this[](Integer)
+  name.vb: this[](Integer)
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.Item(System.String)
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartDrawings.Item(System.String)
+  id: Item(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: this[string]
+  nameWithType: ExcelChartDrawings.this[string]
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.this[string]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 163
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Returns the drawing matching the specified name
+  example: []
+  syntax:
+    content: public ExcelDrawing this[string Name] { get; }
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the drawing
+    return:
+      type: OfficeOpenXml.Drawing.ExcelDrawing
+      description: The drawing
+    content.vb: Public ReadOnly Default Property this[](Name As String) As ExcelDrawing
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.Item*
+  nameWithType.vb: ExcelChartDrawings.this[](String)
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartDrawings.this[](String)
+  name.vb: this[](String)
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.Count
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartDrawings.Count
+  id: Count
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelChartDrawings.Count
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 180
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Number of items in the collection
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.Count*
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(System.Int32)
+  id: Remove(System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: Remove(int)
+  nameWithType: ExcelChartDrawings.Remove(int)
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(int)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 192
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Removes a drawing.
+  example: []
+  syntax:
+    content: public void Remove(int Index)
+    parameters:
+    - id: Index
+      type: System.Int32
+      description: The index of the drawing
+    content.vb: Public Sub Remove(Index As Integer)
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove*
+  nameWithType.vb: ExcelChartDrawings.Remove(Integer)
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(Integer)
+  name.vb: Remove(Integer)
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  id: Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelDrawing)
+  nameWithType: ExcelChartDrawings.Remove(ExcelDrawing)
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 204
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Removes a drawing.
+  example: []
+  syntax:
+    content: public void Remove(ExcelDrawing Drawing)
+    parameters:
+    - id: Drawing
+      type: OfficeOpenXml.Drawing.ExcelDrawing
+      description: The drawing
+    content.vb: Public Sub Remove(Drawing As ExcelDrawing)
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove*
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(System.String)
+  id: Remove(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: Remove(string)
+  nameWithType: ExcelChartDrawings.Remove(string)
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(string)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 212
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Removes a drawing.
+  example: []
+  syntax:
+    content: public void Remove(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the drawing
+    content.vb: Public Sub Remove(Name As String)
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove*
+  nameWithType.vb: ExcelChartDrawings.Remove(String)
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove(String)
+  name.vb: Remove(String)
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartDrawings.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelChartDrawings.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 221
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Returns an Enumerator for the drawings in the chart
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelDrawing> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.ExcelDrawing}
+      description: ''
+    content.vb: Public Function GetEnumerator() As IEnumerator(Of ExcelDrawing)
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}.GetEnumerator
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.Dispose
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartDrawings.Dispose
+  id: Dispose
+  parent: OfficeOpenXml.Drawing.ExcelChartDrawings
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: ExcelChartDrawings.Dispose()
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartDrawings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dispose
+    path: ../src/EPPlus/Drawing/ExcelChartDrawings.cs
+    startLine: 236
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: Disposes the drawings collection and all drawings in it.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: OfficeOpenXml.Drawing.ExcelChartDrawings.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Drawing
+    name: Drawing
+    href: OfficeOpenXml.Drawing.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Drawing
+    name: Drawing
+    href: OfficeOpenXml.Drawing.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<ExcelDrawing>
+  nameWithType: IEnumerable<ExcelDrawing>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>
+  nameWithType.vb: IEnumerable(Of ExcelDrawing)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.ExcelDrawing)
+  name.vb: IEnumerable(Of ExcelDrawing)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    href: OfficeOpenXml.Drawing.ExcelDrawing.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    href: OfficeOpenXml.Drawing.ExcelDrawing.html
+  - name: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ienumerable
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.DrawingXml*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartDrawings.DrawingXml
+  href: OfficeOpenXml.Drawing.ExcelChartDrawings.html#OfficeOpenXml_Drawing_ExcelChartDrawings_DrawingXml
+  name: DrawingXml
+  nameWithType: ExcelChartDrawings.DrawingXml
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.DrawingXml
+- uid: System.Xml.XmlDocument
+  commentId: T:System.Xml.XmlDocument
+  parent: System.Xml
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.xml.xmldocument
+  name: XmlDocument
+  nameWithType: XmlDocument
+  fullName: System.Xml.XmlDocument
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Xml
+    name: Xml
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.xml
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Xml
+    name: Xml
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.xml
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.AddShape*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartDrawings.AddShape
+  href: OfficeOpenXml.Drawing.ExcelChartDrawings.html#OfficeOpenXml_Drawing_ExcelChartDrawings_AddShape_System_String_OfficeOpenXml_Drawing_eShapeStyle_
+  name: AddShape
+  nameWithType: ExcelChartDrawings.AddShape
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.AddShape
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: OfficeOpenXml.Drawing.eShapeStyle
+  commentId: T:OfficeOpenXml.Drawing.eShapeStyle
+  parent: OfficeOpenXml.Drawing
+  href: OfficeOpenXml.Drawing.eShapeStyle.html
+  name: eShapeStyle
+  nameWithType: eShapeStyle
+  fullName: OfficeOpenXml.Drawing.eShapeStyle
+- uid: OfficeOpenXml.Drawing.ExcelShape
+  commentId: T:OfficeOpenXml.Drawing.ExcelShape
+  parent: OfficeOpenXml.Drawing
+  href: OfficeOpenXml.Drawing.ExcelShape.html
+  name: ExcelShape
+  nameWithType: ExcelShape
+  fullName: OfficeOpenXml.Drawing.ExcelShape
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture
+  href: OfficeOpenXml.Drawing.ExcelChartDrawings.html#OfficeOpenXml_Drawing_ExcelChartDrawings_AddPicture_System_String_System_String_
+  name: AddPicture
+  nameWithType: ExcelChartDrawings.AddPicture
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.AddPicture
+- uid: OfficeOpenXml.Drawing.ExcelPicture
+  commentId: T:OfficeOpenXml.Drawing.ExcelPicture
+  parent: OfficeOpenXml.Drawing
+  href: OfficeOpenXml.Drawing.ExcelPicture.html
+  name: ExcelPicture
+  nameWithType: ExcelPicture
+  fullName: OfficeOpenXml.Drawing.ExcelPicture
+- uid: OfficeOpenXml.ExcelHyperLink
+  commentId: T:OfficeOpenXml.ExcelHyperLink
+  parent: OfficeOpenXml
+  href: OfficeOpenXml.ExcelHyperLink.html
+  name: ExcelHyperLink
+  nameWithType: ExcelHyperLink
+  fullName: OfficeOpenXml.ExcelHyperLink
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.IO.FileInfo
+  commentId: T:System.IO.FileInfo
+  parent: System.IO
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.io.fileinfo
+  name: FileInfo
+  nameWithType: FileInfo
+  fullName: System.IO.FileInfo
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.IO
+    name: IO
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.io
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.IO
+    name: IO
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.io
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uri
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.io.stream
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.Item*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartDrawings.Item
+  href: OfficeOpenXml.Drawing.ExcelChartDrawings.html#OfficeOpenXml_Drawing_ExcelChartDrawings_Item_System_Int32_
+  name: this
+  nameWithType: ExcelChartDrawings.this
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.this
+  nameWithType.vb: ExcelChartDrawings.this[]
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartDrawings.this[]
+  name.vb: this[]
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: OfficeOpenXml.Drawing.ExcelDrawing
+  commentId: T:OfficeOpenXml.Drawing.ExcelDrawing
+  parent: OfficeOpenXml.Drawing
+  href: OfficeOpenXml.Drawing.ExcelDrawing.html
+  name: ExcelDrawing
+  nameWithType: ExcelDrawing
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.Count*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartDrawings.Count
+  href: OfficeOpenXml.Drawing.ExcelChartDrawings.html#OfficeOpenXml_Drawing_ExcelChartDrawings_Count
+  name: Count
+  nameWithType: ExcelChartDrawings.Count
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.Count
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartDrawings.Remove
+  href: OfficeOpenXml.Drawing.ExcelChartDrawings.html#OfficeOpenXml_Drawing_ExcelChartDrawings_Remove_System_Int32_
+  name: Remove
+  nameWithType: ExcelChartDrawings.Remove
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.Remove
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartDrawings.GetEnumerator
+  href: OfficeOpenXml.Drawing.ExcelChartDrawings.html#OfficeOpenXml_Drawing_ExcelChartDrawings_GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelChartDrawings.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelDrawing>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelDrawing).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.ExcelDrawing).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.ExcelDrawing}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.ExcelDrawing}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<ExcelDrawing>
+  nameWithType: IEnumerator<ExcelDrawing>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Drawing.ExcelDrawing>
+  nameWithType.vb: IEnumerator(Of ExcelDrawing)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Drawing.ExcelDrawing)
+  name.vb: IEnumerator(Of ExcelDrawing)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    href: OfficeOpenXml.Drawing.ExcelDrawing.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    href: OfficeOpenXml.Drawing.ExcelDrawing.html
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: OfficeOpenXml.Drawing.ExcelChartDrawings.Dispose*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartDrawings.Dispose
+  href: OfficeOpenXml.Drawing.ExcelChartDrawings.html#OfficeOpenXml_Drawing_ExcelChartDrawings_Dispose
+  name: Dispose
+  nameWithType: ExcelChartDrawings.Dispose
+  fullName: OfficeOpenXml.Drawing.ExcelChartDrawings.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )

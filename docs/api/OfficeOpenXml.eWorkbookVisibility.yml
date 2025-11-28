@@ -1,0 +1,131 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eWorkbookVisibility
+  commentId: T:OfficeOpenXml.eWorkbookVisibility
+  id: eWorkbookVisibility
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eWorkbookVisibility.Hidden
+  - OfficeOpenXml.eWorkbookVisibility.VeryHidden
+  - OfficeOpenXml.eWorkbookVisibility.Visible
+  langs:
+  - csharp
+  - vb
+  name: eWorkbookVisibility
+  nameWithType: eWorkbookVisibility
+  fullName: OfficeOpenXml.eWorkbookVisibility
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eWorkbookVisibility
+    path: ../src/EPPlus/Enums.cs
+    startLine: 239
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Represents the visible state of the workbook window.
+  example: []
+  syntax:
+    content: public enum eWorkbookVisibility
+    content.vb: Public Enum eWorkbookVisibility
+- uid: OfficeOpenXml.eWorkbookVisibility.Hidden
+  commentId: F:OfficeOpenXml.eWorkbookVisibility.Hidden
+  id: Hidden
+  parent: OfficeOpenXml.eWorkbookVisibility
+  langs:
+  - csharp
+  - vb
+  name: Hidden
+  nameWithType: eWorkbookVisibility.Hidden
+  fullName: OfficeOpenXml.eWorkbookVisibility.Hidden
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hidden
+    path: ../src/EPPlus/Enums.cs
+    startLine: 244
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: The workbook window is hidden, but can be shown by the user via the user interface.
+  example: []
+  syntax:
+    content: Hidden = 0
+    return:
+      type: OfficeOpenXml.eWorkbookVisibility
+- uid: OfficeOpenXml.eWorkbookVisibility.VeryHidden
+  commentId: F:OfficeOpenXml.eWorkbookVisibility.VeryHidden
+  id: VeryHidden
+  parent: OfficeOpenXml.eWorkbookVisibility
+  langs:
+  - csharp
+  - vb
+  name: VeryHidden
+  nameWithType: eWorkbookVisibility.VeryHidden
+  fullName: OfficeOpenXml.eWorkbookVisibility.VeryHidden
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VeryHidden
+    path: ../src/EPPlus/Enums.cs
+    startLine: 248
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: The workbook window is hidden and cannot be shown in the user interface. This state is only available programmatically.
+  example: []
+  syntax:
+    content: VeryHidden = 1
+    return:
+      type: OfficeOpenXml.eWorkbookVisibility
+- uid: OfficeOpenXml.eWorkbookVisibility.Visible
+  commentId: F:OfficeOpenXml.eWorkbookVisibility.Visible
+  id: Visible
+  parent: OfficeOpenXml.eWorkbookVisibility
+  langs:
+  - csharp
+  - vb
+  name: Visible
+  nameWithType: eWorkbookVisibility.Visible
+  fullName: OfficeOpenXml.eWorkbookVisibility.Visible
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Visible
+    path: ../src/EPPlus/Enums.cs
+    startLine: 252
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: The workbook window is visible.
+  example: []
+  syntax:
+    content: Visible = 2
+    return:
+      type: OfficeOpenXml.eWorkbookVisibility
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eWorkbookVisibility
+  commentId: T:OfficeOpenXml.eWorkbookVisibility
+  parent: OfficeOpenXml
+  href: OfficeOpenXml.eWorkbookVisibility.html
+  name: eWorkbookVisibility
+  nameWithType: eWorkbookVisibility
+  fullName: OfficeOpenXml.eWorkbookVisibility

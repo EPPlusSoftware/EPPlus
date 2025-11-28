@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -13,10 +10,14 @@ using System.Diagnostics;
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System;
+using System.Diagnostics;
+
+
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
     [DebuggerDisplay("{CharacterCode} - '{Char}': {GlyphIndex}")]
-    public class GlyphMapping
+    public class GlyphMapping : FontTableElement
     {
         public ushort CharacterCode { get; set; }
 
@@ -28,5 +29,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         {
             return Char.ToString() + ": " + GlyphIndex;
         }
+
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            writer.WriteUInt16BigEndian(CharacterCode);
+            writer.WriteUInt16BigEndian(GlyphIndex);
+        }
+
     }
 }

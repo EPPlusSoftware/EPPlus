@@ -10,30 +10,60 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
+using EPPlus.Fonts.OpenType.Tables.Cmap.Serialization;
+
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
-    public class CmapSubtable6
+    internal class CmapSubtable6 : CmapSubtableBase
     {
-        internal CmapSubtable6(FontsBinaryReader reader)
+        public override ushort Format => 6;
+
+        public override uint Length { get; internal set; }
+
+        public override uint Language { get; internal set; }
+
+        public ushort FirstCode { get; internal set; }
+
+        public ushort EntryCount { get; internal set; }
+
+        public ushort[] GlyphIdArray { get; internal set; } = new ushort[0];
+
+        public override GlyphMappings GetGlyphMappings()
         {
-            _reader = reader;
-            var length = _reader.ReadUInt16BigEndian();
-            var language = _reader.ReadUInt16BigEndian();
-            var firstCode = _reader.ReadUInt16BigEndian();
-            var entryCount = _reader.ReadUInt16BigEndian();
-            GlyphMappingArray = new GlyphMapping[entryCount];
-            for(var x = 0; x < entryCount; x++)
+            var mapping = new GlyphMappings();
+
+            for (int i = 0; i < EntryCount && i < GlyphIdArray.Length; i++)
             {
-                GlyphMappingArray[x] = new GlyphMapping
-                {
-                    CharacterCode = (char)(firstCode + x),
-                    GlyphIndex = _reader.ReadUInt16BigEndian()
-                };
+                uint charCode = (uint)(FirstCode + i);
+                ushort glyphIndex = GlyphIdArray[i];
+
+                mapping.AddMapping(charCode, glyphIndex);
             }
+
+            return mapping;
         }
 
-        private readonly FontsBinaryReader _reader;
 
-        public GlyphMapping[] GlyphMappingArray { get; set; }
+        internal override int MapCodePointToGlyph(int codePoint)
+        {
+            if (codePoint < FirstCode || codePoint >= FirstCode + EntryCount)
+                return -1; // Not found
+
+            int index = codePoint - FirstCode;
+            if (index >= 0 && index < GlyphIdArray.Length)
+            {
+                return GlyphIdArray[index];
+            }
+
+            return -1; // Not found
+        }
+
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            var serializer = new CmapSubtable6_2Serializer();
+            serializer.Serialize(this, writer);
+        }
     }
 }

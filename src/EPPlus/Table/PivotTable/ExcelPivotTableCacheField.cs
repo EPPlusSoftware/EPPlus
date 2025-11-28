@@ -897,7 +897,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     fld.UpdateGroupItems(this);
                     fld.Items.MatchValueToIndex();
-				}
+                }
                 else
                 {
                     fld.DeleteNode("d:items");
@@ -1000,15 +1000,15 @@ namespace OfficeOpenXml.Table.PivotTable
 
                 if (list.Count > 0)
                 {
-                    UpdateSubTotalItems(list, ptField.SubTotalFunctions);
+                    UpdateSubTotalItems(ptField, list, ptField.SubTotalFunctions);
                 }
             }
         }
 
-        internal void UpdateSubTotalItems(List<ExcelPivotTableFieldItem> list, eSubTotalFunctions functions)
+        internal void UpdateSubTotalItems(ExcelPivotTableField field, List<ExcelPivotTableFieldItem> list, eSubTotalFunctions functions)
         {
             while(list.Count > 0 && list[list.Count-1].Type!=eItemType.Data) { list.RemoveAt(list.Count - 1); }
-            if (functions == eSubTotalFunctions.None) return;
+            if (functions == eSubTotalFunctions.None || (field.ShowAll ==false && list.Count==0 && functions==eSubTotalFunctions.Default)) return;
             foreach (var t in GetItemTypeFromFunctionList(functions))
             {
                 list.Add(new ExcelPivotTableFieldItem() { Type = t, X = -1 }); 
