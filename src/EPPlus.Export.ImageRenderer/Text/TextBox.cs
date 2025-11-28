@@ -44,7 +44,7 @@ namespace EPPlusImageRenderer.Text
             set;
         }
 
-        public override SvgItemType Type => throw new System.NotImplementedException();
+        public override SvgItemType Type => SvgItemType.Rect;
 
         /// <summary>
         /// Top of the paragraph bounding box

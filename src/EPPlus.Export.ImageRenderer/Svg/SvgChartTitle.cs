@@ -57,7 +57,7 @@ namespace EPPlusImageRenderer.Svg
             Rectangle.SetDrawingPropertiesFill(t.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
             Rectangle.SetDrawingPropertiesBorder(t.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
 
-            TextBox = new TextBox(rect.Left + LeftMargin, rect.Top + TopMargin, rect.Width - LeftMargin - RightMargin, rect.Height - RightMargin - BottomMargin);
+            TextBox = new TextBox(Rectangle.X + LeftMargin, Rectangle.Y + TopMargin, Rectangle.Width - LeftMargin - RightMargin, Rectangle.Height - BottomMargin);
             foreach (var p in t.TextBody.Paragraphs)
             {
                 TextBox.AddParagraph(p);
@@ -70,7 +70,7 @@ namespace EPPlusImageRenderer.Svg
         public override void Render(StringBuilder sb)
         {
             Rectangle.Render(sb);
-            
+            TextBox.Render(sb);
         }
     }
 }
