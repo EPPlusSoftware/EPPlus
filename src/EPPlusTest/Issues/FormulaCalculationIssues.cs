@@ -1353,10 +1353,7 @@ namespace EPPlusTest.Issues
         public void s973()
         {
             using var package = OpenTemplatePackage("s973.xlsx");
-           // Assert.AreEqual("LeftRight", package.Workbook.Worksheets[0].Cells["A1"].Value);
-
             package.Workbook.Calculate();
-
             Assert.AreEqual("12,35²", package.Workbook.Worksheets[0].Cells["A3"].Value);
         }
     }
