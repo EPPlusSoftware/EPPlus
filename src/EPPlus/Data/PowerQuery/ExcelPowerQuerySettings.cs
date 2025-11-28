@@ -48,7 +48,6 @@ namespace OfficeOpenXml.Data.Connection
 
         internal ExcelPowerQuerySettings(byte[] blob)
         {
-            //File.WriteAllBytes(@"c:\temp\pq\blob.bin", blob);
             _nsm = CreateNsm();
 
             using var ms = new MemoryStream(blob);
@@ -57,14 +56,13 @@ namespace OfficeOpenXml.Data.Connection
             var size = br.ReadInt32();
             var pck = br.ReadBytes((int)size);
 
-            //File.WriteAllBytes(@"c:\temp\pq\pck.zip", pck);
             PQPackage = new ZipPackage(new MemoryStream(pck));
             ZipPackagePart section1MPart;
 
             section1MPart = PQPackage.GetPartByContentType(ContentTypes.contentTypeMLanguage);
             if(section1MPart==null)
             {
-                section1MPart = PQPackage.GetPart(new Uri("/formulas/section.m"));
+                section1MPart = PQPackage.GetPart(new Uri("/formulas/section1.m", UriKind.Relative));
             }
             var mms = section1MPart.GetStream();
             var reader = new StreamReader(mms, Encoding.UTF8);
@@ -78,7 +76,6 @@ namespace OfficeOpenXml.Data.Connection
             
             size = br.ReadInt32();
             var permBytes = br.ReadBytes((int)size);
-            //File.WriteAllBytes(@"c:\temp\pq\perm.xml", permBytes);
             var permissionXml = Encoding.UTF8.GetString(permBytes);
             LoadPermissions(permissionXml);
             
@@ -91,7 +88,6 @@ namespace OfficeOpenXml.Data.Connection
             size = br.ReadInt32();            
             MetadataContentPackage = br.ReadBytes((int)size);
             size = br.ReadInt32();
-            //File.WriteAllBytes(@"c:\temp\pq\mdcp.zip", MetadataContentPackage);
 
             var packageBinding = br.ReadBytes((int)size);
             // Data protection (DPAPI) only works in windows as it's tied to the current user.
@@ -228,8 +224,15 @@ namespace OfficeOpenXml.Data.Connection
                 sectionMPart = PQPackage.GetPartByContentType("application/x-ms-m");
                 if(sectionMPart==null)
                 {
-                    PQPackage.GetPartByContentType("text/plain");
-                    sectionMPart = PQPackage.CreatePart(new Uri("/Formulas/Section1.m", UriKind.Relative), "application/x-ms-m");
+                    var uri = new Uri("/Formulas/Section1.m", UriKind.Relative);
+                    if(PQPackage.PartExists(uri))
+                    {
+                        sectionMPart = PQPackage.GetPart(uri);
+                    }
+                    else
+                    {
+                        sectionMPart = PQPackage.CreatePart(uri, "application/x-ms-m");
+                    }
                 }
             }
 

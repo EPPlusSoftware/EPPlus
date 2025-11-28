@@ -1,0 +1,155 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.eReconnectionMethod
+  commentId: T:OfficeOpenXml.Data.Connection.eReconnectionMethod
+  id: eReconnectionMethod
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.eReconnectionMethod.Always
+  - OfficeOpenXml.Data.Connection.eReconnectionMethod.AsRequired
+  - OfficeOpenXml.Data.Connection.eReconnectionMethod.Never
+  langs:
+  - csharp
+  - vb
+  name: eReconnectionMethod
+  nameWithType: eReconnectionMethod
+  fullName: OfficeOpenXml.Data.Connection.eReconnectionMethod
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eReconnectionMethod.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eReconnectionMethod
+    path: ../src/EPPlus/Data/Connection/Enums/eReconnectionMethod.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: How a connection object should reconnect.
+  example: []
+  syntax:
+    content: public enum eReconnectionMethod
+    content.vb: Public Enum eReconnectionMethod
+- uid: OfficeOpenXml.Data.Connection.eReconnectionMethod.AsRequired
+  commentId: F:OfficeOpenXml.Data.Connection.eReconnectionMethod.AsRequired
+  id: AsRequired
+  parent: OfficeOpenXml.Data.Connection.eReconnectionMethod
+  langs:
+  - csharp
+  - vb
+  name: AsRequired
+  nameWithType: eReconnectionMethod.AsRequired
+  fullName: OfficeOpenXml.Data.Connection.eReconnectionMethod.AsRequired
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eReconnectionMethod.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AsRequired
+    path: ../src/EPPlus/Data/Connection/Enums/eReconnectionMethod.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: On refresh use the existing connection information. If the existing information cannot be used to establish a connection, get updated connection information, if available from the external connection file.
+  example: []
+  syntax:
+    content: AsRequired = 1
+    return:
+      type: OfficeOpenXml.Data.Connection.eReconnectionMethod
+- uid: OfficeOpenXml.Data.Connection.eReconnectionMethod.Always
+  commentId: F:OfficeOpenXml.Data.Connection.eReconnectionMethod.Always
+  id: Always
+  parent: OfficeOpenXml.Data.Connection.eReconnectionMethod
+  langs:
+  - csharp
+  - vb
+  name: Always
+  nameWithType: eReconnectionMethod.Always
+  fullName: OfficeOpenXml.Data.Connection.eReconnectionMethod.Always
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eReconnectionMethod.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Always
+    path: ../src/EPPlus/Data/Connection/Enums/eReconnectionMethod.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: On every refresh get updated connection information from the external connection file, if available, and use that instead of the existing connection information. In this case the data refresh will fail if the external connection file is unavailable.
+  example: []
+  syntax:
+    content: Always = 2
+    return:
+      type: OfficeOpenXml.Data.Connection.eReconnectionMethod
+- uid: OfficeOpenXml.Data.Connection.eReconnectionMethod.Never
+  commentId: F:OfficeOpenXml.Data.Connection.eReconnectionMethod.Never
+  id: Never
+  parent: OfficeOpenXml.Data.Connection.eReconnectionMethod
+  langs:
+  - csharp
+  - vb
+  name: Never
+  nameWithType: eReconnectionMethod.Never
+  fullName: OfficeOpenXml.Data.Connection.eReconnectionMethod.Never
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eReconnectionMethod.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Never
+    path: ../src/EPPlus/Data/Connection/Enums/eReconnectionMethod.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Never get updated connection information from the external connection file even if it is available and even if the existing connection information cannot be used. The possible values for this attribute are defined by the W3C XML Schema unsignedInt datatype.
+  example: []
+  syntax:
+    content: Never = 3
+    return:
+      type: OfficeOpenXml.Data.Connection.eReconnectionMethod
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: OfficeOpenXml.Data.Connection.eReconnectionMethod
+  commentId: T:OfficeOpenXml.Data.Connection.eReconnectionMethod
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.eReconnectionMethod.html
+  name: eReconnectionMethod
+  nameWithType: eReconnectionMethod
+  fullName: OfficeOpenXml.Data.Connection.eReconnectionMethod

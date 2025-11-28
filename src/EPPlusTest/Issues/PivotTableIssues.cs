@@ -643,6 +643,13 @@ namespace EPPlusTest.Issues
             }
             SaveAndCleanup(package);
         }
-
+        [TestMethod]
+        public void TestPivot2()
+        {
+            var package = OpenTemplatePackage("Bad.xlsx");
+            var ws = package.Workbook.Worksheets["Pivottables"];
+            var pt = ws.PivotTables[0];
+            SaveAndCleanup(package);
+        }
     }
 }

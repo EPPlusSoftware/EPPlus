@@ -54,12 +54,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             // return range
             if (!arguments[2].IsExcelRange) return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             var returnArray = arguments[2].ValueAsRangeInfo;
-            string notFoundText = null;
+            object notFoundValue = null;
 
             // not found text
             if (arguments.Count() > 3 && arguments[3] != null)
             {
-                notFoundText = ArgToString(arguments, 3);
+                notFoundValue = arguments[3].ValueFirst;
             }
 
             // match mode
@@ -99,14 +99,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 context.Configuration.Logger.LogFunction("XLOOKUP", _stopwatch.ElapsedMilliseconds);
             }
 
-            return BuildCompileResult(lookupDirection, returnArray, notFoundText, ix);
+            return BuildCompileResult(lookupDirection, returnArray, notFoundValue, ix);
         }
 
-        private CompileResult BuildCompileResult(LookupRangeDirection lookupDirection, IRangeInfo returnArray, string notFoundText, int ix)
+        private CompileResult BuildCompileResult(LookupRangeDirection lookupDirection, IRangeInfo returnArray, object notFoundValue, int ix)
         {
             if (ix < 0 || ix > (lookupDirection == LookupRangeDirection.Vertical ? returnArray.Size.NumberOfRows - 1 : returnArray.Size.NumberOfCols - 1))
             {
-                return notFoundText == null ? CreateResult(eErrorType.NA) : CreateResult(notFoundText, DataType.String);
+                return notFoundValue == null ? CreateResult(eErrorType.NA) : CompileResultFactory.Create(notFoundValue);
             }
             var result = default(IRangeInfo);
             if (lookupDirection == LookupRangeDirection.Vertical)
@@ -121,13 +121,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             if (result == null)
             {
-                if (string.IsNullOrEmpty(notFoundText))
+                if (notFoundValue==null)
                 {
                     return CreateResult(eErrorType.NA);
                 }
                 else
                 {
-                    return CreateResult(notFoundText, DataType.String);
+                    return CompileResultFactory.Create(notFoundValue);
                 }
             }
             //return CreateResult(result, DataType.ExcelRange);

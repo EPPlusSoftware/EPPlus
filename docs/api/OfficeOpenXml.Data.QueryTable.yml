@@ -1,0 +1,69 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.QueryTable
+  commentId: N:OfficeOpenXml.Data.QueryTable
+  id: OfficeOpenXml.Data.QueryTable
+  children:
+  - OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+  - OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  - OfficeOpenXml.Data.QueryTable.ExcelQueryTableField
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Data.QueryTable
+  nameWithType: OfficeOpenXml.Data.QueryTable
+  fullName: OfficeOpenXml.Data.QueryTable
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+  commentId: T:OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+  parent: OfficeOpenXml.Data.QueryTable
+  href: OfficeOpenXml.Data.QueryTable.ExcelQueryTable.html
+  name: ExcelQueryTable
+  nameWithType: ExcelQueryTable
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTable
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  commentId: T:OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+  parent: OfficeOpenXml.Data.QueryTable
+  href: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection.html
+  name: ExcelQueryTableCollection
+  nameWithType: ExcelQueryTableCollection
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableCollection
+- uid: OfficeOpenXml.Data.QueryTable.ExcelQueryTableField
+  commentId: T:OfficeOpenXml.Data.QueryTable.ExcelQueryTableField
+  href: OfficeOpenXml.Data.QueryTable.ExcelQueryTableField.html
+  name: ExcelQueryTableField
+  nameWithType: ExcelQueryTableField
+  fullName: OfficeOpenXml.Data.QueryTable.ExcelQueryTableField
+- uid: OfficeOpenXml.Data.QueryTable
+  commentId: N:OfficeOpenXml.Data.QueryTable
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.QueryTable
+  nameWithType: OfficeOpenXml.Data.QueryTable
+  fullName: OfficeOpenXml.Data.QueryTable
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.QueryTable
+    name: QueryTable
+    href: OfficeOpenXml.Data.QueryTable.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.QueryTable
+    name: QueryTable
+    href: OfficeOpenXml.Data.QueryTable.html

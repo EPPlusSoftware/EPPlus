@@ -1,0 +1,142 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelRangeCopyOperations
+  commentId: T:OfficeOpenXml.ExcelRangeCopyOperations
+  id: ExcelRangeCopyOperations
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelRangeCopyOperations.Fill
+  - OfficeOpenXml.ExcelRangeCopyOperations.FillAndTranspose
+  - OfficeOpenXml.ExcelRangeCopyOperations.Transpose
+  langs:
+  - csharp
+  - vb
+  name: ExcelRangeCopyOperations
+  nameWithType: ExcelRangeCopyOperations
+  fullName: OfficeOpenXml.ExcelRangeCopyOperations
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelRangeCopyOperations
+    path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
+    startLine: 124
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Simplified enum for oper Fill and Transpose from ExcelRangeCopyOptionFlags
+  example: []
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum ExcelRangeCopyOperations
+    content.vb: >-
+      <Flags>
+
+      Public Enum ExcelRangeCopyOperations
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+- uid: OfficeOpenXml.ExcelRangeCopyOperations.Fill
+  commentId: F:OfficeOpenXml.ExcelRangeCopyOperations.Fill
+  id: Fill
+  parent: OfficeOpenXml.ExcelRangeCopyOperations
+  langs:
+  - csharp
+  - vb
+  name: Fill
+  nameWithType: ExcelRangeCopyOperations.Fill
+  fullName: OfficeOpenXml.ExcelRangeCopyOperations.Fill
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Fill
+    path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Fill range with repeated data. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
+  example: []
+  syntax:
+    content: Fill = 16384
+    return:
+      type: OfficeOpenXml.ExcelRangeCopyOperations
+- uid: OfficeOpenXml.ExcelRangeCopyOperations.Transpose
+  commentId: F:OfficeOpenXml.ExcelRangeCopyOperations.Transpose
+  id: Transpose
+  parent: OfficeOpenXml.ExcelRangeCopyOperations
+  langs:
+  - csharp
+  - vb
+  name: Transpose
+  nameWithType: ExcelRangeCopyOperations.Transpose
+  fullName: OfficeOpenXml.ExcelRangeCopyOperations.Transpose
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Transpose
+    path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Transpose the copied data
+  example: []
+  syntax:
+    content: Transpose = 512
+    return:
+      type: OfficeOpenXml.ExcelRangeCopyOperations
+- uid: OfficeOpenXml.ExcelRangeCopyOperations.FillAndTranspose
+  commentId: F:OfficeOpenXml.ExcelRangeCopyOperations.FillAndTranspose
+  id: FillAndTranspose
+  parent: OfficeOpenXml.ExcelRangeCopyOperations
+  langs:
+  - csharp
+  - vb
+  name: FillAndTranspose
+  nameWithType: ExcelRangeCopyOperations.FillAndTranspose
+  fullName: OfficeOpenXml.ExcelRangeCopyOperations.FillAndTranspose
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FillAndTranspose
+    path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: Add flag for both of previous options
+  example: []
+  syntax:
+    content: FillAndTranspose = Transpose | Fill
+    return:
+      type: OfficeOpenXml.ExcelRangeCopyOperations
+    content.vb: FillAndTranspose = Transpose Or Fill
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ExcelRangeCopyOperations
+  commentId: T:OfficeOpenXml.ExcelRangeCopyOperations
+  parent: OfficeOpenXml
+  href: OfficeOpenXml.ExcelRangeCopyOperations.html
+  name: ExcelRangeCopyOperations
+  nameWithType: ExcelRangeCopyOperations
+  fullName: OfficeOpenXml.ExcelRangeCopyOperations

@@ -1,0 +1,220 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.eCommandType
+  commentId: T:OfficeOpenXml.Data.Connection.eCommandType
+  id: eCommandType
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.eCommandType.Cube
+  - OfficeOpenXml.Data.Connection.eCommandType.ProviderInterpreted
+  - OfficeOpenXml.Data.Connection.eCommandType.SqlStatement
+  - OfficeOpenXml.Data.Connection.eCommandType.Table
+  - OfficeOpenXml.Data.Connection.eCommandType.WebBasedListDataProvider
+  langs:
+  - csharp
+  - vb
+  name: eCommandType
+  nameWithType: eCommandType
+  fullName: OfficeOpenXml.Data.Connection.eCommandType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eCommandType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eCommandType
+    path: ../src/EPPlus/Data/Connection/Enums/eCommandType.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The type of command used by the <xref href="OfficeOpenXml.Data.Connection.ExcelConnection" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public enum eCommandType
+    content.vb: Public Enum eCommandType
+- uid: OfficeOpenXml.Data.Connection.eCommandType.Cube
+  commentId: F:OfficeOpenXml.Data.Connection.eCommandType.Cube
+  id: Cube
+  parent: OfficeOpenXml.Data.Connection.eCommandType
+  langs:
+  - csharp
+  - vb
+  name: Cube
+  nameWithType: eCommandType.Cube
+  fullName: OfficeOpenXml.Data.Connection.eCommandType.Cube
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eCommandType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cube
+    path: ../src/EPPlus/Data/Connection/Enums/eCommandType.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The command specifies a cube name.
+  example: []
+  syntax:
+    content: Cube = 1
+    return:
+      type: OfficeOpenXml.Data.Connection.eCommandType
+- uid: OfficeOpenXml.Data.Connection.eCommandType.SqlStatement
+  commentId: F:OfficeOpenXml.Data.Connection.eCommandType.SqlStatement
+  id: SqlStatement
+  parent: OfficeOpenXml.Data.Connection.eCommandType
+  langs:
+  - csharp
+  - vb
+  name: SqlStatement
+  nameWithType: eCommandType.SqlStatement
+  fullName: OfficeOpenXml.Data.Connection.eCommandType.SqlStatement
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eCommandType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SqlStatement
+    path: ../src/EPPlus/Data/Connection/Enums/eCommandType.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The command is a SQL statment.
+  example: []
+  syntax:
+    content: SqlStatement = 2
+    return:
+      type: OfficeOpenXml.Data.Connection.eCommandType
+- uid: OfficeOpenXml.Data.Connection.eCommandType.Table
+  commentId: F:OfficeOpenXml.Data.Connection.eCommandType.Table
+  id: Table
+  parent: OfficeOpenXml.Data.Connection.eCommandType
+  langs:
+  - csharp
+  - vb
+  name: Table
+  nameWithType: eCommandType.Table
+  fullName: OfficeOpenXml.Data.Connection.eCommandType.Table
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eCommandType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Table
+    path: ../src/EPPlus/Data/Connection/Enums/eCommandType.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The command is a table.
+  example: []
+  syntax:
+    content: Table = 3
+    return:
+      type: OfficeOpenXml.Data.Connection.eCommandType
+- uid: OfficeOpenXml.Data.Connection.eCommandType.ProviderInterpreted
+  commentId: F:OfficeOpenXml.Data.Connection.eCommandType.ProviderInterpreted
+  id: ProviderInterpreted
+  parent: OfficeOpenXml.Data.Connection.eCommandType
+  langs:
+  - csharp
+  - vb
+  name: ProviderInterpreted
+  nameWithType: eCommandType.ProviderInterpreted
+  fullName: OfficeOpenXml.Data.Connection.eCommandType.ProviderInterpreted
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eCommandType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ProviderInterpreted
+    path: ../src/EPPlus/Data/Connection/Enums/eCommandType.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The command is left to the provider to interpret.
+  example: []
+  syntax:
+    content: ProviderInterpreted = 4
+    return:
+      type: OfficeOpenXml.Data.Connection.eCommandType
+- uid: OfficeOpenXml.Data.Connection.eCommandType.WebBasedListDataProvider
+  commentId: F:OfficeOpenXml.Data.Connection.eCommandType.WebBasedListDataProvider
+  id: WebBasedListDataProvider
+  parent: OfficeOpenXml.Data.Connection.eCommandType
+  langs:
+  - csharp
+  - vb
+  name: WebBasedListDataProvider
+  nameWithType: eCommandType.WebBasedListDataProvider
+  fullName: OfficeOpenXml.Data.Connection.eCommandType.WebBasedListDataProvider
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eCommandType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WebBasedListDataProvider
+    path: ../src/EPPlus/Data/Connection/Enums/eCommandType.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Query is against a web based List Data Provider.
+  example: []
+  syntax:
+    content: WebBasedListDataProvider = 5
+    return:
+      type: OfficeOpenXml.Data.Connection.eCommandType
+references:
+- uid: OfficeOpenXml.Data.Connection.ExcelConnection
+  commentId: T:OfficeOpenXml.Data.Connection.ExcelConnection
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.ExcelConnection.html
+  name: ExcelConnection
+  nameWithType: ExcelConnection
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnection
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: OfficeOpenXml.Data.Connection.eCommandType
+  commentId: T:OfficeOpenXml.Data.Connection.eCommandType
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.eCommandType.html
+  name: eCommandType
+  nameWithType: eCommandType
+  fullName: OfficeOpenXml.Data.Connection.eCommandType

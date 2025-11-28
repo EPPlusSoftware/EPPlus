@@ -1,0 +1,155 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling
+  commentId: T:OfficeOpenXml.Data.Connection.eHtmlFormatingHandling
+  id: eHtmlFormatingHandling
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.All
+  - OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.None
+  - OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.RTF
+  langs:
+  - csharp
+  - vb
+  name: eHtmlFormatingHandling
+  nameWithType: eHtmlFormatingHandling
+  fullName: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eHtmlFormatingHandling.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eHtmlFormatingHandling
+    path: ../src/EPPlus/Data/Connection/Enums/eHtmlFormatingHandling.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: How to handle formatting from the HTML source when bringing web query data into the worksheet.
+  example: []
+  syntax:
+    content: public enum eHtmlFormatingHandling
+    content.vb: Public Enum eHtmlFormatingHandling
+- uid: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.None
+  commentId: F:OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.None
+  id: None
+  parent: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eHtmlFormatingHandling.None
+  fullName: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eHtmlFormatingHandling.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Data/Connection/Enums/eHtmlFormatingHandling.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: No formatting is applied.
+  example: []
+  syntax:
+    content: None = 1
+    return:
+      type: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling
+- uid: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.RTF
+  commentId: F:OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.RTF
+  id: RTF
+  parent: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling
+  langs:
+  - csharp
+  - vb
+  name: RTF
+  nameWithType: eHtmlFormatingHandling.RTF
+  fullName: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.RTF
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eHtmlFormatingHandling.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RTF
+    path: ../src/EPPlus/Data/Connection/Enums/eHtmlFormatingHandling.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: HTML formatting should be translated into rich text formatting when importing the data.
+  example: []
+  syntax:
+    content: RTF = 2
+    return:
+      type: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling
+- uid: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.All
+  commentId: F:OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.All
+  id: All
+  parent: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: eHtmlFormatingHandling.All
+  fullName: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.All
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/Enums/eHtmlFormatingHandling.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: All
+    path: ../src/EPPlus/Data/Connection/Enums/eHtmlFormatingHandling.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: All HTML formatting should be preserved when importing the data.
+  example: []
+  syntax:
+    content: All = 3
+    return:
+      type: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling
+  commentId: T:OfficeOpenXml.Data.Connection.eHtmlFormatingHandling
+  parent: OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling.html
+  name: eHtmlFormatingHandling
+  nameWithType: eHtmlFormatingHandling
+  fullName: OfficeOpenXml.Data.Connection.eHtmlFormatingHandling

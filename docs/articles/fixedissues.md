@@ -1,4 +1,14 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.3.1
+* Using an array as denominator when first value is 0 returns a single ´#DIV0!´ error.
+* The ´FILTER´ function did not work correctly when filtering on columns.
+* When functions that contains an "internal lambda" were called inside another function, the calling function failed in some cases.
+* XLOOKUP: the argument [if_not_found] was incorrectly converted to a string when no match was found.
+* Charts in Chart sheets throw an exception when adding shapes or pictures to them.
+* Reading workbooks with power query settings in Custom Xml did not work as expected. 
+* Pivot table sometimes caused Excel to hang or crash, due to invalid attributes/elements on subtotal functions.
+* Conditional formatting item references were not cleaned up in pivot tables in all cases.
+
 ## Version 8.3.0
 ### Features
 Support for adding external connections and query tables [External connections and query tables](https://github.com/EPPlusSoftware/EPPlus/wiki/External-Connections-&-Query-Tables)

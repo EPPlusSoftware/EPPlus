@@ -273,5 +273,20 @@ namespace EPPlusTest.Excel
             var ExcelResult = Operator.Divide.Apply(a, b, ctx);
             Assert.AreEqual(0.99329223647228326d, ExcelResult.Result);
         }
+
+        [TestMethod]
+        public void ShouldDivideNumberByArray()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["B1"].Value = -2;
+            ws.Cells["B2"].Value = -1;
+            ws.Cells["B3"].Value = 2;
+            ws.Cells["A1"].Formula = "=1/(B1:B3 + 2)";
+            p.Workbook.Calculate();
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Div0), ws.Cells["A1"].Value);
+            Assert.AreEqual(1d, ws.Cells["A2"].Value);
+            Assert.AreEqual(0.25d, ws.Cells["A3"].Value);
+        }
     }
 }
