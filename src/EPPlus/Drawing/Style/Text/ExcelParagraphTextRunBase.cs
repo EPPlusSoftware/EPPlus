@@ -44,7 +44,15 @@ namespace OfficeOpenXml.Drawing
             SchemaNodeOrder = ["rPr", "pPr", "t"];
             _paragraph = paragraph;
             _prd = _paragraph._prd;
-            _dtr = _paragraph._paragraphs[0].DefaultRunProperties;
+            //Default properties are always taken from the first paragraph.
+            if (_paragraph._paragraphs.Count == 0)
+            {
+                _dtr = _paragraph.DefaultRunProperties;
+            }
+            else
+            {
+                _dtr = _paragraph._paragraphs[0].DefaultRunProperties;
+            }
         }
 
         internal List<string> SplitIntoLines()
