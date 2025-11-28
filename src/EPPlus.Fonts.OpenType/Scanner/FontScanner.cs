@@ -19,26 +19,10 @@ namespace EPPlus.Fonts.OpenType.Scanner
 {
     internal static class FontScanner
     {
-        static Dictionary<string, ScannedFont> _scannedFontsCache;
-
         static Dictionary<string, ScannedFont> ScannedFontsCache
         {
-            get
-            {
-                if (_scannedFontsCache == null)
-                {
-                    return new Dictionary<string, ScannedFont>();
-                }
-                else
-                {
-                    return _scannedFontsCache;
-                }
-            }
-            set
-            {
-                _scannedFontsCache = value;
-            }
-        }
+            get;
+        } = new Dictionary<string, ScannedFont>(StringComparer.OrdinalIgnoreCase);
 
         internal static FontFormat? GetFormat(string file)
         {

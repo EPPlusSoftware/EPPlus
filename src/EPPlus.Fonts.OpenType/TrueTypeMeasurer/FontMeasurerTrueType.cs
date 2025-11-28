@@ -179,7 +179,7 @@ namespace EPPlus.Fonts.OpenType
         public TextMeasurement MeasureText(string text, MeasurementFont font)
         {
             var TextMeasurement = new TextMeasurement();
-            SetFont(font.Size, font.FontFamily);
+            SetFont(font.Size, font.FontFamily, font.GetSubFamily());
             TextMeasurement.Width = (float)MeasureTextWidth(text);
             TextMeasurement.Height = (float)GetSingleLineSpacing();
             TextMeasurement.FontHeight = (float)InternalFontHeight();

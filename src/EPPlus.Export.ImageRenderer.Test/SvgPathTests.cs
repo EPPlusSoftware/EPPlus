@@ -503,24 +503,23 @@ namespace TestProject1
                 }
             }
         }
-        [TestMethod, Ignore]
+        [TestMethod]
         public void GenerateSvgForCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            //TextData.FontDirectories.Add("c:\\fonts");
             using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var svg = renderer.RenderDrawingToSvg(ws.Drawings[1]);
-                //File.WriteAllText($"c:\\temp\\ChartForSvg{1}.svg", svg);
-                int ix = 1;
-                foreach (ExcelChart d in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(d);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix}.svg", svg);
-                    ix++;
-                }
+                var svg = renderer.RenderDrawingToSvg(ws.Drawings[1]);
+                File.WriteAllText($"c:\\temp\\ChartForSvg{1}.svg", svg);
+                //int ix = 1;
+                //foreach (ExcelChart d in ws.Drawings)
+                //{
+                //    var svg = renderer.RenderDrawingToSvg(d);
+                //    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix}.svg", svg);
+                //    ix++;
+                //}
             }
         }
         [TestMethod]

@@ -26,22 +26,14 @@ namespace EPPlusImageRenderer.Svg
             {
                 return;
             }
+            //These are hard coded margins for the title box.
             LeftMargin = RightMargin = 4;
             TopMargin = BottomMargin = 2;
+
             var maxWidth = sc.Size.Width * 0.8;
             var maxHeight = sc.Size.Height / 2D;
-            //SetMargins(t.TextBody);
             var rect = t.TextBody.Paragraphs.GetSizeInPixels(maxWidth, maxHeight, defaultText, t.Font);
-            //if (rect.Width == 0 || rect.Height == 0)
-            //{
-            //    return;
-            //}
-
-            TextBox = new TextBox(rect.Left, rect.Top, rect.Width, rect.Height);
-            foreach(var p in t.TextBody.Paragraphs)
-            {
-                TextBox.AddParagraph(p);
-            }
+           
             if (t.Layout.HasLayout)
             {
                 Rectangle = GetRectFromManualLayout(sc, t.Layout);
@@ -57,13 +49,19 @@ namespace EPPlusImageRenderer.Svg
             else 
             {
                 Rectangle = new SvgRenderRectItem(sc.Chart);
-                Rectangle.Y = (float)TopMargin;
-                Rectangle.X = (float)(sc.Size.Width - rect.Width + LeftMargin) / 2;
-                Rectangle.Height = (float)rect.Height;
-                Rectangle.Width = (float)rect.Width;
+                Rectangle.Y = (float)8;                         //8 pixels for the chart title standard offset
+                Rectangle.X = (float)(sc.Size.Width - rect.Width + LeftMargin+ RightMargin) / 2;
+                Rectangle.Height = (float)(rect.Height + TopMargin + BottomMargin);
+                Rectangle.Width = (float)(rect.Width + LeftMargin + RightMargin);
             }
             Rectangle.SetDrawingPropertiesFill(t.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
             Rectangle.SetDrawingPropertiesBorder(t.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+
+            TextBox = new TextBox(rect.Left + LeftMargin, rect.Top + TopMargin, rect.Width - LeftMargin - RightMargin, rect.Height - RightMargin - BottomMargin);
+            foreach (var p in t.TextBody.Paragraphs)
+            {
+                TextBox.AddParagraph(p);
+            }
         }
         public TextBox TextBox
         {
@@ -72,6 +70,7 @@ namespace EPPlusImageRenderer.Svg
         public override void Render(StringBuilder sb)
         {
             Rectangle.Render(sb);
+            
         }
     }
 }

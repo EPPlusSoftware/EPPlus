@@ -286,10 +286,12 @@ namespace OfficeOpenXml.Drawing
 
             var h = 0D;
             var w = 0D;
+            bool isFirstLine = true;
             foreach (var p in _paragraphs)
             {
-                var pr = p.GetParagraphSizeInPixels(maxWidth, maxHeight);
-                if(w < pr.Width) w = pr.Width;
+                var pr = p.GetParagraphSizeInPixels(maxWidth, maxHeight, isFirstLine);
+                isFirstLine = false;
+                if (w < pr.Width) w = pr.Width;
                 h += pr.Height;
             }
             return new RectBase(w, h);

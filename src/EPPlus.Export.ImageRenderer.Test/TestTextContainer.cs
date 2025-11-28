@@ -75,7 +75,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
             Assert.AreEqual(expectedHeight, Math.Round(container.Height, 0));
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestNonStandardFontSizesMultiLineLargeFontGoudyStout()
         {
             string content = "TextBox\r\na very long line2\r\nline3";

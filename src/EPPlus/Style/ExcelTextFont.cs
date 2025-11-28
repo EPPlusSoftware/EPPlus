@@ -783,7 +783,7 @@ namespace OfficeOpenXml.Style
         }
 
         internal MeasurementFont GetMeasureFont()
-        {            
+        {                        
             return FontUtil.GetMeasureFont(LatinFont, ComplexFont, EastAsianFont, Size, GetFontStyle(), _pictureRelationDocument.Package);
         }
         private MeasurementFontStyles GetFontStyle()

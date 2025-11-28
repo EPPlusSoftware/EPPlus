@@ -22,7 +22,7 @@ using System.Text;
 
 namespace EPPlusImageRenderer.Text
 {
-    internal class TextBox
+    internal class TextBox : RenderItem
     {
         internal RectMargins Bounds = new RectMargins();
 
@@ -43,6 +43,8 @@ namespace EPPlusImageRenderer.Text
             get;
             set;
         }
+
+        public override SvgItemType Type => throw new System.NotImplementedException();
 
         /// <summary>
         /// Top of the paragraph bounding box
@@ -106,6 +108,10 @@ namespace EPPlusImageRenderer.Text
             ClippingHeight = Bounds.GetInnerBottom();
         }
 
+        public TextBox()
+        {
+        }
+
         double? _alignmentY = null;
 
         /// <summary>
@@ -113,7 +119,7 @@ namespace EPPlusImageRenderer.Text
         /// </summary>
         /// <param name="fontSizeInPixels"></param>
         /// <returns></returns>
-        internal double GetAlignmentVertical()
+        private double GetAlignmentVertical()
         {
             double alignmentY = 0;
 
@@ -204,6 +210,18 @@ namespace EPPlusImageRenderer.Text
                 Paragraphs.Remove(item);
             }
         }
+        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
+        {
+            il = Bounds.GetInnerLeft();
+            ir = Bounds.GetInnerRight();
+            it = Bounds.GetInnerTop();
+            ib = Bounds.GetInnerBottom();
+        }
+
+        public override void Render(StringBuilder sb)
+        {
+            RenderParagraphs(sb);
+        }
 
         internal void RenderParagraphs(StringBuilder sb)
         {
@@ -216,6 +234,23 @@ namespace EPPlusImageRenderer.Text
             }
             groupItem.RenderEndGroup(sb);
         }
+        internal void RenderTextRuns(StringBuilder sb)
+        {
+            var groupItem = new SvgGroupItem("");
+            groupItem.Render(sb);
+
+            var innerTop = Bounds.GetInnerRect().Top;
+            var fontFamilyAttr = $"font-family=\"{mFontTextRun.FontFamily},{mFontTextRun.FontFamily}_MSFontService,sans-serif\" ";
+            sb.Append($"<text fill=\"black\" y=\"{innerTop.ToString(CultureInfo.InvariantCulture)}\" {fontFamilyAttr}>");
+            //TODO: add textbody property stuff here
+            foreach (var textRun in CellTextRuns)
+            {
+                textRun.Render(sb);
+            }
+            sb.Append("</text>");
+            groupItem.RenderEndGroup(sb);
+        }
+
         internal void AddCellTextRun(ExcelRangeBase cell)
         {
             var fontStyle = cell.Style.Font;
@@ -254,24 +289,6 @@ namespace EPPlusImageRenderer.Text
             //    //Negative values increases bounds
             //    Bounds.Bottom = Bounds.Top + botPos;
             //}
-        }
-
-
-        internal void RenderTextRuns(StringBuilder sb)
-        {
-            var groupItem = new SvgGroupItem("");
-            groupItem.Render(sb);
-
-            var innerTop = Bounds.GetInnerRect().Top;
-            var fontFamilyAttr = $"font-family=\"{mFontTextRun.FontFamily},{mFontTextRun.FontFamily}_MSFontService,sans-serif\" ";
-            sb.Append($"<text fill=\"black\" y=\"{innerTop.ToString(CultureInfo.InvariantCulture)}\" {fontFamilyAttr}>");
-            //TODO: add textbody property stuff here
-            foreach (var textRun in CellTextRuns)
-            {
-                textRun.Render(sb);
-            }
-            sb.Append("</text>");
-            groupItem.RenderEndGroup(sb);
         }
     }
 }
