@@ -47,9 +47,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var value = arguments[0].ValueFirst;
-            var format = ArgToString(arguments, 1);
+            var format = ArgToString(arguments, 1) ?? "";
             var invariantFormat = GetInvariantFormat(format);
-
+            
             var result = context.ExcelDataProvider.GetFormat(value, invariantFormat, out bool isValidFormat);
             if(!isValidFormat)
             {
@@ -61,6 +61,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
         private static string GetInvariantFormat(string format)
         {
+            if (string.IsNullOrEmpty(format))
+            {
+                return format;
+            }
             var nds = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
             var ds = nds[0];
             var ngs = CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator;

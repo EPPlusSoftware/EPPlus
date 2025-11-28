@@ -1347,6 +1347,18 @@ namespace EPPlusTest.Issues
             Assert.AreEqual("One or more errors occurred during the valuation run", ws.Cells["E40"].Value);
             Assert.IsNull(ws.Cells["D41"].Value);
         }
+
+
+        [TestMethod]
+        public void s973()
+        {
+            using var package = OpenTemplatePackage("s973.xlsx");
+           // Assert.AreEqual("LeftRight", package.Workbook.Worksheets[0].Cells["A1"].Value);
+
+            package.Workbook.Calculate();
+
+            Assert.AreEqual("12,35²", package.Workbook.Worksheets[0].Cells["A3"].Value);
+        }
     }
 }
 

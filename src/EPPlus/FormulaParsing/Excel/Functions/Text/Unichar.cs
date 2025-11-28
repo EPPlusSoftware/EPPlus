@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 &&
                 short.TryParse(ArgToString(arguments, 0), out short arg))
             {
-                return CreateResult(char.ConvertFromUtf32(arg), DataType.Integer);
+                return CreateResult(char.ConvertFromUtf32(arg).ToString(), DataType.String);
             }
             return CreateResult(ExcelErrorValue.Values.Value, DataType.ExcelError);
         }
