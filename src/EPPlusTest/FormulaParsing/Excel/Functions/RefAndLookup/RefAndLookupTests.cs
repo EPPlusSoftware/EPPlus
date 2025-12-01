@@ -191,14 +191,14 @@ namespace EPPlusTest.Excel.Functions
             }
         }
         [TestMethod]
-        public void VLookupHeadersAndNumbers()
+        public void VLookupHeaderIncluded()
         {
             using (var package = new ExcelPackage()) 
             {
                 var ws = package.Workbook.Worksheets.Add("sheet1");
-                // Data with text header in first row
-                ws.Cells["A1"].Value = "Header";  // Text
-                ws.Cells["A2"].Value = 1;         // Number
+
+                ws.Cells["A1"].Value = "Header";  
+                ws.Cells["A2"].Value = 1;         
                 ws.Cells["A3"].Value = 2;
                 ws.Cells["A4"].Value = 3;
                 ws.Cells["A5"].Value = 4;
@@ -207,8 +207,7 @@ namespace EPPlusTest.Excel.Functions
                 ws.Cells["B3"].Value = "Found2";
                 ws.Cells["B4"].Value = "Found3";
                 ws.Cells["B5"].Value = "Found4";
-
-                // BUG: Returns #N/A (should return "Found1")
+                
                 var result = ws.Calculate("VLOOKUP(1,A1:B5,2,TRUE)");
                 Assert.AreEqual("Found1", result);
             }
