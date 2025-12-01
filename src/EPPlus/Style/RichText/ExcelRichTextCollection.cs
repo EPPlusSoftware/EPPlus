@@ -329,7 +329,6 @@ namespace OfficeOpenXml.Style
             _cells?.Dispose();
             _isDisposed = true;
         }
-
         #endregion
     }
 }
