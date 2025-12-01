@@ -65,5 +65,15 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual("2021-12-31", cell);
             }
         }
+        [TestMethod]
+        public void s975()
+        {
+            using(ExcelPackage package = OpenTemplatePackage("s975.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets["抵消附注"];
+                var cell = ws.Cells["E2419"];
+                cell.Value = null;
+            }
+        }
     }
 }
