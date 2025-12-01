@@ -10,47 +10,68 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.FontValidation;
 using System.Collections.Generic;
 
-public class FontValidationReport
+namespace EPPlus.Fonts.OpenType.FontValidation
 {
-    private readonly List<TableValidationResult> _results = new List<TableValidationResult>();
-
-    public IList<TableValidationResult> Results
+    public class FontValidationReport
     {
-        get { return _results; }
-    }
+        private readonly List<TableValidationResult> _results = new List<TableValidationResult>();
 
-    public bool IsValid
-    {
-        get
+        public IList<TableValidationResult> Results
         {
+            get { return _results; }
+        }
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var r in _results)
+                {
+                    if (!r.IsValid) return false;
+                }
+                return true;
+            }
+        }
+
+        public void AddResult(TableValidationResult result)
+        {
+            _results.Add(result);
+        }
+
+
+
+        /// <summary>
+        /// Adds a global message not tied to a specific table.
+        /// Creates a synthetic TableValidationResult with TableName = "Font".
+        /// </summary>
+        public void AddMessage(FontValidationSeverity severity, string message)
+        {
+            TableValidationResult globalResult = new TableValidationResult();
+            globalResult.TableName = "Font"; // Indicates font-level message
+            globalResult.AddMessage(severity, message);
+
+            _results.Add(globalResult);
+        }
+
+
+
+        public string FormatSummary()
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine("Font Validation Summary:");
             foreach (var r in _results)
             {
-                if (!r.IsValid) return false;
+                sb.AppendLine("[" + r.TableName + "] " + (r.IsValid ? "Valid" : "Invalid"));
+                foreach (var msg in r.Messages)
+                {
+                    sb.AppendLine(msg.ToString());
+                }
             }
-            return true;
+            return sb.ToString();
         }
     }
 
-    public void AddResult(TableValidationResult result)
-    {
-        _results.Add(result);
-    }
-
-    public string FormatSummary()
-    {
-        var sb = new System.Text.StringBuilder();
-        sb.AppendLine("Font Validation Summary:");
-        foreach (var r in _results)
-        {
-            sb.AppendLine("[" + r.TableName + "] " + (r.IsValid ? "Valid" : "Invalid"));
-            foreach (var msg in r.Messages)
-            {
-                sb.AppendLine(msg.ToString());
-            }
-        }
-        return sb.ToString();
-    }
 }
+

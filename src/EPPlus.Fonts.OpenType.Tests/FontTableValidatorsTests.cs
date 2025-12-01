@@ -1,9 +1,14 @@
 ﻿using EPPlus.Fonts.OpenType.FontValidation;
+using EPPlus.Fonts.OpenType.Tables.Cmap;
+using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
+using EPPlus.Fonts.OpenType.Tables.Hmtx;
+using EPPlus.Fonts.OpenType.Tables.Loca;
 using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
+using EPPlus.Fonts.OpenType.Tables.Post;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -84,6 +89,56 @@ namespace EPPlus.Fonts.OpenType.Tests
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.Os2Table, context);
             Assert.IsTrue(result.IsValid, "Os/2 validation failed for a known good font.");
+        }
+
+        [TestMethod]
+        public void PostTableValidation_Test()
+        {
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var validator = new PostTableValidator();
+            var context = new FontValidationContext(font);
+            var result = validator.Validate(font.PostTable, context);
+            Assert.IsTrue(result.IsValid, "Post validation failed for a known good font.");
+        }
+
+        [TestMethod]
+        public void CmapTableValidation_Test()
+        {
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var validator = new CmapTableValidator();
+            var context = new FontValidationContext(font);
+            var result = validator.Validate(font.CmapTable, context);
+            Assert.IsTrue(result.IsValid, "Cmap validation failed for a known good font.");
+        }
+
+        [TestMethod]
+        public void LocaTableValidation_Test()
+        {
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var validator = new LocaTableValidator();
+            var context = new FontValidationContext(font);
+            var result = validator.Validate(font.LocaTable, context);
+            Assert.IsTrue(result.IsValid, "Loca validation failed for a known good font.");
+        }
+
+        [TestMethod]
+        public void HmtxTableValidation_Test()
+        {
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var validator = new HmtxTableValidator();
+            var context = new FontValidationContext(font);
+            var result = validator.Validate(font.HmtxTable, context);
+            Assert.IsTrue(result.IsValid, "Hmtx validation failed for a known good font.");
+        }
+
+        [TestMethod]
+        public void GlyfTableValidation_Test()
+        {
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var validator = new GlyfTableValidator();
+            var context = new FontValidationContext(font);
+            var result = validator.Validate(font.GlyfTable, context);
+            Assert.IsTrue(result.IsValid, "Glyf validation failed for a known good font.");
         }
     }
 }

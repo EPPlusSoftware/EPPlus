@@ -25,6 +25,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Head
 
         public override string Name => TableNames.Head;
 
+        override public bool IsEssentialTable => true;
+
         public ushort MajorVersion { get; set; }
 
         public ushort MinorVersion { get; set; }

@@ -11,6 +11,12 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
             get { return TableNames.Os2; }
         }
 
+        public Type TableType => typeof(Os2Table);
+
+        TableValidationResult ITableValidator.Validate(FontTableBase table, FontValidationContext context)
+            => Validate((Os2Table)table, context);
+
+
         public TableValidationResult Validate(Os2Table table, FontValidationContext context)
         {
             var result = new TableValidationResult();
@@ -61,6 +67,21 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
             {
                 result.AddMessage(FontValidationSeverity.Warning, "Panose classification is all zeros.");
             }
+
+
+            // Cross-table: usFirstCharIndex/usLastCharIndex vs cmap
+            if (context.Font.CmapTable != null)
+            {
+                int minChar = context.Font.CmapTable.GetMinCharCode();
+                int maxChar = context.Font.CmapTable.GetMaxCharCode();
+                if (minChar < table.usFirstCharIndex || maxChar > table.usLastCharIndex)
+                {
+                    result.AddMessage(FontValidationSeverity.Error,
+                        string.Format("Cmap character range ({0}-{1}) is outside OS/2 declared range ({2}-{3}).",
+                            minChar, maxChar, table.usFirstCharIndex, table.usLastCharIndex));
+                }
+            }
+
 
             return result;
         }

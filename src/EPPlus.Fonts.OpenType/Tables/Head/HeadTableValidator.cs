@@ -11,6 +11,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Head
             get { return TableNames.Head; }
         }
 
+        public Type TableType => typeof(HeadTable);
+
+
+        TableValidationResult ITableValidator.Validate(FontTableBase table, FontValidationContext context)
+            => Validate((HeadTable)table, context);
+
+
 
         public TableValidationResult Validate(HeadTable table, FontValidationContext context)
         {
@@ -18,17 +25,17 @@ namespace EPPlus.Fonts.OpenType.Tables.Head
             result.TableName = TableName;
 
             // Magic number
-            if (table.MagicNumber != 0x5F0F3CF5)
+            if (table.MagicNumber != HeadTableConstants.MagicNumber)
             {
                 result.AddMessage(FontValidationSeverity.Error,
-                    string.Format("Invalid magic number: {0:X}. Expected 0x5F0F3CF5.", table.MagicNumber));
+                    string.Format($"Invalid magic number: {0:X}. Expected {HeadTableConstants.MagicNumber}.", table.MagicNumber));
             }
 
             // unitsPerEm range
-            if (table.UnitsPerEm < 16 || table.UnitsPerEm > 16384)
+            if (table.UnitsPerEm < HeadTableConstants.UnitsPerEmMin || table.UnitsPerEm > HeadTableConstants.UnitsPerEmMax)
             {
                 result.AddMessage(FontValidationSeverity.Warning,
-                    string.Format("unitsPerEm out of range: {0}. Expected 16–16384.", table.UnitsPerEm));
+                    $"unitsPerEm out of range: {table.UnitsPerEm}. Expected {HeadTableConstants.UnitsPerEmMin}]–{HeadTableConstants.UnitsPerEmMax}.");
             }
 
             // indexToLocFormat

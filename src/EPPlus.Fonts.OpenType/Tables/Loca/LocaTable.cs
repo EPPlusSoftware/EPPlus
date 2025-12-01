@@ -32,6 +32,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
 
         public override string Name => TableNames.Loca;
 
+        public override bool IsEssentialTable => true;
+
         public List<uint> Offsets { get; set; } = new List<uint>();
         public HeadTable.IndexToLocFormats IndexToLocFormat { get; set; }
 
@@ -39,6 +41,26 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
         {
             Offsets.Clear();
         }
+
+
+
+        internal int GetGlyphCountSafe()
+        {
+            // According to OpenType spec:
+            // loca table contains numGlyphs + 1 entries (last entry = end of last glyph)
+            // So glyph count = Offsets.Count - 1 if Offsets is valid.
+            // If Offsets is null or empty, return 0 as a safe fallback.
+
+            if (Offsets == null || Offsets.Count < 2)
+            {
+                return 0; // No valid glyph offsets
+            }
+
+            // Normally, Offsets.Count should equal _maxpTable.numGlyphs + 1
+            // But we trust Offsets.Count for safety and subtract 1.
+            return Offsets.Count - 1;
+        }
+
 
 
         internal static LocaTable CreateSubset(List<uint> offsets, HeadTable.IndexToLocFormats indexToLocFormat, MaxpTable maxpTable)

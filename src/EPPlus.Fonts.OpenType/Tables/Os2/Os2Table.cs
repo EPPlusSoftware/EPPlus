@@ -20,6 +20,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
     public class Os2Table : FontTableBase
     {
         public override string Name => TableNames.Os2;
+
+        public override bool IsEssentialTable => false;
         /// <summary>
         /// The version number for the OS/2 table: 0x0000 to 0x0005.
         /// The version number allows for identification of the precise contents and layout for the OS/2 table.

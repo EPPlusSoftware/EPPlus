@@ -18,6 +18,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
     public class NameTable : FontTableBase
     {
         public override string Name => TableNames.Name;
+
+        public override bool IsEssentialTable => false;
         public ushort format { get; set; }
 
         public ushort count { get; set; }

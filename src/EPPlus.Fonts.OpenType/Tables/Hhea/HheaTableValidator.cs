@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontValidation;
+using System;
 
 namespace EPPlus.Fonts.OpenType.Tables.Hhea
 {
@@ -21,17 +22,45 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
             get { return TableNames.Hhea; }
         }
 
+        public Type TableType => typeof(HheaTable);
+
+        TableValidationResult ITableValidator.Validate(FontTableBase table, FontValidationContext context)
+            => Validate((HheaTable)table, context);
+
+
         public TableValidationResult Validate(HheaTable table, FontValidationContext context)
         {
             var result = new TableValidationResult();
             result.TableName = TableName;
 
-            // Rule 1: Version check
-            if (table.majorVersion != 1 || table.minorVersion != 0)
+
+            // Rule 1: Version check with tolerant strategy
+            if (table.majorVersion == HheaTableConstants.ExpectedMajorVersion &&
+                table.minorVersion == HheaTableConstants.ExpectedMinorVersion)
             {
-                result.AddMessage(FontValidationSeverity.Error,
-                    string.Format("Invalid version: {0}.{1}. Expected 1.0.", table.majorVersion, table.minorVersion));
+                // Expected version (e.g., 1.0) - OK
             }
+            else if (table.majorVersion == 0 && table.minorVersion == 0)
+            {
+                // Older TrueType fonts sometimes have 0.0 - tolerate but warn
+                result.AddMessage(FontValidationSeverity.Warning,
+                    string.Format("Version is {0}.{1}. Expected {2}.{3}, but 0.0 is tolerated for older fonts.",
+                        table.majorVersion,
+                        table.minorVersion,
+                        HheaTableConstants.ExpectedMajorVersion,
+                        HheaTableConstants.ExpectedMinorVersion));
+            }
+            else
+            {
+                // Any other version is considered invalid
+                result.AddMessage(FontValidationSeverity.Error,
+                    string.Format("Invalid version: {0}.{1}. Expected {2}.{3}.",
+                        table.majorVersion,
+                        table.minorVersion,
+                        HheaTableConstants.ExpectedMajorVersion,
+                        HheaTableConstants.ExpectedMinorVersion));
+            }
+
 
             // Rule 2: Ascender and Descender should not be zero
             if (table.ascender == 0)
@@ -55,6 +84,14 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
             {
                 result.AddMessage(FontValidationSeverity.Error, "advanceWidthMax is 0, which is invalid.");
             }
+
+
+            if (table.advanceWidthMax > context.Font.HeadTable.UnitsPerEm * 2)
+            {
+                result.AddMessage(FontValidationSeverity.Warning,
+                    $"advanceWidthMax ({table.advanceWidthMax}) seems unusually large compared to HeadTable.UnitsPerEm ({context.Font.HeadTable.UnitsPerEm}).");
+            }
+
 
             // Rule 5: metricDataFormat must be 0
             if (table.metricDataFormat != 0)

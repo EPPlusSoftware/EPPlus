@@ -10,67 +10,113 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.FontValidation;
+
+using EPPlus.Fonts.OpenType.Tables;
+using EPPlus.Fonts.OpenType.Tables.Cmap;
+using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
+using EPPlus.Fonts.OpenType.Tables.Hmtx;
+using EPPlus.Fonts.OpenType.Tables.Loca;
 using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
+using EPPlus.Fonts.OpenType.Tables.Post;
+using System;
 using System.Collections.Generic;
-
 
 namespace EPPlus.Fonts.OpenType.FontValidation
 {
     public class FontValidator
     {
-        private readonly List<object> _validators = new List<object>();
+        private readonly List<ITableValidator> _validators;
+        private readonly Dictionary<Type, Func<OpenTypeFont, FontTableBase>> _tableAccessors;
 
         public FontValidator()
         {
-            // Register built-in validators
+            _validators = new List<ITableValidator>();
+            _tableAccessors = new Dictionary<Type, Func<OpenTypeFont, FontTableBase>>();
+
+            // Register validators
             _validators.Add(new HeadTableValidator());
             _validators.Add(new MaxpTableValidator());
-            _validators.Add(new HeadTableValidator());
+            _validators.Add(new HheaTableValidator());
             _validators.Add(new NameTableValidator());
             _validators.Add(new Os2TableValidator());
+            _validators.Add(new PostTableValidator());
+            _validators.Add(new CmapTableValidator());
+            _validators.Add(new LocaTableValidator());
+            _validators.Add(new HmtxTableValidator());
+            _validators.Add(new GlyfTableValidator());
+            // Add more as needed...
+
+            // Register table accessors
+            _tableAccessors.Add(typeof(HeadTable), delegate(OpenTypeFont font) { return font.HeadTable; });
+            _tableAccessors.Add(typeof(MaxpTable), delegate(OpenTypeFont font) { return font.MaxpTable; });
+            _tableAccessors.Add(typeof(HheaTable), delegate(OpenTypeFont font) { return font.HheaTable; });
+            _tableAccessors.Add(typeof(NameTable), delegate(OpenTypeFont font) { return font.NameTable; });
+            _tableAccessors.Add(typeof(Os2Table), delegate(OpenTypeFont font) { return font.Os2Table; });
+            _tableAccessors.Add(typeof(PostTable), delegate (OpenTypeFont font) { return font.PostTable; });
+            _tableAccessors.Add(typeof(CmapTable), delegate (OpenTypeFont font) { return font.CmapTable; });
+            _tableAccessors.Add(typeof(LocaTable), delegate (OpenTypeFont font) { return font.LocaTable; });
+            _tableAccessors.Add(typeof(HmtxTable), delegate (OpenTypeFont font) { return font.HmtxTable; });
+            _tableAccessors.Add(typeof(GlyfTable), delegate (OpenTypeFont font) { return font.GlyfTable; });
         }
 
         public FontValidationReport Validate(OpenTypeFont font)
         {
-            var report = new FontValidationReport();
-            var context = new FontValidationContext(font);
+            FontValidationReport report = new FontValidationReport();
+            FontValidationContext context = new FontValidationContext(font);
 
-            var tableRecordsValidator = new TableRecordsValidator();
-            var trResult = tableRecordsValidator.Validate(font, context);
+            // Validate table records first
+            TableRecordsValidator tableRecordsValidator = new TableRecordsValidator();
+            TableValidationResult trResult = tableRecordsValidator.Validate(font, context);
             report.AddResult(trResult);
 
-            foreach (var validator in _validators)
+            // Validate each registered table
+            for (int i = 0; i < _validators.Count; i++)
             {
-                if (validator is ITableValidator<HeadTable> headValidator)
+                ITableValidator validator = _validators[i];
+                Func<OpenTypeFont, FontTableBase> accessor;
+
+                if (!_tableAccessors.TryGetValue(validator.TableType, out accessor))
                 {
-                    var result = headValidator.Validate(font.HeadTable, context);
+                    report.AddMessage(FontValidationSeverity.Warning,
+                        "No accessor registered for table " + validator.TableName + ".");
+                    continue;
+                }
+
+                FontTableBase table = accessor(font);
+
+                if (table == null)
+                {
+                    FontValidationSeverity severity = validator.TableType != null && table == null
+                        ? FontValidationSeverity.Warning
+                        : FontValidationSeverity.Error;
+
+                    // Use IsEssentialTable property for severity
+                    if (validator.TableType != null && table == null)
+                    {
+                        severity = FontValidationSeverity.Warning;
+                    }
+
+                    report.AddMessage(table != null && table.IsEssentialTable
+                        ? FontValidationSeverity.Error
+                        : FontValidationSeverity.Warning,
+                        "Table " + validator.TableName + " is missing.");
+                    continue;
+                }
+
+                // Validate table
+                TableValidationResult result = validator.Validate(table, context);
+                if (result != null)
+                {
                     report.AddResult(result);
                 }
-                else if (validator is ITableValidator<MaxpTable> maxpValidator)
+                else
                 {
-                    var result = maxpValidator.Validate(font.MaxpTable, context);
-                    report.AddResult(result);
-                }
-                else if (validator is ITableValidator<HheaTable> hheaValidator)
-                {
-                    var result = hheaValidator.Validate(font.HheaTable, context);
-                    report.AddResult(result);
-                }
-                else if (validator is ITableValidator<NameTable> nameValidator)
-                {
-                    var result = nameValidator.Validate(font.NameTable, context);
-                    report.AddResult(result);
-                }
-                else if (validator is ITableValidator<Os2Table> os2Validator)
-                {
-                    var result = os2Validator.Validate(font.Os2Table, context);
-                    report.AddResult(result);
+                    report.AddMessage(FontValidationSeverity.Error,
+                        "Validator for " + validator.TableName + " returned null result.");
                 }
             }
 

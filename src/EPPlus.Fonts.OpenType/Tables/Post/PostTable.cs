@@ -18,6 +18,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
     public class PostTable : FontTableBase
     {
         public override string Name => TableNames.Post;
+
+        public override bool IsEssentialTable => false;
         public Version16Dot16 version { get; set; }
         public Fixed16Dot16 italicAngle { get; set; }
         public short underlinePosition {  get; set; }

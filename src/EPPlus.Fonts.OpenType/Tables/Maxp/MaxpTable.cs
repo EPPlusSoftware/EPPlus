@@ -15,6 +15,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Maxp
     public class MaxpTable : FontTableBase
     {
         public override string Name => TableNames.Maxp;
+
+        public override bool IsEssentialTable => true;
         /// <summary>
         /// 0x00005000 for version 0.5
         /// 0x00010000 for version 1.0.

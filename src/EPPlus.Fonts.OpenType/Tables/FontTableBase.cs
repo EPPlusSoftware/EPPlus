@@ -42,5 +42,7 @@ namespace EPPlus.Fonts.OpenType.Tables
         }
 
         public abstract string Name { get; }
+
+        public abstract bool IsEssentialTable { get;  }
     }
 }

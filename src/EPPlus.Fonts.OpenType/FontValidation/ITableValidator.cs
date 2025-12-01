@@ -11,14 +11,26 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables;
+using System;
 
 namespace EPPlus.Fonts.OpenType.FontValidation
 {
-    public interface ITableValidator<T>
-        where T : FontTableBase
+    public interface ITableValidator
     {
+        // Target table type
+        Type TableType { get; }
+
+        // Human-readable table name
         string TableName { get; }
 
+        // Non-generic validate for dispatcher
+        TableValidationResult Validate(FontTableBase table, FontValidationContext context);
+    }
+
+    // Generic version for validator implementations
+    public interface ITableValidator<T> : ITableValidator where T : FontTableBase
+    {
         TableValidationResult Validate(T table, FontValidationContext context);
     }
+
 }

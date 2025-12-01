@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontValidation;
+using System;
 
 namespace EPPlus.Fonts.OpenType.Tables.Maxp
 {
@@ -20,6 +21,14 @@ namespace EPPlus.Fonts.OpenType.Tables.Maxp
         {
             get { return TableNames.Maxp; }
         }
+
+        public Type TableType => typeof(MaxpTable);
+
+
+        // Non-generic bridge
+        TableValidationResult ITableValidator.Validate(FontTableBase table, FontValidationContext context)
+            => Validate((MaxpTable)table, context);
+
 
         public TableValidationResult Validate(MaxpTable table, FontValidationContext context)
         {
@@ -34,14 +43,14 @@ namespace EPPlus.Fonts.OpenType.Tables.Maxp
             }
 
             // Rule 2: version must be 0x00005000 (0.5) or 0x00010000 (1.0)
-            if (table.version.RawValue != 0x00005000 && table.version.RawValue != 0x00010000)
+            if (table.version.RawValue != MaxpTableConstants.Version05 && table.version.RawValue != MaxpTableConstants.Version10)
             {
                 result.AddMessage(FontValidationSeverity.Warning,
-                    string.Format("Unexpected version: 0x{0:X}. Expected 0x00005000 or 0x00010000.", table.version.RawValue));
+                    string.Format("Unexpected version: 0x{0:X}. Expected {1:X} or {2:X}.", table.version.RawValue, MaxpTableConstants.Version05, MaxpTableConstants.Version10));
             }
 
             // Rule 3: Version-specific checks
-            if (table.version.RawValue == 0x00010000)
+            if (table.version.RawValue == MaxpTableConstants.Version10)
             {
                 // maxZones should be 1 or 2 (per spec text, most fonts use 2).
                 if (table.maxZones != 1 && table.maxZones != 2)
@@ -57,7 +66,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Maxp
                 // If you want a soft check on extremes, you could add informational notes
                 // for extremely large values, but avoid strict comparisons or false positives.
             }
-            else if (table.version.RawValue == 0x00005000)
+            else if (table.version.RawValue == MaxpTableConstants.Version05)
             {
                 // Version 0.5 only defines numGlyphs; extended fields should be zero.
                 if (table.maxPoints != 0 || table.maxContours != 0 ||
@@ -72,6 +81,22 @@ namespace EPPlus.Fonts.OpenType.Tables.Maxp
                         "Version 0.5 should not define extended fields (they should be zero).");
                 }
             }
+
+
+            // Rule 4: cross-table critical: numGlyphs matches loca
+            // Note: Loca must exist for essential fonts. If it is null, FontValidator should already report that.
+            if (context != null && context.Font != null && context.Font.LocaTable != null)
+            {
+                int locaGlyphCount = context.Font.LocaTable.GetGlyphCountSafe();
+                // Implement GetGlyphCountSafe() in LocaTable to handle format properly.
+
+                if (locaGlyphCount != table.numGlyphs)
+                {
+                    result.AddMessage(FontValidationSeverity.Error,
+                        string.Format("numGlyphs ({0}) does not match loca glyph count ({1}).", table.numGlyphs, locaGlyphCount));
+                }
+            }
+
 
             return result;
         }

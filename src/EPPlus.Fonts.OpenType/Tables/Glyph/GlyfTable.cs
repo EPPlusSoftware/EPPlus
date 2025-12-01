@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Loca;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tables.Glyph
@@ -35,6 +36,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
         private readonly TableLoaderSettings _tableLoaderSettings;
 
         public override string Name => TableNames.Glyf;
+
+        public override bool IsEssentialTable => true;
 
         /// <summary>
         /// All glyphs in the font, indexed by glyph ID.
@@ -127,6 +130,5 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
                 }
             } while (addedNew);
         }
-
     }
 }
