@@ -50,7 +50,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             ConvertToPDFCoordiantes(pageSettings, PagesLayout);
             AdjustAndSort(PagesLayout);
             RemoveChild(WorksheetLayout);
-            AddHeaderFooter(worksheet, pageSettings, PagesLayout);
+            AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
             string FinalPagesLayout = ToHierarchyString();
         }
 
@@ -241,7 +241,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        private void AddHeaderFooter(ExcelWorksheet ws, PdfPageSettings settings, PdfPagesLayout pages)
+        private void AddHeaderFooter(ExcelWorksheet ws, PdfPageSettings settings, PdfDictionaries dictionaries, PdfPagesLayout pages)
         {
             int pageNumber = 1;
             //loop pages and check which header it should use
@@ -254,116 +254,62 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 ExcelHeaderFooterTextCollection centerF = null;
                 ExcelHeaderFooterTextCollection rightF = null;
 
-                if (pageNumber == 1)
+                if (ws.HeaderFooter.differentFirst && pageNumber == 1)
                 {
-                    //Header
-                    if (ws.HeaderFooter.FirstHeader != null)
-                    {
-                        leftH = ws.HeaderFooter.FirstHeader.LeftAligned;
-                        centerH = ws.HeaderFooter.FirstHeader.Centered;
-                        rightH = ws.HeaderFooter.FirstHeader.RightAligned;
-                    }
-                    else if (ws.HeaderFooter.OddHeader != null)
+                    leftH = ws.HeaderFooter.FirstHeader.LeftAligned;
+                    centerH = ws.HeaderFooter.FirstHeader.Centered;
+                    rightH = ws.HeaderFooter.FirstHeader.RightAligned;
+                    leftF = ws.HeaderFooter.FirstFooter.LeftAligned;
+                    centerF = ws.HeaderFooter.FirstFooter.Centered;
+                    rightF = ws.HeaderFooter.FirstFooter.RightAligned;
+                    if (leftH.Text == "&L" && centerH.Text == "&C" && rightH.Text == "&R" && leftF.Text == "&L" && centerF.Text == "&C" && rightF.Text == "&R")
                     {
                         leftH = ws.HeaderFooter.OddHeader.LeftAligned;
                         centerH = ws.HeaderFooter.OddHeader.Centered;
                         rightH = ws.HeaderFooter.OddHeader.RightAligned;
-                    }
-                    else if (ws.HeaderFooter.EvenHeader != null)
-                    {
-                        leftH = ws.HeaderFooter.EvenHeader.LeftAligned;
-                        centerH = ws.HeaderFooter.EvenHeader.Centered;
-                        rightH = ws.HeaderFooter.EvenHeader.RightAligned;
-                    }
-                    //Footer
-                    if (ws.HeaderFooter.FirstFooter != null)
-                    {
-                        leftF = ws.HeaderFooter.FirstFooter.LeftAligned;
-                        centerF = ws.HeaderFooter.FirstFooter.Centered;
-                        rightF = ws.HeaderFooter.FirstFooter.RightAligned;
-                    }
-                    else if (ws.HeaderFooter.OddFooter != null)
-                    {
-                        leftF = ws.HeaderFooter.OddFooter.LeftAligned;
-                        centerF = ws.HeaderFooter.OddFooter.Centered;
-                        rightF = ws.HeaderFooter.OddFooter.RightAligned;
-                    }
-                    else if (ws.HeaderFooter.EvenFooter != null)
-                    {
-                        leftF = ws.HeaderFooter.EvenFooter.LeftAligned;
-                        centerF = ws.HeaderFooter.EvenFooter.Centered;
-                        rightF = ws.HeaderFooter.EvenFooter.RightAligned;
-                    }
-                }
-                else if (pageNumber % 2 == 0)
-                {
-                    //Header
-                    if (ws.HeaderFooter.EvenHeader != null)
-                    {
-                        leftH = ws.HeaderFooter.EvenHeader.LeftAligned;
-                        centerH = ws.HeaderFooter.EvenHeader.Centered;
-                        rightH = ws.HeaderFooter.EvenHeader.RightAligned;
-                    }
-                    else if (ws.HeaderFooter.OddHeader != null)
-                    {
-                        leftH = ws.HeaderFooter.OddHeader.LeftAligned;
-                        centerH = ws.HeaderFooter.OddHeader.Centered;
-                        rightH = ws.HeaderFooter.OddHeader.RightAligned;
-                    }
-                    //Footer
-                    if (ws.HeaderFooter.EvenFooter != null)
-                    {
-                        leftF = ws.HeaderFooter.EvenFooter.LeftAligned;
-                        centerF = ws.HeaderFooter.EvenFooter.Centered;
-                        rightF = ws.HeaderFooter.EvenFooter.RightAligned;
-                    }
-                    else if (ws.HeaderFooter.OddFooter != null)
-                    {
                         leftF = ws.HeaderFooter.OddFooter.LeftAligned;
                         centerF = ws.HeaderFooter.OddFooter.Centered;
                         rightF = ws.HeaderFooter.OddFooter.RightAligned;
                     }
                 }
-                else if (pageNumber % 2 == 1)
+                else if (ws.HeaderFooter.differentOddEven && pageNumber % 2 == 0)
                 {
-                    //Header
-                    if (ws.HeaderFooter.OddHeader != null)
+                    leftH = ws.HeaderFooter.EvenHeader.LeftAligned;
+                    centerH = ws.HeaderFooter.EvenHeader.Centered;
+                    rightH = ws.HeaderFooter.EvenHeader.RightAligned;
+                    leftF = ws.HeaderFooter.EvenFooter.LeftAligned;
+                    centerF = ws.HeaderFooter.EvenFooter.Centered;
+                    rightF = ws.HeaderFooter.EvenFooter.RightAligned;
+                    if (leftH.Text == "&L" && centerH.Text == "&C" && rightH.Text == "&R" && leftF.Text == "&L" && centerF.Text == "&C" && rightF.Text == "&R")
                     {
                         leftH = ws.HeaderFooter.OddHeader.LeftAligned;
                         centerH = ws.HeaderFooter.OddHeader.Centered;
                         rightH = ws.HeaderFooter.OddHeader.RightAligned;
-                    }
-                    else if (ws.HeaderFooter.EvenHeader != null)
-                    {
-                        leftH = ws.HeaderFooter.EvenHeader.LeftAligned;
-                        centerH = ws.HeaderFooter.EvenHeader.Centered;
-                        rightH = ws.HeaderFooter.EvenHeader.RightAligned;
-                    }
-                    //Footer
-                    if (ws.HeaderFooter.OddFooter != null)
-                    {
                         leftF = ws.HeaderFooter.OddFooter.LeftAligned;
                         centerF = ws.HeaderFooter.OddFooter.Centered;
                         rightF = ws.HeaderFooter.OddFooter.RightAligned;
                     }
-                    else if (ws.HeaderFooter.EvenFooter != null)
-                    {
-                        leftF = ws.HeaderFooter.EvenFooter.LeftAligned;
-                        centerF = ws.HeaderFooter.EvenFooter.Centered;
-                        rightF = ws.HeaderFooter.EvenFooter.RightAligned;
-                    }
                 }
-                var lh = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(leftH, ws));
+                else
+                {
+                    leftH = ws.HeaderFooter.OddHeader.LeftAligned;
+                    centerH = ws.HeaderFooter.OddHeader.Centered;
+                    rightH = ws.HeaderFooter.OddHeader.RightAligned;
+                    leftF = ws.HeaderFooter.OddFooter.LeftAligned;
+                    centerF = ws.HeaderFooter.OddFooter.Centered;
+                    rightF = ws.HeaderFooter.OddFooter.RightAligned;
+                }
+                var lh = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(leftH, ws, settings, dictionaries, pageNumber, pages.ChildObjects.Count));
                 lh.LocalPosition = new Vector2(settings.Margins.LeftPu, settings.PageSize.HeightPu - settings.Margins.HeaderPu);
-                var ch = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(rightH, ws));
+                var ch = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(rightH, ws, settings, dictionaries, pageNumber, pages.ChildObjects.Count));
                 ch.LocalPosition = new Vector2(settings.PageSize.WidthPu/2d, settings.PageSize.HeightPu - settings.Margins.HeaderPu);
-                var rh = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(centerH, ws));
+                var rh = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(centerH, ws, settings, dictionaries, pageNumber, pages.ChildObjects.Count));
                 rh.LocalPosition = new Vector2(settings.PageSize.WidthPu - settings.Margins.RightPu, settings.PageSize.HeightPu - settings.Margins.HeaderPu);
-                var lf = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(leftF, ws));
+                var lf = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(leftF, ws, settings, dictionaries, pageNumber, pages.ChildObjects.Count));
                 lf.LocalPosition = new Vector2(settings.Margins.LeftPu, settings.Margins.FooterPu);
-                var cf = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(rightF, ws));
+                var cf = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(rightF, ws, settings, dictionaries, pageNumber, pages.ChildObjects.Count));
                 cf.LocalPosition = new Vector2(settings.PageSize.WidthPu / 2d, settings.Margins.FooterPu);
-                var rf = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(centerF, ws));
+                var rf = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(centerF, ws, settings, dictionaries, pageNumber, pages.ChildObjects.Count));
                 rf.LocalPosition = new Vector2(settings.PageSize.WidthPu - settings.Margins.RightPu, settings.Margins.FooterPu);
                 pageNumber++;
             }

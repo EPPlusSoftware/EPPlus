@@ -210,21 +210,28 @@ namespace EPPlus.Export.Pdf
                     }
                 }
             }
-            //Close the clipping rectangle
+            //Close the clipping rectangle.
             contentStream.AddCommand("Q");
             contentStream.AddCommand($"% Margin Clip End");
             if (PageSettings.ShowGridLines)
             {
                 contentStream.AddOuterGridBorder(pageLayout);
             }
+            //Add header and footer.
+            AddHeaderFooter(contentStream, pageLayout, page);
             Document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
         }
 
         //Add Header Footer
-        private void AddHeaderFooter(PdfTransform pageLayout, PdfPage page)
+        private void AddHeaderFooter(PdfContentStream contentStream, PdfTransform pageLayout, PdfPage page)
         {
-
+            var headerFooter = pageLayout.ChildObjects.Where(t => t is PdfHeaderFooterLayout);
+            foreach (var hf in headerFooter)
+            {
+                var headerFooterLayout = hf as PdfHeaderFooterLayout;
+                contentStream.AddCellContentLayout(headerFooterLayout, Dictionaries, PageSettings);
+            }
         }
 
         private PdfInfoObject AddInfoObject()
@@ -258,7 +265,6 @@ namespace EPPlus.Export.Pdf
                 var pageLayout = pagesLayout.ChildObjects[i];
                 var page = AddPage(2, new List<int>(), PageSettings);
                 AddContent(pageLayout, page);
-                AddHeaderFooter(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
             var info = AddInfoObject();

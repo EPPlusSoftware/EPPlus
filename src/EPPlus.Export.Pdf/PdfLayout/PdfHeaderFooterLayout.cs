@@ -10,8 +10,13 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.PdfGraphics;
 using EPPlus.Export.Pdf.Pdfhelpers;
+using EPPlus.Export.Pdf.PdfResources;
+using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Fonts.OpenType;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using System;
 using System.Collections.Generic;
@@ -25,61 +30,68 @@ namespace EPPlus.Export.Pdf.PdfLayout
     {
         public PdfCellTextLine textLine = new PdfCellTextLine();
 
-        public PdfHeaderFooterLayout(ExcelHeaderFooterTextCollection textCollection, ExcelWorksheet ws)
+        public PdfHeaderFooterLayout(ExcelHeaderFooterTextCollection textCollection, ExcelWorksheet ws, PdfPageSettings settings, PdfDictionaries dictionaries, int pageNumber, int totalPages)
         {
             foreach (var text in textCollection)
             {
-                switch (text.Text)
+                PdfCellTextItem textItem = new PdfCellTextItem();
+                textItem.FontName = text.FontName;
+                textItem.FontSize = (double)text.FontSize;
+                textItem.Bold = text.Bold;
+                textItem.Italic = text.Italic;
+                textItem.Strike = text.Striketrough;
+                textItem.SubScript = text.SubScript;
+                textItem.SuperScript = text.SuperScript;
+                textItem.Underline = text.Underline;
+                textItem.FontColor = new PdfColor( text.Color.R, text.Color.G, text.Color.B, text.Color.A);
+                switch (text.FormatCode)
                 {
-                    case "&A":
+                    case ExcelHeaderFooterFormattingCodes.SheetName:
+                        textItem.Text += ws.Name;
                         break;
-                    case "&D":
+                    case ExcelHeaderFooterFormattingCodes.CurrentDate:
+                        textItem.Text += DateTime.Now.ToString("yyyy-MM-dd");
                         break;
-                    case "&F":
+                    case ExcelHeaderFooterFormattingCodes.FileName:
+                        textItem.Text += ws._package.File.Name;
                         break;
-                    case "&N":
+                    case ExcelHeaderFooterFormattingCodes.NumberOfPages:
+                        textItem.Text += totalPages.ToString();
                         break;
-                    case "&P":
+                    case ExcelHeaderFooterFormattingCodes.PageNumber:
+                        textItem.Text += pageNumber;
                         break;
-                    case "&T":
+                    case ExcelHeaderFooterFormattingCodes.CurrentTime:
+                        textItem.Text += DateTime.Now.ToString("HH:mm");
                         break;
-                    case "&Z":
+                    case ExcelHeaderFooterFormattingCodes.FilePath:
+                        textItem.Text += ws._package.File.FullName;
                         break;
                     default:
+                        textItem.Text += text.Text;
                         break;
-
                 }
-                PdfCellTextItem textItem = new PdfCellTextItem();
-
+                GetFontResourceData(dictionaries.Fonts, settings, textItem);
+                textLine.TextItemCollection.Add(textItem);
             }
         }
 
-        public static string GetWorksheetTabName()
+        //Get font data from fontResources. If font does not exsist, add it to fontResources.
+        private OpenTypeFont GetFontResourceData(Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings, PdfCellTextItem FontData)
         {
+            if (!fontResources.ContainsKey(FontData.FullFontName))
+            {
+                int label = 1;
+                if (fontResources.Count > 0)
+                {
+                    label = fontResources.Last().Value.labelNumber + 1;
+                }
+                PdfFontResource fr = new PdfFontResource(FontData.FontName, FontData.SubFamily, label, pageSettings);
+                fontResources.Add(FontData.FullFontName, fr);
+                fontResources.Last().Value.fontData = PdfTextData.GetFontData(pageSettings, FontData.FontName, FontData.SubFamily);
+            }
+            return fontResources[FontData.FullFontName].fontData;
         }
 
-        public static string GetDate()
-        {
-        }
-
-        public static string GetWorkbookFileName()
-        {
-        }
-
-        public static string GetNumberOfPages()
-        {
-        }
-
-        public static string GetCurrentPageNumber()
-        {
-        }
-
-        public static string GetCurrentTime()
-        {
-        }
-
-        public static string GetWorkbookfilePath()
-        {
-        }
     }
 }
