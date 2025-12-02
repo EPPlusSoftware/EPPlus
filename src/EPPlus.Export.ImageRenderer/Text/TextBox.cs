@@ -10,12 +10,13 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.ImageRenderer.Text;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -26,7 +27,7 @@ namespace EPPlusImageRenderer.Text
     {
         internal RectMargins Bounds = new RectMargins();
 
-        internal eTextAnchoringType VerticalAlignment;
+        internal eTextAnchoringType VerticalAlignment=eTextAnchoringType.Top;
 
         internal double ClippingHeight;
 
@@ -289,6 +290,33 @@ namespace EPPlusImageRenderer.Text
             //    //Negative values increases bounds
             //    Bounds.Bottom = Bounds.Top + botPos;
             //}
+        }
+        public string Text { get; set; }
+        internal void AddText(string text, OfficeOpenXml.Style.ExcelTextFont font)
+        {
+            var measureFont = font.GetMeasureFont();
+
+            var area = GetTextArea();
+            paragraphStartPosY = area.Top;
+            //Document Y position for the paragraph text based on vertical alignment
+            var posY = GetAlignmentVertical();
+            var vertAlignAttribute = GetVerticalAlignAttribute(posY);
+
+
+
+            var measurer = font.PictureRelationDocument.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
+            var m = measurer.MeasureText(text, measureFont);
+            //Limit bounding area with the space taken by previous paragraphs
+            //Note that this is ONLY identical to PosY if the vertical alignment is top
+
+            //The first run in the first paragraph must apply different line-spacing
+            var svgParagraph = new SvgParagraph(text, font, area, vertAlignAttribute, posY);
+
+            svgParagraph.FillColor = font.Color.To6CharHexString();
+
+            paragraphStartPosY = svgParagraph.GetBottomYPosition();
+
+            Paragraphs.Add(svgParagraph);
         }
     }
 }

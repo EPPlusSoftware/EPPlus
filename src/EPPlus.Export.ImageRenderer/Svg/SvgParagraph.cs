@@ -30,12 +30,15 @@ namespace EPPlusImageRenderer.Svg
             base.Render(sb);
 
             sb.Append($" {vertAlignAttribute} " + GetHorizontalAlignmentAttribute(XPos) +
-                $"font-family=\"{_MeasurementFont.FontFamily},{_MeasurementFont.FontFamily}_MSFontService,sans-serif\" " +
-                $"font-size=\"{_MeasurementFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture)}px\">");
+                $"font-family=\"{_measurementFont.FontFamily},{_measurementFont.FontFamily}_MSFontService,sans-serif\" " +
+                $"font-size=\"{_measurementFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture)}px\">");
 
-            foreach (var textRun in TextRuns)
+            if (TextRuns.Count > 0)
             {
-                textRun.Render(sb);
+                foreach (var textRun in TextRuns)
+                {
+                    textRun.Render(sb);
+                }
             }
 
             sb.Append("</text>");
@@ -78,7 +81,7 @@ namespace EPPlusImageRenderer.Svg
         protected double LineSpacing;
         protected double LineSpacingAscendantOnly;
 
-        MeasurementFont _MeasurementFont;
+        MeasurementFont _measurementFont;
 
         bool IsFirstParagraph = false;
 
@@ -87,7 +90,10 @@ namespace EPPlusImageRenderer.Svg
         eDrawingTextLineSpacing lnType;
         double? lnMultiplier = null;
         double paragraphHeight;
-
+        private string text;
+        private ExcelTextFont font;
+        private RectBase area;
+        private double posY;
         /// <summary>
         /// First paragraph must use different linespacing
         /// </summary>
@@ -101,10 +107,10 @@ namespace EPPlusImageRenderer.Svg
         {
             fmtt = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
 
-            _MeasurementFont = p.DefaultRunProperties.GetMeasureFont();
-            fmtt.SetFont(_MeasurementFont);
+            _measurementFont = p.DefaultRunProperties.GetMeasureFont();
+            fmtt.SetFont(_measurementFont);
             vertAlignAttribute = VertAlign;
-            
+
             //Seperated out in case of some final render item
             //needing to adjust without changing the original values
             RightMargin = p.RightMargin;
@@ -129,7 +135,6 @@ namespace EPPlusImageRenderer.Svg
             var textMaxWidth = r - l;
 
             paragraphHeight = p.GetParagraphHeightInPixels(fmtt, textMaxWidth.PixelToPoint());
-            //var paragraphHeight = p.GetParagraphSizeInPixels(textMaxWidth.PixelToPoint());
 
             lnType = p.LineSpacing.LineSpacingType;
 
@@ -137,6 +142,44 @@ namespace EPPlusImageRenderer.Svg
             {
                 AddTextRun(run, paragraphArea.Bottom, yPosition);
             }
+        }
+
+        /// <summary>
+        /// First paragraph must use different linespacing
+        /// </summary>
+        /// <param name="p">paragraph data. Ideally only used in constructor as datasource</param>
+        /// <param name="paragraphArea"></param>
+        /// <param name="fmtt"></param>
+        /// <param name="VertAlign"></param>
+        /// <param name="clippingHeight"></param>
+        /// <param name="isFirstParagraph"></param>
+        public SvgParagraph(string text, ExcelTextFont font, RectBase paragraphArea, string VertAlign, double yPosition)
+        {
+            fmtt = font.PictureRelationDocument.Package.Settings.TextSettings.GenericTextMeasurerTrueType; 
+
+            _measurementFont = font.GetMeasureFont();
+            fmtt.SetFont(_measurementFont);
+            vertAlignAttribute = VertAlign;
+            
+            //p.Indent
+            //0.5 inches per indent level 48 pixels
+
+            ParagraphArea = paragraphArea;
+            HorizontalAlignment = eTextAlignment.Right;
+
+            LineSpacingAscendantOnly = fmtt.GetBaseLine().PointToPixel();
+            LineSpacing = fmtt.GetSingleLineSpacing().PointToPixel();
+
+            //Must be set before linespacing
+            IsFirstParagraph = true;
+
+            XPos = GetAlignmentHorizontal(HorizontalAlignment);
+
+            //GetBounds(out double l, out double t, out double r, out double b);
+            //var textMaxWidth = r - l;
+
+            var tr = new SvgTextRun(text, font, LineSpacing, paragraphArea.Bottom, XPos, yPosition, LineSpacingAscendantOnly);
+            TextRuns.Add(tr);
         }
 
         private string GetHorizontalAlignmentAttribute(double indentX)
@@ -223,7 +266,7 @@ namespace EPPlusImageRenderer.Svg
                 textRun = new SvgTextRun(txtRun, lineSpacing, textMaxWidth, clippingHeight, XPos, yPosition);
 
                 //If there are multiple sizes/multiple fonts with multiple sizes
-                //if (lnType != eDrawingTextLineSpacing.Exactly && txtRun.FontSize != _MeasurementFont.Size)
+                //if (lnType != eDrawingTextLineSpacing.Exactly && txtRun.FontSize != _measurementFont.Size)
                 if(lnMultiplier.HasValue)
                 {
                     textRun.AdjustLineSpacing(lnMultiplier.Value);
