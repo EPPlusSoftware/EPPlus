@@ -326,10 +326,9 @@ namespace OfficeOpenXml.Style
         /// </summary>
         public void Dispose()
         {
-            _cells.Dispose();
+            _cells?.Dispose();
             _isDisposed = true;
         }
-
         #endregion
     }
 }
