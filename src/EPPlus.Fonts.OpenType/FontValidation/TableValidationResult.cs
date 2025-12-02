@@ -10,27 +10,34 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 
 namespace EPPlus.Fonts.OpenType.FontValidation
 {
+    [DebuggerDisplay("IsValid = {IsValid}, Table = {TableName}, #Messages={MessageCount}")]
     public class TableValidationResult
     {
         private readonly List<FontValidationMessage> _messages = new List<FontValidationMessage>();
 
         public string TableName { get; set; }
 
+        public FontValidationSeverity LogLevel { get; set; } = FontValidationSeverity.All;
+
         public IEnumerable<FontValidationMessage> Messages => _messages;
+
+        public int MessageCount => _messages.Count;
 
         public bool IsValid => !_messages.Any(m => m.Severity == FontValidationSeverity.Error);
 
         public void AddMessage(FontValidationSeverity severity, string message)
         {
-            _messages.Add(new FontValidationMessage(severity, message));
+            if((LogLevel & severity) != 0)
+            {
+                _messages.Add(new FontValidationMessage(severity, message));
+            }
         }
 
         public IEnumerable<FontValidationMessage> Errors => _messages.Where(m => m.Severity == FontValidationSeverity.Error);

@@ -63,20 +63,26 @@ namespace EPPlus.Fonts.OpenType.FontValidation
             _tableAccessors.Add(typeof(GlyfTable), delegate (OpenTypeFont font) { return font.GlyfTable; });
         }
 
-        public FontValidationReport Validate(OpenTypeFont font)
+        public FontValidationReport Validate(OpenTypeFont font, FontValidationSeverity logLevel = FontValidationSeverity.All)
         {
             FontValidationReport report = new FontValidationReport();
             FontValidationContext context = new FontValidationContext(font);
 
+            // Validates Offset subtable
+            var offsetValidator = new OffsetSubtableValidator();
+            var osResult = offsetValidator.Validate(font, context, logLevel);
+            report.AddResult(osResult);
+
             // Validate table records first
-            TableRecordsValidator tableRecordsValidator = new TableRecordsValidator();
-            TableValidationResult trResult = tableRecordsValidator.Validate(font, context);
+            var tableRecordsValidator = new TableRecordsValidator();
+            var trResult = tableRecordsValidator.Validate(font, context, logLevel);
             report.AddResult(trResult);
 
             // Validate each registered table
             for (int i = 0; i < _validators.Count; i++)
             {
                 ITableValidator validator = _validators[i];
+                validator.LogLevel = logLevel;
                 Func<OpenTypeFont, FontTableBase> accessor;
 
                 if (!_tableAccessors.TryGetValue(validator.TableType, out accessor))

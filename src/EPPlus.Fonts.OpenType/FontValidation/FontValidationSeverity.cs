@@ -10,12 +10,16 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System;
+
 namespace EPPlus.Fonts.OpenType.FontValidation
 {
+    [Flags]
     public enum FontValidationSeverity
     {
-        Error,
-        Warning,
-        Information
+        Error = 1,
+        Warning = 2,
+        Information = 4,
+        All = Error | Warning | Information
     }
 }

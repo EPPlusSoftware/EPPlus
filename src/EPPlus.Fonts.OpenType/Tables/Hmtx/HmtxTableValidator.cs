@@ -7,17 +7,12 @@ using System.Text;
 namespace EPPlus.Fonts.OpenType.Tables.Hmtx
 {
 
-    public class HmtxTableValidator : ITableValidator<HmtxTable>
+    internal class HmtxTableValidator : TableValidatorBase<HmtxTable>
     {
-        public Type TableType => typeof(HmtxTable);
-        public string TableName => "hmtx";
+        public override Type TableType => typeof(HmtxTable);
+        public override string TableName => "hmtx";
 
-        public TableValidationResult Validate(FontTableBase table, FontValidationContext context)
-        {
-            return Validate((HmtxTable)table, context);
-        }
-
-        public TableValidationResult Validate(HmtxTable hmtx, FontValidationContext context)
+        public override TableValidationResult Validate(HmtxTable hmtx, FontValidationContext context)
         {
             var result = new TableValidationResult();
             result.TableName = TableName;
@@ -70,6 +65,28 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
                         $"Hmtx: LSB value {lsb} out of valid range (-32768 to 32767).");
                 }
             }
+
+
+            // 5. Check advanceWidth against hhea.advanceWidthMax
+            ushort maxAdvanceWidth = font.HheaTable.advanceWidthMax;
+            for (int i = 0; i < hmtx.hMetrics.Count; i++)
+            {
+                ushort aw = hmtx.hMetrics[i].advanceWidth;
+                if (aw > maxAdvanceWidth)
+                {
+                    result.AddMessage(FontValidationSeverity.Error,
+                        $"Hmtx: advanceWidth for glyph {i} ({aw}) exceeds hhea.advanceWidthMax ({maxAdvanceWidth}).");
+                }
+            }
+
+            // 6. Check that extra LSBs cover the remaining glyphs correctly
+            int expectedExtraLSBs = numGlyphs - numHMetrics;
+            if (hmtx.leftSideBearings.Count != expectedExtraLSBs)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    $"Hmtx: Expected {expectedExtraLSBs} extra LSBs, found {hmtx.leftSideBearings.Count}.");
+            }
+
 
             return result;
         }

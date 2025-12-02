@@ -18,12 +18,14 @@ namespace EPPlus.Fonts.OpenType.FontValidation
     public interface ITableValidator
     {
         // Target table type
-        Type TableType { get; }
+       Type TableType { get; }
 
         // Human-readable table name
         string TableName { get; }
 
-        // Non-generic validate for dispatcher
+        FontValidationSeverity LogLevel { get; set; }
+
+        // Non-generic validate for dispatcher 
         TableValidationResult Validate(FontTableBase table, FontValidationContext context);
     }
 

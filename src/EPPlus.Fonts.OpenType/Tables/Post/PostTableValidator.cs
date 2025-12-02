@@ -8,18 +8,12 @@ using System.Text;
 namespace EPPlus.Fonts.OpenType.Tables.Post
 {
     // All comments are in English
-    public class PostTableValidator : ITableValidator<PostTable>
+    internal class PostTableValidator : TableValidatorBase<PostTable>
     {
-        public string TableName { get { return TableNames.Post; } }
-        public Type TableType { get { return typeof(PostTable); } }
+        public override string TableName { get { return TableNames.Post; } }
+        public override Type TableType { get { return typeof(PostTable); } }
 
-        // Non-generic bridge
-        TableValidationResult ITableValidator.Validate(FontTableBase table, FontValidationContext context)
-        {
-            return Validate((PostTable)table, context);
-        }
-
-        public TableValidationResult Validate(PostTable table, FontValidationContext context)
+        public override TableValidationResult Validate(PostTable table, FontValidationContext context)
         {
             TableValidationResult result = new TableValidationResult();
             result.TableName = TableName;

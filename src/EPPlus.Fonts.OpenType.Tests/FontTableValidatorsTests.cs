@@ -9,6 +9,7 @@ using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using EPPlus.Fonts.OpenType.Tables.Post;
+using Microsoft.Testing.Platform.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,7 +37,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         public void ValidateEntireFont()
         {
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
-            var report = font.ValidateFont();
+            var report = font.ValidateFont(FontValidationSeverity.Error);
             Assert.IsTrue(report.IsValid);
         }
 
@@ -132,13 +133,17 @@ namespace EPPlus.Fonts.OpenType.Tests
         }
 
         [TestMethod]
-        public void GlyfTableValidation_Test()
+        [DataRow("Roboto", "Regular")]
+        [DataRow("Roboto", "Italic")]
+        [DataRow("EB Garamond", "Regular")]
+        [DataRow("Mulish", "Regular")]
+        public void GlyfTableValidation_Test(string fontName, string subFamily)
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, fontName, subFamily, false);
             var validator = new GlyfTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.GlyfTable, context);
-            Assert.IsTrue(result.IsValid, "Glyf validation failed for a known good font.");
+            Assert.IsTrue(result.IsValid, $"Glyf validation failed for a known good font: {fontName} {subFamily}");
         }
     }
 }

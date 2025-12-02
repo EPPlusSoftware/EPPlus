@@ -8,17 +8,12 @@ using System.Text;
 namespace EPPlus.Fonts.OpenType.Tables.Loca
 {
 
-    public class LocaTableValidator : ITableValidator<LocaTable>
+    internal class LocaTableValidator : TableValidatorBase<LocaTable>
     {
-        public Type TableType => typeof(LocaTable);
-        public string TableName => "loca";
+        public override Type TableType => typeof(LocaTable);
+        public override string TableName => "loca";
 
-        public TableValidationResult Validate(FontTableBase table, FontValidationContext context)
-        {
-            return Validate((LocaTable)table, context);
-        }
-
-        public TableValidationResult Validate(LocaTable loca, FontValidationContext context)
+        public override TableValidationResult Validate(LocaTable loca, FontValidationContext context)
         {
             var result = new TableValidationResult();
             result.TableName = TableName;
@@ -85,6 +80,23 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
                 result.AddMessage(FontValidationSeverity.Warning,
                     "Loca: Glyf table is empty but offsets contain non-zero values.");
             }
+
+
+            // 6. Check that IndexToLocFormat in loca matches the head table
+            if (loca.IndexToLocFormat != font.HeadTable.IndexToLocFormat)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    $"Loca: IndexToLocFormat mismatch with head table. Expected {font.HeadTable.IndexToLocFormat}, found {loca.IndexToLocFormat}.");
+            }
+
+            // 7. Check that the last offset ≈ the end of the glyf table
+            uint lastOffset = loca.Offsets.Last();
+            if (lastOffset != glyfTableLength)
+            {
+                result.AddMessage(FontValidationSeverity.Warning,
+                    $"Loca: Last offset ({lastOffset}) does not match glyf table length ({glyfTableLength}).");
+            }
+
 
             return result;
         }

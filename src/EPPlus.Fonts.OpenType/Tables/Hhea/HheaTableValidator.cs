@@ -12,23 +12,21 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontValidation;
 using System;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tables.Hhea
 {
-    public class HheaTableValidator : ITableValidator<HheaTable>
+    internal class HheaTableValidator : TableValidatorBase<HheaTable>
     {
-        public string TableName
+        public override string TableName
         {
             get { return TableNames.Hhea; }
         }
 
-        public Type TableType => typeof(HheaTable);
-
-        TableValidationResult ITableValidator.Validate(FontTableBase table, FontValidationContext context)
-            => Validate((HheaTable)table, context);
+        public override Type TableType => typeof(HheaTable);
 
 
-        public TableValidationResult Validate(HheaTable table, FontValidationContext context)
+        public override TableValidationResult Validate(HheaTable table, FontValidationContext context)
         {
             var result = new TableValidationResult();
             result.TableName = TableName;
@@ -112,6 +110,35 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
                 result.AddMessage(FontValidationSeverity.Information,
                     "caretSlopeRise and caretSlopeRun are both 0. Expected rise=1 for vertical caret.");
             }
+
+
+            // Check numberOfHMetrics against hmtx
+            int hmtxCount = context.Font.HmtxTable?.hMetrics.Count ?? 0;
+            if (hmtxCount != table.numberOfHMetrics)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    $"Hhea: numberOfHMetrics ({table.numberOfHMetrics}) does not match hmtx.hMetrics.Count ({hmtxCount}).");
+            }
+
+            // Check numberOfHMetrics ≤ numGlyphs
+            int numGlyphs = context.Font.MaxpTable.numGlyphs;
+            if (table.numberOfHMetrics > numGlyphs)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    $"Hhea: numberOfHMetrics ({table.numberOfHMetrics}) exceeds maxp.numGlyphs ({numGlyphs}).");
+            }
+
+            // Check advanceWidthMax against hmtx
+            if (context.Font.HmtxTable != null)
+            {
+                ushort maxAdvanceWidthInHmtx = context.Font.HmtxTable.hMetrics.Max(m => m.advanceWidth);
+                if (table.advanceWidthMax < maxAdvanceWidthInHmtx)
+                {
+                    result.AddMessage(FontValidationSeverity.Error,
+                        $"Hhea: advanceWidthMax ({table.advanceWidthMax}) is less than max advanceWidth in hmtx ({maxAdvanceWidthInHmtx}).");
+                }
+            }
+
 
             return result;
         }

@@ -16,22 +16,16 @@ using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tables.Name
 {
-    public class NameTableValidator : ITableValidator<NameTable>
+    internal class NameTableValidator : TableValidatorBase<NameTable>
     {
-        public string TableName
+        public override string TableName
         {
             get { return TableNames.Name; }
         }
 
-        public Type TableType => typeof(NameTable);
+        public override Type TableType => typeof(NameTable);
 
-        TableValidationResult ITableValidator.Validate(FontTableBase table, FontValidationContext context)
-            => Validate((NameTable)table, context);
-
-
-
-
-        public TableValidationResult Validate(NameTable table, FontValidationContext context)
+        public override TableValidationResult Validate(NameTable table, FontValidationContext context)
         {
             TableValidationResult result = new TableValidationResult();
             result.TableName = TableName;

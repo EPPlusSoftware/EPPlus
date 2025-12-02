@@ -6,19 +6,16 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
-    internal class CmapTableValidator : ITableValidator<CmapTable>
+    internal class CmapTableValidator : TableValidatorBase<CmapTable>
     {
-        public string TableName
+        public override string TableName
         {
             get { return TableNames.Cmap; }
         }
 
-        public Type TableType => typeof(CmapTable);
+        public override Type TableType => typeof(CmapTable);
 
-        TableValidationResult ITableValidator.Validate(FontTableBase table, FontValidationContext context)
-            => Validate((CmapTable)table, context);
-
-        public TableValidationResult Validate(CmapTable cmap, FontValidationContext context)
+        public override TableValidationResult Validate(CmapTable cmap, FontValidationContext context)
         {
 
             var result = new TableValidationResult();
@@ -191,6 +188,30 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                     }
                 }
             }
+
+
+            // 8. Validate searchRange, entrySelector, rangeShift
+            int maxPower = (int)Math.Pow(2, (int)Math.Floor(Math.Log(segCount, 2)));
+            ushort expectedSearchRange = (ushort)(maxPower * 2);
+            ushort expectedEntrySelector = (ushort)Math.Floor(Math.Log(segCount, 2));
+            ushort expectedRangeShift = (ushort)((segCount * 2) - expectedSearchRange);
+
+            if (st.SearchRange != expectedSearchRange)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    $"Format 4: searchRange mismatch. Expected {expectedSearchRange}, found {st.SearchRange}.");
+            }
+            if (st.EntrySelector != expectedEntrySelector)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    $"Format 4: entrySelector mismatch. Expected {expectedEntrySelector}, found {st.EntrySelector}.");
+            }
+            if (st.RangeShift != expectedRangeShift)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    $"Format 4: rangeShift mismatch. Expected {expectedRangeShift}, found {st.RangeShift}.");
+            }
+
         }
 
 

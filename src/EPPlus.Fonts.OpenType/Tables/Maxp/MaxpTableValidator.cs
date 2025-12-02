@@ -11,29 +11,27 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontValidation;
+using EPPlus.Fonts.OpenType.Utils;
 using System;
 
 namespace EPPlus.Fonts.OpenType.Tables.Maxp
 {
-    public class MaxpTableValidator : ITableValidator<MaxpTable>
+    internal class MaxpTableValidator : TableValidatorBase<MaxpTable>
     {
-        public string TableName
+        public override string TableName
         {
             get { return TableNames.Maxp; }
         }
 
-        public Type TableType => typeof(MaxpTable);
+        public override Type TableType => typeof(MaxpTable);
 
 
-        // Non-generic bridge
-        TableValidationResult ITableValidator.Validate(FontTableBase table, FontValidationContext context)
-            => Validate((MaxpTable)table, context);
 
-
-        public TableValidationResult Validate(MaxpTable table, FontValidationContext context)
+        public override TableValidationResult Validate(MaxpTable table, FontValidationContext context)
         {
             var result = new TableValidationResult();
             result.TableName = TableName;
+            result.LogLevel = base.LogLevel;
 
             // Rule 1: numGlyphs must be > 0
             if (table.numGlyphs <= 0)

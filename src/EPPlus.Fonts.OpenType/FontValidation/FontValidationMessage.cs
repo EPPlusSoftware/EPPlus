@@ -10,8 +10,11 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System.Diagnostics;
+
 namespace EPPlus.Fonts.OpenType.FontValidation
 {
+    [DebuggerDisplay("Severity = {Severity}, Messages={Message}")]
     public class FontValidationMessage
     {
 

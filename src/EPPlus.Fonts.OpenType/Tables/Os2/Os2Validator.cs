@@ -4,20 +4,17 @@ using EPPlus.Fonts.OpenType.FontValidation;
 
 namespace EPPlus.Fonts.OpenType.Tables.Os2
 {
-    public class Os2TableValidator : ITableValidator<Os2Table>
+    internal class Os2TableValidator : TableValidatorBase<Os2Table>
     {
-        public string TableName
+        public override string TableName
         {
             get { return TableNames.Os2; }
         }
 
-        public Type TableType => typeof(Os2Table);
-
-        TableValidationResult ITableValidator.Validate(FontTableBase table, FontValidationContext context)
-            => Validate((Os2Table)table, context);
+        public override Type TableType => typeof(Os2Table);
 
 
-        public TableValidationResult Validate(Os2Table table, FontValidationContext context)
+        public override TableValidationResult Validate(Os2Table table, FontValidationContext context)
         {
             var result = new TableValidationResult();
             result.TableName = TableName;
@@ -81,6 +78,62 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
                             minChar, maxChar, table.usFirstCharIndex, table.usLastCharIndex));
                 }
             }
+
+
+            // -------------------------
+            // New critical rules for subsetting
+            // -------------------------
+
+            // Critical Rule A: Embedding permissions
+            if ((table.fsType & 0x0002) != 0)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    "Embedding is restricted (fsType bit 1 set). Subsetting cannot proceed.");
+            }
+            if ((table.fsType & 0x0008) != 0)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    "No subsetting allowed (fsType bit 3 set).");
+            }
+            if ((table.fsType & 0x0004) != 0)
+            {
+                result.AddMessage(FontValidationSeverity.Warning,
+                    "Preview & Print embedding only (fsType bit 2 set). Check usage context.");
+            }
+
+            // Critical Rule B: Metrics must be valid
+            if (table.sTypoAscender == 0 || table.sTypoDescender == 0)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    "sTypoAscender and sTypoDescender must be non-zero for proper line spacing.");
+            }
+            if (table.usWinAscent == 0 || table.usWinDescent == 0)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    "usWinAscent and usWinDescent must be non-zero for bounding box calculations.");
+            }
+
+
+            //if (context.Font.HeadTable != null)
+            //{
+            //    if (table.usWinAscent < context.Font.HeadTable.Ymax || table.usWinDescent < Math.Abs(context.Font.HeadTable.Ymin))
+            //    {
+            //        result.AddMessage(FontValidationSeverity.Error,
+            //            "usWinAscent/usWinDescent do not cover font bounding box from head table.");
+            //    }
+            //}
+
+
+            if (context.Font.HheaTable != null)
+            {
+                if (table.sTypoAscender != context.Font.HheaTable.ascender ||
+                    table.sTypoDescender != context.Font.HheaTable.descender)
+                {
+                    result.AddMessage(FontValidationSeverity.Warning,
+                        "OS/2 typographic metrics differ from hhea metrics. Consider harmonizing for consistency.");
+                }
+            }
+
 
 
             return result;

@@ -4,22 +4,17 @@ using EPPlus.Fonts.OpenType.FontValidation;
 
 namespace EPPlus.Fonts.OpenType.Tables.Head
 {
-    public class HeadTableValidator : ITableValidator<HeadTable>
+    internal class HeadTableValidator : TableValidatorBase<HeadTable>
     {
-        public string TableName
+        public override string TableName
         {
             get { return TableNames.Head; }
         }
 
-        public Type TableType => typeof(HeadTable);
+        public override Type TableType => typeof(HeadTable);
 
 
-        TableValidationResult ITableValidator.Validate(FontTableBase table, FontValidationContext context)
-            => Validate((HeadTable)table, context);
-
-
-
-        public TableValidationResult Validate(HeadTable table, FontValidationContext context)
+        public override TableValidationResult Validate(HeadTable table, FontValidationContext context)
         {
             var result = new TableValidationResult();
             result.TableName = TableName;

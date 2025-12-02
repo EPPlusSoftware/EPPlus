@@ -7,17 +7,18 @@ using System.Text;
 namespace EPPlus.Fonts.OpenType.Tables.Glyph
 {
 
-    public class GlyfTableValidator : ITableValidator<GlyfTable>
+    internal class GlyfTableValidator : TableValidatorBase<GlyfTable>
     {
-        public Type TableType => typeof(GlyfTable);
-        public string TableName => TableNames.Glyf;
+        public override Type TableType => typeof(GlyfTable);
+        public override string TableName => TableNames.Glyf;
 
 
-        public TableValidationResult Validate(GlyfTable table, FontValidationContext context)
+
+        public override TableValidationResult Validate(GlyfTable table, FontValidationContext context)
         {
-            var result = new TableValidationResult { TableName = TableName };
+            var result = new TableValidationResult { TableName = TableName, LogLevel = base.LogLevel };
 
-            // 1. Kontrollera beroenden
+            // 1. Validate dependencies
             var loca = context.Font.LocaTable;
             var maxp = context.Font.MaxpTable;
 
@@ -25,7 +26,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
                 result.AddMessage(FontValidationSeverity.Error, "Missing loca table required by glyf.");
             if (maxp == null)
                 result.AddMessage(FontValidationSeverity.Error, "Missing maxp table required by glyf.");
-
 
             if (maxp != null)
             {
@@ -41,8 +41,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
                 }
             }
 
-
-
             if (loca != null && maxp != null)
             {
                 if (loca.Offsets.Count < maxp.numGlyphs + 1)
@@ -57,38 +55,32 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
                 }
             }
 
-
-            // 2. Interna regler
+            // 2. Validate glyphs
             for (int i = 0; i < table.Glyphs.Count; i++)
             {
                 var glyph = table.Glyphs[i];
                 if (glyph == null)
                 {
-
                     // Check if loca offsets indicate an empty glyph
                     if (loca != null && i + 1 < loca.Offsets.Count)
                     {
                         if (loca.Offsets[i] == loca.Offsets[i + 1])
                         {
-                            // Empty glyph is valid
                             result.AddMessage(FontValidationSeverity.Information,
                                 $"Glyph {i} is empty (null) and loca offsets confirm zero length.");
                         }
                         else
                         {
-                            // Null glyph but non-zero loca range → suspicious
                             result.AddMessage(FontValidationSeverity.Warning,
                                 $"Glyph {i} is null but loca offsets indicate data exists.");
                         }
                     }
                     else
                     {
-                        // No loca table to confirm → just warn
                         result.AddMessage(FontValidationSeverity.Warning,
                             $"Glyph {i} is null. Cannot confirm via loca offsets.");
                     }
                     continue;
-
                 }
 
                 var header = glyph.Header;
@@ -111,19 +103,45 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
                     if (glyph.CompositeData == null)
                         result.AddMessage(FontValidationSeverity.Error, $"Glyph {i} is composite but has no CompositeData.");
                     else
-                    {
                         ValidateCompositeGlyph(glyph.CompositeData, i, result, table.Glyphs.Count);
-                    }
                 }
                 else
                 {
                     if (glyph.SimpleData != null || glyph.CompositeData != null)
                         result.AddMessage(FontValidationSeverity.Warning, $"Glyph {i} has contour count 0 but contains data.");
                 }
+
+                // Validate glyph size vs loca offsets or alignment
+                if (loca != null && i + 1 < loca.Offsets.Count)
+                {
+                    int actualSize = glyph.GetSize();
+                    var diff = loca.Offsets[i + 1] - loca.Offsets[i];
+
+                    if (actualSize > diff)
+                    {
+                        result.AddMessage(FontValidationSeverity.Error,
+                            $"Glyph {i} size ({actualSize}) exceeds loca offset range ({diff}).");
+                    }
+                    else if (actualSize < diff)
+                    {
+                        result.AddMessage(FontValidationSeverity.Information,
+                            $"Glyph {i} size ({actualSize}) is smaller than loca offset range ({diff}). Padding detected.");
+                    }
+                }
+                else
+                {
+                    int size = glyph.GetSize();
+                    if (size % 4 != 0)
+                    {
+                        result.AddMessage(FontValidationSeverity.Warning,
+                            $"Glyph {i} size ({size}) is not 4-byte aligned.");
+                    }
+                }
             }
 
             return result;
         }
+
 
 
 
@@ -287,11 +305,5 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
             // Allow full short range but warn if outside spec
             return value >= short.MinValue && value <= short.MaxValue;
         }
-
-
-
-
-        TableValidationResult ITableValidator.Validate(FontTableBase table, FontValidationContext context)
-            => Validate((GlyfTable)table, context);
     }
 }

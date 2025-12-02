@@ -101,7 +101,7 @@ namespace EPPlus.Fonts.OpenType
         internal KernTableLoader _kernTableLoader;
 
 
-        public FontValidationReport ValidateFont()
+        public FontValidationReport ValidateFont(FontValidationSeverity severity)
         {
             var validator = new FontValidator();
             return validator.Validate(this);
@@ -113,11 +113,11 @@ namespace EPPlus.Fonts.OpenType
         /// source: https://learn.microsoft.com/en-us/typography/opentype/spec/otff
         /// </summary>
         #region Required Font Tables 
-        public CmapTable CmapTable 
-        { 
-            get 
+        public CmapTable CmapTable
+        {
+            get
             {
-                if(_cmapTableLoader != null)
+                if (_cmapTableLoader != null)
                 {
                     return _cmapTableLoader.Load();
                 }
@@ -126,13 +126,13 @@ namespace EPPlus.Fonts.OpenType
                     return (CmapTable)_localTableCache.Get(TableNames.Cmap);
                 }
                 return null;
-            } 
-         }
+            }
+        }
         public HeadTable HeadTable
         {
             get
             {
-                if(_headTableLoader != null)
+                if (_headTableLoader != null)
                 {
                     return _headTableLoader.Load();
                 }
@@ -147,7 +147,7 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_hheaTableLoader != null)
+                if (_hheaTableLoader != null)
                 {
                     return _hheaTableLoader.Load();
                 }
@@ -193,7 +193,7 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_nameTableLoader != null)
+                if (_nameTableLoader != null)
                 {
                     return _nameTableLoader.Load();
                 }
@@ -208,7 +208,7 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_os2TableLoader != null)
+                if (_os2TableLoader != null)
                 {
                     return _os2TableLoader.Load();
                 }
@@ -223,7 +223,7 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_postTableLoader != null)
+                if (_postTableLoader != null)
                 {
                     return _postTableLoader.Load();
                 }
@@ -239,7 +239,7 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_locaTableLoader != null)
+                if (_locaTableLoader != null)
                 {
                     return _locaTableLoader.Load();
                 }
@@ -257,7 +257,7 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_glyfTableLoader != null)
+                if (_glyfTableLoader != null)
                 {
                     return _glyfTableLoader.Load();
                 }
@@ -275,11 +275,11 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_kernTableLoader != null)
+                if (_kernTableLoader != null)
                 {
                     return _kernTableLoader.Load();
                 }
-                else if(_localTableCache.Contains(TableNames.Kern))
+                else if (_localTableCache.Contains(TableNames.Kern))
                 {
                     return (KernTable)_localTableCache.Get(TableNames.Kern);
                 }
@@ -379,7 +379,7 @@ namespace EPPlus.Fonts.OpenType
                 Checksum = 0
             };
 
-            if(_tableRecords.ContainsKey(tableName))
+            if (_tableRecords.ContainsKey(tableName))
             {
                 _tableRecords.Remove(tableName);
             }
@@ -462,5 +462,35 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
+        public byte[] GetTableData(string tag)
+        {
+            if (_tableRecords.TryGetValue(tag, out var record))
+            {
+                _reader.BaseStream.Position = record.Offset;
+                return _reader.ReadBytes((int)record.Length);
+            }
+            return null;
+        }
+
+        public byte[] RawData
+        {
+            get
+            {
+                if (_reader != null && _reader.BaseStream != null)
+                {
+                    long originalPosition = _reader.BaseStream.Position;
+                    try
+                    {
+                        _reader.BaseStream.Position = 0;
+                        return _reader.ReadBytes((int)_reader.BaseStream.Length);
+                    }
+                    finally
+                    {
+                        _reader.BaseStream.Position = originalPosition;
+                    }
+                }
+                return null;
+            }
+        }
     }
 }
