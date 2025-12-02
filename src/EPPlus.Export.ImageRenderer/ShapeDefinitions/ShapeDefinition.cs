@@ -221,7 +221,17 @@ namespace EPPlusImageRenderer.ShapeDefinitions
                 {
                     var txt = shape.Text;
 
+                    List<TextContainer> txtContainers = new List<TextContainer>();
+
                     //TODO: This needs to actually iterate through the individual paragraphs/txtRuns when differing fonts/font sizes exist
+                    //foreach(var paragraph in shape.TextBody.Paragraphs)
+                    //{
+                    //    foreach(var txtRun in paragraph.TextRuns)
+                    //    {
+                    //        var newContainer = new TextContainer(txt, txtRun.GetMeasureFont(), true);
+                    //        txtContainers.Add(newContainer);
+                    //    }
+                    //}
                     var newContainer = new TextContainer(txt, shape.TextBody.Paragraphs.FirstDefaultRunProperties.GetMeasureFont(), true);
 
                     var cW = newContainer.Width;
