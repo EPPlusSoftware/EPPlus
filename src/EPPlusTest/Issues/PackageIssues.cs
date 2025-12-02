@@ -13,7 +13,7 @@ namespace EPPlusTest.Issues
 		}
 		[ClassCleanup]
 		public static void Cleanup()
-		{
+		    {
 		}
 		[TestInitialize]
 		public void Initialize()
@@ -138,6 +138,15 @@ namespace EPPlusTest.Issues
                     var wsName = ws.Name.Trim();
                 }
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s974()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("s974.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                var v = ws.Cells["E2419"].Value;
             }
         }
     }

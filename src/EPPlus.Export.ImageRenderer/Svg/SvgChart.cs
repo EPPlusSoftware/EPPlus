@@ -62,6 +62,7 @@ namespace EPPlusImageRenderer.Svg
         private void AddChartTitle()
         {
             RenderItems.Add(Title.Rectangle);
+            RenderItems.Add(Title.TextBox);
         }
         internal SvgRenderRectItem ChartArea { get; set; }
         internal SvgChartLegend Legend { get; set; }
@@ -108,7 +109,7 @@ namespace EPPlusImageRenderer.Svg
                     gItemTest = (SvgGroupItem)item;
                 }
             }
-
+            
             if (gItemTest != null)
             {
                 gItemTest.RenderEndGroup(sb);

@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
@@ -279,7 +280,6 @@ namespace OfficeOpenXml.Drawing
             {
                 var mf = font.GetMeasureFont();
                 var ns = _prd.Package.Workbook.Styles.GetNormalStyle();
-
                 var t =_prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType.MeasureText(defaultText, mf); //TODO: use WrapMeasurer
                 return new RectBase(t.Width.PointToPixel(), t.Height.PointToPixel());
             }
@@ -291,8 +291,8 @@ namespace OfficeOpenXml.Drawing
             {
                 var pr = p.GetParagraphSizeInPixels(maxWidth, maxHeight, isFirstLine);
                 isFirstLine = false;
-                if (w < pr.Width) w = pr.Width;
-                h += pr.Height;
+                if (w < pr.Width) w = Math.Ceiling(pr.Width);
+                h += Math.Ceiling(pr.Height);
             }
             return new RectBase(w, h);
         }
