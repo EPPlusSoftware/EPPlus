@@ -150,11 +150,25 @@ public abstract class TestBase
     }
     protected static void SaveTextFileToWorkbook(string fileName, string content)
     {
-        File.WriteAllText(_worksheetPath + fileName, content);
+        var file = EnsurePathExists(_worksheetPath + fileName);
+        File.WriteAllText(file, content);
     }
     protected void SaveSvg(string fileName, string svg)
     {
+        var file = EnsurePathExists(_imagePath + fileName);
         File.WriteAllText(_imagePath + fileName, svg);
+    }
+
+
+    private static string EnsurePathExists(string fileName)
+    {
+        var file = new FileInfo(fileName);
+        if (string.IsNullOrEmpty(file.DirectoryName)==false && Directory.Exists(file.DirectoryName) == false)
+        {
+            Directory.CreateDirectory(file.DirectoryName);
+        }
+
+        return file.FullName;
     }
 
     protected static bool ExistsPackage(string name)
