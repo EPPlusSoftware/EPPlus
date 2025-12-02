@@ -145,53 +145,13 @@ namespace EPPlus.Export.Pdf.PdfObjects
             Matrix3x3 lineMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), cell.LocalPosition.X, cell.LocalPosition.Y);
             for (int j = 0; j < cell.TextLines.Count; j++)
             {
-<<<<<<< HEAD
                 var Line = cell.TextLines[j];
                 Matrix3x3 textRunMatrix = lineMatrix;
                 Matrix3x3 modifierMatrix = Matrix3x3.Identity;
                 bool useModifiedMatrix = false;
                 commands.Add("BT");
                 commands.Add($"{lineMatrix.A.ToPdfString()} {lineMatrix.B.ToPdfString()} {lineMatrix.C.ToPdfString()} {lineMatrix.D.ToPdfString()} {lineMatrix.E.ToPdfString()} {lineMatrix.F.ToPdfString()} Tm");
-                for (int i=0; i<Line.TextItemCollection.Count; i++)
-=======
-                commands.Add("0.25 w");
-                commands.Add("2 Tr");
-            }
-            if (cell.FontData.Italic)
-            {
-                var i = font.fontData.PostTable.italicAngle.FloatValue;
-                if (i <= 0) i = 12f * (float)System.Math.PI / 180.0f;
-                Matrix3x3 m2 = Matrix3x3.Identity;
-                m2.C = System.Math.Tan(i);
-                m1 = m2 * m1;
-            }
-            if (cell.FontData.SuperScript)
-            {
-                var supOffX = font.fontData.Os2Table.ySuperscriptXOffset * scale;
-                var supOffY = font.fontData.Os2Table.ySuperscriptYOffset * scale;
-                var supSizeX = font.fontData.Os2Table.ySuperscriptXSize * scale;
-                var supSizeY = font.fontData.Os2Table.ySuperscriptYSize * scale;
-                m1 = new Matrix3x3(m1.A, m1.B, m1.C, m1.D, m1.E + supOffX, m1.F + supOffY);
-                size = supSizeY;
-            }
-            if (cell.FontData.SubScript)
-            {
-                var supOffX = font.fontData.Os2Table.ySubscriptXOffset * scale;
-                var supOffY = font.fontData.Os2Table.ySubscriptYOffset * scale;
-                var supSizeX = font.fontData.Os2Table.ySubscriptXSize * scale;
-                var supSizeY = font.fontData.Os2Table.ySubscriptYSize * scale;
-                m1 = new Matrix3x3(m1.A, m1.B, m1.C, m1.D, m1.E + supOffX, m1.F + supOffY);
-                size = supSizeY;
-            }
-            commands.Add("BT");
-            commands.Add($"/{font.Label} {size.ToPdfString()} Tf");
-            commands.Add(cell.FontData.FontColor.ToFillCommand());
-            commands.Add($"{m1.A.ToPdfString()} {m1.B.ToPdfString()} {m1.C.ToPdfString()} {m1.D.ToPdfString()} {m1.E.ToPdfString()} {m1.F.ToPdfString()} Tm");
-            commands.Add($"{cell.FontData.LineHeight.ToPdfString()} TL");
-            for (int i = 0; i < cell.FontData.Lines.Count; i++)
-            {
-                if (i > 0)
->>>>>>> develop9
+                for (int i = 0; i < Line.TextItemCollection.Count; i++)
                 {
                     var fontData = Line.TextItemCollection[i];
                     var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
@@ -209,8 +169,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     }
                     if (fontData.Italic)
                     {
-                        var ia = font.fontData.PostTable.italicAngle;
-                        if (ia <= 0) ia = 12d * System.Math.PI / 180.0d;
+                        var ia = font.fontData.PostTable.italicAngle.FloatValue;
+                        if (ia <= 0) ia = 12f * (float)System.Math.PI / 180.0f;
                         modifierMatrix.C = System.Math.Tan(ia);
                         modifierMatrix = modifierMatrix * textRunMatrix;
                         useModifiedMatrix = true;
@@ -321,8 +281,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
                         }
                         if (fontData.Italic)
                         {
-                            var ia = font.fontData.PostTable.italicAngle;
-                            if (ia <= 0) ia = 12d * System.Math.PI / 180.0d;
+                            var ia = font.fontData.PostTable.italicAngle.FloatValue;
+                            if (ia <= 0) ia = 12f * (float)System.Math.PI / 180.0f;
                             modifierMatrix.C = System.Math.Tan(ia);
                             modifierMatrix = modifierMatrix * textRunMatrix;
                             useModifiedMatrix = true;

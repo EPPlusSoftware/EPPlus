@@ -50,7 +50,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             ConvertToPDFCoordiantes(pageSettings, PagesLayout);
             AdjustAndSort(PagesLayout);
             RemoveChild(WorksheetLayout);
-            AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
+            //AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
             string FinalPagesLayout = ToHierarchyString();
         }
 
