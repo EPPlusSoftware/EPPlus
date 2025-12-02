@@ -28,6 +28,9 @@ namespace EPPlusImageRenderer.ShapeDefinitions
         internal Dictionary<string, double> _calculatedValues = new Dictionary<string, double>();
         internal Coordinate translateCoordinate = null;
 
+        internal double xRatio = 1;
+        internal double yRatio = 1;
+
         internal ShapeDefinition()
         {
                 
@@ -80,7 +83,7 @@ namespace EPPlusImageRenderer.ShapeDefinitions
 
         internal string GetTransform(double rotation)
         {
-            if(translateCoordinate == null && rotation==0)
+            if(translateCoordinate == null && rotation==0 && xRatio == 1 &&  yRatio == 1)
             {
                 return "";
             }
@@ -97,6 +100,10 @@ namespace EPPlusImageRenderer.ShapeDefinitions
                 }
                 transform = $"rotate({rotation.ToString(CultureInfo.InvariantCulture)})";
             }
+            //if (xRatio != 1 || yRatio != 1)
+            //{
+            //    transform += $" scale({xRatio},{yRatio})";
+            //}
             return $"transform=\"{transform}\"";
         }
 
@@ -223,29 +230,14 @@ namespace EPPlusImageRenderer.ShapeDefinitions
                     var expectedWidth = (GetValue(TextBoxRect.RightName) - GetValue(TextBoxRect.LeftName)) / (double)ExcelDrawing.EMU_PER_PIXEL;
                     var expectedHeight = (GetValue(TextBoxRect.BottomName) - GetValue(TextBoxRect.TopName)) / (double)ExcelDrawing.EMU_PER_PIXEL;
 
-                    //TODO: This is the ratio between the textbox we've calculated and the one that
-                    // we should scale to. Scaling the entire shape by this ratio (and then fixing the scaled position)
-                    // should give the correct width and height for the shape
-                    // But I can't quite find the right place to apply it.
-                    var overrideWidthRatio2 = cW / expectedWidth;
-                    var overrideHeightRatio2 = cH / expectedHeight;
-
-                    //shape._width *= overrideWidthRatio;
-                    //shape._height *= overrideHeightRatio;
+                    overrideWidthRatio = cW / expectedWidth;
+                    overrideHeightRatio = cH / expectedHeight;
 
                     TextBoxRect.RightValue = cW;
                     TextBoxRect.BottomValue = cH;
 
-                    //shape.SetSize()
-                    //shape._width *= overrideWidthRatio;
-                    //shape._height *= overrideHeightRatio;
-                    //if(ShapeGuides.Where(x => x.Name == TextBoxRect.RightValue))
-                    //{
-
-                    //}
-
-                    //TextBoxRect.RightValue = adjustedHeight;
-                    //TextBoxRect.BottomValue = adjustedWidth;
+                    TextBoxRect.LeftValue = GetValue(TextBoxRect.LeftName) / (double)ExcelDrawing.EMU_PER_PIXEL * overrideWidthRatio;
+                    TextBoxRect.TopValue = GetValue(TextBoxRect.TopName) / (double)ExcelDrawing.EMU_PER_PIXEL * overrideHeightRatio;
                 }
             }
 
