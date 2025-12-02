@@ -163,10 +163,10 @@ namespace EPPlus.Graphics
             : this(position, size, scale, rotation, null) { }
 
         public Transform(Vector2 position, Vector2 size, Transform parent)
-            : this(position, size, Vector2.One, 0d, null) { }
+            : this(position, size, Vector2.One, 0d, parent) { }
 
         public Transform(Vector2 position, Vector2 size, Vector2 scale, Transform parent)
-            : this(position, size, scale, 0d, null) { }
+            : this(position, size, scale, 0d, parent) { }
 
         public Transform(Vector2 position, Vector2 size, Vector2 scale, double rotation, Transform parent)
         {
