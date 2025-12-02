@@ -12,13 +12,14 @@
  *************************************************************************************************/
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
-using EPPlus.Graphics.Colors;
+using System.Drawing;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using System.Linq;
+using EPPlus.Export.Pdf.Pdfhelpers;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -40,27 +41,27 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     CellFillData.PattenStyle = fill.PatternType;
                     if (string.IsNullOrEmpty(bkgc.LookupColor()) && !string.IsNullOrEmpty(cell.Text))
                     {
-                        CellFillData.BackgroundColor = Color.None;
+                        CellFillData.BackgroundColor = Color.Empty;
                     }
                     else
                     {
-                        CellFillData.BackgroundColor = new Color(bkgc.LookupColor());
+                        CellFillData.BackgroundColor = Pdfhelpers.PdfColor.SetColorFromHex(bkgc.LookupColor());
                     }
                 }
                 else if (fill.PatternType != ExcelFillStyle.None)
                 {
                     CellFillData.PattenStyle = fill.PatternType;
-                    CellFillData.BackgroundColor = new Color(fill.PatternColor.Rgb == null ? "#FFFFFFFF" : fill.PatternColor.LookupColor());
-                    CellFillData.PatternColor = new Color(fill.BackgroundColor.LookupColor());
+                    CellFillData.BackgroundColor = PdfColor.SetColorFromHex(fill.PatternColor.Rgb == null ? "#FFFFFFFF" : fill.PatternColor.LookupColor());
+                    CellFillData.PatternColor = PdfColor.SetColorFromHex(fill.BackgroundColor.LookupColor());
                     CellFillData.id = AddPatternResourceData(dictionaries.Patterns, CellFillData.PattenStyle.ToString() + CellFillData.PatternColor.ToHexString() + CellFillData.BackgroundColor.ToHexString());
                 }
                 else if (fill.HasGradient)
                 {
                     CellFillData.GradientFillData = new PdfCellGradientFillData();
                     CellFillData.GradientFillData.GradientType = fill.Gradient.Type;
-                    CellFillData.GradientFillData.Color1 = new Color(fill.Gradient.Color1.LookupColor());
-                    CellFillData.GradientFillData.Color2 = new Color(fill.Gradient.Color2.LookupColor());
-                    CellFillData.GradientFillData.Color3 = new Color(fill.Gradient.Color3.LookupColor());
+                    CellFillData.GradientFillData.Color1 = PdfColor.SetColorFromHex(fill.Gradient.Color1.LookupColor());
+                    CellFillData.GradientFillData.Color2 = PdfColor.SetColorFromHex(fill.Gradient.Color2.LookupColor());
+                    CellFillData.GradientFillData.Color3 = PdfColor.SetColorFromHex(fill.Gradient.Color3.LookupColor());
                     CellFillData.GradientFillData.Degree = fill.Gradient.Degree;
                     CellFillData.GradientFillData.Top = double.IsNaN(fill.Gradient.Top) ? 0 : fill.Gradient.Top;
                     CellFillData.GradientFillData.Bottom = double.IsNaN(fill.Gradient.Bottom) ? 0 : fill.Gradient.Bottom;

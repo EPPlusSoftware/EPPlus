@@ -11,9 +11,10 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Graphics.Math;
-using EPPlus.Graphics.Colors;
+using System.Drawing;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
+using EPPlus.Export.Pdf.Pdfhelpers;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -75,7 +76,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
     internal class PdfCellFillData
     {
         public string id;
-        public Color BackgroundColor = Color.None;
+        public Color BackgroundColor = Color.Empty;
         public ExcelFillStyle PattenStyle = ExcelFillStyle.None;
         public Color PatternColor = Color.Black;
         //Fill Effects

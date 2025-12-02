@@ -12,10 +12,11 @@
  *************************************************************************************************/
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
-using EPPlus.Graphics.Colors;
+using System.Drawing;
 using EPPlus.Export.Pdf.PdfSettings;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using EPPlus.Export.Pdf.Pdfhelpers;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -32,17 +33,17 @@ namespace EPPlus.Export.Pdf.PdfLayout
             {
                 BorderData = new PdfCellBordersData();
                 BorderData.Top.BorderStyle = cell.Style.Border.Top.Style;
-                BorderData.Top.BorderColor = new Color(cell.Style.Border.Top.Color.LookupColor(cell.Style.Border));
+                BorderData.Top.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Top.Color.LookupColor(cell.Style.Border));
                 BorderData.Bottom.BorderStyle = cell.Style.Border.Bottom.Style;
-                BorderData.Bottom.BorderColor = new Color(cell.Style.Border.Bottom.Color.LookupColor(cell.Style.Border));
+                BorderData.Bottom.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Bottom.Color.LookupColor(cell.Style.Border));
                 BorderData.Left.BorderStyle = cell.Style.Border.Left.Style;
-                BorderData.Left.BorderColor = new Color(cell.Style.Border.Left.Color.LookupColor(cell.Style.Border));
+                BorderData.Left.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Left.Color.LookupColor(cell.Style.Border));
                 BorderData.Right.BorderStyle = cell.Style.Border.Right.Style;
-                BorderData.Right.BorderColor = new Color(cell.Style.Border.Right.Color.LookupColor(cell.Style.Border));
+                BorderData.Right.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Right.Color.LookupColor(cell.Style.Border));
                 BorderData.DiagonalUp.BorderStyle = cell.Style.Border.DiagonalUp ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
-                BorderData.DiagonalUp.BorderColor = new Color(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
+                BorderData.DiagonalUp.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
                 BorderData.DiagonalDown.BorderStyle = cell.Style.Border.DiagonalDown ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
-                BorderData.DiagonalDown.BorderColor = new Color(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
+                BorderData.DiagonalDown.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
             }
         }
 

@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
-using EPPlus.Graphics.Colors;
+using System.Drawing;
 using EPPlus.Export.Pdf.PdfResources;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
@@ -35,7 +35,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         }
 
-        public void AdjustForGridLines()
+        public new void AdjustForGridLines()
         {
             if (CellFillData.BackgroundColor.Equals(Color.White) && CellFillData.PattenStyle == ExcelFillStyle.Solid)
             {

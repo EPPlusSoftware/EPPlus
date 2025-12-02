@@ -18,7 +18,7 @@ using EPPlus.Export.Pdf.PdfSettings;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using System.Text;
-using EPPlus.Graphics.Colors;
+using System.Drawing;
 using EPPlus.Graphics;
 
 namespace EPPlus.Export.Pdf.PdfObjects
@@ -52,7 +52,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 commands.Add("f");
                 commands.Add("Q");
             }
-            else if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.PattenStyle == ExcelFillStyle.Solid)
+            else if (cell.CellFillData.BackgroundColor != Color.Empty && cell.CellFillData.PattenStyle == ExcelFillStyle.Solid)
             {
                 commands.Add("q");
                 commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
@@ -62,7 +62,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 commands.Add("B");
                 commands.Add("Q");
             }
-            else if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.PattenStyle != ExcelFillStyle.None)
+            else if (cell.CellFillData.BackgroundColor != Color.Empty && cell.CellFillData.PattenStyle != ExcelFillStyle.None)
             {
                 commands.Add("q");
                 commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");

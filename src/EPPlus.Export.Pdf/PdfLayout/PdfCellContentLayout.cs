@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
-using EPPlus.Graphics.Colors;
+using System.Drawing;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
@@ -53,7 +53,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             FontData.UnderlineType = cell.Style.Font.UnderLineType;
             FontData.SuperScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
             FontData.SubScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-            FontData.FontColor = new Color(cell.Style.Font.Color.LookupColor());
+            FontData.FontColor = PdfColor.SetColorFromHex(cell.Style.Font.Color.LookupColor());
             FontData.SubFamily = "Regular";
             if (FontData.Bold)
             {

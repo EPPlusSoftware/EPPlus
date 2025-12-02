@@ -10,7 +10,8 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Graphics.Colors;
+using EPPlus.Export.Pdf.Pdfhelpers;
+using System.Drawing;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfPatterns
