@@ -10,7 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Graphics;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfShadings
@@ -35,7 +35,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfShadings
 
         internal DeviceColorSpace ColorSpace;
         internal double[] Background = null;
-        internal PdfRect BBox = null;
+        internal Rect BBox = null;
         internal bool? AntiAlias = null;
 
         public PdfShading(int objectNumber, int version = 0) : base(objectNumber, version) { }

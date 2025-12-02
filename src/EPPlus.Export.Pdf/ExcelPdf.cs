@@ -15,7 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml;
-using EPPlus.Export.Pdf.PdfGraphics;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Colors;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfObjects;
@@ -181,7 +182,7 @@ namespace EPPlus.Export.Pdf
         }
 
         //Create Content
-        private void AddContent(PdfTransform pageLayout, PdfPage page)
+        private void AddContent(Transform pageLayout, PdfPage page)
         {
             var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
             var contentStream = new PdfContentStream(Document.Count + 1);
@@ -300,30 +301,30 @@ namespace EPPlus.Export.Pdf
         {
             var content = new PdfContentStream(Document.Count + 1);
             //Bottom line
-            DrawLine(content, PdfColor.Black, 0, bounds.Bottom, PageSettings.PageSize.WidthPu, bounds.Bottom);
-            DrawLine(content, new PdfColor(1, 0, 1), bounds.X, bounds.Bottom, bounds.X + bounds.Width, bounds.Bottom);
+            DrawLine(content, Color.Black, 0, bounds.Bottom, PageSettings.PageSize.WidthPu, bounds.Bottom);
+            DrawLine(content, new Color(1, 0, 1), bounds.X, bounds.Bottom, bounds.X + bounds.Width, bounds.Bottom);
             //Top line
-            DrawLine(content, PdfColor.Black, 0, bounds.Top, PageSettings.PageSize.WidthPu, bounds.Top);
-            DrawLine(content, new PdfColor(1, 0, 1), bounds.X, bounds.Top, bounds.X + bounds.Width, bounds.Top);
+            DrawLine(content, Color.Black, 0, bounds.Top, PageSettings.PageSize.WidthPu, bounds.Top);
+            DrawLine(content, new Color(1, 0, 1), bounds.X, bounds.Top, bounds.X + bounds.Width, bounds.Top);
             //Left line
-            DrawLine(content, PdfColor.Black, bounds.Left, 0, bounds.Left, 0);
-            DrawLine(content, new PdfColor(1, 0, 1), bounds.Left, bounds.Y + bounds.Height, bounds.Left, bounds.Y + bounds.Height);
+            DrawLine(content, Color.Black, bounds.Left, 0, bounds.Left, 0);
+            DrawLine(content, new Color(1, 0, 1), bounds.Left, bounds.Y + bounds.Height, bounds.Left, bounds.Y + bounds.Height);
             //Right line
-            DrawLine(content, PdfColor.Black, bounds.Right, 0, bounds.Right, 0);
-            DrawLine(content, new PdfColor(1, 0, 1), bounds.Right, bounds.Y + bounds.Height, bounds.Right, bounds.Y + bounds.Height);
+            DrawLine(content, Color.Black, bounds.Right, 0, bounds.Right, 0);
+            DrawLine(content, new Color(1, 0, 1), bounds.Right, bounds.Y + bounds.Height, bounds.Right, bounds.Y + bounds.Height);
             //Header line
-            DrawLine(content, new PdfColor(1, 0, 1), bounds.Right, bounds.HeaderY, bounds.Left, bounds.HeaderY);
-            DrawLine(content, new PdfColor(1, 0, 1), bounds.CenterHeaderX, bounds.Top, bounds.CenterHeaderX, bounds.Top);
-            DrawLine(content, new PdfColor(1, 0, 1), bounds.RightHeaderX, bounds.Top, bounds.RightHeaderX, bounds.Top);
+            DrawLine(content, new Color(1, 0, 1), bounds.Right, bounds.HeaderY, bounds.Left, bounds.HeaderY);
+            DrawLine(content, new Color(1, 0, 1), bounds.CenterHeaderX, bounds.Top, bounds.CenterHeaderX, bounds.Top);
+            DrawLine(content, new Color(1, 0, 1), bounds.RightHeaderX, bounds.Top, bounds.RightHeaderX, bounds.Top);
             //Footer line
-            DrawLine(content, new PdfColor(1, 0, 1), bounds.Right, bounds.FooterY, bounds.Left, bounds.FooterY);
-            DrawLine(content, new PdfColor(1, 0, 1), bounds.CenterFooterX, bounds.Bottom, bounds.CenterFooterX, bounds.Bottom);
-            DrawLine(content, new PdfColor(1, 0, 1), bounds.RightFooterX, bounds.Bottom, bounds.RightFooterX, bounds.Bottom);
+            DrawLine(content, new Color(1, 0, 1), bounds.Right, bounds.FooterY, bounds.Left, bounds.FooterY);
+            DrawLine(content, new Color(1, 0, 1), bounds.CenterFooterX, bounds.Bottom, bounds.CenterFooterX, bounds.Bottom);
+            DrawLine(content, new Color(1, 0, 1), bounds.RightFooterX, bounds.Bottom, bounds.RightFooterX, bounds.Bottom);
             Document.Add(content);
             page.contentObjectNumbers.Add(content.objectNumber);
         }
 
-        internal void DrawLine(PdfContentStream content, PdfColor color, double x1, double y1, double x2, double y2)
+        internal void DrawLine(PdfContentStream content, Color color, double x1, double y1, double x2, double y2)
         {
             content.AddCommand(color.ToStrokeCommand());
             content.AddCommand($"{x1.ToPdfString()} {y1.ToPdfString()} m");
@@ -331,7 +332,7 @@ namespace EPPlus.Export.Pdf
             content.AddCommand("S");
         }
 
-        internal void DrawCrossHair(PdfColor color, double x, double y, double size = 2)
+        internal void DrawCrossHair(Color color, double x, double y, double size = 2)
         {
             var half = size / 2d;
             var content = new PdfContentStream(Document.Count + 1);

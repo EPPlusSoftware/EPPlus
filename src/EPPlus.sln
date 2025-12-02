@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.Export.Pdf.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.Fonts.OpenType.Tests", "EPPlus.Fonts.OpenType.Tests\EPPlus.Fonts.OpenType.Tests.csproj", "{5B32877D-0439-43FE-B0DA-8EECE71656FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.Graphics", "EPPlus.Graphics\EPPlus.Graphics.csproj", "{DE84719D-C6D4-4189-B4CD-D4D7429DF8E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +100,12 @@ Global
 		{5B32877D-0439-43FE-B0DA-8EECE71656FF}.Release 4.0|Any CPU.Build.0 = Release|Any CPU
 		{5B32877D-0439-43FE-B0DA-8EECE71656FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B32877D-0439-43FE-B0DA-8EECE71656FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE84719D-C6D4-4189-B4CD-D4D7429DF8E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE84719D-C6D4-4189-B4CD-D4D7429DF8E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE84719D-C6D4-4189-B4CD-D4D7429DF8E2}.Release 4.0|Any CPU.ActiveCfg = Release|Any CPU
+		{DE84719D-C6D4-4189-B4CD-D4D7429DF8E2}.Release 4.0|Any CPU.Build.0 = Release|Any CPU
+		{DE84719D-C6D4-4189-B4CD-D4D7429DF8E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE84719D-C6D4-4189-B4CD-D4D7429DF8E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,8 +10,9 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Math;
-using EPPlus.Export.Pdf.PdfGraphics;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
+using EPPlus.Graphics.Colors;
 using EPPlus.Export.Pdf.PdfResources;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
@@ -20,14 +21,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
 {
     internal class PdfMergedCellLayout : PdfCellLayout
     {
-        public PdfMergedCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
+        public PdfMergedCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(dictionaries, cell, x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
             var fill = cell.Style.Fill;
             if(!fill.HasGradient && fill.PatternType == ExcelFillStyle.None)
             {
-                CellFillData.BackgroundColor = PdfColor.White;
+                CellFillData.BackgroundColor = Color.White;
                 CellFillData.PattenStyle = ExcelFillStyle.Solid;
                 CellFillData.enhanceGridLine = true;
             }
@@ -36,7 +37,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         public void AdjustForGridLines()
         {
-            if (CellFillData.BackgroundColor.Equals(PdfColor.White) && CellFillData.PattenStyle == ExcelFillStyle.Solid)
+            if (CellFillData.BackgroundColor.Equals(Color.White) && CellFillData.PattenStyle == ExcelFillStyle.Solid)
             {
                 Size = new Vector2(Size.X - GridLine.Width, Size.Y - GridLine.Width);
                 LocalPosition = new Vector2(LocalPosition.X + GridLine.HalfWidth, LocalPosition.Y + GridLine.HalfWidth);

@@ -13,25 +13,25 @@
 using System;
 using System.Globalization;
 
-namespace EPPlus.Export.Pdf.PdfGraphics
+namespace EPPlus.Graphics.Colors
 {
-    internal class PdfColor
+    internal class Color
     {
         public float R { get; set; }
         public float G { get; set; }
         public float B { get; set; }
         public float A { get; set; } = 1f;
 
-        public PdfColor() { }
+        public Color() { }
 
-        public PdfColor(float r, float g, float b)
+        public Color(float r, float g, float b)
         {
             R = r;
             G = g;
             B = b;
         }
 
-        public PdfColor(float r, float g, float b, float a)
+        public Color(float r, float g, float b, float a)
         {
             R = r;
             G = g;
@@ -39,7 +39,7 @@ namespace EPPlus.Export.Pdf.PdfGraphics
             A = a;
         }
 
-        public PdfColor(string hex)
+        public Color(string hex)
         {
             if (string.IsNullOrEmpty(hex) || hex == "0")
             {
@@ -85,13 +85,13 @@ namespace EPPlus.Export.Pdf.PdfGraphics
         public string ToStrokeCommand() => $"{R.ToString("F", CultureInfo.InvariantCulture)} {G.ToString("F", CultureInfo.InvariantCulture)} {B.ToString("F", CultureInfo.InvariantCulture)} RG";
         public string ToFillCommand() => $"{R.ToString("F", CultureInfo.InvariantCulture)} {G.ToString("F", CultureInfo.InvariantCulture)} {B.ToString("F", CultureInfo.InvariantCulture)} rg";
 
-        public bool Equals(PdfColor other)
+        public bool Equals(Color other)
         {
             if (other is null) return false;
             return R == other.R && G == other.G && B == other.B && A == other.A;
         }
 
-        public override bool Equals(object obj) => Equals(obj as PdfColor);
+        public override bool Equals(object obj) => Equals(obj as Color);
 
         public override int GetHashCode()
         {
@@ -115,13 +115,13 @@ namespace EPPlus.Export.Pdf.PdfGraphics
             return $"#{r:X2}{g:X2}{b:X2}{a:X2}";
         }
 
-        public static PdfColor Red => new PdfColor(1, 0, 0);
-        public static PdfColor Green => new PdfColor(0, 1, 0);
-        public static PdfColor Blue => new PdfColor(0, 0, 1);
-        public static PdfColor Black => new PdfColor(0, 0, 0);
-        public static PdfColor White => new PdfColor(1, 1, 1);
-        public static PdfColor Gray => new PdfColor(0.5f, 0.5f, 0.5f);
-        public static PdfColor LightGray => new PdfColor(0.75f, 0.75f, 0.75f);
-        public static PdfColor None => new PdfColor(0, 0, 0, 0);
+        public static Color Red => new Color(1, 0, 0);
+        public static Color Green => new Color(0, 1, 0);
+        public static Color Blue => new Color(0, 0, 1);
+        public static Color Black => new Color(0, 0, 0);
+        public static Color White => new Color(1, 1, 1);
+        public static Color Gray => new Color(0.5f, 0.5f, 0.5f);
+        public static Color LightGray => new Color(0.75f, 0.75f, 0.75f);
+        public static Color None => new Color(0, 0, 0, 0);
     }
 }

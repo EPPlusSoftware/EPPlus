@@ -10,14 +10,14 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfGraphics;
+using EPPlus.Graphics.Colors;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfPatterns
 {
     internal class PdfPatternGray0625 : PdfPatternFill
     {
-        public PdfPatternGray0625(PdfColor foreground, PdfColor background) : base(foreground, background) { }
+        public PdfPatternGray0625(Color foreground, Color background) : base(foreground, background) { }
 
         public override string CreatePatternResource()
         {

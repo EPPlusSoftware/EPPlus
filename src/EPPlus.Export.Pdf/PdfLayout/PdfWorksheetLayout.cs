@@ -10,8 +10,9 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Math;
-using EPPlus.Export.Pdf.Pdfhelpers;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
+using EPPlus.Graphics.Units;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
@@ -23,7 +24,7 @@ using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfWorksheetLayout : PdfTransform
+    internal class PdfWorksheetLayout : Transform
     {
         public readonly double ZeroCharWidth;
 
@@ -35,12 +36,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
             for(int row = 1; row<= worksheet.Dimension._toRow; row++)
             {
                 if(worksheet.Row(row).Hidden) continue;
-                var height = PdfUnits.ExcelRowHeightToPoints(worksheet.Row(row).Height);
+                var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(row).Height);
                 x = 0d;
                 for (int col = 1; col <= worksheet.Dimension._toCol; col++)
                 {
                     if(worksheet.Column(col).Hidden) continue;
-                    var width = PdfUnits.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
+                    var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
                     var cell = worksheet.Cells[row, col];
                     if (cell.Merge)
                     {
@@ -81,11 +82,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 ExcelAddressBase address = new ExcelAddressBase(mergeAddress);
                 for (int k = address._fromRow; k <= address._toRow; k++)
                 {
-                    height += PdfUnits.ExcelRowHeightToPoints(worksheet.Row(k).Height);
+                    height += UnitConversion.ExcelRowHeightToPoints(worksheet.Row(k).Height);
                 }
                 for (int l = address._fromCol; l <= address._toCol; l++)
                 {
-                    width += PdfUnits.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
+                    width += UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
                 }
                 var mergedCell = AddChild(new PdfMergedCellLayout(dictionaries, worksheet.Cells[address._fromRow, address._fromCol], x, y, width, height));
                 mergedCell.Name = cell.Address;

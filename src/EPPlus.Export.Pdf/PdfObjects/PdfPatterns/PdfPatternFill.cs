@@ -10,18 +10,18 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfGraphics;
+using EPPlus.Graphics.Colors;
 using System.Collections.Generic;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfPatterns
 {
     internal abstract class PdfPatternFill
     {
-        public PdfColor Background;
-        public PdfColor Foreground;
+        public Color Background;
+        public Color Foreground;
         private readonly List<string> commands = new List<string>();
 
-        protected PdfPatternFill(PdfColor foreground, PdfColor background)
+        protected PdfPatternFill(Color foreground, Color background)
         {
             Foreground = foreground;
             Background = background;
