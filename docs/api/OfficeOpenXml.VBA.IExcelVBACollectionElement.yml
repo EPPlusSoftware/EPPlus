@@ -1,0 +1,109 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.VBA.IExcelVBACollectionElement
+  commentId: T:OfficeOpenXml.VBA.IExcelVBACollectionElement
+  id: IExcelVBACollectionElement
+  parent: OfficeOpenXml.VBA
+  children:
+  - OfficeOpenXml.VBA.IExcelVBACollectionElement.Name
+  langs:
+  - csharp
+  - vb
+  name: IExcelVBACollectionElement
+  nameWithType: IExcelVBACollectionElement
+  fullName: OfficeOpenXml.VBA.IExcelVBACollectionElement
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/Vba/IExcelVBACollectionElement.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelVBACollectionElement
+    path: ../src/EPPlus/Vba/IExcelVBACollectionElement.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: The interface that must be implemented by the elements stored by ExcelVBACollectionBase.
+  example: []
+  syntax:
+    content: public interface IExcelVBACollectionElement
+    content.vb: Public Interface IExcelVBACollectionElement
+- uid: OfficeOpenXml.VBA.IExcelVBACollectionElement.Name
+  commentId: P:OfficeOpenXml.VBA.IExcelVBACollectionElement.Name
+  id: Name
+  parent: OfficeOpenXml.VBA.IExcelVBACollectionElement
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: IExcelVBACollectionElement.Name
+  fullName: OfficeOpenXml.VBA.IExcelVBACollectionElement.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/IExcelVBACollectionElement.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Vba/IExcelVBACollectionElement.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: The name of a VBA module or reference.
+  example: []
+  syntax:
+    content: string Name { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: ReadOnly Property Name As String
+  overload: OfficeOpenXml.VBA.IExcelVBACollectionElement.Name*
+references:
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.VBA
+    name: VBA
+    href: OfficeOpenXml.VBA.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.VBA
+    name: VBA
+    href: OfficeOpenXml.VBA.html
+- uid: OfficeOpenXml.VBA.IExcelVBACollectionElement.Name*
+  commentId: Overload:OfficeOpenXml.VBA.IExcelVBACollectionElement.Name
+  href: OfficeOpenXml.VBA.IExcelVBACollectionElement.html#OfficeOpenXml_VBA_IExcelVBACollectionElement_Name
+  name: Name
+  nameWithType: IExcelVBACollectionElement.Name
+  fullName: OfficeOpenXml.VBA.IExcelVBACollectionElement.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System

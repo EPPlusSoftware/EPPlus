@@ -160,6 +160,26 @@ namespace EPPlusImageRenderer.ShapeDefinitions
             }
         }
 
+        private static async Task<TextBoxRect> LoadRectAsync(XmlReader xr)
+        {
+            TextBoxRect rect;
+            while (await xr.ReadAsync())
+            {
+                if (xr.NodeType == XmlNodeType.Element && xr.LocalName == "rect")
+                {
+                    rect = new TextBoxRect()
+                    {
+                        TopName = xr.GetAttribute("t"),
+                        BottomName = xr.GetAttribute("b"),
+                        LeftName = xr.GetAttribute("l"),
+                        RightName = xr.GetAttribute("r")
+                    };
+                    return rect;
+                }
+            } 
+            return null;
+        }
+
         private static async Task<List<ShapeConnectionSite>> LoadConnectionLstAsync(XmlReader xr)
         {
             var shapeConnectionSite = new List<ShapeConnectionSite>();

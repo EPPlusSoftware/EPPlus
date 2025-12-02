@@ -68,6 +68,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["textbefore"] = new TextBefore(DelimiterFunction.TextBefore);
             Functions["textafter"] = new TextAfter(DelimiterFunction.TextAfter);
             Functions["arraytotext"] = new ArrayToText();
+            Functions["valuetotext"] = new ValueToText();
             // Numbers
             Functions["int"] = new IntFunction();
             // Math
@@ -169,6 +170,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["percentrank"] = new Percentrank();
             Functions["percentrank.inc"] = new PercentrankInc();
             Functions["percentrank.exc"] = new PercentrankExc();
+            Functions["percentof"] = new PercentOf();
             Functions["quotient"] = new Quotient();
             Functions["trunc"] = new Trunc();
             Functions["tan"] = new Tan();
@@ -291,6 +293,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["growth"] = new Growth();
 
             // Information
+            Functions["base"] = new Base();
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
             Functions["istext"] = new IsText();

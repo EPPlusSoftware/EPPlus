@@ -19,26 +19,10 @@ namespace EPPlus.Fonts.OpenType.Scanner
 {
     internal static class FontScanner
     {
-        static Dictionary<string, ScannedFont> _scannedFontsCache;
-
         static Dictionary<string, ScannedFont> ScannedFontsCache
         {
-            get
-            {
-                if (_scannedFontsCache == null)
-                {
-                    return new Dictionary<string, ScannedFont>();
-                }
-                else
-                {
-                    return _scannedFontsCache;
-                }
-            }
-            set
-            {
-                _scannedFontsCache = value;
-            }
-        }
+            get;
+        } = new Dictionary<string, ScannedFont>(StringComparer.OrdinalIgnoreCase);
 
         internal static FontFormat? GetFormat(string file)
         {
@@ -81,7 +65,13 @@ namespace EPPlus.Fonts.OpenType.Scanner
                     {
                         var subFamilyName = string.IsNullOrEmpty(sf.FontFamilyName) ? subFont.FontSubFamilyName : sf.FontSubFamilyName;
 
-                        if (subFamilyTarget.ToLower() == subFamilyName.ToLower())
+                        subFamilyName = subFamilyName.ToLower();
+                        if (subFamilyName == "normal")
+                        {
+                            subFamilyName = "regular";
+                        }
+
+                        if (subFamilyTarget.ToLower() == subFamilyName)
                         {
                             return true;
                         }
@@ -92,7 +82,13 @@ namespace EPPlus.Fonts.OpenType.Scanner
             {
                 if (!string.IsNullOrEmpty(sf.FontFamilyName) && sf.FontFamilyName.ToLower() == fontFamilyTarget.ToLower())
                 {
-                    if (subFamilyTarget.ToLower() == sf.FontSubFamilyName.ToLower())
+                    var subFamilyName = sf.FontSubFamilyName.ToLower();
+                    if (subFamilyName == "normal")
+                    {
+                        subFamilyName = "regular";
+                    }
+
+                    if (subFamilyTarget.ToLower() == subFamilyName)
                     {
                         return true;
                     }

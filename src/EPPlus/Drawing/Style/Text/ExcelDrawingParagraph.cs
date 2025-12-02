@@ -13,6 +13,7 @@
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
@@ -24,7 +25,6 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Xml;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -180,6 +180,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Default width in pixels for a TAB character.
         /// </summary>
+        //If omitted default in office is 914400 EMUs
         public double? DefaultTabSize
         {
             get
@@ -264,16 +265,19 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
+                //From the docs:
+                //"-1 and -2 for outline mode levels that should only exist in memory"
+                //ECMA december_2016 part1 page 20.1.10.71 ST_TextIndentLevelType (Text Indent Level Type)
                 if (value < -2 && value > 8)
                 {
-                    throw new ArgumentOutOfRangeException("Level must be between -2 and 8");
+                    throw new ArgumentOutOfRangeException("Level must be between 0 and 8");
                 }
                 _initXml?.Invoke();
                 SetXmlNodeInt("a:pPr/@lvl", value);
             }
         }
         /// <summary>
-        /// If an Latin word can be broken in half and wrapped onto the next line without a hyphen being added.
+        /// If a Latin word can be broken in half and wrapped onto the next line without a hyphen being added.
         /// </summary>
         public bool LatinLineBreak
         {
@@ -452,32 +456,35 @@ namespace OfficeOpenXml.Drawing
                 //For each line in each linebreak
                 foreach (var line in lines)
                 {
-                    var measurementFont = txtRun.GetMeasurementFont();
-                    //Get the length/height of the line via the font of the textRun
-                    var measurement = measurer.MeasureText(line, measurementFont);
-
-                    //If text wrapping is on each of the broken lines could potentially be wrapped
-                    List<string> finalLines = new List<string>();
-                    if (maxWidth != 0)
+                    //Despite new textrun it could still be on the same line as previous textrun
+                    if (line != lines[0] | txtRun.IsFirstInParagraph)
                     {
-                        var maxWidthInPixels = (maxWidth / 72d) * 96d;
-                        finalLines = measurer.MeasureAndWrapText(line, measurementFont, maxWidthInPixels);
-                    }
-                    else
-                    {
-                        finalLines.Add(line);
-                    }
+                        var measurementFont = txtRun.GetMeasurementFont();
+                        //Get the length/height of the line via the font of the textRun
+                        var measurement = measurer.MeasureText(line, measurementFont);
 
+                        //If text wrapping is on each of the broken lines could potentially be wrapped
+                        List<string> finalLines = new List<string>();
+                        if (maxWidth != 0)
+                        {
+                            var maxWidthInPixels = (maxWidth / 72d) * 96d;
+                            finalLines = measurer.MeasureAndWrapText(line, measurementFont, maxWidthInPixels);
+                        }
+                        else
+                        {
+                            finalLines.Add(line);
+                        }
 
-                    //Could be just one line or mutliple lines.
-                    //Re-use same collection to avoid code repetition.
-                    //Line-spacing should be applied for each line
-                    foreach (var fLine in finalLines)
-                    {
-                        //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
-                        var lineSpacing = GetParagraphLineSpacing(measurer, isFirstLine);
-                        paragraphHeight += lineSpacing;
-                        isFirstLine = false;
+                        //Could be just one line or mutliple lines.
+                        //Re-use same collection to avoid code repetition.
+                        //Line-spacing should be applied for each line
+                        foreach (var fLine in finalLines)
+                        {
+                            //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
+                            var lineSpacing = GetParagraphLineSpacing(measurer, isFirstLine);
+                            paragraphHeight += lineSpacing;
+                            isFirstLine = false;
+                        }
                     }
                 }
             }
@@ -503,13 +510,12 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="maxWidth">MaxWidth/Wrapping width in points. A value of 0 implies no wrapping.</param>
         /// <returns></returns>
-        internal RectBase GetParagraphSize(double maxWidth = 0, double maxHeight = 0)
+        internal RectBase GetParagraphSize(double maxWidth = 0, double maxHeight = 0, bool isFirstLine=true)
         {
             double paragraphHeight = 0;
             double paragraphWidth = 0;
+            double lineWidth = 0;
             var measurer = _prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
-            bool isFirstLine = true;
-
             var maxWidthInPixels = (maxWidth / 72d) * 96d;
 
             foreach (var txtRun in TextRuns)
@@ -517,8 +523,13 @@ namespace OfficeOpenXml.Drawing
                 //Split textrun text into line-breaks
                 var lines = txtRun.SplitIntoLines();
                 //For each line in each linebreak
-                foreach (var line in lines)
+                for(int x = 0;x < lines.Count;x++)
                 {
+                    var line = lines[x];
+                    if (x > 0)
+                    {
+                        lineWidth = 0;
+                    }
                     var measurementFont = txtRun.GetMeasureFont();
                     //Get the length/height of the line via the font of the textRun
 
@@ -534,7 +545,8 @@ namespace OfficeOpenXml.Drawing
                     {
                         finalLines.Add(line);
                     }
-                    if (measurement.Width > paragraphWidth) paragraphWidth = measurement.Width;
+                    lineWidth += measurement.Width;
+                    if (lineWidth > paragraphWidth) paragraphWidth = lineWidth;
                     //Could be just one line or mutliple lines.
                     //Re-use same collection to avoid code repetition.
                     //Line-spacing should be applied for each line
@@ -570,9 +582,9 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="maxWidth">must be entered in points</param>
         /// <returns></returns>
-        internal RectBase GetParagraphSizeInPixels(double maxWidth = 0, double maxHeight = 0)
+        internal RectBase GetParagraphSizeInPixels(double maxWidth = 0, double maxHeight = 0, bool isFirstLine=true)
         {
-            var pointHeight = GetParagraphSize(maxWidth, maxHeight);
+            var pointHeight = GetParagraphSize(maxWidth, maxHeight, isFirstLine);
             return new RectBase((pointHeight.Width / 72d) * 96d, (pointHeight.Height / 72d) * 96d);
         }
     }

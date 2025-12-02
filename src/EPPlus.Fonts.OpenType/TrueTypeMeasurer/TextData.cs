@@ -20,9 +20,22 @@ namespace EPPlus.Fonts.OpenType
         /// </summary>
         public static bool SearchSystemDirectories = true;
 
-        internal static TtfFont GetFontData(string fontName, string subFamily)
+        internal static OpenTypeFont GetFontData(string fontName, string subFamily)
         {
             return OpenTypeFonts.GetFontData(FontDirectories, fontName, subFamily, SearchSystemDirectories);
+        }
+
+        /// <summary>
+        /// Get difference between winAscent and typoAscent in points
+        /// </summary>
+        /// <param name="font"></param>
+        /// <param name="fontSize"></param>
+        /// <returns></returns>
+        internal static double GetDeltaAscent(OpenTypeFont font, double fontSize)
+        {
+            var winAscent = GetWinAscent(font, fontSize);
+            var typoAscent = GetTypoAscent(font, fontSize);
+            return winAscent - typoAscent;
         }
 
         /// <summary>
@@ -32,7 +45,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double MeasureFontHeight(TtfFont font, double fontSize)
+        internal static double MeasureFontHeight(OpenTypeFont font, double fontSize)
         {
             var asc = font.Os2Table.usWinAscent;
             var desc = font.Os2Table.usWinDescent;
@@ -43,6 +56,21 @@ namespace EPPlus.Fonts.OpenType
             return lineHeightPt;
         }
 
+        internal static double GetTypoAscent(OpenTypeFont font, double fontSize)
+        {
+            var typoAscent = font.Os2Table.sTypoAscender;
+            var em = font.HeadTable.UnitsPerEm;
+
+            return typoAscent * (fontSize / em);
+        }
+
+        internal static double GetWinAscent(OpenTypeFont font, double fontSize)
+        {
+            var asc = font.Os2Table.usWinAscent;
+            var em = font.HeadTable.UnitsPerEm;
+            return asc * (fontSize / em);
+        }
+
         /// <summary>
         /// ASCENT is in shapes in Excel the distance between
         /// The top of the shape (or more likely for non-rect shapes the top of the inset rect textbox) 
@@ -51,22 +79,15 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double GetBaseLine(TtfFont font, double fontSize)
+        internal static double GetBaseLine(OpenTypeFont font, double fontSize)
         {
             if(font.Os2Table.UseTypoMetrics)
             {
-                var typoAscent = font.Os2Table.sTypoAscender;
-                var em = font.HeadTable.UnitsPerEm;
-
-                //var pixelSize = (typoAscent * fontSize * 96d) / (72d * em);
-
-                return typoAscent * (fontSize / em);
+                return GetTypoAscent(font, fontSize);
             }
             else
             {
-                var asc = font.Os2Table.usWinAscent;
-                var em = font.HeadTable.UnitsPerEm;
-                return asc * (fontSize / em);
+                return GetWinAscent(font, fontSize);
             }
         }
 
@@ -76,7 +97,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double GetSingleLineSpacing(TtfFont font, double fontSize)
+        internal static double GetSingleLineSpacing(OpenTypeFont font, double fontSize)
         {
             var singleLineSpacing = font.Os2Table.UseTypoMetrics ? MeasureSingleLineSpacing_sTypo(font, fontSize) : MeasureFontHeight(font, fontSize);
 
@@ -93,7 +114,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double MeasureSingleLineSpacing_sTypo(TtfFont font, double fontSize)
+        internal static double MeasureSingleLineSpacing_sTypo(OpenTypeFont font, double fontSize)
         {
             var typoAscent = font.Os2Table.sTypoAscender;
             var typoDescent = font.Os2Table.sTypoDescender;
@@ -117,7 +138,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double MeasureBoundingBoxHeight(TtfFont font, double fontSize)
+        internal static double MeasureBoundingBoxHeight(OpenTypeFont font, double fontSize)
         {
             var max = font.HeadTable.Ymax;
             var min = font.HeadTable.Ymin;
@@ -136,7 +157,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="font"></param>
         /// <param name="fontSize"></param>
         /// <returns></returns>
-        internal static double MeasureBoundingBoxWidth(TtfFont font, double fontSize)
+        internal static double MeasureBoundingBoxWidth(OpenTypeFont font, double fontSize)
         {
             var max = font.HeadTable.Xmax;
             var min = font.HeadTable.Xmin;
@@ -149,12 +170,12 @@ namespace EPPlus.Fonts.OpenType
             return widthPt;
         }
 
-        internal static double MeasureAscent(TtfFont font, double fontSize)
+        internal static double MeasureAscent(OpenTypeFont font, double fontSize)
         {
             return font.Os2Table.usWinAscent * (fontSize / font.HeadTable.UnitsPerEm);
         }
 
-        internal static double MeasureDescent(TtfFont font, double fontSize)
+        internal static double MeasureDescent(OpenTypeFont font, double fontSize)
         {
             return font.Os2Table.usWinDescent * (fontSize / font.HeadTable.UnitsPerEm);
         }
@@ -168,34 +189,34 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="maxWidth"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        internal static List<string> MeasureAndWrapText(string text, double fontSize, TtfFont fontData, double maxWidth)
+        internal static List<string> MeasureAndWrapText(string text, double fontSize, OpenTypeFont fontData, double maxWidth)
         {
-            double totalAdvanceWidth = 0;
-            ushort lastGlyphIndex = 0;
+            int totalAdvanceWidth = 0;
+            ushort? lastGlyphIndex = 0;
             bool firstChar = true;
 
             //Split strings on line endings
             var newLine = Environment.NewLine;
             var splitStrings = text.Split([newLine], StringSplitOptions.None);
 
+            var testArray = splitStrings.Last().ToCharArray();
+
             //Initalise collection to return
             List<string> wrappedStrings = new List<string>();
-
+            var inputMaxWidth = maxWidth;
             //Convert maxWidth from points to font design units
             maxWidth = (maxWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize;
 
+            var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
             foreach (var line in splitStrings)
             {
-                int previousLineIndex = 0;
+                int nextLineStartIndex = 0;
+                int totalAdvanceFromLastWord = 0;
 
                 for (int i = 0; i < line.Length; i++)
                 {
                     char c = line[i];
-
-                    var encodingRecord = fontData.CmapTable.EncodingRecords.FirstOrDefault(er => er.PlatformId == Platforms.Windows && er.EncodingId == 1);
-                    if (encodingRecord == null) throw new Exception("Could not find Microsoft Unicode cmap (PlatformID 3, EncodingID 1).");
-                    GlyphMapping[] mappings = encodingRecord.Mappings;
-                    encodingRecord.CharMappingsToGlyphIndex.TryGetValue(c, out ushort gi);
+                    var gi = glyphMappings.GetGlyphIndex(c);
                     int advanceWidth;
                     if (gi == 0 && c != 0)
                     {
@@ -203,22 +224,33 @@ namespace EPPlus.Fonts.OpenType
                     }
                     else
                     {
-                        var hhMetric = fontData.HmtxTable.hMetrics[gi];
+                        var hhMetric = fontData.HmtxTable.hMetrics[gi ?? 0];
                         advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
                     }
 
                     var newWidth = totalAdvanceWidth + advanceWidth;
 
+                    int kerning = 0;
                     // Kerning adjustment
                     if (!firstChar)
                     {
-                        int kerning = GetKerningAdjustment(lastGlyphIndex, gi, fontData);
+                        kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fontData);
                         newWidth += kerning;
+                    }
+
+                    totalAdvanceFromLastWord += (advanceWidth + kerning);
+
+                    if (c == ' ')
+                    {
+                        totalAdvanceFromLastWord = 0;
                     }
 
                     if (newWidth > maxWidth)
                     {
-                        var txt = line.Substring(previousLineIndex, i - previousLineIndex);
+                        var lastLineIndex = nextLineStartIndex;
+                        var charCountFromLast = i - nextLineStartIndex;
+
+                        var txt = line.Substring(nextLineStartIndex, charCountFromLast);
 
                         //Ensure whole words get moved down if part of its letters are overflowing
                         var splitLines = txt.Split(' ');
@@ -232,21 +264,39 @@ namespace EPPlus.Fonts.OpenType
                             //Add only part of the text before the overflowing word
                             wrappedStrings.Add(spacedString);
 
-                            //Calculate the new line index
-                            previousLineIndex = i - stringOverMax.Length;
+                            //The start index of the first character in the overflow (After space)
+                            nextLineStartIndex = lastLineIndex + startIndex;
 
-                            totalAdvanceWidth = advanceWidth;
+                            totalAdvanceWidth = totalAdvanceFromLastWord;
                         }
                         else
                         {
-                            wrappedStrings.Add(txt.Remove(i - previousLineIndex));
-                            previousLineIndex = c == ' ' ? i + 1 : i;
-                            totalAdvanceWidth = 0;
+
+                            //If the char was a space it should not be added to the next line
+                            //Therefore we do not add its width and the index of the next line starts at the next character.
+                            if (c == ' ')
+                            {
+                                //The current char has crossed the max
+                                //Therefore remove it from the text to be added.
+                                var wrappedString = txt.Substring(0, txt.Length);
+                                wrappedStrings.Add(wrappedString);
+                                nextLineStartIndex = i + 1;
+                                totalAdvanceWidth = 0;
+                            }
+                            else
+                            {
+                                //The current char has crossed the max
+                                //Therefore remove it from the text to be added.
+                                var wrappedString = txt.Substring(0, txt.Length);
+                                wrappedStrings.Add(wrappedString);
+                                //The current character is part of the new line
+                                //We should start at the index of the current character and add its width to the new line
+                                nextLineStartIndex = i;
+                                totalAdvanceWidth = advanceWidth;
+                            }
                         }
-                        //if(wrappedStrings.Last() == "" | wrappedStrings.Last() == "S")
-                        //{
-                        //    string errorText = "error";
-                        //}
+                        //New line means both totals are equal
+                        totalAdvanceFromLastWord = totalAdvanceWidth;
                     }
                     else
                     {
@@ -257,11 +307,7 @@ namespace EPPlus.Fonts.OpenType
                     firstChar = false;
                 }
 
-                var remainingLine = line.Substring(previousLineIndex);
-                //if(remainingLine == "")
-                //{
-                //    string errorText = "error";
-                //}
+                var remainingLine = line.Substring(nextLineStartIndex);
                 wrappedStrings.Add(remainingLine);
                 totalAdvanceWidth = 0;
             }
@@ -278,10 +324,10 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="wrapText"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        internal static double MeasureText(string text, double fontSize, TtfFont fontData, bool wrapText = false)
+        internal static double MeasureText(string text, double fontSize, OpenTypeFont fontData, bool wrapText = false)
         {
             double totalAdvanceWidth = 0;
-            ushort lastGlyphIndex = 0;
+            ushort? lastGlyphIndex = 0;
             bool firstChar = true;
 
             ////For if we want to calculate the total glyph height within a specific string
@@ -290,14 +336,12 @@ namespace EPPlus.Fonts.OpenType
 
             double largestWidth = 0;
 
+            var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
             for (int i = 0; i < text.Length; i++)
             {
                 char c = text[i];
 
-                var encodingRecord = fontData.CmapTable.EncodingRecords.FirstOrDefault(er => er.PlatformId == Platforms.Windows && er.EncodingId == 1);
-                if (encodingRecord == null) throw new Exception("Could not find Microsoft Unicode cmap (PlatformID 3, EncodingID 1).");
-                GlyphMapping[] mappings = encodingRecord.Mappings;
-                encodingRecord.CharMappingsToGlyphIndex.TryGetValue(c, out ushort gi);
+                var gi = glyphMappings.GetGlyphIndex(c);
                 int advanceWidth;
                 if (gi == 0 && c != 0)
                 {
@@ -305,11 +349,11 @@ namespace EPPlus.Fonts.OpenType
                 }
                 else
                 {
-                    var hhMetric = fontData.HmtxTable.hMetrics[gi];
+                    var hhMetric = fontData.HmtxTable.hMetrics[gi ?? 0];
                     advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
                 }
 
-                if (wrapText && (c == '\n' || c == '\r'))
+                if ((c == '\n' || c == '\r'))
                 {
                     if (i > 0 && c == '\r' && text[i - 1] == '\n')
                     {
@@ -327,8 +371,14 @@ namespace EPPlus.Fonts.OpenType
                 // Kerning adjustment
                 if (!firstChar)
                 {
-                    int kerning = GetKerningAdjustment(lastGlyphIndex, gi, fontData);
+                    int kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fontData);
                     totalAdvanceWidth += kerning;
+                }
+                else
+                {
+                    ////First char has no kerning but it does have a left side value.
+                    //var firstCharLsb = Convert.ToInt16(fontData.HmtxTable.hMetrics[gi].lsb);
+                    //totalAdvanceWidth += firstCharLsb;
                 }
 
                 ////For if we want to calculate the total glyph height within a specific string
@@ -360,14 +410,14 @@ namespace EPPlus.Fonts.OpenType
             return (largestWidth / (double)fontData.HeadTable.UnitsPerEm) * fontSize;
         }
 
-        private static int GetKerningAdjustment(ushort left, ushort right, TtfFont fontData)
+        private static int GetKerningAdjustment(ushort left, ushort right, OpenTypeFont fontData)
         {
             foreach (var subtable in fontData.KernTable.SubTables)
             {
                 if (subtable.Format0Subtable == null) continue;
                 // Format 0 only
-                int format = subtable.coverage._coverage >> 8;
-                bool isHorizontal = (subtable.coverage._coverage & 0x1) == 1;
+                int format = subtable.coverage.RawValue >> 8;
+                bool isHorizontal = (subtable.coverage.RawValue & 0x1) == 1;
                 if (format != 0 || !isHorizontal) continue;
                 KerningPair[] pairs = subtable.Format0Subtable.Pairs;
                 if (pairs == null) continue;
@@ -389,11 +439,21 @@ namespace EPPlus.Fonts.OpenType
                     {
                         var pairItem = pairs[index];
 
-                        //Extra verification in case something has gone wrong
+                        //Extra verification in case something has gone wrong/the exact item does not exist
                         if (pairItem.left == left && pairItem.right == right)
                         {
                             return pairItem.value;
                         }
+                        //else
+                        //{
+                        //    foreach (var pair in pairs)
+                        //    {
+                        //        if (pair.right == right && pair.left == left)
+                        //        {
+                        //            return pair.value;
+                        //        }
+                        //    }
+                        //}
                     }
                     else
                     {

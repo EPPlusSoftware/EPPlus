@@ -1,0 +1,696 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection
+  commentId: T:OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection
+  id: ExcelCustomXmlCollection
+  parent: OfficeOpenXml.Data.CustomXml
+  children:
+  - OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Count
+  - OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.GetEnumerator
+  - OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Item(System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: ExcelCustomXmlCollection
+  nameWithType: ExcelCustomXmlCollection
+  fullName: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Data/CustomXml/ExcelCustomXmlCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelCustomXmlCollection
+    path: ../src/EPPlus/Data/CustomXml/ExcelCustomXmlCollection.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.CustomXml
+  summary: Represents a collection of custom XML parts in the package.
+  example: []
+  syntax:
+    content: 'public class ExcelCustomXmlCollection : IEnumerable<ExcelCustomXml>, IEnumerable'
+    content.vb: Public Class ExcelCustomXmlCollection Implements IEnumerable(Of ExcelCustomXml), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.CustomXml.ExcelCustomXml}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection
+  langs:
+  - csharp
+  - vb
+  name: this[int]
+  nameWithType: ExcelCustomXmlCollection.this[int]
+  fullName: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.this[int]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/CustomXml/ExcelCustomXmlCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Data/CustomXml/ExcelCustomXmlCollection.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.CustomXml
+  summary: The indexer for the collection
+  example: []
+  syntax:
+    content: public ExcelCustomXml this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index
+    return:
+      type: OfficeOpenXml.Data.CustomXml.ExcelCustomXml
+      description: ''
+    content.vb: Public ReadOnly Default Property this[](index As Integer) As ExcelCustomXml
+  overload: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Item*
+  nameWithType.vb: ExcelCustomXmlCollection.this[](Integer)
+  fullName.vb: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.this[](Integer)
+  name.vb: this[](Integer)
+- uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelCustomXmlCollection.GetEnumerator()
+  fullName: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Data/CustomXml/ExcelCustomXmlCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Data/CustomXml/ExcelCustomXmlCollection.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.CustomXml
+  summary: The enumerator for the collection
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelCustomXml> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Data.CustomXml.ExcelCustomXml}
+      description: The enumerator
+    content.vb: Public Function GetEnumerator() As IEnumerator(Of ExcelCustomXml)
+  overload: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.CustomXml.ExcelCustomXml}.GetEnumerator
+- uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Count
+  commentId: P:OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Count
+  id: Count
+  parent: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelCustomXmlCollection.Count
+  fullName: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/CustomXml/ExcelCustomXmlCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Data/CustomXml/ExcelCustomXmlCollection.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.CustomXml
+  summary: Number of items in the collection.
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Count*
+references:
+- uid: OfficeOpenXml.Data.CustomXml
+  commentId: N:OfficeOpenXml.Data.CustomXml
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.CustomXml
+  nameWithType: OfficeOpenXml.Data.CustomXml
+  fullName: OfficeOpenXml.Data.CustomXml
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.CustomXml
+    name: CustomXml
+    href: OfficeOpenXml.Data.CustomXml.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.CustomXml
+    name: CustomXml
+    href: OfficeOpenXml.Data.CustomXml.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.CustomXml.ExcelCustomXml}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.CustomXml.ExcelCustomXml}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<ExcelCustomXml>
+  nameWithType: IEnumerable<ExcelCustomXml>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Data.CustomXml.ExcelCustomXml>
+  nameWithType.vb: IEnumerable(Of ExcelCustomXml)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Data.CustomXml.ExcelCustomXml)
+  name.vb: IEnumerable(Of ExcelCustomXml)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXml
+    name: ExcelCustomXml
+    href: OfficeOpenXml.Data.CustomXml.ExcelCustomXml.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXml
+    name: ExcelCustomXml
+    href: OfficeOpenXml.Data.CustomXml.ExcelCustomXml.html
+  - name: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ienumerable
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Item*
+  commentId: Overload:OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Item
+  href: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.html#OfficeOpenXml_Data_CustomXml_ExcelCustomXmlCollection_Item_System_Int32_
+  name: this
+  nameWithType: ExcelCustomXmlCollection.this
+  fullName: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.this
+  nameWithType.vb: ExcelCustomXmlCollection.this[]
+  fullName.vb: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.this[]
+  name.vb: this[]
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXml
+  commentId: T:OfficeOpenXml.Data.CustomXml.ExcelCustomXml
+  parent: OfficeOpenXml.Data.CustomXml
+  href: OfficeOpenXml.Data.CustomXml.ExcelCustomXml.html
+  name: ExcelCustomXml
+  nameWithType: ExcelCustomXml
+  fullName: OfficeOpenXml.Data.CustomXml.ExcelCustomXml
+- uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.GetEnumerator
+  href: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.html#OfficeOpenXml_Data_CustomXml_ExcelCustomXmlCollection_GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelCustomXmlCollection.GetEnumerator
+  fullName: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.CustomXml.ExcelCustomXml}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.CustomXml.ExcelCustomXml}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.CustomXml.ExcelCustomXml}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelCustomXml>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Data.CustomXml.ExcelCustomXml>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelCustomXml).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Data.CustomXml.ExcelCustomXml).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.CustomXml.ExcelCustomXml}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Data.CustomXml.ExcelCustomXml}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Data.CustomXml.ExcelCustomXml}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Data.CustomXml.ExcelCustomXml}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<ExcelCustomXml>
+  nameWithType: IEnumerator<ExcelCustomXml>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Data.CustomXml.ExcelCustomXml>
+  nameWithType.vb: IEnumerator(Of ExcelCustomXml)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Data.CustomXml.ExcelCustomXml)
+  name.vb: IEnumerator(Of ExcelCustomXml)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXml
+    name: ExcelCustomXml
+    href: OfficeOpenXml.Data.CustomXml.ExcelCustomXml.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXml
+    name: ExcelCustomXml
+    href: OfficeOpenXml.Data.CustomXml.ExcelCustomXml.html
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Count*
+  commentId: Overload:OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Count
+  href: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.html#OfficeOpenXml_Data_CustomXml_ExcelCustomXmlCollection_Count
+  name: Count
+  nameWithType: ExcelCustomXmlCollection.Count
+  fullName: OfficeOpenXml.Data.CustomXml.ExcelCustomXmlCollection.Count

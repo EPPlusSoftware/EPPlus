@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>8.2.0.0</AssemblyVersion>
-		<FileVersion>8.2.0.0</FileVersion>
-		<Version>8.2.0</Version>
+		<AssemblyVersion>8.3.1.0</AssemblyVersion>
+		<FileVersion>8.3.1.0</FileVersion>
+		<Version>8.3.1</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 8.2.0
+			EPPlus 8.3.1
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,18 +26,30 @@
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
-			## Version 8.2.0
+			## Version 8.3.1
+			Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			
+			## Version 8.3.0
+			* Support for adding, updating and removing external connections and query tables. See https://github.com/EPPlusSoftware/EPPlus/wiki/External-Connections-and-Query-Tables
+			* Support for adding pivot tables with external connections as data source.
+			* Added three new functions
+			* Minor bug fixes.
+
+			## Version 8.2.1
+			* Minor bug fixes.
+
+			## Version 8.2.1
 			* Support for 8 LAMBDA functions when calculating workbooks. See https://github.com/EPPlusSoftware/EPPlus/wiki/Using-LAMBDA-functions
-				* LAMBDA
-				* MAKEARRAY
-				* SCAN
-				* MAP
-				* REDUCE
-				* BYROW
-				* BYCOL
-				* ISOMITTED
+			* LAMBDA
+			* MAKEARRAY
+			* SCAN
+			* MAP
+			* REDUCE
+			* BYROW
+			* BYCOL
+			* ISOMITTED
 			* Support for defining lambda functions via defined names.
-			* Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			* Minor bug fixes.
 
 			## Version 8.1.1
 			* Minor bug fixes.
@@ -46,7 +58,7 @@
 			* Add Shapes and Pictures to charts.
 			* An new interface for styling headers and footers more easily.
 			* If copying a worksheet or a range to a new workbook, the relevant defined names are also copied.
-			* Minor bug fixes. 
+			* Minor bug fixes.
 
 			## Version 8.0.8
 			* Minor bug fixes.
@@ -529,9 +541,12 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
-			8.2.0			20250924 LAMBDA functions support. Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-			8.1.1			20250909 Minor bug fixes. 
-			8.1.0			20250815	 Shapes in Charts. Header/footer styling interface.
+			8.3.1			20251128 Minor bug fixes.
+			8.3.0			20251120 Connections and query tables support. Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			8.2.1			20251012 Minor bug fixes.
+			8.2.0			20250924 LAMBDA functions support. Minor bug fixes.
+			8.1.1			20250909 Minor bug fixes.
+			8.1.0			20250815 Shapes in Charts. Header/footer styling interface.
 			8.0.8			20250722 Minor bug fixes.
 			8.0.7			20250702 Minor bug fixes.
 			8.0.6			20250619 Minor bug fixes.
@@ -713,7 +728,7 @@
 		<PackageReference Include="System.Security.Cryptography.Xml" />	
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462' and '$(TargetFramework)' != 'net9.0'">
+	<ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462' and '$(TargetFramework)' != 'net9.0' and '$(TargetFramework)' != 'net10.0'">
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
 		<PackageReference Include="System.Security.Cryptography.Pkcs" />
@@ -730,7 +745,17 @@
 		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="9.0.3" />
 		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="9.0.3" />
 	</ItemGroup>
-
+	<!-- TargetFramework net10.0, remove when GitHub actions and AppVeyor support is available. -->
+	<!-- 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" VersionOverride="10.0.0" />
+		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" VersionOverride="10.0.0" />
+		<PackageReference Include="System.ComponentModel.Annotations" />
+		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="10.0.0" />
+		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="10.0.0" />
+	</ItemGroup>
+-->
 	<ItemGroup>
 		<Compile Remove="LoadFunctions\HeaderReader.cs" />
 	</ItemGroup>

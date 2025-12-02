@@ -387,6 +387,18 @@ namespace EPPlusTest.Issues
 			}
 		}
 
+		[TestMethod]
+		public void s968()
+		{
+			// the problem in this case was that the NEWLINE separator 
+			// for datalabels was ignored when the chartxml was read.
+			// we fixed this by adding xmlDocument.PreserveWhitespace=true
+			// when reading charts.
+			using var package = OpenTemplatePackage("ChartLabel.xlsx");
+			var workbook = package.Workbook;
+			SaveAndCleanup(package);
+		}
+
         [TestMethod]
         public void CreateStringLiterals()
         {

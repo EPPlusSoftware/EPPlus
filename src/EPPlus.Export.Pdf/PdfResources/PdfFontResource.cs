@@ -71,7 +71,7 @@ namespace EPPlus.Export.Pdf.PdfResources
                 flag |= 1 << 5; // Nonsymbolic
             if (fontData.GetEnglishFontFamilyName().ToLower().Contains("script") || fontData.GetEnglishFontFamilyName().ToLower().Contains("cursive"))
                 flag |= 1 << 3;
-            if (fontData.PostTable.italicAngle != 0 || (fontData.Os2Table.fsSelection & 0x01) != 0)
+            if (fontData.PostTable.italicAngle.RawValue != 0 || (fontData.Os2Table.fsSelection & 0x01) != 0)
                 flag |= 1 << 6;
             if ((fontData.Os2Table.fsSelection & 0x100) != 0)
                 flag |= 1 << 16;
@@ -91,7 +91,7 @@ namespace EPPlus.Export.Pdf.PdfResources
                 fontName,
                 flag,
                 fontBBox,
-                fontData.PostTable.italicAngle,
+                Convert.ToDouble(fontData.PostTable.italicAngle.FloatValue),
                 fontData.Os2Table.sTypoAscender,
                 fontData.Os2Table.sTypoDescender,
                 0,
@@ -105,9 +105,10 @@ namespace EPPlus.Export.Pdf.PdfResources
         {
             List<int> widths = new List<int>();
             int fallbackWidth = fontData.Os2Table.xAvgCharWidth;
+            var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
             for (int c = firstChar; c <= lastChar; c++)
             {
-                fontData.CmapTable.EncodingRecords[0].CharMappingsToGlyphIndex.TryGetValue((char)c, out ushort gi);
+                var gi = glyphMappings.GetGlyphIndex((char)c);
                 if (gi == 0 && c != 0)
                 {
                     int normalizedWidth = (int)System.Math.Round(fallbackWidth / (double)fontData.HeadTable.UnitsPerEm * 1000);
@@ -115,7 +116,7 @@ namespace EPPlus.Export.Pdf.PdfResources
                 }
                 else
                 {
-                    var hhMetric = fontData.HmtxTable.hMetrics[gi];
+                    var hhMetric = fontData.HmtxTable.hMetrics[gi ?? 0];
                     var advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
                     int normalizedWidth = (int)System.Math.Round(advanceWidth / (double)fontData.HeadTable.UnitsPerEm * 1000);
                     widths.Add(normalizedWidth);

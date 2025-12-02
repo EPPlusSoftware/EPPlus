@@ -10,13 +10,18 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.FontLocalization;
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Name;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Scanner
 {
+    [DebuggerDisplay("Fontfamily: {FontFamilyName} {FontSubFamilyName}")]
     public class ScannedFont : IScannedFont
     {
         internal ScannedFont(FontsBinaryReader reader, FontFormat format, string filePath)
@@ -47,30 +52,46 @@ namespace EPPlus.Fonts.OpenType.Scanner
             if (_tableRecords.ContainsKey(TableNames.Name))
             {
                 var tblSettings = new TableLoaderSettings(reader, _tableRecords, null);
-                NameTable = TableLoaders.GetNameTableLoader(tblSettings).Load(false);
-                FontFamilyName = NameTable.NameRecords.FirstOrDefault(x => x.RecordType == NameRecordTypes.FontFamilyName && !string.IsNullOrEmpty(x.Name))?.Name;
-                FontSubFamilyName = NameTable.NameRecords.FirstOrDefault(x => x.RecordType == NameRecordTypes.FontSubfamilyName && !string.IsNullOrEmpty(x.Name))?.Name;
+                NameTable = TableLoaders.GetNameTableLoader(tblSettings).Load(false);                
+                FontFamilyName = GetEnglishFontFamilyName();
+                FontSubFamilyName = GetEnglishFontSubFamilyName();
             }
+        }
+        internal string GetEnglishFullFontFamilyName()
+        {
+            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FullFontName && x.LanguageMapping.Language == Languages.English)?.Name;
+        }
+
+        public string GetEnglishFontFamilyName()
+        {
+            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontFamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
+        }
+
+        internal string GetEnglishFontSubFamilyName()
+        {
+            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontSubfamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
         }
 
         private readonly FontsBinaryReader _reader;
         private ushort _numTables;
-        private Dictionary<string, TableRecord> _tableRecords;
+        private readonly Dictionary<string, TableRecord> _tableRecords;
         private FontFormat _format;
 
-        public string? FontFamilyName { get; private set; }
+        public string FontFamilyName { get; private set; }
 
-        public string? FontSubFamilyName { get; set; }
+        public string FontSubFamilyName { get; set; }
 
         public string FilePath { get; set; }
 
         public FontFormat Format { get; set; }
 
-        public NameTable? NameTable { get; private set; }
+        public NameTable NameTable { get; private set; }
 
         public IEnumerable<ScannedFont>? SubFonts { get; private set; }
 
         public long? TtcOffset { get; set; }
+
+        internal Dictionary<string, TableRecord> TableRecords => _tableRecords;
 
 
         private void InitializeTtc()
@@ -125,6 +146,18 @@ namespace EPPlus.Fonts.OpenType.Scanner
                 };
                 _tableRecords.Add(record.Tag.Value, record);
             }
+        }
+
+        public byte[] GetTableBytes(string tag)
+        {
+            using var reader = new FontsBinaryReader(File.OpenRead(FilePath));
+            if (!_tableRecords.TryGetValue(tag, out var record))
+            {
+                throw new ArgumentException($"Table '{tag}' not found in font.");
+            }
+
+            reader.BaseStream.Position = record.Offset;
+            return reader.ReadBytes((int)record.Length);
         }
 
         //public override string ToString()

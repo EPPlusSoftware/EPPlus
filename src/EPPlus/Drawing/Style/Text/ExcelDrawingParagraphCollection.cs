@@ -12,12 +12,13 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -247,6 +248,25 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
+        /// <summary>
+        /// How text is wrapped according to Parent Node
+        /// KEEP INTERNAL. Or remove and give some other reference to the parent node's text-wrapping node.
+        /// </summary>
+        internal eTextWrappingType WrapText
+        {
+            get
+            {
+                //Note: Gets the wrap attribute which is controlled by TextBody
+                return GetXmlNodeString($"a:bodyPr/@wrap").ToEnum(eTextWrappingType.Square);
+            }
+            //set
+            //{
+            //    _initXml?.Invoke();
+            //    //Note: Gets the wrap attribute of the PARENT node
+            //    SetXmlNodeString($"{_path}/bodyPr/@wrap", value.ToEnumString());
+            //}
+        }
+
         internal void SetUpdateCallbacks(Action<ExcelParagraphTextRunBase> addCallback, Action<ExcelDrawingParagraph> removeParagraphCallback, Action<ExcelParagraphTextRunBase> removeTextRunCallback)
         {
             _addCallback = addCallback;
@@ -266,10 +286,12 @@ namespace OfficeOpenXml.Drawing
 
             var h = 0D;
             var w = 0D;
+            bool isFirstLine = true;
             foreach (var p in _paragraphs)
             {
-                var pr = p.GetParagraphSizeInPixels(maxWidth, maxHeight);
-                if(w < pr.Width) w = pr.Width;
+                var pr = p.GetParagraphSizeInPixels(maxWidth, maxHeight, isFirstLine);
+                isFirstLine = false;
+                if (w < pr.Width) w = pr.Width;
                 h += pr.Height;
             }
             return new RectBase(w, h);

@@ -10,31 +10,17 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Scanner;
-using EPPlus.Fonts.OpenType.Tables;
-using EPPlus.Fonts.OpenType.Tables.Glyph;
-using EPPlus.Fonts.OpenType.Tables.Kern;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
+using System.Text;
 
-namespace EPPlus.Fonts.OpenType
+namespace EPPlus.Fonts.OpenType.Tables.Glyph
 {
-    /// <summary>
-    /// Represents an open type font
-    /// </summary>
-    [DebuggerDisplay("{FullName} {SubFamily}")]
-    public class TtfFont : OpenTypeFont
+    public class GlyphPoint
     {
-
-        internal TtfFont(FontsBinaryReader reader, FontFormat format)
-            : this(reader, -1, format)
-        {
-        }
-
-        internal TtfFont(FontsBinaryReader reader, long startOffset, FontFormat format) : base(reader, startOffset, format)
-        {
-            _GlyphTableLoader = TableLoaders.GetGlyphTableLoader(tblSettings);
-            _KernTableLoader = TableLoaders.GetKernTableLoader(tblSettings);
-        }
+        public bool OnCurve { get; set; }
+        public short X { get; set; }
+        public short Y { get; set; }
     }
 }

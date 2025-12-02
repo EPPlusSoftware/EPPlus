@@ -10,16 +10,33 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System.Collections.Generic;
+
 namespace EPPlus.Fonts.OpenType.Tables.Kern
 {
-    public class KernTable
+    public class KernTable : FontTableBase
     {
         public ushort version { get; set; }
+        public ushort numberOfFormat0Tables { get; set; }
 
-        public ushort nTables { get; set; }
+        public List<KernSubTable> SubTables { get; set; } = new List<KernSubTable>();
 
-        public KernSubTable[] SubTables { get; set; }
+        internal override void Clear()
+        {
+            SubTables.Clear();
+            version = 0;
+            numberOfFormat0Tables = 0;
+        }
 
-        public ushort NumberOfFormat0Tables { get; set; }
+        internal override void SerializeInternal(FontsBinaryWriter writer)
+        {
+            writer.WriteUInt16BigEndian(version);
+            writer.WriteUInt16BigEndian((ushort)SubTables.Count);
+
+            foreach (var subTable in SubTables)
+            {
+                subTable.Serialize(writer);
+            }
+        }
     }
 }

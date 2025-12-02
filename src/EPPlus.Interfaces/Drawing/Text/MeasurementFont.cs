@@ -11,6 +11,8 @@
   1/4/2021         EPPlus Software AB           EPPlus Interfaces 1.0
  *************************************************************************************************/
 
+using System;
+
 namespace OfficeOpenXml.Interfaces.Drawing.Text
 {
     public class MeasurementFont
@@ -20,5 +22,23 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         public MeasurementFontStyles Style { get; set; }
 
         public float Size { get; set; }
+
+        public string GetSubFamily()
+        {
+            if((Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) == (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
+            {
+                return "Bold Italic";
+            }
+            else if((Style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
+            {
+                return "Bold";
+            }
+            else if((Style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
+            {
+                return "Italic";
+            }
+
+            return "Regular";
+        }
     }
 }

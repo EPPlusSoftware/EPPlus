@@ -68,6 +68,9 @@ namespace EPPlusTest.PDF
          * Layout: Calculate width and height of cells more correctly
          * 
          * Borders: Adjust and make border look better
+         * Borders: Check Adjecent cells for border decied which cells border to use
+         * Borders: Handle Merged cells with borders
+         * Borders: Fix diagnal border in merged cell
          * 
          * Pivot Table: Pivot table implementation
          * 

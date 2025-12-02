@@ -50,12 +50,12 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
             return lineHeightPt;
         }
 
-        internal static double MeasureAscent(TtfFont font, double fontSize)
+        internal static double MeasureAscent(OpenTypeFont font, double fontSize)
         {
             return font.Os2Table.usWinAscent * (fontSize / font.HeadTable.UnitsPerEm);
         }
 
-        internal static double MeasureDescent(TtfFont font, double fontSize)
+        internal static double MeasureDescent(OpenTypeFont font, double fontSize)
         {
             return font.Os2Table.usWinDescent * (fontSize / font.HeadTable.UnitsPerEm);
         }
@@ -63,15 +63,17 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
         internal static double MeasureText(string text, double fontSize, OpenTypeFont fontData)
         {
             double totalAdvanceWidth = 0;
-            ushort lastGlyphIndex = 0;
+            ushort? lastGlyphIndex = 0;
             bool firstChar = true;
+            var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
             for (int i = 0; i < text.Length; i++)
             {
                 char c = text[i];
-                var encodingRecord = fontData.CmapTable.EncodingRecords.FirstOrDefault(er => er.PlatformId == Platforms.Windows && er.EncodingId == 1);
-                if (encodingRecord == null) throw new Exception("Could not find Microsoft Unicode cmap (PlatformID 3, EncodingID 1).");
-                GlyphMapping[] mappings = encodingRecord.Mappings;
-                encodingRecord.CharMappingsToGlyphIndex.TryGetValue(c, out ushort gi);
+                var gi = glyphMappings.GetGlyphIndex(c);
+                //var encodingRecord = fontData.CmapTable.EncodingRecords.FirstOrDefault(er => er.PlatformId == Platforms.Windows && er.EncodingId == 1);
+                //if (encodingRecord == null) throw new Exception("Could not find Microsoft Unicode cmap (PlatformID 3, EncodingID 1).");
+                //GlyphMapping[] mappings = encodingRecord.Mappings;
+                //encodingRecord.CharMappingsToGlyphIndex.TryGetValue(c, out ushort gi);
                 int advanceWidth;
                 if (gi == 0 && c != 0)
                 {
@@ -79,14 +81,14 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
                 }
                 else
                 {
-                    var hhMetric = fontData.HmtxTable.hMetrics[gi];
+                    var hhMetric = fontData.HmtxTable.hMetrics[gi ?? 0];
                     advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
                 }
                 totalAdvanceWidth += advanceWidth;
                 // Kerning adjustment
                 if (!firstChar)
                 {
-                    int kerning = GetKerningAdjustment(lastGlyphIndex, gi, fontData);
+                    int kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fontData);
                     totalAdvanceWidth += kerning;
                 }
                 lastGlyphIndex = gi;
@@ -102,8 +104,8 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
             {
                 if (subtable.Format0Subtable == null) continue;
                 // Format 0 only
-                int format = subtable.coverage._coverage >> 8;
-                bool isHorizontal = (subtable.coverage._coverage & 0x1) == 1;
+                int format = subtable.coverage.RawValue >> 8;
+                bool isHorizontal = (subtable.coverage.RawValue & 0x1) == 1;
                 if (format != 0 || !isHorizontal) continue;
                 KerningPair[] pairs = subtable.Format0Subtable.Pairs;
                 if (pairs == null) continue;

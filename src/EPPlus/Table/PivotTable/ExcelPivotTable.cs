@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Data.Connection;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using OfficeOpenXml.Table.PivotTable.Filter;
@@ -234,6 +235,19 @@ namespace OfficeOpenXml.Table.PivotTable
             ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
 
         }
+        internal ExcelPivotTable(ExcelWorksheet sheet, ExcelAddressBase address, ExcelConnection connection, string[] fields, string name, int tblId) :
+        base(sheet.NameSpaceManager)
+        {
+            CreatePivotTable(sheet, address, fields.Length, name, tblId, null);
+
+            CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, connection, fields);
+            CacheId = CacheDefinition._cacheReference.ExtLstCacheId;
+
+            LoadFields();
+            Styles = new ExcelPivotTableAreaStyleCollection(this);
+            ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
+
+        }
 
         private void CreatePivotTable(ExcelWorksheet sheet, ExcelAddressBase address, int fields, string name, int tblId, ExcelPivotTable copy)
         {
@@ -386,12 +400,16 @@ namespace OfficeOpenXml.Table.PivotTable
         internal HashSet<int[]> _rowItems = null;
         internal HashSet<int[]> _colItems = null;
         /// <summary>
-        /// Calculates the pivot table.
+        /// Calculates the pivot table. Only pivot tables with workbook internal worksheet sources are calculated. Other sources are ignored and not calculated.
         /// Also see <seealso cref="ExcelPivotTableCollection.Calculate(bool)"/> and <seealso cref="ExcelWorkbook.CalculateAllPivotTables(bool)"/>
         /// </summary>
         /// <param name="refreshCache">If the pivot cache should be refreshed from the source data, before calculating the pivot table.</param>
         public void Calculate(bool refreshCache = false)
         {
+            if(CacheDefinition.Connection!=null)
+            {
+                return;
+            }
             if (refreshCache || CacheDefinition._cacheReference.Records == null  || CacheDefinition._cacheReference.Records.RecordCount == 0)
             {
                 CacheDefinition.Refresh();
@@ -1784,22 +1802,29 @@ namespace OfficeOpenXml.Table.PivotTable
             var cfToDelete = new List<ExcelPivotTableConditionalFormatting>();
             foreach (var cf in ConditionalFormattings)
             {
-                cf.Priority = cf.ConditionalFormatting.Priority;
-                var areasToDelete = new List<ExcelPivotTableAreaConditionalFormatting>();
-                foreach (ExcelPivotTableAreaConditionalFormatting a in cf.Areas)
-                {
-                    if(a.Conditions.UpdateXml()==false)
-                    {
-                        areasToDelete.Add(a);
-                    }
-                }
-                if(cf.Areas.Count==areasToDelete.Count)
+                if (cf.ConditionalFormatting == null)
                 {
                     cfToDelete.Add(cf);
                 }
                 else
                 {
-                    areasToDelete.ForEach(x => cf.Areas.Remove(x));
+                    cf.Priority = cf.ConditionalFormatting.Priority;
+                    var areasToDelete = new List<ExcelPivotTableAreaConditionalFormatting>();
+                    foreach (ExcelPivotTableAreaConditionalFormatting a in cf.Areas)
+                    {
+                        if (a.Conditions.UpdateXml() == false)
+                        {
+                            areasToDelete.Add(a);
+                        }
+                    }
+                    if (cf.Areas.Count == areasToDelete.Count)
+                    {
+                        cfToDelete.Add(cf);
+                    }
+                    else
+                    {
+                        areasToDelete.ForEach(x => cf.Areas.Remove(x));
+                    }
                 }
             }
             cfToDelete.ForEach(x => ConditionalFormattings.Remove(x));

@@ -54,7 +54,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(CalcOrigins.Reference, pic2.CalcOrigin);
             SaveWorkbook("ImageFunctionTest_Reference.xlsx", package);
         }
-
         [TestMethod]
         public void ImageTest_AltText()
         {

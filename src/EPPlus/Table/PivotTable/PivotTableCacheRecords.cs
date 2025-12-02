@@ -119,6 +119,7 @@ namespace EPPlusTest.Table.PivotTable
 
 		internal void CreateRecords()
         {
+            if (Cache.Connection != null) return;
             CacheItems.Clear();
             var sr = Cache.SourceRange;
             var ws = sr.Worksheet;
@@ -153,7 +154,7 @@ namespace EPPlusTest.Table.PivotTable
 							f._fieldRecordIndex[ix].Add(ciIx);
 						}
 						else
-						{
+						{   
 							f._fieldRecordIndex.Add(ix, new List<int> { ciIx });
 						}
 					}

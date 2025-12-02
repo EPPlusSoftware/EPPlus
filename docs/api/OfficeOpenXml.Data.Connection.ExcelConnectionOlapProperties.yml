@@ -1,0 +1,917 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  commentId: T:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  id: ExcelConnectionOlapProperties
+  parent: OfficeOpenXml.Data.Connection
+  children:
+  - OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.DataModelCommand
+  - OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Local
+  - OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalConnection
+  - OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalRefresh
+  - OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.RowDrillCount
+  - OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.SendLocale
+  - OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFill
+  - OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFont
+  - OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFontColor
+  - OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerNumberFormat
+  - OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Tables
+  langs:
+  - csharp
+  - vb
+  name: ExcelConnectionOlapProperties
+  nameWithType: ExcelConnectionOlapProperties
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelConnectionOlapProperties
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Olap specific properties for the connection.
+  example: []
+  syntax:
+    content: public class ExcelConnectionOlapProperties
+    content.vb: Public Class ExcelConnectionOlapProperties
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Local
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Local
+  id: Local
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  langs:
+  - csharp
+  - vb
+  name: Local
+  nameWithType: ExcelConnectionOlapProperties.Local
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Local
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Local
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Indicates if we should get data from the local cube on refresh versus the original data source.
+  example: []
+  syntax:
+    content: public bool Local { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Local As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Local*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalConnection
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalConnection
+  id: LocalConnection
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  langs:
+  - csharp
+  - vb
+  name: LocalConnection
+  nameWithType: ExcelConnectionOlapProperties.LocalConnection
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalConnection
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LocalConnection
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The local connection string used when <xref href="OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Local" data-throw-if-not-resolved="false"></xref> is true.
+  example: []
+  syntax:
+    content: public string LocalConnection { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property LocalConnection As String
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalConnection*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalRefresh
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalRefresh
+  id: LocalRefresh
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  langs:
+  - csharp
+  - vb
+  name: LocalRefresh
+  nameWithType: ExcelConnectionOlapProperties.LocalRefresh
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalRefresh
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LocalRefresh
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: If we should refresh the local cube from the original data source. When true, the original OLAP data source is queried each time the user explicitly refreshes the data in the application, and a new local cube is constructed from this query.
+  example: []
+  syntax:
+    content: public bool LocalRefresh { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property LocalRefresh As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalRefresh*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.SendLocale
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.SendLocale
+  id: SendLocale
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  langs:
+  - csharp
+  - vb
+  name: SendLocale
+  nameWithType: ExcelConnectionOlapProperties.SendLocale
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.SendLocale
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SendLocale
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: If true, the spreadsheet app should send the user interface locale ID to the OLAP provider to retrieve localized member names and properties, etc. When false, no locale ID is expected.
+  example: []
+  syntax:
+    content: public bool SendLocale { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property SendLocale As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.SendLocale*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.RowDrillCount
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.RowDrillCount
+  id: RowDrillCount
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  langs:
+  - csharp
+  - vb
+  name: RowDrillCount
+  nameWithType: ExcelConnectionOlapProperties.RowDrillCount
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.RowDrillCount
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RowDrillCount
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: Maximum number of drill-through rows to return when the user drills through an aggregate value in a PivotTable.
+  example: []
+  syntax:
+    content: public int? RowDrillCount { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property RowDrillCount As Integer?
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.RowDrillCount*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFill
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFill
+  id: ServerFill
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  langs:
+  - csharp
+  - vb
+  name: ServerFill
+  nameWithType: ExcelConnectionOlapProperties.ServerFill
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFill
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ServerFill
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: When true a PivotTable based on an OLAP source should format the data and aggregate cells in the PivotTable view using the background color from the OLAP source if this information is available.When false, OLAP server background fill colors are ignored, and standard formatting rules within the worksheet are followed.
+  example: []
+  syntax:
+    content: public bool ServerFill { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ServerFill As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFill*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerNumberFormat
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerNumberFormat
+  id: ServerNumberFormat
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  langs:
+  - csharp
+  - vb
+  name: ServerNumberFormat
+  nameWithType: ExcelConnectionOlapProperties.ServerNumberFormat
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerNumberFormat
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ServerNumberFormat
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: When true a PivotTable based on an OLAP source should format the data and aggregate cells in the PivotTable view using the number format from the OLAP source.When false standard formatting rules within the worksheet are followed.
+  example: []
+  syntax:
+    content: public bool ServerNumberFormat { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ServerNumberFormat As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerNumberFormat*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFont
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFont
+  id: ServerFont
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  langs:
+  - csharp
+  - vb
+  name: ServerFont
+  nameWithType: ExcelConnectionOlapProperties.ServerFont
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFont
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ServerFont
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: When true, a PivotTable based on OLAP source should format the data and aggregate cells in the PivotTable view using the font from the OLAP source. When false, formatting rules within the worksheet are followed.
+  example: []
+  syntax:
+    content: public bool ServerFont { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ServerFont As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFont*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFontColor
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFontColor
+  id: ServerFontColor
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  langs:
+  - csharp
+  - vb
+  name: ServerFontColor
+  nameWithType: ExcelConnectionOlapProperties.ServerFontColor
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFontColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ServerFontColor
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: When true a PivotTable based on OLAP source should format the data and aggregate cells in the PivotTable view using the font color from the OLAP source.When false standard formatting rules within the worksheet are followed.
+  example: []
+  syntax:
+    content: public bool ServerFontColor { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ServerFontColor As Boolean
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFontColor*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Tables
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Tables
+  id: Tables
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  langs:
+  - csharp
+  - vb
+  name: Tables
+  nameWithType: ExcelConnectionOlapProperties.Tables
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Tables
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tables
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: A list of tables used in the data model for the connection. This property only applies when <xref href="OfficeOpenXml.Data.Connection.ExcelConnection.Type" data-throw-if-not-resolved="false"></xref> is set to <xref href="OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelOLEDB" data-throw-if-not-resolved="false"></xref>."/&gt;
+  example: []
+  syntax:
+    content: public List<string> Tables { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{System.String}
+    content.vb: Public ReadOnly Property Tables As List(Of String)
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Tables*
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.DataModelCommand
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.DataModelCommand
+  id: DataModelCommand
+  parent: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties
+  langs:
+  - csharp
+  - vb
+  name: DataModelCommand
+  nameWithType: ExcelConnectionOlapProperties.DataModelCommand
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.DataModelCommand
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataModelCommand
+    path: ../src/EPPlus/Data/Connection/ExcelConnectionOlapProperties.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Data.Connection
+  summary: The OLE DB command text that is used by a Model Data Source OLE DB. This property only applies when <xref href="OfficeOpenXml.Data.Connection.ExcelConnection.Type" data-throw-if-not-resolved="false"></xref> is set to <xref href="OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelOLEDB" data-throw-if-not-resolved="false"></xref>."/&gt;
+  example: []
+  syntax:
+    content: public string DataModelCommand { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property DataModelCommand As String
+  overload: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.DataModelCommand*
+references:
+- uid: OfficeOpenXml.Data.Connection
+  commentId: N:OfficeOpenXml.Data.Connection
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Data.Connection
+  nameWithType: OfficeOpenXml.Data.Connection
+  fullName: OfficeOpenXml.Data.Connection
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Data
+    name: Data
+    href: OfficeOpenXml.Data.html
+  - name: .
+  - uid: OfficeOpenXml.Data.Connection
+    name: Connection
+    href: OfficeOpenXml.Data.Connection.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Local*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Local
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.html#OfficeOpenXml_Data_Connection_ExcelConnectionOlapProperties_Local
+  name: Local
+  nameWithType: ExcelConnectionOlapProperties.Local
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Local
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Local
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Local
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.html#OfficeOpenXml_Data_Connection_ExcelConnectionOlapProperties_Local
+  name: Local
+  nameWithType: ExcelConnectionOlapProperties.Local
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Local
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalConnection*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalConnection
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.html#OfficeOpenXml_Data_Connection_ExcelConnectionOlapProperties_LocalConnection
+  name: LocalConnection
+  nameWithType: ExcelConnectionOlapProperties.LocalConnection
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalConnection
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalRefresh*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalRefresh
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.html#OfficeOpenXml_Data_Connection_ExcelConnectionOlapProperties_LocalRefresh
+  name: LocalRefresh
+  nameWithType: ExcelConnectionOlapProperties.LocalRefresh
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.LocalRefresh
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.SendLocale*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.SendLocale
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.html#OfficeOpenXml_Data_Connection_ExcelConnectionOlapProperties_SendLocale
+  name: SendLocale
+  nameWithType: ExcelConnectionOlapProperties.SendLocale
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.SendLocale
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.RowDrillCount*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.RowDrillCount
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.html#OfficeOpenXml_Data_Connection_ExcelConnectionOlapProperties_RowDrillCount
+  name: RowDrillCount
+  nameWithType: ExcelConnectionOlapProperties.RowDrillCount
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.RowDrillCount
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int?
+  nameWithType: int?
+  fullName: int?
+  nameWithType.vb: Integer?
+  fullName.vb: Integer?
+  name.vb: Integer?
+  spec.csharp:
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+  spec.vb:
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFill*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFill
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.html#OfficeOpenXml_Data_Connection_ExcelConnectionOlapProperties_ServerFill
+  name: ServerFill
+  nameWithType: ExcelConnectionOlapProperties.ServerFill
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFill
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerNumberFormat*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerNumberFormat
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.html#OfficeOpenXml_Data_Connection_ExcelConnectionOlapProperties_ServerNumberFormat
+  name: ServerNumberFormat
+  nameWithType: ExcelConnectionOlapProperties.ServerNumberFormat
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerNumberFormat
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFont*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFont
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.html#OfficeOpenXml_Data_Connection_ExcelConnectionOlapProperties_ServerFont
+  name: ServerFont
+  nameWithType: ExcelConnectionOlapProperties.ServerFont
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFont
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFontColor*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFontColor
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.html#OfficeOpenXml_Data_Connection_ExcelConnectionOlapProperties_ServerFontColor
+  name: ServerFontColor
+  nameWithType: ExcelConnectionOlapProperties.ServerFontColor
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.ServerFontColor
+- uid: OfficeOpenXml.Data.Connection.ExcelConnection.Type
+  commentId: P:OfficeOpenXml.Data.Connection.ExcelConnection.Type
+  href: OfficeOpenXml.Data.Connection.ExcelConnection.html#OfficeOpenXml_Data_Connection_ExcelConnection_Type
+  name: Type
+  nameWithType: ExcelConnection.Type
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnection.Type
+- uid: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelOLEDB
+  commentId: F:OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelOLEDB
+  href: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.html#OfficeOpenXml_Data_Connection_eConnectionDataSourceType_DataModelOLEDB
+  name: DataModelOLEDB
+  nameWithType: eConnectionDataSourceType.DataModelOLEDB
+  fullName: OfficeOpenXml.Data.Connection.eConnectionDataSourceType.DataModelOLEDB
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Tables*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Tables
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.html#OfficeOpenXml_Data_Connection_ExcelConnectionOlapProperties_Tables
+  name: Tables
+  nameWithType: ExcelConnectionOlapProperties.Tables
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.Tables
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<string>
+  nameWithType: List<string>
+  fullName: System.Collections.Generic.List<string>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.DataModelCommand*
+  commentId: Overload:OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.DataModelCommand
+  href: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.html#OfficeOpenXml_Data_Connection_ExcelConnectionOlapProperties_DataModelCommand
+  name: DataModelCommand
+  nameWithType: ExcelConnectionOlapProperties.DataModelCommand
+  fullName: OfficeOpenXml.Data.Connection.ExcelConnectionOlapProperties.DataModelCommand

@@ -32,6 +32,10 @@
             {
                 return Right - Left;
             }
+            set
+            {
+                Right = Left + value;
+            }
         }
 
         internal double Height
@@ -39,6 +43,10 @@
             get
             {
                 return Bottom - Top;
+            }
+            set
+            {
+                Bottom = Top + value;
             }
         }
     }

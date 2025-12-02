@@ -14,8 +14,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using System.Xml.Linq;
 using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.Data.Connection;
+using OfficeOpenXml.Data.Connection.IOHandlers;
+using OfficeOpenXml.Data.QueryTable;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 namespace OfficeOpenXml.Table
 {
@@ -73,7 +75,73 @@ namespace OfficeOpenXml.Table
         {
             return AddInternal(Range, Name, null);
         }
+        /// <summary>
+        /// Adds a new query table to the collection. To add a new query table you need to specify the queries field names. 
+        /// </summary>
+        /// <param name="Range">The range to the table.</param>
+        /// <param name="Name">The name of the table</param>
+        /// <param name="connection">The connection in the <see cref="ExcelWorkbook.Connections" /> collection.</param>
+        /// <param name="fields">The names of the fields. EPPlus does not execute the query, so you must set the field names and update the field properties in the <see cref="ExcelQueryTable.Fields"/> collection.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">If no fields are supplied</exception>
+        /// <exception cref="InvalidOperationException">If the connection is null or not in the package.</exception>
+        public ExcelTable AddQueryTable(ExcelAddressBase Range, string Name, ExcelConnection connection, params string[] fields)
+        {
+            if(fields==null || fields.Length==0 || !fields.Any(x=>!string.IsNullOrEmpty(x)))
+            {
+                throw new ArgumentException("Supply at least one non-empty field for the query.");
+            }
+            
+            if(connection == null || !_ws.Workbook.Connections.Contains(connection))
+            {
+                throw new InvalidOperationException("The connection is null or does not exist in the package.");
+            }
+            
+            if(Range.Columns!= fields.Length)
+            {
+                throw new ArgumentException("The number of fields must match the number of columns in the range.");
+            }
 
+            if(connection.Type == eConnectionDataSourceType.Text ||
+               connection.Type == eConnectionDataSourceType.WebQuery)
+            {
+                throw new InvalidOperationException("Legacy web/text connections are not supported for table querys. This type of connection can only be used on worksheet related query tables. Please use the Worksheet.QueryTables.Add method for legacy queries or use a oledb power query connection.");
+            }
+
+            var tbl = AddInternal(Range, Name, null);
+            tbl.DataSourceType = TableDataSourceType.QueryTable;
+            int col = Range.Start.Column;
+
+            var qt = new ExcelQueryTable(new QueryTableDataPartXmlHandler(tbl, connection, fields));
+            qt.ConnectionId = connection.Id;
+            qt.Connection = connection;
+            qt.Name = connection.Name;
+            var tfIx=1;
+            //Set Column headers.
+            foreach (var f in fields)
+            {
+                if(string.IsNullOrEmpty(f))
+                {
+                    _ws.Cells[Range.Start.Row, col++].Value = $"Column {tfIx}";
+                }
+                else
+                {
+                    _ws.Cells[Range.Start.Row, col++].Value = f;
+                    //qt.Fields.Add(new ExcelQueryTableField() { Id=ix, Name=f, TableColumnId=tfIx });
+                }                
+                tfIx++;
+            }
+            tbl.QueryTable = qt;
+
+            if (tbl.WorkSheet.Names.ContainsKey(tbl.QueryTable.Name))
+            {
+                tbl.WorkSheet.Names.Remove(tbl.QueryTable.Name);
+            }
+            var qtName = tbl.WorkSheet.Names.Add(tbl.QueryTable.Name, tbl.Range);
+            qtName.IsNameHidden = true;
+
+            return tbl;
+        }
         internal ExcelTable AddInternal(ExcelAddressBase Range, string name, ExcelTable copy)
         {
             if (Range.WorkSheetName != null && Range.WorkSheetName != _ws.Name)
@@ -161,7 +229,7 @@ namespace OfficeOpenXml.Table
 
 
         /// <summary>
-        /// Delete the table
+        /// Delete the table and removes it from the collection
         /// </summary>
         /// <param name="Table">The table object</param>
         /// <param name="ClearRange">Clear the table range</param>
@@ -196,6 +264,15 @@ namespace OfficeOpenXml.Table
                 {
                     var range = _ws.Cells[Table.Address.Address];
                     range.Clear();
+                }
+                if(Table.DataSourceType==TableDataSourceType.QueryTable && Table.QueryTable!=null)
+                {
+                    var qtName = Table.WorkSheet.Names[Table.QueryTable.Name];
+                    if (qtName != null)
+                    {
+                        Table.WorkSheet.Names.Remove(qtName.Name);
+                    }
+                    Table.QueryTable.Remove();
                 }
             }
         }

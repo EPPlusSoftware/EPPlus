@@ -24,12 +24,13 @@ namespace OfficeOpenXml.Style
     /// <summary>
     /// Collection of Richtext objects
     /// </summary>
-    public class ExcelRichTextCollection : IEnumerable<ExcelRichText>
+    public class ExcelRichTextCollection : IEnumerable<ExcelRichText>, IDisposable
     {
         List<ExcelRichText> _list = new List<ExcelRichText>();
         internal ExcelRangeBase _cells = null;
         internal ExcelWorkbook _wb;
         internal bool _isComment=false;
+        private bool _isDisposed=false;
         internal ExcelRichTextCollection(ExcelWorkbook wb, ExcelRangeBase cells)
         {
             _wb = wb;
@@ -46,7 +47,6 @@ namespace OfficeOpenXml.Style
                 Add(s);
             }
         }
-
         internal ExcelRichTextCollection(ExcelRichTextCollection rtc, ExcelRangeBase cells)
         {
             _wb = cells._workbook;
@@ -110,10 +110,20 @@ namespace OfficeOpenXml.Style
         {
             get
             {
+                CheckDeleted();
                 var item = _list[Index];
                 return item;
             }
         }
+
+        private void CheckDeleted()
+        {
+            if(_isDisposed)
+            {
+                throw (new ObjectDisposedException(@"This RichText object has been overwritten by another value and has been disposed. Please use the .RichText object to initiaze a new object, if you want to set the cell/object to a rich text value."));
+            }
+        }
+
         /// <summary>
         /// Items in the list
         /// </summary>
@@ -132,6 +142,7 @@ namespace OfficeOpenXml.Style
         /// <returns></returns>
         public ExcelRichText Add(string Text, bool NewParagraph = false)
         {
+            CheckDeleted();
             if (NewParagraph) Text += "\n";
             return Insert(_list.Count, Text);
         }
@@ -144,6 +155,7 @@ namespace OfficeOpenXml.Style
         /// <returns></returns>
         public ExcelRichText Insert(int index, string text)
         {
+            CheckDeleted();
             if (text == null) throw new ArgumentException("Text can't be null", "text");
             var rt = new ExcelRichText(text, this);
             rt.PreserveSpace = true;
@@ -190,7 +202,6 @@ namespace OfficeOpenXml.Style
                 if (_isComment == false)
                 {
                     _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
-                    //_cells.SetIsRichTextFlag(true);
                 }
             }
             _list.Insert(index, rt);
@@ -202,12 +213,8 @@ namespace OfficeOpenXml.Style
         /// </summary>
         public void Clear()
         {
+            CheckDeleted();
             _list.Clear();
-            if (_cells != null && _isComment == false)
-            {
-				_cells.DeleteMe(_cells, false, true, true, true, false, true, false, false, false);
-                _cells.SetIsRichTextFlag(false);
-            }
         }
         /// <summary>
         /// Removes an item at the specific index
@@ -215,6 +222,7 @@ namespace OfficeOpenXml.Style
         /// <param name="Index"></param>
         public void RemoveAt(int Index)
         {
+            CheckDeleted();
             _list.RemoveAt(Index);
             if (_cells != null && _list.Count == 0 && _isComment == false) _cells.SetIsRichTextFlag(false);
         }
@@ -224,6 +232,7 @@ namespace OfficeOpenXml.Style
         /// <param name="Item"></param>
         public void Remove(ExcelRichText Item)
         {
+            CheckDeleted();
             _list.Remove(Item);
             if (_cells != null && _list.Count == 0 && _isComment == false) _cells.SetIsRichTextFlag(false);
         }
@@ -243,6 +252,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
+                CheckDeleted();
                 if (string.IsNullOrEmpty(value))
                 {
                     Clear();
@@ -305,6 +315,14 @@ namespace OfficeOpenXml.Style
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();
+        }
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            _cells.Dispose();
+            _isDisposed = true;
         }
 
         #endregion

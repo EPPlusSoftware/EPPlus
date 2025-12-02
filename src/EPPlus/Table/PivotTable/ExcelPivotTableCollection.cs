@@ -10,11 +10,13 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Data.Connection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -26,15 +28,15 @@ namespace OfficeOpenXml.Table.PivotTable
         List<ExcelPivotTable> _pivotTables = new List<ExcelPivotTable>();
         internal Dictionary<string, int> _pivotTableNames = new Dictionary<string, int>();
         ExcelWorksheet _ws;
-        
+
         internal ExcelPivotTableCollection()
         {
         }
         internal ExcelPivotTableCollection(ExcelWorksheet ws)
         {
             var pck = ws._package.ZipPackage;
-            _ws = ws;            
-            foreach(var rel in ws.Part.GetRelationships())
+            _ws = ws;
+            foreach (var rel in ws.Part.GetRelationships())
             {
                 if (rel.RelationshipType == ExcelPackage.schemaRelationships + "/pivotTable")
                 {
@@ -61,23 +63,50 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <param name="Range">The range address including header and total row</param>
         /// <param name="Source">The Source data range address</param>
         /// <param name="Name">The name of the pivottable. Must be unique </param>
-        /// <returns>The pivottable object</returns>
+        /// <returns>The pivot table object</returns>
         public ExcelPivotTable Add(ExcelAddressBase Range, ExcelRangeBase Source, string Name)
         {
             if (string.IsNullOrEmpty(Name))
             {
                 Name = GetNewTableName();
             }
-            ValidateAdd(Range, Source, Name);
+            ValidateAddRange(Range, Source, Name);
             return Add(new ExcelPivotTable(_ws, Range, Source, Name, _ws.Workbook._nextPivotTableID++));
         }
-
-        private void ValidateAdd(ExcelAddressBase Range, ExcelRangeBase Source, string Name)
+        /// <summary>
+        /// Create a pivot table with an external connection as source. 
+        /// Please note the EPPlus do not excute the connection query, so EPPlus will depend on the spread sheet application to calculate and render the pivot table.
+        /// </summary>
+        /// <param name="Range">The range address including header and total row</param>
+        /// <param name="Connection">The connection to use as source.</param>
+        /// <param name="Name">The name of the pivottable. Must be unique </param>
+        /// <param name="Fields">Field names matching the output of the pivot table.</param>
+        /// <returns>The pivot table object</returns>
+        public ExcelPivotTable Add(ExcelAddressBase Range, ExcelConnection Connection, string Name, string[] Fields)
         {
-            if (Source.Rows < 2)
+            if (string.IsNullOrEmpty(Name))
             {
-                throw (new ArgumentException("The Range must contain at least 2 rows", "Source"));
+                Name = GetNewTableName();
             }
+            ValidateAddConnection(Range, Name, Fields);
+            return Add(new ExcelPivotTable(_ws, Range, Connection, Fields, Name, _ws.Workbook._nextPivotTableID++));
+        }
+
+        private void ValidateAddConnection(ExcelAddressBase Range, string Name, string[] fields)
+        {
+            if (fields.Length < 0)
+            {
+                throw new ArgumentException("No fields supplied.");
+            }
+            else if (fields.Any(x => string.IsNullOrEmpty(x)))
+            {
+                throw new ArgumentException("Field names must not be null or empty.");
+            }
+            ValidateAdd(Range, Name);
+        }
+
+        private void ValidateAdd(ExcelAddressBase Range, string Name)
+        {
             if (Range.WorkSheetName != _ws.Name)
             {
                 throw (new Exception("The Range must be in the current worksheet"));
@@ -92,6 +121,14 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     throw (new ArgumentException(string.Format("Table range collides with table {0}", t.Name)));
                 }
+            }
+        }
+        private void ValidateAddRange(ExcelAddressBase Range, ExcelRangeBase Source, string Name)
+        {
+            ValidateAdd(Range, Name);
+            if (Source.Rows < 2)
+            {
+                throw (new ArgumentException("The Range must contain at least 2 rows", "Source"));
             }
             for (int i = 0; i < Source.Columns; i++)
             {
@@ -119,7 +156,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 Name = GetNewTableName();
             }
-            ValidateAdd(Range, Source.Range, Name);
+            ValidateAddRange(Range, Source.Range, Name);
             return Add(new ExcelPivotTable(_ws, Range, Source.Range, Name, _ws.Workbook._nextPivotTableID++));
         }
         /// <summary>

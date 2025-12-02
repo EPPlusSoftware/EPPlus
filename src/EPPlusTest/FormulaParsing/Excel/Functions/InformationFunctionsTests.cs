@@ -351,5 +351,112 @@ namespace EPPlusTest.Excel.Functions
                 Assert.AreEqual(2, sheet.Cells["A1"].Value);
             }
         }
+
+        [TestMethod]
+        public void BaseShouldReturnCorrectResult()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 6;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Formula = "BASE(A1, A2)";
+                sheet.Calculate();
+                var result = sheet.Cells["A3"].Value;
+                Assert.AreEqual("110", result);
+            }
+        }
+
+        [TestMethod]
+        public void BaseShouldReturnCorrectResult2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 400;
+                sheet.Cells["A2"].Value = 36;
+                sheet.Cells["A3"].Formula = "BASE(A1, A2)";
+                sheet.Calculate();
+                var result = sheet.Cells["A3"].Value;
+                Assert.AreEqual("B4", result);
+            }
+        }
+
+        [TestMethod]
+        public void BaseShouldReturnCorrectResultRange()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["A4"].Value = 4;
+                sheet.Cells["A5"].Value = 5;
+
+                sheet.Cells["C1"].Value = 2;
+                sheet.Cells["D1"].Value = 2;
+                sheet.Cells["E1"].Value = 3;
+                sheet.Cells["F1"].Value = 4;
+                sheet.Cells["G1"].Value = 5;
+
+                sheet.Cells["C5"].Formula = "BASE(A1:A5, C1:G1)";
+                sheet.Calculate();
+                var result1 = sheet.Cells["C5"].Value;
+                var result2 = sheet.Cells["D8"].Value;
+                var result3 = sheet.Cells["F9"].Value;
+
+                Assert.AreEqual("1", result1);
+                Assert.AreEqual("100", result2);
+                Assert.AreEqual("11", result3);
+            }
+        }
+
+        [TestMethod]
+        public void BaseShouldReturnCorrectRange2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = "1";
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["A4"].Value = 4;
+                sheet.Cells["A5"].Value = 5;
+
+                sheet.Cells["C1"].Value = 2;
+                sheet.Cells["D1"].Value = 2;
+                sheet.Cells["E1"].Value = 3;
+                sheet.Cells["F1"].Value = 4;
+                sheet.Cells["G1"].Value = 5;
+
+                sheet.Cells["C5"].Formula = "BASE(A1:B5, C1:G1)";
+                sheet.Calculate();
+                var result = sheet.Cells["C5"].Value;
+                var result1 = sheet.Cells["C7"].Value;
+                var result2 = sheet.Cells["D6"].Value;
+                var result3 = sheet.Cells["F9"].Value;
+                Assert.AreEqual("1", result);
+                Assert.AreEqual("11", result1);
+                Assert.AreEqual("0", result2);                
+                Assert.AreEqual(ErrorValues.NAError, result3);
+            }
+        }
+
+        [TestMethod]
+        public void BaseShouldReturnCorrectResultWithMinValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 400;
+                sheet.Cells["A2"].Value = 36;
+                sheet.Cells["A3"].Value = 4;
+                sheet.Cells["A4"].Formula = "BASE(A1, A2, A3)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.AreEqual("00B4", result);
+            }
+        }
     }
 }

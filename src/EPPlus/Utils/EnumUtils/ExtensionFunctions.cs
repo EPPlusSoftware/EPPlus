@@ -30,15 +30,43 @@ namespace OfficeOpenXml.Utils.EnumUtils
             var s = enumValue.ToString();
             return s.Substring(0, 1).ToLower() + s.Substring(1);
         }
-        internal static string ToEnumString(this Enum enumValue, Dictionary<Enum, string> lookup)
+        /// <summary>
+        /// Returns the enum value with first char lower case.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumValue"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        internal static string ToEnumString<T>(this Enum enumValue, T defaultValue) where T : Enum
         {
+            if(enumValue.Equals(defaultValue))
+            {
+                return null;
+            }
             var s = enumValue.ToString();
-            if(lookup.TryGetValue(enumValue, out string v))
+            return s.Substring(0, 1).ToLower() + s.Substring(1);
+        }
+        /// <summary>
+        /// Returns the enum value with first char lower case.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumValue"></param>
+        /// <param name="lookup"></param>
+        /// <returns></returns>
+        internal static string ToEnumString<T>(this Enum enumValue, Dictionary<T, string> lookup) where T : Enum
+        {
+            //if (enumValue.Equals(defaultValue))
+            //{
+            //    return null;
+            //}
+            if(lookup.TryGetValue((T)enumValue, out string v))
             {
                 return v;
             }
+            var s = enumValue.ToString();
             return s.Substring(0, 1).ToLower() + s.Substring(1);
         }
+
         internal static T? ToEnum<T>(this string s) where T : struct
         {
             try

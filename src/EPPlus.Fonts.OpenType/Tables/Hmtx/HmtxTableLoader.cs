@@ -45,8 +45,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
             }
             return new HmtxTable
             {
-                hMetrics = metrics.ToArray(),
-                leftSideBearings = bearings.ToArray()
+                hMetrics = metrics,
+                leftSideBearings = bearings
             };
         }
     }

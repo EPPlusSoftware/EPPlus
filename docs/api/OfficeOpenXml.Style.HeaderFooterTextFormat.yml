@@ -1,0 +1,70 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat
+  commentId: N:OfficeOpenXml.Style.HeaderFooterTextFormat
+  id: OfficeOpenXml.Style.HeaderFooterTextFormat
+  children:
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  - OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Style.HeaderFooterTextFormat
+  nameWithType: OfficeOpenXml.Style.HeaderFooterTextFormat
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  commentId: T:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection.html
+  name: ExcelHeaderFooterTextCollection
+  nameWithType: ExcelHeaderFooterTextCollection
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextCollection
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  commentId: T:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes.html
+  name: ExcelHeaderFooterFormattingCodes
+  nameWithType: ExcelHeaderFooterFormattingCodes
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterFormattingCodes
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+  commentId: T:OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+  parent: OfficeOpenXml.Style.HeaderFooterTextFormat
+  href: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem.html
+  name: ExcelHeaderFooterTextItem
+  nameWithType: ExcelHeaderFooterTextItem
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat.ExcelHeaderFooterTextItem
+- uid: OfficeOpenXml.Style.HeaderFooterTextFormat
+  commentId: N:OfficeOpenXml.Style.HeaderFooterTextFormat
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Style.HeaderFooterTextFormat
+  nameWithType: OfficeOpenXml.Style.HeaderFooterTextFormat
+  fullName: OfficeOpenXml.Style.HeaderFooterTextFormat
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Style
+    name: Style
+    href: OfficeOpenXml.Style.html
+  - name: .
+  - uid: OfficeOpenXml.Style.HeaderFooterTextFormat
+    name: HeaderFooterTextFormat
+    href: OfficeOpenXml.Style.HeaderFooterTextFormat.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Style
+    name: Style
+    href: OfficeOpenXml.Style.html
+  - name: .
+  - uid: OfficeOpenXml.Style.HeaderFooterTextFormat
+    name: HeaderFooterTextFormat
+    href: OfficeOpenXml.Style.HeaderFooterTextFormat.html

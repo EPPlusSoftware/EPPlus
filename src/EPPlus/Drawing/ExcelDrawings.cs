@@ -1220,10 +1220,6 @@ namespace OfficeOpenXml.Drawing
         }
         private void ValidatePictureFile(string Name, FileInfo ImageFile)
         {
-            if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
-            {
-                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
-            }
             if (ImageFile == null)
             {
                 throw (new Exception("AddPicture: ImageFile can't be null"));
@@ -1298,10 +1294,6 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The new chart</returns>
         public ExcelChart AddChartFromTemplate(Stream crtxStream, string name, ExcelPivotTable pivotTableSource)
         {
-            if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
-            {
-                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
-            }
             CrtxTemplateHelper.LoadCrtx(crtxStream, out XmlDocument chartXml, out XmlDocument styleXml, out XmlDocument colorsXml, out ZipPackagePart themePart, "The crtx stream");
             if (chartXml == null)
             {
@@ -1403,10 +1395,6 @@ namespace OfficeOpenXml.Drawing
         }
         internal ExcelShape AddShape(string Name, eShapeStyle Style, object container = null)
         {
-            if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
-            {
-                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
-            }
             if (_drawingNames.ContainsKey(Name))
             {
                 throw new Exception("Name already exists in the drawings collection");
@@ -1438,11 +1426,6 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The slicer drawing</returns>
         public ExcelTableSlicer AddTableSlicer(ExcelTableColumn TableColumn)
         {
-            if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
-            {
-                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
-            }
-
             if (TableColumn.Table.AutoFilter.Columns[TableColumn.Position] == null)
             {
                 TableColumn.Table.AutoFilter.Columns.AddValueFilterColumn(TableColumn.Position);
@@ -1466,10 +1449,6 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The slicer drawing</returns>
         internal ExcelPivotTableSlicer AddPivotTableSlicer(ExcelPivotTableField Field)
         {
-            if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
-            {
-                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
-            }
             if (!string.IsNullOrEmpty(Field.Cache.Formula))
             {
                 throw new InvalidOperationException("Can't add a slicer to a calculated field");
@@ -1526,10 +1505,6 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The shape object</returns>
         public ExcelShape AddShape(string Name, ExcelShape Source)
         {
-            if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
-            {
-                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
-            }
             if (_drawingNames.ContainsKey(Name))
             {
                 throw new Exception("Name already exists in the drawings collection");
@@ -1556,10 +1531,6 @@ namespace OfficeOpenXml.Drawing
         /// <exception cref="ArgumentException">Drawing names must be unique</exception>
         public ExcelControl AddControl(string Name, eControlType ControlType)
         {
-            if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
-            {
-                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
-            }
             if (_drawingNames.ContainsKey(Name))
             {
                 throw new ArgumentException("Name already exists in the drawings collection");

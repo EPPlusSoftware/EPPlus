@@ -1179,7 +1179,6 @@ namespace OfficeOpenXml.FormulaParsing
                             CompileResult lambdaResult = LambdaInvoker.InvokeLambdaFunction(depChain, f);
                             if (lambdaResult != null)
                                 PushResult(depChain._parsingContext, f, lambdaResult);
-                            f.OnLambdaInvoked();
                         }
                         else if(f._funcStack.Count > 0)
                         {
@@ -1257,6 +1256,11 @@ namespace OfficeOpenXml.FormulaParsing
                             }
 
                             var r = ExecFunc(depChain, f, funcExp);
+                            if(funcExp.ExecutesLambda)
+                            {
+                                // these functions will always invoke at least one LAMBDA
+                                f.OnLambdaInvoked();
+                            }
                             funcExp.OnDispose();
                             if (r.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
                             {

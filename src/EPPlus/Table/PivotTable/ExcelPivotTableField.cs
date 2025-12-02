@@ -651,8 +651,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 _items.AddInternal(item);
             }
-
-            Cache.UpdateSubTotalItems(Items._list, _subTotalFunctions);
+            Cache.UpdateSubTotalItems(this, Items._list, _subTotalFunctions);
         }
 
         private void Load_SubTotalFunction()
@@ -711,7 +710,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     if ((_subTotalFunctions & e) == e)
                     {
-                        // add new attribute
+                        //// add new attribute
                         SetXmlNodeBool("@" + e.ToEnumString() + "Subtotal", true);
                     }
                 }
@@ -919,13 +918,18 @@ namespace OfficeOpenXml.Table.PivotTable
                     _items.AddInternal(new ExcelPivotTableFieldItem() { X = x, Value = v });
 				}
 			}
+
             if(addTypeDefault)
             {
                 _items.AddInternal(new ExcelPivotTableFieldItem() { Type = eItemType.Default});
             }
+            if (_items.Count > 0)
+            {
+                cacheField.UpdateSubTotalItems(this, _items._list, SubTotalFunctions);
+            }
         }
 
-		private Dictionary<object, ExcelPivotTableFieldItem> GetItemsDictionary()
+        private Dictionary<object, ExcelPivotTableFieldItem> GetItemsDictionary()
 		{
             if(_items==null)
             {
@@ -1045,7 +1049,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             if (cacheLookup == null) return;
             
-            if (cacheLookup.Count==0)
+            if (cacheLookup.Count==0 && (SubTotalFunctions==eSubTotalFunctions.None || Items.Count==0))
             {
                 DeleteNode("d:items");       //Creates or return the existing node
             }

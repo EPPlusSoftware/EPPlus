@@ -10,14 +10,27 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-namespace EPPlus.Fonts.OpenType.Tables.Glyph
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
-    /// <summary>
-    /// This table contains information that describes the glyphs in the font in the TrueType outline format
-    /// https://docs.microsoft.com/en-us/typography/opentype/spec/glyf
-    /// </summary>
-    public class GlyphTable
+
+    public class NonDefaultUvsTable : FontTableElement
     {
-        public GlyphHeader[] Glyphs { get; set; }
+        public List<UvsMapping> Mappings { get; internal set; } = new();
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            writer.WriteUInt32BigEndian((uint)Mappings.Count);
+
+            foreach (var mapping in Mappings)
+            {
+                mapping.Serialize(writer);
+            }
+        }
     }
+
 }

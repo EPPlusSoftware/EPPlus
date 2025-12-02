@@ -10,9 +10,12 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System.Collections.Generic;
+using System.Text;
+
 namespace EPPlus.Fonts.OpenType.Tables.Name
 {
-    public class NameTable
+    public class NameTable : FontTableBase
     {
         public ushort format { get; set; }
 
@@ -21,5 +24,69 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
         public ushort stringOffset { get; set; }
 
         public NameRecord[] NameRecords { get; set; }
+
+        internal override void Clear()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal override void SerializeInternal(FontsBinaryWriter writer)
+        {
+            // Step 1: Write header
+            format = 0;
+            count = (ushort)(NameRecords?.Length ?? 0);
+            stringOffset = (ushort)(6 + count * 12); // 6 bytes header + 12 bytes per record
+
+            writer.WriteUInt16BigEndian(format);
+            writer.WriteUInt16BigEndian(count);
+            writer.WriteUInt16BigEndian(stringOffset);
+
+
+            // Step 2: Prepare string data with deduplication
+            var stringData = new List<byte>();
+            var stringOffsetMap = new Dictionary<string, ushort>();
+
+            foreach (var record in NameRecords)
+            {
+                var encoding = GetEncodingForRecord(record);
+                var str = record.Name ?? string.Empty;
+                var encoded = encoding.GetBytes(str);
+
+                if (!stringOffsetMap.TryGetValue(str, out var offset))
+                {
+                    offset = (ushort)stringData.Count;
+                    stringOffsetMap[str] = offset;
+                    stringData.AddRange(encoded);
+                }
+
+                record.length = (ushort)encoded.Length;
+                record.offset = offset;
+            }
+
+
+            // Step 3: Write NameRecords
+            foreach (var record in NameRecords)
+            {
+                record.Serialize(writer);
+            }
+
+            // Step 4: Write string pool
+            writer.Write(stringData.ToArray());
+        }
+
+
+        private Encoding GetEncodingForRecord(NameRecord record)
+        {
+            if (record.platformId == 0)
+                return Encoding.GetEncoding("utf-16BE");
+
+            if (record.platformId == 1)
+                return Encoding.GetEncoding(10000); // MacRoman
+
+            if (record.platformId == 3)
+                return NameTableLoader.GetWindowsEncoding(record.encodingId);
+
+            return Encoding.UTF8; // Fallback
+        }
     }
 }

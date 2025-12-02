@@ -1,4 +1,16 @@
-﻿using EPPlus.Fonts.OpenType.FontLocalization;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+ *************************************************************************************************/
+using EPPlus.Fonts.OpenType.FontLocalization;
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
@@ -14,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EPPlus.Fonts.OpenType.Scanner;
+using EPPlus.Fonts.OpenType.Tables.Loca;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -22,9 +35,20 @@ namespace EPPlus.Fonts.OpenType
     /// </summary>
     public class OpenTypeFont
     {
-        internal TableCache localTableCache;
-        internal TableLoaderSettings tblSettings;
+        internal TableCache _localTableCache;
+        internal TableLoaderSettings _tblSettings;
+        private readonly FontsBinaryReader _reader;
+        protected Dictionary<string, TableRecord> _tableRecords;
         public FontFormat Format;
+
+
+        internal OpenTypeFont(FontFormat format)
+        {
+            Format = format;
+            _tableRecords = new Dictionary<string, TableRecord>();
+            _localTableCache = new TableCache();
+        }
+
 
         internal OpenTypeFont(FontsBinaryReader reader, FontFormat format)
             : this(reader, -1, format)
@@ -42,36 +66,38 @@ namespace EPPlus.Fonts.OpenType
             Initialize();
             ReadTableRecords();
 
-            localTableCache = new TableCache();
+            _localTableCache = new TableCache();
 
-            tblSettings = new TableLoaderSettings(_reader, _tableRecords, localTableCache);
+            _tblSettings = new TableLoaderSettings(_reader, _tableRecords, _localTableCache);
 
             //Ensure lazy-loading of individual tables via instanced table loaders.
-            _Os2TableLoader = TableLoaders.GetOs2TableLoader(tblSettings);
-            _NameTableLoader = TableLoaders.GetNameTableLoader(tblSettings);
-            _HheaTableLoader = TableLoaders.GetHheaTableLoader(tblSettings);
-            _HeadTableLoader = TableLoaders.GetHeadTableLoader(tblSettings);
-            _CmapTableLoader = TableLoaders.GetCmapTableLoader(tblSettings);
-            _HmtxTableLoader = TableLoaders.GetHtmxTableLoader(tblSettings);
-            _MaxpTableLoader = TableLoaders.GetMaxpTableLoader(tblSettings);
-            _PostTableLoader = TableLoaders.GetPostTableLoader(tblSettings);
+            _os2TableLoader = TableLoaders.GetOs2TableLoader(_tblSettings);
+            _nameTableLoader = TableLoaders.GetNameTableLoader(_tblSettings);
+            _hheaTableLoader = TableLoaders.GetHheaTableLoader(_tblSettings);
+            _headTableLoader = TableLoaders.GetHeadTableLoader(_tblSettings);
+            _cmapTableLoader = TableLoaders.GetCmapTableLoader(_tblSettings);
+            _hmtxTableLoader = TableLoaders.GetHmtxTableLoader(_tblSettings);
+            _maxpTableLoader = TableLoaders.GetMaxpTableLoader(_tblSettings);
+            _postTableLoader = TableLoaders.GetPostTableLoader(_tblSettings);
+            _locaTableLoader = TableLoaders.GetLocaTableLoader(_tblSettings);
 
             //Common tables in ttf fonts
-            _GlyphTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? TableLoaders.GetGlyphTableLoader(tblSettings) : null;
-            _KernTableLoader = TableRecords.ContainsKey(TableNames.Kern) ? TableLoaders.GetKernTableLoader(tblSettings) : null;
+            _glyfTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? TableLoaders.GetGlyfTableLoader(_tblSettings) : null;
+            _kernTableLoader = TableRecords.ContainsKey(TableNames.Kern) ? TableLoaders.GetKernTableLoader(_tblSettings) : null;
         }
 
-        Os2TableLoader _Os2TableLoader;
-        NameTableLoader _NameTableLoader;
-        HheaTableLoader _HheaTableLoader;
-        HeadTableLoader _HeadTableLoader;
-        CmapTableLoader _CmapTableLoader;
-        HmtxTableLoader _HmtxTableLoader;
-        MaxpTableLoader _MaxpTableLoader;
-        PostTableLoader _PostTableLoader;
+        Os2TableLoader _os2TableLoader;
+        NameTableLoader _nameTableLoader;
+        HheaTableLoader _hheaTableLoader;
+        HeadTableLoader _headTableLoader;
+        CmapTableLoader _cmapTableLoader;
+        HmtxTableLoader _hmtxTableLoader;
+        MaxpTableLoader _maxpTableLoader;
+        PostTableLoader _postTableLoader;
+        LocaTableLoader _locaTableLoader;
 
-        internal GlyphTableLoader _GlyphTableLoader;
-        internal KernTableLoader _KernTableLoader;
+        internal GlyfTableLoader _glyfTableLoader;
+        internal KernTableLoader _kernTableLoader;
 
 
         /// <summary>
@@ -83,68 +109,153 @@ namespace EPPlus.Fonts.OpenType
         { 
             get 
             {
-                return _CmapTableLoader.Load();
+                if(_cmapTableLoader != null)
+                {
+                    return _cmapTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Cmap))
+                {
+                    return (CmapTable)_localTableCache.Get(TableNames.Cmap);
+                }
+                return null;
             } 
          }
         public HeadTable HeadTable
         {
             get
             {
-                return _HeadTableLoader.Load();
+                if(_headTableLoader != null)
+                {
+                    return _headTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Head))
+                {
+                    return (HeadTable)_localTableCache.Get(TableNames.Head);
+                }
+                return null;
             }
         }
         public HheaTable HheaTable
         {
             get
             {
-                return _HheaTableLoader.Load();
+                if(_hheaTableLoader != null)
+                {
+                    return _hheaTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Hhea))
+                {
+                    return (HheaTable)_localTableCache.Get(TableNames.Hhea);
+                }
+                return null;
             }
         }
         public HmtxTable HmtxTable
         {
             get
             {
-                return _HmtxTableLoader.Load();
+                if (_hmtxTableLoader != null)
+                {
+                    return _hmtxTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Hmtx))
+                {
+                    return (HmtxTable)_localTableCache.Get(TableNames.Hmtx);
+                }
+                return null;
             }
+
         }
         public MaxpTable MaxpTable
         {
             get
             {
-                return _MaxpTableLoader.Load();
+                if (_maxpTableLoader != null)
+                {
+                    return _maxpTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Maxp))
+                {
+                    return (MaxpTable)_localTableCache.Get(TableNames.Maxp);
+                }
+                return null;
             }
         }
         public NameTable NameTable
         {
             get
             {
-                return _NameTableLoader.Load();
+                if(_nameTableLoader != null)
+                {
+                    return _nameTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Name))
+                {
+                    return (NameTable)_localTableCache.Get(TableNames.Name);
+                }
+                return null;
             }
         }
         public Os2Table Os2Table
         {
             get
             {
-                return _Os2TableLoader.Load();
+                if(_os2TableLoader != null)
+                {
+                    return _os2TableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Os2))
+                {
+                    return (Os2Table)_localTableCache.Get(TableNames.Os2);
+                }
+                return null;
             }
         }
         public PostTable PostTable
         {
             get
             {
-                return _PostTableLoader.Load();
+                if(_postTableLoader != null)
+                {
+                    return _postTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Post))
+                {
+                    return (PostTable)_localTableCache.Get(TableNames.Post);
+                }
+                return null;
+            }
+        }
+
+        public LocaTable LocaTable
+        {
+            get
+            {
+                if(_locaTableLoader != null)
+                {
+                    return _locaTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Loca))
+                {
+                    return (LocaTable)_localTableCache.Get(TableNames.Loca);
+                }
+                return null;
             }
         }
         #endregion
 
         //Extra accessors for common tables
-        public GlyphTable GlyphTable
+        public GlyfTable GlyfTable
         {
             get
             {
-                if(_GlyphTableLoader != null)
+                if(_glyfTableLoader != null)
                 {
-                    return _GlyphTableLoader.Load();
+                    return _glyfTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Glyf))
+                {
+                    return (GlyfTable)_localTableCache.Get(TableNames.Glyf);
                 }
                 else
                 {
@@ -156,9 +267,13 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_KernTableLoader != null)
+                if(_kernTableLoader != null)
                 {
-                    return _KernTableLoader.Load();
+                    return _kernTableLoader.Load();
+                }
+                else if(_localTableCache.Contains(TableNames.Kern))
+                {
+                    return (KernTable)_localTableCache.Get(TableNames.Kern);
                 }
                 else
                 {
@@ -166,9 +281,6 @@ namespace EPPlus.Fonts.OpenType
                 }
             }
         }
-        private readonly FontsBinaryReader _reader;
-
-        protected Dictionary<string, TableRecord> _tableRecords;
 
         private void Initialize()
         {
@@ -243,6 +355,62 @@ namespace EPPlus.Fonts.OpenType
         internal string GetEnglishFontSubFamilyName()
         {
             return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontSubfamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
+        }
+
+        internal void AddOrReplaceTable<T>(string tableName, T table)
+            where T : FontTableBase
+        {
+            _localTableCache.AddOrReplace(tableName, table);
+
+
+            var record = new TableRecord
+            {
+                Tag = new Tag(tableName),
+                Length = (uint)table.GetLength(),
+                Offset = 0,
+                Checksum = 0
+            };
+
+            if(_tableRecords.ContainsKey(tableName))
+            {
+                _tableRecords.Remove(tableName);
+            }
+            _tableRecords[tableName] = record;
+
+        }
+
+        public OpenTypeFont CreateSubset(IEnumerable<char> usedChars)
+        {
+            // 1. Map chars to glyph IDs
+            var glyphIds = new HashSet<ushort>();
+            foreach (var ch in usedChars)
+            {
+                var glyphId = CmapTable.MapCharToGlyph(ch);
+                if (glyphId >= 0)
+                    glyphIds.Add((ushort)glyphId);
+            }
+            glyphIds.Add(0); // Always include .notdef
+
+            // 2. Handle composite glyphs
+            GlyfTable.ResolveCompositeGlyphs(glyphIds);
+
+            // 3. Create new font instance
+            var subsetFont = new OpenTypeFont(_reader, Format);
+
+            // 4. Copy and filter tables
+            subsetFont.AddOrReplaceTable(TableNames.Head, HeadTable.Clone());
+            subsetFont.AddOrReplaceTable(TableNames.Maxp, MaxpTable.Clone());
+            subsetFont.MaxpTable.numGlyphs = (ushort)glyphIds.Count;
+
+            //subsetFont.ReplaceTable(TableNames.Glyf, GlyfTable.CreateSubset(glyphIds));
+            //subsetFont.LocaTable = this.LocaTable.CreateSubset(glyphIds);
+            //subsetFont.HmtxTable = this.HmtxTable.CreateSubset(glyphIds);
+            //subsetFont.CmapTable = this.CmapTable.CreateSubset(usedChars);
+
+            //// 5. Recalculate checksums
+            //subsetFont.RecalculateChecksums();
+
+            return subsetFont;
         }
 
         public static bool TryParseEnum<T>(string value, out T result) where T : struct
