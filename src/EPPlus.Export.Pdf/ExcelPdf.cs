@@ -227,12 +227,12 @@ namespace EPPlus.Export.Pdf
         //Add Header Footer
         private void AddHeaderFooter(PdfContentStream contentStream, Transform pageLayout, PdfPage page)
         {
-            //var headerFooter = pageLayout.ChildObjects.Where(t => t is PdfHeaderFooterLayout);
-            //foreach (var hf in headerFooter)
-            //{
-            //    var headerFooterLayout = hf as PdfHeaderFooterLayout;
-            //    contentStream.AddCellContentLayout(headerFooterLayout, Dictionaries, PageSettings);
-            //}
+            var headerFooter = pageLayout.ChildObjects.Where(t => t is PdfHeaderFooterLayout);
+            foreach (var hf in headerFooter)
+            {
+                var headerFooterLayout = hf as PdfHeaderFooterLayout;
+                contentStream.AddCellContentLayout(headerFooterLayout, Dictionaries, PageSettings);
+            }
         }
 
         private PdfInfoObject AddInfoObject()

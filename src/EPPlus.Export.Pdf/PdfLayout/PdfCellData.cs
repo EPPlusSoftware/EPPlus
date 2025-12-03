@@ -67,19 +67,19 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
     internal class PdfCellTextItem
     {
-        public string FontName = "Aptos Narrow";
-        public int FontFamily = 0;
-        public string SubFamily = "Regular";
-        public double FontSize = 11;
-        public bool Bold = false;
-        public bool Italic = false;
-        public bool Strike = false;
-        public bool SubScript = false;
-        public bool SuperScript = false;
-        public bool Underline = false;
+        public string FontName { get; set; }
+        public int FontFamily { get; set; }
+        public string SubFamily { get; set; }
+        public double FontSize { get; set; }
+        public bool Bold { get; set; }
+        public bool Italic { get; set; }
+        public bool Strike { get; set; }
+        public bool SubScript { get; set; }
+        public bool SuperScript { get; set; }
+        public bool Underline { get; set; }
         public ExcelUnderLineType UnderlineType = ExcelUnderLineType.None;
-        public string Text;
-        public Color FontColor = Color.Black;
+        public string Text { get; set; }
+        public Color FontColor { get; set; }
         public double TextLength = 0d;
         public double LineHeight = 0d;
         public double FontHeight = 0d;

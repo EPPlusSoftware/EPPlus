@@ -15,12 +15,13 @@ using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
 using OfficeOpenXml;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -30,11 +31,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         public PdfHeaderFooterLayout(ExcelHeaderFooterTextCollection textCollection, ExcelWorksheet ws, PdfPageSettings settings, PdfDictionaries dictionaries, int pageNumber, int totalPages)
         {
-            foreach (var text in textCollection)
+            for( int i=1; i < textCollection.Count; i++)
             {
+                var text = textCollection[i];
+                var ns = ws.Workbook.Styles.GetNormalStyle();
                 PdfCellTextItem textItem = new PdfCellTextItem();
-                textItem.FontName = text.FontName;
-                textItem.FontSize = (double)text.FontSize;
+                textItem.FontName = string.IsNullOrEmpty( text.FontName) ? ns.Style.Font.Name : text.FontName;
+                textItem.FontSize = text.FontSize == null ? ns.Style.Font.Size : (double)text.FontSize;
                 textItem.Bold = text.Bold;
                 textItem.Italic = text.Italic;
                 textItem.Strike = text.Striketrough;
@@ -70,6 +73,23 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         break;
                 }
                 GetFontResourceData(dictionaries.Fonts, settings, textItem);
+                MeasurementFont font = new MeasurementFont();
+                font.FontFamily = textItem.FontName;
+                font.Size = (float)textItem.FontSize;
+                font.Style = ((textItem.Bold ? MeasurementFontStyles.Bold : 0) |
+                             (textItem.Italic ? MeasurementFontStyles.Italic : 0) |
+                             (textItem.Strike ? MeasurementFontStyles.Strikeout : 0) |
+                             (textItem.Underline ? MeasurementFontStyles.Underline : 0))
+                             switch
+                             {
+                                 0 => MeasurementFontStyles.Regular,
+                                 var s => s
+                             };
+                FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
+                var result = fontMeasurerTrueType.MeasureText(textItem.Text, font);
+                textItem.TextLength = result.Width;
+                textItem.FontHeight = result.FontHeight;
+                textItem.LineHeight = result.Height;
                 textLine.TextItemCollection.Add(textItem);
             }
         }
@@ -89,6 +109,22 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 fontResources.Last().Value.fontData = PdfTextData.GetFontData(pageSettings, FontData.FontName, FontData.SubFamily);
             }
             return fontResources[FontData.FullFontName].fontData;
+        }
+
+        public void AdjustPositionByTextLength(char rc, char hf)
+        {
+            if (rc == 'r')
+            {
+                LocalPosition = new Vector2(LocalPosition.X - textLine.TextLength, LocalPosition.Y);
+            }
+            else if (rc == 'c')
+            {
+                LocalPosition = new Vector2(LocalPosition.X - (textLine.TextLength/2d), LocalPosition.Y);
+            }
+            if (hf == 'h')
+            {
+                LocalPosition = new Vector2(LocalPosition.X, LocalPosition.Y - textLine.LineHeight);
+            }
         }
 
     }
