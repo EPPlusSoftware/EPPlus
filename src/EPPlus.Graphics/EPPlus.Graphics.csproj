@@ -1,25 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	<TargetFrameworks>net8.0;net9.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>disable</Nullable>
-	<SignAssembly>true</SignAssembly>
-	<AssemblyOriginatorKeyFile>EPPlus.Export.Pdf.snk</AssemblyOriginatorKeyFile>
-	<LangVersion>latest</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net9.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<SignAssembly>True</SignAssembly>
+		<LangVersion>latest</LangVersion>
+		<AssemblyOriginatorKeyFile>EPPlus.Graphics.snk</AssemblyOriginatorKeyFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="PDF\**" />
-    <EmbeddedResource Remove="PDF\**" />
-    <None Remove="PDF\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\EPPlus\src\EPPlus\EPPlus.csproj" />
-    <ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" />
-	  <ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\EPPlus\src\EPPlus\EPPlus.csproj" />
+		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Remove="Core\Worksheet\Fonts\Tables\**" />

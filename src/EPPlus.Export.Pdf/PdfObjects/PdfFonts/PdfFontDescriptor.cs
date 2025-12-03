@@ -10,7 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Graphics;
 using System;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
@@ -36,14 +36,14 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
     {
         private readonly string fontName; //Same as PdfFont.BaseFont
         private readonly int flags;
-        private readonly PdfRect fontBBox;
+        private readonly Rect fontBBox;
         private readonly double italicAngle;
         private readonly int ascent;
         private readonly int descent;
         private readonly double stemV;
         private readonly int capheight;
 
-        public PdfFontDescriptor(int objectNumber, string fontName, int flags, PdfRect fontBBox, double italicAngle, int ascent, int descent, double stemV, int capHeight, int version = 0)
+        public PdfFontDescriptor(int objectNumber, string fontName, int flags, Rect fontBBox, double italicAngle, int ascent, int descent, double stemV, int capHeight, int version = 0)
             : base(objectNumber, version)
         {
             this.fontName = fontName;

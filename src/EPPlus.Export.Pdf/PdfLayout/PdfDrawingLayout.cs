@@ -11,10 +11,12 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using EPPlus.Graphics;
+
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfDrawingLayout : PdfTransform
+    internal class PdfDrawingLayout : Transform
     {
         public ExcelDrawing Drawing;
         public PdfDrawingLayout(ExcelDrawing drawing, double x, double y, double width, double height)

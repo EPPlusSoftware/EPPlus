@@ -10,9 +10,10 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-namespace EPPlus.Export.Pdf.PdfSettings
+namespace EPPlus.Graphics
 {
-    internal class PdfRect
+    //REname and move class? Inherit from transform? what do?
+    internal class Rect
     {
         internal double X;
         internal double Y;

@@ -14,18 +14,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\EPPlus\src\EPPlusTest\EPPlus.Test.csproj" />
     <ProjectReference Include="..\EPPlus.Export.Pdf\EPPlus.Export.Pdf.csproj" />
+    <ProjectReference Include = "..\..\..\EPPlus\src\EPPlusTest\EPPlus.Test.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="MSTest.TestAdapter" />
-    <PackageReference Include="MSTest.TestFramework" />
-  </ItemGroup>
+      <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="MSTest.TestAdapter" />
+        <PackageReference Include="MSTest.TestFramework" />
+      </ItemGroup>
 
 </Project>
