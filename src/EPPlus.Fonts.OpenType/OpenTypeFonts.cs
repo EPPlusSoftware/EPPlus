@@ -154,12 +154,6 @@ namespace EPPlus.Fonts.OpenType
                     foreach (var sf in scannedFonts)
                     {
                         var fontFactory = new OpenTypeFontFactory(sf.FilePath);
-                        var subFamilyName = sf.FontSubFamily;
-
-                        //if (string.IsNullOrEmpty(subFamilyName))
-                        //{
-                        //    subFamilyName = "Regular";
-                        //}
 
                         if (sf.SubFonts != null && sf.SubFonts.Any())
                         {
@@ -171,9 +165,8 @@ namespace EPPlus.Fonts.OpenType
                                 }
 
                                 var familyName = string.IsNullOrEmpty(sf.FontFamilyName) ? subFont.FontFamilyName : sf.FontFamilyName;
-                                //subFamilyName = string.IsNullOrEmpty(subFont.FontSubFamily) ? subFamilyName : subFont.FontSubFamily;
 
-                                var openFont = fontFactory.HandleScannedFontBase(subFont, subFont.FontSubFamily);
+                                var openFont = fontFactory.HandleScannedFontBase(subFont);
 
                                 openTypeFontLst.Add(openFont);
                             }
@@ -185,7 +178,7 @@ namespace EPPlus.Fonts.OpenType
                                 continue;
                             }
 
-                            var openFont = fontFactory.HandleScannedFontBase(sf, subFamilyName);
+                            var openFont = fontFactory.HandleScannedFontBase(sf);
                             openTypeFontLst.Add(openFont);
                         }
                     }

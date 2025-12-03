@@ -69,7 +69,7 @@ namespace EPPlus.Fonts.OpenType
             var scannedFont = GetClosestScannedFont(fontFamily, subFamily);
             if(scannedFont != null)
             {
-                return HandleScannedFontBase(scannedFont, subFamily);
+                return HandleScannedFontBase(scannedFont);
             }
             else
             {
@@ -77,7 +77,7 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
-        internal OpenTypeFont HandleScannedFontBase(IScannedFont scannedFont, FontSubFamily subFamily, float widthScaleFactor = 1f)
+        internal OpenTypeFont HandleScannedFontBase(IScannedFont scannedFont, float widthScaleFactor = 1f)
         {
             var reader = new FontsBinaryReader(File.OpenRead(scannedFont.FilePath));
 

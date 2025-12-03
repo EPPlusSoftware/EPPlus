@@ -50,23 +50,8 @@ namespace EPPlusImageRenderer.Svg
             //Plotarea = new SvgChartPlotarea(this);
 
             AddPlotArea();  
-            //AddChartTitle();
-            //AddLegend();    
         }
 
-        //private void AddLegend()
-        //{
-        //    if(Legend != null)
-        //    {
-        //        RenderItems.AddRange(Legend?.RenderItems);
-        //    }
-        //}
-
-        //private void AddChartTitle()
-        //{
-        //    RenderItems.Add(Title.Rectangle);
-        //    RenderItems.Add(Title.TextBox);
-        //}
         internal SvgRenderRectItem ChartArea { get; set; }
         internal SvgChartLegend Legend { get; set; }
         internal SvgChartTitle Title { get; set; }
