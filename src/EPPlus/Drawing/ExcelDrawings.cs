@@ -91,7 +91,13 @@ namespace OfficeOpenXml.Drawing
             Worksheet = sheet;
 
             _drawingsXml = new XmlDocument();
-            _drawingsXml.PreserveWhitespace = false;
+
+            //NOTE: PreserveWhitespace MUST be true because of case #2201
+            //see: https://github.com/EPPlusSoftware/EPPlus/issues/2201
+            //see: DrawingIssues.cs EnsureWhiteSpaceIsPreservedInShapes
+            //Alternative solution: Exclude content of <a:t> </a:t> from _drawingsXml.PreserveWhitespace false somehow
+            _drawingsXml.PreserveWhitespace = true;
+
             _drawingsList = new List<ExcelDrawing>();
             _drawingNames = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             CreateNSM();

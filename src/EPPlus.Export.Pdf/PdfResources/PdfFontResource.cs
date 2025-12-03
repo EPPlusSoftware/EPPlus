@@ -16,6 +16,7 @@ using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using System;
 using System.Collections.Generic;
+using EPPlus.Graphics;
 
 namespace EPPlus.Export.Pdf.PdfResources
 {
@@ -80,7 +81,7 @@ namespace EPPlus.Export.Pdf.PdfResources
                 flag |= 1 << 17;
             if (((ushort)fontData.Os2Table.fsSelection & 0x400) != 0)
                 flag |= 1 << 18;
-            var fontBBox = new PdfRect();
+            var fontBBox = new Rect();
             fontBBox.X = fontData.HeadTable.Xmin;
             fontBBox.Y = fontData.HeadTable.Ymin;
             fontBBox.Width = fontData.HeadTable.Xmax;

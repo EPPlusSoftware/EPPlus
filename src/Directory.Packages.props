@@ -17,9 +17,9 @@
   <ItemGroup>
     <PackageVersion Include="FakeItEasy" Version="8.0.0" />
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
-	<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-	<PackageVersion Include="MSTest.TestAdapter" Version="3.10.4" />
-	<PackageVersion Include="MSTest.TestFramework" Version="3.10.4" />
-	<PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="3.10.4" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.10.4" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 </Project>

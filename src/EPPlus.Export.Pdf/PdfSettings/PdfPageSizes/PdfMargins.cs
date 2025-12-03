@@ -10,7 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Pdfhelpers;
+using EPPlus.Graphics.Units;
 
 namespace EPPlus.Export.Pdf.PdfSettings.PdfPageSizes
 {
@@ -31,12 +31,12 @@ namespace EPPlus.Export.Pdf.PdfSettings.PdfPageSizes
 
         public PdfMargins()
         {
-            TopPu = PdfUnits.MmToPoints(Top);
-            LeftPu = PdfUnits.MmToPoints(Left);
-            RightPu = PdfUnits.MmToPoints(Right);
-            BottomPu = PdfUnits.MmToPoints(Bottom);
-            HeaderPu = PdfUnits.MmToPoints(Header);
-            FooterPu = PdfUnits.MmToPoints(Footer);
+            TopPu = UnitConversion.MmToPoints(Top);
+            LeftPu = UnitConversion.MmToPoints(Left);
+            RightPu = UnitConversion.MmToPoints(Right);
+            BottomPu = UnitConversion.MmToPoints(Bottom);
+            HeaderPu = UnitConversion.MmToPoints(Header);
+            FooterPu = UnitConversion.MmToPoints(Footer);
         }
 
         public PdfMargins(double Top, double Left, double Right, double Bottom, double Header, double Footer)
@@ -47,12 +47,12 @@ namespace EPPlus.Export.Pdf.PdfSettings.PdfPageSizes
             this.Bottom = Bottom;
             this.Header = Header;
             this.Footer = Footer;
-            TopPu = PdfUnits.MmToPoints(Top);
-            LeftPu = PdfUnits.MmToPoints(Left);
-            RightPu = PdfUnits.MmToPoints(Right);
-            BottomPu = PdfUnits.MmToPoints(Bottom);
-            HeaderPu = PdfUnits.MmToPoints(Header);
-            FooterPu = PdfUnits.MmToPoints(Footer);
+            TopPu = UnitConversion.MmToPoints(Top);
+            LeftPu = UnitConversion.MmToPoints(Left);
+            RightPu = UnitConversion.MmToPoints(Right);
+            BottomPu = UnitConversion.MmToPoints(Bottom);
+            HeaderPu = UnitConversion.MmToPoints(Header);
+            FooterPu = UnitConversion.MmToPoints(Footer);
         }
 
         public static PdfMargins Normal => new PdfMargins();

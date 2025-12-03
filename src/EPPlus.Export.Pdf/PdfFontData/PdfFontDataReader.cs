@@ -15,7 +15,7 @@ using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
 using System;
 using System.IO;
 using System.Text;
-using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Graphics;
 
 namespace EPPlus.Export.Pdf.PdfFontData
 {
@@ -68,7 +68,7 @@ namespace EPPlus.Export.Pdf.PdfFontData
                     }
                 }
                 //we use height and width as xmax and ymax instead of actual width and height.
-                metrics.FontBBox = new PdfRect();
+                metrics.FontBBox = new Rect();
                 metrics.FontBBox.Width = reader.ReadInt16();
                 metrics.FontBBox.X = reader.ReadInt16();
                 metrics.FontBBox.Height = reader.ReadInt16();

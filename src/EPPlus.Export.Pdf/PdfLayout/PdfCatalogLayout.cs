@@ -13,15 +13,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using EPPlus.Export.Pdf.Pdfhelpers;
 using OfficeOpenXml;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
-using EPPlus.Export.Pdf.Math;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
+using EPPlus.Graphics.Units;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfCatalogLayout : PdfTransform
+    internal class PdfCatalogLayout : Transform
     {
         public PdfCatalogLayout(ExcelRangeBase range, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
             : base(0, 0, 0, 0)
@@ -70,7 +71,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             for (int j = 1; j <= worksheet.Dimension._toCol; j++)
             {
                 if (worksheet.Column(j).Hidden) { continue; }
-                var width = PdfUnits.ExcelColumnWidthToPoints(worksheet.Column(j).Width, worksheetLayout.ZeroCharWidth);
+                var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(j).Width, worksheetLayout.ZeroCharWidth);
                 if (currentWidth + width >= boundsWidth)
                 {
                     xBreaks.Add(currentWidth);
@@ -84,7 +85,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             for (int i = 1; i <= worksheet.Dimension._toRow; i++)
             {
                 if (worksheet.Row(i).Hidden) { continue; }
-                var height = PdfUnits.ExcelRowHeightToPoints(worksheet.Row(i).Height);
+                var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(i).Height);
                 if (currentHeight + height >= boundsHegiht)
                 {
                     yBreaks.Add(currentHeight);
@@ -123,7 +124,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Go though all the cells in WorksheetLayout and add them to the overlapping page.
-        private void AddCellsToPageLayout(PdfTransform WorksheetLayout, PdfPagesLayout pages)
+        private void AddCellsToPageLayout(Transform WorksheetLayout, PdfPagesLayout pages)
         {
             var cells = WorksheetLayout.ChildObjects.Where(x => x is PdfCellLayout || x is PdfCellContentLayout || x is PdfCellBorderLayout).ToList();
             foreach (var cell in cells)
@@ -142,7 +143,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Handle merged cells and drawings by checking which pages intersects with them and then make copies for each page.
-        private void HandleMergedCellsAndDrawings(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfTransform WorksheetLayout, PdfPagesLayout pages)
+        private void HandleMergedCellsAndDrawings(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform WorksheetLayout, PdfPagesLayout pages)
         {
             var mcd = WorksheetLayout.ChildObjects.Where(x => x is PdfMergedCellLayout || x is PdfCellContentLayout || x is PdfDrawingLayout).ToList();
             foreach (var mergedCell in mcd)

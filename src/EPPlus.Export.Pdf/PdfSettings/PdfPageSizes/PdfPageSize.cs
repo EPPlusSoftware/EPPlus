@@ -10,7 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Pdfhelpers;
+using EPPlus.Graphics.Units;
 
 namespace EPPlus.Export.Pdf.PdfSettings.PdfPageSizes
 {
@@ -25,8 +25,8 @@ namespace EPPlus.Export.Pdf.PdfSettings.PdfPageSizes
         {
             Width = width;
             Height = height;
-            WidthPu = System.Math.Round( PdfUnits.MmToPoints(width));
-            HeightPu = System.Math.Round( PdfUnits.MmToPoints(height));
+            WidthPu = System.Math.Round( UnitConversion.MmToPoints(width));
+            HeightPu = System.Math.Round( UnitConversion.MmToPoints(height));
         }
 
         public static PdfPageSize A5 => new PdfPageSize(148d, 210d);

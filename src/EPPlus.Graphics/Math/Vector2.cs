@@ -10,7 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-namespace EPPlus.Export.Pdf.Math
+namespace EPPlus.Graphics.Math
 {
     internal class Vector2
     {

@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 
-namespace EPPlus.Export.Pdf.Math
+namespace EPPlus.Graphics.Math
 {
     /// <summary>
     /// Column Major Order 3x3 Matrix

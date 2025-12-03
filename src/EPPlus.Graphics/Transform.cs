@@ -14,13 +14,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
-using EPPlus.Export.Pdf.Math;
+using EPPlus.Graphics.Math;
 using OfficeOpenXml;
-using EPPlus.Export.Pdf.PdfSettings;
 
-namespace EPPlus.Export.Pdf.PdfLayout
+namespace EPPlus.Graphics
 {
-    internal class PdfTransform
+    internal class Transform
     {
         public string Name;
         public ExcelRangeBase cell;
@@ -107,8 +106,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         public int Z { get; set; } = 0;
 
-        private PdfTransform _parent = null;
-        public PdfTransform Parent
+        private Transform _parent = null;
+        public Transform Parent
         {
             get
             {
@@ -132,14 +131,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        private List<PdfTransform> _childObjects = null;
-        public List<PdfTransform> ChildObjects
+        private List<Transform> _childObjects = null;
+        public List<Transform> ChildObjects
         {
             get
             {
                 if (_childObjects == null)
                 {
-                    _childObjects = new List<PdfTransform>();
+                    _childObjects = new List<Transform>();
                 }
                 return _childObjects;
             }
@@ -147,29 +146,29 @@ namespace EPPlus.Export.Pdf.PdfLayout
             {
                 if (_childObjects == null)
                 {
-                    _childObjects = new List<PdfTransform>();
+                    _childObjects = new List<Transform>();
                 }
             }
         }
 
-        public PdfTransform() { }
+        public Transform() { }
 
-        public PdfTransform(Vector2 position, Vector2 size)
+        public Transform(Vector2 position, Vector2 size)
             : this(position, size, Vector2.One, 0d, null) { }
 
-        public PdfTransform(Vector2 position, Vector2 size, Vector2 scale)
+        public Transform(Vector2 position, Vector2 size, Vector2 scale)
             : this(position, size, scale, 0d, null) { }
 
-        public PdfTransform(Vector2 position, Vector2 size, Vector2 scale, double rotation)
+        public Transform(Vector2 position, Vector2 size, Vector2 scale, double rotation)
             : this(position, size, scale, rotation, null) { }
 
-        public PdfTransform(Vector2 position, Vector2 size, PdfTransform parent)
-            : this(position, size, Vector2.One, 0d, null) { }
+        public Transform(Vector2 position, Vector2 size, Transform parent)
+            : this(position, size, Vector2.One, 0d, parent) { }
 
-        public PdfTransform(Vector2 position, Vector2 size, Vector2 scale, PdfTransform parent)
-            : this(position, size, scale, 0d, null) { }
+        public Transform(Vector2 position, Vector2 size, Vector2 scale, Transform parent)
+            : this(position, size, scale, 0d, parent) { }
 
-        public PdfTransform(Vector2 position, Vector2 size, Vector2 scale, double rotation, PdfTransform parent)
+        public Transform(Vector2 position, Vector2 size, Vector2 scale, double rotation, Transform parent)
         {
             Position = position;
             Size = size;
@@ -179,7 +178,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             ChildObjects = null;
         }
 
-        public PdfTransform(double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
+        public Transform(double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
         {
             Position = new Vector2(x, y);
             Size = new Vector2(width, height);
@@ -188,7 +187,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             Parent = parent;
             ChildObjects = null;
         }
-        public PdfTransform AddChild(PdfTransform child)
+        public Transform AddChild(Transform child)
         {
             Vector2 worldPos;
             if(child.Parent != null)
@@ -206,7 +205,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             return child;
         }
 
-        public void RemoveChild(PdfTransform child)
+        public void RemoveChild(Transform child)
         {
             if(ChildObjects.Remove(child))
             {
@@ -246,7 +245,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             return Parent != null ? GetLocalMatrix() * Parent.GetWorldMatrix() : GetLocalMatrix();
         }
 
-        public PdfRect GetGlobalBoundingbox()
+        public Rect GetGlobalBoundingbox()
         {
             var worldMatrix = GetWorldMatrix();
             var corners = new[] { new Vector2(0, 0), new Vector2(Size.X, 0), new Vector2(0, Size.Y), new Vector2(Size.X, Size.Y) }.Select(p => p * worldMatrix);
@@ -254,7 +253,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             var minY = corners.Min(p => p.Y);
             var maxX = corners.Max(p => p.X);
             var maxY = corners.Max(p => p.Y);
-            var rect = new PdfRect();
+            var rect = new Rect();
             rect.X = minX;
             rect.Y = minY;
             rect.Width = maxX - minX;
@@ -266,7 +265,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             return rect;
         }
 
-        public static bool Intersects(PdfRect bbox, PdfRect pageBounds)
+        public static bool Intersects(Rect bbox, Rect pageBounds)
         {
             return !(bbox.Right  < pageBounds.Left    ||
                      bbox.Left   > pageBounds.Right   ||
@@ -274,7 +273,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                      bbox.Top    > pageBounds.Bottom  );
         }
 
-        public static bool IntersectsFully(PdfRect contentBounds, PdfRect cellBounds)
+        public static bool IntersectsFully(Rect contentBounds, Rect cellBounds)
         {
             return cellBounds.Left   >= contentBounds.Left  &&
                    cellBounds.Top    >= contentBounds.Top   &&
