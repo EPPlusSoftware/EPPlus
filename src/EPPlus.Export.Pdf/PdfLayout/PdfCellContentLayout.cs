@@ -10,14 +10,14 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Math;
-using EPPlus.Export.Pdf.PdfGraphics;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
+using System.Drawing;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using OfficeOpenXml;
-using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
@@ -25,12 +25,12 @@ using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfCellContentLayout : PdfTransform, ILayout
+    internal class PdfCellContentLayout : Transform, ILayout
     {
         public PdfCellFontData FontData;
         public PdfCellAlignmentData CellAlignmentData;
         public bool Clip;
-        public PdfRect Clipping;
+        public Rect Clipping;
 
         private double bottomMargin = 3.5d; //Guessed number
         private double rightMargin = 1.4d; //I guessed this one too..
@@ -38,7 +38,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal static FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
         internal static MeasurementFont font = new MeasurementFont();
 
-        public PdfCellContentLayout(ExcelRangeBase cell, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null, PdfDictionaries dictionaries = null)
+        public PdfCellContentLayout(ExcelRangeBase cell, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null, PdfDictionaries dictionaries = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
@@ -53,7 +53,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             FontData.UnderlineType = cell.Style.Font.UnderLineType;
             FontData.SuperScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
             FontData.SubScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-            FontData.FontColor = new PdfColor(cell.Style.Font.Color.LookupColor());
+            FontData.FontColor = PdfColor.SetColorFromHex(cell.Style.Font.Color.LookupColor());
             FontData.SubFamily = "Regular";
             if (FontData.Bold)
             {
@@ -321,14 +321,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create clipping rectangle.
-        internal void CreateClippingRect(List<PdfTransform> cells)
+        internal void CreateClippingRect(List<Transform> cells)
         {
             if (Clip)
             {
                 var pcc = cells.Where(x => x.Name == Name).Where(x=> x is PdfCellLayout).ToList();
                 if (pcc.Count > 0)
                 {
-                    Clipping = new PdfRect()
+                    Clipping = new Rect()
                     {
                         X = pcc[0].LocalPosition.X + rightMargin,
                         Y = pcc[0].LocalPosition.Y,

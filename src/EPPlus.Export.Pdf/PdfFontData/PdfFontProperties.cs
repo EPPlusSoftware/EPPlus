@@ -13,7 +13,7 @@
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
 using System.Collections.Generic;
-using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Graphics;
 
 namespace EPPlus.Export.Pdf.PdfFontData
 {
@@ -36,7 +36,7 @@ namespace EPPlus.Export.Pdf.PdfFontData
 
         public int Flags { get; set; }
 
-        public PdfRect FontBBox { get; set; }
+        public Rect FontBBox { get; set; }
 
         public double ItalicAngle { get; set; }
 

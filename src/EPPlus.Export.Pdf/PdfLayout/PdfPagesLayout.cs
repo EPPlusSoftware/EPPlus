@@ -11,10 +11,11 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using OfficeOpenXml;
+using EPPlus.Graphics;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfPagesLayout : PdfTransform
+    internal class PdfPagesLayout : Transform
     {
         internal ExcelRangeBase Range;
 
