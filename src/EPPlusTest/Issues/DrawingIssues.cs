@@ -165,6 +165,28 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(1, p.Workbook.Worksheets[0].Drawings.Count);
             SaveAndCleanup(p);
         }
+        [TestMethod]
+        //i2201 See #2201
+        public void EnsureWhiteSpaceIsPreservedInShapes()
+        {
+            var ms = new MemoryStream();
+            using (var origP = new ExcelPackage("whiteSpace.xlsx"))
+            {
+                var ws = origP.Workbook.Worksheets.Add("newWs");
+                var txtBox = ws.Drawings.AddTextbox("txtbox1", " ");
+                origP.SaveAs(ms);
+            }
+
+            string retText = "";
+
+            using (var readP = new ExcelPackage(ms))
+            {
+                var myShape = readP.Workbook.Worksheets[0].Drawings[0].As.Shape;
+                retText = myShape.Text;
+            }
+
+            Assert.AreEqual(" ", retText);
+        }
     }
 }
 
