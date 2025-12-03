@@ -15,6 +15,7 @@ using System.Drawing;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using EPPlus.Export.Pdf.Pdfhelpers;
+using EPPlus.Graphics;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -82,7 +83,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double TextLength = 0d;
         public double LineHeight = 0d;
         public double FontHeight = 0d;
-        public PdfRect GlyphBox = new PdfRect();
+        public Rect GlyphBox = new Rect();
         public Dictionary<char, Vector2> characterOffset = new Dictionary<char, Vector2>();
 
         public string FullFontName

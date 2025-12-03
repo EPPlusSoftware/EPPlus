@@ -19,6 +19,7 @@ using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
+using OfficeOpenXml.Style.HeaderFooterTextFormat;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {

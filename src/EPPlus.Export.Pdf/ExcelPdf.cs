@@ -225,7 +225,7 @@ namespace EPPlus.Export.Pdf
         }
 
         //Add Header Footer
-        private void AddHeaderFooter(PdfContentStream contentStream, PdfTransform pageLayout, PdfPage page)
+        private void AddHeaderFooter(PdfContentStream contentStream, Transform pageLayout, PdfPage page)
         {
             //var headerFooter = pageLayout.ChildObjects.Where(t => t is PdfHeaderFooterLayout);
             //foreach (var hf in headerFooter)

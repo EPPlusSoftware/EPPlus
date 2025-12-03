@@ -119,7 +119,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         textItem.UnderlineType = rt.UnderLineType;
                         textItem.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
                         textItem.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-                        textItem.FontColor = new PdfColor(rt.Color.R, rt.Color.G, rt.Color.B, rt.Color.A);
+                        textItem.FontColor = rt.Color;
                         textItem.TextLength = measurement.Width;
                         textItem.LineHeight = measurement.Height;
                         textItem.FontHeight = measurement.FontHeight;
@@ -196,7 +196,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         textItem.UnderlineType = rt.UnderLineType;
                         textItem.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
                         textItem.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-                        textItem.FontColor = new PdfColor(rt.Color.R, rt.Color.G, rt.Color.B, rt.Color.A);
+                        textItem.FontColor = rt.Color;
                         textItem.TextLength = measurement.Width;
                         textItem.LineHeight = measurement.Height;
                         textItem.FontHeight = measurement.FontHeight;
@@ -356,7 +356,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             textItem.UnderlineType = cell.Style.Font.UnderLineType;
             textItem.SuperScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
             textItem.SubScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-            textItem.FontColor = new PdfColor(cell.Style.Font.Color.LookupColor());
+            textItem.FontColor = PdfColor.SetColorFromHex(cell.Style.Font.Color.LookupColor());
             textItem.SubFamily = "Regular";
             if (textItem.Bold)
             {

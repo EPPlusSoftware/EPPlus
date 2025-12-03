@@ -10,12 +10,9 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfGraphics;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfLayout;
 using OfficeOpenXml.Style;
-using System;
-using System.Security.Cryptography.Xml;
 
 namespace EPPlus.Export.Pdf.PdfObjects
 {

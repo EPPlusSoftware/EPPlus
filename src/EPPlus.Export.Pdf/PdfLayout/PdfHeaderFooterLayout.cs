@@ -10,23 +10,21 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfGraphics;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
 using OfficeOpenXml;
-using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfHeaderFooterLayout : PdfTransform
+    internal class PdfHeaderFooterLayout : Transform
     {
         public PdfCellTextLine textLine = new PdfCellTextLine();
 
@@ -43,7 +41,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 textItem.SubScript = text.SubScript;
                 textItem.SuperScript = text.SuperScript;
                 textItem.Underline = text.Underline;
-                textItem.FontColor = new PdfColor( text.Color.R, text.Color.G, text.Color.B, text.Color.A);
+                textItem.FontColor = text.Color;
                 switch (text.FormatCode)
                 {
                     case ExcelHeaderFooterFormattingCodes.SheetName:
