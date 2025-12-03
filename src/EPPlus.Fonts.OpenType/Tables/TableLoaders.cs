@@ -21,6 +21,7 @@ using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using EPPlus.Fonts.OpenType.Tables.Post;
+using System;
 using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.Tables

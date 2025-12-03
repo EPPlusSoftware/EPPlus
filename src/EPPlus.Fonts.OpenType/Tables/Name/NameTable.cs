@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -32,6 +33,39 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
         {
             throw new System.NotImplementedException();
         }
+
+
+        /// <summary>
+        /// Deep clone of NameTable. 
+        /// Header fields (format, count, stringOffset) will be recomputed during serialization.
+        /// </summary>
+        public NameTable Clone()
+        {
+            var clone = new NameTable
+            {
+                // Keep the current format; will typically be 0 and recomputed anyway.
+                format = this.format,
+
+                // 'count' and 'stringOffset' are recomputed in SerializeInternal
+                count = this.count,
+                stringOffset = this.stringOffset,
+
+                NameRecords = CloneRecords(this.NameRecords)
+            };
+            return clone;
+        }
+
+        private static NameRecord[] CloneRecords(NameRecord[] source)
+        {
+            if (source == null || source.Length == 0)
+                return new NameRecord[0];
+
+            var copy = new NameRecord[source.Length];
+            for (int i = 0; i < source.Length; i++)
+                copy[i] = source[i]?.Clone();
+            return copy;
+        }
+
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {

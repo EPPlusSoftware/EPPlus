@@ -42,5 +42,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         public abstract GlyphMappings GetGlyphMappings();
 
         internal abstract int MapCodePointToGlyph(int codePoint);
+
+
+        /// <summary>
+        /// Attempts to map a Unicode code point to a glyph ID.
+        /// Returns true if mapping exists, otherwise false.
+        /// </summary>
+        /// <param name="codePoint">Unicode code point</param>
+        /// <param name="glyphId">Glyph ID if found</param>
+        /// <returns>True if mapping exists</returns>
+        public abstract bool TryGetGlyphId(int codePoint, out ushort glyphId);
+
     }
 }

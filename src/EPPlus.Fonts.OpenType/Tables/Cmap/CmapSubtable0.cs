@@ -1,9 +1,17 @@
-﻿using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+ *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Cmap.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
@@ -49,6 +57,21 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
             return GlyphIdArray[codePoint];
         }
+
+
+        public override bool TryGetGlyphId(int codePoint, out ushort glyphId)
+        {
+            glyphId = 0;
+
+            if (codePoint >= 0 && codePoint <= 255 && GlyphIdArray != null && GlyphIdArray.Length == 256)
+            {
+                glyphId = GlyphIdArray[codePoint];
+                return glyphId != 0;
+            }
+
+            return false;
+        }
+
 
 
         internal override void Serialize(FontsBinaryWriter writer)

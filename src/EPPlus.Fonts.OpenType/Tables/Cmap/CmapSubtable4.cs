@@ -118,6 +118,37 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         }
 
+
+
+        public override bool TryGetGlyphId(int codePoint, out ushort glyphId)
+        {
+            glyphId = 0;
+
+            for (int i = 0; i < StartCode.Length; i++)
+            {
+                if (codePoint >= StartCode[i] && codePoint <= EndCode[i])
+                {
+                    if (IdRangeOffset[i] == 0)
+                    {
+                        glyphId = (ushort)((codePoint + IdDelta[i]) & 0xFFFF);
+                    }
+                    else
+                    {
+                        int offsetIndex = (IdRangeOffset[i] / 2) + (codePoint - StartCode[i]);
+                        if (offsetIndex >= 0 && offsetIndex < GlyphIdArray.Length)
+                        {
+                            glyphId = GlyphIdArray[offsetIndex];
+                        }
+                    }
+                    return glyphId != 0;
+                }
+            }
+
+            return false;
+        }
+
+
+
         internal override void Serialize(FontsBinaryWriter writer)
         {
             var serializer = new CmapSubtable4Serializer();

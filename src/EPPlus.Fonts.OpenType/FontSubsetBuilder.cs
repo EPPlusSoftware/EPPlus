@@ -34,14 +34,14 @@ namespace EPPlus.Fonts.OpenType
         {
             var subsetFont = new OpenTypeFont(_original.Format);
 
-            subsetFont.AddOrReplaceTable(TableNames.Head, _original.HeadTable.Clone());
-            subsetFont.AddOrReplaceTable(TableNames.Maxp, _original.MaxpTable.Clone());
+            subsetFont.AddOrReplaceTable(_original.HeadTable.Clone());
+            subsetFont.AddOrReplaceTable(_original.MaxpTable.Clone());
             subsetFont.MaxpTable.numGlyphs = (ushort)glyphIds.Count;
 
             // Build glyf subset
             var glyfProcessor = new GlyphSubsetProcessor(_original.GlyfTable);
             var glyphSubsetResult = glyfProcessor.CreateSubset(glyphIds);
-            subsetFont.AddOrReplaceTable(TableNames.Glyf, glyphSubsetResult.GlyfTable);
+            subsetFont.AddOrReplaceTable(glyphSubsetResult.GlyfTable);
 
 
             var glyfSize = glyphSubsetResult.GlyfTable.GetLength();
@@ -54,7 +54,6 @@ namespace EPPlus.Fonts.OpenType
 
             // Bygg Loca-tabellen
             subsetFont.AddOrReplaceTable(
-                TableNames.Loca,
                 LocaTable.CreateSubset(glyphSubsetResult.LocaOffsets, indexToLocFormat, subsetFont.MaxpTable)
             );
 

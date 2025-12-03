@@ -181,6 +181,32 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         }
 
 
+        public bool ContainsChar(ushort charCode)
+        {
+            foreach (var subtable in SubTables)
+            {
+                if (subtable.TryGetGlyphId(charCode, out _))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        internal bool TryGetGlyphId(int codePoint, out ushort glyphId)
+        {
+            foreach (var subtable in SubTables)
+            {
+                if (subtable.TryGetGlyphId(codePoint, out glyphId))
+                {
+                    return true;
+                }
+            }
+
+            glyphId = 0;
+            return false;
+        }
 
 
 

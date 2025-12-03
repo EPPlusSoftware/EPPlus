@@ -28,6 +28,7 @@ using System.Linq;
 using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Tables.Loca;
 using EPPlus.Fonts.OpenType.FontValidation;
+using EPPlus.Fonts.OpenType.Subsetting;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -365,29 +366,46 @@ namespace EPPlus.Fonts.OpenType
             return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontSubfamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
         }
 
-        internal void AddOrReplaceTable<T>(string tableName, T table)
+        internal void AddOrReplaceTable<T>(T table)
             where T : FontTableBase
         {
-            _localTableCache.AddOrReplace(tableName, table);
+            _localTableCache.AddOrReplace(table.Name, table);
 
 
             var record = new TableRecord
             {
-                Tag = new Tag(tableName),
+                Tag = new Tag(table.Name),
                 Length = (uint)table.GetLength(),
                 Offset = 0,
                 Checksum = 0
             };
 
-            if (_tableRecords.ContainsKey(tableName))
+            if (_tableRecords.ContainsKey(table.Name))
             {
-                _tableRecords.Remove(tableName);
+                _tableRecords.Remove(table.Name);
             }
-            _tableRecords[tableName] = record;
+            _tableRecords[table.Name] = record;
 
         }
 
         public OpenTypeFont CreateSubset(IEnumerable<char> usedChars)
+        {
+
+            var subsetBuilder = new SubsetFontBuilder();
+
+            // Konvertera chars till Unicode code points
+            var codePoints = usedChars.Select(c => (int)c);
+
+            // Skapa subset-font
+            var newFont = subsetBuilder.CreateSubset(this, codePoints);
+
+            var preprocessor = new SubsetPreprocessor();
+            preprocessor.PreprocessSubset(newFont);
+
+            return newFont;
+        }
+
+        public OpenTypeFont CreateSubset_Old(IEnumerable<char> usedChars)
         {
             // 1. Map chars to glyph IDs
             var glyphIds = new HashSet<ushort>();
@@ -406,8 +424,8 @@ namespace EPPlus.Fonts.OpenType
             var subsetFont = new OpenTypeFont(_reader, Format);
 
             // 4. Copy and filter tables
-            subsetFont.AddOrReplaceTable(TableNames.Head, HeadTable.Clone());
-            subsetFont.AddOrReplaceTable(TableNames.Maxp, MaxpTable.Clone());
+            subsetFont.AddOrReplaceTable(HeadTable.Clone());
+            subsetFont.AddOrReplaceTable(MaxpTable.Clone());
             subsetFont.MaxpTable.numGlyphs = (ushort)glyphIds.Count;
 
             //subsetFont.ReplaceTable(TableNames.Glyf, GlyfTable.CreateSubset(glyphIds));
@@ -447,6 +465,8 @@ namespace EPPlus.Fonts.OpenType
 
         internal IDictionary<string, TableRecord> TableRecords => _tableRecords;
 
+        internal Dictionary<string, byte[]> PreprocessedPaddedTables { get; } = new Dictionary<string, byte[]>();
+
 
         /// <summary>
         /// Total length (in bytes) of the underlying font stream.
@@ -466,10 +486,39 @@ namespace EPPlus.Fonts.OpenType
         {
             if (_tableRecords.TryGetValue(tag, out var record))
             {
-                _reader.BaseStream.Position = record.Offset;
-                return _reader.ReadBytes((int)record.Length);
+                if(_reader != null && record.Offset > 0)
+                {
+                    _reader.BaseStream.Position = record.Offset;
+                    return _reader.ReadBytes((int)record.Length);
+                }
             }
-            return null;
+            switch(tag)
+            {
+                case TableNames.Head:
+                    return HeadTable.Serialize();
+                case TableNames.Loca:
+                    return LocaTable.Serialize();
+                case TableNames.Cmap:
+                    return CmapTable.Serialize();
+                case TableNames.Glyf:
+                    return GlyfTable.Serialize();
+                case TableNames.Os2:
+                    return Os2Table.Serialize();
+                case TableNames.Hhea:
+                    return HheaTable.Serialize();
+                case TableNames.Maxp:
+                    return MaxpTable.Serialize();
+                case TableNames.Hmtx:
+                    return HmtxTable.Serialize();
+                case TableNames.Name:
+                    return NameTable.Serialize();
+                case TableNames.Kern:
+                    return KernTable.Serialize();
+                case TableNames.Post:
+                    return PostTable.Serialize();
+                default:
+                    return null;
+            }
         }
 
         public byte[] RawData
@@ -491,6 +540,12 @@ namespace EPPlus.Fonts.OpenType
                 }
                 return null;
             }
+        }
+
+        public byte[] Serialize()
+        {
+            var serializer = new OpenTypeFontSerializer(this);
+            return serializer.Serialize();
         }
     }
 }
