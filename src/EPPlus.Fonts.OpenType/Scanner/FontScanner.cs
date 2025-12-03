@@ -55,7 +55,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
             return new string[0];
         }
 
-        internal static bool IsTargetFont(ScannedFont sf, string fontFamilyTarget, string subFamilyTarget)
+        internal static bool IsTargetFont(ScannedFont sf, string fontFamilyTarget, FontSubFamily subFamilyTarget)
         {
             if (sf.SubFonts != null && sf.SubFonts.Any())
             {
@@ -63,15 +63,15 @@ namespace EPPlus.Fonts.OpenType.Scanner
                 {
                     if (!string.IsNullOrEmpty(subFont.FontFamilyName) && subFont.FontFamilyName.ToLower() == fontFamilyTarget.ToLower())
                     {
-                        var subFamilyName = string.IsNullOrEmpty(sf.FontFamilyName) ? subFont.FontSubFamilyName : sf.FontSubFamilyName;
+                        var subFamilyName = string.IsNullOrEmpty(sf.FontFamilyName) ? subFont.FontSubFamily : sf.FontSubFamily;
 
-                        subFamilyName = subFamilyName.ToLower();
-                        if (subFamilyName == "normal")
-                        {
-                            subFamilyName = "regular";
-                        }
+                        //subFamilyName = subFamilyName.ToLower();
+                        //if (subFamilyName == "normal")
+                        //{
+                        //    subFamilyName = "regular";
+                        //}
 
-                        if (subFamilyTarget.ToLower() == subFamilyName)
+                        if (subFamilyTarget == subFamilyName)
                         {
                             return true;
                         }
@@ -82,13 +82,8 @@ namespace EPPlus.Fonts.OpenType.Scanner
             {
                 if (!string.IsNullOrEmpty(sf.FontFamilyName) && sf.FontFamilyName.ToLower() == fontFamilyTarget.ToLower())
                 {
-                    var subFamilyName = sf.FontSubFamilyName.ToLower();
-                    if (subFamilyName == "normal")
-                    {
-                        subFamilyName = "regular";
-                    }
-
-                    if (subFamilyTarget.ToLower() == subFamilyName)
+                    var subFamilyName = sf.FontSubFamily;
+                    if (subFamilyTarget == subFamilyName)
                     {
                         return true;
                     }
@@ -98,12 +93,12 @@ namespace EPPlus.Fonts.OpenType.Scanner
             return false;
         }
 
-        internal static IScannedFont ScanForClosest(string fontDirectoryPath, string fontFamily, string subFamily)
+        internal static IScannedFont ScanForClosest(string fontDirectoryPath, string fontFamily, FontSubFamily subFamily)
         {
             var scannedFont = ScanFor(fontDirectoryPath, fontFamily, subFamily);
             if (scannedFont == null)
             {
-                scannedFont = ScanFor(fontDirectoryPath, fontFamily, "Regular");
+                scannedFont = ScanFor(fontDirectoryPath, fontFamily, FontSubFamily.Regular);
                 if (scannedFont != null)
                 {
                     return scannedFont;
@@ -114,7 +109,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
             {
                 if (scannedFont.SubFonts != null && scannedFont.SubFonts.Any())
                 {
-                    var subFont = scannedFont.SubFonts.FirstOrDefault(x => x.FontFamilyName == fontFamily && x.FontSubFamilyName == subFamily);
+                    var subFont = scannedFont.SubFonts.FirstOrDefault(x => x.FontFamilyName == fontFamily && x.FontSubFamily == subFamily);
                     return subFont;
                 }
                 else
@@ -124,7 +119,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
             }
         }
 
-        internal static IScannedFont ScanFor(string fontDirectoryPath, string fontFamily, string subFamily)
+        internal static IScannedFont ScanFor(string fontDirectoryPath, string fontFamily, FontSubFamily subFamily)
         {
             var font = default(IScannedFont);
 
@@ -152,9 +147,9 @@ namespace EPPlus.Fonts.OpenType.Scanner
                         if(sf.FontFamilyName != null)
                         {
                             var individualFullName = sf.FontFamilyName;
-                            if (sf.FontSubFamilyName != null)
+                            if (sf.FontSubFamily != null)
                             {
-                                individualFullName += "__" + sf.FontSubFamilyName;
+                                individualFullName += "__" + sf.FontSubFamily;
                             }
                             if (ScannedFontsCache.ContainsKey(individualFullName) == false)
                             {

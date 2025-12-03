@@ -54,18 +54,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
             FontData.SuperScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
             FontData.SubScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
             FontData.FontColor = new PdfColor(cell.Style.Font.Color.LookupColor());
-            FontData.SubFamily = "Regular";
+            FontData.SubFamily = FontSubFamily.Regular;
             if (FontData.Bold)
             {
-                FontData.SubFamily = "Bold";
+                FontData.SubFamily = FontSubFamily.Bold;
                 if (FontData.Italic)
                 {
-                    FontData.SubFamily += " Italic";
+                    FontData.SubFamily = FontSubFamily.BoldItalic;
                 }
             }
             else if (FontData.Italic)
             {
-                FontData.SubFamily = "Italic";
+                FontData.SubFamily = FontSubFamily.Italic;
             }
             var otfont = GetFontResourceData(dictionaries.Fonts, pageSettings);
             font.FontFamily = FontData.FontName;

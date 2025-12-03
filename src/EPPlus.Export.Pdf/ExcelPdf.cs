@@ -22,6 +22,7 @@ using EPPlus.Export.Pdf.PdfObjects;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using OfficeOpenXml.Style;
+using EPPlus.Fonts.OpenType;
 
 namespace EPPlus.Export.Pdf
 {
@@ -86,7 +87,7 @@ namespace EPPlus.Export.Pdf
         }
 
         //Get font label //need to update this one too for same reasons as AddFontData
-        internal PdfFontResource GetFontResource(string fontName, string subFamily, double fontSize)
+        internal PdfFontResource GetFontResource(string fontName, FontSubFamily subFamily, double fontSize)
         {
             if (!Dictionaries.Fonts.ContainsKey(fontName))
             {

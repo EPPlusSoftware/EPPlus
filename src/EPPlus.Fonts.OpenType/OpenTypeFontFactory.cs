@@ -43,7 +43,7 @@ namespace EPPlus.Fonts.OpenType
         //    return 1.01f;
         //}
 
-        public OpenTypeFont Create(string fontFamily, string subFamily)
+        public OpenTypeFont Create(string fontFamily, FontSubFamily subFamily)
         {
             var scannedFont = GetClosestScannedFont(fontFamily, subFamily);
             if (scannedFont != null)
@@ -56,7 +56,7 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
-        private OpenTypeFont HandleScannedFont(IScannedFont scannedFont, string subFamily, float widthScaleFactor = 1f)
+        private OpenTypeFont HandleScannedFont(IScannedFont scannedFont, FontSubFamily subFamily, float widthScaleFactor = 1f)
         {
             var reader = new FontsBinaryReader(File.OpenRead(scannedFont.FilePath));
             return scannedFont.TtcOffset.HasValue ?
@@ -64,7 +64,7 @@ namespace EPPlus.Fonts.OpenType
                 new OpenTypeFont(reader, scannedFont.Format);
         }
 
-        public OpenTypeFont CreateBase(string fontFamily, string subFamily)
+        public OpenTypeFont CreateBase(string fontFamily, FontSubFamily subFamily)
         {
             var scannedFont = GetClosestScannedFont(fontFamily, subFamily);
             if(scannedFont != null)
@@ -77,7 +77,7 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
-        internal OpenTypeFont HandleScannedFontBase(IScannedFont scannedFont, string subFamily, float widthScaleFactor = 1f)
+        internal OpenTypeFont HandleScannedFontBase(IScannedFont scannedFont, FontSubFamily subFamily, float widthScaleFactor = 1f)
         {
             var reader = new FontsBinaryReader(File.OpenRead(scannedFont.FilePath));
 
@@ -97,7 +97,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="family"></param>
         /// <param name="subFamily"></param>
         /// <returns></returns>
-        private IScannedFont GetClosestScannedFont(string family, string subFamily)
+        private IScannedFont GetClosestScannedFont(string family, FontSubFamily subFamily)
         {
             return FontScanner.ScanForClosest(_fontPath, family, subFamily);
         }

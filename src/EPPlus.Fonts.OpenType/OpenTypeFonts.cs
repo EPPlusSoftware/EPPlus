@@ -103,7 +103,7 @@ namespace EPPlus.Fonts.OpenType
         }
 
 
-        public static OpenTypeFont GetFontDataOpen(IEnumerable<string> fontDirectories, string fontName, string subFamily = "Regular", bool searchSystemDirectories = true)
+        public static OpenTypeFont GetFontDataOpen(IEnumerable<string> fontDirectories, string fontName, FontSubFamily subFamily = FontSubFamily.Regular, bool searchSystemDirectories = true)
         {
             CachedFonts = CachedFonts == null ? new Dictionary<string, OpenTypeFont>() : CachedFonts;
 
@@ -154,12 +154,12 @@ namespace EPPlus.Fonts.OpenType
                     foreach (var sf in scannedFonts)
                     {
                         var fontFactory = new OpenTypeFontFactory(sf.FilePath);
-                        var subFamilyName = sf.FontSubFamilyName;
+                        var subFamilyName = sf.FontSubFamily;
 
-                        if (string.IsNullOrEmpty(subFamilyName))
-                        {
-                            subFamilyName = "Regular";
-                        }
+                        //if (string.IsNullOrEmpty(subFamilyName))
+                        //{
+                        //    subFamilyName = "Regular";
+                        //}
 
                         if (sf.SubFonts != null && sf.SubFonts.Any())
                         {
@@ -171,9 +171,9 @@ namespace EPPlus.Fonts.OpenType
                                 }
 
                                 var familyName = string.IsNullOrEmpty(sf.FontFamilyName) ? subFont.FontFamilyName : sf.FontFamilyName;
-                                subFamilyName = string.IsNullOrEmpty(subFont.FontSubFamilyName) ? subFamilyName : subFont.FontSubFamilyName;
+                                //subFamilyName = string.IsNullOrEmpty(subFont.FontSubFamily) ? subFamilyName : subFont.FontSubFamily;
 
-                                var openFont = fontFactory.HandleScannedFontBase(subFont, subFont.FontSubFamilyName);
+                                var openFont = fontFactory.HandleScannedFontBase(subFont, subFont.FontSubFamily);
 
                                 openTypeFontLst.Add(openFont);
                             }
@@ -195,11 +195,11 @@ namespace EPPlus.Fonts.OpenType
             return openTypeFontLst;
         }
 
-        public static OpenTypeFont GetFontData(IEnumerable<string> fontDirectories, string fontName, string subFamily = "Regular", bool searchSystemDirectories = true)
+        public static OpenTypeFont GetFontData(IEnumerable<string> fontDirectories, string fontName, FontSubFamily subFamily, bool searchSystemDirectories = true)
         {
             CachedFonts = CachedFonts == null ? new Dictionary<string, OpenTypeFont>() : CachedFonts;
 
-            var fullName = fontName + "__" + subFamily;
+            var fullName = fontName + "__" + subFamily.ToString();
 
             CachedFonts.TryGetValue(fullName, out OpenTypeFont cachedFont);
             if (cachedFont == null)
