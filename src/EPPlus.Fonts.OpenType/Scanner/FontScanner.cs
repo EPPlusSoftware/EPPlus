@@ -24,6 +24,8 @@ namespace EPPlus.Fonts.OpenType.Scanner
             get;
         } = new Dictionary<string, ScannedFont>(StringComparer.OrdinalIgnoreCase);
 
+        private static object _lock = new();
+
         internal static FontFormat? GetFormat(string file)
         {
             var ext = Path.GetExtension(file).TrimStart('.').ToLowerInvariant();
@@ -130,50 +132,53 @@ namespace EPPlus.Fonts.OpenType.Scanner
 
             var fullName = fontFamily + "__" + subFamily;
 
-            if (ScannedFontsCache.TryGetValue(fullName, out ScannedFont sf) == false)
+            lock (_lock)
             {
-                var files = TryGetFiles(fontDirectoryPath).Where(x => Path.GetExtension(x).ToLower() == ".ttf" || Path.GetExtension(x).ToLower() == ".ttc" || Path.GetExtension(x).ToLower() == ".otf");
-
-                if (!files.Any())
+                if (ScannedFontsCache.TryGetValue(fullName, out ScannedFont sf) == false)
                 {
-                    return default(IScannedFont);
-                }
+                    var files = TryGetFiles(fontDirectoryPath).Where(x => Path.GetExtension(x).ToLower() == ".ttf" || Path.GetExtension(x).ToLower() == ".ttc" || Path.GetExtension(x).ToLower() == ".otf");
 
-                foreach (var file in files)
-                {
-                    using (var reader = new FontsBinaryReader(File.OpenRead(file)))
+                    if (!files.Any())
                     {
-                        var format = GetFormat(file);
-                        if (!format.HasValue) continue;
+                        return default(IScannedFont);
+                    }
 
-                        sf = new ScannedFont(reader, format.Value, file);
-                        sf.Format = format.Value;
-
-                        if(sf.FontFamilyName != null)
+                    foreach (var file in files)
+                    {
+                        using (var reader = new FontsBinaryReader(File.OpenRead(file)))
                         {
-                            var individualFullName = sf.FontFamilyName;
-                            if (sf.FontSubFamilyName != null)
-                            {
-                                individualFullName += "__" + sf.FontSubFamilyName;
-                            }
-                            if (ScannedFontsCache.ContainsKey(individualFullName) == false)
-                            {
-                                ScannedFontsCache.Add(individualFullName, sf);
-                            }
-                        }
+                            var format = GetFormat(file);
+                            if (!format.HasValue) continue;
 
-                        if (IsTargetFont(sf, fontFamily, subFamily))
-                        {
-                            return sf;
+                            sf = new ScannedFont(reader, format.Value, file);
+                            sf.Format = format.Value;
+
+                            if (sf.FontFamilyName != null)
+                            {
+                                var individualFullName = sf.FontFamilyName;
+                                if (sf.FontSubFamilyName != null)
+                                {
+                                    individualFullName += "__" + sf.FontSubFamilyName;
+                                }
+                                if (ScannedFontsCache.ContainsKey(individualFullName) == false)
+                                {
+                                    ScannedFontsCache.Add(individualFullName, sf);
+                                }
+                            }
+
+                            if (IsTargetFont(sf, fontFamily, subFamily))
+                            {
+                                return sf;
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                if (IsTargetFont(sf, fontFamily, subFamily))
+                else
                 {
-                    return sf;
+                    if (IsTargetFont(sf, fontFamily, subFamily))
+                    {
+                        return sf;
+                    }
                 }
             }
 

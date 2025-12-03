@@ -11,10 +11,12 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
+using EPPlus.Graphics;
+
 
 namespace EPPlus.Export.Pdf.PdfSettings
 {
-    internal class PdfContentBounds : PdfRect
+    internal class PdfContentBounds : Rect
     {
         public double HeaderY;
         public double FooterY;

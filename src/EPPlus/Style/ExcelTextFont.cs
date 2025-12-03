@@ -637,7 +637,7 @@ namespace OfficeOpenXml.Style
         {
             _pictureRelationDocument = pictureRelationDocument;
         }
-
+        internal IPictureRelationDocument PictureRelationDocument { get => _pictureRelationDocument; }
         /// <summary>
         /// The latin typeface name
         /// </summary>

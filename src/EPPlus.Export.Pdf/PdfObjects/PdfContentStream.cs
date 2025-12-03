@@ -10,8 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Math;
-using EPPlus.Export.Pdf.PdfGraphics;
+using EPPlus.Graphics.Math;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfResources;
@@ -22,6 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
+using EPPlus.Graphics;
 
 namespace EPPlus.Export.Pdf.PdfObjects
 {
@@ -56,19 +57,19 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 commands.Add("Q");
                 commands.Add($"% Pattern End: {cell.Name}");
             }
-            else if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.PattenStyle == ExcelFillStyle.Solid)
+            else if (cell.CellFillData.BackgroundColor != Color.Empty && cell.CellFillData.PattenStyle == ExcelFillStyle.Solid)
             {
                 commands.Add($"% Solid Fill Start: {cell.Name}");
                 commands.Add("q");
                 commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
                 commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
-                commands.Add( cell.CellFillData.enhanceGridLine ? PdfColor.Black.ToStrokeCommand() : cell.CellFillData.BackgroundColor.ToStrokeCommand());
+                commands.Add( cell.CellFillData.enhanceGridLine ? Color.Black.ToStrokeCommand() : cell.CellFillData.BackgroundColor.ToStrokeCommand());
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
                 commands.Add("B");
                 commands.Add("Q");
                 commands.Add($"% Solid Fill End: {cell.Name}");
             }
-            else if (cell.CellFillData.BackgroundColor != null && cell.CellFillData.PattenStyle != ExcelFillStyle.None)
+            else if (cell.CellFillData.BackgroundColor != Color.Empty && cell.CellFillData.PattenStyle != ExcelFillStyle.None)
             {
                 commands.Add($"% Gradient Start: {cell.Name}");
                 commands.Add("q");
@@ -354,14 +355,14 @@ namespace EPPlus.Export.Pdf.PdfObjects
             commands.Add($"% Content End: {cell.Name}");
         }
 
-        public void AddInnerGridLines(PdfTransform pageLayout)
+        public void AddInnerGridLines(Transform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
 
             commands.Add($"% Gridlnes Start");
             commands.Add("q");
             commands.Add($"{GridLine.Width.ToPdfString()} w");
-            commands.Add(PdfColor.Black.ToFillCommand());
+            commands.Add(Color.Black.ToFillCommand());
             foreach (var line in pl.GridLines)
             {
                 string w, h;
@@ -382,7 +383,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
             commands.Add($"% Gridlines End");
         }
 
-        public void AddOuterGridBorder(PdfTransform pageLayout)
+        public void AddOuterGridBorder(Transform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
 
@@ -391,7 +392,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
             commands.Add("1.0 w");
             commands.Add("2 J");
             commands.Add("[] 0 d");
-            commands.Add(PdfColor.Black.ToStrokeCommand());
+            commands.Add(Color.Black.ToStrokeCommand());
             foreach (var line in pl.BorderLines)
             {
                 commands.Add($"{line.X1.ToPdfString()} {line.Y1.ToPdfString()} m");
@@ -402,7 +403,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
             commands.Add($"% Gridlines Border End");
         }
 
-        public void AddMarginClipping(PdfTransform pageLayout, PdfContentBounds bounds)
+        public void AddMarginClipping(Transform pageLayout, PdfContentBounds bounds)
         {
             if(pageLayout is not PdfPageLayout pl) return;
 

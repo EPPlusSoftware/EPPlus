@@ -10,8 +10,9 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Math;
-using EPPlus.Export.Pdf.PdfGraphics;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
+using System.Drawing;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
@@ -24,12 +25,12 @@ using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfCellContentLayout : PdfTransform, ILayout
+    internal class PdfCellContentLayout : Transform, ILayout
     {
         public List<PdfCellTextLine> TextLines = new List<PdfCellTextLine>();
         public PdfCellAlignmentData CellAlignmentData;
         public bool Clip;
-        public PdfRect Clipping;
+        public Rect Clipping;
 
         private double bottomMargin = 3.5d; //Guessed number
         private double rightMargin = 1.4d; //I guessed this one too..
@@ -37,7 +38,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal static FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
         internal static MeasurementFont font = new MeasurementFont();
 
-        public PdfCellContentLayout(ExcelRangeBase cell, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null, PdfDictionaries dictionaries = null)
+        public PdfCellContentLayout(ExcelRangeBase cell, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null, PdfDictionaries dictionaries = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
@@ -58,7 +59,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CellAlignmentData.TextRotation = (cell.Style.TextRotation >= 90) ? ((cell.Style.TextRotation == 255) ? 0 : 90 - cell.Style.TextRotation) : cell.Style.TextRotation;
             CellAlignmentData.IsVertical = cell.Style.TextRotation == 255 ? true : false;
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
-            LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height); 
+            LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height);
             Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y);
             CheckClipping(cell, width);
         }
@@ -240,10 +241,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                           (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
                           (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
                           switch
-                          {
-                              0 => MeasurementFontStyles.Regular,
-                              var s => s
-                          };
+            {
+                0 => MeasurementFontStyles.Regular,
+                var s => s
+            };
             var result = fontMeasurerTrueType.MeasureText(cell.Text, font);
             textItem.TextLength = result.Width;
             textItem.LineHeight = result.Height;
@@ -496,7 +497,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         break;
                 }
             }
-            return new Vector2(x, y-yOffset);
+            return new Vector2(x, y - yOffset);
         }
 
         //Check if clipping is needed.
@@ -505,16 +506,16 @@ namespace EPPlus.Export.Pdf.PdfLayout
             double textLength = 0d;
             foreach (var line in TextLines)
             {
-                if(textLength < line.TextLength)
+                if (textLength < line.TextLength)
                 {
                     textLength = line.TextLength;
                 }
             }
             if (textLength >= width || cell.Merge)
             {
-                if ( cell.Merge ||
+                if (cell.Merge ||
                    CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Fill ||
-                   CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Left  && cell.Worksheet.Cells[cell._fromRow, cell._fromCol + 1].Value != null ||
+                   CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Left && cell.Worksheet.Cells[cell._fromRow, cell._fromCol + 1].Value != null ||
                    CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Right && cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1 <= 0 ? 1 : cell._fromCol - 1].Value != null)
                 {
                     Clip = true;
@@ -523,14 +524,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create clipping rectangle.
-        internal void CreateClippingRect(List<PdfTransform> cells)
+        internal void CreateClippingRect(List<Transform> cells)
         {
             if (Clip)
             {
-                var pcc = cells.Where(x => x.Name == Name).Where(x=> x is PdfCellLayout).ToList();
+                var pcc = cells.Where(x => x.Name == Name).Where(x => x is PdfCellLayout).ToList();
                 if (pcc.Count > 0)
                 {
-                    Clipping = new PdfRect()
+                    Clipping = new Rect()
                     {
                         X = pcc[0].LocalPosition.X + rightMargin,
                         Y = pcc[0].LocalPosition.Y,

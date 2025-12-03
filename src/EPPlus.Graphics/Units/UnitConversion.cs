@@ -10,9 +10,9 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-namespace EPPlus.Export.Pdf.Pdfhelpers
+namespace EPPlus.Graphics.Units
 {
-    internal static class PdfUnits
+    internal static class UnitConversion
     {
         public const double PointsPerInch = 72.0d;
         public const double MmPerInch = 25.4d;

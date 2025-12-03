@@ -20,6 +20,7 @@ using System.Linq;
 using static OfficeOpenXml.ExcelAddressBase;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
+using EPPlus.Fonts.OpenType.Utils;
 
 namespace OfficeOpenXml.Core
 {

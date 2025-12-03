@@ -16,6 +16,7 @@ namespace EPPlus.Export.ImageRenderer.Text
         /// </summary>
         bool ResizeToFit = false;
 
+
         List<string> _textContentCollection = new List<string>();
 
         MeasurementFont MeasurementFont;

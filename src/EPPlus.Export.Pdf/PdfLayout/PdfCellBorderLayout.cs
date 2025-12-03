@@ -10,22 +10,24 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Math;
-using EPPlus.Export.Pdf.PdfGraphics;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
+using System.Drawing;
 using EPPlus.Export.Pdf.PdfSettings;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using EPPlus.Export.Pdf.Pdfhelpers;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfCellBorderLayout : PdfTransform, ILayout
+    internal class PdfCellBorderLayout : Transform, ILayout
     {
         public PdfCellBordersData BorderData;
         public bool IsMerged = false;
 
         public PdfCellBorderLayout() { }
 
-        public PdfCellBorderLayout(ExcelRangeBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, PdfTransform parent = null)
+        public PdfCellBorderLayout(ExcelRangeBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             if (cell != null)
@@ -40,13 +42,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
             if (cell != null)
             {
                 BorderData.Top.BorderStyle = cell.Style.Border.Top.Style;
-                BorderData.Top.BorderColor = new PdfColor(cell.Style.Border.Top.Color.LookupColor(cell.Style.Border));
+                BorderData.Top.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Top.Color.LookupColor(cell.Style.Border));
                 BorderData.Bottom.BorderStyle = cell.Style.Border.Bottom.Style;
-                BorderData.Bottom.BorderColor = new PdfColor(cell.Style.Border.Bottom.Color.LookupColor(cell.Style.Border));
+                BorderData.Bottom.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Bottom.Color.LookupColor(cell.Style.Border));
                 BorderData.Left.BorderStyle = cell.Style.Border.Left.Style;
-                BorderData.Left.BorderColor = new PdfColor(cell.Style.Border.Left.Color.LookupColor(cell.Style.Border));
+                BorderData.Left.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Left.Color.LookupColor(cell.Style.Border));
                 BorderData.Right.BorderStyle = cell.Style.Border.Right.Style;
-                BorderData.Right.BorderColor = new PdfColor(cell.Style.Border.Right.Color.LookupColor(cell.Style.Border));
+                BorderData.Right.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Right.Color.LookupColor(cell.Style.Border));
             }
         }
 
@@ -55,9 +57,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
             if (cell != null)
             {
                 BorderData.DiagonalUp.BorderStyle = cell.Style.Border.DiagonalUp ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
-                BorderData.DiagonalUp.BorderColor = new PdfColor(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
+                BorderData.DiagonalUp.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
                 BorderData.DiagonalDown.BorderStyle = cell.Style.Border.DiagonalDown ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
-                BorderData.DiagonalDown.BorderColor = new PdfColor(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
+                BorderData.DiagonalDown.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
             }
         }
 

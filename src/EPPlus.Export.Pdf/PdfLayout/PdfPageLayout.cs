@@ -12,10 +12,11 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 using System.Linq;
+using EPPlus.Graphics;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfPageLayout : PdfTransform
+    internal class PdfPageLayout : Transform
     {
         internal List<GridLine> GridLines = new List<GridLine>();
         internal List<GridLine> BorderLines = new List<GridLine>();
