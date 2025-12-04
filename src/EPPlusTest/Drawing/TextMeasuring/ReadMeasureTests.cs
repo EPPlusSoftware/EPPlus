@@ -52,15 +52,6 @@ namespace EPPlusTest.Drawing.TextMeasuring
                 var someText = shape1.TextBody.Paragraphs.Text;
                 var richText = shape1.RichText;
 
-                //List<ExcelParagraphTextRunBase> runs = new();
-                //foreach (var paragraph in paragraphs)
-                //{
-                //    foreach(var textRun in paragraph.TextRuns)
-                //    {
-                //        runs.Add(textRun);
-                //    }
-                //}
-
                 var ir = new ImageRenderer();
                 var svg = ir.RenderDrawingToSvg(shape1);
 
