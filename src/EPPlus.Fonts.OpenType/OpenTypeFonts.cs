@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 
+using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Utils.Platform;
 using System;
@@ -103,41 +104,42 @@ namespace EPPlus.Fonts.OpenType
         }
 
 
-        public static OpenTypeFont GetFontDataOpen(IEnumerable<string> fontDirectories, string fontName, FontSubFamily subFamily = FontSubFamily.Regular, bool searchSystemDirectories = true)
+        public static OpenTypeFont GetFontDataOpen(IEnumerable<string> fontDirectories, string fontName, FontSubFamily subFamily = FontSubFamily.Regular, bool searchSystemDirectories = true, bool ignoreCache = false)
         {
-            lock (_syncRoot)
+
+            if (!ignoreCache)
             {
-                CachedFonts = CachedFonts == null ? new Dictionary<string, OpenTypeFont>() : CachedFonts;
-
-                var fullName = fontName + "__" + subFamily;
-
-                CachedFonts.TryGetValue(fullName, out OpenTypeFont cachedFont);
-                if (cachedFont == null)
+                if (OpenTypeFontCache.Contains(fontName, subFamily))
                 {
-                    //We do not have the font cached. Check what paths to search:
-                    List<string> fontLocations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
-
-                    OpenTypeFont fontData = null;
-                    foreach (var path in fontLocations)
+                    var cachedFont = OpenTypeFontCache.GetFromCache(fontName, subFamily);
+                    if (cachedFont != null && cachedFont.Font != null && cachedFont.IsLoaded)
                     {
-                        var factory = new OpenTypeFontFactory(path);
-                        fontData = factory.CreateBase(fontName, subFamily);
-                        if (fontData != null)
-                            break;
+                        return cachedFont.Font;
                     }
-
-                    //another thread may have added it to the collection inbetween
-                    if (!CachedFonts.ContainsKey(fullName))
-                    {
-                        CachedFonts.Add(fullName, fontData);
-                    }
-                    return fontData;
                 }
-                else
-                {
-                    return cachedFont;
-                }
+                OpenTypeFontCache.BeginCache(fontName, subFamily);
             }
+
+            List<string> fontLocations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
+
+            OpenTypeFont fontData = null;
+            foreach (var path in fontLocations)
+            {
+                var factory = new OpenTypeFontFactory(path);
+                fontData = factory.CreateBase(fontName, subFamily);
+                if (fontData != null)
+                {
+                    var f = fontData.FullName;
+                    break;
+                }
+                    
+            }
+            if (fontData != null && !ignoreCache)
+            {
+                OpenTypeFontCache.AddToCache(fontData);
+            }
+
+            return fontData;
         }
 
         public static List<OpenTypeFont> GetAllBaseFontData(List<string> fontDirectories, bool searchSystemDirectories = true, FontFormat? formatTarget = null)
@@ -191,46 +193,36 @@ namespace EPPlus.Fonts.OpenType
             return openTypeFontLst;
         }
 
-        public static OpenTypeFont GetFontData(IEnumerable<string> fontDirectories, string fontName, FontSubFamily subFamily, bool searchSystemDirectories = true)
+        public static OpenTypeFont GetFontData(IEnumerable<string> fontDirectories, string fontName, FontSubFamily subFamily, bool searchSystemDirectories = true, bool ignoreCache = false)
         {
-            lock (_syncRoot)
+            if(!ignoreCache)
             {
-                CachedFonts = CachedFonts == null ? new Dictionary<string, OpenTypeFont>() : CachedFonts;
-
-            var fullName = fontName + "__" + subFamily.ToString();
-
-                CachedFonts.TryGetValue(fullName, out OpenTypeFont cachedFont);
-                if (cachedFont == null)
+                if (OpenTypeFontCache.Contains(fontName, subFamily))
                 {
-                    //We do not have the font cached. Check what paths to search:
-                    List<string> fontLocations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
-
-                    OpenTypeFont fontData = null;
-                    foreach (var path in fontLocations)
+                    var cachedFont = OpenTypeFontCache.GetFromCache(fontName, subFamily);
+                    if(cachedFont != null && cachedFont.Font != null && cachedFont.IsLoaded)
                     {
-                        var factory = new OpenTypeFontFactory(path);
-                        fontData = factory.Create(fontName, subFamily);
-                        if (fontData != null)
-                            break;
+                        return cachedFont.Font;
                     }
-
-                    //another thread may have added it to the collection inbetween
-                    lock (_syncRoot)
-                    {
-                        if (!CachedFonts.ContainsKey(fullName))
-                        {
-                            CachedFonts.Add(fullName, fontData);
-                        }
-                    }
-
-
-                    return fontData;
                 }
-                else
-                {
-                    return cachedFont;
-                }
+                OpenTypeFontCache.BeginCache(fontName, subFamily);
             }
+            List<string> fontLocations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
+
+            OpenTypeFont fontData = null;
+            foreach (var path in fontLocations)
+            {
+                var factory = new OpenTypeFontFactory(path);
+                fontData = factory.Create(fontName, subFamily);
+                if (fontData != null)
+                    break;
+            }
+            if(fontData != null && !ignoreCache)
+            {
+                OpenTypeFontCache.AddToCache(fontData);
+            }
+
+            return fontData;
         }
     }
 }

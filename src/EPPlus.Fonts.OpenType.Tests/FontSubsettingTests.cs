@@ -31,7 +31,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         public void TestHeadNameMaxpAndHhea_SubsetSerializationRoundtrip()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false);
             var subsetFont = font.CreateSubset(new[] { 'a', 'b', 'c' });
 
             // Act
@@ -70,7 +70,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void TestHeadNameMaxpHheaAndHmtx_SubsetSerializationRoundtrip()
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false);
             var subsetFont = font.CreateSubset(new[] { 'a', 'b', 'c' });
 
             var serializer = new OpenTypeFontSerializer(subsetFont);

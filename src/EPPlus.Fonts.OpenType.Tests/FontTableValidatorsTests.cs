@@ -36,7 +36,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void ValidateEntireFont()
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var report = font.ValidateFont(FontValidationSeverity.Error);
             Assert.IsTrue(report.IsValid);
         }
@@ -44,7 +44,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void HeadTableValidation_Test()
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var validator = new HeadTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.HeadTable, context);
@@ -55,7 +55,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void MaxpTableValidation_Test()
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var validator = new MaxpTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.MaxpTable, context);
@@ -65,7 +65,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void HheaTableValidation_Test()
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var validator = new HheaTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.HheaTable, context);
@@ -75,7 +75,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void NameTableValidation_Test()
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var validator = new NameTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.NameTable, context);
@@ -85,7 +85,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void Os2TableValidation_Test()
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var validator = new Os2TableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.Os2Table, context);
@@ -95,7 +95,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void PostTableValidation_Test()
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var validator = new PostTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.PostTable, context);
@@ -105,7 +105,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void CmapTableValidation_Test()
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var validator = new CmapTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.CmapTable, context);
@@ -115,7 +115,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void LocaTableValidation_Test()
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var validator = new LocaTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.LocaTable, context);
@@ -125,7 +125,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void HmtxTableValidation_Test()
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var validator = new HmtxTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.HmtxTable, context);
@@ -133,13 +133,13 @@ namespace EPPlus.Fonts.OpenType.Tests
         }
 
         [TestMethod]
-        [DataRow("Roboto", "Regular")]
-        [DataRow("Roboto", "Italic")]
-        [DataRow("EB Garamond", "Regular")]
-        [DataRow("Mulish", "Regular")]
-        public void GlyfTableValidation_Test(string fontName, string subFamily)
+        [DataRow("Roboto", FontSubFamily.Regular)]
+        [DataRow("Roboto", FontSubFamily.Italic)]
+        [DataRow("EB Garamond", FontSubFamily.Regular)]
+        [DataRow("Mulish", FontSubFamily.Regular)]
+        public void GlyfTableValidation_Test(string fontName, FontSubFamily subFamily)
         {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, fontName, subFamily, false);
+            var font = OpenTypeFonts.GetFontData(_fontFolders, fontName, subFamily, false, true);
             var validator = new GlyfTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.GlyfTable, context);

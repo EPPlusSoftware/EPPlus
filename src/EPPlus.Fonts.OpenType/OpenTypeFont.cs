@@ -42,6 +42,7 @@ namespace EPPlus.Fonts.OpenType
         private readonly FontsBinaryReader _reader;
         protected Dictionary<string, TableRecord> _tableRecords;
         public FontFormat Format;
+        private static object _syncRoot = new object();
 
 
         internal OpenTypeFont(FontFormat format)
@@ -61,12 +62,18 @@ namespace EPPlus.Fonts.OpenType
         {
             Format = format;
             _reader = reader;
-            if (startOffset > -1)
+
+            lock (_syncRoot)
             {
-                _reader.BaseStream.Position = startOffset;
+                if (startOffset > -1)
+                {
+                    _reader.BaseStream.Position = startOffset;
+                }
+
+                Initialize();        // Reads SFNT header
+                ReadTableRecords();  // Reads table directory
             }
-            Initialize();
-            ReadTableRecords();
+
 
             _localTableCache = new TableCache();
 

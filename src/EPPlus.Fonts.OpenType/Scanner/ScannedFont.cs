@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace EPPlus.Fonts.OpenType.Scanner
 {
@@ -38,20 +39,39 @@ namespace EPPlus.Fonts.OpenType.Scanner
             _format = format;
             _tableRecords = new Dictionary<string, TableRecord>();
             FilePath = filePath;
-            if (offset > -1)
+            
+            lock(_syncRoot)
             {
-                _reader.BaseStream.Position = offset;
+                if(!_initialized)
+                {
+                    if (offset > -1)
+                    {
+                        _reader.BaseStream.Position = offset;
+                    }
+                    if (format == FontFormat.Ttc)
+                    {
+                        InitializeTtc();
+                        return;
+                    }
+                    else
+                    {
+                        Initialize();
+                        ReadTableRecords();
+                    }
+                    _initialized = true;
+                    Monitor.PulseAll(_syncRoot);
+                }
+                else
+                {
+
+                    while (!_initialized)
+                    {
+                        Monitor.Wait(_syncRoot);
+                    }
+
+                }
             }
-            if (format == FontFormat.Ttc)
-            {
-                InitializeTtc();
-                return;
-            }
-            else
-            {
-                Initialize();
-                ReadTableRecords();
-            }
+            
             if (_tableRecords.ContainsKey(TableNames.Name))
             {
                 var tblSettings = new TableLoaderSettings(reader, _tableRecords, null);
@@ -144,6 +164,8 @@ namespace EPPlus.Fonts.OpenType.Scanner
         private ushort _numTables;
         private readonly Dictionary<string, TableRecord> _tableRecords;
         private FontFormat _format;
+        private static readonly object _syncRoot = new object();
+        private bool _initialized;
 
         public string FontFamilyName { get; private set; }
 
@@ -229,18 +251,5 @@ namespace EPPlus.Fonts.OpenType.Scanner
             reader.BaseStream.Position = record.Offset;
             return reader.ReadBytes((int)record.Length);
         }
-
-        //public override string ToString()
-        //{
-        //    if(Format == FontFormat.Ttc)
-        //    {
-        //        return $"Collection: {System.IO.Path.GetFileName(FilePath)}";
-        //    }
-        //    if(!string.IsNullOrEmpty(FontFamilyName))
-        //    {
-        //        return FontFamilyName.ToString();
-        //    }
-        //    return base.ToString();
-        //}
     }
 }
