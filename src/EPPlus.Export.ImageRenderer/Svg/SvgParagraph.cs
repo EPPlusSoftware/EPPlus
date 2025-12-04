@@ -298,6 +298,11 @@ namespace EPPlusImageRenderer.Svg
 
             //var totalY = ParagraphArea.Top + lineSpacingTotal;
 
+            //if(TextRuns.Count == 0)
+            //{
+            //    return ParagraphArea.Top + LineSpacing;
+            //}
+
             return ParagraphArea.Top + paragraphHeight;
         }
     }

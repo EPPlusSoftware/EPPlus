@@ -412,54 +412,57 @@ namespace EPPlus.Fonts.OpenType
 
         private static int GetKerningAdjustment(ushort left, ushort right, OpenTypeFont fontData)
         {
-            foreach (var subtable in fontData.KernTable.SubTables)
+            if (fontData.KernTable != null)
             {
-                if (subtable.Format0Subtable == null) continue;
-                // Format 0 only
-                int format = subtable.coverage.RawValue >> 8;
-                bool isHorizontal = (subtable.coverage.RawValue & 0x1) == 1;
-                if (format != 0 || !isHorizontal) continue;
-                KerningPair[] pairs = subtable.Format0Subtable.Pairs;
-                if (pairs == null) continue;
-
-                //Left is high-order/most significant
-                //but since big-endian we must do it like this.
-                var combined = ((uint)left << 16) | right;
-
-                var index = OptimizedBinarySearch(pairs, combined, pairs.Length);
-                if(index < 0)
+                foreach (var subtable in fontData.KernTable.SubTables)
                 {
-                    index = ~index;
-                }
+                    if (subtable.Format0Subtable == null) continue;
+                    // Format 0 only
+                    int format = subtable.coverage.RawValue >> 8;
+                    bool isHorizontal = (subtable.coverage.RawValue & 0x1) == 1;
+                    if (format != 0 || !isHorizontal) continue;
+                    KerningPair[] pairs = subtable.Format0Subtable.Pairs;
+                    if (pairs == null) continue;
 
-                if (index >= 0)
-                {
-                    var maxIndex = pairs.Count();
-                    if (maxIndex > index)
+                    //Left is high-order/most significant
+                    //but since big-endian we must do it like this.
+                    var combined = ((uint)left << 16) | right;
+
+                    var index = OptimizedBinarySearch(pairs, combined, pairs.Length);
+                    if (index < 0)
                     {
-                        var pairItem = pairs[index];
-
-                        //Extra verification in case something has gone wrong/the exact item does not exist
-                        if (pairItem.left == left && pairItem.right == right)
-                        {
-                            return pairItem.value;
-                        }
-                        //else
-                        //{
-                        //    foreach (var pair in pairs)
-                        //    {
-                        //        if (pair.right == right && pair.left == left)
-                        //        {
-                        //            return pair.value;
-                        //        }
-                        //    }
-                        //}
+                        index = ~index;
                     }
-                    else
+
+                    if (index >= 0)
                     {
-                        //Index has gone beyond max index.
-                        //This should never be possible unless the file has been read wrong or is corrupt...
-                        throw new Exception("Impossible kerning table detected(!?)");
+                        var maxIndex = pairs.Count();
+                        if (maxIndex > index)
+                        {
+                            var pairItem = pairs[index];
+
+                            //Extra verification in case something has gone wrong/the exact item does not exist
+                            if (pairItem.left == left && pairItem.right == right)
+                            {
+                                return pairItem.value;
+                            }
+                            //else
+                            //{
+                            //    foreach (var pair in pairs)
+                            //    {
+                            //        if (pair.right == right && pair.left == left)
+                            //        {
+                            //            return pair.value;
+                            //        }
+                            //    }
+                            //}
+                        }
+                        else
+                        {
+                            //Index has gone beyond max index.
+                            //This should never be possible unless the file has been read wrong or is corrupt...
+                            throw new Exception("Impossible kerning table detected(!?)");
+                        }
                     }
                 }
             }
