@@ -109,7 +109,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             if (!string.IsNullOrEmpty(cell.Text))
             {
                 var cellContent = new PdfCellContentLayout(cell, pageSettings, x, y, width, height, 1, 1, 0, this, dictionaries);
-                cellContent.Name = cell.Address;
+                cellContent.Name = cell.Address + "_c";
                 cellContent.Z = zOrder;
             }
         }

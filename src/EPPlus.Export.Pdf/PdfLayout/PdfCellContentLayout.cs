@@ -528,7 +528,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             if (Clip)
             {
-                var pcc = cells.Where(x => x.Name == Name).Where(x => x is PdfCellLayout).ToList();
+                var pcc = cells.Where(x => Name.Contains(x.Name)).Where(x => x is PdfCellLayout).ToList();
                 if (pcc.Count > 0)
                 {
                     Clipping = new Rect()
