@@ -248,5 +248,29 @@ namespace OfficeOpenXml.Drawing.Chart
                 return value;
             }
         }
+
+        internal string GetHeaderText()
+        {
+            if(string.IsNullOrEmpty(Header) == false)
+            {
+                return Header;
+            }
+            else
+            {
+                if(string.IsNullOrEmpty(HeaderAddress.WorkSheetName))
+                {
+                    return _chart.WorkSheet.Cells[HeaderAddress.Address].Offset(0, 0).Text;
+                }
+                else
+                {
+                    var ws = _chart.WorkSheet.Workbook.Worksheets[HeaderAddress.WorkSheetName];
+                    if (ws != null)
+                    {
+                        return ws.Cells[HeaderAddress.Address].Offset(0, 0).Text;
+                    }
+                }
+                return "";
+            }
+        }
     }
 }

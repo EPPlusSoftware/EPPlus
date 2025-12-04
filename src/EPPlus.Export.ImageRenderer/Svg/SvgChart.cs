@@ -22,7 +22,7 @@ namespace EPPlusImageRenderer.Svg
         public SvgChart(ExcelChart chart) : base(chart)
         {
             Chart = chart;
-
+            SetChartArea();
             if(chart.HasTitle)
             {
                 Title = new SvgChartTitle(this, (ExcelChartTitleStandard)chart.Title, "Chart Title");
@@ -49,21 +49,9 @@ namespace EPPlusImageRenderer.Svg
             }
             //Plotarea = new SvgChartPlotarea(this);
 
-            AddChartArea();
             AddPlotArea();  
-            AddChartTitle();
-            AddLegend();    
         }
 
-        private void AddLegend()
-        {
-        }
-
-        private void AddChartTitle()
-        {
-            RenderItems.Add(Title.Rectangle);
-            RenderItems.Add(Title.TextBox);
-        }
         internal SvgRenderRectItem ChartArea { get; set; }
         internal SvgChartLegend Legend { get; set; }
         internal SvgChartTitle Title { get; set; }
@@ -83,7 +71,7 @@ namespace EPPlusImageRenderer.Svg
             if (SecondHorizontalAxis != null) RenderItems.AddRange(SecondHorizontalAxis?.RenderItems);
             if (SecondHorizontalAxisTitle != null) RenderItems.AddRange(SecondHorizontalAxisTitle?.RenderItems);
         }
-        private void AddChartArea()
+        private void SetChartArea()
         {
             var item = new SvgRenderRectItem(Chart);
             item.Width = Size.Width;
@@ -91,6 +79,7 @@ namespace EPPlusImageRenderer.Svg
             item.SetDrawingPropertiesFill(Chart.Fill, Chart.StyleManager.Style.ChartArea.FillReference.Color);
             item.SetDrawingPropertiesBorder(Chart.Border, Chart.StyleManager.Style.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
             RenderItems.Add(item);
+            ChartArea = item;
         }
 
         public override void Render(StringBuilder sb)
@@ -110,6 +99,9 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
             
+            Title?.Render(sb);
+            Legend?.Render(sb);
+
             if (gItemTest != null)
             {
                 gItemTest.RenderEndGroup(sb);

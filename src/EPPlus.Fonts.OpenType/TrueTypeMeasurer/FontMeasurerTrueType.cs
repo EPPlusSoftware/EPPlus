@@ -13,7 +13,7 @@ namespace EPPlus.Fonts.OpenType
 
     public class FontMeasurerTrueType : ITextMeasurerWrap
     {
-        private OpenTypeFont _defaultFont = TextData.GetFontData("Calibri", "Regular");
+        private OpenTypeFont _defaultFont = TextData.GetFontData("Calibri", FontSubFamily.Regular);
         private double _defaultSize = 11d;
 
         OpenTypeFont CurrentFont;
@@ -50,7 +50,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="fontSize"></param>
         /// <param name="fontName"></param>
         /// <param name="fontSubFamily"></param>
-        public FontMeasurerTrueType(double fontSize, string fontName, string fontSubFamily = "Regular")
+        public FontMeasurerTrueType(double fontSize, string fontName, FontSubFamily fontSubFamily = FontSubFamily.Regular)
         {
             CurrentFontName = string.IsNullOrEmpty(fontName) ? "" : fontName;
 
@@ -75,7 +75,7 @@ namespace EPPlus.Fonts.OpenType
         }
 
 
-        public void SetFont(double fontSize, string fontName, string subFamily = "Regular")
+        public void SetFont(double fontSize, string fontName, FontSubFamily subFamily = FontSubFamily.Regular)
         {
             CurrentFontName = fontName;
             CurrentFont = TextData.GetFontData(fontName, subFamily);
@@ -86,7 +86,7 @@ namespace EPPlus.Fonts.OpenType
         {
             CurrentFontName = string.IsNullOrEmpty(mFont.FontFamily) ? "" : mFont.FontFamily;
 
-            var styleName = Enum.GetName(typeof(MeasurementFontStyles), mFont.Style);
+            var styleName = GetFontSubType(mFont.Style);
             SetFont(mFont.Size, mFont.FontFamily, styleName);
 
             if (CurrentFont == null)
@@ -179,13 +179,31 @@ namespace EPPlus.Fonts.OpenType
         public TextMeasurement MeasureText(string text, MeasurementFont font)
         {
             var TextMeasurement = new TextMeasurement();
-            SetFont(font.Size, font.FontFamily, font.GetSubFamily());
+            SetFont(font.Size, font.FontFamily, GetFontSubType(font.Style));
             TextMeasurement.Width = (float)MeasureTextWidth(text);
             TextMeasurement.Height = (float)GetSingleLineSpacing();
             TextMeasurement.FontHeight = (float)InternalFontHeight();
             return TextMeasurement;
         }
 
+        private FontSubFamily GetFontSubType(MeasurementFontStyles Style)
+        {
+            if ((Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) == (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
+            {
+                return FontSubFamily.BoldItalic;
+            }
+            else if ((Style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
+            {
+                return FontSubFamily.Bold;
+            }
+            else if ((Style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
+            {
+                return FontSubFamily.Italic;
+            }
+
+            return FontSubFamily.Regular;
+        }
+        
         /// <summary>
         /// Measures text width and height in points
         /// </summary>

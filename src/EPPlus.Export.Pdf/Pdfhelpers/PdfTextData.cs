@@ -21,7 +21,7 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
 {
     internal static class PdfTextData
     {
-        internal static OpenTypeFont GetFontData(PdfPageSettings pageSettings, string fontName, string subFamily)
+        internal static OpenTypeFont GetFontData(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily)
         {
             return OpenTypeFonts.GetFontData(pageSettings.FontDirectories, fontName, subFamily, pageSettings.SearchSystemDirectories);
         }

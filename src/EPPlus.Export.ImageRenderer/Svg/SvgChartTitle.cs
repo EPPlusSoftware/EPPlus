@@ -53,12 +53,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else 
                     {
-                        //var address = new ExcelAddressBase(s.XSeries);
-                        var ws = sc.Chart.WorkSheet.Workbook.Worksheets[s.HeaderAddress.WorkSheetName];
-                        if (ws != null)
-                        {
-                            defaultText = ws.Cells[s.HeaderAddress.Address].Offset(0, 0).Text;
-                        }
+                        defaultText = s.GetHeaderText();
                     }
                 }
                 else

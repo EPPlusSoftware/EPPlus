@@ -13,6 +13,7 @@
 using EPPlus.Export.Pdf.PdfObjects.PdfFonts;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Tables.Os2;
 using System;
 using System.Collections.Generic;
 using EPPlus.Graphics;
@@ -29,7 +30,7 @@ namespace EPPlus.Export.Pdf.PdfResources
         private int firstChar = 32;
         private int lastChar = 255;
 
-        public PdfFontResource(string fontName, string subFamily, int labelNumber, PdfPageSettings pageSettings)
+        public PdfFontResource(string fontName, FontSubFamily subFamily, int labelNumber, PdfPageSettings pageSettings)
             : base("F", labelNumber)
         {
             this.fontName = fontName;
@@ -72,13 +73,13 @@ namespace EPPlus.Export.Pdf.PdfResources
                 flag |= 1 << 5; // Nonsymbolic
             if (fontData.GetEnglishFontFamilyName().ToLower().Contains("script") || fontData.GetEnglishFontFamilyName().ToLower().Contains("cursive"))
                 flag |= 1 << 3;
-            if (fontData.PostTable.italicAngle.RawValue != 0 || (fontData.Os2Table.fsSelection & 0x01) != 0)
+            if (fontData.PostTable.italicAngle.RawValue != 0 || (fontData.Os2Table.fsSelection & Os2Table.FsSelectionFlags.Italic) != 0)
                 flag |= 1 << 6;
-            if ((fontData.Os2Table.fsSelection & 0x100) != 0)
+            if (((ushort)fontData.Os2Table.fsSelection & 0x100) != 0)
                 flag |= 1 << 16;
-            if ((fontData.Os2Table.fsSelection & 0x200) != 0)
+            if (((ushort)fontData.Os2Table.fsSelection & 0x200) != 0)
                 flag |= 1 << 17;
-            if ((fontData.Os2Table.fsSelection & 0x400) != 0)
+            if (((ushort)fontData.Os2Table.fsSelection & 0x400) != 0)
                 flag |= 1 << 18;
             var fontBBox = new Rect();
             fontBBox.X = fontData.HeadTable.Xmin;
