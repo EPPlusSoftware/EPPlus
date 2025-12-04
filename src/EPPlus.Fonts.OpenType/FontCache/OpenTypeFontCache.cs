@@ -13,18 +13,6 @@ namespace EPPlus.Fonts.OpenType.FontCache
         private static readonly Dictionary<string, CachedOpenTypeFont> _cache = new Dictionary<string, CachedOpenTypeFont>(StringComparer.OrdinalIgnoreCase);
         private static readonly object _syncRoot = new object();
 
-        private static readonly object _logLock = new object();
-        private const string LogFilePath = @"c:\Temp\cachelog.txt";
-
-
-        internal static void LogAccess(string message)
-        {
-            lock (_logLock)
-            {
-                File.AppendAllText(LogFilePath, $"{DateTime.UtcNow:O} - {message}{Environment.NewLine}");
-            }
-        }
-
         internal static void Clear()
         {
             lock (_syncRoot)
@@ -47,7 +35,6 @@ namespace EPPlus.Fonts.OpenType.FontCache
             {
 
                 bool exists = _cache.ContainsKey(key);
-                LogAccess($"Contains called for key '{key}' -> {exists}");
                 return exists;
 
             }
@@ -64,11 +51,6 @@ namespace EPPlus.Fonts.OpenType.FontCache
                     {
                         IsLoaded = false
                     };
-                    LogAccess($"BeginCache: Added placeholder for key '{key}'");
-                }
-                else
-                {
-                    LogAccess($"BeginCache: Key '{key}' already exists");
                 }
             }
         }
@@ -81,11 +63,6 @@ namespace EPPlus.Fonts.OpenType.FontCache
                 if (!_cache.ContainsKey(key))
                 {
                     _cache[key] = new CachedOpenTypeFont();
-                    LogAccess($"AddToCache: Created new entry for key '{key}', full name: {font.FullName}");
-                }
-                else
-                {
-                    LogAccess($"AddToCache: Updated existing entry for key '{key}', full name: {font.FullName}");
                 }
 
 
@@ -106,7 +83,6 @@ namespace EPPlus.Fonts.OpenType.FontCache
                 {
                     if (cached.IsLoaded)
                     {
-                        LogAccess($"GetFromCache: Key '{key}' returned immediately. Full name: {cached.Font.FullName}");
                         return cached;
                     }
 
@@ -120,10 +96,8 @@ namespace EPPlus.Fonts.OpenType.FontCache
                     }
                     if (cached == null || cached.Font == null)
                     {
-                        LogAccess($"GetFromCache: Key '{key}' not found after wait.");
                         return null;
                     }
-                    LogAccess($"GetFromCache: Key '{key}' returned after wait -> Loaded={cached.IsLoaded}, Full name: {cached.Font.FullName}");
                     return cached.IsLoaded ? cached : null;
                 }
 
@@ -131,5 +105,4 @@ namespace EPPlus.Fonts.OpenType.FontCache
             }
         }
     }
-
 }

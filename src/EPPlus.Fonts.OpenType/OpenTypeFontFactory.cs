@@ -70,8 +70,6 @@ namespace EPPlus.Fonts.OpenType
             var scannedFont = GetClosestScannedFont(fontFamily, subFamily);
             if(scannedFont != null)
             {
-                var f = scannedFont.FilePath;
-                OpenTypeFontCache.LogAccess($"CreateBase - {fontFamily}, {subFamily} -> {f}");
                 return HandleScannedFontBase(scannedFont);
             }
             else

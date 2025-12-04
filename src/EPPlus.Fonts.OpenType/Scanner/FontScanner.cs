@@ -96,7 +96,6 @@ namespace EPPlus.Fonts.OpenType.Scanner
             var scannedFont = ScanFor(fontDirectoryPath, fontFamily, subFamily);
             if (scannedFont == null)
             {
-                OpenTypeFontCache.LogAccess($"ScanForClosest: Could not find exact match for {fontFamily}, {subFamily}. Trying Regular subfamily.");
                 scannedFont = ScanFor(fontDirectoryPath, fontFamily, FontSubFamily.Regular);
                 if (scannedFont != null)
                 {
