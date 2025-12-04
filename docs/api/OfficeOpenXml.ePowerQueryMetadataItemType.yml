@@ -1,0 +1,102 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ePowerQueryMetadataItemType
+  commentId: T:OfficeOpenXml.ePowerQueryMetadataItemType
+  id: ePowerQueryMetadataItemType
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ePowerQueryMetadataItemType.AllFormulas
+  - OfficeOpenXml.ePowerQueryMetadataItemType.Formula
+  langs:
+  - csharp
+  - vb
+  name: ePowerQueryMetadataItemType
+  nameWithType: ePowerQueryMetadataItemType
+  fullName: OfficeOpenXml.ePowerQueryMetadataItemType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Data/PowerQuery/ePowerQueryMetadataItemType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePowerQueryMetadataItemType
+    path: ../src/EPPlus/Data/PowerQuery/ePowerQueryMetadataItemType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: The power query meta data item type
+  example: []
+  syntax:
+    content: public enum ePowerQueryMetadataItemType
+    content.vb: Public Enum ePowerQueryMetadataItemType
+- uid: OfficeOpenXml.ePowerQueryMetadataItemType.AllFormulas
+  commentId: F:OfficeOpenXml.ePowerQueryMetadataItemType.AllFormulas
+  id: AllFormulas
+  parent: OfficeOpenXml.ePowerQueryMetadataItemType
+  langs:
+  - csharp
+  - vb
+  name: AllFormulas
+  nameWithType: ePowerQueryMetadataItemType.AllFormulas
+  fullName: OfficeOpenXml.ePowerQueryMetadataItemType.AllFormulas
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/PowerQuery/ePowerQueryMetadataItemType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllFormulas
+    path: ../src/EPPlus/Data/PowerQuery/ePowerQueryMetadataItemType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: The item applies to all formulas
+  example: []
+  syntax:
+    content: AllFormulas = 0
+    return:
+      type: OfficeOpenXml.ePowerQueryMetadataItemType
+- uid: OfficeOpenXml.ePowerQueryMetadataItemType.Formula
+  commentId: F:OfficeOpenXml.ePowerQueryMetadataItemType.Formula
+  id: Formula
+  parent: OfficeOpenXml.ePowerQueryMetadataItemType
+  langs:
+  - csharp
+  - vb
+  name: Formula
+  nameWithType: ePowerQueryMetadataItemType.Formula
+  fullName: OfficeOpenXml.ePowerQueryMetadataItemType.Formula
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Data/PowerQuery/ePowerQueryMetadataItemType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formula
+    path: ../src/EPPlus/Data/PowerQuery/ePowerQueryMetadataItemType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: The item applies to the formula specified in the ItemPath.
+  example: []
+  syntax:
+    content: Formula = 1
+    return:
+      type: OfficeOpenXml.ePowerQueryMetadataItemType
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ePowerQueryMetadataItemType
+  commentId: T:OfficeOpenXml.ePowerQueryMetadataItemType
+  parent: OfficeOpenXml
+  href: OfficeOpenXml.ePowerQueryMetadataItemType.html
+  name: ePowerQueryMetadataItemType
+  nameWithType: ePowerQueryMetadataItemType
+  fullName: OfficeOpenXml.ePowerQueryMetadataItemType

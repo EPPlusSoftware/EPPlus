@@ -18,11 +18,12 @@ using System.Xml.Linq;
 using EPPlus.Export.Pdf;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
+using OfficeOpenXml;
 
 namespace EPPlusTest.PDF
 {
     [TestClass]
-    public class PdfTests : TestBase
+    public class PdfTests
     {
         /* BIG PDF TODO
          * This should be turned into tickets on github..
@@ -85,7 +86,7 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void TestWritePdf()
         {
-            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            using var p = new ExcelPackage("C:\\epplusTest\\Workbooks\\PDFTest.xlsx");// OpenTemplatePackage("PDFTest.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
             //using var p = OpenTemplatePackage("Gradient.xlsx");

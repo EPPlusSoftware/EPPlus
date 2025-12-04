@@ -30,7 +30,6 @@ namespace EPPlusTest.FormulaParsing.Excel
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Calc), sheet.Cells["E4"].Value);
             //SaveWorkbook("CalcError1.xlsx", package);
         }
-
         [TestMethod]
         public void CalcErrorWhenUnInvokedLambda()
         {

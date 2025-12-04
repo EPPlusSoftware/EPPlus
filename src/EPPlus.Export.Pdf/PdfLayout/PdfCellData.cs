@@ -10,10 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Math;
-using EPPlus.Export.Pdf.PdfGraphics;
+using EPPlus.Graphics.Math;
+using System.Drawing;
+using EPPlus.Fonts.OpenType;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
+using EPPlus.Export.Pdf.Pdfhelpers;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -30,7 +32,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
     {
         public string FontName = "Aptos Narrow";
         public int FontFamily = 0;
-        public string SubFamily = "Regular";
+        public FontSubFamily SubFamily = FontSubFamily.Regular;
         public double FontSize = 11;
         public bool Bold = false;
         public bool Italic = false;
@@ -39,7 +41,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public bool SuperScript = false;
         public bool Underline = false;
         public ExcelUnderLineType UnderlineType = ExcelUnderLineType.None;
-        public PdfColor FontColor = PdfColor.Black;
+        public Color FontColor = Color.Black;
         public List<PdfTextLine> Lines = new List<PdfTextLine>();
         public double TextLength = 0d;
         public double LineHeight = 0d;
@@ -55,9 +57,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
     internal class PdfCellGradientFillData
     {
         public ExcelFillGradientType GradientType;
-        public PdfColor Color1;
-        public PdfColor Color2;
-        public PdfColor Color3;
+        public Color Color1;
+        public Color Color2;
+        public Color Color3;
         public double Degree;
         public double Top;
         public double Bottom;
@@ -75,9 +77,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
     internal class PdfCellFillData
     {
         public string id;
-        public PdfColor BackgroundColor = PdfColor.None;
+        public Color BackgroundColor = Color.Empty;
         public ExcelFillStyle PattenStyle = ExcelFillStyle.None;
-        public PdfColor PatternColor = PdfColor.Black;
+        public Color PatternColor = Color.Black;
         //Fill Effects
         public PdfCellGradientFillData GradientFillData = null;
         public bool enhanceGridLine = false;
@@ -99,7 +101,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
     internal class PdfCellBorderData
     {
         public ExcelBorderStyle BorderStyle = ExcelBorderStyle.None;
-        public PdfColor BorderColor = PdfColor.Black;
+        public Color BorderColor = Color.Black;
         public Vector2 DoubleBorderOffsets;
 
         public PdfCellBorderData(double x, double y)

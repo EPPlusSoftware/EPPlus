@@ -37,5 +37,21 @@ namespace EPPlusTest.Drawing.TextMeasuring
                 var someText = shape1.TextBody.Paragraphs;
             }
         }
+
+        [TestMethod]
+        public void ReadRichTextBox()
+        {
+            using (var p = OpenTemplatePackage("paragraphBook.xlsx"))
+            {
+                var ws1 = p.Workbook.Worksheets[0];
+                var shape1 = ws1.Drawings[0].As.Shape;
+                var paragraphs = shape1.TextBody.Paragraphs;
+                var someText = shape1.TextBody.Paragraphs.Text;
+                var richText = shape1.RichText;
+                paragraphs[0].DefaultRunProperties.ComplexFont = null;
+                
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

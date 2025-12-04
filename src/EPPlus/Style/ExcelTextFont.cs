@@ -637,7 +637,7 @@ namespace OfficeOpenXml.Style
         {
             _pictureRelationDocument = pictureRelationDocument;
         }
-
+        internal IPictureRelationDocument PictureRelationDocument { get => _pictureRelationDocument; }
         /// <summary>
         /// The latin typeface name
         /// </summary>
@@ -783,7 +783,7 @@ namespace OfficeOpenXml.Style
         }
 
         internal MeasurementFont GetMeasureFont()
-        {            
+        {                        
             return FontUtil.GetMeasureFont(LatinFont, ComplexFont, EastAsianFont, Size, GetFontStyle(), _pictureRelationDocument.Package);
         }
         private MeasurementFontStyles GetFontStyle()

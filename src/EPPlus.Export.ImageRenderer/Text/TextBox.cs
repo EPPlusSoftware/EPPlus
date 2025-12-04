@@ -10,23 +10,24 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.ImageRenderer.Text;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
 namespace EPPlusImageRenderer.Text
 {
-    internal class TextBox
+    internal class TextBox : RenderItem
     {
         internal RectMargins Bounds = new RectMargins();
 
-        internal eTextAnchoringType VerticalAlignment;
+        internal eTextAnchoringType VerticalAlignment=eTextAnchoringType.Top;
 
         internal double ClippingHeight;
 
@@ -43,6 +44,8 @@ namespace EPPlusImageRenderer.Text
             get;
             set;
         }
+
+        public override SvgItemType Type => SvgItemType.Rect;
 
         /// <summary>
         /// Top of the paragraph bounding box
@@ -106,6 +109,10 @@ namespace EPPlusImageRenderer.Text
             ClippingHeight = Bounds.GetInnerBottom();
         }
 
+        public TextBox()
+        {
+        }
+
         double? _alignmentY = null;
 
         /// <summary>
@@ -113,7 +120,7 @@ namespace EPPlusImageRenderer.Text
         /// </summary>
         /// <param name="fontSizeInPixels"></param>
         /// <returns></returns>
-        internal double GetAlignmentVertical()
+        private double GetAlignmentVertical()
         {
             double alignmentY = 0;
 
@@ -204,6 +211,18 @@ namespace EPPlusImageRenderer.Text
                 Paragraphs.Remove(item);
             }
         }
+        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
+        {
+            il = Bounds.GetInnerLeft();
+            ir = Bounds.GetInnerRight();
+            it = Bounds.GetInnerTop();
+            ib = Bounds.GetInnerBottom();
+        }
+
+        public override void Render(StringBuilder sb)
+        {
+            RenderParagraphs(sb);
+        }
 
         internal void RenderParagraphs(StringBuilder sb)
         {
@@ -216,6 +235,23 @@ namespace EPPlusImageRenderer.Text
             }
             groupItem.RenderEndGroup(sb);
         }
+        internal void RenderTextRuns(StringBuilder sb)
+        {
+            var groupItem = new SvgGroupItem("");
+            groupItem.Render(sb);
+
+            var innerTop = Bounds.GetInnerRect().Top;
+            var fontFamilyAttr = $"font-family=\"{mFontTextRun.FontFamily},{mFontTextRun.FontFamily}_MSFontService,sans-serif\" ";
+            sb.Append($"<text fill=\"black\" y=\"{innerTop.ToString(CultureInfo.InvariantCulture)}\" {fontFamilyAttr}>");
+            //TODO: add textbody property stuff here
+            foreach (var textRun in CellTextRuns)
+            {
+                textRun.Render(sb);
+            }
+            sb.Append("</text>");
+            groupItem.RenderEndGroup(sb);
+        }
+
         internal void AddCellTextRun(ExcelRangeBase cell)
         {
             var fontStyle = cell.Style.Font;
@@ -255,23 +291,32 @@ namespace EPPlusImageRenderer.Text
             //    Bounds.Bottom = Bounds.Top + botPos;
             //}
         }
-
-
-        internal void RenderTextRuns(StringBuilder sb)
+        public string Text { get; set; }
+        internal void AddText(string text, OfficeOpenXml.Style.ExcelTextFont font)
         {
-            var groupItem = new SvgGroupItem("");
-            groupItem.Render(sb);
+            var measureFont = font.GetMeasureFont();
 
-            var innerTop = Bounds.GetInnerRect().Top;
-            var fontFamilyAttr = $"font-family=\"{mFontTextRun.FontFamily},{mFontTextRun.FontFamily}_MSFontService,sans-serif\" ";
-            sb.Append($"<text fill=\"black\" y=\"{innerTop.ToString(CultureInfo.InvariantCulture)}\" {fontFamilyAttr}>");
-            //TODO: add textbody property stuff here
-            foreach (var textRun in CellTextRuns)
-            {
-                textRun.Render(sb);
-            }
-            sb.Append("</text>");
-            groupItem.RenderEndGroup(sb);
+            var area = GetTextArea();
+            paragraphStartPosY = area.Top;
+            //Document Y position for the paragraph text based on vertical alignment
+            var posY = GetAlignmentVertical();
+            var vertAlignAttribute = GetVerticalAlignAttribute(posY);
+
+
+
+            var measurer = font.PictureRelationDocument.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
+            var m = measurer.MeasureText(text, measureFont);
+            //Limit bounding area with the space taken by previous paragraphs
+            //Note that this is ONLY identical to PosY if the vertical alignment is top
+
+            //The first run in the first paragraph must apply different line-spacing
+            var svgParagraph = new SvgParagraph(text, font, area, vertAlignAttribute, posY);
+
+            svgParagraph.FillColor = font.Fill.Color.To6CharHexString();
+
+            paragraphStartPosY = svgParagraph.GetBottomYPosition();
+
+            Paragraphs.Add(svgParagraph);
         }
     }
 }

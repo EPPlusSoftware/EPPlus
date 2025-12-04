@@ -32,7 +32,7 @@ namespace EPPlus.Fonts.OpenType
         /// </summary>
         public static bool SearchSystemDirectories = true;
 
-        internal static OpenTypeFont GetFontData(string fontName, string subFamily)
+        internal static OpenTypeFont GetFontData(string fontName, FontSubFamily subFamily)
         {
             return OpenTypeFonts.GetFontData(FontDirectories, fontName, subFamily, SearchSystemDirectories);
         }
@@ -498,5 +498,16 @@ namespace EPPlus.Fonts.OpenType
             }
             return ~low;
         }
+    }
+}
+
+namespace EPPlus.Fonts.OpenType
+{
+    public enum FontSubFamily
+    {
+        Regular,
+        Bold,
+        Italic,
+        BoldItalic
     }
 }

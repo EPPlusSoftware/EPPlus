@@ -17,6 +17,7 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.EnumUtils;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -43,7 +44,15 @@ namespace OfficeOpenXml.Drawing
             SchemaNodeOrder = ["rPr", "pPr", "t"];
             _paragraph = paragraph;
             _prd = _paragraph._prd;
-            _dtr = _paragraph.DefaultRunProperties;
+            //Default properties are always taken from the first paragraph.
+            if (_paragraph._paragraphs.Count == 0)
+            {
+                _dtr = _paragraph.DefaultRunProperties;
+            }
+            else
+            {
+                _dtr = _paragraph._paragraphs[0].DefaultRunProperties;
+            }
         }
 
         internal List<string> SplitIntoLines()
@@ -62,11 +71,11 @@ namespace OfficeOpenXml.Drawing
         {
             var mf = new MeasurementFont()
             {
-                FontFamily = string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont,
+                FontFamily = _prd.Package.Workbook.ThemeManager.GetOrCreateTheme().GetFontByCode(string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont),
                 Size = FontSize,
                 Style = GetFontStyle()
             };
-
+            
             if (string.IsNullOrEmpty(mf.FontFamily) || mf.Size <= 0 || float.IsNaN(mf.Size))
             {
                 var defaultMeasurementFont = _paragraph.DefaultRunProperties.GetMeasureFont();
@@ -83,6 +92,16 @@ namespace OfficeOpenXml.Drawing
             }
 
             return mf;
+        }
+
+        private string GetFontName(string fontName)
+        {
+            if(fontName.StartsWith("+"))
+            {
+                
+            }
+
+            return fontName;
         }
 
         #region Basic Fill

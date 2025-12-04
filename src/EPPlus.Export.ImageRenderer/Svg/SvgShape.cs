@@ -55,6 +55,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 var shapeDef = PresetShapeDefinitions.ShapeDefinitions[style].Clone();
                 shapeDef.Calculate(shape);
+
                 //RenderItems.Add(new SvgRenderPathItem(shape));
                 RenderItems.Add(new SvgGroupItem(shapeDef.GetTransform(shape.Rotation)));
 
@@ -93,13 +94,12 @@ namespace EPPlusImageRenderer.Svg
                         }
                         else
                         {
-
                             var rectItem = new SvgRenderRectItem(_shape);
 
                             rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
                             rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
-                            rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.X;
-                            rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
+                            rectItem.Width = (float)shapeDef.TextBoxRect.RightValue;
+                            rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue;
                             rectItem.FillOpacity = 0.3d;
                             _renderTextBox = rectItem;
                         }

@@ -10,12 +10,13 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Math;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
 using EPPlus.Export.Pdf.PdfSettings;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfContentLayout : PdfTransform
+    internal class PdfContentLayout : Transform
     {
         public PdfContentLayout(double x, double y, PdfContentBounds bounds)
         {

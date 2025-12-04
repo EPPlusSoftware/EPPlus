@@ -23,7 +23,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void ReadRobotoRegularTtf()
         {
-            OpenTypeFont? font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            OpenTypeFont? font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false);
             Assert.IsNotNull(font);
             var cmap = font.CmapTable;
             Assert.AreEqual("Roboto", font.FullName);
@@ -34,7 +34,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void ReadSourceSans3Otf()
         {
-            OpenTypeFont? font = OpenTypeFonts.GetFontDataOpen(_fontFolders, "Source Sans 3", "Regular", false);
+            OpenTypeFont? font = OpenTypeFonts.GetFontDataOpen(_fontFolders, "Source Sans 3", FontSubFamily.Regular, false);
             Assert.IsNotNull(font);
             Assert.AreEqual("Source Sans 3", font.FullName);
             Assert.AreEqual("Regular", font.SubFamily);
@@ -75,7 +75,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void ReadTccGothic()
         {
-            OpenTypeFont? font = OpenTypeFonts.GetFontDataOpen(_fontFolders, "BIZ UDGothic", "Bold", true);
+            OpenTypeFont? font = OpenTypeFonts.GetFontDataOpen(_fontFolders, "BIZ UDGothic", FontSubFamily.Bold, true);
 
             Assert.IsNotNull(font);
             Assert.AreEqual("BIZ UDGothic Bold", font.FullName);
@@ -86,11 +86,11 @@ namespace EPPlus.Fonts.OpenType.Tests
         public void ReadSixFonts()
         {
             List<string> test = new List<string> { Path.Combine(Directory.GetCurrentDirectory(), "Fonts") };
-            OpenTypeFont? gothic = OpenTypeFonts.GetFontDataOpen(test, "BIZ UDGothic", "Bold", true);
-            OpenTypeFont? calibri = OpenTypeFonts.GetFontDataOpen(test, "Calibri", "Italic", true);
-            OpenTypeFont? aptos = OpenTypeFonts.GetFontDataOpen(test, "Aptos Narrow", "Bold", true);
-            OpenTypeFont? timesNewRoman = OpenTypeFonts.GetFontDataOpen(test, "Times New Roman", "Regular", true);
-            OpenTypeFont? SS3 = OpenTypeFonts.GetFontDataOpen(_fontFolders, "Source Sans 3", "Bold", false);
+            OpenTypeFont? gothic = OpenTypeFonts.GetFontDataOpen(test, "BIZ UDGothic", FontSubFamily.Bold, true);
+            OpenTypeFont? calibri = OpenTypeFonts.GetFontDataOpen(test, "Calibri", FontSubFamily.Italic, true);
+            OpenTypeFont? aptos = OpenTypeFonts.GetFontDataOpen(test, "Aptos Narrow", FontSubFamily.Bold, true);
+            OpenTypeFont? timesNewRoman = OpenTypeFonts.GetFontDataOpen(test, "Times New Roman", FontSubFamily.Regular, true);
+            OpenTypeFont? SS3 = OpenTypeFonts.GetFontDataOpen(_fontFolders, "Source Sans 3", FontSubFamily.Bold, false);
 
             Assert.IsNotNull(gothic);
             Assert.AreEqual("BIZ UDGothic Bold", gothic.FullName);

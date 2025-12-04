@@ -11,6 +11,8 @@
   1/4/2021         EPPlus Software AB           EPPlus Interfaces 1.0
  *************************************************************************************************/
 
+using System;
+
 namespace OfficeOpenXml.Interfaces.Drawing.Text
 {
     public class MeasurementFont

@@ -29,7 +29,7 @@ namespace EPPlusImageRenderer.Svg
     {
         double LineSpacingPerNewLine;
         double _yPosition;
-        double ClippingHeight;
+        double ClippingHeight = Double.NaN;
         double fontSizeInPixels;
         eTextAlignment horizontalTextAlignment;
 
@@ -68,7 +68,7 @@ namespace EPPlusImageRenderer.Svg
 
             isFirstInParagraph = textRun.IsFirstInParagraph;
 
-            if(textRun.HasFill())
+            if(textRun.Fill.Style==eFillStyle.SolidFill)
             {
                 FillColor = "#"+textRun.Fill.Color.To6CharHexString();
             }
@@ -147,6 +147,103 @@ namespace EPPlusImageRenderer.Svg
                 fontStyleAttributes += "\" ";
             }
         }
+        /// <summary>
+        /// A item with a font property and no rich text.
+        /// </summary>
+        /// <param name="text">The text</param>
+        /// <param name="font">The font</param>
+        /// <param name="lineSpacing"></param>
+        /// <param name="textMaxX"></param>
+        /// <param name="textMaxY"></param>
+        /// <param name="xPosition"></param>
+        /// <param name="yPosition"></param>
+        /// <param name="baselineLineSpacing"></param>
+        internal SvgTextRun(string text, ExcelTextFont font, double lineSpacing, double textMaxY, double xPosition, double yPosition, double baselineLineSpacing = double.NaN) : base()
+        {
+            originalText = text;
+
+            isFirstInParagraph = true;
+            Lines = SplitIntoLines(originalText);
+
+            measurementFont = font.GetMeasureFont();
+
+
+            if (font.Fill.Style == eFillStyle.SolidFill)
+            {
+                FillColor = "#" + font.Fill.Color.To6CharHexString();
+            }
+
+            fmExact = new FontMeasurerTrueType(measurementFont);
+
+            //horizontalTextAlignment = font..Paragraph.HorizontalAlignment;
+
+            LineSpacingPerNewLine = lineSpacing;
+
+            //Used for the first line
+            BaselineSpacing = baselineLineSpacing;
+
+            _xPosition = xPosition;
+            _yPosition = yPosition;
+
+            //origin.X = xPosition;
+            //origin.Y = yPosition;
+
+            fontSizeInPixels = ((double)measurementFont.Size).PointToPixel(true);
+
+            //ClippingHeight = textMaxY;
+            //CalculateTextWrapping(textMaxX);
+
+            if (font.Italic)
+            {
+                fontStyleAttributes += " font-style=\"italic\" ";
+            }
+            if (font.Bold)
+            {
+                fontStyleAttributes += "font-weight=\"bold\" ";
+            }
+            if (font.UnderLine != eUnderLineType.None | font.Strike != eStrikeType.No)
+            {
+
+                fontStyleAttributes += "text-decoration=\"";
+                if (font.UnderLine != eUnderLineType.None)
+                {
+                    switch (font.UnderLine)
+                    {
+                        case eUnderLineType.Single:
+                            fontStyleAttributes += "underline";
+                            break;
+                        //These are all css only apparently
+                        //case eUnderLineType.Double:
+                        //    fontStyleAttributes += "double";
+                        //    break;
+                        //case eUnderLineType.Dotted:
+                        //    fontStyleAttributes += "dotted";
+                        //    break;
+                        //case eUnderLineType.Dash:
+                        //    fontStyleAttributes += "dashed";
+                        //    break;
+                        //case eUnderLineType.Wavy:
+                        //    fontStyleAttributes += "wavy";
+                        //    break;
+                        default:
+                            fontStyleAttributes += "underline";
+                            break;
+                            //throw new NotImplementedException("Not implemented yet");
+                    }
+                }
+
+                if (font.Strike == eStrikeType.Single)
+                {
+                    if (font.UnderLine != eUnderLineType.None)
+                    {
+                        fontStyleAttributes += ",";
+                    }
+                    fontStyleAttributes += "line-through";
+                }
+
+                fontStyleAttributes += "\" ";
+            }
+        }
 
         //internal SvgTextRun(ExcelRichText textRun, double lineSpacing, double textMaxX, double textMaxY, double xPosition, double yPosition, MeasurementFont mf, ExcelHorizontalAlignment horAlign, double baselineLineSpacing = double.NaN) : base()
         //{
@@ -214,7 +311,7 @@ namespace EPPlusImageRenderer.Svg
         //                    //throw new NotImplementedException("Not implemented yet");
         //            }
         //        }
-                
+
         //        if(textRun.FontStrike == eStrikeType.Single)
         //        {
         //            if(textRun.FontUnderLine != eUnderLineType.None)
@@ -287,7 +384,7 @@ namespace EPPlusImageRenderer.Svg
                     yIncrease = EPPlus.Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
 
                     _yPosition += yIncrease;
-                    if (_yPosition >= ClippingHeight)
+                    if (Double.IsNaN(ClippingHeight) == false && _yPosition >= ClippingHeight)
                     {
                         visibility = "display=\"none\"";
                     }

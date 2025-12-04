@@ -10,7 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfGraphics;
+using System.Drawing;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfObjects.PdfFunctions;
@@ -33,7 +33,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfShadings
             //Fun test later for diagonal gradients. Diagonal gradients are set to 45 degrees, but in excel they go from corner to corner. To replicate this we could create out 45 in a square that we then scale to fill the dell.
             ColorSpace = DeviceColorSpace.DeviceRGB;
             Coords = [0, 0, 1, 0];
-            if (!GradientFillData.Color3.Equals(PdfColor.None))
+            if (!GradientFillData.Color3.Equals(Color.Empty))
             {
                 var func = new PdfStichingFunction(0);
                 func.Domain = [0d, 1d];

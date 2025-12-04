@@ -821,7 +821,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(0, (double)ws.Cells["G9"].Value, 0.0000001);
             Assert.AreEqual(0D, (double)ws.Cells["G10"].Value, 0.0000001);
             Assert.AreEqual(419D, (double)ws.Cells["G11"].Value, 0.0000001);
-            Assert.AreEqual(315D, (double)ws.Cells["G12"].Value, 0.0000001);        
+            Assert.AreEqual(315D, (double)ws.Cells["G12"].Value, 0.0000001);
         }
 
         [TestMethod]

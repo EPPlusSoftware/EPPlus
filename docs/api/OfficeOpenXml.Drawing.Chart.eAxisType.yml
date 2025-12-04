@@ -1,0 +1,184 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eAxisType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAxisType
+  id: eAxisType
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eAxisType.Cat
+  - OfficeOpenXml.Drawing.Chart.eAxisType.Date
+  - OfficeOpenXml.Drawing.Chart.eAxisType.Serie
+  - OfficeOpenXml.Drawing.Chart.eAxisType.Val
+  langs:
+  - csharp
+  - vb
+  name: eAxisType
+  nameWithType: eAxisType
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eAxisType
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: Axis type
+  example: []
+  syntax:
+    content: public enum eAxisType
+    content.vb: Public Enum eAxisType
+- uid: OfficeOpenXml.Drawing.Chart.eAxisType.Val
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAxisType.Val
+  id: Val
+  parent: OfficeOpenXml.Drawing.Chart.eAxisType
+  langs:
+  - csharp
+  - vb
+  name: Val
+  nameWithType: eAxisType.Val
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisType.Val
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Val
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: Value axis
+  example: []
+  syntax:
+    content: Val = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisType
+- uid: OfficeOpenXml.Drawing.Chart.eAxisType.Cat
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAxisType.Cat
+  id: Cat
+  parent: OfficeOpenXml.Drawing.Chart.eAxisType
+  langs:
+  - csharp
+  - vb
+  name: Cat
+  nameWithType: eAxisType.Cat
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisType.Cat
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cat
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: Category axis
+  example: []
+  syntax:
+    content: Cat = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisType
+- uid: OfficeOpenXml.Drawing.Chart.eAxisType.Date
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAxisType.Date
+  id: Date
+  parent: OfficeOpenXml.Drawing.Chart.eAxisType
+  langs:
+  - csharp
+  - vb
+  name: Date
+  nameWithType: eAxisType.Date
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisType.Date
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Date
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: Date axis
+  example: []
+  syntax:
+    content: Date = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisType
+- uid: OfficeOpenXml.Drawing.Chart.eAxisType.Serie
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAxisType.Serie
+  id: Serie
+  parent: OfficeOpenXml.Drawing.Chart.eAxisType
+  langs:
+  - csharp
+  - vb
+  name: Serie
+  nameWithType: eAxisType.Serie
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisType.Serie
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Serie
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: Series axis (Type of Category axis usually in 3D charts)
+  example: []
+  syntax:
+    content: Serie = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisType
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  href: OfficeOpenXml.html
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+  spec.csharp:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Drawing
+    name: Drawing
+    href: OfficeOpenXml.Drawing.html
+  - name: .
+  - uid: OfficeOpenXml.Drawing.Chart
+    name: Chart
+    href: OfficeOpenXml.Drawing.Chart.html
+  spec.vb:
+  - uid: OfficeOpenXml
+    name: OfficeOpenXml
+    href: OfficeOpenXml.html
+  - name: .
+  - uid: OfficeOpenXml.Drawing
+    name: Drawing
+    href: OfficeOpenXml.Drawing.html
+  - name: .
+  - uid: OfficeOpenXml.Drawing.Chart
+    name: Chart
+    href: OfficeOpenXml.Drawing.Chart.html
+- uid: OfficeOpenXml.Drawing.Chart.eAxisType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAxisType
+  parent: OfficeOpenXml.Drawing.Chart
+  href: OfficeOpenXml.Drawing.Chart.eAxisType.html
+  name: eAxisType
+  nameWithType: eAxisType
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisType

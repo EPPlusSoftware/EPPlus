@@ -22,7 +22,7 @@ using System.Text;
 using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 namespace EPPlusImageRenderer.RenderItems
 {
-    internal abstract class RenderItem
+    internal abstract class RenderItem : RenderItemBase
     {
         protected ExcelDrawing _drawing;
         protected ExcelTheme _theme;
@@ -35,7 +35,6 @@ namespace EPPlusImageRenderer.RenderItems
             _drawing = drawing; 
             _theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
         }
-        public abstract SvgItemType Type { get; }
         public string FillColor { get; set; }
         public string FilterName { get; set; }
         public DrawGradientFill GradientFill { get; set; }
@@ -53,7 +52,6 @@ namespace EPPlusImageRenderer.RenderItems
         public PathFillMode FillColorSource { get; set; } = PathFillMode.Norm;
         public PathFillMode BorderColorSource { get; set; } = PathFillMode.Norm;
 
-        public abstract void Render(StringBuilder sb);
         protected void CloneBase(RenderItem item)
         {
             item.FillColor = FillColor;
@@ -193,5 +191,14 @@ namespace EPPlusImageRenderer.RenderItems
             return "#" + fc.ToArgb().ToString("x8").Substring(2);
         }
         internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
+    }
+    /// <summary>
+    /// Base class for any item rendered.
+    /// </summary>
+    internal abstract class RenderItemBase
+    {
+        public abstract SvgItemType Type { get; }
+        public abstract void Render(StringBuilder sb);
+
     }
 }

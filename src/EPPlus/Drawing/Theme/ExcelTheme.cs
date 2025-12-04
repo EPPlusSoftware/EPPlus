@@ -53,15 +53,35 @@ namespace OfficeOpenXml.Drawing.Theme
 
         internal string GetFontByCode(string fontName)
         {
+            string fontNameTheme;
             switch (fontName)
             {
                 case "+mj-lt":
-                    return FontScheme.MajorFont.First(x=>(x as ExcelDrawingFontSpecial)?.Type==eFontType.Latin).Typeface;
+                    fontNameTheme = FontScheme.MajorFont.FirstOrDefault(x=>(x as ExcelDrawingFontSpecial)?.Type==eFontType.Latin)?.Typeface ?? "Aptos Display";
+                    break;
                 case "+mn-lt":
-                    return FontScheme.MinorFont.First(x => (x as ExcelDrawingFontSpecial)?.Type == eFontType.Latin).Typeface;
+                    fontNameTheme = FontScheme.MinorFont.FirstOrDefault(x => (x as ExcelDrawingFontSpecial)?.Type == eFontType.Latin)?.Typeface ?? "Aptos Narrow";
+                    break;
+                case "+mj-ea":
+                    fontNameTheme = FontScheme.MajorFont.FirstOrDefault(x => (x as ExcelDrawingFontSpecial)?.Type == eFontType.EastAsian)?.Typeface;
+                    if (string.IsNullOrEmpty(fontNameTheme)) return GetFontByCode("+mj-lt");
+                    break;
+                case "+mn-ea":
+                    fontNameTheme = FontScheme.MinorFont.FirstOrDefault(x => (x as ExcelDrawingFontSpecial)?.Type == eFontType.EastAsian)?.Typeface;
+                    if (string.IsNullOrEmpty(fontNameTheme)) return GetFontByCode("+mn-lt");
+                    break;
+                case "+mj-cs":
+                    fontNameTheme = FontScheme.MajorFont.FirstOrDefault(x => (x as ExcelDrawingFontSpecial)?.Type == eFontType.Complex)?.Typeface;
+                    if (string.IsNullOrEmpty(fontNameTheme)) return GetFontByCode("+mj-lt");
+                    break;
+                case "+mn-cs":
+                    fontNameTheme = FontScheme.MinorFont.FirstOrDefault(x => (x as ExcelDrawingFontSpecial)?.Type == eFontType.Complex)?.Typeface;
+                    if (string.IsNullOrEmpty(fontNameTheme)) return GetFontByCode("+mn-lt");
+                    break;
                 default:
                     return FontScheme.MinorFont[0].Typeface;
             }
+            return fontNameTheme;
         }
     }
 }

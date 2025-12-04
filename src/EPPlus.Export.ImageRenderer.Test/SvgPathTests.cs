@@ -503,11 +503,10 @@ namespace TestProject1
                 }
             }
         }
-        [TestMethod, Ignore]
+        [TestMethod]
         public void GenerateSvgForCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            //TextData.FontDirectories.Add("c:\\fonts");
             using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];

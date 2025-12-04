@@ -31,6 +31,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 
         public override string NamespacePrefix => "_xlfn.";
 
+        public override bool ExecutesLambda => true;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             object initialValue = null;

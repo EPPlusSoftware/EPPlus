@@ -18,7 +18,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
     {
         string FontFamilyName { get; }
 
-        string FontSubFamilyName { get; set; }
+        FontSubFamily FontSubFamily { get; set; }
 
         string FilePath { get; set; }
 

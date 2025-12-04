@@ -19,26 +19,12 @@ namespace EPPlus.Fonts.OpenType.Scanner
 {
     internal static class FontScanner
     {
-        static Dictionary<string, ScannedFont> _scannedFontsCache;
-
         static Dictionary<string, ScannedFont> ScannedFontsCache
         {
-            get
-            {
-                if (_scannedFontsCache == null)
-                {
-                    return new Dictionary<string, ScannedFont>();
-                }
-                else
-                {
-                    return _scannedFontsCache;
-                }
-            }
-            set
-            {
-                _scannedFontsCache = value;
-            }
-        }
+            get;
+        } = new Dictionary<string, ScannedFont>(StringComparer.OrdinalIgnoreCase);
+
+        private static object _lock = new();
 
         internal static FontFormat? GetFormat(string file)
         {
@@ -71,7 +57,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
             return new string[0];
         }
 
-        internal static bool IsTargetFont(ScannedFont sf, string fontFamilyTarget, string subFamilyTarget)
+        internal static bool IsTargetFont(ScannedFont sf, string fontFamilyTarget, FontSubFamily subFamilyTarget)
         {
             if (sf.SubFonts != null && sf.SubFonts.Any())
             {
@@ -79,15 +65,9 @@ namespace EPPlus.Fonts.OpenType.Scanner
                 {
                     if (!string.IsNullOrEmpty(subFont.FontFamilyName) && subFont.FontFamilyName.ToLower() == fontFamilyTarget.ToLower())
                     {
-                        var subFamilyName = string.IsNullOrEmpty(sf.FontFamilyName) ? subFont.FontSubFamilyName : sf.FontSubFamilyName;
+                        var subFamilyName = string.IsNullOrEmpty(sf.FontFamilyName) ? subFont.FontSubFamily : sf.FontSubFamily;
 
-                        subFamilyName = subFamilyName.ToLower();
-                        if (subFamilyName == "normal")
-                        {
-                            subFamilyName = "regular";
-                        }
-
-                        if (subFamilyTarget.ToLower() == subFamilyName)
+                        if (subFamilyTarget == subFamilyName)
                         {
                             return true;
                         }
@@ -98,13 +78,8 @@ namespace EPPlus.Fonts.OpenType.Scanner
             {
                 if (!string.IsNullOrEmpty(sf.FontFamilyName) && sf.FontFamilyName.ToLower() == fontFamilyTarget.ToLower())
                 {
-                    var subFamilyName = sf.FontSubFamilyName.ToLower();
-                    if (subFamilyName == "normal")
-                    {
-                        subFamilyName = "regular";
-                    }
-
-                    if (subFamilyTarget.ToLower() == subFamilyName)
+                    var subFamilyName = sf.FontSubFamily;
+                    if (subFamilyTarget == subFamilyName)
                     {
                         return true;
                     }
@@ -114,12 +89,12 @@ namespace EPPlus.Fonts.OpenType.Scanner
             return false;
         }
 
-        internal static IScannedFont ScanForClosest(string fontDirectoryPath, string fontFamily, string subFamily)
+        internal static IScannedFont ScanForClosest(string fontDirectoryPath, string fontFamily, FontSubFamily subFamily)
         {
             var scannedFont = ScanFor(fontDirectoryPath, fontFamily, subFamily);
             if (scannedFont == null)
             {
-                scannedFont = ScanFor(fontDirectoryPath, fontFamily, "Regular");
+                scannedFont = ScanFor(fontDirectoryPath, fontFamily, FontSubFamily.Regular);
                 if (scannedFont != null)
                 {
                     return scannedFont;
@@ -130,7 +105,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
             {
                 if (scannedFont.SubFonts != null && scannedFont.SubFonts.Any())
                 {
-                    var subFont = scannedFont.SubFonts.FirstOrDefault(x => x.FontFamilyName == fontFamily && x.FontSubFamilyName == subFamily);
+                    var subFont = scannedFont.SubFonts.FirstOrDefault(x => x.FontFamilyName == fontFamily && x.FontSubFamily == subFamily);
                     return subFont;
                 }
                 else
@@ -140,65 +115,57 @@ namespace EPPlus.Fonts.OpenType.Scanner
             }
         }
 
-        internal static IScannedFont ScanFor(string fontDirectoryPath, string fontFamily, string subFamily)
+        internal static IScannedFont ScanFor(string fontDirectoryPath, string fontFamily, FontSubFamily subFamily)
         {
             var font = default(IScannedFont);
 
             var fullName = fontFamily + "__" + subFamily;
 
-            if (ScannedFontsCache.TryGetValue(fullName, out ScannedFont sf) == false)
+            lock (_lock)
             {
-                var files = TryGetFiles(fontDirectoryPath).Where(x => Path.GetExtension(x).ToLower() == ".ttf" || Path.GetExtension(x).ToLower() == ".ttc" || Path.GetExtension(x).ToLower() == ".otf");
-
-                if (!files.Any())
+                if (ScannedFontsCache.TryGetValue(fullName, out ScannedFont sf) == false)
                 {
-                    return default(IScannedFont);
-                }
+                    var files = TryGetFiles(fontDirectoryPath).Where(x => Path.GetExtension(x).ToLower() == ".ttf" || Path.GetExtension(x).ToLower() == ".ttc" || Path.GetExtension(x).ToLower() == ".otf");
 
-                foreach (var file in files)
-                {
-                    using (var reader = new FontsBinaryReader(File.OpenRead(file)))
+                    if (!files.Any())
                     {
-                        var format = GetFormat(file);
-                        if (!format.HasValue) continue;
+                        return default(IScannedFont);
+                    }
 
-                        sf = new ScannedFont(reader, format.Value, file);
-                        sf.Format = format.Value;
-
-                        if(sf.FontFamilyName != null)
+                    foreach (var file in files)
+                    {
+                        using (var reader = new FontsBinaryReader(File.OpenRead(file)))
                         {
-                            var individualFullName = sf.FontFamilyName;
-                            if (sf.FontSubFamilyName != null)
-                            {
-                                individualFullName += "__" + sf.FontSubFamilyName;
-                            }
-                            if (ScannedFontsCache.ContainsKey(individualFullName) == false)
-                            {
-                                ScannedFontsCache.Add(individualFullName, sf);
-                            }
-                        }
+                            var format = GetFormat(file);
+                            if (!format.HasValue) continue;
 
-                        if (IsTargetFont(sf, fontFamily, subFamily))
-                        {
-                            return sf;
+                            sf = new ScannedFont(reader, format.Value, file);
+                            sf.Format = format.Value;
+
+                            if (sf.FontFamilyName != null)
+                            {
+                                var individualFullName = sf.FontFamilyName + "__" + sf.FontSubFamily;
+                                if (ScannedFontsCache.ContainsKey(individualFullName) == false)
+                                {
+                                    ScannedFontsCache.Add(individualFullName, sf);
+                                }
+                            }
+
+                            if (IsTargetFont(sf, fontFamily, subFamily))
+                            {
+                                return sf;
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                if (IsTargetFont(sf, fontFamily, subFamily))
+                else
                 {
-                    return sf;
+                    if (IsTargetFont(sf, fontFamily, subFamily))
+                    {
+                        return sf;
+                    }
                 }
             }
-
-            ////If we found the font-family but not the specific sub-family return the closest thing
-            ////(likely 'regular' or 'normal' subfamily
-            //if (ScannedFontsCache.TryGetValue(fontFamily, out ScannedFont sfBackup))
-            //{
-            //    return sfBackup;
-            //}
 
             return font;
         }

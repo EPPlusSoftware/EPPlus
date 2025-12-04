@@ -1802,22 +1802,29 @@ namespace OfficeOpenXml.Table.PivotTable
             var cfToDelete = new List<ExcelPivotTableConditionalFormatting>();
             foreach (var cf in ConditionalFormattings)
             {
-                cf.Priority = cf.ConditionalFormatting.Priority;
-                var areasToDelete = new List<ExcelPivotTableAreaConditionalFormatting>();
-                foreach (ExcelPivotTableAreaConditionalFormatting a in cf.Areas)
-                {
-                    if(a.Conditions.UpdateXml()==false)
-                    {
-                        areasToDelete.Add(a);
-                    }
-                }
-                if(cf.Areas.Count==areasToDelete.Count)
+                if (cf.ConditionalFormatting == null)
                 {
                     cfToDelete.Add(cf);
                 }
                 else
                 {
-                    areasToDelete.ForEach(x => cf.Areas.Remove(x));
+                    cf.Priority = cf.ConditionalFormatting.Priority;
+                    var areasToDelete = new List<ExcelPivotTableAreaConditionalFormatting>();
+                    foreach (ExcelPivotTableAreaConditionalFormatting a in cf.Areas)
+                    {
+                        if (a.Conditions.UpdateXml() == false)
+                        {
+                            areasToDelete.Add(a);
+                        }
+                    }
+                    if (cf.Areas.Count == areasToDelete.Count)
+                    {
+                        cfToDelete.Add(cf);
+                    }
+                    else
+                    {
+                        areasToDelete.ForEach(x => cf.Areas.Remove(x));
+                    }
                 }
             }
             cfToDelete.ForEach(x => ConditionalFormattings.Remove(x));
