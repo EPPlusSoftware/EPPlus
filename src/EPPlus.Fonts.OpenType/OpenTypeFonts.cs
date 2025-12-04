@@ -90,56 +90,50 @@ namespace EPPlus.Fonts.OpenType
             return fontLocations;
         }
 
-        static Dictionary<string, OpenTypeFont> CachedFonts;
-
         public static void ClearFontCache()
         {
-            lock (_syncRoot)
-            {
-                if (CachedFonts != null && CachedFonts.Count > 0)
-                {
-                    CachedFonts.Clear();
-                }
-            }
+            OpenTypeFontCache.Clear();
         }
 
 
         public static OpenTypeFont GetFontDataOpen(IEnumerable<string> fontDirectories, string fontName, FontSubFamily subFamily = FontSubFamily.Regular, bool searchSystemDirectories = true, bool ignoreCache = false)
         {
-
-            if (!ignoreCache)
+            lock(_syncRoot)
             {
-                if (OpenTypeFontCache.Contains(fontName, subFamily))
+                if (!ignoreCache)
                 {
-                    var cachedFont = OpenTypeFontCache.GetFromCache(fontName, subFamily);
-                    if (cachedFont != null && cachedFont.Font != null && cachedFont.IsLoaded)
+                    if (OpenTypeFontCache.Contains(fontName, subFamily))
                     {
-                        return cachedFont.Font;
+                        var cachedFont = OpenTypeFontCache.GetFromCache(fontName, subFamily);
+                        if (cachedFont != null && cachedFont.Font != null && cachedFont.IsLoaded)
+                        {
+                            return cachedFont.Font;
+                        }
                     }
+                    OpenTypeFontCache.BeginCache(fontName, subFamily);
                 }
-                OpenTypeFontCache.BeginCache(fontName, subFamily);
-            }
 
-            List<string> fontLocations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
+                List<string> fontLocations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
 
-            OpenTypeFont fontData = null;
-            foreach (var path in fontLocations)
-            {
-                var factory = new OpenTypeFontFactory(path);
-                fontData = factory.CreateBase(fontName, subFamily);
-                if (fontData != null)
+                OpenTypeFont fontData = null;
+                foreach (var path in fontLocations)
                 {
-                    var f = fontData.FullName;
-                    break;
-                }
-                    
-            }
-            if (fontData != null && !ignoreCache)
-            {
-                OpenTypeFontCache.AddToCache(fontData);
-            }
+                    var factory = new OpenTypeFontFactory(path);
+                    fontData = factory.CreateBase(fontName, subFamily);
+                    if (fontData != null)
+                    {
+                        var f = fontData.FullName;
+                        break;
+                    }
 
-            return fontData;
+                }
+                if (fontData != null && !ignoreCache)
+                {
+                    OpenTypeFontCache.AddToCache(fontData);
+                }
+
+                return fontData;
+            }
         }
 
         public static List<OpenTypeFont> GetAllBaseFontData(List<string> fontDirectories, bool searchSystemDirectories = true, FontFormat? formatTarget = null)
@@ -215,7 +209,11 @@ namespace EPPlus.Fonts.OpenType
                 var factory = new OpenTypeFontFactory(path);
                 fontData = factory.Create(fontName, subFamily);
                 if (fontData != null)
+                {
+                    var fn = fontData.FullName;
                     break;
+                }
+                    
             }
             if(fontData != null && !ignoreCache)
             {

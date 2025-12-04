@@ -10,10 +10,12 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.FontCache;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace EPPlus.Fonts.OpenType.Scanner
 {
@@ -94,6 +96,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
             var scannedFont = ScanFor(fontDirectoryPath, fontFamily, subFamily);
             if (scannedFont == null)
             {
+                OpenTypeFontCache.LogAccess($"ScanForClosest: Could not find exact match for {fontFamily}, {subFamily}. Trying Regular subfamily.");
                 scannedFont = ScanFor(fontDirectoryPath, fontFamily, FontSubFamily.Regular);
                 if (scannedFont != null)
                 {

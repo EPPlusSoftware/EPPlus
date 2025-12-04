@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Scanner;
 using System.Collections;
 using System.Collections.Generic;
@@ -69,6 +70,8 @@ namespace EPPlus.Fonts.OpenType
             var scannedFont = GetClosestScannedFont(fontFamily, subFamily);
             if(scannedFont != null)
             {
+                var f = scannedFont.FilePath;
+                OpenTypeFontCache.LogAccess($"CreateBase - {fontFamily}, {subFamily} -> {f}");
                 return HandleScannedFontBase(scannedFont);
             }
             else

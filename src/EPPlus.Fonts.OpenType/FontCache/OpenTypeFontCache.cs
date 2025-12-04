@@ -17,11 +17,19 @@ namespace EPPlus.Fonts.OpenType.FontCache
         private const string LogFilePath = @"c:\Temp\cachelog.txt";
 
 
-        private static void LogAccess(string message)
+        internal static void LogAccess(string message)
         {
             lock (_logLock)
             {
                 File.AppendAllText(LogFilePath, $"{DateTime.UtcNow:O} - {message}{Environment.NewLine}");
+            }
+        }
+
+        internal static void Clear()
+        {
+            lock (_syncRoot)
+            {
+                _cache.Clear();
             }
         }
 
@@ -103,12 +111,17 @@ namespace EPPlus.Fonts.OpenType.FontCache
                     }
 
                     // Wait max 1 second for the font to be loaded
-                    var timeout = TimeSpan.FromSeconds(10);
+                    var timeout = TimeSpan.FromSeconds(2);
                     var start = DateTime.UtcNow;
 
                     while (!cached.IsLoaded && (DateTime.UtcNow - start) < timeout)
                     {
                         Monitor.Wait(_syncRoot, TimeSpan.FromMilliseconds(50));
+                    }
+                    if (cached == null || cached.Font == null)
+                    {
+                        LogAccess($"GetFromCache: Key '{key}' not found after wait.");
+                        return null;
                     }
                     LogAccess($"GetFromCache: Key '{key}' returned after wait -> Loaded={cached.IsLoaded}, Full name: {cached.Font.FullName}");
                     return cached.IsLoaded ? cached : null;

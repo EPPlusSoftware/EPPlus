@@ -29,6 +29,7 @@ using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Tables.Loca;
 using EPPlus.Fonts.OpenType.FontValidation;
 using EPPlus.Fonts.OpenType.Subsetting;
+using System.Xml.Linq;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -360,7 +361,9 @@ namespace EPPlus.Fonts.OpenType
 
         internal string GetEnglishFullFontFamilyName()
         {
-            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FullFontName && x.LanguageMapping.Language == Languages.English)?.Name;
+            var nr =  NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FullFontName && x.LanguageMapping.Language == Languages.English);
+            if (nr == null) return null;
+            return nr.Name;
         }
 
         public string GetEnglishFontFamilyName()
