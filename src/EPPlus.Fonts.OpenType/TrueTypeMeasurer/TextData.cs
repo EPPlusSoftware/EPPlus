@@ -179,7 +179,6 @@ namespace EPPlus.Fonts.OpenType
         {
             return font.Os2Table.usWinDescent * (fontSize / font.HeadTable.UnitsPerEm);
         }
-
         /// <summary>
         /// Measures the text and breaks it into smaller strings so that none exceed the MaxWidth
         /// </summary>
@@ -189,7 +188,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="maxWidth"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        internal static List<string> MeasureAndWrapText(string text, double fontSize, OpenTypeFont fontData, double maxWidth)
+        internal static List<string> MeasureAndWrapText(string text, double fontSize, OpenTypeFont fontData, double maxWidth, double preExistingLineWidth = 0)
         {
             int totalAdvanceWidth = 0;
             ushort? lastGlyphIndex = 0;
@@ -215,6 +214,11 @@ namespace EPPlus.Fonts.OpenType
 
                 for (int i = 0; i < line.Length; i++)
                 {
+                    if (line == splitStrings[0] && preExistingLineWidth != 0 && i == 0)
+                    {
+                        totalAdvanceWidth = Convert.ToInt16((preExistingLineWidth * (double) fontData.HeadTable.UnitsPerEm) / fontSize);
+                    }
+
                     char c = line[i];
                     var gi = glyphMappings.GetGlyphIndex(c);
                     int advanceWidth;

@@ -217,10 +217,10 @@ namespace EPPlus.Fonts.OpenType
             return TextMeasurement;
         }
 
-        public List<string> MeasureAndWrapText(string text, MeasurementFont font, double MaxWidthInPixels)
+        public List<string> MeasureAndWrapText(string text, MeasurementFont font, double MaxWidthInPixels, double preExistingWidthPixels = 0)
         {
             SetFont(font.Size, font.FontFamily);
-            var wrappedStrings = TextData.MeasureAndWrapText(text, FontSize, CurrentFont, MaxWidthInPixels.PixelToPoint());
+            var wrappedStrings = TextData.MeasureAndWrapText(text, FontSize, CurrentFont, MaxWidthInPixels.PixelToPoint(), preExistingWidthPixels.PixelToPoint());
             return wrappedStrings;
         }
 

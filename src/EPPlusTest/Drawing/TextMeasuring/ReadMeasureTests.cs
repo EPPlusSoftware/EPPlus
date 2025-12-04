@@ -41,6 +41,11 @@ namespace EPPlusTest.Drawing.TextMeasuring
             }
         }
 
+        internal List<string> SplitIntoLines(string text)
+        {
+            return text.Split(new string[] { "\r\n" }, StringSplitOptions.None).ToList();
+        }
+
         [TestMethod]
         public void ReadRichTextBox()
         {
@@ -51,6 +56,21 @@ namespace EPPlusTest.Drawing.TextMeasuring
                 var paragraphs = shape1.TextBody.Paragraphs;
                 var someText = shape1.TextBody.Paragraphs.Text;
                 var richText = shape1.RichText;
+
+                shape1.GetSizeInPixels(out int width, out int height);
+
+                var lines = SplitIntoLines(someText);
+
+
+                //paragraphs[2].TextRuns.MeasureAndWrapTextRuns
+                //var lMargin = shape1.TextBody.LeftInsert.HasValue ? shape1.TextBody.LeftInsert.Value : 0;
+                //var rMargin = shape1.TextBody.RightInsert.HasValue ? shape1.TextBody.RightInsert.Value : 0;
+
+                //var wrappedStrings = paragraphs[2].TextRuns.MeasureAndWrapTextRuns(width -
+                //    lMargin - rMargin
+                //    - paragraphs[2].LeftMargin - paragraphs[2].RightMargin);
+
+
 
                 var ir = new ImageRenderer();
                 var svg = ir.RenderDrawingToSvg(shape1);

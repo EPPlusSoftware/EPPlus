@@ -10,10 +10,12 @@
  *************************************************************************************************
     9/11/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -158,6 +160,40 @@ namespace OfficeOpenXml.Drawing
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        internal List<string> MeasureAndWrapTextRuns(double maxWidthPixels)
+        {
+            var txtMeasurer = _paragraph._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
+
+            List<string> WrappedStrings = new List<string>();
+            double totalCurrentLineLength = 0;
+            string lastLine = "";
+
+            
+
+            foreach (var run in _textRuns)
+            {
+                var mf = run.GetMeasureFont();
+
+                var measuredTxt = txtMeasurer.MeasureText(run.Text, mf);
+
+                //var wrappedStringsCurrent = txtMeasurer.MeasureAndWrapText(run.Text, mf, maxWidthPixels, totalCurrentLineLength);
+
+                //wrappedStringsCurrent[0] = wrappedStringsCurrent[0] + lastLine;
+
+                ////The the last line and the first line of the next textRun may be the same line
+                //totalCurrentLineLength = txtMeasurer.MeasureText(wrappedStringsCurrent.Last(), mf).Width.PointToPixel();
+                //lastLine = wrappedStringsCurrent.Last();
+
+                //for (int i = 0; i< wrappedStringsCurrent.Count-1; i++)
+                //{
+                //    WrappedStrings.Add(wrappedStringsCurrent[i]);
+                //}
+            }
+            //WrappedStrings.Add(lastLine);
+
+            return WrappedStrings;
         }
     }
 }

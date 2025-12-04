@@ -142,6 +142,14 @@ namespace EPPlusImageRenderer.Svg
             {
                 AddTextRun(run, paragraphArea.Bottom, yPosition);
             }
+
+            //if(p._paragraphs.WrapText == eTextWrappingType.Square)
+            //{
+            //    foreach(var run in p.TextRuns)
+            //    {
+            //        run.
+            //    }
+            //}
         }
 
         /// <summary>
@@ -304,6 +312,13 @@ namespace EPPlusImageRenderer.Svg
             //}
 
             return ParagraphArea.Top + paragraphHeight;
+        }
+
+        internal void CalculateTextWrapping(double maxWidth, MeasurementFont mFont, string fullParagraphText)
+        {
+            List<string> NewContentLines = new List<string>();
+            fmtt.SetFont(mFont);
+            var textWidth = fmtt.MeasureText(fullParagraphText, mFont);
         }
     }
 }
