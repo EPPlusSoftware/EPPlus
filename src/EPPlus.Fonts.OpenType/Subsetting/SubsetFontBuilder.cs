@@ -48,12 +48,20 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
             // 4) hhea
 
-            //if (originalFont.HheaTable != null)
-            //{
-            //    var hheaTable = originalFont.HheaTable.Clone();
-            //    hheaTable.numberOfHMetrics = (ushort)glyphSet.Count; // Temporärt, tills hmtx är klar
-            //    newFont.AddOrReplaceTable(hheaTable);
-            //}
+            if (originalFont.HheaTable != null)
+            {
+                var hheaTable = originalFont.HheaTable.Clone();
+                hheaTable.numberOfHMetrics = (ushort)glyphSet.Count; // Temporärt, tills hmtx är klar
+                newFont.AddOrReplaceTable(hheaTable);
+            }
+
+
+            if (originalFont.HmtxTable != null)
+            {
+                var hmtxTable = originalFont.HmtxTable.CloneSubset(glyphSet, originalFont.HmtxTable);
+                newFont.AddOrReplaceTable(hmtxTable);
+            }
+
 
             return newFont;
 

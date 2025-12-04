@@ -1,5 +1,7 @@
 ﻿using EPPlus.Fonts.OpenType.FontValidation;
 using EPPlus.Fonts.OpenType.Tables.Head;
+using EPPlus.Fonts.OpenType.Tables.Hhea;
+using EPPlus.Fonts.OpenType.Tables.Hmtx;
 using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using System;
@@ -24,51 +26,9 @@ namespace EPPlus.Fonts.OpenType.Tests
             OpenTypeFonts.ClearFontCache();
         }
 
-        [TestMethod]
-        public void TestHeadTable()
-        {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
-            var subsetFont = font.CreateSubset(new char[] { 'a', 'b', 'c' });
-            var validator = new HeadTableValidator();
-            var isValid = validator.Validate(subsetFont.HeadTable, new FontValidationContext(subsetFont));
-            var bytes = subsetFont.Serialize();
-            // read the font back
-            var reader = new FontsBinaryReader(new MemoryStream(bytes));
-            var parsedFont = new OpenTypeFont(reader, font.Format);
-            var isParsedFontValid = parsedFont.ValidateFont(FontValidationSeverity.Warning);
-            Assert.AreEqual(1, parsedFont.TableRecords.Count);
-        }
-
 
         [TestMethod]
-        public void TestHeadAndName_SubsetSerializationRoundtrip()
-        {
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
-            var subsetFont = font.CreateSubset(new[] { 'a', 'b', 'c' });
-
-            // Add name table in builder (via Clone)
-            Assert.IsNotNull(subsetFont.NameTable);
-
-            // Preprocess must have been called by your CreateSubset flow already
-            var serializer = new OpenTypeFontSerializer(subsetFont);
-            var bytes = serializer.Serialize();
-
-            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
-            Assert.AreEqual(2, parsedFont.TableRecords.Count);
-            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("head"));
-            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("name"));
-
-            // Validate both tables
-            var headValid = new HeadTableValidator().Validate(parsedFont.HeadTable, new FontValidationContext(parsedFont));
-            var nameValid = new NameTableValidator().Validate(parsedFont.NameTable, new FontValidationContext(parsedFont));
-
-            Assert.IsTrue(headValid.IsValid);
-            Assert.IsTrue(nameValid.IsValid);
-        }
-
-
-        [TestMethod]
-        public void TestHeadNameAndMaxp_SubsetSerializationRoundtrip()
+        public void TestHeadNameMaxpAndHhea_SubsetSerializationRoundtrip()
         {
             // Arrange
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
@@ -77,37 +37,53 @@ namespace EPPlus.Fonts.OpenType.Tests
             // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-
             var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
 
             // Assert: Check table count and presence
-            Assert.AreEqual(3, parsedFont.TableRecords.Count);
+            Assert.AreEqual(5, parsedFont.TableRecords.Count);
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("head"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("name"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("maxp"));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("hhea"));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("hmtx"));
 
-            // Validate head
-            var headValid = new HeadTableValidator().Validate(parsedFont.HeadTable, new FontValidationContext(parsedFont));
-            Assert.IsTrue(headValid.IsValid);
+            // Validate tables
+            Assert.IsTrue(new HeadTableValidator().Validate(parsedFont.HeadTable, new FontValidationContext(parsedFont)).IsValid);
+            Assert.IsTrue(new NameTableValidator().Validate(parsedFont.NameTable, new FontValidationContext(parsedFont)).IsValid);
+            Assert.IsTrue(new MaxpTableValidator().Validate(parsedFont.MaxpTable, new FontValidationContext(parsedFont)).IsValid);
+            Assert.IsTrue(new HheaTableValidator().Validate(parsedFont.HheaTable, new FontValidationContext(parsedFont)).IsValid);
 
-            // Validate name
-            var nameValid = new NameTableValidator().Validate(parsedFont.NameTable, new FontValidationContext(parsedFont));
-            Assert.IsTrue(nameValid.IsValid);
-
-            // Validate maxp
-            var maxpValid = new MaxpTableValidator().Validate(parsedFont.MaxpTable, new FontValidationContext(parsedFont));
-            Assert.IsTrue(maxpValid.IsValid);
-
-            // Extra check: numGlyphs should match glyphSet.Count
+            // Extra check: glyphSet.Count should match numGlyphs and numberOfHMetrics
             var glyphSet = new HashSet<ushort>();
             foreach (var ch in new[] { 'a', 'b', 'c' })
             {
                 if (font.CmapTable.TryGetGlyphId(ch, out ushort glyphId))
                     glyphSet.Add(glyphId);
             }
-            glyphSet.Add(0); // .notdef
+            glyphSet.Add(0); // Always include .notdef
 
             Assert.AreEqual((ushort)glyphSet.Count, parsedFont.MaxpTable.numGlyphs);
+            Assert.AreEqual((ushort)glyphSet.Count, parsedFont.HheaTable.numberOfHMetrics);
+        }
+
+
+        [TestMethod]
+        public void TestHeadNameMaxpHheaAndHmtx_SubsetSerializationRoundtrip()
+        {
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", "Regular", false);
+            var subsetFont = font.CreateSubset(new[] { 'a', 'b', 'c' });
+
+            var serializer = new OpenTypeFontSerializer(subsetFont);
+            var bytes = serializer.Serialize();
+            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+
+            Assert.AreEqual(5, parsedFont.TableRecords.Count);
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("hmtx"));
+
+            var hmtxValid = new HmtxTableValidator().Validate(parsedFont.HmtxTable, new FontValidationContext(parsedFont));
+            Assert.IsTrue(hmtxValid.IsValid);
+
+            Assert.AreEqual(parsedFont.HheaTable.numberOfHMetrics, parsedFont.HmtxTable.hMetrics.Count);
         }
 
     }

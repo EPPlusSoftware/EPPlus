@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tables.Hmtx
 {
@@ -48,5 +49,45 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
                 writer.WriteInt16BigEndian(lsb);
             }
         }
+
+
+        public HmtxTable CloneSubset(HashSet<ushort> glyphSet, HmtxTable original)
+        {
+            var newTable = new HmtxTable();
+
+            // Sort glyphs för stabilitet
+            var sortedGlyphs = glyphSet.OrderBy(g => g).ToList();
+
+            foreach (var glyphId in sortedGlyphs)
+            {
+                if (glyphId < original.hMetrics.Count)
+                {
+                    // Glyph har en full metric-post
+                    var metric = original.hMetrics[glyphId];
+                    newTable.hMetrics.Add(new LongHorMetric
+                    {
+                        advanceWidth = metric.advanceWidth,
+                        lsb = metric.lsb
+                    });
+                }
+                else
+                {
+                    // Glyph ligger utanför hMetrics -> hämta från leftSideBearings
+                    int lsbIndex = glyphId - original.hMetrics.Count;
+                    short lsbValue = (lsbIndex < original.leftSideBearings.Count)
+                        ? original.leftSideBearings[lsbIndex]
+                        : (short)0;
+
+                    newTable.hMetrics.Add(new LongHorMetric
+                    {
+                        advanceWidth = original.hMetrics.Last().advanceWidth, // enligt spec
+                        lsb = lsbValue
+                    });
+                }
+            }
+
+            return newTable;
+        }
+
     }
 }

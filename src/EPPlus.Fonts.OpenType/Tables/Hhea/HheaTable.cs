@@ -121,5 +121,28 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
             writer.WriteInt16BigEndian(metricDataFormat);
             writer.WriteUInt16BigEndian(numberOfHMetrics);
         }
+
+
+        public HheaTable Clone()
+        {
+            return new HheaTable
+            {
+                majorVersion = this.majorVersion,
+                minorVersion = this.minorVersion,
+                ascender = this.ascender,
+                descender = this.descender,
+                lineGap = this.lineGap,
+                advanceWidthMax = this.advanceWidthMax,
+                minLeftSideBearing = this.minLeftSideBearing,
+                minRightSideBearing = this.minRightSideBearing,
+                xMaxExtent = this.xMaxExtent,
+                caretSlopeRise = this.caretSlopeRise,
+                caretSlopeRun = this.caretSlopeRun,
+                caretOffset = this.caretOffset,
+                metricDataFormat = this.metricDataFormat,
+                numberOfHMetrics = this.numberOfHMetrics
+            };
+        }
+
     }
 }
