@@ -312,7 +312,7 @@ namespace EPPlusImageRenderer.Text
             //The first run in the first paragraph must apply different line-spacing
             var svgParagraph = new SvgParagraph(text, font, area, vertAlignAttribute, posY);
 
-            svgParagraph.FillColor = font.Color.To6CharHexString();
+            svgParagraph.FillColor = font.Fill.Color.To6CharHexString();
 
             paragraphStartPosY = svgParagraph.GetBottomYPosition();
 

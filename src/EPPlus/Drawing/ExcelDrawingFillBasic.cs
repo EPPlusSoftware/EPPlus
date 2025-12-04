@@ -33,14 +33,11 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         internal protected XmlNode _fillNode;
         /// <summary>
-        /// The drawings collection
-        /// </summary>
-        internal protected ExcelDrawing _drawing;
-        /// <summary>
         /// The fill type node.
         /// </summary>
         internal protected XmlNode _fillTypeNode = null;
         internal Action _initXml;
+        ExcelPackage _package;
         internal ExcelDrawingFillBasic(ExcelPackage pck, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string fillPath, string[] schemaNodeOrderBefore, bool doLoad, Action initXml = null) :
             base(nameSpaceManager, topNode)
         {
@@ -53,6 +50,7 @@ namespace OfficeOpenXml.Drawing
             {
                 LoadFill();
             }
+            _package = pck;
             if (pck != null)
             {
                 pck.BeforeSave.Add(BeforeSave);
@@ -248,16 +246,18 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Fill color for solid fills.
         /// Other fill styles will return Color.Empty.
-        /// Setting this propery will set the BulletType to SolidFill with the specified color.
+        /// Setting this propery will set the Style to SolidFill with the specified color.
         /// </summary>
         public Color Color
         {
             get
-            {
+            {                
                 if (Style != eFillStyle.SolidFill) return Color.Empty;
-                if (SolidFill.Color.ColorType != eDrawingColorType.Rgb) return Color.Empty;
-                var col = SolidFill.Color.RgbColor.Color;
-                if(col == Color.Empty)
+                //if (SolidFill.Color.ColorType != eDrawingColorType.Rgb) return Color.Empty;
+
+                //var col = SolidFill.Color.RgbColor.Color;
+                var col = Utils.TypeConversion.ColorConverter.GetThemeColor(_package.Workbook.ThemeManager.GetOrCreateTheme(), SolidFill.Color);
+                if (col == Color.Empty)
                 {
                     return Color.FromArgb(79, 129, 189);
                 }

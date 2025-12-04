@@ -11,8 +11,10 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Collections.Generic;
 using System.Text;
 
@@ -48,6 +50,7 @@ namespace EPPlusImageRenderer.Svg
         {
             var rect = new SvgRenderRectItem(Chart);
             bool isVertical;
+            int margin=5;
             switch(l.Position)
             {
                 case eLegendPosition.Top:
@@ -59,22 +62,44 @@ namespace EPPlusImageRenderer.Svg
                     break;
             }
 
-            if (isVertical)
+            var seriesHeadersMeasure=new List<TextMeasurement>();
+            var widest = 0d;
+            foreach (var ct in sc.Chart.PlotArea.ChartTypes)
             {
-                var width = 30D;
-                var tm = TextMeasurer.MeasureText("Aq", l.Font.GetMeasureFont()); 
-                var height = TopMargin + tm.Height + BottomMargin;
+                foreach (var s in ct.Series)
+                {
+                    var text = s.GetHeaderText();
+                    var tm = TextMeasurer.MeasureText(text, l.Font.GetMeasureFont());
+                    seriesHeadersMeasure.Add(tm);
+                    if(tm.Width > widest)
+                    {
+                        widest = tm.Width;
+                    }
+                }
+            }
 
-                //foreach (var ct in sc.Chart.PlotArea.ChartTypes)
-                //{
-                //    foreach(var s in ct.Series)
-                //    {
-                //        foreach(var t in s)
-                //        { 
-                            
-                //        }
-                //    }
-                //}
+            switch(l.Position)
+            {
+                case eLegendPosition.Top:
+                    break;
+                case eLegendPosition.Bottom:
+                    break;
+                case eLegendPosition.Right:
+                    rect.Width = widest+margin*2 + 29;
+                    rect.Height = (seriesHeadersMeasure[0].Height + margin) * 3 + margin;
+                    rect.X = rect.X - rect.Width - margin;
+                    rect.Y = sc.ChartArea.Height/2+ margin;
+                    break;
+                case eLegendPosition.Left:
+                    break;
+                case eLegendPosition.TopRight:
+                    break;
+            }
+            if (isVertical)
+            {                
+
+                var top = sc.Title.Rectangle.Height+8+10;
+                var width = margin;
             }
             return rect;
         }

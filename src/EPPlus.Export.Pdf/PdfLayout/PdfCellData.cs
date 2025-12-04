@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Graphics.Math;
 using System.Drawing;
+using EPPlus.Fonts.OpenType;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using EPPlus.Export.Pdf.Pdfhelpers;
@@ -31,7 +32,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
     {
         public string FontName = "Aptos Narrow";
         public int FontFamily = 0;
-        public string SubFamily = "Regular";
+        public FontSubFamily SubFamily = FontSubFamily.Regular;
         public double FontSize = 11;
         public bool Bold = false;
         public bool Italic = false;

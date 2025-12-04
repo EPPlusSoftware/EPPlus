@@ -134,7 +134,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         /// Contains information concerning the nature of the font patterns
         /// See https://docs.microsoft.com/en-us/typography/opentype/spec/os2#fss
         /// </summary>
-        public ushort fsSelection { get; set; }
+        public FsSelectionFlags fsSelection { get; set; }
         [Flags]
         public enum FsSelectionFlags : ushort
         {
@@ -150,7 +150,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
             Oblique = 1 << 9            // Bit 9
                                         // Bits 10-15 are reserved
         }
-        public FsSelectionFlags SelectionFlags => (FsSelectionFlags)fsSelection;
+        //public FsSelectionFlags SelectionFlags => (FsSelectionFlags)fsSelection;
 
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         public ushort usLowerOpticalPointSize { get; set; }
         public ushort usUpperOpticalPointSize { get; set; }
 
-        public bool UseTypoMetrics => EnumUtil.HasFlag(SelectionFlags, FsSelectionFlags.UseTypoMetrics);
+        public bool UseTypoMetrics => EnumUtil.HasFlag(fsSelection, FsSelectionFlags.UseTypoMetrics);
 
         internal override void SerializeInternal(FontsBinaryWriter writer)
         {
@@ -230,7 +230,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
 
             achVendId.Serialize(writer); // 4 bytes
 
-            writer.WriteUInt16BigEndian(fsSelection);
+            writer.WriteUInt16BigEndian((ushort)fsSelection);
             writer.WriteUInt16BigEndian(usFirstCharIndex);
             writer.WriteUInt16BigEndian(usLastCharIndex);
             writer.WriteInt16BigEndian(sTypoAscender);
