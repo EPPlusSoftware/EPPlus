@@ -46,7 +46,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     PdfCellBorderLayout border = HandleBorders(cell, x, y, width, height);
                     if (cell.Merge)
                     {
-                        HandleMergedCell(worksheet, pageSettings, dictionaries, cell, checkedMergedCells, x, y);
+                        HandleMergedCell(worksheet, pageSettings, dictionaries, cell, checkedMergedCells, border, x, y);
                     }
                     else
                     {
@@ -57,7 +57,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     x += width;
                     totalWidth = System.Math.Max( x, totalWidth);
                 }
-                y += height;
+                y -= height;
             }
             HandleDrawings(worksheet);
             Size = new Vector2(totalWidth, y);
@@ -68,14 +68,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             //We add empty cells for gridline calculation later. We just marked them for deletion by addng * to their name.
             string deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol) ? "" : "*";
-            var cl0 = new PdfCellLayout(dictionaries, cell, x, y, width, height, 1, 1, 0, this);
+            var cl0 = new PdfCellLayout(dictionaries, cell, x, y-height, width, height, 1, 1, 0, this);
             cl0.Name = cell.Address + deleteMark;
             cl0.Z = 1;
-            AddCellContent(pageSettings, dictionaries, cell, x, y, width, height, 2);
+            AddCellContent(pageSettings, dictionaries, cell, x, y-height, width, height, 2);
         }
 
         //Create merged cell.
-        private void HandleMergedCell(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, List<string> checkedMergedCells, double x, double y)
+        private void HandleMergedCell(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, List<string> checkedMergedCells, PdfCellBorderLayout border, double x, double y)
         {
             string mergeAddress = worksheet.MergedCells[cell.Start.Row, cell.Start.Column];
             if (!checkedMergedCells.Contains(mergeAddress))
@@ -90,14 +90,15 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 {
                     width += UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
                 }
-                var mergedCell = AddChild(new PdfMergedCellLayout(dictionaries, worksheet.Cells[address._fromRow, address._fromCol], x, y, width, height));
-                mergedCell.Name = cell.Address;
+                var mergedCell = AddChild(new PdfMergedCellLayout(dictionaries, worksheet.Cells[address._fromRow, address._fromCol], x, y-height, width, height));
+                mergedCell.Name = cell.Address + "_m";
                 mergedCell.Z = 5;
-                AddCellContent(pageSettings, dictionaries, cell, x, y, width, height, 6);
+                AddCellContent(pageSettings, dictionaries, cell, x, y-height, width, height, 6);
                 checkedMergedCells.Add(mergeAddress);
-                var border = HandleBorders(cell, x, y, width, height);
+
                 if (border != null)
                 {
+                    border.Size = new Vector2(width, height);
                     border.InitDiagonalBorders(cell);
                 }
             }
@@ -125,7 +126,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             if (!allNone)
             {
                 var clb0 = new PdfCellBorderLayout(cell, x, y, width, height, 1, 1, 0, this);
-                clb0.Name = cell.Address;
+                clb0.Name = cell.Address + "_b";
                 clb0.Z = 7;
                 return clb0;
             }

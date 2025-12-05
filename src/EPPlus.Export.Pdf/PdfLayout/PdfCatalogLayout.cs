@@ -49,6 +49,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
             string mergedCellsInPages = ToHierarchyString();
             ConvertToPDFCoordiantes(pageSettings, PagesLayout);
+            string ConvertedCoordinates = ToHierarchyString();
             AdjustAndSort(PagesLayout);
             RemoveChild(WorksheetLayout);
             AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
@@ -83,21 +84,21 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
             //Get y cooridiantes to break for new page
             List<double> yBreaks = new List<double>() { 0d };
-            double currentHeight = 0, boundsHegiht = pageSettings.ContentBounds.Height;
+            double currentHeight = 0, boundsHegiht = -pageSettings.ContentBounds.Height;
             for (int i = 1; i <= worksheet.Dimension._toRow; i++)
             {
                 if (worksheet.Row(i).Hidden) { continue; }
                 var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(i).Height);
-                if (currentHeight + height >= boundsHegiht)
+                if (currentHeight - height <= boundsHegiht)
                 {
                     yBreaks.Add(currentHeight);
-                    boundsHegiht = currentHeight + pageSettings.ContentBounds.Height;
+                    boundsHegiht = currentHeight - pageSettings.ContentBounds.Height;
                 }
-                currentHeight += height;
+                currentHeight -= height;
             }
             //calculate number of pages needed based on contentBounds and worksheetLayout.Size
             int horizontalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(worksheetLayout.Size.X / pageSettings.ContentBounds.Width));
-            int verticalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(worksheetLayout.Size.Y / pageSettings.ContentBounds.Height));
+            int verticalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(System.Math.Abs( worksheetLayout.Size.Y) / pageSettings.ContentBounds.Height));
             int totalPages = horizontalPageCount * verticalPageCount;
             //Create the new pages and place them in a grid.
             for (int i = 0; i < totalPages; i++)
@@ -114,13 +115,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     row = i / horizontalPageCount;
                 }
                 double x = col * pageSettings.PageSize.WidthPu;
-                double y = row * pageSettings.PageSize.HeightPu;
-                PdfPageLayout page = new PdfPageLayout(x, y, pageSettings.PageSize.WidthPu, pageSettings.PageSize.HeightPu);
+                double y = row * -pageSettings.PageSize.HeightPu;
+                PdfPageLayout page = new PdfPageLayout(x, y-pageSettings.PageSize.HeightPu, pageSettings.PageSize.WidthPu, pageSettings.PageSize.HeightPu);
                 page.Name = "Page " + (i + 1);
                 PdfContentLayout content = new PdfContentLayout(0, 0, pageSettings.ContentBounds);
                 content.Name = "Content " + (i + 1);
                 page.AddChild(content);
-                content.Position = new Vector2(xBreaks[col], yBreaks[row]); //We set position after making content a child of page otherwise positioning breaks and causes errors.
+                content.Position = new Vector2(xBreaks[col], yBreaks[row] - pageSettings.ContentBounds.Height); //We set position after making content a child of page otherwise positioning breaks and causes errors.
                 pages.AddChild(page);
             }
         }
@@ -201,8 +202,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 foreach (var child in contentObjects)
                 {
                     page.AddChild(child);
-                    if (child is ILayout il)
-                        il.ConvertCoordinates(pageSettings);
+                    //if (child is ILayout il)
+                    //    il.ConvertCoordinates(pageSettings);
                 }
                 page.RemoveChild(page.ChildObjects[0]);
                 page.GenerateGridLines();

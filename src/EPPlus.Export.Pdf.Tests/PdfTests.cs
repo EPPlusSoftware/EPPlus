@@ -87,7 +87,9 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void TestWritePdf()
         {
-            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            //using var p = OpenTemplatePackage("PDFTest.xlsx");
+            using var p = OpenTemplatePackage("PDFTest - Copy (2).xlsx");
+            
             //using var p = OpenTemplatePackage("PdfBorders.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
