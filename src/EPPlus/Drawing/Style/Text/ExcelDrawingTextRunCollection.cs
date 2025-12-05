@@ -162,6 +162,102 @@ namespace OfficeOpenXml.Drawing
             return GetEnumerator();
         }
 
+        ///// <summary>
+        ///// If wrap text is true returns the largest width before newLine characters
+        ///// </summary>
+        ///// <param name="text"></param>
+        ///// <param name="fontSize"></param>
+        ///// <param name="fontData"></param>
+        ///// <param name="wrapText"></param>
+        ///// <returns></returns>
+        ///// <exception cref="Exception"></exception>
+        //internal static double MeasureText(string text, double fontSize, OpenTypeFont fontData, bool wrapText = false)
+        //{
+        //    double totalAdvanceWidth = 0;
+        //    ushort? lastGlyphIndex = 0;
+        //    bool firstChar = true;
+
+        //    ////For if we want to calculate the total glyph height within a specific string
+        //    //short GreatestYMax = short.MinValue;
+        //    //short LowestYMin = short.MaxValue;
+
+        //    double largestWidth = 0;
+
+        //    var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
+        //    for (int i = 0; i < text.Length; i++)
+        //    {
+        //        char c = text[i];
+
+        //        var gi = glyphMappings.GetGlyphIndex(c);
+        //        int advanceWidth;
+        //        if (gi == 0 && c != 0)
+        //        {
+        //            advanceWidth = fontData.Os2Table.xAvgCharWidth;
+        //        }
+        //        else
+        //        {
+        //            var hhMetric = fontData.HmtxTable.hMetrics[gi ?? 0];
+        //            advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
+        //        }
+
+        //        if ((c == '\n' || c == '\r'))
+        //        {
+        //            if (i > 0 && c == '\r' && text[i - 1] == '\n')
+        //            {
+        //                continue; //CRLF should be handle
+        //                          //d as one new line.
+        //            }
+        //            if (totalAdvanceWidth > largestWidth)
+        //            {
+        //                largestWidth = totalAdvanceWidth;
+        //                totalAdvanceWidth = 0;
+        //            }
+        //        }
+
+        //        totalAdvanceWidth += advanceWidth;
+        //        // Kerning adjustment
+        //        if (!firstChar)
+        //        {
+        //            int kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fontData);
+        //            totalAdvanceWidth += kerning;
+        //        }
+        //        else
+        //        {
+        //            ////First char has no kerning but it does have a left side value.
+        //            //var firstCharLsb = Convert.ToInt16(fontData.HmtxTable.hMetrics[gi].lsb);
+        //            //totalAdvanceWidth += firstCharLsb;
+        //        }
+
+        //        ////For if we want to calculate the total glyph height within a specific string
+        //        //var yMax = fontData.GlyphTable.Glyphs[gi].yMax;
+        //        //var yMin = fontData.GlyphTable.Glyphs[gi].yMin;
+
+        //        //if(yMax > GreatestYMax)
+        //        //{
+        //        //    GreatestYMax = yMax;
+        //        //}
+
+        //        //if(yMin < LowestYMin)
+        //        //{
+        //        //    LowestYMin = yMin;
+        //        //}
+
+        //        lastGlyphIndex = gi;
+        //        firstChar = false;
+        //    }
+
+        //    largestWidth = largestWidth < totalAdvanceWidth ? totalAdvanceWidth : largestWidth;
+
+        //    ////For if we want to calculate the total glyph height within a specific string
+        //    //var height = GreatestYMax - LowestYMin;
+        //    //var em = fontData.HeadTable.UnitsPerEm;
+        //    //var heightPt = height * (fontSize / em);
+
+        //    // Convert to points
+        //    return (largestWidth / (double)fontData.HeadTable.UnitsPerEm) * fontSize;
+        //}
+
+        //Apply in svg textrun how?
         internal List<string> MeasureAndWrapTextRuns(double maxWidthPixels)
         {
             var txtMeasurer = _paragraph._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
@@ -170,28 +266,87 @@ namespace OfficeOpenXml.Drawing
             double totalCurrentLineLength = 0;
             string lastLine = "";
 
-            
+            var fullText = _paragraph.Text;
+
+            //foreach (var run in _textRuns)
+            //{
+            //    var mf = run.GetMeasureFont();
+            //    //var wrappedStringsCurrent = txtMeasurer.MeasureText(run.Text, mf, maxWidthPixels, totalCurrentLineLength);
+            //    //var wrappedStringsCurrent = txtMeasurer.MeasureAndWrapText(run.Text, mf, maxWidthPixels, totalCurrentLineLength);
+            //    //totalCurrentLineLength = txtMeasurer.MeasureText(wrappedStringsCurrent.Last(), mf).Width.PointToPixel();
+            //    //wrappedStringsCurrent[0] = wrappedStringsCurrent[0] + lastLine;
+
+            //    ////The the last line and the first line of the next textRun may be the same line
+            //    //totalCurrentLineLength = txtMeasurer.MeasureText(wrappedStringsCurrent.Last(), mf).Width.PointToPixel();
+            //    //lastLine = wrappedStringsCurrent.Last();
+
+            //    //for (int i = 0; i < wrappedStringsCurrent.Count - 1; i++)
+            //    //{
+            //    //    WrappedStrings.Add(wrappedStringsCurrent[i]);
+            //    //}
+            //}
+            ////WrappedStrings.Add(lastLine);
+
+            //return WrappedStrings;
+
+            List<List<double>> txtWidths = new List<List<double>>();
+            List<List<string>> splitLines = new List<List<string>>();
+
+            double lastLineLength = 0;
+            string lastLineText = "";
 
             foreach (var run in _textRuns)
             {
                 var mf = run.GetMeasureFont();
+                var txtWidth = txtMeasurer.MeasureText(run.Text, mf).Width.PointToPixel();
 
-                var measuredTxt = txtMeasurer.MeasureText(run.Text, mf);
+                if(txtWidth + lastLineLength > maxWidthPixels)
+                {
+                    WrappedStrings.Add(lastLineText);
+                    lastLineLength = txtWidth - lastLineLength;
+                    lastLineText = run.Text;
+                    ////Do wrapping
+                    //if(run.Text.Contains(" "))
+                    //{
 
-                //var wrappedStringsCurrent = txtMeasurer.MeasureAndWrapText(run.Text, mf, maxWidthPixels, totalCurrentLineLength);
+                    //}
+                    //else
+                    //{
 
-                //wrappedStringsCurrent[0] = wrappedStringsCurrent[0] + lastLine;
+                    //}
+                    ////lastLineLength = //leftOverLine
+                }
+                else
+                {
+                    lastLineLength += txtWidth;
+                    lastLineText += run.Text;
+                }
+                //var runLines = run.SplitIntoLines();
 
-                ////The the last line and the first line of the next textRun may be the same line
-                //totalCurrentLineLength = txtMeasurer.MeasureText(wrappedStringsCurrent.Last(), mf).Width.PointToPixel();
-                //lastLine = wrappedStringsCurrent.Last();
+                //var length = lastLineLength;
+                //runLines[0] = lastLineText + runLines.First();
 
-                //for (int i = 0; i< wrappedStringsCurrent.Count-1; i++)
-                //{
-                //    WrappedStrings.Add(wrappedStringsCurrent[i]);
-                //}
+                //var lineWidths = run.MeasureEachLine(txtMeasurer);
+                //lastLineLength = lineWidths.Last();
+                //txtWidths.Add(lineWidths);
+                //splitLines.Add(runLines);
             }
-            //WrappedStrings.Add(lastLine);
+            WrappedStrings.Add(lastLineText);
+
+            //for (int i = 0; i < splitLines.Count; i++)
+            //{
+            //    for (int j = 0; j < splitLines[i].Count; i++)
+            //    {
+            //        if (txtWidths[i][j].PointToPixel() > maxWidthPixels)
+            //        {
+            //            splitLines[i][j].
+            //        }
+            //        else
+            //        {
+            //            WrappedStrings.Add(splitLines[i][j]);
+            //        }
+            //    }
+            //}
 
             return WrappedStrings;
         }

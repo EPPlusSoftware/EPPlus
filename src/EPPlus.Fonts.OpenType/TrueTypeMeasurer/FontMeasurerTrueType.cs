@@ -265,5 +265,19 @@ namespace EPPlus.Fonts.OpenType
             }
             return dAscent;
         }
+
+        public List<string> WrapMultipleTextFragments(List<string> textFragment, List<MeasurementFont> fonts, double maxWidthPoints)
+        {
+            List<OpenTypeFont> openTypeFonts = new List<OpenTypeFont>();
+            List<double> fontSizes = new List<double>();
+            foreach(var font in fonts)
+            {
+                SetFont(font);
+                openTypeFonts.Add(CurrentFont);
+                fontSizes.Add(font.Size);
+            }
+
+            return TextData.WrapMultipleTextFragments(textFragment, fontSizes, openTypeFonts, maxWidthPoints);
+        }
     }
 }

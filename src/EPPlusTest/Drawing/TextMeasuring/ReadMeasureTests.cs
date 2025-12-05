@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using EPPlus.Fonts.OpenType;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using EPPlus.Fonts.OpenType.Utils;
 
 
 namespace EPPlusTest.Drawing.TextMeasuring
@@ -59,18 +62,34 @@ namespace EPPlusTest.Drawing.TextMeasuring
 
                 shape1.GetSizeInPixels(out int width, out int height);
 
-                var lines = SplitIntoLines(someText);
+                var txtMeasurer = new FontMeasurerTrueType();
 
+                //List<string> textFragments = new List<string>();
+                //List<MeasurementFont> fonts = new List<MeasurementFont>();
 
-                //paragraphs[2].TextRuns.MeasureAndWrapTextRuns
                 //var lMargin = shape1.TextBody.LeftInsert.HasValue ? shape1.TextBody.LeftInsert.Value : 0;
                 //var rMargin = shape1.TextBody.RightInsert.HasValue ? shape1.TextBody.RightInsert.Value : 0;
 
-                //var wrappedStrings = paragraphs[2].TextRuns.MeasureAndWrapTextRuns(width -
+                //var maxWidth = width -
                 //    lMargin - rMargin
-                //    - paragraphs[2].LeftMargin - paragraphs[2].RightMargin);
+                //    - paragraphs[2].LeftMargin - paragraphs[2].RightMargin;
 
+                //foreach (var txtRun in paragraphs[2].TextRuns)
+                //{
+                //    textFragments.Add(txtRun.Text);
+                //    fonts.Add(txtRun.GetMeasurementFont());
+                //}
 
+                //var wrappedFragments = txtMeasurer.WrapMultipleTextFragments(textFragments, fonts, maxWidth.PixelToPoint());
+
+                //var lines = SplitIntoLines(someText);
+
+                var lMargin = shape1.TextBody.LeftInsert.HasValue ? shape1.TextBody.LeftInsert.Value : 0;
+                var rMargin = shape1.TextBody.RightInsert.HasValue ? shape1.TextBody.RightInsert.Value : 0;
+
+                var wrappedStrings = paragraphs[2].TextRuns.MeasureAndWrapTextRuns(width -
+                    lMargin - rMargin
+                    - paragraphs[2].LeftMargin - paragraphs[2].RightMargin);
 
                 var ir = new ImageRenderer();
                 var svg = ir.RenderDrawingToSvg(shape1);

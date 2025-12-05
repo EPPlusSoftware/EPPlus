@@ -61,6 +61,18 @@ namespace OfficeOpenXml.Drawing
             return strLst;
         }
 
+        internal List<double> MeasureEachLine(ITextMeasurerWrap txtMeasurer)
+        {
+            var lines = SplitIntoLines();
+            List<double> result = new List<double>();
+            foreach (var line in lines)
+            {
+                var measuredTxt = txtMeasurer.MeasureText(Text, GetMeasurementFont());
+                result.Add(measuredTxt.Width);
+            }
+            return result;
+        }
+
         internal ExcelDrawingParagraph Paragraph { get => _paragraph; }
         /// <summary>
         /// The type of text run

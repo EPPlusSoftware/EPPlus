@@ -24,12 +24,13 @@ namespace EPPlus.Export.ImageRenderer.Text
             }
         }
 
-        internal static List<string> WrapLines(ExcelDrawingTextRunCollection txtRuns, double maxWidth)
-        {
-            foreach (var run in txtRuns)
-            {
+        //internal static List<string> WrapLines(ExcelDrawingTextRunCollection txtRuns, double maxWidth)
+        //{
+        //    txtRun
+        //    foreach (var run in txtRuns)
+        //    {
 
-            }
-        }
+        //    }
+        //}
     }
 }

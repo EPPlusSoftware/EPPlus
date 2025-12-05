@@ -414,6 +414,177 @@ namespace EPPlus.Fonts.OpenType
             return (largestWidth / (double)fontData.HeadTable.UnitsPerEm) * fontSize;
         }
 
+        internal static List<string> WrapMultipleTextFragments(List<string> textFragments, List<double> fontSizes, List<OpenTypeFont> fonts, double maxWidth)
+        {
+            int totalAdvanceWidth = 0;
+            ushort? lastGlyphIndex = 0;
+            bool firstChar = true;
+
+            //Split strings on line endings
+            var newLine = Environment.NewLine;
+            //Initalise collection to return
+            List<string> wrappedStrings = new List<string>();
+
+            string leftOverLine = "";
+            double leftOverAdvanceWidthInPoints = 0;
+            double leftOverTotalAdvanceFromLastWord = 0;
+
+            var inputMaxWidth = maxWidth;
+
+            var combinedString = string.Join(string.Empty, textFragments.ToArray());
+            int charCount = 0;
+            List<int> breakIndicies = new List<int>();
+            List<int> textFragmentIndiciesAtBreak = new List<int>();
+
+            //var splitStrings = combinedString.Split([newLine], StringSplitOptions.None);
+            ///////////////////////////////////////////////////////////
+            for (int k = 0; k < textFragments.Count(); k++)
+            {
+                var splitStrings = textFragments[k].Split([newLine], StringSplitOptions.None);
+
+                var testArray = splitStrings.Last().ToCharArray();
+
+                //Convert maxWidth from points to current font design units
+                maxWidth = (inputMaxWidth * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k];
+
+                var glyphMappings = fonts[k].CmapTable.GetPreferredSubtable().GetGlyphMappings();
+
+                foreach (var line in splitStrings)
+                {
+                    int nextLineStartIndex = 0;
+                    int totalAdvanceFromLastWord = 0;
+
+                    if (line == splitStrings[0] && leftOverAdvanceWidthInPoints != 0)
+                    {
+                        //Convert leftoverWidth to current font design units
+                        totalAdvanceWidth = Convert.ToInt16((leftOverAdvanceWidthInPoints * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k]);
+                        //totalAdvanceFromLastWord = Convert.ToInt16((leftOverTotalAdvanceFromLastWord * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k]);
+                    }
+
+                    for (int i = 0; i < line.Length; i++)
+                    {
+                        char c = line[i];
+                        var gi = glyphMappings.GetGlyphIndex(c);
+                        int advanceWidth;
+                        if (gi == 0 && c != 0)
+                        {
+                            advanceWidth = fonts[k].Os2Table.xAvgCharWidth;
+                        }
+                        else
+                        {
+                            var hhMetric = fonts[k].HmtxTable.hMetrics[gi ?? 0];
+                            advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
+                        }
+
+                        var newWidth = totalAdvanceWidth + advanceWidth;
+
+                        int kerning = 0;
+                        // Kerning adjustment
+                        if (!firstChar)
+                        {
+                            kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fonts[k]);
+                            newWidth += kerning;
+                        }
+
+                        totalAdvanceFromLastWord += (advanceWidth + kerning);
+
+                        if (c == ' ')
+                        {
+                            totalAdvanceFromLastWord = 0;
+                        }
+
+                        if (newWidth > maxWidth)
+                        {
+                            breakIndicies.Add(charCount);
+                            textFragmentIndiciesAtBreak.Add(k);
+
+                            var charCountFromLast = charCount - nextLineStartIndex;
+                            nextLineStartIndex = charCount;
+
+                            combinedString.Substring(nextLineStartIndex, charCountFromLast);
+
+
+                            //var lastLineIndex = nextLineStartIndex;
+                            //var charCountFromLast = i - nextLineStartIndex;
+
+                            //var txt = line.Substring(nextLineStartIndex, charCountFromLast);
+
+                            ////Ensure whole words get moved down if part of its letters are overflowing
+                            //var splitLines = txt.Split(' ');
+
+                            //if (splitLines.Length > 1 && c != ' ')
+                            //{
+                            //    var stringOverMax = splitLines.Last();
+                            //    var startIndex = txt.Length - stringOverMax.Length;
+                            //    //Remove the overflowing characters
+                            //    var spacedString = txt.Remove(startIndex, stringOverMax.Length).TrimEnd(' ');
+                            //    //Add only part of the text before the overflowing word
+                            //    wrappedStrings.Add(spacedString);
+
+                            //    //The start index of the first character in the overflow (After space)
+                            //    nextLineStartIndex = lastLineIndex + startIndex;
+
+                            //    totalAdvanceWidth = totalAdvanceFromLastWord;
+                            //}
+                            //else
+                            //{
+
+                            //    //If the char was a space it should not be added to the next line
+                            //    //Therefore we do not add its width and the index of the next line starts at the next character.
+                            //    if (c == ' ')
+                            //    {
+                            //        //The current char has crossed the max
+                            //        //Therefore remove it from the text to be added.
+                            //        var wrappedString = txt.Substring(0, txt.Length);
+                            //        wrappedStrings.Add(wrappedString);
+                            //        nextLineStartIndex = i + 1;
+                            //        totalAdvanceWidth = 0;
+                            //    }
+                            //    else
+                            //    {
+                            //        //The current char has crossed the max
+                            //        //Therefore remove it from the text to be added.
+                            //        var wrappedString = txt.Substring(0, txt.Length);
+                            //        wrappedStrings.Add(wrappedString);
+                            //        //The current character is part of the new line
+                            //        //We should start at the index of the current character and add its width to the new line
+                            //        nextLineStartIndex = i;
+                            //        totalAdvanceWidth = advanceWidth;
+                            //    }
+                            //}
+                            ////New line means both totals are equal
+                            //totalAdvanceFromLastWord = totalAdvanceWidth;
+                        }
+                        else
+                        {
+                            totalAdvanceWidth = newWidth;
+                        }
+
+                        lastGlyphIndex = gi;
+                        firstChar = false;
+                    }
+
+                    if(line != splitStrings.Last())
+                    {
+                        var remainingLine = line.Substring(nextLineStartIndex);
+                        wrappedStrings.Add(remainingLine);
+                        totalAdvanceWidth = 0;
+                    }
+                    else
+                    {
+                        leftOverLine = line.Substring(nextLineStartIndex);
+                        leftOverAdvanceWidthInPoints = (totalAdvanceWidth / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
+                        leftOverTotalAdvanceFromLastWord = (totalAdvanceFromLastWord / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
+                    }
+                    charCount++;
+                }
+                ///////////////////////////
+                
+            }
+
+            return wrappedStrings;
+        }
+
         private static int GetKerningAdjustment(ushort left, ushort right, OpenTypeFont fontData)
         {
             if (fontData.KernTable != null)
