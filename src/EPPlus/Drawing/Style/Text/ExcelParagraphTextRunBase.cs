@@ -83,7 +83,7 @@ namespace OfficeOpenXml.Drawing
         {
             var mf = new MeasurementFont()
             {
-                FontFamily = _prd.Package.Workbook.ThemeManager.GetOrCreateTheme().GetFontByCode(string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont),
+                FontFamily = string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont, /*_prd.Package.Workbook.ThemeManager.GetOrCreateTheme().GetFontByCode(string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont),*/
                 Size = FontSize,
                 Style = GetFontStyle()
             };

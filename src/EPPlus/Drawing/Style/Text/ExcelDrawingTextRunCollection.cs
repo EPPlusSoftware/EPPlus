@@ -268,32 +268,10 @@ namespace OfficeOpenXml.Drawing
 
             var fullText = _paragraph.Text;
 
-            //foreach (var run in _textRuns)
-            //{
-            //    var mf = run.GetMeasureFont();
-            //    //var wrappedStringsCurrent = txtMeasurer.MeasureText(run.Text, mf, maxWidthPixels, totalCurrentLineLength);
-            //    //var wrappedStringsCurrent = txtMeasurer.MeasureAndWrapText(run.Text, mf, maxWidthPixels, totalCurrentLineLength);
-            //    //totalCurrentLineLength = txtMeasurer.MeasureText(wrappedStringsCurrent.Last(), mf).Width.PointToPixel();
-            //    //wrappedStringsCurrent[0] = wrappedStringsCurrent[0] + lastLine;
-
-            //    ////The the last line and the first line of the next textRun may be the same line
-            //    //totalCurrentLineLength = txtMeasurer.MeasureText(wrappedStringsCurrent.Last(), mf).Width.PointToPixel();
-            //    //lastLine = wrappedStringsCurrent.Last();
-
-            //    //for (int i = 0; i < wrappedStringsCurrent.Count - 1; i++)
-            //    //{
-            //    //    WrappedStrings.Add(wrappedStringsCurrent[i]);
-            //    //}
-            //}
-            ////WrappedStrings.Add(lastLine);
-
-            //return WrappedStrings;
-
-            List<List<double>> txtWidths = new List<List<double>>();
-            List<List<string>> splitLines = new List<List<string>>();
-
             double lastLineLength = 0;
             string lastLineText = "";
+            
+            ExcelParagraphTextRunBase wordStartTextRun = _textRuns[0];
 
             foreach (var run in _textRuns)
             {
@@ -302,51 +280,52 @@ namespace OfficeOpenXml.Drawing
 
                 if(txtWidth + lastLineLength > maxWidthPixels)
                 {
+                    int i = 0;
+                    for (i = 0; i < run.Text.Length; i++)
+                    {
+                        lastLineLength += txtMeasurer.MeasureText(run.Text[i].ToString(), mf).Width.PointToPixel();
+                        if(lastLineLength > maxWidthPixels)
+                        {
+                            var overflowingString = run.Text.Substring(0, i);
+                            lastLineText += overflowingString;
+
+                            var startIndexLastWord = lastLineText.LastIndexOf(' ');
+                            if(startIndexLastWord != -1)
+                            {
+                                var lastWord = lastLineText.Substring(startIndexLastWord,lastLineText.Length - startIndexLastWord);
+                                lastLineText.Remove(startIndexLastWord, lastLineText.Length - startIndexLastWord);
+                                //lastLineLength = 
+                                //var endIndexLastWord = run.Text.IndexOf(' ', i);
+
+                                //if(endIndexLastWord != -1)
+                                //{
+                                //    lastLineText.Remove(startIndexLastWord, lastLineText.Length - startIndexLastWord);
+                                //    lastWord += run.Text.Substring(endIndexLastWord);
+
+                                //}
+                            }
+
+                            run.Text.Substring(0, i).LastIndexOf(' ');
+                            lastLineText += run.Text.Substring(0, i);
+                        }
+                    }
+
                     WrappedStrings.Add(lastLineText);
                     lastLineLength = txtWidth - lastLineLength;
                     lastLineText = run.Text;
-                    ////Do wrapping
-                    //if(run.Text.Contains(" "))
-                    //{
-
-                    //}
-                    //else
-                    //{
-
-                    //}
-                    ////lastLineLength = //leftOverLine
                 }
                 else
                 {
                     lastLineLength += txtWidth;
                     lastLineText += run.Text;
                 }
-                //var runLines = run.SplitIntoLines();
 
-                //var length = lastLineLength;
-                //runLines[0] = lastLineText + runLines.First();
-
-                //var lineWidths = run.MeasureEachLine(txtMeasurer);
-                //lastLineLength = lineWidths.Last();
-                //txtWidths.Add(lineWidths);
-                //splitLines.Add(runLines);
+                if(run.Text.Contains(" "))
+                {
+                    wordStartTextRun = run;
+                }
             }
             WrappedStrings.Add(lastLineText);
-
-            //for (int i = 0; i < splitLines.Count; i++)
-            //{
-            //    for (int j = 0; j < splitLines[i].Count; i++)
-            //    {
-            //        if (txtWidths[i][j].PointToPixel() > maxWidthPixels)
-            //        {
-            //            splitLines[i][j].
-            //        }
-            //        else
-            //        {
-            //            WrappedStrings.Add(splitLines[i][j]);
-            //        }
-            //    }
-            //}
 
             return WrappedStrings;
         }
