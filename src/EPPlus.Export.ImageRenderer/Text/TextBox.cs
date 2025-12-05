@@ -65,7 +65,7 @@ namespace EPPlusImageRenderer.Text
         /// <param name="t"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        internal TextBox(double l, double t, double width, double height)
+        internal TextBox(ExcelDrawing drawing, double l, double t, double width, double height) : base(drawing)
         {
             Bounds.Left = l; Bounds.Top = t; Width = width; Height = height;
 

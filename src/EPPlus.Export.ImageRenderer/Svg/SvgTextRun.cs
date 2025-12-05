@@ -247,7 +247,7 @@ namespace EPPlusImageRenderer.Svg
 
         //internal SvgTextRun(ExcelRichText textRun, double lineSpacing, double textMaxX, double textMaxY, double xPosition, double yPosition, MeasurementFont mf, ExcelHorizontalAlignment horAlign, double baselineLineSpacing = double.NaN) : base()
         //{
-        //    originalText = textRun.Text;
+        //    originalText = textRun.Textbox;
         //    Lines = SplitIntoLines(originalText);
 
         //    fmExact = new FontMeasurerTrueType(mf);

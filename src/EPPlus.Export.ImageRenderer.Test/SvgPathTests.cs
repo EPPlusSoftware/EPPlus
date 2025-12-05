@@ -346,7 +346,7 @@ namespace TestProject1
                 var ws = p.Workbook.Worksheets[0];
                 //var d = ws.Drawings[0].As.Shape;
                 //Assert.AreEqual(1, d.CustomGeom.DrawingPaths.Count);
-                //d.Text = "Rectangle Rectangle Rectangle Rectangle";
+                //d.Textbox = "Rectangle Rectangle Rectangle Rectangle";
                 //d.TextAlignment = OfficeOpenXml.Drawing.eTextAlignment.Left;
                 //d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Bottom;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();

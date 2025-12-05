@@ -113,6 +113,7 @@ namespace OfficeOpenXml.Drawing.Chart
             _plotArea = topChart.PlotArea;
             _chartNode = chartNode;
             InitChartLoad(topChart._drawings, chartNode, false);
+            ChartType = GetChartType(chartNode.LocalName);
         }
         private void InitChartLoad(ExcelDrawings drawings, XmlNode chartNode, bool isPivot)
         {

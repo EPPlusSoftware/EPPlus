@@ -61,7 +61,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
 
                     renderItems.Add(cellBB);
 
-                    var cellTextBox = new TextBox(currentWidth, currentHeight, colWidth, height);
+                    var cellTextBox = new TextBox(null, currentWidth, currentHeight, colWidth, height);
                     cellTextBox.AddCellTextRun(cell);
 
                     var deltaHeight = (float)cellTextBox.Bounds.Height;

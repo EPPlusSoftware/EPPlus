@@ -297,7 +297,7 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 GetShapeInnerBound(out double x, out double y, out double width, out double height);
-                return new TextBox(x, y, width, height);
+                return new TextBox(_shape, x, y, width, height);
             }
         }
 

@@ -353,7 +353,7 @@ namespace EPPlusImageRenderer.ShapeDefinitions
             //if (shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit)
             //{
 
-            //    var txt = shape.Text;
+            //    var txt = shape.Textbox;
 
             //    var newContainer = new TextContainer(txt, shape.TextBody.Paragraphs.FirstDefaultRunProperties.GetMeasureFont(), true);
 
@@ -387,7 +387,7 @@ namespace EPPlusImageRenderer.ShapeDefinitions
             //    {
             //        foreach(var txtRun in paragraph.TextRuns)
             //        {
-            //            var lineContainer = new TextContainer(txtRun.Text, txtRun.GetMeasureFont(), true);
+            //            var lineContainer = new TextContainer(txtRun.Textbox, txtRun.GetMeasureFont(), true);
             //            textContainers.Add(lineContainer);
             //            if(lineContainer.Width > largestWidth)
             //            {

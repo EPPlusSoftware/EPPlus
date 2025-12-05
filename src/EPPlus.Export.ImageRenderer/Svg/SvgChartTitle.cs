@@ -92,7 +92,7 @@ namespace EPPlusImageRenderer.Svg
 
         private void InitTextBox(ExcelChartTitleStandard t, string defaultText)
         {
-            TextBox = new TextBox(Rectangle.X, Rectangle.Y , Rectangle.Width, Rectangle.Height);
+            TextBox = new TextBox(Chart, Rectangle.X, Rectangle.Y , Rectangle.Width, Rectangle.Height);
             TextBox.Bounds.MarginLeft = LeftMargin;
             TextBox.Bounds.MarginRight = RightMargin;
             TextBox.Bounds.MarginTop = TopMargin;

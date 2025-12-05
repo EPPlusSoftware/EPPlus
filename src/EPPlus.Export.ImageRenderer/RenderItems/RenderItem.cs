@@ -47,6 +47,7 @@ namespace EPPlusImageRenderer.RenderItems
         public double? BorderWidth { get; set; }
         public double[] BorderDashArray { get; set; }
         public double? BorderDashOffset { get; set; }
+        public eLineCap LineCap { get; set; } = eLineCap.Flat;
         public SvgLineJoin LineJoin { get; set; } = SvgLineJoin.Miter;
         public double? BorderOpacity { get; set; }
         public PathFillMode FillColorSource { get; set; } = PathFillMode.Norm;
@@ -62,9 +63,26 @@ namespace EPPlusImageRenderer.RenderItems
             item.BorderDashOffset = BorderDashOffset;
             item.BorderOpacity = BorderOpacity;
             item.LineJoin = LineJoin;
+            item.LineCap = LineCap;
             item.FillColorSource = FillColorSource;
         }
         internal virtual void SetDrawingPropertiesFill(ExcelDrawingFill fill, ExcelDrawingColorManager color)
+        {
+            switch (fill.Style)
+            {
+
+                case eFillStyle.PatternFill:
+                    PatternFill = fill.PatternFill;
+                    break;
+                case eFillStyle.BlipFill:
+                    BlipFill = fill.BlipFill;
+                    break;
+                default:
+                    SetDrawingPropertiesFill((ExcelDrawingFillBasic)fill, color);
+                    break;
+            }
+        }
+        internal virtual void SetDrawingPropertiesFill(ExcelDrawingFillBasic fill, ExcelDrawingColorManager color)
         {
             switch (fill.Style)
             {
@@ -84,12 +102,6 @@ namespace EPPlusImageRenderer.RenderItems
                 case eFillStyle.GradientFill:
                     GradientFill = new DrawGradientFill(_theme, fill.GradientFill);
                     FillColor = null;
-                    break;
-                case eFillStyle.PatternFill:
-                    PatternFill = fill.PatternFill;
-                    break;
-                case eFillStyle.BlipFill:
-                    BlipFill = fill.BlipFill;
                     break;
             }
         }
