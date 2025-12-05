@@ -1,4 +1,5 @@
 ﻿using EPPlus.Fonts.OpenType.FontValidation;
+using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
 using EPPlus.Fonts.OpenType.Tables.Hmtx;
@@ -52,6 +53,48 @@ namespace EPPlus.Fonts.OpenType.Tests
             Assert.IsTrue(new NameTableValidator().Validate(parsedFont.NameTable, new FontValidationContext(parsedFont)).IsValid);
             Assert.IsTrue(new MaxpTableValidator().Validate(parsedFont.MaxpTable, new FontValidationContext(parsedFont)).IsValid);
             Assert.IsTrue(new HheaTableValidator().Validate(parsedFont.HheaTable, new FontValidationContext(parsedFont)).IsValid);
+
+            // Extra check: glyphSet.Count should match numGlyphs and numberOfHMetrics
+            var glyphSet = new HashSet<ushort>();
+            foreach (var ch in new[] { 'a', 'b', 'c' })
+            {
+                if (font.CmapTable.TryGetGlyphId(ch, out ushort glyphId))
+                    glyphSet.Add(glyphId);
+            }
+            glyphSet.Add(0); // Always include .notdef
+
+            Assert.AreEqual((ushort)glyphSet.Count, parsedFont.MaxpTable.numGlyphs);
+            Assert.AreEqual((ushort)glyphSet.Count, parsedFont.HheaTable.numberOfHMetrics);
+        }
+
+        [TestMethod]
+        public void TestHeadNameMaxpHheaLocaAndGlyf_SubsetSerializationRoundtrip()
+        {
+            // Arrange
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false);
+            var subsetFont = font.CreateSubset(new[] { 'a', 'b', 'c' });
+
+            // Act
+            var serializer = new OpenTypeFontSerializer(subsetFont);
+            var bytes = serializer.Serialize();
+            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+
+            // Assert: Check table count and presence
+            Assert.AreEqual(5, parsedFont.TableRecords.Count);
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("head"));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("name"));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("maxp"));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("hhea"));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("hmtx"));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("loca"));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("glyf"));
+
+            // Validate tables
+            Assert.IsTrue(new HeadTableValidator().Validate(parsedFont.HeadTable, new FontValidationContext(parsedFont)).IsValid);
+            Assert.IsTrue(new NameTableValidator().Validate(parsedFont.NameTable, new FontValidationContext(parsedFont)).IsValid);
+            Assert.IsTrue(new MaxpTableValidator().Validate(parsedFont.MaxpTable, new FontValidationContext(parsedFont)).IsValid);
+            Assert.IsTrue(new HheaTableValidator().Validate(parsedFont.HheaTable, new FontValidationContext(parsedFont)).IsValid);
+            Assert.IsTrue(new GlyfTableValidator().Validate(parsedFont.GlyfTable, new FontValidationContext(parsedFont)).IsValid);
 
             // Extra check: glyphSet.Count should match numGlyphs and numberOfHMetrics
             var glyphSet = new HashSet<ushort>();

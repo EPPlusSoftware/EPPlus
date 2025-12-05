@@ -27,8 +27,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void SerializeHtmxTable()
         {
-            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", FontSubFamily.Regular);
-            var originalBytes = sf.GetTableBytes("hmtx");
+            var ffi = FontScannerV2.FindBestMatch(_fontFolder, "Roboto", FontSubFamily.Regular);
+            var originalBytes = ffi.GetTableBytes("hmtx");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var hmtxBytes = font?.HmtxTable.Serialize();
@@ -40,8 +40,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void SerializeHeadTable()
         {
-            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", FontSubFamily.Regular);
-            var originalBytes = sf.GetTableBytes("head");
+            var ffi = FontScannerV2.FindBestMatch(_fontFolder, "Roboto", FontSubFamily.Regular);
+            var originalBytes = ffi.GetTableBytes("head");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var headBytes = font?.HeadTable.Serialize();
@@ -53,8 +53,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void SerializeMaxpTable()
         {
-            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", FontSubFamily.Regular);
-            var originalBytes = sf.GetTableBytes("maxp");
+            var ffi = FontScannerV2.FindBestMatch(_fontFolder, "Roboto", FontSubFamily.Regular);
+            var originalBytes = ffi.GetTableBytes("maxp");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var maxpBytes = font?.MaxpTable.Serialize();
@@ -66,8 +66,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void SerializeHheaTable()
         {
-            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", FontSubFamily.Regular);
-            var originalBytes = sf.GetTableBytes("hhea");
+            var ffi = FontScannerV2.FindBestMatch(_fontFolder, "Roboto", FontSubFamily.Regular);
+            var originalBytes = ffi.GetTableBytes("hhea");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var hheaBytes = font?.HheaTable.Serialize();
@@ -79,8 +79,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void SerializePostTable()
         {
-            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", FontSubFamily.Regular);
-            var originalBytes = sf.GetTableBytes("post");
+            var ffi = FontScannerV2.FindBestMatch(_fontFolder, "Roboto", FontSubFamily.Regular);
+            var originalBytes = ffi.GetTableBytes("post");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var postBytes = font?.PostTable.Serialize();
@@ -92,8 +92,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void SerializeNameTable()
         {
-            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", FontSubFamily.Regular);
-            var originalBytes = sf.GetTableBytes("name");
+            var ffi = FontScannerV2.FindBestMatch(_fontFolder, "Roboto", FontSubFamily.Regular);
+            var originalBytes = ffi.GetTableBytes("name");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var nameBytes = font?.NameTable.Serialize();
@@ -109,8 +109,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [DataRow("Mulish", FontSubFamily.Regular, 100)]
         public void SerializeOs2Table(string fontName, FontSubFamily subFamily, int expectedLength)
         {
-            var sf = FontScanner.ScanFor(_fontFolder, fontName, subFamily);
-            var originalBytes = sf.GetTableBytes("OS/2");
+            var ffi = FontScannerV2.FindBestMatch(_fontFolder, fontName, subFamily);
+            var originalBytes = ffi.GetTableBytes("OS/2");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, fontName, subFamily, false, true);
             var os2Bytes = font?.Os2Table.Serialize();
@@ -126,8 +126,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void SerializeLocaTable()
         {
-            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", FontSubFamily.Regular);
-            var originalBytes = sf.GetTableBytes("loca");
+            var ffi = FontScannerV2.FindBestMatch(_fontFolder, "Roboto", FontSubFamily.Regular);
+            var originalBytes = ffi.GetTableBytes("loca");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var locaBytes = font.LocaTable.Serialize();
@@ -139,8 +139,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void SerializeCmapTable()
         {
-            var sf = FontScanner.ScanFor(_fontFolder, "Roboto", FontSubFamily.Regular);
-            var originalBytes = sf.GetTableBytes("cmap");
+            var ffi = FontScannerV2.FindBestMatch(_fontFolder, "Roboto", FontSubFamily.Regular);
+            var originalBytes = ffi.GetTableBytes("cmap");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
             var cmapBytes = font.CmapTable.Serialize();
@@ -152,8 +152,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void SerializeCmapTable_Format12()
         {
-            var sf = FontScanner.ScanFor(_fontFolder, "Noto Emoji", FontSubFamily.Regular);
-            var originalBytes = sf.GetTableBytes("cmap");
+            var ffi = FontScannerV2.FindBestMatch(_fontFolder, "Noto Emoji", FontSubFamily.Regular);
+            var originalBytes = ffi.GetTableBytes("cmap");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Noto Emoji", FontSubFamily.Regular, false, true);
             var cmapBytes = font.CmapTable.Serialize();
@@ -181,8 +181,8 @@ namespace EPPlus.Fonts.OpenType.Tests
             }
             if (string.IsNullOrEmpty(fontFolder)) fontFolder = _fontFolder;
             
-            var sf = FontScanner.ScanFor(fontFolder, fontName, subFamily);
-            var originalBytes = sf.GetTableBytes("glyf");
+            var ffi = FontScannerV2.FindBestMatch(fontFolders, fontName, subFamily);
+            var originalBytes = ffi.GetTableBytes("glyf");
 
             var font = OpenTypeFonts.GetFontData(fontFolders, fontName, subFamily, false, true);
             var glyfBytes = font.GlyfTable.Serialize();
@@ -195,8 +195,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [Ignore("Was only able to find fonts with kern table among Windows fonts. These cannot be distributed with the test project due to licensing.")]
         public void SerializeKernTable()
         {
-            var sf = FontScanner.ScanFor(@"c:\windows\fonts", "Arial", FontSubFamily.Regular);
-            var originalBytes = sf.GetTableBytes("kern");
+            var ffi = FontScannerV2.FindBestMatch(@"c:\windows\fonts", "Arial", FontSubFamily.Regular);
+            var originalBytes = ffi.GetTableBytes("kern");
 
             var font = OpenTypeFonts.GetFontData(new List<string> { @"c:\windows\fonts" } , "Arial", FontSubFamily.Regular, false);
             var kernBytes = font?.KernTable.Serialize();
@@ -208,8 +208,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void FindKernTable()
         {
-            var fonts = FontScanner.GetAllScannedFontsInPath(@"c:\windows\fonts");
-            var kernFonts = new List<ScannedFont>();
+            var fonts = FontScannerV2.GetAllScannedFontsInPath(@"c:\windows\fonts");
+            var kernFonts = new List<FontFaceInfo>();
             foreach (var font in fonts)
             {
                 if (font.TableRecords.ContainsKey("kern") || font.TableRecords.ContainsKey("Kern"))
