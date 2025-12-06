@@ -36,7 +36,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
             leftSideBearings.Clear();
         }
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             foreach (var metric in hMetrics)
             {

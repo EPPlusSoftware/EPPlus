@@ -88,7 +88,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Maxp
             throw new System.NotImplementedException();
         }
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             version.Serialize(writer);
             writer.WriteUInt16BigEndian(numGlyphs);

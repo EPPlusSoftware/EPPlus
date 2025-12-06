@@ -72,7 +72,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
         }
 
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             // Step 1: Write header
             format = 0;

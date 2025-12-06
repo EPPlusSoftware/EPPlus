@@ -128,7 +128,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Head
             return new BoundingRectangle(Xmin, Ymin, Xmax, Ymax);
         }
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             writer.WriteUInt16BigEndian(MajorVersion);
             writer.WriteUInt16BigEndian(MinorVersion);

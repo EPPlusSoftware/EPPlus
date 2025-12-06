@@ -13,7 +13,9 @@
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tables.Head;
+using EPPlus.Fonts.OpenType.Tables.Hhea;
 using EPPlus.Fonts.OpenType.Tables.Loca;
+using EPPlus.Fonts.OpenType.Tables.Maxp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,61 +28,74 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
         public OpenTypeFont CreateSubset(OpenTypeFont originalFont, IEnumerable<int> unicodeChars)
         {
-            var glyphSet = BuildGlyphSet(originalFont, unicodeChars); // HashSet<ushort>
+            // 1. Bygg glyphSet – UTAN .notdef (vi lägger till den senare, garanterat först)
+            var glyphSet = BuildGlyphSet(originalFont, unicodeChars);
 
-            // 1) head
+            // 2. Skapa ny font och klona grundtabeller
             var newFont = new OpenTypeFont(originalFont.Format);
+
+            // head
             var headTable = originalFont.HeadTable.Clone();
             newFont.AddOrReplaceTable(headTable);
 
-
-            // 2) name
+            // name
             if (originalFont.NameTable != null)
             {
                 var nameTable = originalFont.NameTable.Clone();
                 newFont.AddOrReplaceTable(nameTable);
             }
 
-            // 3) maxp
+            // maxp – klona, men uppdatera INTE numGlyphs än (väntar tills vi vet slutligt antal)
+            MaxpTable maxpTable = null;
             if (originalFont.MaxpTable != null)
             {
-                var maxpTable = originalFont.MaxpTable.Clone();
-                maxpTable.numGlyphs = (ushort)glyphSet.Count; // glyphSet from BuildGlyphSet
-                newFont.AddOrReplaceTable(maxpTable);
+                maxpTable = originalFont.MaxpTable.Clone();
             }
 
-            // 4) hhea
-
+            // hhea – klona, men vänta med numberOfHMetrics
+            HheaTable hheaTable = null;
             if (originalFont.HheaTable != null)
             {
-                var hheaTable = originalFont.HheaTable.Clone();
-                hheaTable.numberOfHMetrics = (ushort)glyphSet.Count; // Temporärt, tills hmtx är klar
-                newFont.AddOrReplaceTable(hheaTable);
+                hheaTable = originalFont.HheaTable.Clone();
             }
 
-            // 5) hmtx
+            // hmtx – kan göras nu (använder glyphSet, inte slutligt antal)
             if (originalFont.HmtxTable != null)
             {
                 var hmtxTable = originalFont.HmtxTable.CloneSubset(glyphSet, originalFont.HmtxTable);
                 newFont.AddOrReplaceTable(hmtxTable);
             }
 
-            // 6 glyf an loca
+            // 3. glyf + loca – här skapas den slutgiltiga glyph-listan (inkl. .notdef först)
             var oldToNewGlyphId = new Dictionary<ushort, ushort>();
-            var newToOldGlyphId = new List<ushort>(); // index = ny glyph ID
+            var newToOldGlyphId = new List<ushort>();
 
             SubsetGlyfAndLoca(newFont, originalFont, glyphSet, oldToNewGlyphId, newToOldGlyphId);
 
+            // 4. Nu vet vi exakt antal glyphs – uppdatera maxp och hhea
+            int finalGlyphCount = newToOldGlyphId.Count;
+
+            if (maxpTable != null)
+            {
+                maxpTable.numGlyphs = (ushort)finalGlyphCount;
+                newFont.AddOrReplaceTable(maxpTable);
+            }
+               
+
+            if (hheaTable != null)
+            {
+                hheaTable.numberOfHMetrics = (ushort)finalGlyphCount;
+                newFont.AddOrReplaceTable(hheaTable);
+            }
+               
 
             return newFont;
-
         }
 
 
         private HashSet<ushort> BuildGlyphSet(OpenTypeFont font, IEnumerable<int> unicodeChars)
         {
             var glyphIds = new HashSet<ushort>();
-
             foreach (var codePoint in unicodeChars)
             {
                 if (font.CmapTable.TryGetGlyphId(codePoint, out ushort glyphId))
@@ -88,11 +103,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                     glyphIds.Add(glyphId);
                 }
             }
-
-            glyphIds.Add(0); // Always include .notdef
-
             font.GlyfTable.ResolveCompositeGlyphs(glyphIds);
-
             return glyphIds;
         }
 
@@ -176,15 +187,36 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             newFont.HeadTable.IndexToLocFormat = indexToLocFormat;
 
             // 6. Skapa ny LocaTable med din exakta factory
-            var newLocaTable = LocaTable.CreateSubset(locaOffsets, indexToLocFormat, newFont.MaxpTable);
+            var newLocaTable = LocaTable.CreateSubset(locaOffsets, indexToLocFormat);
             newFont.AddOrReplaceTable(newLocaTable);
         }
 
         private Glyph CloneGlyphWithRemappedComponents(Glyph original, Dictionary<ushort, ushort> oldToNew)
         {
-            var header = new GlyphHeader(original.Header.numberOfContours,
-                new BoundingRectangle(original.Header.xMin, original.Header.xMax,
-                                      original.Header.yMin, original.Header.yMax));
+            // Kopiera original header – men fixa bounding box om den är trasig
+            short xMin = original.Header.xMin;
+            short xMax = original.Header.xMax;
+            short yMin = original.Header.yMin;
+            short yMax = original.Header.yMax;
+
+            // Fixa ogiltiga bounding boxes (händer i vissa fonter, särskilt .notdef
+            if (xMin > xMax)
+            {
+                short temp = xMin;
+                xMin = xMax;
+                xMax = temp;
+            }
+
+            if (yMin > yMax)
+            {
+                short temp = yMin;
+                yMin = yMax;
+                yMax = temp;
+            }
+
+            var header = new GlyphHeader(
+                original.Header.numberOfContours,
+                new BoundingRectangle(xMin, yMin, xMax, yMax));
 
             if (original.Header.numberOfContours > 0 && original.SimpleData != null)
             {

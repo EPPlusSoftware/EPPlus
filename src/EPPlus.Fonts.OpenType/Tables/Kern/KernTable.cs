@@ -32,7 +32,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Kern
             numberOfFormat0Tables = 0;
         }
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             writer.WriteUInt16BigEndian(version);
             writer.WriteUInt16BigEndian((ushort)SubTables.Count);

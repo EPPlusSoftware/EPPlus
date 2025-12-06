@@ -20,25 +20,35 @@ namespace EPPlus.Fonts.OpenType.Tables
 {
     public abstract class FontTableBase
     {
-        internal byte[] Serialize()
+        internal byte[] Serialize(OpenTypeFont font)
+        {
+            return Serialize(font.GetSerializationContext());
+        }
+
+        internal byte[] Serialize(FontSerializationContext context)
         {
             using var ms = new MemoryStream();
             using var writer = new FontsBinaryWriter(ms);
-            SerializeInternal(writer);
+            SerializeInternal(writer, context);
             return ms.ToArray();
         }
 
-        internal void Serialize(FontsBinaryWriter writer)
+        internal void Serialize(FontsBinaryWriter writer, FontSerializationContext context)
         {
-            SerializeInternal(writer);
+            SerializeInternal(writer, context);
         }
-        internal abstract void SerializeInternal(FontsBinaryWriter writer);
+        internal abstract void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context);
 
         internal abstract void Clear();
 
-        public int GetLength()
+        public int GetLength(OpenTypeFont font)
         {
-            return Serialize().Length;
+            return Serialize(font.GetSerializationContext()).Length;
+        }
+
+        public int GetLength(FontSerializationContext context)
+        {
+            return Serialize(context).Length;
         }
 
         public abstract string Name { get; }

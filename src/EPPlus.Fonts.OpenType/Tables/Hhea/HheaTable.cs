@@ -100,7 +100,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
             throw new System.NotImplementedException();
         }
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             writer.WriteUInt16BigEndian(majorVersion);
             writer.WriteUInt16BigEndian(minorVersion);

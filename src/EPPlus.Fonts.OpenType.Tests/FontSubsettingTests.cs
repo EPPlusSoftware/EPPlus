@@ -3,6 +3,7 @@ using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
 using EPPlus.Fonts.OpenType.Tables.Hmtx;
+using EPPlus.Fonts.OpenType.Tables.Loca;
 using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using System;
@@ -80,7 +81,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
 
             // Assert: Check table count and presence
-            Assert.AreEqual(5, parsedFont.TableRecords.Count);
+            Assert.AreEqual(7, parsedFont.TableRecords.Count);
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("head"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("name"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("maxp"));
@@ -95,6 +96,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             Assert.IsTrue(new MaxpTableValidator().Validate(parsedFont.MaxpTable, new FontValidationContext(parsedFont)).IsValid);
             Assert.IsTrue(new HheaTableValidator().Validate(parsedFont.HheaTable, new FontValidationContext(parsedFont)).IsValid);
             Assert.IsTrue(new GlyfTableValidator().Validate(parsedFont.GlyfTable, new FontValidationContext(parsedFont)).IsValid);
+            Assert.IsTrue(new LocaTableValidator().Validate(parsedFont.LocaTable, new FontValidationContext(parsedFont)).IsValid);
 
             // Extra check: glyphSet.Count should match numGlyphs and numberOfHMetrics
             var glyphSet = new HashSet<ushort>();

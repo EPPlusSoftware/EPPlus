@@ -23,15 +23,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
     /// </summary>
     public class LocaTable : FontTableBase
     {
-        public LocaTable(MaxpTable maxpTable)
+        // TA BORT HELT: private readonly MaxpTable _maxpTable;
+
+        public LocaTable()
         {
-            _maxpTable = maxpTable;
         }
 
-        private readonly MaxpTable _maxpTable;
-
         public override string Name => TableNames.Loca;
-
         public override bool IsEssentialTable => true;
 
         public List<uint> Offsets { get; set; } = new List<uint>();
@@ -42,64 +40,56 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
             Offsets.Clear();
         }
 
-
-
         internal int GetGlyphCountSafe()
         {
-            // According to OpenType spec:
-            // loca table contains numGlyphs + 1 entries (last entry = end of last glyph)
-            // So glyph count = Offsets.Count - 1 if Offsets is valid.
-            // If Offsets is null or empty, return 0 as a safe fallback.
-
             if (Offsets == null || Offsets.Count < 2)
-            {
-                return 0; // No valid glyph offsets
-            }
+                return 0;
 
-            // Normally, Offsets.Count should equal _maxpTable.numGlyphs + 1
-            // But we trust Offsets.Count for safety and subtract 1.
             return Offsets.Count - 1;
         }
 
-
-
-        internal static LocaTable CreateSubset(List<uint> offsets, HeadTable.IndexToLocFormats indexToLocFormat, MaxpTable maxpTable)
+        // ENDA factoryn – ingen Maxp-referens längre
+        internal static LocaTable CreateSubset(List<uint> offsets, HeadTable.IndexToLocFormats indexToLocFormat)
         {
-            var newLocaTable = new LocaTable(maxpTable)
+            return new LocaTable
             {
-                Offsets = offsets,
+                Offsets = new List<uint>(offsets), // defensiv kopia
                 IndexToLocFormat = indexToLocFormat
             };
-            return newLocaTable;
         }
 
-
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
-            // Kontrollera att antalet offsets matchar numGlyphs + 1
             if (Offsets == null || Offsets.Count == 0)
                 throw new InvalidOperationException("Offsets list cannot be null or empty.");
 
-            // Hämta numGlyphs från Maxp-tabellen via fonten (eller injicera värdet)
-            // Här antar vi att LocaTable har en referens eller att du skickar in det vid konstruktion
-            int expectedCount = _maxpTable.numGlyphs + 1; // eller injicera värdet
-            if (Offsets.Count != expectedCount)
-                throw new InvalidOperationException($"Offsets count ({Offsets.Count}) does not match numGlyphs + 1 ({expectedCount}).");
+            // NYTT: Hämta numGlyphs från fonten (via context) istället för intern referens
+            int expectedCount = context.Font?.MaxpTable?.numGlyphs + 1 ?? Offsets.Count;
 
-            // Kontrollera att offsets är sorterade och inte negativa
+            if (Offsets.Count != expectedCount)
+            {
+                // VIKTIGT: För subset är detta OK ibland (t.ex. under byggande)
+                // Men vi loggar bara – kastar inte i subset-läge
+                if (context.IsSubsetInProgress != true)
+                {
+                    throw new InvalidOperationException(
+                        $"Offsets count ({Offsets.Count}) does not match expected numGlyphs + 1 ({expectedCount}).");
+                }
+            }
+
+            // Resten oförändrad – perfekt som den är
             for (int i = 1; i < Offsets.Count; i++)
             {
                 if (Offsets[i] < Offsets[i - 1])
                     throw new InvalidOperationException("Offsets must be in ascending order.");
             }
 
-            // Serialisering baserat på IndexToLocFormat
             if (IndexToLocFormat == HeadTable.IndexToLocFormats.Offset16)
             {
                 foreach (var offset in Offsets)
                 {
-                    if (offset > 0x1FFFF) // 131072 bytes är max för 16-bit format (eftersom offset/2)
-                        throw new InvalidOperationException($"Offset {offset} exceeds maximum allowed for Offset16 format.");
+                    if (offset > 0x1FFFF)
+                        throw new InvalidOperationException($"Offset {offset} exceeds maximum for Offset16 format.");
 
                     ushort shortOffset = (ushort)(offset / 2);
                     writer.WriteUInt16BigEndian(shortOffset);

@@ -54,7 +54,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
         }
 
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             version.Serialize(writer);
             italicAngle.Serialize(writer);

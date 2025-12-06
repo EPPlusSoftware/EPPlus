@@ -44,7 +44,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
         /// </summary>
         public List<Glyph> Glyphs { get; set; }
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             if (Glyphs == null || Glyphs.Count == 0)
                 return;

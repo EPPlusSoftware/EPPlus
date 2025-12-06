@@ -206,7 +206,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
 
         public bool UseTypoMetrics => EnumUtil.HasFlag(fsSelection, FsSelectionFlags.UseTypoMetrics);
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             writer.WriteUInt16BigEndian(version);
             writer.WriteInt16BigEndian(xAvgCharWidth);

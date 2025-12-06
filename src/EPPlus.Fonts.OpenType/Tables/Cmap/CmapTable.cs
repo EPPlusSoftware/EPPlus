@@ -54,7 +54,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
 
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             // Start of cmap table
             long tableStart = writer.BaseStream.Position;

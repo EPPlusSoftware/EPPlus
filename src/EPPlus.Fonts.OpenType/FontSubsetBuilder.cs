@@ -44,7 +44,7 @@ namespace EPPlus.Fonts.OpenType
             subsetFont.AddOrReplaceTable(glyphSubsetResult.GlyfTable);
 
 
-            var glyfSize = glyphSubsetResult.GlyfTable.GetLength();
+            var glyfSize = glyphSubsetResult.GlyfTable.GetLength(subsetFont);
             var indexToLocFormat = glyfSize < 65536
                 ? HeadTable.IndexToLocFormats.Offset16
                 : HeadTable.IndexToLocFormats.Offset32;
@@ -54,7 +54,7 @@ namespace EPPlus.Fonts.OpenType
 
             // Bygg Loca-tabellen
             subsetFont.AddOrReplaceTable(
-                LocaTable.CreateSubset(glyphSubsetResult.LocaOffsets, indexToLocFormat, subsetFont.MaxpTable)
+                LocaTable.CreateSubset(glyphSubsetResult.LocaOffsets, indexToLocFormat)
             );
 
             //subsetFont.ReplaceTable(TableNames.Hmtx, BuildHmtxSubset(glyphIds));

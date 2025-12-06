@@ -47,7 +47,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
                     $"Loca: Invalid IndexToLocFormat {loca.IndexToLocFormat}. Must be Offset16 or Offset32.");
             }
 
-            var glyfTableLength = font.GlyfTable.GetLength();
+            var glyfTableLength = font.GlyfTable.GetLength(font);
 
             // 3. Validate offsets ascending and glyph lengths
             for (int i = 0; i < loca.Offsets.Count - 1; i++)

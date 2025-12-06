@@ -31,7 +31,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = ffi.GetTableBytes("hmtx");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
-            var hmtxBytes = font?.HmtxTable.Serialize();
+            var hmtxBytes = font?.HmtxTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, hmtxBytes?.Length);
             CollectionAssert.AreEqual(originalBytes, hmtxBytes);
@@ -44,7 +44,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = ffi.GetTableBytes("head");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
-            var headBytes = font?.HeadTable.Serialize();
+            var headBytes = font?.HeadTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, headBytes?.Length);
             CollectionAssert.AreEqual(originalBytes, headBytes);
@@ -57,7 +57,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = ffi.GetTableBytes("maxp");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
-            var maxpBytes = font?.MaxpTable.Serialize();
+            var maxpBytes = font?.MaxpTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, maxpBytes?.Length);
             CollectionAssert.AreEqual(originalBytes, maxpBytes);
@@ -70,7 +70,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = ffi.GetTableBytes("hhea");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
-            var hheaBytes = font?.HheaTable.Serialize();
+            var hheaBytes = font?.HheaTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, hheaBytes?.Length);
             CollectionAssert.AreEqual(originalBytes, hheaBytes);
@@ -83,7 +83,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = ffi.GetTableBytes("post");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
-            var postBytes = font?.PostTable.Serialize();
+            var postBytes = font?.PostTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, postBytes?.Length);
             CollectionAssert.AreEqual(originalBytes, postBytes);
@@ -96,7 +96,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = ffi.GetTableBytes("name");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
-            var nameBytes = font?.NameTable.Serialize();
+            var nameBytes = font?.NameTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, nameBytes?.Length);
             CollectionAssert.AreEqual(originalBytes, nameBytes);
@@ -113,7 +113,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = ffi.GetTableBytes("OS/2");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, fontName, subFamily, false, true);
-            var os2Bytes = font?.Os2Table.Serialize();
+            var os2Bytes = font?.Os2Table.Serialize(font);
 
             Assert.AreEqual(expectedLength, os2Bytes?.Length);
             if(expectedLength > originalBytes.Length)
@@ -130,7 +130,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = ffi.GetTableBytes("loca");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
-            var locaBytes = font.LocaTable.Serialize();
+            var locaBytes = font.LocaTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, locaBytes?.Length);
             CollectionAssert.AreEqual(originalBytes, locaBytes);
@@ -143,7 +143,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = ffi.GetTableBytes("cmap");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
-            var cmapBytes = font.CmapTable.Serialize();
+            var cmapBytes = font.CmapTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, cmapBytes?.Length);
             CollectionAssert.AreEqual(originalBytes, cmapBytes);
@@ -156,7 +156,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = ffi.GetTableBytes("cmap");
 
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Noto Emoji", FontSubFamily.Regular, false, true);
-            var cmapBytes = font.CmapTable.Serialize();
+            var cmapBytes = font.CmapTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, cmapBytes?.Length);
             CollectionAssert.AreEqual(originalBytes, cmapBytes);
@@ -185,7 +185,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = ffi.GetTableBytes("glyf");
 
             var font = OpenTypeFonts.GetFontData(fontFolders, fontName, subFamily, false, true);
-            var glyfBytes = font.GlyfTable.Serialize();
+            var glyfBytes = font.GlyfTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, glyfBytes?.Length, $"Font {fontName} {subFamily} Length differ ");
             CollectionAssert.AreEqual(originalBytes, glyfBytes, $"Font {fontName} {subFamily} Bytes differ ");
@@ -199,7 +199,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var originalBytes = ffi.GetTableBytes("kern");
 
             var font = OpenTypeFonts.GetFontData(new List<string> { @"c:\windows\fonts" } , "Arial", FontSubFamily.Regular, false);
-            var kernBytes = font?.KernTable.Serialize();
+            var kernBytes = font?.KernTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, kernBytes?.Length);
             CollectionAssert.AreEqual(originalBytes, kernBytes);

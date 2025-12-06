@@ -109,6 +109,10 @@ namespace EPPlus.Fonts.OpenType
         internal GlyfTableLoader _glyfTableLoader;
         internal KernTableLoader _kernTableLoader;
 
+        internal FontSerializationContext GetSerializationContext()
+        {
+            return new FontSerializationContext(this);
+        }
 
         public FontValidationReport ValidateFont(FontValidationSeverity severity)
         {
@@ -385,7 +389,7 @@ namespace EPPlus.Fonts.OpenType
             var record = new TableRecord
             {
                 Tag = new Tag(table.Name),
-                Length = (uint)table.GetLength(),
+                Length = (uint)table.GetLength(this),
                 Offset = 0,
                 Checksum = 0
             };
@@ -502,30 +506,31 @@ namespace EPPlus.Fonts.OpenType
                     return _reader.ReadBytes((int)record.Length);
                 }
             }
+            var ctx = new FontSerializationContext(this);
             switch(tag)
             {
                 case TableNames.Head:
-                    return HeadTable.Serialize();
+                    return HeadTable.Serialize(ctx);
                 case TableNames.Loca:
-                    return LocaTable.Serialize();
+                    return LocaTable.Serialize(ctx);
                 case TableNames.Cmap:
-                    return CmapTable.Serialize();
+                    return CmapTable.Serialize(ctx);
                 case TableNames.Glyf:
-                    return GlyfTable.Serialize();
+                    return GlyfTable.Serialize(ctx);
                 case TableNames.Os2:
-                    return Os2Table.Serialize();
+                    return Os2Table.Serialize(ctx);
                 case TableNames.Hhea:
-                    return HheaTable.Serialize();
+                    return HheaTable.Serialize(ctx);
                 case TableNames.Maxp:
-                    return MaxpTable.Serialize();
+                    return MaxpTable.Serialize(ctx);
                 case TableNames.Hmtx:
-                    return HmtxTable.Serialize();
+                    return HmtxTable.Serialize(ctx);
                 case TableNames.Name:
-                    return NameTable.Serialize();
+                    return NameTable.Serialize(ctx);
                 case TableNames.Kern:
-                    return KernTable.Serialize();
+                    return KernTable.Serialize(ctx);
                 case TableNames.Post:
-                    return PostTable.Serialize();
+                    return PostTable.Serialize(ctx);
                 default:
                     return null;
             }
