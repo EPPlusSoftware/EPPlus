@@ -414,7 +414,7 @@ namespace EPPlus.Fonts.OpenType
             return (largestWidth / (double)fontData.HeadTable.UnitsPerEm) * fontSize;
         }
 
-        internal static List<string> WrapMultipleTextFragments(List<string> textFragments, List<double> fontSizes, List<OpenTypeFont> fonts, double maxWidth)
+        internal static List<string> WrapMultipleTextFragments(List<string> textFragments, List<double> fontSizes, Dictionary<double, OpenTypeFont> fonts, double maxWidth)
         {
             int totalAdvanceWidth = 0;
             ushort? lastGlyphIndex = 0;

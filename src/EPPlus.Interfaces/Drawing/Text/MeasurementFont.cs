@@ -12,9 +12,25 @@
  *************************************************************************************************/
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OfficeOpenXml.Interfaces.Drawing.Text
 {
+    //class MeasurementFontComparer : IEqualityComparer<MeasurementFont>
+    //{
+    //    public bool Equals(MeasurementFont x, MeasurementFont y)
+    //    {
+    //        return x.FontFamily == y.FontFamily && x.Style== y.Style && x.Size == y.Size;
+    //    }
+
+    //    public int GetHashCode(MeasurementFont obj)
+    //    {
+    //        return obj.FontFamily.GetHashCode() ^ obj.Style.GetHashCode() ^ obj.Size.GetHashCode();
+    //    }
+    //}
+
     public class MeasurementFont
     {
         public string FontFamily { get; set; }
