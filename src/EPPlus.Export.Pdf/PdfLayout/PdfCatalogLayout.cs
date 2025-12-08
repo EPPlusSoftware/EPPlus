@@ -162,7 +162,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     {
                         if (m is PdfMergedCellLayout)
                         {
-                            var copy = new PdfMergedCellLayout(dictionaries, m.cell, m.LocalPosition.X, m.LocalPosition.Y, m.Size.X, m.Size.Y, m.LocalScale.X, m.LocalScale.Y, m.LocalRotation, WorksheetLayout);
+                            var copy = new PdfMergedCellLayout(dictionaries, m.cell, m.LocalPosition.X, m.LocalPosition.Y + m.Size.Y, m.Size.X, m.Size.Y, m.LocalScale.X, m.LocalScale.Y, m.LocalRotation, WorksheetLayout);
                             copy.Name = m.Name;
                             copy.Z = m.Z;
                             page.ChildObjects[0].AddChild(copy);
@@ -176,7 +176,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         }
                         else if (b is PdfCellBorderLayout)
                         {
-                            var copy = new PdfCellBorderLayout(b.cell, b.LocalPosition.X, b.LocalPosition.Y, b.Size.X, b.Size.Y, b.LocalScale.X, b.LocalScale.Y, b.LocalRotation, WorksheetLayout);
+                            var copy = new PdfCellBorderLayout(b.cell, b.LocalPosition.X, b.LocalPosition.Y + b.Size.Y, b.Size.X, b.Size.Y, b.LocalScale.X, b.LocalScale.Y, b.LocalRotation, WorksheetLayout);
                             copy.Name = b.Name;
                             copy.Z = b.Z;
                             copy.BorderData = b.BorderData;

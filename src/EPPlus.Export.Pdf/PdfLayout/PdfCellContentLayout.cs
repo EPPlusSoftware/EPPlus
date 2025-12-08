@@ -409,6 +409,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             double y = 0d;
             double textLength = GetLongestLine();
             double fontHeight = TextLines[0].FontHeight;
+            double lineHeight = TextLines[0].LineHeight;
             switch (CellAlignmentData.HorizontalAlignment)
             {
                 case ExcelHorizontalAlignment.Fill:
@@ -435,20 +436,21 @@ namespace EPPlus.Export.Pdf.PdfLayout
             switch (CellAlignmentData.VerticalAlignment)
             {
                 case ExcelVerticalAlignment.Top:
-                    y = CellY + fontHeight - bottomMargin;
+                    y = (CellY + cellHeight) - (fontHeight/2d) - bottomMargin;
                     break;
                 case ExcelVerticalAlignment.Center:
                     // replaces Math.Clamp which didn't exist in the older frameworks.
-                    var min = CellY + bottomMargin;
-                    var max = CellY + cellHeight - bottomMargin;
-                    var val = CellY + cellHeight / 2d + fontHeight / 2d;
-                    if (val > max) { y = max; }
-                    else if (val < min) { y = min; }
-                    else { y = val; }
+                    //var min = CellY + bottomMargin;
+                    //var max = CellY + cellHeight - bottomMargin;
+                    //var val = CellY + cellHeight / 2d + fontHeight / 2d;
+                    //if (val > max) { y = max; }
+                    //else if (val < min) { y = min; }
+                    //else { y = val; }
                     //y = System.Math.Clamp(CellY + cellHeight / 2d + FontData.Lines[0].FontHeight / 2d, CellY + bottomMargin, CellY + cellHeight - bottomMargin);
+                    y = CellY + (cellHeight / 2d) - (lineHeight / 4d); ;
                     break;
                 case ExcelVerticalAlignment.Bottom:
-                    y = CellY + (cellHeight - fontHeight) + fontHeight - bottomMargin;
+                    y = CellY + bottomMargin;
                     break;
             }
             if (CellAlignmentData.IsVertical)
@@ -461,7 +463,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             {
                 double rot = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
                 x += textLength * (1 - System.Math.Cos(rot));
-                y += textLength * System.Math.Sin(rot);
+                y -= textLength * System.Math.Sin(rot);
             }
             else if (CellAlignmentData.TextRotation > 0)
             {
@@ -497,7 +499,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         break;
                 }
             }
-            return new Vector2(x, y - yOffset);
+            return new Vector2(x, y + yOffset);
         }
 
         //Check if clipping is needed.

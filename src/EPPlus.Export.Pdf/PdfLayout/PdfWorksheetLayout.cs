@@ -68,7 +68,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             //We add empty cells for gridline calculation later. We just marked them for deletion by addng * to their name.
             string deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol) ? "" : "*";
-            var cl0 = new PdfCellLayout(dictionaries, cell, x, y-height, width, height, 1, 1, 0, this);
+            var cl0 = new PdfCellLayout(dictionaries, cell, x, y, width, height, 1, 1, 0, this);
             cl0.Name = cell.Address + deleteMark;
             cl0.Z = 1;
             AddCellContent(pageSettings, dictionaries, cell, x, y-height, width, height, 2);
@@ -90,15 +90,15 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 {
                     width += UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
                 }
-                var mergedCell = AddChild(new PdfMergedCellLayout(dictionaries, worksheet.Cells[address._fromRow, address._fromCol], x, y-height, width, height));
+                var mergedCell = AddChild(new PdfMergedCellLayout(dictionaries, worksheet.Cells[address._fromRow, address._fromCol], x, y, width, height));
                 mergedCell.Name = cell.Address + "_m";
                 mergedCell.Z = 5;
                 AddCellContent(pageSettings, dictionaries, cell, x, y-height, width, height, 6);
                 checkedMergedCells.Add(mergeAddress);
-
                 if (border != null)
                 {
                     border.Size = new Vector2(width, height);
+                    border.LocalPosition = new Vector2(x, y - height);
                     border.InitDiagonalBorders(cell);
                 }
             }
