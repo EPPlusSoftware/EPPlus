@@ -196,11 +196,15 @@ namespace EPPlusImageRenderer.Text
             bool isFirst = Paragraphs.Count == 0;
             var svgParagraph = new SvgParagraph(item, area, vertAlignAttribute, posY, isFirst);
 
-            svgParagraph.FillColor = string.IsNullOrEmpty(fontColor) ? item.DefaultRunProperties.Fill.Color.Name : fontColor;
-
+            //Set starting position for next paragraph
             paragraphStartPosY = svgParagraph.GetBottomYPosition();
 
-            Paragraphs.Add(svgParagraph);
+            svgParagraph.FillColor = string.IsNullOrEmpty(fontColor) ? item.DefaultRunProperties.Fill.Color.Name : fontColor;
+            if (item.TextRuns.Count != 0)
+            {
+                Paragraphs.Add(svgParagraph);
+            }
+
             return svgParagraph;
         }
 

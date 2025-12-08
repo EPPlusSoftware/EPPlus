@@ -160,37 +160,6 @@ namespace EPPlusTest.Drawing.TextMeasuring
 
                 shape1.GetSizeInPixels(out int width, out int height);
 
-                var txtMeasurer = new FontMeasurerTrueType();
-
-                var maxWidth = (double)width;
-                var ptMaxWidth = maxWidth.PixelToPoint();
-
-                List<List<string>> wrappedParagraphs = new();
-
-                foreach (var paragraph in paragraphs)
-                {
-                    List<string> textFragments = new List<string>();
-                    List<MeasurementFont> fonts = new List<MeasurementFont>();
-
-                    foreach (var txtRun in paragraph.TextRuns)
-                    {
-                        textFragments.Add(txtRun.Text);
-                        fonts.Add(txtRun.GetMeasurementFont());
-                    }
-
-                    var wrappedFragments = txtMeasurer.WrapMultipleTextFragments(textFragments, fonts, ptMaxWidth);
-                    wrappedParagraphs.Add(wrappedFragments);
-                }
-
-                //var lines = SplitIntoLines(someText);
-
-                //var lMargin = shape1.TextBody.LeftInsert.HasValue ? shape1.TextBody.LeftInsert.Value : 0;
-                //var rMargin = shape1.TextBody.RightInsert.HasValue ? shape1.TextBody.RightInsert.Value : 0;
-
-                //var wrappedStrings = paragraphs[2].TextRuns.MeasureAndWrapTextRuns(width -
-                //    lMargin - rMargin
-                //    - paragraphs[2].LeftMargin - paragraphs[2].RightMargin);
-
                 var ir = new ImageRenderer();
                 var svg = ir.RenderDrawingToSvg(shape1);
 
