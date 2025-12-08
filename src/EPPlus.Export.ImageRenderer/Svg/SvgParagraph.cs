@@ -368,29 +368,6 @@ namespace EPPlusImageRenderer.Svg
             {
                 bottomY = LineSpacing * numLines;
             }
-
-            ////heigh
-
-            ////var totalY = ParagraphArea.Top + lineSpacingTotal;
-
-            ////if(TextRuns.Count == 0)
-            ////{
-            ////    return ParagraphArea.Top + LineSpacing;
-            ////}
-
-            //if (TextRuns.Count != 0)
-            //{
-            //    bottomY = TextRuns.Last().getBottomY();
-            //}
-            //if (IsFirstParagraph)
-            //{
-            //    bottomY += LineSpacingAscendantOnly + LineSpacing;
-            //}
-            //else
-            //{
-            //    bottomY += LineSpacing;
-            //}
-
             return ParagraphArea.Top + bottomY;
         }
 

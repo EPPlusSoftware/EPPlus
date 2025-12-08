@@ -61,18 +61,6 @@ namespace OfficeOpenXml.Drawing
             return strLst;
         }
 
-        internal List<double> MeasureEachLine(ITextMeasurerWrap txtMeasurer)
-        {
-            var lines = SplitIntoLines();
-            List<double> result = new List<double>();
-            foreach (var line in lines)
-            {
-                var measuredTxt = txtMeasurer.MeasureText(Text, GetMeasurementFont());
-                result.Add(measuredTxt.Width);
-            }
-            return result;
-        }
-
         internal ExcelDrawingParagraph Paragraph { get => _paragraph; }
         /// <summary>
         /// The type of text run
@@ -81,9 +69,10 @@ namespace OfficeOpenXml.Drawing
 
         internal MeasurementFont GetMeasurementFont()
         {
+            var test = _prd.Package.Workbook.ThemeManager.GetOrCreateTheme().GetFontByCode(string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont);
             var mf = new MeasurementFont()
-            {
-                FontFamily = string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont, /*_prd.Package.Workbook.ThemeManager.GetOrCreateTheme().GetFontByCode(string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont),*/
+            {   
+                FontFamily = _prd.Package.Workbook.ThemeManager.GetOrCreateTheme().GetFontByCode(string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont),
                 Size = FontSize,
                 Style = GetFontStyle()
             };

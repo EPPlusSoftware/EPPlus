@@ -414,6 +414,96 @@ namespace EPPlus.Fonts.OpenType
             return (largestWidth / (double)fontData.HeadTable.UnitsPerEm) * fontSize;
         }
 
+        private static int GetKerningAdjustment(ushort left, ushort right, OpenTypeFont fontData)
+        {
+            if (fontData.KernTable != null)
+            {
+                foreach (var subtable in fontData.KernTable.SubTables)
+                {
+                    if (subtable.Format0Subtable == null) continue;
+                    // Format 0 only
+                    int format = subtable.coverage.RawValue >> 8;
+                    bool isHorizontal = (subtable.coverage.RawValue & 0x1) == 1;
+                    if (format != 0 || !isHorizontal) continue;
+                    KerningPair[] pairs = subtable.Format0Subtable.Pairs;
+                    if (pairs == null) continue;
+
+                    //Left is high-order/most significant
+                    //but since big-endian we must do it like this.
+                    var combined = ((uint)left << 16) | right;
+
+                    var index = OptimizedBinarySearch(pairs, combined, pairs.Length);
+                    if (index < 0)
+                    {
+                        index = ~index;
+                    }
+
+                    if (index >= 0)
+                    {
+                        var maxIndex = pairs.Count();
+                        if (maxIndex > index)
+                        {
+                            var pairItem = pairs[index];
+
+                            //Extra verification in case something has gone wrong/the exact item does not exist
+                            if (pairItem.left == left && pairItem.right == right)
+                            {
+                                return pairItem.value;
+                            }
+                            //else
+                            //{
+                            //    foreach (var pair in pairs)
+                            //    {
+                            //        if (pair.right == right && pair.left == left)
+                            //        {
+                            //            return pair.value;
+                            //        }
+                            //    }
+                            //}
+                        }
+                        else
+                        {
+                            //Index has gone beyond max index.
+                            //This should never be possible unless the file has been read wrong or is corrupt...
+                            //font Arial black appears corrupt or missing kerning table?
+                            return 0;
+                            throw new Exception("Impossible kerning table detected(!?)");
+                        }
+                    }
+                }
+            }
+            return 0;
+        }
+
+        private static int OptimizedBinarySearch(KerningPair[] arr, uint targetCombined, int length)
+        {
+            if (length == 0) return -1;
+            int low = 0, high = length - 1, mid;
+
+            while (low <= high)
+            {
+                mid = (low + high) >> 1;
+
+                if (targetCombined < arr[mid].Combined)
+                    high = mid - 1;
+
+                else if (targetCombined > arr[mid].Combined)
+                    low = mid + 1;
+
+                else
+                    return mid;
+            }
+            return ~low;
+        }
+
+        /// <summary>
+        /// Wrap multiple text-fragments (such as text-runs) that contain more than one font/or font size and return the resulting lines.
+        /// </summary>
+        /// <param name="textFragments"></param>
+        /// <param name="fontSizes"></param>
+        /// <param name="fonts"></param>
+        /// <param name="maxWidth"></param>
+        /// <returns></returns>
         internal static List<string> WrapMultipleTextFragments(List<string> textFragments, List<double> fontSizes, Dictionary<double, OpenTypeFont> fonts, double maxWidth)
         {
             int totalAdvanceWidth = 0;
@@ -425,6 +515,7 @@ namespace EPPlus.Fonts.OpenType
             //Initalise collection to return
             List<string> wrappedStrings = new List<string>();
 
+            //leftOverLine refers to a line of text that has not yet been wrapped
             string leftOverLine = "";
             double leftOverAdvanceWidthInPoints = 0;
             double leftOverTotalAdvanceFromLastWord = 0;
@@ -433,45 +524,42 @@ namespace EPPlus.Fonts.OpenType
 
             var combinedString = string.Join(string.Empty, textFragments.ToArray());
             int charCount = 0;
-            List<int> breakIndicies = new List<int>();
-            List<int> textFragmentIndiciesAtBreak = new List<int>();
 
             var splitStrings = combinedString.Split([newLine], StringSplitOptions.None);
             List<int> presetNewLineIndicies = new();
             int totalPresetLength = 0;
 
-            foreach(var line in splitStrings)
+            foreach (var line in splitStrings)
             {
                 presetNewLineIndicies.Add(totalPresetLength + line.Length);
                 totalPresetLength += line.Length;
             }
             var currentPresetLineIndex = presetNewLineIndicies[0];
-            ///////////////////////////////////////////////////////////
+
+            int totalAdvanceFromLastWord = 0;
             for (int k = 0; k < textFragments.Count(); k++)
             {
-                //var splitStrings = textFragments[k].Split([newLine], StringSplitOptions.None);
-
                 var testArray = splitStrings.Last().ToCharArray();
 
-                //Convert maxWidth from points to current font design units
+                //Convert maxWidth from points to current font design units (different fonts can have different units)
                 maxWidth = (inputMaxWidth * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k];
 
                 var glyphMappings = fonts[k].CmapTable.GetPreferredSubtable().GetGlyphMappings();
 
-                //foreach (var line in splitStrings)
-                //{
-                    int nextLineStartIndex = 0;
-                    int totalAdvanceFromLastWord = 0;
+                int nextLineStartIndex = 0;
+                totalAdvanceFromLastWord = 0;
 
-                    if (leftOverAdvanceWidthInPoints != 0)
-                    {
-                        //Convert leftoverWidth to current font design units
-                        totalAdvanceWidth = Convert.ToInt16((leftOverAdvanceWidthInPoints * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k]);
-                        totalAdvanceFromLastWord = Convert.ToInt16((leftOverTotalAdvanceFromLastWord * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k]);
-                    }
+                if (leftOverAdvanceWidthInPoints != 0)
+                {
+                    //Convert leftOverWidth and widthFromLastWord to current font design units
+                    totalAdvanceWidth = Convert.ToInt16((leftOverAdvanceWidthInPoints * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k]);
+                    totalAdvanceFromLastWord = Convert.ToInt16((leftOverTotalAdvanceFromLastWord * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k]);
+                }
 
                 for (int i = 0; i < textFragments[k].Length; i++)
                 {
+                    //Text-Fragments may already contain new lines
+                    //Reset all advance when we reach such a newLine
                     if (charCount >= currentPresetLineIndex)
                     {
                         totalAdvanceFromLastWord = 0;
@@ -511,15 +599,12 @@ namespace EPPlus.Fonts.OpenType
                         totalAdvanceFromLastWord = 0;
                     }
 
+                    //We are beyond MaxWidth. Wrap the line.
+                    //(mostly same as regular wrap but must check against a combined string of all fragments for char positions)
                     if (newWidth > maxWidth)
                     {
-                        //breakIndicies.Add(charCount);
-                        //textFragmentIndiciesAtBreak.Add(k);
-
                         var charCountFromLast = charCount - nextLineStartIndex;
                         var lastLineIndex = nextLineStartIndex;
-
-                        //nextLineStartIndex = charCount;
 
                         var txt = combinedString.Substring(nextLineStartIndex, charCountFromLast);
 
@@ -579,130 +664,19 @@ namespace EPPlus.Fonts.OpenType
                     lastGlyphIndex = gi;
                     firstChar = false;
 
+                    //Add the current char to current unwrapped line
                     leftOverLine += combinedString.Substring(charCount, 1);
                     charCount++;
-
-                    leftOverAdvanceWidthInPoints = (totalAdvanceWidth / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
-                    leftOverTotalAdvanceFromLastWord = (totalAdvanceFromLastWord / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
-                    //if (line != splitStrings.Last())
-                    //{
-                    //    var remainingLine = combinedString.Substring(nextLineStartIndex, line.Length);
-                    //    wrappedStrings.Add(remainingLine);
-                    //    totalAdvanceWidth = 0;
-                    //}
-                    //else
-                    //{
-                    //    leftOverLine += line.Substring(nextLineStartIndex, line.Length);
-                    //    leftOverAdvanceWidthInPoints = (totalAdvanceWidth / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
-                    //    leftOverTotalAdvanceFromLastWord = (totalAdvanceFromLastWord / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
-                    //}
                 }
 
-                ////var remainingLine = line.Substring(nextLineStartIndex);
-                ////wrappedStrings.Add(remainingLine);
-                ////totalAdvanceWidth = 0;
-                //if (line != splitStrings.Last())
-                //{
-                //    var remainingLine = combinedString.Substring(nextLineStartIndex, line.Length);
-                //    wrappedStrings.Add(remainingLine);
-                //    totalAdvanceWidth = 0;
-                //}
-                //else
-                //{
-                //    leftOverLine += line.Substring(nextLineStartIndex, line.Length);
-                //    leftOverAdvanceWidthInPoints = (totalAdvanceWidth / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
-                //    leftOverTotalAdvanceFromLastWord = (totalAdvanceFromLastWord / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
-                //}
-                //}
-                ///////////////////////////
-
+                //We are about to exit or enter a new text-fragment which may have a different font. Save current advance in points
+                leftOverAdvanceWidthInPoints = (totalAdvanceWidth / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
+                leftOverTotalAdvanceFromLastWord = (totalAdvanceFromLastWord / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
             }
 
             wrappedStrings.Add(leftOverLine);
 
             return wrappedStrings;
-        }
-
-        private static int GetKerningAdjustment(ushort left, ushort right, OpenTypeFont fontData)
-        {
-            if (fontData.KernTable != null)
-            {
-                foreach (var subtable in fontData.KernTable.SubTables)
-                {
-                    if (subtable.Format0Subtable == null) continue;
-                    // Format 0 only
-                    int format = subtable.coverage.RawValue >> 8;
-                    bool isHorizontal = (subtable.coverage.RawValue & 0x1) == 1;
-                    if (format != 0 || !isHorizontal) continue;
-                    KerningPair[] pairs = subtable.Format0Subtable.Pairs;
-                    if (pairs == null) continue;
-
-                    //Left is high-order/most significant
-                    //but since big-endian we must do it like this.
-                    var combined = ((uint)left << 16) | right;
-
-                    var index = OptimizedBinarySearch(pairs, combined, pairs.Length);
-                    if (index < 0)
-                    {
-                        index = ~index;
-                    }
-
-                    if (index >= 0)
-                    {
-                        var maxIndex = pairs.Count();
-                        if (maxIndex > index)
-                        {
-                            var pairItem = pairs[index];
-
-                            //Extra verification in case something has gone wrong/the exact item does not exist
-                            if (pairItem.left == left && pairItem.right == right)
-                            {
-                                return pairItem.value;
-                            }
-                            //else
-                            //{
-                            //    foreach (var pair in pairs)
-                            //    {
-                            //        if (pair.right == right && pair.left == left)
-                            //        {
-                            //            return pair.value;
-                            //        }
-                            //    }
-                            //}
-                        }
-                        else
-                        {
-                            //Index has gone beyond max index.
-                            //This should never be possible unless the file has been read wrong or is corrupt...
-                            //Arial black appears corrupt
-                            return 0;
-                            throw new Exception("Impossible kerning table detected(!?)");
-                        }
-                    }
-                }
-            }
-            return 0;
-        }
-
-        private static int OptimizedBinarySearch(KerningPair[] arr, uint targetCombined, int length)
-        {
-            if (length == 0) return -1;
-            int low = 0, high = length - 1, mid;
-
-            while (low <= high)
-            {
-                mid = (low + high) >> 1;
-
-                if (targetCombined < arr[mid].Combined)
-                    high = mid - 1;
-
-                else if (targetCombined > arr[mid].Combined)
-                    low = mid + 1;
-
-                else
-                    return mid;
-            }
-            return ~low;
         }
     }
 }

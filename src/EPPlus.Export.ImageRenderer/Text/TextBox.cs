@@ -200,6 +200,9 @@ namespace EPPlusImageRenderer.Text
             paragraphStartPosY = svgParagraph.GetBottomYPosition();
 
             svgParagraph.FillColor = string.IsNullOrEmpty(fontColor) ? item.DefaultRunProperties.Fill.Color.Name : fontColor;
+
+            //Above we've calculated heights from empty paragraphs
+            //But below we do not add them for rendering (As they would not have any visible effect anyway)
             if (item.TextRuns.Count != 0)
             {
                 Paragraphs.Add(svgParagraph);

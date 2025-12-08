@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Drawing
     {
         List<ExcelParagraphTextRunBase> _textRuns;
         ExcelDrawingParagraph _paragraph;
-        Action _initXml;    
+        Action _initXml;
         internal ExcelDrawingTextRunCollection(ExcelDrawingParagraph paragraph, XmlNamespaceManager nsm, XmlNode topNode, Action initXml) : base(nsm, topNode)
         {
             _paragraph = paragraph;
@@ -33,8 +33,8 @@ namespace OfficeOpenXml.Drawing
             _textRuns = new List<ExcelParagraphTextRunBase>();
             foreach (XmlElement node in topNode.SelectNodes("a:r|a:fld|a:br", nsm))
             {
-                
-                switch(node.LocalName)
+
+                switch (node.LocalName)
                 {
                     case "r":
                         _textRuns.Add(new ExcelParagraphTextRun(paragraph, nsm, node));
@@ -104,10 +104,10 @@ namespace OfficeOpenXml.Drawing
         /// <returns></returns>
         public ExcelParagraphTextRun Add(string text)
         {
-            var rn=CreateNode("a:r", false, true);
+            var rn = CreateNode("a:r", false, true);
             var txtRun = new ExcelParagraphTextRun(_paragraph, NameSpaceManager, rn);
             txtRun.Text = text;
-            
+
             return Add(txtRun);
         }
         internal ExcelParagraphTextRun Add(ExcelParagraphTextRun txtRun)
@@ -160,174 +160,6 @@ namespace OfficeOpenXml.Drawing
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        ///// <summary>
-        ///// If wrap text is true returns the largest width before newLine characters
-        ///// </summary>
-        ///// <param name="text"></param>
-        ///// <param name="fontSize"></param>
-        ///// <param name="fontData"></param>
-        ///// <param name="wrapText"></param>
-        ///// <returns></returns>
-        ///// <exception cref="Exception"></exception>
-        //internal static double MeasureText(string text, double fontSize, OpenTypeFont fontData, bool wrapText = false)
-        //{
-        //    double totalAdvanceWidth = 0;
-        //    ushort? lastGlyphIndex = 0;
-        //    bool firstChar = true;
-
-        //    ////For if we want to calculate the total glyph height within a specific string
-        //    //short GreatestYMax = short.MinValue;
-        //    //short LowestYMin = short.MaxValue;
-
-        //    double largestWidth = 0;
-
-        //    var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
-        //    for (int i = 0; i < text.Length; i++)
-        //    {
-        //        char c = text[i];
-
-        //        var gi = glyphMappings.GetGlyphIndex(c);
-        //        int advanceWidth;
-        //        if (gi == 0 && c != 0)
-        //        {
-        //            advanceWidth = fontData.Os2Table.xAvgCharWidth;
-        //        }
-        //        else
-        //        {
-        //            var hhMetric = fontData.HmtxTable.hMetrics[gi ?? 0];
-        //            advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
-        //        }
-
-        //        if ((c == '\n' || c == '\r'))
-        //        {
-        //            if (i > 0 && c == '\r' && text[i - 1] == '\n')
-        //            {
-        //                continue; //CRLF should be handle
-        //                          //d as one new line.
-        //            }
-        //            if (totalAdvanceWidth > largestWidth)
-        //            {
-        //                largestWidth = totalAdvanceWidth;
-        //                totalAdvanceWidth = 0;
-        //            }
-        //        }
-
-        //        totalAdvanceWidth += advanceWidth;
-        //        // Kerning adjustment
-        //        if (!firstChar)
-        //        {
-        //            int kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fontData);
-        //            totalAdvanceWidth += kerning;
-        //        }
-        //        else
-        //        {
-        //            ////First char has no kerning but it does have a left side value.
-        //            //var firstCharLsb = Convert.ToInt16(fontData.HmtxTable.hMetrics[gi].lsb);
-        //            //totalAdvanceWidth += firstCharLsb;
-        //        }
-
-        //        ////For if we want to calculate the total glyph height within a specific string
-        //        //var yMax = fontData.GlyphTable.Glyphs[gi].yMax;
-        //        //var yMin = fontData.GlyphTable.Glyphs[gi].yMin;
-
-        //        //if(yMax > GreatestYMax)
-        //        //{
-        //        //    GreatestYMax = yMax;
-        //        //}
-
-        //        //if(yMin < LowestYMin)
-        //        //{
-        //        //    LowestYMin = yMin;
-        //        //}
-
-        //        lastGlyphIndex = gi;
-        //        firstChar = false;
-        //    }
-
-        //    largestWidth = largestWidth < totalAdvanceWidth ? totalAdvanceWidth : largestWidth;
-
-        //    ////For if we want to calculate the total glyph height within a specific string
-        //    //var height = GreatestYMax - LowestYMin;
-        //    //var em = fontData.HeadTable.UnitsPerEm;
-        //    //var heightPt = height * (fontSize / em);
-
-        //    // Convert to points
-        //    return (largestWidth / (double)fontData.HeadTable.UnitsPerEm) * fontSize;
-        //}
-
-        //Apply in svg textrun how?
-        internal List<string> MeasureAndWrapTextRuns(double maxWidthPixels)
-        {
-            var txtMeasurer = _paragraph._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
-
-            List<string> WrappedStrings = new List<string>();
-            double totalCurrentLineLength = 0;
-            string lastLine = "";
-
-            var fullText = _paragraph.Text;
-
-            double lastLineLength = 0;
-            string lastLineText = "";
-            
-            ExcelParagraphTextRunBase wordStartTextRun = _textRuns[0];
-
-            foreach (var run in _textRuns)
-            {
-                var mf = run.GetMeasureFont();
-                var txtWidth = txtMeasurer.MeasureText(run.Text, mf).Width.PointToPixel();
-
-                if(txtWidth + lastLineLength > maxWidthPixels)
-                {
-                    int i = 0;
-                    for (i = 0; i < run.Text.Length; i++)
-                    {
-                        lastLineLength += txtMeasurer.MeasureText(run.Text[i].ToString(), mf).Width.PointToPixel();
-                        if(lastLineLength > maxWidthPixels)
-                        {
-                            var overflowingString = run.Text.Substring(0, i);
-                            lastLineText += overflowingString;
-
-                            var startIndexLastWord = lastLineText.LastIndexOf(' ');
-                            if(startIndexLastWord != -1)
-                            {
-                                var lastWord = lastLineText.Substring(startIndexLastWord,lastLineText.Length - startIndexLastWord);
-                                lastLineText.Remove(startIndexLastWord, lastLineText.Length - startIndexLastWord);
-                                //lastLineLength = 
-                                //var endIndexLastWord = run.Text.IndexOf(' ', i);
-
-                                //if(endIndexLastWord != -1)
-                                //{
-                                //    lastLineText.Remove(startIndexLastWord, lastLineText.Length - startIndexLastWord);
-                                //    lastWord += run.Text.Substring(endIndexLastWord);
-
-                                //}
-                            }
-
-                            run.Text.Substring(0, i).LastIndexOf(' ');
-                            lastLineText += run.Text.Substring(0, i);
-                        }
-                    }
-
-                    WrappedStrings.Add(lastLineText);
-                    lastLineLength = txtWidth - lastLineLength;
-                    lastLineText = run.Text;
-                }
-                else
-                {
-                    lastLineLength += txtWidth;
-                    lastLineText += run.Text;
-                }
-
-                if(run.Text.Contains(" "))
-                {
-                    wordStartTextRun = run;
-                }
-            }
-            WrappedStrings.Add(lastLineText);
-
-            return WrappedStrings;
         }
     }
 }

@@ -133,12 +133,6 @@ namespace EPPlusImageRenderer.Svg
             //Paragraph level begins
             foreach (var paragraph in _shape.TextBody.Paragraphs)
             {
-                ////Do not render empty paragraphs
-                //if (paragraph.TextRuns.Count == 0)
-                //{
-                //    continue;
-                //}
-
                 var svgParagraph = textBox.AddParagraph(paragraph);
             }
         }

@@ -79,7 +79,7 @@ namespace OfficeOpenXml.Drawing.Theme
                     if (string.IsNullOrEmpty(fontNameTheme)) return GetFontByCode("+mn-lt");
                     break;
                 default:
-                    return FontScheme.MinorFont[0].Typeface;
+                    return fontName;
             }
             return fontNameTheme;
         }
