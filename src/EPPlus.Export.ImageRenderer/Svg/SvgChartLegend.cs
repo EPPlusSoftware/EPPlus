@@ -13,11 +13,13 @@
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Text;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -74,6 +76,8 @@ namespace EPPlusImageRenderer.Svg
             }
             
             var widest = 0d;
+            var highest = 0d;
+            var textWidth = 0d;
             var height = TopMargin;
             var index = 0;
             foreach (var ct in sc.Chart.PlotArea.ChartTypes)
@@ -97,6 +101,11 @@ namespace EPPlusImageRenderer.Svg
                     {
                         widest = tm.Width;
                     }
+                    if (tm.Height > height)
+                    {
+                        highest = tm.Height;
+                    }
+                    textWidth += tm.Width;
                     height += tm.Height + _middleMargin;
                     index++;
                 }
@@ -105,8 +114,18 @@ namespace EPPlusImageRenderer.Svg
             switch (l.Position)
             {
                 case eLegendPosition.Top:
-                    break;
                 case eLegendPosition.Bottom:
+                    rect.Width = textWidth + LeftMargin + RightMargin + ((LineLength + 2) * index) ; // 28 is for the line length + 2px between line and text
+                    rect.Height = TopMargin + BottomMargin + highest + 2;
+                    rect.X = (sc.ChartArea.Width - rect.Width) / 2;
+                    if (l.Position == eLegendPosition.Top)
+                    {                        
+                        rect.Y = sc.Title.Rectangle.Y+ sc.Title.Rectangle.Height + _middleMargin;
+                    }
+                    else 
+                    {
+                        rect.Y = sc.ChartArea.Height - rect.Height - BottomMargin;
+                    }
                     break;
                 case eLegendPosition.Right:
                 case eLegendPosition.TopRight:
@@ -181,8 +200,17 @@ namespace EPPlusImageRenderer.Svg
                                 sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
                             }
                             if (ls.HasMarker() && ls.Marker.Style != eMarkerStyle.None)
-                            {
+                            {                                
                                 sls.MarkerIcon = GetMarkerItem(sc, ls, sls, index);
+                                if((ls.Marker.Style==eMarkerStyle.Plus || ls.Marker.Style == eMarkerStyle.X || ls.Marker.Style == eMarkerStyle.Star) &&
+                                    ls.Marker.Fill.IsEmpty == false)
+                                {
+                                    sls.MarkerBackground = GetMarkerBackground(sc, ls, sls);
+                                }
+                                else
+                                {
+                                    sls.MarkerBackground = null;
+                                }
                             }
                             break;
                         default:
@@ -200,21 +228,47 @@ namespace EPPlusImageRenderer.Svg
             var item = new SvgRenderLineItem(sc.Chart);
             item.SetDrawingPropertiesFill(ls.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
             item.SetDrawingPropertiesBorder(ls.Border, sc.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, ls.Border.Fill.Style!=eFillStyle.NoFill, 0.75);
-            float y;
-            if(pSls==null)
+
+            if (sc.Chart.Legend.Position == eLegendPosition.Top ||
+               sc.Chart.Legend.Position == eLegendPosition.Bottom)
             {
-                y = (float)Rectangle.Y + (float)TopMargin + tm.Height / 2 + 2;
+                float y = (float)Rectangle.Y + (float)TopMargin + tm.Height / 2 + 2;
+                float x = 0;                
+                if (pSls == null)
+                {
+                    x = (float)Rectangle.X + (float)LeftMargin + 2;
+                }
+                else
+                {
+                    x = (float)pSls.Textbox.Bounds.Right + _middleMargin;
+                }
+
+                item.X1 = x;
+                item.Y1 = y;
+                item.X2 = x + 32;
+                item.Y2 = y;
+                item.LineCap = eLineCap.Round;
             }
             else
             {
-                var pTm = _seriesHeadersMeasure[index - 1];
-                y = ((SvgRenderLineItem)pSls.SeriesIcon).Y1 + pTm.Height / 2 + tm.Height / 2 + _middleMargin;
+                float y;
+                if (pSls == null)
+                {
+                    y = (float)Rectangle.Y + (float)TopMargin + tm.Height / 2 + 2;
+                }
+                else
+                {
+                    var pTm = _seriesHeadersMeasure[index - 1];
+                    y = ((SvgRenderLineItem)pSls.SeriesIcon).Y1 + pTm.Height / 2 + tm.Height / 2 + _middleMargin;
+                }
+
+                item.X1 = (float)Rectangle.X + 4;
+                item.Y1 = y;
+                item.X2 = (float)Rectangle.X + 32;
+                item.Y2 = y;
+                item.LineCap = eLineCap.Round;
             }
-            item.X1 = (float)Rectangle.X + 4;
-            item.Y1 = y;
-            item.X2 = (float)Rectangle.X + 32;
-            item.Y2 = y;
-            item.LineCap = eLineCap.Round;
+
             return item;
         }
 
@@ -224,16 +278,23 @@ namespace EPPlusImageRenderer.Svg
             SvgRenderItem item;
             var m = ls.Marker;
             var size = m.Size > 7 ? 7:m.Size;
+            var halfSize = (float)size / 2;
             var line = sls.SeriesIcon as SvgRenderLineItem;
+            var x = line.X1 + (line.X2 - line.X1) / 2;
+            var xPath = x / (float)sc.ChartArea.Width;
+            var y = (float)line.Y1;
+            var yPath = y / (float)sc.ChartArea.Height;
+            var halfY = (float)halfSize / sc.ChartArea.Height;
+            var halfX = (float)halfSize / sc.ChartArea.Width;
             switch (m.Style)
             {
                 case eMarkerStyle.Circle:
                     item = new SvgRenderEllipseItem(sc.Drawing)
                     {
-                        Rx = size,
-                        Ry = size,
-                        Cx = line.X1 + (line.X2 - line.X1) / 2,
-                        Cy = line.Y1
+                        Rx = halfSize,
+                        Ry = halfSize,
+                        Cx = x,
+                        Cy = y
                     };
                     break;
                 case eMarkerStyle.Triangle:
@@ -241,41 +302,77 @@ namespace EPPlusImageRenderer.Svg
                     {
                         Commands = new List<PathCommands>()
                     };
-                    var cmd = new PathCommands(PathCommandType.Move, item, new double[] { 0, size, size / 2, 0, size, size });
+                    var cmd = new PathCommands(PathCommandType.Move, item, new double[] { xPath + halfX, yPath+halfY, xPath, yPath - halfY, xPath - halfX, yPath+halfY});
                     ((SvgRenderPathItem)item).Commands.Add(cmd);
+                    ((SvgRenderPathItem)item).Commands.Add(new PathCommands(PathCommandType.End, item));
                     break;
                 case eMarkerStyle.Diamond:
                     item = new SvgRenderPathItem(sc.Drawing)
                     {
                         Commands = new List<PathCommands>()
                     };
-                    var hs = 7 / 2;
-                    cmd = new PathCommands(PathCommandType.Move, item, new double[] { hs, hs, hs, 0, size, hs, hs, size });
+
+                    cmd = new PathCommands(PathCommandType.Move, item, new double[] { (xPath - halfX), yPath, xPath, yPath + halfY, xPath + halfX, yPath, xPath, yPath - halfY});
                     ((SvgRenderPathItem)item).Commands.Add(cmd);
+                    ((SvgRenderPathItem)item).Commands.Add(new PathCommands(PathCommandType.End, item));
                     break;
                 case eMarkerStyle.Dot:
-                    item = new SvgRenderLineItem(sc.Drawing);
-                    break;
                 case eMarkerStyle.Dash:
-                    item = new SvgRenderLineItem(sc.Drawing);
+                    item = null;
                     break;
-                case eMarkerStyle.Plus:
-                case eMarkerStyle.Star:
-                case eMarkerStyle.X:
                 case eMarkerStyle.Square:
                     item = new SvgRenderRectItem(sc.Drawing)
                     {
                         X = line.X1 + (line.X2 - line.X1 - size) / 2,
-                        Y = line.Y1 - ((size+1) / 2),
+                        Y = line.Y1 - ((size) / 2),
                         Width = size,
                         Height = size
                     };
+                    break;
+                case eMarkerStyle.Plus:
+                case eMarkerStyle.Star:
+                case eMarkerStyle.X:
+                    var pathItem = new SvgRenderPathItem(sc.Drawing)
+                    {
+                        Commands = new List<PathCommands>()                        
+                    };
+                    if(m.Style== eMarkerStyle.Star)
+                    {                        
+                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath - halfX, yPath - halfY, xPath + halfX, yPath + halfY }));
+
+                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath , yPath+halfY, xPath , yPath - halfY}));
+
+                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath + halfX, yPath - halfY, xPath - halfX, yPath + halfY }));
+                        pathItem.Commands.Add(new PathCommands(PathCommandType.End, pathItem));
+
+                    }
+                    else if(m.Style== eMarkerStyle.X)
+                    {
+                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath - halfX, yPath - halfY, xPath + halfX, yPath + halfY }));
+                        pathItem.Commands.Add(new PathCommands(PathCommandType.End, pathItem));
+
+                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath - halfX, yPath + halfY, xPath + halfX, yPath - halfY }));
+                        pathItem.Commands.Add(new PathCommands(PathCommandType.End, pathItem));
+                    }
+                    else
+                    {
+                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath, yPath - halfY, xPath , yPath + halfY }));
+                        pathItem.Commands.Add(new PathCommands(PathCommandType.End, pathItem));
+
+                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath - halfX, yPath, xPath + halfX, yPath }));
+                        pathItem.Commands.Add(new PathCommands(PathCommandType.End, pathItem));
+                    }
+                    item = pathItem;
                     break;
                 default:
                     item = null;
                     break;
             }
-            if (ls.Fill.IsEmpty)
+            if(ls.Marker.Fill.IsEmpty==false)
+            {
+                item?.SetDrawingPropertiesFill(ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
+            }
+            else if (ls.Fill.IsEmpty)
             {
                 item?.SetDrawingPropertiesFill(ls.Border.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
             }
@@ -283,7 +380,34 @@ namespace EPPlusImageRenderer.Svg
             {
                 item?.SetDrawingPropertiesFill(ls.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
             }
-            item?.SetDrawingPropertiesBorder(ls.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style == eFillStyle.NoFill, 0.75);
+            
+            if (ls.Marker.Border.Width > 0)
+            {
+                if (ls.Marker.Border.Fill.IsEmpty)
+                {
+                    item?.SetDrawingPropertiesBorder(ls.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+                }
+                else
+                {
+                    item?.SetDrawingPropertiesBorder(ls.Marker.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Marker.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+                }
+            }
+            return item;
+        }
+        private RenderItem GetMarkerBackground(SvgChart sc, ExcelLineChartSerie ls, SvgLegendSerie sls)
+        {
+            SvgRenderItem item;
+            var m = ls.Marker;
+            var size = m.Size > 7 ? 7 : m.Size;
+            var line = sls.SeriesIcon as SvgRenderLineItem;
+            item = new SvgRenderRectItem(sc.Drawing)
+            {
+                X = line.X1 + (line.X2 - line.X1 - size) / 2,
+                Y = line.Y1 - ((size) / 2),
+                Width = size,
+                Height = size
+            };
+            item?.SetDrawingPropertiesFill(ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
             return item;
         }
 
@@ -293,6 +417,7 @@ namespace EPPlusImageRenderer.Svg
             foreach(var s in SeriesIcon)
             {
                 s.SeriesIcon.Render(sb);
+                s.MarkerBackground?.Render(sb);
                 s.MarkerIcon?.Render(sb);
                 s.Textbox.Render(sb);
             }
@@ -304,6 +429,7 @@ namespace EPPlusImageRenderer.Svg
     {
         internal RenderItem SeriesIcon { get; set; }
         internal RenderItem MarkerIcon { get; set; }
+        internal RenderItem MarkerBackground { get; set; }
         internal TextBox Textbox { get; set;}
     }
 }
