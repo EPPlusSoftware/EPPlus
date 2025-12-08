@@ -61,7 +61,8 @@ namespace EPPlusImageRenderer.Svg
         {
             var rect = new SvgRenderRectItem(Chart);
             bool isVertical;
-            switch(l.Position)
+            const int LineLength = 28;
+            switch (l.Position)
             {
                 case eLegendPosition.Top:
                 case eLegendPosition.Bottom:
@@ -109,26 +110,34 @@ namespace EPPlusImageRenderer.Svg
                     break;
                 case eLegendPosition.Right:
                 case eLegendPosition.TopRight:
-                    rect.Width = widest + LeftMargin + RightMargin + 28 + 2; // 28 is for the line length + 2px between line and text
+                case eLegendPosition.Left:
+                    rect.Width = widest + LeftMargin + RightMargin + LineLength + 2; // 28 is for the line length + 2px between line and text
                     rect.Height = height + BottomMargin;
-                    rect.X = sc.ChartArea.Width - rect.Width - TopMargin;
-                    if (l.Position == eLegendPosition.Right)
+                    if (l.Position == eLegendPosition.Right ||
+                        l.Position == eLegendPosition.TopRight)
                     {
-                        rect.Y = sc.ChartArea.Height / 2 + TopMargin+2;
+                        rect.X = sc.ChartArea.Width - rect.Width - TopMargin;
                     }
                     else
                     {
-                        if(sc.Title==null)
+                        rect.X = LeftMargin + 2;
+                    }
+                    if (l.Position == eLegendPosition.Left ||
+                        l.Position == eLegendPosition.Right)
+                    {
+                        rect.Y = sc.ChartArea.Height / 2 + TopMargin + 2;
+                    }
+                    else
+                    {
+                        if (sc.Title == null)
                         {
-                            rect.Y = 8+8;
+                            rect.Y = 8 + 8;
                         }
                         else
                         {
                             rect.Y = sc.Title.Rectangle.Height + 8 + 8; //Height+Margin Top and Bottom Title
                         }
                     }
-                    break;
-                case eLegendPosition.Left:
                     break;
             }
             if (isVertical)
