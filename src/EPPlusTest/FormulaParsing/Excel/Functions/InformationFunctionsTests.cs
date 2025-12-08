@@ -85,7 +85,14 @@ namespace EPPlusTest.Excel.Functions
             var result = func.Execute(args, _context);
             Assert.IsFalse((bool)result.Result);
         }
-
+        [TestMethod]
+        public void IsNumberShouldReturnFalseWhenArgIsBool()
+        {
+            var func = new IsNumber();
+            var args = FunctionsHelper.CreateArgs(true);
+            var result = func.Execute(args, _context);
+            Assert.IsFalse((bool)result.Result);
+        }
         [TestMethod]
         public void IsErrorShouldReturnTrueIfArgIsAnErrorCode()
         {

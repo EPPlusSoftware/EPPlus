@@ -44,6 +44,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                 var result = comparer.Compare(s, searchRangeCell.Value);
                 if (result < 0)
                 {
+                    if(mid==0 && high>0) //First item can be a header, so check the next item for equality as Excel does..
+                    {
+                        searchRangeCell = searchRange[mid+1];
+                        result = comparer.Compare(s, searchRangeCell.Value);
+                        if (result == 0) return 1;
+                    }
                     high = mid - 1;
                 }
                 else if (result > 0)

@@ -308,6 +308,22 @@ namespace EPPlusTest.Excel.Functions.Text
         }
 
         [TestMethod]
+        public void UnicharShouldReturnCorrectResultNumeric()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 178;
+
+                sheet.Cells["B2"].Formula = "UNICHAR(A1)";
+                sheet.Calculate();
+
+                var result = sheet.Cells["B2"].Value;
+                Assert.AreEqual("²", result);
+            }
+        }
+
+        [TestMethod]
         public void NumberValueWithEmptyStringShouldReturn0()
         {
             var func = new NumberValue();

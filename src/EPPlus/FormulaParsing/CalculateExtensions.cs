@@ -182,7 +182,7 @@ namespace OfficeOpenXml
         /// <returns>The result of the formula calculation</returns>
         public static object Calculate(this ExcelWorksheet worksheet, string Formula)
         {
-            return Calculate(worksheet, Formula, new ExcelCalculationOption());
+             return Calculate(worksheet, Formula, new ExcelCalculationOption());
         }
         /// <summary>
         /// Calculate all formulas in the current range
