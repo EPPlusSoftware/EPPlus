@@ -170,9 +170,6 @@ namespace EPPlusImageRenderer.Svg
                 //var combinedString = string.Join(Environment.NewLine, svgLines.ToArray());
                 var combinedString = string.Join(string.Empty, svgLines.ToArray());
 
-                //We have the wrapped strings.
-                //New goal; figure out/Map which textRun/runs have textSplits/counts as new line.
-
                 List<string> txtRunStrings = new List<string>();
                 //int currentWrappedLine = 0;
                 List<int> txtRunStartIndicies = new List<int>();
