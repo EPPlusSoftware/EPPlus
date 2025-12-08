@@ -581,6 +581,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             if (val == null) return false;
             return (TypeCompat.IsPrimitive(val) || val is double || val is decimal || val is DateTime || val is TimeSpan);
         }
+        protected bool IsNumericNotBool(object val)
+        {
+            if (val == null || val is bool) return false;
+            return (TypeCompat.IsPrimitive(val) || val is double || val is decimal || val is DateTime || val is TimeSpan);
+        }
         /// <summary>
         /// Is bool
         /// </summary>
