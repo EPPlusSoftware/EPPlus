@@ -6,6 +6,7 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EPPlus.Graphics;
 
 namespace EPPlus.Export.ImageRenderer.Text
 {

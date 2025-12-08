@@ -15,14 +15,43 @@ namespace EPPlus.Graphics
     //REname and move class? Inherit from transform? what do?
     internal class Rect
     {
+        internal Transform transform = new Transform();
+
+        internal Rect()
+        {
+        }
+
+        internal Rect(double width, double height)
+        {
+            Left = 0;
+            Top = 0;
+            Right = width;
+            Bottom = height;
+        }
+        internal Rect(double left, double top, double right, double bottom)
+        {
+            Left = left;
+            Top = top;
+            Right = right;
+            Bottom = bottom;
+        }
+
         /// <summary>
         /// Y pos (min)
         /// </summary>
-        internal double Top;
+        internal double Top
+        {
+            get { return transform.Position.Y; }
+            set { transform.Position.Y = value; }
+        }
         /// <summary>
         /// X pos (min)
         /// </summary>
-        internal double Left;
+        internal double Left
+        {
+            get { return transform.Position.X;}
+            set { transform.Position.X = value;}
+        }
 
         /// <summary>
         /// X pos (max)
@@ -63,8 +92,8 @@ namespace EPPlus.Graphics
             }
         }
 
-        //Legacy variables just in case
-        double X { get { return Left; } set { Left = value; } }
-        double Y { get { return Top; } set { Top = value; } }
+        //Quick-access to underlying transform
+        internal double X { get { return Left; } set { Left = value; } }
+        internal double Y { get { return Top; } set { Top = value; } }
     }
 }

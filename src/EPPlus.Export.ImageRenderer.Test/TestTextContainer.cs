@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EPPlus.Graphics;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {
@@ -96,6 +97,12 @@ namespace EPPlus.Export.ImageRenderer.Tests
             //0,072265625 * font size width correction for pixels
             //0,0442708333333333 * font size height correction for pixels
             Assert.AreEqual(expectedHeight, Math.Round(container.Height, 0));
+        }
+
+        [TestMethod]
+        public void TextContainerGeneric()
+        {
+
         }
     }
 }

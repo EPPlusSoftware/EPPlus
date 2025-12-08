@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EPPlus.Graphics
 {
-    internal class RectMargins : RectBase
+    internal class RectMargins : Rect
     {
         internal double MarginLeft { get; set; }
         internal double MarginTop { get; set; }
