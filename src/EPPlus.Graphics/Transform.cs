@@ -254,14 +254,10 @@ namespace EPPlus.Graphics
             var maxX = corners.Max(p => p.X);
             var maxY = corners.Max(p => p.Y);
             var rect = new Rect();
-            rect.X = minX;
-            rect.Y = minY;
-            rect.Width = maxX - minX;
-            rect.Height = maxY - minY;
-            rect.Top = rect.Y;
-            rect.Left = rect.X;
-            rect.Bottom = rect.Y + rect.Height;
-            rect.Right = rect.X + rect.Width;
+            rect.Left = minX;
+            rect.Top = minY;
+            rect.Right = maxX;
+            rect.Bottom = maxY;
             return rect;
         }
 
