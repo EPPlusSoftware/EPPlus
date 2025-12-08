@@ -26,10 +26,7 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class SvgParagraph : SvgRenderItem
     {
-        /// <summary>
-        /// -1 if wrapping is never applied
-        /// </summary>
-        int numLines = -1;
+        int numLines = 0;
 
         public override void Render(StringBuilder sb)
         {
@@ -141,8 +138,6 @@ namespace EPPlusImageRenderer.Svg
             GetBounds(out double l, out double t, out double r, out double b);
             var textMaxWidth = r - l;
 
-            //paragraphHeight = p.GetParagraphHeightInPixels(fmtt, textMaxWidth.PixelToPoint());
-
             lnType = p.LineSpacing.LineSpacingType;
 
             foreach (var run in p.TextRuns)
@@ -167,13 +162,10 @@ namespace EPPlusImageRenderer.Svg
 
                 numLines = svgLines.Count;
 
-                //var combinedString = string.Join(Environment.NewLine, svgLines.ToArray());
-                var combinedString = string.Join(string.Empty, svgLines.ToArray());
-
                 List<string> txtRunStrings = new List<string>();
-                //int currentWrappedLine = 0;
                 List<int> txtRunStartIndicies = new List<int>();
                 List<int> txtRunEndIndicies = new List<int>();
+
                 int lastIndex = 0;
                 for (int i = 0; i < TextRuns.Count; i++)
                 {
