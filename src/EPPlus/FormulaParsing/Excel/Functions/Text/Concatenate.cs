@@ -38,7 +38,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 var v = arg.ValueFirst;
                 if (v != null)
                 {
-                    sb.Append(v);
+                    if(v is bool b)
+                    {
+                        sb.Append(b.ToString().ToUpper()); //bools should always be uppercase in Excel.
+                    }
+                    else
+                    {
+                        sb.Append(v);
+                    }
                 }
             }
             return CreateResult(sb.ToString(), DataType.String);

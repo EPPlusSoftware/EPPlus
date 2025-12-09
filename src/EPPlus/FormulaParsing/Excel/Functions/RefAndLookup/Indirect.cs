@@ -33,6 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var address = ArgToString(arguments, 0);
+            if (string.IsNullOrEmpty(address)) return CompileResult.GetErrorResult(eErrorType.Ref);
             FormulaRangeAddress adr;
             IRangeInfo result;
             var arg = arguments[0];
