@@ -22,9 +22,9 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class SvgChartTitle : SvgChartObject
     {
-        internal SvgChartTitle(SvgChart sc, ExcelChartTitleStandard t, string defaultText) : base(sc.Chart)
+        internal SvgChartTitle(SvgChart sc, ExcelChartTitleStandard t, string defaultText, bool isAxis) : base(sc.Chart)
         {
-            if (sc.Chart.HasTitle == false || sc.Chart.Series.Count == 0)
+            if (isAxis==false && sc.Chart.HasTitle == false || sc.Chart.Series.Count == 0)
             {
                 return;
             }

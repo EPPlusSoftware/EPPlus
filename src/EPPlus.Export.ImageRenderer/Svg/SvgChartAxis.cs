@@ -22,7 +22,14 @@ namespace EPPlusImageRenderer.Svg
     {
         internal SvgChartAxis(SvgChart sc, ExcelChartAxisStandard ax) : base(sc.Chart)
         {
-            if (sc.Chart.Series.Count == 0 || ax.Deleted==true)
+            if(ax.HasTitle)
+            {
+                AxisTitle = new SvgChartTitle(sc, ax.Title, "Axis Title");
+            }
+            else
+            {
+                AxisTitle = null;
+                if (sc.Chart.Series.Count == 0 || ax.Deleted==true)
             {
                 return;
             }
@@ -37,29 +44,29 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 Rectangle = new SvgRenderRectItem(sc.Chart);
-                //var w = 10; //Width/Height
-                //switch(ax.AxisPosition)
-                //{
-                //    case eAxisPosition.Left:
-                //        Rectangle.Y = 15;
-                //        Rectangle.X = 0;
-                //        break;
-                //    case eAxisPosition.Right:
-                //        Rectangle.Y = 0;
-                //        Rectangle.X = 0;
-                //        break;
-                //    case eAxisPosition.Top:
-                //        Rectangle.Y = 0;
-                //        Rectangle.X = 0;
-                //        break;
-                //    case eAxisPosition.Bottom:
-                //        Rectangle.Y = 0;
-                //        Rectangle.X = 0;
-                //        break;
-                //}
-                //Rectangle.Width = sc.Plotarea.Rectangle.Width;
-                //Rectangle.Height = w;
-                //Rectangle.Width = 0;
+                var w = 10; //Width/Height
+                switch(ax.AxisPosition)
+                {
+                    case eAxisPosition.Left:
+                        Rectangle.Y = 15;
+                        Rectangle.X = 0;
+                        break;
+                    case eAxisPosition.Right:
+                        Rectangle.Y = 0;
+                        Rectangle.X = 0;
+                        break;
+                    case eAxisPosition.Top:
+                        Rectangle.Y = 0;
+                        Rectangle.X = 0;
+                        break;
+                    case eAxisPosition.Bottom:
+                        Rectangle.Y = 0;
+                        Rectangle.X = 0;
+                        break;
+                }
+                Rectangle.Width = sc.Plotarea.Rectangle.Width;
+                Rectangle.Height = w;
+                Rectangle.Width = 0;
             }
             Values = GetAxisValue(ax, Rectangle);
 
