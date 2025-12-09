@@ -241,9 +241,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     }
                     else if (isInString == 0 && _charTokens.ContainsKey(c) && (flags & statFlags.isExponential) == 0)
                     {
+                        var currentString = current.ToString();
+                        if (currentString.Equals("#DIV", StringComparison.OrdinalIgnoreCase) && c=='/')
+                        {
+                            current.Append(c);
+                            ix++;
+                            continue;
+                        }
                         if (c == '!' && current.Length > 0 && current[0] == '#' && current[current.Length - 1] != '\'')
                         {
-                            var currentString = current.ToString();
                             if (currentString.Equals("#NUM", StringComparison.OrdinalIgnoreCase))
                             {
                                 l.Add(new Token("#NUM!", TokenType.NumericError));
@@ -259,6 +265,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             else if(currentString.Equals("#REF", StringComparison.OrdinalIgnoreCase))
                             {
                                 l.Add(new Token("#REF!", TokenType.InvalidReference));
+                            }
+                            else if (currentString.Equals("#DIV/0", StringComparison.OrdinalIgnoreCase))
+                            {
+                                l.Add(new Token("#DIV/0!", TokenType.Div0Error));
                             }
                             else
                             {
