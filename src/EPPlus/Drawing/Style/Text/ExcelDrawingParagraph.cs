@@ -489,6 +489,12 @@ namespace OfficeOpenXml.Drawing
                 }
             }
 
+            if(TextRuns.Count <= 0)
+            {
+                var lineSpacing = GetParagraphLineSpacing(measurer, isFirstLine);
+                paragraphHeight += lineSpacing;
+            }
+
             return paragraphHeight;
         }
 

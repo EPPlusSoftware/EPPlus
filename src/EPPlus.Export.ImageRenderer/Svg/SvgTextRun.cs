@@ -28,7 +28,9 @@ namespace EPPlusImageRenderer.Svg
     internal class SvgTextRun : SvgRenderItem
     {
         double LineSpacingPerNewLine;
-        double _yPosition;
+        double _yPositionOriginal;
+        double dyPos;
+        double _yEndPos;
         double ClippingHeight = Double.NaN;
         double fontSizeInPixels;
         eTextAlignment horizontalTextAlignment;
@@ -46,7 +48,8 @@ namespace EPPlusImageRenderer.Svg
         double BaselineSpacing;
 
         string horizontalAttribute;
-        string originalText;
+        internal readonly string originalText;
+        private string currentText;
 
         double _xPosition;
 
@@ -63,6 +66,7 @@ namespace EPPlusImageRenderer.Svg
         {
             originalText = textRun.Text;
             Lines = SplitIntoLines(originalText);
+            currentText = originalText;
 
             measurementFont = textRun.GetMeasureFont();
 
@@ -83,7 +87,8 @@ namespace EPPlusImageRenderer.Svg
             BaselineSpacing = baselineLineSpacing;
 
             _xPosition = xPosition;
-            _yPosition = yPosition;
+            _yPositionOriginal = yPosition;
+            _yEndPos = yPosition;
 
             //origin.X = xPosition;
             //origin.Y = yPosition;
@@ -183,7 +188,8 @@ namespace EPPlusImageRenderer.Svg
             BaselineSpacing = baselineLineSpacing;
 
             _xPosition = xPosition;
-            _yPosition = yPosition;
+            _yPositionOriginal = yPosition;
+            _yEndPos = yPosition;
 
             //origin.X = xPosition;
             //origin.Y = yPosition;
@@ -341,7 +347,8 @@ namespace EPPlusImageRenderer.Svg
             BaselineSpacing = fmExact.GetBaseLine().PointToPixel(true);
 
             _xPosition = xPosition;
-            _yPosition = yPosition;
+            _yPositionOriginal = yPosition;
+            _yEndPos = yPosition;
 
             fontSizeInPixels = ((double)mf.Size).PointToPixel(true);
 
@@ -367,6 +374,7 @@ namespace EPPlusImageRenderer.Svg
         {
             string finalString = "";
             bool useBaselineSpacing = double.IsNaN(BaselineSpacing) == false;
+            Lines = SplitIntoLines(currentText);
 
             foreach (var line in Lines)
             {
@@ -383,8 +391,8 @@ namespace EPPlusImageRenderer.Svg
 
                     yIncrease = EPPlus.Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
 
-                    _yPosition += yIncrease;
-                    if (Double.IsNaN(ClippingHeight) == false && _yPosition >= ClippingHeight)
+                    _yEndPos += yIncrease;
+                    if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
                     {
                         visibility = "display=\"none\"";
                     }
@@ -424,7 +432,12 @@ namespace EPPlusImageRenderer.Svg
         {
             if (originalText != null)
             {
-                SplitIntoLines(originalText);
+                if(currentText == null)
+                {
+                    currentText = originalText;
+                }
+       
+                SplitIntoLines(currentText);
                 return Lines.Count;
             }
             else
@@ -511,6 +524,11 @@ namespace EPPlusImageRenderer.Svg
             var textMesurer = new FontMeasurerTrueType(measurementFont);
             var newLines = textMesurer.MeasureAndWrapText(originalText, measurementFont, maxWidth);
             Lines = newLines;
+        }
+
+        internal void InsertLineBreak(int insertPosition)
+        {
+            currentText = currentText.Insert(insertPosition, Environment.NewLine);
         }
     }
 }

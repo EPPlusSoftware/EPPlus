@@ -69,8 +69,9 @@ namespace OfficeOpenXml.Drawing
 
         internal MeasurementFont GetMeasurementFont()
         {
+            var test = _prd.Package.Workbook.ThemeManager.GetOrCreateTheme().GetFontByCode(string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont);
             var mf = new MeasurementFont()
-            {
+            {   
                 FontFamily = _prd.Package.Workbook.ThemeManager.GetOrCreateTheme().GetFontByCode(string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont),
                 Size = FontSize,
                 Style = GetFontStyle()
