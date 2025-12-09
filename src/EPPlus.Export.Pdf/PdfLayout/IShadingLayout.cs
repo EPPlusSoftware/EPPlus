@@ -14,8 +14,8 @@ using EPPlus.Export.Pdf.PdfSettings;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal interface ILayout
+    internal interface IShadingLayout
     {
-        void ConvertCoordinates(PdfPageSettings pageSettings);
+        abstract void UpdateShadingPositionMatrix(PdfPageSettings pageSettings);
     }
 }

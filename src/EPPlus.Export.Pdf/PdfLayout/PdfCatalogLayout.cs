@@ -202,8 +202,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 foreach (var child in contentObjects)
                 {
                     page.AddChild(child);
-                    //if (child is ILayout il)
-                    //    il.ConvertCoordinates(pageSettings);
+                    if (child is IShadingLayout iSl)
+                        iSl.UpdateShadingPositionMatrix(pageSettings);
                 }
                 page.RemoveChild(page.ChildObjects[0]);
                 page.GenerateGridLines();

@@ -25,7 +25,7 @@ using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfCellContentLayout : Transform, ILayout
+    internal class PdfCellContentLayout : Transform
     {
         public List<PdfCellTextLine> TextLines = new List<PdfCellTextLine>();
         public PdfCellAlignmentData CellAlignmentData;
@@ -543,12 +543,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     };
                 }
             }
-        }
-
-        //Convert to pdf coordinates.
-        public void ConvertCoordinates(PdfPageSettings pageSettings)
-        {
-            LocalPosition = new Vector2(LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(LocalPosition.Y));
         }
     }
 }

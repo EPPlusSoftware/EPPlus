@@ -20,7 +20,7 @@ using EPPlus.Export.Pdf.Pdfhelpers;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfCellBorderLayout : Transform, ILayout
+    internal class PdfCellBorderLayout : Transform
     {
         public PdfCellBordersData BorderData;
         public bool IsMerged = false;
@@ -62,11 +62,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 BorderData.DiagonalDown.BorderStyle = cell.Style.Border.DiagonalDown ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
                 BorderData.DiagonalDown.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
             }
-        }
-
-        public void ConvertCoordinates(PdfPageSettings pageSettings)
-        {
-            LocalPosition = new Vector2(LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(LocalPosition.Y) - Size.Y);
         }
     }
 }
