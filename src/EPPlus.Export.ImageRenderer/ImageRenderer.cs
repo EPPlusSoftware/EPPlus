@@ -26,7 +26,6 @@ namespace EPPlusImageRenderer
     {
         public string RenderDrawingToSvg(ExcelDrawing drawing)
         {
-
             drawing.GetSizeInPixels(out int width, out int height);
             var sb = new StringBuilder();
             if (drawing is ExcelShape shape)
@@ -66,10 +65,16 @@ namespace EPPlusImageRenderer
             var sRange = new SvgRange(range, totalWidth, totalHeight);
 
             var sb = new StringBuilder();
-            sb.Append($"<svg width=\"{500}\" height=\"{500}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" overflow=\"hidden\">");
+            sb.Append($"<svg width=\"{500}\" height=\"{500}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\">");
             sRange.Render(sb);
             sb.Append($"</svg>");
             return sb.ToString();
+        }
+
+        public string RenderBox(double l, double r, double b, double t)
+        {
+            var doc = new SvgEpplusDocument();
+
         }
     }
 }
