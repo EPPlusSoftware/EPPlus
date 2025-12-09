@@ -13,11 +13,14 @@
 
 using EPPlus.Export.ImageRenderer;
 using EPPlus.Export.ImageRenderer.Svg;
+using EPPlus.Export.ImageRenderer.Svg.Writer;
+using EPPlus.Export.ImageRenderer.Text;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using System;
+using System.IO;
 using System.Text;
 
 namespace EPPlusImageRenderer
@@ -71,10 +74,22 @@ namespace EPPlusImageRenderer
             return sb.ToString();
         }
 
-        public string RenderBox(double l, double r, double b, double t)
+        public string RenderBox(string boxText)
         {
-            var doc = new SvgEpplusDocument();
+            string retStr = "";
+            var container = new TextContainerBase(boxText);
+            var element = container.GenerateSvg();
+            
+            MemoryStream ms = new MemoryStream();
+            SvgWriter writer = new SvgWriter(ms,Encoding.UTF8);
+            writer.RenderSvgElement(element, true);
 
+            StreamReader reader = new StreamReader(ms);
+            retStr = reader.ReadToEnd();
+            
+            //SvgParagraph para = new SvgParagraph(container.GetContent(),);
+            //var doc = new SvgEpplusDocument();
+            return retStr;
         }
     }
 }

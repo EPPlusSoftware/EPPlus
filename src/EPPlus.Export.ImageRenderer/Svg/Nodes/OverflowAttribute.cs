@@ -48,9 +48,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Nodes
             OverFlowValue = overflowValue;
         }
 
-        internal override void SetName(string newName)
-        {
-            throw new System.Exception("A Type Specific Attribute cannot be set to a different name!!");
-        }
+        //internal override void SetName(string newName)
+        //{
+        //    throw new System.Exception("A Type Specific Attribute cannot be set to a different name!!");
+        //}
     }
 }

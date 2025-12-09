@@ -126,20 +126,24 @@ namespace EPPlus.Export.ImageRenderer.Tests
             //Next: Full rich-text?
 
 
+            TextContainerBase Fragment1 = new TextContainerBase(true);
 
-            //Test positioning and re-sizing
-            TextContainer shapeTextBox = new TextContainer();
+            TextContainerBase Fragment2 = new TextContainerBase();
 
-            shapeTextBox.transform.Position = new Graphics.Math.Vector2(5, 10);
+            TextContainerBase Fragment3 = new TextContainerBase();
+            ////Test positioning and re-sizing
+            //TextContainer shapeTextBox = new TextContainer();
+
+            //shapeTextBox.transform.Position = new Graphics.Math.Vector2(5, 10);
 
 
-            TextContainer paragraph1Container = new TextContainer();
+            //TextContainer paragraph1Container = new TextContainer();
 
-            TextContainer para2 = new TextContainer();
+            //TextContainer para2 = new TextContainer();
 
-            TextContainer para3 = new TextContainer();
+            //TextContainer para3 = new TextContainer();
 
-            TextContainer para4 = new TextContainer();
+            //TextContainer para4 = new TextContainer();
         }
     }
 }
