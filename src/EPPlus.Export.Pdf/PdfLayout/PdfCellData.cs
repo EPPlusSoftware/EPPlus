@@ -168,6 +168,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public ExcelBorderStyle BorderStyle = ExcelBorderStyle.None;
         public readonly LineType LineType;
         public Color BorderColor = Color.Black;
+        public double MergedDiagonalWidth = 0d;
+        public double MergedDiagonalHeight = 0d;
 
         public PdfCellBorderData(LineType LineType)
         {

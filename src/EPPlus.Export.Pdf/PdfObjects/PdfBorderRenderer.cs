@@ -27,9 +27,12 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
         private readonly double X;
         private readonly double Y;
+        private readonly string Name;
+        private readonly bool IsMerged;
         private readonly double Width;
         private readonly double Height;
-        private readonly string Name;
+        private readonly double MergedDiagnoalWidth;
+        private readonly double MergedDiagnoalHeight;
 
 
         public PdfBorderRenderer(PdfCellBorderLayout cell)
@@ -45,6 +48,9 @@ namespace EPPlus.Export.Pdf.PdfObjects
             Right = cell.BorderData.Right;
             DiagonalUp = cell.BorderData.DiagonalUp;
             DiagonalDown = cell.BorderData.DiagonalDown;
+            IsMerged = cell.IsMerged;
+            MergedDiagnoalWidth = DiagonalUp.MergedDiagonalWidth;
+            MergedDiagnoalHeight = DiagonalDown.MergedDiagonalHeight;
         }
 
         public void RenderBorder(PdfContentStream contentStream)

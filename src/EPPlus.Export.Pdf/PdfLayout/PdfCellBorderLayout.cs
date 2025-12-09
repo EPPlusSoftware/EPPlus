@@ -33,8 +33,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
             if (cell != null)
             {
-                BorderData = new PdfCellBordersData();
                 IsMerged = cell.Merge;
+                BorderData = new PdfCellBordersData();
             }
         }
 
@@ -53,14 +53,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        public void InitDiagonalBorders(ExcelRangeBase cell)
+        public void InitDiagonalBorders(ExcelRangeBase cell, double width, double height)
         {
             if (cell != null)
             {
                 BorderData.DiagonalUp.BorderStyle = cell.Style.Border.DiagonalUp ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
                 BorderData.DiagonalUp.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
+                BorderData.DiagonalUp.MergedDiagonalWidth = width;
+                BorderData.DiagonalUp.MergedDiagonalHeight = height;
                 BorderData.DiagonalDown.BorderStyle = cell.Style.Border.DiagonalDown ? cell.Style.Border.Diagonal.Style : ExcelBorderStyle.None;
                 BorderData.DiagonalDown.BorderColor = PdfColor.SetColorFromHex(cell.Style.Border.Diagonal.Color.LookupColor(cell.Style.Border));
+                BorderData.DiagonalDown.MergedDiagonalWidth = width;
+                BorderData.DiagonalDown.MergedDiagonalHeight = height;
             }
         }
     }

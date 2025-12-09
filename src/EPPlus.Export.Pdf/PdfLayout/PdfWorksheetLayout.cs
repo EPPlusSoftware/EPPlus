@@ -51,7 +51,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     else
                     {
                         HandleCell(pageSettings, dictionaries, cell, x, y, width, height);
-                        if(border!=null) border.InitDiagonalBorders(cell);
+                        if (border != null) border.InitDiagonalBorders(cell, 0, 0);
                     }
                     if (border != null) border.InitEdgeBorders(cell);
                     x += width;
@@ -97,9 +97,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 checkedMergedCells.Add(mergeAddress);
                 if (border != null)
                 {
+                    border.InitDiagonalBorders(cell, width, height);
+                    //This makes borders in merged cells draw double borders on the Left side and Top side of the merged cell. This makes some borders look the way they are not supposed to look. However this does makes diagonal borders cover the full merged cell. We want our cake and eat it so we need to redesign border handling.
                     border.Size = new Vector2(width, height);
                     border.LocalPosition = new Vector2(x, y - height);
-                    border.InitDiagonalBorders(cell);
                 }
             }
         }
