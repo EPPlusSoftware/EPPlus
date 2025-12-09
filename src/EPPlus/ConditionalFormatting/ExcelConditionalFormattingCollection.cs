@@ -15,6 +15,7 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections;
@@ -117,10 +118,17 @@ namespace OfficeOpenXml.ConditionalFormatting
                     xr.Read(); //Read beyond the end element
                     break;
                 }
-
+                bool pivot = false;
                 if (xr.NodeType == XmlNodeType.Element)
                 {
                     //ConditionalFormatting->cfRule
+                    if(xr.LocalName== "conditionalFormatting")
+                    {
+                        if(ConvertUtil.TryParseBooleanString(xr.GetAttribute("pivot"), out pivot)==false)
+                        {
+                            pivot = false;
+                        }
+                    }
                     xr.Read();
 
                     var addresslessCFs = new List<ExcelConditionalFormattingRule>();  
@@ -413,6 +421,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 addresslessCFs.Add(cf);
                             }
                         }
+                        _rules[_rules.Count - 1].PivotTable = pivot;
                     } while (xr.LocalName == "cfRule");
 
                     var latestAddress = _rules.LastOrDefault().Address;
