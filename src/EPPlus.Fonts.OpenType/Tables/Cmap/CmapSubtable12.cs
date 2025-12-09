@@ -76,7 +76,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         }
 
 
-        public override bool TryGetGlyphId(int codePoint, out ushort glyphId)
+        public override bool TryGetGlyphId(uint codePoint, out ushort glyphId)
         {
             glyphId = 0;
 
@@ -84,7 +84,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             {
                 if (codePoint >= group.StartCharCode && codePoint <= group.EndCharCode)
                 {
-                    uint offset = (uint)(codePoint - group.StartCharCode);
+                    uint offset = codePoint - group.StartCharCode;
                     glyphId = (ushort)(group.StartGlyphId + offset);
                     return glyphId != 0;
                 }

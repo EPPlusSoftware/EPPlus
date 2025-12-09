@@ -120,7 +120,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
 
 
-        public override bool TryGetGlyphId(int codePoint, out ushort glyphId)
+        public override bool TryGetGlyphId(uint codePoint, out ushort glyphId)
         {
             glyphId = 0;
 
@@ -134,16 +134,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                     }
                     else
                     {
-                        int offsetIndex = (IdRangeOffset[i] / 2) + (codePoint - StartCode[i]);
+                        int offsetIndex = (IdRangeOffset[i] / 2) + (int)(codePoint - StartCode[i]);
                         if (offsetIndex >= 0 && offsetIndex < GlyphIdArray.Length)
                         {
                             glyphId = GlyphIdArray[offsetIndex];
+                            if (glyphId == 0) return false; // 0 betyder "saknas"
                         }
                     }
                     return glyphId != 0;
                 }
             }
-
             return false;
         }
 

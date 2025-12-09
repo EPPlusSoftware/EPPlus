@@ -51,7 +51,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         /// <param name="codePoint">Unicode code point</param>
         /// <param name="glyphId">Glyph ID if found</param>
         /// <returns>True if mapping exists</returns>
-        public abstract bool TryGetGlyphId(int codePoint, out ushort glyphId);
+        public abstract bool TryGetGlyphId(uint codePoint, out ushort glyphId);
 
     }
 }

@@ -73,7 +73,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         }
 
 
-        public override bool TryGetGlyphId(int codePoint, out ushort glyphId)
+        public override bool TryGetGlyphId(uint codePoint, out ushort glyphId)
         {
             glyphId = 0;
 

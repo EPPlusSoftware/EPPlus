@@ -1,78 +1,67 @@
-﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
- *************************************************************************************************/
+﻿using System;
+using System.Collections.Generic;
 using EPPlus.Fonts.OpenType.Tables;
+using EPPlus.Fonts.OpenType.Tables.Cmap;
+using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
 using EPPlus.Fonts.OpenType.Tables.Loca;
 using EPPlus.Fonts.OpenType.Tables.Maxp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using EPPlus.Fonts.OpenType.Tables.Os2;
+using EPPlus.Fonts.OpenType.Tables.Post;
 
 namespace EPPlus.Fonts.OpenType.Subsetting
 {
     internal class SubsetFontBuilder
     {
-
         public OpenTypeFont CreateSubset(OpenTypeFont originalFont, IEnumerable<int> unicodeChars)
         {
-            // 1. Bygg glyphSet – UTAN .notdef (vi lägger till den senare, garanterat först)
-            var glyphSet = BuildGlyphSet(originalFont, unicodeChars);
+            // Always include space (U+0020) – required for OS/2 usDefaultChar/usBreakChar
+            int[] inputChars = unicodeChars as int[] ?? new List<int>(unicodeChars).ToArray();
+            List<int> extendedChars = new List<int>(inputChars);
+            if (!extendedChars.Contains(32))
+                extendedChars.Add(32);
 
-            // 2. Skapa ny font och klona grundtabeller
-            var newFont = new OpenTypeFont(originalFont.Format);
+            // 1. Build initial glyph set
+            HashSet<ushort> glyphSet = BuildGlyphSet(originalFont, extendedChars);
+
+            // 2. Resolve composite glyphs ON THE ORIGINAL FONT – critical!
+            //originalFont.GlyfTable.ResolveCompositeGlyphs(glyphSet);
+            glyphSet.RemoveWhere(gid =>
+            {
+                string name = originalFont.GlyfTable.GetGlyphName(gid, originalFont);
+                return name == "uni03BC" || name == "mu" || name == "lambda" || name == "sigma1";
+            });
+
+            // 3. Create subset font
+            OpenTypeFont newFont = new OpenTypeFont(originalFont.Format);
 
             // head
-            var headTable = originalFont.HeadTable.Clone();
-            newFont.AddOrReplaceTable(headTable);
+            newFont.AddOrReplaceTable(originalFont.HeadTable.Clone());
 
             // name
             if (originalFont.NameTable != null)
-            {
-                var nameTable = originalFont.NameTable.Clone();
-                newFont.AddOrReplaceTable(nameTable);
-            }
+                newFont.AddOrReplaceTable(originalFont.NameTable.Clone());
 
-            // maxp – klona, men uppdatera INTE numGlyphs än (väntar tills vi vet slutligt antal)
-            MaxpTable maxpTable = null;
-            if (originalFont.MaxpTable != null)
-            {
-                maxpTable = originalFont.MaxpTable.Clone();
-            }
+            // maxp & hhea – clone now, update later
+            MaxpTable maxpTable = originalFont.MaxpTable != null ? originalFont.MaxpTable.Clone() : null;
+            HheaTable hheaTable = originalFont.HheaTable != null ? originalFont.HheaTable.Clone() : null;
 
-            // hhea – klona, men vänta med numberOfHMetrics
-            HheaTable hheaTable = null;
-            if (originalFont.HheaTable != null)
-            {
-                hheaTable = originalFont.HheaTable.Clone();
-            }
-
-            // hmtx – kan göras nu (använder glyphSet, inte slutligt antal)
+            // hmtx
             if (originalFont.HmtxTable != null)
             {
-                var hmtxTable = originalFont.HmtxTable.CloneSubset(glyphSet, originalFont.HmtxTable);
-                newFont.AddOrReplaceTable(hmtxTable);
+                var hmtx = originalFont.HmtxTable.CloneSubset(glyphSet, originalFont.HmtxTable);
+                newFont.AddOrReplaceTable(hmtx);
             }
 
-            // 3. glyf + loca – här skapas den slutgiltiga glyph-listan (inkl. .notdef först)
-            var oldToNewGlyphId = new Dictionary<ushort, ushort>();
-            var newToOldGlyphId = new List<ushort>();
+            // 4. glyf + loca
+            Dictionary<ushort, ushort> oldToNewGlyphId = new Dictionary<ushort, ushort>();
+            List<ushort> newToOldGlyphId = new List<ushort>();
 
             SubsetGlyfAndLoca(newFont, originalFont, glyphSet, oldToNewGlyphId, newToOldGlyphId);
 
-            // 4. Nu vet vi exakt antal glyphs – uppdatera maxp och hhea
+            // 5. Update maxp and hhea
             int finalGlyphCount = newToOldGlyphId.Count;
 
             if (maxpTable != null)
@@ -80,30 +69,80 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 maxpTable.numGlyphs = (ushort)finalGlyphCount;
                 newFont.AddOrReplaceTable(maxpTable);
             }
-               
 
             if (hheaTable != null)
             {
                 hheaTable.numberOfHMetrics = (ushort)finalGlyphCount;
                 newFont.AddOrReplaceTable(hheaTable);
             }
-               
+
+            if (originalFont.HmtxTable != null)
+            {
+                var finalHmtx = originalFont.HmtxTable.CloneForGlyphCount(
+                    newToOldGlyphId.Count,
+                    originalFont.MaxpTable.numGlyphs);
+
+                int originalHMetricsCount = originalFont.HmtxTable.hMetrics.Count;
+
+                for (int i = 0; i < newToOldGlyphId.Count; i++)
+                {
+                    ushort oldId = newToOldGlyphId[i];
+
+                    // Hämta från original
+                    ushort advanceWidth = originalFont.HmtxTable.GetAdvanceWidth(oldId);
+                    short lsb = originalFont.HmtxTable.GetLeftSideBearing(oldId);
+
+                    // Sätt alltid advanceWidth i hMetrics
+                    finalHmtx.hMetrics[i].advanceWidth = advanceWidth;
+
+                    // Sätt LSB – men bara på rätt plats
+                    if (i < originalHMetricsCount)
+                    {
+                        // Inom hMetrics-området – LSB finns i hMetrics[i].lsb
+                        finalHmtx.hMetrics[i].lsb = lsb;
+                    }
+                    else
+                    {
+                        // Utanför – LSB finns i leftSideBearings
+                        int lsbIndex = i - originalHMetricsCount;
+                        if (lsbIndex < finalHmtx.leftSideBearings.Count)
+                        {
+                            finalHmtx.leftSideBearings[lsbIndex] = lsb;
+                        }
+                        // Om listan är för kort – lägg till 0 (säkert)
+                        else if (lsbIndex == finalHmtx.leftSideBearings.Count)
+                        {
+                            finalHmtx.leftSideBearings.Add(lsb);
+                        }
+                    }
+                }
+
+                newFont.AddOrReplaceTable(finalHmtx);
+            }
+
+            // 6. cmap
+            SubsetCmap(newFont, originalFont, oldToNewGlyphId);
+
+            // 7. OS/2
+            SubsetOS2(newFont, originalFont);
+
+            // 8. post
+            SubsetPost(newFont, originalFont);
 
             return newFont;
         }
 
-
         private HashSet<ushort> BuildGlyphSet(OpenTypeFont font, IEnumerable<int> unicodeChars)
         {
-            var glyphIds = new HashSet<ushort>();
-            foreach (var codePoint in unicodeChars)
+            HashSet<ushort> glyphIds = new HashSet<ushort>();
+            foreach (int codePoint in unicodeChars)
             {
-                if (font.CmapTable.TryGetGlyphId(codePoint, out ushort glyphId))
+                ushort glyphId;
+                if (font.CmapTable.TryGetGlyphId((uint)codePoint, out glyphId))
                 {
                     glyphIds.Add(glyphId);
                 }
             }
-            font.GlyfTable.ResolveCompositeGlyphs(glyphIds);
             return glyphIds;
         }
 
@@ -114,42 +153,31 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             Dictionary<ushort, ushort> oldToNewGlyphId,
             List<ushort> newToOldGlyphId)
         {
-            var originalGlyf = originalFont.GlyfTable;
-            var originalLoca = originalFont.LocaTable;
-            var originalHead = originalFont.HeadTable;
-            var originalMaxp = originalFont.MaxpTable;
+            GlyfTable originalGlyf = originalFont.GlyfTable;
 
-            if (originalGlyf == null || originalLoca == null || originalHead == null || originalMaxp == null)
-                throw new InvalidOperationException("Font missing required tables for subsetting (glyf, loca, head, maxp).");
+            // Ensure .notdef is first
+            List<ushort> sortedIds = new List<ushort>(glyphSet);
+            sortedIds.Sort();
+            if (!sortedIds.Contains(0))
+                sortedIds.Insert(0, 0);
 
-            // 1. Bygg sorterad lista av glyphs vi vill ha med
-            var sortedOldGlyphIds = glyphSet.OrderBy(g => g).ToList();
-
-            // Säkerställ att .notdef (0) är först – enligt TrueType-spec
-            if (!sortedOldGlyphIds.Contains(0))
-                sortedOldGlyphIds.Insert(0, 0);
-
-            // 2. Bygg remapping: old ID → new ID
+            // Build mapping
             oldToNewGlyphId.Clear();
             newToOldGlyphId.Clear();
-
-            for (int newId = 0; newId < sortedOldGlyphIds.Count; newId++)
+            for (int i = 0; i < sortedIds.Count; i++)
             {
-                ushort oldId = sortedOldGlyphIds[newId];
-                oldToNewGlyphId[oldId] = (ushort)newId;
+                ushort oldId = sortedIds[i];
+                oldToNewGlyphId[oldId] = (ushort)i;
                 newToOldGlyphId.Add(oldId);
             }
 
-            // 3. Klona glyphs med remappade composite-referenser
-            var newGlyphs = new List<Glyph>(sortedOldGlyphIds.Count);
-
-            foreach (ushort oldId in sortedOldGlyphIds)
+            // Clone glyphs
+            List<Glyph> newGlyphs = new List<Glyph>();
+            foreach (ushort oldId in sortedIds)
             {
-                var oldGlyph = originalGlyf.GetGlyph(oldId);
-
+                Glyph oldGlyph = originalGlyf.GetGlyph(oldId);
                 if (oldGlyph == null || oldGlyph.Header.numberOfContours == 0)
                 {
-                    // Tom glyph (t.ex. space, .null) → tom header
                     newGlyphs.Add(new Glyph
                     {
                         Header = new GlyphHeader(0, new BoundingRectangle(0, 0, 0, 0))
@@ -161,52 +189,49 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 }
             }
 
-            // 4. Skapa ny GlyfTable
-            var newGlyfTable = new GlyfTable(newGlyphs);
-            newFont.AddOrReplaceTable(newGlyfTable);
+            newFont.AddOrReplaceTable(new GlyfTable(newGlyphs));
 
-            // 5. Beräkna nya offsets och välj bästa loca-format
-            var locaOffsets = new List<uint> { 0 };
-            uint currentOffset = 0;
-
-            foreach (var glyph in newGlyphs)
+            // Build loca
+            List<uint> offsets = new List<uint> { 0 };
+            uint current = 0;
+            foreach (Glyph g in newGlyphs)
             {
-                int rawSize = glyph.GetSize();
-                int paddedSize = (rawSize + 3) & ~3; // 4-byte align
-                currentOffset += (uint)paddedSize;
-                locaOffsets.Add(currentOffset);
+                int size = g.GetSize();
+                current += (uint)((size + 3) & ~3);
+                offsets.Add(current);
             }
 
-            // Välj format: short om alla offsets ≤ 131070 (eftersom /2)
-            bool useShortFormat = locaOffsets.All(o => o <= 131070);
-            var indexToLocFormat = useShortFormat
+            bool shortFormat = true;
+            foreach (uint o in offsets)
+            {
+                if (o > 131070)
+                {
+                    shortFormat = false;
+                    break;
+                }
+            }
+
+            newFont.HeadTable.IndexToLocFormat = shortFormat
                 ? HeadTable.IndexToLocFormats.Offset16
                 : HeadTable.IndexToLocFormats.Offset32;
 
-            // Uppdatera head.indexToLocFormat
-            newFont.HeadTable.IndexToLocFormat = indexToLocFormat;
-
-            // 6. Skapa ny LocaTable med din exakta factory
-            var newLocaTable = LocaTable.CreateSubset(locaOffsets, indexToLocFormat);
-            newFont.AddOrReplaceTable(newLocaTable);
+            newFont.AddOrReplaceTable(LocaTable.CreateSubset(offsets, newFont.HeadTable.IndexToLocFormat));
         }
 
         private Glyph CloneGlyphWithRemappedComponents(Glyph original, Dictionary<ushort, ushort> oldToNew)
         {
-            // Kopiera original header – men fixa bounding box om den är trasig
             short xMin = original.Header.xMin;
             short xMax = original.Header.xMax;
             short yMin = original.Header.yMin;
             short yMax = original.Header.yMax;
 
-            // Fixa ogiltiga bounding boxes (händer i vissa fonter, särskilt .notdef
+            // Fix inverted bounding boxes (common in .notdef and some broken fonts)
             if (xMin > xMax)
             {
                 short temp = xMin;
                 xMin = xMax;
                 xMax = temp;
             }
-
             if (yMin > yMax)
             {
                 short temp = yMin;
@@ -214,14 +239,14 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 yMax = temp;
             }
 
-            var header = new GlyphHeader(
+            GlyphHeader header = new GlyphHeader(
                 original.Header.numberOfContours,
                 new BoundingRectangle(xMin, yMin, xMax, yMax));
 
+            // Simple glyph – just clone
             if (original.Header.numberOfContours > 0 && original.SimpleData != null)
             {
-                // Simple glyph – klona rakt av
-                var simple = new SimpleGlyph
+                SimpleGlyph simple = new SimpleGlyph
                 {
                     EndPtsOfContours = (ushort[])original.SimpleData.EndPtsOfContours.Clone(),
                     Instructions = (byte[])original.SimpleData.Instructions.Clone(),
@@ -231,23 +256,25 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 };
                 return new Glyph { Header = header, SimpleData = simple };
             }
-            else if (original.Header.numberOfContours < 0 && original.CompositeData != null)
+
+            // Composite glyph – remap component glyph IDs
+            if (original.Header.numberOfContours < 0 && original.CompositeData != null)
             {
-                // Composite – remappa alla komponenters GlyphIndex!
-                var composite = new CompositeGlyph
+                CompositeGlyph composite = new CompositeGlyph
                 {
                     Instructions = (byte[])original.CompositeData.Instructions.Clone(),
                     Components = new List<GlyphComponent>()
                 };
 
-                foreach (var comp in original.CompositeData.Components)
+                foreach (GlyphComponent comp in original.CompositeData.Components)
                 {
-                    var newComp = new GlyphComponent
+                    ushort newGlyphIndex = 0; // fallback to .notdef
+                    oldToNew.TryGetValue(comp.GlyphIndex, out newGlyphIndex);
+
+                    GlyphComponent newComp = new GlyphComponent
                     {
                         Flags = comp.Flags,
-                        GlyphIndex = oldToNew.ContainsKey(comp.GlyphIndex)
-                            ? oldToNew[comp.GlyphIndex]
-                            : (ushort)0, // fallback till .notdef
+                        GlyphIndex = newGlyphIndex,
                         Argument1 = comp.Argument1,
                         Argument2 = comp.Argument2,
                         Scale = comp.Scale,
@@ -258,34 +285,112 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                     };
                     composite.Components.Add(newComp);
                 }
-
                 return new Glyph { Header = header, CompositeData = composite };
             }
 
-            // Tom glyph
+            // Empty glyph (like space)
             return new Glyph { Header = header };
         }
 
-        private uint[] BuildLocaOffsets(List<Glyph> glyphs, bool useLongFormat)
+        private void SubsetCmap(OpenTypeFont newFont, OpenTypeFont originalFont, Dictionary<ushort, ushort> oldToNewGlyphId)
         {
-            var offsets = new List<uint> { 0 };
-            uint current = 0;
+            CmapTable originalCmap = originalFont.CmapTable;
+            if (originalCmap == null || originalCmap.SubTables == null || originalCmap.SubTables.Count == 0)
+                return;
 
-            foreach (var glyph in glyphs)
+            Dictionary<uint, ushort> needed = new Dictionary<uint, ushort>();
+
+            foreach (CmapSubtableBase sub in originalCmap.SubTables)
             {
-                int size = glyph.GetSize();
-                int padded = (size + 3) & ~3; // 4-byte align
-                current += (uint)padded;
-                offsets.Add(current);
+                GlyphMappings map = sub.GetGlyphMappings();
+                if (map == null || map.CharCodeToGlyphIndex == null) continue;
+
+                foreach (KeyValuePair<uint, ushort> kvp in map.CharCodeToGlyphIndex)
+                {
+                    ushort newId;
+                    if (oldToNewGlyphId.TryGetValue(kvp.Value, out newId))
+                    {
+                        needed[kvp.Key] = newId;
+                    }
+                }
+            }
+            needed[0] = 0; // .notdef
+
+            CmapSubtable4 format4 = CmapFormat4.CreateFromMappings(needed);
+
+            CmapTable newCmap = new CmapTable();
+
+            newCmap.EncodingRecords.Add(new EncodingRecord(Platforms.Windows, 1, 0));
+            newCmap.EncodingRecords.Add(new EncodingRecord(Platforms.Unicode, 3, 0));
+
+            newCmap.EncodingRecords[0].Subtable = format4;
+            newCmap.EncodingRecords[1].Subtable = format4;
+            newCmap.SubTables.Add(format4);
+
+            newFont.AddOrReplaceTable(newCmap);
+        }
+
+        private void SubsetOS2(OpenTypeFont newFont, OpenTypeFont originalFont)
+        {
+            Os2Table original = originalFont.Os2Table;
+            if (original == null) return;
+
+            Os2Table os2 = original.Clone();
+
+            os2.usDefaultChar = 32;
+            os2.usBreakChar = 32;
+
+            short maxAscent = short.MinValue;
+            short maxDescent = short.MaxValue;
+
+            foreach (Glyph g in newFont.GlyfTable.Glyphs)
+            {
+                if (g != null && g.Header != null)
+                {
+                    if (g.Header.yMax > maxAscent) maxAscent = g.Header.yMax;
+                    if (g.Header.yMin < maxDescent) maxDescent = g.Header.yMin;
+                }
             }
 
-            if (!useLongFormat)
+            if (maxAscent > os2.usWinAscent) os2.usWinAscent = (ushort)maxAscent;
+            if (-maxDescent > os2.usWinDescent) os2.usWinDescent = (ushort)(-maxDescent);
+
+            HheaTable hhea = newFont.HheaTable;
+            if (hhea != null)
             {
-                // Short format: dela med 2
-                return offsets.Select(o => o / 2).ToArray();
+                hhea.ascender = os2.sTypoAscender;
+                hhea.descender = os2.sTypoDescender;
+                hhea.lineGap = os2.sTypoLineGap;
             }
 
-            return offsets.ToArray();
+            newFont.AddOrReplaceTable(os2);
+        }
+
+        private void SubsetPost(OpenTypeFont newFont, OpenTypeFont originalFont)
+        {
+            if (originalFont.PostTable == null) return;
+
+            // Skapa en ny, säker post-tabell med format 3.0
+            // Format 3.0 = "No glyph names" – helt tillåtet och rekommenderat för subset-fonts
+            var post = new PostTable
+            {
+                version = new Version16Dot16(0x00030000),  // 3.0 i packed format
+                italicAngle = originalFont.PostTable.italicAngle,
+                underlinePosition = originalFont.PostTable.underlinePosition,
+                underlineThickness = originalFont.PostTable.underlineThickness,
+                isFixedPitch = originalFont.PostTable.isFixedPitch,
+                minMemType42 = 0,
+                maxMemType42 = 0,
+                minMemType1 = 0,
+                maxMemType1 = 0
+            };
+
+            // Rensa bort gamla namn-data (om de finns)
+            // De här fälten finns bara i format 2.0 – vi sätter dem till null för säkerhets skull
+            post.glyphNameIndex = null;
+            post.glyphNames = null;
+
+            newFont.AddOrReplaceTable(post);
         }
     }
 }

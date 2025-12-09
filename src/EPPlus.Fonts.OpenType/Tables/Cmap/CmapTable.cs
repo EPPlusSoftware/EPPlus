@@ -194,7 +194,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         }
 
 
-        internal bool TryGetGlyphId(int codePoint, out ushort glyphId)
+        internal bool TryGetGlyphId(uint codePoint, out ushort glyphId)
         {
             foreach (var subtable in SubTables)
             {

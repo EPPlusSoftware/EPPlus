@@ -261,5 +261,61 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Creates a deep clone of the OS/2 table.
+        /// Used during font subsetting to ensure the new font has its own independent copy.
+        /// </summary>
+        /// <returns>A new Os2Table instance with identical values</returns>
+        public Os2Table Clone()
+        {
+            return new Os2Table
+            {
+                version = this.version,
+                xAvgCharWidth = this.xAvgCharWidth,
+                usWeightClass = this.usWeightClass,
+                usWidthClass = this.usWidthClass,
+                fsType = this.fsType,
+                ySubscriptXSize = this.ySubscriptXSize,
+                ySubscriptYSize = this.ySubscriptYSize,
+                ySubscriptXOffset = this.ySubscriptXOffset,
+                ySubscriptYOffset = this.ySubscriptYOffset,
+                ySuperscriptXSize = this.ySuperscriptXSize,
+                ySuperscriptYSize = this.ySuperscriptYSize,
+                ySuperscriptXOffset = this.ySuperscriptXOffset,
+                ySuperscriptYOffset = this.ySuperscriptYOffset,
+                yStrikeoutSize = this.yStrikeoutSize,
+                yStrikeoutPosition = this.yStrikeoutPosition,
+                sFamilyClass = this.sFamilyClass,
+
+                // Deep clone of Panose (10-byte array)
+                panose = this.panose != null ? (byte[])this.panose.Clone() : null,
+
+                UnicodeRange1 = this.UnicodeRange1,
+                UnicodeRange2 = this.UnicodeRange2,
+                UnicodeRange3 = this.UnicodeRange3,
+                UnicodeRange4 = this.UnicodeRange4,
+
+                achVendId = this.achVendId, // Tag is immutable
+
+                fsSelection = this.fsSelection,
+                usFirstCharIndex = this.usFirstCharIndex,
+                usLastCharIndex = this.usLastCharIndex,
+                sTypoAscender = this.sTypoAscender,
+                sTypoDescender = this.sTypoDescender,
+                sTypoLineGap = this.sTypoLineGap,
+                usWinAscent = this.usWinAscent,
+                usWinDescent = this.usWinDescent,
+                ulCodePageRange1 = this.ulCodePageRange1,
+                ulCodePageRange2 = this.ulCodePageRange2,
+                sxHeight = this.sxHeight,
+                sCapHeight = this.sCapHeight,
+                usDefaultChar = this.usDefaultChar,
+                usBreakChar = this.usBreakChar,
+                usMaxContext = this.usMaxContext,
+                usLowerOpticalPointSize = this.usLowerOpticalPointSize,
+                usUpperOpticalPointSize = this.usUpperOpticalPointSize
+            };
+        }
     }
 }

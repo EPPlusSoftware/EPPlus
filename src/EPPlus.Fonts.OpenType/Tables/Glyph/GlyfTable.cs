@@ -11,9 +11,11 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Loca;
+using EPPlus.Fonts.OpenType.Tables.Post;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType.Tables.Glyph
 {
@@ -116,6 +118,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
                 foreach (var glyphId in glyphSet.ToList())
                 {
                     var glyph = Glyphs[glyphId];
+                    if (glyph == null) continue;
                     if (glyph.Header.numberOfContours < 0 && glyph.CompositeData != null)
                     {
                         foreach (var component in glyph.CompositeData.Components)
@@ -129,6 +132,33 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
                     }
                 }
             } while (addedNew);
+        }
+
+        public string GetGlyphName(ushort glyphId, OpenTypeFont font)
+        {
+            // 1. Försök hämta från 'post' table (Format 2.0 – namnarray)
+            if (font.PostTable is PostTable post && post.version.Major == 2 && post.version.Minor == 0 && post.glyphNameIndex != null)
+            {
+                if (glyphId < post.glyphNameIndex.Count)
+                {
+                    ushort nameIndex = post.glyphNameIndex[glyphId];
+
+                    // nameIndex 0–257 = standard Macintosh names
+                    if (nameIndex <= 257)
+                    {
+                        return StandardMacGlyphNames.NameFromIndex(nameIndex);
+                    }
+
+                    // nameIndex > 257 = custom name in string data
+                    if (nameIndex - 258 < post.glyphNameIndex?.Count)
+                    {
+                        return post.glyphNames[nameIndex - 258];
+                    }
+                }
+            }
+
+            // 3. Sista utvägen: returnera "gidXXXXX"
+            return $"gid{glyphId}";
         }
     }
 }

@@ -408,7 +408,11 @@ namespace EPPlus.Fonts.OpenType
             var subsetBuilder = new SubsetFontBuilder();
 
             // Konvertera chars till Unicode code points
-            var codePoints = usedChars.Select(c => (int)c);
+            var codePoints = usedChars
+                .Select(c => (uint)c)      // tvinga unsigned
+                .Distinct()
+                .Where(cp => cp <= 0x10FFFF) // validering
+                .Select(cp => (int)cp);
 
             // Skapa subset-font
             var newFont = subsetBuilder.CreateSubset(this, codePoints);

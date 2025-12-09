@@ -92,5 +92,40 @@ namespace EPPlus.Fonts.OpenType.Tables.Post
                 }
             }
         }
+
+        /// <summary>
+        /// Creates a deep clone of the post table.
+        /// Used during font subsetting to ensure the subset has an independent copy.
+        /// Handles both version 1.0 and 2.0 formats correctly.
+        /// </summary>
+        /// <returns>A new PostTable instance with identical data</returns>
+        public PostTable Clone()
+        {
+            var clone = new PostTable
+            {
+                version = this.version,
+                italicAngle = this.italicAngle,
+                underlinePosition = this.underlinePosition,
+                underlineThickness = this.underlineThickness,
+                isFixedPitch = this.isFixedPitch,
+                minMemType42 = this.minMemType42,
+                maxMemType42 = this.maxMemType42,
+                minMemType1 = this.minMemType1,
+                maxMemType1 = this.maxMemType1,
+
+                numGlyphs = this.numGlyphs,
+
+                // Deep clone lists – viktigt för version 2.0
+                glyphNameIndex = this.glyphNameIndex != null
+                    ? new List<ushort>(this.glyphNameIndex)
+                    : new List<ushort>(),
+
+                glyphNames = this.glyphNames != null
+                    ? new List<string>(this.glyphNames)
+                    : new List<string>()
+            };
+
+            return clone;
+        }
     }
 }

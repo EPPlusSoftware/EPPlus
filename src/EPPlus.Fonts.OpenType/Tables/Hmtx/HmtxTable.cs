@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -89,5 +90,75 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
             return newTable;
         }
 
+        internal HmtxTable CloneForGlyphCount(int newGlyphCount, int originalGlyphCount)
+        {
+            var clone = new HmtxTable();
+
+            int originalHMetricsCount = this.hMetrics.Count;
+            int originalLsbCount = this.leftSideBearings.Count;
+
+            // hMetrics måste alltid ha newGlyphCount entries
+            clone.hMetrics = new List<LongHorMetric>(newGlyphCount);
+
+            // leftSideBearings får max newGlyphCount - originalHMetricsCount
+            int neededLsbCount = Math.Max(0, newGlyphCount - originalHMetricsCount);
+            clone.leftSideBearings = new List<short>(neededLsbCount);
+
+            // Kopiera hMetrics
+            int copyHMetrics = Math.Min(newGlyphCount, originalHMetricsCount);
+            for (int i = 0; i < copyHMetrics; i++)
+            {
+                clone.hMetrics.Add(new LongHorMetric
+                {
+                    advanceWidth = this.hMetrics[i].advanceWidth,
+                    lsb = this.hMetrics[i].lsb
+                });
+            }
+
+            // Fyll på hMetrics med sista advanceWidth
+            if (newGlyphCount > copyHMetrics)
+            {
+                var last = this.hMetrics[originalHMetricsCount - 1];
+                for (int i = copyHMetrics; i < newGlyphCount; i++)
+                {
+                    clone.hMetrics.Add(new LongHorMetric
+                    {
+                        advanceWidth = last.advanceWidth,
+                        lsb = 0
+                    });
+                }
+            }
+
+            // Kopiera befintliga LSB
+            int copyLsb = Math.Min(neededLsbCount, originalLsbCount);
+            for (int i = 0; i < copyLsb; i++)
+            {
+                clone.leftSideBearings.Add(this.leftSideBearings[i]);
+            }
+
+            // Fyll på med 0:or om vi har fler glyphs
+            while (clone.leftSideBearings.Count < neededLsbCount)
+            {
+                clone.leftSideBearings.Add(0);
+            }
+
+            return clone;
+        }
+
+        public ushort GetAdvanceWidth(int glyphIndex)
+        {
+            if (glyphIndex < hMetrics.Count)
+                return hMetrics[glyphIndex].advanceWidth;
+            return hMetrics[hMetrics.Count - 1].advanceWidth; // fallback
+        }
+
+        public short GetLeftSideBearing(int glyphIndex)
+        {
+            if (glyphIndex < hMetrics.Count)
+                return hMetrics[glyphIndex].lsb;
+            if (glyphIndex < leftSideBearings.Count)
+                return leftSideBearings[glyphIndex - hMetrics.Count];
+            return 0;
+        }
     }
 }
