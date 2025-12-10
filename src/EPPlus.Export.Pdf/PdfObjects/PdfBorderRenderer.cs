@@ -49,20 +49,20 @@ namespace EPPlus.Export.Pdf.PdfObjects
             DiagonalUp = cell.BorderData.DiagonalUp;
             DiagonalDown = cell.BorderData.DiagonalDown;
             IsMerged = cell.IsMerged;
-            MergedDiagnoalWidth = DiagonalUp.MergedDiagonalWidth;
-            MergedDiagnoalHeight = DiagonalDown.MergedDiagonalHeight;
+            //MergedDiagnoalWidth = DiagonalUp.MergedDiagonalWidth;
+            //MergedDiagnoalHeight = DiagonalDown.MergedDiagonalHeight;
         }
 
         public void RenderBorder(PdfContentStream contentStream)
         {
             contentStream.AddCommand($"% Border Start: {Name}");
             contentStream.AddCommand("q");
-            RenderBorder(contentStream, Top);
-            RenderBorder(contentStream, Bottom);
-            RenderBorder(contentStream, Left);
-            RenderBorder(contentStream, Right);
-            RenderBorder(contentStream, DiagonalUp);
-            RenderBorder(contentStream, DiagonalDown);
+            if (Top != null) RenderBorder(contentStream, Top);
+            if (Bottom != null) RenderBorder(contentStream, Bottom);
+            if (Left != null) RenderBorder(contentStream, Left);
+            if (Right != null) RenderBorder(contentStream, Right);
+            if (DiagonalUp != null) RenderBorder(contentStream, DiagonalUp);
+            if (DiagonalDown != null) RenderBorder(contentStream, DiagonalDown);
             contentStream.AddCommand("Q");
             contentStream.AddCommand($"% Border End: {Name}");
         }

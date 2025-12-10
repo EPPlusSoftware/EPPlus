@@ -134,7 +134,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellBorderData Right = new PdfCellBorderData(LineType.Right);
         public PdfCellBorderData DiagonalUp = new PdfCellBorderData(LineType.DiagonalUp);
         public PdfCellBorderData DiagonalDown = new PdfCellBorderData(LineType.DiagonalDown);
-        public bool[] NeighbourBorder = new bool[8];
 
         public PdfCellBordersData() { }
     }
@@ -170,6 +169,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public Color BorderColor = Color.Black;
         public double MergedDiagonalWidth = 0d;
         public double MergedDiagonalHeight = 0d;
+        public double Width=0;
+        public double Height = 0;
+        public double X = 0;
+        public double Y = 0;
 
         public PdfCellBorderData(LineType LineType)
         {

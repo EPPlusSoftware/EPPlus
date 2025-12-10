@@ -180,6 +180,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             copy.Name = b.Name;
                             copy.Z = b.Z;
                             copy.BorderData = b.BorderData;
+                            copy.range = b.range;
+                            copy.IsMerged = b.IsMerged;
                             page.ChildObjects[0].AddChild(copy);
                         }
                         else if (d is PdfDrawingLayout) //NOT IMPLEMENTED
@@ -204,6 +206,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     page.AddChild(child);
                     if (child is IShadingLayout iSl)
                         iSl.UpdateShadingPositionMatrix(pageSettings);
+                    if (child is IBorderLayout iBl)
+                        iBl.UpdateLocalBorderPosition();
                 }
                 page.RemoveChild(page.ChildObjects[0]);
                 page.GenerateGridLines();

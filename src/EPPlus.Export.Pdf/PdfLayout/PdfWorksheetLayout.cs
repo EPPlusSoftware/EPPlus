@@ -21,6 +21,7 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -43,15 +44,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if(worksheet.Column(col).Hidden) continue;
                     var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
                     var cell = worksheet.Cells[row, col];
-                    PdfCellBorderLayout border = HandleBorders(cell, x, y, width, height);
+                    PdfCellBorderLayout border = HandleEdgeBorders(cell, x, y, width, height);
                     if (cell.Merge)
                     {
-                        HandleMergedCell(worksheet, pageSettings, dictionaries, cell, checkedMergedCells, border, x, y);
+                        HandleMergedCell(worksheet, pageSettings, dictionaries, cell, checkedMergedCells, x, y);
                     }
                     else
                     {
                         HandleCell(pageSettings, dictionaries, cell, x, y, width, height);
-                        if (border != null) border.InitDiagonalBorders(cell, 0, 0);
                     }
                     if (border != null) border.InitEdgeBorders(cell);
                     x += width;
@@ -72,10 +72,15 @@ namespace EPPlus.Export.Pdf.PdfLayout
             cl0.Name = cell.Address + deleteMark;
             cl0.Z = 1;
             AddCellContent(pageSettings, dictionaries, cell, x, y-height, width, height, 2);
+            var border = HandleDiagonalBorders(cell, x, y, width, height);
+            if (border != null)
+            {
+                border.InitDiagonalBorders(cell, width, height);
+            }
         }
 
         //Create merged cell.
-        private void HandleMergedCell(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, List<string> checkedMergedCells, PdfCellBorderLayout border, double x, double y)
+        private void HandleMergedCell(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, List<string> checkedMergedCells, double x, double y)
         {
             string mergeAddress = worksheet.MergedCells[cell.Start.Row, cell.Start.Column];
             if (!checkedMergedCells.Contains(mergeAddress))
@@ -95,12 +100,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 mergedCell.Z = 5;
                 AddCellContent(pageSettings, dictionaries, cell, x, y-height, width, height, 6);
                 checkedMergedCells.Add(mergeAddress);
+                var border = HandleDiagonalBorders(cell, x, y, width, height);
                 if (border != null)
                 {
                     border.InitDiagonalBorders(cell, width, height);
-                    //This makes borders in merged cells draw double borders on the Left side and Top side of the merged cell. This makes some borders look the way they are not supposed to look. However this does makes diagonal borders cover the full merged cell. We want our cake and eat it so we need to redesign border handling.
-                    border.Size = new Vector2(width, height);
-                    border.LocalPosition = new Vector2(x, y - height);
+                    border.range = address.Address;
                 }
             }
         }
@@ -116,15 +120,25 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        //Create borders.
-        //TODO: Fix border by having having an array of border objects for each edge, but keep only one of the diagonal
-        //loop all cells in a merged cell and set border style for each cell
-        //calculate start and en position of diagonal
-        //store it and use them when creating pdf objects
-        private PdfCellBorderLayout HandleBorders(ExcelRangeBase cell, double x, double y, double width, double height)
+        //Create Edge borders.
+        private PdfCellBorderLayout HandleEdgeBorders(ExcelRangeBase cell, double x, double y, double width, double height)
         {
-            bool allNone = new[] { cell.Style.Border.Top.Style, cell.Style.Border.Bottom.Style, cell.Style.Border.Left.Style, cell.Style.Border.Right.Style, cell.Style.Border.Diagonal.Style }.All(s => s == ExcelBorderStyle.None);
-            if (!allNone)
+            bool edges = new[] { cell.Style.Border.Top.Style, cell.Style.Border.Bottom.Style, cell.Style.Border.Left.Style, cell.Style.Border.Right.Style }.All(s => s == ExcelBorderStyle.None);
+            if (!edges)
+            {
+                var clb0 = new PdfCellBorderLayout(cell, x, y, width, height, 1, 1, 0, this);
+                clb0.Name = cell.Address + "_b";
+                clb0.Z = 7;
+                return clb0;
+            }
+            return null;
+        }
+
+        //Create Diagonal borders.
+        private PdfCellBorderLayout HandleDiagonalBorders(ExcelRangeBase cell, double x, double y, double width, double height)
+        {
+            bool diagonals = new[] { cell.Style.Border.Diagonal.Style }.All(s => s == ExcelBorderStyle.None);
+            if (!diagonals)
             {
                 var clb0 = new PdfCellBorderLayout(cell, x, y, width, height, 1, 1, 0, this);
                 clb0.Name = cell.Address + "_b";

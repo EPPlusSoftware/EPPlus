@@ -123,6 +123,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         textItem.TextLength = measurement.Width;
                         textItem.LineHeight = measurement.Height;
                         textItem.FontHeight = measurement.FontHeight;
+                        var fontData = GetFontResourceData(dictionaries.Fonts, pageSettings, textItem);
+                        double gbox = (fontData.Os2Table.sTypoAscender - fontData.Os2Table.sTypoDescender) * (cell.Style.Font.Size / fontData.HeadTable.UnitsPerEm);
+                        textItem.GlyphBox.Width = gbox;
+                        textItem.GlyphBox.Height = gbox;
                         textItem.SubFamily = "Regular";
                         if (textItem.Bold)
                         {
@@ -137,17 +141,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             textItem.SubFamily = "Italic";
                         }
                         GetFontResourceData(dictionaries.Fonts, pageSettings, textItem);
-                        if (!textItem.characterOffset.ContainsKey(textItem.Text[i]))
+                        if (!textItem.characterOffset.ContainsKey(textItem.Text[0]))
                         {
-                            var character = fontMeasurerTrueType.MeasureText(textItem.Text[i].ToString(), font);
+                            var character = fontMeasurerTrueType.MeasureText(textItem.Text[0].ToString(), font);
                             var offset = x + (textItem.GlyphBox.Width - character.Width) / 2d;
                             offset = offset - x;
-                            textItem.characterOffset.Add(textItem.Text[i], new Vector2(offset, 0));
+                            textItem.characterOffset.Add(textItem.Text[0], new Vector2(offset, 0));
                         }
                         textLine.TextItemCollection.Add(textItem);
                         i++;
                     }
                 }
+                TextLines.Add(textLine);
             }
             else
             {
@@ -200,6 +205,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         textItem.TextLength = measurement.Width;
                         textItem.LineHeight = measurement.Height;
                         textItem.FontHeight = measurement.FontHeight;
+                        var fontData = GetFontResourceData(dictionaries.Fonts, pageSettings, textItem);
+                        double gbox = (fontData.Os2Table.sTypoAscender - fontData.Os2Table.sTypoDescender) * (cell.Style.Font.Size / fontData.HeadTable.UnitsPerEm);
+                        textItem.GlyphBox.Width = gbox;
+                        textItem.GlyphBox.Height = gbox;
                         textItem.SubFamily = "Regular";
                         if (textItem.Bold)
                         {
