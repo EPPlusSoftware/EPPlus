@@ -53,5 +53,34 @@ namespace EPPlus.Graphics.Tests
             Assert.AreEqual(1.5, c2.LocalPosition.X);
             Assert.AreEqual(2.33333333, c2.LocalPosition.Y);
         }
+
+        [TestMethod]
+        public void SettingGlobalPositionOfParent()
+        {
+            Transform p1 = new Transform(new Vector2(3,3), Vector2.One);
+
+            //This gets an all new vector2 with the position of p1 in the world
+            var worldPosition = p1.Position;
+            worldPosition.Y = 5;
+            worldPosition.X = 10;
+
+            Assert.AreEqual(5, p1.LocalPosition.Y);
+            Assert.AreEqual(5, p1.Position.Y);
+        }
+
+
+        [TestMethod]
+        public void SettingLocalPositionOfBase()
+        {
+            Transform p1 = new Transform(new Vector2(3, 3), Vector2.One);
+
+            Assert.AreEqual(3, p1.Position.Y);
+            Assert.AreEqual(3, p1.LocalPosition.Y);
+            Assert.AreEqual(p1.Position.Y, p1.LocalPosition.Y);
+
+            p1.LocalPosition.Y = 5;
+            Assert.AreEqual(p1.Position.Y, 5);
+            Assert.AreEqual(5, p1.LocalPosition.Y);
+        }
     }
 }

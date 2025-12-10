@@ -285,7 +285,6 @@ namespace EPPlusImageRenderer.Svg
         {
             if(_renderTextBox != null)
             {
-                var container = new TextContainer();
                 return new TextBox(_shape.TextBody, _renderTextBox);
             }
             else
