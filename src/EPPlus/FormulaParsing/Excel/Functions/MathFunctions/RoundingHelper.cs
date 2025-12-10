@@ -38,7 +38,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (number % multiple == 0d)
                 return number;
 
-            // Denna gren hanterar 0.01, 0.1, 0.05 perfekt – lämna orörd!
             else if (multiple > -1 && multiple < 1)
             {
                 var floor = System.Math.Floor(n);
@@ -95,7 +94,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     result -= m;
                 }
 
-                // AlwaysUp på negativt tal → mer negativt
                 if (direction == Direction.AlwaysUp && isNegativeNumber)
                     return -result;
 
