@@ -24,9 +24,11 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableConditionalFormatting : XmlHelper
     {
         ExcelConditionalFormattingCollection _conditionalFormattings;
-        internal ExcelPivotTableConditionalFormatting(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) :
+        string _nameSpacePrefix;
+        internal ExcelPivotTableConditionalFormatting(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt, string nameSpacePrefix) :
             base(nsm, topNode)
         {
+            _nameSpacePrefix = nameSpacePrefix;
             _conditionalFormattings = pt.WorkSheet.ConditionalFormatting;
             foreach(var cf in _conditionalFormattings)
             {
@@ -35,19 +37,20 @@ namespace OfficeOpenXml.Table.PivotTable
                     ConditionalFormatting = cf;
                 }
             }
-            var node = CreateNode("d:pivotAreas");
+            var node = CreateNode($"{nameSpacePrefix}:pivotAreas");
             Areas = new ExcelPivotTableAreaConditionalFormattingCollection(pt, node);
         }
 
-        internal ExcelPivotTableConditionalFormatting(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt, eExcelConditionalFormattingRuleType type) :
+        internal ExcelPivotTableConditionalFormatting(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt, eExcelConditionalFormattingRuleType type, string nameSpacePrefix) :
             base(nsm, topNode)
         {
+            _nameSpacePrefix = nameSpacePrefix;
             _conditionalFormattings = pt.WorkSheet.ConditionalFormatting;
 
             ConditionalFormatting = _conditionalFormattings.AddRule(type, new ExcelAddress(pt.Address.Address), true);
             ConditionalFormatting.PivotTable = true;
             Priority = ConditionalFormatting.Priority;
-            var node = CreateNode("d:pivotAreas");
+            var node = CreateNode($"{nameSpacePrefix}:pivotAreas");
             Areas = new ExcelPivotTableAreaConditionalFormattingCollection(pt, node);
         }
         /// <summary>
