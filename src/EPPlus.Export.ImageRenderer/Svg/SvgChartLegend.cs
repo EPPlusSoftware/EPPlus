@@ -117,14 +117,14 @@ namespace EPPlusImageRenderer.Svg
                 case eLegendPosition.Bottom:
                     rect.Width = textWidth + LeftMargin + RightMargin + ((LineLength + 2) * index) ; // 28 is for the line length + 2px between line and text
                     rect.Height = TopMargin + BottomMargin + highest + 2;
-                    rect.X = (sc.ChartArea.Width - rect.Width) / 2;
+                    rect.Left = (sc.ChartArea.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
                     {                        
-                        rect.Y = sc.Title.Rectangle.Y+ sc.Title.Rectangle.Height + _middleMargin;
+                        rect.Top = sc.Title.Rectangle.Top+ sc.Title.Rectangle.Height + _middleMargin;
                     }
                     else 
                     {
-                        rect.Y = sc.ChartArea.Height - rect.Height - BottomMargin;
+                        rect.Top = sc.ChartArea.Height - rect.Height - BottomMargin;
                     }
                     break;
                 case eLegendPosition.Right:
@@ -135,26 +135,26 @@ namespace EPPlusImageRenderer.Svg
                     if (l.Position == eLegendPosition.Right ||
                         l.Position == eLegendPosition.TopRight)
                     {
-                        rect.X = sc.ChartArea.Width - rect.Width - TopMargin;
+                        rect.Left = sc.ChartArea.Width - rect.Width - TopMargin;
                     }
                     else
                     {
-                        rect.X = LeftMargin + 2;
+                        rect.Left = LeftMargin + 2;
                     }
                     if (l.Position == eLegendPosition.Left ||
                         l.Position == eLegendPosition.Right)
                     {
-                        rect.Y = sc.ChartArea.Height / 2 + TopMargin + 2;
+                        rect.Top = sc.ChartArea.Height / 2 + TopMargin + 2;
                     }
                     else
                     {
                         if (sc.Title == null)
                         {
-                            rect.Y = 8 + 8;
+                            rect.Top = 8 + 8;
                         }
                         else
                         {
-                            rect.Y = sc.Title.Rectangle.Height + 8 + 8; //Height+Margin Top and Bottom Title
+                            rect.Top = sc.Title.Rectangle.Height + 8 + 8; //Height+Margin Top and Bottom Title
                         }
                     }
                     break;
@@ -232,11 +232,11 @@ namespace EPPlusImageRenderer.Svg
             if (sc.Chart.Legend.Position == eLegendPosition.Top ||
                sc.Chart.Legend.Position == eLegendPosition.Bottom)
             {
-                float y = (float)Rectangle.Y + (float)TopMargin + tm.Height / 2 + 2;
+                float y = (float)Rectangle.Top + (float)TopMargin + tm.Height / 2 + 2;
                 float x = 0;                
                 if (pSls == null)
                 {
-                    x = (float)Rectangle.X + (float)LeftMargin + 2;
+                    x = (float)Rectangle.Left + (float)LeftMargin + 2;
                 }
                 else
                 {
@@ -254,7 +254,7 @@ namespace EPPlusImageRenderer.Svg
                 float y;
                 if (pSls == null)
                 {
-                    y = (float)Rectangle.Y + (float)TopMargin + tm.Height / 2 + 2;
+                    y = (float)Rectangle.Top + (float)TopMargin + tm.Height / 2 + 2;
                 }
                 else
                 {
@@ -262,9 +262,9 @@ namespace EPPlusImageRenderer.Svg
                     y = ((SvgRenderLineItem)pSls.SeriesIcon).Y1 + pTm.Height / 2 + tm.Height / 2 + _middleMargin;
                 }
 
-                item.X1 = (float)Rectangle.X + 4;
+                item.X1 = (float)Rectangle.Left + 4;
                 item.Y1 = y;
-                item.X2 = (float)Rectangle.X + 32;
+                item.X2 = (float)Rectangle.Left + 32;
                 item.Y2 = y;
                 item.LineCap = eLineCap.Round;
             }
@@ -323,8 +323,8 @@ namespace EPPlusImageRenderer.Svg
                 case eMarkerStyle.Square:
                     item = new SvgRenderRectItem(sc.Drawing)
                     {
-                        X = line.X1 + (line.X2 - line.X1 - size) / 2,
-                        Y = line.Y1 - ((size) / 2),
+                        Left = line.X1 + (line.X2 - line.X1 - size) / 2,
+                        Top = line.Y1 - ((size) / 2),
                         Width = size,
                         Height = size
                     };
@@ -402,8 +402,8 @@ namespace EPPlusImageRenderer.Svg
             var line = sls.SeriesIcon as SvgRenderLineItem;
             item = new SvgRenderRectItem(sc.Drawing)
             {
-                X = line.X1 + (line.X2 - line.X1 - size) / 2,
-                Y = line.Y1 - ((size) / 2),
+                Left = line.X1 + (line.X2 - line.X1 - size) / 2,
+                Top = line.Y1 - ((size) / 2),
                 Width = size,
                 Height = size
             };

@@ -13,6 +13,7 @@
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Drawing.Chart;
+using System;
 using System.Text;
 
 namespace EPPlusImageRenderer.Svg
@@ -23,7 +24,8 @@ namespace EPPlusImageRenderer.Svg
         {
             Chart = chart;
             SetChartArea();
-            if(chart.HasTitle)
+
+            if(chart.HasTitle && chart.Series.Count > 0)
             {
                 Title = new SvgChartTitle(this, (ExcelChartTitleStandard)chart.Title, "Chart Title");
             }
@@ -41,15 +43,22 @@ namespace EPPlusImageRenderer.Svg
                 Legend = null;
             }
 
-            VerticalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.YAxis);
-            HorizontalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.XAxis);
-            if(chart.Axis.Length > 2)
+            if(chart.YAxis.Deleted==false)
+            {
+                VerticalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.YAxis);
+            }
+
+            if (chart.YAxis.Deleted == false)
+            {
+                HorizontalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.XAxis);
+            }
+            
+            if(chart.Axis.Length > 2 && chart.Axis[2].Deleted==false)
             {
                 SecondHorizontalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.Axis[2]);
             }
-            //Plotarea = new SvgChartPlotarea(this);
-
-            AddPlotArea();  
+            
+            Plotarea = new SvgChartPlotarea(this);            
         }
 
         internal SvgRenderRectItem ChartArea { get; set; }
@@ -62,15 +71,6 @@ namespace EPPlusImageRenderer.Svg
         internal SvgChartTitle VerticalAxisTitle { get; set; }
         internal SvgChartTitle HorizontalAxisTitle { get; set; }
         internal SvgChartTitle SecondHorizontalAxisTitle { get; set; }
-        private void AddPlotArea()
-        {
-            if (HorizontalAxis!=null) RenderItems.AddRange(HorizontalAxis?.RenderItems);
-            if (HorizontalAxisTitle != null) RenderItems.AddRange(HorizontalAxisTitle?.RenderItems);
-            if (VerticalAxis != null) RenderItems.AddRange(VerticalAxis?.RenderItems);
-            if (VerticalAxisTitle != null) RenderItems.AddRange(VerticalAxisTitle?.RenderItems);
-            if (SecondHorizontalAxis != null) RenderItems.AddRange(SecondHorizontalAxis?.RenderItems);
-            if (SecondHorizontalAxisTitle != null) RenderItems.AddRange(SecondHorizontalAxisTitle?.RenderItems);
-        }
         private void SetChartArea()
         {
             var item = new SvgRenderRectItem(Chart);
@@ -106,7 +106,33 @@ namespace EPPlusImageRenderer.Svg
             {
                 gItemTest.RenderEndGroup(sb);
             }
+
+            HorizontalAxis?.Render(sb);
+            HorizontalAxisTitle?.Render(sb);
+            VerticalAxis?.Render(sb);
+            VerticalAxisTitle?.Render(sb);
+            SecondHorizontalAxis?.Render(sb);
+            SecondHorizontalAxisTitle?.Render(sb);
+
             sb.Append("</svg>");
+        }
+
+        internal double GetPlotAreaTop()
+        {
+            var topMargin = 14;
+            if (Title == null)
+            {
+                return topMargin; //
+            }
+            else
+            {
+                return Title.Rectangle.Bottom + topMargin;
+            }
+
+        }
+        internal double GetPlotAreaBottom()
+        {
+            return 0;
         }
     }
 }

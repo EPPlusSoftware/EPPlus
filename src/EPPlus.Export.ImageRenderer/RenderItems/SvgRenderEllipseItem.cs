@@ -50,15 +50,15 @@ namespace EPPlusImageRenderer.RenderItems
             //if (AdjustmentPoints != null && AdjustmentPoints.Commands == null && AdjustmentPoints.AdjustmentType == AdjustmentType.AdjustToWidthHeight)
             //{
             //    var wh = Math.Min(Width, Height);
-            //    clone.X = X * svgDocument.FontSize.Item1;
-            //    clone.Y = Y * svgDocument.FontSize.Item2;
+            //    clone.Left = Left * svgDocument.FontSize.Item1;
+            //    clone.Top = Top * svgDocument.FontSize.Item2;
             //    clone.Width = svgDocument.FontSize.Item1 * wh;
             //    clone.Height = svgDocument.FontSize.Item2 * wh;
             //}
             //else
             //{
-            //    clone.X = X * svgDocument.FontSize.Item1;
-            //    clone.Y = Y * svgDocument.FontSize.Item2;
+            //    clone.Left = Left * svgDocument.FontSize.Item1;
+            //    clone.Top = Top * svgDocument.FontSize.Item2;
             //    clone.Width = svgDocument.FontSize.Item1 * Width;
             //    clone.Height = svgDocument.FontSize.Item2 * Height;
             //}

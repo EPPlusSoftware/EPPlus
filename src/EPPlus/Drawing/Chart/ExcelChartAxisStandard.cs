@@ -159,7 +159,10 @@ namespace OfficeOpenXml.Drawing.Chart
                 return (ExcelChartTitleStandard)GetTitle();
             }
         }
-        public bool HasTitle
+        /// <summary>
+        /// True if the axis has a title.
+        /// </summary>
+        public override bool HasTitle
         {
             get
             {
@@ -687,9 +690,10 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         public int Index { get; private set; }
 
-        internal override object[] GetAxisValues()
+        internal override object[] GetAxisValues(out bool isCount)
         {            
             var hs = new HashSet<object>();
+            isCount = false;
             foreach (var ct in _chart.PlotArea.ChartTypes)
             {
                 foreach (var serie in _chart.Series)
@@ -699,6 +703,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         if(string.IsNullOrEmpty(serie.XSeries) && (serie.NumberLiteralsX == null || serie.NumberLiteralsX.Length==0) && (serie.StringLiteralsX==null || serie.StringLiteralsX?.Length==0))
                         {
                             AddCountFromSeries(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                            isCount = true;
                         }
                         else
                         {

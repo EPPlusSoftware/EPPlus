@@ -33,7 +33,7 @@ namespace EPPlusImageRenderer.RenderItems.Shared
         ExcelDrawingParagraph Paragraph;
 
         /// <summary>
-        /// X position
+        /// Left position
         /// </summary>
         protected double XPos;
 

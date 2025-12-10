@@ -90,8 +90,8 @@ namespace EPPlusImageRenderer.Svg
             _yPositionOriginal = yPosition;
             _yEndPos = yPosition;
 
-            //origin.X = xPosition;
-            //origin.Y = yPosition;
+            //origin.Left = xPosition;
+            //origin.Top = yPosition;
 
             fontSizeInPixels = ((double)measurementFont.Size).PointToPixel(true);
 
@@ -166,7 +166,7 @@ namespace EPPlusImageRenderer.Svg
         internal SvgTextRun(string text, ExcelTextFont font, double lineSpacing, double textMaxY, double xPosition, double yPosition, double baselineLineSpacing = double.NaN) : base()
         {
             originalText = text;
-
+            currentText = text;
             isFirstInParagraph = true;
             Lines = SplitIntoLines(originalText);
 
@@ -191,8 +191,8 @@ namespace EPPlusImageRenderer.Svg
             _yPositionOriginal = yPosition;
             _yEndPos = yPosition;
 
-            //origin.X = xPosition;
-            //origin.Y = yPosition;
+            //origin.Left = xPosition;
+            //origin.Top = yPosition;
 
             fontSizeInPixels = ((double)measurementFont.Size).PointToPixel(true);
 
@@ -455,7 +455,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal List<string> SplitIntoLines(string text)
         {
-            return text.Split(new string[] { "\r\n" }, StringSplitOptions.None).ToList();
+            return (text ?? "").Split(new string[] { "\r\n" }, StringSplitOptions.None).ToList();
         }
 
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)

@@ -413,6 +413,7 @@ namespace EPPlusTest
             Assert.AreEqual(288, p.Workbook.Worksheets[0].Cells["E31"].StyleID);
             SaveWorkbook("i1839-saved.xlsx", p);
         }
+
         public class TestData
         {
             public int Id { get; set; }

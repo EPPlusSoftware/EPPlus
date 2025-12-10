@@ -85,10 +85,10 @@ namespace EPPlusImageRenderer.Svg
                         {
                             var rectItem = new SvgRenderRectItem(_shape);
 
-                            rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
-                            rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
-                            rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.X;
-                            rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
+                            rectItem.Left = (float)shapeDef.TextBoxRect.LeftValue;
+                            rectItem.Top = (float)shapeDef.TextBoxRect.TopValue;
+                            rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.Left;
+                            rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Top;
                             rectItem.FillOpacity = 0.3d;
                             _renderTextBox = rectItem;
                         }
@@ -96,8 +96,8 @@ namespace EPPlusImageRenderer.Svg
                         {
                             var rectItem = new SvgRenderRectItem(_shape);
 
-                            rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
-                            rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
+                            rectItem.Left = (float)shapeDef.TextBoxRect.LeftValue;
+                            rectItem.Top = (float)shapeDef.TextBoxRect.TopValue;
                             rectItem.Width = (float)shapeDef.TextBoxRect.RightValue;
                             rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue;
                             rectItem.FillOpacity = 0.3d;
@@ -317,8 +317,8 @@ namespace EPPlusImageRenderer.Svg
 
             var area = textBox.GetTextArea();
 
-            _renderTextBox.X = (float)area.Left;
-            _renderTextBox.Y = (float)area.Top;
+            _renderTextBox.Left = (float)area.Left;
+            _renderTextBox.Top = (float)area.Top;
             _renderTextBox.Width = (float)area.Width;
             _renderTextBox.Height = (float)area.Height;
             _renderTextBox.FillColor = "blue";
@@ -337,8 +337,8 @@ namespace EPPlusImageRenderer.Svg
                 {
                     case SvgItemType.Rect:
                         var rectItem = (SvgRenderRectItem)ri;
-                        x = rectItem.X;
-                        y = rectItem.Y;
+                        x = rectItem.Left;
+                        y = rectItem.Top;
                         width = rectItem.Width;
                         height = rectItem.Height;
                         break;

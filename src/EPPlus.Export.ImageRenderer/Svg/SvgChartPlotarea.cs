@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing.Chart;
+using System;
 using System.Text;
 
 namespace EPPlusImageRenderer.Svg
@@ -20,11 +21,14 @@ namespace EPPlusImageRenderer.Svg
     {
         public SvgChartPlotarea(SvgChart sc) : base(sc.Chart)
         {
+            SvgChart = sc;
             Rectangle = GetPlotAreaRectangle(sc);
         }
+        public SvgChart SvgChart { get; set; }
         internal SvgRenderRectItem GetPlotAreaRectangle(SvgChart sc)
         {
             var pa = sc.Chart.PlotArea;
+            TopMargin = BottomMargin = LeftMargin = RightMargin = 14;
             var rect = new SvgRenderRectItem(sc.Chart);
             if (pa.Layout.HasLayout)
             {
@@ -32,16 +36,11 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                rect.Y = sc.Title.Rectangle?.Height ?? 0;
-                rect.X = sc.VerticalAxis?.Rectangle.Width ?? 0;
-                rect.Width = sc.Size.Width - rect.X;
-                rect.Height = sc.Size.Height - rect.Y;
-
-                switch(sc.Chart.Legend.Position)
-                {
-                    case eLegendPosition.Top:
-                        break;
-                }
+                var lp = sc.Chart.Legend.Position;
+                rect.Top = (sc.Title?.Rectangle?.Bottom ?? 0d) + TopMargin;
+                rect.Left = lp == eLegendPosition.Left ? sc.Legend.Rectangle.Right + LeftMargin : LeftMargin;
+                rect.Width = lp == eLegendPosition.Right || lp == eLegendPosition.TopRight ? sc.Legend.Rectangle.Left - RightMargin : RightMargin;
+                rect.Height = sc.Size.Height - rect.Top;
             }
 
             return rect;

@@ -179,7 +179,7 @@ namespace EPPlusImageRenderer.RenderItems.Shared
         //    }
         //    else
         //    {
-        //        origin.X = x; origin.Y = y;
+        //        origin.Left = x; origin.Top = y;
         //    }
         //    return origin;
         //}
@@ -190,7 +190,7 @@ namespace EPPlusImageRenderer.RenderItems.Shared
         //    {
         //        origin = new Coordinate(0, 0);
         //    }
-        //    origin.X = x;
+        //    origin.Left = x;
         //}
 
         //internal void SetPositionY(double y)
@@ -199,7 +199,7 @@ namespace EPPlusImageRenderer.RenderItems.Shared
         //    {
         //        origin = new Coordinate(0, 0);
         //    }
-        //    origin.Y = y;
+        //    origin.Top = y;
         //}
 
         //public override void Render(StringBuilder sb)

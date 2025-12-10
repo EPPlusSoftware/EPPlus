@@ -48,8 +48,8 @@ namespace EPPlus.Export.ImageRenderer.Svg
                     float height = (float)cell.Worksheet.Rows[cell._fromRow].Height * mult;
 
                     SvgRenderRectItem cellBB = new SvgRenderRectItem();
-                    cellBB.X = currentWidth;
-                    cellBB.Y = currentHeight;
+                    cellBB.Left = currentWidth;
+                    cellBB.Top = currentHeight;
 
                     cellBB.Width = (float)colWidth;
                     cellBB.Height = (float)height;

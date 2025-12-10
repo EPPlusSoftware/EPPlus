@@ -581,7 +581,6 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
-
         [TestMethod]
         public void s993()
         {

@@ -42,7 +42,7 @@ namespace EPPlusImageRenderer.Svg
             var ml = layout.ManualLayout;
             if (ml.LeftMode == eLayoutMode.Edge)
             {
-                rect.X = sc.Size.Width * (float)(layout.ManualLayout.Left ?? 0D) / 100;
+                rect.Left = sc.Size.Width * (float)(layout.ManualLayout.Left ?? 0D) / 100;
                 rect.Width = sc.Size.Width * (float)(layout.ManualLayout.Width ?? 0D) / 100;
             }
             else
@@ -51,7 +51,7 @@ namespace EPPlusImageRenderer.Svg
             }
             if (ml.LeftMode == eLayoutMode.Edge)
             {
-                rect.Y = sc.Size.Height * (float)(layout.ManualLayout.Top ?? 0D) / 100;
+                rect.Top = sc.Size.Height * (float)(layout.ManualLayout.Top ?? 0D) / 100;
                 rect.Height = sc.Size.Height * (float)(layout.ManualLayout.Width ?? 0D) / 100;
             }
             else

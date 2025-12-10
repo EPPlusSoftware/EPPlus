@@ -75,7 +75,7 @@ namespace EPPlusImageRenderer.Svg
         RectBase ParagraphArea;
 
         /// <summary>
-        /// X position
+        /// Left position
         /// </summary>
         protected double XPos;
 

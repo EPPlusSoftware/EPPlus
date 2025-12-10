@@ -87,8 +87,8 @@ namespace EPPlusImageRenderer.Text
         /// <param name="textBoxRender"></param>
         internal TextBox(ExcelTextBody txBody, SvgRenderRectItem textBoxRender)
         {
-            Bounds.Left = textBoxRender.X;
-            Bounds.Top = textBoxRender.Y;
+            Bounds.Left = textBoxRender.Left;
+            Bounds.Top = textBoxRender.Top;
 
             Width = textBoxRender.Width;
             Height = textBoxRender.Height;
@@ -182,7 +182,7 @@ namespace EPPlusImageRenderer.Text
         {
             var measureFont = item.DefaultRunProperties.GetMeasureFont();
 
-            //Document Y position for the paragraph text based on vertical alignment
+            //Document Top position for the paragraph text based on vertical alignment
             var posY = GetAlignmentVertical();
             var vertAlignAttribute = GetVerticalAlignAttribute(posY);
 
@@ -305,7 +305,7 @@ namespace EPPlusImageRenderer.Text
 
             var area = GetTextArea();
             paragraphStartPosY = area.Top;
-            //Document Y position for the paragraph text based on vertical alignment
+            //Document Top position for the paragraph text based on vertical alignment
             var posY = GetAlignmentVertical();
             var vertAlignAttribute = GetVerticalAlignAttribute(posY);
 
