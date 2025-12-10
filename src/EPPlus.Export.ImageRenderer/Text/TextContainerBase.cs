@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EPPlus.Export.ImageRenderer.Svg;
-using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Graphics;
 
 namespace EPPlus.Export.ImageRenderer.Text
@@ -49,35 +44,6 @@ namespace EPPlus.Export.ImageRenderer.Text
             var combinedString = "";
             combinedString = string.Join(Environment.NewLine, TextContent);
             return combinedString;
-        }
-
-        public SvgElement GenerateSvg()
-        {
-            var fullString = GetContent();
-
-            var doc = new SvgEpplusDocument();
-
-            var bb = new SvgElement("rect");
-            bb.AddAttribute("x", transform.Position.X);
-            bb.AddAttribute("y", transform.Position.Y);
-            bb.AddAttribute("width", Width);
-            bb.AddAttribute("height", Height);
-            bb.AddAttribute("fill", "blue");
-            bb.AddAttribute("opacity", "0.5");
-
-            var renderElement = new SvgElement("text");
-            renderElement.AddAttribute("x", transform.Position.X);
-            renderElement.AddAttribute("y", transform.Position.Y);
-            renderElement.AddAttribute("font-size", "16px");
-
-            renderElement.Content = fullString;
-
-            doc.AddChildElement(bb);
-            doc.AddChildElement(renderElement);
-
-            doc.AddAttributes();
-
-            return doc;
         }
     }
 }

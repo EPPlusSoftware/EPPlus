@@ -125,6 +125,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
             //Next: Same but basic font data
             //Next: Full rich-text?
 
+            StringBuilder sb = new StringBuilder();
 
             TextContainerBase Fragment1 = new TextContainerBase(true);
 

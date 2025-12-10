@@ -13,12 +13,14 @@
 
 using EPPlus.Export.ImageRenderer;
 using EPPlus.Export.ImageRenderer.Svg;
+using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Export.ImageRenderer.Svg.Writer;
 using EPPlus.Export.ImageRenderer.Text;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Utils;
 using System;
 using System.IO;
 using System.Text;
@@ -78,18 +80,85 @@ namespace EPPlusImageRenderer
         {
             string retStr = "";
             var container = new TextContainerBase(boxText);
-            var element = container.GenerateSvg();
-            
-            MemoryStream ms = new MemoryStream();
-            SvgWriter writer = new SvgWriter(ms,Encoding.UTF8);
-            writer.RenderSvgElement(element, true);
+            var element = GenerateSvg(container);
 
-            StreamReader reader = new StreamReader(ms);
-            retStr = reader.ReadToEnd();
+            using (var ms = EPPlusMemoryManager.GetStream())
+            {
+                SvgWriter writer = new SvgWriter(ms, Encoding.UTF8);
+                writer.RenderSvgElement(element, true);
+                ms.Position = 0;
+                using (var sr = new StreamReader(ms))
+                {
+                    retStr = sr.ReadToEnd();
+                    return retStr;
+                }
+            }
+
+            //writer.RenderSvgElement(element, true);
+
+            //StreamReader reader = new StreamReader(ms);
+            //retStr = reader.ReadToEnd();
             
-            //SvgParagraph para = new SvgParagraph(container.GetContent(),);
-            //var doc = new SvgEpplusDocument();
-            return retStr;
+            ////SvgParagraph para = new SvgParagraph(container.GetContent(),);
+            ////var doc = new SvgEpplusDocument();
+            //return retStr;
+        }
+
+        internal SvgElement GenerateSvg(TextContainerBase container)
+        {
+            var fullString = container.GetContent();
+
+            var doc = new SvgEpplusDocument(500, 500);
+
+            var bg = new SvgElement("rect");
+            bg.AddAttribute("width", "100%");
+            bg.AddAttribute("height", "100%");
+            bg.AddAttribute("fill", "red");
+            bg.AddAttribute("opacity", "0.1");
+
+            var nameId = "boundingBox";
+            var def = new SvgElement("defs");
+            var clipPath = new SvgElement("clipPath");
+            clipPath.AddAttribute("id", nameId);
+
+            def.AddChildElement(clipPath);
+
+            var bb = new SvgElement("rect");
+            bb.AddAttribute("x", container.transform.Position.X);
+            bb.AddAttribute("y", container.transform.Position.Y);
+            bb.AddAttribute("width", container.Width);
+            bb.AddAttribute("height", container.Height);
+            //bb.AddAttribute("fill", "blue");
+            //bb.AddAttribute("opacity", "0.5");
+
+            clipPath.AddChildElement(bb);
+
+            var fontSizePx = 16d;
+
+            var renderElement = new SvgElement("text");
+            renderElement.AddAttribute("x", container.transform.Position.X);
+            renderElement.AddAttribute("y", container.transform.Position.Y + fontSizePx);
+            renderElement.AddAttribute("font-size", $"{fontSizePx}px");
+            renderElement.AddAttribute("clip-path", $"url(#{nameId})");
+
+            renderElement.Content = fullString;
+
+            var bbVisual = new SvgElement("rect");
+            bbVisual.AddAttribute("x", container.transform.Position.X);
+            bbVisual.AddAttribute("y", container.transform.Position.Y);
+            bbVisual.AddAttribute("width", container.Width);
+            bbVisual.AddAttribute("height", container.Height);
+            bbVisual.AddAttribute("fill", "blue");
+            bbVisual.AddAttribute("opacity", "0.5");
+
+            doc.AddChildElement(def);
+            doc.AddChildElement(bg);
+            doc.AddChildElement(bbVisual);
+            doc.AddChildElement(renderElement);
+
+            doc.AddAttributes();
+
+            return doc;
         }
     }
 }
