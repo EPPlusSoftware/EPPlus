@@ -76,7 +76,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
             Assert.AreEqual(expectedHeight, Math.Round(container.Height, 0));
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestNonStandardFontSizesMultiLineLargeFontGoudyStout()
         {
             string content = "TextBox\r\na very long line2\r\nline3";
@@ -96,6 +96,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
             var container = new TextContainer(content, mf, true, true);
             //0,072265625 * font size width correction for pixels
             //0,0442708333333333 * font size height correction for pixels
+            Assert.AreEqual(expectedWidth, Math.Round(container.Width, 0));
             Assert.AreEqual(expectedHeight, Math.Round(container.Height, 0));
         }
 

@@ -31,12 +31,12 @@ namespace OfficeOpenXml.Style
             else if (node.ChildNodes[0].LocalName== "spcPts")
             {
                 _subPath = "/a:spcPts";
-                LineSpacingType = eDrawingTextLineSpacing.Multiple;
+                _lineSpacingType = eDrawingTextLineSpacing.Exactly;
             }
             else
             {
                 _subPath = "/a:spcPct";
-                LineSpacingType = eDrawingTextLineSpacing.Exactly;
+                _lineSpacingType = eDrawingTextLineSpacing.Multiple;
             }
         }
 
@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-;               var v = GetXmlNodeDoubleNull($"{_path}{_subPath}/@val");
+                var v = GetXmlNodeDoubleNull($"{_path}{_subPath}/@val");
                 if (v.HasValue)
                 {
                     if (_lineSpacingType == eDrawingTextLineSpacing.Exactly)

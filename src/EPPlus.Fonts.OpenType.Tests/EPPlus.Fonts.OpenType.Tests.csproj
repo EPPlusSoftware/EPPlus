@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
@@ -19,7 +18,11 @@
 		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" />
 		<ProjectReference Include="..\EPPlus\EPPlus.csproj" />
 	</ItemGroup>
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> develop9
 	<ItemGroup>
 		<None Update="Fonts\BIZUDGothic-Bold.ttf">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
