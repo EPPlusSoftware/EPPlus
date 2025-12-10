@@ -45,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                 }
                 else
                 {
-                    if (arg.Value != null && (arg.Value.ToString() != string.Empty))
+                    if (arg.Value != null)
                     {
                         result = false;
                         break;

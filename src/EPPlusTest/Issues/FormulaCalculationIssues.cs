@@ -1356,8 +1356,36 @@ namespace EPPlusTest.Issues
             package.Workbook.Calculate();
             Assert.AreEqual("12,35²", package.Workbook.Worksheets[0].Cells["A3"].Value);
         }
+        [TestMethod]
+        public void Issue2210_1()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
 
+            ws.Cells["A1"].Formula = "ISBLANK(\"\")";
+            ws.Cells["A2"].Formula = "ERROR.TYPE(#DIV/0!)";
+            ws.Cells["A3"].Formula = "INDIRECT(\"\")";
+            ws.Cells["A4"].Formula = "CONCATENATE(TRUE, FALSE)";
+            ws.Cells["A5"].Formula = "REPT(\"ab\", -1)";
+            ws.Cells["A6"].Formula = "MOD(5, 0)";
+            ws.Cells["A7"].Formula = "MOD(-5, 3)";
+            ws.Cells["A8"].Formula = "MOD(5, -3)";
+            ws.Cells["A9"].Formula = "POWER(0, 0)";
+            ws.Cells["A10"].Formula = "MOD(3, 2.1)";
+            ws.Calculate();
 
+            Assert.IsFalse((bool)ws.Cells["A1"].Value);
+            Assert.AreEqual(2, ws.Cells["A2"].Value);
+            Assert.AreEqual(ErrorValues.RefError, ws.Cells["A3"].Value);
+            Assert.AreEqual("TRUEFALSE",ws.Cells["A4"].Value);
+            Assert.AreEqual(ErrorValues.ValueError, ws.Cells["A5"].Value);
+            Assert.AreEqual(ErrorValues.Div0Error, ws.Cells["A6"].Value);
+            Assert.AreEqual(1D, ws.Cells["A7"].Value);
+            Assert.AreEqual(-1D, ws.Cells["A8"].Value);
+            Assert.AreEqual(ErrorValues.NumError, ws.Cells["A9"].Value);
+            Assert.AreEqual(0.9, (double)ws.Cells["A10"].Value, 0.000000001);
+        }
+        
         [TestMethod]
         public void i2210v2()
         {

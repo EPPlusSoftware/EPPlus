@@ -105,7 +105,9 @@ namespace OfficeOpenXml.Table.PivotTable
 						return new Token(ev.ToString(), TokenType.NAError);
 					case eErrorType.Num:
 						return new Token(ev.ToString(), TokenType.NumericError);
-					default:
+					case eErrorType.Div0:
+						return new Token(ev.ToString(), TokenType.Div0Error);
+                    default:
 						return new Token(ev.ToString(), TokenType.ValueDataTypeError);
 				}
 			}
