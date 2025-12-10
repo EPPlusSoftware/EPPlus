@@ -84,11 +84,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
 
         private double DateDiffMonths(DateTime start, DateTime end)
         {
-            // Excel tillåter start > end → negativt resultat
+            // Excel permits start date > end date → result will be negative
             bool negative = start > end;
             if (negative)
             {
-                // Byt plats så vi alltid räknar framåt
                 var temp = start;
                 start = end;
                 end = temp;
@@ -98,11 +97,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
             int months = end.Month - start.Month;
             int days = end.Day - start.Day;
 
-            // Grundvärde i månader
+            // Base calculation in months
             int totalMonths = years * 12 + months;
 
-            // Om dagen i slutdatum är mindre än dagen i startdatum → dra av en månad
-            // Detta är EXAKT Excels regel för "M"
+            // If the day in the end date is less than the day in the start date → subtract one month
+            // This is EXACTLY Excel's rule for DATEDIF(..., "M")
             if (days < 0)
                 totalMonths--;
 

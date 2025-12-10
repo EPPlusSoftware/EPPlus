@@ -1383,6 +1383,7 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(-2d, sheet.Cells["A10"].Value);
             Assert.AreEqual(45658d, sheet.Cells["A11"].Value);
             Assert.AreEqual(11d, sheet.Cells["A12"].Value, "A12 calculation failed");
+            var tv = sheet.Cells["A13"].Value;
             Assert.IsFalse((bool)sheet.Cells["A15"].Value);
 
             SaveAndCleanup(package);

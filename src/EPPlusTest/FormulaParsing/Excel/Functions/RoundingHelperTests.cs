@@ -40,7 +40,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             Assert.AreEqual(-23, result);
 
             result = RoundingHelper.Round(-22.25, -5, RoundingHelper.Direction.AlwaysUp);   // |multiple| = 5
-            Assert.AreEqual(-20, result);
+            Assert.AreEqual(-25, result);
 
             // Edges
             result = RoundingHelper.Round(555, 1000, RoundingHelper.Direction.AlwaysUp);
