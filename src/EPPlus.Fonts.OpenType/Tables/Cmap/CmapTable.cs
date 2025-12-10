@@ -196,15 +196,21 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         internal bool TryGetGlyphId(uint codePoint, out ushort glyphId)
         {
-            foreach (var subtable in SubTables)
+            glyphId = 0;
+
+            var preferred = GetPreferredSubtable();
+            if (preferred != null)
             {
-                if (subtable.TryGetGlyphId(codePoint, out glyphId))
-                {
-                    return true;
-                }
+                return preferred.TryGetGlyphId(codePoint, out glyphId) && glyphId != 0;
             }
 
-            glyphId = 0;
+            // Fallback: loopa alla
+            foreach (var subtable in SubTables)
+            {
+                if (subtable.TryGetGlyphId(codePoint, out glyphId) && glyphId != 0)
+                    return true;
+            }
+
             return false;
         }
 

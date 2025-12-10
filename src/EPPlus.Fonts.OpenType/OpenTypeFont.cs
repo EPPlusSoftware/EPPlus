@@ -121,6 +121,8 @@ namespace EPPlus.Fonts.OpenType
         }
 
 
+        internal List<uint> UsedCodePointsForSubset { get; set; } = new List<uint>();
+
         /// <summary>
         /// Any font file that does not contain all of the below tables can be considered corrupt as "the following tables are required for the font to function correctly"
         /// source: https://learn.microsoft.com/en-us/typography/opentype/spec/otff

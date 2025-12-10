@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
@@ -17,117 +18,118 @@ namespace EPPlus.Fonts.OpenType.Subsetting
     {
         public OpenTypeFont CreateSubset(OpenTypeFont originalFont, IEnumerable<int> unicodeChars)
         {
-            // Always include space (U+0020) – required for OS/2 usDefaultChar/usBreakChar
-            int[] inputChars = unicodeChars as int[] ?? new List<int>(unicodeChars).ToArray();
-            List<int> extendedChars = new List<int>(inputChars);
-            if (!extendedChars.Contains(32))
-                extendedChars.Add(32);
+            // Konvertera och spara alla använda code points (detta är nyckeln!)
+            var usedCodePoints = unicodeChars
+                .Select(c => (uint)c)
+                .Distinct()
+                .ToList();
 
-            // 1. Build initial glyph set
-            HashSet<ushort> glyphSet = BuildGlyphSet(originalFont, extendedChars);
+            // Always include space
+            if (!usedCodePoints.Contains(32))
+                usedCodePoints.Add(32);
 
-            // 2. Resolve composite glyphs ON THE ORIGINAL FONT – critical!
-            //originalFont.GlyfTable.ResolveCompositeGlyphs(glyphSet);
-            glyphSet.RemoveWhere(gid =>
+            // 1. Bygg initial glyph set från de faktiska tecknen
+            var glyphSet = new HashSet<ushort>();
+            foreach (uint cp in usedCodePoints)
             {
-                string name = originalFont.GlyfTable.GetGlyphName(gid, originalFont);
-                return name == "uni03BC" || name == "mu" || name == "lambda" || name == "sigma1";
-            });
+                if (originalFont.CmapTable.TryGetGlyphId(cp, out ushort gid))
+                    glyphSet.Add(gid);
+            }
 
-            // 3. Create subset font
-            OpenTypeFont newFont = new OpenTypeFont(originalFont.Format);
+            // 2. Resolve composite glyphs – nu lägger vi till alla komponenter
+            originalFont.GlyfTable.ResolveCompositeGlyphs(glyphSet);
 
-            // head
+            // Säkerställ .notdef (GID 0) finns och ska bli ny GID 0
+            glyphSet.Add(0);
+
+            // 3. Skapa subset-font
+            var newFont = new OpenTypeFont(originalFont.Format);
+
+            // head + name
             newFont.AddOrReplaceTable(originalFont.HeadTable.Clone());
-
-            // name
             if (originalFont.NameTable != null)
                 newFont.AddOrReplaceTable(originalFont.NameTable.Clone());
 
-            // maxp & hhea – clone now, update later
-            MaxpTable maxpTable = originalFont.MaxpTable != null ? originalFont.MaxpTable.Clone() : null;
-            HheaTable hheaTable = originalFont.HheaTable != null ? originalFont.HheaTable.Clone() : null;
+            // maxp & hhea
+            var maxpTable = originalFont.MaxpTable?.Clone();
+            var hheaTable = originalFont.HheaTable?.Clone();
 
-            // hmtx
+            // hmtx (preliminär)
             if (originalFont.HmtxTable != null)
-            {
-                var hmtx = originalFont.HmtxTable.CloneSubset(glyphSet, originalFont.HmtxTable);
-                newFont.AddOrReplaceTable(hmtx);
-            }
+                newFont.AddOrReplaceTable(originalFont.HmtxTable.CloneSubset(glyphSet, originalFont.HmtxTable));
 
-            // 4. glyf + loca
-            Dictionary<ushort, ushort> oldToNewGlyphId = new Dictionary<ushort, ushort>();
-            List<ushort> newToOldGlyphId = new List<ushort>();
+            // 4. glyf + loca + mappning
+            var oldToNewGlyphId = new Dictionary<ushort, ushort>();
+            var newToOldGlyphId = new List<ushort>();
 
             SubsetGlyfAndLoca(newFont, originalFont, glyphSet, oldToNewGlyphId, newToOldGlyphId);
 
-            // 5. Update maxp and hhea
+            // 5. Uppdatera maxp och hhea
             int finalGlyphCount = newToOldGlyphId.Count;
-
             if (maxpTable != null)
             {
                 maxpTable.numGlyphs = (ushort)finalGlyphCount;
                 newFont.AddOrReplaceTable(maxpTable);
             }
-
             if (hheaTable != null)
             {
                 hheaTable.numberOfHMetrics = (ushort)finalGlyphCount;
                 newFont.AddOrReplaceTable(hheaTable);
             }
 
+            // 6. Final hmtx med korrekt antal glyfer
             if (originalFont.HmtxTable != null)
             {
-                var finalHmtx = originalFont.HmtxTable.CloneForGlyphCount(
-                    newToOldGlyphId.Count,
-                    originalFont.MaxpTable.numGlyphs);
-
+                var finalHmtx = originalFont.HmtxTable.CloneForGlyphCount(finalGlyphCount, originalFont.MaxpTable.numGlyphs);
                 int originalHMetricsCount = originalFont.HmtxTable.hMetrics.Count;
 
-                for (int i = 0; i < newToOldGlyphId.Count; i++)
+                for (int i = 0; i < finalGlyphCount; i++)
                 {
                     ushort oldId = newToOldGlyphId[i];
-
-                    // Hämta från original
-                    ushort advanceWidth = originalFont.HmtxTable.GetAdvanceWidth(oldId);
+                    ushort advance = originalFont.HmtxTable.GetAdvanceWidth(oldId);
                     short lsb = originalFont.HmtxTable.GetLeftSideBearing(oldId);
 
-                    // Sätt alltid advanceWidth i hMetrics
-                    finalHmtx.hMetrics[i].advanceWidth = advanceWidth;
-
-                    // Sätt LSB – men bara på rätt plats
+                    finalHmtx.hMetrics[i].advanceWidth = advance;
                     if (i < originalHMetricsCount)
-                    {
-                        // Inom hMetrics-området – LSB finns i hMetrics[i].lsb
                         finalHmtx.hMetrics[i].lsb = lsb;
-                    }
                     else
-                    {
-                        // Utanför – LSB finns i leftSideBearings
-                        int lsbIndex = i - originalHMetricsCount;
-                        if (lsbIndex < finalHmtx.leftSideBearings.Count)
-                        {
-                            finalHmtx.leftSideBearings[lsbIndex] = lsb;
-                        }
-                        // Om listan är för kort – lägg till 0 (säkert)
-                        else if (lsbIndex == finalHmtx.leftSideBearings.Count)
-                        {
-                            finalHmtx.leftSideBearings.Add(lsb);
-                        }
-                    }
+                        finalHmtx.leftSideBearings[i - originalHMetricsCount] = lsb;
                 }
-
                 newFont.AddOrReplaceTable(finalHmtx);
             }
 
-            // 6. cmap
-            SubsetCmap(newFont, originalFont, oldToNewGlyphId);
+            // 7. Bygg cmap direkt från de använda tecknen – DETTA ÄR FIXEN!
+            var cmapMapping = new Dictionary<uint, ushort>();
+            foreach (uint cp in usedCodePoints)
+            {
+                if (originalFont.CmapTable.TryGetGlyphId(cp, out ushort oldGid) &&
+                    oldToNewGlyphId.TryGetValue(oldGid, out ushort newGid))
+                {
+                    cmapMapping[cp] = newGid;
+                }
+                else
+                {
+                    cmapMapping[cp] = 0; // .notdef
+                }
+            }
+            cmapMapping[0] = 0; // .notdef för kodpunkt 0
 
-            // 7. OS/2
+            var format4 = CmapFormat4.CreateFromMappings(cmapMapping);
+
+            var newCmap = new CmapTable();
+            newCmap.EncodingRecords.Add(new EncodingRecord(Platforms.Windows, 1, 0));
+            newCmap.EncodingRecords.Add(new EncodingRecord(Platforms.Unicode, 3, 0));
+            newCmap.SubTables.Add(format4);
+            newCmap.EncodingRecords[0].Subtable = format4;
+            newCmap.EncodingRecords[1].Subtable = format4;
+            newFont.AddOrReplaceTable(newCmap);
+
+            // 8. OS/2 och post
             SubsetOS2(newFont, originalFont);
-
-            // 8. post
             SubsetPost(newFont, originalFont);
+
+            // Spara för eventuell debug (valfritt)
+            newFont.UsedCodePointsForSubset = usedCodePoints.Select(c => c).ToList();
 
             return newFont;
         }
@@ -218,14 +220,21 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             newFont.AddOrReplaceTable(LocaTable.CreateSubset(offsets, newFont.HeadTable.IndexToLocFormat));
         }
 
+        /// <summary>
+        /// Clones a glyph and remaps all composite component glyph IDs using the old→new mapping.
+        /// Preserves bounding box, instructions, and all flags.
+        /// </summary>
+        /// <param name="original">The original glyph from the source font</param>
+        /// <param name="oldToNew">Mapping from old glyph ID to new subset glyph ID</param>
+        /// <returns>A new glyph ready for the subset font</returns>
         private Glyph CloneGlyphWithRemappedComponents(Glyph original, Dictionary<ushort, ushort> oldToNew)
         {
+            // Fix inverted bounding boxes (common in .notdef and some broken fonts)
             short xMin = original.Header.xMin;
             short xMax = original.Header.xMax;
             short yMin = original.Header.yMin;
             short yMax = original.Header.yMax;
 
-            // Fix inverted bounding boxes (common in .notdef and some broken fonts)
             if (xMin > xMax)
             {
                 short temp = xMin;
@@ -239,11 +248,10 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 yMax = temp;
             }
 
-            GlyphHeader header = new GlyphHeader(
-                original.Header.numberOfContours,
+            GlyphHeader header = new GlyphHeader(original.Header.numberOfContours,
                 new BoundingRectangle(xMin, yMin, xMax, yMax));
 
-            // Simple glyph – just clone
+            // Simple glyph
             if (original.Header.numberOfContours > 0 && original.SimpleData != null)
             {
                 SimpleGlyph simple = new SimpleGlyph
@@ -252,12 +260,18 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                     Instructions = (byte[])original.SimpleData.Instructions.Clone(),
                     XBytes = (byte[])original.SimpleData.XBytes.Clone(),
                     YBytes = (byte[])original.SimpleData.YBytes.Clone(),
-                    FlagRuns = new List<FlagRun>(original.SimpleData.FlagRuns)
+                    FlagRuns = new List<FlagRun>()
                 };
+
+                foreach (FlagRun run in original.SimpleData.FlagRuns)
+                {
+                    simple.FlagRuns.Add(new FlagRun { Flag = run.Flag, RepeatCount = run.RepeatCount });
+                }
+
                 return new Glyph { Header = header, SimpleData = simple };
             }
 
-            // Composite glyph – remap component glyph IDs
+            // Composite glyph – remap all components
             if (original.Header.numberOfContours < 0 && original.CompositeData != null)
             {
                 CompositeGlyph composite = new CompositeGlyph
@@ -268,13 +282,19 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
                 foreach (GlyphComponent comp in original.CompositeData.Components)
                 {
-                    ushort newGlyphIndex = 0; // fallback to .notdef
-                    oldToNew.TryGetValue(comp.GlyphIndex, out newGlyphIndex);
+                    ushort newGid = 0;
+                    if (!oldToNew.TryGetValue(comp.GlyphIndex, out newGid))
+                    {
+                        // This should never happen if ResolveCompositeGlyphs was called correctly
+                        System.Diagnostics.Debug.WriteLine(
+                            string.Format("WARNING: Component glyph GID {0} not found in subset. Using .notdef.", comp.GlyphIndex));
+                        newGid = 0;
+                    }
 
                     GlyphComponent newComp = new GlyphComponent
                     {
                         Flags = comp.Flags,
-                        GlyphIndex = newGlyphIndex,
+                        GlyphIndex = newGid,
                         Argument1 = comp.Argument1,
                         Argument2 = comp.Argument2,
                         Scale = comp.Scale,
@@ -283,12 +303,14 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                         Scale01 = comp.Scale01,
                         Scale10 = comp.Scale10
                     };
+
                     composite.Components.Add(newComp);
                 }
+
                 return new Glyph { Header = header, CompositeData = composite };
             }
 
-            // Empty glyph (like space)
+            // Empty glyph (e.g. space)
             return new Glyph { Header = header };
         }
 

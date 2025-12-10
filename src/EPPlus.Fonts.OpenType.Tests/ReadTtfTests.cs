@@ -18,7 +18,6 @@ namespace EPPlus.Fonts.OpenType.Tests
             _fontFolder = Path.Combine(AppContext.BaseDirectory, "Fonts");
             _fontFolders.Clear();
             _fontFolders.Add(_fontFolder);
-            File.Delete(@"c:\Temp\cachelog.txt");
         }
 
         [TestMethod]

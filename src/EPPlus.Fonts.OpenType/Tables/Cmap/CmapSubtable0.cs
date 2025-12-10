@@ -59,20 +59,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         }
 
 
-        public override bool TryGetGlyphId(uint codePoint, out ushort glyphId)
-        {
-            glyphId = 0;
-
-            if (codePoint >= 0 && codePoint <= 255 && GlyphIdArray != null && GlyphIdArray.Length == 256)
-            {
-                glyphId = GlyphIdArray[codePoint];
-                return glyphId != 0;
-            }
-
-            return false;
-        }
-
-
 
         internal override void Serialize(FontsBinaryWriter writer)
         {

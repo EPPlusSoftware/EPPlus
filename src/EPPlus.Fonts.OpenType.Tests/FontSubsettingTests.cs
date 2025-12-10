@@ -238,5 +238,27 @@ namespace EPPlus.Fonts.OpenType.Tests
             Assert.AreEqual(parsedFont.HheaTable.numberOfHMetrics, parsedFont.HmtxTable.hMetrics.Count);
         }
 
+        [TestMethod]
+        public void Subset_Roboto_With_ÅÄÖ_Should_Work()
+        {
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular);
+
+            // get the original å
+            var ågId = font.CmapTable.MapCharToGlyph('å');
+            var åglyph = font.GlyfTable.GetGlyph((ushort)ågId);
+
+            var subset = font.CreateSubset("Testar åäö ÅÄÖ och även é û č ć đ ł".Distinct());
+
+            // Spara för inspektion (valfritt)
+            File.WriteAllBytes(@"C:\temp\Roboto-subset-aao.ttf", subset.Serialize());
+
+            // Verifiera att å faktiskt har en composite glyph
+            var åGlyphId = subset.CmapTable.MapCharToGlyph('å');
+            var glyph = subset.GlyfTable.GetGlyph((ushort)åGlyphId);
+
+            Assert.IsTrue(glyph.Header.numberOfContours < 0); // måste vara composite
+            Assert.IsTrue(glyph.CompositeData.Components.Count > 0);
+        }
+
     }
 }

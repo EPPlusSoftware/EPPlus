@@ -111,6 +111,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Mappings
         }
 
         // Helper: adds one segment to the format 4 arrays
+        // I klassen: internal static class CmapFormat4
+        // Ersätt hela den befintliga AddSegment-metoden med denna:
+
         private static void AddSegment(
             List<ushort> startCodes,
             List<ushort> endCodes,
@@ -125,39 +128,43 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Mappings
             startCodes.Add((ushort)startCode);
             endCodes.Add((ushort)endCode);
 
-            // Try sequential delta first (fast path)
-            bool sequential = true;
+            // Försök använda idDelta (sekventiell mappning)
+            bool isSequential = true;
             for (uint c = startCode; c <= endCode; c++)
             {
-                ushort expected = (ushort)((firstGlyphId + (c - startCode)) % 65536);
-                if (mapping[c] != expected)
+                ushort expectedGlyph = (ushort)((firstGlyphId + (c - startCode)) & 0xFFFF);
+                if (mapping[c] != expectedGlyph)
                 {
-                    sequential = false;
+                    isSequential = false;
                     break;
                 }
             }
 
-            if (sequential)
+            if (isSequential)
             {
-                int delta = (int)firstGlyphId - (int)startCode;
-                deltas.Add((short)(delta % 65536));
+                // Sekventiell → använd bara idDelta
+                short delta = (short)((int)firstGlyphId - (int)startCode);
+                deltas.Add(delta);
                 rangeOffsets.Add(0);
             }
             else
             {
-                // Non-sequential – use glyphIdArray
-                int baseIndex = glyphIdArray.Count;
+                // Icke-sekventiell → använd glyphIdArray
+                int glyphArrayStartIndex = glyphIdArray.Count;
+
+                // Lägg till alla glyph-ID:n för detta segment
                 for (uint c = startCode; c <= endCode; c++)
                 {
                     glyphIdArray.Add(mapping[c]);
                 }
 
-                // idRangeOffset points to glyphIdArray entry for startCode
-                int offset = (rangeOffsets.Count + 1) * 2 + (baseIndex * 2); // in bytes from this idRangeOffset
-                rangeOffsets.Add((ushort)offset);
+                // RÄTT BERÄKNING AV idRangeOffset (detta var felet!)
+                // Avstånd i bytes från denna idRangeOffset-post till glyphIdArray[startCode]
+                int entriesFromThisIncludingThis = rangeOffsets.Count + 1;
+                int idRangeOffset = entriesFromThisIncludingThis * 2 + (glyphIdArray.Count - glyphArrayStartIndex) * 2 - 2;
 
-                int delta = (int)firstGlyphId - (int)startCode;
-                deltas.Add((short)(delta % 65536));
+                deltas.Add(0);                    // idDelta ignoreras när idRangeOffset != 0
+                rangeOffsets.Add((ushort)idRangeOffset);
             }
         }
     }

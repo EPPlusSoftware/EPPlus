@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Loca;
 using EPPlus.Fonts.OpenType.Tables.Post;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -109,23 +110,33 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
         }
 
 
+        /// <summary>
+        /// Recursively adds all component glyph IDs used by composite glyphs in the given set.
+        /// Uses GetGlyph() to ensure lazy-loaded glyphs are properly resolved.
+        /// Critical for correct subsetting of fonts with composite glyphs (å, ä, ö, ﬁ, ﬂ, etc.).
+        /// </summary>
+        /// <param name="glyphSet">Set of glyph IDs to expand with component dependencies</param>
         public void ResolveCompositeGlyphs(HashSet<ushort> glyphSet)
         {
+            if (glyphSet == null) throw new ArgumentNullException("glyphSet");
+
             bool addedNew;
             do
             {
                 addedNew = false;
-                foreach (var glyphId in glyphSet.ToList())
+                ushort[] currentGlyphs = new List<ushort>(glyphSet).ToArray(); // Snapshot for iteration
+
+                foreach (ushort gid in currentGlyphs)
                 {
-                    var glyph = Glyphs[glyphId];
-                    if (glyph == null) continue;
-                    if (glyph.Header.numberOfContours < 0 && glyph.CompositeData != null)
+                    Glyph glyph = this.GetGlyph(gid);
+                    if (glyph != null &&
+                        glyph.Header.numberOfContours < 0 &&
+                        glyph.CompositeData != null)
                     {
-                        foreach (var component in glyph.CompositeData.Components)
+                        foreach (GlyphComponent component in glyph.CompositeData.Components)
                         {
-                            if (!glyphSet.Contains(component.GlyphIndex))
+                            if (glyphSet.Add(component.GlyphIndex))
                             {
-                                glyphSet.Add(component.GlyphIndex);
                                 addedNew = true;
                             }
                         }
