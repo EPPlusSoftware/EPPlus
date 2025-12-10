@@ -618,8 +618,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             object left, right;
             left = GetObjFromOther(l, r);
             right = GetObjFromOther(r, l);
-            var isNumL = ConvertUtil.IsNumericOrDate(left);
-            var isNumR = ConvertUtil.IsNumericOrDate(right);
+            var isNumL = ConvertUtil.IsNumericOrDate(left) && left is not bool;
+            var isNumR = ConvertUtil.IsNumericOrDate(right) && right is not bool;
+            if(l.DataType == DataType.Empty && r.DataType == DataType.Boolean && r.ResultValue is bool rb && !rb)
+            {
+                return CreateCompileResult(l.ResultType, r.ResultType, true, DataType.Boolean);
+            }
+            else if(r.DataType == DataType.Empty && l.DataType == DataType.Boolean && l.ResultValue is bool lb && !lb)
+            {
+                return CreateCompileResult(l.ResultType, r.ResultType, true, DataType.Boolean);
+            }
             if (isNumL && isNumR)
             {
                 var lnum = ConvertUtil.GetValueDouble(left);

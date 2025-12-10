@@ -1385,6 +1385,37 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(ErrorValues.NumError, ws.Cells["A9"].Value);
             Assert.AreEqual(0.9, (double)ws.Cells["A10"].Value, 0.000000001);
         }
+        
+        [TestMethod]
+        public void i2210v2()
+        {
+            ExcelPackage.License.SetNonCommercialPersonal("test");
+
+            using var package = OpenPackage("i2210v2.xlsx", true);
+            var sheet = package.Workbook.Worksheets.Add("Test");
+            sheet.Cells["A10"].Formula = "CEILING(-2.1,1)";
+
+            // --- Date/Time Functions ---
+
+            sheet.Cells["A11"].Formula = "DATE(2024,13,1)";
+            sheet.Cells["A12"].Formula = "DATEDIF(DATE(2024,1,1),DATE(2024,12,31),\"M\")";
+            sheet.Cells["A13"].Formula = "TIME(24,0,0)";
+
+            // --- Error/Type Handling ---
+
+            sheet.Cells["A14"].Formula = "#DIV/0!";
+            sheet.Cells["A15"].Formula = "TRUE=1";
+
+            package.Workbook.Calculate();
+
+            Assert.AreEqual(-2d, sheet.Cells["A10"].Value);
+            Assert.AreEqual(45658d, sheet.Cells["A11"].Value);
+            Assert.AreEqual(11d, sheet.Cells["A12"].Value, "A12 calculation failed");
+            Assert.AreEqual(0d, sheet.Cells["A13"].Value);
+            Assert.IsFalse((bool)sheet.Cells["A15"].Value);
+
+            SaveAndCleanup(package);
+        }
     }
 }
 

@@ -27,86 +27,93 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         public static double Round(double number, double multiple, Direction direction)
         {
-            if (multiple == 0) return 0d;
+            if (multiple == 0d) return 0d;
+
             var isNegativeNumber = number < 0;
             var isNegativeMultiple = multiple < 0;
-            var n = isNegativeNumber ? number * -1 : number;
-            var m = isNegativeMultiple ? multiple * -1 : multiple;
-            if (number % multiple == 0)
-            {
+
+            var n = isNegativeNumber ? -number : number;
+            var m = isNegativeMultiple ? -multiple : multiple;
+
+            if (number % multiple == 0d)
                 return number;
-            }
+
             else if (multiple > -1 && multiple < 1)
             {
-
                 var floor = System.Math.Floor(n);
                 var rest = n - floor;
                 var nSign = (int)(rest / m) + 1;
 
                 var upperRound = System.Math.Round(nSign * m, 14);
                 var lowerRound = System.Math.Round((nSign - 1) * m, 14);
-                return ExecuteRounding(n, floor + lowerRound, floor + upperRound, direction, isNegativeNumber);
+
+                var positiveResult = ExecuteRounding(n, floor + lowerRound, floor + upperRound, direction, isNegativeNumber, isNegativeMultiple);
+                return positiveResult * (isNegativeNumber ? -1 : 1);
             }
-            var result = double.NaN;
+
+            double result;
+
             if (m == 1)
             {
                 if (direction == Direction.Up || direction == Direction.AlwaysUp)
                 {
-                    if (direction == Direction.AlwaysUp && isNegativeNumber)
-                        result = System.Math.Floor(n);
-                    else
-                        result = System.Math.Ceiling(n);
-                }
-                else if (direction == Direction.Nearest)
-                {
-                    result = System.Math.Floor(n);
-                    if (n % 1 >= 0.5)
+                    result = (direction == Direction.AlwaysUp && isNegativeNumber) ? Math.Floor(n) : Math.Ceiling(n);
+                    if(isNegativeNumber && isNegativeMultiple)
                     {
                         result++;
                     }
+                }  
+                else if (direction == Direction.Nearest)
+                {
+                    result = Math.Floor(n);
+                    if (n % 1 >= 0.5) result++;
                 }
                 else
                 {
-                    if (direction == Direction.AlwaysDown && isNegativeNumber)
-                        result = System.Math.Ceiling(n);
-                    else
-                        result = System.Math.Floor(n);
-                }
+                    result = (direction == Direction.AlwaysDown && isNegativeNumber) ? Math.Ceiling(n) : Math.Floor(n);
+                    if (isNegativeNumber && isNegativeMultiple)
+                    {
+                        result--;
+                    }
+                }   
             }
             else if (m > n)
             {
-                return ExecuteRounding(n, 0, m, direction, isNegativeNumber);
+                var positiveResult = ExecuteRounding(n, 0, m, direction, isNegativeNumber, isNegativeMultiple);
+                return positiveResult * (isNegativeNumber ? -1 : 1);
             }
             else if (direction == Direction.Up || direction == Direction.AlwaysUp)
             {
-                if (direction == Direction.AlwaysUp && number < 0)
+                var mod = n % m;
+                mod = RoundToSignificantFig(mod, 15);
+                if (mod == 0) return number;
+
+                result = n - mod + m;
+                if(isNegativeNumber && !isNegativeMultiple)
                 {
-                    if (multiple < 0) multiple *= -1;
-                    return System.Math.Round(number - (number % multiple), 14);
+                    result -= m;
                 }
-                return System.Math.Round(number - (number % multiple) + multiple, 14);
+
+                if (direction == Direction.AlwaysUp && isNegativeNumber)
+                    return -result;
+
+                return result;
             }
             else if (direction == Direction.Nearest)
             {
-                if ((n % m >= (m / 2d)))
-                    result = System.Math.Round(n + (m - n % m));
-                else
-                    result = System.Math.Round(n - (n % m));
+                var mod = n % m;
+                result = mod >= m / 2d ? n + (m - mod) : n - mod;
             }
-            else
+            else // Down / AlwaysDown
             {
-                if (direction == Direction.AlwaysDown && number < 0)
-                {
-                    if (multiple < 0) multiple *= -1;
-                    return System.Math.Round(number - (number % multiple) - multiple, 14);
-                }
-
-                return System.Math.Round(number - (number % multiple), 14);
+                var mod = n % m;
+                result = n - mod;
             }
-            return isNegativeNumber ? -1 * result : result;
+
+            return result * (isNegativeNumber ? -1 : 1);
         }
 
-        public static double ExecuteRounding(double number, double lowerRound, double upperRound, Direction direction, bool isNegativeNumber)
+        public static double ExecuteRounding(double number, double lowerRound, double upperRound, Direction direction, bool isNegativeNumber, bool isNegativeMultiple)
         {
             var result = double.NaN;
             if (direction == Direction.Nearest)
@@ -118,21 +125,44 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             else if (direction == Direction.AlwaysUp)
             {
-                result = isNegativeNumber ? lowerRound : upperRound;
+                if(isNegativeMultiple)
+                {
+                    result = isNegativeNumber ? upperRound : lowerRound;
+                }
+                else
+                {
+                    result = isNegativeNumber ? lowerRound : upperRound;
+                }
+                
             }
             else if (direction == Direction.Up)
             {
-                result = upperRound;
+                if (isNegativeMultiple)
+                {
+                    result = lowerRound;
+                }
+                else
+                {
+                    result = upperRound;
+                }
+
             }
             else if (direction == Direction.AlwaysDown)
             {
-                result = isNegativeNumber ? upperRound : lowerRound;
+                if (isNegativeMultiple)
+                {
+                    result = isNegativeNumber ? lowerRound : upperRound;
+                }
+                else
+                {
+                    result = isNegativeNumber ? upperRound : lowerRound;
+                }
             }
             else
             {
                 result = lowerRound;
             }
-            return isNegativeNumber ? -1 * result : result;
+            return result;
         }
 
 
