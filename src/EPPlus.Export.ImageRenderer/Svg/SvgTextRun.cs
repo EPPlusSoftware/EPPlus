@@ -40,7 +40,6 @@ namespace EPPlusImageRenderer.Svg
         List<string> Lines;
 
         MeasurementFont measurementFont;
-
         FontMeasurerTrueType fmExact;
 
         //Unnecesary??
