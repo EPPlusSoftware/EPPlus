@@ -19,12 +19,29 @@ using EPPlus.Graphics;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    public enum PdfWritingMode
+    {
+        HorizontalLtr,
+        HorizontalRtl,
+        VerticalTtb, // top-to-bottom
+        VerticalBtt, // bottom-to-top
+    }
+
+    class TextToken
+    {
+        public bool IsWhitespace;
+        public PdfCellTextItem Item;
+    }
+
     internal class PdfCellTextLine
     {
         public List<PdfCellTextItem> TextItemCollection = new List<PdfCellTextItem>();
         public bool IsRichText = false;
         public string Text;
         public double Offset;
+        public double Advance;
+        public double CrossSize;
+        public PdfWritingMode WritingMode { get; set; } = PdfWritingMode.HorizontalLtr;
         public double TextLength
         {
             get
@@ -83,9 +100,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double TextLength = 0d;
         public double LineHeight = 0d;
         public double FontHeight = 0d;
+        public double Advance = 0;
+        public double CrossSize = 0;
+        public double Ascent = 0;
+        public double Descent = 0;
         public Rect GlyphBox = new Rect();
         public Dictionary<char, Vector2> characterOffset = new Dictionary<char, Vector2>();
-
+        public List<GlyphPosition> GlyphPositions;
         public string FullFontName
         { get { return FontName + " " + SubFamily; } }
 
@@ -93,6 +114,17 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         public object Clone() => this.MemberwiseClone();
     }
+
+    internal class GlyphPosition
+    {
+        public char Character;
+        public double AdvanceX;
+        public double AdvanceY;
+        public double OffsetX;
+        public double OffsetY;
+        public Rect GlyphBox;
+    }
+
 
     internal class PdfCellGradientFillData
     {

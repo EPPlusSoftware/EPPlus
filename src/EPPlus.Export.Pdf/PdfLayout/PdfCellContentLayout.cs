@@ -22,6 +22,7 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -44,7 +45,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
             this.cell = cell;
             if (cell.IsRichText)
             {
-                HandleRichText(pageSettings, dictionaries, width, height, x, cell.Style.TextRotation);
+                //HandleRichText(pageSettings, dictionaries, width, height, x, cell.Style.TextRotation);
+                HandleRichText(pageSettings, dictionaries, width, height);
             }
             else
             {
@@ -63,6 +65,181 @@ namespace EPPlus.Export.Pdf.PdfLayout
             Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y);
             CheckClipping(cell, width);
         }
+
+        private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double maxWidth, double maxHeight)
+        {
+            PdfWritingMode mode = cell.Style.TextRotation == 255 ? PdfWritingMode.VerticalTtb : PdfWritingMode.HorizontalLtr;
+            List<TextToken> tokens = TokenizeRichText(cell.RichText, mode);
+
+            var currentLine = new PdfCellTextLine();
+            currentLine.WritingMode = mode;
+            var lineAdvance = 0d;
+            var lineCross = 0d;
+
+            foreach (var token in tokens)
+            {
+                PdfCellTextItem item = CreateTextItem(rt);
+                MeasureGlyphs(item, mode);
+
+                double itemAdvance = item.GlyphPositions.Sum(g => mode == PdfWritingMode.HorizontalLtr ? g.AdvanceX : g.AdvanceY);
+
+                double itemCross = item.Ascent + item.Descent;
+
+                bool overflow = (mode == PdfWritingMode.HorizontalLtr && lineAdvance + itemAdvance > maxWidth) ||
+                                (mode == PdfWritingMode.VerticalTtb && lineAdvance + itemAdvance > maxHeight);
+
+                if (overflow)
+                {
+                    // Finish current line
+                    currentLine.Advance = lineAdvance;
+                    currentLine.CrossSize = lineCross;
+
+                    TextLines.Add(currentLine);
+
+                    // Start new line
+                    currentLine = new PdfCellTextLine();
+                    currentLine.WritingMode = mode;
+
+                    lineAdvance = 0;
+                    lineCross = 0;
+                }
+
+                currentLine.TextItemCollection.Add(item);
+
+                lineAdvance += itemAdvance;
+                lineCross = Math.Max(lineCross, itemCross);
+            }
+
+            // Final line
+            if (currentLine.TextItemCollection.Count > 0)
+            {
+                currentLine.Advance = lineAdvance;
+                currentLine.CrossSize = lineCross;
+                TextLines.Add(currentLine);
+            }
+        }
+
+        private void MeasureGlyphs(PdfCellTextItem item, PdfWritingMode mode)
+        {
+            item.GlyphPositions = new List<GlyphPosition>();
+
+            char prev = '\0';
+
+            foreach (char c in item.Text)
+            {
+                font.FontFamily = item.FontName;
+                font.Size = (float)item.FontSize;
+                font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
+                              (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
+                              (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
+                              (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
+                              switch
+                {
+                    0 => MeasurementFontStyles.Regular,
+                    var s => s
+                };
+                var measurement = fontMeasurerTrueType.MeasureText(c.ToString(), font);
+
+                double advance = measurement.Width;// GetGlyphAdvance(item.FontName, item.FontSize, c);
+                double kerning = 0;// prev != '\0' ? GetKerning(item.FontName, item.FontSize, prev, c) : 0;
+
+                double advX = mode == PdfWritingMode.HorizontalLtr ? measurement.Width + kerning : 0;
+                double advY = mode == PdfWritingMode.VerticalTtb ? measurement.Height + kerning : 0;
+
+                item.GlyphPositions.Add(new GlyphPosition
+                {
+                    Character = c,
+                    AdvanceX = advX,
+                    AdvanceY = advY,
+                    OffsetX = 0,
+                    OffsetY = 0,
+                    GlyphBox = new Rect() { Width = 2,
+                                            Height = 2,
+                    },
+                });
+
+                prev = c;
+            }
+
+            // Fill ascent/descent here
+            //item.Ascent = GetAscent(item.FontName, item.FontSize);
+            //item.Descent = GetDescent(item.FontName, item.FontSize);
+        }
+
+        private PdfCellTextItem CreateTextItem(ExcelRichText rt)
+        {
+            return new PdfCellTextItem
+            {
+                FontName = rt.FontName,
+                FontSize = rt.Size,
+                Bold = rt.Bold,
+                Italic = rt.Italic,
+                Underline = rt.UnderLine,
+                UnderlineType = rt.UnderLineType,
+                Strike = rt.Strike,
+                SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript,
+                SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript,
+                FontColor = rt.Color,
+                Text = rt.Text
+            };
+        }
+
+        private List<TextToken> TokenizeRichText(ExcelRichTextCollection rich, PdfWritingMode mode)
+        {
+            var result = new List<TextToken>();
+
+            foreach (var rt in rich)
+            {
+                string text = rt.Text;
+                int i = 0;
+
+                while (i < text.Length)
+                {
+                    // Whitespace run
+                    if (char.IsWhiteSpace(text[i]))
+                    {
+                        int start = i;
+                        while (i < text.Length && char.IsWhiteSpace(text[i]))
+                            i++;
+
+                        string whitespace = text.Substring(start, i - start);
+
+                        var item = CreateTextItem(rt);
+                        item.Text = whitespace;
+                        MeasureGlyphs(item, mode);
+
+                        result.Add(new TextToken { IsWhitespace = true, Item = item });
+                    }
+                    // Word run
+                    else
+                    {
+                        int start = i;
+                        while (i < text.Length && !char.IsWhiteSpace(text[i]))
+                            i++;
+
+                        string word = text.Substring(start, i - start);
+
+                        var item = CreateTextItem(rt);
+                        item.Text = word;
+                        MeasureGlyphs(item, mode);
+
+                        result.Add(new TextToken { IsWhitespace = false, Item = item });
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+
 
         //Handle rich text from cell.
         private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double width, double height, double x, int rotation)
@@ -555,3 +732,4 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
     }
 }
+ 
