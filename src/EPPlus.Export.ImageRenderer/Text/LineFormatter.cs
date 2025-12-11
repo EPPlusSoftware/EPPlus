@@ -8,7 +8,7 @@ namespace EPPlus.Export.ImageRenderer.Text
 {
     internal static class LineFormatter
     {
-        internal static /*List<TextLine>*/ void GetFormattedLines(ExcelTextBody body)
+        internal static List<string> GetFormattedLines(ExcelTextBody body, out List<double> lineWidths)
         {
             var paragraphs = body.Paragraphs;
             var text = paragraphs.Text;

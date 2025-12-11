@@ -406,7 +406,9 @@ namespace EPPlusImageRenderer.Svg
                 finalString += $"{visibility} " + $"{fontStyleAttributes} ";
                 if (measurementFont != null)
                 {
-                    finalString += $" font-family=\"{measurementFont.FontFamily},{measurementFont.FontFamily}_MSFontService,sans-serif\" " + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
+                    finalString += $" font-family=\"{measurementFont.FontFamily},"
+                        + $"{measurementFont.FontFamily}_MSFontService,sans-serif\" "
+                        + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
                 }
                 sb.Append(finalString);
                 //Get color etc.
@@ -418,7 +420,7 @@ namespace EPPlusImageRenderer.Svg
                 finalString += "</tspan>";
             }
 
-            sb.Append(finalString);
+            sb.Append(finalString);                                                                                                                        
             //throw new NotImplementedException();
         }
 

@@ -58,7 +58,10 @@ namespace EPPlusImageRenderer.RenderItems
 
                 if (BorderDashArray != null)
                 {
-                    sb.Append($"stroke-dasharray=\"{string.Join(",", BorderDashArray.Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray())}\" ");
+                    var BorderDashArrayStr = BorderDashArray.Select(x => 
+                    x.ToString(CultureInfo.InvariantCulture)).ToArray();
+
+                    sb.Append($"stroke-dasharray=\"" + $"{string.Join(",", BorderDashArrayStr)}\" ");
                 }
             }
 

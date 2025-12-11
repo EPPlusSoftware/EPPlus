@@ -3,9 +3,9 @@ using EPPlus.Graphics;
 
 namespace EPPlus.Export.ImageRenderer.Text
 {
-    internal class TextContainerBase : Rect
+    internal class TextContainerBase : RectMargins
     {
-        string[] TextContent = null;
+        protected string[] Content = null;
 
         /// <summary>
         /// 
@@ -36,13 +36,13 @@ namespace EPPlus.Export.ImageRenderer.Text
 
         public void SetContent(string content)
         {
-            TextContent = new string[] { content };
+            Content = new string[] { content };
         }
 
         public string GetContent()
         {
             var combinedString = "";
-            combinedString = string.Join(Environment.NewLine, TextContent);
+            combinedString = string.Join(Environment.NewLine, Content);
             return combinedString;
         }
     }

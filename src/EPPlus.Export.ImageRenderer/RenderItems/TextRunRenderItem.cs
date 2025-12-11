@@ -1,7 +1,7 @@
-﻿using EPPlus.Fonts.OpenType;
+﻿using EPPlus.Export.ImageRenderer.Text;
+using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
-using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -9,7 +9,6 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems
 {
@@ -26,24 +25,35 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
 
         MeasurementFont measurementFont;
         bool isFirstInParagraph;
-        FontMeasurerTrueType textMeasurer;
+        FontMeasurerTrueType Measurer;
         eTextAlignment horizontalTextAlignment;
         MeasurementFontStyles fontStyles;
         double fontSizeInPixels;
 
         List<string> Lines;
 
-        internal TextRunRenderItem(ExcelParagraphTextRunBase run) 
+        double _yEndPos;
+        double BaselineSpacing;
+
+        bool WrapText;
+        double MaxWidthPixels = double.NaN;
+
+        internal TextRunRenderItem(ExcelParagraphTextRunBase run, Rect parent = null)
         {
+            WrapText = run.Paragraph._paragraphs.WrapText != eTextWrappingType.None;
+
             originalText = run.Text;
             currentText = originalText;
-            Lines = SplitIntoLines(originalText);
 
             BoundingBox = new Rect();
+            if (parent != null)
+            {
+                BoundingBox.transform.Parent = parent.transform;
+            }
 
             isFirstInParagraph = run.IsFirstInParagraph;
 
-            textMeasurer = new FontMeasurerTrueType(measurementFont);
+            Measurer = new FontMeasurerTrueType(measurementFont);
             fontStyles = measurementFont.Style;
 
             fontSizeInPixels = ((double)measurementFont.Size).PointToPixel(true);
@@ -54,28 +64,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
             {
                 FillColor = "#" + run.Fill.Color.To6CharHexString();
             }
+
+            Lines = GetLines(originalText);
         }
 
-        internal List<string> SplitIntoLines(string text)
+        internal List<string> GetLines(string text)
         {
-            return text.Split(new string[] { "\r\n" }, StringSplitOptions.None).ToList();
+            var inputWidth = WrapText ? MaxWidthPixels : double.NaN;
+            Lines = TextWrapper.GetLines(text, Measurer, inputWidth);
+            return Lines;
         }
+
         private int GetNumberOfLines()
         {
-            if (originalText != null)
-            {
-                if (currentText == null)
-                {
-                    currentText = originalText;
-                }
-
-                SplitIntoLines(currentText);
-                return Lines.Count;
-            }
-            else
-            {
-                return 0;
-            }
+            return Lines.Count();
         }
 
         internal void InsertLineBreak(int insertPosition)
@@ -89,13 +91,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
             il = BoundingBox.X;
             it = BoundingBox.Y;
 
-            //ir = CalculateRightPositionInPixels();
-            //ib = CalculateBottomPositionInPixels();
+            ir = CalculateRightPositionInPixels();
+            ib = CalculateBottomPositionInPixels();
 
-            //BoundingBox.Left = il;
-            //BoundingBox.Top = it;
-            //BoundingBox.Right = ir;
-            //BoundingBox.Bottom = ib;
+            BoundingBox.Right = ir;
+            BoundingBox.Bottom = ib;
         }
 
         internal double CalculateRightPositionInPixels()
@@ -103,7 +103,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
             var numLines = GetNumberOfLines();
             double retPos = BoundingBox.X;
 
-            var TextLengthInPixels = 0;
+            double TextLengthInPixels = 0;
 
             if (numLines <= 0 || string.IsNullOrEmpty(originalText))
             {
@@ -130,18 +130,71 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
 
             return retPos;
         }
+
         internal double CalculateBottomPositionInPixels()
         {
-            var lineSize = ((double)measurementFont.Size).PointToPixel(true) + origin.Y;
+            var lineSize = ((double)measurementFont.Size).PointToPixel(true) + BoundingBox.Y;
             var bottomPosition = lineSize * GetNumberOfLines();
             return bottomPosition;
         }
+
         internal double CalculateTextWidth(string targetString)
         {
-            textMesurer.MeasureWrappedTextCells = true;
-            var width = textMesurer.MeasureTextWidth(targetString);
+            Measurer.MeasureWrappedTextCells = true;
+            var width = Measurer.MeasureTextWidth(targetString);
 
             return width;
+        }
+
+        internal void CreateLines()
+        {
+            //string finalString = "";
+
+            //Lines = SplitIntoLines(currentText);
+
+            //foreach (var line in Lines)
+            //{
+            //    //    //Despite new textrun it could still be on the same line as previous textrun
+            //    //    //Therefore only do line increase if we are first in paragraph or if we are not Lines[0].
+            //    //    //This as line == Lines[0] && isFirstInParagraph == false means we are continuing on the same line as previous textRun
+            //    //    //This is important if for example we have rich text where two letters on the same line has different colors.
+            //    //    if (line != Lines[0] | isFirstInParagraph)
+            //    //    {
+            //    //        var yIncrease = /*isFirstInParagraph && useBaselineSpacing ? BaselineSpacing : LineSpacingPerNewLine;*/
+            //    //        isFirstInParagraph = false;
+
+            //    //    //    yIncrease = EPPlus.Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
+
+            //    //    //    _yEndPos += yIncrease;
+            //    //    //    if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
+            //    //    //    {
+            //    //    //        visibility = "display=\"none\"";
+            //    //    //    }
+
+            //    //    //    var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
+            //    //    //    var xString = $"x =\"{(_xPosition).ToString(CultureInfo.InvariantCulture)}\" ";
+            //    //    //    var dyString = $"dy =\"{yIncreaseString}px\" ";
+            //    //    //    finalString += xString;
+            //    //    //    finalString += dyString;
+            //    //    //}
+
+            //    //    //finalString += $"{visibility} " + $"{fontStyleAttributes} ";
+            //    //    //if (measurementFont != null)
+            //    //    //{
+            //    //    //    finalString += $" font-family=\"{measurementFont.FontFamily},"
+            //    //    //        + $"{measurementFont.FontFamily}_MSFontService,sans-serif\" "
+            //    //    //        + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
+            //    //    //}
+            //    //    //sb.Append(finalString);
+            //    //    ////Get color etc.
+            //    //    //base.Render(sb);
+            //    //    //finalString = "";
+
+            //    //    //finalString += ">";
+            //    //    //finalString += line;
+            //    //    //finalString += "</tspan>";
+            //    //}
+            //}
         }
     }
 }
