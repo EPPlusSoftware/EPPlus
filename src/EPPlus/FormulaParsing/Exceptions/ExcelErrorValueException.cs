@@ -19,7 +19,7 @@ namespace OfficeOpenXml.FormulaParsing.Exceptions
 {
     /// <summary>
     /// This Exception represents an Excel error. When this exception is thrown
-    /// from an Excel function, the ErrorValue code will be set as the value of the
+    /// from an Excel function, the Div0Error code will be set as the value of the
     /// parsed cell.
     /// </summary>
     /// <seealso cref="ExcelErrorValue"/>

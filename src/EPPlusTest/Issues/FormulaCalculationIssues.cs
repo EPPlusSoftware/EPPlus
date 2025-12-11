@@ -266,7 +266,7 @@ namespace EPPlusTest.Issues
             var dir = AppContext.BaseDirectory;
             dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
 #else
-			var dir = AppDomain.CurrentDomain.BaseDirectory;
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
             using var p = OpenTemplatePackage("i1497.xlsx");
 
@@ -1377,7 +1377,7 @@ namespace EPPlusTest.Issues
             Assert.IsFalse((bool)ws.Cells["A1"].Value);
             Assert.AreEqual(2, ws.Cells["A2"].Value);
             Assert.AreEqual(ErrorValues.RefError, ws.Cells["A3"].Value);
-            Assert.AreEqual("TRUEFALSE",ws.Cells["A4"].Value);
+            Assert.AreEqual("TRUEFALSE", ws.Cells["A4"].Value);
             Assert.AreEqual(ErrorValues.ValueError, ws.Cells["A5"].Value);
             Assert.AreEqual(ErrorValues.Div0Error, ws.Cells["A6"].Value);
             Assert.AreEqual(1D, ws.Cells["A7"].Value);
@@ -1385,7 +1385,7 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(ErrorValues.NumError, ws.Cells["A9"].Value);
             Assert.AreEqual(0.9, (double)ws.Cells["A10"].Value, 0.000000001);
         }
-        
+
         [TestMethod]
         public void i2210v2()
         {
@@ -1415,6 +1415,28 @@ namespace EPPlusTest.Issues
             Assert.IsFalse((bool)sheet.Cells["A15"].Value);
 
             SaveAndCleanup(package);
+        }
+        [TestMethod]
+        public void Issue2218()
+        {
+            var fatalCases = new (string Name, string Formula, string Description)[]
+            {
+                ("Div0Literal", "{#DIV/0!}", "Single-item array constant that contains #DIV/0!."),
+                ("NullLiteral", "{#NULL!}", "Single-item array constant that contains #NULL!."),
+                ("NameLiteral", "{#NAME?}", "Single-item array constant that contains #NAME?."),
+                ("GettingDataLiteral", "{#GETTING_DATA}", "Single-item array constant that contains #GETTING_DATA.")
+            };
+
+            foreach (var (name, formula, description) in fatalCases)
+            {
+                using var package = new ExcelPackage();
+                var worksheet = package.Workbook.Worksheets.Add("Assumption Sheet");
+                worksheet.Cells["A1"].Value = 1;
+
+                package.Workbook.Names.AddFormula(name, formula);
+
+                package.Workbook.Calculate(new ExcelCalculationOption { AllowCircularReferences = true });
+            }
         }
     }
 }
