@@ -414,5 +414,20 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s981()
+        {
+            using (var package = OpenTemplatePackage("s981.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets["Summary"];
+
+				var chart = ws.Drawings[0].As.Chart.ScatterChart;
+
+                chart.StyleManager.SetChartStyle(ePresetChartStyleMultiSeries.ScatterChartStyle3);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
