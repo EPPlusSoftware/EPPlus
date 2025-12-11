@@ -1332,6 +1332,9 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Div0Error:
                         s.Push(ErrorExpression.Div0Error);
                         break;
+                    case TokenType.GettingDataError:
+                        s.Push(ErrorExpression.GettingDataError);
+                        break;
                     case TokenType.Null:
                         s.Push(ErrorExpression.NullError);
                         break;

@@ -248,7 +248,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             ix++;
                             continue;
                         }
-                        if (c == '!' && current.Length > 0 && current[0] == '#' && current[current.Length - 1] != '\'')
+                        if ((c == '!' || c=='?') && current.Length > 0 && current[0] == '#' && current[current.Length - 1] != '\'')
                         {
                             if (currentString.Equals("#NUM", StringComparison.OrdinalIgnoreCase))
                             {
@@ -671,6 +671,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 else if (currentString.Equals("#N/A", StringComparison.OrdinalIgnoreCase))
                 {
                     l.Add(new Token(currentString, TokenType.NAError));
+                }
+                else if (currentString.Equals("#NAME?", StringComparison.OrdinalIgnoreCase))
+                {
+                    l.Add(new Token(currentString, TokenType.NameError));
+                }
+                else if (currentString.Equals("#GETTING_DATA", StringComparison.OrdinalIgnoreCase))
+                {
+                    l.Add(new Token(currentString, TokenType.GettingDataError));
                 }
                 else if (_r1c1 == false && IsValidCellAddress(currentString))
                 {

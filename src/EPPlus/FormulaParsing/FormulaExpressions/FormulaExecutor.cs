@@ -569,6 +569,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     case TokenType.Div0Error:                        
                         array.Add(ErrorValues.Div0Error);
                         break;
+                    case TokenType.Null:
+                        array.Add(ErrorValues.NullError);
+                        break;
+                    case TokenType.NameError:
+                        array.Add(ErrorValues.NameError);
+                        break;
+                    case TokenType.GettingDataError:
+                        array.Add(ErrorValues.GettingDataError);
+                        break;
                     default:
                         throw new InvalidFormulaException("Array contains invalid tokens. Cell "+ parsingContext.CurrentCell.WorksheetIx);
                 }
