@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal static ErrorExpression NumError => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.Num), null);
         internal static ErrorExpression NullError => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.Null), null);
         internal static ErrorExpression Div0Error => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.Div0), null);
-        internal static ErrorExpression CalcError => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.Calc), null);
+        internal static ErrorExpression GettingDataError => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.GettingData), null);
 
         internal ErrorExpression(string tokenValue, ParsingContext ctx) : base(ctx)
         {

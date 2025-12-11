@@ -107,6 +107,18 @@ namespace EPPlusTest.FormulaParsing
         }
 
         [TestMethod]
+        public void EmptyCellReferenceShouldEqualFalse_ReverseOrder()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("Test");
+                sheet.Cells["A2"].Formula = "FALSE=A1";
+                sheet.Calculate();
+                Assert.IsTrue((bool)sheet.Cells["A2"].Value);
+            }
+        }
+
+        [TestMethod]
         public void IfConditionEmptyCellReferenceEqualsZero()
         {
             _sheet.Cells["A2"].Formula = "IF(A1=0,1)";

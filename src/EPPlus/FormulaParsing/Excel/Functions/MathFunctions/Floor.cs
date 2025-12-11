@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
@@ -24,19 +25,33 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         EPPlusVersion = "4",
         Description = "Rounds a number towards zero, (i.e. rounds a positive number down and a negative number up), to a multiple of significance",
         SupportsArrays = true)]
+
     internal class Floor : ExcelFunction
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override int ArgumentMinLength => 2;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (arguments[0].Value == null || arguments[1].Value == null) return CreateResult(0d, DataType.Decimal);
+            if (arguments[0].Value == null || arguments[1].Value == null)
+                return CreateResult(0d, DataType.Decimal);
+
             var number = ArgToDecimal(arguments, 0, out ExcelErrorValue e1, context.Configuration.PrecisionAndRoundingStrategy);
             if (e1 != null) return CreateResult(e1.Type);
+
             var significance = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
-            if(e2 != null) return CompileResult.GetErrorResult(e2.Type);
-            if (RoundingHelper.IsInvalidNumberAndSign(number, significance)) return CompileResult.GetErrorResult(eErrorType.Num);
-            return CreateResult(RoundingHelper.Round(number, significance, RoundingHelper.Direction.Down), DataType.Decimal);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
+            // legacy Excel rule: +number with -significance => #NUM!
+            if (RoundingHelper.IsInvalidNumberAndSign(number, significance))
+                return CompileResult.GetErrorResult(eErrorType.Num);
+
+            double res;
+            if (!ExcelLegacyRounding.TryFloor(number, significance, out res))
+                return CompileResult.GetErrorResult(eErrorType.Num);
+
+            return CreateResult(res, DataType.Decimal);
         }
     }
+
 }

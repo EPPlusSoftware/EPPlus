@@ -227,5 +227,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// Represent a eta Lambda.
         /// </summary>
         EtaReducedLambda = (ulong)1 << 50,
+        /// <summary>
+        /// Represents a #Div/0! error
+        /// </summary>
+        Div0Error = (ulong)1 << 51,
+        /// <summary>
+        /// Represents a #Getting_Data error
+        /// </summary>
+        GettingDataError = (ulong)1 << 52,
     }
 }

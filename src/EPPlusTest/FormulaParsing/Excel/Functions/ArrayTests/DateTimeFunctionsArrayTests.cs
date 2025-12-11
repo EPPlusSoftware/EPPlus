@@ -255,5 +255,36 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 Assert.AreEqual(32d, sheet.Cells["D3"].Value);
             }
         }
+
+        [TestMethod]
+        public void TimeFunctionShouldReturnArray()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = 24;
+            sheet.Cells["A2"].Value = 16;
+            sheet.Cells["A3"].Value = 42;
+            sheet.Cells["A4"].Value = 10;
+            sheet.Cells["B1"].Value = 0;
+            sheet.Cells["B2"].Value = 30;
+            sheet.Cells["B3"].Value = 55;
+            sheet.Cells["B4"].Value = 30;
+            sheet.Cells["C1"].Value = 0;
+            sheet.Cells["C2"].Value = 10;
+            sheet.Cells["C3"].Value = 14;
+
+            sheet.Cells["E4"].Formula = "TIME(A1:A4,B1:B4,C1:C3)";
+            sheet.Calculate();
+
+            var e4 = System.Math.Round(Convert.ToDouble(sheet.Cells["E4"].Value), 5);
+            var e5 = System.Math.Round((double)sheet.Cells["E5"].Value, 5);
+            var e6 = System.Math.Round((double)sheet.Cells["E6"].Value, 5);
+            var e7 = sheet.Cells["E7"].Value;
+
+            Assert.AreEqual(0, e4);
+            Assert.AreEqual(0.68762, e5);
+            Assert.AreEqual(0.78836, e6);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), e7);
+        }
     }
 }
