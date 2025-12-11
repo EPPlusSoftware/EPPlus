@@ -4,6 +4,7 @@ using System.Linq;
 using System;
 using EPPlus.Fonts.OpenType.Tables.Kern;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
 
 
 namespace EPPlus.Fonts.OpenType
@@ -151,6 +152,15 @@ namespace EPPlus.Fonts.OpenType
             return heightInPoints;
         }
 
+        private static double MeasureBoundingBoxWidth(OpenTypeFont font)
+        {
+            var max = font.HeadTable.Xmax;
+            var min = font.HeadTable.Xmin;
+
+            var width = max - min;
+            return width;
+        }
+
         /// <summary>
         /// Measures largest possible glyph width
         /// </summary>
@@ -159,15 +169,88 @@ namespace EPPlus.Fonts.OpenType
         /// <returns></returns>
         internal static double MeasureBoundingBoxWidth(OpenTypeFont font, double fontSize)
         {
-            var max = font.HeadTable.Xmax;
-            var min = font.HeadTable.Xmin;
+            var width = MeasureBoundingBoxWidth(font);
 
             var em = font.HeadTable.UnitsPerEm;
 
-            var width = max - min;
-
             var widthPt = width * (fontSize / em);
             return widthPt;
+        }
+
+
+        /// <summary>
+        /// Assumes string is pure string with no linebreaks or need for wrapping
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="fontSize"></param>
+        /// <param name="font"></param>
+        /// <returns></returns>
+        internal static BoundingRectangle GetStringMaximumBoundingRectangle(string text, double fontSize, OpenTypeFont font)
+        {
+            var width = MeasureBoundingBoxWidth(font, fontSize);
+            var height = MeasureBoundingBoxHeight(font, fontSize);
+
+            var numChars = text.Count();
+            var maxLineWidth = width * numChars;
+
+            BoundingRectangle boundingBox = new BoundingRectangle() { Xmin = 0, Ymin = 0, Xmax = (short)maxLineWidth, Ymax = (short)height };
+            return boundingBox;
+        }
+
+        internal static List<GlyphRect> GetBoundsOfEachGlyph(string text, OpenTypeFont font)
+        {
+            //TODO: Should be cached to each font somehow
+            List<GlyphRect> rects = new List<GlyphRect>();
+
+            var glyphMappings = font.CmapTable.GetPreferredSubtable().GetGlyphMappings();
+
+            //Dictionary<ushort, BoundingRectangle> glyphDict = new Dictionary<ushort, BoundingRectangle>();
+
+            for (int i = 0; i < text.Count(); i++)
+            {
+                var c = text[i];
+
+                if ((c == '\n' || c == '\r'))
+                {
+                    if (i > 0 && c == '\r' && text[i - 1] == '\n')
+                    {
+                        continue; //CRLF is irrelevant for getting the glyph bounding boxes
+                    }
+                }
+
+                var gi = glyphMappings.GetGlyphIndex(c);
+                double gWidth;
+                double advanceWidth = 0;
+
+                var hhMetric = font.HmtxTable.hMetrics[gi ?? 0];
+
+                if (gi == 0)
+                {
+                    advanceWidth = font.Os2Table.xAvgCharWidth;
+                }
+                else
+                {
+                    advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
+                }
+
+                var leftSideBearing = hhMetric.lsb;
+                if (leftSideBearing < 0)
+                {
+                    //if side bearing negative the glyph takes more space than the advancewidth
+                    //We are missing rsb or reference to glyf table
+                    gWidth = advanceWidth - leftSideBearing;
+                }
+                else
+                {
+                    gWidth = advanceWidth;
+                }
+
+                //TODO: Get glyph height. For now. Assume EM-height
+                var gRect = new GlyphRect(gi.Value, gWidth, font.FullName);
+                rects.Add(gRect);
+            }
+
+            return rects;
         }
 
         internal static double MeasureAscent(OpenTypeFont font, double fontSize)
@@ -495,6 +578,8 @@ namespace EPPlus.Fonts.OpenType
             }
             return ~low;
         }
+
+        //internal static List<char> 
 
         /// <summary>
         /// Wrap multiple text-fragments (such as text-runs) that contain more than one font/or font size and return the resulting lines.
