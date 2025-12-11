@@ -31,5 +31,6 @@ namespace OfficeOpenXml
         public static ExcelErrorValue RefError = ExcelErrorValue.Create(eErrorType.Ref);
         public static ExcelErrorValue CalcError = ExcelErrorValue.Create(eErrorType.Calc);
         public static ExcelErrorValue BusyError = ExcelErrorValue.Create(eErrorType.Busy);
+        public static ExcelErrorValue GettingDataError = ExcelErrorValue.Create(eErrorType.GettingData);
     }
 }

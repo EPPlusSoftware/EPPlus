@@ -10,10 +10,12 @@
  *************************************************************************************************
     9/11/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -22,7 +24,7 @@ namespace OfficeOpenXml.Drawing
     {
         List<ExcelParagraphTextRunBase> _textRuns;
         ExcelDrawingParagraph _paragraph;
-        Action _initXml;    
+        Action _initXml;
         internal ExcelDrawingTextRunCollection(ExcelDrawingParagraph paragraph, XmlNamespaceManager nsm, XmlNode topNode, Action initXml) : base(nsm, topNode)
         {
             _paragraph = paragraph;
@@ -31,8 +33,8 @@ namespace OfficeOpenXml.Drawing
             _textRuns = new List<ExcelParagraphTextRunBase>();
             foreach (XmlElement node in topNode.SelectNodes("a:r|a:fld|a:br", nsm))
             {
-                
-                switch(node.LocalName)
+
+                switch (node.LocalName)
                 {
                     case "r":
                         _textRuns.Add(new ExcelParagraphTextRun(paragraph, nsm, node));
@@ -102,10 +104,10 @@ namespace OfficeOpenXml.Drawing
         /// <returns></returns>
         public ExcelParagraphTextRun Add(string text)
         {
-            var rn=CreateNode("a:r", false, true);
+            var rn = CreateNode("a:r", false, true);
             var txtRun = new ExcelParagraphTextRun(_paragraph, NameSpaceManager, rn);
             txtRun.Text = text;
-            
+
             return Add(txtRun);
         }
         internal ExcelParagraphTextRun Add(ExcelParagraphTextRun txtRun)

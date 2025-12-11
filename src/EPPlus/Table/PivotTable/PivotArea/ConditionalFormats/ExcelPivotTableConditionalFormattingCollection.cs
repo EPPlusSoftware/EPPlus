@@ -31,7 +31,12 @@ namespace OfficeOpenXml.Table.PivotTable
             _conditionalFormatting = pt.WorkSheet.ConditionalFormatting;
             foreach (XmlNode node in pt.GetNodes("d:conditionalFormats/d:conditionalFormat"))
             {
-                var cf = new ExcelPivotTableConditionalFormatting(_pt.NameSpaceManager, node, _pt);
+                var cf = new ExcelPivotTableConditionalFormatting(_pt.NameSpaceManager, node, _pt, "d");
+                _list.Add(cf);
+            }
+            foreach (XmlNode node in pt.GetNodes("d:extLst/d:ext[@uri='{962EF5D1-5CA2-4c93-8EF4-DBF5C05439D2}']/x14:pivotTableDefinition/x14:conditionalFormats/x14:conditionalFormat"))
+            {
+                var cf = new ExcelPivotTableConditionalFormatting(_pt.NameSpaceManager, node, _pt, "x14");
                 _list.Add(cf);
             }
         }
@@ -45,7 +50,7 @@ namespace OfficeOpenXml.Table.PivotTable
         public ExcelPivotTableConditionalFormatting Add(eExcelPivotTableConditionalFormattingRuleType ruleType, params ExcelPivotTableDataField[] fields)
         {
             var cfFormatNode = GetTopNode();
-            var ct = new ExcelPivotTableConditionalFormatting(_pt.NameSpaceManager, cfFormatNode, _pt, (eExcelConditionalFormattingRuleType)ruleType);
+            var ct = new ExcelPivotTableConditionalFormatting(_pt.NameSpaceManager, cfFormatNode, _pt, (eExcelConditionalFormattingRuleType)ruleType, "d");
             var a = ct.Areas.Add(fields);
             _list.Add(ct);
             return ct;
@@ -57,6 +62,10 @@ namespace OfficeOpenXml.Table.PivotTable
             cfCollectionNode.RemoveChild(x.TopNode);
             if (cfCollectionNode.LocalName == "conditionalFormats" && cfCollectionNode.ChildNodes.Count == 0)
             {
+                if(cfCollectionNode.NamespaceURI==ExcelPackage.schemaMainX14)
+                {
+                    cfCollectionNode.ParentNode.ParentNode.RemoveChild(cfCollectionNode.ParentNode);
+                }
                 cfCollectionNode.ParentNode.RemoveChild(cfCollectionNode);
             }
             if(x.ConditionalFormatting!=null) _pt.WorkSheet.ConditionalFormatting.Remove(x.ConditionalFormatting);
@@ -67,12 +76,15 @@ namespace OfficeOpenXml.Table.PivotTable
             var x = _list[index];
             Remove(x);
         }
-
+        internal override void Clear()
+        {
+            while(Count>0) RemoveAt(0);
+        }
         private XmlNode GetTopNode()
         {
             if (_xmlHelper == null)
-            {
-                var node = _pt.CreateNode("d:conditionalFormats");
+            {                
+                var node = _pt.CreateNode($"d:conditionalFormats");
                 _xmlHelper = XmlHelperFactory.Create(_pt.NameSpaceManager, node);
             }
             

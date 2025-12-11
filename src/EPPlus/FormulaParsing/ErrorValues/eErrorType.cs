@@ -56,6 +56,10 @@ namespace OfficeOpenXml
         /// <summary>
         /// Busy error, waiting for a remote call
         /// </summary>
-        Busy
+        Busy,
+        /// <summary>
+        /// GettingData
+        /// </summary>
+        GettingData
     }
 }

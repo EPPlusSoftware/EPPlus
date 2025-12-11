@@ -60,12 +60,12 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
-        public void IsBlankShouldReturnTrueIfFirstArgIsEmptyString()
+        public void IsBlankShouldReturnFalseIfFirstArgIsEmptyString()
         {
             var func = new IsBlank();
             var args = FunctionsHelper.CreateArgs(string.Empty);
             var result = func.Execute(args, _context);
-            Assert.IsTrue((bool)result.Result);
+            Assert.IsFalse((bool)result.Result);
         }
 
         [TestMethod]
@@ -85,7 +85,14 @@ namespace EPPlusTest.Excel.Functions
             var result = func.Execute(args, _context);
             Assert.IsFalse((bool)result.Result);
         }
-
+        [TestMethod]
+        public void IsNumberShouldReturnFalseWhenArgIsBool()
+        {
+            var func = new IsNumber();
+            var args = FunctionsHelper.CreateArgs(true);
+            var result = func.Execute(args, _context);
+            Assert.IsFalse((bool)result.Result);
+        }
         [TestMethod]
         public void IsErrorShouldReturnTrueIfArgIsAnErrorCode()
         {

@@ -685,12 +685,12 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         }
 
         internal void ApplySeries()
-        {   
+        {
+            int serieNo = 0;
             foreach (var chart in _chart.PlotArea.ChartTypes)
             {
                 var dataPoint = GetDataPointStyle(chart);
                 var applyFill = (!chart.IsTypeLine() || chart.ChartType == eChartType.Line3D || chart.ChartType == eChartType.XYScatter);   //Lines have no fill, except Line3D
-                int serieNo = 0;
                 foreach (ExcelChartSerie serie in chart.Series)
                 {
                     //Note: Datalabels are applied in the ApplyDataLabels method

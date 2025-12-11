@@ -84,20 +84,28 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
 
         private double DateDiffMonths(DateTime start, DateTime end)
         {
-            var years = DateDiffYears(start, end);
-            var result = years * 12;
-            var tmpEnd = GetStartYearEndDate(start, end);
-            if(start > tmpEnd)
+            // Excel permits start date > end date → result will be negative
+            bool negative = start > end;
+            if (negative)
             {
-                result += 12;
-                while (start > tmpEnd)
-                {
-                    tmpEnd = tmpEnd.AddMonths(1);
-                    result--;
-                }
+                var temp = start;
+                start = end;
+                end = temp;
             }
-            
-            return result;
+
+            int years = end.Year - start.Year;
+            int months = end.Month - start.Month;
+            int days = end.Day - start.Day;
+
+            // Base calculation in months
+            int totalMonths = years * 12 + months;
+
+            // If the day in the end date is less than the day in the start date → subtract one month
+            // This is EXACTLY Excel's rule for DATEDIF(..., "M")
+            if (days < 0)
+                totalMonths--;
+
+            return negative ? -totalMonths : totalMonths;
         }
 
         private double DateDiffMonthsY(DateTime start, DateTime end)

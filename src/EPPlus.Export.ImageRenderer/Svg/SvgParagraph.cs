@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
@@ -18,12 +19,15 @@ using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace EPPlusImageRenderer.Svg
 {
     internal class SvgParagraph : SvgRenderItem
     {
+        int numLines = 0;
+
         public override void Render(StringBuilder sb)
         {
             sb.Append("<text ");
@@ -134,15 +138,83 @@ namespace EPPlusImageRenderer.Svg
             GetBounds(out double l, out double t, out double r, out double b);
             var textMaxWidth = r - l;
 
-            paragraphHeight = p.GetParagraphHeightInPixels(fmtt, textMaxWidth.PixelToPoint());
-
             lnType = p.LineSpacing.LineSpacingType;
 
             foreach (var run in p.TextRuns)
             {
                 AddTextRun(run, paragraphArea.Bottom, yPosition);
             }
+
+            if (p._paragraphs.WrapText == eTextWrappingType.Square)
+            {
+                List<string> textFragments = new List<string>();
+                List<MeasurementFont> fonts = new List<MeasurementFont>();
+
+                foreach (var txtRun in p.TextRuns)
+                {
+                    textFragments.Add(txtRun.Text);
+                    fonts.Add(txtRun.GetMeasurementFont());
+                }
+
+                var trueTypeMeasurer = (FontMeasurerTrueType)fmtt;
+                var maxWidthPoints = textMaxWidth.PixelToPoint();
+                var svgLines = trueTypeMeasurer.WrapMultipleTextFragments(textFragments, fonts, maxWidthPoints);
+
+                numLines = svgLines.Count;
+
+                List<string> txtRunStrings = new List<string>();
+                List<int> txtRunStartIndicies = new List<int>();
+                List<int> txtRunEndIndicies = new List<int>();
+
+                int lastIndex = 0;
+                for (int i = 0; i < TextRuns.Count; i++)
+                {
+                    var txtString = TextRuns[i].originalText;
+                    txtRunStrings.Add(txtString);
+                    var indexOfRun = p.Text.IndexOf(txtString, lastIndex);
+                    txtRunStartIndicies.Add(indexOfRun);
+                    txtRunEndIndicies.Add(indexOfRun + txtString.Length);
+                    lastIndex = indexOfRun;
+                }
+
+                List<int> lineIndicies = new List<int>();
+                lastIndex = 0;
+                
+                //Last line should be handled by paragraph handling
+                for (int i = 0; i< svgLines.Count(); i++)
+                {
+                    var txtString = svgLines[i];
+                    txtRunStrings.Add(txtString);
+                    var startIndex = p.Text.IndexOf(txtString, lastIndex);
+                    lastIndex = startIndex + txtString.Length;
+                    lineIndicies.Add(startIndex + txtString.Length);
+                }
+
+                for (int i = 0; i < lineIndicies.Count; i++)
+                {
+                    var lnBreakPosition = lineIndicies[i];
+                    for (int j = 0; j < txtRunEndIndicies.Count; j++)
+                    {
+                        var start = txtRunStartIndicies[j];
+                        var end = txtRunEndIndicies[j];
+
+                        bool containsBreak = (start <= lnBreakPosition && lnBreakPosition < end);
+                        if (containsBreak)
+                        {
+                            var localLnBreakPosition = lnBreakPosition - start;
+                            TextRuns[j].InsertLineBreak(localLnBreakPosition);
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                numLines = p.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Count();
+            }
         }
+
+        
 
         /// <summary>
         /// First paragraph must use different linespacing
@@ -257,6 +329,7 @@ namespace EPPlusImageRenderer.Svg
 
             SvgTextRun textRun;
 
+
             if (TextRuns.Count == 0 && IsFirstParagraph == true)
             {
                 textRun = new SvgTextRun(txtRun, lineSpacing, textMaxWidth, clippingHeight, XPos, yPosition, LineSpacingAscendantOnly);
@@ -278,27 +351,23 @@ namespace EPPlusImageRenderer.Svg
 
         internal double GetBottomYPosition()
         {
-            //int numberOfLines = 0;
-            //foreach (var textRun in TextRuns)
-            //{
-            //    numberOfLines += textRun.GetLineCount();
-            //}
+            double bottomY = 0;
+            if (IsFirstParagraph)
+            {
+                bottomY = LineSpacingAscendantOnly + LineSpacing * (numLines - 1);
+            }
+            else
+            {
+                bottomY = LineSpacing * numLines;
+            }
+            return ParagraphArea.Top + bottomY;
+        }
 
-            //double lineSpacingTotal;
-            //if(IsFirstParagraph)
-            //{
-            //    lineSpacingTotal = LineSpacingAscendantOnly + LineSpacing * (numberOfLines - 1);
-            //}
-            //else
-            //{
-            //    lineSpacingTotal = LineSpacing * numberOfLines;
-            //}
-
-            //heigh
-
-            //var totalY = ParagraphArea.Top + lineSpacingTotal;
-
-            return ParagraphArea.Top + paragraphHeight;
+        internal void CalculateTextWrapping(double maxWidth, MeasurementFont mFont, string fullParagraphText)
+        {
+            List<string> NewContentLines = new List<string>();
+            fmtt.SetFont(mFont);
+            var textWidth = fmtt.MeasureText(fullParagraphText, mFont);
         }
     }
 }

@@ -39,6 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var str = ArgToString(arguments, 0);
             var n = ArgToInt(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            if (n < 0) return CompileResult.GetErrorResult(eErrorType.Value);
             var sb = new StringBuilder();
             for (var x = 0; x < n; x++)
             {
