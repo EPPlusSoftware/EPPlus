@@ -84,11 +84,25 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                         enc.Subtable = sub12;
                         break;
                     case 14:
-                        //var sub14 = new CmapSubtable14Deserializer(_reader).Deserialize(currentPos);
-                        //table.SubTables.Add(sub14);
-                        //subtableCache[enc.SubtableOffset] = sub14;
-                        //enc.Subtable = sub14;
-                        _reader.BaseStream.Position = currentPos + 6; // 6 = format (2) + length (4)
+                        // --------------------------------------------------------------------
+                        // cmap format 14 – Variation Sequences
+                        // Almost never used in practice and frequently malformed in emoji/CJK fonts.
+                        // We skip parsing it completely but preserve the encoding record
+                        // so that round-trip serialization works without NullReferenceException.
+                        // --------------------------------------------------------------------
+
+                        // Create a minimal dummy subtable – prevents null references during serialization
+                        var dummySubtable = new CmapSubtable14();
+
+                        // Mark this encoding record as skipped – serializer will ignore it
+                        enc.IsSkipped = true;
+                        enc.Subtable = dummySubtable;
+
+                        // Optional: cache dummy to avoid recreating it (harmless but clean)
+                        subtableCache[enc.SubtableOffset] = dummySubtable;
+
+                        // Skip the actual table data safely
+                        _reader.BaseStream.Position = currentPos + 6; // skip format (2) + length (4)
                         uint length = _reader.ReadUInt32BigEndian();
 
                         long nextTablePos = currentPos + length;
@@ -98,6 +112,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                         }
 
                         _reader.BaseStream.Position = nextTablePos;
+
+                        System.Diagnostics.Debug.WriteLine(
+                            $"Skipped cmap format 14 (Variation Sequences) at offset {enc.SubtableOffset}, length={length}");
+
                         break;
 
                     default:

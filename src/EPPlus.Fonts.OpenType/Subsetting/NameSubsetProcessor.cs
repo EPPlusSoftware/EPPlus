@@ -10,28 +10,17 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-
-namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
+namespace EPPlus.Fonts.OpenType.Subsetting
 {
-    internal class CmapSubtable12Serializer : CmapSubtableSerializerBase<CmapSubtable12>
+    internal class NameSubsetProcessor : IFontSubsetProcessor
     {
-        internal override void Serialize(CmapSubtable12 subTable, FontsBinaryWriter writer)
+        public void Process(FontSubsettingContext context)
         {
-            writer.WriteUInt16BigEndian(subTable.Format);
-            writer.WriteUInt16BigEndian(subTable.Reserved);
-            writer.WriteUInt32BigEndian(subTable.Length);
-            writer.WriteUInt32BigEndian(subTable.Language);
-            writer.WriteUInt32BigEndian(subTable.NumGroups);
+            var original = context.OriginalFont.NameTable;
+            if (original == null) return;
 
-            foreach (var group in subTable.Groups)
-            {
-                group.Serialize(writer);
-            }
+            // Name table can be kept as-is – it's metadata
+            context.SubsetFont.AddOrReplaceTable(original.Clone());
         }
     }
 }

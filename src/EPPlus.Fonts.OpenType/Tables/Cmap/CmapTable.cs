@@ -77,6 +77,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             var usedSubtables = new Dictionary<uint, uint>();
             foreach(var encRecord in encRecordsToSerialize)
             {
+                // Skip format 14 and any explicitly marked skipped records
+                if (encRecord.IsSkipped || (encRecord.Subtable?.Format == 14))
+                {
+                    continue;
+                }
                 if (usedSubtables.ContainsKey(encRecord.SubtableOffset))
                 {
                     encRecord.SubtableOffset = usedSubtables[encRecord.SubtableOffset];
