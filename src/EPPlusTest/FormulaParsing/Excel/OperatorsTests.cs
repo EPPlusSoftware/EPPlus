@@ -176,6 +176,13 @@ namespace EPPlusTest.Excel
         }
 
         [TestMethod]
+        public void OperatorEqShouldNotTreatTrueAndOneAsEqual()
+        {
+            var result = Operator.Eq.Apply(new CompileResult(true, DataType.Boolean), new CompileResult(1, DataType.Integer), _ctx);
+            Assert.IsFalse((bool)result.Result);
+        }
+
+        [TestMethod]
 		public void OperatorsActingOnNumericStrings()
 		{
             var ctx = ParsingContext.Create();

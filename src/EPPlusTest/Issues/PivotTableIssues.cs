@@ -650,5 +650,19 @@ namespace EPPlusTest.Issues
             var pt = ws.PivotTables[0];
             SaveAndCleanup(package);
         }
+        [TestMethod]
+        public void s976_1()
+        {
+            var package = OpenTemplatePackage("s971-1.xlsx");
+            var ws = package.Workbook.Worksheets["Monthly Detail"];
+            var pt = ws.PivotTables[0];
+            Assert.AreEqual(7, ws.ConditionalFormatting.Count);
+            Assert.AreEqual(7, pt.ConditionalFormattings.Count);
+
+            //pt.ConditionalFormattings.Clear();
+            //Assert.AreEqual(0, ws.ConditionalFormatting.Count);
+            //Assert.AreEqual(0, pt.ConditionalFormattings.Count);
+            SaveAndCleanup(package);
+        }
     }
 }

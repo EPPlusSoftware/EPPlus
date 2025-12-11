@@ -266,7 +266,7 @@ namespace EPPlusTest.Issues
             var dir = AppContext.BaseDirectory;
             dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
 #else
-			var dir = AppDomain.CurrentDomain.BaseDirectory;
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
 #endif
             using var p = OpenTemplatePackage("i1497.xlsx");
 
@@ -1355,6 +1355,88 @@ namespace EPPlusTest.Issues
             using var package = OpenTemplatePackage("s973.xlsx");
             package.Workbook.Calculate();
             Assert.AreEqual("12,35²", package.Workbook.Worksheets[0].Cells["A3"].Value);
+        }
+        [TestMethod]
+        public void Issue2210_1()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Formula = "ISBLANK(\"\")";
+            ws.Cells["A2"].Formula = "ERROR.TYPE(#DIV/0!)";
+            ws.Cells["A3"].Formula = "INDIRECT(\"\")";
+            ws.Cells["A4"].Formula = "CONCATENATE(TRUE, FALSE)";
+            ws.Cells["A5"].Formula = "REPT(\"ab\", -1)";
+            ws.Cells["A6"].Formula = "MOD(5, 0)";
+            ws.Cells["A7"].Formula = "MOD(-5, 3)";
+            ws.Cells["A8"].Formula = "MOD(5, -3)";
+            ws.Cells["A9"].Formula = "POWER(0, 0)";
+            ws.Cells["A10"].Formula = "MOD(3, 2.1)";
+            ws.Calculate();
+
+            Assert.IsFalse((bool)ws.Cells["A1"].Value);
+            Assert.AreEqual(2, ws.Cells["A2"].Value);
+            Assert.AreEqual(ErrorValues.RefError, ws.Cells["A3"].Value);
+            Assert.AreEqual("TRUEFALSE", ws.Cells["A4"].Value);
+            Assert.AreEqual(ErrorValues.ValueError, ws.Cells["A5"].Value);
+            Assert.AreEqual(ErrorValues.Div0Error, ws.Cells["A6"].Value);
+            Assert.AreEqual(1D, ws.Cells["A7"].Value);
+            Assert.AreEqual(-1D, ws.Cells["A8"].Value);
+            Assert.AreEqual(ErrorValues.NumError, ws.Cells["A9"].Value);
+            Assert.AreEqual(0.9, (double)ws.Cells["A10"].Value, 0.000000001);
+        }
+
+        [TestMethod]
+        public void i2210v2()
+        {
+            ExcelPackage.License.SetNonCommercialPersonal("test");
+
+            using var package = OpenPackage("i2210v2.xlsx", true);
+            var sheet = package.Workbook.Worksheets.Add("Test");
+            sheet.Cells["A10"].Formula = "CEILING(-2.1,1)";
+
+            // --- Date/Time Functions ---
+
+            sheet.Cells["A11"].Formula = "DATE(2024,13,1)";
+            sheet.Cells["A12"].Formula = "DATEDIF(DATE(2024,1,1),DATE(2024,12,31),\"M\")";
+            sheet.Cells["A13"].Formula = "TIME(24,0,0)";
+
+            // --- Error/Type Handling ---
+
+            sheet.Cells["A14"].Formula = "#DIV/0!";
+            sheet.Cells["A15"].Formula = "TRUE=1";
+
+            package.Workbook.Calculate();
+
+            Assert.AreEqual(-2d, sheet.Cells["A10"].Value);
+            Assert.AreEqual(45658d, sheet.Cells["A11"].Value);
+            Assert.AreEqual(11d, sheet.Cells["A12"].Value, "A12 calculation failed");
+            Assert.AreEqual(0d, sheet.Cells["A13"].Value);
+            Assert.IsFalse((bool)sheet.Cells["A15"].Value);
+
+            SaveAndCleanup(package);
+        }
+        [TestMethod]
+        public void Issue2218()
+        {
+            var fatalCases = new (string Name, string Formula, string Description)[]
+            {
+                ("Div0Literal", "{#DIV/0!}", "Single-item array constant that contains #DIV/0!."),
+                ("NullLiteral", "{#NULL!}", "Single-item array constant that contains #NULL!."),
+                ("NameLiteral", "{#NAME?}", "Single-item array constant that contains #NAME?."),
+                ("GettingDataLiteral", "{#GETTING_DATA}", "Single-item array constant that contains #GETTING_DATA.")
+            };
+
+            foreach (var (name, formula, description) in fatalCases)
+            {
+                using var package = new ExcelPackage();
+                var worksheet = package.Workbook.Worksheets.Add("Assumption Sheet");
+                worksheet.Cells["A1"].Value = 1;
+
+                package.Workbook.Names.AddFormula(name, formula);
+
+                package.Workbook.Calculate(new ExcelCalculationOption { AllowCircularReferences = true });
+            }
         }
     }
 }

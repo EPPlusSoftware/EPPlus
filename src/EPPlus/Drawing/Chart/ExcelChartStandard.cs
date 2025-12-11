@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Drawing.Chart
            base(drawings, node, chartXml, parent, drawingPath, nvPrPath)
         {
             var originalPtSource = _chartXmlHelper.GetXmlNodeString("c:pivotSource/c:name");
-            if (!string.IsNullOrEmpty(originalPtSource))
+            if(!string.IsNullOrEmpty(originalPtSource))
             {
                 var ptSource = originalPtSource;
                 if (ptSource.StartsWith("["))

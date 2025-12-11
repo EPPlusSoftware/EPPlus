@@ -37,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var significance = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             if (RoundingHelper.IsInvalidNumberAndSign(number, significance)) return CreateResult(eErrorType.Num);
-            return CreateResult(RoundingHelper.Round(number, significance, RoundingHelper.Direction.Up), DataType.Decimal);
+            return CreateResult(RoundingHelper.Round(number, significance, RoundingHelper.Direction.AlwaysUp), DataType.Decimal);
         }
     }
 }

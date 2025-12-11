@@ -32,22 +32,47 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
         }
 
         public override int ArgumentMinLength => 3;
+
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
+        {
+            config.SetArrayParameterIndexes(0, 1, 2);
+        }
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
+
+            // Get arguments as integers, truncated toward zero (Excel semantics).
+            // If ArgToInt already truncates like Excel, keep it. Otherwise ensure truncation.
             var hour = ArgToInt(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
             var min = ArgToInt(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+
             var sec = ArgToInt(arguments, 2, out ExcelErrorValue e3);
             if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
 
-            if (sec < 0 || sec > 59) return CompileResult.GetErrorResult(eErrorType.Value);
-            if (min < 0 || min > 59) return CompileResult.GetErrorResult(eErrorType.Value);
-            if (min < 0 || hour > 23) return CompileResult.GetErrorResult(eErrorType.Value);
+            // Excel does NOT restrict ranges to 0..59 or 0..24 (except rendering),
+            // instead it normalizes overflow/underflow. So remove range checks.
 
+            // Compute total seconds; use 64-bit to avoid overflow on large inputs.
+            const long SecondsPerDay = 86400L;
+            long totalSeconds = (long)hour * 3600L + (long)min * 60L + (long)sec;
 
-            var secondsOfThisTime = (double)(hour * 60 * 60 + min * 60 + sec);
-            return CreateResult(GetTimeSerialNumber(secondsOfThisTime), DataType.Time);
+            // Reduce modulo 86400 with proper handling for negative values.
+            long rem = totalSeconds % SecondsPerDay;
+            if (rem < 0) rem += SecondsPerDay;
+
+            // Convert to Excel time serial (fraction of a day)
+            double fractionOfDay = (double)rem / (double)SecondsPerDay;
+
+            // Special case: TIME(24,0,0) -> 0 (but this is already covered by modulo reduction)
+            // totalSeconds = 86400 => rem = 0 => fractionOfDay = 0.
+
+            return CreateResult(fractionOfDay, DataType.Time);
         }
+
     }
 }

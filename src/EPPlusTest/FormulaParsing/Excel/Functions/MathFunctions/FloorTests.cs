@@ -123,5 +123,15 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
             result = func.Execute(args, _parsingContext).Result;
             Assert.AreEqual(-60d, result);
         }
+
+        [TestMethod]
+        public void FloorShouldRoundTowardsZeroIfSignificanceAndNumberIsNegative()
+        {
+            var expectedValue = -20d;
+            var func = new Floor();
+            var args = FunctionsHelper.CreateArgs(-22.35d, -10);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(expectedValue, result.Result);
+        }
     }
 }
