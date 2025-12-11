@@ -260,5 +260,41 @@ namespace EPPlus.Fonts.OpenType.Tests
             Assert.IsTrue(glyph.CompositeData.Components.Count > 0);
         }
 
+        [TestMethod]
+        public void Subset_Mulish_With_ÅÄÖ_Should_Work()
+        {
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Mulish", FontSubFamily.Regular);
+
+            var subset = font.CreateSubset("Testar åäö ÅÄÖ och även é û č ć đ ł".Distinct());
+
+            // Spara för inspektion (valfritt)
+            File.WriteAllBytes(@"C:\temp\Mulish-subset-aao.ttf", subset.Serialize());
+
+            // Verifiera att å faktiskt har en composite glyph
+            var åGlyphId = subset.CmapTable.MapCharToGlyph('å');
+            var glyph = subset.GlyfTable.GetGlyph((ushort)åGlyphId);
+
+            Assert.IsTrue(glyph.Header.numberOfContours < 0); // måste vara composite
+            Assert.IsTrue(glyph.CompositeData.Components.Count > 0);
+        }
+
+        [TestMethod]
+        public void Subset_BIZUDGothic_With_ÅÄÖ_Should_Work()
+        {
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "BIZUDGothic", FontSubFamily.Regular);
+            var cmt = font.CmapTable;
+            var subset = font.CreateSubset("Testar åäö ÅÄÖ och även é û č ć đ ł".Distinct());
+
+            // Spara för inspektion (valfritt)
+            File.WriteAllBytes(@"C:\temp\BIZUDGothic-subset-aao.ttf", subset.Serialize());
+
+            // Verifiera att å faktiskt har en composite glyph
+            var åGlyphId = subset.CmapTable.MapCharToGlyph('å');
+            var glyph = subset.GlyfTable.GetGlyph((ushort)åGlyphId);
+
+            Assert.IsTrue(glyph.Header.numberOfContours < 0); // måste vara composite
+            Assert.IsTrue(glyph.CompositeData.Components.Count > 0);
+        }
+
     }
 }

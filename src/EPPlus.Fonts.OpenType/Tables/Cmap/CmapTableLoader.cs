@@ -84,10 +84,20 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                         enc.Subtable = sub12;
                         break;
                     case 14:
-                        var sub14 = new CmapSubtable14Deserializer(_reader).Deserialize(currentPos);
-                        table.SubTables.Add(sub14);
-                        subtableCache[enc.SubtableOffset] = sub14;
-                        enc.Subtable = sub14;
+                        //var sub14 = new CmapSubtable14Deserializer(_reader).Deserialize(currentPos);
+                        //table.SubTables.Add(sub14);
+                        //subtableCache[enc.SubtableOffset] = sub14;
+                        //enc.Subtable = sub14;
+                        _reader.BaseStream.Position = currentPos + 6; // 6 = format (2) + length (4)
+                        uint length = _reader.ReadUInt32BigEndian();
+
+                        long nextTablePos = currentPos + length;
+                        if (nextTablePos > _reader.BaseStream.Length || nextTablePos < currentPos)
+                        {
+                            nextTablePos = _reader.BaseStream.Length;
+                        }
+
+                        _reader.BaseStream.Position = nextTablePos;
                         break;
 
                     default:
@@ -98,53 +108,5 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
             return table;
         }
-
-
-        //protected override CmapTable LoadInternal()
-        //{
-        //    var table = new CmapTable
-        //    {
-        //        Version = _reader.ReadUInt16BigEndian(),
-        //        NumTables = _reader.ReadUInt16BigEndian()
-        //    };
-
-        //    for(var x = 0; x < table.NumTables; x++)
-        //    {
-        //        var enc = new EncodingRecord(_reader);
-        //        table.EncodingRecords.Add(enc);
-        //    }
-
-        //    for(var x = 0; x < table.NumTables; x++)
-        //    {
-        //        var enc = table.EncodingRecords[x];
-        //        var currentPos = _offset + enc.SubtableOffset;
-        //        _reader.BaseStream.Position = currentPos;
-        //        var format = _reader.ReadUInt16BigEndian();
-        //        if(format == 0)
-        //        {
-        //            var subtable = new CmapSubtable0(_reader);
-        //            table.SubTables.Add(subtable);
-        //            enc.Subtable = subtable;
-        //            //enc.Mappings = subtable.GlyphMappingArray;
-        //        }
-        //        else if(format == 4)
-        //        {
-        //            var subtable = new CmapSubtable4(_reader);
-        //            table.SubTables.Add(subtable);
-        //            enc.Subtable = subtable;
-        //            //enc.Mappings = subtable.GlyphMappingArray;
-        //            //enc.GlyphIndexToCharMappings = subtable.GlyphIndexToCharMappings;
-        //            //enc.CharMappingsToGlyphIndex = subtable.CharMappingsToGlyphIndex;
-        //        }
-        //        else if(format == 6)
-        //        {
-        //            var subtable = new CmapSubtable6(_reader);
-        //            table.SubTables.Add(subtable);
-        //            enc.Subtable = subtable;
-        //            //enc.Mappings = subtable.GlyphMappingArray;
-        //        }
-        //    }
-        //    return table;
-        //}
     }
 }

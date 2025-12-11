@@ -7,6 +7,7 @@ using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
+using EPPlus.Fonts.OpenType.Tables.Kern;
 using EPPlus.Fonts.OpenType.Tables.Loca;
 using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Os2;
@@ -125,8 +126,12 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             newFont.AddOrReplaceTable(newCmap);
 
             // 8. OS/2 och post
-            SubsetOS2(newFont, originalFont);
+            var usedCodePointsSet = new HashSet<uint>(usedCodePoints);
+            SubsetOS2(newFont, originalFont, usedCodePointsSet);
             SubsetPost(newFont, originalFont);
+
+            // 9. Kern-tabellen – behåll alla par som finns i vår glyphSet
+            SubsetKern(newFont, originalFont, oldToNewGlyphId);
 
             // Spara för eventuell debug (valfritt)
             newFont.UsedCodePointsForSubset = usedCodePoints.Select(c => c).ToList();
@@ -134,19 +139,6 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             return newFont;
         }
 
-        private HashSet<ushort> BuildGlyphSet(OpenTypeFont font, IEnumerable<int> unicodeChars)
-        {
-            HashSet<ushort> glyphIds = new HashSet<ushort>();
-            foreach (int codePoint in unicodeChars)
-            {
-                ushort glyphId;
-                if (font.CmapTable.TryGetGlyphId((uint)codePoint, out glyphId))
-                {
-                    glyphIds.Add(glyphId);
-                }
-            }
-            return glyphIds;
-        }
 
         private void SubsetGlyfAndLoca(
             OpenTypeFont newFont,
@@ -314,69 +306,62 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             return new Glyph { Header = header };
         }
 
-        private void SubsetCmap(OpenTypeFont newFont, OpenTypeFont originalFont, Dictionary<ushort, ushort> oldToNewGlyphId)
-        {
-            CmapTable originalCmap = originalFont.CmapTable;
-            if (originalCmap == null || originalCmap.SubTables == null || originalCmap.SubTables.Count == 0)
-                return;
-
-            Dictionary<uint, ushort> needed = new Dictionary<uint, ushort>();
-
-            foreach (CmapSubtableBase sub in originalCmap.SubTables)
-            {
-                GlyphMappings map = sub.GetGlyphMappings();
-                if (map == null || map.CharCodeToGlyphIndex == null) continue;
-
-                foreach (KeyValuePair<uint, ushort> kvp in map.CharCodeToGlyphIndex)
-                {
-                    ushort newId;
-                    if (oldToNewGlyphId.TryGetValue(kvp.Value, out newId))
-                    {
-                        needed[kvp.Key] = newId;
-                    }
-                }
-            }
-            needed[0] = 0; // .notdef
-
-            CmapSubtable4 format4 = CmapFormat4.CreateFromMappings(needed);
-
-            CmapTable newCmap = new CmapTable();
-
-            newCmap.EncodingRecords.Add(new EncodingRecord(Platforms.Windows, 1, 0));
-            newCmap.EncodingRecords.Add(new EncodingRecord(Platforms.Unicode, 3, 0));
-
-            newCmap.EncodingRecords[0].Subtable = format4;
-            newCmap.EncodingRecords[1].Subtable = format4;
-            newCmap.SubTables.Add(format4);
-
-            newFont.AddOrReplaceTable(newCmap);
-        }
-
-        private void SubsetOS2(OpenTypeFont newFont, OpenTypeFont originalFont)
+        private void SubsetOS2(OpenTypeFont newFont, OpenTypeFont originalFont, HashSet<uint> usedCodePoints)
         {
             Os2Table original = originalFont.Os2Table;
-            if (original == null) return;
+            if (original == null)
+                return;
 
             Os2Table os2 = original.Clone();
 
-            os2.usDefaultChar = 32;
-            os2.usBreakChar = 32;
+            // Default and break characters – space is the only safe choice in a subset
+            os2.usDefaultChar = 32; // space
+            os2.usBreakChar = 32; // space
 
-            short maxAscent = short.MinValue;
-            short maxDescent = short.MaxValue;
-
-            foreach (Glyph g in newFont.GlyfTable.Glyphs)
+            // --------------------------------------------------------------------
+            // Critical for Windows Font Viewer (fontview.exe) to display the font
+            // Without reasonable values here, Windows refuses to show a preview
+            // --------------------------------------------------------------------
+            if (usedCodePoints.Any())
             {
-                if (g != null && g.Header != null)
+                uint first = usedCodePoints.Min();
+                uint last = usedCodePoints.Max();
+
+                os2.usFirstCharIndex = (ushort)Math.Max(32, Math.Min(first, 0xFFFF));
+                os2.usLastCharIndex = (ushort)Math.Min(last, 0xFFFF);
+            }
+            else
+            {
+                os2.usFirstCharIndex = 32;
+                os2.usLastCharIndex = 32;
+            }
+
+            // --------------------------------------------------------------------
+            // Recalculate usWinAscent / usWinDescent based on actual glyphs in subset
+            // Prevents clipping in Windows applications (especially important for accented chars)
+            // --------------------------------------------------------------------
+            short maxAscender = short.MinValue;
+            short minDescender = short.MaxValue;
+
+            foreach (Glyph glyph in newFont.GlyfTable.Glyphs)
+            {
+                if (glyph?.Header != null)
                 {
-                    if (g.Header.yMax > maxAscent) maxAscent = g.Header.yMax;
-                    if (g.Header.yMin < maxDescent) maxDescent = g.Header.yMin;
+                    if (glyph.Header.yMax > maxAscender) maxAscender = glyph.Header.yMax;
+                    if (glyph.Header.yMin < minDescender) minDescender = glyph.Header.yMin;
                 }
             }
 
-            if (maxAscent > os2.usWinAscent) os2.usWinAscent = (ushort)maxAscent;
-            if (-maxDescent > os2.usWinDescent) os2.usWinDescent = (ushort)(-maxDescent);
+            // Only update if the subset actually exceeds original values
+            if (maxAscender > 0 && maxAscender > os2.usWinAscent)
+                os2.usWinAscent = (ushort)maxAscender;
 
+            if (minDescender < 0 && (ushort)(-minDescender) > os2.usWinDescent)
+                os2.usWinDescent = (ushort)(-minDescender);
+
+            // --------------------------------------------------------------------
+            // Keep hhea table in sync with OS/2 typo metrics (best practice)
+            // --------------------------------------------------------------------
             HheaTable hhea = newFont.HheaTable;
             if (hhea != null)
             {
@@ -413,6 +398,67 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             post.glyphNames = null;
 
             newFont.AddOrReplaceTable(post);
+        }
+
+        private void SubsetKern(OpenTypeFont newFont, OpenTypeFont originalFont, Dictionary<ushort, ushort> oldToNewGlyphId)
+        {
+            var originalKern = originalFont.KernTable;
+            if (originalKern == null || originalKern.SubTables.Count == 0)
+                return;
+
+            var newKern = new KernTable
+            {
+                version = originalKern.version,
+                numberOfFormat0Tables = 0 // vi räknar senare
+            };
+
+            foreach (var originalSubTable in originalKern.SubTables)
+            {
+                if (originalSubTable.coverage.Format != 0 || originalSubTable.Format0Subtable == null)
+                    continue; // bara format 0 stöd för nu
+
+                var format0 = originalSubTable.Format0Subtable;
+                var newPairs = new List<KerningPair>();
+
+                foreach (var pair in format0.Pairs)
+                {
+                    // Kolla om båda glyferna finns i subset
+                    if (oldToNewGlyphId.TryGetValue(pair.left, out ushort newLeft) &&
+                        oldToNewGlyphId.TryGetValue(pair.right, out ushort newRight))
+                    {
+                        newPairs.Add(new KerningPair(null)
+                        {
+                            left = newLeft,
+                            right = newRight,
+                            value = pair.value,
+                            Combined = ((uint)newLeft << 16) | newRight
+                        });
+                    }
+                }
+
+                if (newPairs.Count == 0)
+                    continue;
+
+                // Sortera för binärsökning (som specen kräver)
+                newPairs.Sort((a, b) => a.Combined.CompareTo(b.Combined));
+
+                var newSubTable = new KernSubTable
+                {
+                    version = originalSubTable.version,
+                    coverage = originalSubTable.coverage,
+                    Format0Subtable = new KernSubTableFormat0(null)
+                    {
+                        nPairs = (ushort)newPairs.Count,
+                        Pairs = newPairs.ToArray()
+                    }
+                };
+
+                newKern.SubTables.Add(newSubTable);
+                newKern.numberOfFormat0Tables++;
+            }
+
+            if (newKern.SubTables.Count > 0)
+                newFont.AddOrReplaceTable(newKern);
         }
     }
 }

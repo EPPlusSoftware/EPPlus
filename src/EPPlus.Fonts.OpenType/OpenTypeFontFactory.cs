@@ -10,14 +10,9 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Scanner;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
-// OpenTypeFontFactory.cs – ersätt hela klassen
 namespace EPPlus.Fonts.OpenType
 {
     internal static class OpenTypeFontFactory

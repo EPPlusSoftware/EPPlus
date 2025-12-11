@@ -11,6 +11,9 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontLocalization;
+using EPPlus.Fonts.OpenType.FontValidation;
+using EPPlus.Fonts.OpenType.Scanner;
+using EPPlus.Fonts.OpenType.Subsetting;
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
@@ -18,6 +21,7 @@ using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
 using EPPlus.Fonts.OpenType.Tables.Hmtx;
 using EPPlus.Fonts.OpenType.Tables.Kern;
+using EPPlus.Fonts.OpenType.Tables.Loca;
 using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
@@ -25,11 +29,6 @@ using EPPlus.Fonts.OpenType.Tables.Post;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EPPlus.Fonts.OpenType.Scanner;
-using EPPlus.Fonts.OpenType.Tables.Loca;
-using EPPlus.Fonts.OpenType.FontValidation;
-using EPPlus.Fonts.OpenType.Subsetting;
-using System.Xml.Linq;
 
 namespace EPPlus.Fonts.OpenType
 {
