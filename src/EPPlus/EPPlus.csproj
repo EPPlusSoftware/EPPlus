@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net9.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>8.3.1.0</AssemblyVersion>
-		<FileVersion>8.3.1.0</FileVersion>
-		<Version>8.3.1</Version>
+		<TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
+		<AssemblyVersion>8.4.0.0</AssemblyVersion>
+		<FileVersion>8.4.0.0</FileVersion>
+		<Version>8.4.0</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 8.3.1
+			EPPlus 8.4.0
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,9 +26,13 @@
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
-			## Version 8.3.1
+			## Version 8.4.0
+			* Added target framework .NET 10.
 			Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-			
+
+			## Version 8.3.1
+			Minor bug fixes.
+
 			## Version 8.3.0
 			* Support for adding, updating and removing external connections and query tables. See https://github.com/EPPlusSoftware/EPPlus/wiki/External-Connections-and-Query-Tables
 			* Support for adding pivot tables with external connections as data source.
@@ -541,6 +545,7 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
+			8.4.0			20251212 Updated target frameworks. Minor bug fixes.
 			8.3.1			20251128 Minor bug fixes.
 			8.3.0			20251120 Connections and query tables support. Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 			8.2.1			20251012 Minor bug fixes.
@@ -744,8 +749,6 @@
 		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="9.0.3" />
 		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="9.0.3" />
 	</ItemGroup>
-	<!-- TargetFramework net10.0, remove when GitHub actions and AppVeyor support is available. -->
-	<!-- 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" VersionOverride="10.0.0" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
@@ -754,7 +757,6 @@
 		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="10.0.0" />
 		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="10.0.0" />
 	</ItemGroup>
--->
 	<ItemGroup>
 		<Compile Remove="LoadFunctions\HeaderReader.cs" />
 	</ItemGroup>
