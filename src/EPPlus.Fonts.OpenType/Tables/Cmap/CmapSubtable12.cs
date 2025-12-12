@@ -76,6 +76,23 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         }
 
 
+        public override bool TryGetGlyphId(uint codePoint, out ushort glyphId)
+        {
+            glyphId = 0;
+
+            foreach (var group in Groups)
+            {
+                if (codePoint >= group.StartCharCode && codePoint <= group.EndCharCode)
+                {
+                    uint offset = codePoint - group.StartCharCode;
+                    glyphId = (ushort)(group.StartGlyphId + offset);
+                    return glyphId != 0;
+                }
+            }
+
+            return false;
+        }
+
         internal override void Serialize(FontsBinaryWriter writer)
         {
             var serializer = new CmapSubtable12Serializer();

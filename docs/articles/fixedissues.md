@@ -1,4 +1,31 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.4.0
+### Features
+* Added targeting framework .NET 10.
+### Fixed issues 
+* Fixed an issue where the DATEDIF function returned incorrect results for the number of months.
+* Fixed an issue where EPPlus incorrectly evaluated the expression TRUE=1 as TRUE instead of FALSE.
+* Resolved various issues in CEILING, ISOCEILING, CEILING.PRECISE, CEILING.MATH and FLOOR, FLOOR.PRECISE, FLOOR.MATH functions, especially when handling negative multiples. 
+  The TIME function was previously limited to the range 00:00:00–23:59:59. It now behaves similar to Excel, supporting overflow and negative values.
+* Fixed an issue where the TIME function did not handle array input correctly.
+* Chart Style Manager reset the series color cycle when multiple chart types or a secondary axis were used.
+* Direct input of errors like #DIV/0!, #NAME?, #NULL! or #GETTING_DATA was not supported in formulas and arrays.
+* ISBLANK("") incorrectly returned true.
+* ERROR.TYPE returned a #VALUE! error when supplying a #DIV/0! error.
+* INDIRECT("") now returns a #REF! error.
+* CONCATENATE(TRUE,FALSE) now returns the bool-strings in upper case, as Excel.
+* REPT("ab",-1) now returns a #VALUE error.
+* Fixed several issues with the MOD function and negative arguments.
+* POWER(0,0) now returns a #NUM! error.
+* Added support for preserving conditional formatting in pivot tables placed in the <extLst> element.
+* The ISNUMBER now returns false on Boolean values.
+* The CHOOSE function incorrectly returned error (i.e. #DIV/0!), if supplies as conditional arguments.
+* The UNICHAR function did return the correct character.
+* The TEXT function failed, if a null value was supplied as format argument.
+* VLOOKUP could fail to find an item in the cell if the first row was the header. Excel ignores header values in the binary search.
+* `ExcelRangeBase.DimensionByValue` returned the wrong range in rare cases.
+* `ExcelRangeBase.Richtext` caused a null `NullReferenceException` when it hade been disposed.
+
 ## Version 8.3.1
 * Using an array as denominator when first value is 0 returns a single ´#DIV0!´ error.
 * The ´FILTER´ function did not work correctly when filtering on columns.

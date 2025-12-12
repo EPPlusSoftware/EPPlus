@@ -27,6 +27,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             EncodingRecords = new List<EncodingRecord>();
             SubTables = new List<CmapSubtableBase>();
         }
+
+        public override string Name => TableNames.Cmap;
+
+        public override bool IsEssentialTable => true;
+
         /// <summary>
         /// Table version number (0).
         /// </summary>
@@ -49,7 +54,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
 
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             // Start of cmap table
             long tableStart = writer.BaseStream.Position;
@@ -72,6 +77,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             var usedSubtables = new Dictionary<uint, uint>();
             foreach(var encRecord in encRecordsToSerialize)
             {
+                // Skip format 14 and any explicitly marked skipped records
+                if (encRecord.IsSkipped || (encRecord.Subtable?.Format == 14))
+                {
+                    continue;
+                }
                 if (usedSubtables.ContainsKey(encRecord.SubtableOffset))
                 {
                     encRecord.SubtableOffset = usedSubtables[encRecord.SubtableOffset];
@@ -114,6 +124,100 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             return -1; // Not found
         }
 
+
+        public int GetMinCharCode()
+        {
+            int minCode = int.MaxValue;
+
+            // Defensive: handle empty/none
+            if (SubTables == null || SubTables.Count == 0)
+                return 0;
+
+            for (int i = 0; i < SubTables.Count; i++)
+            {
+                CmapSubtableBase sub = SubTables[i];
+                if (sub == null) continue;
+
+                var mappings = sub.GetGlyphMappings();
+                if (mappings == null || mappings.CharCodeToGlyphIndex == null) continue;
+
+                // Iterate all char-code → glyph-index pairs
+                foreach (KeyValuePair<uint, ushort> kvp in mappings.CharCodeToGlyphIndex)
+                {
+                    // glyphIndex is ushort, so it's always >= 0; we only need the char code
+                    uint code = kvp.Key;
+                    if (code < (uint)minCode)
+                    {
+                        minCode = (int)code;
+                    }
+                }
+            }
+
+            // If no mappings found, return 0
+            return (minCode == int.MaxValue) ? 0 : minCode;
+        }
+
+        public int GetMaxCharCode()
+        {
+            int maxCode = int.MinValue;
+
+            if (SubTables == null || SubTables.Count == 0)
+                return 0;
+
+            for (int i = 0; i < SubTables.Count; i++)
+            {
+                CmapSubtableBase sub = SubTables[i];
+                if (sub == null) continue;
+
+                var mappings = sub.GetGlyphMappings();
+                if (mappings == null || mappings.CharCodeToGlyphIndex == null) continue;
+
+                foreach (KeyValuePair<uint, ushort> kvp in mappings.CharCodeToGlyphIndex)
+                {
+                    uint code = kvp.Key;
+                    if (code > (uint)maxCode)
+                    {
+                        maxCode = (int)code;
+                    }
+                }
+            }
+
+            return (maxCode == int.MinValue) ? 0 : maxCode;
+        }
+
+
+        public bool ContainsChar(ushort charCode)
+        {
+            foreach (var subtable in SubTables)
+            {
+                if (subtable.TryGetGlyphId(charCode, out _))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        internal bool TryGetGlyphId(uint codePoint, out ushort glyphId)
+        {
+            glyphId = 0;
+
+            var preferred = GetPreferredSubtable();
+            if (preferred != null)
+            {
+                return preferred.TryGetGlyphId(codePoint, out glyphId) && glyphId != 0;
+            }
+
+            // Fallback: loopa alla
+            foreach (var subtable in SubTables)
+            {
+                if (subtable.TryGetGlyphId(codePoint, out glyphId) && glyphId != 0)
+                    return true;
+            }
+
+            return false;
+        }
 
 
 
