@@ -31,7 +31,7 @@ namespace EPPlusImageRenderer.Svg
             SetMargins(ax.TextBody);
 
             Values = GetAxisValue(ax, Rectangle, out double? min, out double? max, out double? majorUnit);
-            AxisValues = GetAxisDisplayValues(ax, Values, min.Value, max.Value, majorUnit.Value);
+            AxisValues = GetAxisDisplayValues(ax, Values, min, max, majorUnit);
 
             if (ax.Layout.HasLayout)
             {
@@ -67,7 +67,7 @@ namespace EPPlusImageRenderer.Svg
             Rectangle.SetDrawingPropertiesBorder(ax.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, ax.Border.Fill.Style!=eFillStyle.NoFill, 0.75);
         }
         internal ExcelChartAxis Axis { get; }
-        private List<string> GetAxisDisplayValues(ExcelChartAxisStandard ax, List<object> values, double min, double max, double majorUnit)
+        private List<string> GetAxisDisplayValues(ExcelChartAxisStandard ax, List<object> values, double? min, double? max, double? majorUnit)
         {
             var displayValues = new List<string>();
             var nf = new ExcelFormatTranslator(ax.Format, 0);
