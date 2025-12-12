@@ -48,7 +48,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Loca
                     indexes.Add(ix);
                 } 
             }
-            return new LocaTable(maxpTable)
+            return new LocaTable()
             {
                 Offsets = indexes,
                 IndexToLocFormat = headTable.IndexToLocFormat

@@ -51,6 +51,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Kern
         /// Therefore useful in binary search later to have this number readily available
         /// Source: https://learn.microsoft.com/en-us/typography/opentype/spec/kern#format-0
         /// </summary>
-        public uint Combined { get; private set; }
+        public uint Combined { get; set; }
     }
 }

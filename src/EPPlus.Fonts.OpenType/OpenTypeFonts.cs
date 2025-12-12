@@ -10,12 +10,11 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-
+using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Utils.Platform;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -23,7 +22,9 @@ namespace EPPlus.Fonts.OpenType
 {
     public static class OpenTypeFonts
     {
-        private static object _syncRoot = new object();
+        private static readonly object _syncRoot = new object();
+
+        #region --- Platform-specific font locations (unchanged, beautiful as always) ---
 
         private static string GetWindowsFolder()
         {
@@ -33,14 +34,14 @@ namespace EPPlus.Fonts.OpenType
             if (!string.IsNullOrEmpty(wf) && Directory.Exists(wf)) return wf;
 #endif
             var ewf = Environment.GetEnvironmentVariable("WINDIR");
-            if(!string.IsNullOrEmpty(ewf) && Directory.Exists(ewf))
+            if (!string.IsNullOrEmpty(ewf) && Directory.Exists(ewf))
             {
                 winfolder = ewf;
             }
             return winfolder;
         }
 
-        internal static List<string> winFontLocations = new List<string>()
+        internal static readonly List<string> winFontLocations = new List<string>()
         {
             Path.Combine(GetWindowsFolder(), "Fonts"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft\\Windows\\Fonts"),
@@ -48,7 +49,7 @@ namespace EPPlus.Fonts.OpenType
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft\\FontCache"),
         };
 
-        internal static List<string> linFontLocations = new List<string>()
+        internal static readonly List<string> linFontLocations = new List<string>()
         {
             "/usr/share/fonts",
             "/usr/local/share/fonts",
@@ -57,7 +58,7 @@ namespace EPPlus.Fonts.OpenType
             Path.Combine(Path.Combine(Path.Combine(Environment.GetEnvironmentVariable("HOME") ?? "~", ".local"), "share"), "fonts"),
         };
 
-        internal static List<string> macFontLocations = new List<string>()
+        internal static readonly List<string> macFontLocations = new List<string>()
         {
             "/System/Library/Fonts",
             "/Library/Fonts",
@@ -67,170 +68,161 @@ namespace EPPlus.Fonts.OpenType
 
         internal static List<string> GetLocationsCollection(IEnumerable<string> fontDirectories, bool searchSystemDirectories = true)
         {
-            List<string> fontLocations = new List<string>();
-            fontLocations.AddRange(fontDirectories);
+            var fontLocations = new List<string>();
+            fontLocations.AddRange(fontDirectories ?? Enumerable.Empty<string>());
+
             if (searchSystemDirectories)
             {
                 var platform = PlatformUtils.GetPlatform();
                 if (platform == PlatformUtils.OperatingSystem.Windows)
-                {
                     fontLocations.AddRange(winFontLocations);
-                }
                 else if (platform == PlatformUtils.OperatingSystem.Mac)
-                {
                     fontLocations.AddRange(macFontLocations);
-                }
                 else
-                {
                     fontLocations.AddRange(linFontLocations);
-                }
             }
 
             return fontLocations;
         }
 
-        static Dictionary<string, OpenTypeFont> CachedFonts;
+        #endregion
 
         public static void ClearFontCache()
         {
             lock (_syncRoot)
             {
-                if (CachedFonts != null && CachedFonts.Count > 0)
-                {
-                    CachedFonts.Clear();
-                }
+                OpenTypeFontCache.Clear();
+                FontScannerCache.Clear();  // Vår nya cache
             }
         }
 
-
-        public static OpenTypeFont GetFontDataOpen(IEnumerable<string> fontDirectories, string fontName, FontSubFamily subFamily = FontSubFamily.Regular, bool searchSystemDirectories = true)
+        /// <summary>
+        /// Returns a fully loaded OpenTypeFont – fast, cached, safe.
+        /// Uses FontScannerV2 under the hood.
+        /// </summary>
+        public static OpenTypeFont GetFontDataOpen(
+            IEnumerable<string> fontDirectories,
+            string fontName,
+            FontSubFamily subFamily = FontSubFamily.Regular,
+            bool searchSystemDirectories = true,
+            bool ignoreCache = false)
         {
             lock (_syncRoot)
             {
-                CachedFonts = CachedFonts == null ? new Dictionary<string, OpenTypeFont>() : CachedFonts;
-
-                var fullName = fontName + "__" + subFamily;
-
-                CachedFonts.TryGetValue(fullName, out OpenTypeFont cachedFont);
-                if (cachedFont == null)
+                if (!ignoreCache)
                 {
-                    //We do not have the font cached. Check what paths to search:
-                    List<string> fontLocations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
-
-                    OpenTypeFont fontData = null;
-                    foreach (var path in fontLocations)
+                    if (OpenTypeFontCache.Contains(fontName, subFamily))
                     {
-                        var factory = new OpenTypeFontFactory(path);
-                        fontData = factory.CreateBase(fontName, subFamily);
-                        if (fontData != null)
-                            break;
+                        var cached = OpenTypeFontCache.GetFromCache(fontName, subFamily);
+                        if (cached?.Font != null && cached.IsLoaded)
+                            return cached.Font;
                     }
+                    OpenTypeFontCache.BeginCache(fontName, subFamily);
+                }
 
-                    //another thread may have added it to the collection inbetween
-                    if (!CachedFonts.ContainsKey(fullName))
-                    {
-                        CachedFonts.Add(fullName, fontData);
-                    }
-                    return fontData;
-                }
-                else
-                {
-                    return cachedFont;
-                }
+                var face = FontScannerV2.FindBestMatch(fontDirectories, fontName, subFamily, searchSystemDirectories);
+                if (face == null)
+                    return null;
+
+                var font = OpenTypeFontFactory.CreateFromFace(face);
+
+                if (!ignoreCache)
+                    OpenTypeFontCache.AddToCache(font);
+
+                return font;
             }
         }
 
-        public static List<OpenTypeFont> GetAllBaseFontData(List<string> fontDirectories, bool searchSystemDirectories = true, FontFormat? formatTarget = null)
+        /// <summary>
+        /// Legacy wrapper – kept for backward compatibility.
+        /// </summary>
+        public static OpenTypeFont GetFontData(
+            IEnumerable<string> fontDirectories,
+            string fontName,
+            FontSubFamily subFamily = FontSubFamily.Regular,
+            bool searchSystemDirectories = true,
+            bool ignoreCache = false)
         {
-            var fontLocations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
-
-            List<OpenTypeFont> openTypeFontLst = new List<OpenTypeFont>();
-
-            bool searchSpecificFormat = formatTarget != null;
-
-            foreach (var path in fontLocations)
-            {
-                var scannedFonts = FontScanner.GetAllScannedFontsInPath(path);
-
-                if(scannedFonts != null)
-                {
-                    foreach (var sf in scannedFonts)
-                    {
-                        var fontFactory = new OpenTypeFontFactory(sf.FilePath);
-
-                        if (sf.SubFonts != null && sf.SubFonts.Any())
-                        {
-                            foreach (var subFont in sf.SubFonts)
-                            {
-                                if (searchSpecificFormat && subFont.Format != formatTarget)
-                                {
-                                    continue;
-                                }
-
-                                var familyName = string.IsNullOrEmpty(sf.FontFamilyName) ? subFont.FontFamilyName : sf.FontFamilyName;
-
-                                var openFont = fontFactory.HandleScannedFontBase(subFont);
-
-                                openTypeFontLst.Add(openFont);
-                            }
-                        }
-                        else
-                        {
-                            if (searchSpecificFormat && sf.Format != formatTarget)
-                            {
-                                continue;
-                            }
-
-                            var openFont = fontFactory.HandleScannedFontBase(sf);
-                            openTypeFontLst.Add(openFont);
-                        }
-                    }
-                }
-            }
-
-            return openTypeFontLst;
+            return GetFontDataOpen(fontDirectories, fontName, subFamily, searchSystemDirectories, ignoreCache);
         }
 
-        public static OpenTypeFont GetFontData(IEnumerable<string> fontDirectories, string fontName, FontSubFamily subFamily, bool searchSystemDirectories = true)
+        /// <summary>
+        /// Returns all available font faces as fully loaded OpenTypeFont instances.
+        /// Skips corrupt or unreadable fonts, but logs detailed information for diagnostics.
+        /// </summary>
+        public static List<OpenTypeFont> GetAllBaseFontData(
+            List<string> fontDirectories,
+            bool searchSystemDirectories = true,
+            FontFormat? formatTarget = null)
         {
-            lock (_syncRoot)
+            var locations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
+            var faces = FontScannerV2.EnumerateAllFaces(locations);
+
+            var result = new List<OpenTypeFont>(faces.Count);
+            var failures = 0;
+
+            foreach (var face in faces)
             {
-                CachedFonts = CachedFonts == null ? new Dictionary<string, OpenTypeFont>() : CachedFonts;
-
-            var fullName = fontName + "__" + subFamily.ToString();
-
-                CachedFonts.TryGetValue(fullName, out OpenTypeFont cachedFont);
-                if (cachedFont == null)
+                // Filter by format if requested
+                if (formatTarget.HasValue)
                 {
-                    //We do not have the font cached. Check what paths to search:
-                    List<string> fontLocations = GetLocationsCollection(fontDirectories, searchSystemDirectories);
-
-                    OpenTypeFont fontData = null;
-                    foreach (var path in fontLocations)
+                    string ext = Path.GetExtension(face.FilePath);
+                    if (!string.IsNullOrEmpty(ext))
                     {
-                        var factory = new OpenTypeFontFactory(path);
-                        fontData = factory.Create(fontName, subFamily);
-                        if (fontData != null)
-                            break;
+                        ext = ext.ToLowerInvariant();
+                        var format = (ext == ".otf" || ext == ".cff") ? FontFormat.Otf : FontFormat.Ttf;
+                        if (format != formatTarget.Value)
+                            continue;
                     }
-
-                    //another thread may have added it to the collection inbetween
-                    lock (_syncRoot)
-                    {
-                        if (!CachedFonts.ContainsKey(fullName))
-                        {
-                            CachedFonts.Add(fullName, fontData);
-                        }
-                    }
-
-
-                    return fontData;
                 }
-                else
+
+                try
                 {
-                    return cachedFont;
+                    OpenTypeFont font = OpenTypeFontFactory.CreateFromFace(face);
+                    if (font != null)
+                    {
+                        result.Add(font);
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine(
+                            $"[OpenTypeFonts] CreateFromFace returned null for: {face.FilePath} [TTC offset: {face.OffsetInFile}]");
+                        failures++;
+                    }
+                }
+                catch (Exception ex) when (
+                    ex is IOException ||
+                    ex is UnauthorizedAccessException ||
+                    ex is InvalidOperationException ||
+                    ex is ArgumentException ||
+                    ex is NotSupportedException ||
+                    ex is EndOfStreamException)
+                {
+                    // These are expected for corrupt or inaccessible fonts
+                    failures++;
+                    System.Diagnostics.Debug.WriteLine(
+                        $"[OpenTypeFonts] Failed to load font (skipped): {face.FilePath} [TTC offset: {face.OffsetInFile}]\r\n" +
+                        $"  Exception: {ex.GetType().Name}: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    // Unexpected exceptions – log with full details (never swallow these silently)
+                    failures++;
+                    System.Diagnostics.Debug.WriteLine(
+                        $"[OpenTypeFonts] UNEXPECTED ERROR loading font: {face.FilePath} [TTC offset: {face.OffsetInFile}]\r\n" +
+                        $"  Exception: {ex.GetType().Name}\r\n" +
+                        $"  Message: {ex.Message}\r\n" +
+                        $"  Stack: {ex.StackTrace}");
                 }
             }
+
+            if (failures > 0)
+            {
+                System.Diagnostics.Debug.WriteLine(
+                    $"[OpenTypeFonts] GetAllBaseFontData completed. Loaded {result.Count} fonts, skipped {failures} due to errors.");
+            }
+
+            return result;
         }
     }
 }

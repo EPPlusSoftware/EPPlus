@@ -11,6 +11,9 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontLocalization;
+using EPPlus.Fonts.OpenType.FontValidation;
+using EPPlus.Fonts.OpenType.Scanner;
+using EPPlus.Fonts.OpenType.Subsetting;
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
@@ -18,6 +21,7 @@ using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
 using EPPlus.Fonts.OpenType.Tables.Hmtx;
 using EPPlus.Fonts.OpenType.Tables.Kern;
+using EPPlus.Fonts.OpenType.Tables.Loca;
 using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
@@ -25,8 +29,6 @@ using EPPlus.Fonts.OpenType.Tables.Post;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EPPlus.Fonts.OpenType.Scanner;
-using EPPlus.Fonts.OpenType.Tables.Loca;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -40,6 +42,7 @@ namespace EPPlus.Fonts.OpenType
         private readonly FontsBinaryReader _reader;
         protected Dictionary<string, TableRecord> _tableRecords;
         public FontFormat Format;
+        private static object _syncRoot = new object();
 
 
         internal OpenTypeFont(FontFormat format)
@@ -59,12 +62,18 @@ namespace EPPlus.Fonts.OpenType
         {
             Format = format;
             _reader = reader;
-            if (startOffset > -1)
+
+            lock (_syncRoot)
             {
-                _reader.BaseStream.Position = startOffset;
+                if (startOffset > -1)
+                {
+                    _reader.BaseStream.Position = startOffset;
+                }
+
+                Initialize();        // Reads SFNT header
+                ReadTableRecords();  // Reads table directory
             }
-            Initialize();
-            ReadTableRecords();
+
 
             _localTableCache = new TableCache();
 
@@ -99,17 +108,30 @@ namespace EPPlus.Fonts.OpenType
         internal GlyfTableLoader _glyfTableLoader;
         internal KernTableLoader _kernTableLoader;
 
+        internal FontSerializationContext GetSerializationContext()
+        {
+            return new FontSerializationContext(this);
+        }
+
+        public FontValidationReport ValidateFont(FontValidationSeverity severity)
+        {
+            var validator = new FontValidator();
+            return validator.Validate(this);
+        }
+
+
+        internal List<uint> UsedCodePointsForSubset { get; set; } = new List<uint>();
 
         /// <summary>
         /// Any font file that does not contain all of the below tables can be considered corrupt as "the following tables are required for the font to function correctly"
         /// source: https://learn.microsoft.com/en-us/typography/opentype/spec/otff
         /// </summary>
         #region Required Font Tables 
-        public CmapTable CmapTable 
-        { 
-            get 
+        public CmapTable CmapTable
+        {
+            get
             {
-                if(_cmapTableLoader != null)
+                if (_cmapTableLoader != null)
                 {
                     return _cmapTableLoader.Load();
                 }
@@ -118,13 +140,13 @@ namespace EPPlus.Fonts.OpenType
                     return (CmapTable)_localTableCache.Get(TableNames.Cmap);
                 }
                 return null;
-            } 
-         }
+            }
+        }
         public HeadTable HeadTable
         {
             get
             {
-                if(_headTableLoader != null)
+                if (_headTableLoader != null)
                 {
                     return _headTableLoader.Load();
                 }
@@ -139,7 +161,7 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_hheaTableLoader != null)
+                if (_hheaTableLoader != null)
                 {
                     return _hheaTableLoader.Load();
                 }
@@ -185,7 +207,7 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_nameTableLoader != null)
+                if (_nameTableLoader != null)
                 {
                     return _nameTableLoader.Load();
                 }
@@ -200,7 +222,7 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_os2TableLoader != null)
+                if (_os2TableLoader != null)
                 {
                     return _os2TableLoader.Load();
                 }
@@ -215,7 +237,7 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_postTableLoader != null)
+                if (_postTableLoader != null)
                 {
                     return _postTableLoader.Load();
                 }
@@ -231,7 +253,7 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_locaTableLoader != null)
+                if (_locaTableLoader != null)
                 {
                     return _locaTableLoader.Load();
                 }
@@ -249,7 +271,7 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_glyfTableLoader != null)
+                if (_glyfTableLoader != null)
                 {
                     return _glyfTableLoader.Load();
                 }
@@ -267,11 +289,11 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if(_kernTableLoader != null)
+                if (_kernTableLoader != null)
                 {
                     return _kernTableLoader.Load();
                 }
-                else if(_localTableCache.Contains(TableNames.Kern))
+                else if (_localTableCache.Contains(TableNames.Kern))
                 {
                     return (KernTable)_localTableCache.Get(TableNames.Kern);
                 }
@@ -344,7 +366,9 @@ namespace EPPlus.Fonts.OpenType
 
         internal string GetEnglishFullFontFamilyName()
         {
-            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FullFontName && x.LanguageMapping.Language == Languages.English)?.Name;
+            var nr =  NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FullFontName && x.LanguageMapping.Language == Languages.English);
+            if (nr == null) return null;
+            return nr.Name;
         }
 
         public string GetEnglishFontFamilyName()
@@ -357,29 +381,50 @@ namespace EPPlus.Fonts.OpenType
             return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontSubfamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
         }
 
-        internal void AddOrReplaceTable<T>(string tableName, T table)
+        internal void AddOrReplaceTable<T>(T table)
             where T : FontTableBase
         {
-            _localTableCache.AddOrReplace(tableName, table);
+            _localTableCache.AddOrReplace(table.Name, table);
 
 
             var record = new TableRecord
             {
-                Tag = new Tag(tableName),
-                Length = (uint)table.GetLength(),
+                Tag = new Tag(table.Name),
+                Length = (uint)table.GetLength(this),
                 Offset = 0,
                 Checksum = 0
             };
 
-            if(_tableRecords.ContainsKey(tableName))
+            if (_tableRecords.ContainsKey(table.Name))
             {
-                _tableRecords.Remove(tableName);
+                _tableRecords.Remove(table.Name);
             }
-            _tableRecords[tableName] = record;
+            _tableRecords[table.Name] = record;
 
         }
 
         public OpenTypeFont CreateSubset(IEnumerable<char> usedChars)
+        {
+
+            var subsetBuilder = new SubsetFontBuilder();
+
+            // Konvertera chars till Unicode code points
+            var codePoints = usedChars
+                .Select(c => (uint)c)      // tvinga unsigned
+                .Distinct()
+                .Where(cp => cp <= 0x10FFFF) // validering
+                .Select(cp => (int)cp);
+
+            // Skapa subset-font
+            var newFont = subsetBuilder.CreateSubset(this, codePoints);
+
+            var preprocessor = new SubsetPreprocessor();
+            preprocessor.PreprocessSubset(newFont);
+
+            return newFont;
+        }
+
+        public OpenTypeFont CreateSubset_Old(IEnumerable<char> usedChars)
         {
             // 1. Map chars to glyph IDs
             var glyphIds = new HashSet<ushort>();
@@ -398,8 +443,8 @@ namespace EPPlus.Fonts.OpenType
             var subsetFont = new OpenTypeFont(_reader, Format);
 
             // 4. Copy and filter tables
-            subsetFont.AddOrReplaceTable(TableNames.Head, HeadTable.Clone());
-            subsetFont.AddOrReplaceTable(TableNames.Maxp, MaxpTable.Clone());
+            subsetFont.AddOrReplaceTable(HeadTable.Clone());
+            subsetFont.AddOrReplaceTable(MaxpTable.Clone());
             subsetFont.MaxpTable.numGlyphs = (ushort)glyphIds.Count;
 
             //subsetFont.ReplaceTable(TableNames.Glyf, GlyfTable.CreateSubset(glyphIds));
@@ -438,5 +483,89 @@ namespace EPPlus.Fonts.OpenType
         internal ushort RangeShift { get; private set; }
 
         internal IDictionary<string, TableRecord> TableRecords => _tableRecords;
+
+        internal Dictionary<string, byte[]> PreprocessedPaddedTables { get; } = new Dictionary<string, byte[]>();
+
+
+        /// <summary>
+        /// Total length (in bytes) of the underlying font stream.
+        /// Returns 0 if reader is null.
+        /// </summary>
+        internal long FileLength
+        {
+            get
+            {
+                return _reader != null && _reader.BaseStream != null
+                    ? _reader.BaseStream.Length
+                    : 0L;
+            }
+        }
+
+        public byte[] GetTableData(string tag)
+        {
+            if (_tableRecords.TryGetValue(tag, out var record))
+            {
+                if(_reader != null && record.Offset > 0)
+                {
+                    _reader.BaseStream.Position = record.Offset;
+                    return _reader.ReadBytes((int)record.Length);
+                }
+            }
+            var ctx = new FontSerializationContext(this);
+            switch(tag)
+            {
+                case TableNames.Head:
+                    return HeadTable.Serialize(ctx);
+                case TableNames.Loca:
+                    return LocaTable.Serialize(ctx);
+                case TableNames.Cmap:
+                    return CmapTable.Serialize(ctx);
+                case TableNames.Glyf:
+                    return GlyfTable.Serialize(ctx);
+                case TableNames.Os2:
+                    return Os2Table.Serialize(ctx);
+                case TableNames.Hhea:
+                    return HheaTable.Serialize(ctx);
+                case TableNames.Maxp:
+                    return MaxpTable.Serialize(ctx);
+                case TableNames.Hmtx:
+                    return HmtxTable.Serialize(ctx);
+                case TableNames.Name:
+                    return NameTable.Serialize(ctx);
+                case TableNames.Kern:
+                    return KernTable.Serialize(ctx);
+                case TableNames.Post:
+                    return PostTable.Serialize(ctx);
+                default:
+                    return null;
+            }
+        }
+
+        public byte[] RawData
+        {
+            get
+            {
+                if (_reader != null && _reader.BaseStream != null)
+                {
+                    long originalPosition = _reader.BaseStream.Position;
+                    try
+                    {
+                        _reader.BaseStream.Position = 0;
+                        return _reader.ReadBytes((int)_reader.BaseStream.Length);
+                    }
+                    finally
+                    {
+                        _reader.BaseStream.Position = originalPosition;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public byte[] Serialize()
+        {
+            var serializer = new OpenTypeFontSerializer(this);
+            return serializer.Serialize();
+        }
     }
 }

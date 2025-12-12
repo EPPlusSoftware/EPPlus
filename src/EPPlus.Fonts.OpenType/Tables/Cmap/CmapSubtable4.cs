@@ -118,6 +118,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         }
 
+
+
         internal override void Serialize(FontsBinaryWriter writer)
         {
             var serializer = new CmapSubtable4Serializer();
