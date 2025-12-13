@@ -512,31 +512,5 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
             Assert.AreEqual(8d, d2);
             Assert.IsNull(ws.Cells["D3"].Value);
         }
-
-        [TestMethod]
-        public void GrowthShouldHandleTwoRangesOneEmpty()
-        {
-            using var pkg = new ExcelPackage();
-            var ws = pkg.Workbook.Worksheets.Add("Sheet1");
-
-            ws.Cells["A1"].Value = 2; ws.Cells["B1"].Value = 1;
-            ws.Cells["A2"].Value = 4; ws.Cells["B2"].Value = 2;
-            ws.Cells["A3"].Value = 8; ws.Cells["B3"].Value = 3;
-
-            ws.Cells["C1"].Value = 4;
-            ws.Cells["C2"].Value = 3;
-            ws.Cells["C3"].Value = null;
-
-            ws.Cells["D1"].Formula = "GROWTH(A1:A3,B1:B3,C1:C3)";
-
-            pkg.Workbook.Calculate();
-
-            var d1 = System.Math.Round((double)ws.Cells["D1"].Value);
-            var d2 = System.Math.Round((double)ws.Cells["D2"].Value);
-
-            Assert.AreEqual(16d, d1);
-            Assert.AreEqual(8d, d2);
-            Assert.AreEqual(16d, d2);
-        }
     }
 }

@@ -365,6 +365,65 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
             }
         }
 
+        [TestMethod]
+        public void TrendShouldHandleSingleNumberNewx()
+        {
+            using var pkg = new ExcelPackage();
+            var ws = pkg.Workbook.Worksheets.Add("Sheet1");
+
+            // Data: y = 2^x
+            ws.Cells["A1"].Value = 2; ws.Cells["B1"].Value = 1;
+            ws.Cells["A2"].Value = 4; ws.Cells["B2"].Value = 2;
+            ws.Cells["A3"].Value = 8; ws.Cells["B3"].Value = 3;
+
+            ws.Cells["C1"].Value = 4;
+            ws.Cells["C2"].Value = 3;
+            ws.Cells["C3"].Value = 4;
+
+            // Block where GROWTH incorrectly tries to spill
+            ws.Cells["D2"].Value = "blocker";
+
+            // GROWTH(known_y, known_x, new_x=4) should return 16 (single value for x=4)
+            // EPPlus ignores new_x, returns array [2,4,8] for known_x, tries to spill -> #VALUE!
+            ws.Cells["D1"].Formula = "TREND(A1:A3,B1:B3,4)";
+
+            pkg.Workbook.Calculate();
+
+            Assert.IsInstanceOfType(ws.Cells["D1"].Value, typeof(double));
+
+            var d1 = System.Math.Round((double)ws.Cells["D1"].Value, 5);
+
+            Assert.AreEqual(10.66667, d1);
+        }
+
+        [TestMethod]
+        public void TrendShouldHandleThreeRanges()
+        {
+            using var pkg = new ExcelPackage();
+            var ws = pkg.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = 2; ws.Cells["B1"].Value = 1;
+            ws.Cells["A2"].Value = 4; ws.Cells["B2"].Value = 2;
+            ws.Cells["A3"].Value = 8; ws.Cells["B3"].Value = 3;
+
+            ws.Cells["C1"].Value = 4;
+            ws.Cells["C2"].Value = 3;
+            ws.Cells["C3"].Value = 4;
+
+            ws.Cells["D1"].Formula = "TREND(A1:A3,B1:B3,C1:C2)";
+
+            pkg.Workbook.Calculate();
+
+            var d1 = System.Math.Round((double)ws.Cells["D1"].Value, 5);
+            var d2 = System.Math.Round((double)ws.Cells["D2"].Value, 5);
+
+            Assert.AreEqual(10.66667d, d1);
+            Assert.AreEqual(7.66667d, d2);
+            Assert.IsNull(ws.Cells["D3"].Value);
+        }
+
+
+
         //[TestMethod]
 
         //public void WorkBookTest()
