@@ -350,54 +350,25 @@ namespace EPPlus.Fonts.OpenType
 
                     if (newWidth > maxWidth)
                     {
-                        var lastLineIndex = nextLineStartIndex;
-                        var charCountFromLast = i - nextLineStartIndex;
+                        var wrappedString = WrapString(line, i, nextLineStartIndex, c, out nextLineStartIndex, out TotalAdvanceMode advanceMode);
 
-                        var txt = line.Substring(nextLineStartIndex, charCountFromLast);
+                        wrappedStrings.Add(wrappedString);
 
-                        //Ensure whole words get moved down if part of its letters are overflowing
-                        var splitLines = txt.Split(' ');
-
-                        if (splitLines.Length > 1 && c != ' ')
+                        //Using enum to make it one Input parameter in WrapString instead of all 3
+                        //this as they're not actually used in there
+                        switch (advanceMode)
                         {
-                            var stringOverMax = splitLines.Last();
-                            var startIndex = txt.Length - stringOverMax.Length;
-                            //Remove the overflowing characters
-                            var spacedString = txt.Remove(startIndex, stringOverMax.Length).TrimEnd(' ');
-                            //Add only part of the text before the overflowing word
-                            wrappedStrings.Add(spacedString);
-
-                            //The start index of the first character in the overflow (After space)
-                            nextLineStartIndex = lastLineIndex + startIndex;
-
-                            totalAdvanceWidth = totalAdvanceFromLastWord;
-                        }
-                        else
-                        {
-
-                            //If the char was a space it should not be added to the next line
-                            //Therefore we do not add its width and the index of the next line starts at the next character.
-                            if (c == ' ')
-                            {
-                                //The current char has crossed the max
-                                //Therefore remove it from the text to be added.
-                                var wrappedString = txt.Substring(0, txt.Length);
-                                wrappedStrings.Add(wrappedString);
-                                nextLineStartIndex = i + 1;
+                            case TotalAdvanceMode.Zero:
                                 totalAdvanceWidth = 0;
-                            }
-                            else
-                            {
-                                //The current char has crossed the max
-                                //Therefore remove it from the text to be added.
-                                var wrappedString = txt.Substring(0, txt.Length);
-                                wrappedStrings.Add(wrappedString);
-                                //The current character is part of the new line
-                                //We should start at the index of the current character and add its width to the new line
-                                nextLineStartIndex = i;
+                                break;
+                            case TotalAdvanceMode.LatestCharOnly:
                                 totalAdvanceWidth = advanceWidth;
-                            }
+                                break;
+                            case TotalAdvanceMode.FromLastWord:
+                                totalAdvanceWidth = totalAdvanceFromLastWord;
+                                break;
                         }
+
                         //New line means both totals are equal
                         totalAdvanceFromLastWord = totalAdvanceWidth;
                     }
@@ -595,7 +566,77 @@ namespace EPPlus.Fonts.OpenType
             return ~low;
         }
 
-        //internal static List<char> 
+        enum TotalAdvanceMode
+        {
+            Zero,
+            LatestCharOnly,
+            FromLastWord,
+        }
+
+        /// <summary>
+        /// Pick out and return a string at the current char index from an original string
+        /// </summary>
+        /// <param name="originalLine">Original line text</param>
+        /// <param name="charIndex">current char index in original line</param>
+        /// <param name="lastLineIndex">the starting index for the current line in original line</param>
+        /// <param name="c">current character</param>
+        /// <param name="nextLineStartIndex">The starting index in original line after this operation is done</param>
+        /// <param name="mode">Informs calling method what TotalAdvance should be set to</param>
+        /// <returns></returns>
+        private static string WrapString(string originalLine, int charIndex, int lastLineIndex, char c, out int nextLineStartIndex, out TotalAdvanceMode mode)
+        {
+            //Result string
+            string wrappedString = string.Empty;
+
+            //Number of chars in the current line
+            var charCountFromLast = charIndex - lastLineIndex;
+
+            //Substring out the current line from the original
+            var txt = originalLine.Substring(lastLineIndex, charCountFromLast);
+
+            //Ensure whole words get moved down if part of its letters are overflowing
+            var splitLines = txt.Split(' ');
+
+            if (splitLines.Length > 1 && c != ' ')
+            {
+                var stringOverMax = splitLines.Last();
+                var startIndex = txt.Length - stringOverMax.Length;
+                //Remove the overflowing characters
+                var spacedString = txt.Remove(startIndex, stringOverMax.Length).TrimEnd(' ');
+
+                wrappedString = spacedString;
+
+                //The start index of the first character in the overflow (After space)
+                nextLineStartIndex = lastLineIndex + startIndex;
+
+                mode = TotalAdvanceMode.FromLastWord;
+            }
+            else
+            {
+                //If the char was a space it should not be added to the next line
+                //Therefore we do not add its width and the index of the next line starts at the next character.
+                if (c == ' ')
+                {
+                    //The current char has crossed the max
+                    //Therefore remove it from the text to be added.
+                    wrappedString = txt.Substring(0, txt.Length);
+                    nextLineStartIndex = charIndex + 1;
+                    mode = TotalAdvanceMode.Zero;
+                }
+                else
+                {
+                    //The current char has crossed the max
+                    //Therefore remove it from the text to be added.
+                    wrappedString = txt.Substring(0, txt.Length);
+                    //The current character is part of the new line
+                    //We should start at the index of the current character and add its width to the new line
+                    nextLineStartIndex = charIndex;
+                    mode = TotalAdvanceMode.LatestCharOnly;
+                }
+            }
+
+            return wrappedString;
+        }
 
         /// <summary>
         /// Wrap multiple text-fragments (such as text-runs) that contain more than one font/or font size and return the resulting lines.
@@ -704,56 +745,37 @@ namespace EPPlus.Fonts.OpenType
                     //(mostly same as regular wrap but must check against a combined string of all fragments for char positions)
                     if (newWidth > maxWidth)
                     {
-                        var charCountFromLast = charCount - nextLineStartIndex;
-                        var lastLineIndex = nextLineStartIndex;
+                        WrapString(combinedString, charCount, nextLineStartIndex, c, out nextLineStartIndex, out TotalAdvanceMode advanceMode);
 
-                        var txt = combinedString.Substring(nextLineStartIndex, charCountFromLast);
-
-                        //Ensure whole words get moved down if part of its letters are overflowing
-                        var splitLines = txt.Split(' ');
-
-                        if (splitLines.Length > 1 && c != ' ')
+                        //Using enum to make it one Input parameter in WrapString instead of all 4
+                        //this as they're not actually used in there
+                        switch (advanceMode)
                         {
-                            var stringOverMax = splitLines.Last();
-                            var startIndex = txt.Length - stringOverMax.Length;
-                            //Remove the overflowing characters
-                            var spacedString = txt.Remove(startIndex, stringOverMax.Length).TrimEnd(' ');
-                            //Add only part of the text before the overflowing word
-                            wrappedStrings.Add(spacedString);
+                            case TotalAdvanceMode.Zero:
+                                totalAdvanceWidth = 0;
+                                break;
+                            case TotalAdvanceMode.LatestCharOnly:
+                                totalAdvanceWidth = advanceWidth;
+                                break;
+                            case TotalAdvanceMode.FromLastWord:
+                                totalAdvanceWidth = totalAdvanceFromLastWord;
+                                break;
+                        }
 
-                            //The start index of the first character in the overflow (After space)
-                            nextLineStartIndex = lastLineIndex + startIndex;
-
-                            totalAdvanceWidth = totalAdvanceFromLastWord;
-                            leftOverLine = combinedString.Substring(nextLineStartIndex, charCount - nextLineStartIndex);
+                        if(advanceMode != TotalAdvanceMode.FromLastWord)
+                        {
+                            leftOverLine = combinedString.Substring(nextLineStartIndex, nextLineStartIndex - charCount);
                         }
                         else
                         {
+                            //Special case for only 1 or 0 chars in leftover line
 
-                            //If the char was a space it should not be added to the next line
-                            //Therefore we do not add its width and the index of the next line starts at the next character.
-                            if (c == ' ')
-                            {
-                                //The current char has crossed the max
-                                //Therefore remove it from the text to be added.
-                                var wrappedString = txt.Substring(0, txt.Length);
-                                wrappedStrings.Add(wrappedString);
-                                nextLineStartIndex = charCount + 1;
-                                totalAdvanceWidth = 0;
-                            }
-                            else
-                            {
-                                //The current char has crossed the max
-                                //Therefore remove it from the text to be added.
-                                var wrappedString = txt.Substring(0, txt.Length);
-                                wrappedStrings.Add(wrappedString);
-                                //The current character is part of the new line
-                                //We should start at the index of the current character and add its width to the new line
-                                nextLineStartIndex = charCount;
-                                totalAdvanceWidth = advanceWidth;
-                            }
-                            leftOverLine = combinedString.Substring(nextLineStartIndex, nextLineStartIndex - charCount);
+                            //In this case CharCount will be equal to or larger than NextLineStartIndex (this as we skip ' ' and line endings)
+                            //Meaning the "FromLastWord" substring would become impossible.
+                            //Therefore we flip the minus it so that our leftover is either 1 or 0
+                            leftOverLine = combinedString.Substring(nextLineStartIndex, charCount - nextLineStartIndex);
                         }
+
                         //New line means both totals are equal
                         totalAdvanceFromLastWord = totalAdvanceWidth;
                     }

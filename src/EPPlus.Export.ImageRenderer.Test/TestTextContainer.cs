@@ -103,7 +103,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
         }
 
         [TestMethod]
-        public void EnsureTextBodyCanAddRunsCorrectly()
+        public void EnsureTextBodyAddsRunsCorrectly()
         {
             Rect shapeRect = new Rect();
 

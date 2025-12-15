@@ -10,6 +10,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     {
         internal List<FontWrapContainer> Runs = new List<FontWrapContainer>();
 
+        public bool AllowOverflow;
+
         public TextBody(FontMeasurerTrueType txtMeasurer, Rect parent, bool initDefaults = true) : base(txtMeasurer, initDefaults)
         {
             transform.Parent = parent.transform;

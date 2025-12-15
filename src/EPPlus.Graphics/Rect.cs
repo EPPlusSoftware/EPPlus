@@ -46,10 +46,18 @@ namespace EPPlus.Graphics
         {
             get { return transform.LocalPosition.Y; }
             set 
-            { 
+            {
+                var tmpHeight = Height != 0 ? Height : 0;
+
                 var currentPosition = transform.LocalPosition;
                 currentPosition.Y = value;
-                transform.LocalPosition = currentPosition; 
+                transform.LocalPosition = currentPosition;
+
+                //Recalculate bottom position correctly
+                if (tmpHeight != 0)
+                {
+                    Height = tmpHeight;
+                }
             }
         }
         /// <summary>
@@ -60,9 +68,17 @@ namespace EPPlus.Graphics
             get { return transform.LocalPosition.X;}
             set 
             {
+                var tmpWidth = Width != 0 ? Width : 0;
+
                 var currentPosition = transform.LocalPosition;
                 currentPosition.X = value;
-                transform.LocalPosition = currentPosition; 
+                transform.LocalPosition = currentPosition;
+
+                //Recalculate Right position correctly
+                if(tmpWidth != 0)
+                {
+                    Width = tmpWidth;
+                }
             }
         }
 
@@ -106,7 +122,21 @@ namespace EPPlus.Graphics
         }
 
         //Quick-access to underlying transform
+
+        /// <summary>
+        /// Local position X
+        /// X-position from parent transform position
+        /// </summary>
         internal double X { get { return Left; } set { Left = value; } }
+
+        /// <summary>
+        /// Local position Y
+        /// Y-position from parent transform position
+        /// </summary>
         internal double Y { get { return Top; } set { Top = value; } }
+
+        //Gets global position x and y
+        internal double GlobalX { get { return transform.Position.X; } }
+        internal double GlobalY { get { return transform.Position.Y; } }
     }
 }
