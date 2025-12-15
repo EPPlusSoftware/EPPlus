@@ -10,28 +10,29 @@
  *************************************************************************************************
   05/14/2024         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.FormulaParsing.DependencyChain;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Xml.Linq;
 using static OfficeOpenXml.ExcelAddressBase;
 using static OfficeOpenXml.ExcelWorksheet;
-using OfficeOpenXml.Utils.TypeConversion;
-using OfficeOpenXml.Utils.EnumUtils;
-using OfficeOpenXml.CellPictures;
-using OfficeOpenXml.FormulaParsing.DependencyChain;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -284,6 +285,7 @@ namespace OfficeOpenXml.FormulaParsing
             try
             {
                 var f = new RpnFormula(ws, cell.Row, cell.Column);
+                depChain._parsingContext.CurrentCell = new FormulaCellAddress(ws?.Index??-1, -1, 0);
                 f.SetFormula(formula, depChain);
                 return AddChainForFormula(depChain, f, options, writeToCell).Result;
             }

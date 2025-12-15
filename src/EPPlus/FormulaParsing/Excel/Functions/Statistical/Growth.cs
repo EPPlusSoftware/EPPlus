@@ -15,6 +15,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,6 +83,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             if (arguments[2].IsExcelRange)
             {
                 argNewX = arguments[2].ValueAsRangeInfo;
+
                 if (multipleXranges)
                 {
                     //knownXs and NewXs must have the same amount of variables, but doesnt have to have the same amount of observations/samples
@@ -98,6 +100,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                     if (argNewX.Size.NumberOfCols == 1) columnArray = true;
                     return CreateDynamicArrayResult(GrowthHelper.GetGrowthValuesSingle(xValsArray, coefficients, columnArray), DataType.ExcelRange);
                 }
+            }
+            else if(arguments[2].Value!=null)
+            {
+                var ir = new InMemoryRange(1, 1);
+                var value = ArgToDecimal(arguments, 2, out ExcelErrorValue err);
+                if (err != null) return CompileResult.GetErrorResult(err.Type);
+                ir.SetValue(0, 0, value);
+                argNewX = ir;
+
             }
 
             //If newXs is omitted:
