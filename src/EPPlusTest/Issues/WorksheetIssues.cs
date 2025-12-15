@@ -1049,6 +1049,5 @@ namespace EPPlusTest.Issues
 
             Assert.AreEqual("B2", dbv.Address);
         }
-
     }
 }
