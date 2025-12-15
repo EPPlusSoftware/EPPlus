@@ -170,7 +170,7 @@ namespace EPPlusTest.Drawing.TextMeasuring
                 {
                     sw.Write(svg);
                 }
-    
+
                 SaveAndCleanup(p);
             }
         }

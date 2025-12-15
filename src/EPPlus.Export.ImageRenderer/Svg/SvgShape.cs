@@ -35,7 +35,7 @@ namespace EPPlusImageRenderer.Svg
         TextBox textBox;
         private ExcelTheme _theme;
         ExcelWorkbook _wb;
-        TextContainer _textContainer;
+        //TextContainer _textContainer;
 
         public SvgShape(ExcelShape shape) : base(shape)
         {

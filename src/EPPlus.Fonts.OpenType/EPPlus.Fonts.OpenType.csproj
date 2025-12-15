@@ -7,13 +7,11 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseFile>license.md</PackageLicenseFile>
 		<RepositoryType>git</RepositoryType>
-		<!--<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>EPPlus.Interfaces.snk</AssemblyOriginatorKeyFile>-->
 		<RootNamespace>EPPlus.Fonts.OpenType</RootNamespace>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<PackageIcon>EPPlusLogo.png</PackageIcon>
 		<LangVersion>latest</LangVersion>
-		<SignAssembly>False</SignAssembly>
+		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>EPPlus.Fonts.OpenType.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0|AnyCPU'">

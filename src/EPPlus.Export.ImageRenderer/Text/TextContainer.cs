@@ -49,7 +49,7 @@ namespace EPPlus.Export.ImageRenderer.Text
 
 
         //To create a placeholder with default values
-        public TextContainer()  : base() 
+        internal TextContainer(): base() 
         {
             ResizeToFit = false;
             MeasurementFont = new MeasurementFont()
@@ -73,7 +73,7 @@ namespace EPPlus.Export.ImageRenderer.Text
         /// <param name="text"></param>
         /// <param name="font"></param>
         /// <param name="resizeToFit"></param>
-        public TextContainer(List<string> textCollection, MeasurementFont font, bool resizeToFit = false) 
+        internal TextContainer(List<string> textCollection, MeasurementFont font, bool resizeToFit = false) : base()
         { 
             MeasurementFont = font;
             ResizeToFit = resizeToFit;
@@ -86,7 +86,7 @@ namespace EPPlus.Export.ImageRenderer.Text
         /// <param name="textCollection"></param>
         /// <param name="font"></param>
         /// <param name="resizeToFit"></param>
-        public TextContainer(string text, MeasurementFont font, bool resizeToFit = false, bool addDeltaHeight = false)
+        internal TextContainer(string text, MeasurementFont font, bool resizeToFit = false, bool addDeltaHeight = false) : base()
         {
             MeasurementFont = font;
             AddDeltaHeight = addDeltaHeight;

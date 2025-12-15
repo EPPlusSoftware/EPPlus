@@ -351,24 +351,11 @@ namespace EPPlus.Fonts.OpenType
                     if (newWidth > maxWidth)
                     {
                         var wrappedString = WrapString(line, i, nextLineStartIndex, c, out nextLineStartIndex, out TotalAdvanceMode advanceMode);
-
                         wrappedStrings.Add(wrappedString);
 
                         //Using enum to make it one Input parameter in WrapString instead of all 3
                         //this as they're not actually used in there
-                        switch (advanceMode)
-                        {
-                            case TotalAdvanceMode.Zero:
-                                totalAdvanceWidth = 0;
-                                break;
-                            case TotalAdvanceMode.LatestCharOnly:
-                                totalAdvanceWidth = advanceWidth;
-                                break;
-                            case TotalAdvanceMode.FromLastWord:
-                                totalAdvanceWidth = totalAdvanceFromLastWord;
-                                break;
-                        }
-
+                        totalAdvanceWidth = GetAdvanceWidthFromMode(advanceWidth, totalAdvanceFromLastWord, advanceMode);
                         //New line means both totals are equal
                         totalAdvanceFromLastWord = totalAdvanceWidth;
                     }
@@ -638,6 +625,22 @@ namespace EPPlus.Fonts.OpenType
             return wrappedString;
         }
 
+        private static int GetAdvanceWidthFromMode(int widthChar, int widthWord, TotalAdvanceMode mode)
+        {
+            switch (mode)
+            {
+                case TotalAdvanceMode.Zero:
+                    return 0;
+                case TotalAdvanceMode.LatestCharOnly:
+                    return widthChar;
+                case TotalAdvanceMode.FromLastWord:
+                    return widthWord;
+            }
+
+            throw new InvalidOperationException($"AdvanceMode '{mode}' is not a valid advance mode. " +
+                $"And does not exist within the enum: '{typeof(TotalAdvanceMode)}' ");
+        }
+
         /// <summary>
         /// Wrap multiple text-fragments (such as text-runs) that contain more than one font/or font size and return the resulting lines.
         /// </summary>
@@ -745,24 +748,16 @@ namespace EPPlus.Fonts.OpenType
                     //(mostly same as regular wrap but must check against a combined string of all fragments for char positions)
                     if (newWidth > maxWidth)
                     {
-                        WrapString(combinedString, charCount, nextLineStartIndex, c, out nextLineStartIndex, out TotalAdvanceMode advanceMode);
+                        var wrappedString = WrapString(combinedString, charCount, nextLineStartIndex, c, out nextLineStartIndex, out TotalAdvanceMode advanceMode);
+                        wrappedStrings.Add(wrappedString);
 
-                        //Using enum to make it one Input parameter in WrapString instead of all 4
+                        //Using enum to make it one Input parameter in WrapString instead of all 3
                         //this as they're not actually used in there
-                        switch (advanceMode)
-                        {
-                            case TotalAdvanceMode.Zero:
-                                totalAdvanceWidth = 0;
-                                break;
-                            case TotalAdvanceMode.LatestCharOnly:
-                                totalAdvanceWidth = advanceWidth;
-                                break;
-                            case TotalAdvanceMode.FromLastWord:
-                                totalAdvanceWidth = totalAdvanceFromLastWord;
-                                break;
-                        }
+                        totalAdvanceWidth = GetAdvanceWidthFromMode(advanceWidth, totalAdvanceFromLastWord, advanceMode);
+                        //New line means both totals are equal
+                        totalAdvanceFromLastWord = totalAdvanceWidth;
 
-                        if(advanceMode != TotalAdvanceMode.FromLastWord)
+                        if (advanceMode != TotalAdvanceMode.FromLastWord)
                         {
                             leftOverLine = combinedString.Substring(nextLineStartIndex, nextLineStartIndex - charCount);
                         }
@@ -775,9 +770,6 @@ namespace EPPlus.Fonts.OpenType
                             //Therefore we flip the minus it so that our leftover is either 1 or 0
                             leftOverLine = combinedString.Substring(nextLineStartIndex, charCount - nextLineStartIndex);
                         }
-
-                        //New line means both totals are equal
-                        totalAdvanceFromLastWord = totalAdvanceWidth;
                     }
                     else
                     {
