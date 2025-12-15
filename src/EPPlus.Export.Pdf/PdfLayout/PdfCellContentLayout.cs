@@ -45,8 +45,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
             this.cell = cell;
             if (cell.IsRichText)
             {
-                //HandleRichText(pageSettings, dictionaries, width, height, x, cell.Style.TextRotation);
-                HandleRichText(pageSettings, dictionaries, width, height);
+                HandleRichText(pageSettings, dictionaries, width, height, x, cell.Style.TextRotation);
+                //HandleRichText(pageSettings, dictionaries, width, height);
             }
             else
             {
@@ -66,364 +66,364 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CheckClipping(cell, width);
         }
 
-        private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double maxWidth, double maxHeight)
-        {
-            PdfWritingMode mode = cell.Style.TextRotation == 255 ? PdfWritingMode.VerticalTtb : PdfWritingMode.HorizontalLtr;
-            List<TextToken> tokens = TokenizeRichText(cell.RichText, mode);
+        //private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double maxWidth, double maxHeight)
+        //{
+        //    PdfWritingMode mode = cell.Style.TextRotation == 255 ? PdfWritingMode.VerticalTtb : PdfWritingMode.HorizontalLtr;
+        //    List<TextToken> tokens = TokenizeRichText(cell.RichText, mode);
 
-            var currentLine = new PdfCellTextLine();
-            currentLine.WritingMode = mode;
-            var lineAdvance = 0d;
-            var lineCross = 0d;
+        //    var currentLine = new PdfCellTextLine();
+        //    currentLine.WritingMode = mode;
+        //    var lineAdvance = 0d;
+        //    var lineCross = 0d;
 
-            foreach (var token in tokens)
-            {
-                double tokenAdvance = token.Item.GlyphPositions.Sum(g => mode == PdfWritingMode.HorizontalLtr ? g.AdvanceX : g.AdvanceY);
+        //    foreach (var token in tokens)
+        //    {
+        //        double tokenAdvance = token.Item.GlyphPositions.Sum(g => mode == PdfWritingMode.HorizontalLtr ? g.AdvanceX : g.AdvanceY);
 
-                double tokenCross = token.Item.Ascent + token.Item.Descent;
+        //        double tokenCross = token.Item.Ascent + token.Item.Descent;
 
-                bool overflow = (mode == PdfWritingMode.HorizontalLtr && lineAdvance + tokenAdvance > maxWidth) ||
-                                (mode == PdfWritingMode.VerticalTtb && lineAdvance + tokenAdvance > maxHeight);
+        //        bool overflow = (mode == PdfWritingMode.HorizontalLtr && lineAdvance + tokenAdvance > maxWidth) ||
+        //                        (mode == PdfWritingMode.VerticalTtb && lineAdvance + tokenAdvance > maxHeight);
 
 
-                if (overflow)
-                {
-                    if (token.IsWhitespace)
-                    {
-                        // commit current line
-                        CloseLine(currentLine, lineAdvance, lineCross);
-                        TextLines.Add(currentLine);
+        //        if (overflow)
+        //        {
+        //            if (token.IsWhitespace)
+        //            {
+        //                // commit current line
+        //                CloseLine(currentLine, lineAdvance, lineCross);
+        //                TextLines.Add(currentLine);
 
-                        // new line
-                        currentLine = NewLine(mode);
-                        lineAdvance = 0;
-                        lineCross = 0;
-                        continue;
-                    }
+        //                // new line
+        //                currentLine = NewLine(mode);
+        //                lineAdvance = 0;
+        //                lineCross = 0;
+        //                continue;
+        //            }
 
-                    // Case: token is a word → create new line
-                    CloseLine(currentLine, lineAdvance, lineCross);
-                    TextLines.Add(currentLine);
+        //            // Case: token is a word → create new line
+        //            CloseLine(currentLine, lineAdvance, lineCross);
+        //            TextLines.Add(currentLine);
 
-                    currentLine = NewLine(mode);
-                    lineAdvance = 0;
-                    lineCross = 0;
-                }
+        //            currentLine = NewLine(mode);
+        //            lineAdvance = 0;
+        //            lineCross = 0;
+        //        }
 
-                // Add token to current line
-                currentLine.TextItemCollection.Add(token.Item);
-                lineAdvance += tokenAdvance;
-                lineCross = Math.Max(lineCross, tokenCross);
-            }
-        }
+        //        // Add token to current line
+        //        currentLine.TextItemCollection.Add(token.Item);
+        //        lineAdvance += tokenAdvance;
+        //        lineCross = Math.Max(lineCross, tokenCross);
+        //    }
+        //}
 
-        private PdfCellTextLine NewLine(PdfWritingMode mode)
-        {
-            return new PdfCellTextLine { WritingMode = mode };
-        }
+        //private PdfCellTextLine NewLine(PdfWritingMode mode)
+        //{
+        //    return new PdfCellTextLine { WritingMode = mode };
+        //}
 
-        private void CloseLine(
-            PdfCellTextLine line, double advance, double cross)
-        {
-            line.Advance = advance;
-            line.CrossSize = cross;
-        }
+        //private void CloseLine(
+        //    PdfCellTextLine line, double advance, double cross)
+        //{
+        //    line.Advance = advance;
+        //    line.CrossSize = cross;
+        //}
 
-        private void MeasureGlyphs(PdfCellTextItem item, PdfWritingMode mode)
-        {
-            item.GlyphPositions = new List<GlyphPosition>();
+        //private void MeasureGlyphs(PdfCellTextItem item, PdfWritingMode mode)
+        //{
+        //    item.GlyphPositions = new List<GlyphPosition>();
 
-            char prev = '\0';
+        //    char prev = '\0';
 
-            foreach (char c in item.Text)
-            {
-                font.FontFamily = item.FontName;
-                font.Size = (float)item.FontSize;
-                font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
-                              (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
-                              (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
-                              (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
-                              switch
-                {
-                    0 => MeasurementFontStyles.Regular,
-                    var s => s
-                };
-                var measurement = fontMeasurerTrueType.MeasureText(c.ToString(), font);
+        //    foreach (char c in item.Text)
+        //    {
+        //        font.FontFamily = item.FontName;
+        //        font.Size = (float)item.FontSize;
+        //        font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
+        //                      (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
+        //                      (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
+        //                      (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
+        //                      switch
+        //        {
+        //            0 => MeasurementFontStyles.Regular,
+        //            var s => s
+        //        };
+        //        var measurement = fontMeasurerTrueType.MeasureText(c.ToString(), font);
 
-                double advance = measurement.Width;// GetGlyphAdvance(item.FontName, item.FontSize, c);
-                double kerning = 0;// prev != '\0' ? GetKerning(item.FontName, item.FontSize, prev, c) : 0;
+        //        double advance = measurement.Width;// GetGlyphAdvance(item.FontName, item.FontSize, c);
+        //        double kerning = 0;// prev != '\0' ? GetKerning(item.FontName, item.FontSize, prev, c) : 0;
 
-                double advX = mode == PdfWritingMode.HorizontalLtr ? measurement.Width + kerning : 0;
-                double advY = mode == PdfWritingMode.VerticalTtb ? measurement.Height + kerning : 0;
+        //        double advX = mode == PdfWritingMode.HorizontalLtr ? measurement.Width + kerning : 0;
+        //        double advY = mode == PdfWritingMode.VerticalTtb ? measurement.Height + kerning : 0;
 
-                item.GlyphPositions.Add(new GlyphPosition
-                {
-                    Character = c,
-                    AdvanceX = advX,
-                    AdvanceY = advY,
-                    OffsetX = 0,
-                    OffsetY = 0,
-                    GlyphBox = new Rect() { Width = 2,
-                                            Height = 2,
-                    },
-                });
+        //        item.GlyphPositions.Add(new GlyphPosition
+        //        {
+        //            Character = c,
+        //            AdvanceX = advX,
+        //            AdvanceY = advY,
+        //            OffsetX = 0,
+        //            OffsetY = 0,
+        //            GlyphBox = new Rect() { Width = 2,
+        //                                    Height = 2,
+        //            },
+        //        });
 
-                prev = c;
-            }
+        //        prev = c;
+        //    }
 
-            // Fill ascent/descent here
-            //item.Ascent = GetAscent(item.FontName, item.FontSize);
-            //item.Descent = GetDescent(item.FontName, item.FontSize);
-        }
+        //    // Fill ascent/descent here
+        //    //item.Ascent = GetAscent(item.FontName, item.FontSize);
+        //    //item.Descent = GetDescent(item.FontName, item.FontSize);
+        //}
 
-        private PdfCellTextItem CreateTextItem(ExcelRichText rt)
-        {
-            return new PdfCellTextItem
-            {
-                FontName = rt.FontName,
-                FontSize = rt.Size,
-                Bold = rt.Bold,
-                Italic = rt.Italic,
-                Underline = rt.UnderLine,
-                UnderlineType = rt.UnderLineType,
-                Strike = rt.Strike,
-                SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript,
-                SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript,
-                FontColor = rt.Color,
-                Text = rt.Text
-            };
-        }
+        //private PdfCellTextItem CreateTextItem(ExcelRichText rt)
+        //{
+        //    return new PdfCellTextItem
+        //    {
+        //        FontName = rt.FontName,
+        //        FontSize = rt.Size,
+        //        Bold = rt.Bold,
+        //        Italic = rt.Italic,
+        //        Underline = rt.UnderLine,
+        //        UnderlineType = rt.UnderLineType,
+        //        Strike = rt.Strike,
+        //        SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript,
+        //        SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript,
+        //        FontColor = rt.Color,
+        //        Text = rt.Text
+        //    };
+        //}
 
-        private List<TextToken> TokenizeRichText(ExcelRichTextCollection rich, PdfWritingMode mode)
-        {
-            var result = new List<TextToken>();
+        //private List<TextToken> TokenizeRichText(ExcelRichTextCollection rich, PdfWritingMode mode)
+        //{
+        //    var result = new List<TextToken>();
 
-            foreach (var rt in rich)
-            {
-                string text = rt.Text;
-                int i = 0;
+        //    foreach (var rt in rich)
+        //    {
+        //        string text = rt.Text;
+        //        int i = 0;
 
-                while (i < text.Length)
-                {
-                    // Whitespace run
-                    if (char.IsWhiteSpace(text[i]))
-                    {
-                        int start = i;
-                        while (i < text.Length && char.IsWhiteSpace(text[i]))
-                            i++;
+        //        while (i < text.Length)
+        //        {
+        //            // Whitespace run
+        //            if (char.IsWhiteSpace(text[i]))
+        //            {
+        //                int start = i;
+        //                while (i < text.Length && char.IsWhiteSpace(text[i]))
+        //                    i++;
 
-                        string whitespace = text.Substring(start, i - start);
+        //                string whitespace = text.Substring(start, i - start);
 
-                        var item = CreateTextItem(rt);
-                        item.Text = whitespace;
-                        MeasureGlyphs(item, mode);
+        //                var item = CreateTextItem(rt);
+        //                item.Text = whitespace;
+        //                MeasureGlyphs(item, mode);
 
-                        result.Add(new TextToken { IsWhitespace = true, Item = item });
-                    }
-                    // Word run
-                    else
-                    {
-                        int start = i;
-                        while (i < text.Length && !char.IsWhiteSpace(text[i]))
-                            i++;
+        //                result.Add(new TextToken { IsWhitespace = true, Item = item });
+        //            }
+        //            // Word run
+        //            else
+        //            {
+        //                int start = i;
+        //                while (i < text.Length && !char.IsWhiteSpace(text[i]))
+        //                    i++;
 
-                        string word = text.Substring(start, i - start);
+        //                string word = text.Substring(start, i - start);
 
-                        var item = CreateTextItem(rt);
-                        item.Text = word;
-                        MeasureGlyphs(item, mode);
+        //                var item = CreateTextItem(rt);
+        //                item.Text = word;
+        //                MeasureGlyphs(item, mode);
 
-                        result.Add(new TextToken { IsWhitespace = false, Item = item });
-                    }
-                }
-            }
+        //                result.Add(new TextToken { IsWhitespace = false, Item = item });
+        //            }
+        //        }
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        class StyledRun
-        {
-            public ExcelRichText SourceRich;  // original rich text source (for font, size, color, etc)
-            public string Text = "";     // characters of this run
-                                         // When measured, we will create a PdfCellTextItem for each run (or keep glyphs)
-            public PdfCellTextItem MeasuredItem = null;
-        }
+        //class StyledRun
+        //{
+        //    public ExcelRichText SourceRich;  // original rich text source (for font, size, color, etc)
+        //    public string Text = "";     // characters of this run
+        //                                 // When measured, we will create a PdfCellTextItem for each run (or keep glyphs)
+        //    public PdfCellTextItem MeasuredItem = null;
+        //}
 
-        // Token is either whitespace token or a word token consisting of multiple StyledRuns
-        class TextToken
-        {
-            public bool IsWhitespace;
-            public List<StyledRun> Runs = new List<StyledRun>();
-        }
+        //// Token is either whitespace token or a word token consisting of multiple StyledRuns
+        //class TextToken
+        //{
+        //    public bool IsWhitespace;
+        //    public List<StyledRun> Runs = new List<StyledRun>();
+        //}
 
-        // Compare the style / formatting of two RichText items
-        bool SameStyle(ExcelRichText a, ExcelRichText b)
-        {
-            if (a == null || b == null) return false;
-            return a.FontName == b.FontName &&
-                   a.Size == b.Size &&
-                   a.Bold == b.Bold &&
-                   a.Italic == b.Italic &&
-                   a.UnderLine == b.UnderLine &&
-                   a.Strike == b.Strike &&
-                   a.VerticalAlign == b.VerticalAlign &&
-                   a.Color.Equals(b.Color) &&
-                   a.UnderLineType == b.UnderLineType;
-        }
+        //// Compare the style / formatting of two RichText items
+        //bool SameStyle(ExcelRichText a, ExcelRichText b)
+        //{
+        //    if (a == null || b == null) return false;
+        //    return a.FontName == b.FontName &&
+        //           a.Size == b.Size &&
+        //           a.Bold == b.Bold &&
+        //           a.Italic == b.Italic &&
+        //           a.UnderLine == b.UnderLine &&
+        //           a.Strike == b.Strike &&
+        //           a.VerticalAlign == b.VerticalAlign &&
+        //           a.Color.Equals(b.Color) &&
+        //           a.UnderLineType == b.UnderLineType;
+        //}
 
-        // Tokenize RichTextCollection into word/whitespace tokens while preserving styling runs
-        List<TextToken> TokenizeRichTextPreserveRuns(ExcelRichTextCollection rich, PdfWritingMode mode)
-        {
-            var tokens = new List<TextToken>();
+        //// Tokenize RichTextCollection into word/whitespace tokens while preserving styling runs
+        //List<TextToken> TokenizeRichTextPreserveRuns(ExcelRichTextCollection rich, PdfWritingMode mode)
+        //{
+        //    var tokens = new List<TextToken>();
 
-            // current token state
-            TextToken currentToken = null;
-            StyledRun currentRun = null;
+        //    // current token state
+        //    TextToken currentToken = null;
+        //    StyledRun currentRun = null;
 
-            foreach (var rt in rich)
-            {
-                string txt = rt.Text ?? "";
-                for (int i = 0; i < txt.Length; i++)
-                {
-                    char c = txt[i];
-                    bool isWsChar = char.IsWhiteSpace(c);
+        //    foreach (var rt in rich)
+        //    {
+        //        string txt = rt.Text ?? "";
+        //        for (int i = 0; i < txt.Length; i++)
+        //        {
+        //            char c = txt[i];
+        //            bool isWsChar = char.IsWhiteSpace(c);
 
-                    // Start a new token if needed (first token or token type change)
-                    if (currentToken == null || currentToken.IsWhitespace != isWsChar)
-                    {
-                        currentToken = new TextToken { IsWhitespace = isWsChar };
-                        tokens.Add(currentToken);
-                        currentRun = null;
-                    }
+        //            // Start a new token if needed (first token or token type change)
+        //            if (currentToken == null || currentToken.IsWhitespace != isWsChar)
+        //            {
+        //                currentToken = new TextToken { IsWhitespace = isWsChar };
+        //                tokens.Add(currentToken);
+        //                currentRun = null;
+        //            }
 
-                    // If the last run exists and has same style, append; otherwise create new run
-                    if (currentRun == null || !SameStyle(currentRun.SourceRich, rt))
-                    {
-                        currentRun = new StyledRun { SourceRich = rt, Text = "" };
-                        currentToken.Runs.Add(currentRun);
-                    }
+        //            // If the last run exists and has same style, append; otherwise create new run
+        //            if (currentRun == null || !SameStyle(currentRun.SourceRich, rt))
+        //            {
+        //                currentRun = new StyledRun { SourceRich = rt, Text = "" };
+        //                currentToken.Runs.Add(currentRun);
+        //            }
 
-                    currentRun.Text += c;
-                }
-            }
+        //            currentRun.Text += c;
+        //        }
+        //    }
 
-            // Remove any empty tokens (defensive)
-            tokens.RemoveAll(t => t.Runs.Count == 0 || t.Runs.All(r => string.IsNullOrEmpty(r.Text)));
+        //    // Remove any empty tokens (defensive)
+        //    tokens.RemoveAll(t => t.Runs.Count == 0 || t.Runs.All(r => string.IsNullOrEmpty(r.Text)));
 
-            // Measure runs into PdfCellTextItem.GlyphPositions so we can compute advances later.
-            foreach (var token in tokens)
-            {
-                foreach (var run in token.Runs)
-                {
-                    // Convert the run->PdfCellTextItem but leave glyph positions empty for now:
-                    var item = CreateTextItem(run.SourceRich); // you already have this helper
-                    item.Text = run.Text;
+        //    // Measure runs into PdfCellTextItem.GlyphPositions so we can compute advances later.
+        //    foreach (var token in tokens)
+        //    {
+        //        foreach (var run in token.Runs)
+        //        {
+        //            // Convert the run->PdfCellTextItem but leave glyph positions empty for now:
+        //            var item = CreateTextItem(run.SourceRich); // you already have this helper
+        //            item.Text = run.Text;
 
-                    // Measure glyphs for the run, store them in the run.MeasuredItem (so we only measure once)
-                    MeasureGlyphs(item, mode); // fills item.GlyphPositions, item.Ascent, item.Descent
-                    run.MeasuredItem = item;
-                }
-            }
+        //            // Measure glyphs for the run, store them in the run.MeasuredItem (so we only measure once)
+        //            MeasureGlyphs(item, mode); // fills item.GlyphPositions, item.Ascent, item.Descent
+        //            run.MeasuredItem = item;
+        //        }
+        //    }
 
-            return tokens;
-        }
-        double TokenAdvance(TextToken token, PdfWritingMode mode)
-        {
-            double adv = 0;
-            foreach (var run in token.Runs)
-            {
-                var item = run.MeasuredItem;
-                adv += item.GlyphPositions.Sum(g => mode == PdfWritingMode.HorizontalLtr ? g.AdvanceX : g.AdvanceY);
-            }
-            return adv;
-        }
+        //    return tokens;
+        //}
+        //double TokenAdvance(TextToken token, PdfWritingMode mode)
+        //{
+        //    double adv = 0;
+        //    foreach (var run in token.Runs)
+        //    {
+        //        var item = run.MeasuredItem;
+        //        adv += item.GlyphPositions.Sum(g => mode == PdfWritingMode.HorizontalLtr ? g.AdvanceX : g.AdvanceY);
+        //    }
+        //    return adv;
+        //}
 
-        public class GlyphPosIndex
-        {
-            public GlyphPosition glyph;
-            public int runIndex;
-        }
+        //public class GlyphPosIndex
+        //{
+        //    public GlyphPosition glyph;
+        //    public int runIndex;
+        //}
 
-        List<GlyphPosIndex> FlattenTokenGlyphs(TextToken token)
-        {
-            var list = new List<GlyphPosIndex>();
-            for (int r = 0; r < token.Runs.Count; r++)
-            {
-                var run = token.Runs[r];
-                var item = run.MeasuredItem;
-                foreach (var g in item.GlyphPositions)
-                    list.Add(new GlyphPosIndex() { glyph=g, runIndex=r } );
-            }
-            return list;
-        }
-        void SplitLongWordToken(TextToken token, List<PdfCellTextLine> result, ref PdfCellTextLine currentLine, ref double lineAdvance, ref double lineCross, double maxWidth, double maxHeight, PdfWritingMode mode)
-        {
-            var flat = FlattenTokenGlyphs(token);
-            int idx = 0;
-            while (idx < flat.Count)
-            {
-                // create an accumulator for this broken-line chunk
-                double adv = 0;
-                double cross = 0;
-                var chunkGlyphs = new List<GlyphPosIndex>();
+        //List<GlyphPosIndex> FlattenTokenGlyphs(TextToken token)
+        //{
+        //    var list = new List<GlyphPosIndex>();
+        //    for (int r = 0; r < token.Runs.Count; r++)
+        //    {
+        //        var run = token.Runs[r];
+        //        var item = run.MeasuredItem;
+        //        foreach (var g in item.GlyphPositions)
+        //            list.Add(new GlyphPosIndex() { glyph=g, runIndex=r } );
+        //    }
+        //    return list;
+        //}
+        //void SplitLongWordToken(TextToken token, List<PdfCellTextLine> result, ref PdfCellTextLine currentLine, ref double lineAdvance, ref double lineCross, double maxWidth, double maxHeight, PdfWritingMode mode)
+        //{
+        //    var flat = FlattenTokenGlyphs(token);
+        //    int idx = 0;
+        //    while (idx < flat.Count)
+        //    {
+        //        // create an accumulator for this broken-line chunk
+        //        double adv = 0;
+        //        double cross = 0;
+        //        var chunkGlyphs = new List<GlyphPosIndex>();
 
-                while (idx < flat.Count)
-                {
-                    var candidate = flat[idx];
-                    double nextAdv = adv + (mode == PdfWritingMode.HorizontalLtr ? candidate.glyph.AdvanceX : candidate.glyph.AdvanceY);
+        //        while (idx < flat.Count)
+        //        {
+        //            var candidate = flat[idx];
+        //            double nextAdv = adv + (mode == PdfWritingMode.HorizontalLtr ? candidate.glyph.AdvanceX : candidate.glyph.AdvanceY);
 
-                    bool overflow = (mode == PdfWritingMode.HorizontalLtr && nextAdv > maxWidth) ||
-                                    (mode == PdfWritingMode.VerticalTtb && nextAdv > maxHeight);
+        //            bool overflow = (mode == PdfWritingMode.HorizontalLtr && nextAdv > maxWidth) ||
+        //                            (mode == PdfWritingMode.VerticalTtb && nextAdv > maxHeight);
 
-                    if (overflow && chunkGlyphs.Count > 0)
-                        break;
+        //            if (overflow && chunkGlyphs.Count > 0)
+        //                break;
 
-                    // If overflow and chunkGlyphs is empty, we still allow at least one glyph (avoid infinite loop)
-                    chunkGlyphs.Add(candidate);
-                    adv = nextAdv;
-                    idx++;
-                }
+        //            // If overflow and chunkGlyphs is empty, we still allow at least one glyph (avoid infinite loop)
+        //            chunkGlyphs.Add(candidate);
+        //            adv = nextAdv;
+        //            idx++;
+        //        }
 
-                // From chunkGlyphs, create PdfCellTextItems grouped by runIndex
-                int pos = 0;
-                while (pos < chunkGlyphs.Count)
-                {
-                    int runIdx = chunkGlyphs[pos].runIndex;
-                    var run = token.Runs[runIdx];
+        //        // From chunkGlyphs, create PdfCellTextItems grouped by runIndex
+        //        int pos = 0;
+        //        while (pos < chunkGlyphs.Count)
+        //        {
+        //            int runIdx = chunkGlyphs[pos].runIndex;
+        //            var run = token.Runs[runIdx];
 
-                    // gather consecutive glyphs with same runIdx
-                    var gpList = new List<GlyphPosition>();
-                    var textBuilder = new System.Text.StringBuilder();
-                    while (pos < chunkGlyphs.Count && chunkGlyphs[pos].runIndex == runIdx)
-                    {
-                        gpList.Add(chunkGlyphs[pos].glyph);
-                        textBuilder.Append(chunkGlyphs[pos].glyph.Character);
-                        pos++;
-                    }
+        //            // gather consecutive glyphs with same runIdx
+        //            var gpList = new List<GlyphPosition>();
+        //            var textBuilder = new System.Text.StringBuilder();
+        //            while (pos < chunkGlyphs.Count && chunkGlyphs[pos].runIndex == runIdx)
+        //            {
+        //                gpList.Add(chunkGlyphs[pos].glyph);
+        //                textBuilder.Append(chunkGlyphs[pos].glyph.Character);
+        //                pos++;
+        //            }
 
-                    // create a PdfCellTextItem representing this piece
-                    var brokenItem = CloneWithoutText(run.MeasuredItem); // keep style and metrics
-                    brokenItem.Text = textBuilder.ToString();
-                    brokenItem.GlyphPositions = gpList;
-                    // optionally recompute ascent/descent for this brokenItem if needed
-                    currentLine.TextItemCollection.Add(brokenItem);
-                }
+        //            // create a PdfCellTextItem representing this piece
+        //            var brokenItem = CloneWithoutText(run.MeasuredItem); // keep style and metrics
+        //            brokenItem.Text = textBuilder.ToString();
+        //            brokenItem.GlyphPositions = gpList;
+        //            // optionally recompute ascent/descent for this brokenItem if needed
+        //            currentLine.TextItemCollection.Add(brokenItem);
+        //        }
 
-                lineAdvance = adv;
-                lineCross = token.Runs.Max(r => r.MeasuredItem.Ascent + r.MeasuredItem.Descent);
+        //        lineAdvance = adv;
+        //        lineCross = token.Runs.Max(r => r.MeasuredItem.Ascent + r.MeasuredItem.Descent);
 
-                // If more glyphs remain, close line
-                if (idx < flat.Count)
-                {
-                    CloseLine(currentLine, lineAdvance, lineCross);
-                    result.Add(currentLine);
+        //        // If more glyphs remain, close line
+        //        if (idx < flat.Count)
+        //        {
+        //            CloseLine(currentLine, lineAdvance, lineCross);
+        //            result.Add(currentLine);
 
-                    currentLine = NewLine(mode);
-                    lineAdvance = 0;
-                    lineCross = 0;
-                }
-            }
-        }
+        //            currentLine = NewLine(mode);
+        //            lineAdvance = 0;
+        //            lineCross = 0;
+        //        }
+        //    }
+        //}
 
 
 
