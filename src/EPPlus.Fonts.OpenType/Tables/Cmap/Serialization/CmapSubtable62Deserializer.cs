@@ -27,6 +27,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
         {
             _reader.BaseStream.Seek(startIndex, SeekOrigin.Begin);
 
+            // Read format field and ensure we are at the expected subtable
+            var format = _reader.ReadUInt16BigEndian();
+            if (format != 6)
+                throw new InvalidDataException($"Unexpected cmap subtable format: {format} (expected 6).");
+
             var table = new CmapSubtable6
             {
                 Length = _reader.ReadUInt16BigEndian(),
@@ -35,7 +40,18 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
                 EntryCount = _reader.ReadUInt16BigEndian()
             };
 
-            table.GlyphIdArray = _reader.ReadUInt16ArrayBigEndian(table.EntryCount);
+            if (table.EntryCount > 0)
+            {
+                // Read exactly EntryCount entries; if stream is truncated, let ReadUInt16ArrayBigEndian throw/end up as EndOfStreamException
+                table.GlyphIdArray = _reader.ReadUInt16ArrayBigEndian(table.EntryCount) ?? new ushort[0];
+
+                if (table.GlyphIdArray.Length != table.EntryCount)
+                    throw new EndOfStreamException("Not enough data to read glyphIdArray for cmap format 6.");
+            }
+            else
+            {
+                table.GlyphIdArray = new ushort[0];
+            }
 
             return table;
         }

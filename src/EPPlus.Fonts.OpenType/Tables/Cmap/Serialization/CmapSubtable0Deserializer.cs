@@ -27,14 +27,24 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
         {
             _reader.BaseStream.Seek(startIndex, SeekOrigin.Begin);
 
+            // Read and validate the format field(must be 0 for format 0)
+                var format = _reader.ReadUInt16BigEndian();
+            if (format != 0)
+                throw new InvalidDataException($"Unexpected cmap subtable format: {format} (expected 0).");
+
             var table = new CmapSubtable0
             {
                 Length = _reader.ReadUInt16BigEndian(),
                 Language = _reader.ReadUInt16BigEndian()
             };
 
-            // Format 0 always has 256 bytes for glyphIdArray
-            table.GlyphIdArray = _reader.ReadBytes(256);
+            // Format 0 requires exactly 256 bytes in the glyphIdArray.
+            const int GlyphArrayLength = 256;
+            var glyphBytes = _reader.ReadBytes(GlyphArrayLength);
+            if (glyphBytes == null || glyphBytes.Length != GlyphArrayLength)
+                throw new EndOfStreamException("Not enough data to read glyphIdArray for cmap format 0.");
+
+            table.GlyphIdArray = glyphBytes;
 
             return table;
         }
