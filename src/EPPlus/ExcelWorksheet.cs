@@ -2970,7 +2970,7 @@ namespace OfficeOpenXml
                 {
                     var fvc = FirstValueCell;
                     var lvc = LastValueCell;
-
+                    if (fvc.Address == lvc.Address) return Cells[fvc.Address];
                     var fromRow = fvc._fromRow;
                     var toRow = lvc._toRow;
                     int fromCol, toCol;
@@ -3030,9 +3030,9 @@ namespace OfficeOpenXml
                 var fromCol = Dimension._fromCol;
                 if (_values.GetValue(fromRow, fromCol)._value == null)
                 {
-                    while (_values.NextCell(ref fromRow, ref fromCol))
+                    while (_values.NextCell(ref fromRow, ref fromCol, 1,0, ExcelPackage.MaxRows, ExcelPackage.MaxColumns))
                     {
-                        if (_values.GetValue(fromRow, fromCol)._value != null)
+                        if (fromCol > 0 && _values.GetValue(fromRow, fromCol)._value != null)
                         {
                             return Cells[fromRow, fromCol];
                         }

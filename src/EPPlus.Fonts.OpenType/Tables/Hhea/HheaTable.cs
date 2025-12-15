@@ -21,6 +21,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
     /// </summary>
     public class HheaTable : FontTableBase
     {
+        public override string Name => TableNames.Hhea;
+
+        public override bool IsEssentialTable => true;
         /// <summary>
         /// Major version number of the horizontal header table — set to 1.
         /// </summary>
@@ -97,7 +100,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
             throw new System.NotImplementedException();
         }
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             writer.WriteUInt16BigEndian(majorVersion);
             writer.WriteUInt16BigEndian(minorVersion);
@@ -118,5 +121,28 @@ namespace EPPlus.Fonts.OpenType.Tables.Hhea
             writer.WriteInt16BigEndian(metricDataFormat);
             writer.WriteUInt16BigEndian(numberOfHMetrics);
         }
+
+
+        public HheaTable Clone()
+        {
+            return new HheaTable
+            {
+                majorVersion = this.majorVersion,
+                minorVersion = this.minorVersion,
+                ascender = this.ascender,
+                descender = this.descender,
+                lineGap = this.lineGap,
+                advanceWidthMax = this.advanceWidthMax,
+                minLeftSideBearing = this.minLeftSideBearing,
+                minRightSideBearing = this.minRightSideBearing,
+                xMaxExtent = this.xMaxExtent,
+                caretSlopeRise = this.caretSlopeRise,
+                caretSlopeRun = this.caretSlopeRun,
+                caretOffset = this.caretOffset,
+                metricDataFormat = this.metricDataFormat,
+                numberOfHMetrics = this.numberOfHMetrics
+            };
+        }
+
     }
 }

@@ -196,11 +196,18 @@ namespace EPPlusImageRenderer.Text
             bool isFirst = Paragraphs.Count == 0;
             var svgParagraph = new SvgParagraph(item, area, vertAlignAttribute, posY, isFirst);
 
-            svgParagraph.FillColor = string.IsNullOrEmpty(fontColor) ? item.DefaultRunProperties.Fill.Color.Name : fontColor;
-
+            //Set starting position for next paragraph
             paragraphStartPosY = svgParagraph.GetBottomYPosition();
 
-            Paragraphs.Add(svgParagraph);
+            svgParagraph.FillColor = string.IsNullOrEmpty(fontColor) ? item.DefaultRunProperties.Fill.Color.Name : fontColor;
+
+            //Above we've calculated heights from empty paragraphs
+            //But below we do not add them for rendering (As they would not have any visible effect anyway)
+            if (item.TextRuns.Count != 0)
+            {
+                Paragraphs.Add(svgParagraph);
+            }
+
             return svgParagraph;
         }
 
@@ -312,7 +319,7 @@ namespace EPPlusImageRenderer.Text
             //The first run in the first paragraph must apply different line-spacing
             var svgParagraph = new SvgParagraph(text, font, area, vertAlignAttribute, posY);
 
-            svgParagraph.FillColor = font.Color.To6CharHexString();
+            svgParagraph.FillColor = font.Fill.Color.To6CharHexString();
 
             paragraphStartPosY = svgParagraph.GetBottomYPosition();
 

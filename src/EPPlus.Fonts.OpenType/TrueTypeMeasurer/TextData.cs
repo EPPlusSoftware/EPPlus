@@ -1,4 +1,16 @@
-﻿using System.Collections.Generic;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+ *************************************************************************************************/
+using System.Collections.Generic;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Linq;
 using System;
@@ -20,7 +32,7 @@ namespace EPPlus.Fonts.OpenType
         /// </summary>
         public static bool SearchSystemDirectories = true;
 
-        internal static OpenTypeFont GetFontData(string fontName, string subFamily)
+        internal static OpenTypeFont GetFontData(string fontName, FontSubFamily subFamily)
         {
             return OpenTypeFonts.GetFontData(FontDirectories, fontName, subFamily, SearchSystemDirectories);
         }
@@ -179,7 +191,6 @@ namespace EPPlus.Fonts.OpenType
         {
             return font.Os2Table.usWinDescent * (fontSize / font.HeadTable.UnitsPerEm);
         }
-
         /// <summary>
         /// Measures the text and breaks it into smaller strings so that none exceed the MaxWidth
         /// </summary>
@@ -189,7 +200,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="maxWidth"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        internal static List<string> MeasureAndWrapText(string text, double fontSize, OpenTypeFont fontData, double maxWidth)
+        internal static List<string> MeasureAndWrapText(string text, double fontSize, OpenTypeFont fontData, double maxWidth, double preExistingLineWidth = 0)
         {
             int totalAdvanceWidth = 0;
             ushort? lastGlyphIndex = 0;
@@ -215,6 +226,11 @@ namespace EPPlus.Fonts.OpenType
 
                 for (int i = 0; i < line.Length; i++)
                 {
+                    if (line == splitStrings[0] && preExistingLineWidth != 0 && i == 0)
+                    {
+                        totalAdvanceWidth = Convert.ToInt16((preExistingLineWidth * (double) fontData.HeadTable.UnitsPerEm) / fontSize);
+                    }
+
                     char c = line[i];
                     var gi = glyphMappings.GetGlyphIndex(c);
                     int advanceWidth;
@@ -412,54 +428,59 @@ namespace EPPlus.Fonts.OpenType
 
         private static int GetKerningAdjustment(ushort left, ushort right, OpenTypeFont fontData)
         {
-            foreach (var subtable in fontData.KernTable.SubTables)
+            if (fontData.KernTable != null)
             {
-                if (subtable.Format0Subtable == null) continue;
-                // Format 0 only
-                int format = subtable.coverage.RawValue >> 8;
-                bool isHorizontal = (subtable.coverage.RawValue & 0x1) == 1;
-                if (format != 0 || !isHorizontal) continue;
-                KerningPair[] pairs = subtable.Format0Subtable.Pairs;
-                if (pairs == null) continue;
-
-                //Left is high-order/most significant
-                //but since big-endian we must do it like this.
-                var combined = ((uint)left << 16) | right;
-
-                var index = OptimizedBinarySearch(pairs, combined, pairs.Length);
-                if(index < 0)
+                foreach (var subtable in fontData.KernTable.SubTables)
                 {
-                    index = ~index;
-                }
+                    if (subtable.Format0Subtable == null) continue;
+                    // Format 0 only
+                    int format = subtable.coverage.RawValue >> 8;
+                    bool isHorizontal = (subtable.coverage.RawValue & 0x1) == 1;
+                    if (format != 0 || !isHorizontal) continue;
+                    KerningPair[] pairs = subtable.Format0Subtable.Pairs;
+                    if (pairs == null) continue;
 
-                if (index >= 0)
-                {
-                    var maxIndex = pairs.Count();
-                    if (maxIndex > index)
+                    //Left is high-order/most significant
+                    //but since big-endian we must do it like this.
+                    var combined = ((uint)left << 16) | right;
+
+                    var index = OptimizedBinarySearch(pairs, combined, pairs.Length);
+                    if (index < 0)
                     {
-                        var pairItem = pairs[index];
-
-                        //Extra verification in case something has gone wrong/the exact item does not exist
-                        if (pairItem.left == left && pairItem.right == right)
-                        {
-                            return pairItem.value;
-                        }
-                        //else
-                        //{
-                        //    foreach (var pair in pairs)
-                        //    {
-                        //        if (pair.right == right && pair.left == left)
-                        //        {
-                        //            return pair.value;
-                        //        }
-                        //    }
-                        //}
+                        index = ~index;
                     }
-                    else
+
+                    if (index >= 0)
                     {
-                        //Index has gone beyond max index.
-                        //This should never be possible unless the file has been read wrong or is corrupt...
-                        throw new Exception("Impossible kerning table detected(!?)");
+                        var maxIndex = pairs.Count();
+                        if (maxIndex > index)
+                        {
+                            var pairItem = pairs[index];
+
+                            //Extra verification in case something has gone wrong/the exact item does not exist
+                            if (pairItem.left == left && pairItem.right == right)
+                            {
+                                return pairItem.value;
+                            }
+                            //else
+                            //{
+                            //    foreach (var pair in pairs)
+                            //    {
+                            //        if (pair.right == right && pair.left == left)
+                            //        {
+                            //            return pair.value;
+                            //        }
+                            //    }
+                            //}
+                        }
+                        else
+                        {
+                            //Index has gone beyond max index.
+                            //This should never be possible unless the file has been read wrong or is corrupt...
+                            //font Arial black appears corrupt or missing kerning table?
+                            return 0;
+                            throw new Exception("Impossible kerning table detected(!?)");
+                        }
                     }
                 }
             }
@@ -486,5 +507,199 @@ namespace EPPlus.Fonts.OpenType
             }
             return ~low;
         }
+
+        /// <summary>
+        /// Wrap multiple text-fragments (such as text-runs) that contain more than one font/or font size and return the resulting lines.
+        /// </summary>
+        /// <param name="textFragments"></param>
+        /// <param name="fontSizes"></param>
+        /// <param name="fonts"></param>
+        /// <param name="maxWidth"></param>
+        /// <returns></returns>
+        internal static List<string> WrapMultipleTextFragments(List<string> textFragments, List<double> fontSizes, Dictionary<double, OpenTypeFont> fonts, double maxWidth)
+        {
+            int totalAdvanceWidth = 0;
+            ushort? lastGlyphIndex = 0;
+            bool firstChar = true;
+
+            //Split strings on line endings
+            var newLine = Environment.NewLine;
+            //Initalise collection to return
+            List<string> wrappedStrings = new List<string>();
+
+            //leftOverLine refers to a line of text that has not yet been wrapped
+            string leftOverLine = "";
+            double leftOverAdvanceWidthInPoints = 0;
+            double leftOverTotalAdvanceFromLastWord = 0;
+
+            var inputMaxWidth = maxWidth;
+
+            var combinedString = string.Join(string.Empty, textFragments.ToArray());
+            int charCount = 0;
+
+            var splitStrings = combinedString.Split([newLine], StringSplitOptions.None);
+            List<int> presetNewLineIndicies = new();
+            int totalPresetLength = 0;
+
+            foreach (var line in splitStrings)
+            {
+                presetNewLineIndicies.Add(totalPresetLength + line.Length);
+                totalPresetLength += line.Length;
+            }
+            var currentPresetLineIndex = presetNewLineIndicies[0];
+
+            int totalAdvanceFromLastWord = 0;
+            for (int k = 0; k < textFragments.Count(); k++)
+            {
+                var testArray = splitStrings.Last().ToCharArray();
+
+                //Convert maxWidth from points to current font design units (different fonts can have different units)
+                maxWidth = (inputMaxWidth * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k];
+
+                var glyphMappings = fonts[k].CmapTable.GetPreferredSubtable().GetGlyphMappings();
+
+                int nextLineStartIndex = 0;
+                totalAdvanceFromLastWord = 0;
+
+                if (leftOverAdvanceWidthInPoints != 0)
+                {
+                    //Convert leftOverWidth and widthFromLastWord to current font design units
+                    totalAdvanceWidth = Convert.ToInt16((leftOverAdvanceWidthInPoints * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k]);
+                    totalAdvanceFromLastWord = Convert.ToInt16((leftOverTotalAdvanceFromLastWord * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k]);
+                }
+
+                for (int i = 0; i < textFragments[k].Length; i++)
+                {
+                    //Text-Fragments may already contain new lines
+                    //Reset all advance when we reach such a newLine
+                    if (charCount >= currentPresetLineIndex)
+                    {
+                        totalAdvanceFromLastWord = 0;
+                        totalAdvanceWidth = 0;
+                        leftOverLine = "";
+                        leftOverAdvanceWidthInPoints = 0;
+                        leftOverTotalAdvanceFromLastWord = 0;
+                    }
+
+                    char c = textFragments[k][i];
+                    var gi = glyphMappings.GetGlyphIndex(c);
+                    int advanceWidth;
+                    if (gi == 0 && c != 0)
+                    {
+                        advanceWidth = fonts[k].Os2Table.xAvgCharWidth;
+                    }
+                    else
+                    {
+                        var hhMetric = fonts[k].HmtxTable.hMetrics[gi ?? 0];
+                        advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
+                    }
+
+                    var newWidth = totalAdvanceWidth + advanceWidth;
+
+                    int kerning = 0;
+                    // Kerning adjustment
+                    if (!firstChar)
+                    {
+                        kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fonts[k]);
+                        newWidth += kerning;
+                    }
+
+                    totalAdvanceFromLastWord += (advanceWidth + kerning);
+
+                    if (c == ' ')
+                    {
+                        totalAdvanceFromLastWord = 0;
+                    }
+
+                    //We are beyond MaxWidth. Wrap the line.
+                    //(mostly same as regular wrap but must check against a combined string of all fragments for char positions)
+                    if (newWidth > maxWidth)
+                    {
+                        var charCountFromLast = charCount - nextLineStartIndex;
+                        var lastLineIndex = nextLineStartIndex;
+
+                        var txt = combinedString.Substring(nextLineStartIndex, charCountFromLast);
+
+                        //Ensure whole words get moved down if part of its letters are overflowing
+                        var splitLines = txt.Split(' ');
+
+                        if (splitLines.Length > 1 && c != ' ')
+                        {
+                            var stringOverMax = splitLines.Last();
+                            var startIndex = txt.Length - stringOverMax.Length;
+                            //Remove the overflowing characters
+                            var spacedString = txt.Remove(startIndex, stringOverMax.Length).TrimEnd(' ');
+                            //Add only part of the text before the overflowing word
+                            wrappedStrings.Add(spacedString);
+
+                            //The start index of the first character in the overflow (After space)
+                            nextLineStartIndex = lastLineIndex + startIndex;
+
+                            totalAdvanceWidth = totalAdvanceFromLastWord;
+                            leftOverLine = combinedString.Substring(nextLineStartIndex, charCount - nextLineStartIndex);
+                        }
+                        else
+                        {
+
+                            //If the char was a space it should not be added to the next line
+                            //Therefore we do not add its width and the index of the next line starts at the next character.
+                            if (c == ' ')
+                            {
+                                //The current char has crossed the max
+                                //Therefore remove it from the text to be added.
+                                var wrappedString = txt.Substring(0, txt.Length);
+                                wrappedStrings.Add(wrappedString);
+                                nextLineStartIndex = charCount + 1;
+                                totalAdvanceWidth = 0;
+                            }
+                            else
+                            {
+                                //The current char has crossed the max
+                                //Therefore remove it from the text to be added.
+                                var wrappedString = txt.Substring(0, txt.Length);
+                                wrappedStrings.Add(wrappedString);
+                                //The current character is part of the new line
+                                //We should start at the index of the current character and add its width to the new line
+                                nextLineStartIndex = charCount;
+                                totalAdvanceWidth = advanceWidth;
+                            }
+                            leftOverLine = combinedString.Substring(nextLineStartIndex, nextLineStartIndex - charCount);
+                        }
+                        //New line means both totals are equal
+                        totalAdvanceFromLastWord = totalAdvanceWidth;
+                    }
+                    else
+                    {
+                        totalAdvanceWidth = newWidth;
+                    }
+
+                    lastGlyphIndex = gi;
+                    firstChar = false;
+
+                    //Add the current char to current unwrapped line
+                    leftOverLine += combinedString.Substring(charCount, 1);
+                    charCount++;
+                }
+
+                //We are about to exit or enter a new text-fragment which may have a different font. Save current advance in points
+                leftOverAdvanceWidthInPoints = (totalAdvanceWidth / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
+                leftOverTotalAdvanceFromLastWord = (totalAdvanceFromLastWord / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
+            }
+
+            wrappedStrings.Add(leftOverLine);
+
+            return wrappedStrings;
+        }
+    }
+}
+
+namespace EPPlus.Fonts.OpenType
+{
+    public enum FontSubFamily
+    {
+        Regular,
+        Bold,
+        Italic,
+        BoldItalic
     }
 }

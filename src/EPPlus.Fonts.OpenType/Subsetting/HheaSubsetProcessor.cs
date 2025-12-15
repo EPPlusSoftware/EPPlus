@@ -10,24 +10,18 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using System.Collections.Generic;
-
-namespace EPPlus.Fonts.OpenType.Scanner
+namespace EPPlus.Fonts.OpenType.Subsetting
 {
-    internal interface IScannedFont
+    internal class HheaSubsetProcessor : IFontSubsetProcessor
     {
-        string FontFamilyName { get; }
+        public void Process(FontSubsettingContext context)
+        {
+            var original = context.OriginalFont.HheaTable;
+            if (original == null) return;
 
-        string FontSubFamilyName { get; set; }
-
-        string FilePath { get; set; }
-
-        FontFormat Format { get; set; }
-
-        IEnumerable<ScannedFont>? SubFonts { get; }
-
-        long? TtcOffset { get; }
-
-        byte[] GetTableBytes(string tag);
+            var hhea = original.Clone();
+            hhea.numberOfHMetrics = (ushort)context.NewToOldGlyphId.Count;
+            context.SubsetFont.AddOrReplaceTable(hhea);
+        }
     }
 }

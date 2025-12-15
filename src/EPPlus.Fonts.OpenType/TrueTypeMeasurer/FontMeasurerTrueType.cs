@@ -1,10 +1,26 @@
-﻿using System.Collections.Generic;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+ *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Utils;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType
 {
+    
+
     public enum TextUnit
     {
         Points,
@@ -13,7 +29,7 @@ namespace EPPlus.Fonts.OpenType
 
     public class FontMeasurerTrueType : ITextMeasurerWrap
     {
-        private OpenTypeFont _defaultFont = TextData.GetFontData("Calibri", "Regular");
+        private OpenTypeFont _defaultFont = TextData.GetFontData("Calibri", FontSubFamily.Regular);
         private double _defaultSize = 11d;
 
         OpenTypeFont CurrentFont;
@@ -50,7 +66,7 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="fontSize"></param>
         /// <param name="fontName"></param>
         /// <param name="fontSubFamily"></param>
-        public FontMeasurerTrueType(double fontSize, string fontName, string fontSubFamily = "Regular")
+        public FontMeasurerTrueType(double fontSize, string fontName, FontSubFamily fontSubFamily = FontSubFamily.Regular)
         {
             CurrentFontName = string.IsNullOrEmpty(fontName) ? "" : fontName;
 
@@ -75,7 +91,7 @@ namespace EPPlus.Fonts.OpenType
         }
 
 
-        public void SetFont(double fontSize, string fontName, string subFamily = "Regular")
+        public void SetFont(double fontSize, string fontName, FontSubFamily subFamily = FontSubFamily.Regular)
         {
             CurrentFontName = fontName;
             CurrentFont = TextData.GetFontData(fontName, subFamily);
@@ -86,7 +102,7 @@ namespace EPPlus.Fonts.OpenType
         {
             CurrentFontName = string.IsNullOrEmpty(mFont.FontFamily) ? "" : mFont.FontFamily;
 
-            var styleName = Enum.GetName(typeof(MeasurementFontStyles), mFont.Style);
+            var styleName = GetFontSubType(mFont.Style);
             SetFont(mFont.Size, mFont.FontFamily, styleName);
 
             if (CurrentFont == null)
@@ -179,13 +195,31 @@ namespace EPPlus.Fonts.OpenType
         public TextMeasurement MeasureText(string text, MeasurementFont font)
         {
             var TextMeasurement = new TextMeasurement();
-            SetFont(font.Size, font.FontFamily, font.GetSubFamily());
+            SetFont(font.Size, font.FontFamily, GetFontSubType(font.Style));
             TextMeasurement.Width = (float)MeasureTextWidth(text);
             TextMeasurement.Height = (float)GetSingleLineSpacing();
             TextMeasurement.FontHeight = (float)InternalFontHeight();
             return TextMeasurement;
         }
 
+        private FontSubFamily GetFontSubType(MeasurementFontStyles Style)
+        {
+            if ((Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) == (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
+            {
+                return FontSubFamily.BoldItalic;
+            }
+            else if ((Style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
+            {
+                return FontSubFamily.Bold;
+            }
+            else if ((Style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
+            {
+                return FontSubFamily.Italic;
+            }
+
+            return FontSubFamily.Regular;
+        }
+        
         /// <summary>
         /// Measures text width and height in points
         /// </summary>
@@ -199,10 +233,10 @@ namespace EPPlus.Fonts.OpenType
             return TextMeasurement;
         }
 
-        public List<string> MeasureAndWrapText(string text, MeasurementFont font, double MaxWidthInPixels)
+        public List<string> MeasureAndWrapText(string text, MeasurementFont font, double MaxWidthInPixels, double preExistingWidthPixels = 0)
         {
             SetFont(font.Size, font.FontFamily);
-            var wrappedStrings = TextData.MeasureAndWrapText(text, FontSize, CurrentFont, MaxWidthInPixels.PixelToPoint());
+            var wrappedStrings = TextData.MeasureAndWrapText(text, FontSize, CurrentFont, MaxWidthInPixels.PixelToPoint(), preExistingWidthPixels.PixelToPoint());
             return wrappedStrings;
         }
 
@@ -246,6 +280,37 @@ namespace EPPlus.Fonts.OpenType
                 return dAscent.PointToPixel();
             }
             return dAscent;
+        }
+
+        public List<string> WrapMultipleTextFragments(List<string> textFragment, List<MeasurementFont> fonts, double maxWidthPoints)
+        {
+            List<OpenTypeFont> openTypeFonts = new List<OpenTypeFont>();
+            List<double> fontSizes = new List<double>();
+
+            //prevent creating multiple OpenTypeFonts via cache/indexing
+            Dictionary<double, OpenTypeFont> fontIndexDict = new();
+
+            var distinctFonts = fonts.Distinct().ToArray();
+
+            foreach (var distinctFont in distinctFonts)
+            {
+                SetFont(distinctFont);
+                openTypeFonts.Add(CurrentFont);
+            }
+
+            for (int i = 0; i < fonts.Count; i++)
+            {
+                for(int j = 0; j < distinctFonts.Count(); j++)
+                {
+                    if (fonts[i] == distinctFonts[j])
+                    {
+                        fontIndexDict.Add(i, openTypeFonts[j]);
+                    }
+                }
+                fontSizes.Add(fonts[i].Size);
+            }
+
+            return TextData.WrapMultipleTextFragments(textFragment, fontSizes, fontIndexDict, maxWidthPoints);
         }
     }
 }

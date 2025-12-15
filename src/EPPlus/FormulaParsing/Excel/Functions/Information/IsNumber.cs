@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var arg = GetFirstValue(arguments);
-            return CreateResult(IsNumeric(arg), DataType.Boolean);
+            return CreateResult(IsNumericNotBool(arg), DataType.Boolean);
         }
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {

@@ -201,27 +201,27 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
-        public void TimeShouldReturnErrorIsOutOfRange()
+        public void TimeShouldHandleSecondOverflow()
         {
             var func = new Time();
             var result = func.Execute(FunctionsHelper.CreateArgs(10, 11, 60), _parsingContext);
-            Assert.AreEqual(DataType.ExcelError, result.DataType);
+            Assert.AreEqual(0.425, Math.Round((double)result.Result, 5));
         }
 
         [TestMethod]
-        public void TimeShouldReturnErrorIfMinuteIsOutOfRange()
+        public void TimeShouldHandleMinuteOverflow()
         {
             var func = new Time();
             var result = func.Execute(FunctionsHelper.CreateArgs(10, 60, 12), _parsingContext);
-            Assert.AreEqual(DataType.ExcelError, result.DataType);
+            Assert.AreEqual(0.45847, Math.Round((double)result.Result, 5));
         }
 
         [TestMethod]
-        public void TimeShouldReturnErrorIfHourIsOutOfRange()
+        public void TimeShouldHandleHourOverflow()
         {
             var func = new Time();
             var result = func.Execute(FunctionsHelper.CreateArgs(24, 12, 12), _parsingContext);
-            Assert.AreEqual(DataType.ExcelError, result.DataType);
+            Assert.AreEqual(0.00847, Math.Round((double)result.Result, 5));
         }
 
         [TestMethod]

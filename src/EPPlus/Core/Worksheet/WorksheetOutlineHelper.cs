@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Core.Worksheet
             else
             {
                 //Check if the parent row is hidden.
-                hidden = row.Hidden;
+                hidden = row?.Hidden ?? false;
             }
 
             var r = rowNo + addValue;

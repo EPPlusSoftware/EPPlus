@@ -35,6 +35,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             var power = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            if(number==0 && power==0)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Num);
+            }
             var result = Math.Pow(number, power);
             return CreateResult(result, DataType.Decimal);
         }

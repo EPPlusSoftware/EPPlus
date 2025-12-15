@@ -108,6 +108,11 @@ namespace OfficeOpenXml.Utils.TypeConversion
             return ret2;
         }
 
+        /// <summary>
+        /// Converts the color to a <see cref="Color"/>
+        /// </summary>
+        /// <param name="cm">The theme color manager</param>
+        /// <returns>The RGB color</returns>
         public static Color GetThemeColor(ExcelDrawingThemeColorManager cm)
         {
             Color color;
@@ -127,6 +132,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
                     color = Color.FromArgb(GetRgpPercentToRgb(rp.RedPercentage),
                                            GetRgpPercentToRgb(rp.GreenPercentage),
                                            GetRgpPercentToRgb(rp.BluePercentage));
+                    
                     break;
                 case eDrawingColorType.Hsl:
                     color = cm.HslColor.GetRgbColor();
@@ -137,7 +143,6 @@ namespace OfficeOpenXml.Utils.TypeConversion
             }
 
             //TODO:Apply Transforms
-
             return color;
         }
 
@@ -175,5 +180,6 @@ namespace OfficeOpenXml.Utils.TypeConversion
             var b = (int)Math.Min(255D, color.B * colorPercent + blendColor.B * percent);
             return Color.FromArgb(0xff, r, g, b);
         }
+
     }
 }

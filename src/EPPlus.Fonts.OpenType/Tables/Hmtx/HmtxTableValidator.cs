@@ -1,0 +1,107 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+ *************************************************************************************************/
+using EPPlus.Fonts.OpenType.FontValidation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace EPPlus.Fonts.OpenType.Tables.Hmtx
+{
+
+    internal class HmtxTableValidator : TableValidatorBase<HmtxTable>
+    {
+        public override Type TableType => typeof(HmtxTable);
+        public override string TableName => "hmtx";
+
+        public override TableValidationResult Validate(HmtxTable hmtx, FontValidationContext context)
+        {
+            var result = new TableValidationResult();
+            result.TableName = TableName;
+            var font = context.Font;
+
+            int numGlyphs = font.MaxpTable.numGlyphs;
+            int numHMetrics = font.HheaTable.numberOfHMetrics;
+
+            // 1. Validate hMetrics count
+            if (hmtx.hMetrics.Count != numHMetrics)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    $"Hmtx: Expected {numHMetrics} hMetrics entries (from hhea), found {hmtx.hMetrics.Count}.");
+            }
+
+            // 2. Validate total coverage
+            int totalEntries = hmtx.hMetrics.Count + hmtx.leftSideBearings.Count;
+            if (totalEntries < numGlyphs)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    $"Hmtx: Total entries ({totalEntries}) do not cover all glyphs ({numGlyphs}).");
+            }
+
+            // 3. Validate advance widths
+            for (int i = 0; i < hmtx.hMetrics.Count; i++)
+            {
+                ushort aw = hmtx.hMetrics[i].advanceWidth;
+                if (aw == 0)
+                {
+                    result.AddMessage(FontValidationSeverity.Warning,
+                        $"Hmtx: advanceWidth for glyph {i} is 0 (may be intentional, but check).");
+                }
+            }
+
+            // 4. Validate LSB values
+            foreach (var metric in hmtx.hMetrics)
+            {
+                if (metric.lsb < -32768 || metric.lsb > 32767)
+                {
+                    result.AddMessage(FontValidationSeverity.Error,
+                        $"Hmtx: LSB value {metric.lsb} out of valid range (-32768 to 32767).");
+                }
+            }
+
+            foreach (var lsb in hmtx.leftSideBearings)
+            {
+                if (lsb < -32768 || lsb > 32767)
+                {
+                    result.AddMessage(FontValidationSeverity.Error,
+                        $"Hmtx: LSB value {lsb} out of valid range (-32768 to 32767).");
+                }
+            }
+
+
+            // 5. Check advanceWidth against hhea.advanceWidthMax
+            ushort maxAdvanceWidth = font.HheaTable.advanceWidthMax;
+            for (int i = 0; i < hmtx.hMetrics.Count; i++)
+            {
+                ushort aw = hmtx.hMetrics[i].advanceWidth;
+                if (aw > maxAdvanceWidth)
+                {
+                    result.AddMessage(FontValidationSeverity.Error,
+                        $"Hmtx: advanceWidth for glyph {i} ({aw}) exceeds hhea.advanceWidthMax ({maxAdvanceWidth}).");
+                }
+            }
+
+            // 6. Check that extra LSBs cover the remaining glyphs correctly
+            int expectedExtraLSBs = numGlyphs - numHMetrics;
+            if (hmtx.leftSideBearings.Count != expectedExtraLSBs)
+            {
+                result.AddMessage(FontValidationSeverity.Error,
+                    $"Hmtx: Expected {expectedExtraLSBs} extra LSBs, found {hmtx.leftSideBearings.Count}.");
+            }
+
+
+            return result;
+        }
+    }
+
+}

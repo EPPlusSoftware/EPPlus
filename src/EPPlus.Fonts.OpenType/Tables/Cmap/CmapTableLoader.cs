@@ -84,10 +84,38 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                         enc.Subtable = sub12;
                         break;
                     case 14:
-                        var sub14 = new CmapSubtable14Deserializer(_reader).Deserialize(currentPos);
-                        table.SubTables.Add(sub14);
-                        subtableCache[enc.SubtableOffset] = sub14;
-                        enc.Subtable = sub14;
+                        // --------------------------------------------------------------------
+                        // cmap format 14 – Variation Sequences
+                        // Almost never used in practice and frequently malformed in emoji/CJK fonts.
+                        // We skip parsing it completely but preserve the encoding record
+                        // so that round-trip serialization works without NullReferenceException.
+                        // --------------------------------------------------------------------
+
+                        // Create a minimal dummy subtable – prevents null references during serialization
+                        var dummySubtable = new CmapSubtable14();
+
+                        // Mark this encoding record as skipped – serializer will ignore it
+                        enc.IsSkipped = true;
+                        enc.Subtable = dummySubtable;
+
+                        // Optional: cache dummy to avoid recreating it (harmless but clean)
+                        subtableCache[enc.SubtableOffset] = dummySubtable;
+
+                        // Skip the actual table data safely
+                        _reader.BaseStream.Position = currentPos + 6; // skip format (2) + length (4)
+                        uint length = _reader.ReadUInt32BigEndian();
+
+                        long nextTablePos = currentPos + length;
+                        if (nextTablePos > _reader.BaseStream.Length || nextTablePos < currentPos)
+                        {
+                            nextTablePos = _reader.BaseStream.Length;
+                        }
+
+                        _reader.BaseStream.Position = nextTablePos;
+
+                        System.Diagnostics.Debug.WriteLine(
+                            $"Skipped cmap format 14 (Variation Sequences) at offset {enc.SubtableOffset}, length={length}");
+
                         break;
 
                     default:
@@ -98,53 +126,5 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
             return table;
         }
-
-
-        //protected override CmapTable LoadInternal()
-        //{
-        //    var table = new CmapTable
-        //    {
-        //        Version = _reader.ReadUInt16BigEndian(),
-        //        NumTables = _reader.ReadUInt16BigEndian()
-        //    };
-
-        //    for(var x = 0; x < table.NumTables; x++)
-        //    {
-        //        var enc = new EncodingRecord(_reader);
-        //        table.EncodingRecords.Add(enc);
-        //    }
-
-        //    for(var x = 0; x < table.NumTables; x++)
-        //    {
-        //        var enc = table.EncodingRecords[x];
-        //        var currentPos = _offset + enc.SubtableOffset;
-        //        _reader.BaseStream.Position = currentPos;
-        //        var format = _reader.ReadUInt16BigEndian();
-        //        if(format == 0)
-        //        {
-        //            var subtable = new CmapSubtable0(_reader);
-        //            table.SubTables.Add(subtable);
-        //            enc.Subtable = subtable;
-        //            //enc.Mappings = subtable.GlyphMappingArray;
-        //        }
-        //        else if(format == 4)
-        //        {
-        //            var subtable = new CmapSubtable4(_reader);
-        //            table.SubTables.Add(subtable);
-        //            enc.Subtable = subtable;
-        //            //enc.Mappings = subtable.GlyphMappingArray;
-        //            //enc.GlyphIndexToCharMappings = subtable.GlyphIndexToCharMappings;
-        //            //enc.CharMappingsToGlyphIndex = subtable.CharMappingsToGlyphIndex;
-        //        }
-        //        else if(format == 6)
-        //        {
-        //            var subtable = new CmapSubtable6(_reader);
-        //            table.SubTables.Add(subtable);
-        //            enc.Subtable = subtable;
-        //            //enc.Mappings = subtable.GlyphMappingArray;
-        //        }
-        //    }
-        //    return table;
-        //}
     }
 }

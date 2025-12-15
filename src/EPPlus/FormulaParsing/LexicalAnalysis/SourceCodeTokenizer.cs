@@ -241,9 +241,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     }
                     else if (isInString == 0 && _charTokens.ContainsKey(c) && (flags & statFlags.isExponential) == 0)
                     {
-                        if (c == '!' && current.Length > 0 && current[0] == '#' && current[current.Length - 1] != '\'')
+                        var currentString = current.ToString();
+                        if (currentString.Equals("#DIV", StringComparison.OrdinalIgnoreCase) && c=='/')
                         {
-                            var currentString = current.ToString();
+                            current.Append(c);
+                            ix++;
+                            continue;
+                        }
+                        if ((c == '!' || c=='?') && current.Length > 0 && current[0] == '#' && current[current.Length - 1] != '\'')
+                        {
                             if (currentString.Equals("#NUM", StringComparison.OrdinalIgnoreCase))
                             {
                                 l.Add(new Token("#NUM!", TokenType.NumericError));
@@ -259,6 +265,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             else if(currentString.Equals("#REF", StringComparison.OrdinalIgnoreCase))
                             {
                                 l.Add(new Token("#REF!", TokenType.InvalidReference));
+                            }
+                            else if (currentString.Equals("#DIV/0", StringComparison.OrdinalIgnoreCase))
+                            {
+                                l.Add(new Token("#DIV/0!", TokenType.Div0Error));
                             }
                             else
                             {
@@ -661,6 +671,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 else if (currentString.Equals("#N/A", StringComparison.OrdinalIgnoreCase))
                 {
                     l.Add(new Token(currentString, TokenType.NAError));
+                }
+                else if (currentString.Equals("#NAME?", StringComparison.OrdinalIgnoreCase))
+                {
+                    l.Add(new Token(currentString, TokenType.NameError));
+                }
+                else if (currentString.Equals("#GETTING_DATA", StringComparison.OrdinalIgnoreCase))
+                {
+                    l.Add(new Token(currentString, TokenType.GettingDataError));
                 }
                 else if (_r1c1 == false && IsValidCellAddress(currentString))
                 {

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Graphics.Math;
 using System.Drawing;
+using EPPlus.Fonts.OpenType;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using EPPlus.Export.Pdf.Pdfhelpers;
@@ -94,6 +95,16 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public bool SubScript { get; set; }
         public bool SuperScript { get; set; }
         public bool Underline { get; set; }
+        public string FontName = "Aptos Narrow";
+        public int FontFamily = 0;
+        public FontSubFamily SubFamily = FontSubFamily.Regular;
+        public double FontSize = 11;
+        public bool Bold = false;
+        public bool Italic = false;
+        public bool Strike = false;
+        public bool SubScript = false;
+        public bool SuperScript = false;
+        public bool Underline = false;
         public ExcelUnderLineType UnderlineType = ExcelUnderLineType.None;
         public string Text { get; set; }
         public Color FontColor { get; set; }
@@ -201,7 +212,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public Color BorderColor = Color.Black;
         public double MergedDiagonalWidth = 0d;
         public double MergedDiagonalHeight = 0d;
-        public double Width=0;
+        public double Width = 0;
         public double Height = 0;
         public double X = 0;
         public double Y = 0;

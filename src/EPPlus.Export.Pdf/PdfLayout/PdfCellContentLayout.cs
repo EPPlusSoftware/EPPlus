@@ -813,7 +813,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             switch (CellAlignmentData.VerticalAlignment)
             {
                 case ExcelVerticalAlignment.Top:
-                    y = (CellY + cellHeight) - (fontHeight/2d) - bottomMargin;
+                    y = (CellY + cellHeight) - (fontHeight / 2d) - bottomMargin;
                     break;
                 case ExcelVerticalAlignment.Center:
                     // replaces Math.Clamp which didn't exist in the older frameworks.
@@ -923,4 +923,3 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
     }
 }
- 

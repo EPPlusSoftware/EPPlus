@@ -100,7 +100,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
                 UnicodeRange3 = ucr3,
                 UnicodeRange4 = ucr4,
                 achVendId = achVendId,
-                fsSelection = fsSelection,
+                fsSelection = (Os2Table.FsSelectionFlags)fsSelection,
                 usFirstCharIndex = usFirstCharIndex,
                 usLastCharIndex = usLastCharIndex,
                 sTypoAscender = sTypoAscender,

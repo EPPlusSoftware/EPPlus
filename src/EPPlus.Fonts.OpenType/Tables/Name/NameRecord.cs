@@ -82,5 +82,30 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             writer.WriteUInt16BigEndian(offset);
 
         }
+
+
+        /// <summary>
+        /// Deep clone of NameRecord. 
+        /// Note: 'length' and 'offset' are recomputed in NameTable.SerializeInternal.
+        /// </summary>
+        public NameRecord Clone()
+        {
+            return new NameRecord
+            {
+                platformId = this.platformId,
+                encodingId = this.encodingId,
+                languageID = this.languageID,
+                nameId = this.nameId,
+                RecordType = this.RecordType,
+
+                // Do NOT trust old length/offset: they will be recalculated during serialization
+                length = this.length,
+                offset = this.offset,
+
+                Name = this.Name, // string is immutable; safe to copy
+                LanguageMapping = this.LanguageMapping // assuming mapping is immutable/value-type-like; clone if needed
+            };
+        }
+
     }
 }

@@ -19,6 +19,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
 {
     public class Os2Table : FontTableBase
     {
+        public override string Name => TableNames.Os2;
+
+        public override bool IsEssentialTable => false;
         /// <summary>
         /// The version number for the OS/2 table: 0x0000 to 0x0005.
         /// The version number allows for identification of the precise contents and layout for the OS/2 table.
@@ -134,7 +137,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         /// Contains information concerning the nature of the font patterns
         /// See https://docs.microsoft.com/en-us/typography/opentype/spec/os2#fss
         /// </summary>
-        public ushort fsSelection { get; set; }
+        public FsSelectionFlags fsSelection { get; set; }
         [Flags]
         public enum FsSelectionFlags : ushort
         {
@@ -150,7 +153,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
             Oblique = 1 << 9            // Bit 9
                                         // Bits 10-15 are reserved
         }
-        public FsSelectionFlags SelectionFlags => (FsSelectionFlags)fsSelection;
+        //public FsSelectionFlags SelectionFlags => (FsSelectionFlags)fsSelection;
 
 
         /// <summary>
@@ -201,9 +204,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         public ushort usLowerOpticalPointSize { get; set; }
         public ushort usUpperOpticalPointSize { get; set; }
 
-        public bool UseTypoMetrics => EnumUtil.HasFlag(SelectionFlags, FsSelectionFlags.UseTypoMetrics);
+        public bool UseTypoMetrics => EnumUtil.HasFlag(fsSelection, FsSelectionFlags.UseTypoMetrics);
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             writer.WriteUInt16BigEndian(version);
             writer.WriteInt16BigEndian(xAvgCharWidth);
@@ -230,7 +233,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
 
             achVendId.Serialize(writer); // 4 bytes
 
-            writer.WriteUInt16BigEndian(fsSelection);
+            writer.WriteUInt16BigEndian((ushort)fsSelection);
             writer.WriteUInt16BigEndian(usFirstCharIndex);
             writer.WriteUInt16BigEndian(usLastCharIndex);
             writer.WriteInt16BigEndian(sTypoAscender);
@@ -257,6 +260,62 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         internal override void Clear()
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Creates a deep clone of the OS/2 table.
+        /// Used during font subsetting to ensure the new font has its own independent copy.
+        /// </summary>
+        /// <returns>A new Os2Table instance with identical values</returns>
+        public Os2Table Clone()
+        {
+            return new Os2Table
+            {
+                version = this.version,
+                xAvgCharWidth = this.xAvgCharWidth,
+                usWeightClass = this.usWeightClass,
+                usWidthClass = this.usWidthClass,
+                fsType = this.fsType,
+                ySubscriptXSize = this.ySubscriptXSize,
+                ySubscriptYSize = this.ySubscriptYSize,
+                ySubscriptXOffset = this.ySubscriptXOffset,
+                ySubscriptYOffset = this.ySubscriptYOffset,
+                ySuperscriptXSize = this.ySuperscriptXSize,
+                ySuperscriptYSize = this.ySuperscriptYSize,
+                ySuperscriptXOffset = this.ySuperscriptXOffset,
+                ySuperscriptYOffset = this.ySuperscriptYOffset,
+                yStrikeoutSize = this.yStrikeoutSize,
+                yStrikeoutPosition = this.yStrikeoutPosition,
+                sFamilyClass = this.sFamilyClass,
+
+                // Deep clone of Panose (10-byte array)
+                panose = this.panose != null ? (byte[])this.panose.Clone() : null,
+
+                UnicodeRange1 = this.UnicodeRange1,
+                UnicodeRange2 = this.UnicodeRange2,
+                UnicodeRange3 = this.UnicodeRange3,
+                UnicodeRange4 = this.UnicodeRange4,
+
+                achVendId = this.achVendId, // Tag is immutable
+
+                fsSelection = this.fsSelection,
+                usFirstCharIndex = this.usFirstCharIndex,
+                usLastCharIndex = this.usLastCharIndex,
+                sTypoAscender = this.sTypoAscender,
+                sTypoDescender = this.sTypoDescender,
+                sTypoLineGap = this.sTypoLineGap,
+                usWinAscent = this.usWinAscent,
+                usWinDescent = this.usWinDescent,
+                ulCodePageRange1 = this.ulCodePageRange1,
+                ulCodePageRange2 = this.ulCodePageRange2,
+                sxHeight = this.sxHeight,
+                sCapHeight = this.sCapHeight,
+                usDefaultChar = this.usDefaultChar,
+                usBreakChar = this.usBreakChar,
+                usMaxContext = this.usMaxContext,
+                usLowerOpticalPointSize = this.usLowerOpticalPointSize,
+                usUpperOpticalPointSize = this.usUpperOpticalPointSize
+            };
         }
     }
 }
