@@ -10,25 +10,26 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Graphics;
-using EPPlus.Graphics.Math;
-using System.Drawing;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
 using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
     internal class PdfCellContentLayout : Transform
     {
         public List<PdfCellTextLine> TextLines = new List<PdfCellTextLine>();
+        public List<PdfCellTextLine> Words = new List<PdfCellTextLine>();
+        public List<PdfCellLines> Lines = new List<PdfCellLines>();
         public PdfCellAlignmentData CellAlignmentData;
         public bool Clip;
         public Rect Clipping;
@@ -45,8 +46,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
             this.cell = cell;
             if (cell.IsRichText)
             {
-                HandleRichText(pageSettings, dictionaries, width, height, x, cell.Style.TextRotation);
-                //HandleRichText(pageSettings, dictionaries, width, height);
+                //HandleRichText(pageSettings, dictionaries, width, height, x, cell.Style.TextRotation);
+                HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation);
             }
             else
             {
@@ -65,6 +66,120 @@ namespace EPPlus.Export.Pdf.PdfLayout
             Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y);
             CheckClipping(cell, width);
         }
+
+        private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation)
+        {
+            //var words = cell.RichText.Text.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
+
+            List<PdfCellTextItem> textItems = new List<PdfCellTextItem>();
+            for (int i = 0; i < cell.RichText.Count; i++)
+            {
+                var rt = cell.RichText[i];
+                for (int j = 0; j < rt.Text.Length; j++)
+                {
+                    var textItem = new PdfCellTextItem();
+                    textItem.Text = rt.Text[j].ToString();
+                    textItem.FontName = rt.FontName;
+                    textItem.FontFamily = rt.Family;
+                    textItem.FontSize = rt.Size;
+                    textItem.Bold = rt.Bold;
+                    textItem.Italic = rt.Italic;
+                    textItem.Strike = rt.Strike;
+                    textItem.Underline = rt.UnderLine;
+                    textItem.UnderlineType = rt.UnderLineType;
+                    textItem.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
+                    textItem.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
+                    textItem.FontColor = rt.Color;
+                    textItem.SubFamily = FontSubFamily.Regular;
+                    if (textItem.Bold)
+                    {
+                        textItem.SubFamily = FontSubFamily.Bold;
+                        if (textItem.Italic)
+                        {
+                            textItem.SubFamily = FontSubFamily.BoldItalic;
+                        }
+                    }
+                    else if (textItem.Italic)
+                    {
+                        textItem.SubFamily = FontSubFamily.Italic;
+                    }
+                    font.FontFamily = textItem.FontName;
+                    font.Size = (float)textItem.FontSize;
+                    font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
+                                  (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
+                                  (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
+                                  (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
+                                  switch
+                    {
+                        0 => MeasurementFontStyles.Regular,
+                        var s => s
+                    };
+                    var result = fontMeasurerTrueType.MeasureText(cell.Text, font);
+                    textItem.TextLength = result.Width;
+                    textItem.LineHeight = result.Height;
+                    textItem.FontHeight = result.FontHeight;
+                    var fontData = GetFontResourceData(dictionaries.Fonts, pageSettings, textItem);
+                    double gbox = (fontData.Os2Table.sTypoAscender - fontData.Os2Table.sTypoDescender) * (cell.Style.Font.Size / fontData.HeadTable.UnitsPerEm);
+                    textItem.GlyphBox = new Rect();
+                    textItem.GlyphBox.Width = gbox;
+                    textItem.GlyphBox.Height = gbox;
+                    var offset = x + (textItem.GlyphBox.Width - result.Width) / 2d;
+                    offset = offset - x;
+                    textItem.characterOffset = new Dictionary<char, Vector2>();
+                    textItem.characterOffset.Add(textItem.Text[0], new Vector2(offset, 0));
+                    textItems.Add(textItem);
+                }
+            }
+            var w = new PdfCellTextLine();
+            for (int i = 0; i < textItems.Count; i++)
+            {
+                var t = textItems[i];
+                if (char.IsWhiteSpace(t.Text[0]))
+                {
+                    Words.Add(w);
+                    w = new PdfCellTextLine();
+                    w.TextItemCollection.Add(t);
+                    Words.Add(w);
+                    w = new PdfCellTextLine();
+                }
+                else
+                {
+                    w.TextItemCollection.Add(t);
+                }
+                if (i == textItems.Count - 1)
+                {
+                    Words.Add(w);
+                }
+            }
+            if (rotation == 255)
+            {
+            }
+            else
+            {
+                if (cell.Style.WrapText)
+                {
+                    double lineLength = 0d;
+                    int currentLine = 0;
+                    for (int i = 0; i < Words.Count; i++)
+                    {
+                        if (lineLength + Words[i].TextLength < maxWidth)
+                        {
+                            lineLength += Words[i].TextLength;
+                            Lines[currentLine].Words.Add(Words[i]);
+                        }
+                        else
+                        {
+                            var line = new PdfCellLines();
+                            Lines.Add(line);
+                            //current line = new line
+                            //add words[i] to curennt line
+                            //lineLength 0 wordsi
+                        }
+                    }
+                }
+            }
+        }
+
 
         //private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double maxWidth, double maxHeight)
         //{
@@ -495,18 +610,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         double gbox = (fontData.Os2Table.sTypoAscender - fontData.Os2Table.sTypoDescender) * (cell.Style.Font.Size / fontData.HeadTable.UnitsPerEm);
                         textItem.GlyphBox.Width = gbox;
                         textItem.GlyphBox.Height = gbox;
-                        textItem.SubFamily = "Regular";
+                        textItem.SubFamily = FontSubFamily.Regular;
                         if (textItem.Bold)
                         {
-                            textItem.SubFamily = "Bold";
+                            textItem.SubFamily = FontSubFamily.Bold;
                             if (textItem.Italic)
                             {
-                                textItem.SubFamily += " Italic";
+                                textItem.SubFamily = FontSubFamily.BoldItalic;
                             }
                         }
                         else if (textItem.Italic)
                         {
-                            textItem.SubFamily = "Italic";
+                            textItem.SubFamily = FontSubFamily.Italic;
                         }
                         GetFontResourceData(dictionaries.Fonts, pageSettings, textItem);
                         if (!textItem.characterOffset.ContainsKey(textItem.Text[0]))
@@ -577,18 +692,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         double gbox = (fontData.Os2Table.sTypoAscender - fontData.Os2Table.sTypoDescender) * (cell.Style.Font.Size / fontData.HeadTable.UnitsPerEm);
                         textItem.GlyphBox.Width = gbox;
                         textItem.GlyphBox.Height = gbox;
-                        textItem.SubFamily = "Regular";
+                        textItem.SubFamily = FontSubFamily.Regular;
                         if (textItem.Bold)
                         {
-                            textItem.SubFamily = "Bold";
+                            textItem.SubFamily = FontSubFamily.Bold;
                             if (textItem.Italic)
                             {
-                                textItem.SubFamily += " Italic";
+                                textItem.SubFamily = FontSubFamily.BoldItalic;
                             }
                         }
                         else if (textItem.Italic)
                         {
-                            textItem.SubFamily = "Italic";
+                            textItem.SubFamily = FontSubFamily.Italic;
                         }
                         GetFontResourceData(dictionaries.Fonts, pageSettings, textItem);
                         textLine.TextItemCollection.Add(textItem);
@@ -734,18 +849,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
             textItem.SuperScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
             textItem.SubScript = cell.Style.Font.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
             textItem.FontColor = PdfColor.SetColorFromHex(cell.Style.Font.Color.LookupColor());
-            textItem.SubFamily = "Regular";
+            textItem.SubFamily = FontSubFamily.Regular;
             if (textItem.Bold)
             {
-                textItem.SubFamily = "Bold";
+                textItem.SubFamily = FontSubFamily.Bold;
                 if (textItem.Italic)
                 {
-                    textItem.SubFamily += " Italic";
+                    textItem.SubFamily = FontSubFamily.BoldItalic;
                 }
             }
             else if (textItem.Italic)
             {
-                textItem.SubFamily = "Italic";
+                textItem.SubFamily = FontSubFamily.Italic;
             }
             return textItem;
         }

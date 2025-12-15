@@ -34,6 +34,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellTextItem Item;
     }
 
+    internal class PdfCellLines
+    {
+        public List<PdfCellTextLine> Words = new List<PdfCellTextLine>();
+    }
+
     internal class PdfCellTextLine
     {
         public List<PdfCellTextItem> TextItemCollection = new List<PdfCellTextItem>();
@@ -83,47 +88,29 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public object Clone() => this.MemberwiseClone();
     }
 
-    internal class PdfCellTextItem
+    internal struct PdfCellTextItem
     {
-        public string FontName { get; set; }
-        public int FontFamily { get; set; }
-        public string SubFamily { get; set; }
-        public double FontSize { get; set; }
-        public bool Bold { get; set; }
-        public bool Italic { get; set; }
-        public bool Strike { get; set; }
-        public bool SubScript { get; set; }
-        public bool SuperScript { get; set; }
-        public bool Underline { get; set; }
-        public string FontName = "Aptos Narrow";
-        public int FontFamily = 0;
-        public FontSubFamily SubFamily = FontSubFamily.Regular;
-        public double FontSize = 11;
-        public bool Bold = false;
-        public bool Italic = false;
-        public bool Strike = false;
-        public bool SubScript = false;
-        public bool SuperScript = false;
-        public bool Underline = false;
-        public ExcelUnderLineType UnderlineType = ExcelUnderLineType.None;
-        public string Text { get; set; }
-        public Color FontColor { get; set; }
-        public double TextLength = 0d;
-        public double LineHeight = 0d;
-        public double FontHeight = 0d;
-        public double Advance = 0;
-        public double CrossSize = 0;
-        public double Ascent = 0;
-        public double Descent = 0;
-        public Rect GlyphBox = new Rect();
-        public Dictionary<char, Vector2> characterOffset = new Dictionary<char, Vector2>();
+        public string FontName;
+        public int FontFamily;
+        public FontSubFamily SubFamily;
+        public double FontSize;
+        public bool Bold;
+        public bool Italic;
+        public bool Strike;
+        public bool SubScript;
+        public bool SuperScript;
+        public bool Underline;
+        public ExcelUnderLineType UnderlineType;
+        public string Text;
+        public Color FontColor;
+        public double TextLength;
+        public double LineHeight;
+        public double FontHeight;
+        public Rect GlyphBox;
+        public Dictionary<char, Vector2> characterOffset;
         public List<GlyphPosition> GlyphPositions;
         public string FullFontName
         { get { return FontName + " " + SubFamily; } }
-
-        public PdfCellTextItem() { }
-
-        public object Clone() => this.MemberwiseClone();
     }
 
     internal class GlyphPosition

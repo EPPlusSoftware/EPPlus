@@ -10,19 +10,20 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Graphics.Math;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Drawing;
-using EPPlus.Graphics;
 
 namespace EPPlus.Export.Pdf.PdfObjects
 {
@@ -107,7 +108,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
 
         //Get font label //need to update this one too for same reasons as AddFontData
-        internal PdfFontResource GetFontResource(PdfDictionaries Dictionaries, PdfPageSettings PageSettings, string fontName, string subFamily, double fontSize)
+        internal PdfFontResource GetFontResource(PdfDictionaries Dictionaries, PdfPageSettings PageSettings, string fontName, FontSubFamily subFamily, double fontSize)
         {
             if (!Dictionaries.Fonts.ContainsKey(fontName))
             {
