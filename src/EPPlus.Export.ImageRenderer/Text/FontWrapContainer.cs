@@ -16,7 +16,7 @@ namespace EPPlus.Export.ImageRenderer.Text
     /// </summary>
     internal class FontWrapContainer : TextContainerBase
     {
-        FontMeasurerTrueType measurer;
+        protected FontMeasurerTrueType measurer;
 
         Rect Parent = null;
 
@@ -41,25 +41,31 @@ namespace EPPlus.Export.ImageRenderer.Text
             } 
         }
 
-        public FontWrapContainer(FontMeasurerTrueType txtMeasurer, Rect parent, bool initDefaults = true) : base(initDefaults)
+        public FontWrapContainer(FontMeasurerTrueType txtMeasurer, bool initDefaults = true) : base(initDefaults)
         {
-            Initialize(txtMeasurer, parent);
+            Initialize(txtMeasurer);
         }
 
-        public FontWrapContainer(FontMeasurerTrueType txtMeasurer, Rect parent, string content, bool initDefaults = false) : base(content, initDefaults)
+        public FontWrapContainer(FontMeasurerTrueType txtMeasurer, string content, bool initDefaults = false) : base(content, initDefaults)
         {
-            Initialize(txtMeasurer, parent);
+            Initialize(txtMeasurer);
         }
 
-        private void Initialize(FontMeasurerTrueType txtMeasurer, Rect parent)
+        private void Initialize(FontMeasurerTrueType txtMeasurer)
         {
             measurer = txtMeasurer;
-            if (parent != null)
-            {
-                Parent = parent;
-                transform = parent.transform;
-            }
+            //transform = parent.transform;
+            //if (parent != null)
+            //{
+            //    SetParent(parent);
+            //}
         }
+
+        //void SetParent(Rect parent)
+        //{
+        //    Parent = parent;
+        //    transform.Parent = parent.transform;
+        //}
 
         private void SplitContentToLines()
         {
