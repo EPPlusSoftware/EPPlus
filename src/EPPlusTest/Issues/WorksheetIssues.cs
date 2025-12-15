@@ -1050,5 +1050,16 @@ namespace EPPlusTest.Issues
             Assert.AreEqual("B2", dbv.Address);
         }
 
+        [TestMethod]
+        public void InserWorksheetIssue()
+        {
+            using var pck = new ExcelPackage();
+            var worksheet = pck.Workbook.Worksheets.Add("Sheet1");
+            for (int i = 1; i < 10; i++)
+            {
+                worksheet.InsertColumn(i, 1);
+            }
+        }
+
     }
 }
