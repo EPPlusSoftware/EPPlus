@@ -29,7 +29,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
                 component.Serialize(writer);
             }
 
-            // Kontrollera om sista komponenten har WE_HAVE_INSTRUCTIONS-flaggan
             if ((Components.Last().Flags & CompositeGlyphFlags.WE_HAVE_INSTRUCTIONS) != 0)
             {
                 writer.WriteUInt16BigEndian((ushort)Instructions.Length);

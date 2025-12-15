@@ -17,6 +17,7 @@ using EPPlus.Fonts.OpenType.Subsetting;
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
+using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
 using EPPlus.Fonts.OpenType.Tables.Hmtx;
@@ -89,6 +90,7 @@ namespace EPPlus.Fonts.OpenType
             _maxpTableLoader = TableLoaders.GetMaxpTableLoader(_tblSettings);
             _postTableLoader = TableLoaders.GetPostTableLoader(_tblSettings);
             _locaTableLoader = TableLoaders.GetLocaTableLoader(_tblSettings);
+            _gsubTableLoader = TableLoaders.GetGsubTableLoader(_tblSettings);
 
             //Common tables in ttf fonts
             _glyfTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? TableLoaders.GetGlyfTableLoader(_tblSettings) : null;
@@ -104,6 +106,7 @@ namespace EPPlus.Fonts.OpenType
         MaxpTableLoader _maxpTableLoader;
         PostTableLoader _postTableLoader;
         LocaTableLoader _locaTableLoader;
+        GsubTableLoader _gsubTableLoader;
 
         internal GlyfTableLoader _glyfTableLoader;
         internal KernTableLoader _kernTableLoader;
@@ -296,6 +299,25 @@ namespace EPPlus.Fonts.OpenType
                 else if (_localTableCache.Contains(TableNames.Kern))
                 {
                     return (KernTable)_localTableCache.Get(TableNames.Kern);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public GsubTable GsubTable
+        {
+            get
+            {
+                if (_gsubTableLoader != null)
+                {
+                    return _gsubTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Gsub))
+                {
+                    return (GsubTable)_localTableCache.Get(TableNames.Gsub);
                 }
                 else
                 {
@@ -536,6 +558,8 @@ namespace EPPlus.Fonts.OpenType
                     return KernTable.Serialize(ctx);
                 case TableNames.Post:
                     return PostTable.Serialize(ctx);
+                case TableNames.Gsub:
+                    return GsubTable.Serialize(ctx);
                 default:
                     return null;
             }

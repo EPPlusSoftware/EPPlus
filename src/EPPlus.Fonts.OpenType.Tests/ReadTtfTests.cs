@@ -83,6 +83,14 @@ namespace EPPlus.Fonts.OpenType.Tests
         }
 
         [TestMethod]
+        public void ReadGsubTable()
+        {
+            List<string> test = new List<string> { Path.Combine(Directory.GetCurrentDirectory(), "Fonts") };
+            var font = OpenTypeFonts.GetFontDataOpen(test, "Roboto", FontSubFamily.Regular, true);
+            var gSub = font.GsubTable;
+        }
+
+        [TestMethod]
         public void ReadSixFonts()
         {
             List<string> test = new List<string> { Path.Combine(Directory.GetCurrentDirectory(), "Fonts") };

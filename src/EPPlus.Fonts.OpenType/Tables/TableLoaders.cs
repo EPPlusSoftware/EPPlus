@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
+using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
 using EPPlus.Fonts.OpenType.Tables.Hmtx;
@@ -81,6 +82,11 @@ namespace EPPlus.Fonts.OpenType.Tables
         public static PostTableLoader GetPostTableLoader(TableLoaderSettings settings)
         {
             return new PostTableLoader(settings);
+        }
+
+        public static GsubTableLoader GetGsubTableLoader(TableLoaderSettings settings)
+        {
+            return new GsubTableLoader(settings);
         }
     }
 }

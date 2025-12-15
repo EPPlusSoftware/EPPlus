@@ -165,7 +165,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var subset = font.CreateSubset("Testar åäö ÅÄÖ och även é û č ć đ ł".Distinct());
 
             // Save for inspection (optional)
-            //File.WriteAllBytes(@"C:\temp\Roboto-subset-aao.ttf", subset.Serialize());
+            File.WriteAllBytes(@"C:\temp\Roboto-subset-aao.ttf", subset.Serialize());
 
             // Verify that 'å' actually has a composite glyph
             var åGlyphId = subset.CmapTable.MapCharToGlyph('å');
@@ -183,7 +183,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var subset = font.CreateSubset("Testar åäö ÅÄÖ och även é û č ć đ ł".Distinct());
 
             // Save for inspection (optional)
-            //File.WriteAllBytes(@"C:\temp\Mulish-subset-aao.ttf", subset.Serialize());
+            File.WriteAllBytes(@"C:\temp\Mulish-subset-aao.ttf", subset.Serialize());
 
             // Verify that 'å' actually has a composite glyph
             var åGlyphId = subset.CmapTable.MapCharToGlyph('å');
@@ -201,7 +201,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var subset = font.CreateSubset("Testar åäö ÅÄÖ och även é û č ć đ ł".Distinct());
 
             // Save for inspection (optional)
-            //File.WriteAllBytes(@"C:\temp\BIZUDGothic-subset-aao.ttf", subset.Serialize());
+            File.WriteAllBytes(@"C:\temp\BIZUDGothic-subset-aao.ttf", subset.Serialize());
 
             // Verify that 'å' actually has a composite glyph
             var åGlyphId = subset.CmapTable.MapCharToGlyph('å');
