@@ -197,6 +197,12 @@ namespace EPPlus.Fonts.OpenType
             return boundingBox;
         }
 
+        /// <summary>
+        /// Get bounds/widths for each glyph in font desugn units
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="font"></param>
+        /// <returns></returns>
         internal static List<GlyphRect> GetBoundsOfEachGlyph(string text, OpenTypeFont font)
         {
             //TODO: Should be cached to each font somehow
@@ -212,10 +218,10 @@ namespace EPPlus.Fonts.OpenType
 
                 if ((c == '\n' || c == '\r'))
                 {
-                    if (i > 0 && c == '\r' && text[i - 1] == '\n')
-                    {
+                    //if (i > 0 && c == '\r' && text[i - 1] == '\n')
+                    //{
                         continue; //CRLF is irrelevant for getting the glyph bounding boxes
-                    }
+                    //}
                 }
 
                 var gi = glyphMappings.GetGlyphIndex(c);
@@ -233,21 +239,31 @@ namespace EPPlus.Fonts.OpenType
                     advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
                 }
 
-                var leftSideBearing = hhMetric.lsb;
-                if (leftSideBearing < 0)
+                try
                 {
-                    //if side bearing negative the glyph takes more space than the advancewidth
-                    //We are missing rsb or reference to glyf table
-                    gWidth = advanceWidth - leftSideBearing;
-                }
-                else
-                {
-                    gWidth = advanceWidth;
-                }
+                    var leftSideBearing = hhMetric.lsb;
+                    if (leftSideBearing < 0)
+                    {
+                        //if side bearing negative the glyph takes more space than the advancewidth
+                        //We are missing rsb or reference to glyf table
+                        gWidth = advanceWidth - leftSideBearing;
+                    }
+                    else
+                    {
+                        gWidth = advanceWidth;
+                    }
 
-                //TODO: Get glyph height. For now. Assume EM-height
-                var gRect = new GlyphRect(gi.Value, gWidth, font.FullName);
-                rects.Add(gRect);
+                    gWidth /= (double)font.HeadTable.UnitsPerEm;
+
+                    //TODO: Get glyph height. For now. Assume EM-height
+                    var gRect = new GlyphRect(gi.Value, gWidth, font.FullName);
+                    rects.Add(gRect);
+                }
+                catch (Exception ex) 
+                {
+
+                    throw new Exception(ex.Message);
+                }
             }
 
             return rects;

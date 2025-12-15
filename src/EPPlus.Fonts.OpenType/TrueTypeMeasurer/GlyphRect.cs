@@ -9,7 +9,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
     {
         //BoundingRectangle BoundingRectFontDesign;
         ushort glyphIndex;
-        double advanceWidth;
+        internal double advanceWidth;
 
         //Debug var only?
         string fontName;

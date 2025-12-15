@@ -3,7 +3,12 @@ using EPPlus.Graphics;
 
 namespace EPPlus.Export.ImageRenderer.Text
 {
-    internal class TextContainerBase : RectMargins
+    /// <summary>
+    /// Simple base-class. 
+    /// A Rect that also holds an arr of strings
+    /// No assumptions are made about where or if the text is placed inside the rect.
+    /// </summary>
+    internal class TextContainerBase : Rect
     {
         protected string[] Content = null;
 

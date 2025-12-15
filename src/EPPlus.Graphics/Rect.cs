@@ -10,6 +10,8 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Graphics.Math;
+
 namespace EPPlus.Graphics
 {
     //REname and move class? Inherit from transform? what do?
@@ -43,7 +45,12 @@ namespace EPPlus.Graphics
         internal double Top
         {
             get { return transform.LocalPosition.Y; }
-            set { transform.LocalPosition.Y = value; }
+            set 
+            { 
+                var currentPosition = transform.LocalPosition;
+                currentPosition.Y = value;
+                transform.LocalPosition = currentPosition; 
+            }
         }
         /// <summary>
         /// X pos (min)
@@ -51,7 +58,12 @@ namespace EPPlus.Graphics
         internal double Left
         {
             get { return transform.LocalPosition.X;}
-            set { transform.LocalPosition.X = value;}
+            set 
+            {
+                var currentPosition = transform.LocalPosition;
+                currentPosition.X = value;
+                transform.LocalPosition = currentPosition; 
+            }
         }
 
         /// <summary>

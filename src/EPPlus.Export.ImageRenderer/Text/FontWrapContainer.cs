@@ -1,5 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,34 +12,60 @@ namespace EPPlus.Export.ImageRenderer.Text
     /// Only measures widths and handles the actual strings
     /// This class only changes its bounding box if initDefaults = true
     /// Any other changes to its size must be determined by the caller
+    /// If wrapping is true, uses parent rects width as maximum
     /// </summary>
-    internal class FontTextContainerBase : TextContainerBase
+    internal class FontWrapContainer : TextContainerBase
     {
         FontMeasurerTrueType measurer;
 
+        Rect Parent = null;
+
         /// <summary>
-        /// If this is true it is presumed there is also a maxWidth
+        /// If this is true it is presumed there is also a parent with a maxwidth
         /// If there is no MaxWidth this class will not wrap
         /// </summary>
         public bool WrapText = false;
 
-        public double MaxWidthPixels = double.NaN;
-
-        public FontTextContainerBase(FontMeasurerTrueType txtMeasurer, bool initDefaults = true) : base(initDefaults)
-        {
-            measurer = txtMeasurer;
+        public double MaxWidthPixels
+        { 
+            get 
+            { 
+                if(Parent != null)
+                {
+                    return Parent.Width;
+                }
+                else
+                {
+                    return double.NaN;
+                }
+            } 
         }
 
-        public FontTextContainerBase(FontMeasurerTrueType txtMeasurer, string content, bool initDefaults = false) : base(content, initDefaults)
+        public FontWrapContainer(FontMeasurerTrueType txtMeasurer, Rect parent, bool initDefaults = true) : base(initDefaults)
+        {
+            Initialize(txtMeasurer, parent);
+        }
+
+        public FontWrapContainer(FontMeasurerTrueType txtMeasurer, Rect parent, string content, bool initDefaults = false) : base(content, initDefaults)
+        {
+            Initialize(txtMeasurer, parent);
+        }
+
+        private void Initialize(FontMeasurerTrueType txtMeasurer, Rect parent)
         {
             measurer = txtMeasurer;
+            if (parent != null)
+            {
+                Parent = parent;
+                transform = parent.transform;
+            }
         }
 
         private void SplitContentToLines()
         {
             if (Content.Length == 1)
             {
-                //If width is NaN textWrapper handles it correctly anyhow
+                //If width is NaN textWrapper only applies line endings within the text itself
                 var inputWidth = WrapText ? MaxWidthPixels : double.NaN;
 
                 Content = TextWrapper.GetLines(Content[0], measurer, inputWidth).ToArray();

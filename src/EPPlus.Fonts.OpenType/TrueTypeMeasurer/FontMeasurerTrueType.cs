@@ -269,6 +269,18 @@ namespace EPPlus.Fonts.OpenType
             return dAscent;
         }
 
+        public List<double> GetGlyphAdvanceWidths(string text, MeasurementFont font)
+        {
+            var fontdata = TextData.GetFontData(font.FontFamily, GetFontSubType(font.Style));
+            var glyphdata = TextData.GetBoundsOfEachGlyph(text, fontdata);
+            List<double> widths = new List<double>();
+            foreach(var glyph in glyphdata)
+            {
+                widths.Add(glyph.advanceWidth * font.Size);
+            }
+            return widths;
+        }
+
         public List<string> WrapMultipleTextFragments(List<string> textFragment, List<MeasurementFont> fonts, double maxWidthPoints)
         {
             List<OpenTypeFont> openTypeFonts = new List<OpenTypeFont>();

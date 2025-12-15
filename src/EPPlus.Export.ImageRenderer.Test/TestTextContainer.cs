@@ -101,6 +101,12 @@ namespace EPPlus.Export.ImageRenderer.Tests
         }
 
         [TestMethod]
+        public void testSameStructure()
+        {
+
+        }
+
+        [TestMethod]
         public void TextContainerGeneric()
         {
             //Options

@@ -10,12 +10,23 @@ namespace EPPlus.Export.ImageRenderer.Text
 {
     internal static class LineFormatter
     {
-        internal static List<int> GetTextRunIndicies(ExcelTextBody body)
+        /// <summary>
+        /// Gets the starting indices of each individual run in the total text string
+        /// And the individual glyph advance widths in points for each textrun
+        /// </summary>
+        /// <param name="body"></param>
+        /// <param name="AdvanceWidths"></param>
+        /// <returns></returns>
+        internal static List<int> GetTextRunIndiciesAndWidths(ExcelTextBody body, out List<List<double>> AdvanceWidths)
         {
             var paragraphs = body.Paragraphs;
             var text = paragraphs.Text;
+
             List<int> txtRunIndicies = new List<int>();
-            List<double> AdvanceWidths = new List<double> ();
+
+            AdvanceWidths = new List<List<double>>();
+
+            FontMeasurerTrueType measurer = new FontMeasurerTrueType();
 
             int lastIndex = 0;
             for (int i = 0; i < paragraphs.Count; i++)
@@ -28,11 +39,10 @@ namespace EPPlus.Export.ImageRenderer.Text
 
                     var indexOfRun = text.IndexOf(run.Text, lastIndex);
                     txtRunIndicies.Add(indexOfRun);
+                    AdvanceWidths.Add(measurer.GetGlyphAdvanceWidths(run.Text, run.GetMeasurementFont()));
                     lastIndex = indexOfRun;
                 }
             }
-
-
 
             return txtRunIndicies;
         }
