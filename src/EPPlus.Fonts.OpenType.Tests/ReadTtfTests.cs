@@ -32,6 +32,19 @@ namespace EPPlus.Fonts.OpenType.Tests
         }
 
         [TestMethod]
+        public void ReadRobotoBoldTtf()
+        {
+            Stopwatch sw = Stopwatch.StartNew();
+            sw.Start();
+            OpenTypeFont? font = OpenTypeFonts.GetFontDataOpen(_fontFolders, "Roboto", FontSubFamily.Bold, false);
+            sw.Stop();
+            var ms = sw.ElapsedMilliseconds;
+            Assert.IsNotNull(font);
+            Assert.AreEqual("Roboto Bold", font.FullName);
+            Assert.AreEqual("Bold", font.SubFamily);
+        }
+
+        [TestMethod]
         public void ReadSourceSans3Otf()
         {
             OpenTypeFont? font = OpenTypeFonts.GetFontDataOpen(_fontFolders, "Source Sans 3", FontSubFamily.Regular, false);

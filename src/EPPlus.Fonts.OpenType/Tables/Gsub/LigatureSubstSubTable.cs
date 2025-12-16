@@ -33,69 +33,51 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
         // We will implement Serialize later
         internal override void Serialize(FontsBinaryWriter writer)
         {
-            // USHORT SubtableFormat (1)
-            writer.WriteUInt16BigEndian(this.SubtableFormat);
+            // 1. Spara startposition för hela subtabellen
+            long subTableStart = writer.BaseStream.Position;
 
-            // Placeholder for USHORT CoverageOffset (Vi måste beräkna denna offset)
-            long coverageOffsetPos = writer.BaseStream.Position;
-            writer.WriteUInt16BigEndian(0); // Placeholder
+            // 2. Skriv Header
+            writer.WriteUInt16BigEndian(this.SubtableFormat); // Borde vara 1
 
-            // USHORT LigSetCount
+            // 3. Reservera plats för CoverageOffset
+            long covOffsetPos = writer.BaseStream.Position;
+            writer.WriteUInt16BigEndian(0);
+
+            // 4. Skriv antal LigatureSets
             writer.WriteUInt16BigEndian((ushort)this.LigatureSets.Count);
 
-            // Placeholder for USHORT[] LigatureSetOffsets (Vi måste beräkna dessa offsets)
+            // 5. Skriv placeholders för varje LigatureSetOffset
+            // Dessa måste skrivas i samma ordning som glyferna i CoverageTable
             List<long> ligSetOffsetPositions = new List<long>();
             for (int i = 0; i < this.LigatureSets.Count; i++)
             {
                 ligSetOffsetPositions.Add(writer.BaseStream.Position);
-                writer.WriteUInt16BigEndian(0); // Placeholder
+                writer.WriteUInt16BigEndian(0);
             }
 
-            // --- Skriv ut Sub-tabellerna ---
+            // --- SKRIV DATA-TABELLER ---
 
-            // 1. Skriv ut CoverageTable
-            long currentOffset = writer.BaseStream.Position;
-            long coverageTableOffset = currentOffset;
-
+            // 6. Serialisera CoverageTable och uppdatera dess offset
             if (this.Coverage != null)
             {
-                // Skriv ut den relativa offseten till CoverageTable
-                ushort relativeCoverageOffset = (ushort)(coverageTableOffset - coverageOffsetPos);
-                writer.BaseStream.Seek(coverageOffsetPos, SeekOrigin.Begin);
-                writer.WriteUInt16BigEndian(relativeCoverageOffset);
-                writer.BaseStream.Seek(currentOffset, SeekOrigin.Begin);
+                this.WriteRelativeOffset(writer, subTableStart, covOffsetPos);
+                this.Coverage.Serialize(writer);
+            }
 
-                // Serialisera CoverageTable
-                if (this.Coverage.CoverageFormat == 1)
+            // 7. Serialisera LigatureSets (Viktigt: Måste följa Coverage-ordningen!)
+            ushort[] coveredGlyphs = this.Coverage.GetCoveredGlyphs();
+            for (int i = 0; i < coveredGlyphs.Length; i++)
+            {
+                ushort baseGlyphId = coveredGlyphs[i];
+
+                if (this.LigatureSets.TryGetValue(baseGlyphId, out var ligSet))
                 {
-                    new CoverageTableFormat1Serializer().Serialize((CoverageTableFormat1)this.Coverage, writer);
+                    // Uppdatera offseten för detta specifika set i arrayen vi skrev i steg 5
+                    this.WriteRelativeOffset(writer, subTableStart, ligSetOffsetPositions[i]);
+
+                    // Låt LigatureSetTable skriva sig själv (inklusive sina egna LigatureOffsets)
+                    ligSet.Serialize(writer);
                 }
-                // Lägg till CoverageFormat 2 här om du behöver det, men Format 1 används nu.
-            }
-            else
-            {
-                // Om Coverage är null, lämna offseten på 0 (redan gjort)
-            }
-
-            // 2. Skriv ut LigatureSetTables
-            int ligIndex = 0;
-
-            // De sparade LigatureSets är i ordningen av de överlevande BaseGlyph ID:na (samma ordning som Coverage).
-            foreach (var ligSetKvp in this.LigatureSets.OrderBy(kvp => kvp.Value.Ligatures.Min(l => l.LigatureGlyph))) // Använd en stabil sortering
-            {
-                currentOffset = writer.BaseStream.Position;
-
-                // Skriv ut den relativa offseten till LigatureSetTable
-                long ligSetOffsetPos = ligSetOffsetPositions[ligIndex];
-                ushort relativeLigSetOffset = (ushort)(currentOffset - ligSetOffsetPos);
-
-                writer.BaseStream.Seek(ligSetOffsetPos, SeekOrigin.Begin);
-                writer.WriteUInt16BigEndian(relativeLigSetOffset);
-                writer.BaseStream.Seek(currentOffset, SeekOrigin.Begin);
-
-                // Serialisera LigatureSetTable
-                ligSetKvp.Value.Serialize(writer);
-                ligIndex++;
             }
         }
 

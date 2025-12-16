@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EPPlus.Fonts.OpenType.Tables.Gsub.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
         public ushort CoverageFormat { get; set; }
         public abstract ushort[] CoveredGlyphs { get; }
 
-        internal override void Serialize(FontsBinaryWriter writer)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract int GetGlyphIndex(ushort glyphId);
+
+        public abstract ushort[] GetCoveredGlyphs();
     }
 }

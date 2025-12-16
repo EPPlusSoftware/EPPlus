@@ -1,6 +1,7 @@
 ﻿using EPPlus.Fonts.OpenType.FontValidation;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
+using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
 using EPPlus.Fonts.OpenType.Tables.Hmtx;
@@ -130,6 +131,16 @@ namespace EPPlus.Fonts.OpenType.Tests
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.HmtxTable, context);
             Assert.IsTrue(result.IsValid, "Hmtx validation failed for a known good font.");
+        }
+
+        [TestMethod]
+        public void GsubTableValidation_Test()
+        {
+            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var validator = new GsubTableValidator();
+            var context = new FontValidationContext(font);
+            var result = validator.Validate(font.GsubTable, context);
+            Assert.IsTrue(result.IsValid, "Gsub validation failed for a known good font.");
         }
 
         [TestMethod]

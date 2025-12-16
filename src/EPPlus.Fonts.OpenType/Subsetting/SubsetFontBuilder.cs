@@ -20,13 +20,19 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
         private static IEnumerable<IFontSubsetProcessor> Processors => new List<IFontSubsetProcessor>
         {
-            new GlyfAndLocaSubsetProcessor(),
+            // 1. DISCOVERY - Dessa måste köra först för att fylla IncludedGlyphs
+            new CmapSubsetProcessor(),  // Hittar GIDs för dina tecken
+            new GsubSubsetProcessor(),  // Hittar GIDs för substitutioner/ligaturer
+    
+            // 2. DATA EXTRACTION - Nu när vi vet ALLA GIDs som behövs, hämta datan
+            new GlyfAndLocaSubsetProcessor(), 
+    
+            // 3. METADATA & ÖVRIGT
+            new MaxpSubsetProcessor(),
             new HeadSubsetProcessor(),
             new NameSubsetProcessor(),
-            new MaxpSubsetProcessor(),
             new HheaSubsetProcessor(),
             new HmtxSubsetProcessor(),
-            new CmapSubsetProcessor(),
             new Os2SubsetProcessor(),
             new PostSubsetProcessor(),
             new KernSubsetProcessor()
@@ -35,16 +41,59 @@ namespace EPPlus.Fonts.OpenType.Subsetting
         public OpenTypeFont CreateSubset(OpenTypeFont originalFont, IEnumerable<int> unicodeChars)
         {
             var context = new FontSubsettingContext(originalFont, unicodeChars);
+            var processors = Processors; // Hämta listan en gång
 
-            foreach(var processor in Processors)
+            // Steg 1: Discovery Phase
+            // Alla processorer (inkl. GSUB) hittar vilka glyfer som behövs.
+            foreach (var processor in processors)
             {
                 processor.Process(context);
+            }
+
+            // Steg 2: Skapa Glyph ID-mappningen (Viktigt!)
+            // Här går vi från IncludedGlyphs (HashSet) till OldToNewGlyphId (Dictionary)
+            BuildGlyphMapping(context);
+
+            // Steg 3: Rewrite Phase
+            // Nu när context.OldToNewGlyphId är populerad kan GSUB och andra tabeller skrivas om.
+            foreach (var processor in processors)
+            {
+                // Vi kan lägga till en check här, eller låta GsubSubsetProcessor 
+                // internt anropa Rewrite från sin Process-metod (se nästa steg).
+                if (processor is GsubSubsetProcessor gsubProcessor)
+                {
+                    gsubProcessor.Rewrite(context);
+                }
+                else if(processor is Os2SubsetProcessor os2Processor)
+                {
+                    os2Processor.Rewrite(context);
+                }
+                else if(processor is CmapSubsetProcessor cmapProcessor)
+                {
+                    cmapProcessor.Rewrite(context);
+                }
+                // hmtx, post, cmap etc. kan också behöva anropas här om de inte 
+                // redan sköts inuti sin Process.
             }
 
             // 9. Debug-info
             context.SubsetFont.UsedCodePointsForSubset = new List<uint>(context.UsedCodePoints);
 
             return context.SubsetFont;
+        }
+
+        private void BuildGlyphMapping(FontSubsettingContext context)
+        {
+            // Sortera för att få deterministiska Glyph IDs i den nya fonten
+            List<ushort> sortedGlyphs = new List<ushort>(context.IncludedGlyphs);
+            sortedGlyphs.Sort();
+
+            for (ushort newId = 0; newId < sortedGlyphs.Count; newId++)
+            {
+                ushort oldId = sortedGlyphs[newId];
+                context.OldToNewGlyphId[oldId] = newId;
+                context.NewToOldGlyphId.Add(oldId);
+            }
         }
     }
 }

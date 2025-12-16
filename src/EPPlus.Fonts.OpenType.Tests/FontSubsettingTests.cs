@@ -1,6 +1,7 @@
 ﻿using EPPlus.Fonts.OpenType.FontValidation;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
+using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
 using EPPlus.Fonts.OpenType.Tables.Hmtx;
@@ -48,7 +49,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
 
             // Assert: Check table count and presence
-            Assert.AreEqual(10, parsedFont.TableRecords.Count);
+            Assert.AreEqual(11, parsedFont.TableRecords.Count);
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("head"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("name"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("maxp"));
@@ -59,6 +60,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("cmap"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("post"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("OS/2"));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("GSUB"));
 
             // Validate tables
             Assert.IsTrue(new HeadTableValidator().Validate(parsedFont.HeadTable, new FontValidationContext(parsedFont)).IsValid);
@@ -70,6 +72,9 @@ namespace EPPlus.Fonts.OpenType.Tests
             Assert.IsTrue(new CmapTableValidator().Validate(parsedFont.CmapTable, new FontValidationContext(parsedFont)).IsValid);
             Assert.IsTrue(new PostTableValidator().Validate(parsedFont.PostTable, new FontValidationContext(parsedFont)).IsValid);
             Assert.IsTrue(new Os2TableValidator().Validate(parsedFont.Os2Table, new FontValidationContext(parsedFont)).IsValid);
+            var gsubValidator = new GsubTableValidator();
+            var result = gsubValidator.Validate(parsedFont.GsubTable, new FontValidationContext(parsedFont));
+            Assert.IsTrue(new GsubTableValidator().Validate(parsedFont.GsubTable, new FontValidationContext(parsedFont)).IsValid);
 
             // Extra check: glyphSet.Count should match numGlyphs and numberOfHMetrics
             var glyphSet = new HashSet<ushort>();

@@ -14,46 +14,37 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
         // Kräver att vi har CoverageTable (och dess index)
         public override ushort GetSubstitution(ushort baseGlyphId)
         {
-            // Vi hoppar över denna komplexa lookup-logik just nu och fokuserar på läsaren.
-            throw new NotImplementedException();
+            int index = Coverage.GetGlyphIndex(baseGlyphId);
+            if (index == -1) return 0; // Not covered
+
+            // Format 1 adds a delta to the original GID
+            // (ushort wrap-around is handled automatically by C# casting)
+            return (ushort)(baseGlyphId + DeltaGlyphID);
         }
 
         internal override void Serialize(FontsBinaryWriter writer)
         {
+            // Spara starten av denna subtable direkt
+            long subTableStart = writer.BaseStream.Position;
+
             // 1. USHORT SubtableFormat (1)
             writer.WriteUInt16BigEndian(1);
 
-            // 2. USHORT CoverageOffset (Placeholder: 2 bytes)
-            long coverageOffsetPos = writer.BaseStream.Position;
+            // 2. USHORT CoverageOffset (Placeholder)
+            long covOffsetPos = writer.BaseStream.Position;
             writer.WriteUInt16BigEndian(0);
 
             // 3. SSHORT DeltaGlyphID
             writer.WriteInt16BigEndian(this.DeltaGlyphID);
 
             // --- Skriv ut CoverageTable ---
-            long coverageStartPos = writer.BaseStream.Position;
-
             if (this.Coverage != null)
             {
-                // Fyll i den relativa offseten. Offseten är relativ till SubTable start (dvs. 4 bytes före coverageOffsetPos)
-                ushort relativeCoverageOffset = (ushort)(coverageStartPos - (coverageOffsetPos - sizeof(ushort) * 2));
+                // Använd verktygsmetoden för att skriva offseten automatiskt
+                this.WriteRelativeOffset(writer, subTableStart, covOffsetPos);
 
-                // Spara nuvarande position
-                long currentPos = writer.BaseStream.Position;
-
-                // Gå tillbaka och skriv offseten
-                writer.BaseStream.Seek(coverageOffsetPos, SeekOrigin.Begin);
-                writer.WriteUInt16BigEndian(relativeCoverageOffset);
-
-                // Återgå till skrivposition
-                writer.BaseStream.Seek(currentPos, SeekOrigin.Begin);
-
-                // Serialisera Coverage
-                if (this.Coverage.CoverageFormat == 1)
-                {
-                    new CoverageTableFormat1Serializer().Serialize((CoverageTableFormat1)this.Coverage, writer);
-                }
-                // Add Format 2 serialization here if needed
+                // Låt CoverageTable sköta sin egen serialisering (som vi satte upp tidigare)
+                this.Coverage.Serialize(writer);
             }
         }
     }

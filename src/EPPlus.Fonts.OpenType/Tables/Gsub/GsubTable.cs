@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -43,18 +44,55 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
         {
             long tableStartOffset = writer.BaseStream.Position;
 
-            // 0: Fixed Version (FWORD = 4 bytes total)
-            // USHORT MajorVersion (1)
+            // --- HEADER ---
             writer.WriteUInt16BigEndian(this.MajorVersion);
-            // USHORT MinorVersion (0 or 1)
             writer.WriteUInt16BigEndian(this.MinorVersion);
 
-            // 4: USHORT ScriptListOffset
-            long scriptListOffsetPosition = writer.BaseStream.Position;
-            writer.WriteUInt16BigEndian((ushort)0); // Placeholder
+            long scriptListOffPos = writer.BaseStream.Position;
+            writer.WriteUInt16BigEndian(0); // Placeholder
 
-            // 6: USHORT FeatureListOffset
-            // ... (resten av koden för offsets)
+            long featureListOffPos = writer.BaseStream.Position;
+            writer.WriteUInt16BigEndian(0); // Placeholder
+
+            long lookupListOffPos = writer.BaseStream.Position;
+            writer.WriteUInt16BigEndian(0); // Placeholder
+
+            // GSUB 1.1 FeatureVariations
+            if (this.MajorVersion == 1 && this.MinorVersion == 1)
+                writer.WriteUInt32BigEndian(0);
+
+            // --- DATA ---
+
+            // 1. ScriptList
+            if (this.ScriptList != null)
+            {
+                UpdateOffsetAndSerialize(writer, tableStartOffset, scriptListOffPos, this.ScriptList);
+            }
+
+            // 2. FeatureList
+            if (this.FeatureList != null)
+            {
+                UpdateOffsetAndSerialize(writer, tableStartOffset, featureListOffPos, this.FeatureList);
+            }
+
+            // 3. LookupList
+            if (this.LookupList != null)
+            {
+                UpdateOffsetAndSerialize(writer, tableStartOffset, lookupListOffPos, this.LookupList);
+            }
+        }
+
+        // Hjälpmetod för att hålla koden ren
+        private void UpdateOffsetAndSerialize(FontsBinaryWriter writer, long tableStart, long placeholderPos, FontTableElement element)
+        {
+            ushort offset = (ushort)(writer.BaseStream.Position - tableStart);
+            long resumePos = writer.BaseStream.Position;
+
+            writer.BaseStream.Seek(placeholderPos, SeekOrigin.Begin);
+            writer.WriteUInt16BigEndian(offset);
+
+            writer.BaseStream.Seek(resumePos, SeekOrigin.Begin);
+            element.Serialize(writer);
         }
     }
 }

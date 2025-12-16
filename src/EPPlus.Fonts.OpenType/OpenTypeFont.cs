@@ -440,8 +440,8 @@ namespace EPPlus.Fonts.OpenType
             // Skapa subset-font
             var newFont = subsetBuilder.CreateSubset(this, codePoints);
 
-            var preprocessor = new SubsetPreprocessor();
-            preprocessor.PreprocessSubset(newFont);
+            var postProcessor = new SubsetPostProcessor();
+            postProcessor.PostProcessSubset(newFont);
 
             return newFont;
         }

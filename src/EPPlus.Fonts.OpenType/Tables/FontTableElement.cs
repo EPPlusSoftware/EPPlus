@@ -10,11 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tables
 {
@@ -29,5 +25,18 @@ namespace EPPlus.Fonts.OpenType.Tables
         }
 
         internal abstract void Serialize(FontsBinaryWriter writer);
+
+        internal void WriteRelativeOffset(FontsBinaryWriter writer, long startOfTable, long positionToUpdate)
+        {
+            long currentPos = writer.BaseStream.Position;
+
+            // Beräkna offset (måste rymmas i en USHORT per OpenType spec)
+            ushort relativeOffset = (ushort)(currentPos - startOfTable);
+
+            // Gå tillbaka, skriv, och återställ position
+            writer.BaseStream.Seek(positionToUpdate, SeekOrigin.Begin);
+            writer.WriteUInt16BigEndian(relativeOffset);
+            writer.BaseStream.Seek(currentPos, SeekOrigin.Begin);
+        }
     }
 }
