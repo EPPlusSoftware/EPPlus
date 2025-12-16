@@ -131,114 +131,114 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
         public void AddCellContentLayout(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
         {
-            commands.Add($"% Content Start: {cell.Name}");
-            commands.Add("q");
-            if (cell.Clip)
-            {
-                commands.Add($"{cell.Clipping.X.ToPdfString()} {cell.Clipping.Y.ToPdfString()} {cell.Clipping.Width.ToPdfString()} {cell.Clipping.Height.ToPdfString()} re W n");
-            }
-            if (cell.CellAlignmentData.IsVertical)
-            {
-                AddCellContentLayoutVerticalText(cell, dictionaries, pageSettings);
-                return;
-            }
-            double rot = cell.CellAlignmentData.TextRotation * System.Math.PI / 180.0;
-            double lineLength = 0;
-            Matrix3x3 lineMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), cell.LocalPosition.X, cell.LocalPosition.Y);
-            for (int j = 0; j < cell.TextLines.Count; j++)
-            {
-                var Line = cell.TextLines[j];
-                Matrix3x3 textRunMatrix = lineMatrix;
-                Matrix3x3 modifierMatrix = Matrix3x3.Identity;
-                bool useModifiedMatrix = false;
-                commands.Add("BT");
-                commands.Add($"{lineMatrix.A.ToPdfString()} {lineMatrix.B.ToPdfString()} {lineMatrix.C.ToPdfString()} {lineMatrix.D.ToPdfString()} {lineMatrix.E.ToPdfString()} {lineMatrix.F.ToPdfString()} Tm");
-                for (int i = 0; i < Line.TextItemCollection.Count; i++)
-                {
-                    var fontData = Line.TextItemCollection[i];
-                    var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
-                    double size = fontData.FontSize;
-                    double scale = fontData.FontSize / font.fontData.HeadTable.UnitsPerEm;
-                    if (fontData.Bold)
-                    {
-                        commands.Add("0.25 w");
-                        commands.Add("2 Tr");
-                        commands.Add(fontData.FontColor.ToStrokeCommand());
-                    }
-                    else
-                    {
-                        commands.Add("0 Tr");
-                    }
-                    if (fontData.Italic)
-                    {
-                        var ia = font.fontData.PostTable.italicAngle.FloatValue;
-                        if (ia <= 0) ia = 12f * (float)System.Math.PI / 180.0f;
-                        modifierMatrix.C = System.Math.Tan(ia);
-                        modifierMatrix = modifierMatrix * textRunMatrix;
-                        useModifiedMatrix = true;
-                    }
-                    if (fontData.SuperScript)
-                    {
-                        var supOffX = font.fontData.Os2Table.ySuperscriptXOffset * scale;
-                        var supOffY = font.fontData.Os2Table.ySuperscriptYOffset * scale;
-                        var supSizeX = font.fontData.Os2Table.ySuperscriptXSize * scale;
-                        var supSizeY = font.fontData.Os2Table.ySuperscriptYSize * scale;
-                        modifierMatrix.E = lineMatrix.E + supOffX;
-                        modifierMatrix.F = lineMatrix.F + supOffY;
-                        size = supSizeY;
-                        useModifiedMatrix = true;
-                    }
-                    else if (fontData.SubScript)
-                    {
-                        var supOffX = font.fontData.Os2Table.ySubscriptXOffset * scale;
-                        var supOffY = font.fontData.Os2Table.ySubscriptYOffset * scale;
-                        var supSizeX = font.fontData.Os2Table.ySubscriptXSize * scale;
-                        var supSizeY = font.fontData.Os2Table.ySubscriptYSize * scale;
-                        modifierMatrix.E = lineMatrix.E + supOffX;
-                        modifierMatrix.F = lineMatrix.F + supOffY;
-                        size = supSizeY;
-                        useModifiedMatrix = true;
-                    }
-                    if (useModifiedMatrix) commands.Add($"{modifierMatrix.A.ToPdfString()} {modifierMatrix.B.ToPdfString()} {modifierMatrix.C.ToPdfString()} {modifierMatrix.D.ToPdfString()} {modifierMatrix.E.ToPdfString()} {modifierMatrix.F.ToPdfString()} Tm");
-                    commands.Add($"/{font.Label} {size.ToPdfString()} Tf");
-                    commands.Add(fontData.FontColor.ToFillCommand());
-                    commands.Add($"({FixEscapeCharacters(fontData.Text)}) Tj");
-                    if (fontData.Underline)
-                    {
-                        var underlinePos = font.fontData.PostTable.underlinePosition * scale;
-                        var underlineWidth = font.fontData.PostTable.underlineThickness * scale;
-                        var start = textRunMatrix.Transform(new Vector2(0, underlinePos));
-                        var end = textRunMatrix.Transform(new Vector2(fontData.TextLength, underlinePos));
-                        commands.Add($"{underlineWidth.ToPdfString()} w");
-                        commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
-                        commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
-                        commands.Add($"S");
-                    }
-                    if (fontData.Strike)
-                    {
-                        var strikePos = font.fontData.Os2Table.yStrikeoutPosition * scale;
-                        var strikeWidth = font.fontData.Os2Table.yStrikeoutSize * scale;
-                        var start = textRunMatrix.Transform(new Vector2(0, strikePos));
-                        var end = textRunMatrix.Transform(new Vector2(fontData.TextLength, strikePos));
-                        commands.Add($"{strikeWidth.ToPdfString()} w");
-                        commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
-                        commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
-                        commands.Add($"S");
-                    }
-                    lineLength += fontData.TextLength;
-                    textRunMatrix = textRunMatrix * Matrix3x3.Translation(fontData.TextLength, 0);
-                    if (useModifiedMatrix) commands.Add($"{textRunMatrix.A.ToPdfString()} {textRunMatrix.B.ToPdfString()} {textRunMatrix.C.ToPdfString()} {textRunMatrix.D.ToPdfString()} {textRunMatrix.E.ToPdfString()} {textRunMatrix.F.ToPdfString()} Tm");
-                    useModifiedMatrix = false;
-                }
-                if (j + 1 < cell.TextLines.Count)
-                {
-                    lineMatrix = textRunMatrix * Matrix3x3.Translation(-lineLength + cell.TextLines[j + 1].Offset, -cell.TextLines[j + 1].LineHeight);
-                }
-                lineLength = 0;
-                commands.Add("ET");
-            }
-            commands.Add("Q");
-            commands.Add($"% Content End: {cell.Name}");
+            //commands.Add($"% Content Start: {cell.Name}");
+            //commands.Add("q");
+            //if (cell.Clip)
+            //{
+            //    commands.Add($"{cell.Clipping.X.ToPdfString()} {cell.Clipping.Y.ToPdfString()} {cell.Clipping.Width.ToPdfString()} {cell.Clipping.Height.ToPdfString()} re W n");
+            //}
+            //if (cell.CellAlignmentData.IsVertical)
+            //{
+            //    AddCellContentLayoutVerticalText(cell, dictionaries, pageSettings);
+            //    return;
+            //}
+            //double rot = cell.CellAlignmentData.TextRotation * System.Math.PI / 180.0;
+            //double lineLength = 0;
+            //Matrix3x3 lineMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), cell.LocalPosition.X, cell.LocalPosition.Y);
+            //for (int j = 0; j < cell.TextLines.Count; j++)
+            //{
+            //    var Line = cell.TextLines[j];
+            //    Matrix3x3 textRunMatrix = lineMatrix;
+            //    Matrix3x3 modifierMatrix = Matrix3x3.Identity;
+            //    bool useModifiedMatrix = false;
+            //    commands.Add("BT");
+            //    commands.Add($"{lineMatrix.A.ToPdfString()} {lineMatrix.B.ToPdfString()} {lineMatrix.C.ToPdfString()} {lineMatrix.D.ToPdfString()} {lineMatrix.E.ToPdfString()} {lineMatrix.F.ToPdfString()} Tm");
+            //    for (int i = 0; i < Line.TextItemCollection.Count; i++)
+            //    {
+            //        var fontData = Line.TextItemCollection[i];
+            //        var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
+            //        double size = fontData.FontSize;
+            //        double scale = fontData.FontSize / font.fontData.HeadTable.UnitsPerEm;
+            //        if (fontData.Bold)
+            //        {
+            //            commands.Add("0.25 w");
+            //            commands.Add("2 Tr");
+            //            commands.Add(fontData.FontColor.ToStrokeCommand());
+            //        }
+            //        else
+            //        {
+            //            commands.Add("0 Tr");
+            //        }
+            //        if (fontData.Italic)
+            //        {
+            //            var ia = font.fontData.PostTable.italicAngle.FloatValue;
+            //            if (ia <= 0) ia = 12f * (float)System.Math.PI / 180.0f;
+            //            modifierMatrix.C = System.Math.Tan(ia);
+            //            modifierMatrix = modifierMatrix * textRunMatrix;
+            //            useModifiedMatrix = true;
+            //        }
+            //        if (fontData.SuperScript)
+            //        {
+            //            var supOffX = font.fontData.Os2Table.ySuperscriptXOffset * scale;
+            //            var supOffY = font.fontData.Os2Table.ySuperscriptYOffset * scale;
+            //            var supSizeX = font.fontData.Os2Table.ySuperscriptXSize * scale;
+            //            var supSizeY = font.fontData.Os2Table.ySuperscriptYSize * scale;
+            //            modifierMatrix.E = lineMatrix.E + supOffX;
+            //            modifierMatrix.F = lineMatrix.F + supOffY;
+            //            size = supSizeY;
+            //            useModifiedMatrix = true;
+            //        }
+            //        else if (fontData.SubScript)
+            //        {
+            //            var supOffX = font.fontData.Os2Table.ySubscriptXOffset * scale;
+            //            var supOffY = font.fontData.Os2Table.ySubscriptYOffset * scale;
+            //            var supSizeX = font.fontData.Os2Table.ySubscriptXSize * scale;
+            //            var supSizeY = font.fontData.Os2Table.ySubscriptYSize * scale;
+            //            modifierMatrix.E = lineMatrix.E + supOffX;
+            //            modifierMatrix.F = lineMatrix.F + supOffY;
+            //            size = supSizeY;
+            //            useModifiedMatrix = true;
+            //        }
+            //        if (useModifiedMatrix) commands.Add($"{modifierMatrix.A.ToPdfString()} {modifierMatrix.B.ToPdfString()} {modifierMatrix.C.ToPdfString()} {modifierMatrix.D.ToPdfString()} {modifierMatrix.E.ToPdfString()} {modifierMatrix.F.ToPdfString()} Tm");
+            //        commands.Add($"/{font.Label} {size.ToPdfString()} Tf");
+            //        commands.Add(fontData.FontColor.ToFillCommand());
+            //        commands.Add($"({FixEscapeCharacters(fontData.Text)}) Tj");
+            //        if (fontData.Underline)
+            //        {
+            //            var underlinePos = font.fontData.PostTable.underlinePosition * scale;
+            //            var underlineWidth = font.fontData.PostTable.underlineThickness * scale;
+            //            var start = textRunMatrix.Transform(new Vector2(0, underlinePos));
+            //            var end = textRunMatrix.Transform(new Vector2(fontData.TextLength, underlinePos));
+            //            commands.Add($"{underlineWidth.ToPdfString()} w");
+            //            commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
+            //            commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
+            //            commands.Add($"S");
+            //        }
+            //        if (fontData.Strike)
+            //        {
+            //            var strikePos = font.fontData.Os2Table.yStrikeoutPosition * scale;
+            //            var strikeWidth = font.fontData.Os2Table.yStrikeoutSize * scale;
+            //            var start = textRunMatrix.Transform(new Vector2(0, strikePos));
+            //            var end = textRunMatrix.Transform(new Vector2(fontData.TextLength, strikePos));
+            //            commands.Add($"{strikeWidth.ToPdfString()} w");
+            //            commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
+            //            commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
+            //            commands.Add($"S");
+            //        }
+            //        lineLength += fontData.TextLength;
+            //        textRunMatrix = textRunMatrix * Matrix3x3.Translation(fontData.TextLength, 0);
+            //        if (useModifiedMatrix) commands.Add($"{textRunMatrix.A.ToPdfString()} {textRunMatrix.B.ToPdfString()} {textRunMatrix.C.ToPdfString()} {textRunMatrix.D.ToPdfString()} {textRunMatrix.E.ToPdfString()} {textRunMatrix.F.ToPdfString()} Tm");
+            //        useModifiedMatrix = false;
+            //    }
+            //    if (j + 1 < cell.TextLines.Count)
+            //    {
+            //        lineMatrix = textRunMatrix * Matrix3x3.Translation(-lineLength + cell.TextLines[j + 1].Offset, -cell.TextLines[j + 1].LineHeight);
+            //    }
+            //    lineLength = 0;
+            //    commands.Add("ET");
+            //}
+            //commands.Add("Q");
+            //commands.Add($"% Content End: {cell.Name}");
         }
 
         public void AddCellContentLayout(PdfHeaderFooterLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
@@ -254,9 +254,9 @@ namespace EPPlus.Export.Pdf.PdfObjects
             bool useModifiedMatrix = false;
             commands.Add("BT");
             commands.Add($"{lineMatrix.A.ToPdfString()} {lineMatrix.B.ToPdfString()} {lineMatrix.C.ToPdfString()} {lineMatrix.D.ToPdfString()} {lineMatrix.E.ToPdfString()} {lineMatrix.F.ToPdfString()} Tm");
-            for (int i = 0; i < Line.TextItemCollection.Count; i++)
+            for (int i = 0; i < Line.Characters.Count; i++)
             {
-                var fontData = Line.TextItemCollection[i];
+                var fontData = Line.Characters[i];
                 var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
                 double size = fontData.FontSize;
                 double scale = fontData.FontSize / font.fontData.HeadTable.UnitsPerEm;
@@ -340,116 +340,116 @@ namespace EPPlus.Export.Pdf.PdfObjects
         //THis will need to be updated later when we look at asian fonts. 
         private void AddCellContentLayoutVerticalText(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
         {
-            double rot = cell.CellAlignmentData.TextRotation * System.Math.PI / 180.0;
-            double lineLength = 0;
-            double lineHeight = 0;
-            double startW = cell.Position.X;
-            Matrix3x3 lineMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), cell.LocalPosition.X, cell.LocalPosition.Y);
-            for (int j = 0; j < cell.TextLines.Count; j++)
-            {
-                var Line = cell.TextLines[j];
-                Matrix3x3 textRunMatrix = lineMatrix;
-                Matrix3x3 modifierMatrix = Matrix3x3.Identity;
-                bool useModifiedMatrix = false;
-                commands.Add("BT");
-                for (int i = 0; i < Line.TextItemCollection.Count; i++)
-                {
-                    var fontData = Line.TextItemCollection[i];
-                    var neg = j == 0 ? fontData.Text.Length - 1 : fontData.Text.Length;
-                    textRunMatrix = textRunMatrix * Matrix3x3.Translation(fontData.GlyphBox.Width, (neg * fontData.GlyphBox.Height));
-                    lineMatrix = textRunMatrix;
-                    for (int k = 0; k < fontData.Text.Length; k++)
-                    {
-                        var offset = fontData.characterOffset.ContainsKey(fontData.Text[k]) ? fontData.characterOffset[fontData.Text[k]] : Vector2.Zero;
-                        lineMatrix = lineMatrix * Matrix3x3.Translation(offset.X, offset.Y);
-                        commands.Add($"{lineMatrix.A.ToPdfString()} {lineMatrix.B.ToPdfString()} {lineMatrix.C.ToPdfString()} {lineMatrix.D.ToPdfString()} {lineMatrix.E.ToPdfString()} {lineMatrix.F.ToPdfString()} Tm");
-                        var c = fontData.Text[k].ToString();
-                        var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
-                        double size = fontData.FontSize;
-                        double scale = fontData.FontSize / font.fontData.HeadTable.UnitsPerEm;
-                        if (fontData.Bold)
-                        {
-                            commands.Add("0.25 w");
-                            commands.Add("2 Tr");
-                            commands.Add(fontData.FontColor.ToStrokeCommand());
-                        }
-                        else
-                        {
-                            commands.Add("0 Tr");
-                        }
-                        if (fontData.Italic)
-                        {
-                            var ia = font.fontData.PostTable.italicAngle.FloatValue;
-                            if (ia <= 0) ia = 12f * (float)System.Math.PI / 180.0f;
-                            modifierMatrix.C = System.Math.Tan(ia);
-                            modifierMatrix = modifierMatrix * textRunMatrix;
-                            useModifiedMatrix = true;
-                        }
-                        if (fontData.SuperScript)
-                        {
-                            var supOffX = font.fontData.Os2Table.ySuperscriptXOffset * scale;
-                            var supOffY = font.fontData.Os2Table.ySuperscriptYOffset * scale;
-                            var supSizeX = font.fontData.Os2Table.ySuperscriptXSize * scale;
-                            var supSizeY = font.fontData.Os2Table.ySuperscriptYSize * scale;
-                            modifierMatrix.E = lineMatrix.E + supOffX;
-                            modifierMatrix.F = lineMatrix.F + supOffY;
-                            size = supSizeY;
-                            useModifiedMatrix = true;
-                        }
-                        else if (fontData.SubScript)
-                        {
-                            var supOffX = font.fontData.Os2Table.ySubscriptXOffset * scale;
-                            var supOffY = font.fontData.Os2Table.ySubscriptYOffset * scale;
-                            var supSizeX = font.fontData.Os2Table.ySubscriptXSize * scale;
-                            var supSizeY = font.fontData.Os2Table.ySubscriptYSize * scale;
-                            modifierMatrix.E = lineMatrix.E + supOffX;
-                            modifierMatrix.F = lineMatrix.F + supOffY;
-                            size = supSizeY;
-                            useModifiedMatrix = true;
-                        }
-                        if (useModifiedMatrix) commands.Add($"{modifierMatrix.A.ToPdfString()} {modifierMatrix.B.ToPdfString()} {modifierMatrix.C.ToPdfString()} {modifierMatrix.D.ToPdfString()} {modifierMatrix.E.ToPdfString()} {modifierMatrix.F.ToPdfString()} Tm");
-                        commands.Add($"/{font.Label} {size.ToPdfString()} Tf");
-                        commands.Add(fontData.FontColor.ToFillCommand());
-                        commands.Add($"({FixEscapeCharacters(c)}) Tj");
-                        if (fontData.Underline)
-                        {
-                            var underlinePos = font.fontData.PostTable.underlinePosition * scale;
-                            var underlineWidth = font.fontData.PostTable.underlineThickness * scale;
-                            var start = textRunMatrix.Transform(new Vector2(0, underlinePos));
-                            var end = textRunMatrix.Transform(new Vector2(fontData.TextLength, underlinePos));
-                            commands.Add($"{underlineWidth.ToPdfString()} w");
-                            commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
-                            commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
-                            commands.Add($"S");
-                        }
-                        if (fontData.Strike)
-                        {
-                            var strikePos = font.fontData.Os2Table.yStrikeoutPosition * scale;
-                            var strikeWidth = font.fontData.Os2Table.yStrikeoutSize * scale;
-                            var start = textRunMatrix.Transform(new Vector2(0, strikePos));
-                            var end = textRunMatrix.Transform(new Vector2(fontData.TextLength, strikePos));
-                            commands.Add($"{strikeWidth.ToPdfString()} w");
-                            commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
-                            commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
-                            commands.Add($"S");
-                        }
-                        lineLength += fontData.TextLength;
-                        lineHeight = fontData.GlyphBox.Height;
-                        textRunMatrix = textRunMatrix * Matrix3x3.Translation(/*fontData.TextLength*/0d, -lineHeight);
-                        if (useModifiedMatrix) commands.Add($"{textRunMatrix.A.ToPdfString()} {textRunMatrix.B.ToPdfString()} {textRunMatrix.C.ToPdfString()} {textRunMatrix.D.ToPdfString()} {textRunMatrix.E.ToPdfString()} {textRunMatrix.F.ToPdfString()} Tm");
-                        useModifiedMatrix = false;
-                        lineMatrix = textRunMatrix;
-                    }
-                }
-                //if (j + 1 < cell.TextLines.Count)
-                //{
-                //    lineMatrix = textRunMatrix * Matrix3x3.Translation(-lineLength + cell.TextLines[j + 1].Offset, -cell.TextLines[j + 1].LineHeight);
-                //}
-                lineLength = 0;
-                commands.Add("ET");
-            }
-            commands.Add("Q");
-            commands.Add($"% Content End: {cell.Name}");
+            //double rot = cell.CellAlignmentData.TextRotation * System.Math.PI / 180.0;
+            //double lineLength = 0;
+            //double lineHeight = 0;
+            //double startW = cell.Position.X;
+            //Matrix3x3 lineMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), cell.LocalPosition.X, cell.LocalPosition.Y);
+            //for (int j = 0; j < cell.TextLines.Count; j++)
+            //{
+            //    var Line = cell.TextLines[j];
+            //    Matrix3x3 textRunMatrix = lineMatrix;
+            //    Matrix3x3 modifierMatrix = Matrix3x3.Identity;
+            //    bool useModifiedMatrix = false;
+            //    commands.Add("BT");
+            //    for (int i = 0; i < Line.TextItemCollection.Count; i++)
+            //    {
+            //        var fontData = Line.TextItemCollection[i];
+            //        var neg = j == 0 ? fontData.Text.Length - 1 : fontData.Text.Length;
+            //        textRunMatrix = textRunMatrix * Matrix3x3.Translation(fontData.GlyphBox.Width, (neg * fontData.GlyphBox.Height));
+            //        lineMatrix = textRunMatrix;
+            //        for (int k = 0; k < fontData.Text.Length; k++)
+            //        {
+            //            var offset = fontData.characterOffset.ContainsKey(fontData.Text[k]) ? fontData.characterOffset[fontData.Text[k]] : Vector2.Zero;
+            //            lineMatrix = lineMatrix * Matrix3x3.Translation(offset.X, offset.Y);
+            //            commands.Add($"{lineMatrix.A.ToPdfString()} {lineMatrix.B.ToPdfString()} {lineMatrix.C.ToPdfString()} {lineMatrix.D.ToPdfString()} {lineMatrix.E.ToPdfString()} {lineMatrix.F.ToPdfString()} Tm");
+            //            var c = fontData.Text[k].ToString();
+            //            var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
+            //            double size = fontData.FontSize;
+            //            double scale = fontData.FontSize / font.fontData.HeadTable.UnitsPerEm;
+            //            if (fontData.Bold)
+            //            {
+            //                commands.Add("0.25 w");
+            //                commands.Add("2 Tr");
+            //                commands.Add(fontData.FontColor.ToStrokeCommand());
+            //            }
+            //            else
+            //            {
+            //                commands.Add("0 Tr");
+            //            }
+            //            if (fontData.Italic)
+            //            {
+            //                var ia = font.fontData.PostTable.italicAngle.FloatValue;
+            //                if (ia <= 0) ia = 12f * (float)System.Math.PI / 180.0f;
+            //                modifierMatrix.C = System.Math.Tan(ia);
+            //                modifierMatrix = modifierMatrix * textRunMatrix;
+            //                useModifiedMatrix = true;
+            //            }
+            //            if (fontData.SuperScript)
+            //            {
+            //                var supOffX = font.fontData.Os2Table.ySuperscriptXOffset * scale;
+            //                var supOffY = font.fontData.Os2Table.ySuperscriptYOffset * scale;
+            //                var supSizeX = font.fontData.Os2Table.ySuperscriptXSize * scale;
+            //                var supSizeY = font.fontData.Os2Table.ySuperscriptYSize * scale;
+            //                modifierMatrix.E = lineMatrix.E + supOffX;
+            //                modifierMatrix.F = lineMatrix.F + supOffY;
+            //                size = supSizeY;
+            //                useModifiedMatrix = true;
+            //            }
+            //            else if (fontData.SubScript)
+            //            {
+            //                var supOffX = font.fontData.Os2Table.ySubscriptXOffset * scale;
+            //                var supOffY = font.fontData.Os2Table.ySubscriptYOffset * scale;
+            //                var supSizeX = font.fontData.Os2Table.ySubscriptXSize * scale;
+            //                var supSizeY = font.fontData.Os2Table.ySubscriptYSize * scale;
+            //                modifierMatrix.E = lineMatrix.E + supOffX;
+            //                modifierMatrix.F = lineMatrix.F + supOffY;
+            //                size = supSizeY;
+            //                useModifiedMatrix = true;
+            //            }
+            //            if (useModifiedMatrix) commands.Add($"{modifierMatrix.A.ToPdfString()} {modifierMatrix.B.ToPdfString()} {modifierMatrix.C.ToPdfString()} {modifierMatrix.D.ToPdfString()} {modifierMatrix.E.ToPdfString()} {modifierMatrix.F.ToPdfString()} Tm");
+            //            commands.Add($"/{font.Label} {size.ToPdfString()} Tf");
+            //            commands.Add(fontData.FontColor.ToFillCommand());
+            //            commands.Add($"({FixEscapeCharacters(c)}) Tj");
+            //            if (fontData.Underline)
+            //            {
+            //                var underlinePos = font.fontData.PostTable.underlinePosition * scale;
+            //                var underlineWidth = font.fontData.PostTable.underlineThickness * scale;
+            //                var start = textRunMatrix.Transform(new Vector2(0, underlinePos));
+            //                var end = textRunMatrix.Transform(new Vector2(fontData.TextLength, underlinePos));
+            //                commands.Add($"{underlineWidth.ToPdfString()} w");
+            //                commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
+            //                commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
+            //                commands.Add($"S");
+            //            }
+            //            if (fontData.Strike)
+            //            {
+            //                var strikePos = font.fontData.Os2Table.yStrikeoutPosition * scale;
+            //                var strikeWidth = font.fontData.Os2Table.yStrikeoutSize * scale;
+            //                var start = textRunMatrix.Transform(new Vector2(0, strikePos));
+            //                var end = textRunMatrix.Transform(new Vector2(fontData.TextLength, strikePos));
+            //                commands.Add($"{strikeWidth.ToPdfString()} w");
+            //                commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
+            //                commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
+            //                commands.Add($"S");
+            //            }
+            //            lineLength += fontData.TextLength;
+            //            lineHeight = fontData.GlyphBox.Height;
+            //            textRunMatrix = textRunMatrix * Matrix3x3.Translation(/*fontData.TextLength*/0d, -lineHeight);
+            //            if (useModifiedMatrix) commands.Add($"{textRunMatrix.A.ToPdfString()} {textRunMatrix.B.ToPdfString()} {textRunMatrix.C.ToPdfString()} {textRunMatrix.D.ToPdfString()} {textRunMatrix.E.ToPdfString()} {textRunMatrix.F.ToPdfString()} Tm");
+            //            useModifiedMatrix = false;
+            //            lineMatrix = textRunMatrix;
+            //        }
+            //    }
+            //    //if (j + 1 < cell.TextLines.Count)
+            //    //{
+            //    //    lineMatrix = textRunMatrix * Matrix3x3.Translation(-lineLength + cell.TextLines[j + 1].Offset, -cell.TextLines[j + 1].LineHeight);
+            //    //}
+            //    lineLength = 0;
+            //    commands.Add("ET");
+            //}
+            //commands.Add("Q");
+            //commands.Add($"% Content End: {cell.Name}");
         }
 
         public void AddInnerGridLines(Transform pageLayout)

@@ -28,34 +28,47 @@ namespace EPPlus.Export.Pdf.PdfLayout
         VerticalBtt, // bottom-to-top
     }
 
-    class TextToken
+    internal class PdfCellLines
     {
-        public bool IsWhitespace;
-        public PdfCellTextItem Item;
-    }
-
-    internal class PdfCellLine
-    {
-        public List<PdfCellWord> Words = new List<PdfCellWord>();
-    }
-
-    internal class PdfCellWord
-    {
-        public List<PdfCellTextItem> TextItemCollection = new List<PdfCellTextItem>();
         public bool IsRichText = false;
-        public string Text;
         public double Offset;
-        public double Advance;
-        public double CrossSize;
         public PdfWritingMode WritingMode { get; set; } = PdfWritingMode.HorizontalLtr;
+
+        public List<PdfCellLine> Lines = new List<PdfCellLine>();
+        private string _text = null;
+        public string Text
+        {
+            get
+            {
+                _text = string.Empty;
+                foreach (var t in Lines)
+                {
+                    _text += t.Text;
+                }
+                return _text;
+            }
+        }
+
         public double TextLength
         {
             get
             {
                 double val = 0;
-                foreach (var tp in TextItemCollection)
+                foreach (var tp in Lines)
                 {
                     val += tp.TextLength;
+                }
+                return val;
+            }
+        }
+        public double TextHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var tp in Lines)
+                {
+                    val += tp.LineHeight;
                 }
                 return val;
             }
@@ -65,7 +78,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             get
             {
                 double val = 0;
-                foreach (var tp in TextItemCollection)
+                foreach (var tp in Lines)
                 {
                     val = tp.LineHeight > val ? tp.LineHeight : val;
                 }
@@ -77,15 +90,147 @@ namespace EPPlus.Export.Pdf.PdfLayout
             get
             {
                 double val = 0;
-                foreach (var tp in TextItemCollection)
+                foreach (var tp in Lines)
                 {
                     val = tp.FontHeight > val ? tp.FontHeight : val;
                 }
                 return val;
             }
         }
+    }
 
-        public object Clone() => this.MemberwiseClone();
+    internal class PdfCellLine
+    {
+        public List<PdfCellWord> Words = new List<PdfCellWord>();
+        private string _text = null;
+        public string Text
+        {
+            get
+            {
+                _text = string.Empty;
+                foreach (var t in Words)
+                {
+                    _text += t.Text;
+                }
+                return _text;
+            }
+        }
+
+        public double TextLength
+        {
+            get
+            {
+                double val = 0;
+                foreach (var w in Words)
+                {
+                    val += w.TextLength;
+                }
+                return val;
+            }
+        }
+        public double TextHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var w in Words)
+                {
+                    val += w.LineHeight;
+                }
+                return val;
+            }
+        }
+        public double LineHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var w in Words)
+                {
+                    val = w.LineHeight > val ? w.LineHeight : val;
+                }
+                return val;
+            }
+        }
+        public double FontHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var w in Words)
+                {
+                    val = w.FontHeight > val ? w.FontHeight : val;
+                }
+                return val;
+            }
+        }
+    }
+
+    internal class PdfCellWord
+    {
+        public List<PdfCellTextItem> Characters = new List<PdfCellTextItem>();
+        private string _text = null;
+        public string Text
+        {
+            get
+            {
+                _text = string.Empty;
+                foreach (var t in Characters)
+                {
+                    _text += t.Text;
+                }
+                return _text;
+            } 
+        }
+
+        public double TextLength
+        {
+            get
+            {
+                double val = 0;
+                foreach (var c in Characters)
+                {
+                    val += c.TextLength;
+                }
+                return val;
+            }
+        }
+        public double TextHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var c in Characters)
+                {
+                    val += c.LineHeight;
+                }
+                return val;
+            }
+        }
+        public double LineHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var c in Characters)
+                {
+                    val = c.LineHeight > val ? c.LineHeight : val;
+                }
+                return val;
+            }
+        }
+        public double FontHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var c in Characters)
+                {
+                    val = c.FontHeight > val ? c.FontHeight : val;
+                }
+                return val;
+            }
+        }
     }
 
     internal struct PdfCellTextItem
@@ -111,6 +256,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public List<GlyphPosition> GlyphPositions;
         public string FullFontName
         { get { return FontName + " " + SubFamily; } }
+
+        //implement compare method that checks if style parameters are equal. text is excluded somethinf like bool HasSameStyle()
     }
 
     internal class GlyphPosition

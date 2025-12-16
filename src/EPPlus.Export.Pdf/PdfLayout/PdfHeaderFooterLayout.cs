@@ -90,7 +90,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 textItem.TextLength = result.Width;
                 textItem.FontHeight = result.FontHeight;
                 textItem.LineHeight = result.Height;
-                textLine.TextItemCollection.Add(textItem);
+                textLine.Characters.Add(textItem);
             }
         }
 
