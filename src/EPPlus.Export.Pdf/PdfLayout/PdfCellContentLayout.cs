@@ -27,9 +27,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
 {
     internal class PdfCellContentLayout : Transform
     {
-        public List<PdfCellTextLine> TextLines = new List<PdfCellTextLine>();
-        public List<PdfCellTextLine> Words = new List<PdfCellTextLine>();
-        public List<PdfCellLines> Lines = new List<PdfCellLines>();
+        public List<PdfCellWord> TextLines = new List<PdfCellWord>();
+        public List<PdfCellWord> Words = new List<PdfCellWord>();
+        public List<PdfCellLine> Lines = new List<PdfCellLine>();
         public PdfCellAlignmentData CellAlignmentData;
         public bool Clip;
         public Rect Clipping;
@@ -69,8 +69,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation)
         {
-            //var words = cell.RichText.Text.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
-
             List<PdfCellTextItem> textItems = new List<PdfCellTextItem>();
             for (int i = 0; i < cell.RichText.Count; i++)
             {
@@ -114,7 +112,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         0 => MeasurementFontStyles.Regular,
                         var s => s
                     };
-                    var result = fontMeasurerTrueType.MeasureText(cell.Text, font);
+                    var result = fontMeasurerTrueType.MeasureText(textItem.Text, font);
                     textItem.TextLength = result.Width;
                     textItem.LineHeight = result.Height;
                     textItem.FontHeight = result.FontHeight;
@@ -130,17 +128,17 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     textItems.Add(textItem);
                 }
             }
-            var w = new PdfCellTextLine();
+            var w = new PdfCellWord();
             for (int i = 0; i < textItems.Count; i++)
             {
                 var t = textItems[i];
                 if (char.IsWhiteSpace(t.Text[0]))
                 {
                     Words.Add(w);
-                    w = new PdfCellTextLine();
+                    w = new PdfCellWord();
                     w.TextItemCollection.Add(t);
                     Words.Add(w);
-                    w = new PdfCellTextLine();
+                    w = new PdfCellWord();
                 }
                 else
                 {
@@ -160,24 +158,63 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 {
                     double lineLength = 0d;
                     int currentLine = 0;
+                    var line = new PdfCellLine();
                     for (int i = 0; i < Words.Count; i++)
                     {
-                        if (lineLength + Words[i].TextLength < maxWidth)
+                        if (Words[i].TextLength > maxWidth)
+                        {
+                            double lineCount = Words[i].TextLength / maxWidth;
+                            int currentIndex = 0;
+                            while (lineCount > 0)
+                            {
+                                PdfCellWord newWord = new PdfCellWord();
+                                double wordlength = 0;
+                                for (int j = currentIndex; j < Words[i].TextItemCollection.Count; j++)
+                                {
+                                    if (wordlength + Words[i].TextItemCollection[j].TextLength > maxWidth)
+                                    {
+                                        currentIndex = j;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        newWord.TextItemCollection.Add(Words[i].TextItemCollection[j]);
+                                        wordlength += Words[i].TextItemCollection[j].TextLength;
+                                    }
+                                }
+                                line.Words.Add(newWord);
+                                Lines.Add(line);
+                                lineCount--;
+                                line = new PdfCellLine();
+                            }
+                        }
+                        else if (lineLength + Words[i].TextLength < maxWidth)
                         {
                             lineLength += Words[i].TextLength;
-                            Lines[currentLine].Words.Add(Words[i]);
+                            line.Words.Add(Words[i]);
                         }
                         else
                         {
-                            var line = new PdfCellLines();
                             Lines.Add(line);
-                            //current line = new line
-                            //add words[i] to curennt line
-                            //lineLength 0 wordsi
+                            currentLine++;
+                            lineLength = Words[i].TextLength;
+                            line = new PdfCellLine();
+                            line.Words.Add(Words[i]);
                         }
                     }
+                    Lines.Add(line);
+                }
+                else
+                {
+                    var line = new PdfCellLine();
+                    foreach (var word in Words)
+                    {
+                        line.Words.Add(word);
+                    }
+                    Lines.Add(line);
                 }
             }
+            Lines.RemoveAll(l => l.Words.Count <= 0);
         }
 
 
@@ -553,7 +590,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             int i = 0;
             int j = 0;
             var text = string.Empty;
-            PdfCellTextLine textLine = new PdfCellTextLine();
+            PdfCellWord textLine = new PdfCellWord();
             textLine.IsRichText = true;
             if (rotation == 255)
             {
@@ -585,7 +622,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         textLine.Text = text;
                         j = i - 1;
                         TextLines.Add(textLine);
-                        textLine = new PdfCellTextLine();
+                        textLine = new PdfCellWord();
                         totalHeight = 0;
                     }
                     else
@@ -667,7 +704,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         textLine.Text = text;
                         j = i - 1;
                         TextLines.Add(textLine);
-                        textLine = new PdfCellTextLine();
+                        textLine = new PdfCellWord();
                         totalWidth = 0;
                     }
                     else
@@ -745,7 +782,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             textItem.GlyphBox.Width = gbox;
             textItem.GlyphBox.Height = gbox;
             double TextHeight = 0d;
-            PdfCellTextLine lineItem = new PdfCellTextLine();
+            PdfCellWord lineItem = new PdfCellWord();
             string lineText = string.Empty;
             int textLength = textItem.Text.Length;
             double lineHeight = textItem.LineHeight;
@@ -768,7 +805,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             lineItem.TextItemCollection.Add(textItem);
                             TextLines.Add(lineItem);
                             textItem = CreateTextItem();
-                            lineItem = new PdfCellTextLine();
+                            lineItem = new PdfCellWord();
                             TextHeight = 0;
                             lineText = string.Empty;
                         }
@@ -812,7 +849,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         lineItem.TextItemCollection.Add(textItem);
                         TextLines.Add(lineItem);
                         textItem = CreateTextItem();
-                        lineItem = new PdfCellTextLine();
+                        lineItem = new PdfCellWord();
                     }
                 }
             }

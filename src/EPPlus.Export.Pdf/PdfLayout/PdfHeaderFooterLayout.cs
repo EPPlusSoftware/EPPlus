@@ -27,7 +27,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 {
     internal class PdfHeaderFooterLayout : Transform
     {
-        public PdfCellTextLine textLine = new PdfCellTextLine();
+        public PdfCellWord textLine = new PdfCellWord();
 
         public PdfHeaderFooterLayout(ExcelHeaderFooterTextCollection textCollection, ExcelWorksheet ws, PdfPageSettings settings, PdfDictionaries dictionaries, int pageNumber, int totalPages)
         {

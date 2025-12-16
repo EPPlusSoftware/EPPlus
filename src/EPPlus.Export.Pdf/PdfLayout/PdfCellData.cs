@@ -34,12 +34,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellTextItem Item;
     }
 
-    internal class PdfCellLines
+    internal class PdfCellLine
     {
-        public List<PdfCellTextLine> Words = new List<PdfCellTextLine>();
+        public List<PdfCellWord> Words = new List<PdfCellWord>();
     }
 
-    internal class PdfCellTextLine
+    internal class PdfCellWord
     {
         public List<PdfCellTextItem> TextItemCollection = new List<PdfCellTextItem>();
         public bool IsRichText = false;
