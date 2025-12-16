@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using OfficeOpenXml.Interfaces.Drawing.Text;
-using System.Linq;
-using System;
+﻿using EPPlus.Fonts.OpenType.Tables.Cmap;
+using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Kern;
-using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace EPPlus.Fonts.OpenType
@@ -278,6 +279,137 @@ namespace EPPlus.Fonts.OpenType
         {
             return font.Os2Table.usWinDescent * (fontSize / font.HeadTable.UnitsPerEm);
         }
+
+        /// <summary>
+        /// Returns advanceWidth for char
+        /// </summary>
+        /// <param name="glyphMappings"></param>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        private static int CalcGlyphWidth(GlyphMappings glyphMappings, char c, OpenTypeFont fontData, ushort? lastGlyphIndex, ref bool applyKerning)
+        {
+            int advanceWidth;
+
+            var gi = glyphMappings.GetGlyphIndex(c);
+
+            if (gi == 0 && c != 0)
+            {
+                advanceWidth = fontData.Os2Table.xAvgCharWidth;
+            }
+            else
+            {
+                var hhMetric = fontData.HmtxTable.hMetrics[gi ?? 0];
+                advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
+            }
+
+            if (applyKerning)
+            {
+                advanceWidth += GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fontData);
+            }
+            applyKerning = true;
+
+            lastGlyphIndex = gi;
+
+            return advanceWidth;
+        }
+
+        private static void MeasureAndWrapLine(string line, OpenTypeFont fontData, int lineWidth, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<string> wrappedStrings, bool applyKerning = true)
+        {
+            int nextLineStartIndex = 0;
+            int wordWidth = 0;
+
+            for (int i = 0; i < line.Length; i++)
+            {
+                char c = line[i];
+                int advanceWidth = CalcGlyphWidth(glyphMappings, c, fontData, lastGlyphIndex, ref applyKerning);
+                lineWidth += advanceWidth;
+
+                //Diff starts
+                wordWidth = c == ' ' ? 0 : wordWidth + advanceWidth;
+
+                if (lineWidth > maxWidth)
+                {
+                    var wrappedString = WrapString(line, i, ref nextLineStartIndex, out TotalAdvanceMode advanceMode);
+                    wrappedStrings.Add(wrappedString);
+
+                    //Using enum to make it one Input parameter in WrapString instead of all 3
+                    //this as they're not actually used in there
+                    lineWidth = GetAdvanceWidthFromMode(advanceWidth, wordWidth, advanceMode);
+                    //New line means both totals are equal
+                    wordWidth = lineWidth;
+                }
+            }
+
+            var remainingLine = line.Substring(nextLineStartIndex);
+            wrappedStrings.Add(remainingLine);
+
+            //Has to be done after in case we enter with an existing line width
+            lineWidth = 0;
+        }
+
+        //private static double[] MeasureLine(string line, OpenTypeFont fontData, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double MaxWidth = double.NaN, bool applyKerning = true)
+        //{
+        //    int lineWidth = 0;
+
+        //    for (int i = 0; i < line.Length; i++)
+        //    {
+        //        char c = line[i];
+        //        int advanceWidth = CalcGlyphWidth(glyphMappings, c, fontData, lastGlyphIndex, applyKerning);
+        //        applyKerning = true;
+
+        //        lineWidth += advanceWidth;
+                
+        //        if(MaxWidth != double.NaN && lineWidth > MaxWidth)
+        //        {
+        //            return new double[] {lineWidth, i};
+        //        }
+        //    }
+
+        //    return new double[] {lineWidth};
+        //}
+
+        ///// <summary>
+        ///// Measure line until max width
+        ///// </summary>
+        ///// <param name="line"></param>
+        ///// <param name="fontData"></param>
+        ///// <param name="glyphMappings"></param>
+        ///// <param name="lastGlyphIndex"></param>
+        ///// <param name="MaxWidth"></param>
+        ///// <param name="applyKerning"></param>
+        ///// <returns>
+        ///// [0] lineWidth, (if arr.len == 1 it never passed max length)
+        ///// [1] current advance width, 
+        ///// [2] char index </returns>
+        //private static double[] MeasureLine(string line, OpenTypeFont fontData, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double MaxWidth, bool applyKerning = true)
+        //{
+        //    int lineWidth = 0;
+
+        //    for (int i = 0; i < line.Length; i++)
+        //    {
+        //        var advanceWidth = CalcGlyphWidth(glyphMappings, line[i], fontData, lastGlyphIndex, ref applyKerning);
+        //        lineWidth += advanceWidth;
+        //        if (MaxWidth != double.NaN && lineWidth > MaxWidth)
+        //        {
+        //            return new double[] { lineWidth, advanceWidth, i };
+        //        }
+        //    }
+
+        //    return new double[] { lineWidth };
+        //}
+
+        private static double MeasureLine(string line, OpenTypeFont fontData, GlyphMappings glyphMappings, ushort? lastGlyphIndex, bool applyKerning = true)
+        {
+            int lineWidth = 0;
+
+            for (int i = 0; i < line.Length; i++)
+            {
+                lineWidth += CalcGlyphWidth(glyphMappings, line[i], fontData, lastGlyphIndex, ref applyKerning);
+            }
+
+            return lineWidth;
+        }
+
         /// <summary>
         /// Measures the text and breaks it into smaller strings so that none exceed the MaxWidth
         /// </summary>
@@ -285,93 +417,90 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="fontSize"></param>
         /// <param name="fontData"></param>
         /// <param name="maxWidth"></param>
+        /// <param name="preExistingLineWidth">point size previously calculated width of starting line</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         internal static List<string> MeasureAndWrapText(string text, double fontSize, OpenTypeFont fontData, double maxWidth, double preExistingLineWidth = 0)
         {
             int totalAdvanceWidth = 0;
             ushort? lastGlyphIndex = 0;
-            bool firstChar = true;
-
-            //Split strings on line endings
-            var newLine = Environment.NewLine;
-            var splitStrings = text.Split([newLine], StringSplitOptions.None);
-
-            var testArray = splitStrings.Last().ToCharArray();
+            var splitStrings = text.Split([Environment.NewLine], StringSplitOptions.None);
 
             //Initalise collection to return
             List<string> wrappedStrings = new List<string>();
+
             var inputMaxWidth = maxWidth;
             //Convert maxWidth from points to font design units
             maxWidth = (maxWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize;
 
             var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
-            foreach (var line in splitStrings)
+
+            //If the starting line width is not zero.
+            //Happens e.g. if other chars on the starting line have been measured with a different font.
+            if (preExistingLineWidth != 0)
             {
-                int nextLineStartIndex = 0;
-                int totalAdvanceFromLastWord = 0;
-
-                for (int i = 0; i < line.Length; i++)
-                {
-                    if (line == splitStrings[0] && preExistingLineWidth != 0 && i == 0)
-                    {
-                        totalAdvanceWidth = Convert.ToInt16((preExistingLineWidth * (double) fontData.HeadTable.UnitsPerEm) / fontSize);
-                    }
-
-                    char c = line[i];
-                    var gi = glyphMappings.GetGlyphIndex(c);
-                    int advanceWidth;
-                    if (gi == 0 && c != 0)
-                    {
-                        advanceWidth = fontData.Os2Table.xAvgCharWidth;
-                    }
-                    else
-                    {
-                        var hhMetric = fontData.HmtxTable.hMetrics[gi ?? 0];
-                        advanceWidth = Convert.ToInt16(hhMetric.advanceWidth);
-                    }
-
-                    var newWidth = totalAdvanceWidth + advanceWidth;
-
-                    int kerning = 0;
-                    // Kerning adjustment
-                    if (!firstChar)
-                    {
-                        kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fontData);
-                        newWidth += kerning;
-                    }
-
-                    totalAdvanceFromLastWord += (advanceWidth + kerning);
-
-                    if (c == ' ')
-                    {
-                        totalAdvanceFromLastWord = 0;
-                    }
-
-                    if (newWidth > maxWidth)
-                    {
-                        var wrappedString = WrapString(line, i, nextLineStartIndex, c, out nextLineStartIndex, out TotalAdvanceMode advanceMode);
-                        wrappedStrings.Add(wrappedString);
-
-                        //Using enum to make it one Input parameter in WrapString instead of all 3
-                        //this as they're not actually used in there
-                        totalAdvanceWidth = GetAdvanceWidthFromMode(advanceWidth, totalAdvanceFromLastWord, advanceMode);
-                        //New line means both totals are equal
-                        totalAdvanceFromLastWord = totalAdvanceWidth;
-                    }
-                    else
-                    {
-                        totalAdvanceWidth = newWidth;
-                    }
-
-                    lastGlyphIndex = gi;
-                    firstChar = false;
-                }
-
-                var remainingLine = line.Substring(nextLineStartIndex);
-                wrappedStrings.Add(remainingLine);
-                totalAdvanceWidth = 0;
+                totalAdvanceWidth = Convert.ToInt16((preExistingLineWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize);
             }
+
+            //Avoid using kerning for first char/line
+            MeasureAndWrapLine(splitStrings[0], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings, false);
+
+            for (int i = 1; i < splitStrings.Count(); i++)
+            {
+                MeasureAndWrapLine(splitStrings[i], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
+            }
+
+            ////Avoid using kerning for first char/line
+            //MeasureLine(splitStrings[0], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, false);
+
+            //for (int i = 1; i < splitStrings.Count(); i++)
+            //{
+            //    MeasureLine(splitStrings[i], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth);
+            //}
+
+            ////Avoid using kerning for first char/line
+            //MeasureAndWrapLine(splitStrings[0], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings, false);
+
+            //for (int i = 1; i < splitStrings.Count(); i++)
+            //{
+            //    MeasureAndWrapLine(splitStrings[i], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
+            //}
+            //if (splitStrings.Length > 0 && splitStrings[0].Length > 0)
+            //{
+            //    //First glyph has no kerning
+            //    var firstGlyphWidth = CalculateGlyphAdvanceWidth(glyphMappings, splitStrings[0][0], fontData, lastGlyphIndex, false);
+            //    totalAdvanceWidth += firstGlyphWidth;
+
+            //    for (int i = 1; i < splitStrings.Count(); i++)
+            //    {
+            //        var line = splitStrings[i];
+
+            //        for (int j = 1; j < line[j]; j++)
+            //        {
+            //            char c = line[j];
+
+            //            int advanceWidth = CalculateGlyphAdvanceWidth(glyphMappings, c, fontData, lastGlyphIndex);
+
+
+
+            //            lineWidth += advanceWidth;
+
+            //            if (MaxWidth != null && lineWidth > MaxWidth)
+            //            {
+            //                return lineWidth;
+            //            }
+            //        }
+
+            //        lineWidth = 0;
+            //    }
+            //    ////Avoid using kerning for first char/line
+            //    //MeasureAndWrapLine(splitStrings[0], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings, false);
+
+            //    //for (int i = 1; i < splitStrings.Count(); i++)
+            //    //{
+            //    //    MeasureAndWrapLine(splitStrings[i], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
+            //    //}
+            //}
 
             return wrappedStrings;
         }
@@ -418,8 +547,8 @@ namespace EPPlus.Fonts.OpenType
                 {
                     if (i > 0 && c == '\r' && text[i - 1] == '\n')
                     {
-                        continue; //CRLF should be handle
-                                  //d as one new line.
+                        continue; //CRLF should be handled
+                                  //as one new line.
                     }
                     if (totalAdvanceWidth > largestWidth)
                     {
@@ -563,23 +692,25 @@ namespace EPPlus.Fonts.OpenType
         /// <summary>
         /// Pick out and return a string at the current char index from an original string
         /// </summary>
-        /// <param name="originalLine">Original line text</param>
-        /// <param name="charIndex">current char index in original line</param>
-        /// <param name="lastLineIndex">the starting index for the current line in original line</param>
+        /// <param name="orgLine">Original line text</param>
+        /// <param name="cIdx">current char index in original line</param>
         /// <param name="c">current character</param>
-        /// <param name="nextLineStartIndex">The starting index in original line after this operation is done</param>
+        /// <param name="startLineIdx">The starting char index of old and then the new line in orgLine</param>
         /// <param name="mode">Informs calling method what TotalAdvance should be set to</param>
         /// <returns></returns>
-        private static string WrapString(string originalLine, int charIndex, int lastLineIndex, char c, out int nextLineStartIndex, out TotalAdvanceMode mode)
+        private static string WrapString(string orgLine, int cIdx, ref int startLineIdx, out TotalAdvanceMode mode)
         {
             //Result string
             string wrappedString = string.Empty;
 
+            var prevStartIdx = startLineIdx;
+            char c = orgLine[cIdx];
+
             //Number of chars in the current line
-            var charCountFromLast = charIndex - lastLineIndex;
+            var charCountFromLast = cIdx - prevStartIdx;
 
             //Substring out the current line from the original
-            var txt = originalLine.Substring(lastLineIndex, charCountFromLast);
+            var txt = orgLine.Substring(prevStartIdx, charCountFromLast);
 
             //Ensure whole words get moved down if part of its letters are overflowing
             var splitLines = txt.Split(' ');
@@ -594,7 +725,7 @@ namespace EPPlus.Fonts.OpenType
                 wrappedString = spacedString;
 
                 //The start index of the first character in the overflow (After space)
-                nextLineStartIndex = lastLineIndex + startIndex;
+                startLineIdx += startIndex;
 
                 mode = TotalAdvanceMode.FromLastWord;
             }
@@ -607,7 +738,7 @@ namespace EPPlus.Fonts.OpenType
                     //The current char has crossed the max
                     //Therefore remove it from the text to be added.
                     wrappedString = txt.Substring(0, txt.Length);
-                    nextLineStartIndex = charIndex + 1;
+                    startLineIdx = cIdx + 1;
                     mode = TotalAdvanceMode.Zero;
                 }
                 else
@@ -617,7 +748,7 @@ namespace EPPlus.Fonts.OpenType
                     wrappedString = txt.Substring(0, txt.Length);
                     //The current character is part of the new line
                     //We should start at the index of the current character and add its width to the new line
-                    nextLineStartIndex = charIndex;
+                    startLineIdx = cIdx;
                     mode = TotalAdvanceMode.LatestCharOnly;
                 }
             }
@@ -748,7 +879,7 @@ namespace EPPlus.Fonts.OpenType
                     //We are beyond MaxWidth. Wrap the line.
                     if (newWidth > maxWidth)
                     {
-                        var wrappedString = WrapString(combinedString, charCount, nextLineStartIndex, c, out nextLineStartIndex, out TotalAdvanceMode advanceMode);
+                        var wrappedString = WrapString(combinedString, charCount, ref nextLineStartIndex, out TotalAdvanceMode advanceMode);
 
                         wrappedStrings.Add(wrappedString);
 
