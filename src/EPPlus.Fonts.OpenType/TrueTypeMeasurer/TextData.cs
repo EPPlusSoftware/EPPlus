@@ -6,6 +6,7 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 
 
 namespace EPPlus.Fonts.OpenType
@@ -313,10 +314,29 @@ namespace EPPlus.Fonts.OpenType
             return advanceWidth;
         }
 
-        private static void MeasureAndWrapLine(string line, OpenTypeFont fontData, int lineWidth, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<string> wrappedStrings, bool applyKerning = true)
+        private static void MeasureAndWrapLines(string text, ref int totalAdvanceWidth, ref int totalWordWidth, OpenTypeFont fontData, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<string> wrappedStrings, bool applyKerning = true)
+        {
+            //Handle line-endings
+            var splitStrings = text.Split([Environment.NewLine], StringSplitOptions.None);
+
+            if (splitStrings.Length != 0)
+            {
+                //Avoid using kerning for first char/line
+                MeasureAndWrapLine(splitStrings[0], fontData, ref totalAdvanceWidth, ref totalWordWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings, false);
+
+                if(splitStrings.Length > 1)
+                {
+                    for (int i = 1; i < splitStrings.Count(); i++)
+                    {
+                        MeasureAndWrapLine(splitStrings[i], fontData, ref totalAdvanceWidth, ref totalWordWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
+                    }
+                }
+            }
+        }
+
+        private static void MeasureAndWrapLine(string line, OpenTypeFont fontData, ref int lineWidth, ref int wordWidth, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<string> wrappedStrings, bool applyKerning = true)
         {
             int nextLineStartIndex = 0;
-            int wordWidth = 0;
 
             for (int i = 0; i < line.Length; i++)
             {
@@ -324,12 +344,11 @@ namespace EPPlus.Fonts.OpenType
                 int advanceWidth = CalcGlyphWidth(glyphMappings, c, fontData, lastGlyphIndex, ref applyKerning);
                 lineWidth += advanceWidth;
 
-                //Diff starts
                 wordWidth = c == ' ' ? 0 : wordWidth + advanceWidth;
 
                 if (lineWidth > maxWidth)
                 {
-                    var wrappedString = WrapString(line, i, ref nextLineStartIndex, out TotalAdvanceMode advanceMode);
+                    var wrappedString = ExtractWrappedSubstring(line, i, ref nextLineStartIndex, out TotalAdvanceMode advanceMode);
                     wrappedStrings.Add(wrappedString);
 
                     //Using enum to make it one Input parameter in WrapString instead of all 3
@@ -358,7 +377,7 @@ namespace EPPlus.Fonts.OpenType
         //        applyKerning = true;
 
         //        lineWidth += advanceWidth;
-                
+
         //        if(MaxWidth != double.NaN && lineWidth > MaxWidth)
         //        {
         //            return new double[] {lineWidth, i};
@@ -398,7 +417,37 @@ namespace EPPlus.Fonts.OpenType
         //    return new double[] { lineWidth };
         //}
 
-        private static double MeasureLine(string line, OpenTypeFont fontData, GlyphMappings glyphMappings, ushort? lastGlyphIndex, bool applyKerning = true)
+        private static double[] MeasureLine(string line, double fontSize, OpenTypeFont fontData, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double MaxWidth, ref double prevLineWidth, ref double prevWordWidth, bool applyKerning = true)
+        {
+            int lineWidth = 0;
+            int wordWidth = 0;
+
+            for (int i = 0; i < line.Length; i++)
+            {
+                var c = line[i];
+
+                //If we are at a new line
+                if ((c == '\n' || c == '\r'))
+                {
+                    //Cancel and return we are done with the current line
+                    return new double[] { lineWidth, wordWidth, i };
+                }
+
+                var advanceWidth = CalcGlyphWidth(glyphMappings, c, fontData, lastGlyphIndex, ref applyKerning);
+                lineWidth += advanceWidth;
+
+                wordWidth = c == ' ' ? 0 : wordWidth + advanceWidth;
+
+                if (MaxWidth != double.NaN && lineWidth > MaxWidth)
+                {
+                    return new double[] { lineWidth, wordWidth, i };
+                }
+            }
+
+            return new double[] { lineWidth, wordWidth };
+        }
+
+        private static double MeasureLine(string line, OpenTypeFont fontData, double fontSize, GlyphMappings glyphMappings, ushort? lastGlyphIndex, bool applyKerning = true)
         {
             int lineWidth = 0;
 
@@ -407,7 +456,7 @@ namespace EPPlus.Fonts.OpenType
                 lineWidth += CalcGlyphWidth(glyphMappings, line[i], fontData, lastGlyphIndex, ref applyKerning);
             }
 
-            return lineWidth;
+            return (lineWidth / (double)fontData.HeadTable.UnitsPerEm) * fontSize;
         }
 
         /// <summary>
@@ -420,11 +469,12 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="preExistingLineWidth">point size previously calculated width of starting line</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        internal static List<string> MeasureAndWrapText(string text, double fontSize, OpenTypeFont fontData, double maxWidth, double preExistingLineWidth = 0)
+        internal static List<string> MeasureAndWrapText(string text, double fontSize, OpenTypeFont fontData, double maxWidth, double preExistingLineWidth = 0, double preExistingWordWidth = 0)
         {
+            //  Initialize:
+
             int totalAdvanceWidth = 0;
             ushort? lastGlyphIndex = 0;
-            var splitStrings = text.Split([Environment.NewLine], StringSplitOptions.None);
 
             //Initalise collection to return
             List<string> wrappedStrings = new List<string>();
@@ -435,75 +485,28 @@ namespace EPPlus.Fonts.OpenType
 
             var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
 
+            int wordWidth = 0;
+
             //If the starting line width is not zero.
             //Happens e.g. if other chars on the starting line have been measured with a different font.
             if (preExistingLineWidth != 0)
             {
+                //Convert from points to current fonts font design units
                 totalAdvanceWidth = Convert.ToInt16((preExistingLineWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize);
             }
-
-            //Avoid using kerning for first char/line
-            MeasureAndWrapLine(splitStrings[0], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings, false);
-
-            for (int i = 1; i < splitStrings.Count(); i++)
+            if (preExistingWordWidth != 0)
             {
-                MeasureAndWrapLine(splitStrings[i], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
+                wordWidth = Convert.ToInt16((preExistingWordWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize);
             }
 
-            ////Avoid using kerning for first char/line
-            //MeasureLine(splitStrings[0], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, false);
+            // Execute:
 
-            //for (int i = 1; i < splitStrings.Count(); i++)
-            //{
-            //    MeasureLine(splitStrings[i], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth);
-            //}
-
-            ////Avoid using kerning for first char/line
-            //MeasureAndWrapLine(splitStrings[0], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings, false);
-
-            //for (int i = 1; i < splitStrings.Count(); i++)
-            //{
-            //    MeasureAndWrapLine(splitStrings[i], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
-            //}
-            //if (splitStrings.Length > 0 && splitStrings[0].Length > 0)
-            //{
-            //    //First glyph has no kerning
-            //    var firstGlyphWidth = CalculateGlyphAdvanceWidth(glyphMappings, splitStrings[0][0], fontData, lastGlyphIndex, false);
-            //    totalAdvanceWidth += firstGlyphWidth;
-
-            //    for (int i = 1; i < splitStrings.Count(); i++)
-            //    {
-            //        var line = splitStrings[i];
-
-            //        for (int j = 1; j < line[j]; j++)
-            //        {
-            //            char c = line[j];
-
-            //            int advanceWidth = CalculateGlyphAdvanceWidth(glyphMappings, c, fontData, lastGlyphIndex);
-
-
-
-            //            lineWidth += advanceWidth;
-
-            //            if (MaxWidth != null && lineWidth > MaxWidth)
-            //            {
-            //                return lineWidth;
-            //            }
-            //        }
-
-            //        lineWidth = 0;
-            //    }
-            //    ////Avoid using kerning for first char/line
-            //    //MeasureAndWrapLine(splitStrings[0], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings, false);
-
-            //    //for (int i = 1; i < splitStrings.Count(); i++)
-            //    //{
-            //    //    MeasureAndWrapLine(splitStrings[i], fontData, totalAdvanceWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
-            //    //}
-            //}
+            MeasureAndWrapLines(text, ref totalAdvanceWidth, ref wordWidth, fontData, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
 
             return wrappedStrings;
         }
+
+        
 
         /// <summary>
         /// If wrap text is true returns the largest width before newLine characters
@@ -696,9 +699,9 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="cIdx">current char index in original line</param>
         /// <param name="c">current character</param>
         /// <param name="startLineIdx">The starting char index of old and then the new line in orgLine</param>
-        /// <param name="mode">Informs calling method what TotalAdvance should be set to</param>
+        /// <param name="mode">Informs calling method what the advance of the next line should be set to</param>
         /// <returns></returns>
-        private static string WrapString(string orgLine, int cIdx, ref int startLineIdx, out TotalAdvanceMode mode)
+        private static string ExtractWrappedSubstring(string orgLine, int cIdx, ref int startLineIdx, out TotalAdvanceMode mode)
         {
             //Result string
             string wrappedString = string.Empty;
@@ -772,6 +775,183 @@ namespace EPPlus.Fonts.OpenType
                 $"And does not exist within the enum: '{typeof(TotalAdvanceMode)}' ");
         }
 
+        private static List<int> GetStartIndicies(string stringsCombined)
+        {
+            List<int> combinedStartIndicies = new List<int>();
+
+            var strings = stringsCombined.Split([Environment.NewLine], StringSplitOptions.None);
+            totalLength = 0;
+
+            for (int i = 0; i < strings.Count(); i++)
+            {
+                combinedStartIndicies.Add(strings[i].Length + totalLength);
+                totalLength += strings[i].Length;
+            }
+
+            return combinedStartIndicies;
+        }
+
+        internal static List<string> WrapMultipleTextFragments2(List<string> textFragments, List<double> fontSizes, Dictionary<double, OpenTypeFont> fonts, double maxWidth)
+        {
+            var combinedString = string.Join(string.Empty, textFragments.ToArray());
+
+            var charCount = 0;
+            List<char> currentLine = new List<char>();
+            ushort? lastGlyphIndex = null;
+
+            double currLineWidth = 0;
+            double wordWidth = 0;
+            bool applyKerning = false;
+
+            for (int i = 0; i < textFragments.Count; i++)
+            {
+                var currentFont = fonts[i];
+                var currentSize = fontSizes[i];
+                var textFragment = textFragments[i];
+                var glyphMappings = currentFont.CmapTable.GetPreferredSubtable().GetGlyphMappings();
+
+
+                var lineData = MeasureLine(textFragment, currentSize, currentFont, glyphMappings, lastGlyphIndex, maxWidth, 
+                    ref currLineWidth, ref wordWidth, applyKerning);
+
+                //We've hit a newline or gone over maxwidth
+                if (lineData.Length > 2)
+                {
+                    var isNewLine = lineData[0] < maxWidth;
+    
+                    if (isNewLine)
+                    {
+                        
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+
+                }
+                //var lineData = MeasureLine(textFragment, currentSize, currentFont, glyphMappings, lastGlyphIndex, maxWidth);
+
+                //if(lineData.Length > 2)
+                //{
+
+                //}
+                //else
+                //{
+
+                //}
+
+                //charCount++;
+                //for (int j = 0; j < textFragments[i].Length; j++)
+                //{
+
+
+                //    charCount++;
+                //}
+            }
+
+            ////First, we need to be able to tell what fragment belongs where as we iterate
+            //var combinedString = string.Join(string.Empty, textFragments.ToArray());
+            //var startIndicies = GetStartIndicies(textFragments, combinedString);
+
+            //var currentFragment = 0;
+            ////Currently also 0
+            //var currentStartCharIndex = startIndicies[currentFragment];
+            //var nextStartCharIndex = startIndicies[currentFragment++];
+
+            ////Then we wish to iterate, one char at a time
+            //for (int i = 0; i < combinedString.Length; i++)
+            //{
+            //    if(i >= nextStartCharIndex)
+            //    {
+            //        currentFragment++;
+            //        nextStartCharIndex++;
+            //    }
+
+            //    var c = combinedString[i];
+
+
+            //}
+
+            //for (int i = 0; i < combinedString.Length; i++)
+            //{
+            //    var c = combinedString[i];
+
+
+            //}
+            ////int charCount = 0;
+
+            //var splitStrings = combinedString.Split([Environment.NewLine], StringSplitOptions.None);
+            //List<int> presetNewLineIndicies = new();
+            //int presetCharCount = 0;
+
+            //foreach (var line in splitStrings)
+            //{
+            //    presetNewLineIndicies.Add(presetCharCount + line.Length);
+            //    presetCharCount += line.Length;
+            //}
+
+            ////Initalise collection to return
+            //List<string> wrappedStrings = new List<string>();
+
+            //for (int i = 0; i < textFragments.Count; i++)
+            //{
+
+            //}
+
+            //var combinedString = string.Join(string.Empty, textFragments.ToArray());
+            //int charCount = 0;
+
+            //for (int i = 0; i < textFragments.Count; i++)
+            //{
+            //    MeasureLine(textFragments[i], fonts[i], fonts[i].)
+            //}
+            //var splitStrings = combinedString.Split([Environment.NewLine], StringSplitOptions.None);
+
+            //for (int k = 0; k < textFragments.Count(); k++)
+            //{
+            //    MeasureAndWrapText()   
+            //}
+
+            //var glyphMappings = fonts[0].CmapTable.GetPreferredSubtable().GetGlyphMappings();
+            //var firstLines = MeasureAndWrapText(textFragments[0], fontSizes[0], fonts[0], maxWidth);
+
+            //var lastLine = firstLines.Last();
+
+            //var lastLineLength = MeasureLine(lastLine, fonts[0], fontSizes[0], glyphMappings, null, false);
+
+            //for (int i = 0; i < firstLines.Count()-1; i++)
+            //{
+            //    wrappedStrings.Add(firstLines[i]);
+            //}
+
+            //List<string> currentLines = new List<string>();
+
+            //var currentLine = wrappedStrings.Last();
+
+            //for (int k = 0; k < textFragments.Count(); k++)
+            //{
+            //    glyphMappings = fonts[k].CmapTable.GetPreferredSubtable().GetGlyphMappings();
+
+            //    currentLines = MeasureAndWrapText(textFragments[k], fontSizes[k], fonts[k], maxWidth, lastLineLength);
+
+            //    for (int i = 0; i < currentLines.Count() - 1; i++)
+            //    {
+            //        wrappedStrings.Add(currentLines[i]);
+            //    }
+
+            //    lastLineLength = MeasureLine(firstLines.Last(), fonts[k], fontSizes[k], glyphMappings, null, false);
+            //}
+
+            //wrappedStrings.Add(currentLines.Last());
+
+            //return wrappedStrings;
+
+            throw new NotImplementedException("not yet done");
+        }
+
         /// <summary>
         /// Wrap multiple text-fragments (such as text-runs) that contain more than one font/or font size and return the resulting lines.
         /// </summary>
@@ -786,8 +966,6 @@ namespace EPPlus.Fonts.OpenType
             ushort? lastGlyphIndex = 0;
             bool firstChar = true;
 
-            //Split strings on line endings
-            var newLine = Environment.NewLine;
             //Initalise collection to return
             List<string> wrappedStrings = new List<string>();
 
@@ -801,7 +979,7 @@ namespace EPPlus.Fonts.OpenType
             var combinedString = string.Join(string.Empty, textFragments.ToArray());
             int charCount = 0;
 
-            var splitStrings = combinedString.Split([newLine], StringSplitOptions.None);
+            var splitStrings = combinedString.Split([Environment.NewLine], StringSplitOptions.None);
             List<int> presetNewLineIndicies = new();
             int totalPresetLength = 0;
 
@@ -810,14 +988,12 @@ namespace EPPlus.Fonts.OpenType
                 presetNewLineIndicies.Add(totalPresetLength + line.Length);
                 totalPresetLength += line.Length;
             }
-            var currentPresetLineIndex = presetNewLineIndicies[0];
 
+            var currentPresetLineIndex = 0;
             int totalAdvanceFromLastWord = 0;
 
             for (int k = 0; k < textFragments.Count(); k++)
             {
-                var testArray = splitStrings.Last().ToCharArray();
-
                 //Convert maxWidth from points to current font design units (different fonts can have different units)
                 maxWidth = (inputMaxWidth * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k];
 
@@ -837,13 +1013,14 @@ namespace EPPlus.Fonts.OpenType
                 {
                     //Text-Fragments may already contain new lines
                     //Reset all advance when we reach such a newLine
-                    if (charCount >= currentPresetLineIndex)
+                    if (charCount >= presetNewLineIndicies[currentPresetLineIndex])
                     {
                         totalAdvanceFromLastWord = 0;
                         totalAdvanceWidth = 0;
                         leftOverLine = "";
                         leftOverAdvanceWidthInPoints = 0;
                         leftOverTotalAdvanceFromLastWord = 0;
+                        currentPresetLineIndex = currentPresetLineIndex == presetNewLineIndicies.Count() - 1 ? currentPresetLineIndex : currentPresetLineIndex++;
                     }
 
                     char c = textFragments[k][i];
@@ -876,10 +1053,9 @@ namespace EPPlus.Fonts.OpenType
                         totalAdvanceFromLastWord = 0;
                     }
 
-                    //We are beyond MaxWidth. Wrap the line.
                     if (newWidth > maxWidth)
                     {
-                        var wrappedString = WrapString(combinedString, charCount, ref nextLineStartIndex, out TotalAdvanceMode advanceMode);
+                        var wrappedString = ExtractWrappedSubstring(combinedString, charCount, ref nextLineStartIndex, out TotalAdvanceMode advanceMode);
 
                         wrappedStrings.Add(wrappedString);
 
@@ -890,17 +1066,13 @@ namespace EPPlus.Fonts.OpenType
                         totalAdvanceFromLastWord = totalAdvanceWidth;
 
                         //Since we're using the combined total string, need to handle leftover line differently
-                        if (advanceMode != TotalAdvanceMode.FromLastWord)
+                        if (charCount < nextLineStartIndex)
                         {
                             leftOverLine = combinedString.Substring(nextLineStartIndex, nextLineStartIndex - charCount);
                         }
                         else
                         {
                             //Special case for only 1 or 0 chars in leftover line
-
-                            //In this case CharCount will be equal to or larger than NextLineStartIndex (this as we skip ' ' and line endings)
-                            //Meaning the "FromLastWord" substring would become impossible.
-                            //Therefore we flip the minus it so that our leftover is either 1 or 0
                             leftOverLine = combinedString.Substring(nextLineStartIndex, charCount - nextLineStartIndex);
                         }
                     }
@@ -923,6 +1095,106 @@ namespace EPPlus.Fonts.OpenType
             }
 
             wrappedStrings.Add(leftOverLine);
+
+            return wrappedStrings;
+        }
+
+        internal struct LineInfo()
+        {
+            internal int lineWidth = 0;
+            internal int wordWidth = 0;
+            //leftOverLine refers to a line of text that has not yet been wrapped
+            internal string leftOverLine = "";
+            internal double prevLineWidth = 0;
+            internal double prevWordWidth = 0;
+        }
+
+        internal static List<string> WrapMultipleTextFragments3(List<string> textFragments, List<double> fontSizes, Dictionary<double, OpenTypeFont> fonts, double maxWidth)
+        {
+            var inputMaxWidth = maxWidth;
+
+            var allText = string.Join(string.Empty, textFragments.ToArray());
+            int charCount = 0;
+            List<int> allTextNewLinesIndicies = GetStartIndicies(allText);
+
+            var currentPresetLineIndex = 0;
+
+            var lineInfo = new LineInfo();
+            currentPresetLineIndex++;
+
+            ushort? lastGlyphIndex = 0;
+            bool applyKerning = false;
+
+            //Initalise collection to return
+            List<string> wrappedStrings = new List<string>();
+
+            for (int k = 0; k < textFragments.Count(); k++)
+            {
+                //Convert maxWidth from points to current font design units (different fonts can have different units)
+                maxWidth = (inputMaxWidth * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k];
+                var glyphMappings = fonts[k].CmapTable.GetPreferredSubtable().GetGlyphMappings();
+
+                int nextLineStartIndex = 0;
+                lineInfo.wordWidth = 0;
+
+                if (lineInfo.prevLineWidth != 0)
+                {
+                    //Convert leftOverWidth and widthFromLastWord to current font design units
+                    lineInfo.lineWidth = Convert.ToInt16((lineInfo.prevLineWidth * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k]);
+                    lineInfo.wordWidth = Convert.ToInt16((lineInfo.prevWordWidth * (double)fonts[k].HeadTable.UnitsPerEm) / fontSizes[k]);
+                }
+
+                for (int i = 0; i < textFragments[k].Length; i++)
+                {
+                    ////Text-Fragments may already contain new lines
+                    ////Reset all advance when we reach such a newLine
+                    if (charCount >= allTextNewLinesIndicies[currentPresetLineIndex])
+                    {
+                        lineInfo = new LineInfo();
+                        currentPresetLineIndex = currentPresetLineIndex == allTextNewLinesIndicies.Count() - 1 ? currentPresetLineIndex : currentPresetLineIndex++;
+                    }
+
+                    char c = textFragments[k][i];
+                    int advanceWidth = CalcGlyphWidth(glyphMappings, c, fonts[k], lastGlyphIndex, ref applyKerning);
+                    lineInfo.lineWidth += advanceWidth;
+
+                    lineInfo.wordWidth = c == ' ' ? 0 : lineInfo.wordWidth + advanceWidth;
+
+                    if (lineInfo.lineWidth > maxWidth)
+                    {
+                        var wrappedString = ExtractWrappedSubstring(allText, charCount, ref nextLineStartIndex, out TotalAdvanceMode advanceMode);
+                        wrappedStrings.Add(wrappedString);
+
+                        //Using enum to make it one Input parameter in WrapString instead of all 3
+                        //this as they're not actually used in there
+                        lineInfo.lineWidth = GetAdvanceWidthFromMode(advanceWidth, lineInfo.wordWidth, advanceMode);
+                        //New line means both totals are equal
+                        lineInfo.wordWidth = lineInfo.lineWidth;
+
+
+                        //Since we're using the combined total string, need to handle leftover line differently
+                        if (charCount < nextLineStartIndex)
+                        {
+                            lineInfo.leftOverLine = allText.Substring(nextLineStartIndex, nextLineStartIndex - charCount);
+                        }
+                        else
+                        {
+                            //Special case for only 1 or 0 chars in leftover line
+                            lineInfo.leftOverLine = allText.Substring(nextLineStartIndex, charCount - nextLineStartIndex);
+                        }
+                    }
+
+                    //Add the current char to current unwrapped line
+                    lineInfo.leftOverLine += allText.Substring(charCount, 1);
+                    charCount++;
+                }
+
+                //We are about to exit or enter a new text-fragment which may have a different font. Save current advance in points
+                lineInfo.prevLineWidth = (lineInfo.lineWidth / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
+                lineInfo.prevWordWidth = (lineInfo.wordWidth / (double)fonts[k].HeadTable.UnitsPerEm) * fontSizes[k];
+            }
+
+            wrappedStrings.Add(lineInfo.leftOverLine);
 
             return wrappedStrings;
         }

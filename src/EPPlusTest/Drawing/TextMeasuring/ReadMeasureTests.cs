@@ -92,6 +92,8 @@ namespace EPPlusTest.Drawing.TextMeasuring
 
             var wrappedFragments = txtMeasurer.WrapMultipleTextFragments(txtRuns, fonts, maxWidth.PixelToPoint());
 
+            var wrappedFragments2 = txtMeasurer.WrapMultipleTextFragments2(txtRuns, fonts, maxWidth.PixelToPoint());
+
             Assert.AreEqual(2, wrappedFragments.Count);
             Assert.AreEqual("HIJKLM", wrappedFragments[0]);
             Assert.AreEqual("NOPE", wrappedFragments[1]);
@@ -141,6 +143,8 @@ namespace EPPlusTest.Drawing.TextMeasuring
             var maxWidth = 114d;
 
             var wrappedFragments = txtMeasurer.WrapMultipleTextFragments(txtRuns, fonts, maxWidth.PixelToPoint());
+
+            var wrappedFragments2 = txtMeasurer.WrapMultipleTextFragments2(txtRuns, fonts, maxWidth.PixelToPoint());
 
             Assert.AreEqual(2, wrappedFragments.Count);
             Assert.AreEqual("HIJKLMpqrst", wrappedFragments[0]);

@@ -311,5 +311,36 @@ namespace EPPlus.Fonts.OpenType
 
             return TextData.WrapMultipleTextFragments(textFragment, fontSizes, fontIndexDict, maxWidthPoints);
         }
+
+        public List<string> WrapMultipleTextFragments2(List<string> textFragment, List<MeasurementFont> fonts, double maxWidthPoints)
+        {
+            List<OpenTypeFont> openTypeFonts = new List<OpenTypeFont>();
+            List<double> fontSizes = new List<double>();
+
+            //prevent creating multiple OpenTypeFonts via cache/indexing
+            Dictionary<double, OpenTypeFont> fontIndexDict = new();
+
+            var distinctFonts = fonts.Distinct().ToArray();
+
+            foreach (var distinctFont in distinctFonts)
+            {
+                SetFont(distinctFont);
+                openTypeFonts.Add(CurrentFont);
+            }
+
+            for (int i = 0; i < fonts.Count; i++)
+            {
+                for (int j = 0; j < distinctFonts.Count(); j++)
+                {
+                    if (fonts[i] == distinctFonts[j])
+                    {
+                        fontIndexDict.Add(i, openTypeFonts[j]);
+                    }
+                }
+                fontSizes.Add(fonts[i].Size);
+            }
+
+            return TextData.WrapMultipleTextFragments2(textFragment, fontSizes, fontIndexDict, maxWidthPoints);
+        }
     }
 }
