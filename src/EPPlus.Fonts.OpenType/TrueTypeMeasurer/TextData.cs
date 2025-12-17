@@ -1239,14 +1239,13 @@ namespace EPPlus.Fonts.OpenType
         {
             //Potential future optimization: Check if units perEm are equal if they are (most fonts are)
             //Should be able to only apply a factor of origSize/targetSize
+            var factorOrig = origSize / ((double)origFont.HeadTable.UnitsPerEm);
 
-            var factorOrig = (double)origFont.HeadTable.UnitsPerEm * origSize;
+            var maxWidthInPoints = maxWidth * factorOrig;
+            var lineWidthInPoints = lineWidth * factorOrig;
+            var wordWidthInPoints = wordWidth * factorOrig;
 
-            var maxWidthInPoints = maxWidth / factorOrig;
-            var lineWidthInPoints = lineWidth / factorOrig;
-            var wordWidthInPoints = wordWidth / factorOrig;
-
-            var factorTarget = (double)targetFont.HeadTable.UnitsPerEm / targetSize;
+            var factorTarget = ((double)targetFont.HeadTable.UnitsPerEm) / targetSize;
 
             maxWidth = Convert.ToInt16(maxWidthInPoints * factorTarget);
             lineWidth = Convert.ToInt16(lineWidthInPoints * factorTarget);
@@ -1307,8 +1306,7 @@ namespace EPPlus.Fonts.OpenType
                 else
                 {
                     currentFont = paragraph.FontIndexDict[fragmentIdx];
-                    var factorTarget = (double)currentFont.HeadTable.UnitsPerEm / paragraph.FontSizes[fragmentIdx];
-                    maxWidth = Convert.ToInt16(maxWidthPoints * factorTarget);
+                    maxWidth = (maxWidthPoints * (double)currentFont.HeadTable.UnitsPerEm) / paragraph.FontSizes[fragmentIdx];
                 }
 
                 fontSize = paragraph.FontSizes[fragmentIdx];
@@ -1346,6 +1344,9 @@ namespace EPPlus.Fonts.OpenType
                         leftOverLine = paragraph.AllText.Substring(prevLineEndIndex, i - prevLineEndIndex);
                     }
                 }
+
+                //Add the current char to current unwrapped line
+                leftOverLine += paragraph.AllText.Substring(i, 1);
             }
 
             wrappedStrings.Add(leftOverLine);
