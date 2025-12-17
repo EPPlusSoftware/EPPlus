@@ -20,13 +20,15 @@ namespace EPPlus.Fonts.OpenType.Tables.Kern
     {
         internal KerningPair(FontsBinaryReader reader)
         {
-            left = reader.ReadUInt16BigEndian();
-            right = reader.ReadUInt16BigEndian();
-            value = reader.ReadInt16BigEndian();
-
-            //Left is high-order/most significant
-            //but since big-endian we must do it like this.
-            Combined = ((uint)left << 16) | right;
+            if(reader != null)
+            {
+                left = reader.ReadUInt16BigEndian();
+                right = reader.ReadUInt16BigEndian();
+                value = reader.ReadInt16BigEndian();
+                //Left is high-order/most significant
+                //but since big-endian we must do it like this.
+                Combined = ((uint)left << 16) | right;
+            }
         }
 
         /// <summary>

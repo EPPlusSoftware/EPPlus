@@ -24,73 +24,39 @@ namespace EPPlus.Fonts.OpenType.Subsetting
     /// </summary>
     internal class GlyfAndLocaSubsetProcessor : IFontSubsetProcessor
     {
-        public void Process(FontSubsettingContext context)
+        public void Discover(FontSubsettingContext context)
         {
-            OpenTypeFont originalFont = context.OriginalFont;
-            OpenTypeFont subsetFont = context.SubsetFont;
-
-            // --------------------------------------------------------------------
-            // 1. Build initial glyph set from used code points
-            // --------------------------------------------------------------------
+            // 1. Initial collection of Glyph IDs from requested Unicodes
             foreach (uint codePoint in context.UsedCodePoints)
             {
-                if (originalFont.CmapTable.TryGetGlyphId(codePoint, out ushort gid))
+                if (context.OriginalFont.CmapTable.TryGetGlyphId(codePoint, out ushort gid))
                 {
                     context.IncludedGlyphs.Add(gid);
                 }
             }
 
-            // --------------------------------------------------------------------
-            // 2. Ensure .notdef (GID 0) is always included
-            // --------------------------------------------------------------------
+            // 2. Always include .notdef (GID 0)
             context.IncludedGlyphs.Add(0);
 
-            // --------------------------------------------------------------------
-            // 3. Resolve all composite glyph components recursively
-            // --------------------------------------------------------------------
-            originalFont.GlyfTable.ResolveCompositeGlyphs(context.IncludedGlyphs);
+            // 3. Recursively find and include all components for composite glyphs
+            // This is critical for fonts like Times New Roman
+            context.OriginalFont.GlyfTable.ResolveCompositeGlyphs(context.IncludedGlyphs);
+        }
 
-            // --------------------------------------------------------------------
-            // 4. Sort glyph IDs and ensure .notdef is exactly once at position 0
-            // --------------------------------------------------------------------
-            List<ushort> sortedGlyphIds = new List<ushort>(context.IncludedGlyphs);
-            sortedGlyphIds.Sort();
+        public void Rewrite(FontSubsettingContext context)
+        {
+            // NewToOldGlyphId is sorted by new IDs (0, 1, 2...)
+            var sortedOldIds = context.NewToOldGlyphId;
+            List<Glyph> newGlyphs = new List<Glyph>(sortedOldIds.Count);
 
-            // Remove any existing .notdef entries (in case it was added multiple times)
-            sortedGlyphIds.RemoveAll(g => g == 0);
-
-            // Insert .notdef exactly once as the first glyph (required by spec)
-            sortedGlyphIds.Insert(0, 0);
-
-            // --------------------------------------------------------------------
-            // 5. Build old to new and new to old glyph ID mappings
-            // --------------------------------------------------------------------
-            context.OldToNewGlyphId.Clear();
-            context.NewToOldGlyphId.Clear();
-
-            for (int newId = 0; newId < sortedGlyphIds.Count; newId++)
+            // 1. Clone and remap glyphs
+            foreach (ushort oldId in sortedOldIds)
             {
-                ushort oldId = sortedGlyphIds[newId];
-                context.OldToNewGlyphId[oldId] = (ushort)newId;
-                context.NewToOldGlyphId.Add(oldId);
-            }
+                Glyph originalGlyph = context.OriginalFont.GlyfTable.GetGlyph(oldId);
 
-            // --------------------------------------------------------------------
-            // 6. Clone glyphs and remap component references (for composites)
-            // --------------------------------------------------------------------
-            List<Glyph> newGlyphs = new List<Glyph>(sortedGlyphIds.Count);
-
-            foreach (ushort oldId in sortedGlyphIds)
-            {
-                Glyph originalGlyph = originalFont.GlyfTable.GetGlyph(oldId);
-
-                if (originalGlyph == null || originalGlyph.Header.numberOfContours == 0)
+                if (originalGlyph == null || IsEmpty(originalGlyph))
                 {
-                    // Empty glyph (e.g. space, .null) – only header is needed
-                    newGlyphs.Add(new Glyph
-                    {
-                        Header = new GlyphHeader(0, BoundingRectangle.Empty)
-                    });
+                    newGlyphs.Add(new Glyph { Header = new GlyphHeader(0, BoundingRectangle.Empty) });
                 }
                 else
                 {
@@ -98,59 +64,40 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 }
             }
 
-            subsetFont.AddOrReplaceTable(new GlyfTable(newGlyphs));
+            // 2. Save the new glyf table
+            context.SubsetFont.AddOrReplaceTable(new GlyfTable(newGlyphs));
 
-            // --------------------------------------------------------------------
-            // 7. Build loca table with 4-byte alignment (short or long format)
-            // --------------------------------------------------------------------
+            // 3. Build loca table with 4-byte alignment
             List<uint> offsets = new List<uint> { 0 };
             uint currentOffset = 0;
 
             foreach (Glyph g in newGlyphs)
             {
                 int size = g.GetSize();
-                currentOffset += (uint)((size + 3) & ~3); // 4-byte padding
+                uint paddedSize = (uint)((size + 3) & ~3); // Align to 4 bytes
+                currentOffset += paddedSize;
                 offsets.Add(currentOffset);
             }
 
-            // Use short loca if all offsets fit in 16 bits
-            bool useShortOffsets = true;
-            foreach (uint offset in offsets)
-            {
-                if (offset > 131070)
-                {
-                    useShortOffsets = false;
-                    break;
-                }
-            }
-
-            subsetFont.HeadTable.IndexToLocFormat = useShortOffsets
+            // 4. Update head table format and add loca table
+            bool useShortOffsets = currentOffset <= 131070;
+            context.SubsetFont.HeadTable.IndexToLocFormat = useShortOffsets
                 ? HeadTable.IndexToLocFormats.Offset16
                 : HeadTable.IndexToLocFormats.Offset32;
 
-            subsetFont.AddOrReplaceTable(LocaTable.CreateSubset(offsets, subsetFont.HeadTable.IndexToLocFormat));
+            context.SubsetFont.AddOrReplaceTable(LocaTable.CreateSubset(offsets, context.SubsetFont.HeadTable.IndexToLocFormat));
         }
 
-        /// <summary>
-        /// Clones a glyph and remaps all composite component glyph IDs.
-        /// Preserves bounding box, instructions, flags and transformation matrices.
-        /// .NET 3.5 compatible – uses only Dictionary&lt;ushort, ushort&gt;.
-        /// </summary>
+        private static bool IsEmpty(Glyph g)
+        {
+            return g.Header.numberOfContours == 0 && g.CompositeData == null && g.SimpleData == null;
+        }
+
         private static Glyph CloneGlyphWithRemappedComponents(Glyph original, Dictionary<ushort, ushort> oldToNewMap)
         {
-            // Fix inverted bounding boxes (common in buggy .notdef glyphs)
-            short xMin = original.Header.xMin;
-            short xMax = original.Header.xMax;
-            short yMin = original.Header.yMin;
-            short yMax = original.Header.yMax;
+            GlyphHeader header = new GlyphHeader(original.Header.numberOfContours, original.Header.Bounds);
 
-            if (xMin > xMax) { short tmp = xMin; xMin = xMax; xMax = tmp; }
-            if (yMin > yMax) { short tmp = yMin; yMin = yMax; yMax = tmp; }
-
-            GlyphHeader header = new GlyphHeader(original.Header.numberOfContours,
-                                                new BoundingRectangle(xMin, yMin, xMax, yMax));
-
-            // Simple (contour-based) glyph
+            // Handle Simple Glyph
             if (original.Header.numberOfContours > 0 && original.SimpleData != null)
             {
                 SimpleGlyph simple = new SimpleGlyph
@@ -170,7 +117,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 return new Glyph { Header = header, SimpleData = simple };
             }
 
-            // Composite glyph – remap all components
+            // Handle Composite Glyph
             if (original.Header.numberOfContours < 0 && original.CompositeData != null)
             {
                 CompositeGlyph composite = new CompositeGlyph
@@ -181,14 +128,13 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
                 foreach (GlyphComponent comp in original.CompositeData.Components)
                 {
-                    ushort newGid = 0;
-                    if (!oldToNewMap.TryGetValue(comp.GlyphIndex, out newGid))
+                    // Remap the component's GlyphIndex to the new ID
+                    if (!oldToNewMap.TryGetValue(comp.GlyphIndex, out ushort newGid))
                     {
-                        // Should never happen – fallback to .notdef
-                        newGid = 0;
+                        newGid = 0; // Fallback to .notdef
                     }
 
-                    GlyphComponent newComp = new GlyphComponent
+                    composite.Components.Add(new GlyphComponent
                     {
                         Flags = comp.Flags,
                         GlyphIndex = newGid,
@@ -199,15 +145,12 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                         YScale = comp.YScale,
                         Scale01 = comp.Scale01,
                         Scale10 = comp.Scale10
-                    };
-
-                    composite.Components.Add(newComp);
+                    });
                 }
 
                 return new Glyph { Header = header, CompositeData = composite };
             }
 
-            // Empty glyph (e.g. space)
             return new Glyph { Header = header };
         }
     }

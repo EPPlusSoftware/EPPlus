@@ -1,4 +1,4 @@
-﻿using EPPlus.Fonts.OpenType.Tables.Gsub.Serialization;
+﻿using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,6 +97,51 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
         internal override void Serialize(FontsBinaryWriter writer)
         {
             new CoverageTableFormat2Serializer().Serialize(this, writer);
+        }
+
+        internal static CoverageTableFormat2 CreateCoverageFormat2(List<ushort> newGlyphs)
+        {
+            CoverageTableFormat2 coverage = new CoverageTableFormat2();
+            if (newGlyphs.Count == 0)
+            {
+                coverage.RangeCount = 0;
+                return coverage;
+            }
+
+            ushort startGlyph = newGlyphs[0];
+            ushort lastGlyph = newGlyphs[0];
+            ushort startCoverageIndex = 0;
+
+            for (int i = 1; i <= newGlyphs.Count; i++)
+            {
+                // Vi stänger ett intervall om:
+                // 1. Vi har nått slutet av listan
+                // 2. Nästa GID inte är exakt +1 från det förra (ett gap i sekvensen)
+                if (i == newGlyphs.Count || newGlyphs[i] != lastGlyph + 1)
+                {
+                    CoverageRangeRecord record = new CoverageRangeRecord();
+                    record.StartGlyphID = startGlyph;
+                    record.EndGlyphID = lastGlyph;
+                    record.StartCoverageIndex = startCoverageIndex;
+
+                    coverage.RangeRecords.Add(record);
+
+                    if (i < newGlyphs.Count)
+                    {
+                        startGlyph = newGlyphs[i];
+                        lastGlyph = newGlyphs[i];
+                        // Nästa index i coverage är helt enkelt hur många tecken vi bearbetat hittills
+                        startCoverageIndex = (ushort)i;
+                    }
+                }
+                else
+                {
+                    lastGlyph = newGlyphs[i];
+                }
+            }
+
+            coverage.RangeCount = (ushort)coverage.RangeRecords.Count;
+            return coverage;
         }
     }
 }

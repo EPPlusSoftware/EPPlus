@@ -20,7 +20,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 {
     internal class CmapSubsetProcessor : IFontSubsetProcessor
     {
-        public void Process(FontSubsettingContext context)
+        public void Discover(FontSubsettingContext context)
         {
             // --- PHASE 1: DISCOVERY ---
             // In this phase, we only find the original Glyph IDs for the requested characters.

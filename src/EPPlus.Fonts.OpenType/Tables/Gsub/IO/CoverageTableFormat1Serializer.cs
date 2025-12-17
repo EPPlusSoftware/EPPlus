@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Serialization
+namespace EPPlus.Fonts.OpenType.Tables.Gsub.IO
 {
     internal class CoverageTableFormat1Serializer
     {

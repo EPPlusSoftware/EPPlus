@@ -11,6 +11,9 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 
+using EPPlus.Fonts.OpenType.Tables.Hmtx;
+using System.Collections.Generic;
+
 namespace EPPlus.Fonts.OpenType.Subsetting.Processors
 {
     /// <summary>
@@ -21,43 +24,36 @@ namespace EPPlus.Fonts.OpenType.Subsetting.Processors
     /// </summary>
     internal class HmtxSubsetProcessor : IFontSubsetProcessor
     {
-        public void Process(FontSubsettingContext context)
+        public void Discover(FontSubsettingContext context)
         {
-            if (context.OriginalFont.HmtxTable == null)
-                return; // inget att göra
+            // No implementation
+        }
 
+        public void Rewrite(FontSubsettingContext context)
+        {
             var originalHmtx = context.OriginalFont.HmtxTable;
-            var newFont = context.SubsetFont;
+            if (originalHmtx == null) return;
 
             int finalGlyphCount = context.NewToOldGlyphId.Count;
-            int originalHMetricsCount = originalHmtx.hMetrics.Count;
 
-            // Skapa ny hmtx med rätt storlek
-            var newHmtx = originalHmtx.CloneForGlyphCount(finalGlyphCount, context.OriginalFont.MaxpTable.numGlyphs);
+            // Create the new metrics storage
+            var newHMetrics = new List<LongHorMetric>(finalGlyphCount);
 
-            // Fyll i advanceWidth och lsb för varje glyf i subset
+            // In our subset, we simplify by making numberOfHMetrics equal to numGlyphs
+            // This means we only use the hMetrics list, and leftSideBearings will be empty.
             for (int i = 0; i < finalGlyphCount; i++)
             {
                 ushort oldGlyphId = context.NewToOldGlyphId[i];
 
-                ushort advanceWidth = originalHmtx.GetAdvanceWidth(oldGlyphId);
-                short lsb = originalHmtx.GetLeftSideBearing(oldGlyphId);
-
-                newHmtx.hMetrics[i].advanceWidth = advanceWidth;
-
-                if (i < originalHMetricsCount)
+                newHMetrics.Add(new LongHorMetric
                 {
-                    newHmtx.hMetrics[i].lsb = lsb;
-                }
-                else
-                {
-                    int leftSideBearingIndex = i - originalHMetricsCount;
-                    newHmtx.leftSideBearings[leftSideBearingIndex] = lsb;
-                }
+                    advanceWidth = originalHmtx.GetAdvanceWidth(oldGlyphId),
+                    lsb = originalHmtx.GetLeftSideBearing(oldGlyphId)
+                });
             }
 
-            // Lägg till i subset-fonten
-            newFont.AddOrReplaceTable(newHmtx);
+            var newHmtx = new HmtxTable(newHMetrics);
+            context.SubsetFont.AddOrReplaceTable(newHmtx);
         }
     }
 }

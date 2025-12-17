@@ -14,6 +14,15 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 {
     public interface IFontSubsetProcessor
     {
-        void Process(FontSubsettingContext context);
+        /// <summary>
+        /// Phase 1: Analyzes the original font to discover dependencies (e.g., ligature glyphs).
+        /// </summary>
+        void Discover(FontSubsettingContext context);
+
+
+        /// <summary>
+        /// Phase 2: Creates the new subsetted table based on the discovered dependencies.
+        /// </summary>
+        public void Rewrite(FontSubsettingContext context);
     }
 }

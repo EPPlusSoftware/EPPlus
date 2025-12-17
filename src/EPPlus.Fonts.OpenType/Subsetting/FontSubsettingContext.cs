@@ -32,6 +32,8 @@ namespace EPPlus.Fonts.OpenType.Subsetting
         public Dictionary<ushort, ushort> OldToNewGlyphId { get; private set; }
         public List<ushort> NewToOldGlyphId { get; private set; }
 
+        public Dictionary<ushort, ushort> GlyphIdMap { get; } = new Dictionary<ushort, ushort>();
+
         /// <summary>
         /// Creates a new subsetting context and initializes all collections.
         /// </summary>

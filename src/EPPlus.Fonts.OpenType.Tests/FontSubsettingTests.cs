@@ -37,7 +37,7 @@ namespace EPPlus.Fonts.OpenType.Tests
 
 
         [TestMethod]
-        public void TestHeadNameMaxpHheaLocaGlyfAndCmap_SubsetSerializationRoundtrip()
+        public void TestHeadNameMaxpHheaLocaGlyfCmapAndGsub_SubsetSerializationRoundtrip()
         {
             // Arrange
             var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false);
@@ -91,6 +91,9 @@ namespace EPPlus.Fonts.OpenType.Tests
             expectedGlyphs += 1;                            // + space (U+0020) – always included
             expectedGlyphs += 1;                            // + .notdef (GID 0)
 
+            // After the addition of GSUB - 5 more glyfs will be added as ligatures
+            expectedGlyphs += 5;
+
             Assert.AreEqual((ushort)expectedGlyphs, parsedFont.MaxpTable.numGlyphs);     // 5
             Assert.AreEqual((ushort)expectedGlyphs, parsedFont.HheaTable.numberOfHMetrics); // 5
 
@@ -102,17 +105,20 @@ namespace EPPlus.Fonts.OpenType.Tests
         public void TestSubsetWithFullValidation()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false);
-            var subsetFont = font.CreateSubset(new[] { 'a', 'b', 'c' });
+            var fontName = "Roboto";
+            var font = OpenTypeFonts.GetFontData(_fontFolders, fontName, FontSubFamily.Regular, true);
+            //var subsetFont = font.CreateSubset(new[] { 'a', 'b', 'c' });
+            var subsetFont = font.CreateSubset("filmjölk");
 
             // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
             var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
 
-            //var path = @"c:\Temp\subset_font.ttf";
-            //if(File.Exists(path)) File.Delete(path);
-            //File.WriteAllBytes(@"c:\Temp\subset_font.ttf", bytes);
+            var pathFontName = fontName.Replace(" ", "_");
+            var path = @$"c:\Temp\subset_{pathFontName}_regular.ttf";
+            if(File.Exists(path)) File.Delete(path);
+            File.WriteAllBytes(path, bytes);
 
             var report = new FontValidator().Validate(parsedFont, FontValidationSeverity.Warning);
             Assert.IsTrue(report.IsValid);

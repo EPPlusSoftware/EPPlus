@@ -1,4 +1,5 @@
-﻿using EPPlus.Fonts.OpenType.Tables.Gsub.Serialization;
+﻿using EPPlus.Fonts.OpenType.Subsetting;
+using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -91,52 +92,103 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
         {
             LigatureSubstSubTable newSubTable = new LigatureSubstSubTable { SubtableFormat = this.SubtableFormat };
 
-            // Lista som håller de BaseGlyph ID:n (Gamla ID:n) som överlevde filtreringen
-            List<ushort> survivingBaseGlyphs = new List<ushort>();
+            // Vi använder en temporär lista för att hålla reda på vilka nya ID:n vi skapar ligaturer för
+            // för att sedan kunna bygga en korrekt CoverageTable.
+            List<ushort> newBaseGlyphs = new List<ushort>();
 
-            // 1. Iterera över befintliga LigatureSets och filtrera dem
+            // 1. Iterera över befintliga LigatureSets
             foreach (var kvp in this.LigatureSets)
             {
                 ushort oldBaseGlyphId = kvp.Key;
                 LigatureSetTable oldLigSet = kvp.Value;
 
-                // BaseGlyph ID:t måste finnas kvar i subsetet.
-                ushort newBaseGlyphId;
-                bool baseGlyphKept = oldToNewGlyphId.TryGetValue(oldBaseGlyphId, out newBaseGlyphId);
-
-                if (baseGlyphKept)
+                // Kontrollera om start-glyfen (t.ex. 'f') ska vara med i subsetet
+                if (oldToNewGlyphId.TryGetValue(oldBaseGlyphId, out ushort newBaseGlyphId))
                 {
-                    // Skapa den filtrerade LigatureSetTablen
+                    // Skapa det filtrerade LigatureSetet (här inne måste också alla GIDs mappas om!)
                     LigatureSetTable newLigSet = oldLigSet.CreateSubset(oldToNewGlyphId);
 
-                    if (newLigSet.Ligatures.Count > 0)
+                    if (newLigSet != null && newLigSet.Ligatures.Count > 0)
                     {
-                        // Ligatursetet överlevde och innehåller giltiga ligaturer.
-
-                        // Spara det gamla ID:t för att kunna bygga den nya CoverageTablen
-                        survivingBaseGlyphs.Add(oldBaseGlyphId);
-
-                        // Lägg till det nya LigatureSetet (mappat till det GAMLA ID:t)
-                        newSubTable.LigatureSets.Add(oldBaseGlyphId, newLigSet);
+                        // VIKTIGT: Vi sparar nu med det NYA ID:t som nyckel!
+                        // Detta gör att Serialize-metodens TryGetValue kommer fungera.
+                        newSubTable.LigatureSets[newBaseGlyphId] = newLigSet;
+                        newBaseGlyphs.Add(newBaseGlyphId);
                     }
                 }
             }
 
-            // 2. Återskapa CoverageTablen baserat på de överlevande BaseGlyph ID:na
+            // 2. Återskapa CoverageTablen
             if (newSubTable.LigatureSets.Count > 0)
             {
-                // För subsetting är Format 1 att föredra.
-                CoverageTableFormat1 newCoverage = new CoverageTableFormat1
+                // Sortera de nya ID-värdena. OpenType kräver att Coverage-tabellen är sorterad.
+                newBaseGlyphs.Sort();
+
+                newSubTable.Coverage = new CoverageTableFormat1
                 {
-                    GlyphCount = (ushort)survivingBaseGlyphs.Count,
-                    // Sortera listan och använd de nya (ommapade) glyf ID:na
-                    // Observera: Det är viktigt att de ommapade ID:na används i GlyfArray
-                    GlyphArray = survivingBaseGlyphs.Select(oldId => oldToNewGlyphId[oldId]).OrderBy(g => g).ToArray()
+                    GlyphCount = (ushort)newBaseGlyphs.Count,
+                    GlyphArray = newBaseGlyphs.ToArray()
                 };
-                newSubTable.Coverage = newCoverage;
             }
 
-            return newSubTable;
+            return newSubTable.LigatureSets.Count > 0 ? newSubTable : null;
+        }
+
+        public LigatureSubstSubTable Rewrite(FontSubsettingContext context)
+        {
+            var newSubTable = new LigatureSubstSubTable();
+            newSubTable.LigatureSets = new Dictionary<ushort, LigatureSetTable>();
+
+            foreach (var oldSet in this.LigatureSets)
+            {
+                // 1. Mappa om Start-glyf (t.ex. 'f')
+                // Om 'f' inte finns i vårt subset, hoppa över hela setet
+                if (!context.OldToNewGlyphId.TryGetValue(oldSet.Key, out ushort newFirstGid))
+                    continue;
+
+                var newSet = new LigatureSetTable();
+                newSet.Ligatures = new List<LigatureTable>();
+
+                foreach (var oldLig in oldSet.Value.Ligatures)
+                {
+                    // 2. Mappa om Mål-glyf (t.ex. 'fi')
+                    if (!context.OldToNewGlyphId.TryGetValue(oldLig.LigatureGlyph, out ushort newTargetGid))
+                        continue;
+
+                    // 3. Mappa om alla komponenter (t.ex. 'i' i "fi", eller 'f','l' i "ffl")
+                    var newComponents = new List<ushort>();
+                    bool allComponentsMapped = true;
+
+                    foreach (var oldCompGid in oldLig.Components)
+                    {
+                        if (context.OldToNewGlyphId.TryGetValue(oldCompGid, out ushort newCompGid))
+                        {
+                            newComponents.Add(newCompGid);
+                        }
+                        else
+                        {
+                            allComponentsMapped = false;
+                            break;
+                        }
+                    }
+
+                    if (allComponentsMapped)
+                    {
+                        newSet.Ligatures.Add(new LigatureTable
+                        {
+                            LigatureGlyph = newTargetGid,
+                            Components = newComponents.ToArray()
+                        });
+                    }
+                }
+
+                if (newSet.Ligatures.Count > 0)
+                {
+                    newSubTable.LigatureSets[newFirstGid] = newSet;
+                }
+            }
+
+            return newSubTable.LigatureSets.Count > 0 ? newSubTable : null;
         }
     }
 }

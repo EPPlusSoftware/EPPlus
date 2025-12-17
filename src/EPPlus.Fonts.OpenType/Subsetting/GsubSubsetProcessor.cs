@@ -1,5 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Gsub;
+using EPPlus.Fonts.OpenType.Tables.Gsub.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,82 +11,38 @@ namespace EPPlus.Fonts.OpenType.Subsetting
     {
         private Dictionary<int, int> _oldToNewLookupIndex = new Dictionary<int, int>();
         private Dictionary<int, int> _oldToNewFeatureIndex = new Dictionary<int, int>();
+        private readonly Dictionary<ushort, IGsubLookupHandler> _handlers;
 
-        public void Process(FontSubsettingContext context)
+        public GsubSubsetProcessor()
+        {
+            var handlers = new IGsubLookupHandler[]
+            {
+                new SingleSubstHandler(),
+                new LigatureSubstHandler(),
+            };
+            _handlers = handlers.ToDictionary(h => h.LookupType);
+        }
+
+        public void Discover(FontSubsettingContext context)
         {
             var gsub = context.OriginalFont.GsubTable;
             if (gsub == null || gsub.LookupList == null) return;
 
-            // Phase 1: Discovery
-            // Vi måste hitta alla glyfer som GSUB kan tänkas skapa (t.ex. ligaturer)
-            // och lägga till dem i context.IncludedGlyphs så att de får ett nytt ID.
-            bool glyphsAdded;
+            int previousGlyphCount;
             do
             {
-                glyphsAdded = false;
-                ushort[] currentGlyphs = context.IncludedGlyphs.ToArray();
+                previousGlyphCount = context.IncludedGlyphs.Count;
 
                 foreach (var lookup in gsub.LookupList.Lookups)
                 {
-                    foreach (var subtable in lookup.SubTables)
+                    if (_handlers.TryGetValue(lookup.LookupType, out var handler))
                     {
-                        if (subtable is SingleSubstSubTable single)
-                        {
-                            foreach (ushort gid in currentGlyphs)
-                            {
-                                ushort substitute = single.GetSubstitution(gid);
-                                if (substitute != 0 && !context.IncludedGlyphs.Contains(substitute))
-                                {
-                                    context.IncludedGlyphs.Add(substitute);
-                                    glyphsAdded = true;
-                                }
-                            }
-                        }
-                        else if (subtable is LigatureSubstSubTable lig)
-                        {
-                            if (DiscoverLigatures(context, lig))
-                            {
-                                glyphsAdded = true;
-                            }
-                        }
+                        handler.Discover(context, lookup);
                     }
                 }
-            } while (glyphsAdded);
-        }
 
-        private bool DiscoverLigatures(FontSubsettingContext context, LigatureSubstSubTable subtable)
-        {
-            bool addedAny = false;
-            if (subtable.LigatureSets == null) return false;
-
-            foreach (var kvp in subtable.LigatureSets)
-            {
-                ushort firstGlyph = kvp.Key;
-                if (!context.IncludedGlyphs.Contains(firstGlyph)) continue;
-
-                foreach (var lig in kvp.Value.Ligatures)
-                {
-                    bool allComponentsPresent = true;
-                    if (lig.Components != null)
-                    {
-                        foreach (ushort compGid in lig.Components)
-                        {
-                            if (!context.IncludedGlyphs.Contains(compGid))
-                            {
-                                allComponentsPresent = false;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (allComponentsPresent && !context.IncludedGlyphs.Contains(lig.LigatureGlyph))
-                    {
-                        context.IncludedGlyphs.Add(lig.LigatureGlyph);
-                        addedAny = true;
-                    }
-                }
-            }
-            return addedAny;
+                // Fortsätt så länge vi hittar nya glyfer (t.ex. en ligatur som i sin tur kan vara del av en annan regel)
+            } while (context.IncludedGlyphs.Count > previousGlyphCount);
         }
 
         public void Rewrite(FontSubsettingContext context)
@@ -94,173 +51,91 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             if (oldGsub == null) return;
 
             var newGsub = new GsubTable();
+
+            // Rensa interna mappar för att undvika läckage mellan körningar
             _oldToNewLookupIndex.Clear();
             _oldToNewFeatureIndex.Clear();
 
-            newGsub.LookupList = RemapLookupList(context, oldGsub.LookupList);
+            // 1. Mappa om LookupList först (eftersom Features pekar på dessa)
+            // Vi skickar med context för att komma åt Glyph-mappningen (Old-to-New GID)
+            newGsub.LookupList = RemapLookupListTable(context, oldGsub.LookupList);
+
+            // 2. Mappa om FeatureList (eftersom Scripts pekar på dessa)
             newGsub.FeatureList = RemapFeatureList(context, oldGsub.FeatureList);
+
+            // 3. Mappa om ScriptList
             newGsub.ScriptList = RemapScriptList(context, oldGsub.ScriptList);
 
             context.SubsetFont.AddOrReplaceTable(newGsub);
         }
 
-        private LookupListTable RemapLookupList(FontSubsettingContext context, LookupListTable oldLookupList)
+        private LookupListTable RemapLookupListTable(FontSubsettingContext context, LookupListTable oldList)
         {
             var newList = new LookupListTable();
-            if (oldLookupList == null) return newList;
+            if (oldList == null) return newList;
 
-            for (int i = 0; i < oldLookupList.Lookups.Count; i++)
+            for (int i = 0; i < oldList.Lookups.Count; i++)
             {
-                var oldLookup = oldLookupList.Lookups[i];
-                var newLookup = new LookupTable
-                {
-                    LookupType = oldLookup.LookupType,
-                    LookupFlag = oldLookup.LookupFlag
-                };
+                var oldLookup = oldList.Lookups[i];
 
-                foreach (var oldSub in oldLookup.SubTables)
+                // Här är hjärtat i vår pipeline:
+                if (_handlers.TryGetValue(oldLookup.LookupType, out var handler))
                 {
-                    var remappedSub = RemapSubtable(context, oldSub);
-                    if (remappedSub != null)
-                        newLookup.SubTables.Add(remappedSub);
-                }
-
-                if (newLookup.SubTables.Count > 0)
-                {
-                    _oldToNewLookupIndex[i] = newList.Lookups.Count;
-                    newList.Lookups.Add(newLookup);
+                    var newLookup = handler.Rewrite(context, oldLookup);
+                    if (newLookup != null)
+                    {
+                        newList.Lookups.Add(newLookup);
+                        _oldToNewLookupIndex[i] = newList.Lookups.Count - 1;
+                    }
                 }
             }
             return newList;
         }
 
-        private FontTableElement RemapSubtable(FontSubsettingContext context, FontTableElement oldSub)
+        private LookupTable RewriteLookupTable(FontSubsettingContext context, LookupTable oldLookup)
         {
-            if (oldSub is SingleSubstSubTableFormat1 f1) return RemapSingleSubstFormat1(context, f1);
-            if (oldSub is SingleSubstSubTableFormat2 f2) return RemapSingleSubstFormat2(context, f2);
-            if (oldSub is LigatureSubstSubTable lig) return RemapLigatureSubst(context, lig);
-            return null;
-        }
+            // Skapa en ny instans av LookupTable för vår subset-font
+            LookupTable newLookup = new LookupTable();
+            newLookup.LookupType = oldLookup.LookupType;
+            newLookup.LookupFlag = oldLookup.LookupFlag;
+            newLookup.SubTables = new List<FontTableElement>();
 
-        private FontTableElement RemapSingleSubstFormat1(FontSubsettingContext context, SingleSubstSubTableFormat1 oldSub)
-        {
-            // Konvertera Format 1 -> Format 2 för säkerhets skull vid subsetting
-            var substitutes = new List<ushort>();
-            var activeOldGids = new List<ushort>();
-            ushort[] covered = oldSub.Coverage.GetCoveredGlyphs();
-
-            foreach (var oldGid in covered)
+            foreach (FontTableElement subtableElement in oldLookup.SubTables)
             {
-                if (context.IncludedGlyphs.Contains(oldGid))
+                if((subtableElement is not SingleSubstSubTable) && (subtableElement is not LigatureSubstSubTable))
                 {
-                    ushort oldSubstitute = (ushort)(oldGid + oldSub.DeltaGlyphID);
-                    if (context.IncludedGlyphs.Contains(oldSubstitute))
-                    {
-                        substitutes.Add(GetNewId(context, oldSubstitute));
-                        activeOldGids.Add(oldGid);
-                    }
+                    int i2 = 0;
                 }
+                // 1. Hantera Single Substitution (Typ 1)
+                SingleSubstSubTable singleSub = subtableElement as SingleSubstSubTable;
+                if (singleSub != null)
+                {
+                    SingleSubstSubTable rewrittenSingle = singleSub.Rewrite(context);
+                    if (rewrittenSingle != null)
+                    {
+                        newLookup.SubTables.Add(rewrittenSingle);
+                    }
+                    continue;
+                }
+
+                // 2. Hantera Ligature Substitution (Typ 4)
+                LigatureSubstSubTable ligatureSub = subtableElement as LigatureSubstSubTable;
+                if (ligatureSub != null)
+                {
+                    LigatureSubstSubTable rewrittenLig = ligatureSub.Rewrite(context);
+                    if (rewrittenLig != null)
+                    {
+                        newLookup.SubTables.Add(rewrittenLig);
+                    }
+                    continue;
+                }
+
+                // Här kan du i framtiden lägga till fler typer, t.ex. MultipleSubst (Typ 2)
             }
 
-            if (activeOldGids.Count == 0) return null;
-
-            return new SingleSubstSubTableFormat2
-            {
-                SubtableFormat = 2,
-                SubstituteGlyphIDs = substitutes.ToArray(),
-                GlyphCount = (ushort)substitutes.Count,
-                Coverage = CreateNewCoverage(context, activeOldGids)
-            };
-        }
-
-        private FontTableElement RemapSingleSubstFormat2(FontSubsettingContext context, SingleSubstSubTableFormat2 oldSub)
-        {
-            var substitutes = new List<ushort>();
-            var activeOldGids = new List<ushort>();
-            ushort[] covered = oldSub.Coverage.GetCoveredGlyphs();
-
-            for (int i = 0; i < covered.Length; i++)
-            {
-                ushort oldGid = covered[i];
-                if (context.IncludedGlyphs.Contains(oldGid))
-                {
-                    ushort oldSubst = oldSub.SubstituteGlyphIDs[i];
-                    if (context.IncludedGlyphs.Contains(oldSubst))
-                    {
-                        substitutes.Add(GetNewId(context, oldSubst));
-                        activeOldGids.Add(oldGid);
-                    }
-                }
-            }
-
-            if (activeOldGids.Count == 0) return null;
-
-            return new SingleSubstSubTableFormat2
-            {
-                SubtableFormat = 2,
-                SubstituteGlyphIDs = substitutes.ToArray(),
-                GlyphCount = (ushort)substitutes.Count,
-                Coverage = CreateNewCoverage(context, activeOldGids)
-            };
-        }
-
-        private FontTableElement RemapLigatureSubst(FontSubsettingContext context, LigatureSubstSubTable oldSub)
-        {
-            var newLigSets = new Dictionary<ushort, LigatureSetTable>();
-            var activeOldFirstGlyphs = new List<ushort>();
-
-            foreach (var kvp in oldSub.LigatureSets)
-            {
-                ushort oldFirst = kvp.Key;
-                if (!context.IncludedGlyphs.Contains(oldFirst)) continue;
-
-                var newSet = new LigatureSetTable();
-                foreach (var oldLig in kvp.Value.Ligatures)
-                {
-                    bool componentsValid = oldLig.Components == null || oldLig.Components.All(c => context.IncludedGlyphs.Contains(c));
-                    if (componentsValid && context.IncludedGlyphs.Contains(oldLig.LigatureGlyph))
-                    {
-                        newSet.Ligatures.Add(new LigatureTable
-                        {
-                            LigatureGlyph = GetNewId(context, oldLig.LigatureGlyph),
-                            Components = oldLig.Components?.Select(c => GetNewId(context, c)).ToArray()
-                        });
-                    }
-                }
-
-                if (newSet.Ligatures.Count > 0)
-                {
-                    ushort newFirst = GetNewId(context, oldFirst);
-                    newLigSets[newFirst] = newSet;
-                    activeOldFirstGlyphs.Add(oldFirst);
-                }
-            }
-
-            if (newLigSets.Count == 0) return null;
-
-            return new LigatureSubstSubTable
-            {
-                SubtableFormat = 1,
-                LigatureSets = newLigSets,
-                Coverage = CreateNewCoverage(context, activeOldFirstGlyphs)
-            };
-        }
-
-        private CoverageTable CreateNewCoverage(FontSubsettingContext context, List<ushort> oldGids)
-        {
-            var newIds = oldGids.Select(id => GetNewId(context, id)).Distinct().ToList();
-            newIds.Sort();
-            return new CoverageTableFormat1
-            {
-                CoverageFormat = 1,
-                GlyphArray = newIds.ToArray(),
-                GlyphCount = (ushort)newIds.Count
-            };
-        }
-
-        private ushort GetNewId(FontSubsettingContext context, ushort oldId)
-        {
-            return context.OldToNewGlyphId.TryGetValue(oldId, out var newId) ? newId : (ushort)0;
+            // Om inga subtabeller överlevde filtreringen (t.ex. om inga av tecknen i 
+            // tabellen finns i vårt subset), returnerar vi null så att Lookupen kan rensas bort helt.
+            return newLookup.SubTables.Count > 0 ? newLookup : null;
         }
 
         // ... RemapFeatureList, RemapScriptList och RemapLangSys behålls som de var tidigare ...
@@ -319,6 +194,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             newList.ScriptRecords.Sort((a, b) => string.CompareOrdinal(a.ScriptTag?.Value, b.ScriptTag?.Value));
             return newList;
         }
+        
 
         private LangSysTable RemapLangSys(LangSysTable oldLang)
         {

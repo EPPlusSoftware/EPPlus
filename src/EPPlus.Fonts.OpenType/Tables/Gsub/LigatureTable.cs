@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EPPlus.Fonts.OpenType.Subsetting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -71,6 +72,33 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
             {
                 writer.WriteUInt16BigEndian(componentGid);
             }
+        }
+
+        internal LigatureTable CloneAndRewrite(FontSubsettingContext context)
+        {
+            ushort newLigatureGid;
+            if (!context.GlyphIdMap.TryGetValue(this.LigatureGlyph, out newLigatureGid))
+                return null;
+
+            ushort[] newComponents = new ushort[this.Components.Length];
+            for (int i = 0; i < this.Components.Length; i++)
+            {
+                ushort newCompGid;
+                if (context.GlyphIdMap.TryGetValue(this.Components[i], out newCompGid))
+                {
+                    newComponents[i] = newCompGid;
+                }
+                else
+                {
+                    // Om en komponent saknas är hela ligaturen ogiltig
+                    return null;
+                }
+            }
+
+            LigatureTable newLig = new LigatureTable();
+            newLig.LigatureGlyph = newLigatureGid;
+            newLig.Components = newComponents;
+            return newLig;
         }
     }
 }

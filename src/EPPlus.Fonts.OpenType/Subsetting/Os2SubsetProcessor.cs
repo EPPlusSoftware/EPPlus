@@ -26,7 +26,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
     /// </summary>
     internal class Os2SubsetProcessor : IFontSubsetProcessor
     {
-        public void Process(FontSubsettingContext context)
+        public void Discover(FontSubsettingContext context)
         {
             // OS/2 discovery is usually not needed as it contains global metrics.
             // We just ensure it's marked for inclusion if necessary.

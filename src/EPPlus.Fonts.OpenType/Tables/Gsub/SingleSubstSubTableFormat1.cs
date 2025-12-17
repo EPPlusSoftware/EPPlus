@@ -1,4 +1,6 @@
-﻿using EPPlus.Fonts.OpenType.Tables.Gsub.Serialization;
+﻿using EPPlus.Fonts.OpenType.Subsetting;
+using EPPlus.Fonts.OpenType.Tables.Cmap;
+using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -1,4 +1,4 @@
-﻿using EPPlus.Fonts.OpenType.Tables.Gsub.Serialization;
+﻿using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -334,6 +334,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
                     case 4: // Ligature Substitution
                         var ligLoader = new LigatureSubstSubTableDeserializer(_reader);
                         subTable = ligLoader.Deserialize(subTableAbsoluteStart);
+                        break;
+                    case 7: // Extension Substitution (Wrapper för andra typer)
+                        var extLoader = new ExtensionSubstSubTableDeserializer(_reader);
+                        subTable = extLoader.Deserialize(subTableAbsoluteStart);
                         break;
 
                     default:

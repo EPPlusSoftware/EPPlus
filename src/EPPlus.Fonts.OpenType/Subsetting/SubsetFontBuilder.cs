@@ -47,7 +47,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             // Alla processorer (inkl. GSUB) hittar vilka glyfer som behövs.
             foreach (var processor in processors)
             {
-                processor.Process(context);
+                processor.Discover(context);
             }
 
             // Steg 2: Skapa Glyph ID-mappningen (Viktigt!)
@@ -58,22 +58,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             // Nu när context.OldToNewGlyphId är populerad kan GSUB och andra tabeller skrivas om.
             foreach (var processor in processors)
             {
-                // Vi kan lägga till en check här, eller låta GsubSubsetProcessor 
-                // internt anropa Rewrite från sin Process-metod (se nästa steg).
-                if (processor is GsubSubsetProcessor gsubProcessor)
-                {
-                    gsubProcessor.Rewrite(context);
-                }
-                else if(processor is Os2SubsetProcessor os2Processor)
-                {
-                    os2Processor.Rewrite(context);
-                }
-                else if(processor is CmapSubsetProcessor cmapProcessor)
-                {
-                    cmapProcessor.Rewrite(context);
-                }
-                // hmtx, post, cmap etc. kan också behöva anropas här om de inte 
-                // redan sköts inuti sin Process.
+               processor.Rewrite(context);
             }
 
             // 9. Debug-info

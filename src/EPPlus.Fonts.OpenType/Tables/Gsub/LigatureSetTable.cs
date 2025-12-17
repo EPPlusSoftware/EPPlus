@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EPPlus.Fonts.OpenType.Subsetting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,19 +25,37 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
 
             foreach (var oldLigature in this.Ligatures)
             {
-                // Remap the existing ligature table. The method returns true if the 
-                // resulting ligature glyph (output) is kept.
-                bool ligatureOutputKept = oldLigature.Remap(oldToNewGlyphId);
-
-                // Now we must check if any component was discarded during Remap 
-                // (i.e., mapped to new ID 0, which is .notdef, meaning it was not in the subset).
-                bool allComponentsKept = oldLigature.Components.All(gid => gid != 0);
-
-                // If the output ligature is kept AND all input components are kept (i.e., they 
-                // were successfully remapped to a non-zero new ID), we keep the ligature.
-                if (ligatureOutputKept && allComponentsKept)
+                // 1. Försök mappa mål-glyfen (t.ex. "fi")
+                if (!oldToNewGlyphId.TryGetValue(oldLigature.LigatureGlyph, out ushort newTargetGid))
                 {
-                    newSet.Ligatures.Add(oldLigature);
+                    continue; // Mål-glyfen finns inte i vårt subset
+                }
+
+                // 2. Försök mappa alla komponenter (t.ex. "i")
+                bool allComponentsMapped = true;
+                List<ushort> newComponents = new List<ushort>();
+
+                foreach (var oldCompGid in oldLigature.Components)
+                {
+                    if (oldToNewGlyphId.TryGetValue(oldCompGid, out ushort newCompGid))
+                    {
+                        newComponents.Add(newCompGid);
+                    }
+                    else
+                    {
+                        allComponentsMapped = false;
+                        break; // En komponent saknas, ligaturen kan inte skapas
+                    }
+                }
+
+                // 3. Om allt finns, skapa en helt NY Ligature-instans
+                if (allComponentsMapped)
+                {
+                    newSet.Ligatures.Add(new LigatureTable
+                    {
+                        LigatureGlyph = newTargetGid,
+                        Components = newComponents.ToArray()
+                    });
                 }
             }
 
@@ -69,6 +88,20 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
             {
                 ligature.Serialize(writer);
             }
+        }
+
+        internal LigatureSetTable Rewrite(FontSubsettingContext context)
+        {
+            LigatureSetTable newSet = new LigatureSetTable();
+            foreach (LigatureTable oldLig in this.Ligatures)
+            {
+                LigatureTable rewritten = oldLig.CloneAndRewrite(context);
+                if (rewritten != null)
+                {
+                    newSet.Ligatures.Add(rewritten);
+                }
+            }
+            return newSet.Ligatures.Count > 0 ? newSet : null;
         }
     }
 }
