@@ -72,7 +72,10 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
             //Save minor information about each char so each char knows its line/fragment
             int charCount = 0;
             int lineIndex = 0;
+
             List<int> currFragments = new();
+            List<TextLine> lines = new List<TextLine>();
+            int lineStartCharIndex = 0;
 
             //For each fragment
             for (int i = 0; i < TextFragments.Count; i++)
@@ -84,8 +87,14 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
                 {
                     if (charCount >= AllTextNewLineIndicies[lineIndex])
                     {
-                        //LineIndexToFragmentIndicies.Add(lineIndex, currFragments);
-                        //currFragments.Clear();
+                        var line = new TextLine()
+                        {   richTextIndicies = currFragments,
+                            content = AllText.Substring(lineStartCharIndex, charCount - lineStartCharIndex),
+                            startIndex = lineStartCharIndex,
+                        };
+
+                        lines.Add(line);
+                        currFragments.Clear();
                         lineIndex++;
                     }
 
@@ -93,6 +102,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
                     CharLookup.Add(charCount, info);
                     charCount++;
                 }
+                currFragments.Add(i);
             }
         }
 

@@ -1282,8 +1282,12 @@ namespace EPPlus.Fonts.OpenType
                 var lineIdx = charInfo.Line;
                 var fragmentIdx = charInfo.Fragment;
 
+                //If we hit a pre-existing line break. Reset line and wordwidths
                 if (paragraph.AllTextNewLineIndicies[currentLineIndex] >= i)
                 {
+                    lineWidth = 0;
+                    wordWidth = 0;
+                    prevLineEndIndex = i;
                     currentLineIndex++;
                 }
 
