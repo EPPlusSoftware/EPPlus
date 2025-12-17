@@ -10,11 +10,15 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
         internal int Fragment;
         internal int Line;
 
+        internal int Width;
+
         public CharInfo(int index, int fragment, int line) 
         {
             Index = index;
             Fragment = fragment;
             Line = line;
+
+
         }
     }
 }

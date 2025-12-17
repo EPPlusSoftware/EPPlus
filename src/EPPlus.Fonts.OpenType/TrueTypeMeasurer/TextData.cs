@@ -1131,6 +1131,99 @@ namespace EPPlus.Fonts.OpenType
             internal double prevWordWidth = 0;
         }
 
+        internal static List<string> WrapMultipleTextFragments4(TextParagraph paragraph, double maxWidth)
+        {
+            //Keep track of original maxwidth in points
+            var inputMaxWidth = maxWidth;
+
+            ushort? lastGlyphIndex = 0;
+            bool applyKerning = false;
+            int currentLineIndex = 0;
+
+            //Initalise collection to return
+            List<string> wrappedStrings = new List<string>();
+
+            //Create struct to hold onto info from the previous fragment/earlier data on current line
+            var lineInfo = new LineInfo();
+
+            int charCount = 0;
+
+            
+            for (int i = 0; i < paragraph.TextFragments.Count(); i++)
+            {
+                //Get Font data from the stored data
+                var font = paragraph.FontIndexDict[i];
+                var glyphMappings = paragraph.GlyphMappings[i];
+                var fontSize = paragraph.FontSizes[i];
+
+                var currentFragment = paragraph.TextFragments[i];
+
+
+                int nextLineStartIndex = 0;
+                lineInfo.wordWidth = 0;
+
+                //Alternative argument: lineInfo.prevLineWidth != 0
+                if (paragraph.CharLookup[charCount].Line == currentLineIndex)
+                {
+                    //This Fragment and the last fragment are part of the same line
+                    //Convert leftOverWidth and widthFromLastWord to current font design units
+                    lineInfo.lineWidth = Convert.ToInt16((lineInfo.prevLineWidth * (double)font.HeadTable.UnitsPerEm) / fontSize);
+                    lineInfo.wordWidth = Convert.ToInt16((lineInfo.prevWordWidth * (double)font.HeadTable.UnitsPerEm) / fontSize);
+                }
+                else
+                {
+                    //This Fragment starts on a new line from the previous fragment
+                }
+
+                //Convert maxWidth from points to current font design units (different fonts can have different units)
+                maxWidth = (inputMaxWidth * (double)font.HeadTable.UnitsPerEm) / fontSize;
+
+                for (int j = 0; j < currentFragment.Length; j++)
+                {
+                    var charInfo = paragraph.CharLookup[charCount];
+
+                    //Text-Fragments may already contain new lines
+                    //Reset all advance when we reach such a newLine
+                    if (charInfo.Line > currentLineIndex)
+                    {
+                        lineInfo = new LineInfo();
+                        currentLineIndex = charInfo.Line;
+                    }
+
+                    var wrappedStringCount = wrappedStrings.Count;
+
+                    MeasureAndWrapIndividualChar(currentFragment, j, ref nextLineStartIndex, ref lineInfo.lineWidth, ref lineInfo.wordWidth, font,
+                        glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings, applyKerning);
+
+                    if (wrappedStringCount < wrappedStrings.Count)
+                    {
+                        //Since we're using the combined total string, need to handle leftover line differently
+                        if (charCount < nextLineStartIndex)
+                        {
+                            lineInfo.leftOverLine = paragraph.AllText.Substring(nextLineStartIndex, nextLineStartIndex - charCount);
+                        }
+                        else
+                        {
+                            //Special case for only 1 or 0 chars in leftover line
+                            lineInfo.leftOverLine = paragraph.AllText.Substring(nextLineStartIndex, charCount - nextLineStartIndex);
+                        }
+                    }
+
+                    //Add the current char to current unwrapped line
+                    lineInfo.leftOverLine += paragraph.AllText.Substring(charCount, 1);
+                    charCount++;
+                }
+
+                //We are about to exit or enter a new text-fragment which may have a different font. Save current advance in points
+                lineInfo.prevLineWidth = (lineInfo.lineWidth / (double)font.HeadTable.UnitsPerEm) * fontSize;
+                lineInfo.prevWordWidth = (lineInfo.wordWidth / (double)font.HeadTable.UnitsPerEm) * fontSize;
+            }
+
+            wrappedStrings.Add(lineInfo.leftOverLine);
+
+            return wrappedStrings;
+        }
+
         internal static List<string> WrapMultipleTextFragments3(List<string> textFragments, List<double> fontSizes, Dictionary<double, OpenTypeFont> fonts, double maxWidth)
         {
             //Keep track of original maxwidth in points
