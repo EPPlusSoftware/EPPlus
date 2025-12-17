@@ -61,7 +61,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CellAlignmentData.TextRotation = (cell.Style.TextRotation >= 90) ? ((cell.Style.TextRotation == 255) ? 0 : 90 - cell.Style.TextRotation) : cell.Style.TextRotation;
             CellAlignmentData.IsVertical = cell.Style.TextRotation == 255 ? true : false;
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
-            //LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height);
+            LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height);
             Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y);
             CheckClipping(cell, width);
         }
@@ -151,6 +151,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
             if (rotation == 255)
             {
+                Lines.WritingMode = PdfWritingMode.VerticalTtb;
                 if (cell.Style.WrapText)
                 {
                     double lineHeight = 0d;
@@ -211,6 +212,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
             else
             {
+                Lines.WritingMode = PdfWritingMode.HorizontalLtr;
                 if (cell.Style.WrapText)
                 {
                     double lineLength = 0d;
@@ -992,98 +994,98 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             double x = 0d;
             double y = 0d;
-            //double textLength = GetLongestLine();
-            //double fontHeight = TextLines[0].FontHeight;
-            //double lineHeight = TextLines[0].LineHeight;
-            //switch (CellAlignmentData.HorizontalAlignment)
-            //{
-            //    case ExcelHorizontalAlignment.Fill:
-            //    case ExcelHorizontalAlignment.General:
-            //        if (double.TryParse(cell.Value.ToString(), out double value))
-            //        {
-            //            x = cellX + (cellWidth - textLength) - rightMargin;
-            //        }
-            //        else
-            //        {
-            //            x = cellX + rightMargin;
-            //        }
-            //        break;
-            //    case ExcelHorizontalAlignment.Left:
-            //        x = cellX + rightMargin;
-            //        break;
-            //    case ExcelHorizontalAlignment.Center:
-            //        x = cellX + (cellWidth - textLength) / 2d;
-            //        break;
-            //    case ExcelHorizontalAlignment.Right:
-            //        x = cellX + (cellWidth - textLength) - rightMargin;
-            //        break;
-            //}
-            //switch (CellAlignmentData.VerticalAlignment)
-            //{
-            //    case ExcelVerticalAlignment.Top:
-            //        y = (CellY + cellHeight) - (fontHeight / 2d) - bottomMargin;
-            //        break;
-            //    case ExcelVerticalAlignment.Center:
-            //        // replaces Math.Clamp which didn't exist in the older frameworks.
-            //        //var min = CellY + bottomMargin;
-            //        //var max = CellY + cellHeight - bottomMargin;
-            //        //var val = CellY + cellHeight / 2d + fontHeight / 2d;
-            //        //if (val > max) { y = max; }
-            //        //else if (val < min) { y = min; }
-            //        //else { y = val; }
-            //        //y = System.Math.Clamp(CellY + cellHeight / 2d + FontData.Lines[0].FontHeight / 2d, CellY + bottomMargin, CellY + cellHeight - bottomMargin);
-            //        y = CellY + (cellHeight / 2d) - (lineHeight / 4d); ;
-            //        break;
-            //    case ExcelVerticalAlignment.Bottom:
-            //        y = CellY + bottomMargin;
-            //        break;
-            //}
-            //if (CellAlignmentData.IsVertical)
-            //{
-            //    //set textRotation to 0 and then set bool isVertical
-            //    //In content stream check is vertical andr
-            //    return new Vector2(x, y);
-            //}
-            //else if (CellAlignmentData.TextRotation < 0)
-            //{
-            //    double rot = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
-            //    x += textLength * (1 - System.Math.Cos(rot));
-            //    y -= textLength * System.Math.Sin(rot);
-            //}
-            //else if (CellAlignmentData.TextRotation > 0)
-            //{
-            //    double rot = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
-            //    x += textLength * (1 - System.Math.Cos(rot));
-            //}
+            double textLength = Lines.TextLength; //GetLongestLine();
+            double fontHeight = Lines.FontHeight; //TextLines[0].FontHeight;
+            double lineHeight = Lines.LineHeight; //TextLines[0].LineHeight;
+            switch (CellAlignmentData.HorizontalAlignment)
+            {
+                case ExcelHorizontalAlignment.Fill:
+                case ExcelHorizontalAlignment.General:
+                    if (double.TryParse(cell.Value.ToString(), out double value))
+                    {
+                        x = cellX + (cellWidth - textLength) - rightMargin;
+                    }
+                    else
+                    {
+                        x = cellX + rightMargin;
+                    }
+                    break;
+                case ExcelHorizontalAlignment.Left:
+                    x = cellX + rightMargin;
+                    break;
+                case ExcelHorizontalAlignment.Center:
+                    x = cellX + (cellWidth - textLength) / 2d;
+                    break;
+                case ExcelHorizontalAlignment.Right:
+                    x = cellX + (cellWidth - textLength) - rightMargin;
+                    break;
+            }
+            switch (CellAlignmentData.VerticalAlignment)
+            {
+                case ExcelVerticalAlignment.Top:
+                    y = (CellY + cellHeight) - (fontHeight / 2d) - bottomMargin;
+                    break;
+                case ExcelVerticalAlignment.Center:
+                    // replaces Math.Clamp which didn't exist in the older frameworks.
+                    //var min = CellY + bottomMargin;
+                    //var max = CellY + cellHeight - bottomMargin;
+                    //var val = CellY + cellHeight / 2d + fontHeight / 2d;
+                    //if (val > max) { y = max; }
+                    //else if (val < min) { y = min; }
+                    //else { y = val; }
+                    //y = System.Math.Clamp(CellY + cellHeight / 2d + FontData.Lines[0].FontHeight / 2d, CellY + bottomMargin, CellY + cellHeight - bottomMargin);
+                    y = CellY + (cellHeight / 2d) - (lineHeight / 4d); ;
+                    break;
+                case ExcelVerticalAlignment.Bottom:
+                    y = CellY + bottomMargin;
+                    break;
+            }
+            if (CellAlignmentData.IsVertical)
+            {
+                //set textRotation to 0 and then set bool isVertical
+                //In content stream check is vertical andr
+                return new Vector2(x, y);
+            }
+            else if (CellAlignmentData.TextRotation < 0)
+            {
+                double rot = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
+                x += textLength * (1 - System.Math.Cos(rot));
+                y -= textLength * System.Math.Sin(rot);
+            }
+            else if (CellAlignmentData.TextRotation > 0)
+            {
+                double rot = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
+                x += textLength * (1 - System.Math.Cos(rot));
+            }
 
             var yOffset = 0d;
-            //for (int i = 1; i < TextLines.Count; i++)
-            //{
-            //    yOffset += TextLines[i].LineHeight;
-            //    switch (CellAlignmentData.HorizontalAlignment)
-            //    {
-            //        case ExcelHorizontalAlignment.Fill:
-            //        case ExcelHorizontalAlignment.General:
-            //            if (double.TryParse(cell.Value.ToString(), out double value))
-            //            {
-            //                TextLines[i].Offset = -TextLines[i].TextLength;
-            //            }
-            //            else
-            //            {
-            //                TextLines[i].Offset = 0d;
-            //            }
-            //            break;
-            //        case ExcelHorizontalAlignment.Left:
-            //            TextLines[i].Offset = 0d;
-            //            break;
-            //        case ExcelHorizontalAlignment.Center:
-            //            TextLines[i].Offset = (cellX + (cellWidth - TextLines[i].TextLength) / 2d) - x;
-            //            break;
-            //        case ExcelHorizontalAlignment.Right:
-            //            TextLines[i].Offset = (cellX + (cellWidth - TextLines[i].TextLength) - rightMargin) - x;
-            //            break;
-            //    }
-            //}
+            for (int i = 1; i < Lines.Lines.Count; i++)
+            {
+                yOffset += Lines.LineHeight;
+                switch (CellAlignmentData.HorizontalAlignment)
+                {
+                    case ExcelHorizontalAlignment.Fill:
+                    case ExcelHorizontalAlignment.General:
+                        if (double.TryParse(cell.Value.ToString(), out double value))
+                        {
+                            Lines.Lines[i].Offset = -Lines.Lines[i].TextLength;
+                        }
+                        else
+                        {
+                            Lines.Lines[i].Offset = 0d;
+                        }
+                        break;
+                    case ExcelHorizontalAlignment.Left:
+                        Lines.Lines[i].Offset = 0d;
+                        break;
+                    case ExcelHorizontalAlignment.Center:
+                        Lines.Lines[i].Offset = (cellX + (cellWidth - Lines.Lines[i].TextLength) / 2d) - x;
+                        break;
+                    case ExcelHorizontalAlignment.Right:
+                        Lines.Lines[i].Offset = (cellX + (cellWidth - Lines.Lines[i].TextLength) - rightMargin) - x;
+                        break;
+                }
+            }
             return new Vector2(x, y + yOffset);
         }
 
@@ -1091,23 +1093,23 @@ namespace EPPlus.Export.Pdf.PdfLayout
         private void CheckClipping(ExcelRangeBase cell, double width)
         {
             //double textLength = 0d;
-            //foreach (var line in TextLines)
+            //foreach (var line in Lines.Lines)
             //{
             //    if (textLength < line.TextLength)
             //    {
             //        textLength = line.TextLength;
             //    }
             //}
-            //if (textLength >= width || cell.Merge)
-            //{
-            //    if (cell.Merge ||
-            //       CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Fill ||
-            //       CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Left && cell.Worksheet.Cells[cell._fromRow, cell._fromCol + 1].Value != null ||
-            //       CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Right && cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1 <= 0 ? 1 : cell._fromCol - 1].Value != null)
-            //    {
-            //        Clip = true;
-            //    }
-            //}
+            if (Lines.TextLength >= width || cell.Merge)
+            {
+                if (cell.Merge ||
+                   CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Fill ||
+                   CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Left && cell.Worksheet.Cells[cell._fromRow, cell._fromCol + 1].Value != null ||
+                   CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Right && cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1 <= 0 ? 1 : cell._fromCol - 1].Value != null)
+                {
+                    Clip = true;
+                }
+            }
         }
 
         //Create clipping rectangle.

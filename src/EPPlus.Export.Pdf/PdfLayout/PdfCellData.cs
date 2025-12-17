@@ -10,13 +10,15 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Graphics.Math;
-using System.Drawing;
+using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
+using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
-using EPPlus.Export.Pdf.Pdfhelpers;
-using EPPlus.Graphics;
+using System.Diagnostics;
+using System.Drawing;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -31,7 +33,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
     internal class PdfCellLines
     {
         public bool IsRichText = false;
-        public double Offset;
         public PdfWritingMode WritingMode { get; set; } = PdfWritingMode.HorizontalLtr;
 
         public List<PdfCellLine> Lines = new List<PdfCellLine>();
@@ -49,6 +50,19 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
+        public double Height
+        {
+            get
+            {
+                double val = 0;
+                foreach (var l in Lines)
+                {
+                    val += l.LineHeight;
+                }
+                return val;
+            }
+        }
+
         public double TextLength
         {
             get
@@ -56,7 +70,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 double val = 0;
                 foreach (var tp in Lines)
                 {
-                    val += tp.TextLength;
+                    val = tp.TextLength > val ? tp.TextLength : val;
                 }
                 return val;
             }
@@ -68,7 +82,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 double val = 0;
                 foreach (var tp in Lines)
                 {
-                    val += tp.LineHeight;
+                    val = tp.TextHeight > val ? tp.TextHeight : val;
                 }
                 return val;
             }
@@ -101,6 +115,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
     internal class PdfCellLine
     {
+        public double Offset = 0d;
         public List<PdfCellWord> Words = new List<PdfCellWord>();
         private string _text = null;
         public string Text
@@ -135,7 +150,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 double val = 0;
                 foreach (var w in Words)
                 {
-                    val += w.LineHeight;
+                    val += w.TextHeight;
                 }
                 return val;
             }
@@ -257,7 +272,37 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public string FullFontName
         { get { return FontName + " " + SubFamily; } }
 
-        //implement compare method that checks if style parameters are equal. text is excluded somethinf like bool HasSameStyle()
+        //Compares stylings.
+        public bool Equals(PdfCellTextItem other)
+        {
+            if (!string.Equals(FontName, other.FontName))
+                return false;
+
+            if (FontFamily != other.FontFamily)
+                return false;
+
+            if (SubFamily != other.SubFamily)
+                return false;
+
+            if (FontSize != other.FontSize)
+                return false;
+
+            if (Bold != other.Bold ||
+                Italic != other.Italic ||
+                Strike != other.Strike ||
+                SubScript != other.SubScript ||
+                SuperScript != other.SuperScript ||
+                Underline != other.Underline)
+                return false;
+
+            if (UnderlineType != other.UnderlineType)
+                return false;
+
+            if (!FontColor.Equals(other.FontColor))
+                return false;
+
+            return true;
+        }
     }
 
     internal class GlyphPosition
