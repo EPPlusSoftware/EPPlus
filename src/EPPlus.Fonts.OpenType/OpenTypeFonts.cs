@@ -109,6 +109,7 @@ namespace EPPlus.Fonts.OpenType
         {
             lock (_syncRoot)
             {
+                var cacheKey = OpenTypeFontCache.BuildCacheKey(fontName, subFamily.ToString());
                 if (!ignoreCache)
                 {
                     if (OpenTypeFontCache.Contains(fontName, subFamily))
@@ -122,12 +123,19 @@ namespace EPPlus.Fonts.OpenType
 
                 var face = FontScannerV2.FindBestMatch(fontDirectories, fontName, subFamily, searchSystemDirectories);
                 if (face == null)
-                    return null;
+                {
+                    //TODO: Add fallback font handling.
+                    //OpenTypeFontCache.AddToCache(null, cacheKey);
+                    throw(new InvalidOperationException("Missing font: " + fontName + " (" + subFamily.ToString() + ")"));
+                    //return null;
+                }
 
                 var font = OpenTypeFontFactory.CreateFromFace(face);
 
                 if (!ignoreCache)
-                    OpenTypeFontCache.AddToCache(font);
+                {
+                    OpenTypeFontCache.AddToCache(font, cacheKey);
+                }
 
                 return font;
             }

@@ -14,6 +14,8 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Drawing.Chart;
 using System;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace EPPlusImageRenderer.Svg
@@ -43,22 +45,69 @@ namespace EPPlusImageRenderer.Svg
                 Legend = null;
             }
 
-            if(chart.YAxis.Deleted==false)
+            VerticalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.YAxis);
+            HorizontalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.XAxis);
+            if (chart.Axis.Length > 2)
             {
-                VerticalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.YAxis);
+                SecondVerticalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.Axis[2]);
             }
 
-            if (chart.YAxis.Deleted == false)
+            Plotarea = new SvgChartPlotarea(this);
+
+            SetAxisPositionsFromPlotarea(this);
+        }
+
+        private void SetAxisPositionsFromPlotarea(SvgChart sc)
+        {
+            if(VerticalAxis != null)
             {
-                HorizontalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.XAxis);
+                if (VerticalAxis.Rectangle != null)
+                {
+                    VerticalAxis.Rectangle.Top = Plotarea.Rectangle.Top;
+                    VerticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
+                    VerticalAxis.Rectangle.Left = Plotarea.Rectangle.Left - VerticalAxis.Rectangle.Width;
+                    VerticalAxis.Line.X1 = VerticalAxis.Line.X2 = (float)Plotarea.Rectangle.Left;
+                    VerticalAxis.Line.Y1 = (float)VerticalAxis.Rectangle.Top;
+                    VerticalAxis.Line.Y2 = (float)VerticalAxis.Rectangle.Bottom;
+                }
+
+                if(VerticalAxis.Title!=null)
+                {
+                    VerticalAxis.Title.Rectangle.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (VerticalAxis.Title.Rectangle.Height / 2);
+                    VerticalAxis.Title.InitTextBox();
+                }
             }
-            
-            if(chart.Axis.Length > 2 && chart.Axis[2].Deleted==false)
+
+            if (HorizontalAxis!=null)
             {
-                SecondHorizontalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.Axis[2]);
+                HorizontalAxis.Rectangle.Top = Plotarea.Rectangle.Bottom;
+                HorizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
+                HorizontalAxis.Rectangle.Left = Plotarea.Rectangle.Left;
+                HorizontalAxis.Line.Y1 = HorizontalAxis.Line.Y2 = (float)Plotarea.Rectangle.Bottom;
+                HorizontalAxis.Line.X1 = (float)HorizontalAxis.Rectangle.Left;
+                HorizontalAxis.Line.X2 = (float)HorizontalAxis.Rectangle.Right;
+
+                if (HorizontalAxis.Title != null)
+                {
+                    HorizontalAxis.Title.Rectangle.Left = Plotarea.Rectangle.Left + (Plotarea.Rectangle.Width / 2) - (VerticalAxis.Title.Rectangle.Width / 2);
+                    HorizontalAxis.Title.InitTextBox();
+                }
             }
-            
-            Plotarea = new SvgChartPlotarea(this);            
+
+            if (SecondVerticalAxis!=null)
+            {
+                SecondVerticalAxis.Rectangle.Top = Plotarea.Rectangle.Top;
+                SecondVerticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
+                SecondVerticalAxis.Rectangle.Left = Plotarea.Rectangle.Right;
+                VerticalAxis.Line.X1 = VerticalAxis.Line.X2 = (float)Plotarea.Rectangle.Right;
+                SecondVerticalAxis.Line.Y1 = (float)SecondVerticalAxis.Rectangle.Top;
+                SecondVerticalAxis.Line.Y2 = (float)SecondVerticalAxis.Rectangle.Bottom;
+                if (SecondVerticalAxis.Title != null)
+                {
+                    SecondVerticalAxis.Title.Rectangle.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (VerticalAxis.Title.Rectangle.Height / 2);
+                    SecondVerticalAxis.Title.InitTextBox();
+                }
+            }
         }
 
         internal SvgRenderRectItem ChartArea { get; set; }
@@ -67,10 +116,10 @@ namespace EPPlusImageRenderer.Svg
         internal SvgChartPlotarea Plotarea { get; set; }
         internal SvgChartAxis VerticalAxis { get; set; }
         internal SvgChartAxis HorizontalAxis { get; set; }
-        internal SvgChartAxis SecondHorizontalAxis { get; set; }
+        internal SvgChartAxis SecondVerticalAxis { get; set; }
         internal SvgChartTitle VerticalAxisTitle { get; set; }
         internal SvgChartTitle HorizontalAxisTitle { get; set; }
-        internal SvgChartTitle SecondHorizontalAxisTitle { get; set; }
+        internal SvgChartTitle SecondVerticalAxisTitle { get; set; }
         private void SetChartArea()
         {
             var item = new SvgRenderRectItem(Chart);
@@ -99,40 +148,39 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
             
-            Title?.Render(sb);
-            Legend?.Render(sb);
-
             if (gItemTest != null)
             {
                 gItemTest.RenderEndGroup(sb);
             }
 
+            Plotarea?.Render(sb);
+
             HorizontalAxis?.Render(sb);
-            HorizontalAxisTitle?.Render(sb);
             VerticalAxis?.Render(sb);
-            VerticalAxisTitle?.Render(sb);
-            SecondHorizontalAxis?.Render(sb);
-            SecondHorizontalAxisTitle?.Render(sb);
+            SecondVerticalAxis?.Render(sb);
+
+            Legend?.Render(sb);
+            Title?.Render(sb);
 
             sb.Append("</svg>");
         }
 
         internal double GetPlotAreaTop()
         {
-            var topMargin = 14;
-            if (Title == null)
+            var margin = 14D;
+            if(Legend!=null && Chart.Legend.Position==eLegendPosition.Top)
             {
-                return topMargin; //
+                return Legend.Rectangle.Bottom + margin;
+            }
+            else if (Title != null)
+            {
+                return Title.Rectangle.Bottom + margin;
             }
             else
             {
-                return Title.Rectangle.Bottom + topMargin;
+                return margin; 
             }
 
-        }
-        internal double GetPlotAreaBottom()
-        {
-            return 0;
         }
     }
 }

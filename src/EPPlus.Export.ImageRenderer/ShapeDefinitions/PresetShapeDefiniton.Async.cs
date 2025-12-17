@@ -71,10 +71,6 @@ namespace EPPlusImageRenderer.ShapeDefinitions
                         if (xr.LocalName != "presetShapeDefinitons")
                         {
                             var item = await LoadPresetShapeDefinitionAsync(xr);
-                            if(item.Style == eShapeStyle.Sun)
-                            {
-                                item.translateCoordinate = new Coordinate(0, 0);
-                            }
                             _shapeDefinitions.Add(item.Style, item);
                         }
                     }

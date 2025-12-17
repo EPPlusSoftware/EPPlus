@@ -224,7 +224,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         /// <summary>
         /// Right offset between 100 to -100% of the chart width. In Excel exceeding these values counts as setting the property to 0.
-        /// Legacy variable. if Height property is set this will be overridden.
+        /// Legacy variable. if Width property is set this will be overridden.
         /// </summary>
         public double? LegacyWidth
         {
@@ -290,7 +290,42 @@ namespace OfficeOpenXml.Drawing.Chart
             var aStr = value.ToEnumString();
             SetXmlNodeString($"{path}/c:{name}Mode/@val", aStr);
         }
-
+        internal double GetWidth()
+        {
+            if (Width.HasValue && double.IsNaN(Width.Value) == false)
+            {
+                return Width.Value;
+            }
+            else
+            {
+                return LegacyWidth ?? 0D;
+            }
+        }
+        internal double GetHeight()
+        {
+            if (Height.HasValue && double.IsNaN(Height.Value) == false)
+            {
+                if(HeightMode == eLayoutMode.Edge)
+                {
+                    return Height.Value - Top.Value;
+                }
+                else
+                {
+                    return Height.Value;
+                }
+            }
+            else
+            {
+                if (LegacyHeightMode == eLayoutMode.Edge)
+                {
+                    return LegacyHeight.Value - Top ?? 0D;
+                }
+                else
+                {
+                    return LegacyHeight ?? 0D;
+                }
+            }
+        }
         private readonly string _path;
         private readonly string _extLstPath;
         /// <summary>

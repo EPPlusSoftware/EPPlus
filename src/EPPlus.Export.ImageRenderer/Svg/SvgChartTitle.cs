@@ -15,6 +15,7 @@ using EPPlusImageRenderer.Text;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Globalization;
 using System.Text;
@@ -23,6 +24,8 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class SvgChartTitle : SvgChartObject
     {
+        ExcelChartTitleStandard _title;
+        string _titleText;
         /// <summary>
         /// 
         /// </summary>
@@ -38,15 +41,20 @@ namespace EPPlusImageRenderer.Svg
 
             var maxWidth = sc.Size.Width * 0.8;
             var maxHeight = sc.Size.Height / 2D;
+            _title = t;
             if (axis==null)
             {
-                defaultText = GetDefaultChartTitleText(sc, t, defaultText);
+                _titleText = GetDefaultChartTitleText(sc, t, defaultText);
             }
             else
             {
                 if (string.IsNullOrEmpty(t.Text) == false)
                 {
-                    defaultText = t.Text;
+                    _titleText = t.Text;
+                }
+                else
+                {
+                    _titleText = defaultText;
                 }
             }
 
@@ -63,6 +71,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     Rectangle.Height = (float)(rect.Height + TopMargin + BottomMargin);
                 }
+                InitTextBox();
             }
             else
             {
@@ -73,6 +82,7 @@ namespace EPPlusImageRenderer.Svg
                     Rectangle.Left = (float)(sc.Size.Width - rect.Width + LeftMargin + RightMargin) / 2;
                     Rectangle.Height = (float)(rect.Height + TopMargin + BottomMargin);
                     Rectangle.Width = (float)(rect.Width + LeftMargin + RightMargin);
+                    InitTextBox();
                 }
                 else
                 {
@@ -82,23 +92,46 @@ namespace EPPlusImageRenderer.Svg
 
             Rectangle.SetDrawingPropertiesFill(t.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
             Rectangle.SetDrawingPropertiesBorder(t.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
-
-            InitTextBox(t, defaultText);
         }
 
         private void SetAxisTitleRect(SvgChart sc, SvgChartAxis axis, RectBase rect)
         {
-            var paTop = sc.GetPlotAreaTop();
-            var paBottom = sc.GetPlotAreaBottom();
+            var margin = 8F;
             switch (axis.Axis.AxisPosition)
             {
                 case eAxisPosition.Left:
-                    Rectangle.Top = axis.Rectangle.Top;
-                    Rectangle.Left = 8F;          //8 pixels for the chart title standard offset
-                    Rectangle.Height = axis.Rectangle.Height;
-                    Rectangle.Width = (float)(rect.Width + LeftMargin + RightMargin);
+                    Rectangle.Top = sc.GetPlotAreaTop();
+                    Rectangle.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Left ? sc.Legend.Rectangle.Right : margin;                               
+                    break;
+                case eAxisPosition.Bottom:
+                    Rectangle.Top = sc.ChartArea.Height - margin - rect.Height;
+                    Rectangle.Left = GetHorizontalLeft(sc);
                     break;
             }
+            Rectangle.Width = rect.Width;
+            Rectangle.Height = rect.Height;
+        }
+
+        private double GetHorizontalLeft(SvgChart sc)
+        {
+            var margin = 8F;
+            if (sc.HorizontalAxis!=null)
+            {
+                return sc.HorizontalAxis.Rectangle.Right;
+            }
+            else if(sc.HorizontalAxisTitle != null)
+            {
+                return sc.HorizontalAxisTitle.Rectangle.Right;
+            }
+            else
+            {
+                return margin;
+            }
+        }
+
+        private double GetAreaBottom()
+        {
+            throw new NotImplementedException();
         }
 
         private int GetTopAxisPosition(SvgChart sc, RectBase rect)
@@ -139,7 +172,7 @@ namespace EPPlusImageRenderer.Svg
             return defaultText;
         }
 
-        private void InitTextBox(ExcelChartTitleStandard t, string defaultText)
+        internal void InitTextBox()
         {
             TextBox = new TextBox(Chart, Rectangle.Left, Rectangle.Top , Rectangle.Width, Rectangle.Height);
             TextBox.Bounds.MarginLeft = LeftMargin;
@@ -147,16 +180,20 @@ namespace EPPlusImageRenderer.Svg
             TextBox.Bounds.MarginTop = TopMargin;
             TextBox.Bounds.MarginBottom = BottomMargin;
             TextBox.VerticalAlignment = eTextAnchoringType.Top;
-            if (t.TextBody.Paragraphs.Count > 0)
+            if(_title.Rotation != 0)
             {
-                foreach (var p in t.TextBody.Paragraphs)
+                TextBox.Rotation = _title.Rotation;
+            }
+            if (_title.TextBody.Paragraphs.Count > 0)
+            {
+                foreach (var p in _title.TextBody.Paragraphs)
                 {
                     TextBox.AddParagraph(p);
                 }
             }
             else
             {
-                TextBox.AddText(string.IsNullOrEmpty(t.Text) ? defaultText : t.Text, t.Font);
+                TextBox.AddText(string.IsNullOrEmpty(_title.Text) ? _titleText : _title.Text, _title.Font);
             }
         }
 

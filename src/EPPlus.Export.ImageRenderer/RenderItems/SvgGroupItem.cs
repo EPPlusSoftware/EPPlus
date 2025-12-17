@@ -21,9 +21,23 @@ namespace EPPlusImageRenderer.RenderItems
 
         public string GroupTransform = "";
 
-        internal SvgGroupItem(string groupTransform) : base()
+        internal SvgGroupItem() : base()
         {
-            GroupTransform = groupTransform;
+
+        }
+        internal SvgGroupItem(double rotation, double cx, double cy) : base()
+        {
+            if(rotation!=0)
+            {
+                if (cx == 0 && cy == 0)
+                {
+                    GroupTransform = $"transform(rotation({rotation}))";
+                }
+                else
+                {
+                    GroupTransform = $"transform(rotation({rotation}, {cx}, {cy})";
+                }
+            }
         }
 
         public override void Render(StringBuilder sb)

@@ -233,7 +233,7 @@ namespace EPPlusImageRenderer.Text
 
         internal void RenderParagraphs(StringBuilder sb)
         {
-            var groupItem = new SvgGroupItem("");
+            var groupItem = new SvgGroupItem(Rotation, 0, 0);
             groupItem.Render(sb);
             //TODO: add textbody property stuff here
             foreach (var paragraph in Paragraphs)
@@ -244,7 +244,7 @@ namespace EPPlusImageRenderer.Text
         }
         internal void RenderTextRuns(StringBuilder sb)
         {
-            var groupItem = new SvgGroupItem("");
+            var groupItem = new SvgGroupItem();
             groupItem.Render(sb);
 
             var innerTop = Bounds.GetInnerRect().Top;
@@ -299,6 +299,8 @@ namespace EPPlusImageRenderer.Text
             //}
         }
         public string Text { get; set; }
+        public double Rotation { get; internal set; }
+
         internal void AddText(string text, OfficeOpenXml.Style.ExcelTextFont font)
         {
             var measureFont = font.GetMeasureFont();

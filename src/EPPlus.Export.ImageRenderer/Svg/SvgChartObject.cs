@@ -35,6 +35,7 @@ namespace EPPlusImageRenderer.Svg
         internal double TopMargin { get; set; }
         internal double BottomMargin { get; set; }
         internal SvgRenderRectItem Rectangle { get; set; }
+        internal SvgRenderLineItem Line { get; set; }
         public string Text { get; set; }
         protected static SvgRenderRectItem GetRectFromManualLayout(SvgChart sc, ExcelLayout layout)
         {
@@ -43,22 +44,24 @@ namespace EPPlusImageRenderer.Svg
             if (ml.LeftMode == eLayoutMode.Edge)
             {
                 rect.Left = sc.Size.Width * (float)(layout.ManualLayout.Left ?? 0D) / 100;
-                rect.Width = sc.Size.Width * (float)(layout.ManualLayout.Width ?? 0D) / 100;
             }
             else
             {
                 //TODO:Add factor from default position
             }
+            //Width is always factor.
+            rect.Width = sc.Size.Width * ml.GetWidth() / 100;
+
             if (ml.LeftMode == eLayoutMode.Edge)
             {
                 rect.Top = sc.Size.Height * (float)(layout.ManualLayout.Top ?? 0D) / 100;
-                rect.Height = sc.Size.Height * (float)(layout.ManualLayout.Width ?? 0D) / 100;
             }
             else
             {
                 //TODO:Add factor from default position
             }
-
+            //Height is always factor.
+            rect.Height = sc.Size.Height * ml.GetHeight() / 100;
             return rect;
         }
     }

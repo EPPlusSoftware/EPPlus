@@ -23,7 +23,7 @@ namespace EPPlus.Fonts.OpenType.FontCache
 
 
 
-        static string BuildCacheKey(string familyName, string subFamily)
+        internal static string BuildCacheKey(string familyName, string subFamily)
         {
             return $"{familyName}-{subFamily}";
         }
@@ -55,11 +55,11 @@ namespace EPPlus.Fonts.OpenType.FontCache
             }
         }
 
-        public static void AddToCache(OpenTypeFont font)
+        public static void AddToCache(OpenTypeFont font, string key)
         {
             lock (_syncRoot)
             {
-                var key = BuildCacheKey(font.GetEnglishFullFontFamilyName(), font.GetEnglishFontSubFamilyName());
+                //var key = BuildCacheKey(font.GetEnglishFontFamilyName(), font.GetEnglishFontSubFamilyName());
                 if (!_cache.ContainsKey(key))
                 {
                     _cache[key] = new CachedOpenTypeFont();

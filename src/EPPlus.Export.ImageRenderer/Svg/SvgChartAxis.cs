@@ -27,44 +27,52 @@ namespace EPPlusImageRenderer.Svg
     {
         internal SvgChartAxis(SvgChart sc, ExcelChartAxisStandard ax) : base(sc.Chart)
         {
-            Axis = ax; 
+
+            Axis = ax;
             SetMargins(ax.TextBody);
 
-            Values = GetAxisValue(ax, Rectangle, out double? min, out double? max, out double? majorUnit);
-            AxisValues = GetAxisDisplayValues(ax, Values, min, max, majorUnit);
-
-            if (ax.Layout.HasLayout)
+            if (sc.Chart.Series.Count == 0 || (ax.Deleted == true && ax.Title == null))
             {
-                Rectangle = GetRectFromManualLayout(sc, ax.Layout);
+                return;
+            }
+
+            if(ax.HasTitle)
+            {
+                Title = new SvgChartTitle(sc, ax.Title, "Axis Title", this);
             }
             else
             {
-                Rectangle = new SvgRenderRectItem(sc.Chart);
-                if(ax.AxisPosition==eAxisPosition.Left || ax.AxisPosition==eAxisPosition.Right)
+                Title = null;
+            }
+
+            if (ax.Deleted == false)
+            {
+                Values = GetAxisValue(ax, Rectangle, out double? min, out double? max, out double? majorUnit);
+                AxisValues = GetAxisDisplayValues(ax, Values, min, max, majorUnit);
+                if (ax.Layout.HasLayout)
                 {
-                    Rectangle.Width = GetTextWidest(sc, ax);
+                    Rectangle = GetRectFromManualLayout(sc, ax.Layout);
                 }
                 else
                 {
-                    Rectangle.Height = GetTextHeight(sc, ax);
+                    Rectangle = new SvgRenderRectItem(sc.Chart);
+                    if (ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right)
+                    {
+                        Rectangle.Width = GetTextWidest(sc, ax);
+                        Rectangle.Left = Title == null || ax.AxisPosition == eAxisPosition.Right ? 8D : Title.Rectangle.Right;
+                    }
+                    else
+                    {
+                        Rectangle.Height = GetTextHeight(sc, ax);
+                        Rectangle.Top = sc.HorizontalAxisTitle == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
+                    }
                 }
-            }
 
-            if (ax.HasTitle)
-            {
-                AxisTitle = new SvgChartTitle(sc, ax.Title, "Axis Title", this);
-            }
-            else
-            {
-                AxisTitle = null;
-                if (sc.Chart.Series.Count == 0 || ax.Deleted == true)
-                {
-                    return;
-                }
-            }
+                Rectangle.FillColor = "none";
 
-            Rectangle.SetDrawingPropertiesFill(ax.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
-            Rectangle.SetDrawingPropertiesBorder(ax.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, ax.Border.Fill.Style!=eFillStyle.NoFill, 0.75);
+                Line = new SvgRenderLineItem(sc.Chart);
+                Line.SetDrawingPropertiesBorder(ax.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            }
         }
         internal ExcelChartAxis Axis { get; }
         private List<string> GetAxisDisplayValues(ExcelChartAxisStandard ax, List<object> values, double? min, double? max, double? majorUnit)
@@ -184,11 +192,12 @@ namespace EPPlusImageRenderer.Svg
             get;
             private set;
         }
-        public SvgChartTitle AxisTitle { get; }
+        public SvgChartTitle Title { get; set; }
         public override void Render(StringBuilder sb)
         {
-            AxisTitle?.Render(sb);
-            Rectangle.Render(sb);
+            Title?.Render(sb);
+            Rectangle?.Render(sb);
+            Line?.Render(sb);
         }
     }
 }

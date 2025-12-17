@@ -26,10 +26,6 @@ namespace EPPlusImageRenderer.ShapeDefinitions
     internal class ShapeDefinition
     {
         internal Dictionary<string, double> _calculatedValues = new Dictionary<string, double>();
-        internal Coordinate translateCoordinate = null;
-
-        internal double xRatio = 1;
-        internal double yRatio = 1;
 
         internal ShapeDefinition()
         {
@@ -75,37 +71,8 @@ namespace EPPlusImageRenderer.ShapeDefinitions
             {
                 ShapePaths.Add(p.Clone());
             }
-            if (original.translateCoordinate != null)
-            {
-                translateCoordinate = original.translateCoordinate;
-            }
         }
 
-        internal string GetTransform(double rotation)
-        {
-            if(translateCoordinate == null && rotation==0 && xRatio == 1 &&  yRatio == 1)
-            {
-                return "";
-            }
-            var transform = "";
-            if(translateCoordinate!=null)
-            {
-                transform = $"translate({translateCoordinate.X},{translateCoordinate.Y})";
-            }
-            if(rotation!=0)
-            {
-                if (string.IsNullOrEmpty(transform) == false)
-                {
-                    transform += " ";
-                }
-                transform = $"rotate({rotation.ToString(CultureInfo.InvariantCulture)})";
-            }
-            //if (xRatio != 1 || yRatio != 1)
-            //{
-            //    transform += $" scale({xRatio},{yRatio})";
-            //}
-            return $"transform=\"{transform}\"";
-        }
 
         public eShapeStyle Style { get; set; }
         /// <summary>
