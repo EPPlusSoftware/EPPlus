@@ -17,14 +17,10 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
         internal List<int> IsPartOfLines;
         internal string ThisFragment;
 
-        //string[] Lines;
-
         internal TextFragment(string thisFragment, int startPos)
         {
             ThisFragment = thisFragment;
             StartPos = startPos;
-
-            //Lines = thisFragment.Split([Environment.NewLine], StringSplitOptions.None);
         }
 
         internal int GetEndPosition()

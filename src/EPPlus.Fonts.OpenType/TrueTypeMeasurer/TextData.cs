@@ -1283,11 +1283,12 @@ namespace EPPlus.Fonts.OpenType
                 var fragmentIdx = charInfo.Fragment;
 
                 //If we hit a pre-existing line break. Reset line and wordwidths
-                if (paragraph.AllTextNewLineIndicies[currentLineIndex] >= i)
+                if (i >= paragraph.AllTextNewLineIndicies[currentLineIndex])
                 {
                     lineWidth = 0;
                     wordWidth = 0;
-                    prevLineEndIndex = i;
+                    leftOverLine = "";
+                    //prevLineEndIndex = i;
                     currentLineIndex++;
                 }
 
@@ -1296,6 +1297,8 @@ namespace EPPlus.Fonts.OpenType
                 {
                     if (currentFont != paragraph.FontIndexDict[fragmentIdx] | fontSize != paragraph.FontSizes[fragmentIdx])
                     {
+                        ConvertBetweenFonts(currentFont, fontSize, paragraph.FontIndexDict[fragmentIdx], paragraph.FontSizes[fragmentIdx], 
+                            ref maxWidth, ref lineWidth, ref wordWidth);
                         //Font/fragment change
                         //TODO: change from fontDesign units linewidth to points and back into new context
                         currentFont = paragraph.FontIndexDict[fragmentIdx];

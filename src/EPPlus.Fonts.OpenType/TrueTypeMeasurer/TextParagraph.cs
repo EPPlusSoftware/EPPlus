@@ -17,12 +17,12 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
         internal Dictionary<int, CharInfo> CharLookup = new();
         internal int TotalLength = 0;
 
-        internal List<double> FontSizes;
-        internal List<string> TextFragments;
+        internal List<double> FontSizes = new();
+        internal List<string> TextFragments = new();
 
         internal string AllText;
-        internal List<int> AllTextNewLineIndicies;
-        List<TextFragment> fragmentItems;
+        internal List<int> AllTextNewLineIndicies = new();
+        List<TextFragment> fragmentItems = new List<TextFragment>();
 
         public TextParagraph(List<string> textFragments, List<MeasurementFont> fonts)
         {
@@ -83,7 +83,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
                 var textFragment = TextFragments[i];
                 
                 //For each char in current fragment
-                for (int j = 0; j < textFragment.Length; i++)
+                for (int j = 0; j < textFragment.Length; j++)
                 {
                     if (charCount >= AllTextNewLineIndicies[lineIndex])
                     {

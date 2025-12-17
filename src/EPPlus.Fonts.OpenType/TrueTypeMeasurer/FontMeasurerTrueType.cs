@@ -343,7 +343,7 @@ namespace EPPlus.Fonts.OpenType
             //    fontSizes.Add(fonts[i].Size);
             //}
 
-            return TextData.WrapMultipleTextFragments2(textFragment, fontSizes, fontIndexDict, maxWidthPoints);
+            return TextData.WrapMultipleTextFragments5(paragraph, maxWidthPoints);
         }
     }
 }
