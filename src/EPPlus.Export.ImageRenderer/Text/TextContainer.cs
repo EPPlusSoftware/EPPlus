@@ -6,6 +6,7 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EPPlus.Graphics;
 
 namespace EPPlus.Export.ImageRenderer.Text
 {
@@ -113,7 +114,7 @@ namespace EPPlus.Export.ImageRenderer.Text
             }
 
             double maxWidth = 0;
-            foreach ( var line in TextContent)
+            foreach (var line in TextContent)
             {
                 var lineWidth = _textMeasurerTrueType.MeasureTextWidthInPixels(line);
                 //var lineWidthAlt = _textMeasurerTrueType.MeasureTextWidthInPixels(line+"\r\n");

@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using EPPlus.Graphics;
 
 namespace EPPlusImageRenderer.Text
 {
@@ -89,6 +90,15 @@ namespace EPPlusImageRenderer.Text
         {
             Bounds.Left = textBoxRender.X;
             Bounds.Top = textBoxRender.Y;
+
+            //var transform = Bounds.transform;
+
+            //var pos = transform.Position;
+
+            //pos.Y = 2;
+
+            //transform.LocalPosition.X = textBoxRender.X;
+            //transform.LocalPosition.Y = textBoxRender.Y;
 
             Width = textBoxRender.Width;
             Height = textBoxRender.Height;
