@@ -105,7 +105,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
         [TestMethod]
         public void EnsureTextBodyAddsRunsCorrectly()
         {
-            Rect shapeRect = new Rect();
+            BoundingBox shapeRect = new BoundingBox();
 
             shapeRect.Width = 20;
             shapeRect.Height = 10;

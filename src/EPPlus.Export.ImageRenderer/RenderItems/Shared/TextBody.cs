@@ -12,7 +12,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public bool AllowOverflow;
 
-        public TextBody(FontMeasurerTrueType txtMeasurer, Rect parent, bool initDefaults = true) : base(txtMeasurer, initDefaults)
+        public TextBody(FontMeasurerTrueType txtMeasurer, BoundingBox parent, bool initDefaults = true) : base(txtMeasurer, initDefaults)
         {
             transform.Parent = parent.transform;
         }

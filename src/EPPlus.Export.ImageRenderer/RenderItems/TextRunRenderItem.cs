@@ -17,7 +17,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
         /// <summary>
         /// BoundingBox
         /// </summary>
-        internal Rect BoundingBox;
+        internal BoundingBox boundingBox;
         public override SvgItemType Type => SvgItemType.Text;
 
         internal readonly string originalText;
@@ -38,17 +38,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
         bool WrapText;
         double MaxWidthPixels = double.NaN;
 
-        internal TextRunRenderItem(ExcelParagraphTextRunBase run, Rect parent = null)
+        internal TextRunRenderItem(ExcelParagraphTextRunBase run, BoundingBox parent = null)
         {
             WrapText = run.Paragraph._paragraphs.WrapText != eTextWrappingType.None;
 
             originalText = run.Text;
             currentText = originalText;
 
-            BoundingBox = new Rect();
+            boundingBox = new BoundingBox();
             if (parent != null)
             {
-                BoundingBox.transform.Parent = parent.transform;
+                boundingBox.transform.Parent = parent.transform;
             }
 
             isFirstInParagraph = run.IsFirstInParagraph;
@@ -88,20 +88,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
 
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {
-            il = BoundingBox.X;
-            it = BoundingBox.Y;
+            il = boundingBox.X;
+            it = boundingBox.Y;
 
             ir = CalculateRightPositionInPixels();
             ib = CalculateBottomPositionInPixels();
 
-            BoundingBox.Right = ir;
-            BoundingBox.Bottom = ib;
+            boundingBox.Right = ir;
+            boundingBox.Bottom = ib;
         }
 
         internal double CalculateRightPositionInPixels()
         {
             var numLines = GetNumberOfLines();
-            double retPos = BoundingBox.X;
+            double retPos = boundingBox.X;
 
             double TextLengthInPixels = 0;
 
@@ -133,7 +133,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
 
         internal double CalculateBottomPositionInPixels()
         {
-            var lineSize = ((double)measurementFont.Size).PointToPixel(true) + BoundingBox.Y;
+            var lineSize = ((double)measurementFont.Size).PointToPixel(true) + boundingBox.Y;
             var bottomPosition = lineSize * GetNumberOfLines();
             return bottomPosition;
         }

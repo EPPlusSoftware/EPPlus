@@ -112,7 +112,7 @@ namespace EPPlusImageRenderer
 
         public string RenderTextBody(string txtBody)
         {
-            Rect shapeRect = new Rect();
+            BoundingBox shapeRect = new BoundingBox();
 
             shapeRect.Width = 200;
             shapeRect.Height = 200;
@@ -220,7 +220,7 @@ namespace EPPlusImageRenderer
             return doc;
         }
 
-        internal SvgElement GetDefinitions(Rect boundingBox, out string nameId, bool AllowOverflow = false)
+        internal SvgElement GetDefinitions(BoundingBox boundingBox, out string nameId, bool AllowOverflow = false)
         {
             nameId = "boundingBox";
             var def = new SvgElement("defs");

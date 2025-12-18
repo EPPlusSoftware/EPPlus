@@ -135,7 +135,7 @@ namespace EPPlus.Graphics.Tests
         [TestMethod]
         public void BoundingBoxes()
         {
-            Rect Shape = new Rect();
+            BoundingBox Shape = new BoundingBox();
 
             Shape.transform.Position = new Vector2(2,2);
             Shape.transform.Size = Vector2.One;
@@ -144,7 +144,7 @@ namespace EPPlus.Graphics.Tests
             Shape.Width = 10;
             Shape.Height = 10;
 
-            Rect TextBody = new Rect();
+            BoundingBox TextBody = new BoundingBox();
 
             TextBody.transform.Parent = Shape.transform;
             TextBody.transform.Name = "TextBodyTransform";
@@ -157,7 +157,7 @@ namespace EPPlus.Graphics.Tests
             Assert.AreEqual(10, TextBody.transform.LocalPosition.X);
             Assert.AreEqual(11, TextBody.transform.LocalPosition.Y);
 
-            Rect Paragraph1 = new Rect();
+            BoundingBox Paragraph1 = new BoundingBox();
             Paragraph1.transform.Name = "Paragraph1Transform";
             Paragraph1.transform.Parent = TextBody.transform;
             Paragraph1.Width = 5;

@@ -8,7 +8,7 @@ namespace EPPlus.Export.ImageRenderer.Text
     /// A Rect that also holds an arr of strings
     /// No assumptions are made about where or if the text is placed inside the rect.
     /// </summary>
-    internal class TextContainerBase : Rect
+    internal class TextContainerBase : BoundingBox
     {
         protected string[] Content = null;
 

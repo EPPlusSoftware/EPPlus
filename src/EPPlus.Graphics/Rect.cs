@@ -17,11 +17,8 @@ namespace EPPlus.Graphics
     //REname and move class? Inherit from transform? what do?
     internal class Rect
     {
-        internal Transform transform;
-
         internal Rect()
         {
-            transform = new Transform();
         }
 
         internal Rect(double width, double height) : this()
@@ -42,54 +39,22 @@ namespace EPPlus.Graphics
         /// <summary>
         /// Y pos (min)
         /// </summary>
-        internal double Top
-        {
-            get { return transform.LocalPosition.Y; }
-            set 
-            {
-                var tmpHeight = Height != 0 ? Height : 0;
+        internal double Top;
 
-                var currentPosition = transform.LocalPosition;
-                currentPosition.Y = value;
-                transform.LocalPosition = currentPosition;
+        /// <summary>
+        /// Y pos (max)
+        /// </summary>
+        internal double Bottom;
 
-                //Recalculate bottom position correctly
-                if (tmpHeight != 0)
-                {
-                    Height = tmpHeight;
-                }
-            }
-        }
         /// <summary>
         /// X pos (min)
         /// </summary>
-        internal double Left
-        {
-            get { return transform.LocalPosition.X;}
-            set 
-            {
-                var tmpWidth = Width != 0 ? Width : 0;
-
-                var currentPosition = transform.LocalPosition;
-                currentPosition.X = value;
-                transform.LocalPosition = currentPosition;
-
-                //Recalculate Right position correctly
-                if(tmpWidth != 0)
-                {
-                    Width = tmpWidth;
-                }
-            }
-        }
+        internal double Left;
 
         /// <summary>
         /// X pos (max)
         /// </summary>
         internal double Right;
-        /// <summary>
-        /// Y pos (max)
-        /// </summary>
-        internal double Bottom;
 
         /// <summary>
         /// Get or Set Width via the properties above
@@ -121,8 +86,6 @@ namespace EPPlus.Graphics
             }
         }
 
-        //Quick-access to underlying transform
-
         /// <summary>
         /// Local position X
         /// X-position from parent transform position
@@ -134,9 +97,5 @@ namespace EPPlus.Graphics
         /// Y-position from parent transform position
         /// </summary>
         internal double Y { get { return Top; } set { Top = value; } }
-
-        //Gets global position x and y
-        internal double GlobalX { get { return transform.Position.X; } }
-        internal double GlobalY { get { return transform.Position.Y; } }
     }
 }
