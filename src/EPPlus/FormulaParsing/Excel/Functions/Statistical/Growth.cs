@@ -80,11 +80,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             }
 
             //If newXs is given:
-            if (arguments[2].IsExcelRange)
+            if(arguments.Count() > 2 && arguments[2].DataType != DataType.Empty)
             {
-                argNewX = arguments[2].ValueAsRangeInfo;
-
-                if (multipleXranges)
+                if (arguments[2].IsExcelRange)
+                {
+                    argNewX = arguments[2].ValueAsRangeInfo;
+                }
+                else if (arguments[2] != null && arguments[2].DataType != DataType.Empty && IsNumeric(arguments[2].Value))
+                {
+                    var n = ArgToDecimal(arguments, 2, out ExcelErrorValue e3);
+                    if (e3 != null) return CreateResult(e3.Type);
+                    var xValsList = new List<double> { n };
+                    return CreateDynamicArrayResult(GrowthHelper.GetGrowthValuesSingle(xValsList.ToArray(), coefficients, columnArray), DataType.ExcelRange);
+                }
+                else
+                {
+                    argNewX = null; 
+                }
+                if (multipleXranges && argNewX != null)
                 {
                     //knownXs and NewXs must have the same amount of variables, but doesnt have to have the same amount of observations/samples
                     if (columnArray && argNewX.Size.NumberOfCols != argX.Size.NumberOfCols) return CompileResult.GetErrorResult(eErrorType.Ref);
@@ -93,23 +106,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                     var xRanges = LinestHelper.GetRangeAsJaggedDouble(argNewX, argY, constVar, multipleXranges);
                     return CreateDynamicArrayResult(GrowthHelper.GetGrowthValuesMultiple(xRanges, coefficients, constVar, columnArray), DataType.ExcelRange);
                 }
-                else
+                else if(argNewX != null)
                 {
-                    RangeFlattener.GetNumericPairLists(argNewX, argY, !multipleXranges, out List<double> xVals, out List<double> yVals);
-                    var xValsArray = MatrixHelper.ListToArray(xVals);
+                    //RangeFlattener.GetNumericPairLists(argNewX, argY, !multipleXranges, out List<double> xVals, out List<double> yVals);
+                    List<double?> xValsArray = RangeFlattener.FlattenRange(argNewX, false);
+                    //var xValsArray = MatrixHelper.ListToArray(xVals);
                     if (argNewX.Size.NumberOfCols == 1) columnArray = true;
-                    return CreateDynamicArrayResult(GrowthHelper.GetGrowthValuesSingle(xValsArray, coefficients, columnArray), DataType.ExcelRange);
+                    return CreateDynamicArrayResult(GrowthHelper.GetGrowthValuesSingle(xValsArray.Where(x => x.HasValue).Select(x => (double)x).ToArray(), coefficients, columnArray), DataType.ExcelRange);
                 }
             }
-            else if(arguments[2].Value!=null)
-            {
-                var ir = new InMemoryRange(1, 1);
-                var value = ArgToDecimal(arguments, 2, out ExcelErrorValue err);
-                if (err != null) return CompileResult.GetErrorResult(err.Type);
-                ir.SetValue(0, 0, value);
-                argNewX = ir;
-
-            }
+           
 
             //If newXs is omitted:
             if (multipleXranges)
