@@ -287,7 +287,7 @@ namespace EPPlus.Fonts.OpenType
             TextParagraph paragraph = new TextParagraph(textFragments, fonts);
 
             //Wrap the fragments
-            return TextData.WrapMultipleTextFragments5(paragraph, maxWidthPoints);
+            return TextData.WrapMultipleTextFragments(paragraph, maxWidthPoints);
         }
     }
 }
