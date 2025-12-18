@@ -6,10 +6,7 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using static EPPlus.Fonts.OpenType.TextData;
-using static System.Net.Mime.MediaTypeNames;
-
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -337,25 +334,27 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
-        private static void MeasureAndWrapIndividualChar(string line, int charPos, ref int nextLineStartIndex, ref int lineWidth, ref int wordWidth, OpenTypeFont fontData, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<string> wrappedStrings, bool applyKerning = true)
+        private static int CalculateAdvanceWidth(string text, int charPos, GlyphMappings mappings, OpenTypeFont font, ref ushort? lastGlyphIndex, ref LineInfo info, bool applyKerning = true )
         {
-            var c = line[charPos];
-            int advanceWidth = CalcGlyphWidth(glyphMappings, c, fontData, ref lastGlyphIndex, ref applyKerning);
-            lineWidth += advanceWidth;
+            var c = text[charPos];
+            int advanceWidth = CalcGlyphWidth(mappings, c, font, ref lastGlyphIndex, ref applyKerning);
+            info.lineWidth += advanceWidth;
 
-            wordWidth = c == ' ' ? 0 : wordWidth + advanceWidth;
+            info.wordWidth = c == ' ' ? 0 : info.wordWidth + advanceWidth;
 
-            if (lineWidth > maxWidth)
-            {
-                var wrappedString = ExtractWrappedSubstring(line, charPos, ref nextLineStartIndex, out TotalAdvanceMode advanceMode);
-                wrappedStrings.Add(wrappedString);
+            return advanceWidth;
+        }
 
-                //Using enum to make it one Input parameter in WrapString instead of all 3
-                //this as they're not actually used in there
-                lineWidth = GetAdvanceWidthFromMode(advanceWidth, wordWidth, advanceMode);
-                //New line means both totals are equal
-                wordWidth = lineWidth;
-            }
+        private static void WrapAtCharPos(string line, int charPos, ref int nextLineStartIndex, ref LineInfo lineInfo, int advanceWidth, List<string> wrappedStrings)
+        {
+            var wrappedString = ExtractWrappedSubstring(line, charPos, ref nextLineStartIndex, out TotalAdvanceMode advanceMode);
+            wrappedStrings.Add(wrappedString);
+
+            //Using enum to make it one Input parameter in WrapString instead of all 3
+            //this as they're not actually used in there
+            lineInfo.lineWidth = GetAdvanceWidthFromMode(advanceWidth, lineInfo.wordWidth, advanceMode);
+            //New line means both totals are equal
+            lineInfo.wordWidth = lineInfo.lineWidth;
         }
 
         private static void MeasureAndWrapLine(string line, OpenTypeFont fontData, ref int lineWidth, ref int wordWidth, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<string> wrappedStrings, bool applyKerning = true)
@@ -739,7 +738,7 @@ namespace EPPlus.Fonts.OpenType
                 if ((paragraph.CharLookup[charCount].Line == currentLineIndex) && i > 0)
                 {
                     //This Fragment and the last fragment are part of the same line
-                    ConvertBetweenFonts(paragraph.FontIndexDict[i - 1], paragraph.FontSizes[i - 1], font, fontSize, ref maxWidth, ref lineInfo.lineWidth, ref lineInfo.wordWidth);
+                    ConvertDesignUnits(paragraph.FontIndexDict[i - 1], paragraph.FontSizes[i - 1], font, fontSize, ref maxWidth, ref lineInfo.lineWidth, ref lineInfo.wordWidth);
                 }
                 else
                 {
@@ -767,10 +766,18 @@ namespace EPPlus.Fonts.OpenType
                     currentLineIndex = charInfo.Line;
                 }
 
+                var font = paragraph.FontIndexDict[fragmentIdx];
+                var glyphMappings = paragraph.GlyphMappings[fragmentIdx];
+
                 var wrappedStringCount = wrappedStrings.Count;
 
-                MeasureAndWrapIndividualChar(fragment, j, ref nextLineStartIndex, ref lineInfo.lineWidth, ref lineInfo.wordWidth, paragraph.FontIndexDict[fragmentIdx],
-                     paragraph.GlyphMappings[fragmentIdx], lastGlyphIndex, maxWidth, wrappedStrings, applyKerning);
+                var advanceWidth = CalculateAdvanceWidth(fragment, j, paragraph.GlyphMappings[fragmentIdx], font, ref lastGlyphIndex, ref lineInfo, applyKerning);
+                var c = fragment[j];
+
+                if (lineInfo.lineWidth > maxWidth)
+                {
+                    WrapAtCharPos(fragment, j, ref nextLineStartIndex, ref lineInfo, advanceWidth, wrappedStrings);
+                }
 
                 if (wrappedStringCount < wrappedStrings.Count)
                 {
@@ -792,6 +799,45 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
+        internal static int ConvertBetweenFonts(OpenTypeFont origFont, double origSize, OpenTypeFont targetFont, double targetSize, double width)
+        {
+            var factorOrig = origSize / ((double)origFont.HeadTable.UnitsPerEm);
+
+            var widthInPoints = width * factorOrig;
+
+            var factorTarget = ((double)targetFont.HeadTable.UnitsPerEm) / targetSize;
+
+            return Convert.ToInt16(widthInPoints * factorTarget);
+        }
+
+        /// <summary>
+        /// Converts the design units of one font to the design units of another font
+        /// </summary>
+        /// <param name="origFont"></param>
+        /// <param name="origSize"></param>
+        /// <param name="targetFont"></param>
+        /// <param name="targetSize"></param>
+        /// <param name="maxWidth"></param>
+        /// <param name="lineWidth"></param>
+        /// <param name="wordWidth"></param>
+        internal static void ConvertDesignUnits(OpenTypeFont origFont, double origSize, OpenTypeFont targetFont, double targetSize, ref double maxWidth, ref int lineWidth, ref int wordWidth)
+        {
+            //Potential future optimization: Check if units perEm are equal if they are (most fonts are)
+            //Should be able to only apply a factor of origSize/targetSize
+            var factorOrig = origSize / ((double)origFont.HeadTable.UnitsPerEm);
+
+            var maxWidthInPoints = maxWidth * factorOrig;
+            var lineWidthInPoints = lineWidth * factorOrig;
+            var wordWidthInPoints = wordWidth * factorOrig;
+
+            var factorTarget = ((double)targetFont.HeadTable.UnitsPerEm) / targetSize;
+
+            maxWidth = Convert.ToInt16(maxWidthInPoints * factorTarget);
+            lineWidth = Convert.ToInt16(lineWidthInPoints * factorTarget);
+            wordWidth = Convert.ToInt16(wordWidthInPoints * factorTarget);
+        }
+
+
         internal static List<string> WrapMultipleTextFragments4(TextParagraph paragraph, double maxWidth)
         {
             //Keep track of original maxwidth in points
@@ -811,34 +857,6 @@ namespace EPPlus.Fonts.OpenType
             wrappedStrings.Add(lineInfo.leftOverLine);
 
             return wrappedStrings;
-        }
-
-        internal static int ConvertBetweenFonts(OpenTypeFont origFont, double origSize, OpenTypeFont targetFont, double targetSize, double width)
-        {
-            var factorOrig = origSize / ((double)origFont.HeadTable.UnitsPerEm);
-
-            var widthInPoints = width * factorOrig;
-
-            var factorTarget = ((double)targetFont.HeadTable.UnitsPerEm) / targetSize;
-
-            return Convert.ToInt16(widthInPoints * factorTarget);
-        }
-
-        internal static void ConvertBetweenFonts(OpenTypeFont origFont, double origSize, OpenTypeFont targetFont, double targetSize, ref double maxWidth, ref int lineWidth, ref int wordWidth)
-        {
-            //Potential future optimization: Check if units perEm are equal if they are (most fonts are)
-            //Should be able to only apply a factor of origSize/targetSize
-            var factorOrig = origSize / ((double)origFont.HeadTable.UnitsPerEm);
-
-            var maxWidthInPoints = maxWidth * factorOrig;
-            var lineWidthInPoints = lineWidth * factorOrig;
-            var wordWidthInPoints = wordWidth * factorOrig;
-
-            var factorTarget = ((double)targetFont.HeadTable.UnitsPerEm) / targetSize;
-
-            maxWidth = Convert.ToInt16(maxWidthInPoints * factorTarget);
-            lineWidth = Convert.ToInt16(lineWidthInPoints * factorTarget);
-            wordWidth = Convert.ToInt16(wordWidthInPoints * factorTarget);
         }
 
         internal static List<string> WrapMultipleTextFragments5(TextParagraph paragraph, double maxWidthPoints)
@@ -885,7 +903,7 @@ namespace EPPlus.Fonts.OpenType
                 {
                     if (currentFont != paragraph.FontIndexDict[fragmentIdx] | fontSize != paragraph.FontSizes[fragmentIdx])
                     {
-                        ConvertBetweenFonts(currentFont, fontSize, paragraph.FontIndexDict[fragmentIdx], paragraph.FontSizes[fragmentIdx],
+                        ConvertDesignUnits(currentFont, fontSize, paragraph.FontIndexDict[fragmentIdx], paragraph.FontSizes[fragmentIdx],
                             ref maxWidth, ref lineWidth, ref wordWidth);
                         //Font/fragment change
                         //TODO: change from fontDesign units linewidth to points and back into new context

@@ -284,7 +284,6 @@ namespace EPPlus.Fonts.OpenType
 
         public List<string> WrapMultipleTextFragments(List<string> textFragments, List<MeasurementFont> fonts, double maxWidthPoints)
         {
-            //Create structured class that picks out relevant information
             TextParagraph paragraph = new TextParagraph(textFragments, fonts);
 
             //Wrap the fragments
