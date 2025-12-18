@@ -17,8 +17,6 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
             Index = index;
             Fragment = fragment;
             Line = line;
-
-
         }
     }
 }

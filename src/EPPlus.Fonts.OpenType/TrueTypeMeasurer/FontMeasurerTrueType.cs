@@ -282,67 +282,12 @@ namespace EPPlus.Fonts.OpenType
             return widths;
         }
 
-        public List<string> WrapMultipleTextFragments(List<string> textFragment, List<MeasurementFont> fonts, double maxWidthPoints)
+        public List<string> WrapMultipleTextFragments(List<string> textFragments, List<MeasurementFont> fonts, double maxWidthPoints)
         {
-            List<OpenTypeFont> openTypeFonts = new List<OpenTypeFont>();
-            List<double> fontSizes = new List<double>();
-
-            //prevent creating multiple OpenTypeFonts via cache/indexing
-            Dictionary<double, OpenTypeFont> fontIndexDict = new();
-
-            var distinctFonts = fonts.Distinct().ToArray();
-
-            foreach (var distinctFont in distinctFonts)
-            {
-                SetFont(distinctFont);
-                openTypeFonts.Add(CurrentFont);
-            }
-
-            for (int i = 0; i < fonts.Count; i++)
-            {
-                for(int j = 0; j < distinctFonts.Count(); j++)
-                {
-                    if (fonts[i] == distinctFonts[j])
-                    {
-                        fontIndexDict.Add(i, openTypeFonts[j]);
-                    }
-                }
-                fontSizes.Add(fonts[i].Size);
-            }
-
-            return TextData.WrapMultipleTextFragments(textFragment, fontSizes, fontIndexDict, maxWidthPoints);
-        }
-
-        public List<string> WrapMultipleTextFragments2(List<string> textFragments, List<MeasurementFont> fonts, double maxWidthPoints)
-        {
+            //Create structured class that picks out relevant information
             TextParagraph paragraph = new TextParagraph(textFragments, fonts);
 
-            //List<OpenTypeFont> openTypeFonts = new List<OpenTypeFont>();
-            //List<double> fontSizes = new List<double>();
-
-            ////prevent creating multiple OpenTypeFonts via cache/indexing
-            //Dictionary<double, OpenTypeFont> fontIndexDict = new();
-
-            //var distinctFonts = fonts.Distinct().ToArray();
-
-            //foreach (var distinctFont in distinctFonts)
-            //{
-            //    SetFont(distinctFont);
-            //    openTypeFonts.Add(CurrentFont);
-            //}
-
-            //for (int i = 0; i < fonts.Count; i++)
-            //{
-            //    for (int j = 0; j < distinctFonts.Count(); j++)
-            //    {
-            //        if (fonts[i] == distinctFonts[j])
-            //        {
-            //            fontIndexDict.Add(i, openTypeFonts[j]);
-            //        }
-            //    }
-            //    fontSizes.Add(fonts[i].Size);
-            //}
-
+            //Wrap the fragments
             return TextData.WrapMultipleTextFragments5(paragraph, maxWidthPoints);
         }
     }

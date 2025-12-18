@@ -92,8 +92,6 @@ namespace EPPlusTest.Drawing.TextMeasuring
 
             var wrappedFragments = txtMeasurer.WrapMultipleTextFragments(txtRuns, fonts, maxWidth.PixelToPoint());
 
-            var wrappedFragments2 = txtMeasurer.WrapMultipleTextFragments2(txtRuns, fonts, maxWidth.PixelToPoint());
-
             Assert.AreEqual(2, wrappedFragments.Count);
             Assert.AreEqual("HIJKLM", wrappedFragments[0]);
             Assert.AreEqual("NOPE", wrappedFragments[1]);
@@ -144,8 +142,6 @@ namespace EPPlusTest.Drawing.TextMeasuring
 
             var wrappedFragments = txtMeasurer.WrapMultipleTextFragments(txtRuns, fonts, maxWidth.PixelToPoint());
 
-            var wrappedFragments2 = txtMeasurer.WrapMultipleTextFragments2(txtRuns, fonts, maxWidth.PixelToPoint());
-
             Assert.AreEqual(2, wrappedFragments.Count);
             Assert.AreEqual("HIJKLMpqrst", wrappedFragments[0]);
             Assert.AreEqual("vdef NOPE", wrappedFragments[1]);
@@ -167,7 +163,7 @@ namespace EPPlusTest.Drawing.TextMeasuring
                 var ir = new ImageRenderer();
                 var svg = ir.RenderDrawingToSvg(shape1);
 
-                var svgFile = GetOutputFile("", "paragraphBookSimplified.svg");
+                var svgFile = GetOutputFile("", "paragraphBook.svg");
 
                 //Create a file to write to.
                 using (StreamWriter sw = svgFile.CreateText())
