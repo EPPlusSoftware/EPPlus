@@ -180,7 +180,7 @@ namespace EPPlusImageRenderer.Text
 
         internal SvgParagraph AddParagraph(ExcelDrawingParagraph item)
         {
-            var measureFont = item.DefaultRunProperties.GetMeasureFont();
+            var measureFont = item.GetMeasurementFont();
 
             //Document Top position for the paragraph text based on vertical alignment
             var posY = GetAlignmentVertical();

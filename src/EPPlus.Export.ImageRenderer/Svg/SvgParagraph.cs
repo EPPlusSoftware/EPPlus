@@ -131,7 +131,6 @@ namespace EPPlusImageRenderer.Svg
             //Must be set before linespacing
             IsFirstParagraph = isFirstParagraph;
 
-            LineSpacing = GetParagraphLineSpacingInPixels(p, fmtt);
 
             XPos = GetAlignmentHorizontal(HorizontalAlignment);
 
@@ -143,7 +142,9 @@ namespace EPPlusImageRenderer.Svg
             foreach (var run in p.TextRuns)
             {
                 AddTextRun(run, paragraphArea.Bottom, yPosition);
+                if(p.LineSpacing < run
             }
+            LineSpacing = GetParagraphLineSpacingInPixels(p, fmtt);
 
             if (p._paragraphs.WrapText == eTextWrappingType.Square)
             {
