@@ -5,9 +5,7 @@ using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using static EPPlus.Fonts.OpenType.TextData;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -220,10 +218,7 @@ namespace EPPlus.Fonts.OpenType
 
                 if ((c == '\n' || c == '\r'))
                 {
-                    //if (i > 0 && c == '\r' && text[i - 1] == '\n')
-                    //{
                     continue; //CRLF is irrelevant for getting the glyph bounding boxes
-                    //}
                 }
 
                 var gi = glyphMappings.GetGlyphIndex(c);
@@ -444,10 +439,6 @@ namespace EPPlus.Fonts.OpenType
             ushort? lastGlyphIndex = 0;
             bool firstChar = true;
 
-            ////For if we want to calculate the total glyph height within a specific string
-            //short GreatestYMax = short.MinValue;
-            //short LowestYMin = short.MaxValue;
-
             double largestWidth = 0;
 
             var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
@@ -488,37 +479,12 @@ namespace EPPlus.Fonts.OpenType
                     int kerning = GetKerningAdjustment(lastGlyphIndex ?? 0, gi ?? 0, fontData);
                     totalAdvanceWidth += kerning;
                 }
-                else
-                {
-                    ////First char has no kerning but it does have a left side value.
-                    //var firstCharLsb = Convert.ToInt16(fontData.HmtxTable.hMetrics[gi].lsb);
-                    //totalAdvanceWidth += firstCharLsb;
-                }
-
-                ////For if we want to calculate the total glyph height within a specific string
-                //var yMax = fontData.GlyphTable.Glyphs[gi].yMax;
-                //var yMin = fontData.GlyphTable.Glyphs[gi].yMin;
-
-                //if(yMax > GreatestYMax)
-                //{
-                //    GreatestYMax = yMax;
-                //}
-
-                //if(yMin < LowestYMin)
-                //{
-                //    LowestYMin = yMin;
-                //}
 
                 lastGlyphIndex = gi;
                 firstChar = false;
             }
 
             largestWidth = largestWidth < totalAdvanceWidth ? totalAdvanceWidth : largestWidth;
-
-            ////For if we want to calculate the total glyph height within a specific string
-            //var height = GreatestYMax - LowestYMin;
-            //var em = fontData.HeadTable.UnitsPerEm;
-            //var heightPt = height * (fontSize / em);
 
             // Convert to points
             return (largestWidth / (double)fontData.HeadTable.UnitsPerEm) * fontSize;
@@ -696,16 +662,6 @@ namespace EPPlus.Fonts.OpenType
                 $"And does not exist within the enum: '{typeof(TotalAdvanceMode)}' ");
         }
 
-        internal struct LineInfo()
-        {
-            internal int lineWidth = 0;
-            internal int wordWidth = 0;
-            //leftOverLine refers to a line of text that has not yet been wrapped
-            internal string leftOverLine = "";
-            internal double prevLineWidth = 0;
-            internal double prevWordWidth = 0;
-        }
-
         /// <summary>
         /// Converts the design units of one font to the design units of another font
         /// </summary>
@@ -793,46 +749,12 @@ namespace EPPlus.Fonts.OpenType
                 fontSize = paragraph.FontSizes[fragmentIdx];
                 var glyphMapping = paragraph.GlyphMappings[fragmentIdx];
 
-                //var c = paragraph.AllText[i];
-
-                ////Calculate the width of the char/glyph
-                //int advanceWidth = CalcGlyphWidth(paragraph.GlyphMappings[fragmentIdx], c, currentFont, ref lastGlyphIndex, ref applyKerning);
-
-                ////Update advance and word widths
-                //lineWidth += advanceWidth;
-                //wordWidth = c == ' ' ? 0 : wordWidth + advanceWidth;
-
-                //int nextLineStartIndex = 0;
-
                 char c = paragraph.AllText[i];
                 var advanceWidth = CalculateAdvanceWidth(c, glyphMapping, currentFont, ref lastGlyphIndex, ref lineWidth, ref wordWidth, ref applyKerning);
-                //for (int i = 0; i < line.Length; i++)
-                //{
-                //    char c = line[i];
-                //    var advanceWidth = CalculateAdvanceWidth(c, glyphMappings, font, ref lastGlyphIndex, ref lineWidth, ref wordWidth, applyKerning);
-
-                //    if (lineWidth > maxWidth)
-                //    {
-                //        WrapAtCharPos(line, i, ref nextLineStartIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings);
-                //    }
-                //}
-
-                //var remainingLine = line.Substring(nextLineStartIndex);
-                //wrappedStrings.Add(remainingLine);
 
                 //Perform the actual wrapping
                 if (lineWidth > maxWidth)
                 {
-                    //var wrappedString = ExtractWrappedSubstring(paragraph.AllText, i, ref prevLineEndIndex, out TotalAdvanceMode advanceMode);
-                    //wrappedStrings.Add(wrappedString);
-
-                    ////Using enum to make it one Input parameter in WrapString instead of all 3
-                    ////this as they're not actually used in there
-                    //lineWidth = GetAdvanceWidthFromMode(advanceWidth, wordWidth, advanceMode);
-
-                    ////New line means both totals are equal
-                    //wordWidth = lineWidth;
-
                     WrapAtCharPos(paragraph.AllText, i, ref prevLineEndIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings);
 
                     //Since we're using the AllText, need to handle leftover line differently
