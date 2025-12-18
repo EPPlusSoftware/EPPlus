@@ -50,5 +50,24 @@ namespace EPPlus.Fonts.OpenType
                 writer.Write((byte)c); // ASCII encoding
             }
         }
+
+
+        /// <summary>
+        /// Converts the tag to a 4-byte ASCII array.
+        /// </summary>
+        internal byte[] ToBytes()
+        {
+            if (Value == null || Value.Length != 4)
+                throw new InvalidOperationException("Tag must contain exactly 4 characters.");
+
+            return new byte[]
+            {
+            (byte)Value[0],
+            (byte)Value[1],
+            (byte)Value[2],
+            (byte)Value[3]
+            };
+        }
+
     }
 }

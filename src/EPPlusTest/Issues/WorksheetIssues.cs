@@ -1011,6 +1011,43 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(2, dv.Columns);
             }
         }
+        [TestMethod]
+        public void s975()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("s975.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets["抵消附注"];
+                var cell = ws.Cells["E2419"];
+                cell.Value = null;
+            }
+        }
+        [TestMethod]
+        public void issue2191()
+        {
+            using var pkg = new ExcelPackage();
+            var ws = pkg.Workbook.Worksheets.Add("Sheet1");
 
+            // 1. Style a cell in column A (without value)
+            ws.Cells["A1"].Style.Font.Bold = true;
+
+            // 2. Apply row-level style (triggers customFormat in XML)
+            ws.Row(2).Style.Font.Name = "Arial";
+
+            // 3. Set value in column B (not A) on the styled row
+            ws.Cells["B2"].Value = "Test";
+
+            // Save and reload
+            var ms = new MemoryStream();
+            pkg.SaveAs(ms);
+            ms.Position = 0;
+
+            using var pkg2 = new ExcelPackage(ms);
+            var ws2 = pkg2.Workbook.Worksheets[0];
+
+            // This throws "Column out of range"
+            var dbv = ws2.DimensionByValue;
+
+            Assert.AreEqual("B2", dbv.Address);
+        }
     }
 }

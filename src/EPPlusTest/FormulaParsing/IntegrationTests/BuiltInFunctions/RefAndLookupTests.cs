@@ -225,6 +225,23 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void ChooseShouldReturnCorrectResulWithErrorValuet()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Test");
+
+            sheet.Cells["A1"].Value = "a";
+            sheet.Cells["A2"].Value = "b";
+            sheet.Cells["A3"].Value = ErrorValues.NAError;
+
+            sheet.Cells["A4"].Formula = "CHOOSE(2, A1, A2, A3)";
+            sheet.Calculate();
+            var result = sheet.Cells["A4"].Value;
+
+            Assert.AreEqual("b", result);
+        }
+
+        [TestMethod]
         public void AddressShouldReturnCorrectResult()
         {
             var result = _parser.Parse("Address(1, 1)");

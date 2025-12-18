@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Drawing.Chart
            base(drawings, node, chartXml, parent, drawingPath, nvPrPath)
         {
             var originalPtSource = _chartXmlHelper.GetXmlNodeString("c:pivotSource/c:name");
-            if (!string.IsNullOrEmpty(originalPtSource))
+            if(!string.IsNullOrEmpty(originalPtSource))
             {
                 var ptSource = originalPtSource;
                 if (ptSource.StartsWith("["))
@@ -113,6 +113,7 @@ namespace OfficeOpenXml.Drawing.Chart
             _plotArea = topChart.PlotArea;
             _chartNode = chartNode;
             InitChartLoad(topChart._drawings, chartNode, false);
+            ChartType = GetChartType(chartNode.LocalName);
         }
         private void InitChartLoad(ExcelDrawings drawings, XmlNode chartNode, bool isPivot)
         {

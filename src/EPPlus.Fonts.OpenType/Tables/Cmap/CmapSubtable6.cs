@@ -59,7 +59,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             return -1; // Not found
         }
 
-
         internal override void Serialize(FontsBinaryWriter writer)
         {
             var serializer = new CmapSubtable6_2Serializer();

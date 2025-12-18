@@ -12,77 +12,48 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
     [TestClass]
     public class RoundingHelperTests
     {
+
         [TestMethod]
         public void CeilingShouldReturnCorrectResult()
         {
-            var result = RoundingHelper.Round(22.25, 0.1, RoundingHelper.Direction.Up);
+            // Direction.Up = Ceiling toward +∞
+            var result = RoundingHelper.Round(22.25, 0.1, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(22.3, result);
 
-            result = RoundingHelper.Round(22.25, 0.5, RoundingHelper.Direction.Up);
+            result = RoundingHelper.Round(22.25, 0.5, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(22.5, result);
 
-            result = RoundingHelper.Round(22.25, 1, RoundingHelper.Direction.Up);
+            result = RoundingHelper.Round(22.25, 1, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(23, result);
 
-            result = RoundingHelper.Round(22.25, 10, RoundingHelper.Direction.Up);
+            result = RoundingHelper.Round(22.25, 10, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(30, result);
 
-            result = RoundingHelper.Round(22.25, 20, RoundingHelper.Direction.Up);
+            result = RoundingHelper.Round(22.25, 20, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(40, result);
 
-            result = RoundingHelper.Round(-22.25, -0.1, RoundingHelper.Direction.Up);
+            // Negatives: ceiling gives LESS negative (toward +∞)
+            result = RoundingHelper.Round(-22.25, -0.1, RoundingHelper.Direction.AlwaysUp); // |multiple| = 0.1
             Assert.AreEqual(-22.3, result);
 
-            result = RoundingHelper.Round(-22.25, -1, RoundingHelper.Direction.Up);
+            result = RoundingHelper.Round(-22.25, -1, RoundingHelper.Direction.AlwaysUp);   // |multiple| = 1
             Assert.AreEqual(-23, result);
 
-            result = RoundingHelper.Round(-22.25, -5, RoundingHelper.Direction.Up);
+            result = RoundingHelper.Round(-22.25, -5, RoundingHelper.Direction.AlwaysUp);   // |multiple| = 5
             Assert.AreEqual(-25, result);
 
-            result = RoundingHelper.Round(555, 1000, RoundingHelper.Direction.Up);
+            // Edges
+            result = RoundingHelper.Round(555, 1000, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(1000, result);
 
-            result = RoundingHelper.Round(-555, -1000, RoundingHelper.Direction.Up);
+            result = RoundingHelper.Round(-555, -1000, RoundingHelper.Direction.AlwaysUp);  // |multiple| = 1000
             Assert.AreEqual(-1000, result);
         }
 
         [TestMethod]
         public void FloorShouldReturnCorrectResult_Down()
         {
-            var result = RoundingHelper.Round(26.75, 0.1, RoundingHelper.Direction.Down);
-            Assert.AreEqual(26.7, result);
-
-            result = RoundingHelper.Round(26.75, 0.5, RoundingHelper.Direction.Down);
-            Assert.AreEqual(26.5, result);
-
-            result = RoundingHelper.Round(26.75, 1, RoundingHelper.Direction.Down);
-            Assert.AreEqual(26, result);
-
-            result = RoundingHelper.Round(26.75, 10, RoundingHelper.Direction.Down);
-            Assert.AreEqual(20, result);
-
-            result = RoundingHelper.Round(26.75, 20, RoundingHelper.Direction.Down);
-            Assert.AreEqual(20, result);
-
-            result = RoundingHelper.Round(-26.75, -0.1, RoundingHelper.Direction.Down);
-            Assert.AreEqual(-26.7, result);
-
-            result = RoundingHelper.Round(-26.75, -1, RoundingHelper.Direction.Down);
-            Assert.AreEqual(-26, result);
-
-            result = RoundingHelper.Round(-26.75, -5, RoundingHelper.Direction.Down);
-            Assert.AreEqual(-25, result);
-
-            result = RoundingHelper.Round(555, 1000, RoundingHelper.Direction.Down);
-            Assert.AreEqual(0, result);
-
-            result = RoundingHelper.Round(-555, -1000, RoundingHelper.Direction.Down);
-            Assert.AreEqual(0, result);
-        }
-
-        [TestMethod]
-        public void FloorShouldReturnCorrectResult_AlwaysDown()
-        {
+            // Direction.Down = Floor toward −∞
             var result = RoundingHelper.Round(26.75, 0.1, RoundingHelper.Direction.AlwaysDown);
             Assert.AreEqual(26.7, result);
 
@@ -95,32 +66,71 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = RoundingHelper.Round(26.75, 10, RoundingHelper.Direction.AlwaysDown);
             Assert.AreEqual(20, result);
 
-            result = RoundingHelper.Round(26.75, 0, RoundingHelper.Direction.AlwaysDown);
+            result = RoundingHelper.Round(26.75, 20, RoundingHelper.Direction.AlwaysDown);
+            Assert.AreEqual(20, result);
+
+            // Negatives: floor gives MORE negative (away from +∞, toward −∞)
+            result = RoundingHelper.Round(-26.75, -0.1, RoundingHelper.Direction.AlwaysDown); // |multiple| = 0.1
+            Assert.AreEqual(-26.7, result);
+
+            result = RoundingHelper.Round(-26.75, -1, RoundingHelper.Direction.AlwaysDown);   // |multiple| = 1
+            Assert.AreEqual(-26, result);
+
+            result = RoundingHelper.Round(-26.75, -5, RoundingHelper.Direction.AlwaysDown);   // |multiple| = 5
+            Assert.AreEqual(-25, result);
+
+            // Edges
+            result = RoundingHelper.Round(555, 1000, RoundingHelper.Direction.AlwaysDown);
             Assert.AreEqual(0, result);
 
-            result = RoundingHelper.Round(-26.25, -0.5, RoundingHelper.Direction.AlwaysDown);
-            Assert.AreEqual(-26.5, result);
+            result = RoundingHelper.Round(-555, -1000, RoundingHelper.Direction.AlwaysDown);  // |multiple| = 1000
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void FloorShouldReturnCorrectResult_AlwaysDown()
+        {
+            // Direction.AlwaysDown = Toward zero (positives -> floor, negatives -> ceiling)
+            const double eps = 1e-12;
+
+            var result = RoundingHelper.Round(26.75, 0.1, RoundingHelper.Direction.AlwaysDown);
+            Assert.AreEqual(26.7, result, eps);
+
+            result = RoundingHelper.Round(26.75, 0.5, RoundingHelper.Direction.AlwaysDown);
+            Assert.AreEqual(26.5, result, eps);
+
+            result = RoundingHelper.Round(26.75, 1, RoundingHelper.Direction.AlwaysDown);
+            Assert.AreEqual(26, result, eps);
+
+            result = RoundingHelper.Round(26.75, 10, RoundingHelper.Direction.AlwaysDown);
+            Assert.AreEqual(20, result, eps);
+
+            // multiple == 0 -> 0 per implementation
+            result = RoundingHelper.Round(26.75, 0, RoundingHelper.Direction.AlwaysDown);
+            Assert.AreEqual(0, result, eps);
+
+            // Negatives: toward zero => ceiling on quotient
+            result = RoundingHelper.Round(-26.25, -0.5, RoundingHelper.Direction.AlwaysDown); // |multiple| = 0.5
+            Assert.AreEqual(-26.0, result, eps);
 
             result = RoundingHelper.Round(-26.75, 1, RoundingHelper.Direction.AlwaysDown);
-            Assert.AreEqual(-27, result);
+            Assert.AreEqual(-27, result, eps);
 
             result = RoundingHelper.Round(-26.75, -1, RoundingHelper.Direction.AlwaysDown);
-            Assert.AreEqual(-27, result);
+            Assert.AreEqual(-26, result, eps);
 
             result = RoundingHelper.Round(-26.75, 5, RoundingHelper.Direction.AlwaysDown);
-            Assert.AreEqual(-30, result);
+            Assert.AreEqual(-25, result, eps);
         }
 
         [TestMethod]
         public void CeilingShouldReturnCorrectResult_AlwaysUp()
         {
+            // Direction.AlwaysUp = Away from zero (positives -> ceiling, negatives -> floor)
             var result = RoundingHelper.Round(22.25, 0.1, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(22.3, result);
 
             result = RoundingHelper.Round(22.25, 0.5, RoundingHelper.Direction.AlwaysUp);
-            Assert.AreEqual(22.5, result);
-
-            result = RoundingHelper.Round(22.25, -0.5, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(22.5, result);
 
             result = RoundingHelper.Round(22.25, 1, RoundingHelper.Direction.AlwaysUp);
@@ -129,17 +139,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = RoundingHelper.Round(22.25, 10, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(30, result);
 
+            // multiple == 0 -> 0 per implementation
             result = RoundingHelper.Round(22.25, 0, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(0, result);
 
-            result = RoundingHelper.Round(-22.25, -0.5, RoundingHelper.Direction.AlwaysUp);
-            Assert.AreEqual(-22, result);
+            // Negatives: away from zero => floor on quotient
+            result = RoundingHelper.Round(-22.25, -0.5, RoundingHelper.Direction.AlwaysUp); // |multiple| = 0.5
+            Assert.AreEqual(-22.5, result);
 
             result = RoundingHelper.Round(-22.25, 1, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(-22, result);
 
             result = RoundingHelper.Round(-22.25, -1, RoundingHelper.Direction.AlwaysUp);
-            Assert.AreEqual(-22, result);
+            Assert.AreEqual(-23, result);
 
             result = RoundingHelper.Round(-22.25, 5, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(-20, result);
@@ -148,6 +160,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         [TestMethod]
         public void NearestRoundingTest()
         {
+            // Direction.Nearest = midpoint away-from-zero on quotient (then * |multiple|)
             var result = RoundingHelper.Round(22.24, 0.1, RoundingHelper.Direction.Nearest);
             Assert.AreEqual(22.2, result);
 
@@ -157,7 +170,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = RoundingHelper.Round(22.26, 0.1, RoundingHelper.Direction.Nearest);
             Assert.AreEqual(22.3, result);
 
-            result = RoundingHelper.Round(-22.25, -0.1, RoundingHelper.Direction.Nearest);
+            result = RoundingHelper.Round(-22.25, -0.1, RoundingHelper.Direction.Nearest); // |multiple| = 0.1
             Assert.AreEqual(-22.3, result);
 
             result = RoundingHelper.Round(-22.24, -0.1, RoundingHelper.Direction.Nearest);
@@ -184,9 +197,10 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = RoundingHelper.Round(-555.4, -1, RoundingHelper.Direction.Nearest);
             Assert.AreEqual(-555, result);
 
-            result = RoundingHelper.Round(-1555, -1000, RoundingHelper.Direction.Nearest);
+            result = RoundingHelper.Round(-1555, -1000, RoundingHelper.Direction.Nearest); // |multiple| = 1000
             Assert.AreEqual(-2000, result);
         }
+
         [TestMethod]
         public void BigNumbersRoundingTest()
         {

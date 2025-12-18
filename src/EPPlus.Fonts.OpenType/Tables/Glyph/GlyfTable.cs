@@ -11,8 +11,12 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Loca;
+using EPPlus.Fonts.OpenType.Tables.Post;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType.Tables.Glyph
 {
@@ -34,12 +38,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
 
         private readonly TableLoaderSettings _tableLoaderSettings;
 
+        public override string Name => TableNames.Glyf;
+
+        public override bool IsEssentialTable => true;
+
         /// <summary>
         /// All glyphs in the font, indexed by glyph ID.
         /// </summary>
         public List<Glyph> Glyphs { get; set; }
 
-        internal override void SerializeInternal(FontsBinaryWriter writer)
+        internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             if (Glyphs == null || Glyphs.Count == 0)
                 return;
@@ -102,22 +110,33 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
         }
 
 
+        /// <summary>
+        /// Recursively adds all component glyph IDs used by composite glyphs in the given set.
+        /// Uses GetGlyph() to ensure lazy-loaded glyphs are properly resolved.
+        /// Critical for correct subsetting of fonts with composite glyphs (å, ä, ö, ﬁ, ﬂ, etc.).
+        /// </summary>
+        /// <param name="glyphSet">Set of glyph IDs to expand with component dependencies</param>
         public void ResolveCompositeGlyphs(HashSet<ushort> glyphSet)
         {
+            if (glyphSet == null) throw new ArgumentNullException("glyphSet");
+
             bool addedNew;
             do
             {
                 addedNew = false;
-                foreach (var glyphId in glyphSet.ToList())
+                ushort[] currentGlyphs = new List<ushort>(glyphSet).ToArray(); // Snapshot for iteration
+
+                foreach (ushort gid in currentGlyphs)
                 {
-                    var glyph = Glyphs[glyphId];
-                    if (glyph.Header.numberOfContours < 0 && glyph.CompositeData != null)
+                    Glyph glyph = this.GetGlyph(gid);
+                    if (glyph != null &&
+                        glyph.Header.numberOfContours < 0 &&
+                        glyph.CompositeData != null)
                     {
-                        foreach (var component in glyph.CompositeData.Components)
+                        foreach (GlyphComponent component in glyph.CompositeData.Components)
                         {
-                            if (!glyphSet.Contains(component.GlyphIndex))
+                            if (glyphSet.Add(component.GlyphIndex))
                             {
-                                glyphSet.Add(component.GlyphIndex);
                                 addedNew = true;
                             }
                         }
@@ -126,5 +145,31 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
             } while (addedNew);
         }
 
+        public string GetGlyphName(ushort glyphId, OpenTypeFont font)
+        {
+            // 1. Försök hämta från 'post' table (Format 2.0 – namnarray)
+            if (font.PostTable is PostTable post && post.version.Major == 2 && post.version.Minor == 0 && post.glyphNameIndex != null)
+            {
+                if (glyphId < post.glyphNameIndex.Count)
+                {
+                    ushort nameIndex = post.glyphNameIndex[glyphId];
+
+                    // nameIndex 0–257 = standard Macintosh names
+                    if (nameIndex <= 257)
+                    {
+                        return StandardMacGlyphNames.NameFromIndex(nameIndex);
+                    }
+
+                    // nameIndex > 257 = custom name in string data
+                    if (nameIndex - 258 < post.glyphNameIndex?.Count)
+                    {
+                        return post.glyphNames[nameIndex - 258];
+                    }
+                }
+            }
+
+            // 3. Sista utvägen: returnera "gidXXXXX"
+            return $"gid{glyphId}";
+        }
     }
 }

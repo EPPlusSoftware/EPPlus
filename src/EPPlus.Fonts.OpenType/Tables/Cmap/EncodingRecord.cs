@@ -45,6 +45,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         public uint SubtableOffset { get; set; }
 
+        public bool IsSkipped { get; set; }
+
         public CmapSubtableBase Subtable { get; internal set; }
 
         internal override void Serialize(FontsBinaryWriter writer)
