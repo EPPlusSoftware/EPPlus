@@ -36,6 +36,11 @@ namespace OfficeOpenXml.Export.HtmlExport.HtmlCollections
             }
         }
 
+        /// <summary>
+        /// Add attribute with a value
+        /// </summary>
+        /// <param name="attributeName"></param>
+        /// <param name="attributeValue"></param>
         public void AddAttribute(string attributeName, string attributeValue)
         {
             Require.Argument(attributeName).IsNotNullOrEmpty("attributeName");
@@ -43,13 +48,20 @@ namespace OfficeOpenXml.Export.HtmlExport.HtmlCollections
             _attributes.Add(new EpplusHtmlAttribute { AttributeName = attributeName, Value = attributeValue });
         }
 
-
+        /// <summary>
+        /// Add attribute without it having a value
+        /// </summary>
+        /// <param name="attributeName"></param>
         public void AddAttributeValueLess(string attributeName)
         {
             Require.Argument(attributeName).IsNotNullOrEmpty("attributeName");
             _attributes.Add(new EpplusHtmlAttribute { AttributeName = attributeName });
         }
 
+        /// <summary>
+        /// Add child element
+        /// </summary>
+        /// <param name="element"></param>
         public void AddChildElement(HTMLElement element)
         {
             _childElements.Add(element);

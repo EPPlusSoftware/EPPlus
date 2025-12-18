@@ -1,30 +1,22 @@
-﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
+﻿using OfficeOpenXml.Drawing;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  27/11/2025         EPPlus Software AB           EPPlus 9
- *************************************************************************************************/
-using OfficeOpenXml.Drawing;
-
-namespace EPPlusImageRenderer.Text
+namespace EPPlus.Graphics
 {
-    internal class RectMargins : RectBase
+    internal class RectMargins : Rect
     {
         internal double MarginLeft { get; set; }
         internal double MarginTop { get; set; }
         internal double MarginRight { get; set; }
         internal double MarginBottom { get; set; }
 
-        internal RectMargins(): base() { }
+        internal RectMargins() : base() { }
 
-        internal RectMargins(double l, double t, double r, double b) : base(l, t, r, b) 
-        { 
+        internal RectMargins(double l, double t, double r, double b) : base(l, t, r, b)
+        {
         }
 
         internal double GetInnerLeft()

@@ -186,35 +186,35 @@ namespace EPPlusImageRenderer.ShapeDefinitions
                 }
                 else
                 {
-                    var txt = shape.Text;
+                    //var txt = shape.Text;
 
-                    List<TextContainer> txtContainers = new List<TextContainer>();
+                    //List<TextContainer> txtContainers = new List<TextContainer>();
 
-                    //TODO: This needs to actually iterate through the individual paragraphs/txtRuns when differing fonts/font sizes exist
-                    //foreach(var paragraph in shape.TextBody.Paragraphs)
-                    //{
-                    //    foreach(var txtRun in paragraph.TextRuns)
-                    //    {
-                    //        var newContainer = new TextContainer(txt, txtRun.GetMeasureFont(), true);
-                    //        txtContainers.Add(newContainer);
-                    //    }
-                    //}
-                    var newContainer = new TextContainer(txt, shape.TextBody.Paragraphs.FirstDefaultRunProperties.GetMeasureFont(), true);
+                    ////TODO: This needs to actually iterate through the individual paragraphs/txtRuns when differing fonts/font sizes exist
+                    ////foreach(var paragraph in shape.TextBody.Paragraphs)
+                    ////{
+                    ////    foreach(var txtRun in paragraph.TextRuns)
+                    ////    {
+                    ////        var newContainer = new TextContainer(txt, txtRun.GetMeasureFont(), true);
+                    ////        txtContainers.Add(newContainer);
+                    ////    }
+                    ////}
+                    //var newContainer = new TextContainer(txt, shape.TextBody.Paragraphs.FirstDefaultRunProperties.GetMeasureFont(), true);
 
-                    var cW = newContainer.Width;
-                    var cH = newContainer.Height;
+                    //var cW = newContainer.Width;
+                    //var cH = newContainer.Height;
 
-                    var expectedWidth = (GetValue(TextBoxRect.RightName) - GetValue(TextBoxRect.LeftName)) / (double)ExcelDrawing.EMU_PER_PIXEL;
-                    var expectedHeight = (GetValue(TextBoxRect.BottomName) - GetValue(TextBoxRect.TopName)) / (double)ExcelDrawing.EMU_PER_PIXEL;
+                    //var expectedWidth = (GetValue(TextBoxRect.RightName) - GetValue(TextBoxRect.LeftName)) / (double)ExcelDrawing.EMU_PER_PIXEL;
+                    //var expectedHeight = (GetValue(TextBoxRect.BottomName) - GetValue(TextBoxRect.TopName)) / (double)ExcelDrawing.EMU_PER_PIXEL;
 
-                    overrideWidthRatio = cW / expectedWidth;
-                    overrideHeightRatio = cH / expectedHeight;
+                    //overrideWidthRatio = cW / expectedWidth;
+                    //overrideHeightRatio = cH / expectedHeight;
 
-                    TextBoxRect.RightValue = cW;
-                    TextBoxRect.BottomValue = cH;
+                    //TextBoxRect.RightValue = cW;
+                    //TextBoxRect.BottomValue = cH;
 
-                    TextBoxRect.LeftValue = GetValue(TextBoxRect.LeftName) / (double)ExcelDrawing.EMU_PER_PIXEL * overrideWidthRatio;
-                    TextBoxRect.TopValue = GetValue(TextBoxRect.TopName) / (double)ExcelDrawing.EMU_PER_PIXEL * overrideHeightRatio;
+                    //TextBoxRect.LeftValue = GetValue(TextBoxRect.LeftName) / (double)ExcelDrawing.EMU_PER_PIXEL * overrideWidthRatio;
+                    //TextBoxRect.TopValue = GetValue(TextBoxRect.TopName) / (double)ExcelDrawing.EMU_PER_PIXEL * overrideHeightRatio;
                 }
             }
 

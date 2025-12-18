@@ -163,7 +163,7 @@ namespace EPPlusTest.Drawing.TextMeasuring
                 var ir = new ImageRenderer();
                 var svg = ir.RenderDrawingToSvg(shape1);
 
-                var svgFile = GetOutputFile("", "paragraphBookSimplified.svg");
+                var svgFile = GetOutputFile("", "paragraphBook.svg");
 
                 //Create a file to write to.
                 using (StreamWriter sw = svgFile.CreateText())

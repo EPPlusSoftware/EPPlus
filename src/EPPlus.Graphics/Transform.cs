@@ -26,6 +26,27 @@ namespace EPPlus.Graphics
 
         public Vector2 LocalPosition { get; set; } = Vector2.Zero;
 
+        public Vector2 GetWorldCoordinates()
+        {
+            return TransformPointToWorld(Vector2.Zero);
+        }
+
+        public void SetLocalPositionWithWorldCoordinates(Vector2 worldPosCoords)
+        {
+            if (Parent == null)
+            {
+                LocalPosition = worldPosCoords;
+            }
+            else
+            {
+                LocalPosition = worldPosCoords * Parent.GetWorldMatrix().Inverse();
+            }
+        }
+
+        /// <summary>
+        /// Gets a copied vector of the local position in world coordinates
+        /// Sets the local position variable using a vector2 in world coordinates
+        /// </summary>
         public Vector2 Position
         {
             get
@@ -45,7 +66,34 @@ namespace EPPlus.Graphics
             }
         }
 
-        public Vector2 LocalScale { get; set; } = Vector2.One;
+    //public Vector2 Position
+    //{
+    //    get
+    //    {
+    //        if (Parent == null)
+    //        {
+    //            return LocalPosition;
+    //        }
+    //        else
+    //        {
+    //           return TransformPointToWorld(Vector2.Zero);
+    //        }
+    //    }
+    //    set
+    //    {
+    //        if (Parent == null)
+    //        {
+    //            LocalPosition = value;
+    //        }
+    //        else
+    //        {
+    //            LocalPosition = value * Parent.GetWorldMatrix().Inverse();
+    //        }
+    //    }
+    //}
+
+
+    public Vector2 LocalScale { get; set; } = Vector2.One;
 
         public Vector2 Scale
         {
@@ -254,14 +302,10 @@ namespace EPPlus.Graphics
             var maxX = corners.Max(p => p.X);
             var maxY = corners.Max(p => p.Y);
             var rect = new Rect();
-            rect.X = minX;
-            rect.Y = minY;
-            rect.Width = maxX - minX;
-            rect.Height = maxY - minY;
-            rect.Top = rect.Y;
-            rect.Left = rect.X;
-            rect.Bottom = rect.Y + rect.Height;
-            rect.Right = rect.X + rect.Width;
+            rect.Left = minX;
+            rect.Top = minY;
+            rect.Right = maxX;
+            rect.Bottom = maxY;
             return rect;
         }
 

@@ -35,7 +35,6 @@ namespace EPPlusImageRenderer.Svg
         TextBox textBox;
         private ExcelTheme _theme;
         ExcelWorkbook _wb;
-        TextContainer _textContainer;
 
         public SvgShape(ExcelShape shape) : base(shape)
         {
@@ -128,6 +127,25 @@ namespace EPPlusImageRenderer.Svg
 
             string color = "#" + GetFontColor();
             textBox.fontColor = color;
+
+            var totalText = _shape.Text;
+            List<List<double>> charAdvanceWidths = new List<List<double>>();
+            var txtRunIndicies = LineFormatter.GetTextRunIndiciesAndWidths(_shape.TextBody, out charAdvanceWidths);
+
+            //List<string> substrings = new List<string>();
+            //int lastIndex = 0;
+
+            //List<char> startingChars = new List<char>();
+            //foreach (var index in txtRunIndicies)
+            //{
+            //    startingChars.Add(totalText[index]);
+            //}
+            //foreach( var txtRun in txtRunIndicies )
+            //{
+            //    substrings.Add(totalText.Substring(lastIndex, txt))
+            //}
+            //var substrings = _shape.Text.Substring();
+
 
             //Paragraph level begins
             foreach (var paragraph in _shape.TextBody.Paragraphs)
@@ -235,7 +253,7 @@ namespace EPPlusImageRenderer.Svg
 
         public override void Render(StringBuilder sb)
         {
-            sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" overflow=\"hidden\" viewbox=\"{ViewBox}\">");
+            sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
 
             //Write defs used for gradient colors
             var writer = new SvgDrawingWriter(this);
@@ -284,7 +302,6 @@ namespace EPPlusImageRenderer.Svg
         {
             if(_renderTextBox != null)
             {
-                var container = new TextContainer();
                 return new TextBox(_shape.TextBody, _renderTextBox);
             }
             else
