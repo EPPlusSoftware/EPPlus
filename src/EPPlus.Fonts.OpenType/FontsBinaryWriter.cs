@@ -128,5 +128,9 @@ namespace EPPlus.Fonts.OpenType
             IncreaseBytesWritten(2);
         }
 
+        internal void WriteTag(Tag featureTag)
+        {
+            featureTag.Serialize(this);
+        }
     }
 }

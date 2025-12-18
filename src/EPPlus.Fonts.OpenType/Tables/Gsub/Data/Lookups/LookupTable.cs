@@ -12,91 +12,119 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.IO;
+using EPPlus.Fonts.OpenType.Subsetting;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
 {
     /// <summary>
-    /// Represents a Lookup table within the GSUB or GPOS table.
-    /// A lookup contains one or more subtables that perform the actual glyph substitutions or positioning.
+    /// Represents a Lookup table in the GSUB table.
+    /// A lookup contains one or more subtables of the same type.
     /// </summary>
     public class LookupTable : FontTableElement
     {
         /// <summary>
-        /// Gets or sets the lookup type (e.g., 1 for Single Substitution, 4 for Ligature Substitution).
+        /// The type of information this lookup provides (e.g., 1 for Single, 4 for Ligature).
         /// </summary>
         public ushort LookupType { get; set; }
 
         /// <summary>
-        /// Gets or sets the lookup qualifiers (e.g., IgnoreBaseGlyphs, IgnoreLigatures).
+        /// Flags that specify how to process the lookup (e.g., IgnoreMarks, RightToLeft).
         /// </summary>
         public ushort LookupFlag { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of subtables contained in this lookup.
+        /// Gets or sets the number of subtables. 
+        /// Note: When serializing or rewriting, SubTables.Count is used.
         /// </summary>
         public ushort SubTableCount { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of subtables.
+        /// A list of subtables containing the actual substitution data.
         /// </summary>
         public List<FontTableElement> SubTables { get; set; } = new List<FontTableElement>();
 
+        /// <summary>
+        /// Optional MarkFilteringSet index in the GDEF table.
+        /// </summary>
+        public ushort MarkFilteringSet { get; set; }
+
         internal override void Serialize(FontsBinaryWriter writer)
         {
-            // Store the start of the LookupTable to calculate relative offsets for subtables
-            long lookupTableStartOffset = writer.BaseStream.Position;
+            long lookupStart = writer.BaseStream.Position;
 
             // 1. Write LookupType
-            writer.WriteUInt16BigEndian(this.LookupType);
+            writer.WriteUInt16BigEndian(LookupType);
 
             // 2. Write LookupFlag
-            writer.WriteUInt16BigEndian(this.LookupFlag);
+            writer.WriteUInt16BigEndian(LookupFlag);
 
             // 3. Write SubTableCount
-            writer.WriteUInt16BigEndian((ushort)this.SubTables.Count);
+            writer.WriteUInt16BigEndian((ushort)SubTables.Count);
 
-            // 4. Write placeholders for SubTableOffsets (relative to lookupTableStartOffset)
-            List<long> subTableOffsetPositions = new List<long>();
-            for (int i = 0; i < this.SubTables.Count; i++)
+            // 4. Placeholders for SubTable offsets
+            long offsetArrayStart = writer.BaseStream.Position;
+            for (int i = 0; i < SubTables.Count; i++)
             {
-                subTableOffsetPositions.Add(writer.BaseStream.Position);
                 writer.WriteUInt16BigEndian(0);
             }
 
-            // --- Serialize Subtables ---
-
-            for (int i = 0; i < this.SubTables.Count; i++)
+            // 5. If UseMarkFilteringSet flag is set (0x0010), write MarkFilteringSet
+            if ((LookupFlag & 0x0010) != 0)
             {
-                FontTableElement subTable = this.SubTables[i];
+                writer.WriteUInt16BigEndian(MarkFilteringSet);
+            }
+
+            // --- Serialize SubTables and backfill offsets ---
+            for (int i = 0; i < SubTables.Count; i++)
+            {
                 long currentPos = writer.BaseStream.Position;
+                long offsetInArray = offsetArrayStart + (i * 2);
 
-                // Calculate the relative offset
-                ushort relativeSubTableOffset = (ushort)(currentPos - lookupTableStartOffset);
+                // Update the offset in the header
+                this.WriteRelativeOffset(writer, lookupStart, offsetInArray);
 
-                // Backfill the offset in the offset array
-                long subTableOffsetPos = subTableOffsetPositions[i];
-                writer.BaseStream.Seek(subTableOffsetPos, SeekOrigin.Begin);
-                writer.WriteUInt16BigEndian(relativeSubTableOffset);
+                // Write the subtable data
+                SubTables[i].Serialize(writer);
+            }
+        }
 
-                // Return to the current position to serialize the subtable data
-                writer.BaseStream.Seek(currentPos, SeekOrigin.Begin);
+        /// <summary>
+        /// Creates a new LookupTable containing only the substitutions relevant to the subset.
+        /// </summary>
+        internal LookupTable Rewrite(FontSubsettingContext context)
+        {
+            var newLookup = new LookupTable
+            {
+                LookupType = this.LookupType,
+                LookupFlag = this.LookupFlag,
+                MarkFilteringSet = this.MarkFilteringSet
+            };
 
-                // Subtables are responsible for their own internal serialization logic
-                switch (this.LookupType)
+            foreach (var subTable in this.SubTables)
+            {
+                FontTableElement rewrittenSubTable = null;
+
+                // Route to the correct Rewrite method based on subtable type
+                if (subTable is SingleSubstSubTable single)
+                    rewrittenSubTable = single.Rewrite(context);
+                else if (subTable is LigatureSubstSubTable ligature)
+                    rewrittenSubTable = ligature.Rewrite(context);
+                else if (subTable is ChainingContextualSubstFormat3 contextual)
+                    rewrittenSubTable = contextual.Rewrite(context);
+                else if (subTable is ExtensionSubstSubTable extension)
+                    rewrittenSubTable = extension.Rewrite(context);
+
+                // Only add the subtable if it still contains valid mappings after subsetting
+                if (rewrittenSubTable != null)
                 {
-                    case 1: // Single Substitution
-                    case 4: // Ligature Substitution
-                    case 6: // Chaining Contextual Substitution
-                        subTable.Serialize(writer);
-                        break;
-
-                    default:
-                        // For other types, we attempt serialization but they may throw NotImplementedException
-                        subTable.Serialize(writer);
-                        break;
+                    newLookup.SubTables.Add(rewrittenSubTable);
                 }
             }
+
+            // If no subtables remain, this entire lookup is redundant for the subset
+            if (newLookup.SubTables.Count == 0) return null;
+
+            return newLookup;
         }
     }
 }

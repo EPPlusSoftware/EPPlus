@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Subsetting;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data;
 using System;
 using System.IO;
@@ -103,6 +104,38 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
 
             writer.BaseStream.Seek(resumePos, SeekOrigin.Begin);
             element.Serialize(writer);
+        }
+
+        /// <summary>
+        /// Rewrites the GSUB table for font subsetting.
+        /// </summary>
+        /// <param name="context">The subsetting context containing glyph mappings.</param>
+        /// <returns>A new GsubTable containing only the relevant substitutions.</returns>
+        public GsubTable Rewrite(FontSubsettingContext context)
+        {
+            var newGsub = new GsubTable();
+            newGsub.MajorVersion = this.MajorVersion;
+            newGsub.MinorVersion = this.MinorVersion;
+
+            // 1. Rewrite the LookupList (The foundation where glyphs are filtered)
+            if (this.LookupList != null)
+            {
+                newGsub.LookupList = this.LookupList.Rewrite(context);
+            }
+
+            // 2. Rewrite the FeatureList (Points to Lookup indices)
+            if (this.FeatureList != null)
+            {
+                newGsub.FeatureList = this.FeatureList.Rewrite(context);
+            }
+
+            // 3. Rewrite the ScriptList (Points to Feature indices)
+            if (this.ScriptList != null)
+            {
+                newGsub.ScriptList = this.ScriptList.Rewrite(context);
+            }
+
+            return newGsub;
         }
     }
 }

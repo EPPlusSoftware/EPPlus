@@ -73,5 +73,81 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
                 }
             }
         }
+
+        internal ScriptListTable Rewrite(EPPlus.Fonts.OpenType.Subsetting.FontSubsettingContext context)
+        {
+            var newList = new ScriptListTable();
+
+            foreach (var oldRecord in this.ScriptRecords)
+            {
+                var newRecord = new ScriptRecord();
+                newRecord.ScriptTag = oldRecord.ScriptTag;
+
+                if (oldRecord.ScriptTable != null)
+                {
+                    var oldTable = oldRecord.ScriptTable;
+                    var newTable = new ScriptTable();
+
+                    // Copy DefaultLangSys
+                    if (oldTable.DefaultLangSys != null)
+                    {
+                        var oldLang = oldTable.DefaultLangSys;
+                        var newLang = new LangSysTable();
+                        newLang.LookupOrder = oldLang.LookupOrder;
+                        newLang.RequiredFeatureIndex = oldLang.RequiredFeatureIndex;
+                        newLang.FeatureIndexCount = oldLang.FeatureIndexCount;
+
+                        if (oldLang.FeatureIndices != null)
+                        {
+                            var newIndices = new ushort[oldLang.FeatureIndices.Length];
+                            for (int i = 0; i < oldLang.FeatureIndices.Length; i++)
+                            {
+                                newIndices[i] = oldLang.FeatureIndices[i];
+                            }
+                            newLang.FeatureIndices = newIndices;
+                        }
+                        newTable.DefaultLangSys = newLang;
+                    }
+
+                    // Copy LangSysRecords
+                    if (oldTable.LangSysRecords != null)
+                    {
+                        newTable.LangSysRecords = new List<LangSysRecord>();
+                        foreach (var oldLangRecord in oldTable.LangSysRecords)
+                        {
+                            var newLangRecord = new LangSysRecord();
+                            newLangRecord.LangSysTag = oldLangRecord.LangSysTag;
+
+                            if (oldLangRecord.LangSysTable != null)
+                            {
+                                var oldL = oldLangRecord.LangSysTable;
+                                var newL = new LangSysTable();
+                                newL.LookupOrder = oldL.LookupOrder;
+                                newL.RequiredFeatureIndex = oldL.RequiredFeatureIndex;
+                                newL.FeatureIndexCount = oldL.FeatureIndexCount;
+
+                                if (oldL.FeatureIndices != null)
+                                {
+                                    var newIndices = new ushort[oldL.FeatureIndices.Length];
+                                    for (int j = 0; j < oldL.FeatureIndices.Length; j++)
+                                    {
+                                        newIndices[j] = oldL.FeatureIndices[j];
+                                    }
+                                    newL.FeatureIndices = newIndices;
+                                }
+                                newLangRecord.LangSysTable = newL;
+                            }
+                            newTable.LangSysRecords.Add(newLangRecord);
+                        }
+                    }
+
+                    newRecord.ScriptTable = newTable;
+                }
+
+                newList.ScriptRecords.Add(newRecord);
+            }
+
+            return newList;
+        }
     }
 }

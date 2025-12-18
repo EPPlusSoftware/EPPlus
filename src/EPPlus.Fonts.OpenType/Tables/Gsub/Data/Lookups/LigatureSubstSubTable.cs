@@ -140,6 +140,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
         public LigatureSubstSubTable Rewrite(FontSubsettingContext context)
         {
             var newSubTable = new LigatureSubstSubTable();
+            newSubTable.SubtableFormat = this.SubtableFormat;
             newSubTable.LigatureSets = new Dictionary<ushort, LigatureSetTable>();
 
             foreach (var oldSet in this.LigatureSets)
@@ -188,6 +189,18 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
                 {
                     newSubTable.LigatureSets[newFirstGid] = newSet;
                 }
+            }
+
+            if (newSubTable.LigatureSets.Count > 0)
+            {
+                var newBaseGlyphs = new List<ushort>(newSubTable.LigatureSets.Keys);
+                newBaseGlyphs.Sort(); // OpenType kräver sorterad Coverage
+
+                newSubTable.Coverage = new CoverageTableFormat1
+                {
+                    GlyphCount = (ushort)newBaseGlyphs.Count,
+                    GlyphArray = newBaseGlyphs.ToArray()
+                };
             }
 
             return newSubTable.LigatureSets.Count > 0 ? newSubTable : null;

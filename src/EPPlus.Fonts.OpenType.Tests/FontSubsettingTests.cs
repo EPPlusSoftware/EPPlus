@@ -108,7 +108,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var fontName = "Roboto";
             var font = OpenTypeFonts.GetFontData(_fontFolders, fontName, FontSubFamily.Regular, true);
             //var subsetFont = font.CreateSubset(new[] { 'a', 'b', 'c' });
-            var subsetFont = font.CreateSubset("filmjölk");
+            var subsetFont = font.CreateSubset("fiffig");
 
             // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);

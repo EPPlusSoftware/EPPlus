@@ -11,12 +11,12 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using System.Collections.Generic;
-using System.IO;
+using EPPlus.Fonts.OpenType.Subsetting;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
 {
     /// <summary>
-    /// Represents the Feature List Table in an OpenType font, containing records of font features.
+    /// Represents the Feature List table in GSUB, mapping features to lookup indices.
     /// </summary>
     public class FeatureListTable : FontTableElement
     {
@@ -27,46 +27,68 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
 
         internal override void Serialize(FontsBinaryWriter writer)
         {
-            // Write the number of feature records
-            writer.WriteUInt16BigEndian((ushort)this.FeatureRecords.Count);
+            long startPos = writer.BaseStream.Position;
 
-            // Track positions for backfilling offsets
-            List<long> recordOffsetPositions = new List<long>();
+            // 1. Write FeatureCount
+            writer.WriteUInt16BigEndian((ushort)FeatureRecords.Count);
 
-            // Offsets in FeatureList are relative to the start of the FeatureList table
-            long featureListStartOffset = writer.BaseStream.Position - sizeof(ushort);
+            // 2. Write FeatureRecords (Tag + Offset)
+            long offsetArrayStart = writer.BaseStream.Position;
+            foreach (var record in FeatureRecords)
+            {
+                writer.WriteTag(record.FeatureTag);
+                writer.WriteUInt16BigEndian(0); // Placeholder for offset
+            }
+
+            // 3. Serialize FeatureTables and backfill offsets
+            for (int i = 0; i < FeatureRecords.Count; i++)
+            {
+                long currentPos = writer.BaseStream.Position;
+                long recordOffsetPos = offsetArrayStart + (i * 6) + 4; // Each record is 6 bytes (4 tag + 2 offset)
+
+                // Update the offset in the header
+                this.WriteRelativeOffset(writer, startPos, recordOffsetPos);
+
+                // Write the actual FeatureTable
+                FeatureRecords[i].FeatureTable.Serialize(writer);
+            }
+        }
+
+        /// <summary>
+        /// Rewrites the feature list for a subset font.
+        /// </summary>
+        internal FeatureListTable Rewrite(FontSubsettingContext context)
+        {
+            var newList = new FeatureListTable();
 
             foreach (var record in this.FeatureRecords)
             {
-                // Write FeatureTag (4 bytes)
-                writer.Write(record.FeatureTag.ToBytes());
+                var newFeatureTable = new FeatureTable();
 
-                // Store position for the FeatureTableOffset (2 bytes) to be backfilled later
-                recordOffsetPositions.Add(writer.BaseStream.Position);
-                writer.WriteUInt16BigEndian(0);
+                if (record.FeatureTable != null && record.FeatureTable.LookupListIndices != null)
+                {
+                    var oldIndices = record.FeatureTable.LookupListIndices;
+                    var newIndices = new ushort[oldIndices.Length];
+
+                    // Traditional for-loop is the fastest and safest way in .NET 3.5 
+                    // to copy a value-type array.
+                    for (int i = 0; i < oldIndices.Length; i++)
+                    {
+                        newIndices[i] = oldIndices[i];
+                    }
+
+                    newFeatureTable.LookupListIndices = newIndices;
+                    newFeatureTable.LookupCount = (ushort)newIndices.Length;
+                }
+
+                var newRecord = new FeatureRecord();
+                newRecord.FeatureTag = record.FeatureTag;
+                newRecord.FeatureTable = newFeatureTable;
+
+                newList.FeatureRecords.Add(newRecord);
             }
 
-            // --- Serialize FeatureTables ---
-
-            int recordIndex = 0;
-            foreach (var record in this.FeatureRecords)
-            {
-                long currentTablePosition = writer.BaseStream.Position;
-
-                // Calculate the offset relative to the start of the FeatureList
-                ushort relativeFeatureTableOffset = (ushort)(currentTablePosition - featureListStartOffset);
-
-                // 1. Backfill the offset in the corresponding FeatureRecord
-                long recordOffsetPos = recordOffsetPositions[recordIndex];
-                writer.BaseStream.Seek(recordOffsetPos, SeekOrigin.Begin);
-                writer.WriteUInt16BigEndian(relativeFeatureTableOffset);
-
-                // 2. Return to the end of the stream and serialize the actual FeatureTable
-                writer.BaseStream.Seek(currentTablePosition, SeekOrigin.Begin);
-                record.FeatureTable.Serialize(writer);
-
-                recordIndex++;
-            }
+            return newList;
         }
     }
 }

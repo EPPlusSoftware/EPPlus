@@ -10,53 +10,80 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using System.Collections.Generic;
-using System.IO;
+using EPPlus.Fonts.OpenType.Subsetting;
+using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
 {
     /// <summary>
-    /// Represents the Lookup List table in an OpenType font.
-    /// It contains an array of offsets to all lookup tables used in the GSUB or GPOS table.
+    /// Represents the Lookup List table in GSUB, which contains all the lookups used for substitutions.
     /// </summary>
     public class LookupListTable : FontTableElement
     {
         /// <summary>
-        /// Gets or sets the list of Lookup tables.
+        /// Gets or sets the list of lookups.
         /// </summary>
         public List<LookupTable> Lookups { get; set; } = new List<LookupTable>();
 
         internal override void Serialize(FontsBinaryWriter writer)
         {
-            // The start position of the LookupList, used for relative offset calculations
-            long listStartOffset = writer.BaseStream.Position;
+            long startPos = writer.BaseStream.Position;
 
             // 1. Write LookupCount
-            writer.WriteUInt16BigEndian((ushort)this.Lookups.Count);
+            writer.WriteUInt16BigEndian((ushort)Lookups.Count);
 
-            // 2. Write placeholders for LookupOffsets (2 bytes per lookup)
-            List<long> offsetPositions = new List<long>();
-            for (int i = 0; i < this.Lookups.Count; i++)
+            // 2. Placeholders for LookupOffsets
+            long offsetArrayStart = writer.BaseStream.Position;
+            for (int i = 0; i < Lookups.Count; i++)
             {
-                offsetPositions.Add(writer.BaseStream.Position);
                 writer.WriteUInt16BigEndian(0);
             }
 
-            // 3. Serialize each LookupTable and backfill the offsets
-            for (int i = 0; i < this.Lookups.Count; i++)
+            // 3. Serialize Lookups and backfill offsets
+            for (int i = 0; i < Lookups.Count; i++)
             {
                 long currentPos = writer.BaseStream.Position;
-                ushort relativeOffset = (ushort)(currentPos - listStartOffset);
+                long offsetInArray = offsetArrayStart + (i * 2);
 
-                // Return to the offset array to fill in the calculated relative offset
-                writer.BaseStream.Seek(offsetPositions[i], SeekOrigin.Begin);
-                writer.WriteUInt16BigEndian(relativeOffset);
-
-                // Return to the actual writing position and serialize the LookupTable
-                writer.BaseStream.Seek(currentPos, SeekOrigin.Begin);
-                this.Lookups[i].Serialize(writer);
+                this.WriteRelativeOffset(writer, startPos, offsetInArray);
+                Lookups[i].Serialize(writer);
             }
+        }
+
+        /// <summary>
+        /// Rewrites the lookup list. Note that in a full implementation, 
+        /// removing lookups might require remapping indexes in Features.
+        /// </summary>
+        internal LookupListTable Rewrite(FontSubsettingContext context)
+        {
+            var newList = new LookupListTable();
+
+            foreach (var lookup in this.Lookups)
+            {
+                var rewrittenLookup = lookup.Rewrite(context);
+
+                // If the lookup still has data, add it to our new list.
+                // NOTE: If we remove lookups, we must be careful about Feature-to-Lookup indices.
+                // For a first version, we often keep the same number of lookups but 
+                // make the unused ones empty to maintain index integrity.
+                if (rewrittenLookup != null)
+                {
+                    newList.Lookups.Add(rewrittenLookup);
+                }
+                else
+                {
+                    // If a lookup becomes empty, we add an empty LookupTable 
+                    // to keep indices consistent for the FeatureListTable.
+                    newList.Lookups.Add(new LookupTable
+                    {
+                        LookupType = lookup.LookupType,
+                        LookupFlag = lookup.LookupFlag
+                    });
+                }
+            }
+
+            return newList;
         }
     }
 }

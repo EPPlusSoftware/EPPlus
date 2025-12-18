@@ -26,19 +26,10 @@ namespace EPPlus.Fonts.OpenType.Subsetting
     {
         public void Discover(FontSubsettingContext context)
         {
-            // 1. Initial collection of Glyph IDs from requested Unicodes
-            foreach (uint codePoint in context.UsedCodePoints)
-            {
-                if (context.OriginalFont.CmapTable.TryGetGlyphId(codePoint, out ushort gid))
-                {
-                    context.IncludedGlyphs.Add(gid);
-                }
-            }
-
-            // 2. Always include .notdef (GID 0)
+            // 1. Always include .notdef (GID 0)
             context.IncludedGlyphs.Add(0);
 
-            // 3. Recursively find and include all components for composite glyphs
+            // 2. Recursively find and include all components for composite glyphs
             // This is critical for fonts like Times New Roman
             context.OriginalFont.GlyfTable.ResolveCompositeGlyphs(context.IncludedGlyphs);
         }
