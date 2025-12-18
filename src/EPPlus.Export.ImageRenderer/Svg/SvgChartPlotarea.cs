@@ -38,7 +38,7 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 var lp = sc.Chart.Legend?.Position;
-                rect.Top = (lp==eLegendPosition.Top ? sc.Legend.Rectangle.Bottom + TopMargin : sc.Title?.Rectangle?.Bottom ?? 0d) + TopMargin;
+                rect.Top = (lp==eLegendPosition.Top ? sc.Legend.Rectangle.Bottom : sc.Title?.Rectangle?.Bottom ?? 0d) + TopMargin;
                 if(sc.HorizontalAxis!=null && sc.Chart.XAxis.LabelPosition==eTickLabelPosition.High)
                 {
                     rect.Top += sc.HorizontalAxis.Rectangle.Height;
@@ -49,11 +49,15 @@ namespace EPPlusImageRenderer.Svg
                     rect.Left = sc.VerticalAxis.Rectangle?.Right ?? sc.VerticalAxis.Title.Rectangle.Right;
                 }
 
-                rect.Width = (lp == eLegendPosition.Right || lp == eLegendPosition.TopRight ? sc.Legend.Rectangle.Left - RightMargin : RightMargin) - rect.Left;
+                rect.Width = (lp == eLegendPosition.Right || lp == eLegendPosition.TopRight ? 
+                        sc.Legend.Rectangle.Left - RightMargin : 
+                        sc.ChartArea.Width - RightMargin) 
+                  - rect.Left;
+
                 double vaHeight=0, vaTitleHeight=0;
                 if(sc.HorizontalAxis != null)
                 {
-                    vaHeight = sc.HorizontalAxis.Rectangle?.Height ?? sc.HorizontalAxis.Rectangle.Height;
+                    vaHeight = (sc.HorizontalAxis.Rectangle?.Height ?? 0D) + (sc.HorizontalAxis.Title?.Rectangle?.Height ?? 0D);
                 }
                 rect.Height = sc.Size.Height - rect.Top - vaHeight - vaTitleHeight - BottomMargin;                
             }

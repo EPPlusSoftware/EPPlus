@@ -511,6 +511,11 @@ namespace TestProject1
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = renderer.RenderDrawingToSvg(c);
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg{ix}.svg", svg);
+
                 int ix = 1;
                 foreach (ExcelChart d in ws.Drawings)
                 {
@@ -551,7 +556,6 @@ namespace TestProject1
                 chart3.SetSize(800, 400);
 
                 SaveAndCleanup(p);
-
             }
         }
 

@@ -58,18 +58,18 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
 
-            var rect = t.TextBody.Paragraphs.GetSizeInPixels(maxWidth, maxHeight, defaultText, t.Font);
-
+            var rect = t.TextBody.Paragraphs.GetSizeInPixels(maxWidth, maxHeight, _titleText, t.Font, LeftMargin, TopMargin, t.Rotation);
+            
             if (t.Layout.HasLayout)
             {
                 Rectangle = GetRectFromManualLayout(sc, t.Layout);
                 if (double.IsNaN(Rectangle.Width))
                 {
-                    Rectangle.Width = (float)(rect.Width + LeftMargin + RightMargin);
+                    Rectangle.Width = (float)(rect.Width);
                 }
                 if (double.IsNaN(Rectangle.Height))
                 {
-                    Rectangle.Height = (float)(rect.Height + TopMargin + BottomMargin);
+                    Rectangle.Height = (float)(rect.Height);
                 }
                 InitTextBox();
             }
@@ -79,9 +79,9 @@ namespace EPPlusImageRenderer.Svg
                 if (axis==null)
                 {
                     Rectangle.Top = (float)8;                         //8 pixels for the chart title standard offset
-                    Rectangle.Left = (float)(sc.Size.Width - rect.Width + LeftMargin + RightMargin) / 2;
-                    Rectangle.Height = (float)(rect.Height + TopMargin + BottomMargin);
-                    Rectangle.Width = (float)(rect.Width + LeftMargin + RightMargin);
+                    Rectangle.Left = (float)(sc.Size.Width - rect.Width) / 2;
+                    Rectangle.Height = (float)rect.Height;
+                    Rectangle.Width = (float)rect.Width;
                     InitTextBox();
                 }
                 else
@@ -127,16 +127,6 @@ namespace EPPlusImageRenderer.Svg
             {
                 return margin;
             }
-        }
-
-        private double GetAreaBottom()
-        {
-            throw new NotImplementedException();
-        }
-
-        private int GetTopAxisPosition(SvgChart sc, RectBase rect)
-        {
-            return 0;
         }
 
         private static string GetDefaultChartTitleText(SvgChart sc, ExcelChartTitleStandard t, string defaultText)

@@ -64,7 +64,7 @@ namespace EPPlusImageRenderer.Svg
                     else
                     {
                         Rectangle.Height = GetTextHeight(sc, ax);
-                        Rectangle.Top = sc.HorizontalAxisTitle == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
+                        Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
                     }
                 }
 

@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlusImageRenderer.Svg;
+using System.Globalization;
 using System.Text;
 
 namespace EPPlusImageRenderer.RenderItems
@@ -31,11 +32,11 @@ namespace EPPlusImageRenderer.RenderItems
             {
                 if (cx == 0 && cy == 0)
                 {
-                    GroupTransform = $"transform(rotation({rotation}))";
+                    GroupTransform = $"transform=\"rotate({rotation}))\"";
                 }
                 else
                 {
-                    GroupTransform = $"transform(rotation({rotation}, {cx}, {cy})";
+                    GroupTransform = $"transform=\"rotate({rotation}, {cx.ToString(CultureInfo.InvariantCulture)}, {cy.ToString(CultureInfo.InvariantCulture)})\"";
                 }
             }
         }

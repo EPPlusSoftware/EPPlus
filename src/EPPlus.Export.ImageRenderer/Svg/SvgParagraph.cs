@@ -237,7 +237,7 @@ namespace EPPlusImageRenderer.Svg
             //0.5 inches per indent level 48 pixels
 
             ParagraphArea = paragraphArea;
-            HorizontalAlignment = eTextAlignment.Right;
+            HorizontalAlignment = eTextAlignment.Left;
 
             LineSpacingAscendantOnly = fmtt.GetBaseLine().PointToPixel();
             LineSpacing = fmtt.GetSingleLineSpacing().PointToPixel();
