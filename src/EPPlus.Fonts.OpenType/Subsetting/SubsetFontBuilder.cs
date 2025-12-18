@@ -15,19 +15,22 @@ using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.Subsetting
 {
+    /// <summary>
+    /// Orchestrates the process of creating a subset of an OpenType font.
+    /// </summary>
     internal class SubsetFontBuilder
     {
-
+        // The order of processors is critical: Discovery must precede Extraction and Rewriting.
         private static IEnumerable<IFontSubsetProcessor> Processors => new List<IFontSubsetProcessor>
         {
-            // 1. DISCOVERY - Dessa måste köra först för att fylla IncludedGlyphs
-            new CmapSubsetProcessor(),  // Hittar GIDs för dina tecken
-            new GsubSubsetProcessor(),  // Hittar GIDs för substitutioner/ligaturer
-    
-            // 2. DATA EXTRACTION - Nu när vi vet ALLA GIDs som behövs, hämta datan
+            // PHASE 1: DISCOVERY - Identify all required Glyph IDs (GIDs)
+            new CmapSubsetProcessor(),      // Maps Unicode characters to initial GIDs
+            new GsubSubsetProcessor(),      // Identifies additional GIDs needed for substitutions/ligatures
+
+            // PHASE 2: DATA EXTRACTION - Retrieve glyph outlines and metrics
             new GlyfAndLocaSubsetProcessor(), 
-    
-            // 3. METADATA & ÖVRIGT
+
+            // PHASE 3: METADATA & TABLES - Update remaining font tables
             new MaxpSubsetProcessor(),
             new HeadSubsetProcessor(),
             new NameSubsetProcessor(),
@@ -38,39 +41,38 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             new KernSubsetProcessor()
         };
 
+        /// <summary>
+        /// Creates a new <see cref="OpenTypeFont"/> containing only the necessary data for the specified characters.
+        /// </summary>
         public OpenTypeFont CreateSubset(OpenTypeFont originalFont, IEnumerable<int> unicodeChars)
         {
             var context = new FontSubsettingContext(originalFont, unicodeChars);
-            var processors = Processors; // Hämta listan en gång
+            var processors = Processors;
 
-            // Steg 1: Discovery Phase
-            // Alla processorer (inkl. GSUB) hittar vilka glyfer som behövs.
+            // Step 1: Discovery Phase - All processors identify required glyphs
             foreach (var processor in processors)
             {
                 processor.Discover(context);
             }
 
-            // Steg 2: Skapa Glyph ID-mappningen (Viktigt!)
-            // Här går vi från IncludedGlyphs (HashSet) till OldToNewGlyphId (Dictionary)
+            // Step 2: Build Glyph ID Mapping
             BuildGlyphMapping(context);
 
-            // Steg 3: Rewrite Phase
-            // Nu när context.OldToNewGlyphId är populerad kan GSUB och andra tabeller skrivas om.
+            // Step 3: Rewrite Phase - Reconstruct tables using the new Glyph IDs
             foreach (var processor in processors)
             {
-               processor.Rewrite(context);
+                processor.Rewrite(context);
             }
 
-            // 9. Debug-info
             context.SubsetFont.UsedCodePointsForSubset = new List<uint>(context.UsedCodePoints);
 
             return context.SubsetFont;
         }
 
+        // Creates a deterministic mapping between old and new Glyph IDs.
         private void BuildGlyphMapping(FontSubsettingContext context)
         {
-            // Sortera för att få deterministiska Glyph IDs i den nya fonten
-            List<ushort> sortedGlyphs = new List<ushort>(context.IncludedGlyphs);
+            var sortedGlyphs = new List<ushort>(context.IncludedGlyphs);
             sortedGlyphs.Sort();
 
             for (ushort newId = 0; newId < sortedGlyphs.Count; newId++)

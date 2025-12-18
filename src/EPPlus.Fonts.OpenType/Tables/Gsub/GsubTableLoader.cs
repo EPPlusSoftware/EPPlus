@@ -1,12 +1,27 @@
-﻿using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
-using System;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+ *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Gsub.Data;
+using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
+using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub
 {
+    /// <summary>
+    /// Loads the GSUB (Glyph Substitution) table from an OpenType font.
+    /// Manages the hierarchical loading of Scripts, Features, and Lookups.
+    /// </summary>
     internal class GsubTableLoader : TableLoader<GsubTable>
     {
         public GsubTableLoader(TableLoaderSettings tblSettings) : base(tblSettings, TableNames.Gsub)
@@ -16,15 +31,15 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
         protected override GsubTable LoadInternal()
         {
             _reader.BaseStream.Position = _offset;
-            long tableStartOffset = _offset; // GSUB tabellens startoffset
+            long tableStartOffset = _offset; // The start of the GSUB table in the stream
 
-            // 1. Read GSUB Header (10 bytes)
+            // 1. Read GSUB Header (10 bytes for version 1.0)
             ushort major = _reader.ReadUInt16BigEndian();
             ushort minor = _reader.ReadUInt16BigEndian();
 
             if (major != 1)
             {
-                // Return null if unsupported version is found
+                // Unsupported version found
                 return null;
             }
 
@@ -39,31 +54,27 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
             ushort featureListOffset = _reader.ReadUInt16BigEndian();
             ushort lookupListOffset = _reader.ReadUInt16BigEndian();
 
-            // 3. Ladda ScriptList
+            // 3. Load ScriptList
             if (scriptListOffset > 0)
             {
-                // Navigera till ScriptList start: GSUB start + ScriptList offset
+                // Navigate to ScriptList start: GSUB start + ScriptList offset
                 _reader.BaseStream.Seek(tableStartOffset + scriptListOffset, SeekOrigin.Begin);
 
-                // Anropa den nya laddningsmetoden. Vi skickar med startoffseten
-                // för ScriptList, eftersom ScriptTable-offsetsen är relativa till DEN.
+                // Load the ScriptList; internal offsets within it are relative to its own start
                 gsubTable.ScriptList = LoadScriptList(tableStartOffset + scriptListOffset);
             }
+
             // 4. Load FeatureList
-            if(featureListOffset > 0)
+            if (featureListOffset > 0)
             {
                 _reader.BaseStream.Seek(tableStartOffset + featureListOffset, SeekOrigin.Begin);
-
                 gsubTable.FeatureList = LoadFeatureList(tableStartOffset + featureListOffset);
             }
 
             // 5. Load LookupList
             if (lookupListOffset > 0)
             {
-                // Navigate to LookupList start: GSUB start + LookupList offset
                 _reader.BaseStream.Seek(tableStartOffset + lookupListOffset, SeekOrigin.Begin);
-
-                // Anropa den nya laddningsmetoden. Skickar med LookupList startoffset.
                 gsubTable.LookupList = LoadLookupList(tableStartOffset + lookupListOffset);
             }
 
@@ -74,40 +85,34 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
 
         private ScriptListTable LoadScriptList(long scriptListStartOffset)
         {
-            // Positionen är redan satt till scriptListStartOffset av LoadInternal()
             ScriptListTable scriptList = new ScriptListTable();
 
             // USHORT ScriptCount
             ushort scriptCount = _reader.ReadUInt16BigEndian();
 
-            // Läs in alla ScriptRecords (Tag + Offset)
+            // Read all ScriptRecords (Tag + Offset)
             for (int i = 0; i < scriptCount; i++)
             {
                 ScriptRecord record = new ScriptRecord
                 {
-                    // TAG ScriptTag (4 bytes)
                     ScriptTag = new Tag(_reader),
-                    // USHORT ScriptOffset (relativt till scriptListStartOffset)
+                    // Offset relative to scriptListStartOffset
                     ScriptOffset = _reader.ReadUInt16BigEndian()
                 };
                 scriptList.ScriptRecords.Add(record);
             }
 
-            // Spara den aktuella positionen (slutet av ScriptRecords-listan)
-            // innan vi hoppar runt för att ladda ScriptTables
+            // Save the position at the end of ScriptRecords before jumping to ScriptTables
             long currentPosition = _reader.BaseStream.Position;
 
-            // Ladda in ScriptTable för varje record
+            // Load ScriptTable for each record
             foreach (var record in scriptList.ScriptRecords)
             {
-                // Navigera till ScriptTable: ScriptList Start + ScriptRecord Offset
                 _reader.BaseStream.Seek(scriptListStartOffset + record.ScriptOffset, SeekOrigin.Begin);
-
-                // Ladda in ScriptTable
                 record.ScriptTable = LoadScriptTable();
             }
 
-            // Återställ läsaren till där vi var (efter ScriptRecords)
+            // Restore position to continue sequential reading if necessary
             _reader.BaseStream.Seek(currentPosition, SeekOrigin.Begin);
 
             return scriptList;
@@ -115,36 +120,27 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
 
         private ScriptTable LoadScriptTable()
         {
-            // The reader position is already set to the ScriptTable start offset.
             long scriptTableStartOffset = _reader.BaseStream.Position;
             ScriptTable scriptTable = new ScriptTable();
 
-            // USHORT DefaultLangSysOffset (relative to ScriptTable start position)
+            // USHORT DefaultLangSysOffset (relative to ScriptTable start)
             ushort defaultLangSysOffset = _reader.ReadUInt16BigEndian();
             scriptTable.DefaultLangSysOffset = defaultLangSysOffset;
 
             // USHORT LangSysCount
-            ushort langSysCount = _reader.ReadUInt16BigEndian(); // Reads into a local variable
+            ushort langSysCount = _reader.ReadUInt16BigEndian();
 
-            // Read LangSysRecord (TAG + Offset) * LangSysCount
-            // We store the offsets and tags to load the tables later.
+            // Store records to load after the record array is fully read
             var recordsToLoad = new Dictionary<uint, ushort>();
 
             for (int i = 0; i < langSysCount; i++)
             {
-                // TAG LangSysTag (4 bytes)
                 uint langSysTag = _reader.ReadUInt32BigEndian();
-
-                // USHORT LangSysOffset (2 bytes, relative to ScriptTable start)
                 ushort langSysOffset = _reader.ReadUInt16BigEndian();
-
                 recordsToLoad.Add(langSysTag, langSysOffset);
             }
 
-            // Save position after reading records to return to it later
             long positionAfterRecords = _reader.BaseStream.Position;
-
-            // --- Deserialize LangSysTables ---
             var langSysDeserializer = new LangSysTableDeserializer(_reader);
 
             // 1. Load DefaultLangSysTable
@@ -155,28 +151,17 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
             }
 
             // 2. Load other LangSysRecords
-            if (langSysCount > 0)
+            foreach (var kvp in recordsToLoad)
             {
-                foreach (var kvp in recordsToLoad)
+                long langSysAbsoluteStart = scriptTableStartOffset + kvp.Value;
+                scriptTable.LangSysRecords.Add(new LangSysRecord
                 {
-                    uint tag = kvp.Key;
-                    ushort offset = kvp.Value;
-
-                    long langSysAbsoluteStart = scriptTableStartOffset + offset;
-
-                    LangSysTable langSysTable = langSysDeserializer.Deserialize(langSysAbsoluteStart);
-
-                    scriptTable.LangSysRecords.Add(new LangSysRecord
-                    {
-                        LangSysTag = tag,
-                        LangSysTable = langSysTable
-                    });
-                }
+                    LangSysTag = kvp.Key,
+                    LangSysTable = langSysDeserializer.Deserialize(langSysAbsoluteStart)
+                });
             }
 
-            // Restore reader position to where it was after reading the record array
             _reader.BaseStream.Seek(positionAfterRecords, SeekOrigin.Begin);
-
             return scriptTable;
         }
 
@@ -187,53 +172,35 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
         private FeatureListTable LoadFeatureList(long featureListStartOffset)
         {
             FeatureListTable featureList = new FeatureListTable();
-
-            // USHORT FeatureCount
             ushort featureCount = _reader.ReadUInt16BigEndian();
 
-            // Read all FeatureRecords (Tag + Offset)
             for (int i = 0; i < featureCount; i++)
             {
-                FeatureRecord record = new FeatureRecord
+                featureList.FeatureRecords.Add(new FeatureRecord
                 {
-                    // TAG FeatureTag (4 bytes)
                     FeatureTag = new Tag(_reader),
-                    // USHORT FeatureOffset (relative to featureListStartOffset)
                     FeatureOffset = _reader.ReadUInt16BigEndian()
-                };
-                featureList.FeatureRecords.Add(record);
+                });
             }
 
-            // Save current position before jumping around to load FeatureTables
             long currentPosition = _reader.BaseStream.Position;
 
-            // Load the FeatureTable for each record
             foreach (var record in featureList.FeatureRecords)
             {
-                // Navigate to FeatureTable: FeatureList Start + FeatureRecord Offset
                 _reader.BaseStream.Seek(featureListStartOffset + record.FeatureOffset, SeekOrigin.Begin);
-
-                // Load the FeatureTable
                 record.FeatureTable = LoadFeatureTable();
             }
 
-            // Restore reader position
             _reader.BaseStream.Seek(currentPosition, SeekOrigin.Begin);
-
             return featureList;
         }
 
         private FeatureTable LoadFeatureTable()
         {
             FeatureTable featureTable = new FeatureTable();
-
-            // USHORT FeatureParams (reserved for future use, should be 0)
             featureTable.FeatureParams = _reader.ReadUInt16BigEndian();
-
-            // USHORT LookupCount
             featureTable.LookupCount = _reader.ReadUInt16BigEndian();
 
-            // USHORT[] LookupListIndices: Read all indices
             if (featureTable.LookupCount > 0)
             {
                 featureTable.LookupListIndices = new ushort[featureTable.LookupCount];
@@ -244,7 +211,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
             }
             else
             {
-                // .NET 3.5 compatible replacement for Array.Empty<ushort>()
                 featureTable.LookupListIndices = new ushort[0];
             }
 
@@ -254,94 +220,65 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
         #endregion
 
         #region LookupList loading
+
         private LookupListTable LoadLookupList(long lookupListStartOffset)
         {
             LookupListTable lookupList = new LookupListTable();
-
-            // USHORT LookupCount
             ushort lookupCount = _reader.ReadUInt16BigEndian();
 
-            // USHORT[] LookupOffsets (relative to lookupListStartOffset)
             ushort[] lookupOffsets = new ushort[lookupCount];
             for (int i = 0; i < lookupCount; i++)
             {
                 lookupOffsets[i] = _reader.ReadUInt16BigEndian();
             }
 
-            // Save current position before jumping around to load LookupTables
             long currentPosition = _reader.BaseStream.Position;
 
-            // Load the LookupTable for each offset
             foreach (ushort offset in lookupOffsets)
             {
-                // Navigate to LookupTable: LookupList Start + Lookup Offset
                 _reader.BaseStream.Seek(lookupListStartOffset + offset, SeekOrigin.Begin);
-
-                // Load the LookupTable
-                LookupTable lookupTable = LoadLookupTable();
-                lookupList.Lookups.Add(lookupTable);
+                lookupList.Lookups.Add(LoadLookupTable());
             }
 
-            // Restore reader position
             _reader.BaseStream.Seek(currentPosition, SeekOrigin.Begin);
-
             return lookupList;
         }
 
         private LookupTable LoadLookupTable()
         {
-            // The reader position is already set to the LookupTable start offset by the calling method.
             LookupTable lookupTable = new LookupTable();
-
-            // Store the start offset for calculating relative SubTable offsets later
             long lookupTableStartOffset = _reader.BaseStream.Position;
 
-            // USHORT LookupType (1=Single, 4=Ligature, etc.)
             lookupTable.LookupType = _reader.ReadUInt16BigEndian();
-
-            // USHORT LookupFlag
             lookupTable.LookupFlag = _reader.ReadUInt16BigEndian();
-
-            // USHORT SubTableCount
             lookupTable.SubTableCount = _reader.ReadUInt16BigEndian();
 
-            // Read USHORT[] SubTableOffsets (relative to this LookupTable start)
             ushort[] subTableOffsets = new ushort[lookupTable.SubTableCount];
             for (int i = 0; i < lookupTable.SubTableCount; i++)
             {
                 subTableOffsets[i] = _reader.ReadUInt16BigEndian();
             }
 
-            // Save the current position after reading all offsets, before diving into SubTables
             long positionAfterOffsets = _reader.BaseStream.Position;
 
-            // --- Deserialize SubTables based on LookupType ---
             for (int i = 0; i < lookupTable.SubTableCount; i++)
             {
-                // Calculate the absolute start offset of the SubTable
                 long subTableAbsoluteStart = lookupTableStartOffset + subTableOffsets[i];
-
-                // Determine which deserializer to use
                 FontTableElement subTable = null;
 
                 switch (lookupTable.LookupType)
                 {
                     case 1: // Single Substitution
-                        var singleLoader = new SingleSubstSubTableDeserializer(_reader);
-                        subTable = singleLoader.Deserialize(subTableAbsoluteStart);
+                        subTable = new SingleSubstSubTableDeserializer(_reader).Deserialize(subTableAbsoluteStart);
                         break;
-
                     case 4: // Ligature Substitution
-                        var ligLoader = new LigatureSubstSubTableDeserializer(_reader);
-                        subTable = ligLoader.Deserialize(subTableAbsoluteStart);
+                        subTable = new LigatureSubstSubTableDeserializer(_reader).Deserialize(subTableAbsoluteStart);
                         break;
-                    case 7: // Extension Substitution (Wrapper för andra typer)
-                        var extLoader = new ExtensionSubstSubTableDeserializer(_reader);
-                        subTable = extLoader.Deserialize(subTableAbsoluteStart);
+                    case 6: // Chaining Contextual Substitution
+                        subTable = new ChainingContextualDeserializer(_reader).Deserialize(subTableAbsoluteStart);
                         break;
-
-                    default:
-                        // Unsupported LookupType. Skip loading for this subtable.
+                    case 7: // Extension Substitution
+                        subTable = new ExtensionSubstSubTableDeserializer(_reader).Deserialize(subTableAbsoluteStart);
                         break;
                 }
 
@@ -351,10 +288,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
                 }
             }
 
-            // Restore the reader position to where it was after reading the offset array, 
-            // before the subtable deserialization loop started.
             _reader.BaseStream.Seek(positionAfterOffsets, SeekOrigin.Begin);
-
             return lookupTable;
         }
         #endregion

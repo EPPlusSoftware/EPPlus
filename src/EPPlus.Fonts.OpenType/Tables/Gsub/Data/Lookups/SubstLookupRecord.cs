@@ -10,19 +10,22 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Subsetting;
-using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
-
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
+namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
 {
-    internal interface IGsubLookupHandler
+    /// <summary>
+    /// Represents a substitution lookup record within a contextual substitution table.
+    /// It defines which lookup should be applied to a specific position in the input sequence.
+    /// </summary>
+    public class SubstLookupRecord
     {
-        ushort LookupType { get; }
+        /// <summary>
+        /// Gets or sets the zero-based index into the input glyph sequence where the substitution should be applied.
+        /// </summary>
+        public ushort SequenceIndex { get; set; }
 
-        // Phase 1: Identify which glyphs are affected and should be included in the subset
-        void Discover(FontSubsettingContext context, LookupTable lookup);
-
-        // Phase 2: Create a new, filtered table based on the included glyphs
-        LookupTable Rewrite(FontSubsettingContext context, LookupTable oldLookup);
+        /// <summary>
+        /// Gets or sets the index of the lookup in the GSUB LookupList that will be triggered for the specified sequence index.
+        /// </summary>
+        public ushort LookupListIndex { get; set; }
     }
 }

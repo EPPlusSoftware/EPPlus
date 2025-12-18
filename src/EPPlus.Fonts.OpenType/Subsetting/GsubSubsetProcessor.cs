@@ -1,7 +1,18 @@
-﻿using EPPlus.Fonts.OpenType.Tables;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+ *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Gsub;
+using EPPlus.Fonts.OpenType.Tables.Gsub.Data;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Handlers;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -41,7 +52,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                     }
                 }
 
-                // Fortsätt så länge vi hittar nya glyfer (t.ex. en ligatur som i sin tur kan vara del av en annan regel)
+                // Continue as long as new glyphs are found (e.g., a ligature that triggers another substitution rule)
             } while (context.IncludedGlyphs.Count > previousGlyphCount);
         }
 
@@ -52,18 +63,17 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
             var newGsub = new GsubTable();
 
-            // Rensa interna mappar för att undvika läckage mellan körningar
+            // Clear internal mappings to prevent leakage between subsetting operations
             _oldToNewLookupIndex.Clear();
             _oldToNewFeatureIndex.Clear();
 
-            // 1. Mappa om LookupList först (eftersom Features pekar på dessa)
-            // Vi skickar med context för att komma åt Glyph-mappningen (Old-to-New GID)
+            // 1. Remap LookupList first (Features depend on these indices)
             newGsub.LookupList = RemapLookupListTable(context, oldGsub.LookupList);
 
-            // 2. Mappa om FeatureList (eftersom Scripts pekar på dessa)
+            // 2. Remap FeatureList (Scripts depend on these indices)
             newGsub.FeatureList = RemapFeatureList(context, oldGsub.FeatureList);
 
-            // 3. Mappa om ScriptList
+            // 3. Remap ScriptList
             newGsub.ScriptList = RemapScriptList(context, oldGsub.ScriptList);
 
             context.SubsetFont.AddOrReplaceTable(newGsub);
@@ -78,7 +88,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             {
                 var oldLookup = oldList.Lookups[i];
 
-                // Här är hjärtat i vår pipeline:
+                // Delegate the specific substitution logic to the registered handler
                 if (_handlers.TryGetValue(oldLookup.LookupType, out var handler))
                 {
                     var newLookup = handler.Rewrite(context, oldLookup);
@@ -92,53 +102,6 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             return newList;
         }
 
-        private LookupTable RewriteLookupTable(FontSubsettingContext context, LookupTable oldLookup)
-        {
-            // Skapa en ny instans av LookupTable för vår subset-font
-            LookupTable newLookup = new LookupTable();
-            newLookup.LookupType = oldLookup.LookupType;
-            newLookup.LookupFlag = oldLookup.LookupFlag;
-            newLookup.SubTables = new List<FontTableElement>();
-
-            foreach (FontTableElement subtableElement in oldLookup.SubTables)
-            {
-                if((subtableElement is not SingleSubstSubTable) && (subtableElement is not LigatureSubstSubTable))
-                {
-                    int i2 = 0;
-                }
-                // 1. Hantera Single Substitution (Typ 1)
-                SingleSubstSubTable singleSub = subtableElement as SingleSubstSubTable;
-                if (singleSub != null)
-                {
-                    SingleSubstSubTable rewrittenSingle = singleSub.Rewrite(context);
-                    if (rewrittenSingle != null)
-                    {
-                        newLookup.SubTables.Add(rewrittenSingle);
-                    }
-                    continue;
-                }
-
-                // 2. Hantera Ligature Substitution (Typ 4)
-                LigatureSubstSubTable ligatureSub = subtableElement as LigatureSubstSubTable;
-                if (ligatureSub != null)
-                {
-                    LigatureSubstSubTable rewrittenLig = ligatureSub.Rewrite(context);
-                    if (rewrittenLig != null)
-                    {
-                        newLookup.SubTables.Add(rewrittenLig);
-                    }
-                    continue;
-                }
-
-                // Här kan du i framtiden lägga till fler typer, t.ex. MultipleSubst (Typ 2)
-            }
-
-            // Om inga subtabeller överlevde filtreringen (t.ex. om inga av tecknen i 
-            // tabellen finns i vårt subset), returnerar vi null så att Lookupen kan rensas bort helt.
-            return newLookup.SubTables.Count > 0 ? newLookup : null;
-        }
-
-        // ... RemapFeatureList, RemapScriptList och RemapLangSys behålls som de var tidigare ...
         private FeatureListTable RemapFeatureList(FontSubsettingContext context, FeatureListTable oldList)
         {
             var newList = new FeatureListTable();
@@ -167,6 +130,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 }
             }
 
+            // OpenType specification requires features to be sorted by tag
             tempEntries.Sort((a, b) => string.CompareOrdinal(a.Record.FeatureTag?.Value, b.Record.FeatureTag?.Value));
             for (int i = 0; i < tempEntries.Count; i++)
             {
@@ -180,6 +144,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
         {
             var newList = new ScriptListTable();
             if (oldList == null) return newList;
+
             foreach (var oldRec in oldList.ScriptRecords)
             {
                 var newScript = new ScriptTable();
@@ -191,14 +156,16 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
                 newList.ScriptRecords.Add(new ScriptRecord { ScriptTag = oldRec.ScriptTag, ScriptTable = newScript });
             }
+
+            // OpenType specification requires scripts to be sorted by tag
             newList.ScriptRecords.Sort((a, b) => string.CompareOrdinal(a.ScriptTag?.Value, b.ScriptTag?.Value));
             return newList;
         }
-        
 
         private LangSysTable RemapLangSys(LangSysTable oldLang)
         {
             var newLang = new LangSysTable { LookupOrder = oldLang.LookupOrder, RequiredFeatureIndex = 0xFFFF };
+
             if (oldLang.RequiredFeatureIndex != 0xFFFF && _oldToNewFeatureIndex.TryGetValue(oldLang.RequiredFeatureIndex, out var newReq))
                 newLang.RequiredFeatureIndex = (ushort)newReq;
 
@@ -206,6 +173,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 .Where(idx => _oldToNewFeatureIndex.ContainsKey(idx))
                 .Select(idx => (ushort)_oldToNewFeatureIndex[idx])
                 .ToArray();
+
             newLang.FeatureIndexCount = (ushort)newLang.FeatureIndices.Length;
             return newLang;
         }

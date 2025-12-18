@@ -10,19 +10,22 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Subsetting;
-using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
-
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
+namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
 {
-    internal interface IGsubLookupHandler
+    /// <summary>
+    /// Represents a Language System Record, which associates a specific language tag 
+    /// with a Language System Table.
+    /// </summary>
+    public class LangSysRecord
     {
-        ushort LookupType { get; }
+        /// <summary>
+        /// Gets or sets the 4-byte Language System tag (e.g., 'SVE ' for Swedish), stored as a uint.
+        /// </summary>
+        public uint LangSysTag { get; set; }
 
-        // Phase 1: Identify which glyphs are affected and should be included in the subset
-        void Discover(FontSubsettingContext context, LookupTable lookup);
-
-        // Phase 2: Create a new, filtered table based on the included glyphs
-        LookupTable Rewrite(FontSubsettingContext context, LookupTable oldLookup);
+        /// <summary>
+        /// Gets or sets the actual Language System Table associated with this record.
+        /// </summary>
+        public LangSysTable LangSysTable { get; set; }
     }
 }

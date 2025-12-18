@@ -1,11 +1,24 @@
-﻿using EPPlus.Fonts.OpenType.Subsetting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+ *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Subsetting;
+using System.Collections.Generic;
+
+namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
 {
+    /// <summary>
+    /// Represents a Ligature Set table, which contains a list of ligatures 
+    /// beginning with a specific first glyph (the base glyph).
+    /// </summary>
     public class LigatureSetTable : FontTableElement
     {
         /// <summary>
@@ -25,13 +38,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
 
             foreach (var oldLigature in this.Ligatures)
             {
-                // 1. Försök mappa mål-glyfen (t.ex. "fi")
+                // 1. Try to map the target glyph (e.g., the "fi" ligature glyph)
                 if (!oldToNewGlyphId.TryGetValue(oldLigature.LigatureGlyph, out ushort newTargetGid))
                 {
-                    continue; // Mål-glyfen finns inte i vårt subset
+                    continue; // Target glyph is not part of our subset
                 }
 
-                // 2. Försök mappa alla komponenter (t.ex. "i")
+                // 2. Try to map all subsequent components (e.g., the "i" in "f" + "i")
                 bool allComponentsMapped = true;
                 List<ushort> newComponents = new List<ushort>();
 
@@ -44,11 +57,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
                     else
                     {
                         allComponentsMapped = false;
-                        break; // En komponent saknas, ligaturen kan inte skapas
+                        break; // A required component is missing; the ligature cannot be formed
                     }
                 }
 
-                // 3. Om allt finns, skapa en helt NY Ligature-instans
+                // 3. If all parts exist in the subset, create a NEW Ligature instance
                 if (allComponentsMapped)
                 {
                     newSet.Ligatures.Add(new LigatureTable
@@ -64,32 +77,32 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
 
         internal override void Serialize(FontsBinaryWriter writer)
         {
-            // LigatureSetTable structure:
-            // USHORT LigatureCount
-            // USHORT[] LigatureOffsets
-
+            // Write LigatureCount
             writer.WriteUInt16BigEndian((ushort)this.Ligatures.Count);
 
-            // Calculate offsets for all LigatureTable entries
-            // This is complex because we need to write the offsets first, then the actual tables.
-
             // 1. Calculate and Write Offsets
-            int currentOffset = this.Ligatures.Count * sizeof(ushort) + sizeof(ushort); // Start after LigatureCount + all offsets
+            // Start offset is after LigatureCount (2 bytes) + all offset entries (2 bytes per ligature)
+            int currentOffset = (this.Ligatures.Count * sizeof(ushort)) + sizeof(ushort);
 
             foreach (var ligature in this.Ligatures)
             {
                 writer.WriteUInt16BigEndian((ushort)currentOffset);
-                // Size of LigatureTable: 2 bytes (LigatureGlyph) + 2 bytes (ComponentCount) + Components.Length * 2 bytes
-                currentOffset += sizeof(ushort) * 2 + (ligature.Components.Length * sizeof(ushort));
+
+                // Calculate size of this LigatureTable to find the next offset:
+                // 2 bytes (LigatureGlyph) + 2 bytes (ComponentCount) + (Components.Length * 2 bytes)
+                currentOffset += (sizeof(ushort) * 2) + (ligature.Components.Length * sizeof(ushort));
             }
 
-            // 2. Write LigatureTables
+            // 2. Write actual LigatureTable data
             foreach (var ligature in this.Ligatures)
             {
                 ligature.Serialize(writer);
             }
         }
 
+        /// <summary>
+        /// Rewrites the ligature set based on the subsetting context.
+        /// </summary>
         internal LigatureSetTable Rewrite(FontSubsettingContext context)
         {
             LigatureSetTable newSet = new LigatureSetTable();

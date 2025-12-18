@@ -10,19 +10,19 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Subsetting;
-using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
+using System;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
+namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
 {
-    internal interface IGsubLookupHandler
+    public class CoverageRangeRecord : FontTableElement
     {
-        ushort LookupType { get; }
+        public ushort StartGlyphID { get; set; }
+        public ushort EndGlyphID { get; set; }
+        public ushort StartCoverageIndex { get; set; }
 
-        // Phase 1: Identify which glyphs are affected and should be included in the subset
-        void Discover(FontSubsettingContext context, LookupTable lookup);
-
-        // Phase 2: Create a new, filtered table based on the included glyphs
-        LookupTable Rewrite(FontSubsettingContext context, LookupTable oldLookup);
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
