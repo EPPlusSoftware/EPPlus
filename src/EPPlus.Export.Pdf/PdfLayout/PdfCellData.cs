@@ -267,7 +267,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double LineHeight;
         public double FontHeight;
         public Rect GlyphBox;
-        public Dictionary<char, Vector2> characterOffset;
+        public double characterOffset;
         public List<GlyphPosition> GlyphPositions;
         public string FullFontName
         { get { return FontName + " " + SubFamily; } }

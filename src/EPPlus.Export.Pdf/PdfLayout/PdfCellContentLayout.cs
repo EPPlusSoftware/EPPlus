@@ -121,10 +121,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     character.GlyphBox = new Rect();
                     character.GlyphBox.Width = gbox;
                     character.GlyphBox.Height = gbox;
-                    var offset = x + (character.GlyphBox.Width - result.Width) / 2d;
-                    offset = offset - x;
-                    character.characterOffset = new Dictionary<char, Vector2>();
-                    character.characterOffset.Add(character.Text[0], new Vector2(offset, 0));
+                    character.characterOffset = (x + (character.GlyphBox.Width - result.Width) / 2d) - x;
                     characters.Add(character);
                 }
             }

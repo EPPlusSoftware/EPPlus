@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -67,17 +68,20 @@ namespace EPPlusTest.LoadFunctions
             table.Columns.Add("Id", typeof(int));
             table.Columns.Add("FirstName", typeof(string));
             table.Columns.Add("LastName", typeof(string));
+            table.Columns.Add("Date", typeof(System.DateTime));
             table.Columns["FirstName"].Caption = "First name";
             table.Columns["LastName"].Caption = "Last name";
             // add some data
-            table.Rows.Add(1, "Bob", "Behnken");
-            table.Rows.Add(2, "Doug", "Hurley");
+            table.Rows.Add(1, "Bob", "Behnken", DateTime.UtcNow);
+            table.Rows.Add(2, "Doug", "Hurley", DateTime.UtcNow);
 
             //create a workbook with a spreadsheet and load the data table
             using(var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("Astronauts");
                 sheet.Cells["A1"].LoadFromDataTable(table);
+                sheet.Cells["D"].Style.Numberformat.Format = "mm-dd-yy";
+                package.SaveAs("C:\\epplusTest\\Testoutput\\dateDataTable.xlsx");
             }
         }
 
