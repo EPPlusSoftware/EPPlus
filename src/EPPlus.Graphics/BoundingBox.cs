@@ -96,10 +96,10 @@ namespace EPPlus.Graphics
                 if(transform.Parent != null)
                 {
                     var newValue = System.Math.Min(value, Parent.Right);
-                    Right = newValue;
+                    base.Right = newValue;
                 }
             }
-            Right = value;
+            base.Right = value;
         }
 
         private void SetBottom(double value)
@@ -109,10 +109,10 @@ namespace EPPlus.Graphics
                 if (transform.Parent != null)
                 {
                     var newValue = System.Math.Min(value, Parent.Bottom);
-                    Bottom = newValue;
+                    base.Bottom = newValue;
                 }
             }
-            Bottom = value;
+            base.Bottom = value;
         }
 
         //Quick-access to underlying transform

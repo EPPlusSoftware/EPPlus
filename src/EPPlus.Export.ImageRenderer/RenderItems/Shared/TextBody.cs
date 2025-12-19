@@ -37,7 +37,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public void AddParagraph(string text, FontMeasurerTrueType measurer)
         {
-            if (_measurer == null)
+            if(_measurer == null && measurer != null)
+            {
+                _measurer = measurer;
+            }
+
+            if (_measurer != null)
             {
                 var paragraph = new ParagraphContainer(Bounds);
 
@@ -46,6 +51,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 paragraph.AddText(text, measurer);
 
                 paragraph.Bounds.transform.Name = $"Container{Paragraphs.Count}";
+                return;
             }
             throw new NullReferenceException($"The FontMeasurer: {_measurer} object is null. Use SetMeasurer before adding text");
         }

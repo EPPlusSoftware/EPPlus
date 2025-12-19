@@ -127,15 +127,17 @@ namespace EPPlusImageRenderer
 
             body.AddText(txtBody, measurer);
 
-            body.Paragraphs[0].Bounds.X = 20;
-            body.Paragraphs[0].Bounds.Y = 20;
+            var para1 = body.Paragraphs[0];
 
-            body.AddText("Extra Text", measurer);
-            body.Paragraphs[1].Bounds.X = 30;
-            body.Paragraphs[1].Bounds.Y = 40;
+            para1.Runs[0].X = 20;
+            para1.Runs[0].Y = 20;
 
-            body.Bounds.Width = 120;
-            body.Bounds.Height = 100;
+            para1.AddText("Extra Text", measurer);
+            para1.Runs[1].X = 30;
+            para1.Runs[1].Y = 40;
+
+            para1.Bounds.Width = 120;
+            para1.Bounds.Height = 100;
 
             var svgBody = GenerateSvgTextBody(body, (int)shapeRect.Width, (int)shapeRect.Height);
 
