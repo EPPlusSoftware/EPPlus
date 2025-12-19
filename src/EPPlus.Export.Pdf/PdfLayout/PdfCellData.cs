@@ -13,11 +13,8 @@
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
-using EPPlus.Graphics.Math;
-using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 
 namespace EPPlus.Export.Pdf.PdfLayout
@@ -148,10 +145,22 @@ namespace EPPlus.Export.Pdf.PdfLayout
             get
             {
                 double val = 0;
-                foreach (var w in Words)
+
+                int first = 0;
+                int last = Words.Count - 1;
+
+                while (first <= last && PdfString.IsNullOrWhiteSpace(Words[first].Text))
+                    first++;
+
+                while (last >= first && PdfString.IsNullOrWhiteSpace(Words[last].Text))
+                    last--;
+
+                // sum heights between them
+                for (int i = first; i <= last; i++)
                 {
-                    val += w.TextHeight;
+                    val += Words[i].TextHeight;
                 }
+
                 return val;
             }
         }
