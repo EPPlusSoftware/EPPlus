@@ -586,11 +586,11 @@ namespace OfficeOpenXml.Drawing
 
         internal object GetMeasurementFont()
         {
-            if(_paragraphs.Count>0)
+            if (_paragraphs.Count > 0)
             {
                 return _paragraphs[0].DefaultRunProperties.GetMeasureFont();
             }
             return DefaultRunProperties.GetMeasureFont();
-        
+        }
     }
 }

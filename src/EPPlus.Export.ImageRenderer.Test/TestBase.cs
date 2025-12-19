@@ -258,7 +258,7 @@ public abstract class TestBase
         }
         else
         {
-            t = new FileInfo(_testInputPathOptional + name);
+            t = new FileInfo(_testInputPathOptional + name);    
             if (t.Exists)
             {
                 return t;

@@ -160,7 +160,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
             //    //    //This is important if for example we have rich text where two letters on the same line has different colors.
             //    //    if (line != Lines[0] | isFirstInParagraph)
             //    //    {
-            //    //        var yIncrease = /*isFirstInParagraph && useBaselineSpacing ? BaselineSpacing : LineSpacingPerNewLine;*/
+            //    //        var yIncrease = /*isFirstInParagraph && useBaselineSpacing ? LineSpacingAscendantOnly : LineSpacing;*/
             //    //        isFirstInParagraph = false;
 
             //    //    //    yIncrease = EPPlus.Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);

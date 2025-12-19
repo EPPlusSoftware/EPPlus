@@ -115,6 +115,23 @@ namespace EPPlus.Fonts.OpenType
 
             return singleLineSpacing;
         }
+        internal static double GetSingleLineSpacing_new(OpenTypeFont font, double fontSize)
+        {
+            var singleLineSpacing = font.Os2Table.UseTypoMetrics ? MeasureSingleLineSpacing_sTypo(font, fontSize) : MeasureFontHeight_New(font, fontSize);
+
+            return singleLineSpacing;
+        }
+        internal static double MeasureFontHeight_New(OpenTypeFont font, double fontSize)
+        {
+            var asc = font.HheaTable.ascender;
+            var desc = font.HheaTable.descender;
+            var lineGap = font.HheaTable.lineGap;
+            var size = fontSize;
+            var em = font.HeadTable.UnitsPerEm;
+            var lineHeight = asc + desc + lineGap;
+            var lineHeightPt = lineHeight * (size / em);
+            return lineHeightPt;
+        }
 
         /// <summary>
         /// In modern fonts 

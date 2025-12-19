@@ -172,6 +172,10 @@ namespace EPPlus.Fonts.OpenType
         {
             return TextData.GetSingleLineSpacing(CurrentFont, FontSize);
         }
+        public double GetSingleLineSpacing_New()
+        {
+            return TextData.GetSingleLineSpacing_new(CurrentFont, FontSize);
+        }
 
         public double GetBaseLine()
         {
@@ -195,7 +199,7 @@ namespace EPPlus.Fonts.OpenType
             var TextMeasurement = new TextMeasurement();
             SetFont(font.Size, font.FontFamily, GetFontSubType(font.Style));
             TextMeasurement.Width = (float)MeasureTextWidth(text);
-            TextMeasurement.Height = (float)GetSingleLineSpacing();
+            TextMeasurement.Height = (float)GetSingleLineSpacing_New();
             TextMeasurement.FontHeight = (float)InternalFontHeight();
             return TextMeasurement;
         }

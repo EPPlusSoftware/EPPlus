@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using EPPlus.Graphics;
+using System.Linq;
 
 namespace EPPlusImageRenderer.Text
 {
@@ -133,9 +134,7 @@ namespace EPPlusImageRenderer.Text
         private double GetAlignmentVertical()
         {
             double alignmentY = 0;
-
-            var y = paragraphStartPosY;
-
+            double y = paragraphStartPosY;
             var height = y - Bounds.Bottom;
 
             switch (VerticalAlignment)
