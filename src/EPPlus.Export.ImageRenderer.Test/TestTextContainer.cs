@@ -8,6 +8,9 @@ using System.Text;
 using EPPlus.Graphics;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Fonts.OpenType;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {

@@ -13,7 +13,13 @@
 
 using EPPlus.Export.ImageRenderer;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.Svg;
+using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
+using EPPlus.Export.ImageRenderer.Svg.Writer;
+using EPPlus.Export.ImageRenderer.Text;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
 using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Export.ImageRenderer.Svg.Writer;
 using EPPlus.Export.ImageRenderer.Text;
@@ -24,11 +30,16 @@ using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Text;
+using System.Xml.Linq;
 using System.Xml.Linq;
 
 namespace EPPlusImageRenderer
@@ -76,6 +87,7 @@ namespace EPPlusImageRenderer
             var sRange = new SvgRange(range, totalWidth, totalHeight);
 
             var sb = new StringBuilder();
+            sb.Append($"<svg width=\"{500}\" height=\"{500}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\">");
             sb.Append($"<svg width=\"{500}\" height=\"{500}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\">");
             sRange.Render(sb);
             sb.Append($"</svg>");
