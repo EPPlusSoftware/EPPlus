@@ -12,6 +12,8 @@
  *************************************************************************************************/
 using EPPlus.Graphics.Math;
 
+using EPPlus.Graphics.Math;
+
 namespace EPPlus.Graphics
 {
     //REname and move class? Inherit from transform? what do?
