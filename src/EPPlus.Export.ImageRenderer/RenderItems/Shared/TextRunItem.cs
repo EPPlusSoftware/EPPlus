@@ -16,13 +16,12 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using EPPlus.Fonts.OpenType.Utils;
 using System.Collections.Generic;
 using System.Linq;
+using EPPlus.Graphics;
 
 namespace EPPlusImageRenderer.RenderItems.Shared
 {
-    internal abstract class TextRunItem
+    internal abstract class TextRunItem : RenderItem
     {
-        internal RectBase BoundingBox = new RectBase();
-
         internal Coordinate origin = new Coordinate(0,0);
         internal ExcelParagraphTextRunBase TextRun;
 
@@ -47,6 +46,8 @@ namespace EPPlusImageRenderer.RenderItems.Shared
 
             FontName = measurementFont.FontFamily;
 
+            //textRun.Paragraph._paragraphs.FirstDefaultRunProperties.sty
+            //textRun.Fill
             //double fontSize = TextRun.FontSize < 0 || TextRun.FontSize == minValueParagraphSize ? defaultFontSize : TextRun.FontSize;
             
             double fontSize = measurementFont.Size;
@@ -69,7 +70,7 @@ namespace EPPlusImageRenderer.RenderItems.Shared
 
         //public override SvgItemType Type => SvgItemType.Rect;
 
-        internal void GetBounds(out double il, out double it, out double ir, out double ib)
+        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {
             il = origin.X;
             it = origin.Y;
@@ -77,10 +78,10 @@ namespace EPPlusImageRenderer.RenderItems.Shared
             ir = CalculateRightPositionInPixels();
             ib = CalculateBottomPositionInPixels();
 
-            BoundingBox.Left = il;
-            BoundingBox.Top = it;
-            BoundingBox.Right = ir;
-            BoundingBox.Bottom = ib;
+            Bounds.Left = il;
+            Bounds.Top = it;
+            Bounds.Right = ir;
+            Bounds.Bottom = ib;
         }
 
         internal double CalculateBottomPositionInPixels()

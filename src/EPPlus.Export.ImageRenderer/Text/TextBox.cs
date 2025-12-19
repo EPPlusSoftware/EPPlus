@@ -46,7 +46,7 @@ namespace EPPlusImageRenderer.Text
             set;
         }
 
-        public override SvgItemType Type => SvgItemType.Rect;
+        public override RenderItemType Type => RenderItemType.Rect;
 
         /// <summary>
         /// Top of the paragraph bounding box
@@ -188,7 +188,7 @@ namespace EPPlusImageRenderer.Text
             return Bounds.GetInnerRect();
         }
 
-        internal SvgParagraph AddParagraph(ExcelDrawingParagraph item)
+        internal SvgParagraph ImportParagraph(ExcelDrawingParagraph item)
         {
             var measureFont = item.DefaultRunProperties.GetMeasureFont();
 

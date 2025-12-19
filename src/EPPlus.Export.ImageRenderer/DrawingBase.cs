@@ -13,26 +13,32 @@
 
 using EPPlus.Export.ImageRenderer;
 using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EPPlusImageRenderer
 {
-    internal abstract class DrawingBase
+    internal abstract class DrawingBase : RenderItem
     {
-         internal DrawingBase(ExcelDrawing drawing)
+        protected ExcelWorkbook _wb;
+
+        internal DrawingBase(ExcelDrawing drawing) : base(drawing)
         {
             drawing.GetSizeInPixels(out int width, out int height);
             Drawing = drawing;
             Size = new DrawingSize(width, height);
             TextMeasurer = drawing._drawings._package.Settings.TextSettings.PrimaryTextMeasurer;
+
+            _wb = drawing._drawings.Worksheet.Workbook;
+            _theme = _wb.ThemeManager.GetOrCreateTheme();
         }
         public ExcelDrawing Drawing { get; }
         internal ITextMeasurer TextMeasurer { get; }
         public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
         public DrawingSize Size { get; internal set; }
-        public abstract void Render(StringBuilder sb);
     }
 }

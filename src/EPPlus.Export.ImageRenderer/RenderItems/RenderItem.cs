@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Graphics;
 using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart.Style;
@@ -64,6 +65,36 @@ namespace EPPlusImageRenderer.RenderItems
             item.LineJoin = LineJoin;
             item.FillColorSource = FillColorSource;
         }
+
+        //internal virtual void SetDrawingPropertiesFill(ExcelDrawingFill fill)
+        //{
+        //    switch (fill.Style)
+        //    {
+        //        case eFillStyle.NoFill:
+        //            if (fill.IsEmpty)
+        //            {
+        //                FillColor = GetFillColor(fill, FillColorSource);
+        //            }
+        //            else
+        //            {
+        //                FillColor = "none";
+        //            }
+        //            break;
+        //        case eFillStyle.SolidFill:
+        //            FillColor = GetFillColor(fill, fill.SolidFill.Color, FillColorSource);
+        //            break;
+        //        case eFillStyle.GradientFill:
+        //            GradientFill = new DrawGradientFill(_theme, fill.GradientFill);
+        //            FillColor = null;
+        //            break;
+        //        case eFillStyle.PatternFill:
+        //            PatternFill = fill.PatternFill;
+        //            break;
+        //        case eFillStyle.BlipFill:
+        //            BlipFill = fill.BlipFill;
+        //            break;
+        //    }
+        //}
         internal virtual void SetDrawingPropertiesFill(ExcelDrawingFill fill, ExcelDrawingColorManager color)
         {
             switch (fill.Style)
@@ -159,6 +190,32 @@ namespace EPPlusImageRenderer.RenderItems
             return null;
         }
 
+        //private string GetFillColor(ExcelDrawingFill fill, PathFillMode fillColorSource)
+        //{
+        //    if (fillColorSource == PathFillMode.None)
+        //    {
+        //        return "none";
+        //    }
+
+        //    Color fc;
+
+        //    if (fill == null || fill.Style == eFillStyle.NoFill)
+        //    {
+        //       fc = EPPlusColorConverter.GetThemeColor(_theme.ColorScheme.Accent1);
+        //    }
+        //    else if (fill.Style == eFillStyle.SolidFill)
+        //    {
+        //        fc = EPPlusColorConverter.GetThemeColor(_theme, fill.SolidFill.Color);
+        //    }
+        //    else
+        //    {
+        //        return string.Empty;
+        //    }
+
+        //    fc = ColorUtils.GetAdjustedColor(fillColorSource, fc);
+        //    return "#" + fc.ToArgb().ToString("x8").Substring(2);
+        //}
+
         private string GetFillColor(ExcelDrawingFillBasic fill, ExcelDrawingColorManager styleFillColor, PathFillMode fillColorSource)
         {
             if (fillColorSource == PathFillMode.None)
@@ -190,6 +247,8 @@ namespace EPPlusImageRenderer.RenderItems
             fc = ColorUtils.GetAdjustedColor(fillColorSource, fc);
             return "#" + fc.ToArgb().ToString("x8").Substring(2);
         }
+
+        internal BoundingBox Bounds = new BoundingBox();
         internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
     }
     /// <summary>
@@ -197,7 +256,7 @@ namespace EPPlusImageRenderer.RenderItems
     /// </summary>
     internal abstract class RenderItemBase
     {
-        public abstract SvgItemType Type { get; }
+        public abstract RenderItemType Type { get; }
         public abstract void Render(StringBuilder sb);
 
     }

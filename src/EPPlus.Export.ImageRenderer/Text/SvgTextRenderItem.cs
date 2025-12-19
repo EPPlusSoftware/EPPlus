@@ -11,7 +11,7 @@ namespace EPPlus.Export.ImageRenderer.Text
     {
 
 
-        public override SvgItemType Type => throw new NotImplementedException();
+        public override RenderItemType Type => throw new NotImplementedException();
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {

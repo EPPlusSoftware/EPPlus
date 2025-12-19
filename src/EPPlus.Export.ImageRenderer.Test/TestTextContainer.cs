@@ -111,17 +111,17 @@ namespace EPPlus.Export.ImageRenderer.Tests
             shapeRect.Height = 10;
 
             FontMeasurerTrueType measurer = new FontMeasurerTrueType(12, "Aptos Narrow", FontSubFamily.Regular);
-            var body = new TextBody(measurer, shapeRect, true);
+            var body = new TextBody(shapeRect);
 
-            body.transform.Name = "TxtBody";
+            body.Bounds.transform.Name = "TxtBody";
 
-            body.AddText("A new Paragraph");
-            body.AddText("Second paragraph");
+            body.AddText("A new Paragraph", measurer);
+            body.AddText("Second paragraph", measurer);
 
-            Assert.AreEqual(2, body.transform.ChildObjects.Count);
-            Assert.AreEqual(body.transform.ChildObjects[0], body.Runs[0].transform);
+            Assert.AreEqual(2, body.Bounds.transform.ChildObjects.Count);
+            Assert.AreEqual(body.Bounds.transform.ChildObjects[0], body.Paragraphs[0].Bounds.transform);
 
-            Assert.AreEqual(shapeRect.transform, body.transform.Parent);
+            Assert.AreEqual(shapeRect.transform, body.Bounds.transform.Parent);
         }
 
         //[TestMethod]

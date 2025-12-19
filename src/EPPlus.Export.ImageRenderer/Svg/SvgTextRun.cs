@@ -367,7 +367,7 @@ namespace EPPlusImageRenderer.Svg
 
         public RectBase textArea;
 
-        public override SvgItemType Type => SvgItemType.TSpan;
+        public override RenderItemType Type => RenderItemType.TSpan;
 
         public override void Render(StringBuilder sb)
         {

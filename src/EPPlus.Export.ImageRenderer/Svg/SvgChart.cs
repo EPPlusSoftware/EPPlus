@@ -62,6 +62,9 @@ namespace EPPlusImageRenderer.Svg
         internal SvgChartTitle VerticalAxisTitle { get; set; }
         internal SvgChartTitle HorizontalAxisTitle { get; set; }
         internal SvgChartTitle SecondHorizontalAxisTitle { get; set; }
+
+        public override RenderItemType Type => throw new System.NotImplementedException();
+
         private void AddPlotArea()
         {
             if (HorizontalAxis!=null) RenderItems.AddRange(HorizontalAxis?.RenderItems);
@@ -93,7 +96,7 @@ namespace EPPlusImageRenderer.Svg
             foreach (var item in RenderItems)
             {
                 item.Render(sb);
-                if (item.Type == SvgItemType.Group && gItemTest == null)
+                if (item.Type == RenderItemType.Group && gItemTest == null)
                 {
                     gItemTest = (SvgGroupItem)item;
                 }
@@ -107,6 +110,11 @@ namespace EPPlusImageRenderer.Svg
                 gItemTest.RenderEndGroup(sb);
             }
             sb.Append("</svg>");
+        }
+
+        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

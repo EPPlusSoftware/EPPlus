@@ -73,10 +73,18 @@ namespace EPPlusImageRenderer.Svg
             private set;
         }
         public SvgChartTitle AxisTitle { get; }
+
+        public override RenderItemType Type => throw new System.NotImplementedException();
+
         public override void Render(StringBuilder sb)
         {
             AxisTitle?.Render(sb);
             Rectangle.Render(sb);
+        }
+
+        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
