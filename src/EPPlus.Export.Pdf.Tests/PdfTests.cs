@@ -35,25 +35,20 @@ namespace EPPlusTest.PDF
          * 
          * Merged Cells: Merged cells with no color set will have the color set to white to hide gridlines. They should not have color set to keep tranparency if we want to include background.
          * 
-         * HeaderFooter: Header Footer implementation
-         * 
          * Tables: Table Implementation
          * 
          * Patterns: Adjust and make patterns look better. Fixed: DarkUp, DarkDown
          * 
          * Gradients: Make diamond gradients instead of radial gradtient in from corner and center gradient
          * 
-         * Text: Rich Text Implementation
          * Text: Bold (Can now do back up bold if bold font not found)
          * Text: Italic (Can now do back up italic if italic font not found)
          * Text: Underline (Basic underline done, need double and single and double accounting)
          * Text: Strikethrough (Done, small adjustments to line to match excel perhaps)
          * Text: Superscript (Done, might need adjustments such as moving it towrds top of cell more)
          * Text: Subscript (Done, might need adjustments. Excel adjusts cell height and moves subscript lower inside the cell)
-         * Text: Wrap text
          * Text: Equations
          * Text: Shrink To Fit
-         * Text: Rotation
          * 
          * Layout: Center on page Horizontal and vertical
          * Layout: Scaling
@@ -68,9 +63,6 @@ namespace EPPlusTest.PDF
          * Layout: Calculate width and height of cells more correctly
          * 
          * Borders: Adjust and make border look better
-         * Borders: Check Adjecent cells for border decied which cells border to use
-         * Borders: Handle Merged cells with borders
-         * Borders: Fix diagnal border in merged cell
          * 
          * Pivot Table: Pivot table implementation
          * 
