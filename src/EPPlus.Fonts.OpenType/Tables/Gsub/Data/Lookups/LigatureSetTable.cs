@@ -106,7 +106,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
         /// </summary>
         internal LigatureSetTable Rewrite(FontSubsettingContext context)
         {
-            System.Diagnostics.Debug.WriteLine(string.Format("  LigatureSetTable.Rewrite: Processing {0} ligatures", this.Ligatures.Count));
+            System.Diagnostics.Debug.WriteLine(string.Format("  LigatureSetTable.Rewrite: Processing {0} ligatures",
+                this.Ligatures.Count));
 
             LigatureSetTable newSet = new LigatureSetTable();
 
@@ -129,6 +130,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
 
                 foreach (var oldCompGid in oldLig.Components)
                 {
+                    // ✅ FIX: Ignorera ligatur-komponenter (>= 400), bara mappa base characters
+                    if (oldCompGid >= 400)
+                    {
+                        System.Diagnostics.Debug.WriteLine(string.Format("        Component {0} is ligature, skipping", oldCompGid));
+                        continue; // Skippa ligatur-komponenter
+                    }
+
                     if (context.OldToNewGlyphId.TryGetValue(oldCompGid, out ushort newCompGid))
                     {
                         newComponents.Add(newCompGid);
@@ -142,7 +150,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
                     }
                 }
 
-                // ✅ FIX: Ta bort hasLigatureComponent-checken - tillåt ligaturer som komponenter!
                 if (allComponentsMapped)
                 {
                     newSet.Ligatures.Add(new LigatureTable

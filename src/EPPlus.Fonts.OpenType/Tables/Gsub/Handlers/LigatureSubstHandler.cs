@@ -27,18 +27,19 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
         {
             bool addedAny;
             int iterationCount = 0;
+
             do
             {
                 iterationCount++;
-                System.Diagnostics.Debug.WriteLine(string.Format("Iteration {0}, current glyph count: {1}", iterationCount, context.IncludedGlyphs.Count));
+                System.Diagnostics.Debug.WriteLine(string.Format("Ligature iteration {0}, current glyph count: {1}",
+                    iterationCount, context.IncludedGlyphs.Count));
 
                 addedAny = false;
 
                 foreach (var subtable in lookup.SubTables)
                 {
                     LigatureSubstSubTable ligSubtable = subtable as LigatureSubstSubTable;
-                    if (ligSubtable == null) continue;
-                    if (ligSubtable.LigatureSets == null) continue;
+                    if (ligSubtable == null || ligSubtable.LigatureSets == null) continue;
 
                     foreach (var kvp in ligSubtable.LigatureSets)
                     {
@@ -52,14 +53,36 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
                             if (context.IncludedGlyphs.Contains(lig.LigatureGlyph))
                                 continue;
 
-                            // ✅ FIX: Lägg till ligatur-glyphen OM första tecknet finns
-                            // Vi bryr oss INTE om komponenterna just nu - vi lägger till den ändå
-                            // eftersom vi behöver den för andra ligaturer
-                            context.IncludedGlyphs.Add(lig.LigatureGlyph);
-                            addedAny = true;
+                            // ✅ SIMPLIFIED: Kolla bara base character komponenter (< 400)
+                            bool allBaseComponentsExist = true;
 
-                            System.Diagnostics.Debug.WriteLine(string.Format("Added ligature GID {0} (first: {1})",
-                                lig.LigatureGlyph, firstGlyphId));
+                            if (lig.Components != null && lig.Components.Length > 0)
+                            {
+                                foreach (ushort compGid in lig.Components)
+                                {
+                                    // ✅ Bara validera base characters (< 400)
+                                    if (compGid < 400)
+                                    {
+                                        if (!context.IncludedGlyphs.Contains(compGid))
+                                        {
+                                            allBaseComponentsExist = false;
+                                            break;
+                                        }
+                                    }
+                                    // Ligatur-komponenter (>= 400) ignoreras helt
+                                }
+                            }
+
+                            if (allBaseComponentsExist)
+                            {
+                                context.IncludedGlyphs.Add(lig.LigatureGlyph);
+                                addedAny = true;
+
+                                System.Diagnostics.Debug.WriteLine(string.Format(
+                                    "Added ligature GID {0} (first: {1})",
+                                    lig.LigatureGlyph,
+                                    firstGlyphId));
+                            }
                         }
                     }
                 }
@@ -78,44 +101,57 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
                 SubTables = new List<FontTableElement>()
             };
 
-            foreach (var subtable in oldLookup.SubTables)
+            foreach (var oldSubtable in oldLookup.SubTables)
             {
-                LigatureSubstSubTable ligSubtable = subtable as LigatureSubstSubTable;
-                if (ligSubtable == null || ligSubtable.LigatureSets == null) continue;
-
-                System.Diagnostics.Debug.WriteLine(string.Format("Processing subtable with {0} LigatureSets", ligSubtable.LigatureSets.Count));
+                LigatureSubstSubTable oldLigSubtable = oldSubtable as LigatureSubstSubTable;
+                if (oldLigSubtable == null) continue;
+                if (oldLigSubtable.LigatureSets == null) continue;
 
                 var newSubTable = new LigatureSubstSubTable();
-                newSubTable.SubtableFormat = 1;  // ✅ LÄGG TILL DENNA RAD
+                newSubTable.SubtableFormat = 1;
                 newSubTable.LigatureSets = new Dictionary<ushort, LigatureSetTable>();
 
-                foreach (var kvp in ligSubtable.LigatureSets)
+                System.Diagnostics.Debug.WriteLine(string.Format("Processing subtable with {0} LigatureSets",
+                    oldLigSubtable.LigatureSets.Count));
+
+                foreach (var kvp in oldLigSubtable.LigatureSets)
                 {
-                    ushort oldFirstGlyphId = kvp.Key;
+                    ushort oldFirstGid = kvp.Key;
 
                     System.Diagnostics.Debug.WriteLine(string.Format("  Checking old GID {0}, in mapping: {1}",
-                        oldFirstGlyphId,
-                        context.OldToNewGlyphId.ContainsKey(oldFirstGlyphId)));
+                        oldFirstGid,
+                        context.OldToNewGlyphId.ContainsKey(oldFirstGid)));
 
-                    if (context.OldToNewGlyphId.TryGetValue(oldFirstGlyphId, out ushort newFirstGlyphId))
+                    if (!context.OldToNewGlyphId.TryGetValue(oldFirstGid, out ushort newFirstGid))
+                        continue;
+
+                    var rewrittenSet = kvp.Value.Rewrite(context);
+                    if (rewrittenSet != null && rewrittenSet.Ligatures.Count > 0)
                     {
-                        var rewrittenSet = kvp.Value.Rewrite(context);
+                        newSubTable.LigatureSets[newFirstGid] = rewrittenSet;
 
-                        if (rewrittenSet != null && rewrittenSet.Ligatures.Count > 0)
+                        System.Diagnostics.Debug.WriteLine(string.Format(
+                            "    ✅ Added LigatureSet for new GID {0} with {1} ligatures",
+                            newFirstGid,
+                            rewrittenSet.Ligatures.Count));
+
+                        // ✅ VISA VILKA LIGATURER SOM FINNS I SETET
+                        foreach (var lig in rewrittenSet.Ligatures)
                         {
-                            newSubTable.LigatureSets[newFirstGlyphId] = rewrittenSet;
-                            System.Diagnostics.Debug.WriteLine(string.Format("    ✅ Added LigatureSet for new GID {0} with {1} ligatures",
-                                newFirstGlyphId,
-                                rewrittenSet.Ligatures.Count));
+                            System.Diagnostics.Debug.WriteLine(string.Format(
+                                "      Ligature: {0} + [{1}] → {2}",
+                                newFirstGid,
+                                string.Join(",", Array.ConvertAll(lig.Components, x => x.ToString())),
+                                lig.LigatureGlyph));
                         }
                     }
                 }
 
-                System.Diagnostics.Debug.WriteLine(string.Format("Subtable result: {0} LigatureSets", newSubTable.LigatureSets.Count));
+                System.Diagnostics.Debug.WriteLine(string.Format("Subtable result: {0} LigatureSets",
+                    newSubTable.LigatureSets.Count));
 
                 if (newSubTable.LigatureSets.Count > 0)
                 {
-                    // ✅ SKAPA COVERAGE
                     var coveredGids = new List<ushort>(newSubTable.LigatureSets.Keys);
                     coveredGids.Sort();
 
@@ -127,11 +163,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
                     };
 
                     newLookup.SubTables.Add(newSubTable);
-                    System.Diagnostics.Debug.WriteLine(string.Format("    ✅ Added subtable with Coverage for {0} glyphs", coveredGids.Count));
+
+                    System.Diagnostics.Debug.WriteLine(string.Format(
+                        "    ✅ Added subtable with Coverage for {0} glyphs",
+                        coveredGids.Count));
                 }
             }
 
-            System.Diagnostics.Debug.WriteLine(string.Format("=== LigatureSubstHandler.Rewrite END: {0} subtables ===", newLookup.SubTables.Count));
+            System.Diagnostics.Debug.WriteLine(string.Format("=== LigatureSubstHandler.Rewrite END: {0} subtables ===",
+                newLookup.SubTables.Count));
+
             return newLookup.SubTables.Count > 0 ? newLookup : null;
         }
     }

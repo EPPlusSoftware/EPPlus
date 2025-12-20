@@ -386,21 +386,63 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
-        internal string GetEnglishFullFontFamilyName()
+        public string GetEnglishFullFontFamilyName()
         {
-            var nr =  NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FullFontName && x.LanguageMapping.Language == Languages.English);
-            if (nr == null) return null;
-            return nr.Name;
+            return GetNameString(NameRecordTypes.FullFontName);
         }
 
         public string GetEnglishFontFamilyName()
         {
-            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontFamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
+            return GetNameString(NameRecordTypes.FontFamilyName);
         }
 
-        internal string GetEnglishFontSubFamilyName()
+        public string GetEnglishFontSubFamilyName()
         {
-            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontSubfamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
+            return GetNameString(NameRecordTypes.FontSubfamilyName);
+        }
+
+        private string GetNameString(NameRecordTypes recordType)
+        {
+            // Priority 1: Windows English (Platform 3, Language 0x0409)
+            var windowsEnglish = NameTable.NameRecords.FirstOrDefault(x =>
+                x.platformId == 3 &&
+                x.languageID == 0x0409 &&
+                x.RecordType == recordType);
+
+            if (windowsEnglish != null && !string.IsNullOrEmpty(windowsEnglish.Name))
+                return windowsEnglish.Name;
+
+            // Priority 2: Mac English (Platform 1, Language 0)
+            var macEnglish = NameTable.NameRecords.FirstOrDefault(x =>
+                x.platformId == 1 &&
+                x.languageID == 0 &&
+                x.RecordType == recordType);
+
+            if (macEnglish != null && !string.IsNullOrEmpty(macEnglish.Name))
+                return macEnglish.Name;
+
+            // Priority 3: Unicode English (Platform 0, Language 0)
+            var unicodeEnglish = NameTable.NameRecords.FirstOrDefault(x =>
+                x.platformId == 0 &&
+                x.languageID == 0 &&
+                x.RecordType == recordType);
+
+            if (unicodeEnglish != null && !string.IsNullOrEmpty(unicodeEnglish.Name))
+                return unicodeEnglish.Name;
+
+            // Priority 4: ANY Windows record of this type (fallback)
+            var anyWindows = NameTable.NameRecords.FirstOrDefault(x =>
+                x.platformId == 3 &&
+                x.RecordType == recordType);
+
+            if (anyWindows != null && !string.IsNullOrEmpty(anyWindows.Name))
+                return anyWindows.Name;
+
+            // Priority 5: ANY record of this type (last resort)
+            var any = NameTable.NameRecords.FirstOrDefault(x =>
+                x.RecordType == recordType);
+
+            return any?.Name ?? string.Empty;
         }
 
         internal void AddOrReplaceTable<T>(T table)
