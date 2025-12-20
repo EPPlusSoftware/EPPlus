@@ -11,10 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Subsetting;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
 {

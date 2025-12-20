@@ -10,7 +10,9 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Subsetting;
 using System;
+using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
 {
@@ -38,6 +40,27 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
         internal override void Serialize(FontsBinaryWriter writer)
         {
             throw new NotImplementedException();
+        }
+
+        internal FeatureRecord Rewrite(FontSubsettingContext context, Dictionary<int, int> lookupMap)
+        {
+            if (this.FeatureTable == null) return null;
+
+            // Skapa en ny tabell baserat på den gamla
+            var rewrittenTable = this.FeatureTable.Rewrite(context, lookupMap);
+
+            // Om tabellen inte längre pekar på några lookups, kastar vi hela recorden
+            if (rewrittenTable == null || rewrittenTable.LookupListIndices.Length == 0)
+            {
+                return null;
+            }
+
+            return new FeatureRecord
+            {
+                FeatureTag = this.FeatureTag,
+                FeatureTable = rewrittenTable
+                // FeatureOffset räknas ut under serialiseringen senare
+            };
         }
     }
 }

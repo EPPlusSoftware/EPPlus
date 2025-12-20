@@ -57,37 +57,41 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
         /// <summary>
         /// Rewrites the feature list for a subset font.
         /// </summary>
-        internal FeatureListTable Rewrite(FontSubsettingContext context)
+        internal FeatureListTable Rewrite(FontSubsettingContext context, Dictionary<int, int> lookupMap)
         {
+            System.Diagnostics.Debug.WriteLine("=== FeatureListTable.Rewrite START ===");
+            System.Diagnostics.Debug.WriteLine(string.Format("Original features: {0}", this.FeatureRecords.Count));
+            System.Diagnostics.Debug.WriteLine(string.Format("Lookup map has {0} entries", lookupMap != null ? lookupMap.Count : 0));
+
             var newList = new FeatureListTable();
+            newList.FeatureRecords = new List<FeatureRecord>();
 
-            foreach (var record in this.FeatureRecords)
+            for (int i = 0; i < this.FeatureRecords.Count; i++)
             {
-                var newFeatureTable = new FeatureTable();
+                var oldRecord = this.FeatureRecords[i];
 
-                if (record.FeatureTable != null && record.FeatureTable.LookupListIndices != null)
+                System.Diagnostics.Debug.WriteLine(string.Format("Processing feature {0}: {1}", i, oldRecord.FeatureTag.Value));
+
+                // Skriv om featuren med den nya lookupmappen
+                var rewrittenRecord = oldRecord.Rewrite(context, lookupMap);
+
+                // ✅ FIX: Kolla om RECORDEN är null (inte featuren)
+                if (rewrittenRecord != null &&
+                    rewrittenRecord.FeatureTable != null &&
+                    rewrittenRecord.FeatureTable.LookupListIndices != null &&
+                    rewrittenRecord.FeatureTable.LookupListIndices.Length > 0)
                 {
-                    var oldIndices = record.FeatureTable.LookupListIndices;
-                    var newIndices = new ushort[oldIndices.Length];
-
-                    // Traditional for-loop is the fastest and safest way in .NET 3.5 
-                    // to copy a value-type array.
-                    for (int i = 0; i < oldIndices.Length; i++)
-                    {
-                        newIndices[i] = oldIndices[i];
-                    }
-
-                    newFeatureTable.LookupListIndices = newIndices;
-                    newFeatureTable.LookupCount = (ushort)newIndices.Length;
+                    newList.FeatureRecords.Add(rewrittenRecord);
+                    System.Diagnostics.Debug.WriteLine(string.Format("  ✅ Kept feature with {0} lookups",
+                        rewrittenRecord.FeatureTable.LookupListIndices.Length));
                 }
-
-                var newRecord = new FeatureRecord();
-                newRecord.FeatureTag = record.FeatureTag;
-                newRecord.FeatureTable = newFeatureTable;
-
-                newList.FeatureRecords.Add(newRecord);
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("  ❌ Removed feature (no valid lookups)");
+                }
             }
 
+            System.Diagnostics.Debug.WriteLine(string.Format("=== FeatureListTable.Rewrite END: {0} features ===", newList.FeatureRecords.Count));
             return newList;
         }
     }

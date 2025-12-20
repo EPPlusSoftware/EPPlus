@@ -10,11 +10,14 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub
 {
@@ -26,7 +29,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
     {
         public GsubTableLoader(TableLoaderSettings tblSettings) : base(tblSettings, TableNames.Gsub)
         {
+            _settings = tblSettings;
         }
+
+        private readonly TableLoaderSettings _settings;
 
         protected override GsubTable LoadInternal()
         {
@@ -77,6 +83,28 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
                 _reader.BaseStream.Seek(tableStartOffset + lookupListOffset, SeekOrigin.Begin);
                 gsubTable.LookupList = LoadLookupList(tableStartOffset + lookupListOffset);
             }
+
+            
+            //var lk = gsubTable.LookupList.Lookups
+            //    .Where(l => l.LookupType == 4)
+            //    .SelectMany(l => l.SubTables.OfType<LigatureSubstSubTable>())
+            //    .Any(st => st.LigatureSets.Values.Any(set => set.Ligatures.Any(lig => lig.LigatureGlyph == 444)));
+
+            //var lk2 = gsubTable.LookupList.Lookups.FindIndex(l => l.LookupType == 4 &&
+            //    l.SubTables.OfType<LigatureSubstSubTable>().Any(st =>
+            //        st.LigatureSets.Values.Any(set => set.Ligatures.Any(lig => lig.LigatureGlyph == 444))));
+
+            //var subtable8 = gsubTable.LookupList.Lookups[8].SubTables.OfType<LigatureSubstSubTable>().First();
+            //var coveredGids = subtable8.Coverage.GetCoveredGlyphs();
+            //bool contains74 = coveredGids.Contains((ushort)74);
+
+            //var origPos = _reader.BaseStream.Position;
+            //var glyfTable = TableLoaders.GetGlyfTableLoader(_settings).Load();
+            //var glyph444 = glyfTable.GetGlyph(444);
+            //// Kolla om den är simple eller composite
+            //bool isComposite = glyph444.CompositeData != null;
+            //// Kolla antal konturer (om den är Simple)
+            //int numberOfContours = glyph444.Header.numberOfContours;
 
             return gsubTable;
         }
@@ -279,6 +307,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
                         break;
                     case 7: // Extension Substitution
                         subTable = new ExtensionSubstSubTableDeserializer(_reader).Deserialize(subTableAbsoluteStart);
+                        break;
+                    default:
+                        int i4 = 0;
                         break;
                 }
 

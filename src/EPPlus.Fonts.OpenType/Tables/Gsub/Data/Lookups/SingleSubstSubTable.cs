@@ -43,22 +43,24 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
         /// Note: This implementation maps everything to Format 2 to ensure compatibility 
         /// when indices are no longer contiguous.
         /// </summary>
-        internal SingleSubstSubTable Rewrite(FontSubsettingContext context)
+        internal virtual SingleSubstSubTable Rewrite(FontSubsettingContext context, LookupTable oldLookup)
         {
-            // A list to temporarily hold our pairs of (New Input GID, New Output GID)
+            // Listan för att hålla (Nytt Input GID, Nytt Output GID)
             List<GsubRewriteEntry> validMappings = new List<GsubRewriteEntry>();
 
-            // Get all Glyph IDs that this table handles
+            // Hämta alla Glyph IDs som denna tabell hanterar från original-fonten
             ushort[] oldInputGlyphs = this.Coverage.GetCoveredGlyphs();
 
             foreach (ushort oldInputGid in oldInputGlyphs)
             {
-                // 1. Should the glyph that triggers the substitution be included in the subset?
+                // 1. Finns tecknet som triggar bytet (t.ex. 'f') i vårt subset?
                 if (context.OldToNewGlyphId.TryGetValue(oldInputGid, out ushort newInputGid))
                 {
+                    // Hämta vad tecknet skulle bytas ut mot (t.ex. GID 447)
                     ushort oldOutputGid = GetSubstitution(oldInputGid);
 
-                    // 2. Should the replacement glyph also be included in the subset?
+                    // 2. Finns ersättningstecknet (GID 447) också i vårt subset?
+                    // DETTA ÄR KRITISKT: Om 447 inte finns i IncludedGlyphs blir det ingen mappning.
                     if (context.OldToNewGlyphId.TryGetValue(oldOutputGid, out ushort newOutputGid))
                     {
                         validMappings.Add(new GsubRewriteEntry
@@ -72,10 +74,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
 
             if (validMappings.Count == 0) return null;
 
-            // Sort by NewInput - a strict requirement for the CoverageTable
+            // Sortera efter NewInput - ett strikt krav för CoverageTable i OpenType
             validMappings.Sort((a, b) => a.NewInput.CompareTo(b.NewInput));
 
-            // Create the new table as Format 2
+            // Skapa den nya tabellen som Format 2 (det säkraste för subsetting)
             var newTable = new SingleSubstSubTableFormat2();
             List<ushort> newInputs = new List<ushort>();
             newTable.SubstituteGlyphIDs = new ushort[validMappings.Count];
@@ -86,7 +88,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
                 newTable.SubstituteGlyphIDs[i] = validMappings[i].NewOutput;
             }
 
-            // Reconstruct the coverage and count
+            // Bygg om Coverage med de NYA GID-numren
             newTable.Coverage = CoverageTableFormat2.CreateCoverageFormat2(newInputs);
             newTable.GlyphCount = (ushort)validMappings.Count;
             newTable.SubtableFormat = 2;

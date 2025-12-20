@@ -55,35 +55,48 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
         /// Rewrites the lookup list. Note that in a full implementation, 
         /// removing lookups might require remapping indexes in Features.
         /// </summary>
-        internal LookupListTable Rewrite(FontSubsettingContext context)
+        internal LookupRewriteResult Rewrite(FontSubsettingContext context)
         {
-            var newList = new LookupListTable();
+            System.Diagnostics.Debug.WriteLine("=== LookupListTable.Rewrite START ===");
+            System.Diagnostics.Debug.WriteLine(string.Format("Original lookups: {0}", this.Lookups.Count));
 
-            foreach (var lookup in this.Lookups)
+            var result = new LookupRewriteResult
             {
-                var rewrittenLookup = lookup.Rewrite(context);
+                NewLookupList = new LookupListTable(),
+                OldToNewIndexMap = new Dictionary<int, int>()
+            };
 
-                // If the lookup still has data, add it to our new list.
-                // NOTE: If we remove lookups, we must be careful about Feature-to-Lookup indices.
-                // For a first version, we often keep the same number of lookups but 
-                // make the unused ones empty to maintain index integrity.
-                if (rewrittenLookup != null)
+            for (int i = 0; i < this.Lookups.Count; i++)
+            {
+                var oldLookup = this.Lookups[i];
+
+                System.Diagnostics.Debug.WriteLine(string.Format("Processing lookup {0}: Type {1}", i, oldLookup.LookupType));
+
+                var rewrittenLookup = context.GsubProcessor.RewriteLookup(context, oldLookup);
+
+                if (rewrittenLookup != null && rewrittenLookup.SubTables.Count > 0)
                 {
-                    newList.Lookups.Add(rewrittenLookup);
+                    int newIndex = result.NewLookupList.Lookups.Count;
+                    result.NewLookupList.Lookups.Add(rewrittenLookup);
+                    result.OldToNewIndexMap[i] = newIndex;
+
+                    System.Diagnostics.Debug.WriteLine(string.Format("  ✅ Kept lookup: old index {0} → new index {1}", i, newIndex));
                 }
                 else
                 {
-                    // If a lookup becomes empty, we add an empty LookupTable 
-                    // to keep indices consistent for the FeatureListTable.
-                    newList.Lookups.Add(new LookupTable
-                    {
-                        LookupType = lookup.LookupType,
-                        LookupFlag = lookup.LookupFlag
-                    });
+                    System.Diagnostics.Debug.WriteLine(string.Format("  ❌ Removed lookup {0} (no subtables)", i));
                 }
             }
 
-            return newList;
+            System.Diagnostics.Debug.WriteLine(string.Format("=== LookupListTable.Rewrite END: {0} lookups kept ===", result.NewLookupList.Lookups.Count));
+
+            System.Diagnostics.Debug.WriteLine("=== LOOKUP INDEX MAPPING ===");
+            foreach (var kvp in result.OldToNewIndexMap)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("  Old lookup {0} → New lookup {1}", kvp.Key, kvp.Value));
+            }
+
+            return result;
         }
     }
 }

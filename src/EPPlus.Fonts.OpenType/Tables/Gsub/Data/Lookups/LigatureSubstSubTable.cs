@@ -137,7 +137,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
         /// <summary>
         /// Rewrites the subtable using the provided subsetting context.
         /// </summary>
-        public LigatureSubstSubTable Rewrite(FontSubsettingContext context)
+        public LigatureSubstSubTable Rewrite(FontSubsettingContext context, LookupTable oldLookup)
         {
             var newSubTable = new LigatureSubstSubTable();
             newSubTable.SubtableFormat = this.SubtableFormat;

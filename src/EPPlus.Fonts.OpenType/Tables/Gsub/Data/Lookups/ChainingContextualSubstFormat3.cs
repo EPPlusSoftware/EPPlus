@@ -77,44 +77,59 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
         {
             var newTable = new ChainingContextualSubstFormat3();
 
-            // För varje kontext-del (Backtrack, Input, Lookahead) måste vi kontrollera 
-            // om alla tecken i Coverage fortfarande är relevanta.
+            // 1. Mappa om listorna. 
+            // Vår hjälpmetod RewriteCoverageList returnerar nu en tom lista istället för null
+            // om originalet var tomt/null, för att tillfredsställa Writer-koden.
+            newTable.BacktrackCoverages = RewriteCoverageList(this.BacktrackCoverages, context) ?? new List<CoverageTable>();
+            newTable.InputCoverages = RewriteCoverageList(this.InputCoverages, context);
+            newTable.LookaheadCoverages = RewriteCoverageList(this.LookaheadCoverages, context) ?? new List<CoverageTable>();
 
-            newTable.BacktrackCoverages = RewriteCoverageList(BacktrackCoverages, context);
-            newTable.InputCoverages = RewriteCoverageList(InputCoverages, context);
-            newTable.LookaheadCoverages = RewriteCoverageList(LookaheadCoverages, context);
-
-            // Om någon av listorna blev tom (men inte var det från början), 
-            // eller om den kritiska Input-listan är bruten, kasta hela subtabellen.
+            // 2. Validering: Input MÅSTE finnas för att regeln ska vara giltig.
             if (newTable.InputCoverages == null || newTable.InputCoverages.Count == 0) return null;
-            if (BacktrackCoverages.Count > 0 && (newTable.BacktrackCoverages == null || newTable.BacktrackCoverages.Count == 0)) return null;
-            if (LookaheadCoverages.Count > 0 && (newTable.LookaheadCoverages == null || newTable.LookaheadCoverages.Count == 0)) return null;
 
-            // Behåll lookup-records som de är (de pekar på LookupList-index, 
-            // vilket hanteras i LookupListTable.Rewrite)
-            newTable.SubstLookupRecords = new List<SubstLookupRecord>(this.SubstLookupRecords);
+            // 3. Kopiera records
+            if (this.SubstLookupRecords != null)
+            {
+                newTable.SubstLookupRecords = new List<SubstLookupRecord>(this.SubstLookupRecords);
+            }
+            else
+            {
+                newTable.SubstLookupRecords = new List<SubstLookupRecord>();
+            }
 
             return newTable;
         }
 
         private List<CoverageTable> RewriteCoverageList(List<CoverageTable> oldCoverages, FontSubsettingContext context)
         {
+            // Om originalet var null eller tomt, returnera en tom lista (inte null)
+            if (oldCoverages == null || oldCoverages.Count == 0)
+            {
+                return new List<CoverageTable>();
+            }
+
             var newCoverages = new List<CoverageTable>();
             foreach (var cov in oldCoverages)
             {
-                // Skapa en ny CoverageTable som bara innehåller de GIDs som finns i vårt subset
-                var filteredGids = cov.GetCoveredGlyphs()
-                    .Where(oldGid => context.OldToNewGlyphId.ContainsKey(oldGid))
-                    .Select(oldGid => context.OldToNewGlyphId[oldGid])
-                    .OrderBy(newGid => newGid)
-                    .ToList();
+                var oldGids = cov.GetCoveredGlyphs();
+                var validNewGids = new List<ushort>();
 
-                if (filteredGids.Count == 0) return null; // En del av kontexten försvann helt!
+                foreach (var oldGid in oldGids)
+                {
+                    if (context.OldToNewGlyphId.TryGetValue(oldGid, out ushort newGid))
+                    {
+                        validNewGids.Add(newGid);
+                    }
+                }
 
+                // Om en hel position i sekvensen försvinner, blir regeln ogiltig
+                if (validNewGids.Count == 0) return null;
+
+                validNewGids.Sort();
                 newCoverages.Add(new CoverageTableFormat1
                 {
-                    GlyphCount = (ushort)filteredGids.Count,
-                    GlyphArray = filteredGids.ToArray()
+                    GlyphArray = validNewGids.ToArray(),
+                    GlyphCount = (ushort)validNewGids.Count
                 });
             }
             return newCoverages;

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using EPPlus.Fonts.OpenType.Subsetting;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
@@ -20,6 +21,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
     /// Represents a Lookup table in the GSUB table.
     /// A lookup contains one or more subtables of the same type.
     /// </summary>
+    [DebuggerDisplay("LookupType: {LookupType}, Subtable count: {SubTableCount}")]
     public class LookupTable : FontTableElement
     {
         /// <summary>
@@ -93,38 +95,17 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
         /// </summary>
         internal LookupTable Rewrite(FontSubsettingContext context)
         {
-            var newLookup = new LookupTable
+            // Istället för att gissa här, fråga processorn efter rätt handler!
+            // (Vi antar att context har tillgång till din GsubProcessor)
+            var handler = context.GsubProcessor.GetHandler(this.LookupType);
+
+            if (handler != null)
             {
-                LookupType = this.LookupType,
-                LookupFlag = this.LookupFlag,
-                MarkFilteringSet = this.MarkFilteringSet
-            };
-
-            foreach (var subTable in this.SubTables)
-            {
-                FontTableElement rewrittenSubTable = null;
-
-                // Route to the correct Rewrite method based on subtable type
-                if (subTable is SingleSubstSubTable single)
-                    rewrittenSubTable = single.Rewrite(context);
-                else if (subTable is LigatureSubstSubTable ligature)
-                    rewrittenSubTable = ligature.Rewrite(context);
-                else if (subTable is ChainingContextualSubstFormat3 contextual)
-                    rewrittenSubTable = contextual.Rewrite(context);
-                else if (subTable is ExtensionSubstSubTable extension)
-                    rewrittenSubTable = extension.Rewrite(context);
-
-                // Only add the subtable if it still contains valid mappings after subsetting
-                if (rewrittenSubTable != null)
-                {
-                    newLookup.SubTables.Add(rewrittenSubTable);
-                }
+                return handler.Rewrite(context, this);
             }
 
-            // If no subtables remain, this entire lookup is redundant for the subset
-            if (newLookup.SubTables.Count == 0) return null;
-
-            return newLookup;
+            // Fallback: Om ingen handler finns, gör som förut eller returnera null
+            return null;
         }
     }
 }

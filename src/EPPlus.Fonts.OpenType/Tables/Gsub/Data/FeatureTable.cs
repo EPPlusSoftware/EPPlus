@@ -10,6 +10,9 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Subsetting;
+using System.Collections.Generic;
+
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
 {
     /// <summary>
@@ -58,6 +61,34 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
                     writer.WriteUInt16BigEndian(lookupIndex);
                 }
             }
+        }
+
+        internal FeatureTable Rewrite(FontSubsettingContext context, Dictionary<int, int> lookupMap)
+        {
+            var newIndices = new List<ushort>();
+
+            if (this.LookupListIndices != null)
+            {
+                foreach (var oldIndex in this.LookupListIndices)
+                {
+                    // Kolla om den gamla lookupen finns kvar i vår nya, filtrerade lista
+                    if (lookupMap.TryGetValue(oldIndex, out int newIndex))
+                    {
+                        newIndices.Add((ushort)newIndex);
+                    }
+                }
+            }
+
+            // Om inga lookups finns kvar för denna feature, returnera null 
+            // så att Recorden kan rensas bort.
+            if (newIndices.Count == 0) return null;
+
+            return new FeatureTable
+            {
+                FeatureParams = this.FeatureParams,
+                LookupCount = (ushort)newIndices.Count,
+                LookupListIndices = newIndices.ToArray()
+            };
         }
     }
 }

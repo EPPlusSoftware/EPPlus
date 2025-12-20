@@ -64,7 +64,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
         /// <summary>
         /// Rewrites the extension by rewriting the inner subtable.
         /// </summary>
-        internal ExtensionSubstSubTable Rewrite(FontSubsettingContext context)
+        internal ExtensionSubstSubTable Rewrite(FontSubsettingContext context, LookupTable oldLookup)
         {
             if (ExtendedSubTable == null) return null;
 
@@ -72,9 +72,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
             FontTableElement rewrittenInner = null;
 
             if (ExtendedSubTable is SingleSubstSubTable single)
-                rewrittenInner = single.Rewrite(context);
+                rewrittenInner = single.Rewrite(context, oldLookup);
             else if (ExtendedSubTable is LigatureSubstSubTable ligature)
-                rewrittenInner = ligature.Rewrite(context);
+                rewrittenInner = ligature.Rewrite(context, oldLookup);
             else if (ExtendedSubTable is ChainingContextualSubstFormat3 contextual)
                 rewrittenInner = contextual.Rewrite(context);
             // Add more types here as they are implemented

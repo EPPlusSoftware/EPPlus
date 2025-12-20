@@ -117,21 +117,26 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
             newGsub.MajorVersion = this.MajorVersion;
             newGsub.MinorVersion = this.MinorVersion;
 
-            // 1. Rewrite the LookupList (The foundation where glyphs are filtered)
+            // 1. Skriv om Lookups först - detta skapar den nya listan OCH kartan över index-ändringar
+            LookupRewriteResult lookupResult = null;
             if (this.LookupList != null)
             {
-                newGsub.LookupList = this.LookupList.Rewrite(context);
+                lookupResult = this.LookupList.Rewrite(context);
+                newGsub.LookupList = lookupResult.NewLookupList;
             }
 
-            // 2. Rewrite the FeatureList (Points to Lookup indices)
-            if (this.FeatureList != null)
+            // 2. Skriv om FeatureList - skicka med kartan (OldToNewIndexMap)
+            if (this.FeatureList != null && lookupResult != null)
             {
-                newGsub.FeatureList = this.FeatureList.Rewrite(context);
+                // Här behöver Rewrite-metoden ta emot kartan för att kunna peka om indexen korrekt
+                newGsub.FeatureList = this.FeatureList.Rewrite(context, lookupResult.OldToNewIndexMap);
             }
 
-            // 3. Rewrite the ScriptList (Points to Feature indices)
+            // 3. Skriv om ScriptList 
             if (this.ScriptList != null)
             {
+                // ScriptList pekar på Feature-index. 
+                // Om du har tagit bort features i steg 2 behöver du en liknande karta här!
                 newGsub.ScriptList = this.ScriptList.Rewrite(context);
             }
 

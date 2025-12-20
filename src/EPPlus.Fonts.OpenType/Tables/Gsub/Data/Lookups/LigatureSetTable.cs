@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Subsetting;
+using System;
 using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
@@ -105,15 +106,55 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
         /// </summary>
         internal LigatureSetTable Rewrite(FontSubsettingContext context)
         {
+            System.Diagnostics.Debug.WriteLine(string.Format("  LigatureSetTable.Rewrite: Processing {0} ligatures", this.Ligatures.Count));
+
             LigatureSetTable newSet = new LigatureSetTable();
+
             foreach (LigatureTable oldLig in this.Ligatures)
             {
-                LigatureTable rewritten = oldLig.CloneAndRewrite(context);
-                if (rewritten != null)
+                System.Diagnostics.Debug.WriteLine(string.Format("    Ligature: output={0}, components={1}",
+                    oldLig.LigatureGlyph,
+                    oldLig.Components == null ? "NULL" : string.Join(",", Array.ConvertAll(oldLig.Components, x => x.ToString()))));
+
+                if (!context.OldToNewGlyphId.TryGetValue(oldLig.LigatureGlyph, out ushort newTargetGid))
                 {
-                    newSet.Ligatures.Add(rewritten);
+                    System.Diagnostics.Debug.WriteLine(string.Format("      ❌ Target glyph {0} not in mapping", oldLig.LigatureGlyph));
+                    continue;
+                }
+
+                System.Diagnostics.Debug.WriteLine(string.Format("      ✅ Target glyph {0} → {1}", oldLig.LigatureGlyph, newTargetGid));
+
+                var newComponents = new List<ushort>();
+                bool allComponentsMapped = true;
+
+                foreach (var oldCompGid in oldLig.Components)
+                {
+                    if (context.OldToNewGlyphId.TryGetValue(oldCompGid, out ushort newCompGid))
+                    {
+                        newComponents.Add(newCompGid);
+                        System.Diagnostics.Debug.WriteLine(string.Format("        Component {0} → {1}", oldCompGid, newCompGid));
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine(string.Format("        ❌ Component {0} NOT FOUND", oldCompGid));
+                        allComponentsMapped = false;
+                        break;
+                    }
+                }
+
+                // ✅ FIX: Ta bort hasLigatureComponent-checken - tillåt ligaturer som komponenter!
+                if (allComponentsMapped)
+                {
+                    newSet.Ligatures.Add(new LigatureTable
+                    {
+                        LigatureGlyph = newTargetGid,
+                        Components = newComponents.ToArray()
+                    });
+                    System.Diagnostics.Debug.WriteLine("      ✅ ADDED ligature to new set!");
                 }
             }
+
+            System.Diagnostics.Debug.WriteLine(string.Format("  LigatureSetTable.Rewrite: Result has {0} ligatures", newSet.Ligatures.Count));
             return newSet.Ligatures.Count > 0 ? newSet : null;
         }
     }

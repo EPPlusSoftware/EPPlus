@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Subsetting;
+using EPPlus.Fonts.OpenType.Tables.Gsub.Data;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,46 +22,90 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
     {
         public ushort LookupType => 1;
 
-        public void Discover(FontSubsettingContext context, LookupTable lookup)
+        public void Discover(FontSubsettingContext context, LookupTable lookup, GsubSubsetProcessor processor)
         {
-            // We iterate using a copy of the current glyphs to check if any existing glyph 
-            // triggers a substitution. The GsubSubsetProcessor manages the iterative state
-            // by monitoring if context.IncludedGlyphs grows.
-            var currentGlyphs = context.IncludedGlyphs.ToArray();
-            foreach (var subtable in lookup.SubTables.OfType<SingleSubstSubTable>())
+            // Tips: Vi kan loopa tills IncludedGlyphs slutar växa för att fånga kedjereaktioner
+            bool glyphsAdded;
+            do
             {
-                foreach (ushort gid in currentGlyphs)
+                glyphsAdded = false;
+                var currentGlyphs = context.IncludedGlyphs.ToArray();
+
+                foreach (var subtable in lookup.SubTables.OfType<SingleSubstSubTable>())
                 {
-                    ushort substitute = subtable.GetSubstitution(gid);
-                    if (substitute != 0 && !context.IncludedGlyphs.Contains(substitute))
+                    foreach (ushort gid in currentGlyphs)
                     {
-                        context.IncludedGlyphs.Add(substitute);
-                        // The addition to the HashSet will be detected by the 
-                        // do-while loop in GsubSubsetProcessor.
+                        ushort substitute = subtable.GetSubstitution(gid);
+
+                        // Om vi hittar en giltig ersättare som vi inte har än
+                        if (substitute != 0 && !context.IncludedGlyphs.Contains(substitute))
+                        {
+                            context.IncludedGlyphs.Add(substitute);
+                            glyphsAdded = true;
+                        }
                     }
                 }
-            }
+            } while (glyphsAdded); // Kör igen om vi hittade nya glyfer (viktigt för kedjade byten)
         }
 
         public LookupTable Rewrite(FontSubsettingContext context, LookupTable oldLookup)
         {
-            var newLookup = new LookupTable
-            {
-                LookupType = 1,
-                LookupFlag = oldLookup.LookupFlag,
-                SubTables = new List<FontTableElement>()
-            };
+            var newLookup = new LookupTable { LookupType = 1, LookupFlag = oldLookup.LookupFlag, SubTables = new List<FontTableElement>() };
 
             foreach (var subtable in oldLookup.SubTables.OfType<SingleSubstSubTable>())
             {
-                var rewritten = subtable.Rewrite(context);
-                if (rewritten != null)
+                // 1. Extrahera mappningarna med hjälpmetoden ovan
+                var oldMappings = GetMappings(subtable);
+                var validMappings = new List<GsubRewriteEntry>();
+
+                // 2. Mappa om dem till subset-GIDs
+                foreach (var map in oldMappings)
                 {
-                    newLookup.SubTables.Add(rewritten);
+                    if (context.OldToNewGlyphId.TryGetValue(map.Key, out ushort newInputGid) &&
+                        context.OldToNewGlyphId.TryGetValue(map.Value, out ushort newOutputGid))
+                    {
+                        validMappings.Add(new GsubRewriteEntry { NewInput = newInputGid, NewOutput = newOutputGid });
+                    }
+                }
+
+                // 3. Skapa den nya subtabellen om vi har kvar några mappningar
+                if (validMappings.Count > 0)
+                {
+                    validMappings.Sort((a, b) => a.NewInput.CompareTo(b.NewInput));
+                    var newSub = new SingleSubstSubTableFormat2
+                    {
+                        SubstituteGlyphIDs = validMappings.Select(m => m.NewOutput).ToArray(),
+                        Coverage = CoverageTableFormat2.CreateCoverageFormat2(validMappings.Select(m => m.NewInput).ToList()),
+                        GlyphCount = (ushort)validMappings.Count, // <--- VIKTIGT!
+                        SubtableFormat = 2
+                    };
+                    newLookup.SubTables.Add(newSub);
+                    System.Diagnostics.Debug.WriteLine($"SingleSubst: Behåller {validMappings.Count} mappningar.");
+                }
+            }
+            return newLookup.SubTables.Count > 0 ? newLookup : null;
+        }
+
+        private Dictionary<ushort, ushort> GetMappings(SingleSubstSubTable subtable)
+        {
+            var mappings = new Dictionary<ushort, ushort>();
+
+            // Hämta alla GID som denna subtable täcker
+            var inputGids = subtable.Coverage.GetCoveredGlyphs();
+
+            foreach (var oldGid in inputGids)
+            {
+                // Använd den existerande abstrakta metoden som sköter 
+                // både Delta (Format 1) och Array (Format 2) åt oss!
+                ushort substitutedGid = subtable.GetSubstitution(oldGid);
+
+                if (substitutedGid != 0)
+                {
+                    mappings[oldGid] = substitutedGid;
                 }
             }
 
-            return newLookup.SubTables.Count > 0 ? newLookup : null;
+            return mappings;
         }
     }
 }

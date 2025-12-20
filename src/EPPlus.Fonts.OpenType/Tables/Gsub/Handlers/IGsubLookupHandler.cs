@@ -20,7 +20,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
         ushort LookupType { get; }
 
         // Phase 1: Identify which glyphs are affected and should be included in the subset
-        void Discover(FontSubsettingContext context, LookupTable lookup);
+        void Discover(FontSubsettingContext context, LookupTable lookup, GsubSubsetProcessor processor);
 
         // Phase 2: Create a new, filtered table based on the included glyphs
         LookupTable Rewrite(FontSubsettingContext context, LookupTable oldLookup);
