@@ -13,7 +13,7 @@
 using EPPlus.Fonts.OpenType.Subsetting;
 using System.Collections.Generic;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
+namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Features
 {
     /// <summary>
     /// Represents a Feature Table which defines a specific font feature (e.g., ligatures) 

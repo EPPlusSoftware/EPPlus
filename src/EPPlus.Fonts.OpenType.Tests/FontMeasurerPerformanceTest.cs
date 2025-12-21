@@ -51,7 +51,7 @@ namespace EPPlus.Fonts.OpenType.Tests
 
             Trace.WriteLine(timer.ElapsedMilliseconds);
 
-            Assert.IsTrue(timer.ElapsedMilliseconds < 1000);
+            Assert.IsTrue(timer.ElapsedMilliseconds < 1000, "timer.ElapsedMilliseconds was > 1000, actual value: " + timer.ElapsedMilliseconds);
 
             ////Below is verification of previous text-wrapping.
             ////Might be unnecesary and can be removed in the future.

@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using System;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
+namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts
 {
     /// <summary>
     /// Represents a Script Record within the Script List table.

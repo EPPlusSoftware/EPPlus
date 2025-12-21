@@ -10,19 +10,15 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using System;
-
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
+namespace EPPlus.Fonts.OpenType.Tables.Common.Coverage
 {
-    public class CoverageRangeRecord : FontTableElement
+    public abstract class CoverageTable : FontTableElement
     {
-        public ushort StartGlyphID { get; set; }
-        public ushort EndGlyphID { get; set; }
-        public ushort StartCoverageIndex { get; set; }
+        public ushort CoverageFormat { get; set; }
+        public abstract ushort[] CoveredGlyphs { get; }
 
-        internal override void Serialize(FontsBinaryWriter writer)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract int GetGlyphIndex(ushort glyphId);
+
+        public abstract ushort[] GetCoveredGlyphs();
     }
 }

@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EPPlus.Fonts.OpenType.Subsetting;
+using EPPlus.Fonts.OpenType.Tables.Common.Coverage;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
 {

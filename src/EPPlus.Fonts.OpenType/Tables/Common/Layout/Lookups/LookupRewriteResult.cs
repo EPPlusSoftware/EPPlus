@@ -10,15 +10,16 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups
 {
-    public abstract class CoverageTable : FontTableElement
+    internal class LookupRewriteResult
     {
-        public ushort CoverageFormat { get; set; }
-        public abstract ushort[] CoveredGlyphs { get; }
-
-        public abstract int GetGlyphIndex(ushort glyphId);
-
-        public abstract ushort[] GetCoveredGlyphs();
+        public LookupListTable NewLookupList { get; set; }
+        public Dictionary<int, int> OldToNewIndexMap { get; set; }
     }
 }

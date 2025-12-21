@@ -10,10 +10,11 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Gsub.Data;
 using System.Collections.Generic;
 using System.IO;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
+namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts
 {
     /// <summary>
     /// Represents the Script List table in an OpenType font.
@@ -74,7 +75,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
             }
         }
 
-        internal ScriptListTable Rewrite(EPPlus.Fonts.OpenType.Subsetting.FontSubsettingContext context)
+        internal ScriptListTable Rewrite(Subsetting.FontSubsettingContext context)
         {
             var newList = new ScriptListTable();
 

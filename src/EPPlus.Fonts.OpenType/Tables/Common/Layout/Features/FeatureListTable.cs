@@ -13,7 +13,7 @@
 using System.Collections.Generic;
 using EPPlus.Fonts.OpenType.Subsetting;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
+namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Features
 {
     /// <summary>
     /// Represents the Feature List table in GSUB, mapping features to lookup indices.

@@ -9,9 +9,10 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  12/21/2025         EPPlus Software AB           Refactor: Inherit from ExtensionSubTableBase
  *************************************************************************************************/
-using System;
 using EPPlus.Fonts.OpenType.Subsetting;
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
 {
@@ -19,48 +20,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
     /// Represents an Extension Substitution subtable (Lookup Type 7).
     /// This is used to reference subtables that exceed the 16-bit offset limit.
     /// </summary>
-    public class ExtensionSubstSubTable : FontTableElement
+    public class ExtensionSubstSubTable : ExtensionSubTableBase
     {
-        /// <summary>
-        /// Gets or sets the lookup type of the subtable pointed to by the extension.
-        /// </summary>
-        public ushort ExtensionLookupType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the actual subtable being extended.
-        /// </summary>
-        public FontTableElement ExtendedSubTable { get; set; }
-
-        internal override void Serialize(FontsBinaryWriter writer)
-        {
-            long startPos = writer.BaseStream.Position;
-
-            // 1. Write Format (always 1)
-            writer.WriteUInt16BigEndian(1);
-
-            // 2. Write the original Lookup Type
-            writer.WriteUInt16BigEndian(ExtensionLookupType);
-
-            // 3. Write Placeholder for 32-bit Offset (ULONG)
-            long offsetPos = writer.BaseStream.Position;
-            writer.WriteUInt32BigEndian(0);
-
-            // 4. Serialize the extended subtable
-            if (ExtendedSubTable != null)
-            {
-                long subTablePos = writer.BaseStream.Position;
-                uint relativeOffset = (uint)(subTablePos - startPos);
-
-                // Go back and write the 32-bit offset
-                writer.BaseStream.Seek(offsetPos, System.IO.SeekOrigin.Begin);
-                writer.WriteUInt32BigEndian(relativeOffset);
-
-                // Return to end of subtable
-                writer.BaseStream.Seek(subTablePos, System.IO.SeekOrigin.Begin);
-                ExtendedSubTable.Serialize(writer);
-            }
-        }
-
         /// <summary>
         /// Rewrites the extension by rewriting the inner subtable.
         /// </summary>

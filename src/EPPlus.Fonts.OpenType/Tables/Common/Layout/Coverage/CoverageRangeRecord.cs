@@ -10,22 +10,19 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
-{
-    /// <summary>
-    /// Represents a Language System Record, which associates a specific language tag 
-    /// with a Language System Table.
-    /// </summary>
-    public class LangSysRecord
-    {
-        /// <summary>
-        /// Gets or sets the 4-byte Language System tag (e.g., 'SVE ' for Swedish), stored as a uint.
-        /// </summary>
-        public uint LangSysTag { get; set; }
+using System;
 
-        /// <summary>
-        /// Gets or sets the actual Language System Table associated with this record.
-        /// </summary>
-        public LangSysTable LangSysTable { get; set; }
+namespace EPPlus.Fonts.OpenType.Tables.Common.Coverage
+{
+    public class CoverageRangeRecord : FontTableElement
+    {
+        public ushort StartGlyphID { get; set; }
+        public ushort EndGlyphID { get; set; }
+        public ushort StartCoverageIndex { get; set; }
+
+        internal override void Serialize(FontsBinaryWriter writer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

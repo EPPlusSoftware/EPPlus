@@ -14,7 +14,7 @@ using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
+namespace EPPlus.Fonts.OpenType.Tables.Common.Coverage
 {
     /// <summary>
     /// Represents a Coverage Table Format 2, which defines glyph coverage using ranges.

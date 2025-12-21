@@ -13,7 +13,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
+namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts
 {
     public class ScriptTable : FontTableElement
     {

@@ -12,9 +12,8 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 using EPPlus.Fonts.OpenType.Subsetting;
-using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
+namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups
 {
     /// <summary>
     /// Represents the Lookup List table in GSUB, which contains all the lookups used for substitutions.

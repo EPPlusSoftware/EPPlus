@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data
+namespace EPPlus.Fonts.OpenType.Tables.Common.Coverage
 {
     public class CoverageTableFormat1 : CoverageTable
     {

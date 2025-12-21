@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using EPPlus.Fonts.OpenType.Subsetting;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
+namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups
 {
     /// <summary>
     /// Represents a Lookup table in the GSUB table.

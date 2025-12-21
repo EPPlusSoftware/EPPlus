@@ -1,13 +1,12 @@
-﻿using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.Scanner;
+﻿using EPPlus.Fonts.OpenType.Scanner;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Diagnostics;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace EPPlus.Fonts.OpenType.Tests
+namespace EPPlus.Fonts.OpenType.Tests.Reading
 {
     [TestClass]
-    public sealed class ReadTtfTests
+    public sealed class TtfReadingTests
     {
         private static string _fontFolder = string.Empty;
         private static List<string> _fontFolders = new List<string>();

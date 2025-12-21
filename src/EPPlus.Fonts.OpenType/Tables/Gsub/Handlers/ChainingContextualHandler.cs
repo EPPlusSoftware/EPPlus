@@ -1,5 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType.Subsetting;
-using EPPlus.Fonts.OpenType.Tables.Gsub.Data;
+using EPPlus.Fonts.OpenType.Tables.Common.Coverage;
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using System;
 using System.Collections.Generic;
