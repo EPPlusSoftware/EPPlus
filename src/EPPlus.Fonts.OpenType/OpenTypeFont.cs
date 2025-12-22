@@ -30,6 +30,7 @@ using EPPlus.Fonts.OpenType.Tables.Post;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -469,6 +470,12 @@ namespace EPPlus.Fonts.OpenType
 
         public OpenTypeFont CreateSubset(IEnumerable<char> usedChars)
         {
+            // Validate input
+            if (usedChars == null)
+                throw new ArgumentNullException(nameof(usedChars));
+
+            if (usedChars.Count() == 0)
+                throw new ArgumentException("Text cannot be empty", nameof(usedChars));
 
             var subsetBuilder = new SubsetFontBuilder();
 

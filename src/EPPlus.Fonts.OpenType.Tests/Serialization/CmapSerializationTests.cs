@@ -1,4 +1,5 @@
 ﻿using EPPlus.Fonts.OpenType.Scanner;
+using EPPlus.Fonts.OpenType.Tests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,12 @@ using System.Text;
 namespace EPPlus.Fonts.OpenType.Tests.Serialization
 {
     [TestClass]
-    public class CmapSerializationTests : SerializationTestBase
+    public class CmapSerializationTests : FontTestBase
     {
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
         {
-            SerializationTestHelper.ClassInitialize(testContext);
+            FontDirectoriesTestHelper.ClassInitialize(testContext);
         }
 
         [TestMethod]

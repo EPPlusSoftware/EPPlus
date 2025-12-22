@@ -1,14 +1,15 @@
 ﻿using EPPlus.Fonts.OpenType.FontValidation;
+using EPPlus.Fonts.OpenType.Tests.Helpers;
 
 namespace EPPlus.Fonts.OpenType.Tests.Validation
 {
     [TestClass]
-    public class EntireFontValidationTests : ValidationTestBase
+    public class EntireFontValidationTests : FontTestBase
     {
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
         {
-            ValidationTestHelper.ClassInitialize(testContext);
+            FontDirectoriesTestHelper.ClassInitialize(testContext);
         }
 
         [TestMethod]

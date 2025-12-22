@@ -5,6 +5,7 @@ using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using EPPlus.Fonts.OpenType.Tables.Post;
+using EPPlus.Fonts.OpenType.Tests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,12 @@ using System.Text;
 namespace EPPlus.Fonts.OpenType.Tests.Validation
 {
     [TestClass]
-    public class CoreTableValidationTests : ValidationTestBase
+    public class CoreTableValidationTests : FontTestBase
     {
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
         {
-            ValidationTestHelper.ClassInitialize(testContext);
+            FontDirectoriesTestHelper.ClassInitialize(testContext);
         }
 
         [TestMethod]

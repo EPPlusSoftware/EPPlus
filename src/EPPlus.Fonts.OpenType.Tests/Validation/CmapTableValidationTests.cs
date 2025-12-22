@@ -1,5 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType.FontValidation;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
+using EPPlus.Fonts.OpenType.Tests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,12 @@ using System.Text;
 namespace EPPlus.Fonts.OpenType.Tests.Validation
 {
     [TestClass]
-    public class CmapTableValidationTests : ValidationTestBase
+    public class CmapTableValidationTests : FontTestBase
     {
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
         {
-            ValidationTestHelper.ClassInitialize(testContext);
+            FontDirectoriesTestHelper.ClassInitialize(testContext);
         }
 
         [TestMethod]

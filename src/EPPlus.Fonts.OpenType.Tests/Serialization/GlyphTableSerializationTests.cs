@@ -1,4 +1,5 @@
 ﻿using EPPlus.Fonts.OpenType.Scanner;
+using EPPlus.Fonts.OpenType.Tests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,12 @@ using System.Threading.Tasks;
 namespace EPPlus.Fonts.OpenType.Tests.Serialization
 {
     [TestClass]
-    public class GlyphTableSerializationTests : SerializationTestBase
+    public class GlyphTableSerializationTests : FontTestBase
     {
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
         {
-            SerializationTestHelper.ClassInitialize(testContext);
+            FontDirectoriesTestHelper.ClassInitialize(testContext);
         }
 
         [TestMethod]

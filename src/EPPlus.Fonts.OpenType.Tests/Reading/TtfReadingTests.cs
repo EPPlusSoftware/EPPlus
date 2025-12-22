@@ -1,28 +1,34 @@
-﻿using EPPlus.Fonts.OpenType.Scanner;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  12/22/2025         EPPlus Software AB           TTF reading tests
+ *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tests.Helpers;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Diagnostics;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType.Tests.Reading
 {
     [TestClass]
-    public sealed class TtfReadingTests
+    public sealed class TtfReadingTests : FontTestBase
     {
-        private static string _fontFolder = string.Empty;
-        private static List<string> _fontFolders = new List<string>();
-
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
         {
-            _fontFolder = Path.Combine(AppContext.BaseDirectory, "Fonts");
-            _fontFolders.Clear();
-            _fontFolders.Add(_fontFolder);
+            FontDirectoriesTestHelper.ClassInitialize(testContext);
         }
 
         [TestMethod]
         public void ReadRobotoRegularTtf()
         {
-            OpenTypeFont? font = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular, false);
+            OpenTypeFont? font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false);
             Assert.IsNotNull(font);
             var cmap = font.CmapTable;
             Assert.AreEqual("Roboto", font.FullName);
@@ -35,7 +41,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         {
             Stopwatch sw = Stopwatch.StartNew();
             sw.Start();
-            OpenTypeFont? font = OpenTypeFonts.GetFontDataOpen(_fontFolders, "Roboto", FontSubFamily.Bold, false);
+            OpenTypeFont? font = OpenTypeFonts.GetFontDataOpen(FontFolders, "Roboto", FontSubFamily.Bold, false);
             sw.Stop();
             var ms = sw.ElapsedMilliseconds;
             Assert.IsNotNull(font);
@@ -46,7 +52,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadSourceSans3Otf()
         {
-            OpenTypeFont? font = OpenTypeFonts.GetFontDataOpen(_fontFolders, "Source Sans 3", FontSubFamily.Regular, false);
+            OpenTypeFont? font = OpenTypeFonts.GetFontDataOpen(FontFolders, "Source Sans 3", FontSubFamily.Regular, false);
             Assert.IsNotNull(font);
             Assert.AreEqual("Source Sans 3", font.FullName);
             Assert.AreEqual("Regular", font.SubFamily);
@@ -63,7 +69,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         /// Indicates font embedding licensing rights for the font. The interpretation of flags is as follows:
         /// 0: Installable embedding: the font may be embedded, and may be permanently installed for use on a remote systems, or for use by other users.
         /// 2: Restricted License embedding: the font must not be modified, embedded or exchanged in any manner without first obtaining explicit permission of the legal owner.
-        /// 4: Preview & Print embedding: the font may be embedded, and may be temporarily loaded on other systems for purposes of viewing or printing the document. Documents containing Preview & Print fonts must be opened “read-only”; no edits can be applied to the document.
+        /// 4: Preview & Print embedding: the font may be embedded, and may be temporarily loaded on other systems for purposes of viewing or printing the document. Documents containing Preview & Print fonts must be opened "read-only"; no edits can be applied to the document.
         /// 8: Editable embedding: the font may be embedded, and may be temporarily loaded on other systems. As with Preview & Print embedding, documents containing Editable fonts may be opened for reading. In addition, editing is permitted, including ability to format new text using the embedded font, and changes may be saved.
         /// </summary>
         string GetFsString(ushort fsId)
@@ -83,11 +89,10 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
             }
         }
 
-
         [TestMethod]
         public void ReadTccGothic()
         {
-            OpenTypeFont? font = OpenTypeFonts.GetFontDataOpen(_fontFolders, "BIZ UDGothic", FontSubFamily.Bold, true);
+            OpenTypeFont? font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Bold, true);
 
             Assert.IsNotNull(font);
             Assert.AreEqual("BIZ UDGothic Bold", font.FullName);
@@ -97,20 +102,19 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGsubTable()
         {
-            List<string> test = new List<string> { Path.Combine(Directory.GetCurrentDirectory(), "Fonts") };
-            var font = OpenTypeFonts.GetFontDataOpen(test, "Roboto", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "Roboto", FontSubFamily.Regular, true);
             var gSub = font.GsubTable;
+            Assert.IsNotNull(gSub);
         }
 
         [TestMethod]
         public void ReadSixFonts()
         {
-            List<string> test = new List<string> { Path.Combine(Directory.GetCurrentDirectory(), "Fonts") };
-            OpenTypeFont? gothic = OpenTypeFonts.GetFontDataOpen(test, "BIZ UDGothic", FontSubFamily.Bold, true);
-            OpenTypeFont? calibri = OpenTypeFonts.GetFontDataOpen(test, "Calibri", FontSubFamily.Italic, true);
-            OpenTypeFont? aptos = OpenTypeFonts.GetFontDataOpen(test, "Aptos Narrow", FontSubFamily.Bold, true);
-            OpenTypeFont? timesNewRoman = OpenTypeFonts.GetFontDataOpen(test, "Times New Roman", FontSubFamily.Regular, true);
-            OpenTypeFont? SS3 = OpenTypeFonts.GetFontDataOpen(_fontFolders, "Source Sans 3", FontSubFamily.Bold, false);
+            OpenTypeFont? gothic = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Bold, true);
+            OpenTypeFont? calibri = OpenTypeFonts.GetFontDataOpen(FontFolders, "Calibri", FontSubFamily.Italic, true);
+            OpenTypeFont? aptos = OpenTypeFonts.GetFontDataOpen(FontFolders, "Aptos Narrow", FontSubFamily.Bold, true);
+            OpenTypeFont? timesNewRoman = OpenTypeFonts.GetFontDataOpen(FontFolders, "Times New Roman", FontSubFamily.Regular, true);
+            OpenTypeFont? SS3 = OpenTypeFonts.GetFontDataOpen(FontFolders, "Source Sans 3", FontSubFamily.Bold, false);
 
             Assert.IsNotNull(gothic);
             Assert.AreEqual("BIZ UDGothic Bold", gothic.FullName);
@@ -136,7 +140,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadAllOTFFonts()
         {
-            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(_fontFolders, true, Scanner.FontFormat.Otf);
+            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, true, Scanner.FontFormat.Otf);
 
             List<LicenseDataHolder> dataHolder = new List<LicenseDataHolder>();
 
@@ -161,7 +165,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadAllTTFFonts()
         {
-            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(_fontFolders, true, Scanner.FontFormat.Ttf);
+            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, true, Scanner.FontFormat.Ttf);
 
             List<LicenseDataHolder> dataHolder = new List<LicenseDataHolder>();
 
@@ -188,29 +192,10 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         {
             var sw = new Stopwatch();
             sw.Start();
-            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(_fontFolders, true);
+            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, true);
             sw.Stop();
 
             Trace.WriteLine(sw.ElapsedMilliseconds);
-
-
-            ////List<LicenseDataHolder> dataHolder = new List<LicenseDataHolder>();
-
-            ////for (int i = 0; i < allFontsList.Count; i++)
-            ////{
-            ////    LicenseDataHolder dataHolderItem = new LicenseDataHolder()
-            ////    {
-            ////        FontName = allFontsList[i].FullName,
-            ////        LicenseType = allFontsList[i].Os2Table.fsType,
-            ////        LTypeString = GetFsString(allFontsList[i].Os2Table.fsType)
-            ////    };
-
-            ////    dataHolder.Add(dataHolderItem);
-            ////}
-
-            ////var fontsThatCannotBeEmbedded = dataHolder.Where(x => x.LicenseType == 2);
-
-            //Assert.AreEqual(0, fontsThatCannotBeEmbedded.Count());
         }
 
         [TestMethod]
@@ -227,7 +212,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 Size = (float)fontSize,
                 Style = MeasurementFontStyles.Regular
             };
-
 
             FontMeasurerTrueType fontMeasurer = new FontMeasurerTrueType(fontSize, fontName);
             var strings = fontMeasurer.MeasureAndWrapText(testStr, mf, MaxPixelWidth);
@@ -251,7 +235,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 Style = MeasurementFontStyles.Regular
             };
 
-
             FontMeasurerTrueType fontMeasurer = new FontMeasurerTrueType(fontSize, fontName);
             var strings = fontMeasurer.MeasureAndWrapText(testStr, mf, MaxPixelWidth);
 
@@ -259,6 +242,5 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
             Assert.AreEqual(" the", strings[1]);
             Assert.AreEqual(" most", strings[2]);
         }
-
     }
 }

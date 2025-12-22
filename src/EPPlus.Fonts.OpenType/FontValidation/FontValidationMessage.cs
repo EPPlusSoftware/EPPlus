@@ -18,13 +18,16 @@ namespace EPPlus.Fonts.OpenType.FontValidation
     public class FontValidationMessage
     {
 
+        public TableValidationResult ParentResult { get; private set; }
+
         public FontValidationSeverity Severity { get; }
         public string Message { get; }
 
-        public FontValidationMessage(FontValidationSeverity severity, string message)
+        public FontValidationMessage(TableValidationResult parentResult, FontValidationSeverity severity, string message)
         {
             Severity = severity;
             Message = message;
+            ParentResult = parentResult;
         }
 
     }

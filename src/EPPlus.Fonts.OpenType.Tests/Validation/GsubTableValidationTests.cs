@@ -1,20 +1,16 @@
 ﻿using EPPlus.Fonts.OpenType.FontValidation;
-using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Gsub;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using EPPlus.Fonts.OpenType.Tests.Helpers;
 
 namespace EPPlus.Fonts.OpenType.Tests.Validation
 {
     [TestClass]
-    public class GsubTableValidationTests : ValidationTestBase
+    public class GsubTableValidationTests : FontTestBase
     {
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
         {
-            ValidationTestHelper.ClassInitialize(testContext);
+            FontDirectoriesTestHelper.ClassInitialize(testContext);
         }
 
         [TestMethod]
