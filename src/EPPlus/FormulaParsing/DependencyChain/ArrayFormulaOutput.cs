@@ -151,6 +151,7 @@ namespace OfficeOpenXml.FormulaParsing
                 CleanupSharedFormulaValues(f, ws, sf, endRow, endCol);
                 sf.EndRow = endRow;
                 sf.EndCol = endCol;
+                
             }
             FillArrayFromRangeInfo(f, array, rd, depChain);
             return dirtyRange;
