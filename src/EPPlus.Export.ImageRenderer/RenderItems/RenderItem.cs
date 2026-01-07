@@ -66,35 +66,6 @@ namespace EPPlusImageRenderer.RenderItems
             item.FillColorSource = FillColorSource;
         }
 
-        //internal virtual void SetDrawingPropertiesFill(ExcelDrawingFill fill)
-        //{
-        //    switch (fill.Style)
-        //    {
-        //        case eFillStyle.NoFill:
-        //            if (fill.IsEmpty)
-        //            {
-        //                FillColor = GetFillColor(fill, FillColorSource);
-        //            }
-        //            else
-        //            {
-        //                FillColor = "none";
-        //            }
-        //            break;
-        //        case eFillStyle.SolidFill:
-        //            FillColor = GetFillColor(fill, fill.SolidFill.Color, FillColorSource);
-        //            break;
-        //        case eFillStyle.GradientFill:
-        //            GradientFill = new DrawGradientFill(_theme, fill.GradientFill);
-        //            FillColor = null;
-        //            break;
-        //        case eFillStyle.PatternFill:
-        //            PatternFill = fill.PatternFill;
-        //            break;
-        //        case eFillStyle.BlipFill:
-        //            BlipFill = fill.BlipFill;
-        //            break;
-        //    }
-        //}
         internal virtual void SetDrawingPropertiesFill(ExcelDrawingFill fill, ExcelDrawingColorManager color)
         {
             switch (fill.Style)
@@ -189,32 +160,6 @@ namespace EPPlusImageRenderer.RenderItems
             }
             return null;
         }
-
-        //private string GetFillColor(ExcelDrawingFill fill, PathFillMode fillColorSource)
-        //{
-        //    if (fillColorSource == PathFillMode.None)
-        //    {
-        //        return "none";
-        //    }
-
-        //    Color fc;
-
-        //    if (fill == null || fill.Style == eFillStyle.NoFill)
-        //    {
-        //       fc = EPPlusColorConverter.GetThemeColor(_theme.ColorScheme.Accent1);
-        //    }
-        //    else if (fill.Style == eFillStyle.SolidFill)
-        //    {
-        //        fc = EPPlusColorConverter.GetThemeColor(_theme, fill.SolidFill.Color);
-        //    }
-        //    else
-        //    {
-        //        return string.Empty;
-        //    }
-
-        //    fc = ColorUtils.GetAdjustedColor(fillColorSource, fc);
-        //    return "#" + fc.ToArgb().ToString("x8").Substring(2);
-        //}
 
         private string GetFillColor(ExcelDrawingFillBasic fill, ExcelDrawingColorManager styleFillColor, PathFillMode fillColorSource)
         {
