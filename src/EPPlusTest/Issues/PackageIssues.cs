@@ -140,5 +140,18 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void i2235()
+        {
+            using var package = OpenTemplatePackage("SurrogatePairs.xlsx");
+            var sheet = package.Workbook.Worksheets[0];
+            sheet.Cells["A8"].Value = "hello \uDC00";
+            sheet.Cells["A9"].Value = "hello 2 \uDFFF\uDFFF";
+            sheet.Cells["A10"].AddComment("testing testing \uDFFF\uDFFF");
+            sheet.Cells["A11"].Value = "End test";
+            sheet.Calculate(o => o.EnableUnicodeAwareStringOperations = true);
+            SaveAndCleanup(package);
+        }
     }
 }
