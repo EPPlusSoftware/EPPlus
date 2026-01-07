@@ -207,7 +207,14 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
+        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public List<SvgLegendSerie> SeriesIcon { get; } = new List<SvgLegendSerie>();
+
+        public override RenderItemType Type => throw new System.NotImplementedException();
     }
     internal class SvgLegendSerie
     {

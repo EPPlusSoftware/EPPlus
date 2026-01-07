@@ -18,7 +18,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
         /// BoundingBox
         /// </summary>
         internal BoundingBox boundingBox;
-        public override SvgItemType Type => SvgItemType.Text;
+        public override RenderItemType Type => RenderItemType.Text;
 
         internal readonly string originalText;
         private string currentText;

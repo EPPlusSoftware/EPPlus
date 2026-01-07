@@ -10,13 +10,14 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using System.Collections.Generic;
-using OfficeOpenXml.Interfaces.Drawing.Text;
-using System.Linq;
-using System;
+using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Kern;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
-using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -695,7 +696,7 @@ namespace EPPlus.Fonts.OpenType
 
             var factorTarget = ((double)targetFont.HeadTable.UnitsPerEm) / targetSize;
 
-            maxWidth = Convert.ToInt16(maxWidthInPoints * factorTarget);
+            maxWidth = maxWidthInPoints * factorTarget;
             lineWidth = Convert.ToInt16(lineWidthInPoints * factorTarget);
             wordWidth = Convert.ToInt16(wordWidthInPoints * factorTarget);
         }
@@ -731,13 +732,19 @@ namespace EPPlus.Fonts.OpenType
                 var fragmentIdx = charInfo.Fragment;
 
                 //If we hit a pre-existing line break. Reset line and wordwidths
-                if (i >= paragraph.AllTextNewLineIndicies[currentLineIndex])
+                var indexExists = paragraph.AllTextNewLineIndicies.Count() > currentLineIndex;
+                if(indexExists)
                 {
-                    lineWidth = 0;
-                    wordWidth = 0;
-                    leftOverLine = "";
-                    //prevLineEndIndex = i;
-                    currentLineIndex++;
+                    if (i >= paragraph.AllTextNewLineIndicies[currentLineIndex])
+                    {
+                        var addedLine = leftOverLine.Trim(['\r', '\n']);
+                        wrappedStrings.Add(addedLine);
+                        lineWidth = 0;
+                        wordWidth = 0;
+                        leftOverLine = "";
+                        //prevLineEndIndex = i;
+                        currentLineIndex++;
+                    }
                 }
 
                 //If this char has a different font, do the neccesary conversions

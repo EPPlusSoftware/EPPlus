@@ -66,8 +66,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
 
             AllText = string.Join(string.Empty, textFragments.ToArray());
             //Get the indicies where newlines occur in the combined string
-            AllTextNewLineIndicies = GetStartIndicies(AllText);
-
+            AllTextNewLineIndicies = GetFirstCharPositionOfNewLines(AllText);
 
             //Save minor information about each char so each char knows its line/fragment
             int charCount = 0;
@@ -85,14 +84,20 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
                 //For each char in current fragment
                 for (int j = 0; j < textFragment.Length; j++)
                 {
-                    if (charCount >= AllTextNewLineIndicies[lineIndex])
+                    if (lineIndex <= AllTextNewLineIndicies.Count - 1 &&
+                        charCount >= AllTextNewLineIndicies[lineIndex])
                     {
+                        var text = AllText.Substring(lineStartCharIndex, charCount - lineStartCharIndex);
+                        var trimmedText = text.Trim(['\r', '\n']);
+
                         var line = new TextLine()
-                        {   richTextIndicies = currFragments,
-                            content = AllText.Substring(lineStartCharIndex, charCount - lineStartCharIndex),
+                        {
+                            richTextIndicies = currFragments,
+                            content = trimmedText,
                             startIndex = lineStartCharIndex,
                         };
 
+                        lineStartCharIndex = AllTextNewLineIndicies[lineIndex];
                         lines.Add(line);
                         currFragments.Clear();
                         lineIndex++;
@@ -104,22 +109,41 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
                 }
                 currFragments.Add(i);
             }
+
+            //Add the last line
+
+            var lastText = AllText.Substring(lineStartCharIndex, charCount - lineStartCharIndex);
+            var lastTrimmedText = lastText.Trim(['\r', '\n']);
+
+            var lastLine = new TextLine()
+            {
+                richTextIndicies = currFragments,
+                content = lastTrimmedText,
+                startIndex = lineStartCharIndex,
+            };
+
+            lines.Add(lastLine);
+            currFragments.Clear();
         }
 
-        private List<int> GetStartIndicies(string stringsCombined)
+        private List<int> GetFirstCharPositionOfNewLines(string stringsCombined)
         {
-            List<int> combinedStartIndicies = new List<int>();
-
-            var strings = stringsCombined.Split([Environment.NewLine], StringSplitOptions.None);
-            TotalLength = 0;
-
-            for (int i = 0; i < strings.Count(); i++)
+            List<int> positions = new List<int>();
+            for (int i = 0; i < stringsCombined.Count(); i++)
             {
-                combinedStartIndicies.Add(strings[i].Length + TotalLength);
-                TotalLength += strings[i].Length;
+                if (stringsCombined[i] == '\n')
+                {
+                    if (i < stringsCombined.Length - 1)
+                    {
+                        positions.Add(i + 1);
+                    }
+                    else
+                    {
+                        positions.Add(i);
+                    }
+                }
             }
-
-            return combinedStartIndicies;
+            return positions;
         }
 
         public TextParagraph(List<string> textFragment, List<double> fontSizes, Dictionary<double, OpenTypeFont> fontIndexDict) 

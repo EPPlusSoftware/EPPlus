@@ -13,7 +13,13 @@
 
 using EPPlus.Export.ImageRenderer;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.Svg;
+using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
+using EPPlus.Export.ImageRenderer.Svg.Writer;
+using EPPlus.Export.ImageRenderer.Text;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
 using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Export.ImageRenderer.Svg.Writer;
 using EPPlus.Export.ImageRenderer.Text;
@@ -24,11 +30,16 @@ using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Text;
+using System.Xml.Linq;
 using System.Xml.Linq;
 
 namespace EPPlusImageRenderer
@@ -77,6 +88,7 @@ namespace EPPlusImageRenderer
 
             var sb = new StringBuilder();
             sb.Append($"<svg width=\"{500}\" height=\"{500}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\">");
+            sb.Append($"<svg width=\"{500}\" height=\"{500}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\">");
             sRange.Render(sb);
             sb.Append($"</svg>");
             return sb.ToString();
@@ -118,24 +130,26 @@ namespace EPPlusImageRenderer
             shapeRect.Height = 200;
 
             FontMeasurerTrueType measurer = new FontMeasurerTrueType(11, "Aptos Narrow", FontSubFamily.Regular);
-            var body = new TextBody(measurer, shapeRect, true);
+            var body = new TextBody(shapeRect);
 
-            body.transform.Name = "TxtBody";
+            body.Bounds.transform.Name = "TxtBody";
 
-            body.X = 40;
-            body.Y = 40;
+            body.Bounds.X = 40;
+            body.Bounds.Y = 40;
 
-            body.AddText(txtBody);
+            body.AddText(txtBody, measurer);
 
-            body.Runs[0].X = 20;
-            body.Runs[0].Y = 20;
+            var para1 = body.Paragraphs[0];
 
-            body.AddText("Extra Text");
-            body.Runs[1].X = 30;
-            body.Runs[1].Y = 40;
+            para1.Runs[0].X = 20;
+            para1.Runs[0].Y = 20;
 
-            body.Width = 120;
-            body.Height = 100;
+            para1.AddText("Extra Text", measurer);
+            para1.Runs[1].X = 30;
+            para1.Runs[1].Y = 40;
+
+            para1.Bounds.Width = 120;
+            para1.Bounds.Height = 100;
 
             var svgBody = GenerateSvgTextBody(body, (int)shapeRect.Width, (int)shapeRect.Height);
 
@@ -173,14 +187,14 @@ namespace EPPlusImageRenderer
 
             body.AllowOverflow = true;
 
-            var svgDefs = GetDefinitions(body, out string nameId, body.AllowOverflow);
+            var svgDefs = GetDefinitions(body.Bounds, out string nameId, body.AllowOverflow);
 
             var fontSizePx = 16d;
 
             doc.AddChildElement(svgDefs);
             doc.AddChildElement(bg);
 
-            foreach (var run in body.Runs)
+            foreach (var run in body.Paragraphs[0].Runs)
             {
                 var bbVisual = new SvgElement("rect");
                 bbVisual.AddAttribute("x", run.GlobalX);
@@ -194,20 +208,20 @@ namespace EPPlusImageRenderer
             }
 
             var txBodyVisual = new SvgElement("rect");
-            txBodyVisual.AddAttribute("x", body.GlobalX);
-            txBodyVisual.AddAttribute("y", body.GlobalY);
-            txBodyVisual.AddAttribute("width", body.Width);
-            txBodyVisual.AddAttribute("height", body.Height);
+            txBodyVisual.AddAttribute("x", body.Bounds.GlobalX);
+            txBodyVisual.AddAttribute("y", body.Bounds.GlobalY);
+            txBodyVisual.AddAttribute("width", body.Bounds.Width);
+            txBodyVisual.AddAttribute("height", body.Bounds.Height);
             txBodyVisual.AddAttribute("fill", "green");
             txBodyVisual.AddAttribute("opacity", "0.5");
 
             doc.AddChildElement(txBodyVisual);
 
-            foreach (var run in body.Runs)
+            foreach (var run in body.Paragraphs)
             {
                 var renderElement = new SvgElement("text");
-                renderElement.AddAttribute("x", run.GlobalX);
-                renderElement.AddAttribute("y", run.GlobalY + fontSizePx);
+                renderElement.AddAttribute("x", run.Bounds.GlobalX);
+                renderElement.AddAttribute("y", run.Bounds.GlobalY + fontSizePx);
                 renderElement.AddAttribute("font-size", $"{fontSizePx}px");
                 renderElement.AddAttribute("clip-path", $"url(#{nameId})");
 

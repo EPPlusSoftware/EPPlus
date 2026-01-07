@@ -12,6 +12,8 @@
  *************************************************************************************************/
 using EPPlus.Graphics.Math;
 
+using EPPlus.Graphics.Math;
+
 namespace EPPlus.Graphics
 {
     //REname and move class? Inherit from transform? what do?
@@ -39,22 +41,22 @@ namespace EPPlus.Graphics
         /// <summary>
         /// Y pos (min)
         /// </summary>
-        internal double Top;
+        internal virtual double Top { get; set; }
 
         /// <summary>
         /// Y pos (max)
         /// </summary>
-        internal double Bottom;
+        internal virtual double Bottom { get; set; }
 
         /// <summary>
         /// X pos (min)
         /// </summary>
-        internal double Left;
+        internal virtual double Left{ get; set; }
 
         /// <summary>
         /// X pos (max)
         /// </summary>
-        internal double Right;
+        internal virtual double Right { get; set; }
 
         /// <summary>
         /// Get or Set Width via the properties above
@@ -90,12 +92,12 @@ namespace EPPlus.Graphics
         /// Local position X
         /// X-position from parent transform position
         /// </summary>
-        internal double X { get { return Left; } set { Left = value; } }
+        internal virtual double X { get { return Left; } set { Left = value; } }
 
         /// <summary>
         /// Local position Y
         /// Y-position from parent transform position
         /// </summary>
-        internal double Y { get { return Top; } set { Top = value; } }
+        internal virtual double Y { get { return Top; } set { Top = value; } }
     }
 }

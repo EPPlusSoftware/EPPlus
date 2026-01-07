@@ -18,6 +18,8 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class SvgChartPlotarea : SvgChartObject
     {
+        public override RenderItemType Type => throw new System.NotImplementedException();
+
         public SvgChartPlotarea(SvgChart sc) : base(sc.Chart)
         {
             Rectangle = GetPlotAreaRectangle(sc);
@@ -50,6 +52,11 @@ namespace EPPlusImageRenderer.Svg
         public override void Render(StringBuilder sb)
         {
             Rectangle.Render(sb);
+        }
+
+        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

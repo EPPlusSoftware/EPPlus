@@ -10,11 +10,13 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.Text;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
+using System.Text;
 
 namespace EPPlusImageRenderer.RenderItems.Shared
 {

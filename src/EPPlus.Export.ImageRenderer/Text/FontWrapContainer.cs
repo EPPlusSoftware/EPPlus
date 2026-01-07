@@ -18,8 +18,6 @@ namespace EPPlus.Export.ImageRenderer.Text
     {
         protected FontMeasurerTrueType measurer;
 
-        Rect Parent = null;
-
         /// <summary>
         /// If this is true it is presumed there is also a parent with a maxwidth
         /// If there is no MaxWidth this class will not wrap

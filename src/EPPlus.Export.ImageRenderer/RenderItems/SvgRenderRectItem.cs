@@ -42,7 +42,7 @@ namespace EPPlusImageRenderer.RenderItems
         /// </summary>
         double paragraphStartPosY = 0;
 
-        public override SvgItemType Type => SvgItemType.Rect;
+        public override RenderItemType Type => RenderItemType.Rect;
 
         public override void Render(StringBuilder sb)
         {
