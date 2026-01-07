@@ -66,8 +66,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
 
             AllText = string.Join(string.Empty, textFragments.ToArray());
             //Get the indicies where newlines occur in the combined string
-            AllTextNewLineIndicies = GetStartIndicies(AllText);
-
+            AllTextNewLineIndicies = GetFirstCharPositionOfNewLines(AllText);
 
             //Save minor information about each char so each char knows its line/fragment
             int charCount = 0;
@@ -85,17 +84,22 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
                 //For each char in current fragment
                 for (int j = 0; j < textFragment.Length; j++)
                 {
-                    if (charCount >= AllTextNewLineIndicies[lineIndex])
+                    var indexExists = AllTextNewLineIndicies.Count() > lineIndex;
+                    if (indexExists)
                     {
-                        var line = new TextLine()
-                        {   richTextIndicies = currFragments,
-                            content = AllText.Substring(lineStartCharIndex, charCount - lineStartCharIndex),
-                            startIndex = lineStartCharIndex,
-                        };
+                        if (charCount >= AllTextNewLineIndicies[lineIndex])
+                        {
+                            var line = new TextLine()
+                            {
+                                richTextIndicies = currFragments,
+                                content = AllText.Substring(lineStartCharIndex, charCount - lineStartCharIndex),
+                                startIndex = lineStartCharIndex,
+                            };
 
-                        lines.Add(line);
-                        currFragments.Clear();
-                        lineIndex++;
+                            lines.Add(line);
+                            currFragments.Clear();
+                            lineIndex++;
+                        }
                     }
 
                     var info = new CharInfo(charCount, i, lineIndex);
@@ -106,20 +110,52 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
             }
         }
 
-        private List<int> GetStartIndicies(string stringsCombined)
+        private static List<int> GetNewLinePositionsInString(string s)
         {
-            List<int> combinedStartIndicies = new List<int>();
-
-            var strings = stringsCombined.Split([Environment.NewLine], StringSplitOptions.None);
-            TotalLength = 0;
-
-            for (int i = 0; i < strings.Count(); i++)
+            List<int> positions = new List<int>();
+            for(int i = 0; i< s.Count(); i++)
             {
-                combinedStartIndicies.Add(strings[i].Length + TotalLength);
-                TotalLength += strings[i].Length;
+                if (s[i] == '\n')
+                {
+                    positions.Add(i);
+                }
+            }
+            return positions;
+        }
+
+        private List<int> GetFirstCharPositionOfNewLines(string stringsCombined)
+        {
+            var positions = GetNewLinePositionsInString(stringsCombined);
+
+            //We want the position of the char after the linebreak if it exists
+            //Except for 0
+            for(int i = 0; i < positions.Count(); i++)
+            {
+                var candidate = positions[i] += 1;
+                if(candidate < stringsCombined.Count())
+                {
+                    positions[i] = candidate;
+                }
             }
 
-            return combinedStartIndicies;
+            //List<int> combinedStartIndicies = new List<int>();
+
+            //var strings = stringsCombined.Split([Environment.NewLine], StringSplitOptions.None);
+
+            //for (int i = 0; i < strings.Count(); i++)
+            //{
+            //    var totalCharCount = strings[i].Length + TotalLength;
+            //    if(i != strings.Count()-1)
+            //    {
+            //        var lenOfNewLineSymbols = stringsCombined.Substring(totalCharCount, stringsCombined.Length - totalCharCount);
+            //    }
+
+            //    combinedStartIndicies.Add(strings[i].Length + TotalLength);
+
+            //    TotalLength += strings[i].Length;
+            //}
+
+            return positions;
         }
 
         public TextParagraph(List<string> textFragment, List<double> fontSizes, Dictionary<double, OpenTypeFont> fontIndexDict) 

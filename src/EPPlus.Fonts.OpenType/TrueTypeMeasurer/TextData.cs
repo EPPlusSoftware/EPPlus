@@ -695,7 +695,7 @@ namespace EPPlus.Fonts.OpenType
 
             var factorTarget = ((double)targetFont.HeadTable.UnitsPerEm) / targetSize;
 
-            maxWidth = Convert.ToInt16(maxWidthInPoints * factorTarget);
+            maxWidth = maxWidthInPoints * factorTarget;
             lineWidth = Convert.ToInt16(lineWidthInPoints * factorTarget);
             wordWidth = Convert.ToInt16(wordWidthInPoints * factorTarget);
         }
@@ -731,13 +731,17 @@ namespace EPPlus.Fonts.OpenType
                 var fragmentIdx = charInfo.Fragment;
 
                 //If we hit a pre-existing line break. Reset line and wordwidths
-                if (i >= paragraph.AllTextNewLineIndicies[currentLineIndex])
+                var indexExists = paragraph.AllTextNewLineIndicies.Count() > currentLineIndex;
+                if(indexExists)
                 {
-                    lineWidth = 0;
-                    wordWidth = 0;
-                    leftOverLine = "";
-                    //prevLineEndIndex = i;
-                    currentLineIndex++;
+                    if (i >= paragraph.AllTextNewLineIndicies[currentLineIndex])
+                    {
+                        lineWidth = 0;
+                        wordWidth = 0;
+                        leftOverLine = "";
+                        //prevLineEndIndex = i;
+                        currentLineIndex++;
+                    }
                 }
 
                 //If this char has a different font, do the neccesary conversions
