@@ -10,13 +10,14 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using System.Collections.Generic;
-using OfficeOpenXml.Interfaces.Drawing.Text;
-using System.Linq;
-using System;
+using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Kern;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
-using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -736,6 +737,8 @@ namespace EPPlus.Fonts.OpenType
                 {
                     if (i >= paragraph.AllTextNewLineIndicies[currentLineIndex])
                     {
+                        var addedLine = leftOverLine.Trim(['\r', '\n']);
+                        wrappedStrings.Add(addedLine);
                         lineWidth = 0;
                         wordWidth = 0;
                         leftOverLine = "";
