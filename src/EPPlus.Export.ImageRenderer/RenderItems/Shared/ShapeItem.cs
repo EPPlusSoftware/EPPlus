@@ -20,8 +20,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// </summary>
     internal abstract class ShapeItem : DrawingShape
     {
-        SvgRenderRectItem _renderTextBox;
-        TextBox textBox;
+        TextBody textBox;
 
         internal ShapeItem(ExcelShape shape) : base(shape) 
         {
@@ -29,7 +28,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             if (style == eShapeStyle.CustomShape)
             {
-                _renderTextBox = null;
                 foreach (var path in shape.CustomGeom.DrawingPaths)
                 {
                     AddFromPaths(path);
@@ -82,7 +80,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
 
             string color = "#" + GetFontColor();
-            textBox.fontColor = color;
+            textBox.FontColorString = color;
 
             var totalText = _shape.Text;
             List<List<double>> charAdvanceWidths = new List<List<double>>();
@@ -91,7 +89,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //Paragraph level begins
             foreach (var paragraph in _shape.TextBody.Paragraphs)
             {
-                var svgParagraph = textBox.ImportParagraph(paragraph);
+                textBox.ImportParagraph(paragraph);
             }
         }
 
@@ -214,15 +212,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         TextBox GetTextBox()
         {
-            if (_renderTextBox != null)
-            {
-                return new TextBox(_shape.TextBody, _renderTextBox);
-            }
-            else
-            {
+            //if (_renderTextBox != null)
+            //{
+            //    return new TextBox(_shape.TextBody, _renderTextBox);
+            //}
+            //else
+            //{
                 GetShapeInnerBound(out double x, out double y, out double width, out double height);
                 return new TextBox(x, y, width, height);
-            }
+            //}
         }
 
         private void GetFontNameAndSize(ExcelFont nsFont, out string fontName, out double fontSize)
@@ -236,24 +234,24 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         private void RenderText(StringBuilder sb)
         {
-            RenderDebugTextBox(sb);
-            textBox.RenderParagraphs(sb);
+            //RenderDebugTextBox(sb);
+            textBox.Render(sb);
         }
 
-        private void RenderDebugTextBox(StringBuilder sb)
-        {
-            _renderTextBox.FillColor = "green";
-            _renderTextBox.Render(sb);
+        //private void RenderDebugTextBox(StringBuilder sb)
+        //{
+        //    _renderTextBox.FillColor = "green";
+        //    _renderTextBox.Render(sb);
 
-            var area = textBox.GetTextArea();
+        //    var area = textBox.GetTextArea();
 
-            _renderTextBox.X = (float)area.Left;
-            _renderTextBox.Y = (float)area.Top;
-            _renderTextBox.Width = (float)area.Width;
-            _renderTextBox.Height = (float)area.Height;
-            _renderTextBox.FillColor = "blue";
-            _renderTextBox.Render(sb);
-        }
+        //    _renderTextBox.X = (float)area.Left;
+        //    _renderTextBox.Y = (float)area.Top;
+        //    _renderTextBox.Width = (float)area.Width;
+        //    _renderTextBox.Height = (float)area.Height;
+        //    _renderTextBox.FillColor = "blue";
+        //    _renderTextBox.Render(sb);
+        //}
 
         private void GetShapeInnerBound(out double x, out double y, out double width, out double height)
         {
@@ -388,7 +386,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.X;
                     rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
                     rectItem.FillOpacity = 0.3d;
-                    _renderTextBox = rectItem;
+                    //_renderTextBox = rectItem;
                 }
                 else
                 {
@@ -399,15 +397,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     rectItem.Width = (float)shapeDef.TextBoxRect.RightValue;
                     rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue;
                     rectItem.FillOpacity = 0.3d;
-                    _renderTextBox = rectItem;
+                    //_renderTextBox = rectItem;
                 }
             }
             else
             {
-                _renderTextBox = null;
+                //_renderTextBox = null;
             }
 
-            textBox = GetTextBox();
+            //textBox = GetTextBox();
             LoadTextBox();
         }
     }

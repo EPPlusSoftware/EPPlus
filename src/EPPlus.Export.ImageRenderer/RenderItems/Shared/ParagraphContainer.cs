@@ -21,11 +21,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         }
 
-        public ParagraphContainer(ExcelDrawingParagraph paragraph)
+        public ParagraphContainer(ExcelDrawingParagraph paragraph, BoundingBox parent) : base()
         {
-            for(int i = 0; i < paragraph.TextRuns.Count(); i++)
-            {
+            var measurer = paragraph._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
+            var ttMeasurer = (FontMeasurerTrueType)measurer;
 
+            for (int i = 0; i < paragraph.TextRuns.Count(); i++)
+            {
+                var txtRun = paragraph.TextRuns[i];
+                var runFont = txtRun.GetMeasureFont();
+
+                ttMeasurer.SetFont(runFont);
+
+                AddText(paragraph.TextRuns[i].Text, ttMeasurer);
             }
             //paragraph.DefaultRunProperties
             //SetDrawingPropertiesFill(paragraph.DefaultRunProperties.Fill, paragraph._prd.s)

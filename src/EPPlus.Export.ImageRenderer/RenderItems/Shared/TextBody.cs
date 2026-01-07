@@ -19,13 +19,29 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// </summary>
     internal class TextBody : RenderItem
     {
+        /// <summary>
+        /// Shorthand for Bounds.Width
+        /// </summary>
+        internal double Width { get { return Bounds.Width; } set { Bounds.Width = value; } }
+
+        /// <summary>
+        /// Shorthand for Bounds.Height
+        /// </summary>
+        internal double Height { get { return Bounds.Height; } set { Bounds.Height = value; } }
+
+        internal string FontColorString { get; set; }
+
         internal eTextAnchoringType VerticalAlignment = eTextAnchoringType.Top;
 
         internal List<ParagraphContainer> Paragraphs = new List<ParagraphContainer>();
 
         public bool AllowOverflow;
 
+        internal bool WrapText = true;
+
         private FontMeasurerTrueType _measurer = null;
+
+        private double paragraphStartPosY = 0;
 
         public TextBody(BoundingBox parent) : base()
         {
@@ -55,16 +71,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
             throw new NullReferenceException($"The FontMeasurer: {_measurer} object is null. Use SetMeasurer before adding text");
         }
-        //public void ImportParagraph(ExcelDrawingParagraph item)
-        //{
-        //    var posY = GetAlignmentVertical();
 
-        //    SetDrawingPropertiesFill(item.DefaultRunProperties.Fill);
+        public void ImportParagraph(ExcelDrawingParagraph item)
+        {
+            var posY = GetAlignmentVertical();
 
-        //    var measureFont = item.DefaultRunProperties.GetMeasureFont();
-        //    bool isFirst = Paragraphs.Count == 0;
-        //    new ParagraphContainer(_measurer, Bounds);
-        //}
+            SetDrawingPropertiesFill(item.DefaultRunProperties.Fill, null);
+
+            var measureFont = item.DefaultRunProperties.GetMeasureFont();
+            bool isFirst = Paragraphs.Count == 0;
+
+            var paragraph = new ParagraphContainer(item, Bounds);
+        }
 
         public void ImportTextBody(ExcelTextBody body)
         {
