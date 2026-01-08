@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  01/07/2026         EPPlus Software AB           Fixed threading with shared loaders
  *************************************************************************************************/
 using System.Collections.Generic;
 using System;
@@ -19,12 +20,10 @@ namespace EPPlus.Fonts.OpenType.Tables
     internal abstract class TableLoader<T>
         where T : FontTableBase
     {
-        //internal bool TableExists { get; private set; } = true;
-
         public TableLoader(TableLoaderSettings tblSettings, string tableName)
         {
             _reader = tblSettings._readerRef;
-            if(tblSettings._tableRecordsRef.ContainsKey(tableName))
+            if (tblSettings._tableRecordsRef.ContainsKey(tableName))
             {
                 _offset = tblSettings._tableRecordsRef[tableName].Offset;
                 _length = tblSettings._tableRecordsRef[tableName].Length;
@@ -43,16 +42,16 @@ namespace EPPlus.Fonts.OpenType.Tables
 
         protected abstract T LoadInternal();
 
-        public static object _syncRoot = new object();
-        private bool _initialized;
-
+        // ✅ Instance lock for this specific table loader
+        private readonly object _instanceLock = new object();
 
         private bool _isLoading;
         private bool _isLoaded;
 
         public T Load(bool useCache = true)
         {
-            lock (_syncRoot)
+            // First: Check cache with instance lock (fast path)
+            lock (_instanceLock)
             {
                 // If already loaded and cache is enabled
                 if (_isLoaded && tableCache != null && tableCache.Contains(_tableName) && useCache)
@@ -60,10 +59,10 @@ namespace EPPlus.Fonts.OpenType.Tables
                     return tableCache.Get(_tableName) as T;
                 }
 
-                // If another thread is loading, wait until it's done
+                // If another thread is loading this specific table, wait
                 while (_isLoading && !_isLoaded)
                 {
-                    Monitor.Wait(_syncRoot);
+                    Monitor.Wait(_instanceLock);
                 }
 
                 // If loaded after waiting, return from cache
@@ -72,15 +71,26 @@ namespace EPPlus.Fonts.OpenType.Tables
                     return tableCache.Get(_tableName) as T;
                 }
 
-                // Mark as loading
+                // Mark as loading (prevents other threads from loading same table)
                 _isLoading = true;
+            }
 
-                // Set stream position under lock
+            T t;
+
+            // Second: Load table with reader lock (ensures stream safety)
+            // ✅ Lock on _reader to prevent concurrent stream access
+            lock (_reader)
+            {
+                // Set stream position under reader lock
                 _reader.BaseStream.Position = _offset;
 
                 // Load the table
-                var t = LoadInternal();
+                t = LoadInternal();
+            }
 
+            // Third: Update cache with instance lock
+            lock (_instanceLock)
+            {
                 // Add to cache
                 if (tableCache != null && !tableCache.Contains(_tableName))
                 {
@@ -90,14 +100,11 @@ namespace EPPlus.Fonts.OpenType.Tables
                 // Mark as loaded and notify waiting threads
                 _isLoaded = true;
                 _isLoading = false;
-                Monitor.PulseAll(_syncRoot);
-
-                return t;
+                Monitor.PulseAll(_instanceLock);
             }
+
+            return t;
         }
-
-
-
 
         public void SetTable(string tableName, T value)
         {

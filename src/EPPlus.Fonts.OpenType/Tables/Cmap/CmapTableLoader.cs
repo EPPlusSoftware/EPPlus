@@ -23,6 +23,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         protected override CmapTable LoadInternal()
         {
+            _reader.BaseStream.Position = _offset;
+
             var table = new CmapTable
             {
                 Version = _reader.ReadUInt16BigEndian(),

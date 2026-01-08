@@ -77,4 +77,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\EPPlus\src\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Tables\Gpos\Handlers\" />
+	</ItemGroup>
 </Project>
