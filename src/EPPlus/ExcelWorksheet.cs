@@ -58,6 +58,7 @@ using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Data.QueryTable;
 using OfficeOpenXml.Data.Connection.IOHandlers;
+using System.Security.Permissions;
 
 namespace OfficeOpenXml
 {
@@ -2636,6 +2637,10 @@ namespace OfficeOpenXml
         {
             foreach (ExcelComment comment in _comments)
             {
+                foreach(var rt in comment.RichText)
+                {
+                    rt.Text = StringUtil.SanitizeUtf16(rt.Text);
+                }
                 var textNode = comment._commentHelper.GetNode("d:text");
                 textNode.InnerXml = comment.RichText.GetXML();
             }
