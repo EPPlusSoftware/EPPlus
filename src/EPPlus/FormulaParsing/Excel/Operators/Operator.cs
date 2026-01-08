@@ -10,14 +10,12 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using System.Diagnostics;
 using OfficeOpenXml.FormulaParsing.Ranges;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
+using System;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
@@ -287,6 +285,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         {
                             var res = Math.Pow(l.ResultNumeric, r.ResultNumeric);
                             return CreateCompileResult(l.ResultType, r.ResultType, res, DataType.Decimal);
+                        }
+                        if (l.DataType == DataType.String || r.DataType == DataType.String)
+                        {
+                            return CompileResult.GetErrorResult(eErrorType.Value);
+                        }
+                        if (l.Result is ExcelErrorValue)
+                        {
+                            return new CompileResult(l.Result, DataType.ExcelError);
+                        }
+                        else if (r.Result is ExcelErrorValue)
+                        {
+                            return new CompileResult(r.Result, DataType.ExcelError);
                         }
                         return CompileResult.ZeroDecimal;
                     });

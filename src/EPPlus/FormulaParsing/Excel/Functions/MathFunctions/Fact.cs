@@ -32,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
             if (number < 0) return CompileResult.GetErrorResult(eErrorType.NA);
             var result = 1d;
-            for (var x = 1; x < number; x++)
+            for (var x = 1; x <= number; x++)
             {
                 result *= x;
             }

@@ -645,8 +645,9 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                         if (hfText[i] == '+' || hfText[i] == '-')
                         {
                             temp.PageNumberSuffix += hfText[i];
+                            i++;
                         }
-                        i++;
+
                         while (char.IsDigit( hfText[i]))
                         {
                             temp.PageNumberSuffix += hfText[i];
