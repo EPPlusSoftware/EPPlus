@@ -722,9 +722,12 @@ namespace EPPlus.Fonts.OpenType
             //Does not take new text-strings into account
             int currentLineIndex = 0;
 
+            var fragments = paragraph.Fragments;
+            var allText = fragments.AllText;
+            var newLineIndicies = fragments.AllTextNewLineIndicies;
 
             //Iterate through All fragments as one concatenated text string
-            for (int i = 0; i < paragraph.AllText.Length; i++)
+            for (int i = 0; i < allText.Length; i++)
             {
                 //Get char info stored previously in the textParagraph class
                 var charInfo = paragraph.CharLookup[i];
@@ -732,10 +735,10 @@ namespace EPPlus.Fonts.OpenType
                 var fragmentIdx = charInfo.Fragment;
 
                 //If we hit a pre-existing line break. Reset line and wordwidths
-                var indexExists = paragraph.AllTextNewLineIndicies.Count() > currentLineIndex;
+                var indexExists = newLineIndicies.Count() > currentLineIndex;
                 if(indexExists)
                 {
-                    if (i >= paragraph.AllTextNewLineIndicies[currentLineIndex])
+                    if (i >= newLineIndicies[currentLineIndex])
                     {
                         var addedLine = leftOverLine.Trim(['\r', '\n']);
                         wrappedStrings.Add(addedLine);
@@ -767,28 +770,31 @@ namespace EPPlus.Fonts.OpenType
                 fontSize = paragraph.FontSizes[fragmentIdx];
                 var glyphMapping = paragraph.GlyphMappings[fragmentIdx];
 
-                char c = paragraph.AllText[i];
+                char c = allText[i];
                 var advanceWidth = CalculateAdvanceWidth(c, glyphMapping, currentFont, ref lastGlyphIndex, ref lineWidth, ref wordWidth, ref applyKerning);
 
                 //Perform the actual wrapping
                 if (lineWidth > maxWidth)
                 {
-                    WrapAtCharPos(paragraph.AllText, i, ref prevLineEndIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings);
+                    //Log where wrapping occured in order to keep track of fragment/run/richtext
+                    paragraph.Fragments.AddWrappingIndex(i);
+
+                    WrapAtCharPos(allText, i, ref prevLineEndIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings);
 
                     //Since we're using the AllText, need to handle leftover line differently
                     if (i < prevLineEndIndex)
                     {
-                        leftOverLine = paragraph.AllText.Substring(prevLineEndIndex, prevLineEndIndex - i);
+                        leftOverLine = allText.Substring(prevLineEndIndex, prevLineEndIndex - i);
                     }
                     else
                     {
                         //Special case for only 1 or 0 chars in leftover line
-                        leftOverLine = paragraph.AllText.Substring(prevLineEndIndex, i - prevLineEndIndex);
+                        leftOverLine = allText.Substring(prevLineEndIndex, i - prevLineEndIndex);
                     }
                 }
 
                 //Add the current char to current unwrapped line
-                leftOverLine += paragraph.AllText.Substring(i, 1);
+                leftOverLine += allText.Substring(i, 1);
             }
 
             wrappedStrings.Add(leftOverLine);

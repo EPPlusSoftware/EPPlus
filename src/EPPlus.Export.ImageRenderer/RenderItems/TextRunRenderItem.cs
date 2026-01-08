@@ -5,73 +5,87 @@ using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems
 {
     internal abstract class TextRunRenderItem : RenderItem
     {
-        /// <summary>
-        /// BoundingBox
-        /// </summary>
-        internal BoundingBox boundingBox;
         public override RenderItemType Type => RenderItemType.Text;
 
         internal readonly string originalText;
         private string currentText;
 
-        MeasurementFont measurementFont;
-        bool isFirstInParagraph;
-        FontMeasurerTrueType Measurer;
-        eTextAlignment horizontalTextAlignment;
-        MeasurementFontStyles fontStyles;
-        double fontSizeInPixels;
+        MeasurementFont _measurementFont;
+        bool _isFirstInParagraph;
+        FontMeasurerTrueType _measurer;
+        eTextAlignment _horizontalTextAlignment;
+        MeasurementFontStyles _fontStyles;
+        internal double FontSizeInPixels { get; private set; }
 
         List<string> Lines;
 
         double _yEndPos;
         double BaselineSpacing;
 
-        bool WrapText;
-        double MaxWidthPixels = double.NaN;
+        bool _wrapText;
+        double _maxWidthPixels = double.NaN;
+
+        bool _isItalic = false;
+        bool _isBold = false;
+        eUnderLineType _underLineType;
+        eStrikeType _strikeType;
+        Color _underlineColor;
 
         internal TextRunRenderItem(ExcelParagraphTextRunBase run, BoundingBox parent = null)
         {
-            WrapText = run.Paragraph._paragraphs.WrapText != eTextWrappingType.None;
-
             originalText = run.Text;
             currentText = originalText;
 
-            boundingBox = new BoundingBox();
+            var measurer = run.Paragraph._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
+            _measurer = (FontMeasurerTrueType)measurer;
+
+            _isFirstInParagraph = run.IsFirstInParagraph;
+
+            Bounds = new BoundingBox();
             if (parent != null)
             {
-                boundingBox.transform.Parent = parent.transform;
+                Bounds.Parent = parent;
             }
 
-            isFirstInParagraph = run.IsFirstInParagraph;
+            _fontStyles = _measurementFont.Style;
 
-            Measurer = new FontMeasurerTrueType(measurementFont);
-            fontStyles = measurementFont.Style;
+            FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
 
-            fontSizeInPixels = ((double)measurementFont.Size).PointToPixel(true);
-
-            horizontalTextAlignment = run.Paragraph.HorizontalAlignment;
+            _horizontalTextAlignment = run.Paragraph.HorizontalAlignment;
 
             if (run.Fill.Style == eFillStyle.SolidFill)
             {
                 FillColor = "#" + run.Fill.Color.To6CharHexString();
             }
 
-            Lines = GetLines(originalText);
+            _wrapText = run.Paragraph._paragraphs.WrapText != eTextWrappingType.None;
+            if (_wrapText)
+            {
+                CalculateTextWrapping(parent.Width);
+            }
+
+            _isItalic = run.FontItalic;
+            _isBold = run.FontBold;
+            _underLineType = run.FontUnderLine;
+            _underlineColor = run.UnderLineColor;
+            _strikeType = run.FontStrike;
         }
 
         internal List<string> GetLines(string text)
         {
-            var inputWidth = WrapText ? MaxWidthPixels : double.NaN;
-            Lines = TextWrapper.GetLines(text, Measurer, inputWidth);
+            var inputWidth = _wrapText ? _maxWidthPixels : double.NaN;
+            Lines = TextWrapper.GetLines(text, _measurer, inputWidth);
             return Lines;
         }
 
@@ -88,20 +102,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
 
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {
-            il = boundingBox.X;
-            it = boundingBox.Y;
+            il = Bounds.X;
+            it = Bounds.Y;
 
             ir = CalculateRightPositionInPixels();
             ib = CalculateBottomPositionInPixels();
 
-            boundingBox.Right = ir;
-            boundingBox.Bottom = ib;
+            Bounds.Right = ir;
+            Bounds.Bottom = ib;
         }
 
         internal double CalculateRightPositionInPixels()
         {
             var numLines = GetNumberOfLines();
-            double retPos = boundingBox.X;
+            double retPos = Bounds.X;
 
             double TextLengthInPixels = 0;
 
@@ -133,17 +147,25 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
 
         internal double CalculateBottomPositionInPixels()
         {
-            var lineSize = ((double)measurementFont.Size).PointToPixel(true) + boundingBox.Y;
+            var lineSize = ((double)_measurementFont.Size).PointToPixel(true) + Bounds.Y;
             var bottomPosition = lineSize * GetNumberOfLines();
             return bottomPosition;
         }
 
         internal double CalculateTextWidth(string targetString)
         {
-            Measurer.MeasureWrappedTextCells = true;
-            var width = Measurer.MeasureTextWidth(targetString);
+            _measurer.MeasureWrappedTextCells = true;
+            var width = _measurer.MeasureTextWidth(targetString);
 
             return width;
+        }
+
+        internal void CalculateTextWrapping(double maxWidth)
+        {
+            List<string> NewContentLines = new List<string>();
+            _measurer.SetFont(_measurementFont);
+            var newLines = _measurer.MeasureAndWrapText(originalText, _measurementFont, maxWidth);
+            Lines = newLines;
         }
 
         internal void CreateLines()

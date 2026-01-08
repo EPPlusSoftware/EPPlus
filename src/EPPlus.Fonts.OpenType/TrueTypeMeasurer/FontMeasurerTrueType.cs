@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -294,7 +295,16 @@ namespace EPPlus.Fonts.OpenType
 
         public List<string> WrapMultipleTextFragments(List<string> textFragments, List<MeasurementFont> fonts, double maxWidthPoints)
         {
-            TextParagraph paragraph = new TextParagraph(textFragments, fonts);
+            TextFragmentCollection fragments = new TextFragmentCollection(textFragments);
+            TextParagraph paragraph = new TextParagraph(fragments, fonts);
+
+            //Wrap the fragments
+            return TextData.WrapMultipleTextFragments(paragraph, maxWidthPoints);
+        }
+
+        public List<string> WrapMultipleTextFragments(TextFragmentCollection fragments, List<MeasurementFont> fonts, double maxWidthPoints)
+        {
+            TextParagraph paragraph = new TextParagraph(fragments, fonts);
 
             //Wrap the fragments
             return TextData.WrapMultipleTextFragments(paragraph, maxWidthPoints);
