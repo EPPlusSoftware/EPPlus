@@ -86,9 +86,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public void ImportTextBody(ExcelTextBody body)
         {
+            double l, r, t, b;
+            body.GetInsetsOrDefaults(out l, out t, out r, out b);
+
+            Bounds.Left = l.PointToPixel();
+            Bounds.Top = t.PointToPixel();
+            Bounds.Right = r.PointToPixel();
+            Bounds.Bottom = b.PointToPixel();
+
             foreach (var paragraph in body.Paragraphs)
             {
-
+                ImportParagraph(paragraph);
             }
         }
 

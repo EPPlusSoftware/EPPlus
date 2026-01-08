@@ -102,11 +102,11 @@ namespace EPPlusImageRenderer.Svg
 
             if (textRun.FontItalic)
             {
-                fontStyleAttributes += " font-style=\"italic\" ";
+                fontStyleAttributes += " _measurementFont-style=\"italic\" ";
             }
             if(textRun.FontBold)
             {
-                fontStyleAttributes += "font-weight=\"bold\" ";
+                fontStyleAttributes += "_measurementFont-weight=\"bold\" ";
             }
             if(textRun.FontUnderLine != eUnderLineType.None | textRun.FontStrike != eStrikeType.No)
             {
@@ -200,11 +200,11 @@ namespace EPPlusImageRenderer.Svg
 
             if (font.Italic)
             {
-                fontStyleAttributes += " font-style=\"italic\" ";
+                fontStyleAttributes += " _measurementFont-style=\"italic\" ";
             }
             if (font.Bold)
             {
-                fontStyleAttributes += "font-weight=\"bold\" ";
+                fontStyleAttributes += "_measurementFont-weight=\"bold\" ";
             }
             if (font.UnderLine != eUnderLineType.None | font.Strike != eStrikeType.No)
             {
@@ -406,9 +406,9 @@ namespace EPPlusImageRenderer.Svg
                 finalString += $"{visibility} " + $"{fontStyleAttributes} ";
                 if (measurementFont != null)
                 {
-                    finalString += $" font-family=\"{measurementFont.FontFamily},"
+                    finalString += $" _measurementFont-family=\"{measurementFont.FontFamily},"
                         + $"{measurementFont.FontFamily}_MSFontService,sans-serif\" "
-                        + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
+                        + $"_measurementFont-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
                 }
                 sb.Append(finalString);
                 //Get color etc.

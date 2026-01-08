@@ -26,6 +26,8 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using EPPlus.Export.ImageRenderer.Text;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Graphics;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -74,6 +76,12 @@ namespace EPPlusImageRenderer.Svg
 
                 if (_shape.Text != null)
                 {
+                    //BoundingBox bb = new BoundingBox();
+
+                    //TextBody test = new TextBody(bb);
+
+                    //test.ImportTextBody(_shape.TextBody);
+
                     if (shapeDef.TextBoxRect != null)
                     {
                         if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)

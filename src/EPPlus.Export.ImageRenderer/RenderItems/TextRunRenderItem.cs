@@ -11,10 +11,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems
 {
-    internal abstract class TextRunRenderItem : RenderItem
+    internal class TextRunRenderItem : RenderItem
     {
         public override RenderItemType Type => RenderItemType.Text;
 
@@ -42,6 +44,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
         eStrikeType _strikeType;
         Color _underlineColor;
 
+        internal double LineSpacingPerNewLine { get; set; }
+        internal double BaseLineSpacing { get; set; }
+
         internal TextRunRenderItem(ExcelParagraphTextRunBase run, BoundingBox parent = null)
         {
             originalText = run.Text;
@@ -50,9 +55,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
             var measurer = run.Paragraph._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
             _measurer = (FontMeasurerTrueType)measurer;
 
+            _measurementFont = run.GetMeasurementFont();
+            _measurer.SetFont(_measurementFont);
+
             _isFirstInParagraph = run.IsFirstInParagraph;
 
-            Bounds = new BoundingBox();
             if (parent != null)
             {
                 Bounds.Parent = parent;
@@ -67,12 +74,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
             if (run.Fill.Style == eFillStyle.SolidFill)
             {
                 FillColor = "#" + run.Fill.Color.To6CharHexString();
-            }
-
-            _wrapText = run.Paragraph._paragraphs.WrapText != eTextWrappingType.None;
-            if (_wrapText)
-            {
-                CalculateTextWrapping(parent.Width);
             }
 
             _isItalic = run.FontItalic;
@@ -160,63 +161,68 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
             return width;
         }
 
-        internal void CalculateTextWrapping(double maxWidth)
+        public override void Render(StringBuilder sb)
         {
-            List<string> NewContentLines = new List<string>();
-            _measurer.SetFont(_measurementFont);
-            var newLines = _measurer.MeasureAndWrapText(originalText, _measurementFont, maxWidth);
-            Lines = newLines;
+            throw new NotImplementedException();
         }
 
-        internal void CreateLines()
-        {
-            //string finalString = "";
+        //internal void CalculateTextWrapping(double maxWidth)
+        //{
+        //    List<string> NewContentLines = new List<string>();
+        //    _measurer.SetFont(_measurementFont);
+        //    var newLines = _measurer.MeasureAndWrapText(originalText, _measurementFont, maxWidth);
+        //    Lines = newLines;
+        //}
 
-            //Lines = SplitIntoLines(currentText);
+        //internal void CreateLines()
+        //{
+        //    //string finalString = "";
 
-            //foreach (var line in Lines)
-            //{
-            //    //    //Despite new textrun it could still be on the same line as previous textrun
-            //    //    //Therefore only do line increase if we are first in paragraph or if we are not Lines[0].
-            //    //    //This as line == Lines[0] && isFirstInParagraph == false means we are continuing on the same line as previous textRun
-            //    //    //This is important if for example we have rich text where two letters on the same line has different colors.
-            //    //    if (line != Lines[0] | isFirstInParagraph)
-            //    //    {
-            //    //        var yIncrease = /*isFirstInParagraph && useBaselineSpacing ? BaselineSpacing : LineSpacingPerNewLine;*/
-            //    //        isFirstInParagraph = false;
+        //    //Lines = SplitIntoLines(currentText);
 
-            //    //    //    yIncrease = EPPlus.Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
+        //    //foreach (var line in Lines)
+        //    //{
+        //    //    //    //Despite new textrun it could still be on the same line as previous textrun
+        //    //    //    //Therefore only do line increase if we are first in paragraph or if we are not Lines[0].
+        //    //    //    //This as line == Lines[0] && isFirstInParagraph == false means we are continuing on the same line as previous textRun
+        //    //    //    //This is important if for example we have rich text where two letters on the same line has different colors.
+        //    //    //    if (line != Lines[0] | isFirstInParagraph)
+        //    //    //    {
+        //    //    //        var yIncrease = /*isFirstInParagraph && useBaselineSpacing ? BaselineSpacing : LineSpacingPerNewLine;*/
+        //    //    //        isFirstInParagraph = false;
 
-            //    //    //    _yEndPos += yIncrease;
-            //    //    //    if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
-            //    //    //    {
-            //    //    //        visibility = "display=\"none\"";
-            //    //    //    }
+        //    //    //    //    yIncrease = EPPlus.Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
 
-            //    //    //    var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
-            //    //    //    var xString = $"x =\"{(_xPosition).ToString(CultureInfo.InvariantCulture)}\" ";
-            //    //    //    var dyString = $"dy =\"{yIncreaseString}px\" ";
-            //    //    //    finalString += xString;
-            //    //    //    finalString += dyString;
-            //    //    //}
+        //    //    //    //    _yEndPos += yIncrease;
+        //    //    //    //    if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
+        //    //    //    //    {
+        //    //    //    //        visibility = "display=\"none\"";
+        //    //    //    //    }
 
-            //    //    //finalString += $"{visibility} " + $"{fontStyleAttributes} ";
-            //    //    //if (measurementFont != null)
-            //    //    //{
-            //    //    //    finalString += $" font-family=\"{measurementFont.FontFamily},"
-            //    //    //        + $"{measurementFont.FontFamily}_MSFontService,sans-serif\" "
-            //    //    //        + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
-            //    //    //}
-            //    //    //sb.Append(finalString);
-            //    //    ////Get color etc.
-            //    //    //base.Render(sb);
-            //    //    //finalString = "";
+        //    //    //    //    var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
+        //    //    //    //    var xString = $"x =\"{(_xPosition).ToString(CultureInfo.InvariantCulture)}\" ";
+        //    //    //    //    var dyString = $"dy =\"{yIncreaseString}px\" ";
+        //    //    //    //    finalString += xString;
+        //    //    //    //    finalString += dyString;
+        //    //    //    //}
 
-            //    //    //finalString += ">";
-            //    //    //finalString += line;
-            //    //    //finalString += "</tspan>";
-            //    //}
-            //}
-        }
+        //    //    //    //finalString += $"{visibility} " + $"{fontStyleAttributes} ";
+        //    //    //    //if (measurementFont != null)
+        //    //    //    //{
+        //    //    //    //    finalString += $" font-family=\"{measurementFont.FontFamily},"
+        //    //    //    //        + $"{measurementFont.FontFamily}_MSFontService,sans-serif\" "
+        //    //    //    //        + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
+        //    //    //    //}
+        //    //    //    //sb.Append(finalString);
+        //    //    //    ////Get color etc.
+        //    //    //    //base.Render(sb);
+        //    //    //    //finalString = "";
+
+        //    //    //    //finalString += ">";
+        //    //    //    //finalString += line;
+        //    //    //    //finalString += "</tspan>";
+        //    //    //}
+        //    //}
+        //}
     }
 }

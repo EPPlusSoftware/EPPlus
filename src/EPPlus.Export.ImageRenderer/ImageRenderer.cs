@@ -254,7 +254,7 @@ namespace EPPlusImageRenderer
 
                 var paragraphElement = new SvgElement("text");
                 paragraphElement.AddAttribute("y", fontSizePx);
-                paragraphElement.AddAttribute("font-size", $"{fontSizePx}px");
+                paragraphElement.AddAttribute("_measurementFont-size", $"{fontSizePx}px");
                 paragraphElement.AddAttribute("clip-path", $"url(#{nameId})");
 
                 paragraphGroup.AddChildElement(paragraphElement);
@@ -274,7 +274,7 @@ namespace EPPlusImageRenderer
                     var runElement = new SvgElement("tspan");
                     runElement.AddAttribute("x", run.X);
                     runElement.AddAttribute("y", run.Y + fontSizePx);
-                    runElement.AddAttribute("font-size", $"{fontSizePx}px");
+                    runElement.AddAttribute("_measurementFont-size", $"{fontSizePx}px");
 
                     runElement.Content = run.GetContent();
                     paragraphElement.AddChildElement(runElement);
@@ -352,7 +352,7 @@ namespace EPPlusImageRenderer
             var renderElement = new SvgElement("text");
             renderElement.AddAttribute("x", container.transform.Position.X);
             renderElement.AddAttribute("y", container.transform.Position.Y + fontSizePx);
-            renderElement.AddAttribute("font-size", $"{fontSizePx}px");
+            renderElement.AddAttribute("_measurementFont-size", $"{fontSizePx}px");
             renderElement.AddAttribute("clip-path", $"url(#{nameId})");
 
             renderElement.Content = fullString;

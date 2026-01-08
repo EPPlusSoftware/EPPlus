@@ -173,7 +173,11 @@ namespace EPPlus.Fonts.OpenType
         {
             return TextData.GetSingleLineSpacing(CurrentFont, FontSize);
         }
-
+        /// <summary>
+        /// ASCENT is in shapes in Excel the distance between
+        /// The top of the shape (or more likely for non-rect shapes the top of the inset rect textbox) 
+        /// and the baseline of the given text.
+        /// </summary>
         public double GetBaseLine()
         {
             return TextData.GetBaseLine(CurrentFont, FontSize);

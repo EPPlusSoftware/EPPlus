@@ -79,12 +79,5 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
 
             return FontSubFamily.Regular;
         }
-
-
-
-        internal void GetNextFragmentInfo()
-        {
-
-        }
     }
 }
