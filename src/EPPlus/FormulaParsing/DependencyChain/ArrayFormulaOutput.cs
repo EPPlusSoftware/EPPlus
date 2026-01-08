@@ -240,8 +240,10 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static void ClearDynamicFormulaIndex(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol)
         {
-            ws._formulas.Clear(fromRow, fromCol, toRow, toCol);
-            ws._flags.Clear(fromRow, fromCol, toRow, toCol);
+            var rows = toRow - fromRow + 1;
+            var cols = toCol - fromCol + 1;
+            ws._formulas.Clear(fromRow, fromCol, rows, cols);
+            ws._flags.Clear(fromRow, fromCol, rows, cols);
 
             for (int col = fromCol; col <= toCol; col++)
             {

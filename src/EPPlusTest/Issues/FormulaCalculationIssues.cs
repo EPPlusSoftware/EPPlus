@@ -1443,7 +1443,7 @@ namespace EPPlusTest.Issues
         [TestMethod]
         public void s965_3()
         {
-            using var package = OpenTemplatePackage("s965-2-Not Calculated.xlsx");
+            using var package = OpenTemplatePackage("s965-Not Calculated.xlsx");
             //package.Workbook.Calculate();
             var ws = package.Workbook.Worksheets["Calculation"];
             package.Workbook.Calculate(); 
@@ -1467,9 +1467,10 @@ namespace EPPlusTest.Issues
 
             Assert.AreEqual(394547.21, ws2.Cells["D45"].Value);
             Assert.AreEqual(1954159.28, ws2.Cells["D46"].Value);
-            Assert.AreEqual(27535.48, ws2.Cells["D47"].Value); 
-        }
+            Assert.AreEqual(27535.48, ws2.Cells["D47"].Value);
 
+            SaveAndCleanup(package);
+        }
     }
 }
 
