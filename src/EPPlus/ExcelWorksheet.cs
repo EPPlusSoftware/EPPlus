@@ -86,8 +86,8 @@ namespace OfficeOpenXml
         {
             internal uint cm;
             internal uint vm;
-            internal bool aca;
-            internal bool ca;
+            //internal bool aca; //Removed, is set as a flag instead in the _flags store.
+            //internal bool ca;  //Removed, is set as a flag instead in the _flags store.
         }
         /// <summary>
         /// Removes all formulas within the entire worksheet, but keeps the calculated values.
