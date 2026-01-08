@@ -1,10 +1,10 @@
 # Security Policy
 
-_Last updated: 2025-06-10_
+_Last updated: 2026-01-08_
 
 ## Supported Versions
 
-EPPlus 6, 7 and 8 are automatically scanned for vulnerabilities and static code analysis is performed as part of the CI. 
+EPPlus 7 and 8 are automatically scanned for vulnerabilities and static code analysis is performed as part of the CI. 
 
 | Version | Supported          | Comment            | Deprecation date |
 | ------- | ------------------ | ------------------ |----|
@@ -12,7 +12,7 @@ EPPlus 6, 7 and 8 are automatically scanned for vulnerabilities and static code 
 | 7.x.x   | :white_check_mark: |                    ||
 | 6.x.x   | :x:                |Deprecated/unsupported versions              |2025-12-31|
 | 5.x.x   | :x:                |Deprecated/unsupported versions              |2024-12-31|
-| < 4.3   | :x:                |Deprecated/unsupported versions|2020-12-31|
+| < 4.5   | :x:                |Deprecated/unsupported versions|2020-12-31|
 
 ## Security update policy
 Security patches will be provided via new revisions released in our public Nuget feed. One patch for each supported major version/the two latest minor versions will be provided. [Subscribe to our newsletter](https://epplussoftware.com/en/Home/Newsletter) to get updates from EPPlus Software.
