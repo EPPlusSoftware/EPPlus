@@ -1049,5 +1049,15 @@ namespace EPPlusTest.Issues
 
             Assert.AreEqual("B2", dbv.Address);
         }
+        [TestMethod]
+        public void i2240()
+        {
+            using (var package = OpenTemplatePackage("i2240.xlsx"))
+            {
+                var theText = package.Workbook.Worksheets.First().HeaderFooter.OddFooter.LeftAlignedText;
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
