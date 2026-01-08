@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Exceptions;
@@ -184,5 +185,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 		/// If the function is allowed in a pivot table calculated field
 		/// </summary>
 		public override bool IsAllowedInCalculatedPivotTableField => false;
-	}
+
+        public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
+        {
+            if (argumentIndex == 2)
+            {
+                return FunctionParameterInformation.IgnoreErrorInPreExecute;
+            }
+            return FunctionParameterInformation.Normal;
+        }));
+    }
 }
