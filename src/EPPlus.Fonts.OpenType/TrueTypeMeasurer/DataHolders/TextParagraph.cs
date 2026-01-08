@@ -15,7 +15,6 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
         //prevent creating multiple OpenTypeFonts via cache/indexing
         internal Dictionary<double, OpenTypeFont> FontIndexDict = new();
         internal Dictionary<double, GlyphMappings> GlyphMappings = new();
-        internal Dictionary<int, CharInfo> CharLookup = new();
         internal int TotalLength = 0;
 
         internal List<double> FontSizes = new();

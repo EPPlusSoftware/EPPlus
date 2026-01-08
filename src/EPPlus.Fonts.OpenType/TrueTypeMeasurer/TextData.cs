@@ -730,7 +730,7 @@ namespace EPPlus.Fonts.OpenType
             for (int i = 0; i < allText.Length; i++)
             {
                 //Get char info stored previously in the textParagraph class
-                var charInfo = paragraph.CharLookup[i];
+                var charInfo = fragments.CharLookup[i];
                 var lineIdx = charInfo.Line;
                 var fragmentIdx = charInfo.Fragment;
 
