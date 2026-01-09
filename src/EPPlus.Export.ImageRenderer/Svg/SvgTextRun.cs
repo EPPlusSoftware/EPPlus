@@ -102,11 +102,11 @@ namespace EPPlusImageRenderer.Svg
 
             if (textRun.FontItalic)
             {
-                fontStyleAttributes += " _measurementFont-style=\"italic\" ";
+                fontStyleAttributes += " font-style=\"italic\" ";
             }
             if(textRun.FontBold)
             {
-                fontStyleAttributes += "_measurementFont-weight=\"bold\" ";
+                fontStyleAttributes += "font-weight=\"bold\" ";
             }
             if(textRun.FontUnderLine != eUnderLineType.None | textRun.FontStrike != eStrikeType.No)
             {
@@ -406,9 +406,9 @@ namespace EPPlusImageRenderer.Svg
                 finalString += $"{visibility} " + $"{fontStyleAttributes} ";
                 if (measurementFont != null)
                 {
-                    finalString += $" _measurementFont-family=\"{measurementFont.FontFamily},"
+                    finalString += $" font-family=\"{measurementFont.FontFamily},"
                         + $"{measurementFont.FontFamily}_MSFontService,sans-serif\" "
-                        + $"_measurementFont-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
+                        + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
                 }
                 sb.Append(finalString);
                 //Get color etc.

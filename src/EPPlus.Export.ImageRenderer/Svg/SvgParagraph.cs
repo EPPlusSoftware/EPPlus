@@ -34,8 +34,8 @@ namespace EPPlusImageRenderer.Svg
             base.Render(sb);
 
             sb.Append($" {vertAlignAttribute} " + GetHorizontalAlignmentAttribute(XPos) +
-                $"_measurementFont-family=\"{_measurementFont.FontFamily},{_measurementFont.FontFamily}_MSFontService,sans-serif\" " +
-                $"_measurementFont-size=\"{_measurementFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture)}px\">");
+                $"font-family=\"{_measurementFont.FontFamily},{_measurementFont.FontFamily}_MSFontService,sans-serif\" " +
+                $"font-size=\"{_measurementFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture)}px\">");
 
             if (TextRuns.Count > 0)
             {

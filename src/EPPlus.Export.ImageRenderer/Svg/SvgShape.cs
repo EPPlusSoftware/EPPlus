@@ -40,7 +40,13 @@ namespace EPPlusImageRenderer.Svg
         {
             var style = shape.Style;
 
-            if(style==eShapeStyle.CustomShape)
+            //BoundingBox bb = new BoundingBox();
+
+            //TextBody test = new TextBody(bb);
+
+            //test.ImportTextBody(_shape.TextBody);
+
+            if (style==eShapeStyle.CustomShape)
             {
                 _renderTextBox = null;
                 foreach (var path in shape.CustomGeom.DrawingPaths)
@@ -76,12 +82,6 @@ namespace EPPlusImageRenderer.Svg
 
                 if (_shape.Text != null)
                 {
-                    //BoundingBox bb = new BoundingBox();
-
-                    //TextBody test = new TextBody(bb);
-
-                    //test.ImportTextBody(_shape.TextBody);
-
                     if (shapeDef.TextBoxRect != null)
                     {
                         if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
