@@ -299,12 +299,12 @@ namespace OfficeOpenXml.Drawing
             }
             w += leftRightMargin * 2;
             h += topBottomMargin * 2;
-            if (rotation!=0)
-            {
-                var rw = Math.Abs(w * Math.Cos(rotation * Math.PI / 180)) + Math.Abs(h * Math.Sin(rotation * Math.PI / 180));
-                var rh = Math.Abs(w * Math.Sin(rotation * Math.PI / 180)) + Math.Abs(h * Math.Cos(rotation * Math.PI / 180));
-                return new RectBase(rw, rh);
-            }
+            //if (rotation!=0)
+            //{
+            //    var rw = Math.Abs(w * Math.Cos(rotation * Math.PI / 180)) + Math.Abs(h * Math.Sin(rotation * Math.PI / 180));
+            //    var rh = Math.Abs(w * Math.Sin(rotation * Math.PI / 180)) + Math.Abs(h * Math.Cos(rotation * Math.PI / 180));
+            //    return new RectBase(rw, rh);
+            //}
             return new RectBase(w, h);
         }
     }

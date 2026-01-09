@@ -15,6 +15,7 @@ using EPPlusImageRenderer.Text;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Globalization;
@@ -193,8 +194,20 @@ namespace EPPlusImageRenderer.Svg
         }
         public override void Render(StringBuilder sb)
         {
+            SvgGroupItem groupItem;
+            if (TextBox.Rotation == 0)
+            {
+                groupItem = new SvgGroupItem();
+            }
+            else
+            {
+                groupItem = new SvgGroupItem(TextBox.Rotation, Rectangle.Width / 2 + Rectangle.Left, Rectangle.Height / 2 + Rectangle.Top);
+            }
+
+            groupItem.Render(sb);
             Rectangle.Render(sb);
             TextBox.Render(sb);
+            groupItem.RenderEndGroup(sb);
         }
     }
 }

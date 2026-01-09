@@ -242,23 +242,11 @@ namespace EPPlusImageRenderer.Text
 
         internal void RenderParagraphs(StringBuilder sb)
         {
-            SvgGroupItem groupItem;
-            if (Rotation==0)
-            {
-                groupItem = new SvgGroupItem();
-            }
-            else
-            {
-                groupItem = new SvgGroupItem(Rotation, Bounds.Width / 2 + Bounds.Left, Bounds.Height / 2 + Bounds.Top);
-            }
-
-            groupItem.Render(sb);
             //TODO: add textbody property stuff here
             foreach (var paragraph in Paragraphs)
             {
                 paragraph.Render(sb);
             }
-            groupItem.RenderEndGroup(sb);
         }
         internal void RenderTextRuns(StringBuilder sb)
         {

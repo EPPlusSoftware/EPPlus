@@ -81,7 +81,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     try
                     {
-                        return (eAxisTickMark)Enum.Parse(typeof(eAxisTickMark), v);
+                        return (eAxisTickMark)Enum.Parse(typeof(eAxisTickMark), v, true);
                     }
                     catch
                     {
@@ -111,7 +111,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     try
                     {
-                        return (eAxisTickMark)Enum.Parse(typeof(eAxisTickMark), v);
+                        return (eAxisTickMark)Enum.Parse(typeof(eAxisTickMark), v, true);
                     }
                     catch
                     {

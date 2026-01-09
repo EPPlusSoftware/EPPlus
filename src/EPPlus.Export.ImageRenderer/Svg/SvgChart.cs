@@ -57,7 +57,7 @@ namespace EPPlusImageRenderer.Svg
             SetAxisPositionsFromPlotarea(this);
         }
 
-        private void SetAxisPositionsFromPlotarea(SvgChart sc)
+        private void  SetAxisPositionsFromPlotarea(SvgChart sc)
         {
             if(VerticalAxis != null)
             {
@@ -76,6 +76,8 @@ namespace EPPlusImageRenderer.Svg
                     VerticalAxis.Title.Rectangle.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (VerticalAxis.Title.Rectangle.Height / 2);
                     VerticalAxis.Title.InitTextBox();
                 }
+                
+                VerticalAxis.AddTickmarks();
             }
 
             if (HorizontalAxis!=null)
