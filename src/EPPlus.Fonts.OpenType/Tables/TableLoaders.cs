@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
+using EPPlus.Fonts.OpenType.Tables.Gpos;
 using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
@@ -87,6 +88,11 @@ namespace EPPlus.Fonts.OpenType.Tables
         public static GsubTableLoader GetGsubTableLoader(TableLoaderSettings settings)
         {
             return new GsubTableLoader(settings);
+        }
+
+        public static GposTableLoader GetGposTableLoader(TableLoaderSettings settings)
+        {
+            return new GposTableLoader(settings);
         }
     }
 }

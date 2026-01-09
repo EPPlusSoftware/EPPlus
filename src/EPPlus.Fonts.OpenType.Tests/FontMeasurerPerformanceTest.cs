@@ -26,7 +26,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         /// Performance test for text wrapping. 
         /// Fixed kerning pairs major bottle-neck.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore("This test should not run in a multithreaded test run. If we want to keep it, it should be moved to a separate benchmark project.")]
+        [TestCategory("Benchmark")]
         public void Wrap20Paragraphs100Times()
         {
             List<string> longTexts = new List<string>();

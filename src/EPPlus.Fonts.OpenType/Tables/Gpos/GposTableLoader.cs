@@ -15,6 +15,7 @@ using EPPlus.Fonts.OpenType.Tables.Common.Layout.Features;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups;
+using EPPlus.Fonts.OpenType.Tables.Gpos.IO;
 using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
     internal class GposTableLoader : TableLoader<GposTable>
     {
         public GposTableLoader(TableLoaderSettings settings)
-            : base(settings, "GPOS")
+            : base(settings, TableNames.Gpos)
         {
         }
 
@@ -224,82 +225,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
 
         private PairPosSubTableFormat1 ReadPairPosFormat1(FontsBinaryReader reader, long subtableStart)
         {
-            var table = new PairPosSubTableFormat1();
-            table.SubtableFormat = 1;
-
-            ushort coverageOffset = reader.ReadUInt16BigEndian();
-            table.ValueFormat1 = reader.ReadUInt16BigEndian();
-            table.ValueFormat2 = reader.ReadUInt16BigEndian();
-            ushort pairSetCount = reader.ReadUInt16BigEndian();
-
-            var pairSetOffsets = new ushort[pairSetCount];
-            for (int i = 0; i < pairSetCount; i++)
-            {
-                pairSetOffsets[i] = reader.ReadUInt16BigEndian();
-            }
-
-            // Read Coverage
-            if (coverageOffset > 0)
-            {
-                reader.BaseStream.Position = subtableStart + coverageOffset;
-                table.Coverage = ReadCoverageTable(reader, subtableStart + coverageOffset);
-            }
-
-            // Read PairSets
-            table.PairSets = new List<PairSet>();
-            for (int i = 0; i < pairSetCount; i++)
-            {
-                if (pairSetOffsets[i] == 0)
-                {
-                    table.PairSets.Add(null);
-                    continue;
-                }
-
-                reader.BaseStream.Position = subtableStart + pairSetOffsets[i];
-                var pairSet = ReadPairSet(reader, table.ValueFormat1, table.ValueFormat2);
-                table.PairSets.Add(pairSet);
-            }
-
-            return table;
-        }
-
-        private CoverageTable ReadCoverageTable(FontsBinaryReader reader, long coverageStart)
-        {
-            ushort format = reader.ReadUInt16BigEndian();
-
-            if (format == 1)
-            {
-                var deserializer = new CoverageTableFormat1Deserializer(reader);
-                return deserializer.Deserialize(coverageStart);
-            }
-            else if (format == 2)
-            {
-                var deserializer = new CoverageTableFormat2Deserializer(reader);
-                return deserializer.Deserialize(coverageStart);
-            }
-            else
-            {
-                throw new NotSupportedException($"Coverage format {format} is not supported.");
-            }
-        }
-
-        private PairSet ReadPairSet(FontsBinaryReader reader, ushort valueFormat1, ushort valueFormat2)
-        {
-            var pairSet = new PairSet();
-            ushort pairValueCount = reader.ReadUInt16BigEndian();
-
-            pairSet.PairValueRecords = new List<PairValueRecord>();
-
-            for (int i = 0; i < pairValueCount; i++)
-            {
-                var record = new PairValueRecord();
-                record.SecondGlyph = reader.ReadUInt16BigEndian();
-                record.Value1 = ValueRecord.Read(reader, valueFormat1);
-                record.Value2 = ValueRecord.Read(reader, valueFormat2);
-                pairSet.PairValueRecords.Add(record);
-            }
-
-            return pairSet;
+            // ✅ Use the deserializer!
+            var deserializer = new PairPosSubTableFormat1Deserializer(reader);
+            return deserializer.Deserialize(subtableStart);
         }
     }
 }

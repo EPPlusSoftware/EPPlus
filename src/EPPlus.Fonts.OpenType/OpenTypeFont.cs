@@ -17,6 +17,7 @@ using EPPlus.Fonts.OpenType.Subsetting;
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
+using EPPlus.Fonts.OpenType.Tables.Gpos;
 using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
@@ -92,6 +93,8 @@ namespace EPPlus.Fonts.OpenType
             _postTableLoader = TableLoaders.GetPostTableLoader(_tblSettings);
             _locaTableLoader = TableLoaders.GetLocaTableLoader(_tblSettings);
             _gsubTableLoader = TableLoaders.GetGsubTableLoader(_tblSettings);
+            _gposTableLoader = TableLoaders.GetGposTableLoader(_tblSettings);
+
 
             //Common tables in ttf fonts
             _glyfTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? TableLoaders.GetGlyfTableLoader(_tblSettings) : null;
@@ -108,6 +111,7 @@ namespace EPPlus.Fonts.OpenType
         PostTableLoader _postTableLoader;
         LocaTableLoader _locaTableLoader;
         GsubTableLoader _gsubTableLoader;
+        GposTableLoader _gposTableLoader;
 
         internal GlyfTableLoader _glyfTableLoader;
         internal KernTableLoader _kernTableLoader;
@@ -319,6 +323,25 @@ namespace EPPlus.Fonts.OpenType
                 else if (_localTableCache.Contains(TableNames.Gsub))
                 {
                     return (GsubTable)_localTableCache.Get(TableNames.Gsub);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public GposTable GposTable
+        {
+            get
+            {
+                if (_gposTableLoader != null)
+                {
+                    return _gposTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Gpos))
+                {
+                    return (GposTable)_localTableCache.Get(TableNames.Gpos);
                 }
                 else
                 {

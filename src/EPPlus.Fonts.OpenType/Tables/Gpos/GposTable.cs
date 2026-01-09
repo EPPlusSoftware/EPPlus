@@ -57,9 +57,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
         /// </summary>
         public uint FeatureVariationsOffset { get; set; }
 
-        public override string Name => throw new NotImplementedException();
+        public override string Name => TableNames.Gpos;
 
-        public override bool IsEssentialTable => throw new NotImplementedException();
+        public override bool IsEssentialTable => false;
 
         internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
