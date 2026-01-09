@@ -40,12 +40,6 @@ namespace EPPlusImageRenderer.Svg
         {
             var style = shape.Style;
 
-            //BoundingBox bb = new BoundingBox();
-
-            //TextBody test = new TextBody(bb);
-
-            //test.ImportTextBody(_shape.TextBody);
-
             if (style==eShapeStyle.CustomShape)
             {
                 _renderTextBox = null;
@@ -93,6 +87,18 @@ namespace EPPlusImageRenderer.Svg
                             rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.X;
                             rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
                             rectItem.FillOpacity = 0.3d;
+
+                            BoundingBox bb = new BoundingBox();
+
+                            bb.X = rectItem.X;
+                            bb.Y = rectItem.Y;
+                            bb.Width = rectItem.Width;
+                            bb.Height = rectItem.Height;
+
+                            TextBody test = new TextBody(bb);
+
+                            test.ImportTextBody(_shape.TextBody);
+
                             _renderTextBox = rectItem;
                         }
                         else

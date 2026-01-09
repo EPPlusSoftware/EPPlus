@@ -72,7 +72,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             throw new NullReferenceException($"The FontMeasurer: {_measurer} object is null. Use SetMeasurer before adding text");
         }
 
-        public void ImportParagraph(ExcelDrawingParagraph item)
+        public void ImportParagraph(ExcelDrawingParagraph item, double startingY)
         {
             var posY = GetAlignmentVertical();
 
@@ -82,6 +82,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             bool isFirst = Paragraphs.Count == 0;
 
             var paragraph = new ParagraphContainer(item, Bounds);
+            Paragraphs.Add(paragraph);
         }
 
         public void ImportTextBody(ExcelTextBody body)
@@ -89,15 +90,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             double l, r, t, b;
             body.GetInsetsOrDefaults(out l, out t, out r, out b);
 
-            Bounds.Left = l.PointToPixel();
-            Bounds.Top = t.PointToPixel();
-            Bounds.Right = r.PointToPixel();
-            Bounds.Bottom = b.PointToPixel();
+            LeftMargin = l.PointToPixel();
+            TopMargin = t.PointToPixel();
+            RightMargin = r.PointToPixel();
+            BottomMargin = b.PointToPixel();
+
+            double currentBottomY = Bounds.Top;
 
             foreach (var paragraph in body.Paragraphs)
             {
-                ImportParagraph(paragraph);
+                ImportParagraph(paragraph, currentBottomY);
+                currentBottomY = Paragraphs.Last().Bounds.Bottom;
             }
+            Bounds.Bottom = currentBottomY - BottomMargin;
         }
 
         public string GetContent()

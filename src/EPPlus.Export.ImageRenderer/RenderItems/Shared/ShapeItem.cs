@@ -20,7 +20,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// </summary>
     internal abstract class ShapeItem : DrawingShape
     {
-        TextBody textBox;
+        TextBody _textBox;
 
         internal ShapeItem(ExcelShape shape) : base(shape) 
         {
@@ -69,28 +69,31 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         private void LoadTextBox()
         {
-            textBox.VerticalAlignment = _shape.TextAnchoring;
-            textBox.WrapText = _shape.TextBody.WrapText != eTextWrappingType.None;
+            _textBox.VerticalAlignment = _shape.TextAnchoring;
+            _textBox.WrapText = _shape.TextBody.WrapText != eTextWrappingType.None;
             var fontMeasurer = (FontMeasurerTrueType)_shape._drawings._package.Settings.TextSettings.GenericTextMeasurerTrueType;
 
             //Make width the doc width if meant to overflow
             if (_shape.TextBody.HorizontalTextOverflow == eTextHorizontalOverflow.Overflow)
             {
-                textBox.Width = Size.Width;
+                _textBox.Width = Size.Width;
             }
 
             string color = "#" + GetFontColor();
-            textBox.FontColorString = color;
+            _textBox.FontColorString = color;
 
             var totalText = _shape.Text;
             List<List<double>> charAdvanceWidths = new List<List<double>>();
             var txtRunIndicies = LineFormatter.GetTextRunIndiciesAndWidths(_shape.TextBody, out charAdvanceWidths);
 
-            //Paragraph level begins
-            foreach (var paragraph in _shape.TextBody.Paragraphs)
-            {
-                textBox.ImportParagraph(paragraph);
-            }
+            _textBox.ImportTextBody(_shape.TextBody);
+
+            ////Paragraph level begins
+            //foreach (var paragraph in _shape.TextBody.Paragraphs)
+            //{
+                
+            //    //textBox.ImportParagraph(paragraph);
+            //}
         }
 
         protected void AddFromPaths(DrawingPath path, bool drawFill = true, bool drawBorder = true)
@@ -235,7 +238,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         private void RenderText(StringBuilder sb)
         {
             //RenderDebugTextBox(sb);
-            textBox.Render(sb);
+            _textBox.Render(sb);
         }
 
         //private void RenderDebugTextBox(StringBuilder sb)

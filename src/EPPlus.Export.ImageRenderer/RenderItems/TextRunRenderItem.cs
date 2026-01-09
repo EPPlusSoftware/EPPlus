@@ -4,6 +4,7 @@ using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
@@ -12,7 +13,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems
 {
@@ -20,8 +20,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
     {
         public override RenderItemType Type => RenderItemType.Text;
 
-        internal readonly string originalText;
-        private string currentText;
+        internal readonly string _originalText;
+        private string _currentText;
 
         MeasurementFont _measurementFont;
         bool _isFirstInParagraph;
@@ -47,10 +47,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
         internal double LineSpacingPerNewLine { get; set; }
         internal double BaseLineSpacing { get; set; }
 
-        internal TextRunRenderItem(ExcelParagraphTextRunBase run, BoundingBox parent = null)
+        internal TextRunRenderItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "")
         {
-            originalText = run.Text;
-            currentText = originalText;
+            _originalText = run.Text;
+            _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
+
+            Lines = _currentText.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
 
             var measurer = run.Paragraph._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
             _measurer = (FontMeasurerTrueType)measurer;
@@ -85,21 +87,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
 
         internal List<string> GetLines(string text)
         {
-            var inputWidth = _wrapText ? _maxWidthPixels : double.NaN;
-            Lines = TextWrapper.GetLines(text, _measurer, inputWidth);
-            return Lines;
+            //var inputWidth = _wrapText ? _maxWidthPixels : double.NaN;
+            //Lines = TextWrapper.GetLines(text, _measurer, inputWidth);
+            return text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList(); ;
         }
 
         private int GetNumberOfLines()
         {
             return Lines.Count();
         }
-
-        internal void InsertLineBreak(int insertPosition)
-        {
-            currentText = currentText.Insert(insertPosition, Environment.NewLine);
-        }
-
 
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {
@@ -120,7 +116,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
 
             double TextLengthInPixels = 0;
 
-            if (numLines <= 0 || string.IsNullOrEmpty(originalText))
+            if (numLines <= 0 || string.IsNullOrEmpty(_originalText))
             {
                 TextLengthInPixels = 0;
                 return retPos;

@@ -52,7 +52,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Bounds.Parent = parent;
         }
 
-
         public ParagraphContainer(ExcelDrawingParagraph p, BoundingBox parent) : base()
         {
             //---Initialize Bounds/Margins---
@@ -86,9 +85,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _textRunItems = new List<TextRunRenderItem>();
 
             //---Add Actual textruns---
-            foreach (var run in p.TextRuns)
+            for (int i = 0; i < p.TextRuns.Count; i++)
             {
-                AddTextRun(run);
+                AddTextRun(p.TextRuns[i], _textRunContent[i]);
             }
         }
 
@@ -114,11 +113,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
-        internal void AddTextRun(ExcelParagraphTextRunBase origTxtRun)
+        /// <summary>
+        /// DisplayString is the text altered for display with respect to bounds etc.
+        /// Containing line breaks appropriate for the given container
+        /// </summary>
+        /// <param name="origTxtRun"></param>
+        /// <param name="runDisplayString"></param>
+        internal void AddTextRun(ExcelParagraphTextRunBase origTxtRun, string runDisplayString)
         {
             var maxWidth = Bounds.Width;
 
-            TextRunRenderItem targetTxtRun = new TextRunRenderItem(origTxtRun, Bounds);
+            TextRunRenderItem targetTxtRun = new TextRunRenderItem(origTxtRun, Bounds, runDisplayString);
 
             if (_textRunItems.Count == 0 && _isFirstParagraph == true)
             {
@@ -140,6 +145,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     _measurer.SetFont(_paragraphFont);
                 }
             }
+
+            //No need for most of the actual output variables anymore
+            targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
+
+            Bounds.Bottom += b;
 
             _textRunItems.Add(targetTxtRun);
         }
