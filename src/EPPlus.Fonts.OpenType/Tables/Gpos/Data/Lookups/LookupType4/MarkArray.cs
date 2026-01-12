@@ -8,21 +8,25 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  01/12/2026         EPPlus Software AB           GPOS MarkArray (Type 4, 5, 6)
  *************************************************************************************************/
-using System;
 
-namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage
+namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4
 {
-    public class CoverageRangeRecord : FontTableElement
+    /// <summary>
+    /// Array of MarkRecords defining attachment points for mark glyphs (accents).
+    /// Used by MarkToBase, MarkToLigature, and MarkToMark lookups.
+    /// </summary>
+    public class MarkArray
     {
-        public ushort StartGlyphID { get; set; }
-        public ushort EndGlyphID { get; set; }
-        public ushort StartCoverageIndex { get; set; }
+        /// <summary>
+        /// Number of MarkRecords in the array
+        /// </summary>
+        public ushort MarkCount { get; internal set; }
 
-        internal override void Serialize(FontsBinaryWriter writer)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Array of MarkRecords, one per mark glyph in coverage order
+        /// </summary>
+        public MarkRecord[] Records { get; internal set; }
     }
 }

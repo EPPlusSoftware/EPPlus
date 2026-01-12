@@ -10,13 +10,11 @@
  *************************************************************************************************
   01/09/2026         EPPlus Software AB           GPOS PairPos Format 1 deserializer
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Tables.Common.Coverage;
-using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups;
-using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage.IO;
 using System.Collections.Generic;
 using System.IO;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gpos.IO
+namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2
 {
     /// <summary>
     /// Deserializes PairPos Format 1 subtables (explicit glyph pairs with kerning)

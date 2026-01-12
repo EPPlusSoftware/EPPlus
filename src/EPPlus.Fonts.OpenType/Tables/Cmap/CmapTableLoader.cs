@@ -25,17 +25,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         protected override CmapTable LoadInternal()
         {
-            var threadId = Thread.CurrentThread.ManagedThreadId;
-            long streamPos = _reader.BaseStream.Position;
-
-            Debug.WriteLine($"[Thread {threadId}] CmapTableLoader START");
-            Debug.WriteLine($"[Thread {threadId}]   _offset = {_offset}");
-            Debug.WriteLine($"[Thread {threadId}]   Stream Position = {streamPos}");
-            Debug.WriteLine($"[Thread {threadId}]   Stream Length = {_reader.BaseStream.Length}");
-
             _reader.BaseStream.Position = _offset;
-
-            Debug.WriteLine($"[Thread {threadId}]   After seek: Position = {_reader.BaseStream.Position}");
 
             var table = new CmapTable
             {
@@ -43,9 +33,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                 NumTables = _reader.ReadUInt16BigEndian()
             };
 
-            Debug.WriteLine($"[Thread {threadId}]   Version = {table.Version}");
-            Debug.WriteLine($"[Thread {threadId}]   NumTables = {table.NumTables}");
-
+            // Read encoding records
             for (var x = 0; x < table.NumTables; x++)
             {
                 var enc = new EncodingRecord(_reader);
@@ -55,6 +43,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             // Deduplicate subtables by offset
             var subtableCache = new Dictionary<uint, CmapSubtableBase>();
 
+            // Process subtables
             for (var x = 0; x < table.NumTables; x++)
             {
                 var enc = table.EncodingRecords[x];
@@ -67,13 +56,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                     continue;
                 }
 
-                // ✅ Read format WITHOUT changing stream position permanently
+                // Read format to determine deserializer
                 long savedPos = _reader.BaseStream.Position;
                 _reader.BaseStream.Position = currentPos;
                 var format = _reader.ReadUInt16BigEndian();
-                _reader.BaseStream.Position = savedPos; // ✅ Restore immediately!
+                _reader.BaseStream.Position = savedPos;
 
-                // Now call deserializer (which will do its own Seek)
+                // Deserialize based on format
                 switch (format)
                 {
                     case 0:
@@ -105,7 +94,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                         break;
 
                     case 14:
-                        // Skip format 14 (same as before)
+                        // Skip format 14 (Unicode Variation Sequences)
                         var dummySubtable = new CmapSubtable14();
                         enc.IsSkipped = true;
                         enc.Subtable = dummySubtable;
@@ -119,13 +108,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                             nextTablePos = _reader.BaseStream.Length;
                         }
                         _reader.BaseStream.Position = nextTablePos;
-
-                        System.Diagnostics.Debug.WriteLine(
-                            $"Skipped cmap format 14 at offset {enc.SubtableOffset}, length={length}");
                         break;
 
                     default:
-                        // Unsupported format
+                        // Unsupported format - skip
                         break;
                 }
             }

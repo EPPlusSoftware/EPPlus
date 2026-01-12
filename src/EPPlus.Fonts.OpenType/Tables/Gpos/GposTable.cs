@@ -10,13 +10,12 @@
  *************************************************************************************************
   01/07/2026         EPPlus Software AB           GPOS table implementation
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Subsetting;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Features;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts;
-using System;
+using EPPlus.Fonts.OpenType.Utils;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gpos
 {   
@@ -63,73 +62,46 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
 
         internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
-            // Store table start position
-            long tableStart = writer.BaseStream.Position;
+            long tableStartOffset = writer.BaseStream.Position;
 
-            // Write version
-            writer.WriteUInt16BigEndian(MajorVersion);
-            writer.WriteUInt16BigEndian(MinorVersion);
+            // --- HEADER ---
+            writer.WriteUInt16BigEndian(this.MajorVersion);
+            writer.WriteUInt16BigEndian(this.MinorVersion);
 
-            // Write placeholder offsets (will update later)
-            long scriptListOffsetPos = writer.BaseStream.Position;
-            writer.WriteUInt16BigEndian(0); // ScriptList offset placeholder
+            long scriptListOffPos = writer.BaseStream.Position;
+            writer.WriteUInt16BigEndian(0); // Placeholder
 
-            long featureListOffsetPos = writer.BaseStream.Position;
-            writer.WriteUInt16BigEndian(0); // FeatureList offset placeholder
+            long featureListOffPos = writer.BaseStream.Position;
+            writer.WriteUInt16BigEndian(0); // Placeholder
 
-            long lookupListOffsetPos = writer.BaseStream.Position;
-            writer.WriteUInt16BigEndian(0); // LookupList offset placeholder
+            long lookupListOffPos = writer.BaseStream.Position;
+            writer.WriteUInt16BigEndian(0); // Placeholder
 
-            long featureVariationsOffsetPos = 0;
-            if (MinorVersion >= 1)
+            // GPOS 1.1 FeatureVariations (not implemented yet)
+            if (this.MajorVersion == 1 && this.MinorVersion == 1)
             {
-                featureVariationsOffsetPos = writer.BaseStream.Position;
-                writer.WriteUInt32BigEndian(0); // FeatureVariations offset placeholder (not implemented)
+                writer.WriteUInt32BigEndian(0); // FeatureVariations offset (0 = not present)
             }
 
-            // Write ScriptList
-            if (ScriptList != null)
+            // --- DATA ---
+
+            // 1. ScriptList
+            if (this.ScriptList != null)
             {
-                long currentPos = writer.BaseStream.Position;
-                ushort scriptListOffset = (ushort)(currentPos - tableStart);
-
-                // Go back and write actual offset
-                writer.BaseStream.Seek(scriptListOffsetPos, System.IO.SeekOrigin.Begin);
-                writer.WriteUInt16BigEndian(scriptListOffset);
-
-                // Return to current position and serialize
-                writer.BaseStream.Seek(currentPos, System.IO.SeekOrigin.Begin);
-                ScriptList.Serialize(writer);
+                LayoutTableSerializationHelper.UpdateOffsetAndSerialize(writer, tableStartOffset, scriptListOffPos, this.ScriptList);
             }
 
-            // Write FeatureList
-            if (FeatureList != null)
+            // 2. FeatureList
+            if (this.FeatureList != null)
             {
-                long currentPos = writer.BaseStream.Position;
-                ushort featureListOffset = (ushort)(currentPos - tableStart);
-
-                writer.BaseStream.Seek(featureListOffsetPos, System.IO.SeekOrigin.Begin);
-                writer.WriteUInt16BigEndian(featureListOffset);
-
-                writer.BaseStream.Seek(currentPos, System.IO.SeekOrigin.Begin);
-                FeatureList.Serialize(writer);
+                LayoutTableSerializationHelper.UpdateOffsetAndSerialize(writer, tableStartOffset, featureListOffPos, this.FeatureList);
             }
 
-            // Write LookupList
-            if (LookupList != null)
+            // 3. LookupList
+            if (this.LookupList != null)
             {
-                long currentPos = writer.BaseStream.Position;
-                ushort lookupListOffset = (ushort)(currentPos - tableStart);
-
-                writer.BaseStream.Seek(lookupListOffsetPos, System.IO.SeekOrigin.Begin);
-                writer.WriteUInt16BigEndian(lookupListOffset);
-
-                writer.BaseStream.Seek(currentPos, System.IO.SeekOrigin.Begin);
-                LookupList.Serialize(writer);
+                LayoutTableSerializationHelper.UpdateOffsetAndSerialize(writer, tableStartOffset, lookupListOffPos, this.LookupList);
             }
-
-            // Note: FeatureVariations not implemented yet
-            // When implemented, write at featureVariationsOffsetPos
         }
 
         internal override void Clear()
@@ -139,6 +111,63 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
             ScriptList = null;
             FeatureList = null;
             LookupList = null;
+        }
+
+        /// Rewrites the GPOS table for subsetting.
+        /// Filters lookups, features, and scripts based on included glyphs.
+        /// </summary>
+        /// <param name="context">Subsetting context</param>
+        /// <returns>Rewritten GPOS table, or null if no positioning data remains</returns>
+        internal GposTable Rewrite(FontSubsettingContext context)
+        {
+            var processor = context.GposProcessor;
+            if (processor == null)
+                return null;
+
+            // Rewrite LookupList
+            var newLookupList = RewriteLookupList(context, processor);
+            if (newLookupList == null || newLookupList.Lookups.Count == 0)
+                return null; // No positioning data remains
+
+            // Create new GPOS table
+            var newGpos = new GposTable
+            {
+                MajorVersion = this.MajorVersion,
+                MinorVersion = this.MinorVersion,
+                ScriptList = this.ScriptList,    // Keep all scripts
+                FeatureList = this.FeatureList,  // Keep all features
+                LookupList = newLookupList
+            };
+
+            return newGpos;
+        }
+
+        /// <summary>
+        /// Rewrites the LookupList by processing each lookup through its handler.
+        /// </summary>
+        private LookupListTable RewriteLookupList(FontSubsettingContext context, GposSubsetProcessor processor)
+        {
+            if (this.LookupList == null)
+                return null;
+
+            var newLookups = new List<LookupTable>();
+
+            foreach (var lookup in this.LookupList.Lookups)
+            {
+                var rewrittenLookup = processor.RewriteLookup(context, lookup);
+                if (rewrittenLookup != null && rewrittenLookup.SubTables.Count > 0)
+                {
+                    newLookups.Add(rewrittenLookup);
+                }
+            }
+
+            if (newLookups.Count == 0)
+                return null;
+
+            return new LookupListTable
+            {
+                Lookups = newLookups
+            };
         }
     }
 }

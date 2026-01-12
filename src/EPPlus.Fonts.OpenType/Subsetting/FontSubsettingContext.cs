@@ -35,6 +35,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
         internal GsubSubsetProcessor GsubProcessor { get; set; }
 
         public Dictionary<ushort, ushort> GlyphIdMap { get; } = new Dictionary<ushort, ushort>();
+        internal GposSubsetProcessor GposProcessor { get; set; }
 
         /// <summary>
         /// Creates a new subsetting context and initializes all collections.

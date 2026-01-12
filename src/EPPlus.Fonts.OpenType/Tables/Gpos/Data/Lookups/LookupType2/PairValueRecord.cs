@@ -8,30 +8,36 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/07/2026         EPPlus Software AB           GPOS PairSet
+  01/07/2026         EPPlus Software AB           GPOS PairValueRecord
  *************************************************************************************************/
-using System.Collections.Generic;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups
+namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2
 {
     /// <summary>
-    /// PairSet - list of pairs for a specific first glyph
+    /// Single pair value record
     /// </summary>
-    public class PairSet
+    public class PairValueRecord
     {
-        public List<PairValueRecord> PairValueRecords { get; set; }
+        /// <summary>
+        /// Glyph ID of second glyph in pair
+        /// </summary>
+        public ushort SecondGlyph { get; set; }
+
+        /// <summary>
+        /// Positioning for first glyph
+        /// </summary>
+        public ValueRecord Value1 { get; set; }
+
+        /// <summary>
+        /// Positioning for second glyph
+        /// </summary>
+        public ValueRecord Value2 { get; set; }
 
         internal void Serialize(FontsBinaryWriter writer, ushort valueFormat1, ushort valueFormat2)
         {
-            writer.WriteUInt16BigEndian((ushort)(PairValueRecords?.Count ?? 0));
-
-            if (PairValueRecords != null)
-            {
-                foreach (var record in PairValueRecords)
-                {
-                    record.Serialize(writer, valueFormat1, valueFormat2);
-                }
-            }
+            writer.WriteUInt16BigEndian(SecondGlyph);
+            Value1?.Write(writer, valueFormat1);
+            Value2?.Write(writer, valueFormat2);
         }
     }
 }

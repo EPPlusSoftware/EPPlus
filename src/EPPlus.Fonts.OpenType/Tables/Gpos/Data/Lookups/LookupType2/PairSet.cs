@@ -8,21 +8,30 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  01/07/2026         EPPlus Software AB           GPOS PairSet
  *************************************************************************************************/
-using System;
+using System.Collections.Generic;
 
-namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage
+namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2
 {
-    public class CoverageRangeRecord : FontTableElement
+    /// <summary>
+    /// PairSet - list of pairs for a specific first glyph
+    /// </summary>
+    public class PairSet
     {
-        public ushort StartGlyphID { get; set; }
-        public ushort EndGlyphID { get; set; }
-        public ushort StartCoverageIndex { get; set; }
+        public List<PairValueRecord> PairValueRecords { get; set; }
 
-        internal override void Serialize(FontsBinaryWriter writer)
+        internal void Serialize(FontsBinaryWriter writer, ushort valueFormat1, ushort valueFormat2)
         {
-            throw new NotImplementedException();
+            writer.WriteUInt16BigEndian((ushort)(PairValueRecords?.Count ?? 0));
+
+            if (PairValueRecords != null)
+            {
+                foreach (var record in PairValueRecords)
+                {
+                    record.Serialize(writer, valueFormat1, valueFormat2);
+                }
+            }
         }
     }
 }

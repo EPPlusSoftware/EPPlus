@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups
+namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2
 {
     /// <summary>
     /// PairPos Format 1: Adjustments for glyph pairs listed explicitly.
@@ -61,43 +61,65 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups
         {
             long subtableStart = writer.BaseStream.Position;
 
-            // Write format
-            writer.WriteUInt16BigEndian(1);
+            // Write header
+            writer.WriteUInt16BigEndian(SubtableFormat); // 1
 
-            // Write coverage offset placeholder
             long coverageOffsetPos = writer.BaseStream.Position;
-            writer.WriteUInt16BigEndian(0);
+            writer.WriteUInt16BigEndian(0); // Coverage offset placeholder
 
-            // Write value formats
             writer.WriteUInt16BigEndian(ValueFormat1);
             writer.WriteUInt16BigEndian(ValueFormat2);
+            writer.WriteUInt16BigEndian((ushort)PairSets.Count);
 
-            // PairSetCount
-            writer.WriteUInt16BigEndian((ushort)(PairSets?.Count ?? 0));
-
-            // Write PairSet offset placeholders
-            var pairSetOffsetPositions = new List<long>();
-            for (int i = 0; i < (PairSets?.Count ?? 0); i++)
+            // Reserve space for PairSet offsets
+            long pairSetOffsetsPos = writer.BaseStream.Position;
+            for (int i = 0; i < PairSets.Count; i++)
             {
-                pairSetOffsetPositions.Add(writer.BaseStream.Position);
-                writer.WriteUInt16BigEndian(0);
-            }
-
-            // Write Coverage
-            if (Coverage != null)
-            {
-                WriteRelativeOffset(writer, subtableStart, coverageOffsetPos);
-                Coverage.Serialize(writer);
+                writer.WriteUInt16BigEndian(0); // Placeholder
             }
 
             // Write PairSets
-            if (PairSets != null)
+            for (int i = 0; i < PairSets.Count; i++)
             {
-                for (int i = 0; i < PairSets.Count; i++)
+                var pairSet = PairSets[i];
+                if (pairSet == null || pairSet.PairValueRecords.Count == 0)
                 {
-                    WriteRelativeOffset(writer, subtableStart, pairSetOffsetPositions[i]);
-                    PairSets[i].Serialize(writer, ValueFormat1, ValueFormat2);
+                    continue; // Leave offset as 0
                 }
+
+                long pairSetStart = writer.BaseStream.Position;
+                ushort pairSetOffset = (ushort)(pairSetStart - subtableStart);
+
+                // Write PairSet
+                writer.WriteUInt16BigEndian((ushort)pairSet.PairValueRecords.Count);
+
+                foreach (var record in pairSet.PairValueRecords)
+                {
+                    writer.WriteUInt16BigEndian(record.SecondGlyph);
+                    ValueRecordSerializer.Serialize(writer, record.Value1, ValueFormat1);
+                    ValueRecordSerializer.Serialize(writer, record.Value2, ValueFormat2);
+                }
+
+                // Update PairSet offset
+                long currentPos = writer.BaseStream.Position;
+                writer.BaseStream.Seek(pairSetOffsetsPos + (i * 2), System.IO.SeekOrigin.Begin);
+                writer.WriteUInt16BigEndian(pairSetOffset);
+                writer.BaseStream.Seek(currentPos, System.IO.SeekOrigin.Begin);
+            }
+
+            // Write Coverage table
+            if (Coverage != null)
+            {
+                ushort coverageOffset = (ushort)(writer.BaseStream.Position - subtableStart);
+                long resumePos = writer.BaseStream.Position;
+
+                // Update offset
+                writer.BaseStream.Seek(coverageOffsetPos, System.IO.SeekOrigin.Begin);
+                writer.WriteUInt16BigEndian(coverageOffset);
+                writer.BaseStream.Seek(resumePos, System.IO.SeekOrigin.Begin);
+
+                // Serialize coverage
+                Coverage.Serialize(writer);
             }
         }
     }

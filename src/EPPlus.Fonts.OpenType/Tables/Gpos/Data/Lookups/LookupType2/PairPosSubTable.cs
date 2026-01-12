@@ -10,17 +10,17 @@
  *************************************************************************************************
   01/07/2026         EPPlus Software AB           GPOS PairPos subtable (Type 2)
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Tables.Common.Coverage;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout;
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups
+namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2
 {
     /// <summary>
     /// GPOS Lookup Type 2: Pair Adjustment Positioning Subtable.
     /// Used for kerning - adjusting spacing between specific glyph pairs.
     /// Abstract base for Format 1 and Format 2.
     /// </summary>
-    public abstract class PairPosSubTable : FontTableElement
+    public abstract class PairPosSubTable : GposSubTableBase
     {
         /// <summary>
         /// Subtable format (1 or 2)
@@ -41,6 +41,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups
         /// Value format for second glyph in pair
         /// </summary>
         public ushort ValueFormat2 { get; set; }
+
 
         /// <summary>
         /// Gets the positioning adjustment for a specific glyph pair

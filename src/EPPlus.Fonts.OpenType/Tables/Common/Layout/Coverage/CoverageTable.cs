@@ -10,7 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-namespace EPPlus.Fonts.OpenType.Tables.Common.Coverage
+namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage
 {
     public abstract class CoverageTable : FontTableElement
     {
@@ -20,5 +20,15 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Coverage
         public abstract int GetGlyphIndex(ushort glyphId);
 
         public abstract ushort[] GetCoveredGlyphs();
+
+        /// <summary>
+        /// Checks if a glyph ID is covered by this coverage table.
+        /// </summary>
+        /// <param name="glyphId">The glyph ID to check</param>
+        /// <returns>True if the glyph is covered, false otherwise</returns>
+        public bool IsCovered(ushort glyphId)
+        {
+            return GetGlyphIndex(glyphId) >= 0;
+        }
     }
 }

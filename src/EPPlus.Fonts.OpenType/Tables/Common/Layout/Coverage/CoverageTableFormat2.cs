@@ -10,11 +10,11 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage.IO;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EPPlus.Fonts.OpenType.Tables.Common.Coverage
+namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage
 {
     /// <summary>
     /// Represents a Coverage Table Format 2, which defines glyph coverage using ranges.

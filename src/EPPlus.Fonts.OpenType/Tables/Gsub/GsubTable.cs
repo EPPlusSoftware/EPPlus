@@ -14,6 +14,7 @@ using EPPlus.Fonts.OpenType.Subsetting;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Features;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts;
+using EPPlus.Fonts.OpenType.Utils;
 using System;
 using System.IO;
 
@@ -79,33 +80,20 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
             // 1. ScriptList
             if (this.ScriptList != null)
             {
-                UpdateOffsetAndSerialize(writer, tableStartOffset, scriptListOffPos, this.ScriptList);
+                LayoutTableSerializationHelper.UpdateOffsetAndSerialize(writer, tableStartOffset, scriptListOffPos, this.ScriptList);
             }
 
             // 2. FeatureList
             if (this.FeatureList != null)
             {
-                UpdateOffsetAndSerialize(writer, tableStartOffset, featureListOffPos, this.FeatureList);
+                LayoutTableSerializationHelper.UpdateOffsetAndSerialize(writer, tableStartOffset, featureListOffPos, this.FeatureList);
             }
 
             // 3. LookupList
             if (this.LookupList != null)
             {
-                UpdateOffsetAndSerialize(writer, tableStartOffset, lookupListOffPos, this.LookupList);
+                LayoutTableSerializationHelper.UpdateOffsetAndSerialize(writer, tableStartOffset, lookupListOffPos, this.LookupList);
             }
-        }
-
-        // Hjälpmetod för att hålla koden ren
-        private void UpdateOffsetAndSerialize(FontsBinaryWriter writer, long tableStart, long placeholderPos, FontTableElement element)
-        {
-            ushort offset = (ushort)(writer.BaseStream.Position - tableStart);
-            long resumePos = writer.BaseStream.Position;
-
-            writer.BaseStream.Seek(placeholderPos, SeekOrigin.Begin);
-            writer.WriteUInt16BigEndian(offset);
-
-            writer.BaseStream.Seek(resumePos, SeekOrigin.Begin);
-            element.Serialize(writer);
         }
 
         /// <summary>

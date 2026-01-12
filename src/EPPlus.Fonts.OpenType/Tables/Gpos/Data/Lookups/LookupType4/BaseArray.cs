@@ -8,21 +8,27 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  01/12/2026         EPPlus Software AB           GPOS BaseArray (Type 4)
  *************************************************************************************************/
-using System;
 
-namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage
+using EPPlus.Fonts.OpenType.Tables.Name;
+
+namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4
 {
-    public class CoverageRangeRecord : FontTableElement
+    /// <summary>
+    /// Array of BaseRecords defining attachment points for base glyphs (letters).
+    /// One record per base glyph in coverage order.
+    /// </summary>
+    public class BaseArray
     {
-        public ushort StartGlyphID { get; set; }
-        public ushort EndGlyphID { get; set; }
-        public ushort StartCoverageIndex { get; set; }
+        /// <summary>
+        /// Number of BaseRecords in the array
+        /// </summary>
+        public ushort BaseCount { get; internal set; }
 
-        internal override void Serialize(FontsBinaryWriter writer)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Array of BaseRecords, one per base glyph in coverage order
+        /// </summary>
+        public BaseRecord[] Records { get; internal set; }
     }
 }

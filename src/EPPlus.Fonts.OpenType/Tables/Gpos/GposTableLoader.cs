@@ -10,13 +10,12 @@
  *************************************************************************************************
   01/07/2026         EPPlus Software AB           GPOS table loader
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Tables.Common.Coverage;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Features;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts;
-using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups;
-using EPPlus.Fonts.OpenType.Tables.Gpos.IO;
-using EPPlus.Fonts.OpenType.Tables.Gsub.IO;
+using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType1;
+using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2;
+using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4;
 using System;
 using System.Collections.Generic;
 
@@ -157,8 +156,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
             {
                 case 1:
                     // Single adjustment positioning
-                    // TODO: Implement when needed
-                    return null;
+                    return ReadSinglePosSubTable(reader, subtableStart);
 
                 case 2:
                     // Pair adjustment positioning (KERNING!)
@@ -171,8 +169,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
 
                 case 4:
                     // MarkToBase attachment positioning
-                    // TODO: Implement when needed
-                    return null;
+                    return ReadMarkToBaseSubTable(reader, subtableStart);
 
                 case 5:
                     // MarkToLigature attachment positioning
@@ -229,6 +226,48 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
             // ✅ Use the deserializer!
             var deserializer = new PairPosSubTableFormat1Deserializer(reader);
             return deserializer.Deserialize(subtableStart);
+        }
+
+        private FontTableElement ReadSinglePosSubTable(FontsBinaryReader reader, long subtableStart)
+        {
+            // Read format to determine which deserializer to use
+            long savedPos = reader.BaseStream.Position;
+            ushort posFormat = reader.ReadUInt16BigEndian();
+            reader.BaseStream.Position = savedPos; // Reset for deserializer
+
+            if (posFormat == 1)
+            {
+                var deserializer = new SinglePosSubTableFormat1Deserializer(reader);
+                return deserializer.Deserialize(subtableStart);
+            }
+            else if (posFormat == 2)
+            {
+                var deserializer = new SinglePosSubTableFormat2Deserializer(reader);
+                return deserializer.Deserialize(subtableStart);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private FontTableElement ReadMarkToBaseSubTable(FontsBinaryReader reader, long subtableStart)
+        {
+            // Read format to verify it's Format 1 (only format for MarkToBase)
+            long savedPos = reader.BaseStream.Position;
+            ushort posFormat = reader.ReadUInt16BigEndian();
+            reader.BaseStream.Position = savedPos; // Reset for deserializer
+
+            if (posFormat == 1)
+            {
+                var deserializer = new MarkToBaseSubTableFormat1Deserializer(reader);
+                return deserializer.Deserialize(subtableStart);
+            }
+            else
+            {
+                // Unknown format - skip silently
+                return null;
+            }
         }
     }
 }

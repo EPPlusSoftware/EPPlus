@@ -10,46 +10,40 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Tables.Common.Coverage;
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage;
 using System.IO;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.IO
+namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage.IO
 {
-    internal class CoverageTableFormat2Deserializer
+    internal class CoverageTableFormat1Deserializer
     {
         private readonly FontsBinaryReader _reader;
 
-        public CoverageTableFormat2Deserializer(FontsBinaryReader reader)
+        public CoverageTableFormat1Deserializer(FontsBinaryReader reader)
         {
             _reader = reader;
         }
 
-        public CoverageTableFormat2 Deserialize(long startIndex)
+        public CoverageTableFormat1 Deserialize(long startIndex)
         {
             _reader.BaseStream.Seek(startIndex, SeekOrigin.Begin);
 
-            // Read Format (already known to be 2, but read to advance position)
+            // Read Format (already known to be 1, but read to advance position)
             ushort format = _reader.ReadUInt16BigEndian();
 
-            CoverageTableFormat2 table = new CoverageTableFormat2 { CoverageFormat = format };
+            CoverageTableFormat1 table = new CoverageTableFormat1 { CoverageFormat = format };
 
-            // USHORT RangeCount
-            table.RangeCount = _reader.ReadUInt16BigEndian();
+            // USHORT GlyphCount
+            table.GlyphCount = _reader.ReadUInt16BigEndian();
 
-            // Read RangeRecords
-            for (int i = 0; i < table.RangeCount; i++)
+            // USHORT[] GlyphArray
+            table.GlyphArray = new ushort[table.GlyphCount];
+
+            for (int i = 0; i < table.GlyphCount; i++)
             {
-                CoverageRangeRecord record = new CoverageRangeRecord
-                {
-                    // USHORT StartGlyphID
-                    StartGlyphID = _reader.ReadUInt16BigEndian(),
-                    // USHORT EndGlyphID
-                    EndGlyphID = _reader.ReadUInt16BigEndian(),
-                    // USHORT StartCoverageIndex
-                    StartCoverageIndex = _reader.ReadUInt16BigEndian()
-                };
-                table.RangeRecords.Add(record);
+                table.GlyphArray[i] = _reader.ReadUInt16BigEndian();
             }
+
             return table;
         }
     }

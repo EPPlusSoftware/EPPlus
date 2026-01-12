@@ -26,6 +26,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             // PHASE 1: DISCOVERY - Identify all required Glyph IDs (GIDs)
             new CmapSubsetProcessor(),      // Maps Unicode characters to initial GIDs
             new GsubSubsetProcessor(),      // Identifies additional GIDs needed for substitutions/ligatures
+            new GposSubsetProcessor(),      // ← Processes glyph positioning (kerning, accents, etc.)
 
             // PHASE 2: DATA EXTRACTION - Retrieve glyph outlines and metrics
             new GlyfAndLocaSubsetProcessor(), 

@@ -12,7 +12,7 @@
   01/09/2026         EPPlus Software AB           Enhanced validation for all GSUB types
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontValidation;
-using EPPlus.Fonts.OpenType.Tables.Common.Coverage;
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Features;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts;

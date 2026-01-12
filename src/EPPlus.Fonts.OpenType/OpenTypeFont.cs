@@ -632,6 +632,8 @@ namespace EPPlus.Fonts.OpenType
                     return PostTable.Serialize(ctx);
                 case TableNames.Gsub:
                     return GsubTable.Serialize(ctx);
+                case TableNames.Gpos:
+                    return GposTable.Serialize(ctx);
                 default:
                     return null;
             }

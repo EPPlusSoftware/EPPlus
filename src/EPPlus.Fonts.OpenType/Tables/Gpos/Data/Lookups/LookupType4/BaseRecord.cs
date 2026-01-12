@@ -8,36 +8,28 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/07/2026         EPPlus Software AB           GPOS PairValueRecord
+  01/12/2026         EPPlus Software AB           GPOS BaseRecord (Type 4)
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups
+namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4
 {
     /// <summary>
-    /// Single pair value record
+    /// Record defining attachment points for a base glyph (letter).
+    /// Contains one anchor per mark class.
     /// </summary>
-    public class PairValueRecord
+    public class BaseRecord
     {
         /// <summary>
-        /// Glyph ID of second glyph in pair
+        /// Array of offsets to Anchor tables (from beginning of BaseArray)
+        /// One offset per mark class (length = MarkClassCount from subtable)
         /// </summary>
-        public ushort SecondGlyph { get; set; }
+        public ushort[] BaseAnchorOffsets { get; internal set; }
 
         /// <summary>
-        /// Positioning for first glyph
+        /// Array of Anchor tables defining attachment points for each mark class.
+        /// Index corresponds to mark class (e.g., [0] = top accents, [1] = bottom accents)
         /// </summary>
-        public ValueRecord Value1 { get; set; }
-
-        /// <summary>
-        /// Positioning for second glyph
-        /// </summary>
-        public ValueRecord Value2 { get; set; }
-
-        internal void Serialize(FontsBinaryWriter writer, ushort valueFormat1, ushort valueFormat2)
-        {
-            writer.WriteUInt16BigEndian(SecondGlyph);
-            Value1?.Write(writer, valueFormat1);
-            Value2?.Write(writer, valueFormat2);
-        }
+        public AnchorTable[] BaseAnchors { get; internal set; }
     }
 }

@@ -8,21 +8,18 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  01/12/2026         EPPlus Software AB           GPOS subtable base class
  *************************************************************************************************/
-using System;
 
-namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage
+namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups
 {
-    public class CoverageRangeRecord : FontTableElement
+    /// <summary>
+    /// Base class for all GPOS subtables.
+    /// Each lookup type has one or more subtable formats that inherit from this.
+    /// </summary>
+    public abstract class GposSubTableBase : FontTableElement
     {
-        public ushort StartGlyphID { get; set; }
-        public ushort EndGlyphID { get; set; }
-        public ushort StartCoverageIndex { get; set; }
-
-        internal override void Serialize(FontsBinaryWriter writer)
-        {
-            throw new NotImplementedException();
-        }
+        // Currently empty - provides type safety and future extensibility
+        // All GPOS subtables inherit from this for polymorphic storage in Lookup.SubTables
     }
 }
