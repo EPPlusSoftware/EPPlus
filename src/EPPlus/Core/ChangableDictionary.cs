@@ -61,19 +61,20 @@ namespace OfficeOpenXml.Core
         {
             var pos = Array.BinarySearch(_index[0], 0, _count, fromPosition);
 
+            if (pos < 0)
+            {
+                pos = ~pos;
+            }
+
             if (pos + 1 >= _index[0].Length - 1)
             {
                 Array.Resize(ref _index[0], _index[0].Length << 1);
                 Array.Resize(ref _index[1], _index[1].Length << 1);
             }
 
-            if (pos<0)
-            {
-                pos = ~pos;
-            }
-
             Array.Copy(_index[0], pos, _index[0], pos + 1, _count - pos);
             Array.Copy(_index[1], pos, _index[1], pos + 1, _count - pos);
+
 
             _count++;
             for (int i=pos;i<Count;i++)

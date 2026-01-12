@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Sorting;
 using System;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using static OfficeOpenXml.ExcelErrorValue;
 
 namespace EPPlusTest.Issues
 {
@@ -1437,6 +1439,37 @@ namespace EPPlusTest.Issues
 
                 package.Workbook.Calculate(new ExcelCalculationOption { AllowCircularReferences = true });
             }
+        }
+        [TestMethod]
+        public void s965_3()
+        {
+            using var package = OpenTemplatePackage("s965-Not Calculated.xlsx");
+            //package.Workbook.Calculate();
+            var ws = package.Workbook.Worksheets["Calculation"];
+            package.Workbook.Calculate(); 
+            Assert.AreEqual("72201004296", ws.Cells["J2"].Value);
+            Assert.AreEqual("72201024296", ws.Cells["J4"].Value);
+            Assert.IsNull(ws.Cells["J5"].Value);
+
+            Assert.AreEqual("7300030", ws.Cells["M5"].Value);
+            Assert.AreEqual("7300031", ws.Cells["M6"].Value);
+            Assert.AreEqual("7300032", ws.Cells["M7"].Value);
+
+            Assert.AreEqual(394547.21, ws.Cells["P5"].Value);
+            Assert.AreEqual(1954159.28, ws.Cells["P6"].Value);
+            Assert.AreEqual(27535.48, ws.Cells["P7"].Value);
+
+
+            var ws2 = package.Workbook.Worksheets["Aico Data"];
+            Assert.AreEqual("53210040", ws2.Cells["V42"].Value);
+            Assert.AreEqual("53210040", ws2.Cells["V44"].Value);
+            Assert.IsNull(ws2.Cells["W44"].Value);
+
+            Assert.AreEqual(394547.21, ws2.Cells["D45"].Value);
+            Assert.AreEqual(1954159.28, ws2.Cells["D46"].Value);
+            Assert.AreEqual(27535.48, ws2.Cells["D47"].Value);
+
+            SaveAndCleanup(package);
         }
     }
 }

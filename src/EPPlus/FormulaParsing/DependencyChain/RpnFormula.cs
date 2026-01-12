@@ -261,12 +261,28 @@ namespace OfficeOpenXml.FormulaParsing
             }
         }
 
-        internal void ClearCache()
+        internal void ClearCache(RpnOptimizedDependencyChain depChain)
         {
             foreach (var e in _expressions.Values)
             {
                 if (e.ExpressionType == ExpressionType.CellAddress)
+                {
                     e._cachedCompileResult = null;
+                }
+                if(e.ExpressionType == ExpressionType.Function)
+                {
+                    var funcExp= e as FunctionExpression;
+                    funcExp.Status = ExpressionStatus.NoSet;
+                    var key = funcExp.GetExpressionKey(this);
+                    if (key != null)
+                    {
+                        var cache = depChain.GetCache(_ws);
+                        if (cache.ContainsKey(key))
+                        {
+                            cache.Remove(key);
+                        }
+                    }
+                }
             }
         }
 

@@ -12,7 +12,13 @@
  *************************************************************************************************/
 namespace EPPlus.Graphics.Math
 {
-    internal class Vector2
+    /// <summary>
+    /// This should REMAIN a struct
+    /// Several math operations and the structure of parent-child hierarchy
+    /// RELIES on that assumption. 
+    /// As a class Zero and One can have x and y assigned to and this creates chaos as they should be constant
+    /// </summary>
+    internal struct Vector2
     {
         public double X { get; set; } = 0;
         public double Y { get; set; } = 0;

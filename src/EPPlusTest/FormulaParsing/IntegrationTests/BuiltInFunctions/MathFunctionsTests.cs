@@ -34,6 +34,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml;
 using FakeItEasy;
+using FakeItEasy.Configuration;
 
 namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
 {
@@ -559,6 +560,13 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         {
             var result = _parser.Parse("Fact(0)");
             Assert.AreEqual(1d, result);
+        }
+
+        [TestMethod]
+        public void FactShouldReturnCorrectResult()
+        {
+            var result = _parser.Parse("Fact(5)");
+            Assert.AreEqual(120d, result);
         }
 
         [TestMethod]

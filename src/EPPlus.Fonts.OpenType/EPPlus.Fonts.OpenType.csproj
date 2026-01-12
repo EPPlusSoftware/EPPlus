@@ -13,7 +13,7 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<PackageIcon>EPPlusLogo.png</PackageIcon>
 		<LangVersion>latest</LangVersion>
-		<SignAssembly>False</SignAssembly>
+		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>EPPlus.Fonts.OpenType.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0|AnyCPU'">
