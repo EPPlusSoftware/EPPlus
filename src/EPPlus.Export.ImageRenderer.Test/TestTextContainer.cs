@@ -8,6 +8,7 @@ using System.Text;
 using EPPlus.Graphics;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {
@@ -111,7 +112,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
             shapeRect.Height = 10;
 
             FontMeasurerTrueType measurer = new FontMeasurerTrueType(12, "Aptos Narrow", FontSubFamily.Regular);
-            var body = new TextBody(shapeRect);
+            var body = new SvgTextBodyItem(shapeRect);
 
             body.Bounds.transform.Name = "TxtBody";
 

@@ -1,4 +1,5 @@
-﻿using EPPlus.Export.ImageRenderer.Text;
+﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Export.ImageRenderer.Text;
 using EPPlus.Fonts.OpenType;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
@@ -20,7 +21,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// </summary>
     internal abstract class ShapeItem : DrawingShape
     {
-        TextBody _textBox;
+        TextBody<SvgParagraphItem> _textBox;
 
         internal ShapeItem(ExcelShape shape) : base(shape) 
         {

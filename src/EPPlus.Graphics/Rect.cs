@@ -59,7 +59,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// Get or Set Width via the properties above
         /// </summary>
-        internal double Width
+        internal virtual double Width
         {
             get
             {
@@ -74,7 +74,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// Gets or sets height via the properties above
         /// </summary>
-        internal double Height
+        internal virtual double Height
         {
             get
             {

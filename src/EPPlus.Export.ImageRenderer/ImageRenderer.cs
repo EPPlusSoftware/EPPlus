@@ -13,6 +13,7 @@
 
 using EPPlus.Export.ImageRenderer;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg;
 using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Export.ImageRenderer.Svg.Writer;
@@ -108,6 +109,27 @@ namespace EPPlusImageRenderer
             //return retStr;
         }
 
+        public string RenderTextBody(ExcelTextBody body, double shapeWidth, double shapeHeight)
+        {
+            var sb = new StringBuilder();
+
+            BoundingBox worldBounds = new BoundingBox();
+            worldBounds.Width = shapeWidth;
+            worldBounds.Height = shapeHeight;
+
+            var doc = new SvgEpplusDocument((int)worldBounds.Width, (int)worldBounds.Height);
+            doc.Render(sb);
+
+            FontMeasurerTrueType measurer = new FontMeasurerTrueType(11, "Aptos Narrow", FontSubFamily.Regular);
+            var svgBody = new SvgTextBodyItem(worldBounds);
+            svgBody.ImportTextBody(body);
+
+            svgBody.Render(sb);
+            sb.AppendLine("</svg>");
+
+            return sb.ToString();
+        }
+
         public string RenderTextBody(string txtBody)
         {
             BoundingBox worldBounds = new BoundingBox();
@@ -129,7 +151,7 @@ namespace EPPlusImageRenderer
             shapeRect.transform.Name = "Shape";
 
             FontMeasurerTrueType measurer = new FontMeasurerTrueType(11, "Aptos Narrow", FontSubFamily.Regular);
-            var body = new TextBody(shapeRect);
+            var body = new SvgTextBodyItem(shapeRect);
 
             body.Bounds.transform.Name = "TxtBody";
 
@@ -181,7 +203,7 @@ namespace EPPlusImageRenderer
             }
         }
 
-        internal SvgElement GenerateSvgTextBody(TextBody body, int width, int height)
+        internal SvgElement GenerateSvgTextBody(SvgTextBodyItem body, int width, int height)
         {
             var fullString = body.GetContent();
 
@@ -254,7 +276,7 @@ namespace EPPlusImageRenderer
 
                 var paragraphElement = new SvgElement("text");
                 paragraphElement.AddAttribute("y", fontSizePx);
-                paragraphElement.AddAttribute("_measurementFont-size", $"{fontSizePx}px");
+                paragraphElement.AddAttribute("font-size", $"{fontSizePx}px");
                 paragraphElement.AddAttribute("clip-path", $"url(#{nameId})");
 
                 paragraphGroup.AddChildElement(paragraphElement);
@@ -274,7 +296,7 @@ namespace EPPlusImageRenderer
                     var runElement = new SvgElement("tspan");
                     runElement.AddAttribute("x", run.X);
                     runElement.AddAttribute("y", run.Y + fontSizePx);
-                    runElement.AddAttribute("_measurementFont-size", $"{fontSizePx}px");
+                    runElement.AddAttribute("font-size", $"{fontSizePx}px");
 
                     runElement.Content = run.GetContent();
                     paragraphElement.AddChildElement(runElement);

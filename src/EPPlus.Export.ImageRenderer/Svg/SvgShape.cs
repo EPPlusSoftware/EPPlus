@@ -88,16 +88,20 @@ namespace EPPlusImageRenderer.Svg
                             rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
                             rectItem.FillOpacity = 0.3d;
 
-                            BoundingBox bb = new BoundingBox();
+                            //BoundingBox shapeBB = new BoundingBox();
+                            //shapeBB.X = shape.GetPixelLeft();
+                            //shapeBB.Y = shape.GetPixelTop();
+                            //shapeBB.Width = shape.GetPixelWidth();
+                            //shapeBB.Height = shape.GetPixelHeight();
 
-                            bb.X = rectItem.X;
-                            bb.Y = rectItem.Y;
-                            bb.Width = rectItem.Width;
-                            bb.Height = rectItem.Height;
+                            //TextBody test = new TextBody(shapeBB);
 
-                            TextBody test = new TextBody(bb);
+                            //test.Bounds.X = rectItem.X;
+                            //test.Bounds.Y = rectItem.Y;
+                            //test.Bounds.Width = rectItem.Width;
+                            //test.Bounds.Height = rectItem.Height;
 
-                            test.ImportTextBody(_shape.TextBody);
+                            //test.ImportTextBody(_shape.TextBody);
 
                             _renderTextBox = rectItem;
                         }

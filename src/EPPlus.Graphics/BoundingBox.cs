@@ -88,6 +88,30 @@ namespace EPPlus.Graphics
         /// </summary>
         internal override double Right { get => base.Right; set => SetRight(value); }
 
+        internal override double Width {
+            get
+            {
+                return Right - Left;
+            }
+            set
+            {
+                Right = Left + value;
+            }
+        
+        }
+
+        internal override double Height
+        {
+            get
+            {
+                return Bottom - Top;
+            }
+            set
+            {
+                Bottom = Top + value;
+            }
+        }
+
         private void SetRight(double value)
         {
             if(ClampedToParent)

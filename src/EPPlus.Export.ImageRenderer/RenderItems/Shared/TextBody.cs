@@ -17,7 +17,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// Margin left = X
     /// Margin right = Y
     /// </summary>
-    internal class TextBody : RenderItem
+    internal abstract class TextBody<T>: RenderItem where T : ParagraphContainer
     {
         /// <summary>
         /// Shorthand for Bounds.Width
@@ -33,7 +33,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal eTextAnchoringType VerticalAlignment = eTextAnchoringType.Top;
 
-        internal List<ParagraphContainer> Paragraphs = new List<ParagraphContainer>();
+        internal abstract List<T> Paragraphs { get; set; }
 
         public bool AllowOverflow;
 
@@ -45,13 +45,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public TextBody(BoundingBox parent) : base()
         {
+            Bounds.transform.Name = "TxtBody";
+
             Bounds.Parent = parent;
 
             Bounds.Width = parent.Width;
             Bounds.Height = parent.Height;
         }
 
-        public void AddParagraph(string text, FontMeasurerTrueType measurer)
+        public void AddParagraph(string text, FontMeasurerTrueType measurer) 
         {
             if(_measurer == null && measurer != null)
             {
@@ -60,7 +62,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             if (_measurer != null)
             {
-                var paragraph = new ParagraphContainer(Bounds);
+                //Specify type
+                var paragraphType = typeof(T);
+
+                //Create object of type
+                var paragraph = (T)Activator.CreateInstance(paragraphType, Bounds);
 
                 Paragraphs.Add(paragraph);
 
@@ -74,15 +80,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public void ImportParagraph(ExcelDrawingParagraph item, double startingY)
         {
-            var posY = GetAlignmentVertical();
-
             SetDrawingPropertiesFill(item.DefaultRunProperties.Fill, null);
 
             var measureFont = item.DefaultRunProperties.GetMeasureFont();
             bool isFirst = Paragraphs.Count == 0;
 
-            var paragraph = new ParagraphContainer(item, Bounds);
+            //Specify type
+            var paragraphType = typeof(T);
+
+            //Create object of type
+            var paragraph = (T)Activator.CreateInstance(paragraphType, item, Bounds);
+
+            paragraph.Bounds.Top = startingY;
+
             Paragraphs.Add(paragraph);
+
+            paragraph.Bounds.transform.Name = $"Container{Paragraphs.Count}";
         }
 
         public void ImportTextBody(ExcelTextBody body)
@@ -95,14 +108,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             RightMargin = r.PointToPixel();
             BottomMargin = b.PointToPixel();
 
-            double currentBottomY = Bounds.Top;
+            //We already apply bounds top via the parent transform
+            double paragraphStartY = GetAlignmentVertical() - Bounds.Top;
 
             foreach (var paragraph in body.Paragraphs)
             {
-                ImportParagraph(paragraph, currentBottomY);
-                currentBottomY = Paragraphs.Last().Bounds.Bottom;
+                ImportParagraph(paragraph, paragraphStartY);
+                var addedPara = Paragraphs.Last();
+                paragraphStartY = addedPara.Bounds.Bottom + addedPara.ParagraphLineSpacing;
             }
-            Bounds.Bottom = currentBottomY - BottomMargin;
+            Bounds.Bottom = paragraphStartY - BottomMargin;
         }
 
         public string GetContent()
@@ -187,11 +202,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {
             il = Bounds.Left; it = Bounds.Top; ir = Bounds.Right; ib = Bounds.Bottom;
-        }
-
-        public override void Render(StringBuilder sb)
-        {
-            //No rendering in generic position and styling class
         }
     }
 }

@@ -4,7 +4,6 @@ using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
@@ -13,20 +12,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal class ParagraphContainer : RenderItem
+    internal abstract class ParagraphContainer : RenderItem
     {
         ITextMeasurerWrap _measurer;
 
         double _leftMargin;
         double _rightMargin;
-        eTextAlignment _hAlign;
+        protected eTextAlignment _hAlign;
 
         eDrawingTextLineSpacing _lsType;
-        double _lineSpacing;
+        internal double ParagraphLineSpacing { get; private set; }
         double _lineSpacingAscendantOnly;
         double? _lsMultiplier = null;
         bool _isFirstParagraph;
@@ -34,13 +32,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public override RenderItemType Type => RenderItemType.Text;
 
         List<string> _paragraphLines = new List<string>();
-        List<string> _textRunContent = new List<string>();
+        protected List<string> _textRunContent = new List<string>();
 
         internal List<FontWrapContainer> Runs = new List<FontWrapContainer>();
         TextFragmentCollection _textFragments;
         internal List<TextRunRenderItem> _textRunItems;
 
-        MeasurementFont _paragraphFont;
+        internal protected MeasurementFont _paragraphFont;
 
         public ParagraphContainer() : base()
         {
@@ -49,12 +47,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public ParagraphContainer(BoundingBox parent)
         {
+            Bounds.transform.Name = "Paragraph";
             Bounds.Parent = parent;
         }
 
         public ParagraphContainer(ExcelDrawingParagraph p, BoundingBox parent) : base()
         {
             //---Initialize Bounds/Margins---
+            Bounds.transform.Name = "Paragraph";
             Bounds.Parent = parent;
 
             var indent = 48 * p.IndentLevel;
@@ -80,15 +80,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //---Calculate linespacing---
             int numLines = _paragraphLines.Count;
             _lsType = p.LineSpacing.LineSpacingType;
-            _lineSpacing = GetParagraphLineSpacingInPixels(p.LineSpacing.Value, _measurer);
+            ParagraphLineSpacing = GetParagraphLineSpacingInPixels(p.LineSpacing.Value, _measurer);
 
             _textRunItems = new List<TextRunRenderItem>();
-
-            //---Add Actual textruns---
-            for (int i = 0; i < p.TextRuns.Count; i++)
-            {
-                AddTextRun(p.TextRuns[i], _textRunContent[i]);
-            }
         }
 
         private double GetParagraphLineSpacingInPixels(double spacingValue, ITextMeasurerWrap fmExact)
@@ -113,27 +107,38 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
+
+        /// <summary>
+        /// Each specific container must specify textrun type within this
+        /// </summary>
+        /// <param name="origTxtRun"></param>
+        /// <param name="runDisplayString"></param>
+        internal protected abstract void AddTextRun(ExcelParagraphTextRunBase origTxtRun, string runDisplayString);
+
         /// <summary>
         /// DisplayString is the text altered for display with respect to bounds etc.
         /// Containing line breaks appropriate for the given container
         /// </summary>
         /// <param name="origTxtRun"></param>
         /// <param name="runDisplayString"></param>
-        internal void AddTextRun(ExcelParagraphTextRunBase origTxtRun, string runDisplayString)
+        internal protected void AddTextRun<T>(ExcelParagraphTextRunBase origTxtRun, string runDisplayString) where T : TextRunRenderItem
         {
             var maxWidth = Bounds.Width;
 
-            TextRunRenderItem targetTxtRun = new TextRunRenderItem(origTxtRun, Bounds, runDisplayString);
+            //Specify type
+            var textRunType = typeof(T);
+
+            //Create object of type
+            var targetTxtRun = (T)Activator.CreateInstance(textRunType, origTxtRun, Bounds, runDisplayString);
 
             if (_textRunItems.Count == 0 && _isFirstParagraph == true)
             {
                 targetTxtRun.BaseLineSpacing = _lineSpacingAscendantOnly;
-                targetTxtRun.LineSpacingPerNewLine = _lineSpacing;
+                targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
             }
             else
             {
-                targetTxtRun = new TextRunRenderItem(origTxtRun, Bounds);
-                targetTxtRun.LineSpacingPerNewLine = _lineSpacing;
+                targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
 
                 //If there are multiple sizes/multiple fonts with multiple sizes
                 if (_lsMultiplier.HasValue)
@@ -195,7 +200,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
 
             _textFragments = new TextFragmentCollection(runContents);
-            return ttMeasurer.WrapMultipleTextFragments(_textFragments, fonts, Bounds.Width);
+            var pointWidth = Bounds.Width.PixelToPoint();
+            return ttMeasurer.WrapMultipleTextFragments(_textFragments, fonts, pointWidth);
         }
 
         private void InitializeLinesAndRichText(ExcelDrawingParagraph paragraph)
@@ -245,10 +251,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             return TextUtils.RoundToWhole(x);
         }
 
-        public override void Render(StringBuilder sb)
-        {
-            throw new NotImplementedException();
-        }
+        //public override void Render(StringBuilder sb)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {

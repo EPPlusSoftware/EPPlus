@@ -1,10 +1,8 @@
-﻿using EPPlus.Export.ImageRenderer.Text;
-using EPPlus.Fonts.OpenType;
+﻿using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
@@ -13,24 +11,23 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-
-namespace EPPlus.Export.ImageRenderer.RenderItems
+namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal class TextRunRenderItem : RenderItem
+    internal abstract class TextRunRenderItem : RenderItem
     {
         public override RenderItemType Type => RenderItemType.Text;
 
         internal readonly string _originalText;
-        private string _currentText;
+        protected string _currentText;
 
-        MeasurementFont _measurementFont;
-        bool _isFirstInParagraph;
+        internal protected MeasurementFont _measurementFont;
+        internal protected bool _isFirstInParagraph;
         FontMeasurerTrueType _measurer;
         eTextAlignment _horizontalTextAlignment;
         MeasurementFontStyles _fontStyles;
         internal double FontSizeInPixels { get; private set; }
 
-        List<string> Lines;
+        public List<string> Lines { get; private set; }
 
         double _yEndPos;
         double BaselineSpacing;
@@ -38,17 +35,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
         bool _wrapText;
         double _maxWidthPixels = double.NaN;
 
-        bool _isItalic = false;
-        bool _isBold = false;
-        eUnderLineType _underLineType;
-        eStrikeType _strikeType;
-        Color _underlineColor;
+        protected internal bool _isItalic = false;
+        protected internal bool _isBold = false;
+        protected internal eUnderLineType _underLineType;
+        protected internal eStrikeType _strikeType;
+        protected internal Color _underlineColor;
 
         internal double LineSpacingPerNewLine { get; set; }
         internal double BaseLineSpacing { get; set; }
 
         internal TextRunRenderItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "")
         {
+            Bounds.transform.Name = "TextRun";
+
             _originalText = run.Text;
             _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
 
@@ -89,7 +88,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
         {
             //var inputWidth = _wrapText ? _maxWidthPixels : double.NaN;
             //Lines = TextWrapper.GetLines(text, _measurer, inputWidth);
-            return text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList(); ;
+            return text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
         }
 
         private int GetNumberOfLines()
@@ -157,10 +156,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
             return width;
         }
 
-        public override void Render(StringBuilder sb)
-        {
-            throw new NotImplementedException();
-        }
+        //public override void Render(StringBuilder sb)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         //internal void CalculateTextWrapping(double maxWidth)
         //{

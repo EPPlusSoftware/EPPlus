@@ -420,7 +420,7 @@ namespace EPPlusImageRenderer.Svg
                 finalString += "</tspan>";
             }
 
-            sb.Append(finalString);                                                                                                                        
+            sb.Append(finalString);                                                                                                           
             //throw new NotImplementedException();
         }
 
