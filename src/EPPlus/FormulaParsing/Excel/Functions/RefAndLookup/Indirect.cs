@@ -71,7 +71,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 return CompileResult.Empty;
             }
-            return new AddressCompileResult(result, DataType.ExcelRange, result.Address);
+            return new DynamicArrayCompileResult(result, DataType.ExcelRange, result.Address, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
         }
 
 

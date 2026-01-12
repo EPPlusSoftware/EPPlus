@@ -6315,5 +6315,22 @@ namespace EPPlusTest
             Assert.AreEqual(12, p.Workbook.CustomXmlDocuments[2].SchemasReferences.Count);
             SaveAndCleanup(p);
         }
+        [TestMethod]
+        public void s985()
+        {
+            using var pkg = new ExcelPackage();
+            var ws = pkg.Workbook.Worksheets.Add("Pow");
+            ws.Cells["A1"].Value = "x";
+            ws.Cells["B1"].Formula = "A1^2";
+            ws.Cells["C1"].Formula = "2^A1";
+            ws.Cells["D1"].Formula = "x^2";
+            ws.Cells["E1"].Formula = "2^x";
+            ws.Calculate();
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), ws.Cells["B1"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), ws.Cells["C1"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Name), ws.Cells["D1"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Name), ws.Cells["E1"].Value);
+        }
     }
 }
+ 

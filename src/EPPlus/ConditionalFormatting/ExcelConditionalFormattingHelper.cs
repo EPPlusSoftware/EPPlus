@@ -202,7 +202,7 @@ namespace OfficeOpenXml.ConditionalFormatting
       try
       {
         var value = node.Attributes[attribute].Value;
-        return double.Parse(value, NumberStyles.Number, CultureInfo.InvariantCulture);
+        return double.Parse(value, NumberStyles.Number | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);
       }
       catch
       {

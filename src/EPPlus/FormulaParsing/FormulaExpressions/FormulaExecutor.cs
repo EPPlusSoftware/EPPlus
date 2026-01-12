@@ -385,7 +385,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         {
                             func = new FunctionExpression(t.Value, parsingContext, tokenIx);
                         }
-                        else if (parsingContext.Package.Workbook.Names.ContainsKey(t.Value) || parsingContext.CurrentWorksheet.Names.ContainsKey(t.Value))
+                        else if (parsingContext.Package.Workbook.Names.ContainsKey(t.Value) || (parsingContext.CurrentWorksheet !=null && parsingContext.CurrentWorksheet.Names.ContainsKey(t.Value)))
                         {
                             var wbNames = parsingContext.Package.Workbook.Names;
                             var name = wbNames.ContainsKey(t.Value) ? wbNames[t.Value] : null;
@@ -542,7 +542,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         array.Add(int.Parse(t.Value));
                         break;
                     case TokenType.Decimal:
-                        array.Add(double.Parse(t.Value, NumberStyles.Number, CultureInfo.InvariantCulture));
+                        array.Add(double.Parse(t.Value, NumberStyles.Number | NumberStyles.AllowExponent, CultureInfo.InvariantCulture));
                         break;
                     case TokenType.StringContent:
                         array.Add(t.Value.Substring(1, t.Value.Length-2).Replace("\"\"","\"")); //Remove double quotes.
