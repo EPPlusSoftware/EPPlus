@@ -3,6 +3,7 @@ using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
+using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
@@ -19,6 +20,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// </summary>
     internal abstract class TextBody<T>: RenderItem where T : ParagraphContainer
     {
+        internal string FontColor;
+
         /// <summary>
         /// Shorthand for Bounds.Width
         /// </summary>
@@ -94,6 +97,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             paragraph.Bounds.Top = startingY;
 
             Paragraphs.Add(paragraph);
+
+            paragraph.FillColor = string.IsNullOrEmpty(FontColor) ? item.DefaultRunProperties.Fill.Color.Name : FontColor;
 
             paragraph.Bounds.transform.Name = $"Container{Paragraphs.Count}";
         }
