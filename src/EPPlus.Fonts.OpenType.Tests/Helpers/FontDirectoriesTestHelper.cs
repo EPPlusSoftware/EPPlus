@@ -33,7 +33,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
         /// <summary>
         /// Gets the list of font folder paths (for reading test fonts)
         /// </summary>
-        public static List<string> FontFolders => _fontFolders;
+        public static List<string> FontFolders => new List<string>(_fontFolders);
 
         /// <summary>
         /// Gets the test output path for saving subset fonts (c:\epplusTest\Fonts\)

@@ -78,5 +78,11 @@ namespace EPPlus.Fonts.OpenType.Tests
         {
             FontDirectoriesTestHelper.DeleteOutputFont(fileName);
         }
+
+        [TestInitialize]
+        public void ClearAllCaches()
+        {
+            OpenTypeFonts.ClearFontCache();
+        }
     }
 }

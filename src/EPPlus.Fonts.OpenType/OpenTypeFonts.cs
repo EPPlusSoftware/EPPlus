@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  01/10/2026         EPPlus Software AB           Fix threading issue with global lock
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Scanner;
@@ -23,6 +24,7 @@ namespace EPPlus.Fonts.OpenType
     public static class OpenTypeFonts
     {
         private static readonly object _syncRoot = new object();
+        private static readonly Dictionary<string, object> _fontLocks = new Dictionary<string, object>();
 
         #region --- Platform-specific font locations (unchanged, beautiful as always) ---
 
@@ -92,7 +94,8 @@ namespace EPPlus.Fonts.OpenType
             lock (_syncRoot)
             {
                 OpenTypeFontCache.Clear();
-                FontScannerCache.Clear();  // Vår nya cache
+                FontScannerCache.Clear();
+                _fontLocks.Clear();
             }
         }
 
@@ -107,7 +110,21 @@ namespace EPPlus.Fonts.OpenType
             bool searchSystemDirectories = true,
             bool ignoreCache = false)
         {
+            // Create per-font lock key
+            string lockKey = $"{fontName}_{subFamily}";
+            object fontLock;
+
             lock (_syncRoot)
+            {
+                if (!_fontLocks.TryGetValue(lockKey, out fontLock))
+                {
+                    fontLock = new object();
+                    _fontLocks[lockKey] = fontLock;
+                }
+            }
+
+            // Now lock PER FONT, not globally
+            lock (fontLock)
             {
                 if (!ignoreCache)
                 {

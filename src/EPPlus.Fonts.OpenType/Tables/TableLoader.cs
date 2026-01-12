@@ -53,51 +53,56 @@ namespace EPPlus.Fonts.OpenType.Tables
             // First: Check cache with instance lock (fast path)
             lock (_instanceLock)
             {
-                // If already loaded and cache is enabled
                 if (_isLoaded && tableCache != null && tableCache.Contains(_tableName) && useCache)
                 {
                     return tableCache.Get(_tableName) as T;
                 }
 
-                // If another thread is loading this specific table, wait
                 while (_isLoading && !_isLoaded)
                 {
                     Monitor.Wait(_instanceLock);
                 }
 
-                // If loaded after waiting, return from cache
                 if (_isLoaded && tableCache != null)
                 {
                     return tableCache.Get(_tableName) as T;
                 }
 
-                // Mark as loading (prevents other threads from loading same table)
                 _isLoading = true;
             }
 
             T t;
 
-            // Second: Load table with reader lock (ensures stream safety)
-            // ✅ Lock on _reader to prevent concurrent stream access
+            // Second: Load table with reader lock
             lock (_reader)
             {
-                // Set stream position under reader lock
-                _reader.BaseStream.Position = _offset;
+                // ✅ CRITICAL: Save and restore stream position!
+                long savedPosition = _reader.BaseStream.Position;
 
-                // Load the table
-                t = LoadInternal();
+                try
+                {
+                    // Seek to table start
+                    _reader.BaseStream.Position = _offset;
+
+                    // Load the table
+                    t = LoadInternal();
+                }
+                finally
+                {
+                    // ✅ RESTORE position after loading
+                    // This prevents interfering with other loaders
+                    _reader.BaseStream.Position = savedPosition;
+                }
             }
 
-            // Third: Update cache with instance lock
+            // Third: Update cache
             lock (_instanceLock)
             {
-                // Add to cache
                 if (tableCache != null && !tableCache.Contains(_tableName))
                 {
                     tableCache.Add(_tableName, t);
                 }
 
-                // Mark as loaded and notify waiting threads
                 _isLoaded = true;
                 _isLoading = false;
                 Monitor.PulseAll(_instanceLock);

@@ -45,7 +45,7 @@ namespace EPPlus.Fonts.OpenType
         private readonly FontsBinaryReader _reader;
         protected Dictionary<string, TableRecord> _tableRecords;
         public FontFormat Format;
-        private static object _syncRoot = new object();
+        private readonly object _syncRoot = new object();
 
 
         internal OpenTypeFont(FontFormat format)

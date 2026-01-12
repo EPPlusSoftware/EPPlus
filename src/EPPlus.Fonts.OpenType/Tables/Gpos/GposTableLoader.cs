@@ -34,6 +34,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
 
         protected override GposTable LoadInternal()
         {
+            _reader.BaseStream.Position = _offset;
             var table = new GposTable();
 
             // Read version
