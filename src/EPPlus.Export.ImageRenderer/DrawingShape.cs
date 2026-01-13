@@ -11,18 +11,23 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using System;
 using System.Collections.Generic;
 
 namespace EPPlusImageRenderer
 {
-    internal abstract class DrawingShape : DrawingBase
+    internal abstract class DrawingShape : DrawingBaseItem
     {
         protected ExcelShape _shape;
         protected DrawingShape(ExcelShape shape) : base(shape)
         {
+            var style = shape.Style;
+
             _shape = shape;
         }
         protected static void AddCmd(SvgRenderPathItem pi, DrawingPath path, List<double> coordinates, ref PathCommands cmd, PathsBase pp, PathsBase p, PathCommandType commandType)

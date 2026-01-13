@@ -48,7 +48,7 @@ namespace EPPlusImageRenderer.Svg
             sb.Append("</text>");
         }
 
-        public override SvgItemType Type => SvgItemType.Text;
+        public override RenderItemType Type => RenderItemType.Text;
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {

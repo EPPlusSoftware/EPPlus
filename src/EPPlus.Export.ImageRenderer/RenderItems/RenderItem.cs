@@ -10,14 +10,19 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
+using EPPlus.Export.ImageRenderer.Svg.Writer;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Style.Fill;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Utils;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 namespace EPPlusImageRenderer.RenderItems
@@ -64,6 +69,7 @@ namespace EPPlusImageRenderer.RenderItems
             item.LineJoin = LineJoin;
             item.FillColorSource = FillColorSource;
         }
+
         internal virtual void SetDrawingPropertiesFill(ExcelDrawingFill fill, ExcelDrawingColorManager color)
         {
             switch (fill.Style)
@@ -190,14 +196,33 @@ namespace EPPlusImageRenderer.RenderItems
             fc = ColorUtils.GetAdjustedColor(fillColorSource, fc);
             return "#" + fc.ToArgb().ToString("x8").Substring(2);
         }
+
+        internal BoundingBox Bounds = new BoundingBox();
         internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
+
+        internal string RenderSvgElement(SvgElement element)
+        {
+            string retStr = string.Empty;
+
+            using (var ms = EPPlusMemoryManager.GetStream())
+            {
+                SvgWriter writer = new SvgWriter(ms, Encoding.UTF8);
+                writer.RenderSvgElement(element, true);
+                ms.Position = 0;
+                using (var sr = new StreamReader(ms))
+                {
+                    retStr = sr.ReadToEnd();
+                    return retStr;
+                }
+            }
+        }
     }
     /// <summary>
     /// Base class for any item rendered.
     /// </summary>
     internal abstract class RenderItemBase
     {
-        public abstract SvgItemType Type { get; }
+        public abstract RenderItemType Type { get; }
         public abstract void Render(StringBuilder sb);
 
     }

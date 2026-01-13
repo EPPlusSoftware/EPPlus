@@ -10,6 +10,11 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         public List<string> MeasureAndWrapText(string text, MeasurementFont font, double MaxWidthInPixels, double preExistingWidthPixels = 0);
         public void SetFont(MeasurementFont mFont);
 
+        /// <summary>
+        /// Get the current font baseline-to-baseline (AKA Ascent+Descent) <para />
+        /// For a single line at the current size
+        /// </summary>
+        /// <returns></returns>
         public double GetSingleLineSpacing();
 
         /// <summary>

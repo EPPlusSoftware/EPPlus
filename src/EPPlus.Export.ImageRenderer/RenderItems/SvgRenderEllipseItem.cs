@@ -27,7 +27,7 @@ namespace EPPlusImageRenderer.RenderItems
         public float Rx { get; set; }
         public float Ry { get; set; }
 
-        public override SvgItemType Type => SvgItemType.Rect;
+        public override RenderItemType Type => RenderItemType.Rect;
 
         public override void Render(StringBuilder sb)
         {

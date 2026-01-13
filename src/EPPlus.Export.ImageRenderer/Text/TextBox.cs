@@ -46,7 +46,7 @@ namespace EPPlusImageRenderer.Text
             set;
         }
 
-        public override SvgItemType Type => SvgItemType.Rect;
+        public override RenderItemType Type => RenderItemType.Rect;
 
         /// <summary>
         /// Top of the paragraph bounding box
@@ -188,7 +188,7 @@ namespace EPPlusImageRenderer.Text
             return Bounds.GetInnerRect();
         }
 
-        internal SvgParagraph AddParagraph(ExcelDrawingParagraph item)
+        internal SvgParagraph ImportParagraph(ExcelDrawingParagraph item)
         {
             var measureFont = item.DefaultRunProperties.GetMeasureFont();
 
@@ -258,7 +258,7 @@ namespace EPPlusImageRenderer.Text
             groupItem.Render(sb);
 
             var innerTop = Bounds.GetInnerRect().Top;
-            var fontFamilyAttr = $"font-family=\"{mFontTextRun.FontFamily},{mFontTextRun.FontFamily}_MSFontService,sans-serif\" ";
+            var fontFamilyAttr = $"_measurementFont-family=\"{mFontTextRun.FontFamily},{mFontTextRun.FontFamily}_MSFontService,sans-serif\" ";
             sb.Append($"<text fill=\"black\" y=\"{innerTop.ToString(CultureInfo.InvariantCulture)}\" {fontFamilyAttr}>");
             //TODO: add textbody property stuff here
             foreach (var textRun in CellTextRuns)

@@ -59,8 +59,49 @@ namespace EPPlus.Export.ImageRenderer.Svg.Writer
             }
         }
 
+        public void RenderSvgElementWithoutEndNode(SvgElement element, bool minify)
+        {
+            RenderBeginTag(element.ElementName, element._attributes, element.IsVoidElement);
+
+            if (element.IsVoidElement)
+            {
+                ApplyFormat(minify);
+                //if (element.ElementName != SvgElements.Img)
+                //{
+                //ApplyFormat(minify);
+                // }
+                return;
+            }
+
+            if (element._childElements.Count > 0)
+            {
+                var name = element.ElementName;
+                bool noIndent = minify == true ? true : SvgElements.NoIndentElements.Contains(name);
+
+                ApplyFormatIncreaseIndent(noIndent);
+
+                foreach (var child in element._childElements)
+                {
+                    RenderSvgElement(child, minify);
+                }
+
+                if (noIndent == false)
+                {
+                    Indent--;
+                }
+            }
+
+            Write(element.Content);
+
+            if (element.ElementName != "a")
+            {
+                ApplyFormat(minify);
+            }
+        }
+
         public void RenderSvgElement(SvgElement element, bool minify)
         {
+            //RenderSvgElementWithoutEndNode(element, minify);
             RenderBeginTag(element.ElementName, element._attributes, element.IsVoidElement);
 
             if (element.IsVoidElement)

@@ -20,7 +20,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
 
         //const string xmlNameSpace = "xmlns=\"http://www.w3.org/2000/svg\"";
         //const string xLink = "xmlns:xlink=\"http://www.w3.org/1999/xlink\"";
-        bool preserveWhiteSpace = true;
+        bool preserveWhiteSpace = false;
         bool useViewBox = true;
         OverflowAttribute Overflow = null;
 
@@ -41,11 +41,13 @@ namespace EPPlus.Export.ImageRenderer.Svg
         {
             SvgSize = new DrawingSize(width, height);
             Overflow = new OverflowAttribute();
-            //Overflow.OverFlowValue = eOverFlowValues.Visible;
+            Overflow.OverFlowValue = eOverFlowValues.Hidden;
         }
 
         internal void AddAttributes()
         {
+            _attributes.Clear();
+            
             AddAttribute("width", SvgSize.Width);
             AddAttribute("height", SvgSize.Height);
 
@@ -65,11 +67,50 @@ namespace EPPlus.Export.ImageRenderer.Svg
             }
         }
 
+        internal void RenderExcludingEndTag(StringBuilder sb)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                AddAttributes();
+                SvgWriter writer = new SvgWriter(ms, Encoding.UTF8);
+                writer.RenderSvgElementWithoutEndNode(this, true);
+
+                ms.Flush();
+                ms.Position = 0;
+
+                var sr = new StreamReader(ms);
+                var str = sr.ReadToEnd();
+
+                sb.Append(str);
+
+                sr.Close();
+                sr.Dispose();
+            }
+
+
+        }
+
         internal void Render(MemoryStream stream)
         {
             AddAttributes();
             SvgWriter writer = new SvgWriter(stream, Encoding.UTF8);
             writer.RenderSvgElement(this, true);
+        }
+
+        internal void Render(StringBuilder sb)
+        {
+            var preserveStr = preserveWhiteSpace ? "preserve" : "default";
+            sb.AppendLine($"<svg width=\"{SvgSize.Width}\" height=\"{SvgSize.Height}\" xmlns=\"{svgNamespaceValue}\" " +
+                $"xmlns:xlink=\"{xLinkNameSpaceValue}\" xml:space=\"{preserveStr}\" ");
+            if (Overflow != null)
+            {
+                sb.Append($"{Overflow.Name}=\"{Overflow.Value}\" ");
+            }
+            if (useViewBox)
+            {
+                sb.Append($"viewBox=\"{ViewBox}\" ");
+            }
+            sb.Append(">");
         }
     }
 }

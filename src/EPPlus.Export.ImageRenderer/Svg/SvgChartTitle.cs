@@ -102,7 +102,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 foreach (var p in t.TextBody.Paragraphs)
                 {
-                    TextBox.AddParagraph(p);
+                    TextBox.ImportParagraph(p);
                 }
             }
             else
@@ -115,10 +115,18 @@ namespace EPPlusImageRenderer.Svg
         {
             get; private set;
         }
+
+        public override RenderItemType Type => throw new System.NotImplementedException();
+
         public override void Render(StringBuilder sb)
         {
             Rectangle.Render(sb);
             TextBox.Render(sb);
+        }
+
+        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
