@@ -19,7 +19,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public override void Render(StringBuilder sb)
         {
-            sb.AppendLine($"<g transform=\"translate({Bounds.X},{Bounds.Y})\" >");
+            sb.AppendLine($"<g transform=\"translate({Bounds.GlobalX},{Bounds.GlobalY})\" >");
             sb.AppendLine($"<title>");
             sb.AppendLine($"txtBody");
             sb.AppendLine("</title>");

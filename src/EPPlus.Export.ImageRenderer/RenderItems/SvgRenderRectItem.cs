@@ -32,8 +32,8 @@ namespace EPPlusImageRenderer.RenderItems
 
         }
 
-        public double X { get { return Bounds.Top; } set { Bounds.Top = value; } }
-        public double Y { get { return Bounds.Left; } set { Bounds.Left = value; } }
+        public double X { get { return Bounds.Left; } set { Bounds.Left = value; } }
+        public double Y { get { return Bounds.Top; } set { Bounds.Top = value; } }
         public double Width { get { return Bounds.Width; } set { Bounds.Width = value; } }
         public double Height { get { return Bounds.Height; } set { Bounds.Height = value; } }
 

@@ -34,7 +34,7 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class SvgShape : DrawingShape
     {
-        SvgRenderRectItem txtBodyBoundingBox;
+        SvgRenderRectItem insetTextBox;
         SvgTextBodyItem textBody;
 
         public SvgShape(ExcelShape shape) : base(shape)
@@ -78,25 +78,25 @@ namespace EPPlusImageRenderer.Svg
                 {
                     if (shapeDef.TextBoxRect != null)
                     {
-                        txtBodyBoundingBox = new SvgRenderRectItem(_shape);
-                        txtBodyBoundingBox.X = (float)shapeDef.TextBoxRect.LeftValue;
-                        txtBodyBoundingBox.Y = (float)shapeDef.TextBoxRect.TopValue;
-                        txtBodyBoundingBox.FillOpacity = 0.3d;
+                        insetTextBox = new SvgRenderRectItem(_shape);
+                        insetTextBox.X = (float)shapeDef.TextBoxRect.LeftValue;
+                        insetTextBox.Y = (float)shapeDef.TextBoxRect.TopValue;
+                        insetTextBox.FillOpacity = 0.3d;
 
                         if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
                         {
-                            txtBodyBoundingBox.Width = (float)shapeDef.TextBoxRect.RightValue - txtBodyBoundingBox.X;
-                            txtBodyBoundingBox.Height = (float)shapeDef.TextBoxRect.BottomValue - txtBodyBoundingBox.Y;
+                            insetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue - insetTextBox.X;
+                            insetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue - insetTextBox.Y;
                         }
                         else
                         {
-                            txtBodyBoundingBox.Width = (float)shapeDef.TextBoxRect.RightValue;
-                            txtBodyBoundingBox.Height = (float)shapeDef.TextBoxRect.BottomValue;
+                            insetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue;
+                            insetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue;
                         }
                     }
                     else
                     {
-                        txtBodyBoundingBox = null;
+                        insetTextBox = null;
                     }
 
                     textBody = GetTextBox();
@@ -298,25 +298,17 @@ namespace EPPlusImageRenderer.Svg
 
         SvgTextBodyItem GetTextBox()
         {
-            var txtBodyItem = new SvgTextBodyItem(Bounds);
-            if (txtBodyBoundingBox == null)
+            if (insetTextBox == null)
             {
                 GetShapeInnerBound(out double x, out double y, out double width, out double height);
-                txtBodyBoundingBox = new SvgRenderRectItem();
-                txtBodyBoundingBox.X = x;
-                txtBodyBoundingBox.Y = y;
-                txtBodyBoundingBox.Width = width;
-                txtBodyBoundingBox.Height = height;
-                //txtBodyBoundingBox.Bounds.Parent = Bounds;
-
-                return new SvgTextBodyItem(Bounds);
+                insetTextBox = new SvgRenderRectItem();
+                insetTextBox.Bounds.Left = x;
+                insetTextBox.Bounds.Top = y;
+                insetTextBox.Width = width;
+                insetTextBox.Height = height;
+                insetTextBox.Bounds.Parent = Bounds;
             }
-
-            txtBodyItem.Bounds.Left = txtBodyBoundingBox.Bounds.Left;
-            txtBodyItem.Bounds.Top = txtBodyBoundingBox.Bounds.Top;
-            txtBodyItem.Bounds.Width = txtBodyBoundingBox.Bounds.Width;
-            txtBodyItem.Bounds.Height = txtBodyBoundingBox.Bounds.Height;
-
+            var txtBodyItem = new SvgTextBodyItem(insetTextBox.Bounds);
 
             return txtBodyItem;
         }
@@ -338,17 +330,29 @@ namespace EPPlusImageRenderer.Svg
 
         private void RenderDebugTextBox(StringBuilder sb)
         {
-            txtBodyBoundingBox.FillColor = "green";
-            txtBodyBoundingBox.Render(sb);
+            insetTextBox.FillColor = "green";
+            insetTextBox.Render(sb);
+
+            insetTextBox.GetBounds(out double l, out double t, out double r, out double b);
 
             var area = textBody.Bounds;
 
-            txtBodyBoundingBox.X = (float)area.Left;
-            txtBodyBoundingBox.Y = (float)area.Top;
-            txtBodyBoundingBox.Width = (float)area.Width;
-            txtBodyBoundingBox.Height = (float)area.Height;
-            txtBodyBoundingBox.FillColor = "blue";
-            txtBodyBoundingBox.Render(sb);
+            //Temporarily set as child bounds
+            insetTextBox.Bounds.Left = (float)area.Left + l;
+            insetTextBox.Bounds.Top = (float)area.Top + t;
+            insetTextBox.Bounds.Width = (float)area.Width;
+            insetTextBox.Bounds.Height = (float)area.Height;
+
+            insetTextBox.FillColor = "blue";
+
+            //Render the inner area
+            insetTextBox.Render(sb);
+
+            //Reset variables so that the rendering of children aren't affected
+            insetTextBox.Bounds.Left = l;
+            insetTextBox.Bounds.Top = t;
+            insetTextBox.Bounds.Right = r;
+            insetTextBox.Bounds.Bottom = b;
         }
 
         private void GetShapeInnerBound(out double x, out double y, out double width, out double height)
