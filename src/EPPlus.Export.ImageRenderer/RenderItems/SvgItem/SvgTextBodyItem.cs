@@ -21,9 +21,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             sb.AppendLine($"<g transform=\"translate({Bounds.GlobalX},{Bounds.GlobalY})\" ");
             base.Render(sb);
             sb.Append(" >");
-            sb.AppendLine($"<title>");
-            sb.AppendLine($"txtBody");
-            sb.AppendLine("</title>");
+            sb.AppendLine($"<title>txtBody</title>");
 
             foreach(var item in Paragraphs)
             {

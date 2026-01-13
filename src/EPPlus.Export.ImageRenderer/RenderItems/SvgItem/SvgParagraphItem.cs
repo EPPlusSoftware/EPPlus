@@ -89,10 +89,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             sb.AppendLine($"<g transform=\"translate({Bounds.X},{Bounds.Y})\" >");
 
-            sb.AppendLine("<title>");
-            sb.AppendLine("paragraph");
-            sb.AppendLine("</title>");
-
+            sb.AppendLine("<title>paragraph</title>");
 
             sb.Append("<text ");
             base.Render(sb);
