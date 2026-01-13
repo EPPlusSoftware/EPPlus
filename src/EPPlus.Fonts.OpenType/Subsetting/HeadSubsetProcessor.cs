@@ -14,7 +14,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 {
     internal class HeadSubsetProcessor : IFontSubsetProcessor
     {
-        public void Process(FontSubsettingContext context)
+        public void Discover(FontSubsettingContext context)
         {
             var original = context.OriginalFont.HeadTable;
             if (original == null) return;
@@ -22,6 +22,11 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             var head = original.Clone();
             // checkSumAdjustment will be recalculated at font save – we leave it for now
             context.SubsetFont.AddOrReplaceTable(head);
+        }
+
+        public void Rewrite(FontSubsettingContext context)
+        {
+            // No implementation
         }
     }
 }

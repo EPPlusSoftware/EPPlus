@@ -14,7 +14,12 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 {
     internal class HheaSubsetProcessor : IFontSubsetProcessor
     {
-        public void Process(FontSubsettingContext context)
+        public void Discover(FontSubsettingContext context)
+        {
+            // No implementation  
+        }
+
+        public void Rewrite(FontSubsettingContext context)
         {
             var original = context.OriginalFont.HheaTable;
             if (original == null) return;

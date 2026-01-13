@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  12/22/2025         EPPlus Software AB           Support in-memory fonts (subsets)
  *************************************************************************************************/
 
 using EPPlus.Fonts.OpenType.Utils;
@@ -29,10 +30,18 @@ namespace EPPlus.Fonts.OpenType.FontValidation
                 return result;
             }
 
+            // Get file length - either from font property or calculate from table records
             long fileLength = font.FileLength;
+
+            // If fileLength is not available (in-memory fonts like subsets), calculate it
             if (fileLength <= 0)
             {
-                result.AddMessage(FontValidationSeverity.Error, "Font file length could not be determined or is zero.");
+                fileLength = CalculateFileLengthFromTableRecords(records);
+
+                if (fileLength <= 0)
+                {
+                    result.AddMessage(FontValidationSeverity.Error, "Font file length could not be determined or is zero.");
+                }
             }
 
             foreach (var kvp in records)
@@ -108,17 +117,26 @@ namespace EPPlus.Fonts.OpenType.FontValidation
             var headTable = font.HeadTable;
             if (headTable != null)
             {
-                byte[] fontData = (byte[])font.RawData.Clone();
-                int adjustmentOffset = (int)records["head"].Offset + 8; // checkSumAdjustment är vid offset 8
-                for (int i = 0; i < 4; i++) fontData[adjustmentOffset + i] = 0;
-
-                uint sum = ChecksumCalculator.CalculateFontChecksum(fontData);
-                uint expectedAdjustment = 0xB1B0AFBA - sum;
-
-                if (expectedAdjustment != headTable.ChecksumAdjustment)
+                if (font.RawData != null)
                 {
-                    result.AddMessage(FontValidationSeverity.Error,
-                        $"Font checksum adjustment failed: expected {expectedAdjustment:X8}, got {headTable.ChecksumAdjustment:X8}.");
+                    // Validate checksum only for fonts loaded from disk/stream
+                    byte[] fontData = (byte[])font.RawData.Clone();
+                    int adjustmentOffset = (int)records["head"].Offset + 8;
+                    for (int i = 0; i < 4; i++) fontData[adjustmentOffset + i] = 0;
+                    uint sum = ChecksumCalculator.CalculateFontChecksum(fontData);
+                    uint expectedAdjustment = 0xB1B0AFBA - sum;
+                    if (expectedAdjustment != headTable.ChecksumAdjustment)
+                    {
+                        result.AddMessage(FontValidationSeverity.Error,
+                            $"Font checksum adjustment failed: expected {expectedAdjustment:X8}, got {headTable.ChecksumAdjustment:X8}.");
+                    }
+                }
+                else
+                {
+                    // RawData not available (subset font or constructed in-memory)
+                    // Skip checksum validation
+                    result.AddMessage(FontValidationSeverity.Information,
+                        "Skipping font checksum validation - raw data not available (in-memory font).");
                 }
             }
             else
@@ -126,8 +144,40 @@ namespace EPPlus.Fonts.OpenType.FontValidation
                 result.AddMessage(FontValidationSeverity.Warning, "Head table missing, cannot validate font checksum adjustment.");
             }
 
-
             return result;
+        }
+
+        /// <summary>
+        /// Calculates the expected file length from table records.
+        /// Used for in-memory fonts (subsets) that don't have an underlying stream.
+        /// </summary>
+        private long CalculateFileLengthFromTableRecords(System.Collections.Generic.IDictionary<string, TableRecord> records)
+        {
+            if (records == null || records.Count == 0)
+                return 0;
+
+            long maxEnd = 0;
+
+            // Find the highest offset + length
+            foreach (var record in records.Values)
+            {
+                long tableEnd = (long)record.Offset + (long)record.Length;
+                if (tableEnd > maxEnd)
+                {
+                    maxEnd = tableEnd;
+                }
+            }
+
+            // Ensure we account for the header
+            // Header = 12 bytes (sfnt version + offsets) + 16 bytes per table record
+            long headerSize = 12 + (records.Count * 16);
+
+            if (headerSize > maxEnd)
+            {
+                maxEnd = headerSize;
+            }
+
+            return maxEnd;
         }
     }
 }

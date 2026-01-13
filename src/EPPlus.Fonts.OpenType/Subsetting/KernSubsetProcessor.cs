@@ -24,7 +24,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
     /// </summary>
     internal class KernSubsetProcessor : IFontSubsetProcessor
     {
-        public void Process(FontSubsettingContext context)
+        public void Discover(FontSubsettingContext context)
         {
             var originalFont = context.OriginalFont;
             var subsetFont = context.SubsetFont;
@@ -89,6 +89,11 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             {
                 subsetFont.AddOrReplaceTable(newKern);
             }
+        }
+
+        public void Rewrite(FontSubsettingContext context)
+        {
+            // No implementation
         }
     }
 }

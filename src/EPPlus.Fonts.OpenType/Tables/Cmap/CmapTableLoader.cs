@@ -12,6 +12,8 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Cmap.Serialization;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
@@ -23,12 +25,15 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         protected override CmapTable LoadInternal()
         {
+            _reader.BaseStream.Position = _offset;
+
             var table = new CmapTable
             {
                 Version = _reader.ReadUInt16BigEndian(),
                 NumTables = _reader.ReadUInt16BigEndian()
             };
 
+            // Read encoding records
             for (var x = 0; x < table.NumTables; x++)
             {
                 var enc = new EncodingRecord(_reader);
@@ -38,6 +43,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             // Deduplicate subtables by offset
             var subtableCache = new Dictionary<uint, CmapSubtableBase>();
 
+            // Process subtables
             for (var x = 0; x < table.NumTables; x++)
             {
                 var enc = table.EncodingRecords[x];
@@ -50,10 +56,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                     continue;
                 }
 
+                // Read format to determine deserializer
+                long savedPos = _reader.BaseStream.Position;
                 _reader.BaseStream.Position = currentPos;
                 var format = _reader.ReadUInt16BigEndian();
-                _reader.BaseStream.Position = currentPos; // rewind to start of subtable
+                _reader.BaseStream.Position = savedPos;
 
+                // Deserialize based on format
                 switch (format)
                 {
                     case 0:
@@ -83,43 +92,26 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                         subtableCache[enc.SubtableOffset] = sub12;
                         enc.Subtable = sub12;
                         break;
+
                     case 14:
-                        // --------------------------------------------------------------------
-                        // cmap format 14 – Variation Sequences
-                        // Almost never used in practice and frequently malformed in emoji/CJK fonts.
-                        // We skip parsing it completely but preserve the encoding record
-                        // so that round-trip serialization works without NullReferenceException.
-                        // --------------------------------------------------------------------
-
-                        // Create a minimal dummy subtable – prevents null references during serialization
+                        // Skip format 14 (Unicode Variation Sequences)
                         var dummySubtable = new CmapSubtable14();
-
-                        // Mark this encoding record as skipped – serializer will ignore it
                         enc.IsSkipped = true;
                         enc.Subtable = dummySubtable;
-
-                        // Optional: cache dummy to avoid recreating it (harmless but clean)
                         subtableCache[enc.SubtableOffset] = dummySubtable;
 
-                        // Skip the actual table data safely
-                        _reader.BaseStream.Position = currentPos + 6; // skip format (2) + length (4)
+                        _reader.BaseStream.Position = currentPos + 6;
                         uint length = _reader.ReadUInt32BigEndian();
-
                         long nextTablePos = currentPos + length;
                         if (nextTablePos > _reader.BaseStream.Length || nextTablePos < currentPos)
                         {
                             nextTablePos = _reader.BaseStream.Length;
                         }
-
                         _reader.BaseStream.Position = nextTablePos;
-
-                        System.Diagnostics.Debug.WriteLine(
-                            $"Skipped cmap format 14 (Variation Sequences) at offset {enc.SubtableOffset}, length={length}");
-
                         break;
 
                     default:
-                        // Optional: handle unsupported formats
+                        // Unsupported format - skip
                         break;
                 }
             }

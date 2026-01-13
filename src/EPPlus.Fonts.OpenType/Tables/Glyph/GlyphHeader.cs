@@ -52,6 +52,14 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
         /// </summary>
         public short yMax { get; set; }
 
+        public BoundingRectangle Bounds
+        {
+            get
+            {
+                return new BoundingRectangle(xMin, yMin, xMax, yMax);
+            }
+        }
+
         internal override void Serialize(FontsBinaryWriter writer)
         {
             writer.WriteInt16BigEndian(numberOfContours);

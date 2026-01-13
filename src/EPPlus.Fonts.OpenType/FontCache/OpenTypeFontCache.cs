@@ -59,7 +59,7 @@ namespace EPPlus.Fonts.OpenType.FontCache
         {
             lock (_syncRoot)
             {
-                var key = BuildCacheKey(font.GetEnglishFullFontFamilyName(), font.GetEnglishFontSubFamilyName());
+                var key = BuildCacheKey(font.GetEnglishFontFamilyName(), font.GetEnglishFontSubFamilyName());
                 if (!_cache.ContainsKey(key))
                 {
                     _cache[key] = new CachedOpenTypeFont();

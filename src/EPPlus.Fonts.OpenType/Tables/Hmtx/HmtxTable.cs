@@ -31,6 +31,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Hmtx
         public List<LongHorMetric> hMetrics { get; set; } = new List<LongHorMetric>();
         public List<short> leftSideBearings { get; set; } = new List<short>();
 
+        public HmtxTable()
+        {
+            
+        }
+
+        public HmtxTable(List<LongHorMetric> metrics)
+        {
+            hMetrics = metrics;
+        }
+
         internal override void Clear()
         {
             hMetrics.Clear();

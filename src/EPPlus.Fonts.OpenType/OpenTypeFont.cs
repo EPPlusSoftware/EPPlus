@@ -17,6 +17,8 @@ using EPPlus.Fonts.OpenType.Subsetting;
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
+using EPPlus.Fonts.OpenType.Tables.Gpos;
+using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
 using EPPlus.Fonts.OpenType.Tables.Hmtx;
@@ -29,6 +31,7 @@ using EPPlus.Fonts.OpenType.Tables.Post;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -42,7 +45,7 @@ namespace EPPlus.Fonts.OpenType
         private readonly FontsBinaryReader _reader;
         protected Dictionary<string, TableRecord> _tableRecords;
         public FontFormat Format;
-        private static object _syncRoot = new object();
+        private readonly object _syncRoot = new object();
 
 
         internal OpenTypeFont(FontFormat format)
@@ -90,9 +93,19 @@ namespace EPPlus.Fonts.OpenType
             _postTableLoader = TableLoaders.GetPostTableLoader(_tblSettings);
             _locaTableLoader = TableLoaders.GetLocaTableLoader(_tblSettings);
 
-            //Common tables in ttf fonts
-            _glyfTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? TableLoaders.GetGlyfTableLoader(_tblSettings) : null;
-            _kernTableLoader = TableRecords.ContainsKey(TableNames.Kern) ? TableLoaders.GetKernTableLoader(_tblSettings) : null;
+            // ✅ Optional tables - only create loader if table exists
+            _gsubTableLoader = TableRecords.ContainsKey(TableNames.Gsub)
+                ? TableLoaders.GetGsubTableLoader(_tblSettings)
+                : null;
+            _gposTableLoader = TableRecords.ContainsKey(TableNames.Gpos)
+                ? TableLoaders.GetGposTableLoader(_tblSettings)
+                : null;
+            _glyfTableLoader = TableRecords.ContainsKey(TableNames.Glyf)
+                ? TableLoaders.GetGlyfTableLoader(_tblSettings)
+                : null;
+            _kernTableLoader = TableRecords.ContainsKey(TableNames.Kern)
+                ? TableLoaders.GetKernTableLoader(_tblSettings)
+                : null;
         }
 
         Os2TableLoader _os2TableLoader;
@@ -104,6 +117,8 @@ namespace EPPlus.Fonts.OpenType
         MaxpTableLoader _maxpTableLoader;
         PostTableLoader _postTableLoader;
         LocaTableLoader _locaTableLoader;
+        GsubTableLoader _gsubTableLoader;
+        GposTableLoader _gposTableLoader;
 
         internal GlyfTableLoader _glyfTableLoader;
         internal KernTableLoader _kernTableLoader;
@@ -304,6 +319,44 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
+        public GsubTable GsubTable
+        {
+            get
+            {
+                if (_gsubTableLoader != null)
+                {
+                    return _gsubTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Gsub))
+                {
+                    return (GsubTable)_localTableCache.Get(TableNames.Gsub);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public GposTable GposTable
+        {
+            get
+            {
+                if (_gposTableLoader != null)
+                {
+                    return _gposTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Gpos))
+                {
+                    return (GposTable)_localTableCache.Get(TableNames.Gpos);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         private void Initialize()
         {
             SfntVersion = _reader.ReadUInt32BigEndian();
@@ -364,21 +417,63 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
-        internal string GetEnglishFullFontFamilyName()
+        public string GetEnglishFullFontFamilyName()
         {
-            var nr =  NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FullFontName && x.LanguageMapping.Language == Languages.English);
-            if (nr == null) return null;
-            return nr.Name;
+            return GetNameString(NameRecordTypes.FullFontName);
         }
 
         public string GetEnglishFontFamilyName()
         {
-            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontFamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
+            return GetNameString(NameRecordTypes.FontFamilyName);
         }
 
-        internal string GetEnglishFontSubFamilyName()
+        public string GetEnglishFontSubFamilyName()
         {
-            return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontSubfamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
+            return GetNameString(NameRecordTypes.FontSubfamilyName);
+        }
+
+        private string GetNameString(NameRecordTypes recordType)
+        {
+            // Priority 1: Windows English (Platform 3, Language 0x0409)
+            var windowsEnglish = NameTable.NameRecords.FirstOrDefault(x =>
+                x.platformId == 3 &&
+                x.languageID == 0x0409 &&
+                x.RecordType == recordType);
+
+            if (windowsEnglish != null && !string.IsNullOrEmpty(windowsEnglish.Name))
+                return windowsEnglish.Name;
+
+            // Priority 2: Mac English (Platform 1, Language 0)
+            var macEnglish = NameTable.NameRecords.FirstOrDefault(x =>
+                x.platformId == 1 &&
+                x.languageID == 0 &&
+                x.RecordType == recordType);
+
+            if (macEnglish != null && !string.IsNullOrEmpty(macEnglish.Name))
+                return macEnglish.Name;
+
+            // Priority 3: Unicode English (Platform 0, Language 0)
+            var unicodeEnglish = NameTable.NameRecords.FirstOrDefault(x =>
+                x.platformId == 0 &&
+                x.languageID == 0 &&
+                x.RecordType == recordType);
+
+            if (unicodeEnglish != null && !string.IsNullOrEmpty(unicodeEnglish.Name))
+                return unicodeEnglish.Name;
+
+            // Priority 4: ANY Windows record of this type (fallback)
+            var anyWindows = NameTable.NameRecords.FirstOrDefault(x =>
+                x.platformId == 3 &&
+                x.RecordType == recordType);
+
+            if (anyWindows != null && !string.IsNullOrEmpty(anyWindows.Name))
+                return anyWindows.Name;
+
+            // Priority 5: ANY record of this type (last resort)
+            var any = NameTable.NameRecords.FirstOrDefault(x =>
+                x.RecordType == recordType);
+
+            return any?.Name ?? string.Empty;
         }
 
         internal void AddOrReplaceTable<T>(T table)
@@ -405,6 +500,12 @@ namespace EPPlus.Fonts.OpenType
 
         public OpenTypeFont CreateSubset(IEnumerable<char> usedChars)
         {
+            // Validate input
+            if (usedChars == null)
+                throw new ArgumentNullException(nameof(usedChars));
+
+            if (usedChars.Count() == 0)
+                throw new ArgumentException("Text cannot be empty", nameof(usedChars));
 
             var subsetBuilder = new SubsetFontBuilder();
 
@@ -418,8 +519,8 @@ namespace EPPlus.Fonts.OpenType
             // Skapa subset-font
             var newFont = subsetBuilder.CreateSubset(this, codePoints);
 
-            var preprocessor = new SubsetPreprocessor();
-            preprocessor.PreprocessSubset(newFont);
+            var postProcessor = new SubsetPostProcessor();
+            postProcessor.PostProcessSubset(newFont);
 
             return newFont;
         }
@@ -536,6 +637,10 @@ namespace EPPlus.Fonts.OpenType
                     return KernTable.Serialize(ctx);
                 case TableNames.Post:
                     return PostTable.Serialize(ctx);
+                case TableNames.Gsub:
+                    return GsubTable.Serialize(ctx);
+                case TableNames.Gpos:
+                    return GposTable.Serialize(ctx);
                 default:
                     return null;
             }

@@ -19,9 +19,9 @@ using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Subsetting
 {
-    internal class SubsetPreprocessor
+    internal class SubsetPostProcessor
     {
-        public void PreprocessSubset(OpenTypeFont font)
+        public void PostProcessSubset(OpenTypeFont font)
         {
             // 1) Sort table records by tag (spec requires directory sorted alphabetically)
             var sortedRecords = font.TableRecords
