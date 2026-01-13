@@ -67,5 +67,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(4, _ws.Cells["D2"].Value);
             Assert.AreEqual(1, _ws.Cells["D3"].Value);
         }
+
+        [TestMethod]
+        public void FilterShouldHandleNAAsIfEmptyValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "Joe";
+                s.Cells["A2"].Value = "Anna";
+                s.Cells["B1"].Value = 1;
+                s.Cells["B2"].Value = 2;
+                s.Cells["C1"].Formula = "FILTER(A1:A2, B1:B2 =1, NA())";
+                s.Calculate();
+                Assert.AreEqual("Joe", s.Cells["C1"].Value);
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections;
@@ -121,9 +122,11 @@ namespace EPPlusTest.FormulaParsing
                 
                 p.Workbook.ClearFormulaValues();
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
+                RpnOptimizedDependencyChain dc=null;
                 try
                 {
-                    p.Workbook.Calculate(x => { x.AllowCircularReferences = true; x.CacheExpressions = true; });
+                    dc=p.Workbook.CalculateWithDC(x => { x.AllowCircularReferences = true; x.CacheExpressions = true; });
+                    
                     //p.Workbook.Worksheets["Monthly Cash Flow"].Cells["F10"].Calculate(x => x.CacheExpressions = false);
                 }
                 catch (Exception ex)
@@ -136,9 +139,9 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Differences:");
                 logWriter.WriteLine($"Formula values to compare: {values.Count}");
                 logWriter.WriteLine($"Worksheet\tCell\tValue Excel\tValue EPPlus");
-                foreach (var value in values)
+                foreach (var key in dc.DependencyChain)
                 {
-                    ExcelCellBase.SplitCellId(value.Key, out int wsIndex, out int row, out int col);
+                    ExcelCellBase.SplitCellId(key, out int wsIndex, out int row, out int col);
                     object v;
                     ExcelWorksheet ws;
                     string nameOrAddress;
@@ -166,7 +169,7 @@ namespace EPPlusTest.FormulaParsing
                     //if ((v==null && value.Value!=null) || !(v!=null && v.Equals(value.Value) || ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(value.Value)))
                     //{
                     ////Assert.Fail($"Value differs worksheet {ws.Name}\tRow {row}\tColumn  {col}\tDiff");
-                    var diff = ConvertUtil.GetValueDouble(v) - ConvertUtil.GetValueDouble(value.Value);
+                    var diff = ConvertUtil.GetValueDouble(v) - ConvertUtil.GetValueDouble(values[key]);
                     //if(col==0)
                     //{
                     //    logWriter.WriteLine($"{ws?.Name}\t{row}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
@@ -175,7 +178,7 @@ namespace EPPlusTest.FormulaParsing
                     //{
                     //    logWriter.WriteLine($"{ws?.Name}\t{ExcelCellBase.GetAddress(row, col)}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
                     //}
-                    var s1 = (value.Value ?? "").ToString().Replace("\r", "").Replace("\n", "");
+                    var s1 = (values[key] ?? "").ToString().Replace("\r", "").Replace("\n", "");
                     var s2 = (v ?? "").ToString().Replace("\r", "").Replace("\n", "");
                     
                     logWriter.WriteLine($"{ws?.Name}\t{nameOrAddress}\t{s1}\t{s2}\t{diff}");

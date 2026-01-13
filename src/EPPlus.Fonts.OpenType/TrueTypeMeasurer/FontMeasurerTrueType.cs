@@ -1,4 +1,4 @@
-﻿/*************************************************************************************************
+/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -15,12 +15,10 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.Net.Mime.MediaTypeNames;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
 
 namespace EPPlus.Fonts.OpenType
 {
-    
-
     public enum TextUnit
     {
         Points,
@@ -282,35 +280,24 @@ namespace EPPlus.Fonts.OpenType
             return dAscent;
         }
 
-        public List<string> WrapMultipleTextFragments(List<string> textFragment, List<MeasurementFont> fonts, double maxWidthPoints)
+        public List<double> GetGlyphAdvanceWidths(string text, MeasurementFont font)
         {
-            List<OpenTypeFont> openTypeFonts = new List<OpenTypeFont>();
-            List<double> fontSizes = new List<double>();
-
-            //prevent creating multiple OpenTypeFonts via cache/indexing
-            Dictionary<double, OpenTypeFont> fontIndexDict = new();
-
-            var distinctFonts = fonts.Distinct().ToArray();
-
-            foreach (var distinctFont in distinctFonts)
+            var fontdata = TextData.GetFontData(font.FontFamily, GetFontSubType(font.Style));
+            var glyphdata = TextData.GetBoundsOfEachGlyph(text, fontdata);
+            List<double> widths = new List<double>();
+            foreach(var glyph in glyphdata)
             {
-                SetFont(distinctFont);
-                openTypeFonts.Add(CurrentFont);
+                widths.Add(glyph.advanceWidth * font.Size);
             }
+            return widths;
+        }
 
-            for (int i = 0; i < fonts.Count; i++)
-            {
-                for(int j = 0; j < distinctFonts.Count(); j++)
-                {
-                    if (fonts[i] == distinctFonts[j])
-                    {
-                        fontIndexDict.Add(i, openTypeFonts[j]);
-                    }
-                }
-                fontSizes.Add(fonts[i].Size);
-            }
+        public List<string> WrapMultipleTextFragments(List<string> textFragments, List<MeasurementFont> fonts, double maxWidthPoints)
+        {
+            TextParagraph paragraph = new TextParagraph(textFragments, fonts);
 
-            return TextData.WrapMultipleTextFragments(textFragment, fontSizes, fontIndexDict, maxWidthPoints);
+            //Wrap the fragments
+            return TextData.WrapMultipleTextFragments(paragraph, maxWidthPoints);
         }
     }
 }

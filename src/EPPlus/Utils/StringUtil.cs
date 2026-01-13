@@ -149,5 +149,41 @@ namespace OfficeOpenXml.Utils
                 }
             }
         }
+
+        internal static string SanitizeUtf16(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return s;
+
+            var sb = new StringBuilder(s.Length);
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                char c = s[i];
+
+                if (char.IsHighSurrogate(c))
+                {
+                    if (i + 1 < s.Length && char.IsLowSurrogate(s[i + 1]))
+                    {
+                        sb.Append(c);
+                        sb.Append(s[i + 1]);
+                        i++;
+                    }
+                    else
+                    {
+                        sb.Append('\uFFFD');
+                    }
+                }
+                else if (char.IsLowSurrogate(c))
+                {
+                    sb.Append('\uFFFD');
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+
+            return sb.ToString();
+        }
     }
 }

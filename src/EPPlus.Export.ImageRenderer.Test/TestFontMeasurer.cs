@@ -134,8 +134,8 @@ namespace TestProject1
             var wrappedStrings = ttTextMeasurer.MeasureAndWrapText(text, maxPixelWidth);
 
             var curIndex = 0;
-
-            Assert.AreEqual("Lorem", wrappedStrings[curIndex++]);
+                                                                  
+            Assert.AreEqual("Lorem", wrappedStrings[curIndex++]); 
             Assert.AreEqual("ipsum", wrappedStrings[curIndex++]);
             Assert.AreEqual("dolor sit", wrappedStrings[curIndex++]);
             Assert.AreEqual("amet,", wrappedStrings[curIndex++]);
