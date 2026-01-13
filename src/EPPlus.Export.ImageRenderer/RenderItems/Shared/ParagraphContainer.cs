@@ -63,7 +63,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             _hAlign = p.HorizontalAlignment;
 
-            Bounds.X = GetAlignmentHorizontal(_hAlign);
+            Bounds.Left = GetAlignmentHorizontal(_hAlign);
             Bounds.Width = parent.Width - p.RightMargin;
 
             //---Initialize / calculate lines and runs---
@@ -231,7 +231,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         }
 
         internal double GetAlignmentHorizontal(eTextAlignment txAlignment)
-        {
+       {
             var area = Bounds;
             double x = 0;
             switch (txAlignment)
