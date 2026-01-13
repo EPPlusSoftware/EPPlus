@@ -18,7 +18,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// Margin left = X
     /// Margin right = Y
     /// </summary>
-    internal abstract class TextBody<T>: SvgRenderItem where T : ParagraphContainer
+    internal abstract class TextBody: SvgRenderItem
     {
         /// <summary>
         /// Shorthand for Bounds.Width
@@ -34,7 +34,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal eTextAnchoringType VerticalAlignment = eTextAnchoringType.Top;
 
-        internal abstract List<T> Paragraphs { get; set; }
+        internal abstract List<ParagraphContainer> Paragraphs { get; set; }
 
         public bool AllowOverflow;
 
@@ -63,12 +63,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             if (_measurer != null)
             {
-                //Specify type
-                var paragraphType = typeof(T);
-
-                //Create object of type
-                var paragraph = (T)Activator.CreateInstance(paragraphType, Bounds);
-
+                var paragraph = CreateParagraph(Bounds);
                 Paragraphs.Add(paragraph);
 
                 paragraph.AddText(text, measurer);
@@ -84,11 +79,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             var measureFont = item.DefaultRunProperties.GetMeasureFont();
             bool isFirst = Paragraphs.Count == 0;
 
-            //Specify type
-            var paragraphType = typeof(T);
-
-            //Create object of type
-            var paragraph = (T)Activator.CreateInstance(paragraphType, item, Bounds);
+            var paragraph = CreateParagraph(item, Bounds);
 
             paragraph.Bounds.Top = startingY;
 
@@ -204,5 +195,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             il = Bounds.Left; it = Bounds.Top; ir = Bounds.Right; ib = Bounds.Bottom;
         }
+
+        /// <summary>
+        /// Each file format defines its own paragraph
+        /// </summary>
+        /// <returns></returns>
+        internal abstract ParagraphContainer CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent);
+
+        /// <summary>
+        /// Each file format defines its own paragraph
+        /// </summary>
+        /// <returns></returns>
+        internal abstract ParagraphContainer CreateParagraph(BoundingBox parent);
     }
 }

@@ -30,10 +30,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        internal protected override void AddTextRun(ExcelParagraphTextRunBase origTxtRun, string runDisplayString)
-        {
-            AddTextRun<SvgTextRunItem>(origTxtRun, runDisplayString);
-        }
+        //internal protected override void AddTextRun(ExcelParagraphTextRunBase origTxtRun, string runDisplayString)
+        //{
+        //    AddTextRun<SvgTextRunItem>(origTxtRun, runDisplayString);
+        //}
 
         private string GetHorizontalAlignmentAttribute(double indentX)
         {
@@ -113,6 +113,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {
             throw new System.NotImplementedException();
+        }
+
+        internal override TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText)
+        {
+            return new SvgTextRunItem(run, parent, displayText);
         }
     }
 }

@@ -2,19 +2,20 @@
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class SvgTextBodyItem : TextBody<SvgParagraphItem>
+    internal class SvgTextBodyItem : TextBody
     {
         public SvgTextBodyItem(BoundingBox parent) : base(parent)
         {
         }
 
-        internal override List<SvgParagraphItem> Paragraphs { get; set; } = new List<SvgParagraphItem>();
+        internal override List<ParagraphContainer> Paragraphs { get; set; } = new List<ParagraphContainer>();
 
         public override void Render(StringBuilder sb)
         {
@@ -33,6 +34,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {
             throw new NotImplementedException();
+        }
+
+        internal override ParagraphContainer CreateParagraph(BoundingBox parent)
+        {
+            return new SvgParagraphItem(parent);
+        }
+
+        internal override ParagraphContainer CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent)
+        {
+            return new SvgParagraphItem(paragraph, parent);
         }
     }
 }
