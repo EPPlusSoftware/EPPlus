@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal abstract class TextRunRenderItem : RenderItem
+    internal abstract class TextRunItem : RenderItem
     {
         public override RenderItemType Type => RenderItemType.Text;
 
@@ -44,7 +44,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal double LineSpacingPerNewLine { get; set; }
         internal double BaseLineSpacing { get; set; }
 
-        internal TextRunRenderItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "")
+        internal TextRunItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "")
         {
             Bounds.transform.Name = "TextRun";
 

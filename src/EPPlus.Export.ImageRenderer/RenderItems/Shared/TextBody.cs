@@ -18,10 +18,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// Margin left = X
     /// Margin right = Y
     /// </summary>
-    internal abstract class TextBody<T>: RenderItem where T : ParagraphContainer
+    internal abstract class TextBody<T>: SvgRenderItem where T : ParagraphContainer
     {
-        internal string FontColor;
-
         /// <summary>
         /// Shorthand for Bounds.Width
         /// </summary>
@@ -83,8 +81,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public void ImportParagraph(ExcelDrawingParagraph item, double startingY)
         {
-            SetDrawingPropertiesFill(item.DefaultRunProperties.Fill, null);
-
             var measureFont = item.DefaultRunProperties.GetMeasureFont();
             bool isFirst = Paragraphs.Count == 0;
 
@@ -98,7 +94,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             Paragraphs.Add(paragraph);
 
-            paragraph.FillColor = string.IsNullOrEmpty(FontColor) ? item.DefaultRunProperties.Fill.Color.Name : FontColor;
+            paragraph.SetDrawingPropertiesFill(item.DefaultRunProperties.Fill, null);
 
             paragraph.Bounds.transform.Name = $"Container{Paragraphs.Count}";
         }

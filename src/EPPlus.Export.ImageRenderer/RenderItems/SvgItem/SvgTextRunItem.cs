@@ -11,7 +11,7 @@ using OfficeOpenXml.Style;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class SvgTextRunItem : TextRunRenderItem
+    internal class SvgTextRunItem : TextRunItem
     {
         public SvgTextRunItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "") : base(run, parent, displayText)
         {

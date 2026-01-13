@@ -1,6 +1,7 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Graphics;
+using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public override void Render(StringBuilder sb)
         {
-            sb.AppendLine($"<g transform=\"translate({Bounds.GlobalX},{Bounds.GlobalY})\" >");
+            sb.AppendLine($"<g transform=\"translate({Bounds.GlobalX},{Bounds.GlobalY})\" ");
+            base.Render(sb);
+            sb.Append(" >");
             sb.AppendLine($"<title>");
             sb.AppendLine($"txtBody");
             sb.AppendLine("</title>");
@@ -61,6 +64,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             //}
             //shapeRoot.AddChildElement(textBodyGroup);
+        }
+
+        internal override SvgRenderItem Clone(SvgShape svgDocument)
+        {
+            throw new NotImplementedException();
         }
     }
 }

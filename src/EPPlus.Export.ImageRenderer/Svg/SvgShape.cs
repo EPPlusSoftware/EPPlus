@@ -108,8 +108,8 @@ namespace EPPlusImageRenderer.Svg
         private void LoadTextBox()
         {
             textBody.ImportTextBody(_shape.TextBody);
-            string color = "#" + GetFontColor();
-            textBody.FontColor = color;
+            //string color = "#" + GetFontColor();
+            //textBody.FillColor = color;
 
             //textBody.VerticalAlignment = _shape.TextAnchoring;
             //textBody.WrapText = _shape.TextBody.WrapText != eTextWrappingType.None;
@@ -348,7 +348,7 @@ namespace EPPlusImageRenderer.Svg
             //Render the inner area
             insetTextBox.Render(sb);
 
-            //Reset variables so that the rendering of children aren't affected
+            //Reset variables so that the rendering of children later aren't affected
             insetTextBox.Bounds.Left = l;
             insetTextBox.Bounds.Top = t;
             insetTextBox.Bounds.Right = r;

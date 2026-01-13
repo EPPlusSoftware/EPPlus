@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal abstract class ParagraphContainer : RenderItem
+    internal abstract class ParagraphContainer : SvgRenderItem
     {
         ITextMeasurerWrap _measurer;
 
@@ -36,7 +36,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal List<FontWrapContainer> Runs = new List<FontWrapContainer>();
         TextFragmentCollection _textFragments;
-        internal List<TextRunRenderItem> _textRunItems;
+        internal List<TextRunItem> _textRunItems;
 
         internal protected MeasurementFont _paragraphFont;
 
@@ -67,7 +67,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Bounds.Width = parent.Width - p.RightMargin;
 
             //---Initialize / calculate lines and runs---
-            //measurer be set before InitializeLinesAndRichText
+            //measurer must be set before InitializeLinesAndRichText
 
             _measurer = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
             _paragraphFont = p.DefaultRunProperties.GetMeasureFont();
@@ -82,7 +82,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _lsType = p.LineSpacing.LineSpacingType;
             ParagraphLineSpacing = GetParagraphLineSpacingInPixels(p.LineSpacing.Value, _measurer);
 
-            _textRunItems = new List<TextRunRenderItem>();
+            _textRunItems = new List<TextRunItem>();
         }
 
         private double GetParagraphLineSpacingInPixels(double spacingValue, ITextMeasurerWrap fmExact)
@@ -121,7 +121,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         /// <param name="origTxtRun"></param>
         /// <param name="runDisplayString"></param>
-        internal protected void AddTextRun<T>(ExcelParagraphTextRunBase origTxtRun, string runDisplayString) where T : TextRunRenderItem
+        internal protected void AddTextRun<T>(ExcelParagraphTextRunBase origTxtRun, string runDisplayString) where T : TextRunItem
         {
             var maxWidth = Bounds.Width;
 
