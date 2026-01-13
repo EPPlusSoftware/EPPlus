@@ -79,14 +79,14 @@ namespace EPPlusImageRenderer.Svg
                     if (shapeDef.TextBoxRect != null)
                     {
                         insetTextBox = new SvgRenderRectItem(_shape);
-                        insetTextBox.X = (float)shapeDef.TextBoxRect.LeftValue;
-                        insetTextBox.Y = (float)shapeDef.TextBoxRect.TopValue;
+                        insetTextBox.Bounds.Left = (float)shapeDef.TextBoxRect.LeftValue;
+                        insetTextBox.Bounds.Top = (float)shapeDef.TextBoxRect.TopValue;
                         insetTextBox.FillOpacity = 0.3d;
 
                         if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
                         {
-                            insetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue - insetTextBox.X;
-                            insetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue - insetTextBox.Y;
+                            insetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue - (float)shapeDef.TextBoxRect.LeftValue;
+                            insetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue - (float)shapeDef.TextBoxRect.TopValue;
                         }
                         else
                         {
@@ -99,55 +99,10 @@ namespace EPPlusImageRenderer.Svg
                         insetTextBox = null;
                     }
 
-                    textBody = GetTextBox();
-                    LoadTextBox();
+                    textBody = CreateTextBodyItem();
+                    textBody.ImportTextBody(_shape.TextBody);
                 }
             }
-        }
-
-        private void LoadTextBox()
-        {
-            textBody.ImportTextBody(_shape.TextBody);
-            //string color = "#" + GetFontColor();
-            //textBody.FillColor = color;
-
-            //textBody.VerticalAlignment = _shape.TextAnchoring;
-            //textBody.WrapText = _shape.TextBody.WrapText != eTextWrappingType.None;
-            //var fontMeasurer = (FontMeasurerTrueType)_shape._drawings._package.Settings.TextSettings.GenericTextMeasurerTrueType;
-
-            ////Make width the doc width if meant to overflow
-            //if (_shape.TextBody.HorizontalTextOverflow == eTextHorizontalOverflow.Overflow)
-            //{
-            //    textBody.Width = Size.Width;
-            //}
-
-            //string color = "#" + GetFontColor();
-            //textBody.fontColor = color;
-
-            //var totalText = _shape.Text;
-            //List<List<double>> charAdvanceWidths = new List<List<double>>();
-            //var txtRunIndicies = LineFormatter.GetTextRunIndiciesAndWidths(_shape.TextBody, out charAdvanceWidths);
-
-            ////List<string> substrings = new List<string>();
-            ////int lastIndex = 0;
-
-            ////List<char> startingChars = new List<char>();
-            ////foreach (var index in txtRunIndicies)
-            ////{
-            ////    startingChars.Add(totalText[index]);
-            ////}
-            ////foreach( var txtRun in txtRunIndicies )
-            ////{
-            ////    substrings.Add(totalText.Substring(lastIndex, txt))
-            ////}
-            ////var substrings = _shape.Text.Substring();
-
-
-            ////Paragraph level begins
-            //foreach (var paragraph in _shape.TextBody.Paragraphs)
-            //{
-            //    textBody.ImportParagraph(paragraph);
-            //}
         }
 
         protected void AddFromPaths(DrawingPath path, bool drawFill = true, bool drawBorder = true)
@@ -278,25 +233,7 @@ namespace EPPlusImageRenderer.Svg
             sb.AppendLine("</svg>");
         }
 
-        private string GetFontColor()
-        {
-            string color;
-
-            if (_shape.Font.Fill.Style == eFillStyle.SolidFill)
-            {
-                var c = TypeConv.ColorConverter.GetThemeColor(_shape.Font.Fill.SolidFill.Color);
-                color = ((uint)c.ToArgb()).ToString("x").Substring(2, 6);
-            }
-            else
-            {
-                var c = TypeConv.ColorConverter.GetThemeColor(_wb.ThemeManager.CurrentTheme, _shape.ThemeStyles.FontReference.Color);
-                color = ((uint)c.ToArgb()).ToString("x").Substring(2, 6);
-            }
-
-            return color;
-        }
-
-        SvgTextBodyItem GetTextBox()
+        SvgTextBodyItem CreateTextBodyItem()
         {
             if (insetTextBox == null)
             {
@@ -311,15 +248,6 @@ namespace EPPlusImageRenderer.Svg
             var txtBodyItem = new SvgTextBodyItem(insetTextBox.Bounds);
 
             return txtBodyItem;
-        }
-
-        private void GetFontNameAndSize(ExcelFont nsFont, out string fontName, out double fontSize)
-        {
-            fontName = string.IsNullOrEmpty(_shape.Font.LatinFont) ? _shape.Font.ComplexFont : _shape.Font.LatinFont;
-
-            fontSize = _shape.Font.Size;
-            if (string.IsNullOrEmpty(fontName)) fontName = nsFont?.Name ?? _theme.FontScheme.MajorFont.First().Typeface;
-            if (fontSize <= 0 && nsFont != null) fontSize = nsFont.Size;
         }
 
         private void RenderText(StringBuilder sb)

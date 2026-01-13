@@ -83,43 +83,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         //    return ret;
         //}
 
-
-        //public void BaseRender(StringBuilder sb)
-        //{
-        //    if (string.IsNullOrEmpty(FillColor) == false)
-        //    {
-        //        sb.Append($"fill=\"{FillColor}\" ");
-        //        if (FillOpacity != null && FillOpacity != 1)
-        //        {
-        //            sb.Append($"opacity=\"{FillOpacity.Value.ToString(CultureInfo.InvariantCulture)}\" ");
-        //        }
-        //    }
-        //    if (string.IsNullOrEmpty(FilterName) == false)
-        //    {
-        //        sb.Append($"filter=\"{FilterName}\" ");
-        //    }
-
-        //    if (BorderWidth.HasValue && string.IsNullOrEmpty(BorderColor) == false)
-        //    {
-        //        sb.Append($"stroke=\"{BorderColor}\" ");
-        //    }
-        //    if (BorderWidth.HasValue)
-        //    {
-        //        var v = BorderWidth.Value * ExcelDrawing.EMU_PER_POINT / ExcelDrawing.EMU_PER_PIXEL;
-        //        sb.Append($"stroke-width=\"{v.ToString(CultureInfo.InvariantCulture)}\" ");
-
-        //        if (BorderDashArray != null)
-        //        {
-        //            var BorderDashArrayStr = BorderDashArray.Select(x =>
-        //            x.ToString(CultureInfo.InvariantCulture)).ToArray();
-
-        //            sb.Append($"stroke-dasharray=\"" + $"{string.Join(",", BorderDashArrayStr)}\" ");
-        //        }
-        //    }
-
-        //    sb.Append($"stroke-miterlimit =\"8\" ");
-        //}
-
         public override void Render(StringBuilder sb)
         {
             var fontSize = _paragraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
@@ -148,68 +111,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             sb.AppendLine("</text>");
             sb.AppendLine("</g>");
-
-            //var paragraphGroup = new SvgElement("g");
-            //paragraphGroup.AddAttribute("transform", $"translate({Bounds.X},{Bounds.Y})");
-
-            //var paragraphTitle = new SvgElement("title");
-            //paragraphTitle.Content = "paragraph";
-            ////paragraphTitle.Content = "Paragraph " + paragraphCount.ToString();
-            //paragraphGroup.AddChildElement(paragraphTitle);
-
-            //var paragraphElement = new SvgElement("text");
-            //paragraphElement.AddAttribute("y", _paragraphFont.Size.PointToPixel());
-            //paragraphElement.AddAttribute("font-size", $"{_paragraphFont.Size.PointToPixel()}px");
-            ////paragraphElement.AddAttribute("clip-path", $"url(#{nameId})");
-
-            ////paragraphGroup.AddChildElement(paragraphElement);
-
-            //sb.AppendLine(RenderSvgElement(paragraphElement));
-
-            //foreach (var run in _textRunItems)
-            //{
-            //    run.Render(sb);
-            //}
-
-            //foreach(var run in _textRunItems)
-            //{
-            //    var bbVisual = new SvgElement("rect");
-            //    bbVisual.AddAttribute("x", run.Bounds.X);
-            //    bbVisual.AddAttribute("y", run.Bounds.Y);
-            //    bbVisual.AddAttribute("width", run.Bounds.Width);
-            //    bbVisual.AddAttribute("height", run.Bounds.Height);
-            //    bbVisual.AddAttribute("fill", "blue");
-            //    bbVisual.AddAttribute("opacity", "0.5");
-            //    sb.AppendLine(RenderSvgElement(bbVisual));
-            //    sb.AppendLine("</rect>");
-            //}
-
-            //sb.AppendLine("</g>");
         }
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {
             throw new System.NotImplementedException();
         }
-
-        //public override void Render(SvgElement textBodyGroup, int paragraphCount, string nameId)
-        //{
-        //    var paragraphGroup = new SvgElement("g");
-        //    paragraphGroup.AddAttribute("transform", $"translate({Bounds.X},{Bounds.Y})");
-
-        //    var paragraphTitle = new SvgElement("title");
-        //    paragraphTitle.Content = "Paragraph " + paragraphCount.ToString();
-        //    paragraphGroup.AddChildElement(paragraphTitle);
-
-        //    var paragraphElement = new SvgElement("text");
-        //    paragraphElement.AddAttribute("y", _paragraphFont.Size.PointToPixel());
-        //    paragraphElement.AddAttribute("font-size", $"{_paragraphFont.Size.PointToPixel()}px");
-        //    paragraphElement.AddAttribute("clip-path", $"url(#{nameId})");
-
-        //    paragraphGroup.AddChildElement(paragraphElement);
-
-
-        //    textBodyGroup.AddChildElement(paragraphGroup);
-        //}
     }
 }

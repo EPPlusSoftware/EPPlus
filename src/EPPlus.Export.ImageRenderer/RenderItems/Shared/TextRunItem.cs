@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal abstract class TextRunItem : RenderItem
+    internal abstract class TextRunItem : SvgRenderItem
     {
         public override RenderItemType Type => RenderItemType.Text;
 
@@ -155,69 +155,5 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             return width;
         }
-
-        //public override void Render(StringBuilder sb)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //internal void CalculateTextWrapping(double maxWidth)
-        //{
-        //    List<string> NewContentLines = new List<string>();
-        //    _measurer.SetFont(_measurementFont);
-        //    var newLines = _measurer.MeasureAndWrapText(originalText, _measurementFont, maxWidth);
-        //    Lines = newLines;
-        //}
-
-        //internal void CreateLines()
-        //{
-        //    //string finalString = "";
-
-        //    //Lines = SplitIntoLines(currentText);
-
-        //    //foreach (var line in Lines)
-        //    //{
-        //    //    //    //Despite new textrun it could still be on the same line as previous textrun
-        //    //    //    //Therefore only do line increase if we are first in paragraph or if we are not Lines[0].
-        //    //    //    //This as line == Lines[0] && isFirstInParagraph == false means we are continuing on the same line as previous textRun
-        //    //    //    //This is important if for example we have rich text where two letters on the same line has different colors.
-        //    //    //    if (line != Lines[0] | isFirstInParagraph)
-        //    //    //    {
-        //    //    //        var yIncrease = /*isFirstInParagraph && useBaselineSpacing ? BaselineSpacing : LineSpacingPerNewLine;*/
-        //    //    //        isFirstInParagraph = false;
-
-        //    //    //    //    yIncrease = EPPlus.Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
-
-        //    //    //    //    _yEndPos += yIncrease;
-        //    //    //    //    if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
-        //    //    //    //    {
-        //    //    //    //        visibility = "display=\"none\"";
-        //    //    //    //    }
-
-        //    //    //    //    var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
-        //    //    //    //    var xString = $"x =\"{(_xPosition).ToString(CultureInfo.InvariantCulture)}\" ";
-        //    //    //    //    var dyString = $"dy =\"{yIncreaseString}px\" ";
-        //    //    //    //    finalString += xString;
-        //    //    //    //    finalString += dyString;
-        //    //    //    //}
-
-        //    //    //    //finalString += $"{visibility} " + $"{fontStyleAttributes} ";
-        //    //    //    //if (measurementFont != null)
-        //    //    //    //{
-        //    //    //    //    finalString += $" font-family=\"{measurementFont.FontFamily},"
-        //    //    //    //        + $"{measurementFont.FontFamily}_MSFontService,sans-serif\" "
-        //    //    //    //        + $"font-size=\"{fontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
-        //    //    //    //}
-        //    //    //    //sb.Append(finalString);
-        //    //    //    ////Get color etc.
-        //    //    //    //base.Render(sb);
-        //    //    //    //finalString = "";
-
-        //    //    //    //finalString += ">";
-        //    //    //    //finalString += line;
-        //    //    //    //finalString += "</tspan>";
-        //    //    //}
-        //    //}
-        //}
     }
 }

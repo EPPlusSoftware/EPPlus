@@ -1,11 +1,9 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
@@ -32,38 +30,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 item.Render(sb);
             }
             sb.AppendLine("</g>");
-
-            //var textBodyGroup = new SvgElement("g");
-            //textBodyGroup.AddAttribute("transform", $"translate({Bounds.X},{Bounds.Y})");
-
-            //var txtBodyTitle = new SvgElement("title");
-            //txtBodyTitle.Content = "txtBody";
-            //textBodyGroup.AddChildElement(txtBodyTitle);
-
-
-            //var txBodyVisual = new SvgElement("use");
-            //txBodyVisual.AddAttribute("href", "#defaultRect");
-            //txBodyVisual.AddAttribute("fill", "green");
-            //txBodyVisual.AddAttribute("opacity", "0.5");
-
-            //textBodyGroup.AddChildElement(txBodyVisual);
-
-            //var str = RenderSvgElement(textBodyGroup);
-
-            //sb.AppendLine(str);
-
-            //foreach (var item in Paragraphs)
-            //{
-            //    item.Render(sb);
-            //}
-
-            //sb.AppendLine("</g>");
-
-            //foreach(var paragraph in Paragraphs)
-            //{
-
-            //}
-            //shapeRoot.AddChildElement(textBodyGroup);
         }
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)

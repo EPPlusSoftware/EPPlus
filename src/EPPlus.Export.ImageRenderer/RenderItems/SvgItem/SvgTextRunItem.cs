@@ -1,13 +1,12 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Graphics;
 using OfficeOpenXml.Drawing;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using OfficeOpenXml.Style;
+using EPPlusImageRenderer.RenderItems;
+using EPPlusImageRenderer.Svg;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -16,19 +15,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public SvgTextRunItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "") : base(run, parent, displayText)
         {
         }
-
-        //public override void Render(StringBuilder sb)
-        //{
-        //    var runElement = new SvgElement("tspan");
-        //    runElement.AddAttribute("x", Bounds.X);
-        //    runElement.AddAttribute("y", Bounds.Y + FontSizeInPixels);
-        //    runElement.AddAttribute("font-size", $"{FontSizeInPixels}px");
-
-        //    runElement.Content = _currentText;
-        //    var retStr = RenderSvgElement(runElement);
-        //    sb.AppendLine(retStr);
-        //    sb.AppendLine("</tspan>");
-        //}
 
         string GetFontStyleAttributes()
         {
@@ -89,47 +75,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             return fontStyleAttributes;
         }
 
-        public void BaseRender(StringBuilder sb)
-        {
-            if (string.IsNullOrEmpty(FillColor) == false)
-            {
-                sb.Append($"fill=\"{FillColor}\" ");
-                if (FillOpacity != null && FillOpacity != 1)
-                {
-                    sb.Append($"opacity=\"{FillOpacity.Value.ToString(CultureInfo.InvariantCulture)}\" ");
-                }
-            }
-            if (string.IsNullOrEmpty(FilterName) == false)
-            {
-                sb.Append($"filter=\"{FilterName}\" ");
-            }
-
-            if (BorderWidth.HasValue && string.IsNullOrEmpty(BorderColor) == false)
-            {
-                sb.Append($"stroke=\"{BorderColor}\" ");
-            }
-            if (BorderWidth.HasValue)
-            {
-                var v = BorderWidth.Value * ExcelDrawing.EMU_PER_POINT / ExcelDrawing.EMU_PER_PIXEL;
-                sb.Append($"stroke-width=\"{v.ToString(CultureInfo.InvariantCulture)}\" ");
-
-                if (BorderDashArray != null)
-                {
-                    var BorderDashArrayStr = BorderDashArray.Select(x =>
-                    x.ToString(CultureInfo.InvariantCulture)).ToArray();
-
-                    sb.Append($"stroke-dasharray=\"" + $"{string.Join(",", BorderDashArrayStr)}\" ");
-                }
-            }
-
-            sb.Append($"stroke-miterlimit =\"8\"");
-        }
-
         public override void Render(StringBuilder sb)
         {
             string finalString = "";
-            //bool useBaselineSpacing = double.IsNaN(BaselineSpacing) == false;
-            //Lines = SplitIntoLines(currentText);
 
             foreach (var line in Lines)
             {
@@ -144,7 +92,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     var yIncrease = _isFirstInParagraph ? BaseLineSpacing : LineSpacingPerNewLine;
                     _isFirstInParagraph = false;
 
-                    yIncrease = EPPlus.Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
+                    yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
 
                     //_yEndPos += yIncrease;
                     //if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
@@ -170,7 +118,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                 //Get color etc.
                 //Renders up until this point
-                BaseRender(sb);
+                base.Render(sb);
                 //Since final string has been written erase it.
                 finalString = "";
 
@@ -180,13 +128,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
 
             sb.Append(finalString);
-            //////throw new NotImplementedException();
-            //foreach (var line in Lines)
-            //{
-            //    sb.AppendLine($"<tspan x=\"{Bounds.X}\" y=\"{Bounds.Y + FontSizeInPixels}\" font-size=\"{FontSizeInPixels}px\" >");
-            //    sb.AppendLine(line);
-            //    sb.AppendLine("</tspan>");
-            //}
+        }
+
+        internal override SvgRenderItem Clone(SvgShape svgDocument)
+        {
+            throw new NotImplementedException();
         }
     }
 }
