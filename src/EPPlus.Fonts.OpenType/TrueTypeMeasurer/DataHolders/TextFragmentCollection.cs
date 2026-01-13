@@ -97,7 +97,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         private List<int> GetFirstCharPositionOfNewLines(string stringsCombined)
         {
             List<int> positions = new List<int>();
-            for (int i = 0; i < stringsCombined.Count(); i++)
+            for (int i = 0; i < stringsCombined.Length; i++)
             {
                 if (stringsCombined[i] == '\n')
                 {
