@@ -63,15 +63,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts
         private static ScriptTable LoadScriptTable(FontsBinaryReader reader)
         {
             long scriptTableStart = reader.BaseStream.Position;
-            System.Diagnostics.Debug.WriteLine($"LoadScriptTable: Start at position {scriptTableStart}");
 
             var scriptTable = new ScriptTable();
             ushort defaultLangSysOffset = reader.ReadUInt16BigEndian();
             scriptTable.DefaultLangSysOffset = defaultLangSysOffset;
             ushort langSysCount = reader.ReadUInt16BigEndian();
-
-            System.Diagnostics.Debug.WriteLine($"  DefaultLangSysOffset: {defaultLangSysOffset}");
-            System.Diagnostics.Debug.WriteLine($"  LangSysCount: {langSysCount}");
 
             var recordsToLoad = new Dictionary<uint, ushort>();
             for (int i = 0; i < langSysCount; i++)
@@ -82,11 +78,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts
                 if (!recordsToLoad.ContainsKey(langSysTag))
                 {
                     recordsToLoad.Add(langSysTag, langSysOffset);
-                    System.Diagnostics.Debug.WriteLine($"  Added LangSys: tag={langSysTag}, offset={langSysOffset}");
-                }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine($"  ⚠️ SKIPPED DUPLICATE: tag={langSysTag}, offset={langSysOffset}");
                 }
             }
 
@@ -97,16 +88,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts
             if (defaultLangSysOffset > 0)
             {
                 long langSysAbsoluteStart = scriptTableStart + defaultLangSysOffset;
-                System.Diagnostics.Debug.WriteLine($"  Loading default LangSys at {langSysAbsoluteStart}");
                 scriptTable.DefaultLangSys = langSysDeserializer.Deserialize(langSysAbsoluteStart);
             }
 
             // Load other LangSys records
-            System.Diagnostics.Debug.WriteLine($"  Loading {recordsToLoad.Count} LangSys records...");
             foreach (var kvp in recordsToLoad)
             {
                 long langSysAbsoluteStart = scriptTableStart + kvp.Value;
-                System.Diagnostics.Debug.WriteLine($"    Loading LangSys tag={kvp.Key} at {langSysAbsoluteStart}");
 
                 var langSysTable = langSysDeserializer.Deserialize(langSysAbsoluteStart);
 
@@ -118,7 +106,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts
             }
 
             reader.BaseStream.Seek(positionAfterRecords, SeekOrigin.Begin);
-            System.Diagnostics.Debug.WriteLine($"LoadScriptTable: Done, seeking back to {positionAfterRecords}");
 
             return scriptTable;
         }

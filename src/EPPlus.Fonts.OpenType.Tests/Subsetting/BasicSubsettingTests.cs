@@ -13,6 +13,7 @@
 using EPPlus.Fonts.OpenType.FontValidation;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4;
+using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
 using System.Diagnostics;
 using System.IO;
@@ -142,6 +143,147 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             Assert.IsNotNull(parsedFont);
             Assert.IsTrue(parsedFont.MaxpTable.numGlyphs > 0);
         }
+
+        [TestMethod]
+        public void Check_Original_Roboto_Ligatures()
+        {
+            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false);
+
+            // Get glyph IDs in ORIGINAL
+            font.CmapTable.TryGetGlyphId('f', out ushort fGlyph);
+            font.CmapTable.TryGetGlyphId('i', out ushort iGlyph);
+            font.CmapTable.TryGetGlyphId('o', out ushort oGlyph);
+            font.CmapTable.TryGetGlyphId('g', out ushort gGlyph);
+
+            Debug.WriteLine("=== ORIGINAL ROBOTO ===");
+            Debug.WriteLine($"'f' = glyph {fGlyph}");
+            Debug.WriteLine($"'i' = glyph {iGlyph}");
+            Debug.WriteLine($"'o' = glyph {oGlyph}");
+            Debug.WriteLine($"'g' = glyph {gGlyph}");
+
+            Debug.WriteLine("\n=== ORIGINAL LIGATURES ===");
+            var ligLookups = font.GsubTable.LookupList.Lookups.Where(l => l.LookupType == 4).ToList();
+
+            foreach (var lookup in ligLookups)
+            {
+                foreach (var subtable in lookup.SubTables)
+                {
+                    var ligSubtable = subtable as LigatureSubstSubTable;
+                    if (ligSubtable != null && ligSubtable.LigatureSets.ContainsKey(fGlyph))
+                    {
+                        var ligSet = ligSubtable.LigatureSets[fGlyph];
+                        Debug.WriteLine($"First glyph {fGlyph} ('f') has {ligSet.Ligatures.Count} ligatures:");
+
+                        foreach (var lig in ligSet.Ligatures)
+                        {
+                            var componentIds = string.Join(", ", lig.Components.Select(c => c.ToString()).ToArray());
+                            Debug.WriteLine($"  Output: {lig.LigatureGlyph}, Components: [{componentIds}]");
+                        }
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
+        public void Subset_Ligatures_ShouldStillWork()
+        {
+            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false);
+
+            // Check ORIGINAL first
+            Debug.WriteLine("=== ORIGINAL ROBOTO ===");
+            if (font.GsubTable != null)
+            {
+                var origLigLookups = font.GsubTable.LookupList.Lookups.Where(l => l.LookupType == 4).ToList();
+                Debug.WriteLine($"Original has {origLigLookups.Count} ligature lookups");
+
+                font.CmapTable.TryGetGlyphId('f', out ushort origF);
+                Debug.WriteLine($"'f' = glyph {origF} in original");
+
+                foreach (var lookup in origLigLookups)
+                {
+                    foreach (var subtable in lookup.SubTables)
+                    {
+                        var ligSubtable = subtable as LigatureSubstSubTable;
+                        if (ligSubtable != null && ligSubtable.LigatureSets.ContainsKey(origF))
+                        {
+                            var ligSet = ligSubtable.LigatureSets[origF];
+                            Debug.WriteLine($"  'f' has {ligSet.Ligatures.Count} ligatures in original");
+                        }
+                    }
+                }
+            }
+
+            // Create subset
+            Debug.WriteLine("\n=== CREATING SUBSET ===");
+            var subsetFont = font.CreateSubset("fiffigoffice");
+
+            var serializer = new OpenTypeFontSerializer(subsetFont);
+            var bytes = serializer.Serialize();
+            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+
+            SaveFont("subset_Roboto_ligatures_test.ttf", parsedFont);
+
+            Debug.WriteLine("\n=== SUBSET FONT ===");
+            Debug.WriteLine($"Total glyphs: {parsedFont.MaxpTable.numGlyphs}");
+
+            parsedFont.CmapTable.TryGetGlyphId('f', out ushort subsetF);
+            parsedFont.CmapTable.TryGetGlyphId('i', out ushort subsetI);
+            Debug.WriteLine($"'f' = glyph {subsetF}");
+            Debug.WriteLine($"'i' = glyph {subsetI}");
+
+            // Check GSUB
+            Assert.IsNotNull(parsedFont.GsubTable, "GSUB should be present");
+
+            Debug.WriteLine($"\n=== GSUB FEATURES (DETAILED) ===");
+            foreach (var feature in parsedFont.GsubTable.FeatureList.FeatureRecords)
+            {
+                int lookupCount = feature.FeatureTable?.LookupListIndices?.Length ?? 0;
+                Debug.WriteLine($"Feature: '{feature.FeatureTag.Value}', Lookups: {lookupCount}");
+            }
+
+            var ligLookups = parsedFont.GsubTable.LookupList.Lookups
+                .Where(l => l.LookupType == 4)
+                .ToList();
+
+            Debug.WriteLine($"\n=== LIGATURE LOOKUPS ===");
+            Debug.WriteLine($"Found {ligLookups.Count} ligature lookups");
+
+            Assert.IsTrue(ligLookups.Count > 0, "Should have ligature lookups");
+
+            // Check what ligatures exist
+            foreach (var lookup in ligLookups)
+            {
+                foreach (var subtable in lookup.SubTables)
+                {
+                    var ligSubtable = subtable as LigatureSubstSubTable;
+                    if (ligSubtable != null)
+                    {
+                        Debug.WriteLine($"\nLigature subtable has {ligSubtable.LigatureSets.Count} sets");
+
+                        if (ligSubtable.LigatureSets.ContainsKey(subsetF))
+                        {
+                            var ligSet = ligSubtable.LigatureSets[subsetF];
+                            Debug.WriteLine($"'f' (glyph {subsetF}) has {ligSet.Ligatures.Count} ligatures:");
+
+                            foreach (var lig in ligSet.Ligatures)
+                            {
+                                var componentIds = string.Join(", ", lig.Components.Select(c => c.ToString()).ToArray());
+                                Debug.WriteLine($"  Output: {lig.LigatureGlyph}, Components: [{componentIds}]");
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"'f' (glyph {subsetF}) NOT FOUND in LigatureSets!");
+                            Debug.WriteLine($"Available first glyphs: {string.Join(", ", ligSubtable.LigatureSets.Keys.Select(k => k.ToString()).ToArray())}");
+                        }
+                    }
+                }
+            }
+
+            FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
+        }
+
+
 
         [TestMethod]
         public void Subset_WithGposKerning_ShouldPreservePositioning()

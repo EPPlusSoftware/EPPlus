@@ -202,8 +202,6 @@ namespace EPPlus.Fonts.OpenType
                     }
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine(
-                            $"[OpenTypeFonts] CreateFromFace returned null for: {face.FilePath} [TTC offset: {face.OffsetInFile}]");
                         failures++;
                     }
                 }
@@ -217,9 +215,6 @@ namespace EPPlus.Fonts.OpenType
                 {
                     // These are expected for corrupt or inaccessible fonts
                     failures++;
-                    System.Diagnostics.Debug.WriteLine(
-                        $"[OpenTypeFonts] Failed to load font (skipped): {face.FilePath} [TTC offset: {face.OffsetInFile}]\r\n" +
-                        $"  Exception: {ex.GetType().Name}: {ex.Message}");
                 }
                 catch (Exception ex)
                 {

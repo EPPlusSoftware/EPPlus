@@ -27,18 +27,20 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.IO
         public LigatureTable Deserialize(long startIndex)
         {
             _reader.BaseStream.Seek(startIndex, SeekOrigin.Begin);
-
             LigatureTable ligTable = new LigatureTable();
 
             // USHORT LigatureGlyph (output)
             ligTable.LigatureGlyph = _reader.ReadUInt16BigEndian();
 
-            // USHORT ComponentCount (number of components following BaseGlyph)
+            // USHORT ComponentCount (total glyphs including first)
             ushort componentCount = _reader.ReadUInt16BigEndian();
 
-            // USHORT[] ComponentGlyphIDs
-            ligTable.Components = new ushort[componentCount];
-            for (int i = 0; i < componentCount; i++)
+            // ✅ FIX: Components array has (componentCount - 1) elements
+            // because first glyph is implicit in LigatureSet
+            int arrayLength = componentCount - 1;
+            ligTable.Components = new ushort[arrayLength];
+
+            for (int i = 0; i < arrayLength; i++)
             {
                 ligTable.Components[i] = _reader.ReadUInt16BigEndian();
             }

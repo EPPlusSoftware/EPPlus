@@ -183,50 +183,5 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Handlers
                 PairValueRecords = newRecords
             };
         }
-
-        /// <summary>
-        /// Filters a coverage table to only included glyphs and remaps IDs.
-        /// </summary>
-        private CoverageTable FilterCoverage(FontSubsettingContext context, CoverageTable original)
-        {
-            if (original == null)
-                return null;
-
-            var includedGlyphs = new List<ushort>();
-
-            // Iterate through all glyphs in original coverage
-            for (ushort oldGlyphId = 0; oldGlyphId < 65535; oldGlyphId++)
-            {
-                if (original.GetGlyphIndex(oldGlyphId) >= 0)
-                {
-                    // This glyph is in coverage - check if included in subset
-                    if (context.OldToNewGlyphId.TryGetValue(oldGlyphId, out ushort newGlyphId))
-                    {
-                        includedGlyphs.Add(newGlyphId);
-                    }
-                }
-            }
-
-            if (includedGlyphs.Count == 0)
-                return null;
-
-            return CreateCoverageFromGlyphs(includedGlyphs);
-        }
-
-        /// <summary>
-        /// Creates a Coverage Format 1 table from a list of glyph IDs.
-        /// </summary>
-        private CoverageTable CreateCoverageFromGlyphs(List<ushort> glyphIds)
-        {
-            // Sort glyphs for Coverage Format 1
-            glyphIds.Sort();
-
-            return new CoverageTableFormat1
-            {
-                CoverageFormat = 1,
-                GlyphCount = (ushort)glyphIds.Count,
-                GlyphArray = glyphIds.ToArray()
-            };
-        }
     }
 }

@@ -48,13 +48,9 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             var gsub = context.OriginalFont.GsubTable;
             if (gsub == null) return;
 
-            System.Diagnostics.Debug.WriteLine("=== GSUB DISCOVERY START ===");
-
             // .NET 3.5 compatible sorting
             List<ushort> initialGlyphs = new List<ushort>(context.IncludedGlyphs);
             initialGlyphs.Sort();
-            System.Diagnostics.Debug.WriteLine(string.Format("Initial glyphs: {0}",
-                string.Join(", ", Array.ConvertAll(initialGlyphs.ToArray(), x => x.ToString()))));
 
             int previousGlyphCount;
             int iteration = 0;
@@ -63,38 +59,18 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 iteration++;
                 previousGlyphCount = context.IncludedGlyphs.Count;
 
-                System.Diagnostics.Debug.WriteLine(string.Format("\n--- Iteration {0} ---", iteration));
-
                 foreach (var lookup in gsub.LookupList.Lookups)
                 {
                     int beforeCount = context.IncludedGlyphs.Count;
                     DiscoverLookup(context, lookup);
                     int afterCount = context.IncludedGlyphs.Count;
-
-                    if (afterCount > beforeCount)
-                    {
-                        System.Diagnostics.Debug.WriteLine(string.Format(
-                            "Lookup Type {0} added {1} glyphs (total now: {2})",
-                            lookup.LookupType,
-                            afterCount - beforeCount,
-                            afterCount));
-                    }
                 }
 
-                System.Diagnostics.Debug.WriteLine(string.Format(
-                    "After iteration {0}: {1} glyphs",
-                    iteration,
-                    context.IncludedGlyphs.Count));
-
             } while (context.IncludedGlyphs.Count > previousGlyphCount);
-
-            System.Diagnostics.Debug.WriteLine("\n=== GSUB DISCOVERY END ===");
 
             // .NET 3.5 compatible sorting
             List<ushort> finalGlyphs = new List<ushort>(context.IncludedGlyphs);
             finalGlyphs.Sort();
-            System.Diagnostics.Debug.WriteLine(string.Format("Final glyphs: {0}",
-                string.Join(", ", Array.ConvertAll(finalGlyphs.ToArray(), x => x.ToString()))));
         }
 
         public void Rewrite(FontSubsettingContext context)

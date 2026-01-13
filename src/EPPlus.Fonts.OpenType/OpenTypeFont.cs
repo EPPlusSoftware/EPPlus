@@ -92,13 +92,20 @@ namespace EPPlus.Fonts.OpenType
             _maxpTableLoader = TableLoaders.GetMaxpTableLoader(_tblSettings);
             _postTableLoader = TableLoaders.GetPostTableLoader(_tblSettings);
             _locaTableLoader = TableLoaders.GetLocaTableLoader(_tblSettings);
-            _gsubTableLoader = TableLoaders.GetGsubTableLoader(_tblSettings);
-            _gposTableLoader = TableLoaders.GetGposTableLoader(_tblSettings);
 
-
-            //Common tables in ttf fonts
-            _glyfTableLoader = TableRecords.ContainsKey(TableNames.Glyf) ? TableLoaders.GetGlyfTableLoader(_tblSettings) : null;
-            _kernTableLoader = TableRecords.ContainsKey(TableNames.Kern) ? TableLoaders.GetKernTableLoader(_tblSettings) : null;
+            // ✅ Optional tables - only create loader if table exists
+            _gsubTableLoader = TableRecords.ContainsKey(TableNames.Gsub)
+                ? TableLoaders.GetGsubTableLoader(_tblSettings)
+                : null;
+            _gposTableLoader = TableRecords.ContainsKey(TableNames.Gpos)
+                ? TableLoaders.GetGposTableLoader(_tblSettings)
+                : null;
+            _glyfTableLoader = TableRecords.ContainsKey(TableNames.Glyf)
+                ? TableLoaders.GetGlyfTableLoader(_tblSettings)
+                : null;
+            _kernTableLoader = TableRecords.ContainsKey(TableNames.Kern)
+                ? TableLoaders.GetKernTableLoader(_tblSettings)
+                : null;
         }
 
         Os2TableLoader _os2TableLoader;

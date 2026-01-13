@@ -13,6 +13,8 @@
 using EPPlus.Fonts.OpenType.Subsetting;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
 {
@@ -106,62 +108,62 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
         /// </summary>
         internal LigatureSetTable Rewrite(FontSubsettingContext context)
         {
-            System.Diagnostics.Debug.WriteLine(string.Format("  LigatureSetTable.Rewrite: Processing {0} ligatures",
-                this.Ligatures.Count));
-
             LigatureSetTable newSet = new LigatureSetTable();
 
             foreach (LigatureTable oldLig in this.Ligatures)
             {
-                System.Diagnostics.Debug.WriteLine(string.Format("    Ligature: output={0}, components={1}",
-                    oldLig.LigatureGlyph,
-                    oldLig.Components == null ? "NULL" : string.Join(",", Array.ConvertAll(oldLig.Components, x => x.ToString()))));
-
+                // Check if ligature output glyph is in subset
                 if (!context.OldToNewGlyphId.TryGetValue(oldLig.LigatureGlyph, out ushort newTargetGid))
                 {
-                    System.Diagnostics.Debug.WriteLine(string.Format("      ❌ Target glyph {0} not in mapping", oldLig.LigatureGlyph));
                     continue;
                 }
 
-                System.Diagnostics.Debug.WriteLine(string.Format("      ✅ Target glyph {0} → {1}", oldLig.LigatureGlyph, newTargetGid));
-
                 var newComponents = new List<ushort>();
                 bool allComponentsMapped = true;
+                int baseCharacterCount = 0; // Track how many base characters we found
+
+                Debug.WriteLine($"\n=== Rewriting ligature: output={oldLig.LigatureGlyph} ===");
+                Debug.WriteLine($"Original components: [{string.Join(", ", oldLig.Components.Select(c => c.ToString()).ToArray())}]");
 
                 foreach (var oldCompGid in oldLig.Components)
                 {
-                    // ✅ FIX: Ignorera ligatur-komponenter (>= 400), bara mappa base characters
                     if (oldCompGid >= 400)
                     {
-                        System.Diagnostics.Debug.WriteLine(string.Format("        Component {0} is ligature, skipping", oldCompGid));
-                        continue; // Skippa ligatur-komponenter
+                        Debug.WriteLine($"  SKIP ligature component: {oldCompGid}");
+                        continue;
                     }
+
+                    baseCharacterCount++;
 
                     if (context.OldToNewGlyphId.TryGetValue(oldCompGid, out ushort newCompGid))
                     {
+                        Debug.WriteLine($"  MAP base character: {oldCompGid} → {newCompGid}");
                         newComponents.Add(newCompGid);
-                        System.Diagnostics.Debug.WriteLine(string.Format("        Component {0} → {1}", oldCompGid, newCompGid));
                     }
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine(string.Format("        ❌ Component {0} NOT FOUND", oldCompGid));
+                        Debug.WriteLine($"  MISSING in subset: {oldCompGid}");
                         allComponentsMapped = false;
                         break;
                     }
                 }
 
-                if (allComponentsMapped)
+                Debug.WriteLine($"Result components: [{string.Join(", ", newComponents.Select(c => c.ToString()).ToArray())}]");
+
+                // ✅ CRITICAL: Only add ligature if:
+                // 1. All required components mapped successfully
+                // 2. We have at least one base character component
+                //    (prevents ligatures with only ligature-components like [442, 1215])
+                if (allComponentsMapped && baseCharacterCount > 0)
                 {
                     newSet.Ligatures.Add(new LigatureTable
                     {
                         LigatureGlyph = newTargetGid,
                         Components = newComponents.ToArray()
                     });
-                    System.Diagnostics.Debug.WriteLine("      ✅ ADDED ligature to new set!");
                 }
             }
 
-            System.Diagnostics.Debug.WriteLine(string.Format("  LigatureSetTable.Rewrite: Result has {0} ligatures", newSet.Ligatures.Count));
             return newSet.Ligatures.Count > 0 ? newSet : null;
         }
     }

@@ -59,9 +59,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Features
         /// </summary>
         internal FeatureListTable Rewrite(FontSubsettingContext context, Dictionary<int, int> lookupMap)
         {
-            System.Diagnostics.Debug.WriteLine("=== FeatureListTable.Rewrite START ===");
-            System.Diagnostics.Debug.WriteLine(string.Format("Original features: {0}", this.FeatureRecords.Count));
-            System.Diagnostics.Debug.WriteLine(string.Format("Lookup map has {0} entries", lookupMap != null ? lookupMap.Count : 0));
 
             var newList = new FeatureListTable();
             newList.FeatureRecords = new List<FeatureRecord>();
@@ -69,8 +66,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Features
             for (int i = 0; i < this.FeatureRecords.Count; i++)
             {
                 var oldRecord = this.FeatureRecords[i];
-
-                System.Diagnostics.Debug.WriteLine(string.Format("Processing feature {0}: {1}", i, oldRecord.FeatureTag.Value));
 
                 // Skriv om featuren med den nya lookupmappen
                 var rewrittenRecord = oldRecord.Rewrite(context, lookupMap);
@@ -82,16 +77,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Features
                     rewrittenRecord.FeatureTable.LookupListIndices.Length > 0)
                 {
                     newList.FeatureRecords.Add(rewrittenRecord);
-                    System.Diagnostics.Debug.WriteLine(string.Format("  ✅ Kept feature with {0} lookups",
-                        rewrittenRecord.FeatureTable.LookupListIndices.Length));
-                }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine("  ❌ Removed feature (no valid lookups)");
                 }
             }
-
-            System.Diagnostics.Debug.WriteLine(string.Format("=== FeatureListTable.Rewrite END: {0} features ===", newList.FeatureRecords.Count));
             return newList;
         }
     }

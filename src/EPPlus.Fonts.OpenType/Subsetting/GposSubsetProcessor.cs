@@ -56,7 +56,6 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             var gpos = context.OriginalFont.GposTable;
             if (gpos == null) return;
 
-            System.Diagnostics.Debug.WriteLine("=== GPOS DISCOVERY START ===");
 
             // GPOS typically doesn't discover new glyphs
             // But we still iterate through lookups in case future handlers need it
@@ -64,8 +63,6 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             {
                 DiscoverLookup(context, lookup);
             }
-
-            System.Diagnostics.Debug.WriteLine("=== GPOS DISCOVERY END ===");
         }
 
         /// <summary>

@@ -17,29 +17,27 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
         {
             foreach (var subTable in lookup.SubTables.OfType<ChainingContextualSubstFormat3>())
             {
-                // 1. Kontrollera om vi har en match på första tecknet (t.ex. 'f')
-                // Jag använder namnet InputCoverage här då det är vanligast i format 3
+                // 1. Check if we have a match on the first character (e.g., 'f')
+                // Using the name InputCoverage here as it's most common in format 3
                 if (subTable.InputCoverages != null && subTable.InputCoverages.Count > 0)
                 {
                     var initialCoverage = subTable.InputCoverages[0];
 
                     if (AnyGlyphInSubset(initialCoverage, context.IncludedGlyphs))
                     {
-                        // 2. Loopa igenom records för att hitta länkade lookups
+                        // 2. Loop through records to find linked lookups
                         foreach (var record in subTable.SubstLookupRecords)
                         {
                             int lookupIndex = record.LookupListIndex;
 
-                            // 3. Hämta den faktiska LookupTable-instansen från den ursprungliga fonten
-                            // Vi går via context.OriginalFont för att hitta rätt tabell i listan
+                            // 3. Get the actual LookupTable instance from the original font
+                            // We go through context.OriginalFont to find the correct table in the list
                             if (lookupIndex >= 0 && lookupIndex < context.OriginalFont.GsubTable.LookupList.Lookups.Count)
                             {
                                 var targetLookup = context.OriginalFont.GsubTable.LookupList.Lookups[lookupIndex];
 
-                                // 4. Nu matchar argumentet! (context, LookupTable)
+                                // 4. Now the argument matches! (context, LookupTable)
                                 processor.DiscoverLookup(context, targetLookup);
-
-                                System.Diagnostics.Debug.WriteLine($"Chaining: Följer länk till Lookup {lookupIndex} (Type {targetLookup.LookupType})");
                             }
                         }
                     }
@@ -50,9 +48,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
         private bool AnyGlyphInSubset(CoverageTable coverage, HashSet<ushort> includedGlyphs)
         {
             if (coverage == null) return false;
-            // Hämta alla GID som denna täckningstabell omfattar
+            // Get all GIDs that this coverage table includes
             var coveredGids = coverage.GetCoveredGlyphs();
-            // Kolla om något av dessa GID finns i vårt nuvarande subset
+            // Check if any of these GIDs exist in our current subset
             return coveredGids.Any(gid => includedGlyphs.Contains(gid));
         }
         public LookupTable Rewrite(FontSubsettingContext context, LookupTable oldLookup)
@@ -66,20 +64,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
 
             foreach (var subtable in oldLookup.SubTables.OfType<ChainingContextualSubstFormat3>())
             {
-                // Här anropas subtabellens egen Rewrite som vi precis jobbade med
                 var rewritten = subtable.Rewrite(context);
 
                 if (rewritten != null)
                 {
                     newLookup.SubTables.Add(rewritten);
-                    // HÄR loggar vi!
-                    System.Diagnostics.Debug.WriteLine($"Chaining Rewrite: Behåller en subtabell med {rewritten.InputCoverages.Count} input-positioner.");
                 }
             }
 
             if (newLookup.SubTables.Count > 0)
             {
-                System.Diagnostics.Debug.WriteLine($"Chaining Rewrite: Lookup färdig. Totalt {newLookup.SubTables.Count} subtabeller inkluderade.");
                 return newLookup;
             }
 

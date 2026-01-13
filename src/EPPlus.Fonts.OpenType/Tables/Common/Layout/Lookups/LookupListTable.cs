@@ -56,8 +56,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups
         /// </summary>
         internal LookupRewriteResult Rewrite(FontSubsettingContext context)
         {
-            System.Diagnostics.Debug.WriteLine("=== LookupListTable.Rewrite START ===");
-            System.Diagnostics.Debug.WriteLine(string.Format("Original lookups: {0}", this.Lookups.Count));
 
             var result = new LookupRewriteResult
             {
@@ -69,8 +67,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups
             {
                 var oldLookup = this.Lookups[i];
 
-                System.Diagnostics.Debug.WriteLine(string.Format("Processing lookup {0}: Type {1}", i, oldLookup.LookupType));
-
                 var rewrittenLookup = context.GsubProcessor.RewriteLookup(context, oldLookup);
 
                 if (rewrittenLookup != null && rewrittenLookup.SubTables.Count > 0)
@@ -79,20 +75,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups
                     result.NewLookupList.Lookups.Add(rewrittenLookup);
                     result.OldToNewIndexMap[i] = newIndex;
 
-                    System.Diagnostics.Debug.WriteLine(string.Format("  ✅ Kept lookup: old index {0} → new index {1}", i, newIndex));
                 }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine(string.Format("  ❌ Removed lookup {0} (no subtables)", i));
-                }
-            }
-
-            System.Diagnostics.Debug.WriteLine(string.Format("=== LookupListTable.Rewrite END: {0} lookups kept ===", result.NewLookupList.Lookups.Count));
-
-            System.Diagnostics.Debug.WriteLine("=== LOOKUP INDEX MAPPING ===");
-            foreach (var kvp in result.OldToNewIndexMap)
-            {
-                System.Diagnostics.Debug.WriteLine(string.Format("  Old lookup {0} → New lookup {1}", kvp.Key, kvp.Value));
             }
 
             return result;
