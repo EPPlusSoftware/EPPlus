@@ -79,20 +79,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             string finalString = "";
 
-            foreach (var line in Lines)
+            for(int i = 0; i< Lines.Count; i++)
             {
+                var line = Lines[i];
+
                 finalString += $"<tspan ";
                 string visibility = "";
-                //Despite new textrun it could still be on the same line as previous textrun
-                //Therefore only do line increase if we are first in paragraph or if we are not Lines[0].
-                //This as line == Lines[0] && isFirstInParagraph == false means we are continuing on the same line as previous textRun
-                //This is important if for example we have rich text where two letters on the same line has different colors.
-                if (line != Lines[0] | _isFirstInParagraph)
-                {
-                    var yIncrease = _isFirstInParagraph ? BaseLineSpacing : LineSpacingPerNewLine;
-                    _isFirstInParagraph = false;
 
-                    yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
+                //Textrun may continue on same line or start a new line
+                //Refer to pre-calculated list
+                if (YIncreasePerLine[i] != 0)
+                {
+                    var yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(YIncreasePerLine[i]);
 
                     //_yEndPos += yIncrease;
                     //if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
@@ -108,18 +106,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 }
 
                 finalString += $"{visibility} " + $"{GetFontStyleAttributes()} ";
+
                 if (_measurementFont != null)
                 {
                     finalString += $" font-family=\"{_measurementFont.FontFamily},"
                         + $"{_measurementFont.FontFamily}_MSFontService,sans-serif\" "
                         + $"font-size=\"{_measurementFont.Size.ToString(CultureInfo.InvariantCulture)}px\" ";
                 }
+
                 sb.Append(finalString);
 
                 //Get color etc.
                 //Renders up until this point
                 base.Render(sb);
-                //Since final string has been written erase it.
+                //Since final string has been written in base.render erase it.
                 finalString = "";
 
                 finalString += ">";

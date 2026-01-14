@@ -17,6 +17,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
         internal List<int> IsPartOfLines;
         internal string ThisFragment;
         List<int> positionsToBreakAt = new();
+        internal float FontSize { get; set; } = float.NaN;
 
         internal TextFragment(string thisFragment, int startPos)
         {
@@ -41,6 +42,11 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
 
         internal string GetWrappedFragment()
         {
+            if(positionsToBreakAt.Count == 0)
+            {
+                return ThisFragment;
+            }
+
             string alteredFragment = ThisFragment;
 
             for (int i = 0; i < positionsToBreakAt.Count; i++)

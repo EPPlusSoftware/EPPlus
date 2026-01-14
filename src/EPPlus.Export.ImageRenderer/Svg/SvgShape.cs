@@ -271,16 +271,16 @@ namespace EPPlusImageRenderer.Svg
             insetTextBox.Bounds.Width = (float)area.Width;
             insetTextBox.Bounds.Height = (float)area.Height;
 
-            insetTextBox.FillColor = "blue";
+            //insetTextBox.FillColor = "blue";
 
-            //Render the inner area
-            insetTextBox.Render(sb);
+            ////Render the inner area
+            //insetTextBox.Render(sb);
 
-            //Reset variables so that the rendering of children later aren't affected
-            insetTextBox.Bounds.Left = l;
-            insetTextBox.Bounds.Top = t;
-            insetTextBox.Bounds.Right = r;
-            insetTextBox.Bounds.Bottom = b;
+            ////Reset variables so that the rendering of children later aren't affected
+            //insetTextBox.Bounds.Left = l;
+            //insetTextBox.Bounds.Top = t;
+            //insetTextBox.Bounds.Right = r;
+            //insetTextBox.Bounds.Bottom = b;
         }
 
         private void GetShapeInnerBound(out double x, out double y, out double width, out double height)

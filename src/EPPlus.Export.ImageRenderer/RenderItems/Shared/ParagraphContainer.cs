@@ -32,7 +32,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public override RenderItemType Type => RenderItemType.Text;
 
         List<string> _paragraphLines = new List<string>();
-        protected List<string> _textRunContent = new List<string>();
+        protected List<string> _textRunDisplayText = new List<string>();
 
         internal List<FontWrapContainer> Runs = new List<FontWrapContainer>();
         TextFragmentCollection _textFragments;
@@ -66,23 +66,21 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Bounds.Left = GetAlignmentHorizontal(_hAlign);
             Bounds.Width = parent.Width - p.RightMargin;
 
-            //---Initialize / calculate lines and runs---
-            //measurer must be set before InitializeLinesAndRichText
-
+            //---Get measurer---
             _measurer = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
-            _paragraphFont = p.DefaultRunProperties.GetMeasureFont();
-            _measurer.SetFont(_paragraphFont);
 
-            InitializeLinesAndRichText(p);
-
-            _isFirstParagraph = p == p._paragraphs[0];
-            
             //---Calculate linespacing---
+            _isFirstParagraph = p == p._paragraphs[0];
             int numLines = _paragraphLines.Count;
             _lsType = p.LineSpacing.LineSpacingType;
             ParagraphLineSpacing = GetParagraphLineSpacingInPixels(p.LineSpacing.Value, _measurer);
 
-            _textRunItems = new List<TextRunItem>();
+            //---Initialize / calculate lines and runs---
+            //measurer must be set before AddLinesAndRichText
+            _paragraphFont = p.DefaultRunProperties.GetMeasureFont();
+            _measurer.SetFont(_paragraphFont);
+
+            AddLinesAndTextRuns(p);
         }
 
         private double GetParagraphLineSpacingInPixels(double spacingValue, ITextMeasurerWrap fmExact)
@@ -113,7 +111,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         /// <param name="origTxtRun"></param>
         /// <param name="displayText"></param>
-        internal protected void AddTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
+        internal protected void AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
         {
             var maxWidth = Bounds.Width;
 
@@ -138,10 +136,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 }
             }
 
-            //No need for most of the actual output variables anymore
-            targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
+            //Must be done AFTER line-spacing is set.
+            var txtRunHeight = targetTxtRun.CalculateLineSpacing();
 
-            Bounds.Bottom += b;
+            Bounds.Height += txtRunHeight;
 
             _textRunItems.Add(targetTxtRun);
         }
@@ -170,51 +168,81 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             return sb.ToString();
         }
 
-        List<string> GetWrappedText(ExcelDrawingTextRunCollection runs)
+        /// <summary>
+        /// Log linebreak positions and sizes of the runs
+        /// So that we can easily know what textfragment is on what line and what size it has later
+        /// </summary>
+        /// <param name="runs"></param>
+        void GenerateTextFragments(ExcelDrawingTextRunCollection runs)
         {
-            var ttMeasurer = (FontMeasurerTrueType)_measurer;
-
             List<string> runContents = new List<string>();
-            List<MeasurementFont> fonts = new List<MeasurementFont>();
-
+            List<float> fontSizes = new List<float>();
+                 
             for (int i = 0; i < runs.Count(); i++)
             {
                 var txtRun = runs[i];
                 var runFont = txtRun.GetMeasurementFont();
 
                 runContents.Add(txtRun.Text);
+                fontSizes.Add(runFont.Size);
+            }
+
+            _textFragments = new TextFragmentCollection(runContents, fontSizes);
+        }
+
+        List<string> GetWrappedText(ExcelDrawingTextRunCollection runs, TextFragmentCollection fragments)
+        {
+            var ttMeasurer = (FontMeasurerTrueType)_measurer;
+            List<MeasurementFont> fonts = new List<MeasurementFont>();
+
+            for (int i = 0; i < runs.Count(); i++)
+            {
+                var txtRun = runs[i];
+                var runFont = txtRun.GetMeasurementFont();
                 fonts.Add(runFont);
             }
 
-            _textFragments = new TextFragmentCollection(runContents);
-            var pointWidth = Bounds.Width.PixelToPoint();
-            return ttMeasurer.WrapMultipleTextFragments(_textFragments, fonts, pointWidth);
+            var maxSizePoints = Bounds.Width.PixelToPoint();
+            return ttMeasurer.WrapMultipleTextFragments(fragments, fonts, maxSizePoints);
         }
 
-        private void InitializeLinesAndRichText(ExcelDrawingParagraph paragraph)
+        private void AddLinesAndTextRuns(ExcelDrawingParagraph p)
         {
-            if (paragraph._paragraphs.WrapText != eTextWrappingType.None)
-            {
-                //Gets the individual lines free of any line breaks
-                _paragraphLines = GetWrappedText(paragraph.TextRuns);
+            //Log line positions and run sizes
+            GenerateTextFragments(p.TextRuns);
+            //Calculate line breaks and/or wrapping to know how the text should be displayed
+            CalculateDisplayText(p, _textFragments);
 
-                //Gets each actual text run, including linebreak symbols
-                _textRunContent = _textFragments.GetFragmentsWithFinalLineBreaks();
+            //var largestSizes = _textFragments.GetLargestFontSizesOfEachLine();
+
+            _textRunItems = new List<TextRunItem>();
+
+            //---Add Actual textruns---
+            for (int i = 0; i < p.TextRuns.Count; i++)
+            {
+                AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i]);
+            }
+        }
+
+        /// <summary>
+        /// Use textfragments to calculate wrapping/line-breaks
+        /// </summary>
+        /// <param name="p"></param>
+        private void CalculateDisplayText(ExcelDrawingParagraph p, TextFragmentCollection fragments)
+        {
+            //Gets the individual lines free of any line breaks
+            if (p._paragraphs.WrapText != eTextWrappingType.None)
+            {
+                _paragraphLines = GetWrappedText(p.TextRuns, fragments);
             }
             else
             {
-                //Gets the individual lines free of any line breaks
-
                 //Using Regex to avoid empty lines in windows.
                 //Which the alternative "paragraph.Text.Split(new [] '\r' '\n')" would result in.
-                _paragraphLines = Regex.Split(paragraph.Text, "\r\n|\r|\n").ToList();
-
-                //Gets each actual text run, including linebreak symbols
-                foreach (var run in paragraph.TextRuns)
-                {
-                    _textRunContent.Add(run.Text);
-                }
+                _paragraphLines = Regex.Split(p.Text, "\r\n|\r|\n").ToList();
             }
+            //Gets each actual text run, including linebreak symbols
+            _textRunDisplayText = fragments.GetFragmentsWithFinalLineBreaks();
         }
 
         internal double GetAlignmentHorizontal(eTextAlignment txAlignment)

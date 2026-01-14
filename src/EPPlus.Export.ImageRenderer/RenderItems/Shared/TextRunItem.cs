@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
     internal abstract class TextRunItem : SvgRenderItem
@@ -29,6 +30,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public List<string> Lines { get; private set; }
 
+        /// <summary>
+        /// Aka total Delta Y
+        /// </summary>
         double _yEndPos;
         double BaselineSpacing;
 
@@ -44,6 +48,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal double LineSpacingPerNewLine { get; set; }
         internal double BaseLineSpacing { get; set; }
 
+        internal List<double> YIncreasePerLine { get; private set; } = new List<double>();
+
+        /// <summary>
+        /// If the run has been wrapped more line-breaks may have been added in displayText
+        /// </summary>
+        /// <param name="run"></param>
+        /// <param name="parent"></param>
+        /// <param name="displayText"></param>
         internal TextRunItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "")
         {
             Bounds.transform.Name = "TextRun";
@@ -51,7 +63,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _originalText = run.Text;
             _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
 
-            Lines = _currentText.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+            Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
 
             var measurer = run.Paragraph._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
             _measurer = (FontMeasurerTrueType)measurer;
@@ -84,6 +96,44 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _strikeType = run.FontStrike;
         }
 
+        internal double CalculateLineSpacing()
+        {
+            //---Calculation of total y-height---
+
+            bool lineIsFirstInParagraph = _isFirstInParagraph;
+
+            foreach (var line in Lines)
+            {
+                //Despite new textrun it could still be on the same line as previous textrun
+                //Therefore only do line increase if we are first in paragraph or if we are not Lines[0].
+                //This as line == Lines[0] && isFirstInParagraph == false means we are continuing on the same line as previous textRun
+                //This is important if for example we have rich text where two letters on the same line has different colors.
+                if (line != Lines[0] || lineIsFirstInParagraph)
+                {
+                    var yIncrease = lineIsFirstInParagraph ? BaseLineSpacing : LineSpacingPerNewLine;
+                    lineIsFirstInParagraph = false;
+
+                    //yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
+
+                    YIncreasePerLine.Add(yIncrease);
+
+                    _yEndPos += yIncrease;
+                    //if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
+                    //{
+                    //    bool displayLine = false
+                    //}
+                }
+                else
+                {
+                    YIncreasePerLine.Add(0);
+                }
+            }
+
+            Bounds.Height = _yEndPos;
+
+            return _yEndPos;
+        }
+
         internal List<string> GetLines(string text)
         {
             //var inputWidth = _wrapText ? _maxWidthPixels : double.NaN;
@@ -98,14 +148,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {
-            il = Bounds.X;
-            it = Bounds.Y;
+            il = Bounds.Left;
+            it = Bounds.Top;
+            ib = Bounds.Bottom;
 
             ir = CalculateRightPositionInPixels();
-            ib = CalculateBottomPositionInPixels();
 
             Bounds.Right = ir;
-            Bounds.Bottom = ib;
         }
 
         internal double CalculateRightPositionInPixels()
@@ -143,9 +192,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal double CalculateBottomPositionInPixels()
         {
-            var lineSize = ((double)_measurementFont.Size).PointToPixel(true) + Bounds.Y;
-            var bottomPosition = lineSize * GetNumberOfLines();
-            return bottomPosition;
+            return Bounds.Height;
         }
 
         internal double CalculateTextWidth(string targetString)

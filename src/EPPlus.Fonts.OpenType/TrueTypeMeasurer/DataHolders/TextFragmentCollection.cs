@@ -14,11 +14,11 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
 
         internal string AllText;
         internal List<int> AllTextNewLineIndicies = new();
-        List<TextFragment> fragmentItems = new List<TextFragment>();
+        List<TextFragment> _fragmentItems = new List<TextFragment>();
+        List<TextLine> _lines = new List<TextLine>();
 
         public List<int> IndiciesToWrapAt {get; internal set; }
-
-        public TextFragmentCollection(List<string> textFragments) 
+        public TextFragmentCollection(List<string> textFragments)
         {
             TextFragments = textFragments;
             IndiciesToWrapAt = new List<int>();
@@ -30,7 +30,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
                 var currString = textFragments[i];
                 var fragment = new TextFragment(currString, currentTotalLength);
                 currentTotalLength += currString.Length;
-                fragmentItems.Add(fragment);
+                _fragmentItems.Add(fragment);
             }
 
             AllText = string.Join(string.Empty, textFragments.ToArray());
@@ -42,7 +42,6 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
             int lineIndex = 0;
 
             List<int> currFragments = new();
-            List<TextLine> lines = new List<TextLine>();
             int lineStartCharIndex = 0;
 
             //For each fragment
@@ -67,7 +66,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
                         };
 
                         lineStartCharIndex = AllTextNewLineIndicies[lineIndex];
-                        lines.Add(line);
+                        _lines.Add(line);
                         currFragments.Clear();
                         lineIndex++;
                     }
@@ -90,8 +89,24 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
                 startIndex = lineStartCharIndex,
             };
 
-            lines.Add(lastLine);
+            _lines.Add(lastLine);
             currFragments.Clear();
+        }
+
+        public TextFragmentCollection(List<string> textFragments, List<float> fontSizes) : this(textFragments)
+        {
+            if(textFragments.Count() != fontSizes.Count)
+            {
+                throw new InvalidOperationException($"TextFragment list and FontSizes list must be equal." +
+                    $"Counts:" +
+                    $"textFragment: {textFragments.Count()}" +
+                    $"fontSizes: {fontSizes.Count()}");
+            }
+
+            for(int i = 0; i< textFragments.Count; i++)
+            {
+                _fragmentItems[i].FontSize = fontSizes[i];
+            }
         }
 
         private List<int> GetFirstCharPositionOfNewLines(string stringsCombined)
@@ -124,17 +139,49 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
             //var newFragments = TextFragments.ToArray();
             foreach(var i in IndiciesToWrapAt)
             {
-                fragmentItems[CharLookup[i].Fragment].AddLocalLbPositon(i);
+                _fragmentItems[CharLookup[i].Fragment].AddLocalLbPositon(i);
             }
 
             List<string> finalFragments = new List<string>();
 
-            foreach(var fragment in fragmentItems)
+            foreach(var fragment in _fragmentItems)
             {
                 finalFragments.Add(fragment.GetWrappedFragment());
             }
 
             return finalFragments;
+        }
+        
+        /// <summary>
+        /// Should arguably be done in constructor instead of created every time
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<float> GetLargestFontSizesOfEachLine()
+        {
+            List<float> largestFontSizes = new List<float>();
+            foreach(var line in _lines)
+            {
+                float largest = float.MinValue;
+                foreach(var idx in line.richTextIndicies)
+                {
+                    if (float.IsNaN(_fragmentItems[idx].FontSize) == false && _fragmentItems[idx].FontSize > largest)
+                    {
+                        largest = _fragmentItems[idx].FontSize;
+                    }
+                }
+                if (largest != float.MinValue)
+                {
+                    largestFontSizes.Add(largest);
+                }
+            }
+            return largestFontSizes;
+        }
+
+        public List<int> GetLinesFragmentIsPartOf(int fragmentIndex)
+        {
+            //Add throw if index does not exist?
+            return _fragmentItems[fragmentIndex].IsPartOfLines;
         }
     }
 }

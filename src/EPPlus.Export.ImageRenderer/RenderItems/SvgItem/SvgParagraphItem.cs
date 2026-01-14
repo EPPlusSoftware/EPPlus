@@ -23,11 +23,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public SvgParagraphItem(ExcelDrawingParagraph p, BoundingBox parent) : base(p, parent)
         {
-            //---Add Actual textruns---
-            for (int i = 0; i < p.TextRuns.Count; i++)
-            {
-                AddTextRun(p.TextRuns[i], _textRunContent[i]);
-            }
         }
 
         private string GetHorizontalAlignmentAttribute(double indentX)

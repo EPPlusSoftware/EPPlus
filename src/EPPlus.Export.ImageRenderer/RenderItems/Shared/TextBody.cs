@@ -109,7 +109,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 var addedPara = Paragraphs.Last();
                 paragraphStartY = addedPara.Bounds.Bottom + addedPara.ParagraphLineSpacing;
             }
-            Bounds.Bottom = paragraphStartY - BottomMargin;
+            Bounds.Height = paragraphStartY;
         }
 
         public string GetContent()
