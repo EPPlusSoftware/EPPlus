@@ -22,7 +22,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
     internal class PdfMergedCellLayout : PdfCellLayout
     {
         public PdfMergedCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
-            : base(dictionaries, cell, x, y, width, height, scaleX, scaleY, rotation, parent)
+            : base(dictionaries, cell, null, x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
             var fill = cell.Style.Fill;

@@ -283,7 +283,7 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 return GetThemeColor(Theme.Value, Convert.ToDouble(Tint));
             }
-            else if (Auto.Value)
+            else if (Auto != null && Auto.Value)
             {
                 return GetThemeColor(eThemeSchemeColor.Background1, Convert.ToDouble(Tint));
             }
@@ -294,7 +294,7 @@ namespace OfficeOpenXml.Style.Dxf
                 {
                     c = ((int)(Math.Round((Tint.Value + 1) * 128))).ToString("X");
                 }
-                return "#FF" + c + c + c;
+                return "#FF" + c + c + c + c;
             }
         }
 

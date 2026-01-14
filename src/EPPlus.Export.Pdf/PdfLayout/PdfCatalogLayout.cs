@@ -264,7 +264,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 {
                     leftH = ws.HeaderFooter.FirstHeader.LeftAligned;
                     centerH = ws.HeaderFooter.FirstHeader.Centered;
-                    rightH = ws.HeaderFooter.FirstHeader.RightAligned;
+                    rightH =  ws.HeaderFooter.FirstHeader.RightAligned;
                     leftF = ws.HeaderFooter.FirstFooter.LeftAligned;
                     centerF = ws.HeaderFooter.FirstFooter.Centered;
                     rightF = ws.HeaderFooter.FirstFooter.RightAligned;
@@ -273,7 +273,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         leftH = ws.HeaderFooter.OddHeader.LeftAligned;
                         centerH = ws.HeaderFooter.OddHeader.Centered;
                         rightH = ws.HeaderFooter.OddHeader.RightAligned;
-                        leftF = ws.HeaderFooter.OddFooter.LeftAligned;
+                        leftF = ws.HeaderFooter.OddFooter.LeftAligned;                                                                                                                                                                        
                         centerF = ws.HeaderFooter.OddFooter.Centered;
                         rightF = ws.HeaderFooter.OddFooter.RightAligned;
                     }

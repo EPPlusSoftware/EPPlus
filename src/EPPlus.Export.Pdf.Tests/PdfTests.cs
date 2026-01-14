@@ -49,6 +49,8 @@ namespace EPPlusTest.PDF
          * Text: Subscript (Done, might need adjustments. Excel adjusts cell height and moves subscript lower inside the cell)
          * Text: Equations
          * Text: Shrink To Fit
+         * Text: Broken text hide when overlapping other cells with text
+         * Text: Center vertical text
          * 
          * Layout: Center on page Horizontal and vertical
          * Layout: Scaling
@@ -61,6 +63,7 @@ namespace EPPlusTest.PDF
          * Layout: Cell range to pdf
          * Layout: Remove empty last page
          * Layout: Calculate width and height of cells more correctly
+         * Layout: Fix Mask away stuff outside margins being broken
          * 
          * Borders: Adjust and make border look better
          * 
@@ -79,8 +82,8 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void TestWritePdf()
         {
-            //using var p = OpenTemplatePackage("PDFTest.xlsx");
-            using var p = OpenTemplatePackage("PDFTest - Copy (2).xlsx");
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            //using var p = OpenTemplatePackage("PDFTest - Copy (2).xlsx");
             
             //using var p = OpenTemplatePackage("PdfBorders.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
@@ -99,7 +102,7 @@ namespace EPPlusTest.PDF
             pageSettings.PrintAsText = true;
 
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest39.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest40.pdf");
         }
 
         static byte[] HexStringToBytes(string hex)

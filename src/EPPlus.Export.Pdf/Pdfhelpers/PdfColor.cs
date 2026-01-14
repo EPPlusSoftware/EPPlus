@@ -32,7 +32,7 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
 
             }
             hex = hex.Trim().TrimStart('#');
-            int R=0, G=0, B=0, A=1;
+            int R=0, G=0, B=0, A=0;
             if (hex.Length == 3)
             {
                 R = Convert.ToByte(new string(hex[0], 2), 16);
