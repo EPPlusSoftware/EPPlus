@@ -79,7 +79,8 @@ namespace EPPlus.Fonts.OpenType.Tests
             //Assert.AreEqual(UnOptimizedOriginalWrappingString, currStr);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore("This test should not run in a multithreaded test run. If we want to keep it, it should be moved to a separate benchmark project.")]
+        [TestCategory("Benchmark")]
         public void Wrap20Paragraphs100TimesMultipleTextFragments()
         {
             List<string> longTexts = new List<string>();
