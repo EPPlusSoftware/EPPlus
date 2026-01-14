@@ -120,7 +120,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
             var bytes = subset.Serialize();
 
             var parsed = new OpenTypeFont(
-                new FontsBinaryReader(new MemoryStream(bytes)),
+                bytes,
                 font.Format);
 
             AssertFontValid(parsed);
@@ -141,7 +141,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
             var bytes = subset.Serialize();
 
             var parsed = new OpenTypeFont(
-                new FontsBinaryReader(new MemoryStream(bytes)),
+                bytes,
                 font.Format);
 
             AssertFontValid(parsed);

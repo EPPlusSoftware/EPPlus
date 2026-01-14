@@ -46,7 +46,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
 
             // re-serialize
             var bytes = font.CmapTable.Serialize(font);
-            var tempFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var tempFont = new OpenTypeFont(bytes, font.Format);
 
             // Check that ALL original chars are still there
             foreach (uint cp in allCodePoints)

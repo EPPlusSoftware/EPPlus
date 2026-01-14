@@ -13,6 +13,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Scanner;
+using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Utils.Platform;
 using System;
 using System.Collections.Generic;

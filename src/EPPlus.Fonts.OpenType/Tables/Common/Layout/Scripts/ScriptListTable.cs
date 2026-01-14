@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Subsetting;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data;
 using System.Collections.Generic;
 using System.IO;
@@ -75,80 +76,95 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts
             }
         }
 
-        internal ScriptListTable Rewrite(Subsetting.FontSubsettingContext context)
+        internal ScriptListTable Rewrite(FontSubsettingContext context, Dictionary<int, int> featureIndexMap)
         {
-            var newList = new ScriptListTable();
+            var newScriptList = new ScriptListTable();
 
-            foreach (var oldRecord in this.ScriptRecords)
+            foreach (var scriptRecord in this.ScriptRecords)
             {
-                var newRecord = new ScriptRecord();
-                newRecord.ScriptTag = oldRecord.ScriptTag;
-
-                if (oldRecord.ScriptTable != null)
+                var newScriptRecord = new ScriptRecord
                 {
-                    var oldTable = oldRecord.ScriptTable;
-                    var newTable = new ScriptTable();
+                    ScriptTag = scriptRecord.ScriptTag,
+                    ScriptTable = RewriteScriptTable(scriptRecord.ScriptTable, featureIndexMap)
+                };
 
-                    // Copy DefaultLangSys
-                    if (oldTable.DefaultLangSys != null)
-                    {
-                        var oldLang = oldTable.DefaultLangSys;
-                        var newLang = new LangSysTable();
-                        newLang.LookupOrder = oldLang.LookupOrder;
-                        newLang.RequiredFeatureIndex = oldLang.RequiredFeatureIndex;
-                        newLang.FeatureIndexCount = oldLang.FeatureIndexCount;
-
-                        if (oldLang.FeatureIndices != null)
-                        {
-                            var newIndices = new ushort[oldLang.FeatureIndices.Length];
-                            for (int i = 0; i < oldLang.FeatureIndices.Length; i++)
-                            {
-                                newIndices[i] = oldLang.FeatureIndices[i];
-                            }
-                            newLang.FeatureIndices = newIndices;
-                        }
-                        newTable.DefaultLangSys = newLang;
-                    }
-
-                    // Copy LangSysRecords
-                    if (oldTable.LangSysRecords != null)
-                    {
-                        newTable.LangSysRecords = new List<LangSysRecord>();
-                        foreach (var oldLangRecord in oldTable.LangSysRecords)
-                        {
-                            var newLangRecord = new LangSysRecord();
-                            newLangRecord.LangSysTag = oldLangRecord.LangSysTag;
-
-                            if (oldLangRecord.LangSysTable != null)
-                            {
-                                var oldL = oldLangRecord.LangSysTable;
-                                var newL = new LangSysTable();
-                                newL.LookupOrder = oldL.LookupOrder;
-                                newL.RequiredFeatureIndex = oldL.RequiredFeatureIndex;
-                                newL.FeatureIndexCount = oldL.FeatureIndexCount;
-
-                                if (oldL.FeatureIndices != null)
-                                {
-                                    var newIndices = new ushort[oldL.FeatureIndices.Length];
-                                    for (int j = 0; j < oldL.FeatureIndices.Length; j++)
-                                    {
-                                        newIndices[j] = oldL.FeatureIndices[j];
-                                    }
-                                    newL.FeatureIndices = newIndices;
-                                }
-                                newLangRecord.LangSysTable = newL;
-                            }
-                            newTable.LangSysRecords.Add(newLangRecord);
-                        }
-                    }
-
-                    newRecord.ScriptTable = newTable;
-                }
-
-                newList.ScriptRecords.Add(newRecord);
+                newScriptList.ScriptRecords.Add(newScriptRecord);
             }
 
-            return newList;
+            return newScriptList;
+        }
+
+        /// <summary>
+        /// Rewrites a ScriptTable by remapping feature indices.
+        /// </summary>
+        private ScriptTable RewriteScriptTable(ScriptTable original, Dictionary<int, int> featureIndexMap)
+        {
+            var newScriptTable = new ScriptTable
+            {
+                DefaultLangSysOffset = original.DefaultLangSysOffset
+            };
+
+            // Rewrite DefaultLangSys
+            if (original.DefaultLangSys != null)
+            {
+                newScriptTable.DefaultLangSys = RewriteLangSys(original.DefaultLangSys, featureIndexMap);
+            }
+
+            // Rewrite LangSysRecords
+            foreach (var langSysRecord in original.LangSysRecords)
+            {
+                var newLangSys = RewriteLangSys(langSysRecord.LangSysTable, featureIndexMap);
+                if (newLangSys != null && newLangSys.FeatureIndices.Length > 0)
+                {
+                    newScriptTable.LangSysRecords.Add(new LangSysRecord
+                    {
+                        LangSysTag = langSysRecord.LangSysTag,
+                        LangSysTable = newLangSys
+                    });
+                }
+            }
+
+            return newScriptTable;
+        }
+
+        /// <summary>
+        /// Rewrites a LangSysTable by remapping feature indices.
+        /// </summary>
+        private LangSysTable RewriteLangSys(LangSysTable original, Dictionary<int, int> featureIndexMap)
+        {
+            if (original == null)
+                return null;
+
+            var newFeatureIndices = new List<ushort>();
+
+            // Remap each feature index
+            foreach (var oldIndex in original.FeatureIndices)
+            {
+                if (featureIndexMap.TryGetValue(oldIndex, out int newIndex))
+                {
+                    newFeatureIndices.Add((ushort)newIndex);
+                }
+                // Else: feature was removed, skip it
+            }
+
+            // Handle RequiredFeatureIndex
+            ushort newRequiredFeatureIndex = 0xFFFF; // Default: no required feature
+            if (original.RequiredFeatureIndex != 0xFFFF)
+            {
+                if (featureIndexMap.TryGetValue(original.RequiredFeatureIndex, out int mappedRequired))
+                {
+                    newRequiredFeatureIndex = (ushort)mappedRequired;
+                }
+                // Else: required feature was removed, set to 0xFFFF
+            }
+
+            return new LangSysTable
+            {
+                LookupOrder = original.LookupOrder,
+                RequiredFeatureIndex = newRequiredFeatureIndex,
+                FeatureIndexCount = (ushort)newFeatureIndices.Count,
+                FeatureIndices = newFeatureIndices.ToArray()
+            };
         }
     }
 }

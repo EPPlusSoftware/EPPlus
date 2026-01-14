@@ -9,30 +9,14 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
-  01/14/2026         EPPlus Software AB           Added loader cache reference
  *************************************************************************************************/
 using System.Collections.Generic;
 
-namespace EPPlus.Fonts.OpenType.Tables
+namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Features
 {
-    internal class TableLoaderSettings
+    internal class FeatureRewriteResult
     {
-        internal Dictionary<string, TableRecord> _tableRecordsRef { get; private set; }
-        internal TableCache _tblCacheRef { get; private set; }
-        internal TableLoaderCache _loaderCacheRef { get; private set; }
-
-        internal FontTableReaderFactory TableReaderFactory { get; private set; }
-
-        internal TableLoaderSettings(
-            FontTableReaderFactory tableReaderFactory,
-            Dictionary<string, TableRecord> records,
-            TableCache tblCache,
-            TableLoaderCache loaderCache)
-        {
-            TableReaderFactory = tableReaderFactory;
-            _tableRecordsRef = records;
-            _tblCacheRef = tblCache;
-            _loaderCacheRef = loaderCache;
-        }
+        public FeatureListTable NewFeatureList { get; set; }
+        public Dictionary<int, int> OldToNewIndexMap { get; set; }
     }
 }

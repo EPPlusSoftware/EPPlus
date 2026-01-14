@@ -23,8 +23,8 @@ namespace EPPlus.Fonts.OpenType
             byte[] fontData = File.ReadAllBytes(face.FilePath);
             var stream = new MemoryStream(fontData);
 
-            var reader = new FontsBinaryReader(stream);
-            reader.BaseStream.Position = face.OffsetInFile;
+            //var reader = new FontsBinaryReader(stream);
+            //reader.BaseStream.Position = face.OffsetInFile;
 
             var format = face.OffsetInFile > 0
                ? FontFormat.Ttf
@@ -32,7 +32,7 @@ namespace EPPlus.Fonts.OpenType
                    ? FontFormat.Otf
                    : FontFormat.Ttf;
 
-            return new OpenTypeFont(reader, format);
+            return new OpenTypeFont(fontData, format);
         }
     }
 }

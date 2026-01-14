@@ -53,7 +53,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
 
             // Should create valid font with ffi ligature
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsed = new OpenTypeFont(bytes, font.Format);
 
             Assert.IsNotNull(parsed.GsubTable);
 
@@ -157,7 +157,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
 
             // Serialize and re-parse to verify components are correct
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsed = new OpenTypeFont(bytes, font.Format);
 
             // Should have fi ligature with correctly remapped components
             int ligCount = FontTestHelper.CountLigatures(parsed);
@@ -226,7 +226,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             Assert.IsTrue(bytes.Length > 0);
 
             // Should parse successfully
-            var parsed = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsed = new OpenTypeFont(bytes, font.Format);
             Assert.IsNotNull(parsed);
 
             FontTestHelper.AssertFontValid(parsed);

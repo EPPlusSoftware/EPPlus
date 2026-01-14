@@ -39,7 +39,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             // Save for inspection
             SaveFont("subset_Roboto_abc.ttf", parsedFont);
@@ -90,7 +90,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             // Save for inspection
             SaveFont("subset_Roboto_fiffig.ttf", parsedFont);
@@ -107,7 +107,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
 
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             SaveFont("subset_Mulish_a.ttf", parsedFont);
 
@@ -125,7 +125,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
 
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             SaveFont("subset_Roboto_flygande_bäckasiner.ttf", parsedFont);
 
@@ -213,13 +213,20 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
                 }
             }
 
+            Debug.WriteLine("\n=== ORIGINAL FEATURES ===");
+            for (int i = 0; i < font.GsubTable.FeatureList.FeatureRecords.Count && i < 10; i++)
+            {
+                var feat = font.GsubTable.FeatureList.FeatureRecords[i];
+                Debug.WriteLine($"Feature[{i}]: '{feat.FeatureTag.Value}'");
+            }
+
             // Create subset
             Debug.WriteLine("\n=== CREATING SUBSET ===");
             var subsetFont = font.CreateSubset("fiffigoffice");
 
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             SaveFont("subset_Roboto_ligatures_test.ttf", parsedFont);
 
@@ -280,6 +287,36 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
                 }
             }
 
+            Debug.WriteLine($"\n=== SCRIPTLIST & LANGSYS ===");
+            if (parsedFont.GsubTable.ScriptList != null)
+            {
+                foreach (var scriptRecord in parsedFont.GsubTable.ScriptList.ScriptRecords)
+                {
+                    string scriptTag = scriptRecord.ScriptTag.Value;
+                    Debug.WriteLine($"\nScript: '{scriptTag}'");
+
+                    var scriptTable = scriptRecord.ScriptTable;
+
+                    // Check DefaultLangSys
+                    if (scriptTable.DefaultLangSys != null)
+                    {
+                        var defLang = scriptTable.DefaultLangSys;
+                        Debug.WriteLine($"  DefaultLangSys:");
+                        Debug.WriteLine($"    RequiredFeatureIndex: {defLang.RequiredFeatureIndex}");
+                        Debug.WriteLine($"    FeatureIndices: [{string.Join(", ", defLang.FeatureIndices.Select(i => i.ToString()).ToArray())}]");
+
+                        // Show what features these indices point to
+                        foreach (var featIdx in defLang.FeatureIndices)
+                        {
+                            if (featIdx < parsedFont.GsubTable.FeatureList.FeatureRecords.Count)
+                            {
+                                var feat = parsedFont.GsubTable.FeatureList.FeatureRecords[featIdx];
+                                Debug.WriteLine($"      Feature[{featIdx}]: '{feat.FeatureTag.Value}'");
+                            }
+                        }
+                    }
+                }
+            }
             FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
         }
 
@@ -329,7 +366,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
 
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             SaveFont("subset_Roboto_with_gpos_kerning.ttf", parsedFont);
 
@@ -383,7 +420,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             // Save for inspection
             SaveFont("subset_Roboto_with_gpos_singleadj.ttf", parsedFont);
@@ -427,7 +464,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             // Save for inspection
             SaveFont("subset_Roboto_with_gpos_accents.ttf", parsedFont);
@@ -478,7 +515,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             // Save for inspection
             SaveFont("subset_Roboto_complete_gpos_test.ttf", parsedFont);
