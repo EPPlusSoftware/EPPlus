@@ -132,5 +132,43 @@ namespace EPPlus.Fonts.OpenType.Tests
             //Assert.AreEqual(0, differingStrings.Count());
             //Assert.AreEqual(UnOptimizedOriginalWrappingString, currStr);
         }
+        [TestMethod]
+        public void TestRegularToBoldItalic()
+        {
+            FontMeasurerTrueType measurer = new FontMeasurerTrueType();
+            MeasurementFont font = new MeasurementFont
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 12,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            measurer.SetFont(font);
+
+            MeasurementFont fontBoldItalic = new MeasurementFont
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 12,
+                Style = MeasurementFontStyles.Bold | MeasurementFontStyles.Italic
+            };
+
+            measurer.SetFont(fontBoldItalic);
+            //string testStr = "I am having so much fun so quickly!";
+
+            //var strLst = new List<string>();
+            //strLst.Add(testStr);
+
+            //List<MeasurementFont> fonts = new List<MeasurementFont>();
+            //fonts.Add(font);
+
+            //measurer.WrapMultipleTextFragments(strLst, fonts, 500);
+
+            //MeasurementFont fontBoldItalic = new MeasurementFont
+            //{
+            //    FontFamily = "Aptos Narrow",
+            //    Size = 12,
+            //    Style = MeasurementFontStyles.Bold | MeasurementFontStyles.Italic
+            //};
+        }
     }
 }

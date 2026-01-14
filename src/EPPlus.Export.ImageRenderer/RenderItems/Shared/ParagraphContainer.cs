@@ -119,16 +119,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             //Create object of type
             var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
+            targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
 
             if (_textRunItems.Count == 0 && _isFirstParagraph == true)
             {
                 targetTxtRun.BaseLineSpacing = _lineSpacingAscendantOnly;
-                targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
             }
             else
             {
-                targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
-
                 //If there are multiple sizes/multiple fonts with multiple sizes
                 if (_lsMultiplier.HasValue)
                 {
@@ -182,7 +180,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             for (int i = 0; i < runs.Count(); i++)
             {
                 var txtRun = runs[i];
-                var runFont = txtRun.GetMeasureFont();
+                var runFont = txtRun.GetMeasurementFont();
 
                 runContents.Add(txtRun.Text);
                 fonts.Add(runFont);

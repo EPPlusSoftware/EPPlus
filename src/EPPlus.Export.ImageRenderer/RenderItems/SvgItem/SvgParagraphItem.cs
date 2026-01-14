@@ -30,11 +30,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        //internal protected override void AddTextRun(ExcelParagraphTextRunBase origTxtRun, string runDisplayString)
-        //{
-        //    AddTextRun<SvgTextRunItem>(origTxtRun, runDisplayString);
-        //}
-
         private string GetHorizontalAlignmentAttribute(double indentX)
         {
             string ret = "";
