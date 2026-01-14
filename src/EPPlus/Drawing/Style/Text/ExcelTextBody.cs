@@ -468,8 +468,8 @@ namespace OfficeOpenXml.Drawing
         internal void GetInsetsOrDefaults(out double Left, out double Top, out double Right, out double Bottom)
         {
             Left = LeftInsert ?? DefaultRightLeft;
-            Top = RightInsert ?? DefaultRightLeft;
-            Right = TopInsert ?? DefaultTopBot;
+            Top = TopInsert ?? DefaultRightLeft;
+            Right = RightInsert ?? DefaultTopBot;
             Bottom = BottomInsert ?? DefaultTopBot;
         }
 

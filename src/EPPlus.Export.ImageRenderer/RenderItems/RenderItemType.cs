@@ -12,7 +12,7 @@
  *************************************************************************************************/
 namespace EPPlusImageRenderer.RenderItems
 {
-    internal enum SvgItemType
+    internal enum RenderItemType
     {
         Path = 0,
         Rect = 1,

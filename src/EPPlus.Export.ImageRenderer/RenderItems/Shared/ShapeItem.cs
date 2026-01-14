@@ -1,47 +1,33 @@
-﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  27/11/2025         EPPlus Software AB           EPPlus 9
- *************************************************************************************************/
+﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Export.ImageRenderer.Text;
+using EPPlus.Fonts.OpenType;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.ShapeDefinitions;
 using EPPlusImageRenderer.Text;
-using EPPlusImageRenderer.Utils;
-using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using TypeConv = OfficeOpenXml.Utils.TypeConversion;
-using EPPlus.Fonts.OpenType;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using EPPlus.Export.ImageRenderer.Text;
-using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Graphics;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 
-namespace EPPlusImageRenderer.Svg
+namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal class SvgShape : DrawingShape
+    /// <summary>
+    /// Base shapeItem class for file-specific classes to inherit from
+    /// </summary>
+    internal abstract class ShapeItem : DrawingShape
     {
-        SvgRenderRectItem insetTextBox;
-        SvgTextBodyItem textBody;
+        TextBody _textBox;
 
-        public SvgShape(ExcelShape shape) : base(shape)
+        internal ShapeItem(ExcelShape shape) : base(shape) 
         {
             var style = shape.Style;
 
-            if (style==eShapeStyle.CustomShape)
+            if (style == eShapeStyle.CustomShape)
             {
                 foreach (var path in shape.CustomGeom.DrawingPaths)
                 {
@@ -74,35 +60,41 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
+                //Position text
                 if (_shape.Text != null)
                 {
-                    if (shapeDef.TextBoxRect != null)
-                    {
-                        insetTextBox = new SvgRenderRectItem(_shape);
-                        insetTextBox.Bounds.Left = (float)shapeDef.TextBoxRect.LeftValue;
-                        insetTextBox.Bounds.Top = (float)shapeDef.TextBoxRect.TopValue;
-                        insetTextBox.FillOpacity = 0.3d;
-
-                        if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
-                        {
-                            insetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue - (float)shapeDef.TextBoxRect.LeftValue;
-                            insetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue - (float)shapeDef.TextBoxRect.TopValue;
-                        }
-                        else
-                        {
-                            insetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue;
-                            insetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue;
-                        }
-                    }
-                    else
-                    {
-                        insetTextBox = null;
-                    }
-
-                    textBody = CreateTextBodyItem();
-                    textBody.ImportTextBody(_shape.TextBody);
+                    GenerateTextItems(shapeDef);
                 }
             }
+        }
+
+        private void LoadTextBox()
+        {
+            _textBox.VerticalAlignment = _shape.TextAnchoring;
+            _textBox.WrapText = _shape.TextBody.WrapText != eTextWrappingType.None;
+            var fontMeasurer = (FontMeasurerTrueType)_shape._drawings._package.Settings.TextSettings.GenericTextMeasurerTrueType;
+
+            //Make width the doc width if meant to overflow
+            if (_shape.TextBody.HorizontalTextOverflow == eTextHorizontalOverflow.Overflow)
+            {
+                _textBox.Width = Size.Width;
+            }
+
+            string color = "#" + GetFontColor();
+            _textBox.FontColorString = color;
+
+            var totalText = _shape.Text;
+            List<List<double>> charAdvanceWidths = new List<List<double>>();
+            var txtRunIndicies = LineFormatter.GetTextRunIndiciesAndWidths(_shape.TextBody, out charAdvanceWidths);
+
+            _textBox.ImportTextBody(_shape.TextBody);
+
+            ////Paragraph level begins
+            //foreach (var paragraph in _shape.TextBody.Paragraphs)
+            //{
+                
+            //    //textBox.ImportParagraph(paragraph);
+            //}
         }
 
         protected void AddFromPaths(DrawingPath path, bool drawFill = true, bool drawBorder = true)
@@ -151,7 +143,7 @@ namespace EPPlusImageRenderer.Svg
             }
             if (drawFill)
             {
-                pi.FillColorSource = path.Fill;                
+                pi.FillColorSource = path.Fill;
                 pi.SetDrawingPropertiesFill(_shape.Fill, _shape.ThemeStyles.FillReference.Color);
             }
             else
@@ -173,27 +165,27 @@ namespace EPPlusImageRenderer.Svg
 
             RenderItems.Add(pi);
         }
-        public string ViewBox 
-        { 
+        public string ViewBox
+        {
             get
             {
-                double l=0, t=0, r=1, b=1;
-                foreach(var item in RenderItems)
+                double l = 0, t = 0, r = 1, b = 1;
+                foreach (var item in RenderItems)
                 {
                     item.GetBounds(out var il, out var it, out var ir, out var ib);
-                    if(il<l)
+                    if (il < l)
                     {
                         l = il;
                     }
-                    if(it<t)
+                    if (it < t)
                     {
                         t = it;
                     }
-                    if(ir>r)
+                    if (ir > r)
                     {
                         r = ir;
                     }
-                    if(ib>b)
+                    if (ib > b)
                     {
                         b = ib;
                     }
@@ -204,84 +196,66 @@ namespace EPPlusImageRenderer.Svg
 
         public override RenderItemType Type => throw new NotImplementedException();
 
-        public override void Render(StringBuilder sb)
+        private string GetFontColor()
         {
-            sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
+            string color;
 
-            //Write defs used for gradient colors
-            var writer = new SvgDrawingWriter(this);
-            writer.WriteSvgDefs(sb, RenderItems);
-            
-            SvgGroupItem gItemTest = null;
-            foreach(var item in RenderItems)
+            if (_shape.Font.Fill.Style == eFillStyle.SolidFill)
             {
-                item.Render(sb);
-                if(item.Type == RenderItemType.Group && gItemTest == null)
-                {
-                    gItemTest = (SvgGroupItem)item;
-                }
+                var c = TypeConv.ColorConverter.GetThemeColor(_shape.Font.Fill.SolidFill.Color);
+                color = ((uint)c.ToArgb()).ToString("x").Substring(2, 6);
             }
-            if (!string.IsNullOrEmpty(_shape.Text))
+            else
             {
-                RenderText(sb);
+                var c = TypeConv.ColorConverter.GetThemeColor(_wb.ThemeManager.CurrentTheme, _shape.ThemeStyles.FontReference.Color);
+                color = ((uint)c.ToArgb()).ToString("x").Substring(2, 6);
             }
 
-            if (gItemTest != null)
-            {
-                gItemTest.RenderEndGroup(sb);
-            }
-            sb.AppendLine("</svg>");
+            return color;
         }
 
-        SvgTextBodyItem CreateTextBodyItem()
+        TextBox GetTextBox()
         {
-            if (insetTextBox == null)
-            {
+            //if (_renderTextBox != null)
+            //{
+            //    return new TextBox(_shape.TextBody, _renderTextBox);
+            //}
+            //else
+            //{
                 GetShapeInnerBound(out double x, out double y, out double width, out double height);
-                insetTextBox = new SvgRenderRectItem();
-                insetTextBox.Bounds.Left = x;
-                insetTextBox.Bounds.Top = y;
-                insetTextBox.Width = width;
-                insetTextBox.Height = height;
-                insetTextBox.Bounds.Parent = Bounds;
-            }
-            var txtBodyItem = new SvgTextBodyItem(insetTextBox.Bounds);
+                return new TextBox(x, y, width, height);
+            //}
+        }
 
-            return txtBodyItem;
+        private void GetFontNameAndSize(ExcelFont nsFont, out string fontName, out double fontSize)
+        {
+            fontName = string.IsNullOrEmpty(_shape.Font.LatinFont) ? _shape.Font.ComplexFont : _shape.Font.LatinFont;
+
+            fontSize = _shape.Font.Size;
+            if (string.IsNullOrEmpty(fontName)) fontName = nsFont?.Name ?? _theme.FontScheme.MajorFont.First().Typeface;
+            if (fontSize <= 0 && nsFont != null) fontSize = nsFont.Size;
         }
 
         private void RenderText(StringBuilder sb)
         {
-            RenderDebugTextBox(sb);
-            textBody.Render(sb);
+            //RenderDebugTextBox(sb);
+            _textBox.Render(sb);
         }
 
-        private void RenderDebugTextBox(StringBuilder sb)
-        {
-            insetTextBox.FillColor = "green";
-            insetTextBox.Render(sb);
+        //private void RenderDebugTextBox(StringBuilder sb)
+        //{
+        //    _renderTextBox.FillColor = "green";
+        //    _renderTextBox.Render(sb);
 
-            insetTextBox.GetBounds(out double l, out double t, out double r, out double b);
+        //    var area = textBox.GetTextArea();
 
-            var area = textBody.Bounds;
-
-            //Temporarily set as child bounds
-            insetTextBox.Bounds.Left = (float)area.Left + l;
-            insetTextBox.Bounds.Top = (float)area.Top + t;
-            insetTextBox.Bounds.Width = (float)area.Width;
-            insetTextBox.Bounds.Height = (float)area.Height;
-
-            insetTextBox.FillColor = "blue";
-
-            //Render the inner area
-            insetTextBox.Render(sb);
-
-            //Reset variables so that the rendering of children later aren't affected
-            insetTextBox.Bounds.Left = l;
-            insetTextBox.Bounds.Top = t;
-            insetTextBox.Bounds.Right = r;
-            insetTextBox.Bounds.Bottom = b;
-        }
+        //    _renderTextBox.X = (float)area.Left;
+        //    _renderTextBox.Y = (float)area.Top;
+        //    _renderTextBox.Width = (float)area.Width;
+        //    _renderTextBox.Height = (float)area.Height;
+        //    _renderTextBox.FillColor = "blue";
+        //    _renderTextBox.Render(sb);
+        //}
 
         private void GetShapeInnerBound(out double x, out double y, out double width, out double height)
         {
@@ -403,9 +377,40 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
+        private void GenerateTextItems(ShapeDefinition shapeDef)
         {
-            throw new NotImplementedException();
+            if (shapeDef.TextBoxRect != null)
+            {
+                if (_shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
+                {
+                    var rectItem = new SvgRenderRectItem(_shape);
+
+                    rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
+                    rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
+                    rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.X;
+                    rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
+                    rectItem.FillOpacity = 0.3d;
+                    //_renderTextBox = rectItem;
+                }
+                else
+                {
+                    var rectItem = new SvgRenderRectItem(_shape);
+
+                    rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
+                    rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
+                    rectItem.Width = (float)shapeDef.TextBoxRect.RightValue;
+                    rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue;
+                    rectItem.FillOpacity = 0.3d;
+                    //_renderTextBox = rectItem;
+                }
+            }
+            else
+            {
+                //_renderTextBox = null;
+            }
+
+            //textBox = GetTextBox();
+            LoadTextBox();
         }
     }
 }

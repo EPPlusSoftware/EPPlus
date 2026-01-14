@@ -26,7 +26,7 @@ namespace EPPlusImageRenderer.RenderItems
         public float Y1 { get; set; }
         public float X2 { get; set; }
         public float Y2 { get; set; }
-        public override SvgItemType Type => SvgItemType.Line;
+        public override RenderItemType Type => RenderItemType.Line;
 
         public override void Render(StringBuilder sb)
         {

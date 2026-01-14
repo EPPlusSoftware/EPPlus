@@ -16,9 +16,7 @@ namespace EPPlus.Export.ImageRenderer.Text
     /// </summary>
     internal class FontWrapContainer : TextContainerBase
     {
-        protected FontMeasurerTrueType measurer;
-
-        Rect Parent = null;
+        protected FontMeasurerTrueType _measurer;
 
         /// <summary>
         /// If this is true it is presumed there is also a parent with a maxwidth
@@ -53,7 +51,7 @@ namespace EPPlus.Export.ImageRenderer.Text
 
         private void Initialize(FontMeasurerTrueType txtMeasurer)
         {
-            measurer = txtMeasurer;
+            _measurer = txtMeasurer;
             //transform = parent.transform;
             //if (parent != null)
             //{
@@ -74,7 +72,7 @@ namespace EPPlus.Export.ImageRenderer.Text
                 //If width is NaN textWrapper only applies line endings within the text itself
                 var inputWidth = WrapText ? MaxWidthPixels : double.NaN;
 
-                Content = TextWrapper.GetLines(Content[0], measurer, inputWidth).ToArray();
+                Content = TextWrapper.GetLines(Content[0], _measurer, inputWidth).ToArray();
             }
         }
 
@@ -91,7 +89,7 @@ namespace EPPlus.Export.ImageRenderer.Text
         public double[] GetContentWidths()
         {
             SplitContentToLines();
-            return TextWrapper.GetContentWidths(Content,measurer, MaxWidthPixels).ToArray();
+            return TextWrapper.GetContentWidths(Content,_measurer, MaxWidthPixels).ToArray();
         }
     }
 }

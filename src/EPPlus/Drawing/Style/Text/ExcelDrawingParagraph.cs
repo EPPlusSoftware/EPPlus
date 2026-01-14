@@ -200,7 +200,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeEmuToPixel("a:pPr/@marL", 347663 / ExcelDrawing.EMU_PER_PIXEL);
+                return GetXmlNodeEmuToPixel("a:pPr/@marL"/*,347663 / ExcelDrawing.EMU_PER_PIXEL*/);
             }
             set
             {
@@ -225,13 +225,18 @@ namespace OfficeOpenXml.Drawing
         }
         /// <summary>
         /// The indent size that is applied to the first line of text in the paragraph in pixels.
-        /// 0 means indent is same as MarL attribute.If this node would be null then it is considered -342900 (to counter the default value of MarL)
+        /// 0 means indent is same as MarL attribute. If this node would be null then it is considered -342900 (to counter the default value of MarL)
         /// </summary>
         public double Indent
         {
             get
             {
-                return GetXmlNodeEmuToPixel("a:pPr/@marL", -342900 / ExcelDrawing.EMU_PER_PIXEL);
+                var indent = GetXmlNodeEmuToPixel("a:pPr/@indent");
+                //if (indent == 0)
+                //{ 
+                //    return GetXmlNodeEmuToPixel("a:pPr/@marL", -342900 / ExcelDrawing.EMU_PER_PIXEL);
+                //}
+                return indent;
             }
             set
             {
