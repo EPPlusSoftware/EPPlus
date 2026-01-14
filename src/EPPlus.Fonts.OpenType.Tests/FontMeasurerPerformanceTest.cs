@@ -1,5 +1,7 @@
-﻿using OfficeOpenXml.Interfaces.Drawing.Text;
+﻿using EPPlus.Fonts.OpenType.FontCache;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType.Tests
 {
@@ -133,42 +135,48 @@ namespace EPPlus.Fonts.OpenType.Tests
             //Assert.AreEqual(UnOptimizedOriginalWrappingString, currStr);
         }
         [TestMethod]
-        public void TestRegularToBoldItalic()
+        public void SettingBoldItalicAgainShouldNotTimeout()
         {
-            FontMeasurerTrueType measurer = new FontMeasurerTrueType();
-            MeasurementFont font = new MeasurementFont
+            MeasurementFont boldItalic = new MeasurementFont()
             {
                 FontFamily = "Aptos Narrow",
-                Size = 12,
-                Style = MeasurementFontStyles.Regular
-            };
-
-            measurer.SetFont(font);
-
-            MeasurementFont fontBoldItalic = new MeasurementFont
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 12,
+                Size = 11f,
                 Style = MeasurementFontStyles.Bold | MeasurementFontStyles.Italic
             };
 
-            measurer.SetFont(fontBoldItalic);
-            //string testStr = "I am having so much fun so quickly!";
+            var ttTextMeasurer = new FontMeasurerTrueType();
 
-            //var strLst = new List<string>();
-            //strLst.Add(testStr);
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+            ttTextMeasurer.SetFont(boldItalic);
+            timer.Stop();
+            var firstTime = timer.ElapsedMilliseconds;
 
-            //List<MeasurementFont> fonts = new List<MeasurementFont>();
-            //fonts.Add(font);
+            timer.Restart();
+            ttTextMeasurer.SetFont(boldItalic);
+            timer.Stop();
 
-            //measurer.WrapMultipleTextFragments(strLst, fonts, 500);
+            //Doing the same operation again should not be a whole second longer
+            Assert.IsTrue((firstTime + 1000) > timer.ElapsedMilliseconds);
+            //At time of writing OpenTypeFontCache.GetFromCache is 2s therefore it should take less
+            Assert.IsTrue(timer.ElapsedMilliseconds < 2000);
+        }
 
-            //MeasurementFont fontBoldItalic = new MeasurementFont
-            //{
-            //    FontFamily = "Aptos Narrow",
-            //    Size = 12,
-            //    Style = MeasurementFontStyles.Bold | MeasurementFontStyles.Italic
-            //};
+        [TestMethod]
+        public void GetFromCacheBoldItalicShouldWork()
+        {
+            MeasurementFont boldItalic = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11f,
+                Style = MeasurementFontStyles.Bold | MeasurementFontStyles.Italic
+            };
+
+            var ttTextMeasurer = new FontMeasurerTrueType();
+            ttTextMeasurer.SetFont(boldItalic);
+
+            var cachedFont = OpenTypeFontCache.GetFromCache("Aptos Narrow", FontSubFamily.BoldItalic);
+            Assert.IsNotNull(cachedFont);
         }
     }
 }
