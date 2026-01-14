@@ -10,8 +10,11 @@
  *************************************************************************************************
   12/22/2025         EPPlus Software AB           Regression tests
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -269,6 +272,51 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
 
             // Verify in FontDrop or similar tool that ligatures render correctly
             FontTestHelper.AssertFontValid(subset);
+        }
+
+        [TestMethod]
+        public void SettingBoldItalicAgainShouldNotTimeout()
+        {
+            MeasurementFont boldItalic = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11f,
+                Style = MeasurementFontStyles.Bold | MeasurementFontStyles.Italic
+            };
+
+            var ttTextMeasurer = new FontMeasurerTrueType();
+
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+            ttTextMeasurer.SetFont(boldItalic);
+            timer.Stop();
+            var firstTime = timer.ElapsedMilliseconds;
+
+            timer.Restart();
+            ttTextMeasurer.SetFont(boldItalic);
+            timer.Stop();
+
+            //Doing the same operation again should not be a whole second longer
+            Assert.IsTrue((firstTime + 1000) > timer.ElapsedMilliseconds);
+            //At time of writing OpenTypeFontCache.GetFromCache is 2s therefore it should take less
+            Assert.IsTrue(timer.ElapsedMilliseconds < 2000);
+        }
+
+        [TestMethod]
+        public void GetFromCacheBoldItalicShouldWork()
+        {
+            MeasurementFont boldItalic = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11f,
+                Style = MeasurementFontStyles.Bold | MeasurementFontStyles.Italic
+            };
+
+            var ttTextMeasurer = new FontMeasurerTrueType();
+            ttTextMeasurer.SetFont(boldItalic);
+
+            var cachedFont = OpenTypeFontCache.GetFromCache("Aptos Narrow", FontSubFamily.BoldItalic);
+            Assert.IsNotNull(cachedFont);
         }
     }
 }
