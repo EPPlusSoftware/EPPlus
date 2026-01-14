@@ -14,6 +14,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Drawing.Chart;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -77,7 +78,7 @@ namespace EPPlusImageRenderer.Svg
                     VerticalAxis.Title.InitTextBox();
                 }
                 
-                VerticalAxis.AddTickmarks();
+                VerticalAxis.AddTickmarksAndValues();
             }
 
             if (HorizontalAxis!=null)
@@ -91,9 +92,10 @@ namespace EPPlusImageRenderer.Svg
 
                 if (HorizontalAxis.Title != null)
                 {
-                    HorizontalAxis.Title.Rectangle.Left = Plotarea.Rectangle.Left + (Plotarea.Rectangle.Width / 2) - (VerticalAxis.Title.Rectangle.Width / 2);
+                    HorizontalAxis.Title.Rectangle.Left = Plotarea.Rectangle.Left + (Plotarea.Rectangle.Width / 2) - (HorizontalAxis.Title.Rectangle.Width / 2);
                     HorizontalAxis.Title.InitTextBox();
                 }
+                HorizontalAxis.AddTickmarksAndValues();
             }
 
             if (SecondVerticalAxis!=null)
@@ -106,9 +108,10 @@ namespace EPPlusImageRenderer.Svg
                 SecondVerticalAxis.Line.Y2 = (float)SecondVerticalAxis.Rectangle.Bottom;
                 if (SecondVerticalAxis.Title != null)
                 {
-                    SecondVerticalAxis.Title.Rectangle.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (VerticalAxis.Title.Rectangle.Height / 2);
+                    SecondVerticalAxis.Title.Rectangle.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (SecondVerticalAxis.Title.Rectangle.Height / 2);
                     SecondVerticalAxis.Title.InitTextBox();
                 }
+                SecondVerticalAxis.AddTickmarksAndValues();
             }
         }
 
@@ -132,9 +135,23 @@ namespace EPPlusImageRenderer.Svg
             RenderItems.Add(item);
             ChartArea = item;
         }
-
-        public override void Render(StringBuilder sb)
+        internal List<RenderItem> DefItems { get; } = new List<RenderItem>();
+        internal void AddDefs(RenderItem item)
         {
+            DefItems.Add(item);
+        }
+        public void Render(StringBuilder sb)
+        {
+            Plotarea?.AppendRenderItems(RenderItems);
+
+            HorizontalAxis?.AppendRenderItems(RenderItems);
+            VerticalAxis?.AppendRenderItems(RenderItems);
+            SecondVerticalAxis?.AppendRenderItems(RenderItems);
+
+            Legend?.AppendRenderItems(RenderItems);
+            Title?.AppendRenderItems(RenderItems);
+
+
             sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
             //Write defs used for gradient colors
             var writer = new SvgDrawingWriter(this);
@@ -148,21 +165,16 @@ namespace EPPlusImageRenderer.Svg
                 {
                     gItemTest = (SvgGroupItem)item;
                 }
+                if(item.IsEndOfGroup && gItemTest != null)
+                {
+                    gItemTest.RenderEndGroup(sb);
+                    gItemTest = null;
+                }
             }
-            
-            if (gItemTest != null)
+            if(gItemTest != null)
             {
                 gItemTest.RenderEndGroup(sb);
             }
-
-            Plotarea?.Render(sb);
-
-            HorizontalAxis?.Render(sb);
-            VerticalAxis?.Render(sb);
-            SecondVerticalAxis?.Render(sb);
-
-            Legend?.Render(sb);
-            Title?.Render(sb);
 
             sb.Append("</svg>");
         }

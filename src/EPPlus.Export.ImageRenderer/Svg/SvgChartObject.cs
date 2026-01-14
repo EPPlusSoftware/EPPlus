@@ -14,6 +14,7 @@ using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using System.Collections.Generic;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -37,6 +38,7 @@ namespace EPPlusImageRenderer.Svg
         internal SvgRenderRectItem Rectangle { get; set; }
         internal SvgRenderLineItem Line { get; set; }
         public string Text { get; set; }
+        internal abstract void AppendRenderItems(List<RenderItem> renderItems);
         protected static SvgRenderRectItem GetRectFromManualLayout(SvgChart sc, ExcelLayout layout)
         {
             var rect = new SvgRenderRectItem(sc.Chart);

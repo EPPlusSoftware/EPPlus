@@ -31,7 +31,9 @@ namespace EPPlusImageRenderer.Svg
         
         List<TextMeasurement> _seriesHeadersMeasure =new List<TextMeasurement>();
         ITextMeasurer _ttMeasurer;
-        int _middleMargin = 10;
+        const int MarginExtra = 2;
+        const int MiddleMargin = 10;
+        const int LineLength = 32;
         internal SvgChartLegend(SvgChart sc) : base(sc.Chart)
         {
             _ttMeasurer = sc.Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
@@ -63,7 +65,6 @@ namespace EPPlusImageRenderer.Svg
         {
             var rect = new SvgRenderRectItem(Chart);
             bool isVertical;
-            const int LineLength = 28;
             switch (l.Position)
             {
                 case eLegendPosition.Top:
@@ -106,21 +107,21 @@ namespace EPPlusImageRenderer.Svg
                         highest = tm.Height;
                     }
                     textWidth += tm.Width;
-                    height += tm.Height + _middleMargin;
+                    height += tm.Height + MiddleMargin;
                     index++;
                 }
             }
-            height = height - _middleMargin + BottomMargin; //remove last margin and add bottom margin
+            height = height - MiddleMargin + BottomMargin; //remove last margin and add bottom margin
             switch (l.Position)
             {
                 case eLegendPosition.Top:
                 case eLegendPosition.Bottom:
-                    rect.Width = textWidth + LeftMargin + RightMargin + ((LineLength + 2) * index) ; // 28 is for the line length + 2px between line and text
-                    rect.Height = TopMargin + BottomMargin + highest + 2;
+                    rect.Width = textWidth + LeftMargin + RightMargin + ((LineLength + MarginExtra) * index + (MiddleMargin*Math.Max(index-1,0))) ; // 28 is for the line length + 2px between line and text
+                    rect.Height = TopMargin + BottomMargin + highest + MarginExtra;
                     rect.Left = (sc.ChartArea.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
                     {                        
-                        rect.Top = sc.Title.Rectangle.Top+ sc.Title.Rectangle.Height + _middleMargin;
+                        rect.Top = sc.Title.Rectangle.Top+ sc.Title.Rectangle.Height + MiddleMargin;
                     }
                     else 
                     {
@@ -189,7 +190,7 @@ namespace EPPlusImageRenderer.Svg
                             var tm = _seriesHeadersMeasure[index];
                             var si = GetSeriesIcon(sc, ls, index, tm, pSls);
                             sls.SeriesIcon = si;
-                            sls.Textbox = new TextBox(sc.Chart, si.X2+4, (si.Y1 - (tm.Height * 0.75)), tm.Width, tm.Height);
+                            sls.Textbox = new TextBox(sc.Chart, si.X2 + MarginExtra, (si.Y1 - (tm.Height * 0.75)), tm.Width, tm.Height);
                             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
                             if (entry == null || entry.Font.IsEmpty)
                             {
@@ -232,20 +233,20 @@ namespace EPPlusImageRenderer.Svg
             if (sc.Chart.Legend.Position == eLegendPosition.Top ||
                sc.Chart.Legend.Position == eLegendPosition.Bottom)
             {
-                float y = (float)Rectangle.Top + (float)TopMargin + tm.Height / 2 + 2;
+                float y = (float)Rectangle.Top + (float)TopMargin + tm.Height / 2 + MarginExtra;
                 float x = 0;                
                 if (pSls == null)
                 {
-                    x = (float)Rectangle.Left + (float)LeftMargin + 2;
+                    x = (float)Rectangle.Left + (float)LeftMargin + MarginExtra;
                 }
                 else
                 {
-                    x = (float)pSls.Textbox.Bounds.Right + _middleMargin;
+                    x = (float)pSls.Textbox.Bounds.Right + MiddleMargin;
                 }
 
                 item.X1 = x;
                 item.Y1 = y;
-                item.X2 = x + 32;
+                item.X2 = x + LineLength;
                 item.Y2 = y;
                 item.LineCap = eLineCap.Round;
             }
@@ -254,17 +255,17 @@ namespace EPPlusImageRenderer.Svg
                 float y;
                 if (pSls == null)
                 {
-                    y = (float)Rectangle.Top + (float)TopMargin + tm.Height / 2 + 2;
+                    y = (float)Rectangle.Top + (float)TopMargin + tm.Height / 2 + MarginExtra;
                 }
                 else
                 {
                     var pTm = _seriesHeadersMeasure[index - 1];
-                    y = ((SvgRenderLineItem)pSls.SeriesIcon).Y1 + pTm.Height / 2 + tm.Height / 2 + _middleMargin;
+                    y = ((SvgRenderLineItem)pSls.SeriesIcon).Y1 + pTm.Height / 2 + tm.Height / 2 + MiddleMargin;
                 }
 
-                item.X1 = (float)Rectangle.Left + 4;
+                item.X1 = (float)Rectangle.Left + MarginExtra; //4
                 item.Y1 = y;
-                item.X2 = (float)Rectangle.Left + 32;
+                item.X2 = (float)Rectangle.Left + LineLength;
                 item.Y2 = y;
                 item.LineCap = eLineCap.Round;
             }
@@ -411,15 +412,15 @@ namespace EPPlusImageRenderer.Svg
             return item;
         }
 
-        public override void Render(StringBuilder sb)
+        internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            Rectangle.Render(sb);
+            renderItems.Add(Rectangle);
             foreach(var s in SeriesIcon)
             {
-                s.SeriesIcon.Render(sb);
-                s.MarkerBackground?.Render(sb);
-                s.MarkerIcon?.Render(sb);
-                s.Textbox.Render(sb);
+                renderItems.Add(s.SeriesIcon);
+                if(s.MarkerBackground != null) renderItems.Add(s.MarkerBackground);
+                if (s.MarkerIcon != null) renderItems.Add(s.MarkerIcon);
+                renderItems.Add(s.Textbox);
             }
         }
 

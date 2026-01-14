@@ -33,6 +33,5 @@ namespace EPPlusImageRenderer
         internal ITextMeasurer TextMeasurer { get; }
         public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
         public DrawingSize Size { get; internal set; }
-        public abstract void Render(StringBuilder sb);
     }
 }

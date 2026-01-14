@@ -35,6 +35,7 @@ namespace EPPlusImageRenderer.RenderItems
             _drawing = drawing; 
             _theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
         }
+        internal bool IsEndOfGroup { get; set; } = false;
         public string FillColor { get; set; }
         public string FilterName { get; set; }
         public DrawGradientFill GradientFill { get; set; }

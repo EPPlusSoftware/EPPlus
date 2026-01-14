@@ -32,9 +32,12 @@ namespace EPPlusImageRenderer
         protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit)
         {
             var values = ax.GetAxisValues(out bool isCount);
-            if(ax.AxisType==eAxisType.Cat && isCount==false)
+            if(ax.AxisType == eAxisType.Cat && 
+                isCount == false)
             {
-                min=max=majorUnit=null;
+                min = 0;
+                max = values.Length-1;
+                majorUnit = 1;
                 return values.ToList();
             }
             var l = new List<object>();
@@ -56,15 +59,15 @@ namespace EPPlusImageRenderer
                     max = d;
                 }
             }
-            GetAutoMinMaxValue(ax, ref min, ref max, out majorUnit);
-            for(var v=min;v<=max;v+=majorUnit)  
+            GetAutoMinMaxValue(ax, isCount, ref min, ref max, out majorUnit);
+            for(var v=min; v<=max;v+=majorUnit)  
             {
                 l.Add(v);
             }
             return l;
         }
 
-        private void GetAutoMinMaxValue(ExcelChartAxisStandard ax, ref double? min, ref double? max, out double? majorUnit)
+        private void GetAutoMinMaxValue(ExcelChartAxisStandard ax, bool isCount, ref double? min, ref double? max, out double? majorUnit)
         {
             if(ax.MinValue.HasValue)
             {
@@ -72,10 +75,17 @@ namespace EPPlusImageRenderer
             }
             else
             {
-                var diffFromZero = (max - min) / max;
-                if (diffFromZero > 0.091)
+                if (isCount)
                 {
-                    min = 0;
+                    min = 1;
+                }
+                else
+                {
+                    var diffFromZero = (max - min) / max;
+                    if (diffFromZero > 0.091)
+                    {
+                        min = 0;
+                    }
                 }
             }
             if(ax.MaxValue.HasValue)
@@ -85,11 +95,16 @@ namespace EPPlusImageRenderer
             }
             else
             {
-                majorUnit = ax.MajorUnit ?? GetAutoUnit(min.Value, max.Value);                
-                var newMax= min.Value+majorUnit;
-                while(newMax <= max || newMax - max < (max * 0.05))
+                majorUnit = ax.MajorUnit ?? GetAutoUnit(min.Value, max.Value);
+                if (isCount==false)
                 {
-                    newMax += majorUnit.Value;
+                    var diff = max.Value - min.Value;
+                    var newMax = max.Value + majorUnit;
+                    while ((newMax - min) < (diff * 1.05))
+                    {
+                        newMax += majorUnit.Value;
+                    }
+                    max = newMax;
                 }
             }
         }

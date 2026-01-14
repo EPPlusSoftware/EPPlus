@@ -512,14 +512,14 @@ namespace TestProject1
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var ix = 1;
-                var c = ws.Drawings[ix];
-                var svg = renderer.RenderDrawingToSvg(c);
-                SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
-                //foreach (ExcelChart c in ws.Drawings)
-                //{
-                //    var svg = renderer.RenderDrawingToSvg(c);
-                //    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
-                //}
+                //var c = ws.Drawings[ix];
+                //var svg = renderer.RenderDrawingToSvg(c);
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                }
             }
         }
         [TestMethod]

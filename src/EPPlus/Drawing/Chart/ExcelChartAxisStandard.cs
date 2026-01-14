@@ -720,6 +720,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 }            
             }
             var values = hs.ToList();
+            values.Sort();
             if(Orientation==eAxisOrientation.MaxMin)
             {
                 values.Reverse();
@@ -729,32 +730,36 @@ namespace OfficeOpenXml.Drawing.Chart
 
         private void AddCountFromSeries(HashSet<object> hs, string address, double[] numberLiterals, string[] stringLiterals)
         {
+            hs.Add(1);
             if (numberLiterals?.Length > 0)
             {
-                for(int i=1;i<= numberLiterals?.Length;i++)
-                {
-                    hs.Add(i);
-                }
+                hs.Add(numberLiterals.Length);
+                //for(int i=1;i<= numberLiterals?.Length;i++)
+                //{
+                //    hs.Add(i);
+                //}
             }
             else if (stringLiterals?.Length > 0)
             {
-                for (int i = 1; i <= stringLiterals?.Length; i++)
-                {
-                    hs.Add(i);
-                }
+                hs.Add(stringLiterals.Length);
+                //for (int i = 1; i <= stringLiterals?.Length; i++)
+                //{
+                //    hs.Add(i);
+                //}
             }
             else
             {
                 var a = new ExcelAddressBase(address);
-                var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
-                int i = 1;
-                if (ws != null)
-                {
-                    foreach (var c in ws.Cells[a.Address])
-                    {
-                        hs.Add(i++);
-                    }
-                }
+                hs.Add(Math.Max(a.Rows, a.Columns));
+                //var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
+                //int i = 1;
+                //if (ws != null)
+                //{
+                //    foreach (var c in ws.Cells[a.Address])
+                //    {
+                //        hs.Add(i++);
+                //    }
+                //}
             }
         }
 

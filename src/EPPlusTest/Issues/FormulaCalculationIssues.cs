@@ -1441,7 +1441,7 @@ namespace EPPlusTest.Issues
             }
         }
         [TestMethod]
-§           public void s965_3()
+        public void s965_3()
         {
             using var package = OpenTemplatePackage("s965-Not Calculated.xlsx");
             //package.Workbook.Calculate();

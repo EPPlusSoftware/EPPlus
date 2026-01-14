@@ -251,7 +251,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        public override void Render(StringBuilder sb)
+        public void Render(StringBuilder sb)
         {
             sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
 
@@ -266,6 +266,10 @@ namespace EPPlusImageRenderer.Svg
                 if(item.Type == SvgItemType.Group && gItemTest == null)
                 {
                     gItemTest = (SvgGroupItem)item;
+                }
+                if (item.IsEndOfGroup && gItemTest != null)
+                {
+                    gItemTest.RenderEndGroup(sb);
                 }
             }
             if (!string.IsNullOrEmpty(_shape.Text))

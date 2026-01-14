@@ -14,6 +14,7 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace EPPlusImageRenderer.Svg
@@ -59,6 +60,10 @@ namespace EPPlusImageRenderer.Svg
                 {
                     vaHeight = (sc.HorizontalAxis.Rectangle?.Height ?? 0D) + (sc.HorizontalAxis.Title?.Rectangle?.Height ?? 0D);
                 }
+                if(lp==eLegendPosition.Bottom)
+                {
+                    vaHeight += sc.Legend.Rectangle.Height;
+                }
                 rect.Height = sc.Size.Height - rect.Top - vaHeight - vaTitleHeight - BottomMargin;                
             }
 
@@ -67,9 +72,14 @@ namespace EPPlusImageRenderer.Svg
             return rect;
         }
 
-        public override void Render(StringBuilder sb)
+        //public override void Render(StringBuilder sb)
+        //{
+        //    Rectangle.Render(sb);
+        //}
+
+        internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            Rectangle.Render(sb);
+            renderItems.Add(Rectangle);
         }
     }
 }
