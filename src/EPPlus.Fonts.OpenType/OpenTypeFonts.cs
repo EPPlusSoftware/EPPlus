@@ -144,7 +144,7 @@ namespace EPPlus.Fonts.OpenType
                 var font = OpenTypeFontFactory.CreateFromFace(face);
 
                 if (!ignoreCache)
-                    OpenTypeFontCache.AddToCache(font);
+                    OpenTypeFontCache.AddToCache(font, fontName, subFamily);
 
                 return font;
             }

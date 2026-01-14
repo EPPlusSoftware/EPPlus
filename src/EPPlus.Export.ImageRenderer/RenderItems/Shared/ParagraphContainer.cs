@@ -107,39 +107,26 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
-
-        /// <summary>
-        /// Each specific container must specify textrun type within this
-        /// </summary>
-        /// <param name="origTxtRun"></param>
-        /// <param name="runDisplayString"></param>
-        internal protected abstract void AddTextRun(ExcelParagraphTextRunBase origTxtRun, string runDisplayString);
-
         /// <summary>
         /// DisplayString is the text altered for display with respect to bounds etc.
         /// Containing line breaks appropriate for the given container
         /// </summary>
         /// <param name="origTxtRun"></param>
-        /// <param name="runDisplayString"></param>
-        internal protected void AddTextRun<T>(ExcelParagraphTextRunBase origTxtRun, string runDisplayString) where T : TextRunItem
+        /// <param name="displayText"></param>
+        internal protected void AddTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
         {
             var maxWidth = Bounds.Width;
 
-            //Specify type
-            var textRunType = typeof(T);
-
             //Create object of type
-            var targetTxtRun = (T)Activator.CreateInstance(textRunType, origTxtRun, Bounds, runDisplayString);
+            var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
+            targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
 
             if (_textRunItems.Count == 0 && _isFirstParagraph == true)
             {
                 targetTxtRun.BaseLineSpacing = _lineSpacingAscendantOnly;
-                targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
             }
             else
             {
-                targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
-
                 //If there are multiple sizes/multiple fonts with multiple sizes
                 if (_lsMultiplier.HasValue)
                 {
@@ -193,7 +180,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             for (int i = 0; i < runs.Count(); i++)
             {
                 var txtRun = runs[i];
-                var runFont = txtRun.GetMeasureFont();
+                var runFont = txtRun.GetMeasurementFont();
 
                 runContents.Add(txtRun.Text);
                 fonts.Add(runFont);
@@ -251,11 +238,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             return TextUtils.RoundToWhole(x);
         }
 
-        //public override void Render(StringBuilder sb)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {
             il = Bounds.Left + _leftMargin;
@@ -263,5 +245,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             ir = Bounds.Right - _rightMargin;
             ib = Bounds.Bottom;
         }
+
+        /// <summary>
+        /// Type of textrun defined by child type
+        /// </summary>
+        /// <param name="run"></param>
+        /// <param name="parent"></param>
+        /// <param name="DisplayString"></param>
+        /// <returns></returns>
+        internal abstract TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText);
     }
 }

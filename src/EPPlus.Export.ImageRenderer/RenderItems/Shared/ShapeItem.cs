@@ -21,7 +21,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// </summary>
     internal abstract class ShapeItem : DrawingShape
     {
-        TextBody<SvgParagraphItem> _textBox;
+        TextBody _textBox;
 
         internal ShapeItem(ExcelShape shape) : base(shape) 
         {

@@ -31,6 +31,8 @@ namespace EPPlus.Fonts.OpenType
         private OpenTypeFont _defaultFont = TextData.GetFontData("Calibri", FontSubFamily.Regular);
         private double _defaultSize = 11d;
 
+        OpenTypeFont LastFont = null;
+
         OpenTypeFont CurrentFont;
         private double _widthInPoints;
         private double _heightInPoints;
@@ -93,7 +95,8 @@ namespace EPPlus.Fonts.OpenType
         public void SetFont(double fontSize, string fontName, FontSubFamily subFamily = FontSubFamily.Regular)
         {
             CurrentFontName = fontName;
-            CurrentFont = TextData.GetFontData(fontName, subFamily);
+            var newFont = TextData.GetFontData(fontName, subFamily);
+            CurrentFont = newFont;
             FontSize = fontSize;
         }
 
