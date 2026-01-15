@@ -216,6 +216,11 @@ namespace EPPlusImageRenderer.RenderItems
                 }
             }
         }
+
+        internal void SetTheme(ExcelTheme theme)
+        {
+            _theme = theme;
+        }
     }
     /// <summary>
     /// Base class for any item rendered.

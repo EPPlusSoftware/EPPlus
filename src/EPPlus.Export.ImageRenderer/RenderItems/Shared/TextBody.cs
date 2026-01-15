@@ -86,6 +86,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             Paragraphs.Add(paragraph);
 
+            //TODO; Fix this. This is a strange workaround
+            paragraph.SetTheme(item._prd.Package.Workbook.ThemeManager.GetOrCreateTheme());
             paragraph.SetDrawingPropertiesFill(item.DefaultRunProperties.Fill, null);
         }
 
@@ -108,7 +110,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 var addedPara = Paragraphs.Last();
                 paragraphStartY += addedPara.Bounds.Bottom + addedPara.ParagraphLineSpacing;
             }
-            Bounds.Height = paragraphStartY - Paragraphs.Last().ParagraphLineSpacing;
+            if (Paragraphs != null && Paragraphs.Count() > 0)
+            {
+                Bounds.Height = paragraphStartY - Paragraphs.Last().ParagraphLineSpacing;
+            }
         }
 
         public string GetContent()

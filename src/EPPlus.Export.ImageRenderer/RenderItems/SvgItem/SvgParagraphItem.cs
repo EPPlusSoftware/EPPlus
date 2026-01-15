@@ -102,15 +102,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     bb.Width = textRun.Bounds.Width;
                     if(IsFirstParagraph == false)
                     {
-                        bb.Y = -textRun.FontSizeInPixels;
+                        bb.Y = -textRun.FontSizeInPixels.PixelToPoint();
                     }
-                    //bb.Height = textRun.Bounds.Height;
-                    //bb.FillColor = "green";
-                    //bb.FillOpacity = 0.3;
-                    //bb.Render(sb);
+                        //bb.Height = textRun.Bounds.Height;
+                        //bb.FillColor = "green";
+                        //bb.FillOpacity = 0.3;
+                        //bb.Render(sb);
 
-                    //Render each line debug
-                    bb.FillColor = "purple";
+                        //Render each line debug
+                        bb.FillColor = "purple";
                     for (int i = 0; i < textRun.Lines.Count; i++)
                     {
                         if (i > 0)

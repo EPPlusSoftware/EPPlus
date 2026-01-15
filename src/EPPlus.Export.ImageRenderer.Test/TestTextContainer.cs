@@ -1,14 +1,18 @@
-﻿using EPPlus.Export.ImageRenderer.Text;
+﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Export.ImageRenderer.Text;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using EPPlus.Graphics;
-using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Fonts.OpenType;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlusImageRenderer;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {

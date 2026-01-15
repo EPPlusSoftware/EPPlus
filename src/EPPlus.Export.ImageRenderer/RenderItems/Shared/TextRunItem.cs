@@ -3,6 +3,7 @@ using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
@@ -130,7 +131,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 }
             }
 
-            Bounds.Height = _yEndPos;
+            if(_yEndPos == 0)
+            {
+                Bounds.Height = FontSizeInPixels;
+            }
+            else
+            {
+                Bounds.Height = _yEndPos;
+            }
 
             return _yEndPos;
         }
