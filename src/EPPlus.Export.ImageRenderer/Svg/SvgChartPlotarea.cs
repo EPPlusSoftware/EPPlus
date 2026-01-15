@@ -27,6 +27,7 @@ namespace EPPlusImageRenderer.Svg
             Rectangle = GetPlotAreaRectangle(sc);
         }
         public SvgChart SvgChart { get; set; }
+        public List<SvgChartDrawer> ChartTypeDrawers { get; } = new List<SvgChartDrawer>();
         internal SvgRenderRectItem GetPlotAreaRectangle(SvgChart sc)
         {
             var pa = sc.Chart.PlotArea;
