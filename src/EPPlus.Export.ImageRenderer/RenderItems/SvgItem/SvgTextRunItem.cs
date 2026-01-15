@@ -22,7 +22,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (_isItalic)
             {
-                fontStyleAttributes += " font-style=\"italic\" ";
+                fontStyleAttributes += "font-style=\"italic\" ";
             }
             if (_isBold)
             {
@@ -109,9 +109,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                 if (_measurementFont != null)
                 {
-                    finalString += $" font-family=\"{_measurementFont.FontFamily},"
+                    finalString += $"font-family=\"{_measurementFont.FontFamily},"
                         + $"{_measurementFont.FontFamily}_MSFontService,sans-serif\" "
-                        + $"font-size=\"{_measurementFont.Size.ToString(CultureInfo.InvariantCulture)}px\" ";
+                        + $"font-size=\"{FontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
                 }
 
                 sb.Append(finalString);

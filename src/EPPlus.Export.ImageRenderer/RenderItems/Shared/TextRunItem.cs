@@ -173,11 +173,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             var numLines = GetNumberOfLines();
             double retPos = Bounds.Left;
 
-            double TextLengthInPixels = 0;
+            double textLengthPixels = 0;
 
             if (numLines <= 0 || string.IsNullOrEmpty(_originalText))
             {
-                TextLengthInPixels = 0;
+                textLengthPixels = 0;
                 return retPos;
             }
 
@@ -186,7 +186,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             for (int i = 0; i < numLines; i++)
             {
                 var text = Lines[i];
-                var width = CalculateTextWidth(Lines[i]);
+                var width = CalculateTextWidth(Lines[i]).PointToPixel();
                 PerLineWidth.Add(width);
 
                 if (width > longestWidth)
@@ -195,12 +195,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 }
             }
 
-            TextLengthInPixels = longestWidth;
+            textLengthPixels = longestWidth;
 
             retPos += longestWidth;
 
             //Calculates right
-            Bounds.Width = TextLengthInPixels;
+            Bounds.Width = textLengthPixels;
 
             return Bounds.Right;
         }
@@ -212,6 +212,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal double CalculateTextWidth(string targetString)
         {
+            _measurer.SetFont(_measurementFont);
             _measurer.MeasureWrappedTextCells = true;
             var width = _measurer.MeasureTextWidth(targetString);
 
