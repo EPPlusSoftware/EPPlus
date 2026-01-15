@@ -27,11 +27,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
     [TestClass]
     public class RegressionTests : FontTestBase
     {
-        [ClassInitialize]
-        public static void Initialize(TestContext testContext)
-        {
-            FontDirectoriesTestHelper.ClassInitialize(testContext);
-        }
+        public override TestContext? TestContext { get; set; }
 
         [TestMethod]
         public void Bug_20251222_CircularLigatureDependency_Roboto()

@@ -11,6 +11,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
     [TestClass]
     public class CmapTableValidationTests : FontTestBase
     {
+        public override TestContext? TestContext { get; set; }
+
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
         {

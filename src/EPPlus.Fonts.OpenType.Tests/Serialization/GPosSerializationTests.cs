@@ -33,11 +33,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
     [TestClass]
     public class GposSerializationTests : FontTestBase
     {
-        [ClassInitialize]
-        public static void Initialize(TestContext testContext)
-        {
-            FontDirectoriesTestHelper.ClassInitialize(testContext);
-        }
+        public override TestContext? TestContext { get; set; }
 
         #region Helper Classes for .NET 3.5 Compatibility
 

@@ -20,11 +20,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
     [TestClass]
     public class SubsettingEdgeCasesTests : FontTestBase
     {
-        [ClassInitialize]
-        public static void Initialize(TestContext testContext)
-        {
-            FontDirectoriesTestHelper.ClassInitialize(testContext);
-        }
+        public override TestContext? TestContext { get; set; }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]

@@ -23,11 +23,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
     [TestClass]
     public class BasicSubsettingTests : FontTestBase
     {
-        [ClassInitialize]
-        public static void Initialize(TestContext testContext)
-        {
-            FontDirectoriesTestHelper.ClassInitialize(testContext);
-        }
+        public override TestContext? TestContext { get; set; }
 
         [TestMethod]
         public void Subset_Abc_RoundtripValidation()
@@ -42,7 +38,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             // Save for inspection
-            SaveFont("subset_Roboto_abc.ttf", parsedFont);
+            SaveFontForCurrentTest(parsedFont);
 
             // Assert: Check table presence
             Assert.AreEqual(12, parsedFont.TableRecords.Count);
@@ -93,7 +89,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             // Save for inspection
-            SaveFont("subset_Roboto_fiffig.ttf", parsedFont);
+            SaveFontForCurrentTest( parsedFont);
 
             // Assert
             FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
@@ -109,7 +105,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var bytes = serializer.Serialize();
             var parsedFont = new OpenTypeFont(bytes, font.Format);
 
-            SaveFont("subset_Mulish_a.ttf", parsedFont);
+            SaveFontForCurrentTest(parsedFont);
 
             FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
         }
@@ -127,7 +123,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var bytes = serializer.Serialize();
             var parsedFont = new OpenTypeFont(bytes, font.Format);
 
-            SaveFont("subset_Roboto_flygande_bäckasiner.ttf", parsedFont);
+            SaveFontForCurrentTest(parsedFont);
 
             FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
         }
@@ -138,7 +134,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             // Using FontTestHelper.RoundtripSubset
             var parsedFont = FontTestHelper.RoundtripSubset("Roboto", "test", FontFolders);
 
-            SaveFont("subset_Roboto_test_via_helper.ttf", parsedFont);
+            SaveFontForCurrentTest(parsedFont);
 
             Assert.IsNotNull(parsedFont);
             Assert.IsTrue(parsedFont.MaxpTable.numGlyphs > 0);
@@ -228,7 +224,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var bytes = serializer.Serialize();
             var parsedFont = new OpenTypeFont(bytes, font.Format);
 
-            SaveFont("subset_Roboto_ligatures_test.ttf", parsedFont);
+            SaveFontForCurrentTest(parsedFont);
 
             Debug.WriteLine("\n=== SUBSET FONT ===");
             Debug.WriteLine($"Total glyphs: {parsedFont.MaxpTable.numGlyphs}");
@@ -368,7 +364,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var bytes = serializer.Serialize();
             var parsedFont = new OpenTypeFont(bytes, font.Format);
 
-            SaveFont("subset_Roboto_with_gpos_kerning.ttf", parsedFont);
+            SaveFontForCurrentTest(parsedFont);
 
             // Check SUBSET font
             bool foundF = parsedFont.CmapTable.TryGetGlyphId('f', out ushort fGlyph);
@@ -423,7 +419,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             // Save for inspection
-            SaveFont("subset_Roboto_with_gpos_singleadj.ttf", parsedFont);
+            SaveFontForCurrentTest(parsedFont);
 
             // Assert
             FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
@@ -467,7 +463,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             // Save for inspection
-            SaveFont("subset_Roboto_with_gpos_accents.ttf", parsedFont);
+            SaveFontForCurrentTest(parsedFont);
 
             // Assert
             FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
@@ -518,7 +514,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var parsedFont = new OpenTypeFont(bytes, font.Format);
 
             // Save for inspection
-            SaveFont("subset_Roboto_complete_gpos_test.ttf", parsedFont);
+            SaveFontForCurrentTest(parsedFont);
 
             // Assert
             FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
