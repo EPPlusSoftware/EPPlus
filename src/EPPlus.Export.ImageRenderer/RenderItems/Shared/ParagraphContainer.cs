@@ -27,7 +27,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal double ParagraphLineSpacing { get; private set; }
         double _lineSpacingAscendantOnly;
         double? _lsMultiplier = null;
-        bool _isFirstParagraph;
+        internal bool IsFirstParagraph { get; private set; }
 
         public override RenderItemType Type => RenderItemType.Text;
 
@@ -64,13 +64,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _hAlign = p.HorizontalAlignment;
 
             Bounds.Left = GetAlignmentHorizontal(_hAlign);
-            Bounds.Width = parent.Width - p.RightMargin;
+            Bounds.Width = parent.Width - p.RightMargin - p.LeftMargin;
 
             //---Get measurer---
             _measurer = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
 
             //---Calculate linespacing---
-            _isFirstParagraph = p == p._paragraphs[0];
+            IsFirstParagraph = p == p._paragraphs[0];
             int numLines = _paragraphLines.Count;
             _lsType = p.LineSpacing.LineSpacingType;
             ParagraphLineSpacing = GetParagraphLineSpacingInPixels(p.LineSpacing.Value, _measurer);
@@ -87,7 +87,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             if (_lsType == eDrawingTextLineSpacing.Exactly)
             {
-                if (_isFirstParagraph)
+                if (IsFirstParagraph)
                 {
                     _lineSpacingAscendantOnly = spacingValue.PointToPixel();
                 }
@@ -97,7 +97,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 var multiplier = (spacingValue / 100);
                 _lsMultiplier = multiplier;
-                if (_isFirstParagraph)
+                if (IsFirstParagraph)
                 {
                     _lineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine().PointToPixel();
                 }
@@ -111,7 +111,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         /// <param name="origTxtRun"></param>
         /// <param name="displayText"></param>
-        internal protected void AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
+        internal protected void AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText, double startingX)
         {
             var maxWidth = Bounds.Width;
 
@@ -119,7 +119,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
             targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
 
-            if (_textRunItems.Count == 0 && _isFirstParagraph == true)
+            if (_textRunItems.Count == 0 && IsFirstParagraph == true)
             {
                 targetTxtRun.BaseLineSpacing = _lineSpacingAscendantOnly;
             }
@@ -136,10 +136,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 }
             }
 
-            //Must be done AFTER line-spacing is set.
-            var txtRunHeight = targetTxtRun.CalculateLineSpacing();
+            targetTxtRun.Bounds.Left = startingX;
 
-            Bounds.Height += txtRunHeight;
+            targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
+
+            //Must be done AFTER line-spacing is set.
+            var txtRunBottom = b;
+
+            Bounds.Height += txtRunBottom;
 
             _textRunItems.Add(targetTxtRun);
         }
@@ -217,10 +221,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             _textRunItems = new List<TextRunItem>();
 
+            double widthOfCurrentLine = 0;
             //---Add Actual textruns---
             for (int i = 0; i < p.TextRuns.Count; i++)
             {
-                AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i]);
+                AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
+                var lastAdded = _textRunItems.Last();
+                if (lastAdded.YIncreasePerLine.Count > 1)
+                {
+                    widthOfCurrentLine = _textRunItems.Last().PerLineWidth.Last();
+                }
+                else
+                {
+                    widthOfCurrentLine += _textRunItems.Last().PerLineWidth.Last();
+                }
             }
         }
 

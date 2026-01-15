@@ -49,6 +49,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal double BaseLineSpacing { get; set; }
 
         internal List<double> YIncreasePerLine { get; private set; } = new List<double>();
+        internal List<double> PerLineWidth { get; private set; } = new List<double>();
 
         /// <summary>
         /// If the run has been wrapped more line-breaks may have been added in displayText
@@ -146,21 +147,31 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             return Lines.Count();
         }
 
+        /// <summary>
+        /// Calculates right/bottom
+        /// </summary>
+        /// <param name="il"></param>
+        /// <param name="it"></param>
+        /// <param name="ir"></param>
+        /// <param name="ib"></param>
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {
             il = Bounds.Left;
             it = Bounds.Top;
+
+            //Sets bounds bottom correctly
+            CalculateLineSpacing();
             ib = Bounds.Bottom;
-
+            
+            //Caculate bounds right
             ir = CalculateRightPositionInPixels();
-
             Bounds.Right = ir;
         }
 
         internal double CalculateRightPositionInPixels()
         {
             var numLines = GetNumberOfLines();
-            double retPos = Bounds.X;
+            double retPos = Bounds.Left;
 
             double TextLengthInPixels = 0;
 
@@ -176,6 +187,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 var text = Lines[i];
                 var width = CalculateTextWidth(Lines[i]);
+                PerLineWidth.Add(width);
 
                 if (width > longestWidth)
                 {
@@ -187,7 +199,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             retPos += longestWidth;
 
-            return retPos;
+            //Calculates right
+            Bounds.Width = TextLengthInPixels;
+
+            return Bounds.Right;
         }
 
         internal double CalculateBottomPositionInPixels()

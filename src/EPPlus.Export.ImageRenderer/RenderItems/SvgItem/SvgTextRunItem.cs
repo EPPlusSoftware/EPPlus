@@ -79,7 +79,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             string finalString = "";
 
-            for(int i = 0; i< Lines.Count; i++)
+            for (int i = 0; i < Lines.Count; i++)
             {
                 var line = Lines[i];
 
@@ -126,7 +126,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 finalString += line;
                 finalString += "</tspan>";
             }
-
             sb.Append(finalString);
         }
 

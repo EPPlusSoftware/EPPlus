@@ -252,7 +252,7 @@ namespace EPPlusImageRenderer.Svg
 
         private void RenderText(StringBuilder sb)
         {
-            RenderDebugTextBox(sb);
+            //RenderDebugTextBox(sb);
             textBody.Render(sb);
         }
 
@@ -263,13 +263,13 @@ namespace EPPlusImageRenderer.Svg
 
             insetTextBox.GetBounds(out double l, out double t, out double r, out double b);
 
-            var area = textBody.Bounds;
+            //var area = textBody.Bounds;
 
-            //Temporarily set as child bounds
-            insetTextBox.Bounds.Left = (float)area.Left + l;
-            insetTextBox.Bounds.Top = (float)area.Top + t;
-            insetTextBox.Bounds.Width = (float)area.Width;
-            insetTextBox.Bounds.Height = (float)area.Height;
+            ////Temporarily set as child bounds
+            //insetTextBox.Bounds.Left = (float)area.Left + l;
+            //insetTextBox.Bounds.Top = (float)area.Top + t;
+            //insetTextBox.Bounds.Width = (float)area.Width;
+            //insetTextBox.Bounds.Height = (float)area.Height;
 
             //insetTextBox.FillColor = "blue";
 
