@@ -17,8 +17,23 @@ namespace EPPlus.Fonts.OpenType.TextShaping
     /// Represents a shaped glyph with positioning information.
     /// All measurements are in font units (not PDF points or pixels).
     /// </summary>
-    public struct ShapedGlyph
+    public class ShapedGlyph
     {
+        public ShapedGlyph()
+        {
+            
+        }
+        public ShapedGlyph(ushort glyphId, int xAdvance)
+        {
+            GlyphId = glyphId;
+            XAdvance = xAdvance;
+            YAdvance = 0;
+            XOffset = 0;
+            YOffset = 0;
+            ClusterIndex = 0;
+            CharCount = 1;
+        }
+
         /// <summary>
         /// The glyph ID in the font.
         /// </summary>
@@ -60,16 +75,5 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// 1 for normal glyphs, 2+ for ligatures (e.g., "fi" → 1 glyph, 2 chars).
         /// </summary>
         public int CharCount { get; set; }
-
-        public ShapedGlyph(ushort glyphId, int xAdvance)
-        {
-            GlyphId = glyphId;
-            XAdvance = xAdvance;
-            YAdvance = 0;
-            XOffset = 0;
-            YOffset = 0;
-            ClusterIndex = 0;
-            CharCount = 1;
-        }
     }
 }

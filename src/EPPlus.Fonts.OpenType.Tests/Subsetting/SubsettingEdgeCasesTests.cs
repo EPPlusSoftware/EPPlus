@@ -10,7 +10,9 @@
  *************************************************************************************************
   12/22/2025         EPPlus Software AB           Subsetting edge case tests
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Subsetting;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
+using EPPlus.Fonts.OpenType.TextShaping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -107,6 +109,24 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             double ratio = (double)subsetSize / originalSize;
             Assert.IsTrue(ratio > 0.8,
                 $"Full subset unexpectedly small: {ratio:P0} of original");
+        }
+
+        [TestMethod]
+        public void Subset_PreservesRobotoKerning()
+        {
+            // Arrange
+            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var builder = new SubsetFontBuilder();
+
+            // Act
+            var subset = font.CreateSubset("AV");
+            var shaper = new TextShaper(subset);
+            var result = shaper.Shape("AV");
+
+            // Assert
+            Assert.IsTrue(result.Glyphs[0].XAdvance < font.HmtxTable.GetAdvanceWidth(
+                font.CmapTable.MapCharToGlyph('A')),
+                "Subset should preserve A-V kerning");
         }
     }
 }

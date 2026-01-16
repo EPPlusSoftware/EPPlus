@@ -212,8 +212,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
             }
             else if (posFormat == 2)
             {
-                // TODO: Implement Format 2 (class-based pairs)
-                return null;
+                return ReadPairPosFormat2(reader, subtableStart);
             }
             else
             {
@@ -227,6 +226,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
             var deserializer = new PairPosSubTableFormat1Deserializer(reader);
             return deserializer.Deserialize(subtableStart);
         }
+
+        private PairPosSubTableFormat2 ReadPairPosFormat2(FontsBinaryReader reader, long subtableStart)
+        {
+            var deserializer = new PairPosSubTableFormat2Deserializer(reader);
+            return deserializer.Deserialize(subtableStart);
+        }
+
 
         private FontTableElement ReadSinglePosSubTable(FontsBinaryReader reader, long subtableStart)
         {

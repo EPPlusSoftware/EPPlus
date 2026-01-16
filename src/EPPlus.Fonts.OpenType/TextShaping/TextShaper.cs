@@ -10,31 +10,25 @@
  *************************************************************************************************
   01/15/2025         EPPlus Software AB           Initial implementation
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Tables.Cmap;
-using EPPlus.Fonts.OpenType.Tables.Hmtx;
 using System;
 using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.TextShaping
 {
-    /// <summary>
-    /// Text shaping engine that converts text strings to positioned glyphs.
-    /// Handles character-to-glyph mapping, GSUB substitutions, and GPOS positioning.
-    /// </summary>
     public class TextShaper
     {
         private readonly OpenTypeFont _font;
         private readonly KerningProvider _kerningProvider;
+        private readonly LigatureProcessor _ligatureProcessor;
 
-        /// <summary>
-        /// Creates a new text shaper for the specified font.
-        /// </summary>
-        /// <param name="font">The OpenType font to use for shaping</param>
         public TextShaper(OpenTypeFont font)
         {
             _font = font ?? throw new ArgumentNullException(nameof(font));
             _kerningProvider = new KerningProvider(font);
+            _ligatureProcessor = new LigatureProcessor(font);
         }
+
+        #region Single-line Shaping
 
         /// <summary>
         /// Shape text using default options (ligatures + kerning).
@@ -48,6 +42,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         /// <summary>
         /// Shape text with specified options.
+        /// Note: Newline characters (\n, \r, \r\n) are treated as regular characters.
+        /// For multi-line text, use ShapeLines() method instead.
         /// </summary>
         /// <param name="text">Text to shape</param>
         /// <param name="options">Shaping options</param>
@@ -90,6 +86,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 Glyphs = glyphs.ToArray()
             };
         }
+
+        #endregion
 
         #region Phase 1: Character to Glyph Mapping
 
@@ -147,19 +145,9 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
             if (options.GsubFeatures != null && options.GsubFeatures.Contains("liga"))
             {
-                glyphs = ApplyLigatures(glyphs);
+                glyphs = _ligatureProcessor.ApplyLigatures(glyphs);
             }
 
-            return glyphs;
-        }
-
-        /// <summary>
-        /// Applies standard ligature substitutions (fi, ff, ffi, etc.).
-        /// </summary>
-        private List<ShapedGlyph> ApplyLigatures(List<ShapedGlyph> glyphs)
-        {
-            // TODO: Implement ligature lookup
-            // For now, return unchanged
             return glyphs;
         }
 
@@ -212,9 +200,6 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <summary>
         /// Measures the width of text in font units.
         /// </summary>
-        /// <param name="text">Text to measure</param>
-        /// <param name="options">Shaping options</param>
-        /// <returns>Width in font units</returns>
         public int MeasureText(string text, ShapingOptions options = null)
         {
             var shaped = Shape(text, options);
@@ -224,10 +209,6 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <summary>
         /// Measures the width of text in PDF points.
         /// </summary>
-        /// <param name="text">Text to measure</param>
-        /// <param name="fontSize">Font size in points</param>
-        /// <param name="options">Shaping options</param>
-        /// <returns>Width in PDF points</returns>
         public float MeasureTextInPoints(string text, float fontSize, ShapingOptions options = null)
         {
             var shaped = Shape(text, options);
@@ -238,16 +219,94 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <summary>
         /// Measures the width of text in pixels.
         /// </summary>
-        /// <param name="text">Text to measure</param>
-        /// <param name="fontSize">Font size in points</param>
-        /// <param name="dpi">Screen DPI (typically 96)</param>
-        /// <param name="options">Shaping options</param>
-        /// <returns>Width in pixels</returns>
         public float MeasureTextInPixels(string text, float fontSize, float dpi, ShapingOptions options = null)
         {
             var shaped = Shape(text, options);
             float unitsPerEm = _font.HeadTable.UnitsPerEm;
             return shaped.GetWidthInPixels(fontSize, dpi, unitsPerEm);
+        }
+
+        #endregion
+
+        #region Multi-line Support
+
+        /// <summary>
+        /// Shape multi-line text (handles \n, \r, \r\n).
+        /// Returns one ShapedText per line.
+        /// </summary>
+        public ShapedText[] ShapeLines(string text, ShapingOptions options = null)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return new ShapedText[0];
+            }
+
+            var lines = text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+            var result = new ShapedText[lines.Length];
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                result[i] = Shape(lines[i], options);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Measure multi-line text and return bounding box.
+        /// </summary>
+        public MultiLineMetrics MeasureLines(string text, float fontSize, ShapingOptions options = null)
+        {
+            var shapedLines = ShapeLines(text, options);
+            float unitsPerEm = _font.HeadTable.UnitsPerEm;
+
+            float maxWidth = 0;
+            foreach (var line in shapedLines)
+            {
+                float lineWidth = line.GetWidthInPoints(fontSize, unitsPerEm);
+                maxWidth = Math.Max(maxWidth, lineWidth);
+            }
+
+            float lineHeight = GetLineHeightInPoints(fontSize);
+            float fontHeight = GetFontHeightInPoints(fontSize);
+            float totalHeight = shapedLines.Length * lineHeight;
+
+            return new MultiLineMetrics
+            {
+                Width = maxWidth,
+                Height = totalHeight,
+                FontHeight = fontHeight,
+                LineCount = shapedLines.Length,
+                LineHeight = lineHeight
+            };
+        }
+
+        /// <summary>
+        /// Get line height (ascent + descent + line gap) in points.
+        /// </summary>
+        public float GetLineHeightInPoints(float fontSize)
+        {
+            var hhea = _font.HheaTable;
+            float unitsPerEm = _font.HeadTable.UnitsPerEm;
+
+            // ascent is positive, descender is negative
+            int lineHeightUnits = hhea.ascender - hhea.descender + hhea.lineGap;
+
+            return (lineHeightUnits / unitsPerEm) * fontSize;
+        }
+
+        /// <summary>
+        /// Get font height (ascent + descent only, no line gap) in points.
+        /// </summary>
+        public float GetFontHeightInPoints(float fontSize)
+        {
+            var hhea = _font.HheaTable;
+            float unitsPerEm = _font.HeadTable.UnitsPerEm;
+
+            // ascent is positive, descender is negative
+            int fontHeightUnits = hhea.ascender - hhea.descender;
+
+            return (fontHeightUnits / unitsPerEm) * fontSize;
         }
 
         #endregion
