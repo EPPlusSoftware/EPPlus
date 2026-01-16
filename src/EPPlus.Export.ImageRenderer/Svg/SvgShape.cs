@@ -252,7 +252,7 @@ namespace EPPlusImageRenderer.Svg
 
         private void RenderText(StringBuilder sb)
         {
-            RenderDebugTextBox(sb);
+            //RenderDebugTextBox(sb);
             textBody.Render(sb);
         }
 

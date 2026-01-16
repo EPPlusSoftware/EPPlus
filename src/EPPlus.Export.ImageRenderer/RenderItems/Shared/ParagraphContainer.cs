@@ -143,7 +143,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //Must be done AFTER line-spacing is set.
             var txtRunBottom = b;
 
-            Bounds.Height += txtRunBottom;
+            if(_textRunItems.Count == 0 && IsFirstParagraph == true || targetTxtRun.YIncreasePerLine.Count() > 1)
+            {
+                Bounds.Height += txtRunBottom;
+            }
 
             _textRunItems.Add(targetTxtRun);
         }
