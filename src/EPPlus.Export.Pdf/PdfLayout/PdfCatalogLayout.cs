@@ -176,7 +176,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         }
                         else if (b is PdfCellBorderLayout)
                         {
-                            var copy = new PdfCellBorderLayout(b.cell, b.LocalPosition.X, b.LocalPosition.Y + b.Size.Y, b.Size.X, b.Size.Y, b.LocalScale.X, b.LocalScale.Y, b.LocalRotation, WorksheetLayout);
+                            var copy = new PdfCellBorderLayout(b.cell, null, b.LocalPosition.X, b.LocalPosition.Y + b.Size.Y, b.Size.X, b.Size.Y, b.LocalScale.X, b.LocalScale.Y, b.LocalRotation, WorksheetLayout);
                             copy.Name = b.Name;
                             copy.Z = b.Z;
                             copy.BorderData = b.BorderData;

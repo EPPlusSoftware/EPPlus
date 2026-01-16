@@ -23,6 +23,8 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Table.PivotTable.Filter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -48,7 +50,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
                     var cell = worksheet.Cells[row, col];
                     var tableStyle = CheckTableStyle(cell);
-                    PdfCellBorderLayout border = HandleEdgeBorders(cell, x, y, width, height);
+                    CheckTableBorderStyle(cell, tableStyle);
+                    PdfCellBorderLayout border = HandleEdgeBorders(cell, tableStyle, x, y, width, height);
                     if (cell.Merge)
                     {
                         HandleMergedCell(worksheet, pageSettings, dictionaries, cell, checkedMergedCells, x, y);
@@ -65,6 +68,40 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
             HandleDrawings(worksheet);
             Size = new Vector2(totalWidth, y);
+        }
+
+        private void CheckTableBorderStyle(ExcelRange cell, PdfTableLayout tableStyle)
+        {
+            var tbl = cell.Worksheet.Tables.GetIntersectingRanges(cell);
+            if (tbl.Count > 0)
+            {
+                var tblrng = tbl[0].Value.Range;
+                var table = tbl[0].Value;
+
+                int tblrow = 0;
+                int tblcol = 0;
+                tblrow = cell._fromRow - tblrng._fromRow;
+                tblcol = cell._fromCol - tblrng._fromCol;
+
+                if (tblrow == 0)
+                {
+                    tableStyle.borderStyleType |= TableBorderStyle.Top;
+                }
+                if (tblrng._toRow == cell._fromRow)
+                {
+                    tableStyle.borderStyleType |= TableBorderStyle.Bottom;
+                }
+                if (tblcol == 0)
+                {
+                    tableStyle.borderStyleType |= TableBorderStyle.Left;
+                }
+                if (tblrng._toCol == cell._fromCol)
+                {
+                    tableStyle.borderStyleType |= TableBorderStyle.Right;
+                }
+                //check horizontal
+                //check vertical
+            }
         }
 
         public PdfTableLayout CheckTableStyle(ExcelRangeBase cell)
@@ -92,37 +129,43 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 tblcol = cell._fromCol - tblrng._fromCol;
 
                 PdfTableLayout tl = new PdfTableLayout();
-                if (table.ShowHeader && tblrow == 0)
+                tl.WholeStyle = tblStyle.WholeTable;
+                if (tblrow == 0)
                 {
-                    tl.TableCellStyleType = TableCellStyle.Header;
-                    tl.Style = tblStyle.HeaderRow;
+                    if (table.ShowHeader)
+                    {
+                        tl.TableCellStyleType = TableCellStyle.Header;
+                        tl.MainStyle = tblStyle.HeaderRow;
+                    }
                 }
                 else if (table.ShowTotal && tblrng._toRow == cell._fromRow)
                 {
                     tl.TableCellStyleType = TableCellStyle.TotalRow;
-                    tl.Style = tblStyle.TotalRow;
+                    tl.MainStyle = tblStyle.TotalRow;
                 }
                 else if (table.ShowFirstColumn && tblcol == 0)
                 {
                     tl.TableCellStyleType = TableCellStyle.FirstColumn;
-                    tl.Style = tblStyle.FirstColumn;
+                    tl.MainStyle = tblStyle.FirstColumn;
                 }
                 else if (table.ShowLastColumn && tblrng._fromCol == cell._fromCol)
                 {
                     tl.TableCellStyleType = TableCellStyle.LastColumn;
-                    tl.Style = tblStyle.LastColumn;
+                    tl.MainStyle = tblStyle.LastColumn;
                 }
                 else if (table.ShowRowStripes)
                 {
                     if ((tblrow & 1) == 0)
                     {
                         tl.TableCellStyleType = TableCellStyle.EvenRow;
-                        tl.Style = tblStyle.SecondRowStripe;
+                        tl.MainStyle = tblStyle.SecondRowStripe;
+
+
                     }
                     else
                     {
                         tl.TableCellStyleType = TableCellStyle.OddRow;
-                        tl.Style = tblStyle.FirstRowStripe;
+                        tl.MainStyle = tblStyle.FirstRowStripe;
                     }
                 }
                 else if (table.ShowColumnStripes)
@@ -130,12 +173,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if ((tblrow & 1) == 0)
                     {
                         tl.TableCellStyleType = TableCellStyle.OddColumn;
-                        tl.Style = tblStyle.SecondColumnStripe;
+                        tl.MainStyle = tblStyle.SecondColumnStripe;
                     }
                     else
                     {
                         tl.TableCellStyleType = TableCellStyle.EvenColumn;
-                        tl.Style = tblStyle.FirstColumnStripe;
+                        tl.MainStyle = tblStyle.FirstColumnStripe;
                     }
                 }
                 else
@@ -156,7 +199,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             cl0.Name = cell.Address + deleteMark;
             cl0.Z = 1;
             AddCellContent(pageSettings, dictionaries, cell, x, y-height, width, height, 2);
-            var border = HandleDiagonalBorders(cell, x, y, width, height);
+            var border = HandleDiagonalBorders(cell, TableStyle, x, y, width, height);
             if (border != null)
             {
                 border.InitDiagonalBorders(cell, width, height);
@@ -184,7 +227,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 mergedCell.Z = 5;
                 AddCellContent(pageSettings, dictionaries, cell, x, y-height, width, height, 6);
                 checkedMergedCells.Add(mergeAddress);
-                var border = HandleDiagonalBorders(cell, x, y, width, height);
+                var border = HandleDiagonalBorders(cell, null, x, y, width, height);
                 if (border != null)
                 {
                     border.InitDiagonalBorders(cell, width, height);
@@ -205,12 +248,19 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create Edge borders.
-        private PdfCellBorderLayout HandleEdgeBorders(ExcelRangeBase cell, double x, double y, double width, double height)
+        private PdfCellBorderLayout HandleEdgeBorders(ExcelRangeBase cell, PdfTableLayout tableStyle, double x, double y, double width, double height)
         {
             bool edges = new[] { cell.Style.Border.Top.Style, cell.Style.Border.Bottom.Style, cell.Style.Border.Left.Style, cell.Style.Border.Right.Style }.All(s => s == ExcelBorderStyle.None);
             if (!edges)
             {
-                var clb0 = new PdfCellBorderLayout(cell, x, y, width, height, 1, 1, 0, this);
+                var clb0 = new PdfCellBorderLayout(cell, null, x, y, width, height, 1, 1, 0, this);
+                clb0.Name = cell.Address + "_b";
+                clb0.Z = 7;
+                return clb0;
+            }
+            if (tableStyle != null)
+            {
+                var clb0 = new PdfCellBorderLayout(cell, tableStyle, x, y, width, height, 1, 1, 0, this);
                 clb0.Name = cell.Address + "_b";
                 clb0.Z = 7;
                 return clb0;
@@ -219,12 +269,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create Diagonal borders.
-        private PdfCellBorderLayout HandleDiagonalBorders(ExcelRangeBase cell, double x, double y, double width, double height)
+        private PdfCellBorderLayout HandleDiagonalBorders(ExcelRangeBase cell, PdfTableLayout TableStyle, double x, double y, double width, double height)
         {
             bool diagonals = new[] { cell.Style.Border.Diagonal.Style }.All(s => s == ExcelBorderStyle.None);
             if (!diagonals)
             {
-                var clb0 = new PdfCellBorderLayout(cell, x, y, width, height, 1, 1, 0, this);
+                var clb0 = new PdfCellBorderLayout(cell, TableStyle, x, y, width, height, 1, 1, 0, this);
                 clb0.Name = cell.Address + "_b";
                 clb0.Z = 7;
                 return clb0;

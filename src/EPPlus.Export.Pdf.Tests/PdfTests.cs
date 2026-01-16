@@ -36,6 +36,7 @@ namespace EPPlusTest.PDF
          * Merged Cells: Merged cells with no color set will have the color set to white to hide gridlines. They should not have color set to keep tranparency if we want to include background.
          * 
          * Tables: Table Implementation
+         * Tables: Fix order of applying table styling. Right now Table is used if it exsists, but cell styling should be prioritised and table should be ignored if cell has styluing.
          * 
          * Patterns: Adjust and make patterns look better. Fixed: DarkUp, DarkDown
          * 
