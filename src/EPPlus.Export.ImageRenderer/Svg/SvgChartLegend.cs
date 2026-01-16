@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.Svg;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Text;
 using OfficeOpenXml;
@@ -201,12 +202,15 @@ namespace EPPlusImageRenderer.Svg
                                 sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
                             }
                             if (ls.HasMarker() && ls.Marker.Style != eMarkerStyle.None)
-                            {                                
-                                sls.MarkerIcon = GetMarkerItem(sc, ls, sls, index);
+                            {
+                                var l = sls.SeriesIcon as SvgRenderLineItem;
+                                var x= l.X1 + (l.X2 - l.X1) / 2;
+                                var y = l.Y1;
+                                sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(sc, ls, x, y, true);
                                 if((ls.Marker.Style==eMarkerStyle.Plus || ls.Marker.Style == eMarkerStyle.X || ls.Marker.Style == eMarkerStyle.Star) &&
                                     ls.Marker.Fill.IsEmpty == false)
                                 {
-                                    sls.MarkerBackground = GetMarkerBackground(sc, ls, sls);
+                                    sls.MarkerBackground = LineMarkerHelper.GetMarkerBackground(sc, ls, x, y, true);
                                 }
                                 else
                                 {
@@ -270,145 +274,6 @@ namespace EPPlusImageRenderer.Svg
                 item.LineCap = eLineCap.Round;
             }
 
-            return item;
-        }
-
-
-        private RenderItem GetMarkerItem(SvgChart sc, ExcelLineChartSerie ls, SvgLegendSerie sls, int index)
-        {
-            SvgRenderItem item;
-            var m = ls.Marker;
-            var size = m.Size > 7 ? 7:m.Size;
-            var halfSize = (float)size / 2;
-            var line = sls.SeriesIcon as SvgRenderLineItem;
-            var x = line.X1 + (line.X2 - line.X1) / 2;
-            var xPath = x / (float)sc.ChartArea.Width;
-            var y = (float)line.Y1;
-            var yPath = y / (float)sc.ChartArea.Height;
-            var halfY = (float)halfSize / sc.ChartArea.Height;
-            var halfX = (float)halfSize / sc.ChartArea.Width;
-            switch (m.Style)
-            {
-                case eMarkerStyle.Circle:
-                    item = new SvgRenderEllipseItem(sc.Drawing)
-                    {
-                        Rx = halfSize,
-                        Ry = halfSize,
-                        Cx = x,
-                        Cy = y
-                    };
-                    break;
-                case eMarkerStyle.Triangle:
-                    item = new SvgRenderPathItem(sc.Drawing)
-                    {
-                        Commands = new List<PathCommands>()
-                    };
-                    var cmd = new PathCommands(PathCommandType.Move, item, new double[] { xPath + halfX, yPath+halfY, xPath, yPath - halfY, xPath - halfX, yPath+halfY});
-                    ((SvgRenderPathItem)item).Commands.Add(cmd);
-                    ((SvgRenderPathItem)item).Commands.Add(new PathCommands(PathCommandType.End, item));
-                    break;
-                case eMarkerStyle.Diamond:
-                    item = new SvgRenderPathItem(sc.Drawing)
-                    {
-                        Commands = new List<PathCommands>()
-                    };
-
-                    cmd = new PathCommands(PathCommandType.Move, item, new double[] { (xPath - halfX), yPath, xPath, yPath + halfY, xPath + halfX, yPath, xPath, yPath - halfY});
-                    ((SvgRenderPathItem)item).Commands.Add(cmd);
-                    ((SvgRenderPathItem)item).Commands.Add(new PathCommands(PathCommandType.End, item));
-                    break;
-                case eMarkerStyle.Dot:
-                case eMarkerStyle.Dash:
-                    item = null;
-                    break;
-                case eMarkerStyle.Square:
-                    item = new SvgRenderRectItem(sc.Drawing)
-                    {
-                        Left = line.X1 + (line.X2 - line.X1 - size) / 2,
-                        Top = line.Y1 - ((size) / 2),
-                        Width = size,
-                        Height = size
-                    };
-                    break;
-                case eMarkerStyle.Plus:
-                case eMarkerStyle.Star:
-                case eMarkerStyle.X:
-                    var pathItem = new SvgRenderPathItem(sc.Drawing)
-                    {
-                        Commands = new List<PathCommands>()                        
-                    };
-                    if(m.Style== eMarkerStyle.Star)
-                    {                        
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath - halfX, yPath - halfY, xPath + halfX, yPath + halfY }));
-
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath , yPath+halfY, xPath , yPath - halfY}));
-
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath + halfX, yPath - halfY, xPath - halfX, yPath + halfY }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End, pathItem));
-
-                    }
-                    else if(m.Style== eMarkerStyle.X)
-                    {
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath - halfX, yPath - halfY, xPath + halfX, yPath + halfY }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End, pathItem));
-
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath - halfX, yPath + halfY, xPath + halfX, yPath - halfY }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End, pathItem));
-                    }
-                    else
-                    {
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath, yPath - halfY, xPath , yPath + halfY }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End, pathItem));
-
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, pathItem, new double[] { xPath - halfX, yPath, xPath + halfX, yPath }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End, pathItem));
-                    }
-                    item = pathItem;
-                    break;
-                default:
-                    item = null;
-                    break;
-            }
-            if(ls.Marker.Fill.IsEmpty==false)
-            {
-                item?.SetDrawingPropertiesFill(ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
-            }
-            else if (ls.Fill.IsEmpty)
-            {
-                item?.SetDrawingPropertiesFill(ls.Border.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
-            }
-            else
-            {
-                item?.SetDrawingPropertiesFill(ls.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
-            }
-            
-            if (ls.Marker.Border.Width > 0)
-            {
-                if (ls.Marker.Border.Fill.IsEmpty)
-                {
-                    item?.SetDrawingPropertiesBorder(ls.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style != eFillStyle.NoFill, 0.75);
-                }
-                else
-                {
-                    item?.SetDrawingPropertiesBorder(ls.Marker.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Marker.Border.Fill.Style != eFillStyle.NoFill, 0.75);
-                }
-            }
-            return item;
-        }
-        private RenderItem GetMarkerBackground(SvgChart sc, ExcelLineChartSerie ls, SvgLegendSerie sls)
-        {
-            SvgRenderItem item;
-            var m = ls.Marker;
-            var size = m.Size > 7 ? 7 : m.Size;
-            var line = sls.SeriesIcon as SvgRenderLineItem;
-            item = new SvgRenderRectItem(sc.Drawing)
-            {
-                Left = line.X1 + (line.X2 - line.X1 - size) / 2,
-                Top = line.Y1 - ((size) / 2),
-                Width = size,
-                Height = size
-            };
-            item?.SetDrawingPropertiesFill(ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
             return item;
         }
 

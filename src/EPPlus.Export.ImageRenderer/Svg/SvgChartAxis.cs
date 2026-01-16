@@ -488,5 +488,43 @@ namespace EPPlusImageRenderer.Svg
 
             return axisStyle;
         }
+
+        internal double GetPositionInPlotarea(object val)
+        {
+            if (Axis.AxisPosition == eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
+            {
+                if (Axis.AxisType == eAxisType.Cat)
+                {
+                    //var index = Values.IndexOf(val);
+                    //if (index < 0) return -1;
+                    var majorHeight = SvgChart.Plotarea.Rectangle.Height / Max;
+                    return (SvgChart.Plotarea.Rectangle.Top + majorHeight * (int)val + (majorHeight / 2));
+                }
+                else
+                {
+                    var dVal = ConvertUtil.GetValueDouble(val, false, true);
+                    if (dVal < Min || dVal > Max) return double.NaN;
+                    var diff = Max - Min;
+                    return (SvgChart.Plotarea.Rectangle.Top + ((Max-dVal) / diff * SvgChart.Plotarea.Rectangle.Height));
+                }
+            }
+            else
+            {
+                if (Axis.AxisType == eAxisType.Cat)
+                {
+                    //var index = Values[(int)val];
+                    //if (index < 0) return -1;
+                    var majorWidth = SvgChart.Plotarea.Rectangle.Width / Max;
+                    return (SvgChart.Plotarea.Rectangle.Left + majorWidth * (int)val + (majorWidth / 2));
+                }
+                else
+                {
+                    var dVal = ConvertUtil.GetValueDouble(val, false, true);
+                    if (dVal < Min || dVal > Max) return double.NaN;
+                    var diff = Max - Min;
+                    return (SvgChart.Plotarea.Rectangle.Left + ((Max - dVal) / diff * SvgChart.Plotarea.Rectangle.Width));
+                }
+            }
+        }
     }
 }

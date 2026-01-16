@@ -10,12 +10,11 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -27,7 +26,7 @@ namespace EPPlusImageRenderer.Svg
             Rectangle = GetPlotAreaRectangle(sc);
         }
         public SvgChart SvgChart { get; set; }
-        public List<SvgChartDrawer> ChartTypeDrawers { get; } = new List<SvgChartDrawer>();
+        public List<ChartTypeDrawer> ChartTypeDrawers { get; set; } 
         internal SvgRenderRectItem GetPlotAreaRectangle(SvgChart sc)
         {
             var pa = sc.Chart.PlotArea;

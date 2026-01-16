@@ -65,7 +65,7 @@ namespace EPPlusImageRenderer
                 l.Add(v);
             }
             return l;
-        }
+            }
 
         private void GetAutoMinMaxValue(ExcelChartAxisStandard ax, bool isCount, ref double? min, ref double? max, out double? majorUnit)
         {

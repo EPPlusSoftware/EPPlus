@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Drawing.Chart;
@@ -56,6 +57,10 @@ namespace EPPlusImageRenderer.Svg
             Plotarea = new SvgChartPlotarea(this);
 
             SetAxisPositionsFromPlotarea(this);
+            foreach(var ct in chart.PlotArea.ChartTypes)
+            {
+                Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
+            }
         }
 
         private void  SetAxisPositionsFromPlotarea(SvgChart sc)
@@ -148,10 +153,14 @@ namespace EPPlusImageRenderer.Svg
             VerticalAxis?.AppendRenderItems(RenderItems);
             SecondVerticalAxis?.AppendRenderItems(RenderItems);
 
+            foreach (var drawer in Plotarea?.ChartTypeDrawers)
+            {
+                drawer.AppendRenderItems(RenderItems);
+            }
+
             Legend?.AppendRenderItems(RenderItems);
             Title?.AppendRenderItems(RenderItems);
 
-            Plotarea?.ChartTypeDrawers.AppendRenderItems(RenderItems);
             sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
             //Write defs used for gradient colors
             var writer = new SvgDrawingWriter(this);
