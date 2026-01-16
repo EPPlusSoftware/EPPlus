@@ -16,6 +16,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         internal List<int> AllTextNewLineIndicies = new();
         List<TextFragment> _fragmentItems = new List<TextFragment>();
         List<TextLine> _lines = new List<TextLine>();
+        List<string> outputFragments = new List<string>();
 
         public List<int> IndiciesToWrapAt {get; internal set; }
         public TextFragmentCollection(List<string> textFragments)
@@ -34,6 +35,10 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
             }
 
             AllText = string.Join(string.Empty, textFragments.ToArray());
+
+            //var allTextLineLess = AllText.Replace("\r", "");
+            //allTextLineLess = allTextLineLess.Replace("\n", "");
+
             //Get the indicies where newlines occur in the combined string
             AllTextNewLineIndicies = GetFirstCharPositionOfNewLines(AllText);
 
@@ -142,16 +147,30 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
                 _fragmentItems[CharLookup[i].Fragment].AddLocalLbPositon(i);
             }
 
-            List<string> finalFragments = new List<string>();
-
             foreach(var fragment in _fragmentItems)
             {
-                finalFragments.Add(fragment.GetWrappedFragment());
+                outputFragments.Add(fragment.GetWrappedFragment());
             }
 
-            return finalFragments;
+            return outputFragments;
         }
-        
+
+        public List<string> GetFragmentsWithoutLineBreaks()
+        {
+            //var newFragments = TextFragments.ToArray();
+            foreach (var i in IndiciesToWrapAt)
+            {
+                _fragmentItems[CharLookup[i].Fragment].AddLocalLbPositon(i);
+            }
+
+            foreach (var fragment in _fragmentItems)
+            {
+                outputFragments.Add(fragment.GetWrappedFragment());
+            }
+
+            return outputFragments;
+        }
+
         /// <summary>
         /// Should arguably be done in constructor instead of created every time
         /// 

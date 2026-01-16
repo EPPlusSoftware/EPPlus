@@ -40,6 +40,13 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
             positionsToBreakAt.Add(locaLnPos);
         }
 
+        internal string GetLineBreakFreeFragment()
+        {
+            string freeFragment = ThisFragment.Replace("\r", "");
+            freeFragment.Replace("\n", "");
+            return freeFragment;
+        }
+
         internal string GetWrappedFragment()
         {
             if(positionsToBreakAt.Count == 0)

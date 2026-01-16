@@ -776,10 +776,10 @@ namespace EPPlus.Fonts.OpenType
                 //Perform the actual wrapping
                 if (lineWidth > maxWidth)
                 {
-                    //Log where wrapping occured in order to keep track of fragment/run/richtext
-                    paragraph.Fragments.AddWrappingIndex(i);
-
                     WrapAtCharPos(allText, i, ref prevLineEndIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings);
+
+                    //Log where wrapping occured in order to keep track of fragment/run/richtext
+                    paragraph.Fragments.AddWrappingIndex(prevLineEndIndex);
 
                     //Since we're using the AllText, need to handle leftover line differently
                     if (i < prevLineEndIndex)

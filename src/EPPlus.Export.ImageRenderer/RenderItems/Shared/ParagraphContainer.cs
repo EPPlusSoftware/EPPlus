@@ -184,7 +184,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             List<string> runContents = new List<string>();
             List<float> fontSizes = new List<float>();
-                 
+            
             for (int i = 0; i < runs.Count(); i++)
             {
                 var txtRun = runs[i];
@@ -224,20 +224,35 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             _textRunItems = new List<TextRunItem>();
 
+            string currentLine = _paragraphLines[0];
+            double currentLength = 0;
             double widthOfCurrentLine = 0;
+
+            //WE CAN NOW OPERATE PER LINE COUNTING CHARS AS THEY HAVE THE SAME BASIS.
+            //THEREFORE WE CAN MOVE PER FRAGMENT OR CHAR AND KNOW WHEN WE ARE IN A NEW LINE MORE EASILY
+            //WE HAVE IT MAPPED I JUST NEED TO ITERATE CORRECTLY
+
             //---Add Actual textruns---
             for (int i = 0; i < p.TextRuns.Count; i++)
             {
-                AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
-                var lastAdded = _textRunItems.Last();
-                if (lastAdded.YIncreasePerLine.Count > 1)
+                if(_textRunDisplayText[i].Length + currentLength > currentLine.Length)
                 {
-                    widthOfCurrentLine = _textRunItems.Last().PerLineWidth.Last();
+
                 }
                 else
                 {
-                    widthOfCurrentLine += _textRunItems.Last().PerLineWidth.Last();
+                    //cur
                 }
+                //AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
+                //var lastAdded = _textRunItems.Last();
+                //if (lastAdded.YIncreasePerLine.Count > 1)
+                //{
+                //    widthOfCurrentLine = _textRunItems.Last().PerLineWidth.Last();
+                //}
+                //else
+                //{
+                //    widthOfCurrentLine += _textRunItems.Last().PerLineWidth.Last();
+                //}
             }
         }
 
@@ -258,8 +273,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 //Which the alternative "paragraph.Text.Split(new [] '\r' '\n')" would result in.
                 _paragraphLines = Regex.Split(p.Text, "\r\n|\r|\n").ToList();
             }
-            //Gets each actual text run, including linebreak symbols
-            _textRunDisplayText = fragments.GetFragmentsWithFinalLineBreaks();
+            //Gets each actual text run, excluding linebreak symbols
+            _textRunDisplayText = fragments.GetFragmentsWithoutLineBreaks();
         }
 
         internal double GetAlignmentHorizontal(eTextAlignment txAlignment)

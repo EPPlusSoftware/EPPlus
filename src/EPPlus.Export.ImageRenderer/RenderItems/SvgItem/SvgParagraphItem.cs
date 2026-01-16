@@ -83,16 +83,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             sb.AppendLine("<title>paragraph</title> ");
 
-            var bb = new SvgRenderRectItem();
-            //The bb is affected by the transform so set to zero
-            bb.Y = 0;
-            bb.X = 0;
+            //var bb = new SvgRenderRectItem();
+            ////The bb is affected by the transform so set pos to zero
+            //bb.Y = 0;
+            //bb.X = 0;
 
-            bb.Width = Bounds.Width;
-            bb.Height = Bounds.Height;
-            bb.FillColor = "gold";
-            bb.FillOpacity = 0.3;
-            bb.Render(sb);
+            //bb.Width = Bounds.Width;
+            //bb.Height = Bounds.Height;
+            //bb.FillColor = "gold";
+            //bb.FillOpacity = 0.3;
+            //bb.Render(sb);
 
             //Render text run debug boxes as we cannot place the rects after or inside the text element
 
@@ -100,40 +100,37 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 //double lastWidth = 0;
 
+                var bbLines = new SvgRenderRectItem();
+
                 foreach (var textRun in _textRunItems)
                 {
                     ////render txtRun debug
-                    bb.X = textRun.Bounds.Left;
-                    bb.Width = textRun.Bounds.Width;
+                    bbLines.X = textRun.Bounds.Left;
+                    bbLines.Width = textRun.Bounds.Width;
                     if (IsFirstParagraph == false)
                     {
-                        bb.Y = -textRun.FontSizeInPixels.PixelToPoint();
+                        bbLines.Y = -textRun.FontSizeInPixels.PixelToPoint();
                     }
-                    bb.Height = textRun.Bounds.Height;
-                    bb.FillColor = "green";
-                    bb.FillOpacity = 0.3;
-                    bb.Render(sb);
 
                     //Render each line debug
-                    //bb.FillColor = "purple";
-                    //for (int i = 0; i < textRun.Lines.Count; i++)
-                    //{
-                    //    if (i > 0)
-                    //    {
-                    //        bb.Y += textRun.YIncreasePerLine[i];
-                    //        //lastWidth = 0;
-                    //        bb.X = 0;
-                    //    }
-                    //    else
-                    //    {
-                    //        bb.X = textRun.Bounds.Left;
-                    //    }
+                    bbLines.FillColor = "purple";
+                    for (int i = 0; i < textRun.Lines.Count; i++)
+                    {
+                        if (i > 0)
+                        {
+                            bbLines.Y += textRun.YIncreasePerLine[i];
+                            //lastWidth = 0;
+                            bbLines.X = 0;
+                        }
+                        else
+                        {
+                            bbLines.X = textRun.Bounds.Left;
+                        }
 
-                    //    bb.Height = textRun.FontSizeInPixels;
-                    //    bb.Width = textRun.PerLineWidth[i];
-                    //    bb.Render(sb);
-                    //}
-                    //lastWidth += textRun.PerLineWidth.Last();
+                        bbLines.Height = textRun.FontSizeInPixels;
+                        bbLines.Width = textRun.PerLineWidth[i];
+                        bbLines.RenderRect(sb);
+                    }
                 }
             }
 

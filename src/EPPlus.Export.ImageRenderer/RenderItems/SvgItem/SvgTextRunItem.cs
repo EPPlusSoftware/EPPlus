@@ -78,6 +78,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void Render(StringBuilder sb)
         {
             string finalString = "";
+            var xString = $"x =\"{(Bounds.X).ToString(CultureInfo.InvariantCulture)}\" ";
 
             for (int i = 0; i < Lines.Count; i++)
             {
@@ -99,10 +100,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     //}
 
                     var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
-                    var xString = $"x =\"{(Bounds.X).ToString(CultureInfo.InvariantCulture)}\" ";
-                    var dyString = $"dy =\"{yIncreaseString}px\" ";
-                    finalString += xString;
+                    var dyString = $"dy=\"{yIncreaseString}px\" ";
                     finalString += dyString;
+                    finalString += "x=\"0\" ";
+                }
+                else
+                {
+                    finalString += xString;
                 }
 
                 finalString += $"{visibility} " + $"{GetFontStyleAttributes()} ";
