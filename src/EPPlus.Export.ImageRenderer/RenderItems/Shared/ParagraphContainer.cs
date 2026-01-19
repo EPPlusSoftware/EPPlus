@@ -216,7 +216,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _textRunItems = new List<TextRunItem>();
 
             string currentLine = _paragraphLines[0];
-            double currentLength = 0;
+            double currentPosition = 0;
             double widthOfCurrentLine = 0;
             double largestFontSizeCurrentLine = 0;
             int idxLargestFontSize = 0;
@@ -234,14 +234,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     idxLargestFontSize = i;
                 }
 
-                if(_textRunDisplayText[i].Length + currentLength > currentLine.Length)
+                if(_textRunDisplayText[i].Length + currentPosition > currentLine.Length)
                 {
                     AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
 
                     var lastAdded = _textRunItems.Last();
-                    var posLineIsBrokenAt = currentLine.Length - currentLength;
-                    currentLength = posLineIsBrokenAt;
+                    var posLineIsBrokenAt = currentLine.Length - currentPosition;
+                    currentPosition = posLineIsBrokenAt;
 
+                    //Since the linebreaks are not included in display text anymore this is innaccurate.
                     widthOfCurrentLine = _textRunItems.Last().PerLineWidth.Last();
 
                     Bounds.Height += _textRunItems[idxLargestFontSize].Bounds.Bottom;
@@ -261,7 +262,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     var lastAdded = _textRunItems.Last();
                     widthOfCurrentLine += _textRunItems.Last().PerLineWidth.Last();
 
-                    currentLength += _textRunDisplayText[i].Length;
+                    currentPosition += _textRunDisplayText[i].Length;
                 }
                 //AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
                 //var lastAdded = _textRunItems.Last();
