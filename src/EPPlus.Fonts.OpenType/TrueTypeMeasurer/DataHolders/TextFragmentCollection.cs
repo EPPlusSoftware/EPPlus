@@ -18,6 +18,11 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         List<TextLine> _lines = new List<TextLine>();
         List<string> outputFragments = new List<string>();
 
+        /// <summary>
+        /// Added linewidths in points
+        /// </summary>
+        List <double> lineWidths = new List<double>();
+
         public List<int> IndiciesToWrapAt {get; internal set; }
         public TextFragmentCollection(List<string> textFragments)
         {
@@ -35,9 +40,6 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
             }
 
             AllText = string.Join(string.Empty, textFragments.ToArray());
-
-            //var allTextLineLess = AllText.Replace("\r", "");
-            //allTextLineLess = allTextLineLess.Replace("\n", "");
 
             //Get the indicies where newlines occur in the combined string
             AllTextNewLineIndicies = GetFirstCharPositionOfNewLines(AllText);
@@ -157,18 +159,23 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
 
         public List<string> GetFragmentsWithoutLineBreaks()
         {
-            //var newFragments = TextFragments.ToArray();
-            foreach (var i in IndiciesToWrapAt)
-            {
-                _fragmentItems[CharLookup[i].Fragment].AddLocalLbPositon(i);
-            }
+            ////var newFragments = TextFragments.ToArray();
+            //foreach (var i in IndiciesToWrapAt)
+            //{
+            //    _fragmentItems[CharLookup[i].Fragment].AddLocalLbPositon(i);
+            //}
 
             foreach (var fragment in _fragmentItems)
             {
-                outputFragments.Add(fragment.GetWrappedFragment());
+                outputFragments.Add(fragment.GetLineBreakFreeFragment());
             }
 
             return outputFragments;
+        }
+
+        internal void AddLineWidth(double width)
+        {
+            lineWidths.Add(width);
         }
 
         /// <summary>

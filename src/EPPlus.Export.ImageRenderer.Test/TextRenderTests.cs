@@ -5,6 +5,7 @@ using System.Globalization;
 using EPPlusImageRenderer;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Graphics;
+using System.Diagnostics;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {
@@ -140,6 +141,51 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 Assert.AreEqual(134.20312500000006d, txtRuns2[4].Bounds.Width);
                 currentLineWidth += txtRuns2[4].Bounds.Width;
             }
+        }
+
+        [TestMethod]
+        public void ConceptTextRun()
+        {
+            string rt1 = "My richtext1\r\n of len";
+            string rt2 = "gth beyond and then I am richtext2";
+
+            string combined = rt1 + rt2;
+
+            int charMax = 10;
+
+            int lineCharCount = 0;
+
+            List<string> lines = new List<string>();
+
+            for (int i = 0; i < combined.Length; i++)
+            {
+                if(lineCharCount > charMax)
+                {
+                    var currLine = combined.Substring(i - lineCharCount, lineCharCount);
+                    lines.Add(currLine);
+                    lineCharCount = 0;
+                }
+
+                if (combined[i] == '\r')
+                {
+                    var currLine = combined.Substring(i - lineCharCount, lineCharCount);
+                    lines.Add(currLine);
+                    lineCharCount = 0;
+                    i++;
+                    continue;
+                }
+
+                lineCharCount++;
+            }
+
+            var finalLine = combined.Substring(combined.Length - lineCharCount, lineCharCount);
+            lines.Add(finalLine);
+
+            foreach (string line in lines)
+            {
+                Debug.WriteLine(line);
+            }
+
         }
     }
 }

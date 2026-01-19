@@ -740,6 +740,8 @@ namespace EPPlus.Fonts.OpenType
                 {
                     if (i >= newLineIndicies[currentLineIndex])
                     {
+                        paragraph.Fragments.AddLineWidth(lineWidth / currentFont.HeadTable.UnitsPerEm * paragraph.FontSizes[fragmentIdx]);
+
                         var addedLine = leftOverLine.Trim(['\r', '\n']);
                         wrappedStrings.Add(addedLine);
                         lineWidth = 0;
@@ -780,6 +782,7 @@ namespace EPPlus.Fonts.OpenType
 
                     //Log where wrapping occured in order to keep track of fragment/run/richtext
                     paragraph.Fragments.AddWrappingIndex(prevLineEndIndex);
+                    paragraph.Fragments.AddLineWidth(lineWidth / currentFont.HeadTable.UnitsPerEm * paragraph.FontSizes[fragmentIdx]);
 
                     //Since we're using the AllText, need to handle leftover line differently
                     if (i < prevLineEndIndex)

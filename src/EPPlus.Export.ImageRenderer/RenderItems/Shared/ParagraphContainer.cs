@@ -135,18 +135,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     _measurer.SetFont(_paragraphFont);
                 }
             }
-
             targetTxtRun.Bounds.Left = startingX;
 
             targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
-
-            //Must be done AFTER line-spacing is set.
-            var txtRunBottom = b;
-
-            if(_textRunItems.Count == 0 && IsFirstParagraph == true || targetTxtRun.YIncreasePerLine.Count() > 1)
-            {
-                Bounds.Height += txtRunBottom;
-            }
 
             _textRunItems.Add(targetTxtRun);
         }
@@ -227,6 +218,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             string currentLine = _paragraphLines[0];
             double currentLength = 0;
             double widthOfCurrentLine = 0;
+            double largestFontSizeCurrentLine = 0;
+            int idxLargestFontSize = 0;
 
             //WE CAN NOW OPERATE PER LINE COUNTING CHARS AS THEY HAVE THE SAME BASIS.
             //THEREFORE WE CAN MOVE PER FRAGMENT OR CHAR AND KNOW WHEN WE ARE IN A NEW LINE MORE EASILY
@@ -235,13 +228,40 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //---Add Actual textruns---
             for (int i = 0; i < p.TextRuns.Count; i++)
             {
+                if (p.TextRuns[i].FontSize > largestFontSizeCurrentLine)   
+                {
+                    largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
+                    idxLargestFontSize = i;
+                }
+
                 if(_textRunDisplayText[i].Length + currentLength > currentLine.Length)
                 {
+                    AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
 
+                    var lastAdded = _textRunItems.Last();
+                    var posLineIsBrokenAt = currentLine.Length - currentLength;
+                    currentLength = posLineIsBrokenAt;
+
+                    widthOfCurrentLine = _textRunItems.Last().PerLineWidth.Last();
+
+                    Bounds.Height += _textRunItems[idxLargestFontSize].Bounds.Bottom;
+
+                    //if (_textRunItems.Count == 0 && IsFirstParagraph == true || lastAdded.YIncreasePerLine.Count() > 1)
+                    //{
+                    //    Bounds.Height += txtRunBottom;
+                    //}
+
+                    //currently the only font of the new line
+                    largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
+                    idxLargestFontSize = i;
                 }
                 else
                 {
-                    //cur
+                    AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
+                    var lastAdded = _textRunItems.Last();
+                    widthOfCurrentLine += _textRunItems.Last().PerLineWidth.Last();
+
+                    currentLength += _textRunDisplayText[i].Length;
                 }
                 //AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
                 //var lastAdded = _textRunItems.Last();
