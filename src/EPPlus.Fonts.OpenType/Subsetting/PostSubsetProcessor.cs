@@ -22,40 +22,37 @@ namespace EPPlus.Fonts.OpenType.Subsetting
     /// </summary>
     internal class PostSubsetProcessor : IFontSubsetProcessor
     {
-        public void Process(FontSubsettingContext context)
+        public void Discover(FontSubsettingContext context)
         {
-            var originalFont = context.OriginalFont;
-            var subsetFont = context.SubsetFont;
+            // No implementation
+        }
 
-            if (originalFont.PostTable == null)
-                return; // No post table in source font
+        public void Rewrite(FontSubsettingContext context)
+        {
 
-            var originalPost = originalFont.PostTable;
+            var originalPost = context.OriginalFont.PostTable;
+            if (originalPost == null) return;
 
-            // Create a clean format 3.0 post table (no glyph names – allowed and preferred for subsets)
+            // Create a clean format 3.0 post table (no glyph names)
             var post = new PostTable
             {
                 // Format 3.0 in fixed 16.16 representation
                 version = new Version16Dot16(0x00030000),
 
-                // Preserve typographic behaviour from the original font
+                // Preserve typographic metrics
                 italicAngle = originalPost.italicAngle,
                 underlinePosition = originalPost.underlinePosition,
                 underlineThickness = originalPost.underlineThickness,
                 isFixedPitch = originalPost.isFixedPitch,
 
-                // These fields are only used in format 2.0 – set to zero
+                // Fields not used in 3.0
                 minMemType42 = 0,
                 maxMemType42 = 0,
                 minMemType1 = 0,
-                maxMemType1 = 0,
-
-                // Explicitly clear format 2.0 data (defensive programming)
-                glyphNameIndex = null,
-                glyphNames = null
+                maxMemType1 = 0
             };
 
-            subsetFont.AddOrReplaceTable(post);
+            context.SubsetFont.AddOrReplaceTable(post);
         }
     }
 }

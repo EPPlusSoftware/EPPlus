@@ -25,8 +25,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph.Serialization
             // 3. Calculate number of points
             int pointCount = glyph.EndPtsOfContours[numberOfContours - 1] + 1;
 
-
-            // 4. Read flags (preserve original runs)
+            // 4. Read flags (needed to know how to parse coordinates)
             var flagRuns = new List<FlagRun>();
             var expandedFlags = new List<byte>();
 
@@ -42,7 +41,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph.Serialization
 
                 flagRuns.Add(new FlagRun { Flag = flag, RepeatCount = repeatCount });
 
-                // Expand for internal logic (coordinates)
                 expandedFlags.Add(flag);
                 for (int r = 0; r < repeatCount; r++)
                     expandedFlags.Add(flag);
@@ -51,40 +49,49 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph.Serialization
             glyph.FlagRuns = flagRuns;
             glyph.Flags = expandedFlags;
 
-
-            // 5. Read X-coordinates as raw bytes
-            var xBytes = new List<byte>();
+            // 5. Read X-coordinates by measuring the byte block
+            // We must do this because TrueType uses a delta-encoding where 
+            // some points consume 0, 1, or 2 bytes depending on flags.
+            long xStart = reader.BaseStream.Position;
             for (int i = 0; i < pointCount; i++)
             {
-                if ((expandedFlags[i] & 0x02) != 0) // x-short
+                byte flag = expandedFlags[i];
+                if ((flag & 0x02) != 0) // X-Short
                 {
-                    xBytes.Add(reader.ReadByte());
+                    reader.ReadByte();
                 }
-                else if ((expandedFlags[i] & 0x10) == 0) // not same
+                else if ((flag & 0x10) == 0) // Not same (consumes 2 bytes)
                 {
-                    xBytes.Add(reader.ReadByte());
-                    xBytes.Add(reader.ReadByte());
+                    reader.ReadInt16BigEndian();
                 }
-                // If same, no bytes written
+                // If (flag & 0x10) is set and X-Short is NOT set, 0 bytes are consumed (Same as prev)
             }
-            glyph.XBytes = xBytes.ToArray();
+            long xEnd = reader.BaseStream.Position;
+            int xLength = (int)(xEnd - xStart);
 
-            // 6. Read Y-coordinates as raw bytes
-            var yBytes = new List<byte>();
+            // Go back and grab the raw bytes
+            reader.BaseStream.Position = xStart;
+            glyph.XBytes = reader.ReadBytes(xLength);
+
+            // 6. Read Y-coordinates by measuring the byte block
+            long yStart = reader.BaseStream.Position;
             for (int i = 0; i < pointCount; i++)
             {
-                if ((expandedFlags[i] & 0x04) != 0) // y-short
+                byte flag = expandedFlags[i];
+                if ((flag & 0x04) != 0) // Y-Short
                 {
-                    yBytes.Add(reader.ReadByte());
+                    reader.ReadByte();
                 }
-                else if ((expandedFlags[i] & 0x20) == 0) // not same
+                else if ((flag & 0x20) == 0) // Not same (consumes 2 bytes)
                 {
-                    yBytes.Add(reader.ReadByte());
-                    yBytes.Add(reader.ReadByte());
+                    reader.ReadInt16BigEndian();
                 }
-                // If same, no bytes written
             }
-            glyph.YBytes = yBytes.ToArray();
+            long yEnd = reader.BaseStream.Position;
+            int yLength = (int)(yEnd - yStart);
+
+            reader.BaseStream.Position = yStart;
+            glyph.YBytes = reader.ReadBytes(yLength);
 
             return glyph;
         }

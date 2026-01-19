@@ -180,7 +180,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 foreach (var p in _title.TextBody.Paragraphs)
                 {
-                    TextBox.AddParagraph(p);
+                    TextBox.ImportParagraph(p);
                 }
             }
             else
@@ -194,6 +194,8 @@ namespace EPPlusImageRenderer.Svg
             get; private set;
         }
         internal override void AppendRenderItems(List<RenderItem> renderItems)
+        public override RenderItemType Type => throw new System.NotImplementedException();
+
         {
             SvgGroupItem groupItem;
             if (TextBox.Rotation == 0)

@@ -23,7 +23,7 @@ namespace EPPlusImageRenderer.RenderItems
         {
             
         }
-        public override SvgItemType Type { get => SvgItemType.Path; }
+        public override RenderItemType Type { get => RenderItemType.Path; }
         public List<PathCommands> Commands { get; set; } = new List<PathCommands>();
         internal string TransformOffset = "";
 

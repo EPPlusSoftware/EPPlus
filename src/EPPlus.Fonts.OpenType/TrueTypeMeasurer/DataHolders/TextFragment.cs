@@ -16,6 +16,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
 
         internal List<int> IsPartOfLines;
         internal string ThisFragment;
+        List<int> positionsToBreakAt = new();
 
         internal TextFragment(string thisFragment, int startPos)
         {
@@ -26,6 +27,28 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
         internal int GetEndPosition()
         {
             return StartPos + ThisFragment.Length; 
+        }
+
+        /// <summary>
+        /// Line-breaks to be added after wrapping
+        /// </summary>
+        /// <param name="pos"></param>
+        internal void AddLocalLbPositon(int pos)
+        {
+            var locaLnPos = pos - StartPos;
+            positionsToBreakAt.Add(locaLnPos);
+        }
+
+        internal string GetWrappedFragment()
+        {
+            string alteredFragment = ThisFragment;
+
+            for (int i = 0; i < positionsToBreakAt.Count; i++)
+            {
+                alteredFragment = alteredFragment.Insert(positionsToBreakAt[i] + i, Environment.NewLine);
+            }
+
+            return alteredFragment;
         }
     }
 }

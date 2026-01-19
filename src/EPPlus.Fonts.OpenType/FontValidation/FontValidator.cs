@@ -14,6 +14,7 @@
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
+using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Hhea;
 using EPPlus.Fonts.OpenType.Tables.Hmtx;
@@ -48,6 +49,7 @@ namespace EPPlus.Fonts.OpenType.FontValidation
             _validators.Add(new LocaTableValidator());
             _validators.Add(new HmtxTableValidator());
             _validators.Add(new GlyfTableValidator());
+            _validators.Add(new GsubTableValidator());
             // Add more as needed...
 
             // Register table accessors
@@ -61,6 +63,7 @@ namespace EPPlus.Fonts.OpenType.FontValidation
             _tableAccessors.Add(typeof(LocaTable), delegate (OpenTypeFont font) { return font.LocaTable; });
             _tableAccessors.Add(typeof(HmtxTable), delegate (OpenTypeFont font) { return font.HmtxTable; });
             _tableAccessors.Add(typeof(GlyfTable), delegate (OpenTypeFont font) { return font.GlyfTable; });
+            _tableAccessors.Add(typeof(GsubTable), delegate (OpenTypeFont font) { return font.GsubTable; });
         }
 
         public FontValidationReport Validate(OpenTypeFont font, FontValidationSeverity logLevel = FontValidationSeverity.All)

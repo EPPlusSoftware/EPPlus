@@ -130,6 +130,9 @@ namespace EPPlusImageRenderer.Svg
         internal SvgChartTitle VerticalAxisTitle { get; set; }
         internal SvgChartTitle HorizontalAxisTitle { get; set; }
         internal SvgChartTitle SecondVerticalAxisTitle { get; set; }
+
+        public override RenderItemType Type => throw new System.NotImplementedException();
+
         private void SetChartArea()
         {
             var item = new SvgRenderRectItem(Chart);
@@ -170,7 +173,7 @@ namespace EPPlusImageRenderer.Svg
             foreach (var item in RenderItems)
             {
                 item.Render(sb);
-                if (item.Type == SvgItemType.Group && gItemTest == null)
+                if (item.Type == RenderItemType.Group && gItemTest == null)
                 {
                     gItemTest = (SvgGroupItem)item;
                 }

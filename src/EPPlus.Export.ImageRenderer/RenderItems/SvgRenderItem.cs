@@ -65,7 +65,7 @@ namespace EPPlusImageRenderer.RenderItems
                 }
             }
 
-            sb.Append($"stroke-miterlimit =\"8\"");
+            sb.Append($"stroke-miterlimit =\"8\" ");
         }
         internal abstract SvgRenderItem Clone(SvgShape svgDocument);
     }

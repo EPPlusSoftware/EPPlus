@@ -193,11 +193,11 @@ namespace EPPlusImageRenderer.Svg
 
             if (font.Italic)
             {
-                fontStyleAttributes += " font-style=\"italic\" ";
+                fontStyleAttributes += " _measurementFont-style=\"italic\" ";
             }
             if (font.Bold)
             {
-                fontStyleAttributes += "font-weight=\"bold\" ";
+                fontStyleAttributes += "_measurementFont-weight=\"bold\" ";
             }
             if (font.UnderLine != eUnderLineType.None | font.Strike != eStrikeType.No)
             {
@@ -357,7 +357,7 @@ namespace EPPlusImageRenderer.Svg
 
         public RectBase textArea;
 
-        public override SvgItemType Type => SvgItemType.TSpan;
+        public override RenderItemType Type => RenderItemType.TSpan;
 
         public override void Render(StringBuilder sb)
         {
@@ -410,7 +410,7 @@ namespace EPPlusImageRenderer.Svg
                 finalString += "</tspan>";
             }
 
-            sb.Append(finalString);                                                                                                                        
+            sb.Append(finalString);                                                                                                           
             //throw new NotImplementedException();
         }
 

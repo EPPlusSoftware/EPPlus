@@ -15,7 +15,7 @@ using System.Diagnostics;
 
 namespace EPPlus.Fonts.OpenType.FontValidation
 {
-    [DebuggerDisplay("IsValid = {IsValid}, Results = {Results.Count}")]
+    [DebuggerDisplay("IsValid = {IsValid}, Errors = {ErrorCount}, Warnings = {WarningCount}, Tables = {Results.Count}")]
     public class FontValidationReport
     {
         private readonly List<TableValidationResult> _results = new List<TableValidationResult>();
@@ -37,27 +37,111 @@ namespace EPPlus.Fonts.OpenType.FontValidation
             }
         }
 
+        // ✅ NYA PROPERTIES
+
+        /// <summary>
+        /// Gets all error messages from all tables
+        /// </summary>
+        public IEnumerable<FontValidationMessage> Errors
+        {
+            get
+            {
+                foreach (var result in _results)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        yield return error;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets all warning messages from all tables
+        /// </summary>
+        public IEnumerable<FontValidationMessage> Warnings
+        {
+            get
+            {
+                foreach (var result in _results)
+                {
+                    foreach (var warning in result.Warnings)
+                    {
+                        yield return warning;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets all information messages from all tables
+        /// </summary>
+        public IEnumerable<FontValidationMessage> Information
+        {
+            get
+            {
+                foreach (var result in _results)
+                {
+                    foreach (var info in result.Information)
+                    {
+                        yield return info;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets total count of errors across all tables
+        /// </summary>
+        public int ErrorCount
+        {
+            get
+            {
+                int count = 0;
+                foreach (var result in _results)
+                {
+                    foreach (var msg in result.Messages)
+                    {
+                        if (msg.Severity == FontValidationSeverity.Error)
+                            count++;
+                    }
+                }
+                return count;
+            }
+        }
+
+        /// <summary>
+        /// Gets total count of warnings across all tables
+        /// </summary>
+        public int WarningCount
+        {
+            get
+            {
+                int count = 0;
+                foreach (var result in _results)
+                {
+                    foreach (var msg in result.Messages)
+                    {
+                        if (msg.Severity == FontValidationSeverity.Warning)
+                            count++;
+                    }
+                }
+                return count;
+            }
+        }
+
         public void AddResult(TableValidationResult result)
         {
             _results.Add(result);
         }
 
-
-
-        /// <summary>
-        /// Adds a global message not tied to a specific table.
-        /// Creates a synthetic TableValidationResult with TableName = "Font".
-        /// </summary>
         public void AddMessage(FontValidationSeverity severity, string message)
         {
             TableValidationResult globalResult = new TableValidationResult();
-            globalResult.TableName = "Font"; // Indicates font-level message
+            globalResult.TableName = "Font";
             globalResult.AddMessage(severity, message);
-
             _results.Add(globalResult);
         }
-
-
 
         public string FormatSummary()
         {
@@ -74,6 +158,4 @@ namespace EPPlus.Fonts.OpenType.FontValidation
             return sb.ToString();
         }
     }
-
 }
-

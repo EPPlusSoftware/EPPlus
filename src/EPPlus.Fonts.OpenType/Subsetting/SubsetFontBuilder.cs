@@ -15,36 +15,73 @@ using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.Subsetting
 {
+    /// <summary>
+    /// Orchestrates the process of creating a subset of an OpenType font.
+    /// </summary>
     internal class SubsetFontBuilder
     {
-
+        // The order of processors is critical: Discovery must precede Extraction and Rewriting.
         private static IEnumerable<IFontSubsetProcessor> Processors => new List<IFontSubsetProcessor>
         {
-            new GlyfAndLocaSubsetProcessor(),
+            // PHASE 1: DISCOVERY - Identify all required Glyph IDs (GIDs)
+            new CmapSubsetProcessor(),      // Maps Unicode characters to initial GIDs
+            new GsubSubsetProcessor(),      // Identifies additional GIDs needed for substitutions/ligatures
+            new GposSubsetProcessor(),      // ← Processes glyph positioning (kerning, accents, etc.)
+
+            // PHASE 2: DATA EXTRACTION - Retrieve glyph outlines and metrics
+            new GlyfAndLocaSubsetProcessor(), 
+
+            // PHASE 3: METADATA & TABLES - Update remaining font tables
+            new MaxpSubsetProcessor(),
             new HeadSubsetProcessor(),
             new NameSubsetProcessor(),
-            new MaxpSubsetProcessor(),
             new HheaSubsetProcessor(),
             new HmtxSubsetProcessor(),
-            new CmapSubsetProcessor(),
             new Os2SubsetProcessor(),
             new PostSubsetProcessor(),
             new KernSubsetProcessor()
         };
 
+        /// <summary>
+        /// Creates a new <see cref="OpenTypeFont"/> containing only the necessary data for the specified characters.
+        /// </summary>
         public OpenTypeFont CreateSubset(OpenTypeFont originalFont, IEnumerable<int> unicodeChars)
         {
             var context = new FontSubsettingContext(originalFont, unicodeChars);
+            var processors = Processors;
 
-            foreach(var processor in Processors)
+            // Step 1: Discovery Phase - All processors identify required glyphs
+            foreach (var processor in processors)
             {
-                processor.Process(context);
+                processor.Discover(context);
             }
 
-            // 9. Debug-info
+            // Step 2: Build Glyph ID Mapping
+            BuildGlyphMapping(context);
+
+            // Step 3: Rewrite Phase - Reconstruct tables using the new Glyph IDs
+            foreach (var processor in processors)
+            {
+                processor.Rewrite(context);
+            }
+
             context.SubsetFont.UsedCodePointsForSubset = new List<uint>(context.UsedCodePoints);
 
             return context.SubsetFont;
+        }
+
+        // Creates a deterministic mapping between old and new Glyph IDs.
+        private void BuildGlyphMapping(FontSubsettingContext context)
+        {
+            var sortedGlyphs = new List<ushort>(context.IncludedGlyphs);
+            sortedGlyphs.Sort();
+
+            for (ushort newId = 0; newId < sortedGlyphs.Count; newId++)
+            {
+                ushort oldId = sortedGlyphs[newId];
+                context.OldToNewGlyphId[oldId] = newId;
+                context.NewToOldGlyphId.Add(oldId);
+            }
         }
     }
 }

@@ -21,16 +21,23 @@ namespace EPPlus.Fonts.OpenType.FontCache
             }
         }
 
-
-
-        internal static string BuildCacheKey(string familyName, string subFamily)
+        /// <summary>
+        /// THE SUBFAMILY ENUM SHOULD ALWAYS BE INPUT PARAMETER
+        /// Fonts can name themselves however they want. But we map other values in the font to the subfamily
+        /// Therefore Never change it to e.g. a string input-parameter
+        /// and Never use e.g font.GetEnglishSubfamily name as this could create miss-matches.
+        /// </summary>
+        /// <param name="familyName"></param>
+        /// <param name="subFamily">MUST STAY as FontSubFamily enum</param>
+        /// <returns></returns>
+        static string BuildCacheKey(string familyName, FontSubFamily subFamily)
         {
-            return $"{familyName}-{subFamily}";
+            return $"{familyName}-{subFamily.ToString()}";
         }
 
         public static bool Contains(string familyName, FontSubFamily subFamily)
         {
-            var key = BuildCacheKey(familyName, subFamily.ToString());
+            var key = BuildCacheKey(familyName, subFamily);
             lock (_syncRoot)
             {
 
@@ -44,7 +51,7 @@ namespace EPPlus.Fonts.OpenType.FontCache
         {
             lock (_syncRoot)
             {
-                var key = BuildCacheKey(familyName, subFamily.ToString());
+                var key = BuildCacheKey(familyName, subFamily);
                 if (!_cache.ContainsKey(key))
                 {
                     _cache[key] = new CachedOpenTypeFont()
@@ -55,11 +62,11 @@ namespace EPPlus.Fonts.OpenType.FontCache
             }
         }
 
-        public static void AddToCache(OpenTypeFont font, string key)
+        public static void AddToCache(OpenTypeFont font, string familyName, FontSubFamily subFamily)
         {
             lock (_syncRoot)
             {
-                //var key = BuildCacheKey(font.GetEnglishFontFamilyName(), font.GetEnglishFontSubFamilyName());
+                var key = BuildCacheKey(familyName, subFamily);
                 if (!_cache.ContainsKey(key))
                 {
                     _cache[key] = new CachedOpenTypeFont();
@@ -76,7 +83,7 @@ namespace EPPlus.Fonts.OpenType.FontCache
 
         public static CachedOpenTypeFont GetFromCache(string familyName, FontSubFamily subFamily)
         {
-            var key = BuildCacheKey(familyName, subFamily.ToString());
+            var key = BuildCacheKey(familyName, subFamily);
             lock (_syncRoot)
             {
                 if (_cache.TryGetValue(key, out var cached))

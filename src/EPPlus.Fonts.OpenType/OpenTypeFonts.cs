@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  01/10/2026         EPPlus Software AB           Fix threading issue with global lock
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Scanner;
@@ -23,6 +24,7 @@ namespace EPPlus.Fonts.OpenType
     public static class OpenTypeFonts
     {
         private static readonly object _syncRoot = new object();
+        private static readonly Dictionary<string, object> _fontLocks = new Dictionary<string, object>();
 
         #region --- Platform-specific font locations (unchanged, beautiful as always) ---
 
@@ -92,7 +94,8 @@ namespace EPPlus.Fonts.OpenType
             lock (_syncRoot)
             {
                 OpenTypeFontCache.Clear();
-                FontScannerCache.Clear();  // Vår nya cache
+                FontScannerCache.Clear();
+                _fontLocks.Clear();
             }
         }
 
@@ -107,9 +110,22 @@ namespace EPPlus.Fonts.OpenType
             bool searchSystemDirectories = true,
             bool ignoreCache = false)
         {
+            // Create per-font lock key
+            string lockKey = $"{fontName}_{subFamily}";
+            object fontLock;
+
             lock (_syncRoot)
             {
-                var cacheKey = OpenTypeFontCache.BuildCacheKey(fontName, subFamily.ToString());
+                if (!_fontLocks.TryGetValue(lockKey, out fontLock))
+                {
+                    fontLock = new object();
+                    _fontLocks[lockKey] = fontLock;
+                }
+            }
+
+            // Now lock PER FONT, not globally
+            lock (fontLock)
+            {
                 if (!ignoreCache)
                 {
                     if (OpenTypeFontCache.Contains(fontName, subFamily))
@@ -123,19 +139,12 @@ namespace EPPlus.Fonts.OpenType
 
                 var face = FontScannerV2.FindBestMatch(fontDirectories, fontName, subFamily, searchSystemDirectories);
                 if (face == null)
-                {
-                    //TODO: Add fallback font handling.
-                    //OpenTypeFontCache.AddToCache(null, cacheKey);
-                    throw(new InvalidOperationException("Missing font: " + fontName + " (" + subFamily.ToString() + ")"));
-                    //return null;
-                }
+                    return null;
 
                 var font = OpenTypeFontFactory.CreateFromFace(face);
 
                 if (!ignoreCache)
-                {
-                    OpenTypeFontCache.AddToCache(font, cacheKey);
-                }
+                    OpenTypeFontCache.AddToCache(font, fontName, subFamily);
 
                 return font;
             }
@@ -193,8 +202,6 @@ namespace EPPlus.Fonts.OpenType
                     }
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine(
-                            $"[OpenTypeFonts] CreateFromFace returned null for: {face.FilePath} [TTC offset: {face.OffsetInFile}]");
                         failures++;
                     }
                 }
@@ -208,9 +215,6 @@ namespace EPPlus.Fonts.OpenType
                 {
                     // These are expected for corrupt or inaccessible fonts
                     failures++;
-                    System.Diagnostics.Debug.WriteLine(
-                        $"[OpenTypeFonts] Failed to load font (skipped): {face.FilePath} [TTC offset: {face.OffsetInFile}]\r\n" +
-                        $"  Exception: {ex.GetType().Name}: {ex.Message}");
                 }
                 catch (Exception ex)
                 {

@@ -172,6 +172,9 @@ namespace EPPlusImageRenderer.Svg
             private set;
         }
         public List<string> AxisValues
+
+        public override RenderItemType Type => throw new System.NotImplementedException();
+
         {
             get;
             private set;

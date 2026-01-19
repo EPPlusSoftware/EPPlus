@@ -9,6 +9,12 @@ namespace EPPlus.Graphics
     {
         internal Transform transform;
 
+        private BoundingBox _parent = null;
+
+        internal BoundingBox Parent { get { return _parent; } set { _parent = value; transform.Parent = value.transform; } }
+
+        bool ClampedToParent = false;
+
         internal BoundingBox() : base()
         {
             transform = new Transform();
@@ -32,7 +38,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// Y pos (min)
         /// </summary>
-        internal new double Top
+        internal override double Top
         {
             get { return transform.LocalPosition.Y; }
             set
@@ -53,7 +59,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// X pos (min)
         /// </summary>
-        internal new double Left
+        internal override double Left
         {
             get { return transform.LocalPosition.X; }
             set
@@ -72,19 +78,79 @@ namespace EPPlus.Graphics
             }
         }
 
+        /// <summary>
+        /// If @ClampedToParent is true will not set value beyond parent
+        /// </summary>
+        internal override double Bottom { get => base.Bottom; set => SetBottom(value); }
+
+        /// <summary>
+        /// If @ClampedToParent is true will not set value beyond parent
+        /// </summary>
+        internal override double Right { get => base.Right; set => SetRight(value); }
+
+        internal override double Width {
+            get
+            {
+                return Right - Left;
+            }
+            set
+            {
+                Right = Left + value;
+            }
+        
+        }
+
+        internal override double Height
+        {
+            get
+            {
+                return Bottom - Top;
+            }
+            set
+            {
+                Bottom = Top + value;
+            }
+        }
+
+        private void SetRight(double value)
+        {
+            if(ClampedToParent)
+            {
+                if(transform.Parent != null)
+                {
+                    var newValue = System.Math.Min(value, Parent.Right);
+                    base.Right = newValue;
+                }
+            }
+            base.Right = value;
+        }
+
+        private void SetBottom(double value)
+        {
+            if (ClampedToParent)
+            {
+                if (transform.Parent != null)
+                {
+                    var newValue = System.Math.Min(value, Parent.Bottom);
+                    base.Bottom = newValue;
+                }
+            }
+            base.Bottom = value;
+        }
+
         //Quick-access to underlying transform
 
         /// <summary>
         /// Local position X
         /// X-position from parent transform position
         /// </summary>
-        internal new double X { get { return Left; } set { Left = value; } }
+        internal override double X { get { return Left; } set { Left = value; } }
 
         /// <summary>
         /// Local position Y
         /// Y-position from parent transform position
         /// </summary>
-        internal new double Y { get { return Top; } set { Top = value; } }
+        internal override double Y { get { return Top; } set { Top = value; } }
 
         //Gets global position x and y
         internal double GlobalX { get { return transform.Position.X; } }

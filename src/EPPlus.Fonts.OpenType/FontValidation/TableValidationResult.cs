@@ -36,7 +36,7 @@ namespace EPPlus.Fonts.OpenType.FontValidation
         {
             if((LogLevel & severity) != 0)
             {
-                _messages.Add(new FontValidationMessage(severity, message));
+                _messages.Add(new FontValidationMessage(this, severity, message));
             }
         }
 

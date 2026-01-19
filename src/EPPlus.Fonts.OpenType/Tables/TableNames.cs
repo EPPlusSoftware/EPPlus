@@ -25,5 +25,7 @@ namespace EPPlus.Fonts.OpenType.Tables
         public const string Kern = "kern";
         public const string Post = "post";
         public const string Cmap = "cmap";
+        public const string Gsub = "GSUB";
+        public const string Gpos = "GPOS";
     }
 }

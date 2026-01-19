@@ -18,7 +18,7 @@ namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgGroupItem : SvgRenderItem
     {
-        public override SvgItemType Type => SvgItemType.Group;
+        public override RenderItemType Type => RenderItemType.Group;
 
         public string GroupTransform = "";
 

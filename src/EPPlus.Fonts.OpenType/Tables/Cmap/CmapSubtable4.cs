@@ -14,8 +14,10 @@ using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Cmap.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace EPPlus.Fonts.OpenType.Tables.Cmap
 {
@@ -96,6 +98,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         internal override int MapCodePointToGlyph(int codePoint)
         {
             var segCount = EndCode.Length;
+
             for (int i = 0; i < segCount; i++)
             {
                 if (codePoint >= StartCode[i] && codePoint <= EndCode[i])
@@ -107,6 +110,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                     else
                     {
                         int offset = IdRangeOffset[i] / 2 + (codePoint - StartCode[i]) - (segCount - i);
+
                         if (offset >= 0 && offset < GlyphIdArray.Length)
                         {
                             return GlyphIdArray[offset];
@@ -114,8 +118,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                     }
                 }
             }
-            return -1; // Not found
 
+            return -1;
         }
 
 
