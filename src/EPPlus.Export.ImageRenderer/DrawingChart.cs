@@ -36,7 +36,7 @@ namespace EPPlusImageRenderer
                 isCount == false)
             {
                 min = 0;
-                max = values.Length-1;
+                max = values.Length;
                 majorUnit = 1;
                 return values.ToList();
             }

@@ -10,22 +10,19 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Text;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -114,18 +111,23 @@ namespace EPPlusImageRenderer.Svg
         private List<string> GetAxisDisplayValues(ExcelChartAxisStandard ax, List<object> values, double? min, double? max, double? majorUnit)
         {
             var displayValues = new List<string>();
-            var ni = ExcelNumberFormat.GetFromBuildIdFromFormat(ax.Format);
             var nf = new ExcelFormatTranslator(ax.Format, 0);
-
-            foreach(var v in values)
+            //Excel replaces the format with a default date format if the axis is date based.
+            if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
+            {
+                if(ax.Format == "m/d/yyyy")
+                {
+                    var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(14); //14 is standard regional short date.
+                    nf = new ExcelFormatTranslator(sdFormat, 0);
+                }
+            }
+            foreach (var v in values)
             {
                 var s = ValueToTextHandler.FormatValue(v, false, nf, null, out bool isValidFormat);
                 displayValues.Add(s);
             }
             return displayValues;
         }
-
-
         private double GetTextHeight(SvgChart sc, ExcelChartAxisStandard ax)
         {
             var tm = sc.Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
