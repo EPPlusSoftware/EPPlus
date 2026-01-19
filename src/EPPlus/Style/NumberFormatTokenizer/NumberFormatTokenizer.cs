@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EPPlusImageRenderer.Svg
+namespace OfficeOpenXml.Style
 {
     internal class NumberFormatTokenizer 
     {
@@ -38,7 +38,7 @@ namespace EPPlusImageRenderer.Svg
                             continue;
                         }
                         isInString = false;
-                        tokens.Add(new NumberFormatToken(NumberFormatTokenType.StringContent, value.ToString());
+                        tokens.Add(new NumberFormatToken(NumberFormatTokenType.StringContent, value.ToString()));
                         value = new StringBuilder();
                         tokens.Add(new NumberFormatToken(NumberFormatTokenType.String, c.ToString()));
                     }

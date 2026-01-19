@@ -10,7 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-namespace EPPlusImageRenderer.Svg
+namespace OfficeOpenXml.Style
 {
     internal class NumberFormatToken
     {
