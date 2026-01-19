@@ -11,6 +11,7 @@
   01/15/2025         EPPlus Software AB           Initial implementation
  *************************************************************************************************/
 using System;
+using System.Diagnostics;
 using System.Text;
 
 namespace EPPlus.Fonts.OpenType.TextShaping
@@ -18,6 +19,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
     /// <summary>
     /// Result of text shaping operation containing positioned glyphs.
     /// </summary>
+    [DebuggerDisplay("Glyphs length: {Glyphs.Length}, OriginalText: {OriginalText}")]
     public class ShapedText
     {
         /// <summary>

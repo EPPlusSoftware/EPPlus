@@ -11,12 +11,15 @@
   01/15/2025         EPPlus Software AB           Initial implementation
  *************************************************************************************************/
 
+using System.Diagnostics;
+
 namespace EPPlus.Fonts.OpenType.TextShaping
 {
     /// <summary>
     /// Represents a shaped glyph with positioning information.
     /// All measurements are in font units (not PDF points or pixels).
     /// </summary>
+    [DebuggerDisplay("Glyphs Id: {GlyphId}, XAdvance: {XAdvance}, Char count: {CharCount}")]
     public class ShapedGlyph
     {
         public ShapedGlyph()

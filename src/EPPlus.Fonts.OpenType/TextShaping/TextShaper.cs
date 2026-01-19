@@ -10,6 +10,8 @@
  *************************************************************************************************
   01/15/2025         EPPlus Software AB           Initial implementation
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.TextShaping.Kerning;
+using EPPlus.Fonts.OpenType.TextShaping.Ligatures;
 using System;
 using System.Collections.Generic;
 

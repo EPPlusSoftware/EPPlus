@@ -25,16 +25,32 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.ClassDef
 
         public override int GetClass(ushort glyphId)
         {
-            if (ClassRangeRecords == null)
+            if (ClassRangeRecords == null || ClassRangeRecords.Count == 0)
                 return 0;
 
-            foreach (var r in ClassRangeRecords)
+            // Binary search through ranges
+            // ClassRangeRecords MUST be sorted by StartGlyphID per OpenType spec
+            int left = 0;
+            int right = ClassRangeRecords.Count - 1;
+
+            while (left <= right)
             {
-                if (glyphId >= r.StartGlyphID && glyphId <= r.EndGlyphID)
-                    return r.Class;
+                int mid = left + (right - left) / 2;
+                var range = ClassRangeRecords[mid];
+
+                // Check if glyphId is in this range
+                if (glyphId >= range.StartGlyphID && glyphId <= range.EndGlyphID)
+                    return range.Class;
+
+                // Search left half
+                if (glyphId < range.StartGlyphID)
+                    right = mid - 1;
+                // Search right half
+                else
+                    left = mid + 1;
             }
 
-            return 0;
+            return 0; // Not found - default class
         }
 
         internal override void SerializeBody(FontsBinaryWriter writer)

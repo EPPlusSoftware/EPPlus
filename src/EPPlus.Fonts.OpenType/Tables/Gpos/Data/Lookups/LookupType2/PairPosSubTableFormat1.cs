@@ -26,10 +26,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2
         public List<PairSet> PairSets { get; set; }
 
         public override bool TryGetPairAdjustment(
-            ushort firstGlyph,
-            ushort secondGlyph,
-            out ValueRecord value1,
-            out ValueRecord value2)
+    ushort firstGlyph,
+    ushort secondGlyph,
+    out ValueRecord value1,
+    out ValueRecord value2)
         {
             value1 = null;
             value2 = null;
@@ -40,18 +40,32 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2
                 return false;
 
             var pairSet = PairSets[coverageIndex];
-            if (pairSet?.PairValueRecords == null)
+            if (pairSet?.PairValueRecords == null || pairSet.PairValueRecords.Count == 0)
                 return false;
 
-            // Find matching second glyph
-            foreach (var record in pairSet.PairValueRecords)
+            // Binary search for matching second glyph
+            // PairValueRecords are guaranteed sorted by SecondGlyph per OpenType spec
+            int left = 0;
+            int right = pairSet.PairValueRecords.Count - 1;
+
+            while (left <= right)
             {
-                if (record.SecondGlyph == secondGlyph)
+                int mid = left + (right - left) / 2;
+                ushort midGlyphId = pairSet.PairValueRecords[mid].SecondGlyph;
+
+                if (midGlyphId == secondGlyph)
                 {
+                    // Found match
+                    var record = pairSet.PairValueRecords[mid];
                     value1 = record.Value1;
                     value2 = record.Value2;
                     return true;
                 }
+
+                if (midGlyphId < secondGlyph)
+                    left = mid + 1;
+                else
+                    right = mid - 1;
             }
 
             return false;
