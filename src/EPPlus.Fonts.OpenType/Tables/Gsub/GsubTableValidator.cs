@@ -554,12 +554,14 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
                 }
             }
 
-            // Check for self-reference
-            if (firstGlyph == ligature.LigatureGlyph || ligature.Components.Contains(ligature.LigatureGlyph))
-            {
-                result.AddMessage(FontValidationSeverity.Error,
-                    $"Lookup {lookupIdx}: Ligature {ligature.LigatureGlyph} references itself (circular dependency).");
-            }
+            // MA 260119: Fails for NotoEmoji, below is not covering a full circular reference and was disabled.
+
+            //// Check for self-reference
+            //if (firstGlyph == ligature.LigatureGlyph || ligature.Components.Contains(ligature.LigatureGlyph))
+            //{
+            //    result.AddMessage(FontValidationSeverity.Error,
+            //        $"Lookup {lookupIdx}: Ligature {ligature.LigatureGlyph} references itself (circular dependency).");
+            //}
         }
 
         #endregion

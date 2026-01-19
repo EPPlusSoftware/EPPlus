@@ -9,9 +9,11 @@
   Date               Author                       Change
  *************************************************************************************************
   01/15/2025         EPPlus Software AB           Initial implementation
+  01/19/2026         EPPlus Software AB           Added Single Adjustment support (GPOS Type 1)
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.TextShaping.Kerning;
 using EPPlus.Fonts.OpenType.TextShaping.Ligatures;
+using EPPlus.Fonts.OpenType.TextShaping.Positioning;
 using System;
 using System.Collections.Generic;
 
@@ -22,12 +24,16 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         private readonly OpenTypeFont _font;
         private readonly KerningProvider _kerningProvider;
         private readonly LigatureProcessor _ligatureProcessor;
+        private readonly MarkToBaseProvider _markToBaseProvider;
+        private readonly SingleAdjustmentProvider _singleAdjustmentProvider;
 
         public TextShaper(OpenTypeFont font)
         {
             _font = font ?? throw new ArgumentNullException(nameof(font));
             _kerningProvider = new KerningProvider(font);
             _ligatureProcessor = new LigatureProcessor(font);
+            _markToBaseProvider = new MarkToBaseProvider(font);
+            _singleAdjustmentProvider = new SingleAdjustmentProvider(font);
         }
 
         #region Single-line Shaping
@@ -159,16 +165,66 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         /// <summary>
         /// Applies positioning adjustments (kerning, mark positioning, etc.).
+        /// Order matters: Single adjustments → Kerning → Mark positioning
         /// </summary>
         private void ApplyPositioning(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
-            // Apply kerning if requested
-            if (options.GposFeatures != null && options.GposFeatures.Contains("kern"))
+            // Determine if we should apply all features or only specific ones
+            bool applyAllFeatures = options.GposFeatures == null || options.GposFeatures.Count == 0;
+
+            // Phase 1: Single Adjustment (GPOS Type 1)
+            // Applied when: all features enabled OR no specific feature filtering
+            // Note: Single adjustments don't typically have a specific feature tag,
+            // they're usually in foundational features that should always be applied
+            if (applyAllFeatures)
+            {
+                ApplySingleAdjustment(glyphs);
+            }
+
+            // Phase 2: Kerning (GPOS Type 2 / kern table)
+            // Applied when: all features enabled OR "kern" is explicitly requested
+            if (applyAllFeatures || (options.GposFeatures != null && options.GposFeatures.Contains("kern")))
             {
                 ApplyKerning(glyphs);
             }
 
-            // TODO: Add support for other GPOS features (mark, mkmk, etc.)
+            // Phase 3: Mark-to-Base positioning (GPOS Type 4)
+            // ALWAYS applied because it's critical for correct diacritic rendering.
+            // Without this, text like "café" would render incorrectly.
+            // This is not an optional feature - it's fundamental to correct text layout.
+            _markToBaseProvider.ApplyMarkPositioning(glyphs);
+        }
+
+        /// <summary>
+        /// Applies single glyph adjustments from GPOS Lookup Type 1.
+        /// This handles per-glyph positioning like superscripts, subscripts, etc.
+        /// </summary>
+        private void ApplySingleAdjustment(List<ShapedGlyph> glyphs)
+        {
+            for (int i = 0; i < glyphs.Count; i++)
+            {
+                ushort glyphId = glyphs[i].GlyphId;
+
+                if (_singleAdjustmentProvider.TryGetAdjustment(glyphId, out var valueRecord))
+                {
+                    var glyph = glyphs[i];
+
+                    // Apply all adjustments from the ValueRecord
+                    if (valueRecord.XPlacement != 0)
+                        glyph.XOffset += valueRecord.XPlacement;
+
+                    if (valueRecord.YPlacement != 0)
+                        glyph.YOffset += valueRecord.YPlacement;
+
+                    if (valueRecord.XAdvance != 0)
+                        glyph.XAdvance += valueRecord.XAdvance;
+
+                    if (valueRecord.YAdvance != 0)
+                        glyph.YAdvance += valueRecord.YAdvance;
+
+                    glyphs[i] = glyph;
+                }
+            }
         }
 
         /// <summary>
