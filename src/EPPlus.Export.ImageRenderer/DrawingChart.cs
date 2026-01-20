@@ -13,6 +13,7 @@
 
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -59,7 +60,8 @@ namespace EPPlusImageRenderer
                     max = d;
                 }
             }
-            GetAutoMinMaxValue(ax, isCount, ref min, ref max, out majorUnit);
+            var maxMajorTickmarks = 10; //TODO: Calculate based on rect size
+            GetAutoMinMaxValue(ax, maxMajorTickmarks, isCount, ref min, ref max, out majorUnit);
             for(var v=min; v<=max;v+=majorUnit)  
             {
                 l.Add(v);
@@ -67,7 +69,7 @@ namespace EPPlusImageRenderer
             return l;
             }
 
-        private void GetAutoMinMaxValue(ExcelChartAxisStandard ax, bool isCount, ref double? min, ref double? max, out double? majorUnit)
+        private void GetAutoMinMaxValue(ExcelChartAxisStandard ax, int maxMajorTickmarks, bool isCount, ref double? min, ref double? max, out double? majorUnit)
         {
             if(ax.MinValue.HasValue)
             {
@@ -88,23 +90,49 @@ namespace EPPlusImageRenderer
                     }
                 }
             }
-            if(ax.MaxValue.HasValue)
+
+            if(isCount)
             {
-                max = ax.MaxValue;
-                majorUnit = ax.MajorUnit ?? GetAutoUnit(min.Value, max.Value);
+                majorUnit = 1;
             }
             else
             {
-                majorUnit = ax.MajorUnit ?? GetAutoUnit(min.Value, max.Value);
-                if (isCount==false)
+                if (ax.MaxValue.HasValue)
                 {
-                    var diff = max.Value - min.Value;
-                    var newMax = max.Value + majorUnit;
-                    while ((newMax - min) < (diff * 1.05))
+                    max = ax.MaxValue;
+                    majorUnit = ax.MajorUnit ?? GetAutoUnit(min.Value, max.Value);
+                    if (ax.MinValue.HasValue == false)
                     {
-                        newMax += majorUnit.Value;
+                        var newMin = max - majorUnit;
+                        while (newMin > min)
+                        {
+                            newMin -= majorUnit.Value;
+                        }
+                        min = newMin;
                     }
-                    max = newMax;
+                }
+                else
+                {
+                    majorUnit = ax.MajorUnit ?? GetAutoUnit(min.Value, max.Value);
+                    if (isCount == false)
+                    {
+                        var diff = max.Value - min.Value;
+                        var newMax = min.Value + majorUnit;
+                        while ((newMax - min) < (diff * 1.05))
+                        {
+                            newMax += majorUnit.Value;
+                        }
+                        max = newMax;
+                    }
+                    if(min != 0 && max-min<9)
+                    {
+                        min -= 2;
+                    }
+                }
+                var newUnit = majorUnit;
+                while (newUnit >= 2 && (max - min) / newUnit > maxMajorTickmarks)
+                {
+                    newUnit /= 2;
                 }
             }
         }
@@ -112,31 +140,42 @@ namespace EPPlusImageRenderer
         private double GetAutoUnit(double min, double max)
         {
             var diff = max - min;
-            var pow = 0;
-            while (diff < 10)
-            {
-                diff *= 10;
-                pow++;
-            }
-            var unit = diff / 10D;
-            var rest = unit % 10d;
-            if (rest < 5)
-            {
-                unit -= rest;
-            }
-            else
-            {
-                unit += 10 - rest;
-            }
-            if(pow>0)
-            {
-                unit /= Math.Pow(10, pow);
-            }
-            if (unit == 0)
+            if (diff < 8)
             {
                 return 1;
             }
-            return unit;
+            else
+            {
+                var rawMajorUnit = diff;
+                var exponent = Math.Floor(Math.Log10(rawMajorUnit));
+                var fraction = rawMajorUnit / (Math.Pow(10, exponent));
+                double unit;
+                if (fraction <= 1)
+                {
+                    unit = 1D;
+                }
+                else if (fraction <= 2)
+                {
+                    unit = 2;
+                }
+                else if (fraction <= 2.5)
+                {
+                    unit = 2.5;
+                }
+                else if (fraction <= 5)
+                {
+                    unit = 5;
+                }
+                else
+                {
+                    unit = 10;
+                }
+
+                var axMax = unit * Math.Pow(10, exponent);
+                var axMin = Math.Floor(min / axMax) * axMax;
+                axMax = Math.Ceiling(max / axMax) * axMax;
+                return axMax / 10;
+            }
         }
     }
 }

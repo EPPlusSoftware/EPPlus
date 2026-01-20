@@ -131,8 +131,6 @@ namespace EPPlusImageRenderer.Svg
         internal SvgChartTitle HorizontalAxisTitle { get; set; }
         internal SvgChartTitle SecondVerticalAxisTitle { get; set; }
 
-        public override RenderItemType Type => throw new System.NotImplementedException();
-
         private void SetChartArea()
         {
             var item = new SvgRenderRectItem(Chart);

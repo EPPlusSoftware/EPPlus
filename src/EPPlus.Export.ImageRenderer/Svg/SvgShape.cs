@@ -201,8 +201,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        public override RenderItemType Type => throw new NotImplementedException();
-
+        public void Render(StringBuilder sb)
         {
             sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
 
@@ -245,7 +244,7 @@ namespace EPPlusImageRenderer.Svg
                 insetTextBox.Bounds.Top = y;
                 insetTextBox.Width = width;
                 insetTextBox.Height = height;
-                insetTextBox.Bounds.Parent = Bounds;
+                insetTextBox.Bounds.Parent = textBody.Bounds; //TODO:Check that textBody is correct.
             }
             var txtBodyItem = new SvgTextBodyItem(insetTextBox.Bounds);
 
@@ -403,11 +402,6 @@ namespace EPPlusImageRenderer.Svg
             {
                 xe = xec;
             }
-        }
-
-        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
-        {
-            throw new NotImplementedException();
         }
     }
 }

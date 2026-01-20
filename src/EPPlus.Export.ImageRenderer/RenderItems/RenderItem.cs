@@ -212,23 +212,6 @@ namespace EPPlusImageRenderer.RenderItems
 
         internal BoundingBox Bounds = new BoundingBox();
         internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
-
-        internal string RenderSvgElement(SvgElement element)
-        {
-            string retStr = string.Empty;
-
-            using (var ms = EPPlusMemoryManager.GetStream())
-            {
-                SvgWriter writer = new SvgWriter(ms, Encoding.UTF8);
-                writer.RenderSvgElement(element, true);
-                ms.Position = 0;
-                using (var sr = new StreamReader(ms))
-                {
-                    retStr = sr.ReadToEnd();
-                    return retStr;
-                }
-            }
-        }
     }
     /// <summary>
     /// Base class for any item rendered.
@@ -237,6 +220,5 @@ namespace EPPlusImageRenderer.RenderItems
     {
         public abstract RenderItemType Type { get; }
         public abstract void Render(StringBuilder sb);
-
     }
 }

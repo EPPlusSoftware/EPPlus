@@ -20,8 +20,6 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class SvgChartPlotarea : SvgChartObject
     {
-        public override RenderItemType Type => throw new System.NotImplementedException();
-
         public SvgChartPlotarea(SvgChart sc) : base(sc.Chart)
         {
             SvgChart = sc;
@@ -74,19 +72,10 @@ namespace EPPlusImageRenderer.Svg
             return rect;
         }
 
-        //public override void Render(StringBuilder sb)
-        //{
-        //    Rectangle.Render(sb);
-        //}
-
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.Add(Rectangle);
         }
 
-        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

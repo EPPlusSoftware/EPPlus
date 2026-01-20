@@ -40,7 +40,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 shapeDef.Calculate(shape);
 
                 //RenderItems.Add(new SvgRenderPathItem(shape));
-                RenderItems.Add(new SvgGroupItem(shapeDef.GetTransform(shape.Rotation)));
+                RenderItems.Add(new SvgGroupItem(shape.Rotation, shape.GetPixelWidth()/2, shape.GetPixelHeight()/2));
 
                 //Draw Filled path's
                 foreach (var path in shapeDef.ShapePaths)
@@ -194,8 +194,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
-        public override RenderItemType Type => throw new NotImplementedException();
-
         private string GetFontColor()
         {
             string color;
@@ -212,19 +210,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
 
             return color;
-        }
-
-        TextBox GetTextBox()
-        {
-            //if (_renderTextBox != null)
-            //{
-            //    return new TextBox(_shape.TextBody, _renderTextBox);
-            //}
-            //else
-            //{
-                GetShapeInnerBound(out double x, out double y, out double width, out double height);
-                return new TextBox(x, y, width, height);
-            //}
         }
 
         private void GetFontNameAndSize(ExcelFont nsFont, out string fontName, out double fontSize)
