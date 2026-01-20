@@ -19,6 +19,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// Margin right = Y
     /// </summary>
     internal abstract class TextBody: SvgRenderItem
+    internal abstract class TextBody: SvgRenderItem
     {
         /// <summary>
         /// Shorthand for Bounds.Width
@@ -34,6 +35,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal eTextAnchoringType VerticalAlignment = eTextAnchoringType.Top;
 
+        internal abstract List<ParagraphContainer> Paragraphs { get; set; }
         internal abstract List<ParagraphContainer> Paragraphs { get; set; }
 
         public bool AllowOverflow;
@@ -63,6 +65,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             if (_measurer != null)
             {
+                var paragraph = CreateParagraph(Bounds);
                 var paragraph = CreateParagraph(Bounds);
                 Paragraphs.Add(paragraph);
 
@@ -199,6 +202,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             il = Bounds.Left; it = Bounds.Top; ir = Bounds.Right; ib = Bounds.Bottom;
         }
+
+        /// <summary>
+        /// Each file format defines its own paragraph
+        /// </summary>
+        /// <returns></returns>
+        internal abstract ParagraphContainer CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent);
+
+        /// <summary>
+        /// Each file format defines its own paragraph
+        /// </summary>
+        /// <returns></returns>
+        internal abstract ParagraphContainer CreateParagraph(BoundingBox parent);
 
         /// <summary>
         /// Each file format defines its own paragraph

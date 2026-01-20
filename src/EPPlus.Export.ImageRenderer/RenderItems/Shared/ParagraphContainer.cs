@@ -116,6 +116,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //Create object of type
             var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
             targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
+            var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
+            targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
 
             if (_textRunItems.Count == 0 && IsFirstParagraph == true)
             {
@@ -349,6 +351,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             ir = Bounds.Right - _rightMargin;
             ib = Bounds.Bottom;
         }
+
+        /// <summary>
+        /// Type of textrun defined by child type
+        /// </summary>
+        /// <param name="run"></param>
+        /// <param name="parent"></param>
+        /// <param name="DisplayString"></param>
+        /// <returns></returns>
+        internal abstract TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText);
 
         /// <summary>
         /// Type of textrun defined by child type
