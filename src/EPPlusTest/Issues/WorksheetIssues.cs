@@ -1059,5 +1059,15 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void s995()
+        {
+            using(var package = OpenTemplatePackage("xrIgnorableRemoved.xlsx"))
+            {
+                package.Workbook.Worksheets.Add("SecondWs");
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

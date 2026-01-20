@@ -17,6 +17,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
         internal List<int> IsPartOfLines;
         internal string ThisFragment;
         List<int> positionsToBreakAt = new();
+        internal float FontSize { get; set; } = float.NaN;
 
         internal TextFragment(string thisFragment, int startPos)
         {
@@ -39,13 +40,32 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
             positionsToBreakAt.Add(locaLnPos);
         }
 
+        internal string GetLineBreakFreeFragment()
+        {
+            string freeFragment = ThisFragment.Replace("\r", "");
+            freeFragment.Replace("\n", "");
+            return freeFragment;
+        }
+
         internal string GetWrappedFragment()
         {
-            string alteredFragment = ThisFragment;
+            if(positionsToBreakAt.Count == 0)
+            {
+                return ThisFragment;
+            }
 
+            string alteredFragment = ThisFragment;
+            int deleteSpaceCount = 0;
             for (int i = 0; i < positionsToBreakAt.Count; i++)
             {
-                alteredFragment = alteredFragment.Insert(positionsToBreakAt[i] + i, Environment.NewLine);
+                var insertPosition = positionsToBreakAt[i] + i - deleteSpaceCount;
+                alteredFragment = alteredFragment.Insert(insertPosition, Environment.NewLine);
+                //Spaces after inserted newlines are to be removed
+                if (alteredFragment[insertPosition + Environment.NewLine.Length] == ' ')
+                {
+                    alteredFragment = alteredFragment.Remove(insertPosition + Environment.NewLine.Length, 1);
+                    deleteSpaceCount++;
+                }
             }
 
             return alteredFragment;

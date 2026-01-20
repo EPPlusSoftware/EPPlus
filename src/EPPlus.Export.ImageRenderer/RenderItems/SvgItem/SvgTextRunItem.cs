@@ -22,7 +22,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (_isItalic)
             {
-                fontStyleAttributes += " font-style=\"italic\" ";
+                fontStyleAttributes += "font-style=\"italic\" ";
             }
             if (_isBold)
             {
@@ -78,55 +78,60 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void Render(StringBuilder sb)
         {
             string finalString = "";
+            var xString = $"x =\"{(Bounds.X).ToString(CultureInfo.InvariantCulture)}\" ";
 
-            foreach (var line in Lines)
+            var currentYEndPos = Bounds.GlobalY;
+
+            for (int i = 0; i < Lines.Count; i++)
             {
+                var line = Lines[i];
+
                 finalString += $"<tspan ";
                 string visibility = "";
-                //Despite new textrun it could still be on the same line as previous textrun
-                //Therefore only do line increase if we are first in paragraph or if we are not Lines[0].
-                //This as line == Lines[0] && isFirstInParagraph == false means we are continuing on the same line as previous textRun
-                //This is important if for example we have rich text where two letters on the same line has different colors.
-                if (line != Lines[0] | _isFirstInParagraph)
+
+                //Textrun may continue on same line or start a new line
+                //Refer to pre-calculated list
+                if (YIncreasePerLine[i] != 0)
                 {
-                    var yIncrease = _isFirstInParagraph ? BaseLineSpacing : LineSpacingPerNewLine;
-                    _isFirstInParagraph = false;
+                    var yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(YIncreasePerLine[i]);
 
-                    yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
-
-                    //_yEndPos += yIncrease;
-                    //if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
-                    //{
-                    //    visibility = "display=\"none\"";
-                    //}
+                    currentYEndPos += yIncrease;
+                    if (double.IsNaN(ClippingHeight) == false && currentYEndPos >= ClippingHeight)
+                    {
+                        visibility = "display=\"none\"";
+                    }
 
                     var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
-                    var xString = $"x =\"{(Bounds.X).ToString(CultureInfo.InvariantCulture)}\" ";
-                    var dyString = $"dy =\"{yIncreaseString}px\" ";
-                    finalString += xString;
+                    var dyString = $"dy=\"{yIncreaseString}px\" ";
                     finalString += dyString;
+                    finalString += "x=\"0\" ";
+                }
+                else
+                {
+                    finalString += xString;
                 }
 
                 finalString += $"{visibility} " + $"{GetFontStyleAttributes()} ";
+
                 if (_measurementFont != null)
                 {
-                    finalString += $" font-family=\"{_measurementFont.FontFamily},"
+                    finalString += $"font-family=\"{_measurementFont.FontFamily},"
                         + $"{_measurementFont.FontFamily}_MSFontService,sans-serif\" "
-                        + $"font-size=\"{_measurementFont.Size.ToString(CultureInfo.InvariantCulture)}px\" ";
+                        + $"font-size=\"{FontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
                 }
+
                 sb.Append(finalString);
 
                 //Get color etc.
                 //Renders up until this point
                 base.Render(sb);
-                //Since final string has been written erase it.
+                //Since final string has been written in base.render erase it.
                 finalString = "";
 
                 finalString += ">";
                 finalString += line;
                 finalString += "</tspan>";
             }
-
             sb.Append(finalString);
         }
 
