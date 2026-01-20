@@ -11,9 +11,11 @@
   01/15/2025         EPPlus Software AB           Initial implementation
   01/19/2026         EPPlus Software AB           Added Single Adjustment support (GPOS Type 1)
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.TextShaping.Contextual;
 using EPPlus.Fonts.OpenType.TextShaping.Kerning;
 using EPPlus.Fonts.OpenType.TextShaping.Ligatures;
 using EPPlus.Fonts.OpenType.TextShaping.Positioning;
+using EPPlus.Fonts.OpenType.TextShaping.Substitutions;
 using System;
 using System.Collections.Generic;
 
@@ -26,6 +28,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         private readonly LigatureProcessor _ligatureProcessor;
         private readonly MarkToBaseProvider _markToBaseProvider;
         private readonly SingleAdjustmentProvider _singleAdjustmentProvider;
+        private readonly SingleSubstitutionProcessor _singleSubstitutionProcessor;
+        private readonly ChainingContextualProcessor _chainingContextualProcessor;
 
         public TextShaper(OpenTypeFont font)
         {
@@ -34,6 +38,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             _ligatureProcessor = new LigatureProcessor(font);
             _markToBaseProvider = new MarkToBaseProvider(font);
             _singleAdjustmentProvider = new SingleAdjustmentProvider(font);
+            _singleSubstitutionProcessor = new SingleSubstitutionProcessor(font);
+            _chainingContextualProcessor = new ChainingContextualProcessor(font, _singleSubstitutionProcessor, _ligatureProcessor);
         }
 
         #region Single-line Shaping
@@ -148,9 +154,23 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// </summary>
         private List<ShapedGlyph> ApplyGsubSubstitutions(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
-            // TODO: Implement in next step
-            // For now, just apply ligatures if "liga" feature is requested
+            // Phase 1: Single Substitution (Type 1) - applies first
+            // Examples: small caps (smcp), oldstyle figures (onum), tabular figures (tnum)
+            if (options.GsubFeatures != null && options.GsubFeatures.Count > 0)
+            {
+                glyphs = _singleSubstitutionProcessor.ApplySubstitutions(glyphs, options.GsubFeatures);
+            }
 
+            // Phase 2: Chaining Contextual Substitution (Type 6) for ligatures
+            // This handles context-sensitive ligatures (e.g., ffi in Roboto)
+            // Must come BEFORE simple ligatures to handle contextual cases first
+            if (options.GsubFeatures != null && options.GsubFeatures.Contains("liga"))
+            {
+                glyphs = _chainingContextualProcessor.ApplyContextualSubstitutions(glyphs, "liga");
+            }
+
+            // Phase 3: Simple Ligatures (Type 4) - applies after contextual ligatures
+            // This catches any remaining non-contextual ligatures
             if (options.GsubFeatures != null && options.GsubFeatures.Contains("liga"))
             {
                 glyphs = _ligatureProcessor.ApplyLigatures(glyphs);

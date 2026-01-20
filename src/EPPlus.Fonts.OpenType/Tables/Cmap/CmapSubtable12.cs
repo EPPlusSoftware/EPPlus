@@ -80,16 +80,40 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         {
             glyphId = 0;
 
-            foreach (var group in Groups)
+            // Performance optimization: Use binary search
+            // Groups are sorted by StartCharCode per OpenType spec
+
+            if (Groups == null || Groups.Count == 0)
+                return false;
+
+            int left = 0;
+            int right = Groups.Count - 1;
+
+            while (left <= right)
             {
-                if (codePoint >= group.StartCharCode && codePoint <= group.EndCharCode)
+                int mid = left + (right - left) / 2;
+                var group = Groups[mid];
+
+                if (codePoint < group.StartCharCode)
                 {
+                    // Code point is before this group
+                    right = mid - 1;
+                }
+                else if (codePoint > group.EndCharCode)
+                {
+                    // Code point is after this group
+                    left = mid + 1;
+                }
+                else
+                {
+                    // Code point is within this group's range
                     uint offset = codePoint - group.StartCharCode;
                     glyphId = (ushort)(group.StartGlyphId + offset);
                     return glyphId != 0;
                 }
             }
 
+            // Not found in any group
             return false;
         }
 
