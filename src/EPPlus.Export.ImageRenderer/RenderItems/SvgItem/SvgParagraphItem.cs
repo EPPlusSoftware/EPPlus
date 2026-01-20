@@ -83,16 +83,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             sb.AppendLine("<title>paragraph</title> ");
 
-            //var bb = new SvgRenderRectItem();
-            ////The bb is affected by the transform so set pos to zero
-            //bb.Y = 0;
-            //bb.X = 0;
+            var bb = new SvgRenderRectItem();
+            //The bb is affected by the transform so set pos to zero
+            if(IsFirstParagraph == false)
+            {
+                bb.Y = -_paragraphFont.Size.PointToPixel();
+            }
+            bb.X = 0;
 
-            //bb.Width = Bounds.Width;
-            //bb.Height = Bounds.Height;
-            //bb.FillColor = "gold";
-            //bb.FillOpacity = 0.3;
-            //bb.Render(sb);
+            bb.Width = Bounds.Width;
+            bb.Height = Bounds.Height;
+            bb.FillColor = "gold";
+            bb.FillOpacity = 0.3;
+            bb.Render(sb);
 
             //Render text run debug boxes as we cannot place the rects after or inside the text element
 

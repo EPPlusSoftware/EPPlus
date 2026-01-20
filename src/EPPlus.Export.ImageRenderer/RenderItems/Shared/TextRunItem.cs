@@ -102,6 +102,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             //---Calculation of total y-height---
 
+            //If already did this
+            if(YIncreasePerLine.Count > 0)
+            {
+                return Bounds.Height;
+            }
+
             bool lineIsFirstInParagraph = _isFirstInParagraph;
 
             foreach (var line in Lines)

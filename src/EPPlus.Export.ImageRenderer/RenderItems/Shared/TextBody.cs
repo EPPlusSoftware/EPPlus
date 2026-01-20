@@ -108,7 +108,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 ImportParagraph(paragraph, paragraphStartY);
                 var addedPara = Paragraphs.Last();
-                paragraphStartY += addedPara.Bounds.Bottom + addedPara.ParagraphLineSpacing;
+                paragraphStartY = addedPara.Bounds.Bottom + addedPara.ParagraphLineSpacing;
             }
             if (Paragraphs != null && Paragraphs.Count() > 0)
             {

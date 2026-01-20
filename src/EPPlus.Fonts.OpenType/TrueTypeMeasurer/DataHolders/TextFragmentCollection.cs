@@ -21,7 +21,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         /// <summary>
         /// Added linewidths in points
         /// </summary>
-        List <double> lineWidths = new List<double>();
+        internal List<double> lineWidths { get; private set; } = new List<double>();
 
         public List<int> IndiciesToWrapAt {get; internal set; }
         public TextFragmentCollection(List<string> textFragments)
