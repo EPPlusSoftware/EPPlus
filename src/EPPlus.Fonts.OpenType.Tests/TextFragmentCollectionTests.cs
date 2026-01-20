@@ -29,9 +29,9 @@ namespace EPPlus.Fonts.OpenType.Tests
 
             var outputLines = ttMeasurer.WrapMultipleTextFragments(textFragments, fonts, 225);
 
-            Assert.AreEqual(outputLines[0], "Hello World! a b c d");
-            Assert.AreEqual(outputLines[1], "e f g h i j k l m n o p q");
-            Assert.AreEqual(outputLines[2], "r s t u v w x y z ");
+            Assert.AreEqual("Hello World! a b c d", outputLines[0]);
+            Assert.AreEqual("e f g h i j k l m n o p q", outputLines[1]);
+            Assert.AreEqual("r s t u v w x y z ", outputLines[2]);
         }
     }
 }

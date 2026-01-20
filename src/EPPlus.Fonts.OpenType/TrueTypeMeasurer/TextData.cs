@@ -795,11 +795,16 @@ namespace EPPlus.Fonts.OpenType
                             //Since we've moved one beyond the last
                             i = prevLineEndIndex;
                         }
+                        else
+                        {
+                            leftOverLine = "";
+                        }
                     }
                     else
                     {
                         //Special case for only 1 or 0 chars in leftover line
-                        leftOverLine = allText.Substring(prevLineEndIndex, i - prevLineEndIndex + 1);
+                        leftOverLine = allText.Substring(prevLineEndIndex, i - prevLineEndIndex);
+                        leftOverLine += allText.Substring(i, 1);
                     }
                 }
                 else

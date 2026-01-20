@@ -174,10 +174,7 @@ namespace TestProject1
 
             var savedStrings = SavedComparisonString.Split("\r\n");
 
-
             List<string> differingStrings = new();
-
-            List<int> differingIndicies = new();
 
             if (wrappedStrings.Count() > savedStrings.Count())
                 differingStrings = savedStrings.Except(wrappedStrings).ToList();
@@ -186,16 +183,16 @@ namespace TestProject1
 
             //INTENTIONAL COMMENT for easier debugging later.
             //It is sometimes easier to compare files directly when debugging rather than looking through "differingStrings"
-            bool writeFiles = true;
+            //bool writeFiles = true;
 
-            if (/*differingStrings.Count() > 0*/ writeFiles)
-            {
-                File.WriteAllText("C:\\temp\\LoremIpsum20_NEW.txt", string.Join("\r\n", wrappedStrings.ToArray()));
-                File.WriteAllText("C:\\temp\\LoremIpsum20_OLD.txt", SavedComparisonString);
+            //if (/*differingStrings.Count() > 0*/ writeFiles)
+            //{
+            //    File.WriteAllText("C:\\temp\\LoremIpsum20_NEW.txt", string.Join("\r\n", wrappedStrings.ToArray()));
+            //    File.WriteAllText("C:\\temp\\LoremIpsum20_OLD.txt", SavedComparisonString);
 
-                var currStr = File.ReadAllText("C:\\temp\\LoremIpsum20_NEW.txt");
-                Assert.AreEqual(SavedComparisonString, currStr);
-            }
+            //    var currStr = File.ReadAllText("C:\\temp\\LoremIpsum20_NEW.txt");
+            //    Assert.AreEqual(SavedComparisonString, currStr);
+            //}
 
             Assert.AreEqual(0, differingStrings.Count());
         }
@@ -225,25 +222,23 @@ namespace TestProject1
 
             List<string> differingStrings = new();
 
-            List<int> differingIndicies = new();
-
             if (wrappedStrings.Count() > savedStrings.Count())
                 differingStrings = savedStrings.Except(wrappedStrings).ToList();
             else
                 differingStrings = wrappedStrings.Except(savedStrings).ToList();
 
-            //INTENTIONAL COMMENT for easier debugging later.
-            //It is sometimes easier to compare files directly when debugging rather than looking through "differingStrings"
-            bool writeFiles = true;
+            ////INTENTIONAL COMMENT for easier debugging later.
+            ////It is sometimes easier to compare files directly when debugging rather than looking through "differingStrings"
+            //bool writeFiles = true;
 
-            if (/*differingStrings.Count() > 0*/ writeFiles)
-            {
-                File.WriteAllText("C:\\temp\\LoremIpsum20_NEW.txt", string.Join("\r\n", wrappedStrings.ToArray()));
-                File.WriteAllText("C:\\temp\\LoremIpsum20_OLD.txt", SavedComparisonString);
+            //if (/*differingStrings.Count() > 0*/ writeFiles)
+            //{
+            //    File.WriteAllText("C:\\temp\\LoremIpsum20_NEW.txt", string.Join("\r\n", wrappedStrings.ToArray()));
+            //    File.WriteAllText("C:\\temp\\LoremIpsum20_OLD.txt", SavedComparisonString);
 
-                var currStr = File.ReadAllText("C:\\temp\\LoremIpsum20_NEW.txt");
-                Assert.AreEqual(SavedComparisonString, currStr);
-            }
+            //    var currStr = File.ReadAllText("C:\\temp\\LoremIpsum20_NEW.txt");
+            //    Assert.AreEqual(SavedComparisonString, currStr);
+            //}
 
             Assert.AreEqual(0, differingStrings.Count());
         }
