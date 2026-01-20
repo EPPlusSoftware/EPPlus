@@ -27,11 +27,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         public string range;
 
-        internal PdfTableLayout TableStyle;
+        internal PdfCellStyleOverride TableStyle;
 
         public PdfCellBorderLayout() { }
 
-        public PdfCellBorderLayout(ExcelRangeBase cell, PdfTableLayout tableStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+        public PdfCellBorderLayout(ExcelRangeBase cell, PdfCellStyleOverride tableStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y-height, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
@@ -50,44 +50,100 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 if ((TableStyle.borderStyleType & TableBorderStyle.Top) != 0)
                 {
                     //BorderData.Top = new PdfCellBorderData(LineType.Top);
-                    BorderData.Top.BorderStyle = TableStyle.MainStyle.Style.Border.Top.Style == null ? (TableStyle.WholeStyle.Style.Border.Top.Style == null) ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.WholeStyle.Style.Border.Top.Style : (ExcelBorderStyle)TableStyle.MainStyle.Style.Border.Top.Style;
-                    BorderData.Top.BorderColor = TableStyle.MainStyle.Style.Border.Top.Style == null ? PdfColor.SetColorFromHex(TableStyle.WholeStyle.Style.Border.Top.Color.LookupColor()) : PdfColor.SetColorFromHex(TableStyle.MainStyle.Style.Border.Top.Color.LookupColor());
+                    BorderData.Top.BorderStyle = TableStyle.MainStyleFill.Style.Border.Top.Style == null ? (TableStyle.WholeStyleFill.Style.Border.Top.Style == null) ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.WholeStyleFill.Style.Border.Top.Style : (ExcelBorderStyle)TableStyle.MainStyleFill.Style.Border.Top.Style;
+                    BorderData.Top.BorderColor = TableStyle.MainStyleFill.Style.Border.Top.Style == null ? PdfColor.SetColorFromHex(TableStyle.WholeStyleFill.Style.Border.Top.Color.LookupColor()) : PdfColor.SetColorFromHex(TableStyle.MainStyleFill.Style.Border.Top.Color.LookupColor());
                     BorderData.Top.X = LocalPosition.X;
                     BorderData.Top.Y = LocalPosition.Y;
                     BorderData.Top.Width = Size.X;
                     BorderData.Top.Height = Size.Y;
                 }
-                else if(TableStyle.MainStyle.Style.Border.Horizontal.Style != null)
+                else if(TableStyle.MainStyleFill.Style.Border.Horizontal.Style != null)
                 {
-                    BorderData.Top.BorderStyle = TableStyle.MainStyle.Style.Border.Top.Style == null ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.MainStyle.Style.Border.Top.Style;
-                    BorderData.Top.BorderColor = PdfColor.SetColorFromHex(TableStyle.MainStyle.Style.Border.Top.Color.LookupColor());
+                    BorderData.Top.BorderStyle = TableStyle.MainStyleFill.Style.Border.Top.Style == null ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.MainStyleFill.Style.Border.Top.Style;
+                    BorderData.Top.BorderColor = PdfColor.SetColorFromHex(TableStyle.MainStyleFill.Style.Border.Top.Color.LookupColor());
+                    BorderData.Top.X = LocalPosition.X;
+                    BorderData.Top.Y = LocalPosition.Y;
+                    BorderData.Top.Width = Size.X;
+                    BorderData.Top.Height = Size.Y;
+                }
+                else if(TableStyle.WholeStyleFill.Style.Border.Horizontal.Style != null)
+                {
+                    BorderData.Top.BorderStyle = TableStyle.WholeStyleFill.Style.Border.Horizontal.Style == null ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.WholeStyleFill.Style.Border.Horizontal.Style;
+                    BorderData.Top.BorderColor = PdfColor.SetColorFromHex(TableStyle.WholeStyleFill.Style.Border.Horizontal.Color.LookupColor());
                     BorderData.Top.X = LocalPosition.X;
                     BorderData.Top.Y = LocalPosition.Y;
                     BorderData.Top.Width = Size.X;
                     BorderData.Top.Height = Size.Y;
                 }
 
-                //BorderData.Bottom = new PdfCellBorderData(LineType.Bottom);
-                BorderData.Bottom.BorderStyle = TableStyle.MainStyle.Style.Border.Bottom.Style == null ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.MainStyle.Style.Border.Bottom.Style;
-                BorderData.Bottom.BorderColor = PdfColor.SetColorFromHex(TableStyle.MainStyle.Style.Border.Bottom.Color.LookupColor());
-                BorderData.Bottom.X = LocalPosition.X;
-                BorderData.Bottom.Y = LocalPosition.Y;
-                BorderData.Bottom.Width = Size.X;
-                BorderData.Bottom.Height = Size.Y;
-                //BorderData.Left = new PdfCellBorderData(LineType.Left);
-                BorderData.Left.BorderStyle = TableStyle.MainStyle.Style.Border.Left.Style == null ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.MainStyle.Style.Border.Left.Style;
-                BorderData.Left.BorderColor = PdfColor.SetColorFromHex(TableStyle.MainStyle.Style.Border.Left.Color.LookupColor());
-                BorderData.Left.X = LocalPosition.X;
-                BorderData.Left.Y = LocalPosition.Y;
-                BorderData.Left.Width = Size.X;
-                BorderData.Left.Height = Size.Y;
-                //BorderData.Right = new PdfCellBorderData(LineType.Right);
-                BorderData.Right.BorderStyle = TableStyle.MainStyle.Style.Border.Right.Style == null ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.MainStyle.Style.Border.Right.Style;
-                BorderData.Right.BorderColor = PdfColor.SetColorFromHex(TableStyle.MainStyle.Style.Border.Right.Color.LookupColor());
-                BorderData.Right.X = LocalPosition.X;
-                BorderData.Right.Y = LocalPosition.Y;
-                BorderData.Right.Width = Size.X;
-                BorderData.Right.Height = Size.Y;
+                if ((TableStyle.borderStyleType & TableBorderStyle.Bottom) != 0)
+                {
+                    //BorderData.Bottom = new PdfCellBorderData(LineType.Bottom);
+                    BorderData.Bottom.BorderStyle = TableStyle.MainStyleFill.Style.Border.Bottom.Style == null ? (TableStyle.WholeStyleFill.Style.Border.Bottom.Style == null) ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.WholeStyleFill.Style.Border.Bottom.Style : (ExcelBorderStyle)TableStyle.MainStyleFill.Style.Border.Bottom.Style;
+                    BorderData.Bottom.BorderColor = TableStyle.MainStyleFill.Style.Border.Bottom.Style == null ? PdfColor.SetColorFromHex(TableStyle.WholeStyleFill.Style.Border.Bottom.Color.LookupColor()) : PdfColor.SetColorFromHex(TableStyle.MainStyleFill.Style.Border.Bottom.Color.LookupColor());
+                    BorderData.Bottom.X = LocalPosition.X;
+                    BorderData.Bottom.Y = LocalPosition.Y;
+                    BorderData.Bottom.Width = Size.X;
+                    BorderData.Bottom.Height = Size.Y;
+                }
+                else if (TableStyle.MainStyleFill.Style.Border.Horizontal.Style != null)
+                {
+                    BorderData.Bottom.BorderStyle = TableStyle.MainStyleFill.Style.Border.Bottom.Style == null ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.MainStyleFill.Style.Border.Bottom.Style;
+                    BorderData.Bottom.BorderColor = PdfColor.SetColorFromHex(TableStyle.MainStyleFill.Style.Border.Bottom.Color.LookupColor());
+                    BorderData.Bottom.X = LocalPosition.X;
+                    BorderData.Bottom.Y = LocalPosition.Y;
+                    BorderData.Bottom.Width = Size.X;
+                    BorderData.Bottom.Height = Size.Y;
+                }
+                else if (TableStyle.WholeStyleFill.Style.Border.Horizontal.Style != null)
+                {
+                    BorderData.Bottom.BorderStyle = TableStyle.WholeStyleFill.Style.Border.Horizontal.Style == null ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.WholeStyleFill.Style.Border.Horizontal.Style;
+                    BorderData.Bottom.BorderColor = PdfColor.SetColorFromHex(TableStyle.WholeStyleFill.Style.Border.Horizontal.Color.LookupColor());
+                    BorderData.Bottom.X = LocalPosition.X;
+                    BorderData.Bottom.Y = LocalPosition.Y;
+                    BorderData.Bottom.Width = Size.X;
+                    BorderData.Bottom.Height = Size.Y;
+                }
+
+                if ((TableStyle.borderStyleType & TableBorderStyle.Left) != 0)
+                {
+                    //BorderData.Left = new PdfCellBorderData(LineType.Left);
+                    BorderData.Left.BorderStyle = TableStyle.MainStyleFill.Style.Border.Left.Style == null ? (TableStyle.WholeStyleFill.Style.Border.Left.Style == null) ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.WholeStyleFill.Style.Border.Left.Style : (ExcelBorderStyle)TableStyle.MainStyleFill.Style.Border.Left.Style;
+                    BorderData.Left.BorderColor = TableStyle.MainStyleFill.Style.Border.Left.Style == null ? PdfColor.SetColorFromHex(TableStyle.WholeStyleFill.Style.Border.Left.Color.LookupColor()) : PdfColor.SetColorFromHex(TableStyle.MainStyleFill.Style.Border.Left.Color.LookupColor());
+                    BorderData.Left.X = LocalPosition.X;
+                    BorderData.Left.Y = LocalPosition.Y;
+                    BorderData.Left.Width = Size.X;
+                    BorderData.Left.Height = Size.Y;
+                }
+                else if (TableStyle.MainStyleFill.Style.Border.Vertical.Style != null)
+                {
+                    BorderData.Left.BorderStyle = TableStyle.MainStyleFill.Style.Border.Bottom.Style == null ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.MainStyleFill.Style.Border.Bottom.Style;
+                    BorderData.Left.BorderColor = PdfColor.SetColorFromHex(TableStyle.MainStyleFill.Style.Border.Bottom.Color.LookupColor());
+                    BorderData.Left.X = LocalPosition.X;
+                    BorderData.Left.Y = LocalPosition.Y;
+                    BorderData.Left.Width = Size.X;
+                    BorderData.Left.Height = Size.Y;
+                }
+
+                if ((TableStyle.borderStyleType & TableBorderStyle.Right) != 0)
+                {
+                    //BorderData.Right = new PdfCellBorderData(LineType.Right);
+                    BorderData.Right.BorderStyle = TableStyle.MainStyleFill.Style.Border.Right.Style == null ? (TableStyle.WholeStyleFill.Style.Border.Right.Style == null) ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.WholeStyleFill.Style.Border.Right.Style : (ExcelBorderStyle)TableStyle.MainStyleFill.Style.Border.Right.Style;
+                    BorderData.Right.BorderColor = TableStyle.MainStyleFill.Style.Border.Right.Style == null ? PdfColor.SetColorFromHex(TableStyle.WholeStyleFill.Style.Border.Right.Color.LookupColor()) : PdfColor.SetColorFromHex(TableStyle.MainStyleFill.Style.Border.Right.Color.LookupColor());
+                    BorderData.Right.X = LocalPosition.X;
+                    BorderData.Right.Y = LocalPosition.Y;
+                    BorderData.Right.Width = Size.X;
+                    BorderData.Right.Height = Size.Y;
+                }
+                else if (TableStyle.MainStyleFill.Style.Border.Vertical.Style != null)
+                {
+                    BorderData.Right.BorderStyle = TableStyle.MainStyleFill.Style.Border.Right.Style == null ? ExcelBorderStyle.None : (ExcelBorderStyle)TableStyle.MainStyleFill.Style.Border.Right.Style;
+                    BorderData.Right.BorderColor = PdfColor.SetColorFromHex(TableStyle.MainStyleFill.Style.Border.Right.Color.LookupColor());
+                    BorderData.Right.X = LocalPosition.X;
+                    BorderData.Right.Y = LocalPosition.Y;
+                    BorderData.Right.Width = Size.X;
+                    BorderData.Right.Height = Size.Y;
+                }
                 return;
             }
             if (cell != null)
