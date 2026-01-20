@@ -726,6 +726,8 @@ namespace EPPlus.Fonts.OpenType
             var allText = fragments.AllText;
             var newLineIndicies = fragments.AllTextNewLineIndicies;
 
+            var len = allText.Length-7;
+
             //Iterate through All fragments as one concatenated text string
             for (int i = 0; i < allText.Length; i++)
             {
@@ -787,14 +789,17 @@ namespace EPPlus.Fonts.OpenType
                     //Since we're using the AllText, need to handle leftover line differently
                     if (i < prevLineEndIndex)
                     {
-                        leftOverLine = allText.Substring(prevLineEndIndex, prevLineEndIndex - i);
-                        //Since we've moved one beyond the last
-                        i = prevLineEndIndex;
+                        if(lineWidth != 0)
+                        {
+                            leftOverLine = allText.Substring(prevLineEndIndex, prevLineEndIndex - i);
+                            //Since we've moved one beyond the last
+                            i = prevLineEndIndex;
+                        }
                     }
                     else
                     {
                         //Special case for only 1 or 0 chars in leftover line
-                        leftOverLine = allText.Substring(prevLineEndIndex, i - prevLineEndIndex);
+                        leftOverLine = allText.Substring(prevLineEndIndex, i - prevLineEndIndex + 1);
                     }
                 }
                 else
