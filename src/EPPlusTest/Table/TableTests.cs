@@ -35,6 +35,7 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.Security;
 
 namespace EPPlusTest.Table
 {
@@ -178,7 +179,6 @@ namespace EPPlusTest.Table
             ws.Cells["B1"].Value = 123;
             var tbl = ws.Tables.Add(ws.Cells["B1:P12"], "TestTable");
             tbl.TableStyle = OfficeOpenXml.Table.TableStyles.Custom;
-
             tbl.ShowFirstColumn = true;
             tbl.ShowTotal = true;
             tbl.ShowHeader = true;
@@ -228,6 +228,10 @@ namespace EPPlusTest.Table
             tbl.ShowTotal = true;
             tbl.ShowFilter = false;
             tbl.Columns[0].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
+
+            var exp = tbl.CreateHtmlExporter();
+            var html = exp.GetSinglePage();
+
         }
 
         [TestMethod]

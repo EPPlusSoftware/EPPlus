@@ -274,26 +274,37 @@ namespace OfficeOpenXml.Drawing
             _removeParagraphCallback = removeParagraphCallback;
             _removeTextRunCallback = removeTextRunCallback;            
         }
-        internal RectBase GetSizeInPixels(double maxWidth, double maxHeight, string defaultText, ExcelTextFont font)
+        internal RectBase GetSizeInPixels(double maxWidth, double maxHeight, string defaultText, ExcelTextFont font, double leftRightMargin = 0, double topBottomMargin=0, double rotation = 0)
         {
+            double w, h;
             if (_paragraphs.Count == 0)
             {
                 var mf = font.GetMeasureFont();
-                var ns = _prd.Package.Workbook.Styles.GetNormalStyle();
                 var t =_prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType.MeasureText(defaultText, mf); //TODO: use WrapMeasurer
-                return new RectBase(t.Width.PointToPixel(), t.Height.PointToPixel());
+                w = t.Width.PointToPixel();
+                h = t.Height.PointToPixel();
             }
-
-            var h = 0D;
-            var w = 0D;
-            bool isFirstLine = true;
-            foreach (var p in _paragraphs)
+            else
             {
-                var pr = p.GetParagraphSizeInPixels(maxWidth, maxHeight, isFirstLine);
-                isFirstLine = false;
-                if (w < pr.Width) w = Math.Ceiling(pr.Width);
-                h += Math.Ceiling(pr.Height);
+                h = 0D;
+                w = 0D;
+                bool isFirstLine = true;
+                foreach (var p in _paragraphs)
+                {
+                    var pr = p.GetParagraphSizeInPixels(maxWidth, maxHeight, isFirstLine);
+                    isFirstLine = false;
+                    if (w < pr.Width) w = Math.Ceiling(pr.Width);
+                    h += Math.Ceiling(pr.Height);
+                }
             }
+            w += leftRightMargin * 2;
+            h += topBottomMargin * 2;
+            //if (rotation!=0)
+            //{
+            //    var rw = Math.Abs(w * Math.Cos(rotation * Math.PI / 180)) + Math.Abs(h * Math.Sin(rotation * Math.PI / 180));
+            //    var rh = Math.Abs(w * Math.Sin(rotation * Math.PI / 180)) + Math.Abs(h * Math.Cos(rotation * Math.PI / 180));
+            //    return new RectBase(rw, rh);
+            //}
             return new RectBase(w, h);
         }
     }

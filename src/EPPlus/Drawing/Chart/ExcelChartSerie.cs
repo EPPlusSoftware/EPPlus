@@ -255,9 +255,9 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 return Header;
             }
-            else
+            else if (HeaderAddress != null)
             {
-                if(string.IsNullOrEmpty(HeaderAddress.WorkSheetName))
+                if (string.IsNullOrEmpty(HeaderAddress.WorkSheetName))
                 {
                     return _chart.WorkSheet.Cells[HeaderAddress.Address].Offset(0, 0).Text;
                 }
@@ -269,8 +269,8 @@ namespace OfficeOpenXml.Drawing.Chart
                         return ws.Cells[HeaderAddress.Address].Offset(0, 0).Text;
                     }
                 }
-                return "";
             }
+            return "";
         }
     }
 }

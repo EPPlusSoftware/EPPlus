@@ -43,16 +43,15 @@ namespace OfficeOpenXml.Drawing
             _initXml = initXml;
             _prd = prd;
 
-            //if(_paragraphs.FirstDefaultRunProperties != null)
-            //{
-            //    DefaultRunProperties = _paragraphs.FirstDefaultRunProperties;
-            //}
-            //else
-            //{
+            if(_paragraphs.FirstDefaultRunProperties == null)
+            {
+                DefaultRunProperties = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
+            }
+            else
+            {
+                DefaultRunProperties = _paragraphs.FirstDefaultRunProperties;
+            }
 
-            //}
-
-            DefaultRunProperties = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
             var normalStyle = _prd.Package.Workbook.Styles.GetNormalStyle();
 
             //////Previously new paragraphs used the first DefaultRunProperties
@@ -89,21 +88,6 @@ namespace OfficeOpenXml.Drawing
                 var xmlNewNode = ((ExcelTextFontXml)DefaultRunProperties).XmlHelper;
                 CopyElement((XmlElement)xmlFirstDefault.TopNode, (XmlElement)xmlNewNode.TopNode);
             }
-
-            //var font = DefaultRunProperties.LatinFont;
-            //    parentNode = CreateNode(_path);
-            //    _paragraphs.Add((XmlElement)parentNode);
-            //    var defNode = CreateNode(_path + "/a:pPr/a:defRPr");
-            //    if (defNode.InnerXml == "")
-            //    {
-            //        ((XmlElement)defNode).SetAttribute("sz", (_defaultFontSize*100).ToString(CultureInfo.InvariantCulture));
-            //        var normalStyle = _drawing._drawings.Worksheet.Workbook.Styles.GetNormalStyle();
-            //        if (normalStyle == null)
-            //            defNode.InnerXml = "<a:latin typeface=\"Calibri\" /><a:cs typeface=\"Calibri\" />";
-            //        else
-            //            defNode.InnerXml = $"<a:latin typeface=\"{normalStyle.Style.Font.Name}\"/><a:cs typeface=\"{normalStyle.Style.Font.Name}\"/>";
-            //    }
-
         }
         /// <summary>
         /// Default font and fill properties for all text runs.
@@ -603,6 +587,15 @@ namespace OfficeOpenXml.Drawing
         {
             var pointHeight = GetParagraphSize(maxWidth, maxHeight, isFirstLine);
             return new RectBase((pointHeight.Width / 72d) * 96d, (pointHeight.Height / 72d) * 96d);
+        }
+
+        internal object GetMeasurementFont()
+        {
+            if (_paragraphs.Count > 0)
+            {
+                return _paragraphs[0].DefaultRunProperties.GetMeasureFont();
+            }
+            return DefaultRunProperties.GetMeasureFont();
         }
     }
 }

@@ -239,5 +239,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             return width;
         }
+        //        origin.Left = x; origin.Top = y;
+        //    origin.Left = x;
+        //    origin.Top = y;
     }
 }

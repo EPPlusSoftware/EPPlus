@@ -189,7 +189,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             return _title;
         }
 
-        internal override object[] GetAxisValues()
+        internal override object[] GetAxisValues(out bool isCount)
         {
             throw new NotImplementedException();
         }
@@ -279,6 +279,16 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 {
                     return eAxisType.Val;
                 }
+            }
+        }
+        /// <summary>
+        /// True if the axis has a title.
+        /// </summary>
+        public override bool HasTitle
+        {
+            get
+            {
+                return TopNode.SelectSingleNode($"{_nsPrefix}:title", NameSpaceManager)==null;
             }
         }
     }

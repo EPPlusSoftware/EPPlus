@@ -36,7 +36,10 @@ namespace EPPlusImageRenderer.RenderItems
                 X2.ToString(CultureInfo.InvariantCulture), 
                 Y2.ToString(CultureInfo.InvariantCulture));
             base.Render(sb);
-
+            if(LineCap!=eLineCap.Flat)
+            {
+                sb.AppendFormat(" stroke-linecap=\"{0}\"", LineCap == eLineCap.Round ? "round" : "square");
+            }
             sb.AppendFormat("/>");
         }
 

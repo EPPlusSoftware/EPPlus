@@ -22,16 +22,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Bounds.Top = drawing.GetPixelTop();
             Bounds.Width = drawing.GetPixelWidth();
             Bounds.Height = drawing.GetPixelHeight();
-
-            SetDrawingPropertiesFill(drawing.Fill, null);
-            SetDrawingPropertiesBorder(drawing.Border, null, drawing.Border != null);
-        }
-
-        public override RenderItemType Type => RenderItemType.Group;
-
-        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
-        {
-            il = Bounds.Left; it = Bounds.Top; ir = Bounds.Right; ib = Bounds.Bottom;
         }
     }
 }

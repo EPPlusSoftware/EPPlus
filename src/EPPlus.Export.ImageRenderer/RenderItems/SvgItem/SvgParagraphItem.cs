@@ -165,10 +165,5 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             return new SvgTextRunItem(run, parent, displayText);
         }
-
-        internal override TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText)
-        {
-            return new SvgTextRunItem(run, parent, displayText);
-        }
     }
 }
