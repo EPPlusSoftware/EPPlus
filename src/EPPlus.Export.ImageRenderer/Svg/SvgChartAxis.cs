@@ -11,8 +11,11 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Text;
 using OfficeOpenXml.Drawing;
@@ -177,7 +180,7 @@ namespace EPPlusImageRenderer.Svg
         public List<SvgRenderLineItem> MinorAxisPositions { get; private set; }
         public List<SvgRenderLineItem> MajorGridlinePositions { get; private set; }
         public List<SvgRenderLineItem> MinorGridlinePositions { get; private set; }
-        public List<TextBox> AxisValuesTextBoxes
+        public List<TextBody> AxisValuesTextBoxes
         {
             get;
             private set;
@@ -273,20 +276,27 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private List<TextBox> GetAxisValueTextBoxes()
+        private List<TextBody> GetAxisValueTextBoxes()
         {
             var tm = Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
             var mf = Axis.Font.GetMeasureFont();
             var axisStyle = GetAxisStyleEntry();
-            var ret= new List<TextBox>();
+            var ret= new List<TextBody>();
             for (var i=0;i < AxisValues.Count;i++)
             {
                 var v = AxisValues[i];
                 var m = tm.MeasureText(v, mf);
                 var x = GetAxisItemLeft(i, m);
                 var y = GetAxisItemTop(i, m);
-                var tb = new TextBox(Chart, x, y, m.Width, m.Height);
-                tb.AddText(v, Axis.Font);
+                //var tb = new TextBox(Chart, x, y, m.Width, m.Height);
+                var bounds = new BoundingBox();
+                bounds.Left = x;
+                bounds.Top = y;
+                bounds.Width = m.Width.PointToPixel();
+                bounds.Height = m.Height.PointToPixel(); 
+                var tb = new SvgTextBodyItem(bounds);
+                tb.ImportTextBody(Axis.TextBody);
+                tb.Paragraphs[0].AddText(v, (FontMeasurerTrueType)tm);
                 tb.SetDrawingPropertiesFill(Axis.Fill, axisStyle.FillReference.Color);
                 ret.Add(tb);
             }

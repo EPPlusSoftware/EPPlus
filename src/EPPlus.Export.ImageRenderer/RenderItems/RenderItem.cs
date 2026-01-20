@@ -212,6 +212,11 @@ namespace EPPlusImageRenderer.RenderItems
 
         internal BoundingBox Bounds = new BoundingBox();
         internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
+
+        internal void SetTheme(ExcelTheme theme)
+        {
+            _theme = theme;
+        }
     }
     /// <summary>
     /// Base class for any item rendered.

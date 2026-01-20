@@ -42,8 +42,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         private FontMeasurerTrueType _measurer = null;
 
-        private double paragraphStartPosY = 0;
-
         public TextBody(BoundingBox parent) : base()
         {
             Bounds.transform.Name = "TxtBody";
@@ -80,14 +78,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             bool isFirst = Paragraphs.Count == 0;
 
             var paragraph = CreateParagraph(item, Bounds);
+            paragraph.Bounds.transform.Name = $"Container{Paragraphs.Count}";
 
             paragraph.Bounds.Top = startingY;
 
             Paragraphs.Add(paragraph);
 
+            //TODO; Fix this. This is a strange workaround
+            paragraph.SetTheme(item._prd.Package.Workbook.ThemeManager.GetOrCreateTheme());
             paragraph.SetDrawingPropertiesFill(item.DefaultRunProperties.Fill, null);
-
-            paragraph.Bounds.transform.Name = $"Container{Paragraphs.Count}";
         }
 
         public void ImportTextBody(ExcelTextBody body)
@@ -101,7 +100,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             BottomMargin = b.PointToPixel();
 
             //We already apply bounds top via the parent transform
-            double paragraphStartY = GetAlignmentVertical() - Bounds.Top;
+            double paragraphStartY = GetAlignmentVertical();
 
             foreach (var paragraph in body.Paragraphs)
             {
@@ -109,7 +108,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 var addedPara = Paragraphs.Last();
                 paragraphStartY = addedPara.Bounds.Bottom + addedPara.ParagraphLineSpacing;
             }
-            Bounds.Bottom = paragraphStartY - BottomMargin;
+            if (Paragraphs != null && Paragraphs.Count() > 0)
+            {
+                Bounds.Height = paragraphStartY - Paragraphs.Last().ParagraphLineSpacing;
+            }
         }
 
         public string GetContent()
@@ -143,7 +145,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// <summary>
         /// Same as Y or Top
         /// </summary>
-        internal double TopMargin { get { return Bounds.Y; } set { Bounds.Y = value; } }
+        internal double TopMargin { get { return Bounds.Top; } set { Bounds.Top = value; } }
 
         double _rightMargin = 0;
 
@@ -174,10 +176,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             switch (VerticalAlignment)
             {
                 case eTextAnchoringType.Top:
-                    alignmentY = Bounds.Y;
+                    alignmentY = 0;
                     break;
                 case eTextAnchoringType.Center:
-                    var adjustedHeight =  Bounds.Y + (Bounds.Height / 2);
+                    var adjustedHeight = (Bounds.Height / 2);
 
                     alignmentY = adjustedHeight;
                     break;

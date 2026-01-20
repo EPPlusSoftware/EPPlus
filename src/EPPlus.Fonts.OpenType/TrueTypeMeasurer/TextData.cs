@@ -743,6 +743,8 @@ namespace EPPlus.Fonts.OpenType
             var allText = fragments.AllText;
             var newLineIndicies = fragments.AllTextNewLineIndicies;
 
+            var len = allText.Length-7;
+
             //Iterate through All fragments as one concatenated text string
             for (int i = 0; i < allText.Length; i++)
             {
@@ -757,6 +759,8 @@ namespace EPPlus.Fonts.OpenType
                 {
                     if (i >= newLineIndicies[currentLineIndex])
                     {
+                        paragraph.Fragments.AddLineWidth(lineWidth / currentFont.HeadTable.UnitsPerEm * paragraph.FontSizes[fragmentIdx]);
+
                         var addedLine = leftOverLine.Trim(['\r', '\n']);
                         wrappedStrings.Add(addedLine);
                         lineWidth = 0;
@@ -793,25 +797,38 @@ namespace EPPlus.Fonts.OpenType
                 //Perform the actual wrapping
                 if (lineWidth > maxWidth)
                 {
-                    //Log where wrapping occured in order to keep track of fragment/run/richtext
-                    paragraph.Fragments.AddWrappingIndex(i);
-
                     WrapAtCharPos(allText, i, ref prevLineEndIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings);
+
+                    //Log where wrapping occured in order to keep track of fragment/run/richtext
+                    paragraph.Fragments.AddWrappingIndex(prevLineEndIndex);
+                    paragraph.Fragments.AddLineWidth(lineWidth / currentFont.HeadTable.UnitsPerEm * paragraph.FontSizes[fragmentIdx]);
 
                     //Since we're using the AllText, need to handle leftover line differently
                     if (i < prevLineEndIndex)
                     {
-                        leftOverLine = allText.Substring(prevLineEndIndex, prevLineEndIndex - i);
+                        if(lineWidth != 0)
+                        {
+                            leftOverLine = allText.Substring(prevLineEndIndex, prevLineEndIndex - i);
+                            //Since we've moved one beyond the last
+                            i = prevLineEndIndex;
+                        }
+                        else
+                        {
+                            leftOverLine = "";
+                        }
                     }
                     else
                     {
                         //Special case for only 1 or 0 chars in leftover line
                         leftOverLine = allText.Substring(prevLineEndIndex, i - prevLineEndIndex);
+                        leftOverLine += allText.Substring(i, 1);
                     }
                 }
-
-                //Add the current char to current unwrapped line
-                leftOverLine += allText.Substring(i, 1);
+                else
+                {
+                    //Add the current char to current unwrapped line
+                    leftOverLine += allText.Substring(i, 1);
+                }
             }
 
             wrappedStrings.Add(leftOverLine);

@@ -53,7 +53,7 @@ namespace EPPlusImageRenderer.RenderItems
             groupItem.RenderEndGroup(sb);
         }
 
-        private void RenderRect(StringBuilder sb)
+        internal void RenderRect(StringBuilder sb)
         {
             sb.AppendFormat("<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\" ",
                 X.ToString(CultureInfo.InvariantCulture),

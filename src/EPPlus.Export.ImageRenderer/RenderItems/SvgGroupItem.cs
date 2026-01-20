@@ -43,7 +43,14 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
-            sb.Append($"<g {GroupTransform}>");
+            if(string.IsNullOrEmpty(GroupTransform))
+            {
+                sb.Append($"<g>");
+            }
+            else
+            {
+                sb.Append($"<g {GroupTransform}>");
+            }
         }
         internal void RenderEndGroup(StringBuilder sb)
         {

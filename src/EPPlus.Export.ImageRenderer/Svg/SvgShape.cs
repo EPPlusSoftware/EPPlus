@@ -203,7 +203,7 @@ namespace EPPlusImageRenderer.Svg
 
         public void Render(StringBuilder sb)
         {
-            sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
+            sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
 
             //Write defs used for gradient colors
             var writer = new SvgDrawingWriter(this);
@@ -253,7 +253,7 @@ namespace EPPlusImageRenderer.Svg
 
         private void RenderText(StringBuilder sb)
         {
-            RenderDebugTextBox(sb);
+            //RenderDebugTextBox(sb);
             textBody.Render(sb);
         }
 
@@ -264,24 +264,24 @@ namespace EPPlusImageRenderer.Svg
 
             insetTextBox.GetBounds(out double l, out double t, out double r, out double b);
 
-            var area = textBody.Bounds;
+            //var area = textBody.Bounds;
 
-            //Temporarily set as child bounds
-            insetTextBox.Bounds.Left = (float)area.Left + l;
-            insetTextBox.Bounds.Top = (float)area.Top + t;
-            insetTextBox.Bounds.Width = (float)area.Width;
-            insetTextBox.Bounds.Height = (float)area.Height;
+            ////Temporarily set as child bounds
+            //insetTextBox.Bounds.Left = (float)area.Left + l;
+            //insetTextBox.Bounds.Top = (float)area.Top + t;
+            //insetTextBox.Bounds.Width = (float)area.Width;
+            //insetTextBox.Bounds.Height = (float)area.Height;
 
-            insetTextBox.FillColor = "blue";
+            //insetTextBox.FillColor = "blue";
 
-            //Render the inner area
-            insetTextBox.Render(sb);
+            ////Render the inner area
+            //insetTextBox.Render(sb);
 
-            //Reset variables so that the rendering of children later aren't affected
-            insetTextBox.Bounds.Left = l;
-            insetTextBox.Bounds.Top = t;
-            insetTextBox.Bounds.Right = r;
-            insetTextBox.Bounds.Bottom = b;
+            ////Reset variables so that the rendering of children later aren't affected
+            //insetTextBox.Bounds.Left = l;
+            //insetTextBox.Bounds.Top = t;
+            //insetTextBox.Bounds.Right = r;
+            //insetTextBox.Bounds.Bottom = b;
         }
 
         private void GetShapeInnerBound(out double x, out double y, out double width, out double height)

@@ -2868,7 +2868,8 @@ namespace OfficeOpenXml
             if (string.IsNullOrEmpty(existingIgnorables) == false)
             {
                 var namespaces = existingIgnorables.Split(' ');
-                if (!namespaces.Any(x => x == "xr"))
+                //var ignorablesConcatenated = string.Concat(namespaces);
+                if (namespaces.Any(x => x == "xr") == false)
                 {
                     WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, existingIgnorables + " xr");
                 }
