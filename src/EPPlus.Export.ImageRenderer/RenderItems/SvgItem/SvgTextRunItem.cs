@@ -80,6 +80,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             string finalString = "";
             var xString = $"x =\"{(Bounds.X).ToString(CultureInfo.InvariantCulture)}\" ";
 
+            var currentYEndPos = Bounds.GlobalY;
+
             for (int i = 0; i < Lines.Count; i++)
             {
                 var line = Lines[i];
@@ -93,11 +95,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 {
                     var yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(YIncreasePerLine[i]);
 
-                    //_yEndPos += yIncrease;
-                    //if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
-                    //{
-                    //    visibility = "display=\"none\"";
-                    //}
+                    currentYEndPos += yIncrease;
+                    if (double.IsNaN(ClippingHeight) == false && currentYEndPos >= ClippingHeight)
+                    {
+                        visibility = "display=\"none\"";
+                    }
 
                     var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
                     var dyString = $"dy=\"{yIncreaseString}px\" ";

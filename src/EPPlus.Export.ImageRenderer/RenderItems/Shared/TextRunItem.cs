@@ -51,6 +51,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal List<double> YIncreasePerLine { get; private set; } = new List<double>();
         internal List<double> PerLineWidth { get; private set; } = new List<double>();
+        internal double ClippingHeight = double.NaN;
 
         /// <summary>
         /// If the run has been wrapped more line-breaks may have been added in displayText
@@ -89,6 +90,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             if (run.Fill.Style == eFillStyle.SolidFill)
             {
                 FillColor = "#" + run.Fill.Color.To6CharHexString();
+            }
+
+            //To get clipping height we need to get the textbody bounds
+            if( parent!= null && parent.Parent != null && parent.Parent.Parent != null)
+            {
+               ClippingHeight = parent.Parent.Parent.Bottom;
             }
 
             _isItalic = run.FontItalic;
