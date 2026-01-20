@@ -788,6 +788,8 @@ namespace EPPlus.Fonts.OpenType
                     if (i < prevLineEndIndex)
                     {
                         leftOverLine = allText.Substring(prevLineEndIndex, prevLineEndIndex - i);
+                        //Since we've moved one beyond the last
+                        i = prevLineEndIndex;
                     }
                     else
                     {
@@ -795,9 +797,11 @@ namespace EPPlus.Fonts.OpenType
                         leftOverLine = allText.Substring(prevLineEndIndex, i - prevLineEndIndex);
                     }
                 }
-
-                //Add the current char to current unwrapped line
-                leftOverLine += allText.Substring(i, 1);
+                else
+                {
+                    //Add the current char to current unwrapped line
+                    leftOverLine += allText.Substring(i, 1);
+                }
             }
 
             wrappedStrings.Add(leftOverLine);

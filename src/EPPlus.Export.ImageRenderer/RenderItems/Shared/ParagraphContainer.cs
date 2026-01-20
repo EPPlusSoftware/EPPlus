@@ -113,8 +113,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// <param name="displayText"></param>
         internal protected void AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText, double startingX)
         {
-            var maxWidth = Bounds.Width;
-
             //Create object of type
             var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
             targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
@@ -123,18 +121,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 targetTxtRun.BaseLineSpacing = _lineSpacingAscendantOnly;
             }
-            else
+
+            //If there are multiple sizes/multiple fonts with multiple sizes
+            if (_lsMultiplier.HasValue)
             {
-                //If there are multiple sizes/multiple fonts with multiple sizes
-                if (_lsMultiplier.HasValue)
-                {
-                    var runFont = origTxtRun.GetMeasurementFont();
-                    _measurer.SetFont(runFont);
-                    targetTxtRun.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
-                    //Reset measurer font
-                    _measurer.SetFont(_paragraphFont);
-                }
+                var runFont = origTxtRun.GetMeasurementFont();
+                _measurer.SetFont(runFont);
+                targetTxtRun.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
+                targetTxtRun.BaseLineSpacing = _lsMultiplier.Value * _measurer.GetBaseLine().PointToPixel(true);
+                //Reset measurer font
+                _measurer.SetFont(_paragraphFont);
             }
+
             targetTxtRun.Bounds.Left = startingX;
 
             targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
@@ -200,7 +198,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 fonts.Add(runFont);
             }
 
-            var maxSizePoints = Bounds.Width.PixelToPoint();
+            var maxSizePoints = Math.Round(Bounds.Width, 0, MidpointRounding.AwayFromZero).PixelToPoint();
             return ttMeasurer.WrapMultipleTextFragments(fragments, fonts, maxSizePoints);
         }
 
@@ -283,10 +281,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 //We are on a new line
                 if (lastAdded.YIncreasePerLine.Count > 1)
                 {
-                    widthOfCurrentLine = _textRunItems.Last().PerLineWidth.Last();
-
                     _textRunItems[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
                     Bounds.Height += _textRunItems[idxLargestFontSize].Bounds.Height;
+                    widthOfCurrentLine = _textRunItems.Last().PerLineWidth.Last();
 
                     idxLargestFontSize = i;
                     largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
