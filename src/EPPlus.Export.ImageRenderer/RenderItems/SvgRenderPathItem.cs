@@ -23,7 +23,8 @@ namespace EPPlusImageRenderer.RenderItems
     {
         public SvgRenderPathItem(BoundingBox parent) : base(parent)
         {
-            
+            Bounds.Width = parent.Width;
+            Bounds.Height = parent.Height;
         }
         public override RenderItemType Type { get => RenderItemType.Path; }
         public List<PathCommands> Commands { get; set; } = new List<PathCommands>();
@@ -31,7 +32,9 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
-            _drawing.GetSizeInPixels(out int width, out int height);
+            int width = (int)Bounds.Width;
+            int height = (int)Bounds.Height;
+
             sb.Append($"<path d=\"");
             for (int i = 0; i < Commands.Count; i++)
             {

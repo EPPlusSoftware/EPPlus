@@ -24,13 +24,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             sb.Append(" >");
             sb.AppendLine($"<title>txtBody</title>");
 
-            var bb = new SvgRenderRectItem(Bounds);
-            bb.X = 0;
-            bb.Width = Width;
-            bb.Height = Height;
-            bb.FillColor = "red";
-            bb.FillOpacity = 0.5;
-            bb.Render(sb);
+            //var bb = new SvgRenderRectItem(Bounds);
+            //bb.X = 0;
+            //bb.Width = Width;
+            //bb.Height = Height;
+            //bb.FillColor = "red";
+            //bb.FillOpacity = 0.5;
+            //bb.Render(sb);
 
             foreach (var item in Paragraphs)
             {
