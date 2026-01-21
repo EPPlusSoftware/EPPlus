@@ -199,13 +199,13 @@ namespace EPPlusImageRenderer.Svg
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             SvgGroupItem groupItem;
-            if (TextBox.Rotation == 0)
+            if (TextBox.Bounds.Transform.Rotation == 0)
             {
                 groupItem = new SvgGroupItem(Rectangle.Bounds);
             }
             else
             {
-                groupItem = new SvgGroupItem(TextBox.Rotation, Rectangle.Width / 2 + Rectangle.Left, Rectangle.Height / 2 + Rectangle.Top);
+                groupItem = new SvgGroupItem(Rectangle.Bounds, TextBox.Bounds.Transform.Rotation);
             }
 
             renderItems.Add(groupItem);

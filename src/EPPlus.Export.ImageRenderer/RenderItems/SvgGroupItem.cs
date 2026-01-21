@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
+using System.Drawing;
 using System.Globalization;
 using System.Text;
 
@@ -27,10 +28,12 @@ namespace EPPlusImageRenderer.RenderItems
         {
 
         }
-        internal SvgGroupItem(BoundingBox parent, double rotation, double cx, double cy) : base(parent)
+        internal SvgGroupItem(BoundingBox parent, double rotation) : base(parent)
         {
             if(rotation!=0)
             {
+                var cx = parent.Width / 2 + parent.Left;
+                var cy = parent.Height / 2 + parent.Top;
                 if (cx == 0 && cy == 0)
                 {
                     GroupTransform = $"transform=\"rotate({rotation}))\"";

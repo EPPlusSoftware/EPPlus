@@ -1,4 +1,5 @@
-﻿using EPPlusImageRenderer;
+﻿using EPPlus.Export.ImageRenderer.Utils;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
@@ -35,7 +36,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                     };
                     break;
                 case eMarkerStyle.Triangle:
-                    item = new SvgRenderPathItem(sc.Drawing)
+                    item = new SvgRenderPathItem(sc.Drawing.GetBoundingBox())
                     {
                         Commands = new List<PathCommands>()
                     };
@@ -44,7 +45,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                     ((SvgRenderPathItem)item).Commands.Add(new PathCommands(PathCommandType.End, item));
                     break;
                 case eMarkerStyle.Diamond:
-                    item = new SvgRenderPathItem(sc.Drawing)
+                    item = new SvgRenderPathItem(sc.Drawing.GetBoundingBox())
                     {
                         Commands = new List<PathCommands>()
                     };
@@ -95,7 +96,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                 case eMarkerStyle.Plus:
                 case eMarkerStyle.Star:
                 case eMarkerStyle.X:
-                    var pathItem = new SvgRenderPathItem(sc.Drawing)
+                    var pathItem = new SvgRenderPathItem(sc.Drawing.GetBoundingBox())
                     {
                         Commands = new List<PathCommands>()
                     };

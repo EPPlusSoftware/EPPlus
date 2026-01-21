@@ -54,7 +54,7 @@ namespace EPPlusImageRenderer.Svg
                 var shapeDef = PresetShapeDefinitions.ShapeDefinitions[style].Clone();
                 shapeDef.Calculate(shape);
 
-                RenderItems.Add(new SvgGroupItem(shape.GetBoundingBox(), shape.Rotation, 0, 0));
+                RenderItems.Add(new SvgGroupItem(shape.GetBoundingBox(), shape.Rotation));
 
                 //Draw Filled path's
                 foreach (var path in shapeDef.ShapePaths)

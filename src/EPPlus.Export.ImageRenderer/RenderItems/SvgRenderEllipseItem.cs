@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.Utils;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using System.Globalization;
@@ -18,7 +19,7 @@ namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderEllipseItem : SvgRenderItem
     {
-        public SvgRenderEllipseItem(ExcelDrawing drawing) : base(drawing)
+        public SvgRenderEllipseItem(ExcelDrawing drawing) : base(drawing.GetBoundingBox())
         {
 
         }
