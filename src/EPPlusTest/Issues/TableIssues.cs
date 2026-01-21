@@ -410,5 +410,14 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual("ROW()-1", sheet1.Cells["A2"].Formula);
             }
         }
+
+        [TestMethod]
+        public void s997()
+        {
+            using var p = new ExcelPackage("C:\\epplusTest\\Workbooks\\20260114145511-6ca7e1a6-d2f7-4866-a058-e77513dbc10e.xlsx");
+            var t = p.Workbook.Worksheets.First().Tables;
+
+            p.SaveAs("C:\\epplusTest\\Testoutput\\Result.xlsx");
+        }
     }
 }
