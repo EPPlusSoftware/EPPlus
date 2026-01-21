@@ -349,7 +349,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
     {
         public string id;
         public Color BackgroundColor = Color.Empty;
-        public ExcelFillStyle PattenStyle = ExcelFillStyle.None;
+        public ExcelFillStyle PatternStyle = ExcelFillStyle.None;
         public Color PatternColor = Color.Black;
         //Fill Effects
         public PdfCellGradientFillData GradientFillData = null;

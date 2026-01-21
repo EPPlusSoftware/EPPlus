@@ -29,7 +29,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             if(!fill.HasGradient && fill.PatternType == ExcelFillStyle.None)
             {
                 CellFillData.BackgroundColor = Color.White;
-                CellFillData.PattenStyle = ExcelFillStyle.Solid;
+                CellFillData.PatternStyle = ExcelFillStyle.Solid;
                 CellFillData.enhanceGridLine = true;
             }
 
@@ -37,7 +37,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         public new void AdjustForGridLines()
         {
-            if (CellFillData.BackgroundColor.Equals(Color.White) && CellFillData.PattenStyle == ExcelFillStyle.Solid)
+            if (CellFillData.BackgroundColor.Equals(Color.White) && CellFillData.PatternStyle == ExcelFillStyle.Solid)
             {
                 Size = new Vector2(Size.X - GridLine.Width, Size.Y - GridLine.Width);
                 LocalPosition = new Vector2(LocalPosition.X + GridLine.HalfWidth, LocalPosition.Y + GridLine.HalfWidth);

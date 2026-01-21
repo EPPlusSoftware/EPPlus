@@ -112,7 +112,7 @@ namespace EPPlus.Export.Pdf
         //Get the label to use for pattern.
         internal string GetPatternLabel(PdfCellLayout layout)
         {
-            if ((layout.CellFillData.PattenStyle != ExcelFillStyle.Solid && layout.CellFillData.PattenStyle != ExcelFillStyle.None) || layout.CellFillData.GradientFillData != null)
+            if ((layout.CellFillData.PatternStyle != ExcelFillStyle.Solid && layout.CellFillData.PatternStyle != ExcelFillStyle.None) || layout.CellFillData.GradientFillData != null)
             {
                 var patternName = layout.CellFillData.id;
                 if (Dictionaries.Patterns.ContainsKey(patternName))

@@ -48,7 +48,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
         public void AddCellLayout(PdfCellLayout cell, string label)
         {
-            if (cell.CellFillData.GradientFillData != null && cell.CellFillData.PattenStyle != ExcelFillStyle.Solid)
+            if (cell.CellFillData.GradientFillData != null && cell.CellFillData.PatternStyle != ExcelFillStyle.Solid)
             {
                 commands.Add($"% Pattern Start: {cell.Name}");
                 commands.Add("q");
@@ -59,7 +59,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 commands.Add("Q");
                 commands.Add($"% Pattern End: {cell.Name}");
             }
-            else if (cell.CellFillData.BackgroundColor != Color.Empty && cell.CellFillData.PattenStyle == ExcelFillStyle.Solid)
+            else if (cell.CellFillData.BackgroundColor != Color.Empty && cell.CellFillData.PatternStyle == ExcelFillStyle.Solid)
             {
                 commands.Add($"% Solid Fill Start: {cell.Name}");
                 commands.Add("q");
@@ -71,7 +71,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 commands.Add("Q");
                 commands.Add($"% Solid Fill End: {cell.Name}");
             }
-            else if (cell.CellFillData.BackgroundColor != Color.Empty && cell.CellFillData.PattenStyle != ExcelFillStyle.None)
+            else if (cell.CellFillData.BackgroundColor != Color.Empty && cell.CellFillData.PatternStyle != ExcelFillStyle.None)
             {
                 commands.Add($"% Gradient Start: {cell.Name}");
                 commands.Add("q");

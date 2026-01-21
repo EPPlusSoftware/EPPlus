@@ -17,6 +17,7 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -51,7 +52,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     var cell = worksheet.Cells[row, col];
                     var cellStyle = new PdfCellStyleOverride();
                     GetFillStyles(cell, cellStyle);
-                    //CheckOverrideBorderStyle(cell, cellStyle);
+                    GetBorderStyles(cell, cellStyle);
                     PdfCellBorderLayout border = HandleEdgeBorders(cell, cellStyle, x, y, width, height);
                     if (cell.Merge)
                     {
@@ -61,7 +62,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     {
                         HandleCell(pageSettings, dictionaries, cell, x, y, width, height, cellStyle);
                     }
-                    //if (border != null) border.InitEdgeBorders(cell);
+                    if (border != null) border.InitEdgeBorders(cell);
                     x += width;
                     totalWidth = System.Math.Max( x, totalWidth);
                 }
@@ -71,38 +72,38 @@ namespace EPPlus.Export.Pdf.PdfLayout
             Size = new Vector2(totalWidth, y);
         }
 
-        private void CheckOverrideBorderStyle(ExcelRange cell, PdfCellStyleOverride tableStyle)
+        private void GetBorderStyles(ExcelRangeBase cell, PdfCellStyleOverride cellStyle)
         {
-            var tbl = cell.Worksheet.Tables.GetIntersectingRanges(cell);
-            if (tbl.Count > 0)
+            if (cell.Style.Border.Top.Style == ExcelBorderStyle.None)
             {
-                var tblrng = tbl[0].Value.Range;
-                var table = tbl[0].Value;
+                //Conditional Formating
 
-                int tblrow = 0;
-                int tblcol = 0;
-                tblrow = cell._fromRow - tblrng._fromRow;
-                tblcol = cell._fromCol - tblrng._fromCol;
+                //Table
+                var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
+                if (tables.Count > 0)
+                {
+                    var table = tables[0].Value;
+                    var range = table.Range;
 
-                if (tblrow == 0)
-                {
-                    tableStyle.borderStyleType |= TableBorderStyle.Top;
+                    int tableRow = 0;
+                    int tableCol = 0;
+                    ExcelTableNamedStyle tableStyle;
+                    if (table.TableStyle == TableStyles.Custom)
+                    {
+                        tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+                    }
+                    else
+                    {
+                        var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                        tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
+                        tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
+                    }
+                    tableRow = cell._fromRow - range._fromRow;
+                    tableCol = cell._fromCol - range._fromCol;
+                    
                 }
-                if (tblrng._toRow == cell._fromRow)
-                {
-                    tableStyle.borderStyleType |= TableBorderStyle.Bottom;
-                }
-                if (tblcol == 0)
-                {
-                    tableStyle.borderStyleType |= TableBorderStyle.Left;
-                }
-                if (tblrng._toCol == cell._fromCol)
-                {
-                    tableStyle.borderStyleType |= TableBorderStyle.Right;
-                }
-                //check horizontal
-                //check vertical
             }
+            cellStyle.Top = cell.Style.Border.Top;
         }
 
         public void GetFillStyles( ExcelRangeBase cell, PdfCellStyleOverride cellStyle)
