@@ -124,7 +124,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                 //Get color etc.
                 //Renders up until this point
-                base.Render(sb);
+                SvgBaseRenderer.BaseRender(sb, this);
                 //Since final string has been written in base.render erase it.
                 finalString = "";
 
@@ -133,11 +133,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 finalString += "</tspan>";
             }
             sb.Append(finalString);
-        }
-
-        internal override SvgRenderItem Clone(SvgShape svgDocument)
-        {
-            throw new NotImplementedException();
         }
     }
 }

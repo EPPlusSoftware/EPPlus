@@ -15,7 +15,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal abstract class TextRunItem : SvgRenderItem
+    internal abstract class TextRunItem : RenderItem
     {
         public override RenderItemType Type => RenderItemType.Text;
 

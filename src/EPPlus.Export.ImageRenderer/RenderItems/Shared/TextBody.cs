@@ -82,10 +82,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             paragraph.Bounds.Top = startingY;
 
             Paragraphs.Add(paragraph);
-
-            //TODO; Fix this. This is a strange workaround
-            paragraph.SetTheme(item._prd.Package.Workbook.ThemeManager.GetOrCreateTheme());
-            paragraph.SetDrawingPropertiesFill(item.DefaultRunProperties.Fill, null);
         }
 
         public void ImportTextBody(ExcelTextBody body)
@@ -101,8 +97,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //We already apply bounds top via the parent Transform
             double paragraphStartY = GetAlignmentVertical();
 
-            //TODO; Fix this. This is a strange workaround
-            SetTheme(body._pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme());
+            ////TODO; Fix this. This is a strange workaround
+            //SetTheme(body._pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme());
 
             foreach (var paragraph in body.Paragraphs)
             {

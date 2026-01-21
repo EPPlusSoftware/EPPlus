@@ -45,6 +45,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public ParagraphContainer(ExcelDrawingParagraph p, BoundingBox parent) : base(parent)
         {
+            //TODO; Fix this. This is a strange workaround
+            SetTheme(p._prd.Package.Workbook.ThemeManager.GetOrCreateTheme());
+            SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+
             //---Initialize Bounds/Margins---
             Bounds.Transform.Name = "Paragraph";
 
@@ -127,6 +131,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             targetTxtRun.Bounds.Left = startingX;
 
             targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
+
+            targetTxtRun.SetTheme(_theme);
+            targetTxtRun.SetDrawingPropertiesFill(origTxtRun.Fill, null);
 
             _textRunItems.Add(targetTxtRun);
         }

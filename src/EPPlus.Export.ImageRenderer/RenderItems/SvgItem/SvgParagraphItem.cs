@@ -131,6 +131,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //}
 
             sb.Append("<text ");
+            SvgBaseRenderer.BaseRender(sb, this);
             //Render(sb);
 
             sb.Append(/*$"{GetHorizontalAlignmentAttribute(Bounds.X)} y=\"{Bounds.Y}\" " +*/
