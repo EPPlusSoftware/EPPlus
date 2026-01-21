@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 
-namespace EPPlus.Fonts.OpenType.TextShaping
+namespace OfficeOpenXml.Interfaces.Drawing.Text
 {
     /// <summary>
     /// Options for controlling text shaping behavior.
@@ -63,7 +63,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 return new ShapingOptions
                 {
                     ApplySubstitutions = true,
-                    GsubFeatures = new List<string> { "liga" },
+                    GsubFeatures = new List<string> { "liga", "clig" },
                     ApplyPositioning = true,
                     GposFeatures = new List<string> { "kern" },
                     Script = "latn",

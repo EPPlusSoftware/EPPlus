@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Gpos;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.TextShaping.Positioning

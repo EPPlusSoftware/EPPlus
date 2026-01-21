@@ -14,6 +14,7 @@ using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType1;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2;
 using EPPlus.Fonts.OpenType.TextShaping;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Diagnostics;
 

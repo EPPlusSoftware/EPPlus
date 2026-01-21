@@ -13,7 +13,7 @@
 
 using System.Diagnostics;
 
-namespace EPPlus.Fonts.OpenType.TextShaping
+namespace OfficeOpenXml.Interfaces.Drawing.Text
 {
     /// <summary>
     /// Represents a shaped glyph with positioning information.

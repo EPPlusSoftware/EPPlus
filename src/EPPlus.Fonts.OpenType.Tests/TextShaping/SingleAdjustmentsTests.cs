@@ -1,6 +1,8 @@
 ﻿using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.TextShaping;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using System.Diagnostics;
 
 namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 {
@@ -44,6 +46,63 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             // The difference should only be from kerning
             Assert.IsTrue(withPositioning.TotalAdvanceWidth < withoutPositioning.TotalAdvanceWidth,
                 "Should have kerning applied");
+        }
+
+        [TestMethod]
+        public void SingleAdjustment_WithZeroValues_DoesNotAffectOutput2()
+        {
+            // Arrange
+            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var shaper = new TextShaper(font);
+
+            // Act - Shape same text with and without positioning
+            var withPositioning = shaper.Shape("AV");
+            var withoutPositioning = shaper.Shape("AV", ShapingOptions.None);
+
+            // Debug output
+            Debug.WriteLine($"Without positioning: {withoutPositioning.TotalAdvanceWidth}");
+            Debug.WriteLine($"With positioning: {withPositioning.TotalAdvanceWidth}");
+            Debug.WriteLine($"Difference: {withoutPositioning.TotalAdvanceWidth - withPositioning.TotalAdvanceWidth}");
+
+            Debug.WriteLine("\nWithout positioning glyphs:");
+            foreach (var g in withoutPositioning.Glyphs)
+            {
+                Debug.WriteLine($"  GlyphId: {g.GlyphId}, XAdvance: {g.XAdvance}, XOffset: {g.XOffset}");
+            }
+
+            Debug.WriteLine("\nWith positioning glyphs:");
+            foreach (var g in withPositioning.Glyphs)
+            {
+                Debug.WriteLine($"  GlyphId: {g.GlyphId}, XAdvance: {g.XAdvance}, XOffset: {g.XOffset}");
+            }
+
+            // Assert
+            Assert.AreEqual(withoutPositioning.Glyphs.Length, withPositioning.Glyphs.Length);
+            Assert.IsTrue(withPositioning.TotalAdvanceWidth < withoutPositioning.TotalAdvanceWidth,
+                "Should have kerning applied");
+        }
+
+        [TestMethod]
+        public void Kerning_IsApplied_ForAVPair()
+        {
+            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var shaper = new TextShaper(font);
+
+            // Shape with only kerning (no single adjustment)
+            var optionsOnlyKern = new ShapingOptions
+            {
+                ApplySubstitutions = false,
+                ApplyPositioning = true,
+                GposFeatures = new List<string> { "kern" },
+                Script = "latn",
+                Language = null
+            };
+
+            var withoutKerning = shaper.Shape("AV", ShapingOptions.None);
+            var withKerning = shaper.Shape("AV", optionsOnlyKern);
+
+            Assert.IsTrue(withKerning.TotalAdvanceWidth < withoutKerning.TotalAdvanceWidth,
+                "Kerning should reduce advance width for AV pair");
         }
 
         [TestMethod]

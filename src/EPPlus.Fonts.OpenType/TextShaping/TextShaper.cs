@@ -16,12 +16,14 @@ using EPPlus.Fonts.OpenType.TextShaping.Kerning;
 using EPPlus.Fonts.OpenType.TextShaping.Ligatures;
 using EPPlus.Fonts.OpenType.TextShaping.Positioning;
 using EPPlus.Fonts.OpenType.TextShaping.Substitutions;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EPPlus.Fonts.OpenType.TextShaping
 {
-    public class TextShaper
+    public class TextShaper : ITextShaper
     {
         private readonly OpenTypeFont _font;
         private readonly KerningProvider _kerningProvider;
@@ -30,6 +32,20 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         private readonly SingleAdjustmentProvider _singleAdjustmentProvider;
         private readonly SingleSubstitutionProcessor _singleSubstitutionProcessor;
         private readonly ChainingContextualProcessor _chainingContextualProcessor;
+
+        private const ushort DEFAULT_UNITS_PER_EM = 1000;
+
+        public ushort UnitsPerEm
+        {
+            get
+            {
+                if (_font?.HeadTable?.UnitsPerEm == null || _font.HeadTable.UnitsPerEm == 0)
+                {
+                    return DEFAULT_UNITS_PER_EM;
+                }
+                return _font.HeadTable.UnitsPerEm;
+            }
+        }
 
         public TextShaper(OpenTypeFont font)
         {
@@ -189,17 +205,18 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// </summary>
         private void ApplyPositioning(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
+            // Early return if positioning is disabled
+            if (!options.ApplyPositioning)
+            {
+                return;
+            }
+
             // Determine if we should apply all features or only specific ones
             bool applyAllFeatures = options.GposFeatures == null || options.GposFeatures.Count == 0;
 
             // Phase 1: Single Adjustment (GPOS Type 1)
-            // Applied when: all features enabled OR no specific feature filtering
-            // Note: Single adjustments don't typically have a specific feature tag,
-            // they're usually in foundational features that should always be applied
-            if (applyAllFeatures)
-            {
-                ApplySingleAdjustment(glyphs);
-            }
+            // ALWAYS applied when positioning is enabled - fundamental positioning
+            ApplySingleAdjustment(glyphs, options);
 
             // Phase 2: Kerning (GPOS Type 2 / kern table)
             // Applied when: all features enabled OR "kern" is explicitly requested
@@ -209,36 +226,33 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             }
 
             // Phase 3: Mark-to-Base positioning (GPOS Type 4)
-            // ALWAYS applied because it's critical for correct diacritic rendering.
-            // Without this, text like "café" would render incorrectly.
-            // This is not an optional feature - it's fundamental to correct text layout.
+            // ALWAYS applied when positioning is enabled - critical for diacritics
             _markToBaseProvider.ApplyMarkPositioning(glyphs);
         }
 
         /// <summary>
         /// Applies single glyph adjustments from GPOS Lookup Type 1.
-        /// This handles per-glyph positioning like superscripts, subscripts, etc.
+        /// Only applies adjustments from the specified features.
         /// </summary>
-        private void ApplySingleAdjustment(List<ShapedGlyph> glyphs)
+        private void ApplySingleAdjustment(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
+            // Determine which features to use
+            List<string> features = options.GposFeatures ?? new List<string>();
+
             for (int i = 0; i < glyphs.Count; i++)
             {
                 ushort glyphId = glyphs[i].GlyphId;
 
-                if (_singleAdjustmentProvider.TryGetAdjustment(glyphId, out var valueRecord))
+                if (_singleAdjustmentProvider.TryGetAdjustment(glyphId, features, out var valueRecord))
                 {
                     var glyph = glyphs[i];
 
-                    // Apply all adjustments from the ValueRecord
                     if (valueRecord.XPlacement != 0)
                         glyph.XOffset += valueRecord.XPlacement;
-
                     if (valueRecord.YPlacement != 0)
                         glyph.YOffset += valueRecord.YPlacement;
-
                     if (valueRecord.XAdvance != 0)
                         glyph.XAdvance += valueRecord.XAdvance;
-
                     if (valueRecord.YAdvance != 0)
                         glyph.YAdvance += valueRecord.YAdvance;
 
@@ -388,5 +402,62 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         }
 
         #endregion
+
+        /// <summary>
+        /// Gets single line spacing (baseline-to-baseline distance).
+        /// Uses typo metrics if USE_TYPO_METRICS flag is set, otherwise uses Win metrics.
+        /// </summary>
+        public double GetLineHeightInPoints(double fontSize)
+        {
+            if (_font.Os2Table.UseTypoMetrics)
+            {
+                // Modern fonts: use typo metrics
+                var typoAscent = _font.Os2Table.sTypoAscender;
+                var typoDescent = _font.Os2Table.sTypoDescender;
+                var typoLineGap = _font.Os2Table.sTypoLineGap;
+                double em = _font.HeadTable.UnitsPerEm;
+                double lineHeight = typoAscent - typoDescent + typoLineGap;
+                return (lineHeight / em) * fontSize;
+            }
+            else
+            {
+                // Legacy fonts: use Win metrics (same as font height)
+                return GetFontHeightInPoints(fontSize);
+            }
+        }
+
+        // ✅ HAR REDAN
+        public double GetFontHeightInPoints(double fontSize)
+        {
+            // Total font height (ascent + descent)
+            var ascent = _font.Os2Table.usWinAscent;
+            var descent = _font.Os2Table.usWinDescent;
+            var em = _font.HeadTable.UnitsPerEm;
+
+            return (ascent + descent) * (fontSize / em);
+        }
+
+        // ❌ SAKNAS - LÄGG TILL DENNA!
+        public double GetBaseLineInPoints(double fontSize)
+        {
+            // Distance from top of box to baseline
+            var ascent = _font.Os2Table.UseTypoMetrics
+                ? (double)_font.Os2Table.sTypoAscender
+                : (double)_font.Os2Table.usWinAscent;
+
+            var em = _font.HeadTable.UnitsPerEm;
+            return ascent * (fontSize / em);
+        }
+
+        // BONUS - Kan vara användbart
+        public double GetDescentInPoints(double fontSize)
+        {
+            var descent = _font.Os2Table.UseTypoMetrics
+                ? (double)Math.Abs(_font.Os2Table.sTypoDescender)  // Descent är negativ
+                : _font.Os2Table.usWinDescent;
+
+            var em = _font.HeadTable.UnitsPerEm;
+            return descent * (fontSize / em);
+        }
     }
 }
