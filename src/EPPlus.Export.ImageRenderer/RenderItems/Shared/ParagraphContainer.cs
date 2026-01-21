@@ -5,6 +5,7 @@ using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
@@ -38,15 +39,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal protected MeasurementFont _paragraphFont;
         //internal BoundingBox Bounds = new BoundingBox();
 
-        public ParagraphContainer(BoundingBox parent) : base(parent)
+        public ParagraphContainer(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
         {
             Bounds.Transform.Name = "Paragraph";
+            var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
+            _paragraphFont = defaultFont;
         }
 
-        public ParagraphContainer(ExcelDrawingParagraph p, BoundingBox parent) : base(parent)
+        public ParagraphContainer(ExcelDrawingParagraph p, BoundingBox parent) : base(parent, p._prd.Package.Workbook.ThemeManager.GetOrCreateTheme())
         {
-            //TODO; Fix this. This is a strange workaround
-            SetTheme(p._prd.Package.Workbook.ThemeManager.GetOrCreateTheme());
             SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
 
             //---Initialize Bounds/Margins---

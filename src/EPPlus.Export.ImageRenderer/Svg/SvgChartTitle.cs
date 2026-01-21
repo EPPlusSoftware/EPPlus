@@ -169,7 +169,7 @@ namespace EPPlusImageRenderer.Svg
         internal void InitTextBox()
         {
             //TextBox = new TextBody(Chart, Rectangle.Left, Rectangle.Top , Rectangle.Width, Rectangle.Height);
-            TextBox = new SvgTextBodyItem(Rectangle.Bounds);            
+            TextBox = new SvgTextBodyItem(Rectangle.Bounds, Chart.WorkSheet._package.Workbook.ThemeManager.GetOrCreateTheme());            
             TextBox.LeftMargin = LeftMargin;
             TextBox.RightMargin = RightMargin;
             TextBox.TopMargin = TopMargin;
@@ -201,11 +201,11 @@ namespace EPPlusImageRenderer.Svg
             SvgGroupItem groupItem;
             if (TextBox.Bounds.Transform.Rotation == 0)
             {
-                groupItem = new SvgGroupItem(Rectangle.Bounds);
+                groupItem = new SvgGroupItem(Rectangle.Bounds, Chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme());
             }
             else
             {
-                groupItem = new SvgGroupItem(Rectangle.Bounds, TextBox.Bounds.Transform.Rotation);
+                groupItem = new SvgGroupItem(Rectangle.Bounds, TextBox.Bounds.Transform.Rotation, Chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme());
             }
 
             renderItems.Add(groupItem);

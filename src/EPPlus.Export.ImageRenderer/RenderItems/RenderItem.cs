@@ -27,9 +27,10 @@ namespace EPPlusImageRenderer.RenderItems
     {
         protected ExcelDrawing _drawing;
         protected ExcelTheme _theme;
-        internal RenderItem(BoundingBox parent) 
+        internal RenderItem(BoundingBox parent, ExcelTheme theme)
         {
             Bounds.Parent = parent;
+            _theme = theme;
             //_drawing = drawing; 
             //_theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
         }

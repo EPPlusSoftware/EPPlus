@@ -104,7 +104,7 @@ namespace EPPlusImageRenderer.Svg
 
                     Rectangle.FillColor = "none";
 
-                    Line = new SvgRenderLineItem(sc.Chart);
+                    Line = new SvgRenderLineItem(sc.Chart, sc.Drawing._drawings._package.Workbook.ThemeManager.GetOrCreateTheme());
                     Line.SetDrawingPropertiesBorder(ax.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, 0.75);
                 }
             }
@@ -295,7 +295,7 @@ namespace EPPlusImageRenderer.Svg
                 bounds.Top = y;
                 bounds.Width = m.Width.PointToPixel();
                 bounds.Height = m.Height.PointToPixel(); 
-                var tb = new SvgTextBodyItem(bounds);
+                var tb = new SvgTextBodyItem(bounds, Chart.WorkSheet._package.Workbook.ThemeManager.GetOrCreateTheme());
                 tb.ImportTextBody(Axis.TextBody);
                 tb.Paragraphs[0].AddText(v, (FontMeasurerTrueType)tm);
                 tb.SetDrawingPropertiesFill(Axis.Fill, axisStyle.FillReference.Color);
@@ -415,7 +415,7 @@ namespace EPPlusImageRenderer.Svg
                         default:
                             throw new InvalidOperationException("Invalid axis position");
                     }
-                    var tm = new SvgRenderLineItem(Chart);
+                    var tm = new SvgRenderLineItem(Chart, Chart._drawings._package.Workbook.ThemeManager.GetOrCreateTheme());
                     tm.X1 = x1;
                     tm.Y1 = y1;
                     tm.X2 = x2;
@@ -468,7 +468,7 @@ namespace EPPlusImageRenderer.Svg
                             throw new InvalidOperationException("Invalid axis position");
                     }
 
-                    var tm = new SvgRenderLineItem(Chart);
+                    var tm = new SvgRenderLineItem(Chart, Chart._drawings._package.Workbook.ThemeManager.GetOrCreateTheme());
                     tm.X1 = x1;
                     tm.Y1 = y1;
                     tm.X2 = x2;

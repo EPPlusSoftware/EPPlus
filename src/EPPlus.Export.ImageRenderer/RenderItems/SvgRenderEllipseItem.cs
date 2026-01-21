@@ -13,13 +13,14 @@
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using System.Globalization;
 using System.Text;
 namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderEllipseItem : SvgRenderItem
     {
-        public SvgRenderEllipseItem(ExcelDrawing drawing) : base(drawing.GetBoundingBox())
+        public SvgRenderEllipseItem(ExcelDrawing drawing, ExcelTheme theme) : base(drawing.GetBoundingBox(), theme)
         {
 
         }
@@ -45,8 +46,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {
-            var clone = new SvgRenderEllipseItem(_drawing);
-            clone._theme = _theme;
+            var clone = new SvgRenderEllipseItem(_drawing, _theme);
             CloneBase(clone);
             //if (AdjustmentPoints != null && AdjustmentPoints.Commands == null && AdjustmentPoints.AdjustmentType == AdjustmentType.AdjustToWidthHeight)
             //{

@@ -18,16 +18,17 @@ using System.Globalization;
 using System.Text;
 using EPPlus.Graphics;
 using EPPlus.Export.ImageRenderer.Utils;
+using OfficeOpenXml.Drawing.Theme;
 
 namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderRectItem : SvgRenderItem
     {
-        public SvgRenderRectItem(BoundingBox parent) : base(parent)
+        public SvgRenderRectItem(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
         {
 
         }
-        public SvgRenderRectItem(ExcelDrawing drawing) : base(drawing.GetBoundingBox())
+        public SvgRenderRectItem(ExcelDrawing drawing) : base(drawing.GetBoundingBox(), drawing._drawings._package.Workbook.ThemeManager.GetOrCreateTheme())
         {
 
         }
@@ -45,7 +46,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
-            var groupItem = new SvgGroupItem(Bounds);
+            var groupItem = new SvgGroupItem(Bounds, _theme);
             groupItem.Render(sb);
 
             RenderRect(sb);

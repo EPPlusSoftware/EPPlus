@@ -24,6 +24,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.Utils;
 using System;
@@ -121,7 +122,8 @@ namespace EPPlusImageRenderer
             doc.Render(sb);
 
             FontMeasurerTrueType measurer = new FontMeasurerTrueType(11, "Aptos Narrow", FontSubFamily.Regular);
-            var svgBody = new SvgTextBodyItem(worldBounds);
+
+            var svgBody = new SvgTextBodyItem(worldBounds, null);
             svgBody.ImportTextBody(body);
 
             svgBody.Render(sb);

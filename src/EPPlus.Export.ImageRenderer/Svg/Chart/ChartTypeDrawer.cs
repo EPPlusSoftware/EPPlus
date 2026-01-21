@@ -103,7 +103,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     yAxis = _svgChart.VerticalAxis;
                 }
-                var linePath = new SvgRenderPathItem(Chart.GetBoundingBox());
+                var linePath = new SvgRenderPathItem(Chart.GetBoundingBox(), Chart.WorkSheet._package.Workbook.ThemeManager.GetOrCreateTheme());
                 var coords = new List<double>();
                 var markerItems = new List<RenderItem>();
 

@@ -3,6 +3,7 @@ using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +12,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     internal class SvgTextBodyItem : TextBody
     {
-        public SvgTextBodyItem(BoundingBox parent) : base(parent)
+        public SvgTextBodyItem(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
         {
         }
 
@@ -41,7 +42,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         internal override ParagraphContainer CreateParagraph(BoundingBox parent)
         {
-            return new SvgParagraphItem(parent);
+            return new SvgParagraphItem(parent, _theme);
         }
 
         internal override ParagraphContainer CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent)

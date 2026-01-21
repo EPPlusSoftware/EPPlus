@@ -3,6 +3,7 @@ using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using System;
@@ -41,7 +42,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         private FontMeasurerTrueType _measurer = null;
 
-        public TextBody(BoundingBox parent)  : base(parent)
+        public TextBody(BoundingBox parent, ExcelTheme theme)  : base(parent, theme)
         {
             Bounds.Transform.Name = "TxtBody";
 
@@ -181,7 +182,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         internal double BottomMargin { get { return _bottomMargin; } set { _bottomMargin = value; Bounds.Height = Bounds.Parent.Height - value; } }
 
-        public override RenderItemType Type => throw new NotImplementedException();
+        public override RenderItemType Type => RenderItemType.Text;
 
         double? _alignmentY = null;
 

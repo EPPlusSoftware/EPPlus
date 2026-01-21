@@ -194,7 +194,7 @@ namespace EPPlusImageRenderer.Svg
                             var tm = _seriesHeadersMeasure[index];
                             var si = GetSeriesIcon(sc, ls, index, tm, pSls);
                             sls.SeriesIcon = si;
-                            sls.Textbox = new SvgTextBodyItem(Rectangle.Bounds);
+                            sls.Textbox = new SvgTextBodyItem(Rectangle.Bounds, Chart.WorkSheet._package.Workbook.ThemeManager.GetOrCreateTheme());
                             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
                             if (entry == null || entry.Font.IsEmpty)
                             {
@@ -233,7 +233,7 @@ namespace EPPlusImageRenderer.Svg
 
         private SvgRenderLineItem GetSeriesIcon(SvgChart sc, ExcelLineChartSerie ls, int index, TextMeasurement tm, SvgLegendSerie pSls)
         {
-            var item = new SvgRenderLineItem(sc.Chart);
+            var item = new SvgRenderLineItem(sc.Chart, sc.Chart._drawings._package.Workbook.ThemeManager.GetOrCreateTheme());
             item.SetDrawingPropertiesFill(ls.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
             item.SetDrawingPropertiesBorder(ls.Border, sc.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, ls.Border.Fill.Style!=eFillStyle.NoFill, 0.75);
 

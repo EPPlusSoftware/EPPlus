@@ -3,6 +3,7 @@ using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using System.Globalization;
 using System.Text;
 
@@ -12,7 +13,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
     {
         public override RenderItemType Type => RenderItemType.Paragraph;
 
-        public SvgParagraphItem(BoundingBox parent) : base(parent)
+        public SvgParagraphItem(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
         {
         }
 
@@ -138,7 +139,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 $"font-family=\"{_paragraphFont.FontFamily},{_paragraphFont.FontFamily}_MSFontService,sans-serif\" " +
                 $"font-size=\"{fontSize}px\" >");
 
-            if (_textRunItems.Count > 0)
+            if (_textRunItems != null && _textRunItems.Count > 0)
             {
                 foreach (var textRun in _textRunItems)
                 {

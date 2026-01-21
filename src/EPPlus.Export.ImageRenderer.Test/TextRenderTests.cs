@@ -105,7 +105,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 parentBB.Width = testWidth;
                 parentBB.Height = testHeight;
 
-                SvgTextBodyItem tbItem = new SvgTextBodyItem(parentBB);
+                SvgTextBodyItem tbItem = new SvgTextBodyItem(parentBB, p.Workbook.ThemeManager.GetOrCreateTheme());
 
                 tbItem.ImportTextBody(cube.TextBody);
 

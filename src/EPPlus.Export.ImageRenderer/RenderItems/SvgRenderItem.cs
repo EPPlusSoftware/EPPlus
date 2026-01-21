@@ -14,6 +14,7 @@ using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,7 @@ namespace EPPlusImageRenderer.RenderItems
     }
     internal abstract class SvgRenderItem : RenderItem
     {
-        internal SvgRenderItem(BoundingBox parent) : base(parent)
+        internal SvgRenderItem(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
         {
         }
         public override void Render(StringBuilder sb)

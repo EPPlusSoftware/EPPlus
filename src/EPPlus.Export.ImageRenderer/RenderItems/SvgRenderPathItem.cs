@@ -14,6 +14,7 @@ using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using System.Collections.Generic;
 using System.Text;
 
@@ -21,7 +22,7 @@ namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderPathItem : SvgRenderItem
     {
-        public SvgRenderPathItem(BoundingBox parent) : base(parent)
+        public SvgRenderPathItem(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
         {
             Bounds.Width = parent.Width;
             Bounds.Height = parent.Height;
@@ -47,7 +48,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {
-            var clone = new SvgRenderPathItem(_drawing.GetBoundingBox());
+            var clone = new SvgRenderPathItem(_drawing.GetBoundingBox(), _theme);
             clone._theme = _theme;
             CloneBase(clone);
             clone.Commands = CloneCommands(Commands);

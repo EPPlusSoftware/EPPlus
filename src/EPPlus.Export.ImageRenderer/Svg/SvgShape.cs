@@ -10,6 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Export.ImageRenderer.Text;
+using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.ShapeDefinitions;
 using EPPlusImageRenderer.Text;
@@ -18,18 +24,13 @@ using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using TypeConv = OfficeOpenXml.Utils.TypeConversion;
-using EPPlus.Fonts.OpenType;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using EPPlus.Export.ImageRenderer.Text;
-using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Graphics;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
-using EPPlus.Export.ImageRenderer.Utils;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -54,7 +55,7 @@ namespace EPPlusImageRenderer.Svg
                 var shapeDef = PresetShapeDefinitions.ShapeDefinitions[style].Clone();
                 shapeDef.Calculate(shape);
 
-                RenderItems.Add(new SvgGroupItem(shape.GetBoundingBox(), shape.Rotation));
+                RenderItems.Add(new SvgGroupItem(shape.GetBoundingBox(), shape.Rotation, shape._drawings._package.Workbook.ThemeManager.GetOrCreateTheme()));
 
                 //Draw Filled path's
                 foreach (var path in shapeDef.ShapePaths)
@@ -107,7 +108,7 @@ namespace EPPlusImageRenderer.Svg
 
         protected void AddFromPaths(DrawingPath path, bool drawFill = true, bool drawBorder = true)
         {
-            var pi = new SvgRenderPathItem(_shape.GetBoundingBox());
+            var pi = new SvgRenderPathItem(_shape.GetBoundingBox(), _theme);
             var coordinates = new List<double>();
             PathCommands cmd = null;
             PathsBase pCmd = null;
@@ -240,14 +241,14 @@ namespace EPPlusImageRenderer.Svg
             if (insetTextBox == null)
             {
                 GetShapeInnerBound(out double x, out double y, out double width, out double height);
-                insetTextBox = new SvgRenderRectItem(Bounds);
+                insetTextBox = new SvgRenderRectItem(Bounds, _theme);
                 insetTextBox.Bounds.Left = x;
                 insetTextBox.Bounds.Top = y;
                 insetTextBox.Width = width;
                 insetTextBox.Height = height;
                 insetTextBox.Bounds.Parent = textBody.Bounds; //TODO:Check that textBody is correct.
             }
-            var txtBodyItem = new SvgTextBodyItem(insetTextBox.Bounds);
+            var txtBodyItem = new SvgTextBodyItem(insetTextBox.Bounds, _theme);
 
             return txtBodyItem;
         }

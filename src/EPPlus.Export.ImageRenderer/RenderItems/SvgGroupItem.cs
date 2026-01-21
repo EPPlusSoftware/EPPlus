@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.Drawing.Theme;
 using System.Drawing;
 using System.Globalization;
 using System.Text;
@@ -24,11 +25,11 @@ namespace EPPlusImageRenderer.RenderItems
 
         public string GroupTransform = "";
 
-        internal SvgGroupItem(BoundingBox parent) : base(parent)
+        internal SvgGroupItem(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
         {
 
         }
-        internal SvgGroupItem(BoundingBox parent, double rotation) : base(parent)
+        internal SvgGroupItem(BoundingBox parent, double rotation, ExcelTheme theme) : base(parent, theme)
         {
             if(rotation!=0)
             {

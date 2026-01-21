@@ -1,16 +1,6 @@
-﻿using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.RenderItems.Shared;
-using EPPlusImageRenderer.Utils;
-using OfficeOpenXml;
-using OfficeOpenXml.Interfaces.Drawing.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OfficeOpenXml.Interfaces.Drawing.Text;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
-using System.Security.Cryptography;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 
 namespace TestProject1
