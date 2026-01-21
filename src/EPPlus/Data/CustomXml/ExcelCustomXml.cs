@@ -88,7 +88,7 @@ namespace OfficeOpenXml.Data.CustomXml
 
         internal void Save(ExcelPackage pck)
         {
-            if(_xmlHelper==null && SchemasReferences.Count > 0)
+            if(_xmlHelper==null)
             {
                 if(Part==null)
                 {
