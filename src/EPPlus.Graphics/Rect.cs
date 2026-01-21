@@ -14,7 +14,7 @@ using EPPlus.Graphics.Math;
 
 namespace EPPlus.Graphics
 {
-    //REname and move class? Inherit from transform? what do?
+    //REname and move class? Inherit from Transform? what do?
     internal class Rect
     {
         internal Rect()
@@ -88,13 +88,13 @@ namespace EPPlus.Graphics
 
         /// <summary>
         /// Local position X
-        /// X-position from parent transform position
+        /// X-position from parent Transform position
         /// </summary>
         internal virtual double X { get { return Left; } set { Left = value; } }
 
         /// <summary>
         /// Local position Y
-        /// Y-position from parent transform position
+        /// Y-position from parent Transform position
         /// </summary>
         internal virtual double Y { get { return Top; } set { Top = value; } }
     }

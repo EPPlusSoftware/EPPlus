@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal abstract class ParagraphContainer : SvgRenderItem
+    internal abstract class ParagraphContainer : RenderItem
     {
         ITextMeasurerWrap _measurer;
 
@@ -28,9 +28,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         double _lineSpacingAscendantOnly;
         double? _lsMultiplier = null;
         internal bool IsFirstParagraph { get; private set; }
-
-        public override RenderItemType Type => RenderItemType.Text;
-
         List<string> _paragraphLines = new List<string>();
         protected List<string> _textRunDisplayText = new List<string>();
 
@@ -39,23 +36,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal List<TextRunItem> _textRunItems;
 
         internal protected MeasurementFont _paragraphFont;
+        //internal BoundingBox Bounds = new BoundingBox();
 
-        public ParagraphContainer() : base()
+        public ParagraphContainer(BoundingBox parent) : base(parent)
         {
-
+            Bounds.Transform.Name = "Paragraph";
         }
 
-        public ParagraphContainer(BoundingBox parent)
-        {
-            Bounds.transform.Name = "Paragraph";
-            Bounds.Parent = parent;
-        }
-
-        public ParagraphContainer(ExcelDrawingParagraph p, BoundingBox parent) : base()
+        public ParagraphContainer(ExcelDrawingParagraph p, BoundingBox parent) : base(parent)
         {
             //---Initialize Bounds/Margins---
-            Bounds.transform.Name = "Paragraph";
-            Bounds.Parent = parent;
+            Bounds.Transform.Name = "Paragraph";
 
             var indent = 48 * p.IndentLevel;
             _leftMargin = p.LeftMargin + p.Indent + indent;
@@ -147,7 +138,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             Runs.Add(container);
 
-            container.transform.Name = $"Container{Runs.Count}";
+            container.Transform.Name = $"Container{Runs.Count}";
 
             container.SetContent(text);
         }
@@ -342,13 +333,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             return TextUtils.RoundToWhole(x);
         }
 
-        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
-        {
-            il = Bounds.Left + _leftMargin;
-            it = Bounds.Top;
-            ir = Bounds.Right - _rightMargin;
-            ib = Bounds.Bottom;
-        }
+        //internal override void GetBounds(out double il, out double it, out double ir, out double ib)
+        //{
+        //    il = Bounds.Left + _leftMargin;
+        //    it = Bounds.Top;
+        //    ir = Bounds.Right - _rightMargin;
+        //    ib = Bounds.Bottom;
+        //}
+
 
         /// <summary>
         /// Type of textrun defined by child type

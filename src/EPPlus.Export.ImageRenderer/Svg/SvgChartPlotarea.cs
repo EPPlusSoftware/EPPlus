@@ -64,7 +64,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     vaHeight += sc.Legend.Rectangle.Height;
                 }
-                rect.Height = sc.Size.Height - rect.Top - vaHeight - vaTitleHeight - BottomMargin;                
+                rect.Height = sc.Bounds.Height - rect.Top - vaHeight - vaTitleHeight - BottomMargin;                
             }
 
             rect.SetDrawingPropertiesFill(pa.Fill, sc.Chart.StyleManager.Style.PlotArea.FillReference.Color);

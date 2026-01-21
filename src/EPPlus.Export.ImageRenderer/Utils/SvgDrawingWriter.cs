@@ -39,11 +39,11 @@ namespace EPPlusImageRenderer.Utils
             var wb = svgDrawing.Drawing._drawings.Worksheet.Workbook;
             _theme = wb.ThemeManager.GetOrCreateTheme();
         }
-        internal void WriteSvgDefs(StringBuilder sb, List<RenderItem> renderItems)
+        internal void WriteSvgDefs(StringBuilder sb, List<RenderItemBase> renderItems)
         {
             var defSb = new StringBuilder();
             var hs = new HashSet<string>();
-            foreach (var item in renderItems)
+            foreach (RenderItem item in renderItems)
             {
                 if (item.GradientFill != null)
                 {
@@ -353,12 +353,12 @@ namespace EPPlusImageRenderer.Utils
             var dx = Math.Abs(l - r);
             //var scaleTo = Math.Min(dy, dx);
             //var mult = 0.5 + (scaleTo / 2);
-            var cx = _svgDrawing.Size.Width * l;
-            var cy = _svgDrawing.Size.Height * t;
+            var cx = _svgDrawing.Bounds.Width * l;
+            var cy = _svgDrawing.Bounds.Height * t;
             //var radX = Math.Abs((t - b )) * _svgDrawing.FontSize.Item1;
             //var radY = Math.Abs((l - r)) * _svgDrawing.FontSize.Item2;
-            var rx = _svgDrawing.Size.Width * 0.5 * (Math.Abs(t - tb) + Math.Abs(b - tt));
-            var ry = _svgDrawing.Size.Height * 0.5 * (Math.Abs(l - tr) + Math.Abs(r - tl));
+            var rx = _svgDrawing.Bounds.Width * 0.5 * (Math.Abs(t - tb) + Math.Abs(b - tt));
+            var ry = _svgDrawing.Bounds.Height * 0.5 * (Math.Abs(l - tr) + Math.Abs(r - tl));
 
             var rad = Math.Sqrt(rx * rx + ry * ry);
 
@@ -443,10 +443,10 @@ namespace EPPlusImageRenderer.Utils
         {
             if (blipFill.Stretch)
             {
-                var x = _svgDrawing.Size.Width * blipFill.StretchOffset.LeftOffset / 100;
-                var y = _svgDrawing.Size.Height * blipFill.StretchOffset.TopOffset / 100;
-                var width = _svgDrawing.Size.Width - x - _svgDrawing.Size.Width * blipFill.StretchOffset.RightOffset / 100;
-                var height = _svgDrawing.Size.Height - x - _svgDrawing.Size.Height * blipFill.StretchOffset.BottomOffset / 100;
+                var x = _svgDrawing.Bounds.Width * blipFill.StretchOffset.LeftOffset / 100;
+                var y = _svgDrawing.Bounds.Height * blipFill.StretchOffset.TopOffset / 100;
+                var width = _svgDrawing.Bounds.Width - x - _svgDrawing.Bounds.Width * blipFill.StretchOffset.RightOffset / 100;
+                var height = _svgDrawing.Bounds.Height - x - _svgDrawing.Bounds.Height * blipFill.StretchOffset.BottomOffset / 100;
                 return $" preserveAspectRatio=\"none\" x=\"{x.ToString(CultureInfo.InvariantCulture)}\" y=\"{y.ToString(CultureInfo.InvariantCulture)}\" width=\"{width.ToString(CultureInfo.InvariantCulture)}\" height=\"{height.ToString(CultureInfo.InvariantCulture)}\" ";
             }
             else if (!(blipFill.Tile.HorizontalOffset == 0 && blipFill.Tile.VerticalOffset == 0 &&
@@ -456,13 +456,13 @@ namespace EPPlusImageRenderer.Utils
                 switch (blipFill.Tile.FlipMode)
                 {
                     case eTileFlipMode.X:
-                        flip = $" transform=\"translate({_svgDrawing.Size.Width.ToString(CultureInfo.InvariantCulture)}, 0) scale(-1, 1)\"";
+                        flip = $" transform=\"translate({_svgDrawing.Bounds.Width.ToString(CultureInfo.InvariantCulture)}, 0) scale(-1, 1)\"";
                         break;
                     case eTileFlipMode.Y:
-                        flip = $" transform=\"translate(0, {_svgDrawing.Size.Height.ToString(CultureInfo.InvariantCulture)}) scale(1, -1)\"";
+                        flip = $" transform=\"translate(0, {_svgDrawing.Bounds.Height.ToString(CultureInfo.InvariantCulture)}) scale(1, -1)\"";
                         break;
                     case eTileFlipMode.XY:
-                        flip = $" transform=\"translate({_svgDrawing.Size.Width.ToString(CultureInfo.InvariantCulture)}, {_svgDrawing.Size.Height.ToString(CultureInfo.InvariantCulture)}) scale(-1, -1)\"";
+                        flip = $" transform=\"translate({_svgDrawing.Bounds.Width.ToString(CultureInfo.InvariantCulture)}, {_svgDrawing.Bounds.Height.ToString(CultureInfo.InvariantCulture)}) scale(-1, -1)\"";
                         break;
                 }
                 return $"{flip}";

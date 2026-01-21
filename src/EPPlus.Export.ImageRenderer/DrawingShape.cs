@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 namespace EPPlusImageRenderer
 {
-    internal abstract class DrawingShape : DrawingBaseItem
+    internal abstract class DrawingShape : DrawingBase
     {
         protected ExcelShape _shape;
         protected DrawingShape(ExcelShape shape) : base(shape)

@@ -10,6 +10,8 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Text;
 using OfficeOpenXml;
@@ -41,8 +43,8 @@ namespace EPPlusImageRenderer.Svg
             LeftMargin = RightMargin = 4;
             TopMargin = BottomMargin = 2;
 
-            var maxWidth = sc.Size.Width * 0.8;
-            var maxHeight = sc.Size.Height / 2D;
+            var maxWidth = sc.Bounds.Width * 0.8;
+            var maxHeight = sc.Bounds.Height / 2D;
             _title = t;
             if (axis==null)
             {
@@ -81,7 +83,7 @@ namespace EPPlusImageRenderer.Svg
                 if (axis==null)
                 {
                     Rectangle.Top = (float)8;                         //8 pixels for the chart title standard offset
-                    Rectangle.Left = (float)(sc.Size.Width - rect.Width) / 2;
+                    Rectangle.Left = (float)(sc.Bounds.Width - rect.Width) / 2;
                     Rectangle.Height = (float)rect.Height;
                     Rectangle.Width = (float)rect.Width;
                     InitTextBox();
@@ -166,21 +168,22 @@ namespace EPPlusImageRenderer.Svg
 
         internal void InitTextBox()
         {
-            TextBox = new TextBox(Chart, Rectangle.Left, Rectangle.Top , Rectangle.Width, Rectangle.Height);
-            TextBox.Bounds.MarginLeft = LeftMargin;
-            TextBox.Bounds.MarginRight = RightMargin;
-            TextBox.Bounds.MarginTop = TopMargin;
-            TextBox.Bounds.MarginBottom = BottomMargin;
+            //TextBox = new TextBody(Chart, Rectangle.Left, Rectangle.Top , Rectangle.Width, Rectangle.Height);
+            TextBox = new SvgTextBodyItem(Rectangle.Bounds);            
+            TextBox.LeftMargin = LeftMargin;
+            TextBox.RightMargin = RightMargin;
+            TextBox.TopMargin = TopMargin;
+            TextBox.BottomMargin = BottomMargin;
             TextBox.VerticalAlignment = eTextAnchoringType.Top;
             if(_title.Rotation != 0)
             {
-                TextBox.Rotation = _title.Rotation;
+                TextBox.Bounds.Transform.Rotation = _title.Rotation;
             }
             if (_title.TextBody.Paragraphs.Count > 0)
             {
                 foreach (var p in _title.TextBody.Paragraphs)
                 {
-                    TextBox.ImportParagraph(p);
+                    TextBox.ImportParagraph(p, 0);
                 }
             }
             else
@@ -189,16 +192,16 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        public TextBox TextBox
+        public TextBody TextBox
         {
             get; private set;
         }
-        internal override void AppendRenderItems(List<RenderItem> renderItems)
+        internal override void AppendRenderItems(List<RenderItemBase> renderItems)
         {
             SvgGroupItem groupItem;
             if (TextBox.Rotation == 0)
             {
-                groupItem = new SvgGroupItem();
+                groupItem = new SvgGroupItem(Rectangle.Bounds);
             }
             else
             {

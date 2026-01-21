@@ -29,6 +29,7 @@ using EPPlus.Export.ImageRenderer.Text;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Graphics;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Export.ImageRenderer.Utils;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -53,7 +54,7 @@ namespace EPPlusImageRenderer.Svg
                 var shapeDef = PresetShapeDefinitions.ShapeDefinitions[style].Clone();
                 shapeDef.Calculate(shape);
 
-                RenderItems.Add(new SvgGroupItem(shape.Rotation, 0, 0));
+                RenderItems.Add(new SvgGroupItem(shape.GetBoundingBox(), shape.Rotation, 0, 0));
 
                 //Draw Filled path's
                 foreach (var path in shapeDef.ShapePaths)
@@ -106,7 +107,7 @@ namespace EPPlusImageRenderer.Svg
 
         protected void AddFromPaths(DrawingPath path, bool drawFill = true, bool drawBorder = true)
         {
-            var pi = new SvgRenderPathItem(_shape);
+            var pi = new SvgRenderPathItem(_shape.GetBoundingBox());
             var coordinates = new List<double>();
             PathCommands cmd = null;
             PathsBase pCmd = null;
@@ -197,13 +198,13 @@ namespace EPPlusImageRenderer.Svg
                         b = ib;
                     }
                 }
-                return $"{(l * Size.Width).ToString(CultureInfo.InvariantCulture)},{(t * Size.Height).ToString(CultureInfo.InvariantCulture)},{((Math.Abs(l) + r) * Size.Width).ToString(CultureInfo.InvariantCulture)},{((Math.Abs(t) + b) * Size.Height).ToString(CultureInfo.InvariantCulture)}";
+                return $"{(l * Bounds.Width).ToString(CultureInfo.InvariantCulture)},{(t * Bounds.Height).ToString(CultureInfo.InvariantCulture)},{((Math.Abs(l) + r) * Bounds.Width).ToString(CultureInfo.InvariantCulture)},{((Math.Abs(t) + b) * Bounds.Height).ToString(CultureInfo.InvariantCulture)}";
             }
         }
 
         public void Render(StringBuilder sb)
         {
-            sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
+            sb.Append($"<svg width=\"{Bounds.Width}\" height=\"{Bounds.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
 
             //Write defs used for gradient colors
             var writer = new SvgDrawingWriter(this);
@@ -239,7 +240,7 @@ namespace EPPlusImageRenderer.Svg
             if (insetTextBox == null)
             {
                 GetShapeInnerBound(out double x, out double y, out double width, out double height);
-                insetTextBox = new SvgRenderRectItem();
+                insetTextBox = new SvgRenderRectItem(Bounds);
                 insetTextBox.Bounds.Left = x;
                 insetTextBox.Bounds.Top = y;
                 insetTextBox.Width = width;
@@ -288,8 +289,8 @@ namespace EPPlusImageRenderer.Svg
         {
             double currentX = 0, currentY = 0, xe, ye;
             x = y = 0;
-            width = xe = Size.Width;
-            height = ye = Size.Height;
+            width = xe = Bounds.Width;
+            height = ye = Bounds.Height;
             foreach (var ri in RenderItems)
             {
                 switch (ri.Type)
@@ -403,5 +404,6 @@ namespace EPPlusImageRenderer.Svg
                 xe = xec;
             }
         }
+
     }
 }

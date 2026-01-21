@@ -17,17 +17,17 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using EPPlus.Graphics;
+using EPPlus.Export.ImageRenderer.Utils;
 
 namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderRectItem : SvgRenderItem
     {
-        public SvgRenderRectItem() : base()
+        public SvgRenderRectItem(BoundingBox parent) : base(parent)
         {
 
         }
-
-        public SvgRenderRectItem(ExcelDrawing drawing) : base(drawing)
+        public SvgRenderRectItem(ExcelDrawing drawing) : base(drawing.GetBoundingBox())
         {
 
         }
@@ -45,7 +45,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
-            var groupItem = new SvgGroupItem();
+            var groupItem = new SvgGroupItem(Bounds);
             groupItem.Render(sb);
 
             RenderRect(sb);
@@ -70,10 +70,10 @@ namespace EPPlusImageRenderer.RenderItems
             clone._theme = _theme;
             CloneBase(clone);
 
-            clone.X = X * svgDocument.Size.Width;
-            clone.Y = Y * svgDocument.Size.Height;
-            clone.Width = svgDocument.Size.Width * Width;
-            clone.Height = svgDocument.Size.Height * Height;
+            clone.X = X * svgDocument.Bounds.Width;
+            clone.Y = Y * svgDocument.Bounds.Height;
+            clone.Width = svgDocument.Bounds.Width * Width;
+            clone.Height = svgDocument.Bounds.Height * Height;
 
             return clone;
         }

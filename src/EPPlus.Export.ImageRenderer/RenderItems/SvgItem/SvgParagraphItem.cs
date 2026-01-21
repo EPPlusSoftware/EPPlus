@@ -1,23 +1,16 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     internal class SvgParagraphItem : ParagraphContainer
     {
-        public SvgParagraphItem()
-        {
-        }
+        public override RenderItemType Type => RenderItemType.Paragraph;
 
         public SvgParagraphItem(BoundingBox parent) : base(parent)
         {
@@ -83,8 +76,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             sb.AppendLine("<title>paragraph</title> ");
 
-            var bb = new SvgRenderRectItem();
-            //The bb is affected by the transform so set pos to zero
+            var bb = new SvgRenderRectItem(Bounds);
+            //The bb is affected by the Transform so set pos to zero
             if(IsFirstParagraph == false)
             {
                 bb.Y = 0;
@@ -138,7 +131,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //}
 
             sb.Append("<text ");
-            base.Render(sb);
+            Render(sb);
 
             sb.Append(/*$"{GetHorizontalAlignmentAttribute(Bounds.X)} y=\"{Bounds.Y}\" " +*/
                 $"font-family=\"{_paragraphFont.FontFamily},{_paragraphFont.FontFamily}_MSFontService,sans-serif\" " +
@@ -155,12 +148,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             sb.AppendLine("</text>");
             sb.AppendLine("</g>");
         }
-
-        internal override SvgRenderItem Clone(SvgShape svgDocument)
-        {
-            throw new System.NotImplementedException();
-        }
-
         internal override TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText)
         {
             return new SvgTextRunItem(run, parent, displayText);

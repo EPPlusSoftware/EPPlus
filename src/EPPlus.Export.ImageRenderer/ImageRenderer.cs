@@ -41,14 +41,14 @@ namespace EPPlusImageRenderer
             if (drawing is ExcelShape shape)
             {
                 var svg = new SvgShape(shape);
-                svg.Size = new DrawingSize(width, height);
+                //svg.Bounds = new DrawingSize(width, height);
                 svg.Render(sb);
                 return sb.ToString();
             }
             else if(drawing is ExcelChart chart)
             {
                 var svg = new SvgChart(chart);
-                svg.Size = new DrawingSize(width, height);
+                //svg.Bounds = new DrawingSize(width, height);
                 svg.Render(sb);
                 return sb.ToString();
             }
@@ -128,62 +128,6 @@ namespace EPPlusImageRenderer
             sb.AppendLine("</svg>");
 
             return sb.ToString();
-        }
-
-        public string RenderTextBody(string txtBody)
-        {
-            BoundingBox worldBounds = new BoundingBox();
-            worldBounds.Width = 400;
-            worldBounds.Height = 400;
-
-            worldBounds.transform.Name = "World Bounds";
-
-            BoundingBox shapeRect = new BoundingBox();
-
-            shapeRect.Parent = worldBounds;
-
-            shapeRect.Width = 200;
-            shapeRect.Height = 200;
-
-            shapeRect.X = 20;
-            shapeRect.Y = 20;
-
-            shapeRect.transform.Name = "Shape";
-
-            FontMeasurerTrueType measurer = new FontMeasurerTrueType(11, "Aptos Narrow", FontSubFamily.Regular);
-            var body = new SvgTextBodyItem(shapeRect);
-
-            body.Bounds.transform.Name = "TxtBody";
-
-            body.Bounds.X = 20;
-            body.Bounds.Y = 20;
-
-            body.Bounds.Width = 100;
-            body.Bounds.Height = 100;
-
-            body.AddText(txtBody, measurer);
-
-            var para1 = body.Paragraphs[0];
-
-            para1.AddText("Extra Text", measurer);
-            para1.Runs[1].X = 10;
-            para1.Runs[1].Y = 20;
-
-            para1.Bounds.Width = 120;
-            para1.Bounds.Height = 100;
-
-            //body.AddParagraph("Paragraph2 text", measurer);
-            //var para2 = body.Paragraphs[1];
-
-            //para2.Bounds.Y = 40;
-
-            //para2.AddText("Para2 Run2", measurer);
-            //para2.Runs[1].X = 5;
-            //para2.Runs[1].Y = 20;
-
-            var svgBody = GenerateSvgTextBody(body, (int)worldBounds.Width, (int)worldBounds.Height);
-
-            return RenderSvgElement(svgBody);
         }
 
         internal string RenderSvgElement(SvgElement element)
@@ -360,8 +304,8 @@ namespace EPPlusImageRenderer
             def.AddChildElement(clipPath);
 
             var bb = new SvgElement("rect");
-            bb.AddAttribute("x", container.transform.Position.X);
-            bb.AddAttribute("y", container.transform.Position.Y);
+            bb.AddAttribute("x", container.Transform.Position.X);
+            bb.AddAttribute("y", container.Transform.Position.Y);
             bb.AddAttribute("width", container.Width);
             bb.AddAttribute("height", container.Height);
             //bb.AddAttribute("fill", "blue");
@@ -372,16 +316,16 @@ namespace EPPlusImageRenderer
             var fontSizePx = 16d;
 
             var renderElement = new SvgElement("text");
-            renderElement.AddAttribute("x", container.transform.Position.X);
-            renderElement.AddAttribute("y", container.transform.Position.Y + fontSizePx);
+            renderElement.AddAttribute("x", container.Transform.Position.X);
+            renderElement.AddAttribute("y", container.Transform.Position.Y + fontSizePx);
             renderElement.AddAttribute("_measurementFont-size", $"{fontSizePx}px");
             renderElement.AddAttribute("clip-path", $"url(#{nameId})");
 
             renderElement.Content = fullString;
 
             var bbVisual = new SvgElement("rect");
-            bbVisual.AddAttribute("x", container.transform.Position.X);
-            bbVisual.AddAttribute("y", container.transform.Position.Y);
+            bbVisual.AddAttribute("x", container.Transform.Position.X);
+            bbVisual.AddAttribute("y", container.Transform.Position.Y);
             bbVisual.AddAttribute("width", container.Width);
             bbVisual.AddAttribute("height", container.Height);
             bbVisual.AddAttribute("fill", "blue");

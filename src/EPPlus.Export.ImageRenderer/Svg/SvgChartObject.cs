@@ -18,10 +18,12 @@ using System.Collections.Generic;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal abstract class SvgChartObject : DrawingChart
+    internal abstract class SvgChartObject 
     {
-        internal SvgChartObject(ExcelChart chart) : base(chart)
+        internal ExcelChart Chart { get; }
+        internal SvgChartObject(ExcelChart chart) 
         {
+            Chart= chart; 
         }
         internal void SetMargins(ExcelTextBody tb)
         {
@@ -38,33 +40,34 @@ namespace EPPlusImageRenderer.Svg
         internal SvgRenderRectItem Rectangle { get; set; }
         internal SvgRenderLineItem Line { get; set; }
         public string Text { get; set; }
-        internal abstract void AppendRenderItems(List<RenderItem> renderItems);
         protected static SvgRenderRectItem GetRectFromManualLayout(SvgChart sc, ExcelLayout layout)
         {
             var rect = new SvgRenderRectItem(sc.Chart);
             var ml = layout.ManualLayout;
             if (ml.LeftMode == eLayoutMode.Edge)
             {
-                rect.Left = sc.Size.Width * (float)(layout.ManualLayout.Left ?? 0D) / 100;
+                rect.Left = sc.Bounds.Width * (float)(layout.ManualLayout.Left ?? 0D) / 100;
             }
             else
             {
                 //TODO:Add factor from default position
             }
             //Width is always factor.
-            rect.Width = sc.Size.Width * ml.GetWidth() / 100;
+            rect.Width = sc.Bounds.Width * ml.GetWidth() / 100;
 
             if (ml.LeftMode == eLayoutMode.Edge)
             {
-                rect.Top = sc.Size.Height * (float)(layout.ManualLayout.Top ?? 0D) / 100;
+                rect.Top = sc.Bounds.Height * (float)(layout.ManualLayout.Top ?? 0D) / 100;
             }
             else
             {
                 //TODO:Add factor from default position
             }
             //Height is always factor.
-            rect.Height = sc.Size.Height * ml.GetHeight() / 100;
+            rect.Height = sc.Bounds.Height * ml.GetHeight() / 100;
             return rect;
         }
+        internal abstract void AppendRenderItems(List<RenderItemBase> renderItems);
+
     }
 }

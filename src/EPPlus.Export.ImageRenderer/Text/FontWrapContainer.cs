@@ -52,7 +52,7 @@ namespace EPPlus.Export.ImageRenderer.Text
         private void Initialize(FontMeasurerTrueType txtMeasurer)
         {
             _measurer = txtMeasurer;
-            //transform = parent.transform;
+            //Transform = parent.Transform;
             //if (parent != null)
             //{
             //    SetParent(parent);
@@ -62,7 +62,7 @@ namespace EPPlus.Export.ImageRenderer.Text
         //void SetParent(Rect parent)
         //{
         //    Parent = parent;
-        //    transform.Parent = parent.transform;
+        //    Transform.Parent = parent.Transform;
         //}
 
         private void SplitContentToLines()

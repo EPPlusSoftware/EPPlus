@@ -1,4 +1,5 @@
-﻿using EPPlusImageRenderer.RenderItems;
+﻿using EPPlus.Export.ImageRenderer.Utils;
+using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
@@ -102,7 +103,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     yAxis = _svgChart.VerticalAxis;
                 }
-                var linePath = new SvgRenderPathItem(Chart);
+                var linePath = new SvgRenderPathItem(Chart.GetBoundingBox());
                 var coords = new List<double>();
                 var markerItems = new List<RenderItem>();
 
@@ -124,8 +125,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     if(double.IsNaN(yPos)==false)
                     {
-                        coords.Add(xPos / _svgChart.Plotarea.Size.Width);
-                        coords.Add(yPos / _svgChart.Plotarea.Size.Height);
+                        coords.Add(xPos / _svgChart.Plotarea.Rectangle.Bounds.Width);
+                        coords.Add(yPos / _svgChart.Plotarea.Rectangle.Bounds.Height);
                     }
                     if (serie.HasMarker() && serie.Marker.Style != eMarkerStyle.None)
                     {
@@ -142,7 +143,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
 
                 linePath.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, linePath, coords.ToArray()));
-                linePath.SetDrawingPropertiesBorder(serie.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, true);
+                linePath.SetDrawingPropertiesBorder(serie.Border, chartType.StyleManager.Style.SeriesLine.BorderReference.Color, true);
                 linePath.FillColor = "none"; // No fill for line
                 RenderItems.Add(linePath);
                 RenderItems.AddRange(markerItems);

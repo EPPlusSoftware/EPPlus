@@ -1,15 +1,13 @@
-﻿using EPPlus.Export.ImageRenderer.Text;
-using EPPlus.Fonts.OpenType;
+﻿using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
@@ -18,8 +16,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// Margin left = X
     /// Margin right = Y
     /// </summary>
-    internal abstract class TextBody: SvgRenderItem
+    internal abstract class TextBody : RenderItemBase
     {
+        //internal BoundingBox Bounds = new BoundingBox();
         /// <summary>
         /// Shorthand for Bounds.Width
         /// </summary>
@@ -42,9 +41,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         private FontMeasurerTrueType _measurer = null;
 
-        public TextBody(BoundingBox parent) : base()
+        public TextBody(BoundingBox parent) 
         {
-            Bounds.transform.Name = "TxtBody";
+            Bounds.Transform.Name = "TxtBody";
 
             Bounds.Parent = parent;
 
@@ -52,25 +51,25 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Bounds.Height = parent.Height;
         }
 
-        public void AddParagraph(string text, FontMeasurerTrueType measurer) 
-        {
-            if(_measurer == null && measurer != null)
-            {
-                _measurer = measurer;
-            }
+        //public void AddParagraph(string text, FontMeasurerTrueType measurer) 
+        //{
+        //    if(_measurer == null && measurer != null)
+        //    {
+        //        _measurer = measurer;
+        //    }
 
-            if (_measurer != null)
-            {
-                var paragraph = CreateParagraph(Bounds);
-                Paragraphs.Add(paragraph);
+        //    if (_measurer != null)
+        //    {
+        //        var paragraph = CreateParagraph(Bounds);
+        //        Paragraphs.Add(paragraph);
 
-                paragraph.AddText(text, measurer);
+        //        //paragraph.AddText(text, measurer);
 
-                paragraph.Bounds.transform.Name = $"Container{Paragraphs.Count}";
-                return;
-            }
-            throw new NullReferenceException($"The FontMeasurer: {_measurer} object is null. Use SetMeasurer before adding text");
-        }
+        //        paragraph.Bounds.Transform.Name = $"Container{Paragraphs.Count}";
+        //        return;
+        //    }
+        //    throw new NullReferenceException($"The FontMeasurer: {_measurer} object is null. Use SetMeasurer before adding text");
+        //}
 
         public void ImportParagraph(ExcelDrawingParagraph item, double startingY)
         {
@@ -78,14 +77,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             bool isFirst = Paragraphs.Count == 0;
 
             var paragraph = CreateParagraph(item, Bounds);
-            paragraph.Bounds.transform.Name = $"Container{Paragraphs.Count}";
+            paragraph.Bounds.Transform.Name = $"Container{Paragraphs.Count}";
 
             paragraph.Bounds.Top = startingY;
 
             Paragraphs.Add(paragraph);
 
             //TODO; Fix this. This is a strange workaround
-            paragraph.SetTheme(item._prd.Package.Workbook.ThemeManager.GetOrCreateTheme());
             paragraph.SetDrawingPropertiesFill(item.DefaultRunProperties.Fill, null);
         }
 
@@ -99,7 +97,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             RightMargin = r.PointToPixel();
             BottomMargin = b.PointToPixel();
 
-            //We already apply bounds top via the parent transform
+            //We already apply bounds top via the parent Transform
             double paragraphStartY = GetAlignmentVertical();
 
             foreach (var paragraph in body.Paragraphs)
@@ -120,18 +118,41 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //string.Join(Paragraphs[}])
         }
 
-        public void AddText(string text, FontMeasurerTrueType measurer)
+        //public void AddText(string text, FontMeasurerTrueType measurer)
+        //{
+        //    if (Paragraphs.Count == 0)
+        //    {
+        //        AddParagraph(text, measurer);
+        //    }
+        //    else
+        //    {
+        //        Paragraphs.Last().AddText(text, measurer);
+        //    }
+        //}
+        internal void AddText(string text, ExcelTextFont font)
         {
-            if (Paragraphs.Count <= 0)
-            {
-                AddParagraph(text, measurer);
-            }
-            else
-            {
-                Paragraphs.Last().AddText(text, measurer);
-            }
-        }
+            var measureFont = font.GetMeasureFont();
 
+            //Document Top position for the paragraph text based on vertical alignment
+            var posY = GetAlignmentVertical();
+            //var vertAlignAttribute = GetVerticalAlignAttribute(posY);
+
+
+
+            //var measurer = font.PictureRelationDocument.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
+            var measurer = new FontMeasurerTrueType();
+            var m = measurer.MeasureText(text, measureFont);
+            //Limit bounding area with the space taken by previous paragraphs
+            //Note that this is ONLY identical to PosY if the vertical alignment is top
+
+            //The first run in the first paragraph must apply different line-spacing
+            //var svgParagraph = new SvgParagraph(text, font, area, vertAlignAttribute, posY);
+            var paragraph = CreateParagraph(Bounds);
+            
+            paragraph.FillColor = font.Fill.Color.To6CharHexString();
+
+            Paragraphs.Add(paragraph);
+        }
         public void SetMeasurer(FontMeasurerTrueType fontMeasurer)
         {
             _measurer = fontMeasurer;
@@ -193,10 +214,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             return _alignmentY.Value;
         }
 
-        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
-        {
-            il = Bounds.Left; it = Bounds.Top; ir = Bounds.Right; ib = Bounds.Bottom;
-        }
 
         /// <summary>
         /// Each file format defines its own paragraph

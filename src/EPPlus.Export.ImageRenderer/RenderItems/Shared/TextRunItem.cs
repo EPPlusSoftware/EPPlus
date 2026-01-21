@@ -59,9 +59,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// <param name="run"></param>
         /// <param name="parent"></param>
         /// <param name="displayText"></param>
-        internal TextRunItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "")
+        internal TextRunItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "") : base(parent)
         {
-            Bounds.transform.Name = "TextRun";
+            Bounds.Transform.Name = "TextRun";
 
             _originalText = run.Text;
             _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;

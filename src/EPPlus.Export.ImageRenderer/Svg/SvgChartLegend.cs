@@ -10,6 +10,8 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Text;
@@ -192,7 +194,7 @@ namespace EPPlusImageRenderer.Svg
                             var tm = _seriesHeadersMeasure[index];
                             var si = GetSeriesIcon(sc, ls, index, tm, pSls);
                             sls.SeriesIcon = si;
-                            sls.Textbox = new TextBox(sc.Chart, si.X2 + MarginExtra, (si.Y1 - (tm.Height * 0.75)), tm.Width, tm.Height);
+                            sls.Textbox = new SvgTextBodyItem(Rectangle.Bounds);
                             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
                             if (entry == null || entry.Font.IsEmpty)
                             {
@@ -298,6 +300,6 @@ namespace EPPlusImageRenderer.Svg
         internal RenderItem SeriesIcon { get; set; }
         internal RenderItem MarkerIcon { get; set; }
         internal RenderItem MarkerBackground { get; set; }
-        internal TextBox Textbox { get; set;}
+        internal TextBody Textbox { get; set;}
     }
 }

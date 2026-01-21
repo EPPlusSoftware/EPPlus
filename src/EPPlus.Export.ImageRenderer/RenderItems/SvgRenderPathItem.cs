@@ -10,6 +10,8 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using System.Collections.Generic;
@@ -19,7 +21,7 @@ namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderPathItem : SvgRenderItem
     {
-        public SvgRenderPathItem(ExcelDrawing drawing) : base(drawing)
+        public SvgRenderPathItem(BoundingBox parent) : base(parent)
         {
             
         }
@@ -42,7 +44,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {
-            var clone = new SvgRenderPathItem(_drawing);
+            var clone = new SvgRenderPathItem(_drawing.GetBoundingBox());
             clone._theme = _theme;
             CloneBase(clone);
             clone.Commands = CloneCommands(Commands);

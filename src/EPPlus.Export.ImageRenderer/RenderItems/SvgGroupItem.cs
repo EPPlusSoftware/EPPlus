@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using System.Globalization;
 using System.Text;
@@ -22,11 +23,11 @@ namespace EPPlusImageRenderer.RenderItems
 
         public string GroupTransform = "";
 
-        internal SvgGroupItem() : base()
+        internal SvgGroupItem(BoundingBox parent) : base(parent)
         {
 
         }
-        internal SvgGroupItem(double rotation, double cx, double cy) : base()
+        internal SvgGroupItem(BoundingBox parent, double rotation, double cx, double cy) : base(parent)
         {
             if(rotation!=0)
             {

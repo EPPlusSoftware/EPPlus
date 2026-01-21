@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using System.Globalization;
@@ -25,11 +26,7 @@ namespace EPPlusImageRenderer.RenderItems
     }
     internal abstract class SvgRenderItem : RenderItem
     {
-        protected SvgRenderItem() : base()
-        {
-        }
-
-        internal SvgRenderItem(ExcelDrawing drawing) : base(drawing)
+        internal SvgRenderItem(BoundingBox parent) : base(parent)
         {
         }
         public override void Render(StringBuilder sb)

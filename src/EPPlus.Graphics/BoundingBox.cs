@@ -7,17 +7,17 @@ namespace EPPlus.Graphics
 {
     internal class BoundingBox : Rect
     {
-        internal Transform transform;
+        internal Transform Transform { get; }
 
         private BoundingBox _parent = null;
 
-        internal BoundingBox Parent { get { return _parent; } set { _parent = value; transform.Parent = value.transform; } }
+        internal BoundingBox Parent { get { return _parent; } set { _parent = value; Transform.Parent = value.Transform; } }
 
         bool ClampedToParent = false;
 
         internal BoundingBox() : base()
         {
-            transform = new Transform();
+            Transform = new Transform();
         }
 
         internal BoundingBox(double width, double height) : this()
@@ -40,14 +40,14 @@ namespace EPPlus.Graphics
         /// </summary>
         internal override double Top
         {
-            get { return transform.LocalPosition.Y; }
+            get { return Transform.LocalPosition.Y; }
             set
             {
                 var tmpHeight = Height != 0 ? Height : 0;
 
-                var currentPosition = transform.LocalPosition;
+                var currentPosition = Transform.LocalPosition;
                 currentPosition.Y = value;
-                transform.LocalPosition = currentPosition;
+                Transform.LocalPosition = currentPosition;
 
                 //Recalculate bottom position correctly
                 if (tmpHeight != 0)
@@ -61,14 +61,14 @@ namespace EPPlus.Graphics
         /// </summary>
         internal override double Left
         {
-            get { return transform.LocalPosition.X; }
+            get { return Transform.LocalPosition.X; }
             set
             {
                 var tmpWidth = Width != 0 ? Width : 0;
 
-                var currentPosition = transform.LocalPosition;
+                var currentPosition = Transform.LocalPosition;
                 currentPosition.X = value;
-                transform.LocalPosition = currentPosition;
+                Transform.LocalPosition = currentPosition;
 
                 //Recalculate Right position correctly
                 if (tmpWidth != 0)
@@ -116,7 +116,7 @@ namespace EPPlus.Graphics
         {
             if(ClampedToParent)
             {
-                if(transform.Parent != null)
+                if(Transform.Parent != null)
                 {
                     var newValue = System.Math.Min(value, Parent.Right);
                     base.Right = newValue;
@@ -129,7 +129,7 @@ namespace EPPlus.Graphics
         {
             if (ClampedToParent)
             {
-                if (transform.Parent != null)
+                if (Transform.Parent != null)
                 {
                     var newValue = System.Math.Min(value, Parent.Bottom);
                     base.Bottom = newValue;
@@ -138,7 +138,7 @@ namespace EPPlus.Graphics
             base.Bottom = value;
         }
 
-        //Quick-access to underlying transform
+        //Quick-access to underlying Transform
 
         /// <summary>
         /// Local position X
@@ -148,12 +148,12 @@ namespace EPPlus.Graphics
 
         /// <summary>
         /// Local position Y
-        /// Y-position from parent transform position
+        /// Y-position from parent Transform position
         /// </summary>
         internal override double Y { get { return Top; } set { Top = value; } }
 
         //Gets global position x and y
-        internal double GlobalX { get { return transform.Position.X; } }
-        internal double GlobalY { get { return transform.Position.Y; } }
+        internal double GlobalX { get { return Transform.Position.X; } }
+        internal double GlobalY { get { return Transform.Position.Y; } }
     }
 }

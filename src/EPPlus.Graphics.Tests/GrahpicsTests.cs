@@ -137,52 +137,52 @@ namespace EPPlus.Graphics.Tests
         {
             BoundingBox Shape = new BoundingBox();
 
-            Shape.transform.Position = new Vector2(2,2);
-            Shape.transform.Size = Vector2.One;
-            Shape.transform.Name = "ShapeTransform";
+            Shape.Transform.Position = new Vector2(2,2);
+            Shape.Transform.Size = Vector2.One;
+            Shape.Transform.Name = "ShapeTransform";
 
             Shape.Width = 10;
             Shape.Height = 10;
 
             BoundingBox TextBody = new BoundingBox();
 
-            TextBody.transform.Parent = Shape.transform;
-            TextBody.transform.Name = "TextBodyTransform";
+            TextBody.Transform.Parent = Shape.Transform;
+            TextBody.Transform.Name = "TextBodyTransform";
 
             TextBody.Width = 20;
             TextBody.Height = 20;
 
-            TextBody.transform.LocalPosition = new(10, 11);
+            TextBody.Transform.LocalPosition = new(10, 11);
 
-            Assert.AreEqual(10, TextBody.transform.LocalPosition.X);
-            Assert.AreEqual(11, TextBody.transform.LocalPosition.Y);
+            Assert.AreEqual(10, TextBody.Transform.LocalPosition.X);
+            Assert.AreEqual(11, TextBody.Transform.LocalPosition.Y);
 
             BoundingBox Paragraph1 = new BoundingBox();
-            Paragraph1.transform.Name = "Paragraph1Transform";
-            Paragraph1.transform.Parent = TextBody.transform;
+            Paragraph1.Transform.Name = "Paragraph1Transform";
+            Paragraph1.Transform.Parent = TextBody.Transform;
             Paragraph1.Width = 5;
             Paragraph1.Height = 5;
 
 
-            Paragraph1.transform.LocalPosition = new Vector2(5, 8);
+            Paragraph1.Transform.LocalPosition = new Vector2(5, 8);
 
-            Assert.AreEqual(10, TextBody.transform.LocalPosition.X);
-            Assert.AreEqual(11, TextBody.transform.LocalPosition.Y);
+            Assert.AreEqual(10, TextBody.Transform.LocalPosition.X);
+            Assert.AreEqual(11, TextBody.Transform.LocalPosition.Y);
 
-            Assert.AreEqual(2, Shape.transform.LocalPosition.X);
-            Assert.AreEqual(2, Shape.transform.LocalPosition.Y);
+            Assert.AreEqual(2, Shape.Transform.LocalPosition.X);
+            Assert.AreEqual(2, Shape.Transform.LocalPosition.Y);
 
-            Assert.AreEqual(10, Shape.transform.ChildObjects[0].LocalPosition.X);
-            Assert.AreEqual(11, Shape.transform.ChildObjects[0].LocalPosition.Y);
+            Assert.AreEqual(10, Shape.Transform.ChildObjects[0].LocalPosition.X);
+            Assert.AreEqual(11, Shape.Transform.ChildObjects[0].LocalPosition.Y);
 
-            Assert.AreEqual(5, Paragraph1.transform.LocalPosition.X);
-            Assert.AreEqual(8, Paragraph1.transform.LocalPosition.Y);
+            Assert.AreEqual(5, Paragraph1.Transform.LocalPosition.X);
+            Assert.AreEqual(8, Paragraph1.Transform.LocalPosition.Y);
 
-            Assert.AreEqual(Paragraph1.transform.Position.X, 17);
-            Assert.AreEqual(Paragraph1.transform.Position.Y, 21);
+            Assert.AreEqual(Paragraph1.Transform.Position.X, 17);
+            Assert.AreEqual(Paragraph1.Transform.Position.Y, 21);
 
 
-            var str = Shape.transform.ToHierarchyString();
+            var str = Shape.Transform.ToHierarchyString();
         }
     }
 }

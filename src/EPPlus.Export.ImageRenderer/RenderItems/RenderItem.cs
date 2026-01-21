@@ -31,15 +31,21 @@ namespace EPPlusImageRenderer.RenderItems
     {
         protected ExcelDrawing _drawing;
         protected ExcelTheme _theme;
-        protected RenderItem()
+        internal RenderItem(BoundingBox parent) 
         {
-                
+            Bounds.Parent = parent;
+            //_drawing = drawing; 
+            //_theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
         }
-        internal RenderItem(ExcelDrawing drawing) 
+        //internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
+        internal virtual void GetBounds(out double il, out double it, out double ir, out double ib)
         {
-            _drawing = drawing; 
-            _theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
+            il = Bounds.Left;
+            it = Bounds.Top;
+            ir = Bounds.Right;
+            ib = Bounds.Bottom;
         }
+
         internal bool IsEndOfGroup { get; set; } = false;
         public string FillColor { get; set; }
         public string FilterName { get; set; }
@@ -209,20 +215,13 @@ namespace EPPlusImageRenderer.RenderItems
             fc = ColorUtils.GetAdjustedColor(fillColorSource, fc);
             return "#" + fc.ToArgb().ToString("x8").Substring(2);
         }
-
-        internal BoundingBox Bounds = new BoundingBox();
-        internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
-
-        internal void SetTheme(ExcelTheme theme)
-        {
-            _theme = theme;
-        }
     }
     /// <summary>
     /// Base class for any item rendered.
     /// </summary>
     internal abstract class RenderItemBase
     {
+        internal BoundingBox Bounds = new BoundingBox();
         public abstract RenderItemType Type { get; }
         public abstract void Render(StringBuilder sb);
     }

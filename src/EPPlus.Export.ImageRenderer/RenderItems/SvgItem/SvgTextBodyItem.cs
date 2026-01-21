@@ -20,11 +20,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void Render(StringBuilder sb)
         {
             sb.AppendLine($"<g transform=\"translate({Bounds.GlobalX},{Bounds.GlobalY})\" ");
-            base.Render(sb);
+            //base.Render(sb);
             sb.Append(" >");
             sb.AppendLine($"<title>txtBody</title>");
 
-            var bb = new SvgRenderRectItem();
+            var bb = new SvgRenderRectItem(Bounds);
             bb.X = 0;
             bb.Width = Width;
             bb.Height = Height;
@@ -37,11 +37,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 item.Render(sb);
             }
             sb.AppendLine("</g>");
-        }
-
-        internal override SvgRenderItem Clone(SvgShape svgDocument)
-        {
-            throw new NotImplementedException();
         }
 
         internal override ParagraphContainer CreateParagraph(BoundingBox parent)
