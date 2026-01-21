@@ -43,7 +43,7 @@ namespace EPPlusImageRenderer
         }
         public ExcelDrawing Drawing { get; }
         //internal ITextMeasurer TextMeasurer { get; }
-        public List<RenderItemBase> RenderItems { get; } = new List<RenderItemBase>();
+        public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
         //public DrawingSize Bounds { get; internal set; }
         internal BoundingBox Bounds = new BoundingBox();
     }

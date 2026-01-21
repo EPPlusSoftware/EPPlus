@@ -196,7 +196,7 @@ namespace EPPlusImageRenderer.Svg
         {
             get; private set;
         }
-        internal override void AppendRenderItems(List<RenderItemBase> renderItems)
+        internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             SvgGroupItem groupItem;
             if (TextBox.Rotation == 0)

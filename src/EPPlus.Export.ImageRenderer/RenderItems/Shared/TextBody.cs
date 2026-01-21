@@ -16,7 +16,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// Margin left = X
     /// Margin right = Y
     /// </summary>
-    internal abstract class TextBody : RenderItemBase
+    internal abstract class TextBody : RenderItem
     {
         //internal BoundingBox Bounds = new BoundingBox();
         /// <summary>
@@ -41,7 +41,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         private FontMeasurerTrueType _measurer = null;
 
-        public TextBody(BoundingBox parent) 
+        public TextBody(BoundingBox parent)  : base(parent)
         {
             Bounds.Transform.Name = "TxtBody";
 

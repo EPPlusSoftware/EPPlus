@@ -39,7 +39,7 @@ namespace EPPlusImageRenderer.Utils
             var wb = svgDrawing.Drawing._drawings.Worksheet.Workbook;
             _theme = wb.ThemeManager.GetOrCreateTheme();
         }
-        internal void WriteSvgDefs(StringBuilder sb, List<RenderItemBase> renderItems)
+        internal void WriteSvgDefs(StringBuilder sb, List<RenderItem> renderItems)
         {
             var defSb = new StringBuilder();
             var hs = new HashSet<string>();

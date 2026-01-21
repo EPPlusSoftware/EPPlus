@@ -67,7 +67,7 @@ namespace EPPlusImageRenderer.Svg
             rect.Height = sc.Bounds.Height * ml.GetHeight() / 100;
             return rect;
         }
-        internal abstract void AppendRenderItems(List<RenderItemBase> renderItems);
+        internal abstract void AppendRenderItems(List<RenderItem> renderItems);
 
     }
 }

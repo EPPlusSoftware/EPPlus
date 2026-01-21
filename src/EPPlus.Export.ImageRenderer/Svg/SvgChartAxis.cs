@@ -192,7 +192,7 @@ namespace EPPlusImageRenderer.Svg
         public double Max { get; set; }
         public double MajorUnit { get; set; }
         public double MinorUnit { get; set; }
-        internal override void AppendRenderItems(List<RenderItemBase> renderItems)
+        internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             Title?.AppendRenderItems(renderItems);
             //Title?.Render(sb);
