@@ -19,7 +19,6 @@ using EPPlus.Fonts.OpenType.TextShaping.Substitutions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace EPPlus.Fonts.OpenType.TextShaping
 {
@@ -116,6 +115,35 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 Glyphs = glyphs.ToArray()
             };
         }
+
+        public double[] ExtractCharWidths(string text, float fontSize, ShapingOptions options)
+        {
+            var charWidths = new double[text.Length];
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return charWidths;
+            }
+
+            // Shape once - entire text
+            var shaped = Shape(text, options);
+            double scaleFactor = fontSize / UnitsPerEm;
+
+            // Extract widths - using ClusterIndex to map glyphs to characters
+            foreach (var glyph in shaped.Glyphs)
+            {
+                int charIndex = glyph.ClusterIndex;
+
+                if (charIndex >= 0 && charIndex < text.Length)
+                {
+                    charWidths[charIndex] += glyph.XAdvance * scaleFactor;
+                }
+            }
+
+            return charWidths;
+        }
+
+
 
         #endregion
 

@@ -216,58 +216,13 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Assert
             Assert.IsTrue(lines.Count >= 1);
 
-            // Concatenate all lines should give original text
-            string allText = string.Join("", lines).Replace(" ", " ");
-            Assert.IsTrue(allText.Contains("This is mixed fonts"));
-        }
+            // Check that we got the expected lines
+            Assert.AreEqual("This is mixed", lines[0]);
+            Assert.AreEqual("fonts", lines[1]);
 
-        [TestMethod]
-        public void WrapRichText_DifferentFonts_WrapsCorrectly2()
-        {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Calibri", FontSubFamily.Regular);
-            var shaper = new TextShaper(font);
-            var layout = new TextLayoutEngine(shaper);
-
-            var fragments = new List<TextFragment>
-            {
-                new TextFragment
-                {
-                    Text = "This is ",
-                    Font = new MeasurementFont { FontFamily = "Calibri", Size = 11 }
-                },
-                new TextFragment
-                {
-                    Text = "mixed ",
-                    Font = new MeasurementFont { FontFamily = "Arial", Size = 14, Style = MeasurementFontStyles.Bold }
-                },
-                new TextFragment
-                {
-                    Text = "fonts",
-                    Font = new MeasurementFont { FontFamily = "Calibri", Size = 11 }
-                }
-            };
-
-            // Act - narrow width to force wrapping
-            var lines = layout.WrapRichText(fragments, 80);
-
-            // Debug output
-            Debug.WriteLine($"Number of lines: {lines.Count}");
-            foreach (var line in lines)
-            {
-                Debug.WriteLine($"  Line: '{line}'");
-            }
-            string allText = string.Join("", lines);
-            Debug.WriteLine($"All text: '{allText}'");
-
-            // Assert
-            Assert.IsTrue(lines.Count >= 1, $"Expected at least 1 line, got {lines.Count}");
-
-            // Concatenate all lines should give original text
-            allText = string.Join("", lines).Replace(" ", " ");
-            Debug.WriteLine($"Cleaned text: '{allText}'");
-            Assert.IsTrue(allText.Contains("This is mixed fonts"),
-                $"Expected text to contain 'This is mixed fonts', but got: '{allText}'");
+            // When joining wrapped lines with spaces, we get back close to original
+            string rejoined = string.Join(" ", lines);
+            Assert.AreEqual("This is mixed fonts", rejoined);
         }
 
         [TestMethod]

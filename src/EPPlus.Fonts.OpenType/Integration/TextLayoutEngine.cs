@@ -1,4 +1,17 @@
-﻿using EPPlus.Fonts.OpenType.TextShaping;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  01/20/2025         EPPlus Software AB           TextLayoutEngine implementation
+  01/22/2025         EPPlus Software AB           Optimized with shaping cache
+ *************************************************************************************************/
+using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
@@ -103,6 +116,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         /// <summary>
         /// Wraps a single paragraph (no line breaks).
+        /// OPTIMIZED: Minimizes memory allocations while maintaining O(n) performance.
         /// </summary>
         private List<string> WrapParagraph(
             string text,
@@ -113,105 +127,74 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             var lines = new List<string>();
 
-            // Track current line being built
-            var currentLine = new System.Text.StringBuilder();
-            var currentWord = new System.Text.StringBuilder();
+            if (string.IsNullOrEmpty(text))
+            {
+                lines.Add(string.Empty);
+                return lines;
+            }
 
+            // Shape once and build character width cache
+            var charWidths = _shaper.ExtractCharWidths(text, fontSize, options);
+            double spaceWidth = MeasureText(" ", fontSize, options);
+
+            // Track word boundaries using indices
+            int lineStart = 0;
+            int wordStart = 0;
             double currentLineWidth = startingWidthPoints;
             double currentWordWidth = 0;
 
-            for (int i = 0; i < text.Length; i++)
+            for (int i = 0; i <= text.Length; i++)
             {
-                char c = text[i];
+                bool isSpace = (i < text.Length && text[i] == ' ');
+                bool isEnd = (i == text.Length);
 
-                if (c == ' ')
+                if ((isSpace || isEnd) && wordStart < i)
                 {
-                    // Try to add the word + space to current line
-                    string wordText = currentWord.ToString();
-                    double spaceWidth = MeasureText(" ", fontSize, options);
-                    double totalWidth = currentLineWidth + currentWordWidth + spaceWidth;
+                    double totalWidth = currentLineWidth + currentWordWidth;
+                    if (lineStart < wordStart)
+                    {
+                        totalWidth += spaceWidth;
+                    }
 
-                    if (totalWidth <= maxWidthPoints || currentLine.Length == 0)
+                    if (totalWidth <= maxWidthPoints || lineStart == wordStart)
                     {
                         // Word fits on current line
-                        if (currentLine.Length > 0)
-                        {
-                            currentLine.Append(' ');
-                            currentLineWidth += spaceWidth;
-                        }
-                        currentLine.Append(wordText);
-                        currentLineWidth += currentWordWidth;
-
-                        // Reset word (same as Clear(), works in NET35)
-                        currentWord.Length = 0;
-                        currentWordWidth = 0;
+                        currentLineWidth = totalWidth;
                     }
                     else
                     {
-                        // Word doesn't fit - wrap to new line
-                        lines.Add(currentLine.ToString());
-
-                        // Reset line and start with word (same as Clear(), works in NET35)
-                        currentLine.Length = 0;
-                        currentLine.Append(wordText);
+                        // Word doesn't fit - wrap
+                        lines.Add(text.Substring(lineStart, wordStart - lineStart).TrimEnd());
+                        lineStart = wordStart;
                         currentLineWidth = currentWordWidth;
-
-                        // Reset word (same as Clear(), works in NET35)
-                        currentWord.Length = 0;
-                        currentWordWidth = 0;
                     }
+
+                    wordStart = i + 1;
+                    currentWordWidth = 0;
+                }
+                else if (isSpace)
+                {
+                    wordStart = i + 1;
                 }
                 else
                 {
-                    // Add character to current word
-                    currentWord.Append(c);
+                    currentWordWidth += charWidths[i];
 
-                    // Measure word so far (with proper shaping)
-                    string wordSoFar = currentWord.ToString();
-                    currentWordWidth = MeasureText(wordSoFar, fontSize, options);
-
-                    // Check if word itself is too long for a line
-                    if (currentLineWidth + currentWordWidth > maxWidthPoints && currentLine.Length > 0)
+                    if (currentWordWidth > maxWidthPoints && lineStart < wordStart && currentLineWidth > 0)
                     {
-                        // Wrap current line and start new line with this word
-                        lines.Add(currentLine.ToString());
-                        // same as Clear(), works in NET35
-                        currentLine.Length = 0;
+                        lines.Add(text.Substring(lineStart, wordStart - lineStart).TrimEnd());
+                        lineStart = wordStart;
                         currentLineWidth = 0;
                     }
                 }
             }
 
-            // Add remaining word and line
-            if (currentWord.Length > 0)
+            // Add final line
+            if (lineStart < text.Length)
             {
-                string wordText = currentWord.ToString();
-
-                if (currentLine.Length > 0 && currentLineWidth + currentWordWidth > maxWidthPoints)
-                {
-                    // Word doesn't fit - wrap to new line
-                    lines.Add(currentLine.ToString());
-                    // same as Clear(), works in NET35
-                    currentLine.Length = 0;
-                    currentLine.Append(wordText);
-                }
-                else
-                {
-                    // Word fits
-                    if (currentLine.Length > 0)
-                    {
-                        currentLine.Append(' ');
-                    }
-                    currentLine.Append(wordText);
-                }
+                lines.Add(text.Substring(lineStart).TrimEnd());
             }
 
-            if (currentLine.Length > 0)
-            {
-                lines.Add(currentLine.ToString());
-            }
-
-            // Ensure at least one line
             if (lines.Count == 0)
             {
                 lines.Add(string.Empty);
@@ -219,6 +202,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             return lines;
         }
+
 
         /// <summary>
         /// Measures text width using the primary shaper.

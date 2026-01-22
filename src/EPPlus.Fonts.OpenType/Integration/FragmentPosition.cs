@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/20/2025         EPPlus Software AB           OpenTypeFontTextMeasurer implementation
+  01/20/2025         EPPlus Software AB           TextLayoutEngine implementation
  *************************************************************************************************/
 using OfficeOpenXml.Interfaces.Drawing.Text;
 

@@ -57,8 +57,10 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             if (string.IsNullOrEmpty(text))
             {
-                return TextMeasurement.Empty;
+                // Return 0x0 for empty string, not TextMeasurement.Empty (-1x-1)
+                return new TextMeasurement(0, 0);
             }
+
 
             // Check if text contains newlines
             bool hasNewlines = text.IndexOfAny(new[] { '\r', '\n' }) >= 0;

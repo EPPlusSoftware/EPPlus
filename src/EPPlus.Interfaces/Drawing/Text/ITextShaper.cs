@@ -31,6 +31,8 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         /// </summary>
         ShapedText[] ShapeLines(string text, ShapingOptions options = null);
 
+        double[] ExtractCharWidths(string text, float fontSize, ShapingOptions options);
+
         // === Font Metrics (in design units or converted to points) ===
 
         /// <summary>
