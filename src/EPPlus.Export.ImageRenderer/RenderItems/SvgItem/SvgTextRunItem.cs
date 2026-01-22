@@ -1,12 +1,13 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Graphics;
+using EPPlusImageRenderer.RenderItems;
+using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Style;
 using System;
 using System.Globalization;
 using System.Text;
-using OfficeOpenXml.Style;
-using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.Svg;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -16,6 +17,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
         }
 
+        public SvgTextRunItem(ExcelTheme theme, BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(theme, parent, text, font, displayText)
+        {
+                
+        }
         string GetFontStyleAttributes()
         {
             string fontStyleAttributes = "";
@@ -91,7 +96,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                 //Textrun may continue on same line or start a new line
                 //Refer to pre-calculated list
-                if (YIncreasePerLine[i] != 0)
+                if (YIncreasePerLine.Count > 0 && YIncreasePerLine[i] != 0)
                 {
                     var yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(YIncreasePerLine[i]);
 

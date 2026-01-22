@@ -109,16 +109,16 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
                 tbItem.ImportTextBody(cube.TextBody);
 
-                var txtRun1Bounds = tbItem.Paragraphs[0]._textRunItems[0].Bounds;
+                var txtRun1Bounds = tbItem.Paragraphs[0].Runs[0].Bounds;
 
                 Assert.AreEqual(43.835286458333336d, txtRun1Bounds.Width);
 
-                var widthLine2 = tbItem.Paragraphs[0]._textRunItems[0].PerLineWidth[1];
-                var topYLine2 = tbItem.Paragraphs[0]._textRunItems[0].YIncreasePerLine[1];
+                var widthLine2 = tbItem.Paragraphs[0].Runs[0].PerLineWidth[1];
+                var topYLine2 = tbItem.Paragraphs[0].Runs[0].YIncreasePerLine[1];
                 Assert.AreEqual(7.147135416666667d, widthLine2);
                 Assert.AreEqual(17.903645833333336d, topYLine2);
 
-                var txtRuns2 = tbItem.Paragraphs[1]._textRunItems;
+                var txtRuns2 = tbItem.Paragraphs[1].Runs;
 
                 Assert.AreEqual(53.20963541666667d, txtRuns2[0].Bounds.Width);
                 var currentLineWidth = txtRuns2[0].Bounds.Width;

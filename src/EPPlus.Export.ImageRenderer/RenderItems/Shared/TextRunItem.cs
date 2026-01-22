@@ -3,6 +3,7 @@ using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
@@ -53,6 +54,51 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal List<double> PerLineWidth { get; private set; } = new List<double>();
         internal double ClippingHeight = double.NaN;
 
+        internal TextRunItem(ExcelTheme theme, BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(parent, theme)
+        {
+            _originalText = text;
+
+            Bounds.Transform.Name = "TextRun";
+            _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
+
+            Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
+
+            _measurer = new FontMeasurerTrueType();            
+
+            _measurementFont = font.GetMeasureFont();
+            _measurer.SetFont(_measurementFont);
+
+            _isFirstInParagraph = true;
+
+            if (parent != null)
+            {
+                Bounds.Parent = parent;
+            }
+
+            _fontStyles = _measurementFont.Style;
+
+            FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
+
+            _horizontalTextAlignment = eTextAlignment.Center;
+
+            if (font.Fill.Style == eFillStyle.SolidFill)
+            {
+                FillColor = "#" + font.Fill.Color.To6CharHexString();
+            }
+
+            //To get clipping height we need to get the textbody bounds
+            if (parent != null && parent.Parent != null && parent.Parent.Parent != null)
+            {
+                ClippingHeight = parent.Parent.Parent.Bottom;
+            }
+
+            _isItalic = font.Italic;
+            _isBold = font.Bold;
+            _underLineType = font.UnderLine;
+            _underlineColor = font.UnderLineColor;
+            _strikeType = font.Strike;
+        }
+
         /// <summary>
         /// If the run has been wrapped more line-breaks may have been added in displayText
         /// </summary>
@@ -61,9 +107,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// <param name="displayText"></param>
         internal TextRunItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "") : base(parent, run.Paragraph._prd.Package.Workbook.ThemeManager.GetOrCreateTheme())
         {
-            Bounds.Transform.Name = "TextRun";
-
             _originalText = run.Text;
+
+            Bounds.Transform.Name = "TextRun";
             _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
 
             Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();

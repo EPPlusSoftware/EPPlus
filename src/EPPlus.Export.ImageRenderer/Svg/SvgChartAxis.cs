@@ -297,7 +297,7 @@ namespace EPPlusImageRenderer.Svg
                 bounds.Height = m.Height.PointToPixel(); 
                 var tb = new SvgTextBodyItem(bounds, Chart.WorkSheet._package.Workbook.ThemeManager.GetOrCreateTheme());
                 tb.ImportTextBody(Axis.TextBody);
-                tb.Paragraphs[0].AddText(v, (FontMeasurerTrueType)tm);
+                tb.Paragraphs[0].AddText(v, Axis.Font);
                 tb.SetDrawingPropertiesFill(Axis.Fill, axisStyle.FillReference.Color);
                 ret.Add(tb);
             }

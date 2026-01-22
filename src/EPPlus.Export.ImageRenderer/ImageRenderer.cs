@@ -42,14 +42,12 @@ namespace EPPlusImageRenderer
             if (drawing is ExcelShape shape)
             {
                 var svg = new SvgShape(shape);
-                //svg.Bounds = new DrawingSize(width, height);
                 svg.Render(sb);
                 return sb.ToString();
             }
             else if(drawing is ExcelChart chart)
             {
                 var svg = new SvgChart(chart);
-                //svg.Bounds = new DrawingSize(width, height);
                 svg.Render(sb);
                 return sb.ToString();
             }
@@ -149,112 +147,6 @@ namespace EPPlusImageRenderer
             }
         }
 
-        internal SvgElement GenerateSvgTextBody(SvgTextBodyItem body, int width, int height)
-        {
-            var fullString = body.GetContent();
-
-            var doc = new SvgEpplusDocument(width, height);
-
-            //Represents world bounds/svg node
-            var bg = new SvgElement("rect");
-            bg.AddAttribute("width", "100%");
-            bg.AddAttribute("height", "100%");
-            bg.AddAttribute("fill", "red");
-            bg.AddAttribute("opacity", "0.1");
-
-            body.AllowOverflow = false;
-
-            var svgDefs = GetDefinitions(body.Bounds, out string nameId, body.AllowOverflow);
-
-            var fontSizePx = 16d;
-
-            doc.AddChildElement(svgDefs);
-            doc.AddChildElement(bg);
-
-            var shapeRectBB = body.Bounds.Parent;
-
-            var shapeRoot = new SvgElement("g");
-            shapeRoot.AddAttribute("transform", $"translate({shapeRectBB.GlobalX},{shapeRectBB.GlobalY})");
-
-            doc.AddChildElement(shapeRoot);
-
-            var shapeTitle = new SvgElement("title");
-            shapeTitle.Content = "Shape Group";
-            shapeRoot.AddChildElement(shapeTitle);
-
-            var shapeVisual = new SvgElement("rect");
-            shapeVisual.AddAttribute("width", $"{shapeRectBB.Width}px");
-            shapeVisual.AddAttribute("height", $"{shapeRectBB.Height}px");
-            shapeVisual.AddAttribute("fill", "yellow");
-            shapeVisual.AddAttribute("opacity", "0.2");
-
-            shapeRoot.AddChildElement(shapeVisual);
-
-            var textBodyGroup = new SvgElement("g");
-            textBodyGroup.AddAttribute("transform", $"translate({body.Bounds.X},{body.Bounds.Y})");
-
-            shapeRoot.AddChildElement(textBodyGroup);
-
-            var txtBodyTitle = new SvgElement("title");
-            txtBodyTitle.Content = "txtBody";
-            textBodyGroup.AddChildElement(txtBodyTitle);
-
-
-            var txBodyVisual = new SvgElement("use");
-            txBodyVisual.AddAttribute("href", "#defaultRect");
-            txBodyVisual.AddAttribute("fill", "green");
-            txBodyVisual.AddAttribute("opacity", "0.5");
-
-            textBodyGroup.AddChildElement(txBodyVisual);
-
-            int paragraphCount = 1;
-
-            foreach(var paragraph in body.Paragraphs)
-            {
-                var paragraphGroup = new SvgElement("g");
-                paragraphGroup.AddAttribute("transform", $"translate({paragraph.Bounds.X},{paragraph.Bounds.Y})");
-
-                textBodyGroup.AddChildElement(paragraphGroup);
-
-                var paragraphTitle = new SvgElement("title");
-                paragraphTitle.Content = "Paragraph " + paragraphCount.ToString();
-                paragraphGroup.AddChildElement(paragraphTitle);
-
-                var paragraphElement = new SvgElement("text");
-                paragraphElement.AddAttribute("y", fontSizePx);
-                paragraphElement.AddAttribute("font-size", $"{fontSizePx}px");
-                paragraphElement.AddAttribute("clip-path", $"url(#{nameId})");
-
-                paragraphGroup.AddChildElement(paragraphElement);
-
-                foreach (var run in paragraph.Runs)
-                {
-                    var bbVisual = new SvgElement("rect");
-                    bbVisual.AddAttribute("x", run.X);
-                    bbVisual.AddAttribute("y", run.Y);
-                    bbVisual.AddAttribute("width", run.Width);
-                    bbVisual.AddAttribute("height", run.Height);
-                    bbVisual.AddAttribute("fill", "blue");
-                    bbVisual.AddAttribute("opacity", "0.5");
-
-                    paragraphGroup.AddChildElement(bbVisual);
-
-                    var runElement = new SvgElement("tspan");
-                    runElement.AddAttribute("x", run.X);
-                    runElement.AddAttribute("y", run.Y + fontSizePx);
-                    runElement.AddAttribute("font-size", $"{fontSizePx}px");
-
-                    runElement.Content = run.GetContent();
-                    paragraphElement.AddChildElement(runElement);
-                }
-
-                paragraphCount++;
-            }
-
-            doc.AddAttributes();
-
-            return doc;
-        }
 
         internal SvgElement GetDefinitions(BoundingBox boundingBox, out string nameId, bool AllowOverflow = false)
         {

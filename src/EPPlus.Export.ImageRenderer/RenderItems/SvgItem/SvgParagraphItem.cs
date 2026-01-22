@@ -4,6 +4,7 @@ using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Style;
 using System.Globalization;
 using System.Text;
 
@@ -93,13 +94,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             //Render text run debug boxes as we cannot place the rects after or inside the text element
 
-            //if (_textRunItems.Count > 0)
+            //if (Runs.Count > 0)
             //{
             //    //double lastWidth = 0;
 
             //    var bbLines = new SvgRenderRectItem();
 
-            //    foreach (var textRun in _textRunItems)
+            //    foreach (var textRun in Runs)
             //    {
             //        ////render txtRun debug
             //        bbLines.X = textRun.Bounds.Left;
@@ -139,9 +140,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 $"font-family=\"{_paragraphFont.FontFamily},{_paragraphFont.FontFamily}_MSFontService,sans-serif\" " +
                 $"font-size=\"{fontSize}px\" >");
 
-            if (_textRunItems != null && _textRunItems.Count > 0)
+            if (Runs != null && Runs.Count > 0)
             {
-                foreach (var textRun in _textRunItems)
+                foreach (var textRun in Runs)
                 {
                     textRun.Render(sb);
                 }
@@ -153,6 +154,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal override TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText)
         {
             return new SvgTextRunItem(run, parent, displayText);
+        }
+        internal override TextRunItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText)
+        {
+            return new SvgTextRunItem(_theme, parent, text, font, displayText);
         }
     }
 }
