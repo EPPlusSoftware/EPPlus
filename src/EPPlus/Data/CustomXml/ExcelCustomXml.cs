@@ -107,24 +107,25 @@ namespace OfficeOpenXml.Data.CustomXml
                 var nsm = CreateNsm();
                 _xmlHelper = XmlHelperFactory.Create(nsm, PropertiesXml.DocumentElement.SelectSingleNode("ds:schemaRefs", nsm));
             }
-            _xmlHelper.TopNode.InnerXml = "";
-            foreach (var schemaRef in SchemasReferences)
+            if (_xmlHelper != null)
             {
-                XmlElement schemaRefNode = (XmlElement)_xmlHelper.CreateNode("ds:schemaRef");
-                schemaRefNode.SetAttribute("uri", CreateNsm().LookupNamespace("ds"), schemaRef);
-                _xmlHelper.TopNode.AppendChild(schemaRefNode);
+                _xmlHelper.TopNode.InnerXml = "";
+                foreach (var schemaRef in SchemasReferences)
+                {
+                    XmlElement schemaRefNode = (XmlElement)_xmlHelper.CreateNode("ds:schemaRef");
+                    schemaRefNode.SetAttribute("uri", CreateNsm().LookupNamespace("ds"), schemaRef);
+                    _xmlHelper.TopNode.AppendChild(schemaRefNode);
+                }
             }
-
-            var xmlSettings = new XmlWriterSettings() ;
+            var xmlSettings = new XmlWriterSettings();
 
             var stream = Part.GetStream(FileMode.Create, FileAccess.Write);
             var xmlWriter = XmlWriter.Create(stream, xmlSettings);
             CustomXml.Save(xmlWriter);
 
             stream = PropertiesPart.GetStream(FileMode.Create, FileAccess.Write);
-            xmlWriter = XmlWriter.Create(stream, xmlSettings); 
+            xmlWriter = XmlWriter.Create(stream, xmlSettings);
             PropertiesXml.Save(xmlWriter);
-
         }
     }
 }
