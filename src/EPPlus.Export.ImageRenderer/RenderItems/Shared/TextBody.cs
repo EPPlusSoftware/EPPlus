@@ -110,11 +110,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
-        public string GetContent()
-        {
-            return Paragraphs[0].GetContent();
-            //string.Join(Paragraphs[}])
-        }
 
         //public void AddText(string text, FontMeasurerTrueType measurer)
         //{
@@ -129,22 +124,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         //}
         internal void AddText(string text, ExcelTextFont font)
         {
-            var measureFont = font.GetMeasureFont();
-
             //Document Top position for the paragraph text based on vertical alignment
             var posY = GetAlignmentVertical();
             //var vertAlignAttribute = GetVerticalAlignAttribute(posY);
 
             //var measurer = font.PictureRelationDocument.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
-            var measurer = new FontMeasurerTrueType();
-            var m = measurer.MeasureText(text, measureFont);
             //Limit bounding area with the space taken by previous paragraphs
             //Note that this is ONLY identical to PosY if the vertical alignment is top
 
             //The first run in the first paragraph must apply different line-spacing
             //var svgParagraph = new SvgParagraph(text, font, area, vertAlignAttribute, posY);
             var paragraph = CreateParagraph(Bounds);
-            
+            paragraph.AddText(text, font);
             paragraph.FillColor = font.Fill.Color.To6CharHexString();
 
             Paragraphs.Add(paragraph);

@@ -32,9 +32,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         List<string> _paragraphLines = new List<string>();
         protected List<string> _textRunDisplayText = new List<string>();
 
-        internal List<FontWrapContainer> Runs = new List<FontWrapContainer>();
         TextFragmentCollection _textFragments;
-        internal List<TextRunItem> _textRunItems;
+        internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
         internal protected MeasurementFont _paragraphFont;
         //internal BoundingBox Bounds = new BoundingBox();
@@ -134,7 +133,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
             targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
 
-            if (_textRunItems.Count == 0 && IsFirstParagraph == true)
+            if (Runs.Count == 0 && IsFirstParagraph == true)
             {
                 targetTxtRun.BaseLineSpacing = _lineSpacingAscendantOnly;
             }
@@ -156,31 +155,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             targetTxtRun.SetTheme(_theme);
 
-            _textRunItems.Add(targetTxtRun);
+            Runs.Add(targetTxtRun);
         }
 
-        public void AddText(string text, FontMeasurerTrueType measurer)
+        public void AddText(string text, ExcelTextFont font)
         {
-            var container = new FontWrapContainer(measurer);
-            container.Parent = Bounds;
+            var measurer = new FontMeasurerTrueType();
+            var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), Bounds.Width);
+            var container = CreateTextRun(text, font, Bounds, string.Concat(displayText, new string[] { "\r\n"}));
 
             Runs.Add(container);
 
-            container.Transform.Name = $"Container{Runs.Count}";
-
-            container.SetContent(text);
-        }
-
-        public string GetContent()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (var item in Runs)
-            {
-                sb.Append(item.GetContent());
-            }
-
-            return sb.ToString();
+            container.Bounds.Transform.Name = $"Container{Runs.Count}";
         }
 
         /// <summary>
@@ -228,10 +214,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //Calculate line breaks and/or wrapping to know how the text should be displayed
             CalculateDisplayText(p, _textFragments);
 
-            //var largestSizes = _textFragments.GetLargestFontSizesOfEachLine();
-
-            _textRunItems = new List<TextRunItem>();
-
             string currentLine = _paragraphLines[0];
             double widthOfCurrentLine = 0;
             double largestFontSizeCurrentLine = 0;
@@ -246,25 +228,25 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 }
 
                 AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
-                var lastAdded = _textRunItems.Last();
+                var lastAdded = Runs.Last();
 
                 //We are on a new line
                 if (lastAdded.YIncreasePerLine.Count > 1)
                 {
-                    _textRunItems[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
-                    Bounds.Height += _textRunItems[idxLargestFontSize].Bounds.Height;
-                    widthOfCurrentLine = _textRunItems.Last().PerLineWidth.Last();
+                    Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
+                    Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
+                    widthOfCurrentLine = Runs.Last().PerLineWidth.Last();
 
                     idxLargestFontSize = i;
                     largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
                 }
                 else
                 {
-                    widthOfCurrentLine += _textRunItems.Last().PerLineWidth.Last();
+                    widthOfCurrentLine += Runs.Last().PerLineWidth.Last();
                     if(i == p.TextRuns.Count -1)
                     {
-                        _textRunItems[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
-                        Bounds.Height += _textRunItems[idxLargestFontSize].Bounds.Height;
+                        Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
+                        Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
                     }
                 }
             }
@@ -329,5 +311,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// <param name="DisplayString"></param>
         /// <returns></returns>
         internal abstract TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText);
+        internal abstract TextRunItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText);
     }
 }
