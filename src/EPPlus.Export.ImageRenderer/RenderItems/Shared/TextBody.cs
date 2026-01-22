@@ -98,18 +98,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //We already apply bounds top via the parent Transform
             double paragraphStartY = GetAlignmentVertical();
 
-            ////TODO; Fix this. This is a strange workaround
-            //SetTheme(body._pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme());
-
             foreach (var paragraph in body.Paragraphs)
             {
                 ImportParagraph(paragraph, paragraphStartY);
                 var addedPara = Paragraphs.Last();
-                paragraphStartY = addedPara.Bounds.Bottom + addedPara.ParagraphLineSpacing;
+                paragraphStartY = addedPara.Bounds.Bottom;
             }
             if (Paragraphs != null && Paragraphs.Count() > 0)
             {
-                Bounds.Height = paragraphStartY - Paragraphs.Last().ParagraphLineSpacing;
+                Bounds.Height = paragraphStartY;
             }
         }
 
@@ -137,8 +134,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //Document Top position for the paragraph text based on vertical alignment
             var posY = GetAlignmentVertical();
             //var vertAlignAttribute = GetVerticalAlignAttribute(posY);
-
-
 
             //var measurer = font.PictureRelationDocument.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
             var measurer = new FontMeasurerTrueType();

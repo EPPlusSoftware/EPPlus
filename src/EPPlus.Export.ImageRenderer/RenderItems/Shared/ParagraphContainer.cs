@@ -48,9 +48,31 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public ParagraphContainer(ExcelDrawingParagraph p, BoundingBox parent) : base(parent, p._prd.Package.Workbook.ThemeManager.GetOrCreateTheme())
         {
-            SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+            IsFirstParagraph = p == p._paragraphs[0];
 
-            //---Initialize Bounds/Margins---
+
+            if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
+            {
+                if(IsFirstParagraph)
+                {
+                    SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+                }
+                else
+                {
+                    //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
+                    if(p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
+                    {
+                        SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+                    }
+                    else
+                    {
+                        //Use shape fill somehow
+                        //Maybe use a name property for fallback theme accent1 color?
+                    }
+                }
+            }
+
+            //---Initialize Bounds / Margins-- -
             Bounds.Transform.Name = "Paragraph";
 
             var indent = 48 * p.IndentLevel;
@@ -66,7 +88,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _measurer = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
 
             //---Calculate linespacing---
-            IsFirstParagraph = p == p._paragraphs[0];
             int numLines = _paragraphLines.Count;
             _lsType = p.LineSpacing.LineSpacingType;
             ParagraphLineSpacing = GetParagraphLineSpacingInPixels(p.LineSpacing.Value, _measurer);
@@ -134,7 +155,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
 
             targetTxtRun.SetTheme(_theme);
-            targetTxtRun.SetDrawingPropertiesFill(origTxtRun.Fill, null);
 
             _textRunItems.Add(targetTxtRun);
         }
@@ -213,59 +233,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _textRunItems = new List<TextRunItem>();
 
             string currentLine = _paragraphLines[0];
-            int currentLineIdx = 0;
-            double currentPosition = 0;
             double widthOfCurrentLine = 0;
             double largestFontSizeCurrentLine = 0;
             int idxLargestFontSize = 0;
 
-            ////WE CAN NOW OPERATE PER LINE COUNTING CHARS AS THEY HAVE THE SAME BASIS.
-            ////THEREFORE WE CAN MOVE PER FRAGMENT OR CHAR AND KNOW WHEN WE ARE IN A NEW LINE MORE EASILY
-            ////WE HAVE IT MAPPED I JUST NEED TO ITERATE CORRECTLY
-
-            ////---Add Actual textruns---
-            //for (int i = 0; i < p.TextRuns.Count; i++)
-            //{
-            //    if (p.TextRuns[i].FontSize > largestFontSizeCurrentLine)   
-            //    {
-            //        largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
-            //        idxLargestFontSize = i;
-            //    }
-
-            //    if(_textRunDisplayText[i].Length + currentPosition > currentLine.Length)
-            //    {
-            //        AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
-
-            //        var lastAdded = _textRunItems.Last();
-            //        var posLineIsBrokenAt = currentLine.Length - currentPosition;
-            //        currentPosition = posLineIsBrokenAt;
-
-            //        //Since the linebreaks are not included in display text anymore this is innaccurate.
-            //        widthOfCurrentLine = _textRunItems.Last().PerLineWidth.Last();
-
-            //        Bounds.Height += _textRunItems[idxLargestFontSize].Bounds.Bottom;
-
-            //        //if (_textRunItems.Count == 0 && IsFirstParagraph == true || lastAdded.YIncreasePerLine.Count() > 1)
-            //        //{
-            //        //    Bounds.Height += txtRunBottom;
-            //        //}
-
-            //        //currently the only font of the new line
-            //        largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
-            //        idxLargestFontSize = i;
-
-            //        currentLineIdx += lastAdded.Lines.Count-1;
-            //        currentLine = _paragraphLines[currentLineIdx];
-            //    }
-            //    else
-            //    {
-            //        AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
-            //        var lastAdded = _textRunItems.Last();
-            //        widthOfCurrentLine += _textRunItems.Last().PerLineWidth.Last();
-
-            //        currentPosition += _textRunDisplayText[i].Length;
-            //    }
-            //}
             for (int i = 0; i < p.TextRuns.Count; i++)
             {
                 if (p.TextRuns[i].FontSize > largestFontSizeCurrentLine)

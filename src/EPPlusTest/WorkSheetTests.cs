@@ -2748,5 +2748,35 @@ namespace EPPlusTest
 
             return wks.Cells[$"{originalTemplateRow}:{originalTemplateRow + insertCount}"];
         }
+
+        [TestMethod]
+        public void testHeaders()
+        {
+            using(ExcelPackage p = OpenPackage("somePackage.xlsx",true))
+            {
+                var Styles = p.Workbook.Styles;
+
+                p.Workbook.Worksheets.Add("mt");
+
+                Stream fs = File.Create(("C:\\epplusTest\\Testoutput\\" + "somePackage.xlsx").Replace("file://", ""));
+                p.SaveAs(fs);
+                fs.Close();
+                //Styles.Add("MMDDYYYY", new XLSStyle() { NumberFormat = "m/d/yyyy" });
+                //Styles.Add("YYYYMMDD HHMMSS", new XLSStyle() { NumberFormat = "yyyy-mm-dd hh:mm:ss" });
+                //Styles.Add("YYYYMMDD HHMM", new XLSStyle() { NumberFormat = "yyyy-mm-dd hh:mm" });
+                //Styles.Add("Currency", new XLSStyle() { NumberFormat = "$#,##0.00;-$#,##0.00;;@" });
+                //Styles.Add("Currency2", new XLSStyle() { NumberFormat = "$#,##0.00;-$#,##0.00;$#,##0.00;@" });
+                //Styles.Add("BlankIfZero", new XLSStyle() { NumberFormat = "#.00;-#.00;;@" });
+                //Styles.Add("BlankIfZeroInt", new XLSStyle() { NumberFormat = "#;-#;;@" });
+                //Styles.Add("BlankIfZeroPercent", new XLSStyle() { NumberFormat = "#.00%;-#.00%;;@" });
+                //Styles.Add("Header", new XLSStyle() { Font = new XLSFont() { Size = 14, Bold = true } });
+                //Styles.Add("Bold", new XLSStyle() { Font = new XLSFont() { Bold = true } });
+                //Styles.Add("HeaderRowLabel", new XLSStyle() { Font = new XLSFont() { Bold = true }, Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Right } });
+                //Styles.Add("RowLabel", new XLSStyle() { Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Right }, Font = new XLSFont() { Bold = true } });
+                //Styles.Add("RowLabelCentered", new XLSStyle() { Font = new XLSFont() { Bold = true }, Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Center } });
+                //Styles.Add("HeaderCentered", new XLSStyle() { Font = new XLSFont() { Bold = true }, Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Center } });
+                //Styles.Add("Underlined", new XLSStyle() { Font = new XLSFont() { Underline = true } });
+            }
+        }
     }
 }
