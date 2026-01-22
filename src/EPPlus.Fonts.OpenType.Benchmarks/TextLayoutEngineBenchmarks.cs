@@ -87,33 +87,39 @@ namespace EPPlus.Fonts.Benchmarks
         }
 
         [Benchmark]
-        public List<string> New_Wrap_100Paragraphs_Sequential()
+        public List<string> Old_Wrap_100Paragraphs_Sequential()
         {
             List<string> wrapped = new List<string>();
             foreach (string text in _texts100)
             {
-                wrapped = _layoutEngine.WrapText(text, FontSize, MaxPointWidth, 0, null, forceGCBetweenParagraphs: true);
+                wrapped = _oldMeasurer.MeasureAndWrapText(text, MaxPixelWidth);
             }
             return wrapped;
         }
 
         [Benchmark]
-        public List<string> New_Wrap_ShortText()
+        public List<string> Old_Wrap_100Paragraphs_MultipleFragments()
+        {
+            return _oldMeasurer.WrapMultipleTextFragments(_texts100, _fonts100, MaxPixelWidth);
+        }
+
+        [Benchmark]
+        public List<string> Old_Wrap_ShortText()
         {
             var shortText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-            return _layoutEngine.WrapText(shortText, FontSize, MaxPointWidth, 0, null, forceGCBetweenParagraphs: true);
+            return _oldMeasurer.MeasureAndWrapText(shortText, MaxPixelWidth);
         }
 
         [Benchmark]
-        public List<string> New_Wrap_WideColumn()
+        public List<string> Old_Wrap_WideColumn()
         {
-            return _layoutEngine.WrapText(LoremIpsum20Para, FontSize, 150d, 0, null, forceGCBetweenParagraphs: true);
+            return _oldMeasurer.MeasureAndWrapText(LoremIpsum20Para, 200d);
         }
 
         [Benchmark]
-        public List<string> New_Wrap_NarrowColumn()
+        public List<string> Old_Wrap_NarrowColumn()
         {
-            return _layoutEngine.WrapText(LoremIpsum20Para, FontSize, 22.5d, 0, null, forceGCBetweenParagraphs: true);
+            return _oldMeasurer.MeasureAndWrapText(LoremIpsum20Para, 30d);
         }
 
         #endregion
@@ -124,6 +130,58 @@ namespace EPPlus.Fonts.Benchmarks
         public List<string> New_Wrap_SingleParagraph()
         {
             return _layoutEngine.WrapText(LoremIpsum20Para, FontSize, MaxPointWidth);
+        }
+
+        [Benchmark]
+        public List<string> New_Wrap_100Paragraphs_Sequential()
+        {
+            List<string> wrapped = new List<string>();
+            foreach (string text in _texts100)
+            {
+                wrapped = _layoutEngine.WrapText(text, FontSize, MaxPointWidth);
+            }
+            return wrapped;
+        }
+
+        [Benchmark]
+        public double[] OnlyExtractWidths()
+        {
+            var font = OpenTypeFonts.GetFontData(null, FontFamily, FontSubFamily.Regular, true);
+            var shaper = new TextShaper(font);
+            return shaper.ExtractCharWidths(LoremIpsum20Para, FontSize, ShapingOptions.Default);
+        }
+
+        [Benchmark]
+        public List<string> New_Wrap_100Paragraphs_RichText()
+        {
+            // Note: This wraps each text individually, not as one concatenated text
+            // (matching old behavior more closely than wrapping all as single rich text)
+            List<string> allLines = new List<string>();
+            foreach (var fragment in _fragments100)
+            {
+                var lines = _layoutEngine.WrapRichText(new List<TextFragment> { fragment }, MaxPointWidth);
+                allLines.AddRange(lines);
+            }
+            return allLines;
+        }
+
+        [Benchmark]
+        public List<string> New_Wrap_ShortText()
+        {
+            var shortText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+            return _layoutEngine.WrapText(shortText, FontSize, MaxPointWidth);
+        }
+
+        [Benchmark]
+        public List<string> New_Wrap_WideColumn()
+        {
+            return _layoutEngine.WrapText(LoremIpsum20Para, FontSize, 150d); // ~200 pixels in points
+        }
+
+        [Benchmark]
+        public List<string> New_Wrap_NarrowColumn()
+        {
+            return _layoutEngine.WrapText(LoremIpsum20Para, FontSize, 22.5d); // ~30 pixels in points
         }
 
         #endregion
