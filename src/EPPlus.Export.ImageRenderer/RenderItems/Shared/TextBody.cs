@@ -95,6 +95,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             RightMargin = r.PointToPixel();
             BottomMargin = b.PointToPixel();
 
+            VerticalAlignment = body.Anchor;
             //We already apply bounds top via the parent Transform
             double paragraphStartY = GetAlignmentVertical();
 
@@ -109,7 +110,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 Bounds.Height = paragraphStartY;
             }
         }
-
 
         //public void AddText(string text, FontMeasurerTrueType measurer)
         //{
@@ -187,7 +187,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     alignmentY = 0;
                     break;
                 case eTextAnchoringType.Center:
-                    var adjustedHeight = (Bounds.Height / 2);
+                    var adjustedHeight = ((Bounds.Height - Bounds.Parent.Top) / 2);
 
                     alignmentY = adjustedHeight;
                     break;

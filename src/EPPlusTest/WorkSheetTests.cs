@@ -2750,13 +2750,53 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void testRepro()
+        {
+            SwitchToCulture("");
+            using (ExcelPackage p = OpenTemplatePackage("reproTimesheets - Copy.xlsx"))
+            {
+                var Styles = p.Workbook.Styles;
+
+                p.Workbook.Worksheets[0].Cells["A10"].Style.Font.Bold = true;
+                p.Workbook.Worksheets[0].Cells["A10"].Value = "Debugging";
+
+                p.Workbook.Worksheets.Add("SomeSheet");
+                p.Workbook.Worksheets[1].Cells["A10"].Value = "Debugging2";
+                //p.Workbook.Worksheets.Add("mt");
+                //p.Workbook.Worksheets.Add("mt2");
+
+                Stream fs = File.Create(("C:\\epplusTest\\Testoutput\\" + "reproTimesheets.xlsx").Replace("file://", ""));
+                p.SaveAs(fs);
+                fs.Close();
+                //Styles.Add("MMDDYYYY", new XLSStyle() { NumberFormat = "m/d/yyyy" });
+                //Styles.Add("YYYYMMDD HHMMSS", new XLSStyle() { NumberFormat = "yyyy-mm-dd hh:mm:ss" });
+                //Styles.Add("YYYYMMDD HHMM", new XLSStyle() { NumberFormat = "yyyy-mm-dd hh:mm" });
+                //Styles.Add("Currency", new XLSStyle() { NumberFormat = "$#,##0.00;-$#,##0.00;;@" });
+                //Styles.Add("Currency2", new XLSStyle() { NumberFormat = "$#,##0.00;-$#,##0.00;$#,##0.00;@" });
+                //Styles.Add("BlankIfZero", new XLSStyle() { NumberFormat = "#.00;-#.00;;@" });
+                //Styles.Add("BlankIfZeroInt", new XLSStyle() { NumberFormat = "#;-#;;@" });
+                //Styles.Add("BlankIfZeroPercent", new XLSStyle() { NumberFormat = "#.00%;-#.00%;;@" });
+                //Styles.Add("Header", new XLSStyle() { Font = new XLSFont() { Size = 14, Bold = true } });
+                //Styles.Add("Bold", new XLSStyle() { Font = new XLSFont() { Bold = true } });
+                //Styles.Add("HeaderRowLabel", new XLSStyle() { Font = new XLSFont() { Bold = true }, Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Right } });
+                //Styles.Add("RowLabel", new XLSStyle() { Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Right }, Font = new XLSFont() { Bold = true } });
+                //Styles.Add("RowLabelCentered", new XLSStyle() { Font = new XLSFont() { Bold = true }, Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Center } });
+                //Styles.Add("HeaderCentered", new XLSStyle() { Font = new XLSFont() { Bold = true }, Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Center } });
+                //Styles.Add("Underlined", new XLSStyle() { Font = new XLSFont() { Underline = true } });
+            }
+            SwitchBackToCurrentCulture();
+        }
+
+        [TestMethod]
         public void testHeaders()
         {
-            using(ExcelPackage p = OpenPackage("somePackage.xlsx",true))
+            SwitchToCulture("sv-SE");
+            using (ExcelPackage p = OpenPackage("somePackage.xlsx",true))
             {
                 var Styles = p.Workbook.Styles;
 
                 p.Workbook.Worksheets.Add("mt");
+                p.Workbook.Worksheets.Add("mt2");
 
                 Stream fs = File.Create(("C:\\epplusTest\\Testoutput\\" + "somePackage.xlsx").Replace("file://", ""));
                 p.SaveAs(fs);
@@ -2777,6 +2817,102 @@ namespace EPPlusTest
                 //Styles.Add("HeaderCentered", new XLSStyle() { Font = new XLSFont() { Bold = true }, Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Center } });
                 //Styles.Add("Underlined", new XLSStyle() { Font = new XLSFont() { Underline = true } });
             }
+            SwitchBackToCurrentCulture();
         }
+
+        [TestMethod]
+        public void TestEmptyIgnorables()
+        {
+            SwitchToCulture("sv-SE");
+            ExcelPackage.License.SetNonCommercialPersonal("Jan");
+
+            using (ExcelPackage p = OpenTemplatePackage("emptyIgnorableNamespaces.xlsx"))
+            {
+                var Styles = p.Workbook.Styles;
+
+                List<string> mcIgnorables = new();
+
+                mcIgnorables.Add("xr ");
+                mcIgnorables.Add(string.Empty);
+                mcIgnorables.Add("xr2 ");
+                mcIgnorables.Add(null);
+                mcIgnorables.Add("xr5 ");
+
+                var result = string.Concat(mcIgnorables);
+
+
+                //var result = string.Concat(mcIgnorables, new string[] {"\r\n"});
+
+                //p.Workbook.Worksheets.Add("mt");
+
+                Stream fs = File.Create(("C:\\epplusTest\\Testoutput\\" + "emptyIgnorableNamespaces.xlsx").Replace("file://", ""));
+                p.SaveAs(fs);
+                fs.Close();
+                //Styles.Add("MMDDYYYY", new XLSStyle() { NumberFormat = "m/d/yyyy" });
+                //Styles.Add("YYYYMMDD HHMMSS", new XLSStyle() { NumberFormat = "yyyy-mm-dd hh:mm:ss" });
+                //Styles.Add("YYYYMMDD HHMM", new XLSStyle() { NumberFormat = "yyyy-mm-dd hh:mm" });
+                //Styles.Add("Currency", new XLSStyle() { NumberFormat = "$#,##0.00;-$#,##0.00;;@" });
+                //Styles.Add("Currency2", new XLSStyle() { NumberFormat = "$#,##0.00;-$#,##0.00;$#,##0.00;@" });
+                //Styles.Add("BlankIfZero", new XLSStyle() { NumberFormat = "#.00;-#.00;;@" });
+                //Styles.Add("BlankIfZeroInt", new XLSStyle() { NumberFormat = "#;-#;;@" });
+                //Styles.Add("BlankIfZeroPercent", new XLSStyle() { NumberFormat = "#.00%;-#.00%;;@" });
+                //Styles.Add("Header", new XLSStyle() { Font = new XLSFont() { Size = 14, Bold = true } });
+                //Styles.Add("Bold", new XLSStyle() { Font = new XLSFont() { Bold = true } });
+                //Styles.Add("HeaderRowLabel", new XLSStyle() { Font = new XLSFont() { Bold = true }, Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Right } });
+                //Styles.Add("RowLabel", new XLSStyle() { Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Right }, Font = new XLSFont() { Bold = true } });
+                //Styles.Add("RowLabelCentered", new XLSStyle() { Font = new XLSFont() { Bold = true }, Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Center } });
+                //Styles.Add("HeaderCentered", new XLSStyle() { Font = new XLSFont() { Bold = true }, Alignment = new XLSCellAlignment() { Horizontal = ExcelHorizontalAlignment.Center } });
+                //Styles.Add("Underlined", new XLSStyle() { Font = new XLSFont() { Underline = true } });
+            }
+
+            SwitchBackToCurrentCulture();
+        }
+
+        [TestMethod]
+        public void strangeness()
+        {
+            var aCollection = new HashSet<string> { "a", "b" };
+            var bCollection = new HashSet<string> { "a", "b", "c" };
+            var result = aCollection.Select(item =>
+            {
+                if (bCollection.Contains(item))
+                {
+                    bCollection.Remove(item);
+                }
+
+                return item;
+            }).Concat(bCollection);
+
+            var res = result.ToString();
+        }
+
+        [TestMethod]
+        public void readWrite()
+        {
+            using (ExcelPackage p = OpenTemplatePackage("test998.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["A1"].Value = "SomeValue";
+
+                Stream fs = File.Create(("C:\\epplusTest\\Testoutput\\" + "test998.xlsx").Replace("file://", ""));
+                p.SaveAs(fs);
+                fs.Close();
+            }
+        }
+        //[TestMethod]
+        //public void strangenessAllMyOwn()
+        //{
+        //    const string schemaMarkupCompatibility = @"http://schemas.openxmlformats.org/markup-compatibility/2006";
+
+        //    if (string.IsNullOrEmpty(existingIgnorables) == false)
+        //    {
+        //        var namespaces = existingIgnorables.Split(' ');
+        //        //var ignorablesConcatenated = string.Concat(namespaces);
+        //        if (namespaces.Any(x => x == "xr") == false)
+        //        {
+        //            WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, existingIgnorables + " xr");
+        //        }
+        //    }
+        //}
     }
 }

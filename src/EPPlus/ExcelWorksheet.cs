@@ -2876,6 +2876,8 @@ namespace OfficeOpenXml
             }
             else
             {
+                var someString = string.Concat(mcIgnorables, new string[]{"\r\n"});
+
                 var ignorablesConcatenated = string.Concat(mcIgnorables);
 
                 WorksheetXml.DocumentElement.SetAttributeNode("Ignorable", ExcelPackage.schemaMarkupCompatibility);
