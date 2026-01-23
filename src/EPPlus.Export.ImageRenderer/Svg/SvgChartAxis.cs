@@ -34,7 +34,7 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class SvgChartAxis : SvgChartObject, IDrawingChartAxis
     {
-        internal SvgChartAxis(SvgChart sc, ExcelChartAxisStandard ax) : base(sc.Chart)
+        internal SvgChartAxis(SvgChart sc, ExcelChartAxisStandard ax) : base(sc)
         {
             SvgChart= sc;
             Axis = ax;
@@ -71,7 +71,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        Rectangle = new SvgRenderRectItem(sc.Chart);
+                        Rectangle = new SvgRenderRectItem(sc, sc.Bounds);
                         if (ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right)
                         {
                             if (ax.AxisPosition == eAxisPosition.Left)
@@ -104,7 +104,7 @@ namespace EPPlusImageRenderer.Svg
 
                     Rectangle.FillColor = "none";
 
-                    Line = new SvgRenderLineItem(sc.Chart, sc.Drawing._drawings._package.Workbook.ThemeManager.GetOrCreateTheme());
+                    Line = new SvgRenderLineItem(sc, Rectangle.Bounds);
                     Line.SetDrawingPropertiesBorder(ax.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, 0.75);
                 }
             }
@@ -295,7 +295,7 @@ namespace EPPlusImageRenderer.Svg
                 bounds.Top = y;
                 bounds.Width = m.Width.PointToPixel();
                 bounds.Height = m.Height.PointToPixel(); 
-                var tb = new SvgTextBodyItem(bounds, Chart.WorkSheet._package.Workbook.ThemeManager.GetOrCreateTheme());
+                var tb = new SvgTextBodyItem(SvgChart, bounds);
                 tb.ImportTextBody(Axis.TextBody);
                 tb.Paragraphs[0].AddText(v, Axis.Font);
                 tb.SetDrawingPropertiesFill(Axis.Fill, axisStyle.FillReference.Color);
@@ -415,7 +415,7 @@ namespace EPPlusImageRenderer.Svg
                         default:
                             throw new InvalidOperationException("Invalid axis position");
                     }
-                    var tm = new SvgRenderLineItem(Chart, Chart._drawings._package.Workbook.ThemeManager.GetOrCreateTheme());
+                    var tm = new SvgRenderLineItem(SvgChart, SvgChart.Bounds);
                     tm.X1 = x1;
                     tm.Y1 = y1;
                     tm.X2 = x2;
@@ -468,7 +468,7 @@ namespace EPPlusImageRenderer.Svg
                             throw new InvalidOperationException("Invalid axis position");
                     }
 
-                    var tm = new SvgRenderLineItem(Chart, Chart._drawings._package.Workbook.ThemeManager.GetOrCreateTheme());
+                    var tm = new SvgRenderLineItem(SvgChart, SvgChart.Bounds);
                     tm.X1 = x1;
                     tm.Y1 = y1;
                     tm.X2 = x2;

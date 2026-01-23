@@ -26,25 +26,19 @@ namespace EPPlusImageRenderer
 {
     internal abstract class DrawingBase
     {
-        //protected ExcelWorkbook _wb;
-        protected ExcelDrawing _drawing;
-        protected ExcelTheme _theme;
-
         internal DrawingBase(ExcelDrawing drawing)
         {
-            //drawing.GetSizeInPixels(out int width, out int height);
             Drawing = drawing;
-            //Bounds = new DrawingSize(width, height);
             Bounds = drawing.GetBoundingBox();
-            //TextMeasurer = drawing._drawings._package.Settings.TextSettings.PrimaryTextMeasurer;
 
             var wb = drawing._drawings.Worksheet.Workbook;
-            _theme = wb.ThemeManager.GetOrCreateTheme();
+            Theme = wb.ThemeManager.GetOrCreateTheme();
         }
         public ExcelDrawing Drawing { get; }
-        //internal ITextMeasurer TextMeasurer { get; }
+        public ExcelTheme Theme { get;}
+        public ExcelWorkbook Workbook => Drawing._drawings.Worksheet.Workbook;
+        internal ITextMeasurer TextMeasurer { get; }
         public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
-        //public DrawingSize Bounds { get; internal set; }
         internal BoundingBox Bounds = new BoundingBox();
     }
 }

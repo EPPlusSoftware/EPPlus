@@ -25,14 +25,11 @@ namespace EPPlusImageRenderer.RenderItems
 {
     internal abstract class RenderItem : RenderItemBase
     {
-        protected ExcelDrawing _drawing;
-        protected ExcelTheme _theme;
-        internal RenderItem(BoundingBox parent, ExcelTheme theme)
+        internal protected DrawingBase DrawingRenderer { get; }
+        internal RenderItem(DrawingBase renderer, BoundingBox parent)
         {
             Bounds.Parent = parent;
-            _theme = theme;
-            //_drawing = drawing; 
-            //_theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
+            DrawingRenderer = renderer; 
         }
         //internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
         internal virtual void GetBounds(out double il, out double it, out double ir, out double ib)
@@ -110,7 +107,7 @@ namespace EPPlusImageRenderer.RenderItems
                     FillColor = GetFillColor(fill, color, FillColorSource);
                     break;
                 case eFillStyle.GradientFill:
-                    GradientFill = new DrawGradientFill(_theme, fill.GradientFill);
+                    GradientFill = new DrawGradientFill(DrawingRenderer.Theme, fill.GradientFill);
                     FillColor = null;
                     break;
             }
@@ -134,7 +131,7 @@ namespace EPPlusImageRenderer.RenderItems
                     BorderGradientFill = null;
                     break;
                 case eFillStyle.GradientFill:
-                    BorderGradientFill = new DrawGradientFill(_theme, border.Fill.GradientFill);
+                    BorderGradientFill = new DrawGradientFill(DrawingRenderer.Theme, border.Fill.GradientFill);
                     BorderColor = null;
                     break;
             }
@@ -193,16 +190,16 @@ namespace EPPlusImageRenderer.RenderItems
             {
                 if (styleFillColor == null)
                 {
-                    fc = EPPlusColorConverter.GetThemeColor(_theme.ColorScheme.Accent1);
+                    fc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme.ColorScheme.Accent1);
                 }
                 else
                 {
-                    fc = EPPlusColorConverter.GetThemeColor(_theme, styleFillColor);
+                    fc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme, styleFillColor);
                 }
             }
             else if (fill.Style == eFillStyle.SolidFill)
             {
-                fc = EPPlusColorConverter.GetThemeColor(_theme, fill.SolidFill.Color);
+                fc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme, fill.SolidFill.Color);
             }
             else
             {
@@ -213,10 +210,10 @@ namespace EPPlusImageRenderer.RenderItems
             return "#" + fc.ToArgb().ToString("x8").Substring(2);
         }
 
-        internal void SetTheme(ExcelTheme theme)
-        {
-            _theme = theme;
-        }
+        //internal void SetTheme(ExcelTheme theme)
+        //{
+        //    _theme = theme;
+        //}
     }
     /// <summary>
     /// Base class for any item rendered.

@@ -16,7 +16,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     {
         protected SvgChart _svgChart;
         protected ExcelChart _chartType;
-        private ChartTypeDrawer(SvgChart svgChart,  ExcelChart chartType) : base(svgChart.Chart)
+        private ChartTypeDrawer(SvgChart svgChart,  ExcelChart chartType) : base(svgChart)
         {
             _svgChart = svgChart;
             _chartType = chartType;
@@ -103,7 +103,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     yAxis = _svgChart.VerticalAxis;
                 }
-                var linePath = new SvgRenderPathItem(Chart.GetBoundingBox(), Chart.WorkSheet._package.Workbook.ThemeManager.GetOrCreateTheme());
+                var linePath = new SvgRenderPathItem(ChartRenderer, ChartRenderer.Bounds);
                 var coords = new List<double>();
                 var markerItems = new List<RenderItem>();
 

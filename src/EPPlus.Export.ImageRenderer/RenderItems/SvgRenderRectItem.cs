@@ -24,14 +24,14 @@ namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderRectItem : SvgRenderItem
     {
-        public SvgRenderRectItem(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
+        public SvgRenderRectItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
 
         }
-        public SvgRenderRectItem(ExcelDrawing drawing) : base(drawing.GetBoundingBox(), drawing._drawings._package.Workbook.ThemeManager.GetOrCreateTheme())
-        {
+        //public SvgRenderRectItem(ExcelDrawing drawing) : base(drawing.GetBoundingBox())
+        //{
 
-        }
+        //}
 
         public double X { get { return Bounds.Left; } set { Bounds.Left = value; } }
         public double Y { get { return Bounds.Top; } set { Bounds.Top = value; } }
@@ -46,7 +46,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
-            var groupItem = new SvgGroupItem(Bounds, _theme);
+            var groupItem = new SvgGroupItem(DrawingRenderer, Bounds);
             groupItem.Render(sb);
 
             RenderRect(sb);
@@ -67,8 +67,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {
-            var clone = new SvgRenderRectItem(_drawing);
-            clone._theme = _theme;
+            var clone = new SvgRenderRectItem(svgDocument, svgDocument.Bounds);
             CloneBase(clone);
 
             clone.X = X * svgDocument.Bounds.Width;

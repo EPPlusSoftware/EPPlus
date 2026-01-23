@@ -37,7 +37,7 @@ namespace EPPlusImageRenderer.Svg
         const int MarginExtra = 2;
         const int MiddleMargin = 10;
         const int LineLength = 32;
-        internal SvgChartLegend(SvgChart sc) : base(sc.Chart)
+        internal SvgChartLegend(SvgChart sc) : base(sc)
         {
             _ttMeasurer = sc.Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
             if (sc.Chart.HasLegend == false || sc.Chart.Series.Count == 0)
@@ -66,7 +66,7 @@ namespace EPPlusImageRenderer.Svg
 
         private SvgRenderRectItem GetLegendRectangle(SvgChart sc, ExcelChartLegend l)
         {
-            var rect = new SvgRenderRectItem(Chart);
+            var rect = new SvgRenderRectItem(sc, sc.Bounds);
             bool isVertical;
             switch (l.Position)
             {
@@ -194,15 +194,18 @@ namespace EPPlusImageRenderer.Svg
                             var tm = _seriesHeadersMeasure[index];
                             var si = GetSeriesIcon(sc, ls, index, tm, pSls);
                             sls.SeriesIcon = si;
-                            sls.Textbox = new SvgTextBodyItem(Rectangle.Bounds, Chart.WorkSheet._package.Workbook.ThemeManager.GetOrCreateTheme());
+                            sls.Textbox = new SvgTextBodyItem(ChartRenderer, Rectangle.Bounds);
                             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
+                            var headerText = s.GetHeaderText();
                             if (entry == null || entry.Font.IsEmpty)
                             {
-                                sls.Textbox.AddText(s.GetHeaderText(), sc.Chart.Legend.Font);
+                                //sls.Textbox.AddText(s.GetHeaderText(), sc.Chart.Legend.Font);
+                                sls.Textbox.ImportParagraph(sc.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
                             }
                             else
                             {
-                                sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
+                                //sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
+                                sls.Textbox.ImportParagraph(sc.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
                             }
                             if (ls.HasMarker() && ls.Marker.Style != eMarkerStyle.None)
                             {
@@ -233,7 +236,7 @@ namespace EPPlusImageRenderer.Svg
 
         private SvgRenderLineItem GetSeriesIcon(SvgChart sc, ExcelLineChartSerie ls, int index, TextMeasurement tm, SvgLegendSerie pSls)
         {
-            var item = new SvgRenderLineItem(sc.Chart, sc.Chart._drawings._package.Workbook.ThemeManager.GetOrCreateTheme());
+            var item = new SvgRenderLineItem(sc, sc.Bounds);
             item.SetDrawingPropertiesFill(ls.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
             item.SetDrawingPropertiesBorder(ls.Border, sc.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, ls.Border.Fill.Style!=eFillStyle.NoFill, 0.75);
 

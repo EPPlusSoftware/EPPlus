@@ -6,6 +6,7 @@ using EPPlusImageRenderer;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Graphics;
 using System.Diagnostics;
+using EPPlusImageRenderer.Svg;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {
@@ -105,7 +106,8 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 parentBB.Width = testWidth;
                 parentBB.Height = testHeight;
 
-                SvgTextBodyItem tbItem = new SvgTextBodyItem(parentBB, p.Workbook.ThemeManager.GetOrCreateTheme());
+                var svgShape = new SvgShape(cube);
+                SvgTextBodyItem tbItem = new SvgTextBodyItem(svgShape, parentBB);
 
                 tbItem.ImportTextBody(cube.TextBody);
 

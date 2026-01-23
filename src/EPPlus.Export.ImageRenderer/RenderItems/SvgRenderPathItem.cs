@@ -22,7 +22,7 @@ namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderPathItem : SvgRenderItem
     {
-        public SvgRenderPathItem(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
+        public SvgRenderPathItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
             Bounds.Width = parent.Width;
             Bounds.Height = parent.Height;
@@ -48,8 +48,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {
-            var clone = new SvgRenderPathItem(_drawing.GetBoundingBox(), _theme);
-            clone._theme = _theme;
+            var clone = new SvgRenderPathItem(svgDocument, svgDocument.Bounds);
             CloneBase(clone);
             clone.Commands = CloneCommands(Commands);
             return clone;

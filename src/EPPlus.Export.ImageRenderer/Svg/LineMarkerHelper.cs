@@ -27,7 +27,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
             switch (m.Style)
             {
                 case eMarkerStyle.Circle:
-                    item = new SvgRenderEllipseItem(sc.Drawing, sc.Drawing._drawings._package.Workbook.ThemeManager.GetOrCreateTheme())
+                    item = new SvgRenderEllipseItem(sc, sc.Bounds)
                     { 
                         Rx = halfSize,
                         Ry = halfSize,
@@ -36,7 +36,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                     };
                     break;
                 case eMarkerStyle.Triangle:
-                    item = new SvgRenderPathItem(sc.Drawing.GetBoundingBox(), sc.Drawing._drawings._package.Workbook.ThemeManager.GetOrCreateTheme())
+                    item = new SvgRenderPathItem(sc, sc.Bounds)
                     {
                         Commands = new List<PathCommands>()
                     };
@@ -45,7 +45,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                     ((SvgRenderPathItem)item).Commands.Add(new PathCommands(PathCommandType.End, item));
                     break;
                 case eMarkerStyle.Diamond:
-                    item = new SvgRenderPathItem(sc.Drawing.GetBoundingBox(), sc.Drawing._drawings._package.Workbook.ThemeManager.GetOrCreateTheme())
+                    item = new SvgRenderPathItem(sc, sc.Drawing.GetBoundingBox())
                     {
                         Commands = new List<PathCommands>()
                     };
@@ -64,7 +64,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                     {
                         if(m.Style == eMarkerStyle.Dot)
                         {
-                            item = new SvgRenderRectItem(sc.Drawing)
+                            item = new SvgRenderRectItem(sc, sc.Bounds)
                             {
                                 Left = x,
                                 Top = y - size / 8,
@@ -74,7 +74,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                         }
                         else //Dash
                         {
-                            item = new SvgRenderRectItem(sc.Drawing)
+                            item = new SvgRenderRectItem(sc, sc.Bounds)
                             {
                                 Left = x - size / 2,
                                 Top = y - size / 8,
@@ -85,7 +85,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                     }
                     break;
                 case eMarkerStyle.Square:
-                    item = new SvgRenderRectItem(sc.Drawing)
+                    item = new SvgRenderRectItem(sc, sc.Bounds)
                     {
                         Left = x - size / 2,
                         Top = y - size / 2,
@@ -96,7 +96,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                 case eMarkerStyle.Plus:
                 case eMarkerStyle.Star:
                 case eMarkerStyle.X:
-                    var pathItem = new SvgRenderPathItem(sc.Drawing.GetBoundingBox(), sc.Drawing._drawings._package.Workbook.ThemeManager.GetOrCreateTheme())
+                    var pathItem = new SvgRenderPathItem(sc, sc.Bounds)
                     {
                         Commands = new List<PathCommands>()
                     };
@@ -165,7 +165,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
             float maxSize = isLegend ? 7f : float.MaxValue;
             var size = m.Size > maxSize ? maxSize : m.Size;
             //var line = sls.SeriesIcon as SvgRenderLineItem;
-            item = new SvgRenderRectItem(sc.Drawing)
+            item = new SvgRenderRectItem(sc, sc.Bounds)
             {
                 Left = x - (size / 2),// line.X1 + (line.X2 - line.X1 - size) / 2,
                 Top = y - (size / 2),

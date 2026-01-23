@@ -1,6 +1,7 @@
 ﻿using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
@@ -41,8 +42,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal bool WrapText = true;
 
         private FontMeasurerTrueType _measurer = null;
-
-        public TextBody(BoundingBox parent, ExcelTheme theme)  : base(parent, theme)
+        internal string _text;
+        public TextBody(DrawingBase renderer, BoundingBox parent)  : base(renderer, parent)
         {
             Bounds.Transform.Name = "TxtBody";
 
@@ -52,27 +53,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Bounds.Height = parent.Height;
         }
 
-        //public void AddParagraph(string text, FontMeasurerTrueType measurer) 
-        //{
-        //    if(_measurer == null && measurer != null)
-        //    {
-        //        _measurer = measurer;
-        //    }
-
-        //    if (_measurer != null)
-        //    {
-        //        var paragraph = CreateParagraph(Bounds);
-        //        Paragraphs.Add(paragraph);
-
-        //        //paragraph.AddText(text, measurer);
-
-        //        paragraph.Bounds.Transform.Name = $"Container{Paragraphs.Count}";
-        //        return;
-        //    }
-        //    throw new NullReferenceException($"The FontMeasurer: {_measurer} object is null. Use SetMeasurer before adding text");
-        //}
-
-        public void ImportParagraph(ExcelDrawingParagraph item, double startingY)
+        public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text=null)
         {
             var measureFont = item.DefaultRunProperties.GetMeasureFont();
             bool isFirst = Paragraphs.Count == 0;
@@ -81,7 +62,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             paragraph.Bounds.Transform.Name = $"Container{Paragraphs.Count}";
 
             paragraph.Bounds.Top = startingY;
-
+            _text = text;
             Paragraphs.Add(paragraph);
         }
 
@@ -95,11 +76,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             RightMargin = r.PointToPixel();
             BottomMargin = b.PointToPixel();
 
+            _text = null;
             //We already apply bounds top via the parent Transform
             double paragraphStartY = GetAlignmentVertical();
-
-            ////TODO; Fix this. This is a strange workaround
-            //SetTheme(body._pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme());
 
             foreach (var paragraph in body.Paragraphs)
             {

@@ -61,8 +61,8 @@ namespace EPPlus.Export.ImageRenderer.Text
 
         //void SetParent(Rect parent)
         //{
-        //    Parent = parent;
-        //    Transform.Parent = parent.Transform;
+        //    TopDrawingHandler = parent;
+        //    Transform.TopDrawingHandler = parent.Transform;
         //}
 
         private void SplitContentToLines()

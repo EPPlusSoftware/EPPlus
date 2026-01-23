@@ -26,7 +26,6 @@ namespace EPPlusImageRenderer.Svg
     {
         public SvgChart(ExcelChart chart) : base(chart)
         {
-            Chart = chart;
             SetChartArea();
 
             if(chart.HasTitle && chart.Series.Count > 0)
@@ -133,7 +132,7 @@ namespace EPPlusImageRenderer.Svg
 
         private void SetChartArea()
         {
-            var item = new SvgRenderRectItem(Chart);
+            var item = new SvgRenderRectItem(this, Bounds);
             item.Width = Bounds.Width;
             item.Height = Bounds.Height;
             item.SetDrawingPropertiesFill(Chart.Fill, Chart.StyleManager.Style.ChartArea.FillReference.Color);
