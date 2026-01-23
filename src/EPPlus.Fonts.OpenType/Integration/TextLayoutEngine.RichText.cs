@@ -14,6 +14,7 @@
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
@@ -155,126 +156,155 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         /// <summary>
         /// Wraps a single rich-text paragraph (no line breaks).
-        /// OPTIMIZED: Minimizes memory allocations while maintaining O(n) performance.
+        /// OPTIMIZED: Reuses _charWidthBuffer and _lineListBuffer.
+        /// Uses StringBuilder for line building to minimize string allocations.
         /// </summary>
         private List<string> WrapRichParagraph(
             string text,
             List<FragmentPosition> fragmentPositions,
             double maxWidthPoints)
         {
-            var lines = new List<string>();
+            _lineListBuffer.Clear();
 
-            // OPTIMIZATION: Shape all fragments once and build width cache inline
-            var charWidths = new double[text.Length];
+            if (string.IsNullOrEmpty(text))
+            {
+                _lineListBuffer.Add(string.Empty);
+                return new List<string>(_lineListBuffer);
+            }
 
+            // Reuse char width buffer
+            int required = text.Length;
+            if (_charWidthBuffer.Length < required)
+            {
+                int newSize = Math.Max(required, _charWidthBuffer.Length * 2);
+                Array.Resize(ref _charWidthBuffer, newSize);
+            }
+            Array.Clear(_charWidthBuffer, 0, required);
+
+            // Fill charWidths from all fragments
             foreach (var fragment in fragmentPositions)
             {
-                int length = fragment.EndIndex - fragment.StartIndex;
-                string fragmentText = text.Substring(fragment.StartIndex, length);
+                int start = fragment.StartIndex;
+                int length = fragment.EndIndex - start;
+                if (length <= 0) continue;
 
+                string fragText = text.Substring(start, length);
                 var shaper = GetShaperForFont(fragment.Font);
-                var shaped = shaper.Shape(fragmentText, fragment.Options);
-
+                var shaped = shaper.Shape(fragText, fragment.Options ?? ShapingOptions.Default);
                 double scaleFactor = fragment.Font.Size / shaper.UnitsPerEm;
 
-                for (int i = 0; i < shaped.Glyphs.Length; i++)
+                foreach (var glyph in shaped.Glyphs)
                 {
-                    var glyph = shaped.Glyphs[i];
-                    int localCharIndex = glyph.ClusterIndex;
-
-                    if (localCharIndex >= 0 && localCharIndex < length)
+                    int idx = glyph.ClusterIndex;
+                    if (idx >= 0 && idx < length)
                     {
-                        int globalCharIndex = fragment.StartIndex + localCharIndex;
-                        if (globalCharIndex < text.Length)
-                        {
-                            charWidths[globalCharIndex] += glyph.XAdvance * scaleFactor;
-                        }
+                        _charWidthBuffer[start + idx] += glyph.XAdvance * scaleFactor;
                     }
                 }
-
-                // Release ShapedText reference
-                shaped = null;
             }
 
-            // Get space width from first fragment
-            double spaceWidth = 0;
-            if (fragmentPositions.Count > 0)
-            {
-                spaceWidth = MeasureTextWithFont(" ", fragmentPositions[0].Font, fragmentPositions[0].Options);
-            }
+            double spaceWidth = fragmentPositions.Count > 0
+                ? MeasureTextWithFont(" ", fragmentPositions[0].Font, fragmentPositions[0].Options)
+                : 0;
 
-            // Track word boundaries using indices
             int lineStart = 0;
             int wordStart = 0;
             double currentLineWidth = 0;
             double currentWordWidth = 0;
+
+            var currentLineBuilder = new StringBuilder(text.Length / 4 + 20);  // Estimate for line length
 
             for (int i = 0; i <= text.Length; i++)
             {
                 bool isSpace = (i < text.Length && text[i] == ' ');
                 bool isEnd = (i == text.Length);
 
-                if (isSpace || isEnd)
+                if ((isSpace || isEnd) && wordStart < i)
                 {
-                    if (wordStart < i) // Have a word
+                    double totalWidth = currentLineWidth + currentWordWidth;
+                    if (lineStart < wordStart)
                     {
-                        // Get actual space width for this position
-                        double actualSpaceWidth = spaceWidth;
-                        if (isSpace)
-                        {
-                            var fragment = GetFragmentAtPosition(i, fragmentPositions);
-                            actualSpaceWidth = MeasureTextWithFont(" ", fragment.Font, fragment.Options);
-                        }
-
-                        double totalWidth = currentLineWidth + currentWordWidth;
-
-                        if (lineStart < wordStart) // Not first word
-                        {
-                            totalWidth += actualSpaceWidth;
-                        }
-
-                        if (totalWidth <= maxWidthPoints || lineStart == wordStart)
-                        {
-                            currentLineWidth = totalWidth;
-                        }
-                        else
-                        {
-                            lines.Add(text.Substring(lineStart, wordStart - lineStart).TrimEnd());
-                            lineStart = wordStart;
-                            currentLineWidth = currentWordWidth;
-                        }
+                        var frag = GetFragmentAtPosition(i, fragmentPositions);
+                        totalWidth += MeasureTextWithFont(" ", frag.Font, frag.Options);
                     }
 
-                    if (!isEnd)
+                    if (totalWidth <= maxWidthPoints || lineStart == wordStart)
                     {
-                        wordStart = i + 1;
-                        currentWordWidth = 0;
+                        // Word fits - append to builder
+                        if (currentLineBuilder.Length > 0)
+                        {
+                            currentLineBuilder.Append(' ');
+                        }
+                        currentLineBuilder.Append(text, wordStart, i - wordStart);
+                        currentLineWidth = totalWidth;
                     }
+                    else
+                    {
+                        // Wrap - add line and start new
+                        if (currentLineBuilder.Length > 0 && currentLineBuilder[currentLineBuilder.Length - 1] == ' ')
+                        {
+                            currentLineBuilder.Length--;
+                        }
+                        if (currentLineBuilder.Length > 0)
+                        {
+                            _lineListBuffer.Add(currentLineBuilder.ToString());
+                        }
+                        currentLineBuilder.Length = 0;
+
+                        lineStart = wordStart;
+                        currentLineWidth = currentWordWidth;
+
+                        currentLineBuilder.Append(text, wordStart, i - wordStart);
+                    }
+
+                    wordStart = i + 1;
+                    currentWordWidth = 0;
+                }
+                else if (isSpace)
+                {
+                    wordStart = i + 1;
                 }
                 else
                 {
-                    currentWordWidth += charWidths[i];
+                    currentWordWidth += _charWidthBuffer[i];
 
                     if (currentWordWidth > maxWidthPoints && lineStart < wordStart && currentLineWidth > 0)
                     {
-                        lines.Add(text.Substring(lineStart, wordStart - lineStart).TrimEnd());
+                        if (currentLineBuilder.Length > 0 && currentLineBuilder[currentLineBuilder.Length - 1] == ' ')
+                        {
+                            currentLineBuilder.Length--;
+                        }
+                        if (currentLineBuilder.Length > 0)
+                        {
+                            _lineListBuffer.Add(currentLineBuilder.ToString());
+                        }
+                        currentLineBuilder.Length = 0;
+
                         lineStart = wordStart;
                         currentLineWidth = 0;
                     }
                 }
             }
 
+            // Final line
             if (lineStart < text.Length)
             {
-                lines.Add(text.Substring(lineStart).TrimEnd());
+                if (currentLineBuilder.Length > 0 && currentLineBuilder[currentLineBuilder.Length - 1] == ' ')
+                {
+                    currentLineBuilder.Length--;
+                }
+                if (currentLineBuilder.Length > 0)
+                {
+                    _lineListBuffer.Add(currentLineBuilder.ToString());
+                }
             }
 
-            if (lines.Count == 0)
+            if (_lineListBuffer.Count == 0)
             {
-                lines.Add(string.Empty);
+                _lineListBuffer.Add(string.Empty);
             }
 
-            return lines;
+            return new List<string>(_lineListBuffer);
         }
 
         /// <summary>

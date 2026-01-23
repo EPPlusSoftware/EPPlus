@@ -15,6 +15,7 @@ using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
@@ -28,6 +29,8 @@ namespace EPPlus.Fonts.OpenType.Integration
         private readonly List<string> _fontDirectories;
         private readonly bool _searchSystemDirectories;
         private readonly Dictionary<string, ITextShaper> _shaperCache;
+        private double[] _charWidthBuffer = new double[8192];
+        private List<string> _lineListBuffer = new List<string>(256);
 
         /// <summary>
         /// Creates a TextLayoutEngine for single-font text wrapping.
@@ -116,7 +119,8 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         /// <summary>
         /// Wraps a single paragraph (no line breaks).
-        /// OPTIMIZED: Minimizes memory allocations while maintaining O(n) performance.
+        /// OPTIMIZED: Reuses _charWidthBuffer and _lineListBuffer.
+        /// Uses StringBuilder for line building to minimize string allocations.
         /// </summary>
         private List<string> WrapParagraph(
             string text,
@@ -125,23 +129,31 @@ namespace EPPlus.Fonts.OpenType.Integration
             double startingWidthPoints,
             ShapingOptions options)
         {
-            var lines = new List<string>();
+            _lineListBuffer.Clear();
 
             if (string.IsNullOrEmpty(text))
             {
-                lines.Add(string.Empty);
-                return lines;
+                _lineListBuffer.Add(string.Empty);
+                return new List<string>(_lineListBuffer);
             }
 
-            // Shape once and build character width cache
-            var charWidths = _shaper.ExtractCharWidths(text, fontSize, options);
+            // Reuse char width buffer
+            int required = text.Length;
+            if (_charWidthBuffer.Length < required)
+            {
+                int newSize = Math.Max(required, _charWidthBuffer.Length * 2);
+                Array.Resize(ref _charWidthBuffer, newSize);
+            }
+            _shaper.ExtractCharWidths(text, fontSize, options, _charWidthBuffer);  // antar att overload finns
+
             double spaceWidth = MeasureText(" ", fontSize, options);
 
-            // Track word boundaries using indices
             int lineStart = 0;
             int wordStart = 0;
             double currentLineWidth = startingWidthPoints;
             double currentWordWidth = 0;
+
+            var currentLineBuilder = new StringBuilder(text.Length / 4 + 20);
 
             for (int i = 0; i <= text.Length; i++)
             {
@@ -158,15 +170,31 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                     if (totalWidth <= maxWidthPoints || lineStart == wordStart)
                     {
-                        // Word fits on current line
+                        // Word fits
+                        if (currentLineBuilder.Length > 0)
+                        {
+                            currentLineBuilder.Append(' ');
+                        }
+                        currentLineBuilder.Append(text, wordStart, i - wordStart);
                         currentLineWidth = totalWidth;
                     }
                     else
                     {
-                        // Word doesn't fit - wrap
-                        lines.Add(text.Substring(lineStart, wordStart - lineStart).TrimEnd());
+                        // Word doesn't fit - add current line and start new
+                        if (currentLineBuilder.Length > 0 && currentLineBuilder[currentLineBuilder.Length - 1] == ' ')
+                        {
+                            currentLineBuilder.Length--;
+                        }
+                        if (currentLineBuilder.Length > 0)  // Only add if there's content
+                        {
+                            _lineListBuffer.Add(currentLineBuilder.ToString());
+                        }
+                        currentLineBuilder.Length = 0;
+
                         lineStart = wordStart;
                         currentLineWidth = currentWordWidth;
+
+                        currentLineBuilder.Append(text, wordStart, i - wordStart);
                     }
 
                     wordStart = i + 1;
@@ -178,29 +206,46 @@ namespace EPPlus.Fonts.OpenType.Integration
                 }
                 else
                 {
-                    currentWordWidth += charWidths[i];
+                    currentWordWidth += _charWidthBuffer[i];
 
                     if (currentWordWidth > maxWidthPoints && lineStart < wordStart && currentLineWidth > 0)
                     {
-                        lines.Add(text.Substring(lineStart, wordStart - lineStart).TrimEnd());
+                        // Long word break
+                        if (currentLineBuilder.Length > 0 && currentLineBuilder[currentLineBuilder.Length - 1] == ' ')
+                        {
+                            currentLineBuilder.Length--;
+                        }
+                        if (currentLineBuilder.Length > 0)
+                        {
+                            _lineListBuffer.Add(currentLineBuilder.ToString());
+                        }
+                        currentLineBuilder.Length = 0;
+
                         lineStart = wordStart;
                         currentLineWidth = 0;
                     }
                 }
             }
 
-            // Add final line
+            // Final line
             if (lineStart < text.Length)
             {
-                lines.Add(text.Substring(lineStart).TrimEnd());
+                if (currentLineBuilder.Length > 0 && currentLineBuilder[currentLineBuilder.Length - 1] == ' ')
+                {
+                    currentLineBuilder.Length--;
+                }
+                if (currentLineBuilder.Length > 0)
+                {
+                    _lineListBuffer.Add(currentLineBuilder.ToString());
+                }
             }
 
-            if (lines.Count == 0)
+            if (_lineListBuffer.Count == 0)
             {
-                lines.Add(string.Empty);
+                _lineListBuffer.Add(string.Empty);
             }
 
-            return lines;
+            return new List<string>(_lineListBuffer);
         }
 
 

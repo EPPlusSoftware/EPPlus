@@ -143,6 +143,42 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             return charWidths;
         }
 
+        /// <summary>
+        /// Extracts character widths into a pre-allocated target array to avoid new allocations.
+        /// Writes widths for the first text.Length positions; caller must ensure targetArray.Length >= text.Length.
+        /// </summary>
+        /// <param name="text">The text to measure</param>
+        /// <param name="fontSize">Font size in points</param>
+        /// <param name="options">Shaping options</param>
+        /// <param name="targetArray">Pre-allocated array to write widths into (must be large enough)</param>
+        public void ExtractCharWidths(string text, float fontSize, ShapingOptions options, double[] targetArray)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            if (targetArray == null || targetArray.Length < text.Length)
+            {
+                throw new ArgumentException($"Target array must be at least as large as text length ({text.Length})", nameof(targetArray));
+            }
+
+            // Clear only the portion we will use (safer than full Array.Clear for large buffers)
+            Array.Clear(targetArray, 0, text.Length);
+
+            var shaped = Shape(text, options ?? ShapingOptions.Default);
+            double scaleFactor = fontSize / UnitsPerEm;
+
+            foreach (var glyph in shaped.Glyphs)
+            {
+                int charIndex = glyph.ClusterIndex;
+                if (charIndex >= 0 && charIndex < text.Length)
+                {
+                    targetArray[charIndex] += glyph.XAdvance * scaleFactor;
+                }
+            }
+        }
+
 
 
         #endregion

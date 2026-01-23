@@ -194,7 +194,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             // Test 1: WrapText med 20 paragrafer
             GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect();
             long before = GC.GetTotalMemory(false);
-            var result = layoutEngine.WrapText(LoremIpsum20Para, 11f, 100, 0, ShapingOptions.Default, true);
+            var result = layoutEngine.WrapText(LoremIpsum20Para, 11f, 100, 0, ShapingOptions.Default);
             long after = GC.GetTotalMemory(false);
             Debug.WriteLine($"WrapText: {(after - before) / 1024.0:F2} KB");
 

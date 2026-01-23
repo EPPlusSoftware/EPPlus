@@ -33,6 +33,8 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
 
         double[] ExtractCharWidths(string text, float fontSize, ShapingOptions options);
 
+        void ExtractCharWidths(string text, float fontSize, ShapingOptions options, double[] targetArray);
+
         // === Font Metrics (in design units or converted to points) ===
 
         /// <summary>
