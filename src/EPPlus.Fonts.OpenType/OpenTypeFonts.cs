@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
   01/10/2026         EPPlus Software AB           Fix threading issue with global lock
+  01/23/2026         EPPlus Software AB           Improved thread-safety with per-font locking
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Scanner;
@@ -27,7 +28,7 @@ namespace EPPlus.Fonts.OpenType
         private static readonly object _syncRoot = new object();
         private static readonly Dictionary<string, object> _fontLocks = new Dictionary<string, object>();
 
-        #region --- Platform-specific font locations (unchanged, beautiful as always) ---
+        #region --- Platform-specific font locations ---
 
         private static string GetWindowsFolder()
         {
@@ -90,6 +91,10 @@ namespace EPPlus.Fonts.OpenType
 
         #endregion
 
+        /// <summary>
+        /// Clears all cached fonts and font locks.
+        /// Thread-safe operation.
+        /// </summary>
         public static void ClearFontCache()
         {
             lock (_syncRoot)
@@ -101,9 +106,16 @@ namespace EPPlus.Fonts.OpenType
         }
 
         /// <summary>
-        /// Returns a fully loaded OpenTypeFont – fast, cached, safe.
+        /// Returns a fully loaded OpenTypeFont with thread-safe caching.
+        /// Uses per-font locking to ensure only one thread loads each unique font.
         /// Uses FontScannerV2 under the hood.
         /// </summary>
+        /// <param name="fontDirectories">Additional directories to search for fonts</param>
+        /// <param name="fontName">Font family name</param>
+        /// <param name="subFamily">Font subfamily (Regular, Bold, Italic, etc.)</param>
+        /// <param name="searchSystemDirectories">Whether to search system font directories</param>
+        /// <param name="ignoreCache">If true, bypasses cache and loads font directly</param>
+        /// <returns>Loaded OpenTypeFont or null if not found</returns>
         public static OpenTypeFont GetFontDataOpen(
             IEnumerable<string> fontDirectories,
             string fontName,
@@ -111,8 +123,10 @@ namespace EPPlus.Fonts.OpenType
             bool searchSystemDirectories = true,
             bool ignoreCache = false)
         {
-            // Create per-font lock key
-            string lockKey = $"{fontName}_{subFamily}";
+            // Create or retrieve per-font lock key
+            // This ensures different fonts can be loaded in parallel,
+            // but the same font is only loaded once even if requested by multiple threads
+            string lockKey = string.Format("{0}_{1}", fontName, subFamily);
             object fontLock;
 
             lock (_syncRoot)
@@ -124,28 +138,41 @@ namespace EPPlus.Fonts.OpenType
                 }
             }
 
-            // Now lock PER FONT, not globally
+            // Lock PER FONT, not globally
+            // This allows parallel loading of different fonts
             lock (fontLock)
             {
+                // Check cache inside the font-specific lock
+                // This ensures we don't load the same font twice
                 if (!ignoreCache)
                 {
-                    if (OpenTypeFontCache.Contains(fontName, subFamily))
+                    var cached = OpenTypeFontCache.GetFromCache(fontName, subFamily);
+                    if (cached != null && cached.Font != null && cached.IsLoaded)
                     {
-                        var cached = OpenTypeFontCache.GetFromCache(fontName, subFamily);
-                        if (cached?.Font != null && cached.IsLoaded)
-                            return cached.Font;
+                        return cached.Font;
                     }
+                }
+
+                // Mark as loading to prevent other threads from starting to load
+                // (they will wait in GetFromCache instead)
+                if (!ignoreCache)
+                {
                     OpenTypeFontCache.BeginCache(fontName, subFamily);
                 }
 
+                // Find the font face
                 var face = FontScannerV2.FindBestMatch(fontDirectories, fontName, subFamily, searchSystemDirectories);
                 if (face == null)
                     return null;
 
+                // Load the font from file
                 var font = OpenTypeFontFactory.CreateFromFace(face);
 
+                // Add to cache and signal waiting threads
                 if (!ignoreCache)
+                {
                     OpenTypeFontCache.AddToCache(font, fontName, subFamily);
+                }
 
                 return font;
             }
@@ -153,6 +180,7 @@ namespace EPPlus.Fonts.OpenType
 
         /// <summary>
         /// Legacy wrapper – kept for backward compatibility.
+        /// Calls GetFontDataOpen internally.
         /// </summary>
         public static OpenTypeFont GetFontData(
             IEnumerable<string> fontDirectories,
@@ -167,7 +195,12 @@ namespace EPPlus.Fonts.OpenType
         /// <summary>
         /// Returns all available font faces as fully loaded OpenTypeFont instances.
         /// Skips corrupt or unreadable fonts, but logs detailed information for diagnostics.
+        /// This method is NOT cached and may take significant time to complete.
         /// </summary>
+        /// <param name="fontDirectories">Additional directories to search</param>
+        /// <param name="searchSystemDirectories">Whether to search system font directories</param>
+        /// <param name="formatTarget">Optional filter for font format (TrueType or OpenType/CFF)</param>
+        /// <returns>List of successfully loaded fonts</returns>
         public static List<OpenTypeFont> GetAllBaseFontData(
             List<string> fontDirectories,
             bool searchSystemDirectories = true,
@@ -222,17 +255,26 @@ namespace EPPlus.Fonts.OpenType
                     // Unexpected exceptions – log with full details (never swallow these silently)
                     failures++;
                     System.Diagnostics.Debug.WriteLine(
-                        $"[OpenTypeFonts] UNEXPECTED ERROR loading font: {face.FilePath} [TTC offset: {face.OffsetInFile}]\r\n" +
-                        $"  Exception: {ex.GetType().Name}\r\n" +
-                        $"  Message: {ex.Message}\r\n" +
-                        $"  Stack: {ex.StackTrace}");
+                        string.Format(
+                            "[OpenTypeFonts] UNEXPECTED ERROR loading font: {0} [TTC offset: {1}]\r\n" +
+                            "  Exception: {2}\r\n" +
+                            "  Message: {3}\r\n" +
+                            "  Stack: {4}",
+                            face.FilePath,
+                            face.OffsetInFile,
+                            ex.GetType().Name,
+                            ex.Message,
+                            ex.StackTrace));
                 }
             }
 
             if (failures > 0)
             {
                 System.Diagnostics.Debug.WriteLine(
-                    $"[OpenTypeFonts] GetAllBaseFontData completed. Loaded {result.Count} fonts, skipped {failures} due to errors.");
+                    string.Format(
+                        "[OpenTypeFonts] GetAllBaseFontData completed. Loaded {0} fonts, skipped {1} due to errors.",
+                        result.Count,
+                        failures));
             }
 
             return result;

@@ -38,9 +38,9 @@ namespace EPPlus.Fonts.Benchmarks
         private const float FontSize = 11f;
         private const string FontFamily = "Roboto";
 
-        private List<TextFragment> _fragments100;
-        private List<string> _texts100;
-        private List<MeasurementFont> _fonts100;
+        private List<TextFragment> _fragments10;
+        private List<string> _texts10;
+        private List<MeasurementFont> _fonts10;
 
         [GlobalSetup]
         public void Setup()
@@ -49,15 +49,24 @@ namespace EPPlus.Fonts.Benchmarks
             _oldMeasurer = new FontMeasurerTrueType();
             _oldMeasurer.SetFont(FontSize, FontFamily);
 
+            var fontsPath = Path.Combine(AppContext.BaseDirectory, "Fonts");
+
+            if (!Directory.Exists(fontsPath))
+            {
+                throw new DirectoryNotFoundException($"Fonts directory not found: {fontsPath}");
+            }
+
+            var fontFolders = new List<string> { fontsPath };
+
             // Setup new layout engine
-            var font = OpenTypeFonts.GetFontData(null, FontFamily, FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.GetFontData(fontFolders, FontFamily, FontSubFamily.Regular, true);
             var shaper = new TextShaper(font);
             _layoutEngine = new TextLayoutEngine(shaper);
 
             // Prepare 100 copies of the long text
-            _fragments100 = new List<TextFragment>();
-            _texts100 = new List<string>();
-            _fonts100 = new List<MeasurementFont>();
+            _fragments10 = new List<TextFragment>();
+            _texts10 = new List<string>();
+            _fonts10 = new List<MeasurementFont>();
 
             var measurementFont = new MeasurementFont
             {
@@ -66,11 +75,11 @@ namespace EPPlus.Fonts.Benchmarks
                 Style = MeasurementFontStyles.Regular
             };
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
-                _texts100.Add(LoremIpsum20Para);
-                _fonts100.Add(measurementFont);
-                _fragments100.Add(new TextFragment
+                _texts10.Add(LoremIpsum20Para);
+                _fonts10.Add(measurementFont);
+                _fragments10.Add(new TextFragment
                 {
                     Text = LoremIpsum20Para,
                     Font = measurementFont
@@ -87,10 +96,10 @@ namespace EPPlus.Fonts.Benchmarks
         }
 
         [Benchmark]
-        public List<string> Old_Wrap_100Paragraphs_Sequential()
+        public List<string> Old_Wrap_10Paragraphs_Sequential()
         {
             List<string> wrapped = new List<string>();
-            foreach (string text in _texts100)
+            foreach (string text in _texts10)
             {
                 wrapped = _oldMeasurer.MeasureAndWrapText(text, MaxPixelWidth);
             }
@@ -98,9 +107,9 @@ namespace EPPlus.Fonts.Benchmarks
         }
 
         [Benchmark]
-        public List<string> Old_Wrap_100Paragraphs_MultipleFragments()
+        public List<string> Old_Wrap_10Paragraphs_MultipleFragments()
         {
-            return _oldMeasurer.WrapMultipleTextFragments(_texts100, _fonts100, MaxPixelWidth);
+            return _oldMeasurer.WrapMultipleTextFragments(_texts10, _fonts10, MaxPixelWidth);
         }
 
         [Benchmark]
@@ -133,10 +142,10 @@ namespace EPPlus.Fonts.Benchmarks
         }
 
         [Benchmark]
-        public List<string> New_Wrap_100Paragraphs_Sequential()
+        public List<string> New_Wrap_10Paragraphs_Sequential()
         {
             List<string> wrapped = new List<string>();
-            foreach (string text in _texts100)
+            foreach (string text in _texts10)
             {
                 wrapped = _layoutEngine.WrapText(text, FontSize, MaxPointWidth);
             }
@@ -152,12 +161,12 @@ namespace EPPlus.Fonts.Benchmarks
         }
 
         [Benchmark]
-        public List<string> New_Wrap_100Paragraphs_RichText()
+        public List<string> New_Wrap_10Paragraphs_RichText()
         {
             // Note: This wraps each text individually, not as one concatenated text
             // (matching old behavior more closely than wrapping all as single rich text)
             List<string> allLines = new List<string>();
-            foreach (var fragment in _fragments100)
+            foreach (var fragment in _fragments10)
             {
                 var lines = _layoutEngine.WrapRichText(new List<TextFragment> { fragment }, MaxPointWidth);
                 allLines.AddRange(lines);

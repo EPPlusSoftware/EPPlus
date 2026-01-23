@@ -116,6 +116,11 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             };
         }
 
+        /// <summary>
+        /// Extracts character widths and returns a new array.
+        /// For repeated calls, consider using ExtractCharWidths(text, fontSize, options, targetArray) 
+        /// to avoid allocations.
+        /// </summary>
         public double[] ExtractCharWidths(string text, float fontSize, ShapingOptions options)
         {
             var charWidths = new double[text.Length];
@@ -125,21 +130,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 return charWidths;
             }
 
-            // Shape once - entire text
-            var shaped = Shape(text, options);
-            double scaleFactor = fontSize / UnitsPerEm;
-
-            // Extract widths - using ClusterIndex to map glyphs to characters
-            foreach (var glyph in shaped.Glyphs)
-            {
-                int charIndex = glyph.ClusterIndex;
-
-                if (charIndex >= 0 && charIndex < text.Length)
-                {
-                    charWidths[charIndex] += glyph.XAdvance * scaleFactor;
-                }
-            }
-
+            ExtractCharWidthsCore(text, fontSize, options, charWidths);
             return charWidths;
         }
 
@@ -160,16 +151,44 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
             if (targetArray == null || targetArray.Length < text.Length)
             {
-                throw new ArgumentException($"Target array must be at least as large as text length ({text.Length})", nameof(targetArray));
+                throw new ArgumentException(
+                    string.Format("Target array must be at least as large as text length ({0})", text.Length),
+                    "targetArray");
             }
 
-            // Clear only the portion we will use (safer than full Array.Clear for large buffers)
+            ExtractCharWidthsCore(text, fontSize, options, targetArray);
+        }
+
+        /// <summary>
+        /// Core implementation that extracts char widths into provided buffer.
+        /// OPTIMIZED: Avoids creating ShapedText object and copying glyphs to array.
+        /// Works directly with List<ShapedGlyph> for better memory efficiency.
+        /// </summary>
+        private void ExtractCharWidthsCore(string text, float fontSize, ShapingOptions options, double[] targetArray)
+        {
+            // Clear only the portion we will use
             Array.Clear(targetArray, 0, text.Length);
 
-            var shaped = Shape(text, options ?? ShapingOptions.Default);
+            // Phase 1: Map characters to glyphs
+            var glyphs = MapToGlyphs(text);
+
+            // Phase 2: Apply GSUB substitutions (if enabled)
+            if (options.ApplySubstitutions && _font.GsubTable != null)
+            {
+                glyphs = ApplyGsubSubstitutions(glyphs, options);
+            }
+
+            // Phase 3: Apply GPOS positioning (if enabled)
+            if (options.ApplyPositioning)
+            {
+                ApplyPositioning(glyphs, options);
+            }
+
+            // Phase 4: Extract widths directly from List<ShapedGlyph>
+            // No need to create ShapedText or copy to array!
             double scaleFactor = fontSize / UnitsPerEm;
 
-            foreach (var glyph in shaped.Glyphs)
+            foreach (var glyph in glyphs)
             {
                 int charIndex = glyph.ClusterIndex;
                 if (charIndex >= 0 && charIndex < text.Length)
@@ -177,8 +196,10 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                     targetArray[charIndex] += glyph.XAdvance * scaleFactor;
                 }
             }
-        }
 
+            // glyphs List<ShapedGlyph> goes out of scope and is collected by Gen0 GC
+            // We never created the ShapedText wrapper or its Glyphs array!
+        }
 
 
         #endregion

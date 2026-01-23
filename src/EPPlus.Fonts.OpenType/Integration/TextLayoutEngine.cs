@@ -10,8 +10,11 @@
  *************************************************************************************************
   01/20/2025         EPPlus Software AB           TextLayoutEngine implementation
   01/22/2025         EPPlus Software AB           Optimized with shaping cache
+  01/23/2025         EPPlus Software AB           Added ArrayPool optimization
+  01/23/2025         EPPlus Software AB           Added space width cache
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.TextShaping;
+using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
@@ -23,22 +26,26 @@ namespace EPPlus.Fonts.OpenType.Integration
     /// Handles text wrapping and layout using proper OpenType shaping.
     /// Replaces the old TextData wrapping logic.
     /// </summary>
-    public partial class TextLayoutEngine
+    public partial class TextLayoutEngine : IDisposable
     {
         private readonly ITextShaper _shaper;
         private readonly List<string> _fontDirectories;
         private readonly bool _searchSystemDirectories;
         private readonly Dictionary<string, ITextShaper> _shaperCache;
-        private double[] _charWidthBuffer = new double[8192];
+
+        // Space width cache - avoids repeated Shape(" ") calls
+        private readonly Dictionary<float, double> _spaceWidthCache;
+
+        // ArrayPool buffer - endast EN buffer för hela klassen
+        private double[] _charWidthBuffer = null;
+        private int _charWidthBufferCapacity = 0;
+
         private List<string> _lineListBuffer = new List<string>(256);
+        private bool _disposed = false;
 
         /// <summary>
         /// Creates a TextLayoutEngine for single-font text wrapping.
         /// </summary>
-        /// <param name="shaper">Text shaper for the primary font</param>
-        /// <param name="measurer">Text measurer</param>
-        /// <param name="fontDirectories">Additional font directories to search (optional)</param>
-        /// <param name="searchSystemDirectories">Whether to search system font directories</param>
         public TextLayoutEngine(
             ITextShaper shaper,
             List<string> fontDirectories = null,
@@ -48,17 +55,42 @@ namespace EPPlus.Fonts.OpenType.Integration
             _fontDirectories = fontDirectories ?? new List<string>();
             _searchSystemDirectories = searchSystemDirectories;
             _shaperCache = new Dictionary<string, ITextShaper>();
+            _spaceWidthCache = new Dictionary<float, double>();
         }
 
         /// <summary>
-        /// Wraps text to fit within specified width.
-        /// Handles word breaking at spaces and preserves existing line breaks.
+        /// Gets a char width buffer with at least the specified capacity.
+        /// Reuses existing buffer if large enough, otherwise rents larger one from pool.
         /// </summary>
-        /// <param name="text">Text to wrap</param>
-        /// <param name="fontSize">Font size in points</param>
-        /// <param name="maxWidthPoints">Maximum line width in points</param>
-        /// <param name="options">Shaping options (null = default)</param>
-        /// <returns>List of wrapped lines</returns>
+        private double[] GetCharWidthBuffer(int minimumLength)
+        {
+            return ArrayPoolHelper<double>.EnsureCapacity(
+                ref _charWidthBuffer,
+                ref _charWidthBufferCapacity,
+                minimumLength,
+                clearArray: false
+            );
+        }
+
+        /// <summary>
+        /// Gets cached space width for the given font size.
+        /// Caches the result to avoid repeated Shape(" ") calls.
+        /// </summary>
+        private double GetCachedSpaceWidth(float fontSize, ShapingOptions options)
+        {
+            // Check cache first
+            if (_spaceWidthCache.TryGetValue(fontSize, out double cachedWidth))
+            {
+                return cachedWidth;
+            }
+
+            // Measure and cache
+            double width = MeasureText(" ", fontSize, options);
+            _spaceWidthCache[fontSize] = width;
+
+            return width;
+        }
+
         public List<string> WrapText(
             string text,
             float fontSize,
@@ -68,16 +100,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             return WrapText(text, fontSize, maxWidthPoints, 0, options);
         }
 
-        /// <summary>
-        /// Wraps text to fit within specified width with pre-existing content on first line.
-        /// Used when text continues from previous content (e.g., different font on same line).
-        /// </summary>
-        /// <param name="text">Text to wrap</param>
-        /// <param name="fontSize">Font size in points</param>
-        /// <param name="maxWidthPoints">Maximum line width in points</param>
-        /// <param name="preExistingWidthPoints">Width already used on first line in points</param>
-        /// <param name="options">Shaping options (null = default)</param>
-        /// <returns>List of wrapped lines</returns>
         public List<string> WrapText(
             string text,
             float fontSize,
@@ -93,7 +115,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             options = options ?? ShapingOptions.Default;
             var lines = new List<string>();
 
-            // Handle existing line breaks first
             var paragraphs = text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
             bool isFirstLine = true;
@@ -106,7 +127,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                     continue;
                 }
 
-                // Wrap this paragraph
                 double startingWidth = isFirstLine ? preExistingWidthPoints : 0;
                 var wrappedLines = WrapParagraph(paragraph, fontSize, maxWidthPoints, startingWidth, options);
                 lines.AddRange(wrappedLines);
@@ -117,11 +137,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             return lines;
         }
 
-        /// <summary>
-        /// Wraps a single paragraph (no line breaks).
-        /// OPTIMIZED: Reuses _charWidthBuffer and _lineListBuffer.
-        /// Uses StringBuilder for line building to minimize string allocations.
-        /// </summary>
         private List<string> WrapParagraph(
             string text,
             float fontSize,
@@ -137,16 +152,12 @@ namespace EPPlus.Fonts.OpenType.Integration
                 return new List<string>(_lineListBuffer);
             }
 
-            // Reuse char width buffer
-            int required = text.Length;
-            if (_charWidthBuffer.Length < required)
-            {
-                int newSize = Math.Max(required, _charWidthBuffer.Length * 2);
-                Array.Resize(ref _charWidthBuffer, newSize);
-            }
-            _shaper.ExtractCharWidths(text, fontSize, options, _charWidthBuffer);  // antar att overload finns
+            // Get buffer from pool and extract widths
+            var charWidths = GetCharWidthBuffer(text.Length);
+            _shaper.ExtractCharWidths(text, fontSize, options, charWidths);
 
-            double spaceWidth = MeasureText(" ", fontSize, options);
+            // Use cached space width instead of measuring every time
+            double spaceWidth = GetCachedSpaceWidth(fontSize, options);
 
             int lineStart = 0;
             int wordStart = 0;
@@ -170,7 +181,6 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                     if (totalWidth <= maxWidthPoints || lineStart == wordStart)
                     {
-                        // Word fits
                         if (currentLineBuilder.Length > 0)
                         {
                             currentLineBuilder.Append(' ');
@@ -180,12 +190,11 @@ namespace EPPlus.Fonts.OpenType.Integration
                     }
                     else
                     {
-                        // Word doesn't fit - add current line and start new
                         if (currentLineBuilder.Length > 0 && currentLineBuilder[currentLineBuilder.Length - 1] == ' ')
                         {
                             currentLineBuilder.Length--;
                         }
-                        if (currentLineBuilder.Length > 0)  // Only add if there's content
+                        if (currentLineBuilder.Length > 0)
                         {
                             _lineListBuffer.Add(currentLineBuilder.ToString());
                         }
@@ -206,11 +215,10 @@ namespace EPPlus.Fonts.OpenType.Integration
                 }
                 else
                 {
-                    currentWordWidth += _charWidthBuffer[i];
+                    currentWordWidth += charWidths[i];
 
                     if (currentWordWidth > maxWidthPoints && lineStart < wordStart && currentLineWidth > 0)
                     {
-                        // Long word break
                         if (currentLineBuilder.Length > 0 && currentLineBuilder[currentLineBuilder.Length - 1] == ' ')
                         {
                             currentLineBuilder.Length--;
@@ -227,7 +235,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                 }
             }
 
-            // Final line
             if (lineStart < text.Length)
             {
                 if (currentLineBuilder.Length > 0 && currentLineBuilder[currentLineBuilder.Length - 1] == ' ')
@@ -248,10 +255,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             return new List<string>(_lineListBuffer);
         }
 
-
-        /// <summary>
-        /// Measures text width using the primary shaper.
-        /// </summary>
         private double MeasureText(string text, float fontSize, ShapingOptions options)
         {
             if (string.IsNullOrEmpty(text))
@@ -263,9 +266,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             return shaped.GetWidthInPoints(fontSize, _shaper.UnitsPerEm);
         }
 
-        /// <summary>
-        /// Measures text width with a specific font (used for rich text).
-        /// </summary>
         private double MeasureTextWithFont(string text, MeasurementFont font, ShapingOptions options)
         {
             if (string.IsNullOrEmpty(text))
@@ -273,30 +273,20 @@ namespace EPPlus.Fonts.OpenType.Integration
                 return 0;
             }
 
-            // Get or create shaper for this font
             var shaper = GetShaperForFont(font);
-
-            // Shape and measure
             var shaped = shaper.Shape(text, options ?? ShapingOptions.Default);
             return shaped.GetWidthInPoints(font.Size, shaper.UnitsPerEm);
         }
 
-        /// <summary>
-        /// Gets or creates a TextShaper for the specified font.
-        /// Uses caching to avoid creating multiple shapers for the same font.
-        /// </summary>
         private ITextShaper GetShaperForFont(MeasurementFont font)
         {
-            // Create cache key
-            string cacheKey = $"{font.FontFamily}_{GetFontSubFamily(font.Style)}";
+            string cacheKey = string.Format("{0}_{1}", font.FontFamily, GetFontSubFamily(font.Style));
 
-            // Check cache
             if (_shaperCache.TryGetValue(cacheKey, out var cachedShaper))
             {
                 return cachedShaper;
             }
 
-            // Load font and create shaper
             var openTypeFont = OpenTypeFonts.GetFontData(
                 fontDirectories: _fontDirectories,
                 fontName: font.FontFamily,
@@ -310,9 +300,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             return shaper;
         }
 
-        /// <summary>
-        /// Converts MeasurementFontStyles to FontSubFamily.
-        /// </summary>
         private FontSubFamily GetFontSubFamily(MeasurementFontStyles style)
         {
             if ((style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) ==
@@ -331,5 +318,51 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             return FontSubFamily.Regular;
         }
+
+        #region IDisposable Implementation
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    // Return buffer to pool
+                    if (_charWidthBuffer != null)
+                    {
+                        ArrayPoolHelper<double>.SafeReturn(ref _charWidthBuffer, clearArray: false);
+                        _charWidthBufferCapacity = 0;
+                    }
+
+                    // Dispose cached shapers
+                    foreach (var shaper in _shaperCache.Values)
+                    {
+                        if (shaper is IDisposable disposable)
+                        {
+                            disposable.Dispose();
+                        }
+                    }
+                    _shaperCache.Clear();
+
+                    // Clear space width cache
+                    _spaceWidthCache.Clear();
+                }
+
+                _disposed = true;
+            }
+        }
+
+        ~TextLayoutEngine()
+        {
+            Dispose(false);
+        }
+
+        #endregion
     }
 }
