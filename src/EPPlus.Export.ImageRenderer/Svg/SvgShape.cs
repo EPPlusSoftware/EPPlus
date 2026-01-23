@@ -55,7 +55,7 @@ namespace EPPlusImageRenderer.Svg
                 var shapeDef = PresetShapeDefinitions.ShapeDefinitions[style].Clone();
                 shapeDef.Calculate(shape);
 
-                RenderItems.Add(new SvgGroupItem(shape.GetBoundingBox(), shape.Rotation, shape._drawings._package.Workbook.ThemeManager.GetOrCreateTheme()));
+                RenderItems.Add(new SvgGroupItem(this, shape.GetBoundingBox(), shape.Rotation));
 
                 //Draw Filled path's
                 foreach (var path in shapeDef.ShapePaths)
@@ -79,7 +79,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     if (shapeDef.TextBoxRect != null)
                     {
-                        insetTextBox = new SvgRenderRectItem(_shape);
+                        insetTextBox = new SvgRenderRectItem(this, Bounds);
                         insetTextBox.Bounds.Left = (float)shapeDef.TextBoxRect.LeftValue;
                         insetTextBox.Bounds.Top = (float)shapeDef.TextBoxRect.TopValue;
                         insetTextBox.FillOpacity = 0.3d;
@@ -108,7 +108,7 @@ namespace EPPlusImageRenderer.Svg
 
         protected void AddFromPaths(DrawingPath path, bool drawFill = true, bool drawBorder = true)
         {
-            var pi = new SvgRenderPathItem(_shape.GetBoundingBox(), _theme);
+            var pi = new SvgRenderPathItem(this, _shape.GetBoundingBox());
             var coordinates = new List<double>();
             PathCommands cmd = null;
             PathsBase pCmd = null;
@@ -241,14 +241,14 @@ namespace EPPlusImageRenderer.Svg
             if (insetTextBox == null)
             {
                 GetShapeInnerBound(out double x, out double y, out double width, out double height);
-                insetTextBox = new SvgRenderRectItem(Bounds, _theme);
+                insetTextBox = new SvgRenderRectItem(this, Bounds);
                 insetTextBox.Bounds.Left = x;
                 insetTextBox.Bounds.Top = y;
                 insetTextBox.Width = width;
                 insetTextBox.Height = height;
                 insetTextBox.Bounds.Parent = textBody.Bounds; //TODO:Check that textBody is correct.
             }
-            var txtBodyItem = new SvgTextBodyItem(insetTextBox.Bounds, _theme);
+            var txtBodyItem = new SvgTextBodyItem(this, insetTextBox.Bounds);
 
             return txtBodyItem;
         }

@@ -1,18 +1,20 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Graphics;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     internal class SvgTextBodyItem : TextBody
     {
-        public SvgTextBodyItem(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
+        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
         }
 
@@ -20,7 +22,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public override void Render(StringBuilder sb)
         {
-            sb.AppendLine($"<g transform=\"translate({Bounds.GlobalX},{Bounds.GlobalY})\" ");
+            sb.AppendLine($"<g transform=\"translate({Bounds.GlobalX.ToString(CultureInfo.InvariantCulture)},{Bounds.GlobalY.ToString(CultureInfo.InvariantCulture)})\" ");
             //base.Render(sb);
             sb.Append(" >");
             sb.AppendLine($"<title>txtBody</title>");
@@ -42,12 +44,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         internal override ParagraphContainer CreateParagraph(BoundingBox parent)
         {
-            return new SvgParagraphItem(parent, _theme);
+            return new SvgParagraphItem(DrawingRenderer, parent);
         }
 
         internal override ParagraphContainer CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent)
         {
-            return new SvgParagraphItem(paragraph, parent);
+            return new SvgParagraphItem(DrawingRenderer, parent, paragraph);
         }
     }
 }

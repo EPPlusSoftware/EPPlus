@@ -1,6 +1,7 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
@@ -14,11 +15,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
     {
         public override RenderItemType Type => RenderItemType.Paragraph;
 
-        public SvgParagraphItem(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
+        public SvgParagraphItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
         }
 
-        public SvgParagraphItem(ExcelDrawingParagraph p, BoundingBox parent) : base(p, parent)
+        public SvgParagraphItem(DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p) : base(renderer, parent, p)
         {
         }
 
@@ -78,19 +79,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             sb.AppendLine("<title>paragraph</title> ");
 
-            //var bb = new SvgRenderRectItem(Bounds);
-            ////The bb is affected by the Transform so set pos to zero
-            //if(IsFirstParagraph == false)
-            //{
-            //    bb.Y = 0;
-            //}
-            //bb.X = 0;
+            var bb = new SvgRenderRectItem(DrawingRenderer, Bounds);
+            //The bb is affected by the Transform so set pos to zero
+            if (IsFirstParagraph == false)
+            {
+                bb.Y = 0;
+            }
+            bb.X = 0;
 
-            //bb.Width = Bounds.Width;
-            //bb.Height = Bounds.Height;
-            //bb.FillColor = "gold";
-            //bb.FillOpacity = 0.3;
-            //bb.Render(sb);
+            bb.Width = Bounds.Width;
+            bb.Height = Bounds.Height;
+            bb.FillColor = FillColor;
+            bb.FillOpacity = 0.3;
+            bb.Render(sb);
 
             //Render text run debug boxes as we cannot place the rects after or inside the text element
 
@@ -153,11 +154,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         }
         internal override TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText)
         {
-            return new SvgTextRunItem(run, parent, displayText);
+            return new SvgTextRunItem(DrawingRenderer, parent, run, displayText);
         }
         internal override TextRunItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText)
         {
-            return new SvgTextRunItem(_theme, parent, text, font, displayText);
+            return new SvgTextRunItem(DrawingRenderer, parent, text, font, displayText);
         }
     }
 }

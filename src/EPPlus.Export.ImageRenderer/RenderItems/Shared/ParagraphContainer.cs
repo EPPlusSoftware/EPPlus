@@ -3,6 +3,7 @@ using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
@@ -25,7 +26,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected eTextAlignment _hAlign;
 
         eDrawingTextLineSpacing _lsType;
-        internal double ParagraphLineSpacing { get; private set; }
         double _lineSpacingAscendantOnly;
         double? _lsMultiplier = null;
         internal bool IsFirstParagraph { get; private set; }
@@ -33,19 +33,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected List<string> _textRunDisplayText = new List<string>();
 
         TextFragmentCollection _textFragments;
+        internal protected MeasurementFont _paragraphFont;
+
+        internal double ParagraphLineSpacing { get; private set; }
         internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
-        internal protected MeasurementFont _paragraphFont;
-        //internal BoundingBox Bounds = new BoundingBox();
-
-        public ParagraphContainer(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
+        public ParagraphContainer(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
             Bounds.Transform.Name = "Paragraph";
             var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
             _paragraphFont = defaultFont;
         }
 
-        public ParagraphContainer(ExcelDrawingParagraph p, BoundingBox parent) : base(parent, p._prd.Package.Workbook.ThemeManager.GetOrCreateTheme())
+        public ParagraphContainer(DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p) : base(renderer, parent)
         {
             IsFirstParagraph = p == p._paragraphs[0];
 
@@ -121,6 +121,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
+
         /// <summary>
         /// DisplayString is the text altered for display with respect to bounds etc.
         /// Containing line breaks appropriate for the given container
@@ -153,7 +154,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
 
-            targetTxtRun.SetTheme(_theme);
 
             Runs.Add(targetTxtRun);
         }
@@ -161,8 +161,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public void AddText(string text, ExcelTextFont font)
         {
             var measurer = new FontMeasurerTrueType();
-            var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), Bounds.Width);
-            var container = CreateTextRun(text, font, Bounds, string.Concat(displayText, new string[] { "\r\n"}));
+            var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), Bounds.Parent.Width);
+            var container = CreateTextRun(text, font, Bounds, string.Join("\r\n", displayText.ToArray()));
 
             Runs.Add(container);
 

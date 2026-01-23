@@ -28,7 +28,7 @@ namespace EPPlusImageRenderer.RenderItems
     }
     internal abstract class SvgRenderItem : RenderItem
     {
-        internal SvgRenderItem(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
+        internal SvgRenderItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
         }
         public override void Render(StringBuilder sb)

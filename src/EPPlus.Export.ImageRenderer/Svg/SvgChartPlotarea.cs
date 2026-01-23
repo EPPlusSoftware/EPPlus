@@ -20,7 +20,7 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class SvgChartPlotarea : SvgChartObject
     {
-        public SvgChartPlotarea(SvgChart sc) : base(sc.Chart)
+        public SvgChartPlotarea(SvgChart sc) : base(sc)
         {
             SvgChart = sc;
             Rectangle = GetPlotAreaRectangle(sc);
@@ -31,7 +31,7 @@ namespace EPPlusImageRenderer.Svg
         {
             var pa = sc.Chart.PlotArea;
             TopMargin = BottomMargin = LeftMargin = RightMargin = 14;
-            var rect = new SvgRenderRectItem(sc.Chart);
+            var rect = new SvgRenderRectItem(sc, sc.Bounds);
             if (pa.Layout.HasLayout)
             {
                 rect = GetRectFromManualLayout(sc, pa.Layout);

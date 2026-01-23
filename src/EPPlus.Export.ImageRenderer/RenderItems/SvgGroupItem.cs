@@ -25,11 +25,11 @@ namespace EPPlusImageRenderer.RenderItems
 
         public string GroupTransform = "";
 
-        internal SvgGroupItem(BoundingBox parent, ExcelTheme theme) : base(parent, theme)
+        internal SvgGroupItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
 
         }
-        internal SvgGroupItem(BoundingBox parent, double rotation, ExcelTheme theme) : base(parent, theme)
+        internal SvgGroupItem(DrawingBase renderer, BoundingBox parent, double rotation) : base(renderer, parent)
         {
             if(rotation!=0)
             {

@@ -1,6 +1,7 @@
 ﻿using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
@@ -54,7 +55,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal List<double> PerLineWidth { get; private set; } = new List<double>();
         internal double ClippingHeight = double.NaN;
 
-        internal TextRunItem(ExcelTheme theme, BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(parent, theme)
+        internal TextRunItem(DrawingBase renderer, BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(renderer, parent)
         {
             _originalText = text;
 
@@ -70,15 +71,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             _isFirstInParagraph = true;
 
-            if (parent != null)
-            {
-                Bounds.Parent = parent;
-            }
-
             _fontStyles = _measurementFont.Style;
 
             FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
-
+            Bounds.Height = FontSizeInPixels;
+            if (parent.Height < FontSizeInPixels)
+            {
+                parent.Height = FontSizeInPixels;
+            }
             _horizontalTextAlignment = eTextAlignment.Center;
 
             if (font.Fill.Style == eFillStyle.SolidFill)
@@ -105,7 +105,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// <param name="run"></param>
         /// <param name="parent"></param>
         /// <param name="displayText"></param>
-        internal TextRunItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "") : base(parent, run.Paragraph._prd.Package.Workbook.ThemeManager.GetOrCreateTheme())
+        internal TextRunItem(DrawingBase renderer, BoundingBox parent, ExcelParagraphTextRunBase run, string displayText = "") : base(renderer, parent)
         {
             _originalText = run.Text;
 
@@ -121,11 +121,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _measurer.SetFont(_measurementFont);
 
             _isFirstInParagraph = run.IsFirstInParagraph;
-
-            if (parent != null)
-            {
-                Bounds.Parent = parent;
-            }
 
             _fontStyles = _measurementFont.Style;
 

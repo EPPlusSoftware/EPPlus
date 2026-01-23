@@ -20,10 +20,11 @@ namespace EPPlusImageRenderer.Svg
 {
     internal abstract class SvgChartObject 
     {
-        internal ExcelChart Chart { get; }
-        internal SvgChartObject(ExcelChart chart) 
+        internal DrawingChart ChartRenderer;
+        internal ExcelChart Chart => (ExcelChart)ChartRenderer.Drawing;
+        internal SvgChartObject(DrawingChart chart) 
         {
-            Chart= chart; 
+            ChartRenderer = chart;
         }
         internal void SetMargins(ExcelTextBody tb)
         {
@@ -42,7 +43,7 @@ namespace EPPlusImageRenderer.Svg
         public string Text { get; set; }
         protected static SvgRenderRectItem GetRectFromManualLayout(SvgChart sc, ExcelLayout layout)
         {
-            var rect = new SvgRenderRectItem(sc.Chart);
+            var rect = new SvgRenderRectItem(sc, sc.Bounds);
             var ml = layout.ManualLayout;
             if (ml.LeftMode == eLayoutMode.Edge)
             {

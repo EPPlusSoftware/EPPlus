@@ -108,27 +108,27 @@ namespace EPPlusImageRenderer
             //return retStr;
         }
 
-        public string RenderTextBody(ExcelTextBody body, double shapeWidth, double shapeHeight)
-        {
-            var sb = new StringBuilder();
+        //public string RenderTextBody(ExcelTextBody body, double shapeWidth, double shapeHeight)
+        //{
+        //    var sb = new StringBuilder();
 
-            BoundingBox worldBounds = new BoundingBox();
-            worldBounds.Width = shapeWidth;
-            worldBounds.Height = shapeHeight;
+        //    BoundingBox worldBounds = new BoundingBox();
+        //    worldBounds.Width = shapeWidth;
+        //    worldBounds.Height = shapeHeight;
 
-            var doc = new SvgEpplusDocument((int)worldBounds.Width, (int)worldBounds.Height);
-            doc.Render(sb);
+        //    var doc = new SvgEpplusDocument((int)worldBounds.Width, (int)worldBounds.Height);
+        //    doc.Render(sb);
 
-            FontMeasurerTrueType measurer = new FontMeasurerTrueType(11, "Aptos Narrow", FontSubFamily.Regular);
+        //    FontMeasurerTrueType measurer = new FontMeasurerTrueType(11, "Aptos Narrow", FontSubFamily.Regular);
 
-            var svgBody = new SvgTextBodyItem(worldBounds, null);
-            svgBody.ImportTextBody(body);
+        //    var svgBody = new SvgTextBodyItem(doc, worldBounds, null);
+        //    svgBody.ImportTextBody(body);
 
-            svgBody.Render(sb);
-            sb.AppendLine("</svg>");
+        //    svgBody.Render(sb);
+        //    sb.AppendLine("</svg>");
 
-            return sb.ToString();
-        }
+        //    return sb.ToString();
+        //}
 
         internal string RenderSvgElement(SvgElement element)
         {

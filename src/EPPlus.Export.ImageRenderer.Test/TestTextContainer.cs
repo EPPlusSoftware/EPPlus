@@ -126,7 +126,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
         //    Assert.AreEqual(2, body.Paragraphs[0].Bounds.Transform.ChildObjects.Count);
         //    Assert.AreEqual(body.Bounds.Transform.ChildObjects[0], body.Paragraphs[0].Bounds.Transform);
 
-        //    Assert.AreEqual(shapeRect.Transform, body.Bounds.Transform.Parent);
+        //    Assert.AreEqual(shapeRect.Transform, body.Bounds.Transform.TopDrawingHandler);
         //}
     }
 }

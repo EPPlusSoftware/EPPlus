@@ -1,5 +1,6 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Graphics;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
@@ -13,11 +14,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     internal class SvgTextRunItem : TextRunItem
     {
-        public SvgTextRunItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "") : base(run, parent, displayText)
+        public SvgTextRunItem(DrawingBase renderer, BoundingBox parent, ExcelParagraphTextRunBase run, string displayText = "") : base(renderer,parent, run, displayText)
         {
         }
 
-        public SvgTextRunItem(ExcelTheme theme, BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(theme, parent, text, font, displayText)
+        public SvgTextRunItem(DrawingBase renderer, BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(renderer, parent, text, font, displayText)
         {
                 
         }
@@ -82,6 +83,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public override void Render(StringBuilder sb)
         {
+            CalculateLineSpacing();
             string finalString = "";
             var xString = $"x =\"{(Bounds.X).ToString(CultureInfo.InvariantCulture)}\" ";
 

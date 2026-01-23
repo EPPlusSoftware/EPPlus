@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
@@ -20,7 +21,7 @@ namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderEllipseItem : SvgRenderItem
     {
-        public SvgRenderEllipseItem(ExcelDrawing drawing, ExcelTheme theme) : base(drawing.GetBoundingBox(), theme)
+        public SvgRenderEllipseItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
 
         }
@@ -46,7 +47,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {
-            var clone = new SvgRenderEllipseItem(_drawing, _theme);
+            var clone = new SvgRenderEllipseItem(svgDocument, svgDocument.Bounds);
             CloneBase(clone);
             //if (AdjustmentPoints != null && AdjustmentPoints.Commands == null && AdjustmentPoints.AdjustmentType == AdjustmentType.AdjustToWidthHeight)
             //{

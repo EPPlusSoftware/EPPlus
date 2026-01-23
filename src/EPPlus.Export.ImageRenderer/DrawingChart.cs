@@ -27,8 +27,10 @@ namespace EPPlusImageRenderer
     {       
         public DrawingChart(ExcelChart chart) : base(chart) 
         {
-            Chart = chart;
         }
-        public ExcelChart Chart { get; set; }
+        public ExcelChart Chart 
+        { 
+            get =>(ExcelChart)Drawing;  
+        }
     }
 }
