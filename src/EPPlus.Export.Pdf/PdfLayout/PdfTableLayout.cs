@@ -41,12 +41,20 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal ExcelDxfFill dxfFill;
 
 
-        internal ExcelBorderItem Top;
-        internal ExcelBorderItem Bottom;
-        internal ExcelBorderItem Left;
-        internal ExcelBorderItem Right;
-        internal ExcelBorderItem DiagonalUp;
-        internal ExcelBorderItem DiagonalDown;
+        internal ExcelBorderItem xfTop;
+        internal ExcelBorderItem xfBottom;
+        internal ExcelBorderItem xfLeft;
+        internal ExcelBorderItem xfRight;
+        internal ExcelBorderItem xfDiagonalUp;
+        internal ExcelBorderItem xfDiagonalDown;
+
+        internal ExcelDxfBorderItem dxfTop;
+        internal ExcelDxfBorderItem dxfBottom;
+        internal ExcelDxfBorderItem dxfLeft;
+        internal ExcelDxfBorderItem dxfRight;
+        internal ExcelDxfBorderItem dxfHorizontal;
+        internal ExcelDxfBorderItem dxfVertical;
+
         internal ExcelFont Font;
 
 
