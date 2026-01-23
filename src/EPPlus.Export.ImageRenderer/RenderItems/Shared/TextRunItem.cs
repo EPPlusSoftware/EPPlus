@@ -128,7 +128,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             _horizontalTextAlignment = run.Paragraph.HorizontalAlignment;
 
-            if (run.Fill.Style == eFillStyle.SolidFill)
+            if (run.Fill.IsEmpty == false && run.Fill.Style == eFillStyle.SolidFill)
             {
                 FillColor = "#" + run.Fill.Color.To6CharHexString();
             }

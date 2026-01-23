@@ -47,9 +47,31 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public ParagraphContainer(DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p) : base(renderer, parent)
         {
-            SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+            IsFirstParagraph = p == p._paragraphs[0];
 
-            //---Initialize Bounds/Margins---
+
+            if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
+            {
+                if(IsFirstParagraph)
+                {
+                    SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+                }
+                else
+                {
+                    //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
+                    if(p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
+                    {
+                        SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+                    }
+                    else
+                    {
+                        //Use shape fill somehow
+                        //Maybe use a name property for fallback theme accent1 color?
+                    }
+                }
+            }
+
+            //---Initialize Bounds / Margins-- -
             Bounds.Transform.Name = "Paragraph";
 
             var indent = 48 * p.IndentLevel;
@@ -65,7 +87,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _measurer = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
 
             //---Calculate linespacing---
-            IsFirstParagraph = p == p._paragraphs[0];
             int numLines = _paragraphLines.Count;
             _lsType = p.LineSpacing.LineSpacingType;
             ParagraphLineSpacing = GetParagraphLineSpacingInPixels(p.LineSpacing.Value, _measurer);
@@ -133,7 +154,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
 
-            targetTxtRun.SetDrawingPropertiesFill(origTxtRun.Fill, null);
 
             Runs.Add(targetTxtRun);
         }

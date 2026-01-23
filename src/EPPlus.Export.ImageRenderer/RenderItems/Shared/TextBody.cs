@@ -84,11 +84,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 ImportParagraph(paragraph, paragraphStartY);
                 var addedPara = Paragraphs.Last();
-                paragraphStartY = addedPara.Bounds.Bottom + addedPara.ParagraphLineSpacing;
+                paragraphStartY = addedPara.Bounds.Bottom;
             }
             if (Paragraphs != null && Paragraphs.Count() > 0)
             {
-                Bounds.Height = paragraphStartY - Paragraphs.Last().ParagraphLineSpacing;
+                Bounds.Height = paragraphStartY;
             }
         }
 
@@ -109,8 +109,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //Document Top position for the paragraph text based on vertical alignment
             var posY = GetAlignmentVertical();
             //var vertAlignAttribute = GetVerticalAlignAttribute(posY);
-
-
 
             //var measurer = font.PictureRelationDocument.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
             //Limit bounding area with the space taken by previous paragraphs
