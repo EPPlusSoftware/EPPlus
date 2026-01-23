@@ -35,7 +35,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //bb.FillOpacity = 0.5;
             //bb.Render(sb);
 
-            foreach (var item in Paragraphs)
+            foreach (SvgParagraphItem item in Paragraphs)
             {
                 item.Render(sb);
             }
