@@ -60,7 +60,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             var paragraph = CreateParagraph(item, Bounds);
             paragraph.Bounds.Transform.Name = $"Container{Paragraphs.Count}";
-
+            if (string.IsNullOrEmpty(text) == false)
+            {
+                paragraph.AddText(text, item.DefaultRunProperties);
+            }
             paragraph.Bounds.Top = startingY;
             _text = text;
             Paragraphs.Add(paragraph);
@@ -104,24 +107,24 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         //        Paragraphs.Last().AddText(text, measurer);
         //    }
         //}
-        internal void AddText(string text, ExcelTextFont font)
-        {
-            //Document Top position for the paragraph text based on vertical alignment
-            var posY = GetAlignmentVertical();
-            //var vertAlignAttribute = GetVerticalAlignAttribute(posY);
+        //internal void AddText(string text, ExcelTextFont font)
+        //{
+        //    //Document Top position for the paragraph text based on vertical alignment
+        //    var posY = GetAlignmentVertical();
+        //    //var vertAlignAttribute = GetVerticalAlignAttribute(posY);
 
-            //var measurer = font.PictureRelationDocument.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
-            //Limit bounding area with the space taken by previous paragraphs
-            //Note that this is ONLY identical to PosY if the vertical alignment is top
+        //    //var measurer = font.PictureRelationDocument.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
+        //    //Limit bounding area with the space taken by previous paragraphs
+        //    //Note that this is ONLY identical to PosY if the vertical alignment is top
 
-            //The first run in the first paragraph must apply different line-spacing
-            //var svgParagraph = new SvgParagraph(text, font, area, vertAlignAttribute, posY);
-            var paragraph = CreateParagraph(Bounds);
-            paragraph.AddText(text, font);
-            paragraph.FillColor = font.Fill.Color.To6CharHexString();
+        //    //The first run in the first paragraph must apply different line-spacing
+        //    //var svgParagraph = new SvgParagraph(text, font, area, vertAlignAttribute, posY);
+        //    var paragraph = CreateParagraph(Bounds);
+        //    paragraph.AddText(text, font);
+        //    paragraph.FillColor = font.Fill.Color.To6CharHexString();
 
-            Paragraphs.Add(paragraph);
-        }
+        //    Paragraphs.Add(paragraph);
+        //}
         public void SetMeasurer(FontMeasurerTrueType fontMeasurer)
         {
             _measurer = fontMeasurer;
