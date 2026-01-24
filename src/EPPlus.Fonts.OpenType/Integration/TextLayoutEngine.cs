@@ -12,12 +12,14 @@
   01/22/2025         EPPlus Software AB           Optimized with shaping cache
   01/23/2025         EPPlus Software AB           Added ArrayPool optimization
   01/23/2025         EPPlus Software AB           Added space width cache
+  01/24/2025         EPPlus Software AB           Added StringBuilder pooling (.NET 3.5 compatible)
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
@@ -36,9 +38,12 @@ namespace EPPlus.Fonts.OpenType.Integration
         // Space width cache - avoids repeated Shape(" ") calls
         private readonly Dictionary<float, double> _spaceWidthCache;
 
-        // ArrayPool buffer - endast EN buffer för hela klassen
+        // ArrayPool buffer - only ONE buffer for entire class
         private double[] _charWidthBuffer = null;
         private int _charWidthBufferCapacity = 0;
+
+        // StringBuilder pooling - reuse between wrapping operations
+        private readonly StringBuilder _lineBuilder = new StringBuilder(256);
 
         private List<string> _lineListBuffer = new List<string>(256);
         private bool _disposed = false;
@@ -164,7 +169,14 @@ namespace EPPlus.Fonts.OpenType.Integration
             double currentLineWidth = startingWidthPoints;
             double currentWordWidth = 0;
 
-            var currentLineBuilder = new StringBuilder(text.Length / 4 + 20);
+            // Reuse pooled StringBuilder instead of creating new
+            // .NET 3.5 compatible: use Length = 0 instead of Clear()
+            _lineBuilder.Length = 0;
+            // Ensure capacity for typical line length
+            if (_lineBuilder.Capacity < text.Length / 4 + 20)
+            {
+                _lineBuilder.Capacity = text.Length / 4 + 20;
+            }
 
             for (int i = 0; i <= text.Length; i++)
             {
@@ -181,29 +193,29 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                     if (totalWidth <= maxWidthPoints || lineStart == wordStart)
                     {
-                        if (currentLineBuilder.Length > 0)
+                        if (_lineBuilder.Length > 0)
                         {
-                            currentLineBuilder.Append(' ');
+                            _lineBuilder.Append(' ');
                         }
-                        currentLineBuilder.Append(text, wordStart, i - wordStart);
+                        _lineBuilder.Append(text, wordStart, i - wordStart);
                         currentLineWidth = totalWidth;
                     }
                     else
                     {
-                        if (currentLineBuilder.Length > 0 && currentLineBuilder[currentLineBuilder.Length - 1] == ' ')
+                        if (_lineBuilder.Length > 0 && _lineBuilder[_lineBuilder.Length - 1] == ' ')
                         {
-                            currentLineBuilder.Length--;
+                            _lineBuilder.Length--;
                         }
-                        if (currentLineBuilder.Length > 0)
+                        if (_lineBuilder.Length > 0)
                         {
-                            _lineListBuffer.Add(currentLineBuilder.ToString());
+                            _lineListBuffer.Add(_lineBuilder.ToString());
                         }
-                        currentLineBuilder.Length = 0;
+                        _lineBuilder.Length = 0;
 
                         lineStart = wordStart;
                         currentLineWidth = currentWordWidth;
 
-                        currentLineBuilder.Append(text, wordStart, i - wordStart);
+                        _lineBuilder.Append(text, wordStart, i - wordStart);
                     }
 
                     wordStart = i + 1;
@@ -219,15 +231,15 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                     if (currentWordWidth > maxWidthPoints && lineStart < wordStart && currentLineWidth > 0)
                     {
-                        if (currentLineBuilder.Length > 0 && currentLineBuilder[currentLineBuilder.Length - 1] == ' ')
+                        if (_lineBuilder.Length > 0 && _lineBuilder[_lineBuilder.Length - 1] == ' ')
                         {
-                            currentLineBuilder.Length--;
+                            _lineBuilder.Length--;
                         }
-                        if (currentLineBuilder.Length > 0)
+                        if (_lineBuilder.Length > 0)
                         {
-                            _lineListBuffer.Add(currentLineBuilder.ToString());
+                            _lineListBuffer.Add(_lineBuilder.ToString());
                         }
-                        currentLineBuilder.Length = 0;
+                        _lineBuilder.Length = 0;
 
                         lineStart = wordStart;
                         currentLineWidth = 0;
@@ -237,13 +249,13 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             if (lineStart < text.Length)
             {
-                if (currentLineBuilder.Length > 0 && currentLineBuilder[currentLineBuilder.Length - 1] == ' ')
+                if (_lineBuilder.Length > 0 && _lineBuilder[_lineBuilder.Length - 1] == ' ')
                 {
-                    currentLineBuilder.Length--;
+                    _lineBuilder.Length--;
                 }
-                if (currentLineBuilder.Length > 0)
+                if (_lineBuilder.Length > 0)
                 {
-                    _lineListBuffer.Add(currentLineBuilder.ToString());
+                    _lineListBuffer.Add(_lineBuilder.ToString());
                 }
             }
 
@@ -339,6 +351,9 @@ namespace EPPlus.Fonts.OpenType.Integration
                         ArrayPoolHelper<double>.SafeReturn(ref _charWidthBuffer, clearArray: false);
                         _charWidthBufferCapacity = 0;
                     }
+
+                    // Clear StringBuilder to release string references (.NET 3.5 compatible)
+                    _lineBuilder.Length = 0;
 
                     // Dispose cached shapers
                     foreach (var shaper in _shaperCache.Values)
