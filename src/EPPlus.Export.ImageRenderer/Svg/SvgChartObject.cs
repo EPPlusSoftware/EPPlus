@@ -11,18 +11,32 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Collections.Generic;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal abstract class SvgChartObject 
+    internal abstract class DrawingObject
+    {
+        internal protected DrawingBase DrawingRenderer { get; }
+        internal BoundingBox Bounds { get; set; }
+
+        protected DrawingObject(DrawingBase renderer, BoundingBox parent)
+        {
+            DrawingRenderer = renderer;
+            Bounds = new BoundingBox() { Parent=parent};
+        }
+        internal abstract void AppendRenderItems(List<RenderItem> renderItems);
+    }
+    internal abstract class SvgChartObject : DrawingObject
     {
         internal DrawingChart ChartRenderer;
         internal ExcelChart Chart => (ExcelChart)ChartRenderer.Drawing;
-        internal SvgChartObject(DrawingChart chart) 
+        internal SvgChartObject(DrawingChart chart) : base(chart, chart.Bounds)
         {
             ChartRenderer = chart;
         }
@@ -40,7 +54,6 @@ namespace EPPlusImageRenderer.Svg
         internal double BottomMargin { get; set; }
         internal SvgRenderRectItem Rectangle { get; set; }
         internal SvgRenderLineItem Line { get; set; }
-        public string Text { get; set; }
         protected static SvgRenderRectItem GetRectFromManualLayout(SvgChart sc, ExcelLayout layout)
         {
             var rect = new SvgRenderRectItem(sc, sc.Bounds);
@@ -68,7 +81,5 @@ namespace EPPlusImageRenderer.Svg
             rect.Height = sc.Bounds.Height * ml.GetHeight() / 100;
             return rect;
         }
-        internal abstract void AppendRenderItems(List<RenderItem> renderItems);
-
     }
 }

@@ -102,6 +102,7 @@ namespace EPPlusImageRenderer.Svg
 
                     textBody = CreateTextBodyItem();
                     textBody.ImportTextBody(_shape.TextBody);
+                    textBody.AppendRenderItems(RenderItems);
                 }
             }
         }
@@ -211,28 +212,28 @@ namespace EPPlusImageRenderer.Svg
             var writer = new SvgDrawingWriter(this);
             writer.WriteSvgDefs(sb, RenderItems);
             
-            SvgGroupItem gItemTest = null;
+            //SvgGroupItem gItemTest = null;
             foreach(var item in RenderItems)
             {
                 item.Render(sb);
-                if(item.Type == RenderItemType.Group && gItemTest == null)
-                {
-                    gItemTest = (SvgGroupItem)item;
-                }
-                if (item.IsEndOfGroup && gItemTest != null)
-                {
-                    gItemTest.RenderEndGroup(sb);
-                }
+                //if(item.Type == RenderItemType.Group && gItemTest == null)
+                //{
+                //    gItemTest = (SvgGroupItem)item;
+                //}
+                //if (item.IsEndOfGroup && gItemTest != null)
+                //{
+                //    gItemTest.RenderEndGroup(sb);
+                //}
             }
-            if (!string.IsNullOrEmpty(_shape.Text))
-            {
-                RenderText(sb);
-            }
+            //if (!string.IsNullOrEmpty(_shape.Text))
+            //{
+            //    //RenderText(sb);
+            //}
 
-            if (gItemTest != null)
-            {
-                gItemTest.RenderEndGroup(sb);
-            }
+            //if (gItemTest != null)
+            //{
+            //    gItemTest.RenderEndGroup(sb);
+            //}
             sb.AppendLine("</svg>");
         }
 
@@ -253,11 +254,11 @@ namespace EPPlusImageRenderer.Svg
             return txtBodyItem;
         }
 
-        private void RenderText(StringBuilder sb)
-        {
-            //RenderDebugTextBox(sb);
-            textBody.Render(sb);
-        }
+        //private void RenderText(StringBuilder sb)
+        //{
+        //    //RenderDebugTextBox(sb);
+        //    textBody.Render(sb);
+        //}
 
         private void RenderDebugTextBox(StringBuilder sb)
         {

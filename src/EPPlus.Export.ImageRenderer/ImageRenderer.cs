@@ -198,8 +198,8 @@ namespace EPPlusImageRenderer
             def.AddChildElement(clipPath);
 
             var bb = new SvgElement("rect");
-            bb.AddAttribute("x", container.Transform.Position.X);
-            bb.AddAttribute("y", container.Transform.Position.Y);
+            bb.AddAttribute("x", container.Position.X);
+            bb.AddAttribute("y", container.Position.Y);
             bb.AddAttribute("width", container.Width);
             bb.AddAttribute("height", container.Height);
             //bb.AddAttribute("fill", "blue");
@@ -210,16 +210,16 @@ namespace EPPlusImageRenderer
             var fontSizePx = 16d;
 
             var renderElement = new SvgElement("text");
-            renderElement.AddAttribute("x", container.Transform.Position.X);
-            renderElement.AddAttribute("y", container.Transform.Position.Y + fontSizePx);
+            renderElement.AddAttribute("x", container.Position.X);
+            renderElement.AddAttribute("y", container.Position.Y + fontSizePx);
             renderElement.AddAttribute("_measurementFont-size", $"{fontSizePx}px");
             renderElement.AddAttribute("clip-path", $"url(#{nameId})");
 
             renderElement.Content = fullString;
 
             var bbVisual = new SvgElement("rect");
-            bbVisual.AddAttribute("x", container.Transform.Position.X);
-            bbVisual.AddAttribute("y", container.Transform.Position.Y);
+            bbVisual.AddAttribute("x", container.Position.X);
+            bbVisual.AddAttribute("y", container.Position.Y);
             bbVisual.AddAttribute("width", container.Width);
             bbVisual.AddAttribute("height", container.Height);
             bbVisual.AddAttribute("fill", "blue");

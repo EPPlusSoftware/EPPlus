@@ -84,7 +84,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 Rectangle = new SvgRenderRectItem(sc, sc.Bounds);
                 if (axis==null)
-                {
+                {   
                     Rectangle.Top = (float)8;                         //8 pixels for the chart title standard offset
                     Rectangle.Left = (float)(sc.Bounds.Width - rect.Width) / 2;
                     Rectangle.Height = (float)rect.Height;
@@ -171,21 +171,21 @@ namespace EPPlusImageRenderer.Svg
 
         internal void InitTextBox()
         {
-            TextBox = new SvgTextBodyItem(_svgChart, Rectangle.Bounds);
-            TextBox.Bounds.Left = LeftMargin;
-            TextBox.Bounds.Width -= LeftMargin + RightMargin;
-            TextBox.Bounds.Top = TopMargin;
-            TextBox.Bounds.Height -= TopMargin + BottomMargin;
-            TextBox.VerticalAlignment = eTextAnchoringType.Top;
+            TextBox = new SvgTextBoxItem(_svgChart, _svgChart.Bounds, Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height);
+            TextBox.LeftMargin = LeftMargin;
+            TextBox.RightMargin = RightMargin;
+            TextBox.TopMargin = TopMargin;
+            TextBox.BottomMargin = BottomMargin;
+            TextBox.TextBody.VerticalAlignment = eTextAnchoringType.Top;
             if(_title.Rotation != 0)
             {
-                TextBox.Bounds.Transform.Rotation = _title.Rotation;
+                TextBox.Bounds.Rotation = _title.Rotation;
             }
             if (_title.TextBody.Paragraphs.Count > 0)
             {
                 foreach (var p in _title.TextBody.Paragraphs)
                 {
-                    TextBox.ImportParagraph(p, 0);
+                    TextBox.TextBody.ImportParagraph(p, 0);
                 }
             }
             else
@@ -193,31 +193,33 @@ namespace EPPlusImageRenderer.Svg
                 //TextBox.AddText(string.IsNullOrEmpty(_title.Text) ? _titleText : _title.Text, _title.Font);
                 var text = string.IsNullOrEmpty(_title.Text) ? _titleText : _title.Text;
                 var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();                
-                TextBox.ImportParagraph(p, 0, text);
+                TextBox.TextBody.ImportParagraph(p, 0, text);
             }
         }
 
-        public TextBody TextBox
+        public SvgTextBoxItem TextBox
         {
             get; private set;
         }
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            SvgGroupItem groupItem;
-            if (TextBox.Bounds.Transform.Rotation == 0)
-            {
-                groupItem = new SvgGroupItem(_svgChart, Rectangle.Bounds);
-            }
-            else
-            {
-                groupItem = new SvgGroupItem(_svgChart, Rectangle.Bounds, TextBox.Bounds.Transform.Rotation);
-            }
+            //SvgGroupItem groupItem;
+            //if (TextBox.Bounds.Rotation == 0)
+            //{
+            //    groupItem = new SvgGroupItem(_svgChart, Rectangle.Bounds);
+            //}
+            //else
+            //{
+            //    groupItem = new SvgGroupItem(_svgChart, Rectangle.Bounds, TextBox.Bounds.Rotation);
+            //}
 
-            renderItems.Add(groupItem);
-            renderItems.Add(Rectangle);
-            renderItems.Add(TextBox);
-            TextBox.IsEndOfGroup = true;
+            //renderItems.Add(groupItem);
+            //renderItems.Add(Rectangle);
+            TextBox.AppendRenderItems(renderItems);
+            TextBox.Rectangle.SetDrawingPropertiesFill(_title.Fill, _svgChart.Chart.StyleManager.Style.Title.FillReference.Color);
+            TextBox.Rectangle.SetDrawingPropertiesBorder(_title.Border, _svgChart.Chart.StyleManager.Style.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            //renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
         }
 
-   }
+    }
 }

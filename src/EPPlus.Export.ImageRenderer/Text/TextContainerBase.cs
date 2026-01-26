@@ -22,7 +22,7 @@ namespace EPPlus.Export.ImageRenderer.Text
             {
                 //Right and Bottom Pixel defaults for a Cell in excel at 96 PPI
                 //(15pts height, 8.43pts width)
-                Left = 0; Top = 0; Right = 64; Bottom = 20d;
+                Left = 0; Top = 0; Width = 64; Height = 20d;
                 SetContent("Some Text");
             }
         }
@@ -33,7 +33,7 @@ namespace EPPlus.Export.ImageRenderer.Text
             {
                 //Right and Bottom Pixel defaults for a Cell in excel at 96 PPI
                 //(15pts height, 8.43pts width)
-                Left = 0; Top = 0; Right = 64; Bottom = 20d;
+                Left = 0; Top = 0; Width = 64; Height = 20d;
             }
 
             SetContent(content);

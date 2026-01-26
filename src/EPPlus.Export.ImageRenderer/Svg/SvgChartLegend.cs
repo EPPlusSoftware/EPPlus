@@ -291,7 +291,8 @@ namespace EPPlusImageRenderer.Svg
                 renderItems.Add(s.SeriesIcon);
                 if(s.MarkerBackground != null) renderItems.Add(s.MarkerBackground);
                 if (s.MarkerIcon != null) renderItems.Add(s.MarkerIcon);
-                renderItems.Add(s.Textbox);
+                //renderItems.Add(s.Textbox);
+                s.Textbox.AppendRenderItems(renderItems);
             }
         }
 
@@ -303,6 +304,6 @@ namespace EPPlusImageRenderer.Svg
         internal RenderItem SeriesIcon { get; set; }
         internal RenderItem MarkerIcon { get; set; }
         internal RenderItem MarkerBackground { get; set; }
-        internal TextBody Textbox { get; set;}
+        internal TextBodyItem Textbox { get; set;}
     }
 }

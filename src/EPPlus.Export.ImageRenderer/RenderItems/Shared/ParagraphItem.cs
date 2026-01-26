@@ -17,7 +17,7 @@ using System.Text.RegularExpressions;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal abstract class ParagraphContainer : RenderItem
+    internal abstract class ParagraphItem : RenderItem
     {
         ITextMeasurerWrap _measurer;
 
@@ -38,14 +38,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal double ParagraphLineSpacing { get; private set; }
         internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
-        public ParagraphContainer(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        public ParagraphItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
-            Bounds.Transform.Name = "Paragraph";
+            Bounds.Name = "Paragraph";
             var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
             _paragraphFont = defaultFont;
         }
 
-        public ParagraphContainer(DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p) : base(renderer, parent)
+        public ParagraphItem(DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p) : base(renderer, parent)
         {
             IsFirstParagraph = p == p._paragraphs[0];
 
@@ -72,7 +72,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
 
             //---Initialize Bounds / Margins-- -
-            Bounds.Transform.Name = "Paragraph";
+            Bounds.Name = "Paragraph";
 
             var indent = 48 * p.IndentLevel;
             _leftMargin = p.LeftMargin + p.Indent + indent;
@@ -161,12 +161,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public void AddText(string text, ExcelTextFont font)
         {
             var measurer = new FontMeasurerTrueType();
-            var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), Bounds.Parent.Width);
+            var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), Bounds.Parent.Size.X);
             var container = CreateTextRun(text, font, Bounds, string.Join("\r\n", displayText.ToArray()));
 
             Runs.Add(container);
 
-            container.Bounds.Transform.Name = $"Container{Runs.Count}";
+            container.Bounds.Name = $"Container{Runs.Count}";
         }
 
         /// <summary>

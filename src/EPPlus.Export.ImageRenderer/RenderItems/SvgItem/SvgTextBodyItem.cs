@@ -7,47 +7,44 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class SvgTextBodyItem : TextBody
+    internal class SvgTextBodyItem : TextBodyItem
     {
-        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, bool clampedToParent = false) : base(renderer, parent)
         {
+            Bounds.ClampedToParent = clampedToParent;
         }
 
-        internal override List<ParagraphContainer> Paragraphs { get; set; } = new List<ParagraphContainer>();
+        internal override List<ParagraphItem> Paragraphs { get; set; } = new List<ParagraphItem>();
 
-        public override void Render(StringBuilder sb)
+        internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            sb.AppendLine($"<g transform=\"translate({Bounds.GlobalX.ToString(CultureInfo.InvariantCulture)},{Bounds.GlobalY.ToString(CultureInfo.InvariantCulture)})\" ");
-            //base.Render(sb);
-            sb.Append(" >");
-            sb.AppendLine($"<title>txtBody</title>");
-
-            //var bb = new SvgRenderRectItem(Bounds);
-            //bb.X = 0;
-            //bb.Width = Width;
-            //bb.Height = Height;
-            //bb.FillColor = "red";
-            //bb.FillOpacity = 0.5;
-            //bb.Render(sb);
-
+            //sb.AppendLine($"<g transform=\"translate({Bounds.GlobalX.ToString(CultureInfo.InvariantCulture)},{Bounds.GlobalY.ToString(CultureInfo.InvariantCulture)})\" ");
+            ////base.Render(sb);
+            //sb.Append(" >");
+            //sb.AppendLine($"<title>txtBody</title>");
+            
+            var groupItem = new SvgGroupItem(DrawingRenderer, Bounds, Bounds.Rotation);
+            renderItems.Add(groupItem);
             foreach (var item in Paragraphs)
             {
-                item.Render(sb);
+                renderItems.Add(item);
             }
-            sb.AppendLine("</g>");
+            renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
         }
 
-        internal override ParagraphContainer CreateParagraph(BoundingBox parent)
+        internal override ParagraphItem CreateParagraph(BoundingBox parent)
         {
             return new SvgParagraphItem(DrawingRenderer, parent);
         }
 
-        internal override ParagraphContainer CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent)
+        internal override ParagraphItem CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent)
         {
             return new SvgParagraphItem(DrawingRenderer, parent, paragraph);
         }

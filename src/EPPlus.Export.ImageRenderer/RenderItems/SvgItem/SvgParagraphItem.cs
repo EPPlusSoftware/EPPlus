@@ -11,7 +11,7 @@ using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class SvgParagraphItem : ParagraphContainer
+    internal class SvgParagraphItem : ParagraphItem
     {
         public override RenderItemType Type => RenderItemType.Paragraph;
 
@@ -75,7 +75,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             var fontSize = _paragraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
 
-            sb.AppendLine($"<g transform=\"translate({Bounds.X},{Bounds.Y})\" >");
+            sb.AppendLine($"<g transform=\"translate({Bounds.Left},{Bounds.Top})\" >");
 
             sb.AppendLine("<title>paragraph</title> ");
 

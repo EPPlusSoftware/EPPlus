@@ -118,7 +118,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
         //    FontMeasurerTrueType measurer = new FontMeasurerTrueType(12, "Aptos Narrow", FontSubFamily.Regular);
         //    var body = new SvgTextBodyItem(shapeRect);
 
-        //    body.Bounds.Transform.Name = "TxtBody";
+        //    body.Bounds.Name = "TxtBody";
 
         //    body.AddText("A new Paragraph", measurer);
         //    body.AddText("Second paragraph", measurer);

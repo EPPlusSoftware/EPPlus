@@ -3,6 +3,7 @@ using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
+using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
@@ -18,9 +19,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// Margin left = X
     /// Margin right = Y
     /// </summary>
-    internal abstract class TextBody : RenderItem
+    internal abstract class TextBodyItem : DrawingObject
     {
-        //internal BoundingBox Bounds = new BoundingBox();
         /// <summary>
         /// Shorthand for Bounds.Width
         /// </summary>
@@ -35,7 +35,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal eTextAnchoringType VerticalAlignment = eTextAnchoringType.Top;
 
-        internal abstract List<ParagraphContainer> Paragraphs { get; set; }
+        internal abstract List<ParagraphItem> Paragraphs { get; set; }
 
         public bool AllowOverflow;
 
@@ -43,9 +43,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         private FontMeasurerTrueType _measurer = null;
         internal string _text;
-        public TextBody(DrawingBase renderer, BoundingBox parent)  : base(renderer, parent)
+        public TextBodyItem(DrawingBase renderer, BoundingBox parent)  : base(renderer, parent)
         {
-            Bounds.Transform.Name = "TxtBody";
+            Bounds.Name = "TxtBody";
 
             Bounds.Parent = parent;
 
@@ -59,7 +59,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             bool isFirst = Paragraphs.Count == 0;
 
             var paragraph = CreateParagraph(item, Bounds);
-            paragraph.Bounds.Transform.Name = $"Container{Paragraphs.Count}";
+            paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
             if (string.IsNullOrEmpty(text) == false)
             {
                 paragraph.AddText(text, item.DefaultRunProperties);
@@ -69,16 +69,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Paragraphs.Add(paragraph);
         }
 
-        public void ImportTextBody(ExcelTextBody body)
+        internal virtual void ImportTextBody(ExcelTextBody body)
         {
-            double l, r, t, b;
-            body.GetInsetsOrDefaults(out l, out t, out r, out b);
-
-            LeftMargin = l.PointToPixel();
-            TopMargin = t.PointToPixel();
-            RightMargin = r.PointToPixel();
-            BottomMargin = b.PointToPixel();
-
             _text = null;
             VerticalAlignment = body.Anchor;
             //We already apply bounds top via the parent Transform
@@ -130,31 +122,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _measurer = fontMeasurer;
         }
 
-        /// <summary>
-        /// Same as X or Left
-        /// </summary>
-        internal double LeftMargin { get { return Bounds.Left; } set { Bounds.Left = value; } }
-
-        /// <summary>
-        /// Same as Y or Top
-        /// </summary>
-        internal double TopMargin { get { return Bounds.Top; } set { Bounds.Top = value; } }
-
-        double _rightMargin = 0;
-
-        /// <summary>
-        /// Setting this property also changes the width of the textbody
-        /// </summary>
-        internal double RightMargin { get { return _rightMargin; } set { _rightMargin = value; Bounds.Width = Bounds.Parent.Width - value; } }
-
-        double _bottomMargin = 0;
-        /// <summary>
-        /// Setting this property also changes the height of the textbody
-        /// </summary>
-        internal double BottomMargin { get { return _bottomMargin; } set { _bottomMargin = value; Bounds.Height = Bounds.Parent.Height - value; } }
-
-        public override RenderItemType Type => RenderItemType.Text;
-
         double? _alignmentY = null;
 
         /// <summary>
@@ -172,7 +139,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     alignmentY = 0;
                     break;
                 case eTextAnchoringType.Center:
-                    var adjustedHeight = ((Bounds.Height - Bounds.Parent.Top) / 2);
+                    var adjustedHeight = ((Bounds.Height - Bounds.Parent.LocalPosition.Y) / 2);
 
                     alignmentY = adjustedHeight;
                     break;
@@ -191,12 +158,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// Each file format defines its own paragraph
         /// </summary>
         /// <returns></returns>
-        internal abstract ParagraphContainer CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent);
+        internal abstract ParagraphItem CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent);
 
         /// <summary>
         /// Each file format defines its own paragraph
         /// </summary>
         /// <returns></returns>
-        internal abstract ParagraphContainer CreateParagraph(BoundingBox parent);
+        internal abstract ParagraphItem CreateParagraph(BoundingBox parent);
     }
 }

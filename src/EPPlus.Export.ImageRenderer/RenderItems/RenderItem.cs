@@ -26,6 +26,11 @@ namespace EPPlusImageRenderer.RenderItems
     internal abstract class RenderItem : RenderItemBase
     {
         internal protected DrawingBase DrawingRenderer { get; }
+        internal RenderItem(DrawingBase renderer)
+        {
+            DrawingRenderer = renderer;
+        }
+
         internal RenderItem(DrawingBase renderer, BoundingBox parent)
         {
             Bounds.Parent = parent;
@@ -40,7 +45,7 @@ namespace EPPlusImageRenderer.RenderItems
             ib = Bounds.Bottom;
         }
 
-        internal bool IsEndOfGroup { get; set; } = false;
+        //internal bool IsEndOfGroup { get; set; } = false;
         public string FillColor { get; set; }
         public string FilterName { get; set; }
         public DrawGradientFill GradientFill { get; set; }

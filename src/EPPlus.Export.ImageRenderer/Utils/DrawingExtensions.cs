@@ -9,8 +9,8 @@ namespace EPPlus.Export.ImageRenderer.Utils
         {
             return new BoundingBox()
             {
-                Left = drawing.GetPixelLeft(),
-                Top = drawing.GetPixelTop(),
+                Left = 0,
+                Top = 0,
                 Width = drawing.GetPixelWidth(),
                 Height = drawing.GetPixelHeight()
             };

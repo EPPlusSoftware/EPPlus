@@ -85,9 +85,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             CalculateLineSpacing();
             string finalString = "";
-            var xString = $"x =\"{(Bounds.X).ToString(CultureInfo.InvariantCulture)}\" ";
+            var xString = $"x =\"{(Bounds.Left).ToString(CultureInfo.InvariantCulture)}\" ";
 
-            var currentYEndPos = Bounds.GlobalY;
+            var currentYEndPos = Bounds.Position.Y; // Global position Y
 
             for (int i = 0; i < Lines.Count; i++)
             {

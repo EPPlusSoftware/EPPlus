@@ -181,7 +181,7 @@ namespace EPPlusImageRenderer.Svg
         public List<SvgRenderLineItem> MinorAxisPositions { get; private set; }
         public List<SvgRenderLineItem> MajorGridlinePositions { get; private set; }
         public List<SvgRenderLineItem> MinorGridlinePositions { get; private set; }
-        public List<TextBody> AxisValuesTextBoxes
+        public List<SvgTextBoxItem> AxisValuesTextBoxes
         {
             get;
             private set;
@@ -234,7 +234,8 @@ namespace EPPlusImageRenderer.Svg
             {
                 foreach (var tb in AxisValuesTextBoxes)
                 {
-                    renderItems.Add(tb);
+                    //renderItems.Add();
+                    tb.AppendRenderItems(renderItems);
                 }
             }
             
@@ -277,12 +278,12 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private List<TextBody> GetAxisValueTextBoxes()
+        private List<SvgTextBoxItem> GetAxisValueTextBoxes()
         {
             var tm = Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
             var mf = Axis.Font.GetMeasureFont();
             var axisStyle = GetAxisStyleEntry();
-            var ret= new List<TextBody>();
+            var ret= new List<SvgTextBoxItem>();
             for (var i=0;i < AxisValues.Count;i++)
             {
                 var v = AxisValues[i];
@@ -295,10 +296,10 @@ namespace EPPlusImageRenderer.Svg
                 bounds.Top = y;
                 bounds.Width = m.Width.PointToPixel();
                 bounds.Height = m.Height.PointToPixel(); 
-                var tb = new SvgTextBodyItem(SvgChart, bounds);
+                var tb = new SvgTextBoxItem(SvgChart, bounds, x, y, bounds.Width, bounds.Height);
                 tb.ImportTextBody(Axis.TextBody);
-                tb.Paragraphs[0].AddText(v, Axis.Font);
-                tb.SetDrawingPropertiesFill(Axis.Fill, axisStyle.FillReference.Color);
+                tb.TextBody.Paragraphs[0].AddText(v, Axis.Font);
+                //tb.SetDrawingPropertiesFill(Axis.Fill, axisStyle.FillReference.Color);
                 ret.Add(tb);
             }
             return ret;
@@ -508,14 +509,14 @@ namespace EPPlusImageRenderer.Svg
                     //var index = Values.IndexOf(val);
                     //if (index < 0) return -1;
                     var majorHeight = SvgChart.Plotarea.Rectangle.Height / Max;
-                    return (SvgChart.Plotarea.Rectangle.Top + majorHeight * (int)val + (majorHeight / 2));
+                    return (/*SvgChart.Plotarea.Rectangle.Top +*/ majorHeight * (int)val + (majorHeight / 2));
                 }
                 else
                 {
                     var dVal = ConvertUtil.GetValueDouble(val, false, true);
                     if (dVal < Min || dVal > Max) return double.NaN;
                     var diff = Max - Min;
-                    return (SvgChart.Plotarea.Rectangle.Top + ((Max-dVal) / diff * SvgChart.Plotarea.Rectangle.Height));
+                    return (/*SvgChart.Plotarea.Rectangle.Top + */((Max-dVal) / diff * SvgChart.Plotarea.Rectangle.Height));
                 }
             }
             else
@@ -525,14 +526,14 @@ namespace EPPlusImageRenderer.Svg
                     //var index = Values[(int)val];
                     //if (index < 0) return -1;
                     var majorWidth = SvgChart.Plotarea.Rectangle.Width / Max;
-                    return (SvgChart.Plotarea.Rectangle.Left + majorWidth * (int)val + (majorWidth / 2));
+                    return (/*SvgChart.Plotarea.Rectangle.Left + */majorWidth * (int)val + (majorWidth / 2));
                 }
                 else
                 {
                     var dVal = ConvertUtil.GetValueDouble(val, false, true);
                     if (dVal < Min || dVal > Max) return double.NaN;
                     var diff = Max - Min;
-                    return (SvgChart.Plotarea.Rectangle.Left + ((Max - dVal) / diff * SvgChart.Plotarea.Rectangle.Width));
+                    return (/*SvgChart.Plotarea.Rectangle.Left + */((Max - dVal) / diff * SvgChart.Plotarea.Rectangle.Width));
                 }
             }
         }

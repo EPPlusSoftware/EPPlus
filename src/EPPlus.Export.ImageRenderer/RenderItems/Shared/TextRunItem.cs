@@ -59,7 +59,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             _originalText = text;
 
-            Bounds.Transform.Name = "TextRun";
+            Bounds.Name = "TextRun";
             _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
 
             Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
@@ -89,9 +89,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //To get clipping height we need to get the textbody bounds
             if (parent != null && parent.Parent != null && parent.Parent.Parent != null)
             {
-                ClippingHeight = parent.Parent.Parent.Bottom;
+                ClippingHeight = parent.Parent.Parent.LocalPosition.Y + parent.Parent.Parent.Size.Y;
             }
-
+            if(Lines.Count==1)
+            {
+                Bounds.Width = parent.Width;
+            }
+            else
+            {
+                //Measure text.
+            }
             _isItalic = font.Italic;
             _isBold = font.Bold;
             _underLineType = font.UnderLine;
@@ -109,7 +116,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             _originalText = run.Text;
 
-            Bounds.Transform.Name = "TextRun";
+            Bounds.Name = "TextRun";
             _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
 
             Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
@@ -136,7 +143,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //To get clipping height we need to get the textbody bounds
             if( parent!= null && parent.Parent != null && parent.Parent.Parent != null)
             {
-               ClippingHeight = parent.Parent.Parent.Bottom;
+               ClippingHeight = ((BoundingBox)parent.Parent.Parent).Bottom;
             }
 
             _isItalic = run.FontItalic;
@@ -227,7 +234,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             
             //Caculate bounds right
             ir = CalculateRightPositionInPixels();
-            Bounds.Right = ir;
+            Bounds.Width = ir-Bounds.Left;
         }
 
         internal double CalculateRightPositionInPixels()

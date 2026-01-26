@@ -30,7 +30,7 @@ namespace EPPlus.Export.ImageRenderer.Text
             { 
                 if(Parent != null)
                 {
-                    return Parent.Width;
+                    return Parent.Size.X;
                 }
                 else
                 {
