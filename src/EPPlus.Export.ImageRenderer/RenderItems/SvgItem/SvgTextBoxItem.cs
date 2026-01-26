@@ -6,6 +6,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Xml.Serialization;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
@@ -58,6 +59,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 groupItem = new SvgGroupItem(DrawingRenderer, Bounds, Bounds.Rotation);
             }
             renderItems.Add(groupItem);
+            //handled by group now
+            Rectangle.Bounds.Top = 0;
+            Rectangle.Bounds.Left = 0;
             renderItems.Add(Rectangle);
             TextBody.AppendRenderItems(renderItems);
             renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));

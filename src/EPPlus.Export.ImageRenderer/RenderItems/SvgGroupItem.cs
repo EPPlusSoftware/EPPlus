@@ -50,7 +50,8 @@ namespace EPPlusImageRenderer.RenderItems
         {
             var bounds = "";
             var rot = "";
-            if(Bounds.Left!=0 || Bounds.Top!=0)
+            Bounds = parent;
+            if (Bounds.Left!=0 || Bounds.Top!=0)
             {
                 bounds = $"translate({Bounds.Left.ToString(CultureInfo.InvariantCulture)}, {Bounds.Top.ToString(CultureInfo.InvariantCulture)})";
             }
