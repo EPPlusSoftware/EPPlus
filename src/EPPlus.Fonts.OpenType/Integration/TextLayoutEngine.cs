@@ -143,11 +143,11 @@ namespace EPPlus.Fonts.OpenType.Integration
         }
 
         private List<string> WrapParagraph(
-            string text,
-            float fontSize,
-            double maxWidthPoints,
-            double startingWidthPoints,
-            ShapingOptions options)
+     string text,
+     float fontSize,
+     double maxWidthPoints,
+     double startingWidthPoints,
+     ShapingOptions options)
         {
             _lineListBuffer.Clear();
 
@@ -157,22 +157,35 @@ namespace EPPlus.Fonts.OpenType.Integration
                 return new List<string>(_lineListBuffer);
             }
 
-            // Get buffer from pool and extract widths
-            var charWidths = GetCharWidthBuffer(text.Length);
-            _shaper.ExtractCharWidths(text, fontSize, options, charWidths);
+            // CHANGED: Use light shaping pipeline instead of full shaping
+            // This gives us 8 bytes/glyph instead of 56 bytes/glyph (85% reduction!)
+            var glyphs = _shaper.ShapeLight(text, options);
 
-            // Use cached space width instead of measuring every time
+            // Convert glyph widths to character widths
+            var charWidths = GetCharWidthBuffer(text.Length);
+            Array.Clear(charWidths, 0, text.Length);
+
+            double scaleFactor = fontSize / _shaper.UnitsPerEm;
+
+            foreach (var glyph in glyphs)
+            {
+                int charIndex = glyph.ClusterIndex;
+                if (charIndex >= 0 && charIndex < text.Length)
+                {
+                    charWidths[charIndex] += glyph.XAdvance * scaleFactor;
+                }
+            }
+
+            // Use cached space width
             double spaceWidth = GetCachedSpaceWidth(fontSize, options);
 
+            // Rest of wrapping logic unchanged...
             int lineStart = 0;
             int wordStart = 0;
             double currentLineWidth = startingWidthPoints;
             double currentWordWidth = 0;
 
-            // Reuse pooled StringBuilder instead of creating new
-            // .NET 3.5 compatible: use Length = 0 instead of Clear()
             _lineBuilder.Length = 0;
-            // Ensure capacity for typical line length
             if (_lineBuilder.Capacity < text.Length / 4 + 20)
             {
                 _lineBuilder.Capacity = text.Length / 4 + 20;

@@ -15,14 +15,18 @@ using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
 {
     internal class LigatureProcessor
     {
+        private readonly List<LookupTable> _ligaLookups;
+
         public LigatureProcessor(OpenTypeFont font)
         {
             _font = font;
+            _ligaLookups = FindLookupsForFeature(font.GsubTable, "liga");
         }
 
         private readonly OpenTypeFont _font;
@@ -45,11 +49,95 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
             // Apply each lookup in order
             foreach (var lookup in ligaLookups)
             {
-                glyphs = ApplyLigatureLookup(glyphs, lookup);
+                ApplyLigaturesInPlace(glyphs);
             }
 
             return glyphs;
         }
+
+        internal void ApplyLigaturesInPlace(List<ShapedGlyph> glyphs)
+        {
+            if (_ligaLookups.Count == 0) return;
+
+            foreach (var lookup in _ligaLookups)
+            {
+                if (lookup.LookupType != 4) continue;
+
+                int i = 0;
+                while (i < glyphs.Count)
+                {
+                    bool substituted = false;
+
+                    foreach (var subtableObj in lookup.SubTables)
+                    {
+                        if (subtableObj is not LigatureSubstSubTable subtable) continue;
+
+                        if (TryApplyLigatureInPlace(glyphs, i, subtable, out int consumed))
+                        {
+                            substituted = true;
+                            i += consumed; // Oftast 1 efter ersättning
+                            break;         // Första match vinner – hoppa ur
+                        }
+                    }
+
+                    if (!substituted) i++;
+                }
+            }
+        }
+
+        private bool TryApplyLigatureInPlace(
+            List<ShapedGlyph> glyphs,
+            int startIndex,
+            LigatureSubstSubTable subtable,
+            out int componentsConsumed)
+        {
+            componentsConsumed = 0;
+
+            if (startIndex >= glyphs.Count) return false;
+
+            ushort first = glyphs[startIndex].GlyphId;
+            int covIdx = subtable.Coverage.GetGlyphIndex(first);
+            if (covIdx < 0) return false;
+
+            if (!subtable.LigatureSets.TryGetValue(first, out var ligSet) || ligSet?.Ligatures.Count == 0)
+                return false;
+
+            // Försök längre ligaturer först (rekommenderas av OpenType-spec)
+            var sortedLigs = ligSet.Ligatures
+                .OrderByDescending(l => 1 + (l.Components?.Length ?? 0))
+                .ToList();
+
+            foreach (var lig in sortedLigs)
+            {
+                int compCount = 1 + (lig.Components?.Length ?? 0);
+                if (startIndex + compCount > glyphs.Count) continue;
+
+                bool match = true;
+                for (int j = 0; j < lig.Components?.Length; j++)
+                {
+                    if (glyphs[startIndex + 1 + j].GlyphId != lig.Components[j])
+                    {
+                        match = false;
+                        break;
+                    }
+                }
+
+                if (match)
+                {
+                    var ligGlyph = CreateLigatureGlyph(glyphs, startIndex, (byte)compCount, lig.LigatureGlyph);
+
+                    // MUTERA DIREKT
+                    glyphs.RemoveRange(startIndex, compCount);
+                    glyphs.Insert(startIndex, ligGlyph);
+
+                    componentsConsumed = 1; // ligatur tar platsen → nästa steg flyttar förbi den
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
 
         /// <summary>
         /// Finds all lookups associated with a feature tag.
@@ -77,115 +165,6 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
             return lookups;
         }
 
-        /// <summary>
-        /// Applies a single ligature lookup to the glyph sequence.
-        /// Processes left-to-right, replacing matching sequences with ligatures.
-        /// </summary>
-        private List<ShapedGlyph> ApplyLigatureLookup(List<ShapedGlyph> glyphs, LookupTable lookup)
-        {
-            if (lookup.LookupType != 4) // Must be Ligature Substitution
-                return glyphs;
-
-            var result = new List<ShapedGlyph>();
-            int i = 0;
-
-            while (i < glyphs.Count)
-            {
-                bool substituted = false;
-
-                // Try each subtable
-                foreach (var subtable in lookup.SubTables)
-                {
-                    if (subtable is LigatureSubstSubTable ligSubtable)
-                    {
-                        // Try to match ligature starting at position i
-                        if (TryApplyLigature(glyphs, i, ligSubtable, out var ligatureGlyph, out int componentsConsumed))
-                        {
-                            result.Add(ligatureGlyph);
-                            i += componentsConsumed;
-                            substituted = true;
-                            break; // Found a match, move to next position
-                        }
-                    }
-                }
-
-                if (!substituted)
-                {
-                    // No ligature found, keep original glyph
-                    result.Add(glyphs[i]);
-                    i++;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Attempts to find and apply a ligature substitution starting at the given position.
-        /// </summary>
-        private bool TryApplyLigature(
-             List<ShapedGlyph> glyphs,
-             int startIndex,
-             LigatureSubstSubTable subtable,
-             out ShapedGlyph ligatureGlyph,
-             out int componentsConsumed)
-        {
-            ligatureGlyph = null;
-            componentsConsumed = 0;
-
-            if (startIndex >= glyphs.Count)
-                return false;
-
-            ushort firstGlyph = glyphs[startIndex].GlyphId;
-
-            // Check if first glyph is in coverage
-            int coverageIndex = subtable.Coverage.GetGlyphIndex(firstGlyph);
-            if (coverageIndex < 0)
-                return false;
-
-            // LigatureSets is a Dictionary<ushort, LigatureSet>
-            // Key is the GLYPH ID, not coverage index!
-            if (!subtable.LigatureSets.TryGetValue(firstGlyph, out var ligatureSet))
-                return false;
-
-            if (ligatureSet?.Ligatures == null)
-                return false;
-
-            // Try each ligature in the set
-            foreach (var ligature in ligatureSet.Ligatures)
-            {
-                int componentCount = 1 + (ligature.Components?.Length ?? 0);
-
-                // Check if we have enough glyphs remaining
-                if (startIndex + componentCount > glyphs.Count)
-                    continue;
-
-                // Check if all component glyphs match
-                bool matches = true;
-
-                if (ligature.Components != null)
-                {
-                    for (int j = 0; j < ligature.Components.Length; j++)
-                    {
-                        if (glyphs[startIndex + 1 + j].GlyphId != ligature.Components[j])
-                        {
-                            matches = false;
-                            break;
-                        }
-                    }
-                }
-
-                if (matches)
-                {
-                    // Found a match! Create ligature glyph
-                    ligatureGlyph = CreateLigatureGlyph(glyphs, startIndex, componentCount, ligature.LigatureGlyph);
-                    componentsConsumed = componentCount;
-                    return true;
-                }
-            }
-
-            return false;
-        }
 
         /// <summary>
         /// Creates a new shaped glyph for a ligature, combining metrics from components.
@@ -193,14 +172,14 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
         private ShapedGlyph CreateLigatureGlyph(
             List<ShapedGlyph> glyphs,
             int startIndex,
-            int componentCount,
+            byte componentCount,
             ushort ligatureGlyphId)
         {
             // Get advance width for ligature glyph
-            int advanceWidth = _font.HmtxTable.GetAdvanceWidth(ligatureGlyphId);
+            var advanceWidth = (short)_font.HmtxTable.GetAdvanceWidth(ligatureGlyphId);
 
             // Preserve cluster index from first component
-            int clusterIndex = glyphs[startIndex].ClusterIndex;
+            var clusterIndex = glyphs[startIndex].ClusterIndex;
 
             return new ShapedGlyph
             {

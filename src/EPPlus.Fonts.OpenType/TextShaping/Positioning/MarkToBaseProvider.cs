@@ -128,12 +128,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Positioning
 
             // Calculate mark position relative to base
             // Mark is positioned so its anchor aligns with base anchor
-            int xOffset = baseAnchor.XCoordinate - markAnchor.XCoordinate;
-            int yOffset = baseAnchor.YCoordinate - markAnchor.YCoordinate;
+            var xOffset = baseAnchor.XCoordinate - markAnchor.XCoordinate;
+            var yOffset = baseAnchor.YCoordinate - markAnchor.YCoordinate;
 
             // Apply positioning to mark glyph
-            markGlyph.XOffset = xOffset;
-            markGlyph.YOffset = yOffset;
+            markGlyph.XOffset = (short)xOffset;
+            markGlyph.YOffset = (short)yOffset;
 
             // Mark should not advance (it's positioned over base)
             markGlyph.XAdvance = 0;

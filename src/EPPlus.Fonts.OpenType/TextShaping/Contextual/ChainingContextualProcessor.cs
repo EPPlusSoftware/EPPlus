@@ -363,7 +363,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Contextual
                         {
                             // Create ligature
                             var result = new List<ShapedGlyph>(glyphs);
-                            var ligatureGlyph = CreateLigatureGlyph(glyphs, position, componentCount, ligature.LigatureGlyph);
+                            var ligatureGlyph = CreateLigatureGlyph(glyphs, position, (byte)componentCount, ligature.LigatureGlyph);
 
                             result.RemoveRange(position, componentCount);
                             result.Insert(position, ligatureGlyph);
@@ -379,7 +379,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Contextual
 
         private ShapedGlyph CreateSubstitutedGlyph(ShapedGlyph original, ushort newGlyphId)
         {
-            int advanceWidth = _font.HmtxTable.GetAdvanceWidth(newGlyphId);
+            var advanceWidth = (short)_font.HmtxTable.GetAdvanceWidth(newGlyphId);
 
             return new ShapedGlyph
             {
@@ -396,11 +396,11 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Contextual
         private ShapedGlyph CreateLigatureGlyph(
             List<ShapedGlyph> glyphs,
             int startIndex,
-            int componentCount,
+            byte componentCount,
             ushort ligatureGlyphId)
         {
-            int advanceWidth = _font.HmtxTable.GetAdvanceWidth(ligatureGlyphId);
-            int clusterIndex = glyphs[startIndex].ClusterIndex;
+            var advanceWidth = (short)_font.HmtxTable.GetAdvanceWidth(ligatureGlyphId);
+            var clusterIndex = glyphs[startIndex].ClusterIndex;
 
             return new ShapedGlyph
             {

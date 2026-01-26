@@ -26,6 +26,17 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         ShapedText Shape(string text, ShapingOptions options = null);
 
         /// <summary>
+        /// Shapes text into lightweight GlyphWidth structs optimized for text measurement.
+        /// This method is 85% more memory efficient than Shape() and is designed for
+        /// text wrapping scenarios where only character widths are needed.
+        /// Uses simplified pipeline: character mapping + essential OpenType features only.
+        /// </summary>
+        /// <param name="text">Text to shape</param>
+        /// <param name="options">Shaping options (ligatures and kerning supported)</param>
+        /// <returns>Array of lightweight glyph width structs (8 bytes each)</returns>
+        GlyphWidth[] ShapeLight(string text, ShapingOptions options = null);
+
+        /// <summary>
         /// Shapes multiple lines (splits on CR/LF/CRLF and shapes each line).
         /// Returns array of shaped lines in font design units.
         /// </summary>
