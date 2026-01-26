@@ -192,7 +192,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     //Not center of the Inset Rectangle
                 case eTextAnchoringType.Center:
                     var globalHeight = (DrawingRenderer.Bounds.Height / 2) + Bounds.Top+2;
-                    var adjustedHeight = globalHeight - Bounds.GlobalY;
+                    var adjustedHeight = globalHeight - Bounds.Position.Y; //Global position.
 
                     alignmentY = adjustedHeight;
                     break;
