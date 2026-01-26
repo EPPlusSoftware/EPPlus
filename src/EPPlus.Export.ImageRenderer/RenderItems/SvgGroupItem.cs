@@ -43,7 +43,7 @@ namespace EPPlusImageRenderer.RenderItems
             Bounds = bounds;
             if (Bounds.Left != 0 || Bounds.Top != 0)
             {
-                GroupTransform = $"tranform=\"translate({Bounds.Left.ToString(CultureInfo.InvariantCulture)}, {Bounds.Top.ToString(CultureInfo.InvariantCulture)})\"";
+                GroupTransform = $"transform=\"translate({Bounds.Left.ToString(CultureInfo.InvariantCulture)}, {Bounds.Top.ToString(CultureInfo.InvariantCulture)})\"";
             }
         }
         internal SvgGroupItem(DrawingBase renderer, BoundingBox parent, double rotation) : base(renderer, parent)
