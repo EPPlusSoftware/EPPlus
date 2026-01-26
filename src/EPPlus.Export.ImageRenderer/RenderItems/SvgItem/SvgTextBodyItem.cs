@@ -32,7 +32,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             
             var groupItem = new SvgGroupItem(DrawingRenderer, Bounds, Bounds.Rotation);
             renderItems.Add(groupItem);
-            foreach (var item in Paragraphs)
+            foreach (SvgParagraphItem item in Paragraphs)
             {
                 renderItems.Add(item);
             }

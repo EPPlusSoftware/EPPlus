@@ -36,10 +36,11 @@ namespace EPPlusImageRenderer.RenderItems
             if (string.IsNullOrEmpty(FillColor) == false)
             {
                 sb.Append($"fill=\"{FillColor}\" ");
-                if (FillOpacity != null && FillOpacity != 1)
-                {
-                    sb.Append($"opacity=\"{FillOpacity.Value.ToString(CultureInfo.InvariantCulture)}\" ");
-                }
+            }
+            //If fill is null it may in e.g. Rect still get the color black which can have an opacity
+            if (FillOpacity != null && FillOpacity != 1)
+            {
+                sb.Append($"opacity=\"{FillOpacity.Value.ToString(CultureInfo.InvariantCulture)}\" ");
             }
             if (string.IsNullOrEmpty(FilterName) == false)
             {

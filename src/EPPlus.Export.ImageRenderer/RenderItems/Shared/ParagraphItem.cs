@@ -49,7 +49,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             IsFirstParagraph = p == p._paragraphs[0];
 
-
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
             {
                 if(IsFirstParagraph)
