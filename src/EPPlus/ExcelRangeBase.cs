@@ -816,7 +816,6 @@ namespace OfficeOpenXml
         {
             get
             {
-
                 object value;
                 if (IsSingleCell || IsName)
                 {
