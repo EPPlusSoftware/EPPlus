@@ -17,6 +17,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         List<TextFragment> _fragmentItems = new List<TextFragment>();
         List<TextLine> _lines = new List<TextLine>();
         List<string> outputFragments = new List<string>();
+        List<string> outputStrings = new List<string>();
 
         /// <summary>
         /// Added linewidths in points
@@ -156,6 +157,113 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
 
             return outputFragments;
         }
+
+        public List<TextLine> GetOutputLines()
+        {
+            var fragments = GetFragmentsWithFinalLineBreaks();
+
+            string outputAllText = "";
+
+            //Create final all text
+            for (int i = 0; i < fragments.Count(); i++)
+            {
+                outputAllText += fragments[i];
+            }
+
+            var newLineIndiciesOutput = GetFirstCharPositionOfNewLines(outputAllText);
+            List<TextLine> outputTextLines = new List<TextLine>();
+
+            //Save minor information about each char so each char knows its line/fragment
+            int charCount = 0;
+            int lineIndex = 0;
+
+            List<int> currFragments = new();
+            int lineStartCharIndex = 0;
+            int RtInternalStartIndex = 0;
+
+            //For each fragment
+            for (int i = 0; i < fragments.Count; i++)
+            {
+                var textFragment = fragments[i];
+
+                //For each char in current fragment
+                for (int j = 0; j < textFragment.Length; j++)
+                {
+                    if (lineIndex <= newLineIndiciesOutput.Count - 1 &&
+                        charCount >= newLineIndiciesOutput[lineIndex])
+                    {
+                        //We have reached a new line
+                        var text = outputAllText.Substring(lineStartCharIndex, charCount - lineStartCharIndex);
+                        var trimmedText = text.Trim(['\r', '\n']);
+
+                        var line = new TextLine()
+                        {
+                            richTextIndicies = currFragments,
+                            content = trimmedText,
+                            startIndex = lineStartCharIndex,
+                            rtContentStartIndexPerRt = new List<int>(j),
+                            lastRtInternalIndex = j,
+                            startRtInternalIndex = RtInternalStartIndex
+                        };
+
+                        lineStartCharIndex = newLineIndiciesOutput[lineIndex];
+                        outputTextLines.Add(line);
+                        currFragments.Clear();
+                        RtInternalStartIndex = j;
+                        lineIndex++;
+                    }
+
+                    //var info = new CharInfo(charCount, i, lineIndex);
+                    //CharLookup.Add(charCount, info);
+                    charCount++;
+                }
+                currFragments.Add(i);
+            }
+
+            //Add the last line
+            var lastText = outputAllText.Substring(lineStartCharIndex, charCount - lineStartCharIndex);
+            var lastTrimmedText = lastText.Trim(['\r', '\n']);
+
+            var lastLine = new TextLine()
+            {
+                richTextIndicies = currFragments,
+                content = lastTrimmedText,
+                startIndex = lineStartCharIndex,
+                lastRtInternalIndex = fragments.Last().Length,
+                startRtInternalIndex = RtInternalStartIndex
+            };
+
+            outputTextLines.Add(lastLine);
+            currFragments.Clear();
+
+            return outputTextLines;
+        }
+
+        //public void GetTextFragmentOutputStartIndiciesOnFinalLines(List<string> finalOutputLines)
+        //{
+        //    var lineBreakStrings = GetFragmentsWithFinalLineBreaks();
+        //    //var fragmentsWithoutLineBreaks = GetFragmentsWithoutLineBreaks();
+        //    string outputAllText = "";
+            
+        //    //List<List<int>> eachFragmentForEachLine = new List<List<int>>();
+
+        //    for(int i = 0; i< finalOutputLines.Count(); i++)
+        //    {
+        //        var line = new TextLine();
+        //        line.content = finalOutputLines[i];
+
+        //    }
+
+        //    //Create final all text
+        //    for(int i = 0; i< lineBreakStrings.Count(); i++)
+        //    {
+
+        //        ////var length = lineBreakStrings[i].Length;
+        //        //outputAllText += lineBreakStrings[i];
+        //    }
+
+
+        //}
 
         public List<string> GetFragmentsWithoutLineBreaks()
         {

@@ -1,12 +1,17 @@
-﻿using OfficeOpenXml;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Style;
-using System.Globalization;
-using EPPlusImageRenderer;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
-using System.Diagnostics;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Style;
+using System.Diagnostics;
+using System.Globalization;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {
@@ -143,6 +148,41 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 Assert.AreEqual(134.20312500000006d, txtRuns2[4].Bounds.Width);
                 currentLineWidth += txtRuns2[4].Bounds.Width;
             }
+        }
+
+        [TestMethod]
+        public void ConceptLines()
+        {
+            var currentChar = 'a';
+            var defaultFont = new MeasurementFont
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            List<string> manyRichText = new List<string>();
+            List<MeasurementFont> manyFonts = new List<MeasurementFont>();
+
+            for (int i = 0; i< 20; i++)
+            {
+                manyRichText.Add(currentChar.ToString());
+                manyFonts.Add(defaultFont);
+                currentChar++;
+                defaultFont.Size ++;
+            }
+
+            var fragments = new TextFragmentCollection(manyRichText);
+            var fontMeasurer = new FontMeasurerTrueType();
+
+            var strings = fontMeasurer.WrapMultipleTextFragments(fragments, manyFonts, 30d.PixelToPoint());
+
+            var outputLines = fragments.GetOutputLines();
+
+
+            //var paragraph = new TextParagraph(fragments, manyFonts);
+
+            //List<string> manyRichText = new List<string>() {"a","b","c","d","e","f","g" };
         }
 
         [TestMethod]

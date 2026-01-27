@@ -26,7 +26,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             Rectangle = new SvgRenderRectItem(renderer, parent);
             Rectangle.Bounds = Bounds;
         }
-        public RenderItem Rectangle { get; set; }
+
+        //Simplified input
+        internal SvgTextBoxItem(DrawingBase renderer, BoundingBox parent, BoundingBox maxBounds) : this(
+                                            renderer, parent, maxBounds.Left, maxBounds.Top, maxBounds.Width, maxBounds.Height)
+        {
+        }
+
+        public SvgRenderItem Rectangle { get; set; }
         public SvgTextBodyItem TextBody {get;set;}
         internal double LeftMargin { get { return TextBody.Bounds.Left; } set { TextBody.Bounds.Left = value; } }
 
@@ -62,6 +69,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //handled by group now
             Rectangle.Bounds.Top = 0;
             Rectangle.Bounds.Left = 0;
+            Rectangle.FillOpacity = 0.1;
             renderItems.Add(Rectangle);
             TextBody.AppendRenderItems(renderItems);
             renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));

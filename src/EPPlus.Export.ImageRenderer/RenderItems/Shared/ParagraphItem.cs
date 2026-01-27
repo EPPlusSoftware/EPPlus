@@ -217,6 +217,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             double widthOfCurrentLine = 0;
             double largestFontSizeCurrentLine = 0;
             int idxLargestFontSize = 0;
+            int firstRunInLine = 0;
 
             for (int i = 0; i < p.TextRuns.Count; i++)
             {
@@ -229,18 +230,33 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
                 var lastAdded = Runs.Last();
 
-                //We are on a new line
                 if (lastAdded.YIncreasePerLine.Count > 1)
                 {
+                    //We are on a new line
+
+                    //Ensure bounds of the largest font size have been calculated
                     Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
+                    //Add its height to the bounds height as smaller fonts are irrelevant for height increase
                     Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
+
+                    //if(firstRunInLine != 0)
+                    //{
+                    //}
+
+                    ////Excel in addition adds the height to the first y-value as well
+                    //Runs[i].YIncreasePerLine[1] = Runs[idxLargestFontSize].Bounds.Height;
+                    //Runs[firstRunInLine]
+
                     widthOfCurrentLine = Runs.Last().PerLineWidth.Last();
 
                     idxLargestFontSize = i;
                     largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
+
+                    firstRunInLine = i;
                 }
                 else
                 {
+                    //We are continuing on the current line
                     widthOfCurrentLine += Runs.Last().PerLineWidth.Last();
                     if(i == p.TextRuns.Count -1)
                     {

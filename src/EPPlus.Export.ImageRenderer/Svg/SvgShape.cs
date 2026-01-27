@@ -36,8 +36,14 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class SvgShape : DrawingShape
     {
-        SvgRenderRectItem insetTextBox;
-        SvgTextBodyItem textBody;
+        /// <summary>
+        /// Calculated shape textbox
+        /// </summary>
+        SvgRenderRectItem InsetTextBox;
+        /// <summary>
+        /// Textbox from memory
+        /// </summary>
+        SvgTextBoxItem TextBox;
 
         public SvgShape(ExcelShape shape) : base(shape)
         {
@@ -75,34 +81,36 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
+                RenderItems.Add(new SvgEndGroupItem(this, Bounds));
+
                 if (_shape.Text != null)
                 {
                     if (shapeDef.TextBoxRect != null)
                     {
-                        insetTextBox = new SvgRenderRectItem(this, Bounds);
-                        insetTextBox.Bounds.Left = (float)shapeDef.TextBoxRect.LeftValue;
-                        insetTextBox.Bounds.Top = (float)shapeDef.TextBoxRect.TopValue;
-                        insetTextBox.FillOpacity = 0.3d;
+                        InsetTextBox = new SvgRenderRectItem(this, Bounds);
+                        InsetTextBox.Bounds.Left = (float)shapeDef.TextBoxRect.LeftValue;
+                        InsetTextBox.Bounds.Top = (float)shapeDef.TextBoxRect.TopValue;
+                        InsetTextBox.FillOpacity = 0.3d;
 
                         if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
                         {
-                            insetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue - (float)shapeDef.TextBoxRect.LeftValue;
-                            insetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue - (float)shapeDef.TextBoxRect.TopValue;
+                            InsetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue - (float)shapeDef.TextBoxRect.LeftValue;
+                            InsetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue - (float)shapeDef.TextBoxRect.TopValue;
                         }
                         else
                         {
-                            insetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue;
-                            insetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue;
+                            InsetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue;
+                            InsetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue;
                         }
                     }
                     else
                     {
-                        insetTextBox = null;
+                        InsetTextBox = null;
                     }
 
-                    textBody = CreateTextBodyItem();
-                    textBody.ImportTextBody(_shape.TextBody);
-                    textBody.AppendRenderItems(RenderItems);
+                    TextBox = CreateTextBodyItem();
+                    TextBox.ImportTextBody(_shape.TextBody);
+                    TextBox.AppendRenderItems(RenderItems);
                 }
             }
         }
@@ -237,19 +245,19 @@ namespace EPPlusImageRenderer.Svg
             sb.AppendLine("</svg>");
         }
 
-        SvgTextBodyItem CreateTextBodyItem()
+        SvgTextBoxItem CreateTextBodyItem()
         {
-            if (insetTextBox == null)
+            if (InsetTextBox == null)
             {
                 GetShapeInnerBound(out double x, out double y, out double width, out double height);
-                insetTextBox = new SvgRenderRectItem(this, Bounds);
-                insetTextBox.Bounds.Left = x;
-                insetTextBox.Bounds.Top = y;
-                insetTextBox.Width = width;
-                insetTextBox.Height = height;
-                insetTextBox.Bounds.Parent = textBody.Bounds; //TODO:Check that textBody is correct.
+                InsetTextBox = new SvgRenderRectItem(this, Bounds);
+                InsetTextBox.Bounds.Left = x;
+                InsetTextBox.Bounds.Top = y;
+                InsetTextBox.Width = width;
+                InsetTextBox.Height = height;
+                InsetTextBox.Bounds.Parent = TextBox.Bounds; //TODO:Check that textBody is correct.
             }
-            var txtBodyItem = new SvgTextBodyItem(this, insetTextBox.Bounds);
+            var txtBodyItem = new SvgTextBoxItem(this, Bounds, InsetTextBox.Bounds);
 
             return txtBodyItem;
         }
@@ -262,10 +270,10 @@ namespace EPPlusImageRenderer.Svg
 
         private void RenderDebugTextBox(StringBuilder sb)
         {
-            insetTextBox.FillColor = "green";
-            insetTextBox.Render(sb);
+            InsetTextBox.FillColor = "green";
+            InsetTextBox.Render(sb);
 
-            insetTextBox.GetBounds(out double l, out double t, out double r, out double b);
+            InsetTextBox.GetBounds(out double l, out double t, out double r, out double b);
 
             //var area = textBody.Bounds;
 

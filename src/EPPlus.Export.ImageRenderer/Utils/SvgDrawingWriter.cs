@@ -275,7 +275,7 @@ namespace EPPlusImageRenderer.Utils
                     SetPatternArray(defSb, name, afc, abc, PatternArrays.Trellis);
                     break;
                 case eFillPatternStyle.Sphere:
-                    SetPatternArray(defSb, name, afc, abc, PatternArrays.Shpere);
+                    SetPatternArray(defSb, name, afc, abc, PatternArrays.Sphere);
                     break;
                 case eFillPatternStyle.SmGrid:
                     SetPatternArray(defSb, name, afc, abc, PatternArrays.SmGrid);

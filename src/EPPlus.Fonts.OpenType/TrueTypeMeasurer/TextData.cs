@@ -718,6 +718,11 @@ namespace EPPlus.Fonts.OpenType
             wordWidth = Convert.ToInt16(wordWidthInPoints * factorTarget);
         }
 
+        internal static List<string> WrapRichText(TextParagraph paragraph, double maxWidthPoints)
+        {
+
+        }
+
         internal static List<string> WrapMultipleTextFragments(TextParagraph paragraph, double maxWidthPoints)
         {
             //Initialize variables
@@ -742,8 +747,6 @@ namespace EPPlus.Fonts.OpenType
             var fragments = paragraph.Fragments;
             var allText = fragments.AllText;
             var newLineIndicies = fragments.AllTextNewLineIndicies;
-
-            var len = allText.Length-7;
 
             //Iterate through All fragments as one concatenated text string
             for (int i = 0; i < allText.Length; i++)
