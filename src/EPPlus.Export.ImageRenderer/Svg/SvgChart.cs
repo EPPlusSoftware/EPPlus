@@ -149,16 +149,16 @@ namespace EPPlusImageRenderer.Svg
         {
             Plotarea?.AppendRenderItems(RenderItems);
 
-            //HorizontalAxis?.AppendRenderItems(RenderItems);
-            //VerticalAxis?.AppendRenderItems(RenderItems);
-            //SecondVerticalAxis?.AppendRenderItems(RenderItems);
+            HorizontalAxis?.AppendRenderItems(RenderItems);
+            VerticalAxis?.AppendRenderItems(RenderItems);
+            SecondVerticalAxis?.AppendRenderItems(RenderItems);
 
-            //foreach (var drawer in Plotarea?.ChartTypeDrawers)
-            //{
-            //    drawer.AppendRenderItems(RenderItems);
-            //}
+            foreach (var drawer in Plotarea?.ChartTypeDrawers)
+            {
+                drawer.AppendRenderItems(RenderItems);
+            }
 
-            //Legend?.AppendRenderItems(RenderItems);
+            Legend?.AppendRenderItems(RenderItems);
             Title?.AppendRenderItems(RenderItems);
 
             sb.Append($"<svg width=\"{Bounds.Width}\" height=\"{Bounds.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
@@ -166,24 +166,10 @@ namespace EPPlusImageRenderer.Svg
             var writer = new SvgDrawingWriter(this);
             writer.WriteSvgDefs(sb, RenderItems);
 
-            //SvgGroupItem gItemTest = null;
             foreach (var item in RenderItems)
             {
                 item.Render(sb);
-                //if (item.Type == RenderItemType.Group && gItemTest == null)
-                //{
-                //    gItemTest = (SvgGroupItem)item;
-                //}
-                //if(item.IsEndOfGroup && gItemTest != null)
-                //{
-                //    gItemTest.RenderEndGroup(sb);
-                //    gItemTest = null;
-                //}
             }
-            //if(gItemTest != null)
-            //{
-            //    gItemTest.RenderEndGroup(sb);
-            //}
 
             sb.Append("</svg>");
         }

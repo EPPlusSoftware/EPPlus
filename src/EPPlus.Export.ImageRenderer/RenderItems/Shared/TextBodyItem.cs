@@ -59,12 +59,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             var measureFont = item.DefaultRunProperties.GetMeasureFont();
             bool isFirst = Paragraphs.Count == 0;
 
-            var paragraph = CreateParagraph(item, Bounds);
+            var paragraph = CreateParagraph(item, Bounds, text);
             paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
-            if (string.IsNullOrEmpty(text) == false)
-            {
-                paragraph.AddText(text, item.DefaultRunProperties);
-            }
             paragraph.Bounds.Top = startingY;
             _text = text;
             Paragraphs.Add(paragraph);
@@ -211,7 +207,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// Each file format defines its own paragraph
         /// </summary>
         /// <returns></returns>
-        internal abstract ParagraphItem CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent);
+        internal abstract ParagraphItem CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty="");
 
         /// <summary>
         /// Each file format defines its own paragraph

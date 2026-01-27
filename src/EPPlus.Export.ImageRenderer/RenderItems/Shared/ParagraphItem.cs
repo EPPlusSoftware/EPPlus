@@ -45,7 +45,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _paragraphFont = defaultFont;
         }
 
-        public ParagraphItem(DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p) : base(renderer, parent)
+        public ParagraphItem(DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty=null) : base(renderer, parent)
         {
             IsFirstParagraph = p == p._paragraphs[0];
 
@@ -95,7 +95,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _paragraphFont = p.DefaultRunProperties.GetMeasureFont();
             _measurer.SetFont(_paragraphFont);
 
-            AddLinesAndTextRuns(p);
+            AddLinesAndTextRuns(p, textIfEmpty);
         }
 
         private double GetParagraphLineSpacingInPixels(double spacingValue, ITextMeasurerWrap fmExact)
@@ -162,7 +162,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             var measurer = new FontMeasurerTrueType();
             var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), Bounds.Parent.Size.X);
             var container = CreateTextRun(text, font, Bounds, string.Join("\r\n", displayText.ToArray()));
-
+            container.BaseLineSpacing = _lineSpacingAscendantOnly;
+            container.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
             Runs.Add(container);
 
             container.Bounds.Name = $"Container{Runs.Count}";
@@ -206,7 +207,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             return ttMeasurer.WrapMultipleTextFragments(fragments, fonts, maxSizePoints);
         }
 
-        private void AddLinesAndTextRuns(ExcelDrawingParagraph p)
+        private void AddLinesAndTextRuns(ExcelDrawingParagraph p, string textIfEmpty)
         {
             //Log line positions and run sizes
             GenerateTextFragments(p.TextRuns);
@@ -217,35 +218,41 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             double widthOfCurrentLine = 0;
             double largestFontSizeCurrentLine = 0;
             int idxLargestFontSize = 0;
-
-            for (int i = 0; i < p.TextRuns.Count; i++)
+            if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
             {
-                if (p.TextRuns[i].FontSize > largestFontSizeCurrentLine)
+                AddText(textIfEmpty, p.DefaultRunProperties);
+            }
+            else
+            {
+                for (int i = 0; i < p.TextRuns.Count; i++)
                 {
-                    largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
-                    idxLargestFontSize = i;
-                }
+                    if (p.TextRuns[i].FontSize > largestFontSizeCurrentLine)
+                    {
+                        largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
+                        idxLargestFontSize = i;
+                    }
 
-                AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
-                var lastAdded = Runs.Last();
+                    AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
+                    var lastAdded = Runs.Last();
 
-                //We are on a new line
-                if (lastAdded.YIncreasePerLine.Count > 1)
-                {
-                    Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
-                    Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
-                    widthOfCurrentLine = Runs.Last().PerLineWidth.Last();
-
-                    idxLargestFontSize = i;
-                    largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
-                }
-                else
-                {
-                    widthOfCurrentLine += Runs.Last().PerLineWidth.Last();
-                    if(i == p.TextRuns.Count -1)
+                    //We are on a new line
+                    if (lastAdded.YIncreasePerLine.Count > 1)
                     {
                         Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
                         Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
+                        widthOfCurrentLine = Runs.Last().PerLineWidth.Last();
+
+                        idxLargestFontSize = i;
+                        largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
+                    }
+                    else
+                    {
+                        widthOfCurrentLine += Runs.Last().PerLineWidth.Last();
+                        if (i == p.TextRuns.Count - 1)
+                        {
+                            Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
+                            Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
+                        }
                     }
                 }
             }
