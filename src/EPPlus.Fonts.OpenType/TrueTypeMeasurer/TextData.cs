@@ -718,11 +718,6 @@ namespace EPPlus.Fonts.OpenType
             wordWidth = Convert.ToInt16(wordWidthInPoints * factorTarget);
         }
 
-        internal static List<string> WrapRichText(TextParagraph paragraph, double maxWidthPoints)
-        {
-
-        }
-
         internal static List<string> WrapMultipleTextFragments(TextParagraph paragraph, double maxWidthPoints)
         {
             //Initialize variables
