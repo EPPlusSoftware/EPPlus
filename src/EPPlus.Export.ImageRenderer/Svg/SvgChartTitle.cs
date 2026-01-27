@@ -171,7 +171,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal void InitTextBox()
         {
-            TextBox = new SvgTextBoxItem(_svgChart, _svgChart.Bounds, Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height);
+            TextBox = new SvgTextBoxItem(_svgChart, _svgChart.ChartArea.Bounds, Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height);
             TextBox.LeftMargin = LeftMargin;
             TextBox.RightMargin = RightMargin;
             TextBox.TopMargin = TopMargin;
@@ -203,22 +203,10 @@ namespace EPPlusImageRenderer.Svg
         }
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            //SvgGroupItem groupItem;
-            //if (TextBox.Bounds.Rotation == 0)
-            //{
-            //    groupItem = new SvgGroupItem(_svgChart, Rectangle.Bounds);
-            //}
-            //else
-            //{
-            //    groupItem = new SvgGroupItem(_svgChart, Rectangle.Bounds, TextBox.Bounds.Rotation);
-            //}
 
-            //renderItems.Add(groupItem);
-            //renderItems.Add(Rectangle);
             TextBox.AppendRenderItems(renderItems);
             TextBox.Rectangle.SetDrawingPropertiesFill(_title.Fill, _svgChart.Chart.StyleManager.Style.Title.FillReference.Color);
             TextBox.Rectangle.SetDrawingPropertiesBorder(_title.Border, _svgChart.Chart.StyleManager.Style.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, 0.75);
-            //renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
         }
 
     }

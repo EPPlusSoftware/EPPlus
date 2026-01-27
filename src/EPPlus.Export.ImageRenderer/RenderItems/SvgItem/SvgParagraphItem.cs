@@ -19,7 +19,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
         }
 
-        public SvgParagraphItem(DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p) : base(renderer, parent, p)
+        public SvgParagraphItem(DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(renderer, parent, p, textIfEmpty)
         {
         }
 
@@ -79,19 +79,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             sb.AppendLine("<title>paragraph</title> ");
 
-            var bb = new SvgRenderRectItem(DrawingRenderer, Bounds);
-            //The bb is affected by the Transform so set pos to zero
-            if (IsFirstParagraph == false)
-            {
-                bb.Y = 0;
-            }
-            bb.X = 0;
+            //var bb = new SvgRenderRectItem(DrawingRenderer, Bounds);
+            ////The bb is affected by the Transform so set pos to zero
+            //if (IsFirstParagraph == false)
+            //{
+            //    bb.Y = 0;
+            //}
+            //bb.X = 0;
 
-            bb.Width = Bounds.Width;
-            bb.Height = Bounds.Height;
-            bb.FillColor = FillColor;
-            bb.FillOpacity = 0.3;
-            bb.Render(sb);
+            //bb.Width = Bounds.Width;
+            //bb.Height = Bounds.Height;
+            //bb.FillColor = FillColor;
+            //bb.FillOpacity = 0.3;
+            //bb.Render(sb);
 
             //Render text run debug boxes as we cannot place the rects after or inside the text element
 

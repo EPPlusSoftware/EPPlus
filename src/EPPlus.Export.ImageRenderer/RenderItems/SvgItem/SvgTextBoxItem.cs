@@ -19,6 +19,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             Bounds.Top = top;
             Bounds.Width = maxWidth;
             Bounds.Height = maxHeight;
+            Bounds.Name = "TextBox";
             TextBody = new SvgTextBodyItem(renderer, Bounds, true);
             Bounds.Width = TextBody.Width;
             Bounds.Height = TextBody.Height;

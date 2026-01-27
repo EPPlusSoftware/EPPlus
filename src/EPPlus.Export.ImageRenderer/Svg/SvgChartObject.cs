@@ -56,7 +56,7 @@ namespace EPPlusImageRenderer.Svg
         internal SvgRenderLineItem Line { get; set; }
         protected static SvgRenderRectItem GetRectFromManualLayout(SvgChart sc, ExcelLayout layout)
         {
-            var rect = new SvgRenderRectItem(sc, sc.Bounds);
+            var rect = new SvgRenderRectItem(sc, sc.ChartArea.Bounds);
             var ml = layout.ManualLayout;
             if (ml.LeftMode == eLayoutMode.Edge)
             {

@@ -384,7 +384,7 @@ namespace EPPlus.Fonts.OpenType
         private static void MeasureAndWrapLine(string line, OpenTypeFont font, ref int lineWidth, ref int wordWidth, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<string> wrappedStrings, bool applyKerning = true)
         {
             int nextLineStartIndex = 0;
-
+            
             for (int i = 0; i < line.Length; i++)
             {
                 char c = line[i];
@@ -426,7 +426,7 @@ namespace EPPlus.Fonts.OpenType
 
             var inputMaxWidth = maxWidth;
             //Convert maxWidth from points to font design units
-            maxWidth = (maxWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize;
+            maxWidth = Math.Round((maxWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize,0,MidpointRounding.AwayFromZero);
 
             var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
 

@@ -234,7 +234,6 @@ namespace EPPlusImageRenderer.Svg
             {
                 foreach (var tb in AxisValuesTextBoxes)
                 {
-                    //renderItems.Add();
                     tb.AppendRenderItems(renderItems);
                 }
             }
@@ -291,15 +290,17 @@ namespace EPPlusImageRenderer.Svg
                 var x = GetAxisItemLeft(i, m);
                 var y = GetAxisItemTop(i, m);
                 //var tb = new TextBox(Chart, x, y, m.Width, m.Height);
-                var bounds = new BoundingBox();
-                bounds.Left = x;
-                bounds.Top = y;
-                bounds.Width = m.Width.PointToPixel();
-                bounds.Height = m.Height.PointToPixel(); 
-                var tb = new SvgTextBoxItem(SvgChart, bounds, x, y, bounds.Width, bounds.Height);
-                tb.ImportTextBody(Axis.TextBody);
-                tb.TextBody.Paragraphs[0].AddText(v, Axis.Font);
-                //tb.SetDrawingPropertiesFill(Axis.Fill, axisStyle.FillReference.Color);
+                //var bounds = new BoundingBox();
+                //bounds.Left = x;
+                //bounds.Top = y;
+                var width = m.Width.PointToPixel();
+                var height = m.Height.PointToPixel(); 
+                var tb = new SvgTextBoxItem(SvgChart, Rectangle.Bounds, x, y, width, height);
+                var p = Axis.TextBody.Paragraphs.FirstOrDefault();
+                tb.TextBody.ImportParagraph(p, 0, v);
+
+                //tb.TextBody.Paragraphs[0].AddText(v, Axis.Font);
+                tb.Rectangle.SetDrawingPropertiesFill(Axis.Fill, axisStyle.FillReference.Color);
                 ret.Add(tb);
             }
             return ret;

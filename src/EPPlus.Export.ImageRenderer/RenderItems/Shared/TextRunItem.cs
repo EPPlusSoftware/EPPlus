@@ -89,7 +89,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //To get clipping height we need to get the textbody bounds
             if (parent != null && parent.Parent != null && parent.Parent.Parent != null)
             {
-                ClippingHeight = parent.Parent.Parent.LocalPosition.Y + parent.Parent.Parent.Size.Y;
+                ClippingHeight = parent.Parent.Parent.Position.Y + parent.Parent.Parent.Size.Y;
             }
             if(Lines.Count==1)
             {
