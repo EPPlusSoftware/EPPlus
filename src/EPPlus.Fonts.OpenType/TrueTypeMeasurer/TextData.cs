@@ -390,7 +390,7 @@ namespace EPPlus.Fonts.OpenType
                 char c = line[i];
                 var advanceWidth = CalculateAdvanceWidth(c, glyphMappings, font, ref lastGlyphIndex, ref lineWidth, ref wordWidth, ref applyKerning);
 
-                if (lineWidth > maxWidth)
+                if (lineWidth >= maxWidth)
                 {
                     WrapAtCharPos(line, i, ref nextLineStartIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings);
                 }
@@ -417,7 +417,6 @@ namespace EPPlus.Fonts.OpenType
         internal static List<string> MeasureAndWrapText(string text, double fontSize, OpenTypeFont fontData, double maxWidth, double preExistingLineWidth = 0, double preExistingWordWidth = 0)
         {
             //  Initialize:
-
             int totalAdvanceWidth = 0;
             ushort? lastGlyphIndex = 0;
 
@@ -426,7 +425,7 @@ namespace EPPlus.Fonts.OpenType
 
             var inputMaxWidth = maxWidth;
             //Convert maxWidth from points to font design units
-            maxWidth = Math.Round((maxWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize,0,MidpointRounding.AwayFromZero);
+            var maxWidthInDesignUnits = Math.Round(((inputMaxWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize), 0, MidpointRounding.AwayFromZero);
 
             var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
 
@@ -446,7 +445,7 @@ namespace EPPlus.Fonts.OpenType
 
             // Execute:
 
-            MeasureAndWrapLines(text, ref totalAdvanceWidth, ref wordWidth, fontData, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
+            MeasureAndWrapLines(text, ref totalAdvanceWidth, ref wordWidth, fontData, glyphMappings, lastGlyphIndex, maxWidthInDesignUnits, wrappedStrings);
 
             return wrappedStrings;
         }
