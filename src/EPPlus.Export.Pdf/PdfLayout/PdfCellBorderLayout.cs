@@ -10,14 +10,18 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Pdfhelpers;
+using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
-using System.Drawing;
-using EPPlus.Export.Pdf.PdfSettings;
 using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using EPPlus.Export.Pdf.Pdfhelpers;
+using OfficeOpenXml.Core.Worksheet.XmlWriter;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Style.Table;
+using OfficeOpenXml.Table;
+using System.Drawing;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -152,6 +156,165 @@ namespace EPPlus.Export.Pdf.PdfLayout
             //}
             //BorderData.Right.X = LocalPosition.X;
             //BorderData.Right.Y = LocalPosition.Y;
+        }
+
+
+        //Get Methods fort border styles
+        /*
+             Whole Table
+             First Column Stripe
+             Second Column Stripe
+             First Row Stripe
+             Second Row Stripe
+             Last Column
+             First Column
+             Header Row
+             Total Row
+             First Header Cell
+             Last Header Cell
+             First Total Cell
+             Last Total Cell
+        */
+
+        public static ExcelDxfBorderItem GetTopBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        {
+            var range = table.Range;
+            int tableRow = cell._fromRow - range._fromRow;
+            int tableCol = cell._fromCol - range._fromCol;
+            var top = tableStyle.WholeTable.Style.Border.Top;
+            if (table.ShowHeader && tableRow == 0)
+            {
+                if (tableStyle.HeaderRow.Style.Border.Top.HasValue)
+                {
+                    top = tableStyle.HeaderRow.Style.Border.Top;
+                }
+                if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Border.Top.HasValue)
+                {
+                    top = tableStyle.FirstHeaderCell.Style.Border.Top;
+                }
+                if (tableCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Border.Top.HasValue)
+                {
+                    top = tableStyle.LastHeaderCell.Style.Border.Top;
+                }
+            }
+            else if (table.ShowTotal && cell._fromRow == range._toRow)
+            {
+                if (tableStyle.TotalRow.Style.Border.Top.HasValue)
+                {
+                    top = tableStyle.TotalRow.Style.Border.Top;
+                }
+                if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Border.Top.HasValue)
+                {
+                    top = tableStyle.FirstTotalCell.Style.Border.Top;
+                }
+                if (tableCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Border.Top.HasValue)
+                {
+                    top = tableStyle.LastTotalCell.Style.Border.Top;
+                }
+            }
+            else
+            {
+                if (table.ShowColumnStripes && tableStyle.FirstColumnStripe.Style.Border.Top.HasValue)
+                {
+                    top = tableStyle.FirstColumnStripe.Style.Border.Top;
+                }
+                if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Top.HasValue)
+                {
+                    top = tableStyle.SecondColumnStripe.Style.Border.Top;
+                }
+                if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Top.HasValue)
+                {
+                    top = tableStyle.FirstRowStripe.Style.Border.Top;
+                }
+                if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Top.HasValue)
+                {
+                    top = tableStyle.SecondRowStripe.Style.Border.Top;
+                }
+                if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Top.HasValue)
+                {
+                    top = tableStyle.LastColumn.Style.Border.Top;
+                }
+                if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Border.Top.HasValue)
+                {
+                    top = tableStyle.FirstColumn.Style.Border.Top;
+                }
+                //we are inside so we use horizontal as fallback from whole table else we use top.
+                if (tableStyle.WholeTable.Style.Border.Horizontal.HasValue)
+                {
+                    top = tableStyle.WholeTable.Style.Border.Horizontal;
+                }
+            }
+            return top;
+        }
+        public static ExcelDxfBorderItem GetBottomBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        {
+            var range = table.Range;
+            int tableRow = cell._fromRow - range._fromRow;
+            int tableCol = cell._fromCol - range._fromCol;
+            var bottom = tableStyle.WholeTable.Style.Border.Top;
+            if (table.ShowHeader && tableRow == 0)
+            {
+                if (tableStyle.HeaderRow.Style.Border.Top.HasValue)
+                {
+                    bottom = tableStyle.HeaderRow.Style.Border.Top;
+                }
+                if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Border.Top.HasValue)
+                {
+                    bottom = tableStyle.FirstHeaderCell.Style.Border.Top;
+                }
+                if (tableCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Border.Top.HasValue)
+                {
+                    bottom = tableStyle.LastHeaderCell.Style.Border.Top;
+                }
+            }
+            else if (table.ShowTotal && cell._fromRow == range._toRow)
+            {
+                if (tableStyle.TotalRow.Style.Border.Top.HasValue)
+                {
+                    bottom = tableStyle.TotalRow.Style.Border.Top;
+                }
+                if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Border.Top.HasValue)
+                {
+                    bottom = tableStyle.FirstTotalCell.Style.Border.Top;
+                }
+                if (tableCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Border.Top.HasValue)
+                {
+                    bottom = tableStyle.LastTotalCell.Style.Border.Top;
+                }
+            }
+            else
+            {
+                if (table.ShowColumnStripes && tableStyle.FirstColumnStripe.Style.Border.Top.HasValue)
+                {
+                    bottom = tableStyle.FirstColumnStripe.Style.Border.Top;
+                }
+                if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Top.HasValue)
+                {
+                    bottom = tableStyle.SecondColumnStripe.Style.Border.Top;
+                }
+                if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Top.HasValue)
+                {
+                    bottom = tableStyle.FirstRowStripe.Style.Border.Top;
+                }
+                if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Top.HasValue)
+                {
+                    bottom = tableStyle.SecondRowStripe.Style.Border.Top;
+                }
+                if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Top.HasValue)
+                {
+                    bottom = tableStyle.LastColumn.Style.Border.Top;
+                }
+                if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Border.Top.HasValue)
+                {
+                    bottom = tableStyle.FirstColumn.Style.Border.Top;
+                }
+                //we are inside so we use horizontal as fallback from whole table else we use top.
+                if (tableStyle.WholeTable.Style.Border.Horizontal.HasValue)
+                {
+                    bottom = tableStyle.WholeTable.Style.Border.Horizontal;
+                }
+            }
+            return bottom;
         }
     }
 }

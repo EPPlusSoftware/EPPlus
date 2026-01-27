@@ -17,23 +17,13 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Drawing.OleObject.Structures;
-using OfficeOpenXml.Drawing.Style.Fill;
-using OfficeOpenXml.Export.ToDataTable;
-using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
-using OfficeOpenXml.Table.PivotTable.Filter;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -78,7 +68,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             Size = new Vector2(totalWidth, y);
         }
 
-        private ExcelDxfBorderBase GetBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, bool isEdge)
+        private ExcelDxfBorderItem GetBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, bool isEdge)
         {
             if (xfBorder.Style == ExcelBorderStyle.None)
             {
@@ -124,64 +114,72 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     */
 
                     var top = tableStyle.WholeTable.Style.Border.Top;
-                    //Klar om header finns
-                    if (tableRow == 0 && table.ShowHeader)
+                    if (table.ShowHeader && tableRow == 0)
                     {
                         if (tableStyle.HeaderRow.Style.Border.Top.HasValue)
                         {
-
+                            top = tableStyle.HeaderRow.Style.Border.Top;
                         }
                         if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Border.Top.HasValue)
                         {
-
+                            top = tableStyle.FirstHeaderCell.Style.Border.Top;
                         }
                         if (tableCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Border.Top.HasValue)
                         {
-
+                            top = tableStyle.LastHeaderCell.Style.Border.Top;
                         }
                     }
-                    //Första raden om header inte fills
-                    else if (tableRow == 0 && !table.ShowHeader)
+                    else if (table.ShowTotal && cell._fromRow == range._toRow)
+                    {
+                        if (tableStyle.TotalRow.Style.Border.Top.HasValue)
+                        {
+                            top = tableStyle.TotalRow.Style.Border.Top;
+                        }
+                        if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Border.Top.HasValue)
+                        {
+                            top = tableStyle.FirstTotalCell.Style.Border.Top;
+                        }
+                        if (tableCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Border.Top.HasValue)
+                        {
+                            top = tableStyle.LastTotalCell.Style.Border.Top;
+                        }
+                    }
+                    else
                     {
                         if (table.ShowColumnStripes && tableStyle.FirstColumnStripe.Style.Border.Top.HasValue)
                         {
-
+                            top = tableStyle.FirstColumnStripe.Style.Border.Top;
                         }
                         if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Top.HasValue)
                         {
-
+                            top = tableStyle.SecondColumnStripe.Style.Border.Top;
                         }
                         if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Top.HasValue)
                         {
-
+                            top = tableStyle.FirstRowStripe.Style.Border.Top;
                         }
                         if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Top.HasValue)
                         {
-
+                            top = tableStyle.SecondRowStripe.Style.Border.Top;
                         }
                         if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Top.HasValue)
                         {
-
+                            top = tableStyle.LastColumn.Style.Border.Top;
                         }
                         if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Border.Top.HasValue)
                         {
-
+                            top = tableStyle.FirstColumn.Style.Border.Top;
+                        }
+                        //we are inside so we use horizontal as fallback from whole table else we use top.
+                        if (tableStyle.WholeTable.Style.Border.Horizontal.HasValue)
+                        {
+                            top = tableStyle.WholeTable.Style.Border.Horizontal;
                         }
                     }
-                    //check for inside top borders
-                    if (tableRow > 0)
-                    {
-                        if (table.ShowTotal && cell._fromRow == range._toRow)
-                        {
-                            //do total row like header row
-                        }
-                        else
-                        {
-                            //we are inside so we use horizontal as fallback from whole table else we use top.
-                        }
-                    }
+                    return top;
                 }
             }
+            return null;
         }
 
         private void GetBorderStyles(ExcelRangeBase cell, PdfCellStyleOverride cellStyle)
@@ -199,16 +197,26 @@ namespace EPPlus.Export.Pdf.PdfLayout
             cellStyle.xfBottom = cell.Style.Border.Bottom;
             cellStyle.xfLeft = cell.Style.Border.Left;
             cellStyle.xfRight = cell.Style.Border.Right;
-
-            bool isEdge = false;
-            var top = GetBorderItem(cell, cell.Style.Border.Top, isEdge);
-            var bottom = GetBorderItem(cell, cell.Style.Border.Bottom, isEdge);
-            var left = GetBorderItem(cell, cell.Style.Border.Left, isEdge);
-            var right = GetBorderItem(cell, cell.Style.Border.Right, isEdge);
-            cellStyle.dxfTop = top == null ? null : top.Top;
-            cellStyle.dxfBottom = bottom == null ? null : bottom.Bottom;
-            cellStyle.dxfLeft = left == null ? null : left.Left;
-            cellStyle.dxfRight = right == null ? null : right.Right;
+            var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
+            if (tables.Count > 0)
+            {
+                var table = tables[0].Value;
+                ExcelTableNamedStyle tableStyle;
+                if (table.TableStyle == TableStyles.Custom)
+                {
+                    tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+                }
+                else
+                {
+                    var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                    tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
+                    tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
+                }
+                cellStyle.dxfTop = PdfCellBorderLayout.GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle);
+                cellStyle.dxfBottom = bottom == null ? null : bottom.Bottom;
+                cellStyle.dxfLeft = left == null ? null : left.Left;
+                cellStyle.dxfRight = right == null ? null : right.Right;
+            }
         }
 
         public void GetFillStyles( ExcelRangeBase cell, PdfCellStyleOverride cellStyle)
