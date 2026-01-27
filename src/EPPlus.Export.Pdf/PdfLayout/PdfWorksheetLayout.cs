@@ -68,20 +68,26 @@ namespace EPPlus.Export.Pdf.PdfLayout
             Size = new Vector2(totalWidth, y);
         }
 
-        private ExcelDxfBorderItem GetBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, bool isEdge)
+        private void GetBorderStyles(ExcelRangeBase cell, PdfCellStyleOverride cellStyle)
         {
-            if (xfBorder.Style == ExcelBorderStyle.None)
-            {
-                //Conditional Formating
 
-                //Table
+            /* Kika på varje del av border top bottom left right
+             * om cell har top använd den
+             * om cell inte har border, gå igenom prio ordning på tabell borders och använd WholeTable om null.
+             * om cellein i tabellen är i mitten av tabellen använd horizontal och vertical border istället.
+             * I fallet top så ska om vi är i header row eller om cell fromrow är samma som table fromrow så ska top border vara top border. annar är det horizontal som gäller
+             * Glöm ej vertical border om fromcol är samma som tabell fromcol.
+             */
+            if (cell != null)
+            {
+                cellStyle.xfTop = cell.Style.Border.Top;
+                cellStyle.xfBottom = cell.Style.Border.Bottom;
+                cellStyle.xfLeft = cell.Style.Border.Left;
+                cellStyle.xfRight = cell.Style.Border.Right;
                 var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
                 if (tables.Count > 0)
                 {
                     var table = tables[0].Value;
-                    var range = table.Range;
-                    int tableRow = 0;
-                    int tableCol = 0;
                     ExcelTableNamedStyle tableStyle;
                     if (table.TableStyle == TableStyles.Custom)
                     {
@@ -93,129 +99,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
                         tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
                     }
-                    tableRow = cell._fromRow - range._fromRow;
-                    tableCol = cell._fromCol - range._fromCol;
-
-
-                    /*
-                     Whole Table
-                     First Column Stripe
-                     Second Column Stripe
-                     First Row Stripe
-                     Second Row Stripe
-                     Last Column
-                     First Column
-                     Header Row
-                     Total Row
-                     First Header Cell
-                     Last Header Cell
-                     First Total Cell
-                     Last Total Cell
-                    */
-
-                    var top = tableStyle.WholeTable.Style.Border.Top;
-                    if (table.ShowHeader && tableRow == 0)
-                    {
-                        if (tableStyle.HeaderRow.Style.Border.Top.HasValue)
-                        {
-                            top = tableStyle.HeaderRow.Style.Border.Top;
-                        }
-                        if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Border.Top.HasValue)
-                        {
-                            top = tableStyle.FirstHeaderCell.Style.Border.Top;
-                        }
-                        if (tableCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Border.Top.HasValue)
-                        {
-                            top = tableStyle.LastHeaderCell.Style.Border.Top;
-                        }
-                    }
-                    else if (table.ShowTotal && cell._fromRow == range._toRow)
-                    {
-                        if (tableStyle.TotalRow.Style.Border.Top.HasValue)
-                        {
-                            top = tableStyle.TotalRow.Style.Border.Top;
-                        }
-                        if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Border.Top.HasValue)
-                        {
-                            top = tableStyle.FirstTotalCell.Style.Border.Top;
-                        }
-                        if (tableCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Border.Top.HasValue)
-                        {
-                            top = tableStyle.LastTotalCell.Style.Border.Top;
-                        }
-                    }
-                    else
-                    {
-                        if (table.ShowColumnStripes && tableStyle.FirstColumnStripe.Style.Border.Top.HasValue)
-                        {
-                            top = tableStyle.FirstColumnStripe.Style.Border.Top;
-                        }
-                        if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Top.HasValue)
-                        {
-                            top = tableStyle.SecondColumnStripe.Style.Border.Top;
-                        }
-                        if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Top.HasValue)
-                        {
-                            top = tableStyle.FirstRowStripe.Style.Border.Top;
-                        }
-                        if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Top.HasValue)
-                        {
-                            top = tableStyle.SecondRowStripe.Style.Border.Top;
-                        }
-                        if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Top.HasValue)
-                        {
-                            top = tableStyle.LastColumn.Style.Border.Top;
-                        }
-                        if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Border.Top.HasValue)
-                        {
-                            top = tableStyle.FirstColumn.Style.Border.Top;
-                        }
-                        //we are inside so we use horizontal as fallback from whole table else we use top.
-                        if (tableStyle.WholeTable.Style.Border.Horizontal.HasValue)
-                        {
-                            top = tableStyle.WholeTable.Style.Border.Horizontal;
-                        }
-                    }
-                    return top;
+                    cellStyle.dxfTop = PdfCellBorderLayout.GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle);
+                    cellStyle.dxfBottom = PdfCellBorderLayout.GetBottomBorderItem(cell, cellStyle.xfBottom, table, tableStyle);
+                    cellStyle.dxfLeft = PdfCellBorderLayout.GetLeftBorderItem(cell, cellStyle.xfLeft, table, tableStyle);
+                    cellStyle.dxfRight = PdfCellBorderLayout.GetRightBorderItem(cell, cellStyle.xfRight, table, tableStyle);
                 }
-            }
-            return null;
-        }
-
-        private void GetBorderStyles(ExcelRangeBase cell, PdfCellStyleOverride cellStyle)
-        {
-
-            /* Kika på varje del av border top bottom left right
-             * om cell har top använd den
-             * om cell inte har border, gå igenom prio ordning på tabell borders och använd WholeTable om null.
-             * om cellein i tabellen är i mitten av tabellen använd horizontal och vertical border istället.
-             * I fallet top så ska om vi är i header row eller om cell fromrow är samma som table fromrow så ska top border vara top border. annar är det horizontal som gäller
-             * Glöm ej vertical border om fromcol är samma som tabell fromcol.
-             */
-
-            cellStyle.xfTop = cell.Style.Border.Top;
-            cellStyle.xfBottom = cell.Style.Border.Bottom;
-            cellStyle.xfLeft = cell.Style.Border.Left;
-            cellStyle.xfRight = cell.Style.Border.Right;
-            var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
-            if (tables.Count > 0)
-            {
-                var table = tables[0].Value;
-                ExcelTableNamedStyle tableStyle;
-                if (table.TableStyle == TableStyles.Custom)
-                {
-                    tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
-                }
-                else
-                {
-                    var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
-                    tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
-                    tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
-                }
-                cellStyle.dxfTop = PdfCellBorderLayout.GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle);
-                cellStyle.dxfBottom = bottom == null ? null : bottom.Bottom;
-                cellStyle.dxfLeft = left == null ? null : left.Left;
-                cellStyle.dxfRight = right == null ? null : right.Right;
             }
         }
 
@@ -341,7 +229,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
         private PdfCellBorderLayout HandleEdgeBorders(ExcelRangeBase cell, PdfCellStyleOverride tableStyle, double x, double y, double width, double height)
         {
             bool edges = new[] { cell.Style.Border.Top.Style, cell.Style.Border.Bottom.Style, cell.Style.Border.Left.Style, cell.Style.Border.Right.Style }.All(s => s == ExcelBorderStyle.None);
-            if (!edges)
+            bool edges2 = new[] { tableStyle.dxfTop, tableStyle.dxfBottom, tableStyle.dxfLeft, tableStyle.dxfRight }.Any(s => s != null && s.HasValue);
+            if (!edges || edges2)
             {
                 var clb0 = new PdfCellBorderLayout(cell, tableStyle, x, y, width, height, 1, 1, 0, this);
                 clb0.Name = cell.Address + "_b";
