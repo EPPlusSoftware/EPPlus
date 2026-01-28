@@ -164,27 +164,28 @@ namespace TestProject1
 
             var savedStrings = SavedComparisonString.Split("\r\n");
 
-            List<string> differingStrings = new();
+            List<string> faultyStrings = new();
+            List<string> excpectedStrings = new();
+            List<int> indiciesOfDifferingString = new();
+            
+            for (int i = 0; i < savedStrings.Count(); i++)
+            {
+                if(savedStrings[i] != wrappedStrings[i])
+                {
+                    indiciesOfDifferingString.Add(i);
+                    faultyStrings.Add(wrappedStrings[i]);
+                    excpectedStrings.Add(savedStrings[i]);
+                }
+            }
 
-            if (wrappedStrings.Count() > savedStrings.Count())
-                differingStrings = savedStrings.Except(wrappedStrings).ToList();
-            else
-                differingStrings = wrappedStrings.Except(savedStrings).ToList();
+            if(indiciesOfDifferingString.Count != 0)
+            {
+                //The start of indicies diverging
+                Assert.IsNull(indiciesOfDifferingString[0]);
+                Assert.AreEqual(faultyStrings[0], excpectedStrings[0]);
+            }
 
-            //INTENTIONAL COMMENT for easier debugging later.
-            //It is sometimes easier to compare files directly when debugging rather than looking through "differingStrings"
-            //bool writeFiles = true;
-
-            //if (/*differingStrings.Count() > 0*/ writeFiles)
-            //{
-            //    File.WriteAllText("C:\\temp\\LoremIpsum20_NEW.txt", string.Join("\r\n", wrappedStrings.ToArray()));
-            //    File.WriteAllText("C:\\temp\\LoremIpsum20_OLD.txt", SavedComparisonString);
-
-            //    var currStr = File.ReadAllText("C:\\temp\\LoremIpsum20_NEW.txt");
-            //    Assert.AreEqual(SavedComparisonString, currStr);
-            //}
-
-            Assert.AreEqual(0, differingStrings.Count());
+            Assert.AreEqual(0, faultyStrings.Count);
         }
         [TestMethod]
         public void LoremIpsum20ParagraphsMultipleFragments()
