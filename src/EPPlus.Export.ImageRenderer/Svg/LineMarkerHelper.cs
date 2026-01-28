@@ -4,26 +4,24 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using System;
 using System.Collections.Generic;
 
 namespace EPPlus.Export.ImageRenderer.Svg
 {
     internal class LineMarkerHelper
     {
-        internal static RenderItem GetMarkerItem(SvgChart sc, ExcelLineChartSerie ls, float x, float y, bool isLegend)
+        internal static RenderItem GetMarkerItem(SvgChart sc, ExcelLineChartSerie ls, double x, double y, bool isLegend)
         {
             SvgRenderItem item;
             var m = ls.Marker;
             float maxSize = isLegend ? 7f : float.MaxValue;
             var size = m.Size > maxSize ? maxSize : m.Size;
-            var halfSize = (float)size / 2;
-            //var line = sls.SeriesIcon as SvgRenderLineItem;
-            //var x = line.X1 + (line.X2 - line.X1) / 2;
-            var xPath = x / (float)sc.ChartArea.Width;
-            //var y = (float)line.Y1;
-            var yPath = y / (float)sc.ChartArea.Height;
-            var halfY = (float)halfSize / sc.ChartArea.Height;
-            var halfX = (float)halfSize / sc.ChartArea.Width;
+            var halfSize = size / 2;
+            var xPath = x / sc.ChartArea.Width;
+            var yPath = y / sc.ChartArea.Height;
+            var halfY = halfSize / sc.ChartArea.Height;
+            var halfX = halfSize / sc.ChartArea.Width;
             switch (m.Style)
             {
                 case eMarkerStyle.Circle:
@@ -158,7 +156,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
             }
             return item;
         }
-        internal static RenderItem GetMarkerBackground(SvgChart sc, ExcelLineChartSerie ls,  float x, float y, bool isLegend)
+        internal static RenderItem GetMarkerBackground(SvgChart sc, ExcelLineChartSerie ls,  double x, double y, bool isLegend)
         {
             SvgRenderItem item;
             var m = ls.Marker;

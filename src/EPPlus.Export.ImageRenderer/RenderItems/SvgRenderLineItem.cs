@@ -12,9 +12,11 @@
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
+using System;
 using System.Globalization;
 using System.Text;
 namespace EPPlusImageRenderer.RenderItems
@@ -25,10 +27,66 @@ namespace EPPlusImageRenderer.RenderItems
         {
 
         }
-        public float X1 { get; set; }
-        public float Y1 { get; set; }
-        public float X2 { get; set; }
-        public float Y2 { get; set; }
+        double _x1, _y1, _x2, _y2;
+        public double X1
+        {
+            get
+            {
+                return _x1;
+            }
+            set
+            {
+                _x1 = value;
+                UpdateBounds();
+            }
+        }
+        public double Y1
+        {
+            get
+            {
+                return _y1;
+            }
+            set
+            {
+                _y1 = value;
+                UpdateBounds();
+            }
+        }
+        public double X2
+        {
+            get
+            {
+                return _x2;
+            }
+            set
+            {
+                _x2 = value;
+                UpdateBounds();
+            }
+        }
+        public double Y2
+        {
+            get
+            {
+                return _y2;
+            }
+            set
+            {
+                _y2 = value;
+                UpdateBounds();
+            }
+        }
+        private void UpdateBounds()
+        {
+            var px = Math.Min(X1, X2);
+            var py = Math.Min(Y1, Y2);
+            var sizeX = Math.Abs(X2 - X1);
+            var sizeY = Math.Abs(Y2 - Y1);
+
+            Bounds.Position = new Vector2(px, py);
+            Bounds.Size = new Vector2(sizeX, sizeY);
+        }
+
         public override RenderItemType Type => RenderItemType.Line;
 
         public override void Render(StringBuilder sb)
@@ -50,21 +108,6 @@ namespace EPPlusImageRenderer.RenderItems
         {
             var clone = new SvgRenderLineItem(svgDocument, svgDocument.Bounds);
             CloneBase(clone);
-            //if (adjustmentpoints != null && adjustmentpoints.commands == null && adjustmentpoints.adjustmenttype == adjustmenttype.adjusttowidthheight)
-            //{
-            //    var wh = math.min(width, height);
-            //    clone.x = x * svgdocument.size.item1;
-            //    clone.y = y * svgdocument.size.item2;
-            //    clone.width = svgdocument.size.item1 * wh;
-            //    clone.height = svgdocument.size.item2 * wh;
-            //}
-            //else
-            //{
-            //    clone.x = x * svgdocument.size.item1;
-            //    clone.y = y * svgdocument.size.item2;
-            //    clone.width = svgdocument.size.item1 * width;
-            //    clone.height = svgdocument.size.item2 * height;
-            //}
             return clone;
         }
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)

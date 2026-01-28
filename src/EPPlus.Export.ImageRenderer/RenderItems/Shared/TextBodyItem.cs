@@ -50,8 +50,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             Bounds.Parent = parent;
 
-            Bounds.Width = parent.Width;
-            Bounds.Height = parent.Height;
+            //Bounds.Width = parent.Width;
+            //Bounds.Height = parent.Height;
         }
 
         public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text=null)

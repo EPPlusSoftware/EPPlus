@@ -39,21 +39,21 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 var lp = sc.Chart.Legend?.Position;
-                rect.Top = (lp==eLegendPosition.Top ? sc.Legend.Rectangle.Bottom : sc.Title?.Rectangle?.Bottom ?? 0d) + TopMargin;
+                rect.Top = (lp==eLegendPosition.Top ? sc.Legend.Rectangle.GlobalBottom : sc.Title?.Rectangle?.GlobalBottom ?? 0d) + TopMargin;
                 if(sc.HorizontalAxis!=null && sc.Chart.XAxis.LabelPosition==eTickLabelPosition.High)
                 {
                     rect.Top += sc.HorizontalAxis.Rectangle.Height;
                 }
-                rect.Left = lp == eLegendPosition.Left ? sc.Legend.Rectangle.Right + LeftMargin : LeftMargin;                
+                rect.Left = lp == eLegendPosition.Left ? sc.Legend.Rectangle.GlobalRight + LeftMargin : LeftMargin;                
                 if(sc.VerticalAxis!=null)
                 {
-                    rect.Left = sc.VerticalAxis.Rectangle?.Right ?? sc.VerticalAxis.Title.Rectangle.Right;
+                    rect.Left = sc.VerticalAxis.Rectangle?.GlobalRight ?? sc.VerticalAxis.Title.Rectangle.GlobalRight;
                 }
 
                 rect.Width = (lp == eLegendPosition.Right || lp == eLegendPosition.TopRight ? 
-                        sc.Legend.Rectangle.Left - RightMargin : 
+                        sc.Legend.Bounds.GlobalLeft - RightMargin : 
                         sc.ChartArea.Width - RightMargin) 
-                  - rect.Left;
+                  - rect.GlobalLeft;
 
                 double vaHeight=0, vaTitleHeight=0;
                 if(sc.HorizontalAxis != null)
@@ -64,7 +64,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     vaHeight += sc.Legend.Rectangle.Height;
                 }
-                rect.Height = sc.Bounds.Height - rect.Top - vaHeight - vaTitleHeight - BottomMargin;                
+                rect.Height = sc.Bounds.Height - rect.GlobalTop - vaHeight - vaTitleHeight - BottomMargin;                
             }
 
             rect.SetDrawingPropertiesFill(pa.Fill, sc.Chart.StyleManager.Style.PlotArea.FillReference.Color);

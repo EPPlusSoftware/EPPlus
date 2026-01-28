@@ -25,10 +25,10 @@ namespace EPPlusImageRenderer.RenderItems
         {
 
         }
-        public float Cx { get; set; }
-        public float Cy { get; set; }
-        public float Rx { get; set; }
-        public float Ry { get; set; }
+        public double Cx { get; set; }
+        public double Cy { get; set; }
+        public double Rx { get; set; }
+        public double Ry { get; set; }
 
         public override RenderItemType Type => RenderItemType.Rect;
 

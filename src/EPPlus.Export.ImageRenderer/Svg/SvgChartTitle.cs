@@ -183,10 +183,11 @@ namespace EPPlusImageRenderer.Svg
             }
             if (_title.TextBody.Paragraphs.Count > 0)
             {
-                foreach (var p in _title.TextBody.Paragraphs)
-                {
-                    TextBox.TextBody.ImportParagraph(p, 0);
-                }
+                //foreach (var p in _title.TextBody.Paragraphs)
+                //{
+                //    TextBox.TextBody.ImportParagraph(p, 0);
+                //}
+                TextBox.TextBody.ImportTextBody(_title.TextBody);
             }
             else
             {

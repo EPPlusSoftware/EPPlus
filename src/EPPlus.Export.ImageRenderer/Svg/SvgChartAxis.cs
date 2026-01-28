@@ -82,7 +82,7 @@ namespace EPPlusImageRenderer.Svg
                                 {
                                     ll = sc.Legend.Rectangle.Right + sc.Legend.RightMargin;
                                 }
-                                Rectangle.X = Title == null ? ll : Title.Rectangle.Right;
+                                Rectangle.Left = Title == null ? ll : Title.Rectangle.Right;
                             }
                             else
                             {
@@ -90,15 +90,15 @@ namespace EPPlusImageRenderer.Svg
                                 var lp = sc.ChartArea.Width - Rectangle.Width - 8D;
                                 if (sc.Chart.Legend.Position == eLegendPosition.Right)
                                 {
-                                    lp = sc.Legend.Rectangle.X + -Rectangle.Width;
+                                    lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
                                 }
-                                Rectangle.X = Title == null ? lp : Title.Rectangle.X - Rectangle.Width;
+                                Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width;
                             }
                         }
                         else
                         {
                             Rectangle.Height = GetTextHeight(sc, ax);
-                            Rectangle.Y = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Height - 8 - Rectangle.Height : Title.Rectangle.Y - Rectangle.Height - 8;
+                            Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
                         }
                     }
 
@@ -337,11 +337,11 @@ namespace EPPlusImageRenderer.Svg
         {
             if (Axis.AxisPosition == eAxisPosition.Top)
             {
-                return Rectangle.Top - m.Height.PointToPixel();
+                return Rectangle.Top - m.Height.PointToPixel() - TopMargin;
             }
             else if (Axis.AxisPosition == eAxisPosition.Bottom)
             {
-                return Rectangle.Bottom - m.Height.PointToPixel();
+                return Rectangle.Bottom - m.Height.PointToPixel() + BottomMargin;
             }
             else
             {
@@ -507,27 +507,23 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (Axis.AxisType == eAxisType.Cat)
                 {
-                    //var index = Values.IndexOf(val);
-                    //if (index < 0) return -1;
                     var majorHeight = SvgChart.Plotarea.Rectangle.Height / Max;
-                    return (/*SvgChart.Plotarea.Rectangle.Top +*/ majorHeight * (int)val + (majorHeight / 2));
+                    return (majorHeight * (int)val + (majorHeight / 2));
                 }
                 else
                 {
                     var dVal = ConvertUtil.GetValueDouble(val, false, true);
                     if (dVal < Min || dVal > Max) return double.NaN;
                     var diff = Max - Min;
-                    return (/*SvgChart.Plotarea.Rectangle.Top + */((Max-dVal) / diff * SvgChart.Plotarea.Rectangle.Height));
+                    return (((Max-dVal) / diff * SvgChart.Plotarea.Rectangle.Height));
                 }
             }
             else
             {
                 if (Axis.AxisType == eAxisType.Cat)
                 {
-                    //var index = Values[(int)val];
-                    //if (index < 0) return -1;
                     var majorWidth = SvgChart.Plotarea.Rectangle.Width / Max;
-                    return (/*SvgChart.Plotarea.Rectangle.Left + */majorWidth * (int)val + (majorWidth / 2));
+                    return (majorWidth * (int)val + (majorWidth / 2));
                 }
                 else
                 {

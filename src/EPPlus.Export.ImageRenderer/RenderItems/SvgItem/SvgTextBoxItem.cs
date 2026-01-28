@@ -70,7 +70,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //handled by group now
             Rectangle.Bounds.Top = 0;
             Rectangle.Bounds.Left = 0;
-            Rectangle.FillOpacity = 0.1;
             renderItems.Add(Rectangle);
             TextBody.AppendRenderItems(renderItems);
             renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
