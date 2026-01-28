@@ -63,6 +63,21 @@ namespace EPPlus.Fonts.OpenType.Integration
             _spaceWidthCache = new Dictionary<float, double>();
         }
 
+        public double GetLineHeightInPoints(double fontSize)
+        {
+            return _shaper.GetLineHeightInPoints(fontSize);
+        }
+
+        public double GetBaseLineInPoints(double fontSize)
+        {
+            return _shaper.GetBaseLineInPoints(fontSize);
+        }
+
+        public double GetDescentInPoints(double fontSize)
+        {
+            return _shaper.GetDescentInPoints(fontSize);
+        }
+
         /// <summary>
         /// Gets a char width buffer with at least the specified capacity.
         /// Reuses existing buffer if large enough, otherwise rents larger one from pool.

@@ -34,5 +34,10 @@ namespace EPPlus.Fonts.OpenType
 
             return new OpenTypeFont(fontData, format);
         }
+
+        public static OpenTypeFont CreateFromBytes(byte[] bytes, FontFormat format)
+        {
+            return new OpenTypeFont(bytes, format);
+        }
     }
 }

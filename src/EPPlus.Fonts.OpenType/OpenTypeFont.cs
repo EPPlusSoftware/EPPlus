@@ -47,12 +47,13 @@ namespace EPPlus.Fonts.OpenType
         private readonly object _syncRoot = new object();
 
 
-        internal OpenTypeFont(FontFormat format)
+        internal OpenTypeFont(FontFormat format, bool isSubset = false)
         {
             Format = format;
             _tableRecords = new Dictionary<string, TableRecord>();
             _localTableCache = new TableCache();
             _loaderCache = new TableLoaderCache();
+            IsSubset = isSubset;
         }
 
 
@@ -419,6 +420,11 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
+        public bool IsSubset
+        {
+            get; private set;
+        }
+
         public string GetEnglishFullFontFamilyName()
         {
             return GetNameString(NameRecordTypes.FullFontName);
@@ -588,6 +594,12 @@ namespace EPPlus.Fonts.OpenType
         internal IDictionary<string, TableRecord> TableRecords => _tableRecords;
 
         internal Dictionary<string, byte[]> PreprocessedPaddedTables { get; } = new Dictionary<string, byte[]>();
+
+        /// <summary>
+        /// For subset fonts: Maps original glyph IDs to new subset glyph IDs.
+        /// Null for non-subset fonts.
+        /// </summary>
+        //public Dictionary<ushort, ushort> SubsetGlyphMapping { get; internal set; }
 
 
         /// <summary>

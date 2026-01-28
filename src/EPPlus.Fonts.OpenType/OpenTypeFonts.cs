@@ -279,5 +279,10 @@ namespace EPPlus.Fonts.OpenType
 
             return result;
         }
+
+        public static OpenTypeFont GetFromBytes(byte[] bytes, FontFormat format)
+        {
+            return OpenTypeFontFactory.CreateFromBytes(bytes, format);
+        }
     }
 }

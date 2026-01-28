@@ -11,7 +11,9 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Subsetting.Processors;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Subsetting
 {
@@ -67,6 +69,8 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
             context.SubsetFont.UsedCodePointsForSubset = new List<uint>(context.UsedCodePoints);
 
+            //context.SubsetFont.SubsetGlyphMapping = new Dictionary<ushort, ushort>(context.OldToNewGlyphId);
+
             return context.SubsetFont;
         }
 
@@ -76,12 +80,28 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             var sortedGlyphs = new List<ushort>(context.IncludedGlyphs);
             sortedGlyphs.Sort();
 
+            Console.WriteLine($"\n=== BUILD GLYPH MAPPING DEBUG ===");
+            Console.WriteLine($"Total included glyphs: {sortedGlyphs.Count}");
+            Console.WriteLine($"First 10: {string.Join(", ", sortedGlyphs.Take(10).Select(g => $"{g:X4}").ToArray())}");
+            Console.WriteLine($"Around 'a' (looking for 0x0045):");
+
             for (ushort newId = 0; newId < sortedGlyphs.Count; newId++)
             {
                 ushort oldId = sortedGlyphs[newId];
                 context.OldToNewGlyphId[oldId] = newId;
                 context.NewToOldGlyphId.Add(oldId);
+
+                if (oldId >= 0x0043 && oldId <= 0x0048)
+                {
+                    Console.WriteLine($"  oldGID {oldId:X4} -> newGID {newId:X4}");
+                }
             }
+            Console.WriteLine($"All {sortedGlyphs.Count} glyphs after sort:");
+            for (int i = 0; i < Math.Min(50, sortedGlyphs.Count); i++)
+            {
+                Console.WriteLine($"  [{i}] = oldGID {sortedGlyphs[i]:X4}");
+            }
+            Console.WriteLine($"==================================\n");
         }
     }
 }

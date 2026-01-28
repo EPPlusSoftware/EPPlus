@@ -26,7 +26,14 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
         public LigatureProcessor(OpenTypeFont font)
         {
             _font = font;
-            _ligaLookups = FindLookupsForFeature(font.GsubTable, "liga");
+            if (font.GsubTable != null)
+            {
+                _ligaLookups = FindLookupsForFeature(font.GsubTable, "liga");
+            }
+            else
+            {
+                _ligaLookups = new List<LookupTable>();
+            }
         }
 
         private readonly OpenTypeFont _font;
@@ -145,6 +152,9 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
         private List<LookupTable> FindLookupsForFeature(GsubTable gsub, string featureTag)
         {
             var lookups = new List<LookupTable>();
+
+            if (gsub?.FeatureList?.FeatureRecords == null)
+                return lookups;
 
             foreach (var featureRecord in gsub.FeatureList.FeatureRecords)
             {

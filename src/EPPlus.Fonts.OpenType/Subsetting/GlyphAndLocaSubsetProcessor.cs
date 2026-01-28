@@ -13,7 +13,9 @@
 using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Loca;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace EPPlus.Fonts.OpenType.Subsetting
 {
@@ -36,7 +38,6 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
         public void Rewrite(FontSubsettingContext context)
         {
-            // NewToOldGlyphId is sorted by new IDs (0, 1, 2...)
             var sortedOldIds = context.NewToOldGlyphId;
             List<Glyph> newGlyphs = new List<Glyph>(sortedOldIds.Count);
 
@@ -58,20 +59,32 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             // 2. Save the new glyf table
             context.SubsetFont.AddOrReplaceTable(new GlyfTable(newGlyphs));
 
-            // 3. Build loca table with 4-byte alignment
+            // 3. Build loca by ACTUALLY measuring serialized glyphs
             List<uint> offsets = new List<uint> { 0 };
-            uint currentOffset = 0;
 
-            foreach (Glyph g in newGlyphs)
+            using (var ms = new MemoryStream())
+            using (var writer = new FontsBinaryWriter(ms))
             {
-                int size = g.GetSize();
-                uint paddedSize = (uint)((size + 3) & ~3); // Align to 4 bytes
-                currentOffset += paddedSize;
-                offsets.Add(currentOffset);
+                foreach (Glyph g in newGlyphs)
+                {
+                    long startPos = ms.Position;
+                    g.Serialize(writer);
+                    long endPos = ms.Position;
+
+                    int writtenLength = (int)(endPos - startPos);
+                    int padding = (4 - (writtenLength % 4)) % 4;
+
+                    for (int p = 0; p < padding; p++)
+                        writer.Write((byte)0);
+
+                    offsets.Add((uint)ms.Position);
+                }
+
+                Console.WriteLine($"Total glyf table size: {ms.Position} bytes, loca last offset: {offsets[offsets.Count - 1]}");
             }
 
-            // 4. Update head table format and add loca table
-            bool useShortOffsets = currentOffset <= 131070;
+            // 4. Update head and create loca
+            bool useShortOffsets = offsets[offsets.Count - 1] <= 131070;
             context.SubsetFont.HeadTable.IndexToLocFormat = useShortOffsets
                 ? HeadTable.IndexToLocFormats.Offset16
                 : HeadTable.IndexToLocFormats.Offset32;

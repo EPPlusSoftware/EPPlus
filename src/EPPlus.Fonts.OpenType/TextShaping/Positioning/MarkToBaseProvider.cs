@@ -28,7 +28,14 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Positioning
 
         public MarkToBaseProvider(OpenTypeFont font)
         {
-            _subtables = FindAllMarkToBaseSubtables(font.GposTable);
+            if (font.GposTable != null)
+            {
+                _subtables = FindAllMarkToBaseSubtables(font.GposTable);
+            }
+            else
+            {
+                _subtables = new List<MarkToBaseSubTableFormat1>();
+            }
             System.Diagnostics.Debug.WriteLine($"[MarkToBase] Initialized with {_subtables.Count} subtables");
             if (_subtables.Count > 0)
             {
