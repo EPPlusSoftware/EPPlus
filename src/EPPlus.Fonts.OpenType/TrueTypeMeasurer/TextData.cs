@@ -13,6 +13,7 @@
 using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Kern;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
@@ -302,7 +303,10 @@ namespace EPPlus.Fonts.OpenType
 
         internal static double MeasureDescent(OpenTypeFont font, double fontSize)
         {
-            return font.Os2Table.usWinDescent * (fontSize / font.HeadTable.UnitsPerEm);
+            //TypoDescender is Short WinDescent ushort so we use long so both can be assigned same variable
+            long descentBase = font.Os2Table.UseTypoMetrics ? -(long)font.Os2Table.sTypoDescender : (long)font.Os2Table.usWinDescent;
+
+            return descentBase * (fontSize / font.HeadTable.UnitsPerEm);
         }
 
         /// <summary>
@@ -717,6 +721,28 @@ namespace EPPlus.Fonts.OpenType
             wordWidth = Convert.ToInt16(wordWidthInPoints * factorTarget);
         }
 
+        private static void LogFragmentWidth(TextFragmentCollection collection, int UPM, double fontSize, int lineWidth, int prevFragmentWidths, int fragmentIdx)
+        {
+            var currentFragmentLineWidth = lineWidth - prevFragmentWidths;
+            var factorOrig = fontSize / ((double)UPM);
+            var lineWidthInPoints = currentFragmentLineWidth * factorOrig;
+
+            collection.AddFragmentWidth(fragmentIdx, lineWidthInPoints);
+        }
+
+        private static void LogLineData(TextParagraph paragraph, OpenTypeFont currentFont, OpenTypeFont largestFont, double CurrentLineLargestSize, int lineWidth, int fragmentIdx)
+        {
+            //Log line width
+            paragraph.Fragments.AddLineWidth(lineWidth / currentFont.HeadTable.UnitsPerEm * paragraph.FontSizes[fragmentIdx]);
+
+            //Log line height
+            paragraph.Fragments.AddLargestFontSizePerLine(CurrentLineLargestSize);
+            var lineAscent = GetBaseLine(largestFont, CurrentLineLargestSize);
+            paragraph.Fragments.AddAscentPerLine(lineAscent);
+            var lineDescent = MeasureDescent(largestFont, CurrentLineLargestSize);
+            paragraph.Fragments.AddDescentPerLine(lineDescent);
+        }
+
         internal static List<string> WrapMultipleTextFragments(TextParagraph paragraph, double maxWidthPoints)
         {
             //Initialize variables
@@ -738,17 +764,42 @@ namespace EPPlus.Fonts.OpenType
             //Does not take new text-strings into account
             int currentLineIndex = 0;
 
-            var fragments = paragraph.Fragments;
-            var allText = fragments.AllText;
-            var newLineIndicies = fragments.AllTextNewLineIndicies;
+            //---Logger variables---
+            var fragmentCollection = paragraph.Fragments;
+            var allText = fragmentCollection.AllText;
+            var newLineIndicies = fragmentCollection.AllTextNewLineIndicies;
+            double CurrentLineLargestFontSize = 0;
+            OpenTypeFont largestFontCurrentLine = paragraph.FontIndexDict[0];
+
+            var prevFragmentIdx = 0;
+            var prevFragWidths = 0;
+            ////Technically currentLineOfFragmentWidth
+            //int fragmentWidth = 0;
+            ////Technically lastLINEofFragmentWidth
+            ////lastFragmentWidth could be a different fragment OR current fragment on a previous line
+            ////Whichever the previous measured piece of text was
+            //int lastFragmentWidth = 0;
+            //---Logger Variables end---
 
             //Iterate through All fragments as one concatenated text string
             for (int i = 0; i < allText.Length; i++)
             {
                 //Get char info stored previously in the textParagraph class
-                var charInfo = fragments.CharLookup[i];
+                var charInfo = fragmentCollection.CharLookup[i];
                 var lineIdx = charInfo.Line;
                 var fragmentIdx = charInfo.Fragment;
+
+                //Happens at the end of a fragment/start of a new fragment
+                if(fragmentIdx != prevFragmentIdx)
+                {
+                    LogFragmentWidth(paragraph.Fragments, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, prevFragmentIdx);
+
+                    //Since there is no gurantee any wrapping has occured
+                    //But we are moving on to the next fragment we need to know how much of the
+                    //linewidth is not part of the current fragment
+                    //Since there could be multiple fragments before line break add to current prevfragwidth
+                    prevFragWidths += (lineWidth - prevFragWidths);
+                }
 
                 //If we hit a pre-existing line break. Reset line and wordwidths
                 var indexExists = newLineIndicies.Count() > currentLineIndex;
@@ -756,7 +807,17 @@ namespace EPPlus.Fonts.OpenType
                 {
                     if (i >= newLineIndicies[currentLineIndex])
                     {
-                        paragraph.Fragments.AddLineWidth(lineWidth / currentFont.HeadTable.UnitsPerEm * paragraph.FontSizes[fragmentIdx]);
+                        //Log current line data
+                        LogLineData(paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, fragmentIdx);
+                        //Log current fragment width
+                        LogFragmentWidth(paragraph.Fragments, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, fragmentIdx);
+                        //We are on the same fragment but there's been a line break
+                        //Therefore the previous fragment width is 0 as it is within this fragment
+                        prevFragWidths = 0;
+
+                        //Since we are on a new line the current largest font-size for this line is the current size
+                        CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
+                        largestFontCurrentLine = currentFont;
 
                         var addedLine = leftOverLine.Trim(['\r', '\n']);
                         wrappedStrings.Add(addedLine);
@@ -777,12 +838,22 @@ namespace EPPlus.Fonts.OpenType
                             ref maxWidth, ref lineWidth, ref wordWidth);
                         //Font/fragment change
                         currentFont = paragraph.FontIndexDict[fragmentIdx];
+                        if (paragraph.FontSizes[fragmentIdx] > CurrentLineLargestFontSize)
+                        {
+                            largestFontCurrentLine = currentFont;
+                            CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
+                        }
                     }
                 }
                 else
                 {
                     currentFont = paragraph.FontIndexDict[fragmentIdx];
                     maxWidth = (maxWidthPoints * (double)currentFont.HeadTable.UnitsPerEm) / paragraph.FontSizes[fragmentIdx];
+                    if (paragraph.FontSizes[fragmentIdx] > CurrentLineLargestFontSize)
+                    {
+                        largestFontCurrentLine = currentFont;
+                        CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
+                    }
                 }
 
                 fontSize = paragraph.FontSizes[fragmentIdx];
@@ -797,8 +868,14 @@ namespace EPPlus.Fonts.OpenType
                     WrapAtCharPos(allText, i, ref prevLineEndIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings);
 
                     //Log where wrapping occured in order to keep track of fragment/run/richtext
+
+                    //Can't be part of Log function as there could be pre-existing line-breaks
                     paragraph.Fragments.AddWrappingIndex(prevLineEndIndex);
-                    paragraph.Fragments.AddLineWidth(lineWidth / currentFont.HeadTable.UnitsPerEm * paragraph.FontSizes[fragmentIdx]);
+                    //Log line data
+                    LogLineData(paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, fragmentIdx);
+                    //Log Fragment widths
+                    LogFragmentWidth(paragraph.Fragments, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, fragmentIdx);
+                    prevFragWidths = 0;
 
                     //Since we're using the AllText, need to handle leftover line differently
                     if (i < prevLineEndIndex)
@@ -820,13 +897,21 @@ namespace EPPlus.Fonts.OpenType
                         leftOverLine = allText.Substring(prevLineEndIndex, i - prevLineEndIndex);
                         leftOverLine += allText.Substring(i, 1);
                     }
+                    //Since we are on a new line the current largest font-size for this line is the current size
+                    CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
+                    largestFontCurrentLine = currentFont;
                 }
                 else
                 {
                     //Add the current char to current unwrapped line
                     leftOverLine += allText.Substring(i, 1);
                 }
+
+                prevFragmentIdx = fragmentIdx;
             }
+
+            LogLineData(paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, paragraph.Fragments.TextFragments.Count()-1);
+            LogFragmentWidth(paragraph.Fragments, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, paragraph.Fragments.TextFragments.Count() - 1);
 
             wrappedStrings.Add(leftOverLine);
 

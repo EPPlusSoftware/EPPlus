@@ -132,27 +132,33 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //Create object of type
             var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
             targetTxtRun.LineSpacingPerNewLine = ParagraphLineSpacing;
-
-            if (Runs.Count == 0 && IsFirstParagraph == true)
-            {
-                targetTxtRun.BaseLineSpacing = _lineSpacingAscendantOnly;
-            }
-
-            //If there are multiple sizes/multiple fonts with multiple sizes
-            if (_lsMultiplier.HasValue)
-            {
-                var runFont = origTxtRun.GetMeasurementFont();
-                _measurer.SetFont(runFont);
-                targetTxtRun.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
-                targetTxtRun.BaseLineSpacing = _lsMultiplier.Value * _measurer.GetBaseLine().PointToPixel(true);
-                //Reset measurer font
-                _measurer.SetFont(_paragraphFont);
-            }
-
             targetTxtRun.Bounds.Left = startingX;
+            //if (Runs.Count == 0)
+            //{
+            //    targetTxtRun.BaseLineSpacing = _lineSpacingAscendantOnly;
+            //}
 
-            targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
+            ////If there are multiple sizes/multiple fonts with multiple sizes
+            //if (_lsMultiplier.HasValue)
+            //{
+            //    var runFont = origTxtRun.GetMeasurementFont();
+            //    _measurer.SetFont(runFont);
+            //    targetTxtRun.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
+            //    targetTxtRun.BaseLineSpacing = _lsMultiplier.Value * _measurer.GetBaseLine().PointToPixel(true);
+            //    //Reset measurer font
+            //    _measurer.SetFont(_paragraphFont);
+            //}
 
+            //targetTxtRun.Bounds.Left = startingX;
+            //targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
+
+            //for (int i = 1; i < targetTxtRun.Lines.Count; i++)
+            //{
+
+            //}
+            //targetTxtRun.SetPerLineWidths(_textFragments.GetFragmentWidths(fragIdx));
+
+            //lineIdxAfter = currentLineIdx + targetTxtRun.Lines.Count - 1;
 
             Runs.Add(targetTxtRun);
         }
@@ -215,9 +221,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             CalculateDisplayText(p, _textFragments);
 
             string currentLine = _paragraphLines[0];
+            int currentLineIdx = 0;
+
             double widthOfCurrentLine = 0;
             double largestFontSizeCurrentLine = 0;
             int idxLargestFontSize = 0;
+            int firstRunInLineIdx = 0;
+
+            //var lineSizes = _textFragments.GetLargestFontSizesOfEachLine();
+            //var currentLineSize = lineSizes[currentLineIdx];
+            double lineSpacing = 0;
+            if(_lsMultiplier.HasValue == false)
+            {
+                //linespacing is exact
+                lineSpacing = ParagraphLineSpacing;
+            }
+
             if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
             {
                 AddText(textIfEmpty, p.DefaultRunProperties);
@@ -226,35 +245,133 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 for (int i = 0; i < p.TextRuns.Count; i++)
                 {
-                    if (p.TextRuns[i].FontSize > largestFontSizeCurrentLine)
-                    {
-                        largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
-                        idxLargestFontSize = i;
-                    }
-
                     AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
                     var lastAdded = Runs.Last();
 
-                    //We are on a new line
-                    if (lastAdded.YIncreasePerLine.Count > 1)
-                    {
-                        Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
-                        Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
-                        widthOfCurrentLine = Runs.Last().PerLineWidth.Last();
+                    lastAdded.SetPerLineWidths(_textFragments.GetFragmentWidths(i));
 
-                        idxLargestFontSize = i;
-                        largestFontSizeCurrentLine = p.TextRuns[i].FontSize;
+                    if (lastAdded.Lines.Count > 1)
+                    {
+                        //Just in case. Should always be empty here
+                        lastAdded.YIncreasePerLine.Clear();
+
+                        //We are on a new line
+                        for (int j = 0; j < lastAdded.Lines.Count; j++)
+                        {
+                            currentLine = _paragraphLines[currentLineIdx];
+
+                            if (_lsMultiplier.HasValue)
+                            {
+                                //Add ascent to descent (Add ascent to Nothing for the first run)
+                                lineSpacing += _textFragments.GetAscent(currentLineIdx).PointToPixel() * _lsMultiplier.Value;
+                            }
+
+                            lastAdded.AddLineSpacing(lineSpacing);
+
+                            if (_lsMultiplier.HasValue)
+                            {
+                                //Set linespacing to descent
+                                lineSpacing = _textFragments.GetDescent(currentLineIdx).PointToPixel();
+                            }
+                            currentLineIdx++;
+                        }
+
+                        widthOfCurrentLine = Runs.Last().PerLineWidth.Last();
                     }
                     else
                     {
                         widthOfCurrentLine += Runs.Last().PerLineWidth.Last();
+                        //If we are on the last run
                         if (i == p.TextRuns.Count - 1)
                         {
-                            Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
-                            Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
+                            if (_lsMultiplier.HasValue)
+                            {
+                                //Add ascent to descent (Add ascent to Nothing for the first run)
+                                lineSpacing += _textFragments.GetAscent(currentLineIdx).PointToPixel() * _lsMultiplier.Value;
+                            }
+                            lastAdded.AddLineSpacing(lineSpacing);
+                            //Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
+                            //Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
                         }
                     }
+                    ////if(p.TextRuns[i].IsFirstInParagraph)
+                    ////{
+                    ////    lastAdded.BaseLineSpacing = _textFragments.GetAscent(currentLineIdx) * ;
+                    ////}
+                    ////if (Runs.Count == 0)
+                    ////{
+                    ////    targetTxtRun.BaseLineSpacing = _lineSpacingAscendantOnly;
+                    ////}
+
+                    //////If there are multiple sizes/multiple fonts with multiple sizes
+                    ////if (_lsMultiplier.HasValue)
+                    ////{
+                    ////    var runFont = origTxtRun.GetMeasurementFont();
+                    ////    _measurer.SetFont(runFont);
+                    ////    targetTxtRun.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
+                    ////    targetTxtRun.BaseLineSpacing = _lsMultiplier.Value * _measurer.GetBaseLine().PointToPixel(true);
+                    ////    //Reset measurer font
+                    ////    _measurer.SetFont(_paragraphFont);
+                    ////}
+
+                    ////targetTxtRun.Bounds.Left = startingX;
+                    ////targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
+
+                    ////for (int i = 1; i < targetTxtRun.Lines.Count; i++)
+                    ////{
+
+                    ////}
+                    ////targetTxtRun.SetPerLineWidths(_textFragments.GetFragmentWidths(fragIdx));
+
+                    ////lineIdxAfter = currentLineIdx + targetTxtRun.Lines.Count - 1;
+
+                    //if (lastAdded.YIncreasePerLine.Count > 1)
+                    //{
+                    //    //We are on a new line
+
+                    //    //Ensure bounds of the largest font size have been calculated
+                    //    //Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
+
+
+                    //    ////Add its height to the bounds height as smaller fonts are irrelevant for height increase
+                    //    //Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
+
+                    //    //if (firstRunInLineIdx != 0)
+                    //    //{
+                    //    //    //Excel in addition adds the height to the first y-value as well
+                    //    //    Runs[firstRunInLineIdx].YIncreasePerLine[1] = Runs[idxLargestFontSize].BaseLineSpacing;
+                    //    //}
+
+                    //    widthOfCurrentLine = Runs.Last().PerLineWidth.Last();
+
+                    //    idxLargestFontSize = i;
+                    //    firstRunInLineIdx = i;
+
+                    //    descentLastLine = _textFragments.GetDescent(currentLineIdx);
+                    //    //Update 
+                    //    currentLineIdx++;
+                    //    currentLine = _paragraphLines[currentLineIdx];
+                    //    ascentCurrentLine = _textFragments.GetAscent(currentLineIdx);
+                    //    //currentLineSize = lineSizes[currentLineIdx];
+                    //}
+                    //else
+                    //{
+                    //    widthOfCurrentLine += Runs.Last().PerLineWidth.Last();
+                    //    if (i == p.TextRuns.Count - 1)
+                    //    {
+                    //        Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
+                    //        Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
+                    //    }
+                    //}
                 }
+
+                //var lastAdded = Runs.Last();
+                ////Apply correct linespacing to last line as well
+                //if (firstRunInLineIdx != 0)
+                //{
+                //    //Excel in addition adds the height to the first y-value as well
+                //    Runs[firstRunInLineIdx].YIncreasePerLine[1] = Runs[idxLargestFontSize].BaseLineSpacing;
+                //}
             }
         }
 

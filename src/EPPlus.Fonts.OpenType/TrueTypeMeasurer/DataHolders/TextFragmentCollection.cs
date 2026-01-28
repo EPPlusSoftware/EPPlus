@@ -17,7 +17,10 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         List<TextFragment> _fragmentItems = new List<TextFragment>();
         List<TextLine> _lines = new List<TextLine>();
         List<string> outputFragments = new List<string>();
-        List<string> outputStrings = new List<string>();
+        //List<string> outputStrings = new List<string>();
+        internal List<double> LargestFontSizePerLine { get; private set; } = new();
+        internal List<double> AscentPerLine { get; private set; } = new();
+        internal List<double> DescentPerLine { get; private set; } = new();
 
         /// <summary>
         /// Added linewidths in points
@@ -135,6 +138,21 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
                 }
             }
             return positions;
+        }
+
+        internal void AddLargestFontSizePerLine(double fontSize)
+        {
+            LargestFontSizePerLine.Add(fontSize);
+        }
+
+        internal void AddAscentPerLine(double Ascent)
+        {
+            AscentPerLine.Add(Ascent);
+        }
+
+        internal void AddDescentPerLine(double Descent)
+        {
+            DescentPerLine.Add(Descent);
         }
 
         internal void AddWrappingIndex(int index)
@@ -291,25 +309,46 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<float> GetLargestFontSizesOfEachLine()
+        public List<double> GetLargestFontSizesOfEachLine()
         {
-            List<float> largestFontSizes = new List<float>();
-            foreach(var line in _lines)
-            {
-                float largest = float.MinValue;
-                foreach(var idx in line.richTextIndicies)
-                {
-                    if (float.IsNaN(_fragmentItems[idx].FontSize) == false && _fragmentItems[idx].FontSize > largest)
-                    {
-                        largest = _fragmentItems[idx].FontSize;
-                    }
-                }
-                if (largest != float.MinValue)
-                {
-                    largestFontSizes.Add(largest);
-                }
-            }
-            return largestFontSizes;
+            //List<float> largestFontSizes = new List<float>();
+            //foreach(var line in _lines)
+            //{
+            //    float largest = float.MinValue;
+            //    foreach(var idx in line.richTextIndicies)
+            //    {
+            //        if (float.IsNaN(_fragmentItems[idx].FontSize) == false && _fragmentItems[idx].FontSize > largest)
+            //        {
+            //            largest = _fragmentItems[idx].FontSize;
+            //        }
+            //    }
+            //    if (largest != float.MinValue)
+            //    {
+            //        largestFontSizes.Add(largest);
+            //    }
+            //}
+            //return largestFontSizes;
+            return LargestFontSizePerLine;
+        }
+
+        public double GetAscent(int lineIdx)
+        {
+            return AscentPerLine[lineIdx];
+        }
+
+        public double GetDescent(int lineIdx)
+        {
+            return DescentPerLine[lineIdx];
+        }
+
+        internal void AddFragmentWidth(int fragmentIdx,  double width)
+        {
+            _fragmentItems[fragmentIdx].PointWidthPerOutputLineInFragment.Add(width);
+        }
+
+        public List<double> GetFragmentWidths(int fragmentIdx)
+        {
+            return _fragmentItems[fragmentIdx].PointWidthPerOutputLineInFragment;
         }
 
         public List<int> GetLinesFragmentIsPartOf(int fragmentIndex)
