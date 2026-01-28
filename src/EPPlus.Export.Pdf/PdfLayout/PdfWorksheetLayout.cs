@@ -157,7 +157,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                     else if (table.ShowColumnStripes)
                     {
-                        cellStyle.dxfFill = (tableCol & 1) == 0 ? tableStyle.SecondColumnStripe.Style.Fill : tableStyle.FirstColumnStripe.Style.Fill;
+                        cellStyle.dxfFill = (tableCol & 1) != 0 ? tableStyle.SecondColumnStripe.Style.Fill : tableStyle.FirstColumnStripe.Style.Fill;
                     }
                     else
                     {

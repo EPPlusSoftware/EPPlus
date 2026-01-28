@@ -39,9 +39,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 var xfFill = CellStyle.xfFill;
                 var dxfFill = CellStyle.dxfFill;
                 CellFillData = new PdfCellFillData();
-                if (dxfFill != null)
+                if (dxfFill != null && xfFill.IsEmpty())
                 {
-                    CellFillData.PatternStyle = dxfFill.PatternType != null ? (ExcelFillStyle)dxfFill.PatternType : xfFill.PatternType;
+                    CellFillData.PatternStyle = dxfFill.PatternType != null ? (ExcelFillStyle)dxfFill.PatternType : ExcelFillStyle.Solid;
                     if (CellFillData.PatternStyle == ExcelFillStyle.Solid)
                     {
                         CellFillData.BackgroundColor = PdfColor.SetColorFromHex(dxfFill.BackgroundColor.LookupColor());
