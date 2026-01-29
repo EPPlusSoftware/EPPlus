@@ -22,6 +22,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// </summary>
     internal abstract class TextBodyItem : DrawingObject
     {
+        public TextBodyItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        {
+            Bounds.Name = "TxtBody";
+
+            Bounds.Parent = parent;
+        }
+        public TextBodyItem(DrawingBase renderer, BoundingBox parent, double maxWidth, double maxHeight) : base(renderer, parent)
+        {
+            Bounds.Name = "TxtBody";
+            Bounds.Parent = parent;
+            MaxWidth = maxWidth;
+            MaxHeight = maxHeight;
+        }
+        internal double MaxWidth { get; set; }
+        internal double MaxHeight { get; set; }
+
         /// <summary>
         /// Shorthand for Bounds.Width
         /// </summary>
@@ -44,22 +60,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         private FontMeasurerTrueType _measurer = null;
         internal string _text;
-        public TextBodyItem(DrawingBase renderer, BoundingBox parent)  : base(renderer, parent)
-        {
-            Bounds.Name = "TxtBody";
-
-            Bounds.Parent = parent;
-
-            //Bounds.Width = parent.Width;
-            //Bounds.Height = parent.Height;
-        }
-
         public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text=null)
         {
             var measureFont = item.DefaultRunProperties.GetMeasureFont();
             bool isFirst = Paragraphs.Count == 0;
 
-            var paragraph = CreateParagraph(item, Bounds, text);
+            var paragraph = CreateParagraph(this, item, Bounds, text);
             paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
             paragraph.Bounds.Top = startingY;
             _text = text;
@@ -207,12 +213,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// Each file format defines its own paragraph
         /// </summary>
         /// <returns></returns>
-        internal abstract ParagraphItem CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty="");
+        internal abstract ParagraphItem CreateParagraph(TextBodyItem textBody,  ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty="");
 
         /// <summary>
         /// Each file format defines its own paragraph
         /// </summary>
         /// <returns></returns>
-        internal abstract ParagraphItem CreateParagraph(BoundingBox parent);
+        internal abstract ParagraphItem CreateParagraph(TextBodyItem textBody, BoundingBox parent);
     }
 }

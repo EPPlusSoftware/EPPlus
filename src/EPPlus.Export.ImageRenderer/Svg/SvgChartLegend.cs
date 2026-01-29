@@ -182,6 +182,7 @@ namespace EPPlusImageRenderer.Svg
         {
             int index = 0;
             SvgLegendSerie pSls=null;
+            var pos = Chart.Legend.Position;
             foreach (var ct in sc.Chart.PlotArea.ChartTypes)
             {
                 foreach (var s in ct.Series)
@@ -202,7 +203,15 @@ namespace EPPlusImageRenderer.Svg
 
                             var tbLeft = si.X2 + MarginExtra;
                             var tbTop = si.Y2 - tm.Height * 0.75; //TODO:Should probably be font ascent 
-                            var tbWidth = Bounds.Width - tbLeft - RightMargin;
+                            double tbWidth;
+                            if (pos == eLegendPosition.Left || pos == eLegendPosition.Right)
+                            {
+                                tbWidth = Bounds.Width - tbLeft - RightMargin;
+                            }
+                            else
+                            {
+                                tbWidth = Bounds.Width - tbLeft - RightMargin;
+                            }
                             var tbHeight = tm.Height;
                             sls.Textbox = new SvgTextBodyItem(ChartRenderer, Bounds, tbLeft, tbTop, tbWidth, tbHeight);
                             sls.Textbox.Bounds.Left = si.X2 + MarginExtra;

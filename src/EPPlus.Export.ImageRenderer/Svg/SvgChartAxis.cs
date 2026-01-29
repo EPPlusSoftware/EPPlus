@@ -283,7 +283,18 @@ namespace EPPlusImageRenderer.Svg
             var mf = Axis.Font.GetMeasureFont();
             var axisStyle = GetAxisStyleEntry();
             var ret= new List<SvgTextBoxItem>();
-            for (var i=0;i < AxisValues.Count;i++)
+            double maxWidth, maxHeight;
+            if(Axis.AxisPosition==eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
+            {
+                maxWidth = SvgChart.ChartArea.Bounds.Width / 3; //TODO: Check this value.
+                maxHeight = Rectangle.Height / AxisValues.Count;
+            }
+            else
+            {
+                maxWidth = Rectangle.Width / AxisValues.Count;
+                maxHeight = SvgChart.ChartArea.Bounds.Height / 3; //TODO: Check this value.
+            }
+            for (var i = 0; i < AxisValues.Count; i++)
             {
                 var v = AxisValues[i];
                 var m = tm.MeasureText(v, mf);
@@ -294,8 +305,9 @@ namespace EPPlusImageRenderer.Svg
                 //bounds.Left = x;
                 //bounds.Top = y;
                 var width = m.Width.PointToPixel();
-                var height = m.Height.PointToPixel(); 
-                var tb = new SvgTextBoxItem(SvgChart, Rectangle.Bounds, x, y, width, height);
+                var height = m.Height.PointToPixel();
+                var tb = new SvgTextBoxItem(SvgChart, Rectangle.Bounds, x, y, width, height, maxWidth, maxHeight);
+
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
                 tb.TextBody.ImportParagraph(p, 0, v);
 
@@ -309,7 +321,7 @@ namespace EPPlusImageRenderer.Svg
         private double GetAxisItemLeft(int i, OfficeOpenXml.Interfaces.Drawing.Text.TextMeasurement m)
         {
             if (Axis.AxisPosition == eAxisPosition.Left)
-            {
+                {
                 return Rectangle.Left;
             }
             else if (Axis.AxisPosition == eAxisPosition.Right)

@@ -13,19 +13,25 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     internal class SvgTextBoxItem : DrawingObject
     {
-        internal SvgTextBoxItem(DrawingBase renderer, BoundingBox parent, double left, double top, double maxWidth, double maxHeight) : base(renderer, parent)
+        internal SvgTextBoxItem(DrawingBase renderer, BoundingBox parent, double left, double top, double width, double height, double maxWidth = double.NaN, double maxHeight = double.NaN) : base(renderer, parent)
         {
             Bounds.Left = left;
             Bounds.Top = top;
-            Bounds.Width = maxWidth;
-            Bounds.Height = maxHeight;
+            Bounds.Width = width;
+            Bounds.Height = height;
             Bounds.Name = "TextBox";
+
             TextBody = new SvgTextBodyItem(renderer, Bounds, true);
-            Bounds.Width = TextBody.Width;
-            Bounds.Height = TextBody.Height;
+            TextBody.MaxWidth = maxWidth;
+            TextBody.MaxHeight = maxHeight;
+            //Bounds.Width = TextBody.Width;
+            //Bounds.Height = TextBody.Height;
 
             Rectangle = new SvgRenderRectItem(renderer, parent);
             Rectangle.Bounds = Bounds;
+        }
+        internal SvgTextBoxItem(DrawingBase renderer, BoundingBox parent, double maxWidth, double maxHeight) : base(renderer, parent)
+        {
         }
 
         //Simplified input

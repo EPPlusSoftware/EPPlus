@@ -34,19 +34,21 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         TextFragmentCollection _textFragments;
         internal protected MeasurementFont _paragraphFont;
-
+        internal TextBodyItem ParentTextBody { get; set; }
         internal double ParagraphLineSpacing { get; private set; }
         internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
-        public ParagraphItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
+            ParentTextBody = textBody;
             Bounds.Name = "Paragraph";
             var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
             _paragraphFont = defaultFont;
         }
 
-        public ParagraphItem(DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty=null) : base(renderer, parent)
+        public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty=null) : base(renderer, parent)
         {
+            ParentTextBody = textBody; 
             IsFirstParagraph = p == p._paragraphs[0];
 
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
@@ -160,7 +162,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public void AddText(string text, ExcelTextFont font)
         {
             var measurer = new FontMeasurerTrueType();
-            var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), Bounds.Parent.Size.X);
+            var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), ParentTextBody.MaxWidth);
             var container = CreateTextRun(text, font, Bounds, string.Join("\r\n", displayText.ToArray()));
             container.BaseLineSpacing = _lineSpacingAscendantOnly;
             container.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
@@ -254,6 +256,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                             Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
                         }
                     }
+                    Bounds.Width = widthOfCurrentLine;
                 }
             }
         }

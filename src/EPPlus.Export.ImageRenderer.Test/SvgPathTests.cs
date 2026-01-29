@@ -511,7 +511,7 @@ namespace TestProject1
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var ix = 2;
+                var ix = 1;
                 var c = ws.Drawings[ix];
                 var svg = renderer.RenderDrawingToSvg(c);
                 SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
@@ -521,8 +521,29 @@ namespace TestProject1
                 //    var svg = renderer.RenderDrawingToSvg(c);
                 //    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
                 //}
+             }
+        }
+        [TestMethod]
+        public void GenerateSvgForLineCharts()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("LineChartRenderTest.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = renderer.RenderDrawingToSvg(c);
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                var ix = 1;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\LineChartForSvg{ix++}.svg", svg);
+                }
             }
         }
+
         [TestMethod]
         public void GenerateSvgForCharts_sheet2()
         {

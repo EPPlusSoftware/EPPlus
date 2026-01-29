@@ -15,37 +15,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
     {
         public override RenderItemType Type => RenderItemType.Paragraph;
 
-        public SvgParagraphItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(textBody, renderer, parent)
         {
         }
 
-        public SvgParagraphItem(DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(renderer, parent, p, textIfEmpty)
+        public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(textBody, renderer, parent, p, textIfEmpty)
         {
         }
-
-        private string GetHorizontalAlignmentAttribute(double indentX)
-        {
-            string ret = "";
-            var xStr = indentX.ToString(CultureInfo.InvariantCulture);
-
-            switch (_hAlign)
-            {
-                default:
-                case eTextAlignment.Left:
-                    ret = $"text-anchor=\"start\" x=\"{xStr}\" ";
-                    break;
-                case eTextAlignment.Center:
-                    ret = $"text-anchor=\"middle\" x=\"{xStr}\" ";
-                    break;
-                case eTextAlignment.Right:
-
-                    ret = $"text-anchor=\"end\" x=\"{xStr}\" ";
-                    break;
-            }
-
-            return ret;
-        }
-
         //private string GetVerticalAlignAttribute(double textOrigY)
         //{
         //    string ret = "dominant-baseline=";
