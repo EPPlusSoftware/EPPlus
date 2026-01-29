@@ -27,8 +27,6 @@ namespace EPPlus.Fonts.OpenType
             _font = font ?? throw new ArgumentNullException(nameof(font));
         }
 
-        // In OpenTypeFontSerializer class
-
         public byte[] Serialize()
         {
             using (var stream = new MemoryStream())

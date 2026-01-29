@@ -53,6 +53,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
             // Check if any of these GIDs exist in our current subset
             return coveredGids.Any(gid => includedGlyphs.Contains(gid));
         }
+
         public LookupTable Rewrite(FontSubsettingContext context, LookupTable oldLookup)
         {
             var newLookup = new LookupTable

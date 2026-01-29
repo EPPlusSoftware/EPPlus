@@ -79,8 +79,6 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
                     offsets.Add((uint)ms.Position);
                 }
-
-                Console.WriteLine($"Total glyf table size: {ms.Position} bytes, loca last offset: {offsets[offsets.Count - 1]}");
             }
 
             // 4. Update head and create loca

@@ -55,8 +55,6 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             // Build mapping: Unicode code point → NEW glyph ID in subset
             Dictionary<uint, ushort> cmapMapping = new Dictionary<uint, ushort>();
 
-            Console.WriteLine("\n=== CMAP REWRITE DEBUG ===");
-
             foreach (uint codePoint in context.UsedCodePoints)
             {
                 ushort oldGid;
@@ -67,11 +65,6 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                     if (context.OldToNewGlyphId.TryGetValue(oldGid, out newGid))
                     {
                         cmapMapping[codePoint] = newGid;
-                        // Debug first few
-                        if (codePoint >= 'a' && codePoint <= 'c')
-                        {
-                            Console.WriteLine($"  U+{codePoint:X4} ('{(char)codePoint}') : oldGID {oldGid:X4} -> newGID {newGid:X4}");
-                        }
                     }
                     else
                     {
