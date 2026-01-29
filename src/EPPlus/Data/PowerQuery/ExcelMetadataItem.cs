@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Security.Cryptography;
 using System.Xml;
 
 namespace OfficeOpenXml.Data.Connection
@@ -33,30 +34,83 @@ namespace OfficeOpenXml.Data.Connection
                 var type = node.GetAttribute("Type");
                 var sv = node.GetAttribute("Value");
                 object value;
-                switch(sv[0])
+                var prefix = sv[0];
+                var s = sv.Substring(1);
+                switch (prefix)
                 {
                     case 's':
                     case 'S':
-                        value = sv.Substring(1);
+                        value = s;
                         break;
                     case 'l':
                     case 'L':
-                        value = int.Parse(sv.Substring(1), culture);
+                        if (long.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out long l))
+                        {
+                            value = l;
+                        }
+                        else
+                        {
+                            value = s;
+                        }
                         break;
                     case 'b':
                     case 'B':
-                        value = bool.Parse(sv.Substring(1));
+                        if (bool.TryParse(s, out bool b))
+                        {
+                            value = b;
+                        }
+                        else
+                        {
+                            value = s;
+                        }
                         break;
                     case 'd':
                     case 'D':
-                        value = DateTime.Parse(sv.Substring(1), culture);
+                        if (DateTime.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTime dt))
+                        {
+                            value = dt;
+                        }
+                        else
+                        {
+                            value = s;
+                        }
                         break;
                     case 'f':
                     case 'F':
-                        value = double.Parse(sv.Substring(1), culture);
+                        if (double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out double f))
+                        {
+                            value = f;
+                        }
+                        else
+                        {
+                            value = s;
+                        }
+                        break;
+                    case 'c':
+                    case 'C':
+#if (NET8_0_OR_GREATER)
+                        if (Guid.TryParse(s, CultureInfo.InvariantCulture, out Guid guid))
+                        {
+                            value = guid;
+                        }
+                        else
+                        {
+                            value = s;
+                        }
+#else                        
+                        try
+                        {
+                            value = new Guid(s);   
+                        }
+                        catch
+                        {
+                            value = s;
+                        }
+#endif
                         break;
                     default:
-                        throw new InvalidOperationException($"Invalid or no data type on Power Query meta data entry with name {type}");
+                        value = sv;
+                        break;
                 }
                 Entries.Add(new ExcelPowerQueryMetaDataEntry(type, value, true, false));
             }
@@ -72,9 +126,9 @@ namespace OfficeOpenXml.Data.Connection
         /// <summary>
         /// A collection of metadata entries.
         /// </summary>
-        public List<ExcelPowerQueryMetaDataEntry> Entries 
+        public List<ExcelPowerQueryMetaDataEntry> Entries
         {
-            get; 
+            get;
         } = new List<ExcelPowerQueryMetaDataEntry>();
     }
 }
