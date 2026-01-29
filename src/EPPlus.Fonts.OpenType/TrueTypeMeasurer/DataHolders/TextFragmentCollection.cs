@@ -28,6 +28,9 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         internal List<double> lineWidths { get; private set; } = new List<double>();
 
         public List<int> IndiciesToWrapAt {get; internal set; }
+
+        List<TextLineSimple> TextLines = new();
+
         public TextFragmentCollection(List<string> textFragments)
         {
             TextFragments = textFragments;
@@ -281,6 +284,31 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         //    }
 
 
+        //}
+
+        //public List<TextLineSimple> GetSimpleTextLines(List<string> wrappedLines)
+        //{
+        //    //The wrapped lines
+        //    var lines = wrappedLines;
+        //    //The richText data in a form that is one to one in chars
+        //    var frags = GetFragmentsWithoutLineBreaks();
+
+        //    int fragIdx = 0;
+        //    int charIdx = 0;
+        //    int lastFragLength = 0;
+
+        //    var currentFragment = frags[fragIdx];
+
+        //    for (int i = 0; i< wrappedLines.Count(); i++)
+        //    {
+        //        var textLineSimple = new TextLineSimple();
+
+        //        for (int j = 0; j < wrappedLines[i].Length; j++)
+        //        {
+        //            textLineSimple
+        //            charIdx++;
+        //        }
+        //    }
         //}
 
         public List<string> GetFragmentsWithoutLineBreaks()

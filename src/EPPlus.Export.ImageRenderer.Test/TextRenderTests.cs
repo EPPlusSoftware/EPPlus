@@ -8,10 +8,12 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
 using System.Globalization;
+using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {
@@ -57,6 +59,38 @@ namespace EPPlus.Export.ImageRenderer.Tests
             }
         }
 
+        TextFragmentCollection GenerateTextFragments(ExcelDrawingTextRunCollection runs)
+        {
+            List<string> runContents = new List<string>();
+            List<float> fontSizes = new List<float>();
+
+            for (int i = 0; i < runs.Count(); i++)
+            {
+                var txtRun = runs[i];
+                var runFont = txtRun.GetMeasurementFont();
+
+                runContents.Add(txtRun.Text);
+                fontSizes.Add(runFont.Size);
+            }
+
+            return new TextFragmentCollection(runContents, fontSizes);
+        }
+
+        List<TextLineSimple> GetWrappedText(ExcelDrawingTextRunCollection runs, TextFragmentCollection fragments)
+        {
+            FontMeasurerTrueType ttMeasurer = new();
+            List<MeasurementFont> fonts = new List<MeasurementFont>();
+
+            for (int i = 0; i < runs.Count(); i++)
+            {
+                var txtRun = runs[i];
+                var runFont = txtRun.GetMeasurementFont();
+                fonts.Add(runFont);
+            }
+
+            var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
+            return ttMeasurer.WrapMultipleTextFragmentsToTextLines(fragments, fonts, maxSizePoints);
+        }
 
         [TestMethod]
         public void VerifyTextRunBounds()
@@ -114,6 +148,24 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 var svgShape = new SvgShape(cube);
                 SvgTextBodyItem tbItem = new SvgTextBodyItem(svgShape, parentBB);
 
+                //Verify new method works at all
+                for(int i = 1; i< cube.TextBody.Paragraphs.Count; i++)
+                {
+                    var fragments = GenerateTextFragments(cube.TextBody.Paragraphs[i].TextRuns);
+
+                    var wrappedText = GetWrappedText(cube.TextBody.Paragraphs[i].TextRuns, fragments);
+                    if(i == 0)
+                    {
+                        Assert.AreEqual("TextBox", wrappedText[0].Text);
+                        Assert.AreEqual("a", wrappedText[1].Text);
+                    }
+                    if(i == 1)
+                    {
+                        Assert.AreEqual("TextBox2ra underlineLa", wrappedText[0].Text);
+                        Assert.AreEqual("StrikeGoudy size", wrappedText[1].Text);
+                        Assert.AreEqual("16SvgSize 24", wrappedText[2].Text);
+                    }
+                }
                 tbItem.ImportTextBody(cube.TextBody);
 
                 var txtRun1Bounds = tbItem.Paragraphs[0].Runs[0].Bounds;

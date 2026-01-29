@@ -83,7 +83,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public override void Render(StringBuilder sb)
         {
-            CalculateLineSpacing();
             string finalString = "";
             var xString = $"x =\"{(Bounds.Left).ToString(CultureInfo.InvariantCulture)}\" ";
 

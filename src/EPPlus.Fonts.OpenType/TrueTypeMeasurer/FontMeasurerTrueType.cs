@@ -316,5 +316,13 @@ namespace EPPlus.Fonts.OpenType
             //Wrap the fragments
             return TextData.WrapMultipleTextFragments(paragraph, maxWidthPoints);
         }
+
+        public List<TextLineSimple> WrapMultipleTextFragmentsToTextLines(TextFragmentCollection fragments, List<MeasurementFont> fonts, double maxWidthPoints)
+        {
+            TextParagraph paragraph = new TextParagraph(fragments, fonts);
+
+            //Wrap the fragments
+            return TextData.WrapMultipleTextFragmentsToTextLines(paragraph, maxWidthPoints);
+        }
     }
 }

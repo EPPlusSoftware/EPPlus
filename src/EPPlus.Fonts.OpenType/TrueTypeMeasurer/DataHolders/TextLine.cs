@@ -13,6 +13,5 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
         internal List<int> rtContentStartIndexPerRt;
         internal int lastRtInternalIndex;
         internal int startRtInternalIndex;
-        
     }
 }

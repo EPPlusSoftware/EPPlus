@@ -212,7 +212,24 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             var maxSizePoints = Math.Round(Bounds.Width, 0, MidpointRounding.AwayFromZero).PixelToPoint();
             return ttMeasurer.WrapMultipleTextFragments(fragments, fonts, maxSizePoints);
         }
+        public List<ParagraphLine> Lines { get; set; }
+        private void AddLinesAndTextRuns2(ExcelDrawingParagraph p, string textIfEmpty)
+        {
+            //var line = new ParagraphLine();
+            foreach (var r in p.TextRuns)
+            {
+                foreach(var text in r.SplitIntoLines())
+                {
+                    var line = new ParagraphLine();
 
+                    //var textWidth = GetWidth(text, r);
+                    //if(line.Width+textWidth > maxWidth)
+                    //{
+
+                    //}
+                }
+            }
+        }
         private void AddLinesAndTextRuns(ExcelDrawingParagraph p, string textIfEmpty)
         {
             //Log line positions and run sizes
@@ -273,7 +290,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                                 //Set linespacing to descent
                                 lineSpacing = _textFragments.GetDescent(currentLineIdx).PointToPixel();
                             }
-                            currentLineIdx++;
+
+                            //Last line in added lines we will continue on if there are more textruns
+                            //Therefore the index will be added to after the next line-break or at the end
+                            if (j < lastAdded.Lines.Count - 1)
+                            {
+                                Bounds.Height += lastAdded.Bounds.Height;
+                                currentLineIdx++;
+                            }
                         }
 
                         widthOfCurrentLine = Runs.Last().PerLineWidth.Last();
@@ -281,15 +305,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     else
                     {
                         widthOfCurrentLine += Runs.Last().PerLineWidth.Last();
+
                         //If we are on the last run
                         if (i == p.TextRuns.Count - 1)
                         {
                             if (_lsMultiplier.HasValue)
                             {
+                                //currentLineIdx++;
                                 //Add ascent to descent (Add ascent to Nothing for the first run)
                                 lineSpacing += _textFragments.GetAscent(currentLineIdx).PointToPixel() * _lsMultiplier.Value;
                             }
                             lastAdded.AddLineSpacing(lineSpacing);
+                            Bounds.Height += lastAdded.Bounds.Height;
                             //Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
                             //Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
                         }
@@ -394,6 +421,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
             //Gets each actual text run, with linebreak symbols
             _textRunDisplayText = fragments.GetFragmentsWithFinalLineBreaks();
+            //var test = fragments.GetFragmentsWithoutLineBreaks();
+            //var 
+            //var lineToRunMapping = 
         }
 
         internal double GetAlignmentHorizontal(eTextAlignment txAlignment)
