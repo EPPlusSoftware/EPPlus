@@ -87,7 +87,7 @@ namespace OfficeOpenXml.Data.Connection
                         break;
                     case 'c':
                     case 'C':
-#if (Core)
+#if (NET8_0_OR_GREATER)
                         if(Guid.TryParse(s, CultureInfo.InvariantCulture, out Guid guid))
                         {
                             value = guid;

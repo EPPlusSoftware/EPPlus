@@ -212,6 +212,7 @@ namespace EPPlusImageRenderer.Svg
                             {
                                 tbWidth = Bounds.Width - tbLeft - RightMargin;
                             }
+
                             var tbHeight = tm.Height;
                             sls.Textbox = new SvgTextBodyItem(ChartRenderer, Bounds, tbLeft, tbTop, tbWidth, tbHeight);
                             sls.Textbox.Bounds.Left = si.X2 + MarginExtra;

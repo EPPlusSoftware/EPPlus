@@ -167,7 +167,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             container.BaseLineSpacing = _lineSpacingAscendantOnly;
             container.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
             Runs.Add(container);
-
+            Bounds.Width = container.Bounds.Width + 0.001; //TODO: fix for equal width issue
             container.Bounds.Name = $"Container{Runs.Count}";
         }
 
@@ -223,6 +223,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
             {
                 AddText(textIfEmpty, p.DefaultRunProperties);
+                Bounds.Width = Runs.Sum(x=>x.Bounds.Width);
             }
             else
             {
