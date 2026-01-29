@@ -602,7 +602,11 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             }
         }
 
-        // ✅ HAR REDAN
+        /// <summary>
+        /// Calculates the total height of the font, in points, for the specified font size.
+        /// </summary>
+        /// <param name="fontSize">The font size, in points, for which to calculate the total font height. Must be a positive value.</param>
+        /// <returns>The total height of the font, in points, corresponding to the specified font size.</returns>
         public double GetFontHeightInPoints(double fontSize)
         {
             // Total font height (ascent + descent)
@@ -613,7 +617,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             return (ascent + descent) * (fontSize / em);
         }
 
-        // ❌ SAKNAS - LÄGG TILL DENNA!
+        /// <summary>
+        /// Calculates the distance from the top of the font's bounding box to the baseline, measured in points, for the
+        /// specified font size.
+        /// </summary>
+        /// <param name="fontSize">The font size, in points, for which to calculate the baseline position. Must be a positive value.</param>
+        /// <returns>The distance, in points, from the top of the font's bounding box to the baseline for the given font size.</returns>
         public double GetBaseLineInPoints(double fontSize)
         {
             // Distance from top of box to baseline
@@ -625,7 +634,13 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             return ascent * (fontSize / em);
         }
 
-        // BONUS - Kan vara användbart
+        /// <summary>
+        /// Calculates the font descent in points for the specified font size.
+        /// </summary>
+        /// <remarks>The descent represents the distance from the baseline to the lowest point of the
+        /// font's glyphs. This value is typically used for layout calculations and text rendering.</remarks>
+        /// <param name="fontSize">The font size, in points, for which to calculate the descent. Must be a positive value.</param>
+        /// <returns>The descent of the font, in points, corresponding to the specified font size.</returns>
         public double GetDescentInPoints(double fontSize)
         {
             var descent = _font.Os2Table.UseTypoMetrics
