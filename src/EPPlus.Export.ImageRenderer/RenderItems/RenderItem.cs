@@ -40,6 +40,7 @@ namespace EPPlusImageRenderer.RenderItems
             _drawing = drawing; 
             _theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
         }
+        internal bool IsEndOfGroup { get; set; } = false;
         public string FillColor { get; set; }
         public string FilterName { get; set; }
         public DrawGradientFill GradientFill { get; set; }
@@ -52,6 +53,7 @@ namespace EPPlusImageRenderer.RenderItems
         public double? BorderWidth { get; set; }
         public double[] BorderDashArray { get; set; }
         public double? BorderDashOffset { get; set; }
+        public eLineCap LineCap { get; set; } = eLineCap.Flat;
         public SvgLineJoin LineJoin { get; set; } = SvgLineJoin.Miter;
         public double? BorderOpacity { get; set; }
         public PathFillMode FillColorSource { get; set; } = PathFillMode.Norm;
@@ -67,10 +69,27 @@ namespace EPPlusImageRenderer.RenderItems
             item.BorderDashOffset = BorderDashOffset;
             item.BorderOpacity = BorderOpacity;
             item.LineJoin = LineJoin;
+            item.LineCap = LineCap;
             item.FillColorSource = FillColorSource;
         }
 
         internal virtual void SetDrawingPropertiesFill(ExcelDrawingFill fill, ExcelDrawingColorManager color)
+        {
+            switch (fill.Style)
+            {
+
+                case eFillStyle.PatternFill:
+                    PatternFill = fill.PatternFill;
+                    break;
+                case eFillStyle.BlipFill:
+                    BlipFill = fill.BlipFill;
+                    break;
+                default:
+                    SetDrawingPropertiesFill((ExcelDrawingFillBasic)fill, color);
+                    break;
+            }
+        }
+        internal virtual void SetDrawingPropertiesFill(ExcelDrawingFillBasic fill, ExcelDrawingColorManager color)
         {
             switch (fill.Style)
             {
@@ -90,12 +109,6 @@ namespace EPPlusImageRenderer.RenderItems
                 case eFillStyle.GradientFill:
                     GradientFill = new DrawGradientFill(_theme, fill.GradientFill);
                     FillColor = null;
-                    break;
-                case eFillStyle.PatternFill:
-                    PatternFill = fill.PatternFill;
-                    break;
-                case eFillStyle.BlipFill:
-                    BlipFill = fill.BlipFill;
                     break;
             }
         }
@@ -200,21 +213,9 @@ namespace EPPlusImageRenderer.RenderItems
         internal BoundingBox Bounds = new BoundingBox();
         internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
 
-        internal string RenderSvgElement(SvgElement element)
+        internal void SetTheme(ExcelTheme theme)
         {
-            string retStr = string.Empty;
-
-            using (var ms = EPPlusMemoryManager.GetStream())
-            {
-                SvgWriter writer = new SvgWriter(ms, Encoding.UTF8);
-                writer.RenderSvgElement(element, true);
-                ms.Position = 0;
-                using (var sr = new StreamReader(ms))
-                {
-                    retStr = sr.ReadToEnd();
-                    return retStr;
-                }
-            }
+            _theme = theme;
         }
     }
     /// <summary>
@@ -224,6 +225,5 @@ namespace EPPlusImageRenderer.RenderItems
     {
         public abstract RenderItemType Type { get; }
         public abstract void Render(StringBuilder sb);
-
     }
 }

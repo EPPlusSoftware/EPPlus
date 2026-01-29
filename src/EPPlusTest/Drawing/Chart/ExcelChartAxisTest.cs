@@ -545,7 +545,7 @@ namespace EPPlusTest.Drawing.Chart
                 var serie2 = chartType2.Series.Add(Worksheet.Cells["C1:C4"], Worksheet.Cells["A1:A4"]);
                 chartType2.UseSecondaryAxis = true;
 
-                //By default the secondary X axis is hidden. If you what to show it, try this...
+                //By default the secondary Left axis is hidden. If you what to show it, try this...
                 chartType2.XAxis.Deleted = false;
                 chartType2.XAxis.TickLabelPosition = eTickLabelPosition.High;
 

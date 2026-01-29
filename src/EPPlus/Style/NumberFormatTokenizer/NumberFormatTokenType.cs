@@ -10,28 +10,28 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using System.Diagnostics;
-
-namespace EPPlusImageRenderer.ShapeDefinitions
+namespace OfficeOpenXml.Style
 {
-    /// <summary>
-    /// 20.1.9.11 Ecma part 1
-    /// 20.1.10.76 - Preset Textbox Shape Types
-    /// </summary>
-    [DebuggerDisplay("{Name}-{Formula}={CalculatedValue}")]
-    public class ShapeGuide
+    public enum NumberFormatTokenType
     {
-        public string Name { get; set; }
-        public string Formula { get; set; }
-        public double CalculatedValue 
-        { 
-            get; 
-            set; 
-        }
-
-        internal ShapeGuide Clone()
-        {
-            return new ShapeGuide() { Name=Name, Formula=Formula, CalculatedValue=CalculatedValue};
-        }
+        NumberFormat,
+        DateTimeFormat,
+        Semicolon,
+        String,
+        StringContent,
+        LanguageCalenderString,
+        CharacterWidth,
+        Text, //A literal text token, not inside a string.
+        Color,
+        Condition,
+        ElapsedTime,
+        /// <summary>
+        /// The parsed token represents an opening bracket ('[')
+        /// </summary>
+        OpeningBracket,
+        /// <summary>
+        /// The parsed token represents a closing bracket (']')
+        /// </summary>
+        ClosingBracket,
     }
 }

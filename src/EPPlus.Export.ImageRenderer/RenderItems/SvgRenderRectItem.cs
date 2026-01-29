@@ -34,14 +34,18 @@ namespace EPPlusImageRenderer.RenderItems
 
         public double X { get { return Bounds.Left; } set { Bounds.Left = value; } }
         public double Y { get { return Bounds.Top; } set { Bounds.Top = value; } }
+        public double Left { get { return Bounds.Left; } set { Bounds.Left = value; } }
+        public double Top { get { return Bounds.Top; } set { Bounds.Top = value; } }
         public double Width { get { return Bounds.Width; } set { Bounds.Width = value; } }
         public double Height { get { return Bounds.Height; } set { Bounds.Height = value; } }
+        public double Right { get { return Bounds.Left + Width; }  }
+        public double Bottom { get { return Bounds.Top + Height; }  }
 
         public override RenderItemType Type => RenderItemType.Rect;
 
         public override void Render(StringBuilder sb)
         {
-            var groupItem = new SvgGroupItem("");
+            var groupItem = new SvgGroupItem();
             groupItem.Render(sb);
 
             RenderRect(sb);
@@ -49,7 +53,7 @@ namespace EPPlusImageRenderer.RenderItems
             groupItem.RenderEndGroup(sb);
         }
 
-        private void RenderRect(StringBuilder sb)
+        internal void RenderRect(StringBuilder sb)
         {
             sb.AppendFormat("<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\" ",
                 X.ToString(CultureInfo.InvariantCulture),

@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using EPPlus.Graphics;
+using System.Linq;
 
 namespace EPPlusImageRenderer.Text
 {
@@ -66,7 +67,7 @@ namespace EPPlusImageRenderer.Text
         /// <param name="t"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        internal TextBox(double l, double t, double width, double height)
+        internal TextBox(ExcelDrawing drawing, double l, double t, double width, double height) : base(drawing)
         {
             Bounds.Left = l; Bounds.Top = t; Width = width; Height = height;
 
@@ -88,8 +89,8 @@ namespace EPPlusImageRenderer.Text
         /// <param name="textBoxRender"></param>
         internal TextBox(ExcelTextBody txBody, SvgRenderRectItem textBoxRender)
         {
-            Bounds.Left = textBoxRender.X;
-            Bounds.Top = textBoxRender.Y;
+            Bounds.Left = textBoxRender.Left;
+            Bounds.Top = textBoxRender.Top;
 
             //var transform = Bounds.transform;
 
@@ -133,9 +134,7 @@ namespace EPPlusImageRenderer.Text
         private double GetAlignmentVertical()
         {
             double alignmentY = 0;
-
-            var y = paragraphStartPosY;
-
+            double y = paragraphStartPosY;
             var height = y - Bounds.Bottom;
 
             switch (VerticalAlignment)
@@ -190,9 +189,9 @@ namespace EPPlusImageRenderer.Text
 
         internal SvgParagraph ImportParagraph(ExcelDrawingParagraph item)
         {
-            var measureFont = item.DefaultRunProperties.GetMeasureFont();
+            var measureFont = item.GetMeasurementFont();
 
-            //Document Y position for the paragraph text based on vertical alignment
+            //Document Top position for the paragraph text based on vertical alignment
             var posY = GetAlignmentVertical();
             var vertAlignAttribute = GetVerticalAlignAttribute(posY);
 
@@ -243,18 +242,15 @@ namespace EPPlusImageRenderer.Text
 
         internal void RenderParagraphs(StringBuilder sb)
         {
-            var groupItem = new SvgGroupItem("");
-            groupItem.Render(sb);
             //TODO: add textbody property stuff here
             foreach (var paragraph in Paragraphs)
             {
                 paragraph.Render(sb);
             }
-            groupItem.RenderEndGroup(sb);
         }
         internal void RenderTextRuns(StringBuilder sb)
         {
-            var groupItem = new SvgGroupItem("");
+            var groupItem = new SvgGroupItem();
             groupItem.Render(sb);
 
             var innerTop = Bounds.GetInnerRect().Top;
@@ -309,13 +305,15 @@ namespace EPPlusImageRenderer.Text
             //}
         }
         public string Text { get; set; }
+        public double Rotation { get; internal set; }
+
         internal void AddText(string text, OfficeOpenXml.Style.ExcelTextFont font)
         {
             var measureFont = font.GetMeasureFont();
 
             var area = GetTextArea();
             paragraphStartPosY = area.Top;
-            //Document Y position for the paragraph text based on vertical alignment
+            //Document Top position for the paragraph text based on vertical alignment
             var posY = GetAlignmentVertical();
             var vertAlignAttribute = GetVerticalAlignAttribute(posY);
 

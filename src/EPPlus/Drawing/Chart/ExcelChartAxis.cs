@@ -463,7 +463,15 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 return ExistsNode(_minorGridlinesPath);
             }
-        }        
+        }
+
+        /// <summary>
+        /// True if the axis has a title.
+        /// </summary>
+        public abstract bool HasTitle
+        {
+            get;
+        }
         /// <summary> 
         /// Removes Major and Minor gridlines from the Axis 
         /// </summary> 
@@ -583,6 +591,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
             CreatespPrNode($"{_nsPrefix}:spPr");
         }
-        internal abstract object[] GetAxisValues();
+        internal abstract object[] GetAxisValues(out bool isCount);
     }
 }

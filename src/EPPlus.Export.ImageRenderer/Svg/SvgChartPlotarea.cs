@@ -10,23 +10,27 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
-using System.Text;
+using System.Collections.Generic;
 
 namespace EPPlusImageRenderer.Svg
 {
     internal class SvgChartPlotarea : SvgChartObject
     {
-        public override RenderItemType Type => throw new System.NotImplementedException();
-
         public SvgChartPlotarea(SvgChart sc) : base(sc.Chart)
         {
+            SvgChart = sc;
             Rectangle = GetPlotAreaRectangle(sc);
         }
+        public SvgChart SvgChart { get; set; }
+        public List<ChartTypeDrawer> ChartTypeDrawers { get; set; } 
         internal SvgRenderRectItem GetPlotAreaRectangle(SvgChart sc)
         {
             var pa = sc.Chart.PlotArea;
+            TopMargin = BottomMargin = LeftMargin = RightMargin = 14;
             var rect = new SvgRenderRectItem(sc.Chart);
             if (pa.Layout.HasLayout)
             {
@@ -34,29 +38,44 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                rect.Y = sc.Title.Rectangle?.Height ?? 0;
-                rect.X = sc.VerticalAxis?.Rectangle.Width ?? 0;
-                rect.Width = sc.Size.Width - rect.X;
-                rect.Height = sc.Size.Height - rect.Y;
-
-                switch(sc.Chart.Legend.Position)
+                var lp = sc.Chart.Legend?.Position;
+                rect.Top = (lp==eLegendPosition.Top ? sc.Legend.Rectangle.Bottom : sc.Title?.Rectangle?.Bottom ?? 0d) + TopMargin;
+                if(sc.HorizontalAxis!=null && sc.Chart.XAxis.LabelPosition==eTickLabelPosition.High)
                 {
-                    case eLegendPosition.Top:
-                        break;
+                    rect.Top += sc.HorizontalAxis.Rectangle.Height;
                 }
+                rect.Left = lp == eLegendPosition.Left ? sc.Legend.Rectangle.Right + LeftMargin : LeftMargin;                
+                if(sc.VerticalAxis!=null)
+                {
+                    rect.Left = sc.VerticalAxis.Rectangle?.Right ?? sc.VerticalAxis.Title.Rectangle.Right;
+                }
+
+                rect.Width = (lp == eLegendPosition.Right || lp == eLegendPosition.TopRight ? 
+                        sc.Legend.Rectangle.Left - RightMargin : 
+                        sc.ChartArea.Width - RightMargin) 
+                  - rect.Left;
+
+                double vaHeight=0, vaTitleHeight=0;
+                if(sc.HorizontalAxis != null)
+                {
+                    vaHeight = (sc.HorizontalAxis.Rectangle?.Height ?? 0D) + (sc.HorizontalAxis.Title?.Rectangle?.Height ?? 0D);
+                }
+                if(lp==eLegendPosition.Bottom)
+                {
+                    vaHeight += sc.Legend.Rectangle.Height;
+                }
+                rect.Height = sc.Size.Height - rect.Top - vaHeight - vaTitleHeight - BottomMargin;                
             }
 
+            rect.SetDrawingPropertiesFill(pa.Fill, sc.Chart.StyleManager.Style.PlotArea.FillReference.Color);
+            rect.SetDrawingPropertiesBorder(pa.Border, sc.Chart.StyleManager.Style.PlotArea.BorderReference.Color, pa.Border.Fill.Style != eFillStyle.NoFill, 0.75);
             return rect;
         }
 
-        public override void Render(StringBuilder sb)
+        internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            Rectangle.Render(sb);
+            renderItems.Add(Rectangle);
         }
 
-        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

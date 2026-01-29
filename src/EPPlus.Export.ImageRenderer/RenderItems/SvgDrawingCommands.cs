@@ -14,7 +14,7 @@
 //using OfficeOpenXml.Utils.TypeConversion;
 //using System;
 //using System.Reflection;
-//using System.Text.Json;
+//using System.Textbox.Json;
 //using System.Windows;
 //using System.Xml;
 //namespace EPPlusImageRenderer.RenderItems
@@ -99,7 +99,7 @@
 //            var width = br.ReadSingle();
 //            var height = br.ReadSingle();
 
-//            return new SvgRenderRectItem() { X = x, Y = y, Width = width, Height = height, FillColorSource = (PathFillMode)fill, BorderColorSource = (PathFillMode)stroke };
+//            return new SvgRenderRectItem() { Left = x, Top = y, Width = width, Height = height, FillColorSource = (PathFillMode)fill, BorderColorSource = (PathFillMode)stroke };
 //        }
 //        public static string SerializeShapeAdjustments()
 //        {

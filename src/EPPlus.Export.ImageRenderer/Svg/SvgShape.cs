@@ -53,8 +53,7 @@ namespace EPPlusImageRenderer.Svg
                 var shapeDef = PresetShapeDefinitions.ShapeDefinitions[style].Clone();
                 shapeDef.Calculate(shape);
 
-                //RenderItems.Add(new SvgRenderPathItem(shape));
-                RenderItems.Add(new SvgGroupItem(shapeDef.GetTransform(shape.Rotation)));
+                RenderItems.Add(new SvgGroupItem(shape.Rotation, 0, 0));
 
                 //Draw Filled path's
                 foreach (var path in shapeDef.ShapePaths)
@@ -202,11 +201,9 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        public override RenderItemType Type => throw new NotImplementedException();
-
-        public override void Render(StringBuilder sb)
+        public void Render(StringBuilder sb)
         {
-            sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
+            sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
 
             //Write defs used for gradient colors
             var writer = new SvgDrawingWriter(this);
@@ -219,6 +216,10 @@ namespace EPPlusImageRenderer.Svg
                 if(item.Type == RenderItemType.Group && gItemTest == null)
                 {
                     gItemTest = (SvgGroupItem)item;
+                }
+                if (item.IsEndOfGroup && gItemTest != null)
+                {
+                    gItemTest.RenderEndGroup(sb);
                 }
             }
             if (!string.IsNullOrEmpty(_shape.Text))
@@ -243,7 +244,7 @@ namespace EPPlusImageRenderer.Svg
                 insetTextBox.Bounds.Top = y;
                 insetTextBox.Width = width;
                 insetTextBox.Height = height;
-                insetTextBox.Bounds.Parent = Bounds;
+                insetTextBox.Bounds.Parent = textBody.Bounds; //TODO:Check that textBody is correct.
             }
             var txtBodyItem = new SvgTextBodyItem(insetTextBox.Bounds);
 
@@ -252,7 +253,7 @@ namespace EPPlusImageRenderer.Svg
 
         private void RenderText(StringBuilder sb)
         {
-            RenderDebugTextBox(sb);
+            //RenderDebugTextBox(sb);
             textBody.Render(sb);
         }
 
@@ -263,24 +264,24 @@ namespace EPPlusImageRenderer.Svg
 
             insetTextBox.GetBounds(out double l, out double t, out double r, out double b);
 
-            var area = textBody.Bounds;
+            //var area = textBody.Bounds;
 
-            //Temporarily set as child bounds
-            insetTextBox.Bounds.Left = (float)area.Left + l;
-            insetTextBox.Bounds.Top = (float)area.Top + t;
-            insetTextBox.Bounds.Width = (float)area.Width;
-            insetTextBox.Bounds.Height = (float)area.Height;
+            ////Temporarily set as child bounds
+            //insetTextBox.Bounds.Left = (float)area.Left + l;
+            //insetTextBox.Bounds.Top = (float)area.Top + t;
+            //insetTextBox.Bounds.Width = (float)area.Width;
+            //insetTextBox.Bounds.Height = (float)area.Height;
 
-            insetTextBox.FillColor = "blue";
+            //insetTextBox.FillColor = "blue";
 
-            //Render the inner area
-            insetTextBox.Render(sb);
+            ////Render the inner area
+            //insetTextBox.Render(sb);
 
-            //Reset variables so that the rendering of children later aren't affected
-            insetTextBox.Bounds.Left = l;
-            insetTextBox.Bounds.Top = t;
-            insetTextBox.Bounds.Right = r;
-            insetTextBox.Bounds.Bottom = b;
+            ////Reset variables so that the rendering of children later aren't affected
+            //insetTextBox.Bounds.Left = l;
+            //insetTextBox.Bounds.Top = t;
+            //insetTextBox.Bounds.Right = r;
+            //insetTextBox.Bounds.Bottom = b;
         }
 
         private void GetShapeInnerBound(out double x, out double y, out double width, out double height)
@@ -295,8 +296,8 @@ namespace EPPlusImageRenderer.Svg
                 {
                     case RenderItemType.Rect:
                         var rectItem = (SvgRenderRectItem)ri;
-                        x = rectItem.X;
-                        y = rectItem.Y;
+                        x = rectItem.Left;
+                        y = rectItem.Top;
                         width = rectItem.Width;
                         height = rectItem.Height;
                         break;
@@ -401,11 +402,6 @@ namespace EPPlusImageRenderer.Svg
             {
                 xe = xec;
             }
-        }
-
-        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
-        {
-            throw new NotImplementedException();
         }
     }
 }

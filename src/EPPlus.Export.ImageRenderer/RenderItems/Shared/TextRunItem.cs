@@ -3,6 +3,7 @@ using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
     internal abstract class TextRunItem : SvgRenderItem
@@ -29,6 +31,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public List<string> Lines { get; private set; }
 
+        /// <summary>
+        /// Aka total Delta Y
+        /// </summary>
         double _yEndPos;
         double BaselineSpacing;
 
@@ -44,6 +49,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal double LineSpacingPerNewLine { get; set; }
         internal double BaseLineSpacing { get; set; }
 
+        internal List<double> YIncreasePerLine { get; private set; } = new List<double>();
+        internal List<double> PerLineWidth { get; private set; } = new List<double>();
+        internal double ClippingHeight = double.NaN;
+
+        /// <summary>
+        /// If the run has been wrapped more line-breaks may have been added in displayText
+        /// </summary>
+        /// <param name="run"></param>
+        /// <param name="parent"></param>
+        /// <param name="displayText"></param>
         internal TextRunItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "")
         {
             Bounds.transform.Name = "TextRun";
@@ -51,7 +66,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _originalText = run.Text;
             _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
 
-            Lines = _currentText.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+            Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
 
             var measurer = run.Paragraph._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
             _measurer = (FontMeasurerTrueType)measurer;
@@ -77,11 +92,68 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 FillColor = "#" + run.Fill.Color.To6CharHexString();
             }
 
+            //To get clipping height we need to get the textbody bounds
+            if( parent!= null && parent.Parent != null && parent.Parent.Parent != null)
+            {
+               ClippingHeight = parent.Parent.Parent.Bottom;
+            }
+
             _isItalic = run.FontItalic;
             _isBold = run.FontBold;
             _underLineType = run.FontUnderLine;
             _underlineColor = run.UnderLineColor;
             _strikeType = run.FontStrike;
+        }
+
+        internal double CalculateLineSpacing()
+        {
+            //---Calculation of total y-height---
+
+            //If already did this
+            if(YIncreasePerLine.Count > 0)
+            {
+                return Bounds.Height;
+            }
+
+            bool lineIsFirstInParagraph = _isFirstInParagraph;
+
+            foreach (var line in Lines)
+            {
+                //Despite new textrun it could still be on the same line as previous textrun
+                //Therefore only do line increase if we are first in paragraph or if we are not Lines[0].
+                //This as line == Lines[0] && isFirstInParagraph == false means we are continuing on the same line as previous textRun
+                //This is important if for example we have rich text where two letters on the same line has different colors.
+                if (line != Lines[0] || lineIsFirstInParagraph)
+                {
+                    var yIncrease = lineIsFirstInParagraph ? BaseLineSpacing : LineSpacingPerNewLine;
+                    lineIsFirstInParagraph = false;
+
+                    //yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
+
+                    YIncreasePerLine.Add(yIncrease);
+
+                    _yEndPos += yIncrease;
+                    //if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
+                    //{
+                    //    bool displayLine = false
+                    //}
+                }
+                else
+                {
+                    YIncreasePerLine.Add(0);
+                }
+            }
+
+            if(_yEndPos == 0)
+            {
+                Bounds.Height = FontSizeInPixels;
+            }
+            else
+            {
+                Bounds.Height = _yEndPos;
+            }
+
+            return _yEndPos;
         }
 
         internal List<string> GetLines(string text)
@@ -96,28 +168,37 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             return Lines.Count();
         }
 
+        /// <summary>
+        /// Calculates right/bottom
+        /// </summary>
+        /// <param name="il"></param>
+        /// <param name="it"></param>
+        /// <param name="ir"></param>
+        /// <param name="ib"></param>
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {
-            il = Bounds.X;
-            it = Bounds.Y;
+            il = Bounds.Left;
+            it = Bounds.Top;
 
+            //Sets bounds bottom correctly
+            CalculateLineSpacing();
+            ib = Bounds.Bottom;
+            
+            //Caculate bounds right
             ir = CalculateRightPositionInPixels();
-            ib = CalculateBottomPositionInPixels();
-
             Bounds.Right = ir;
-            Bounds.Bottom = ib;
         }
 
         internal double CalculateRightPositionInPixels()
         {
             var numLines = GetNumberOfLines();
-            double retPos = Bounds.X;
+            double retPos = Bounds.Left;
 
-            double TextLengthInPixels = 0;
+            double textLengthPixels = 0;
 
             if (numLines <= 0 || string.IsNullOrEmpty(_originalText))
             {
-                TextLengthInPixels = 0;
+                textLengthPixels = 0;
                 return retPos;
             }
 
@@ -126,7 +207,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             for (int i = 0; i < numLines; i++)
             {
                 var text = Lines[i];
-                var width = CalculateTextWidth(Lines[i]);
+                var width = CalculateTextWidth(Lines[i]).PointToPixel();
+                PerLineWidth.Add(width);
 
                 if (width > longestWidth)
                 {
@@ -134,26 +216,31 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 }
             }
 
-            TextLengthInPixels = longestWidth;
+            textLengthPixels = longestWidth;
 
             retPos += longestWidth;
 
-            return retPos;
+            //Calculates right
+            Bounds.Width = textLengthPixels;
+
+            return Bounds.Right;
         }
 
         internal double CalculateBottomPositionInPixels()
         {
-            var lineSize = ((double)_measurementFont.Size).PointToPixel(true) + Bounds.Y;
-            var bottomPosition = lineSize * GetNumberOfLines();
-            return bottomPosition;
+            return Bounds.Height;
         }
 
         internal double CalculateTextWidth(string targetString)
         {
+            _measurer.SetFont(_measurementFont);
             _measurer.MeasureWrappedTextCells = true;
             var width = _measurer.MeasureTextWidth(targetString);
 
             return width;
         }
+        //        origin.Left = x; origin.Top = y;
+        //    origin.Left = x;
+        //    origin.Top = y;
     }
 }

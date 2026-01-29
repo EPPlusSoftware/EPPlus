@@ -245,7 +245,7 @@ namespace OfficeOpenXml.Style
                 {
                     return c;
                 }
-                return c / 100;
+                return c / 100F;
             }
             set
             {

@@ -326,7 +326,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 var i=GetXmlNodeInt($"{_fontPropertiesPath}/a:bodyPr/@rot");
                 if (i < 0)
                 {
-                    return 360 - (i / 60000);
+                    return 360 + (i / 60000);
                 }
                 else
                 {

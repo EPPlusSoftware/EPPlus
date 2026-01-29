@@ -36,8 +36,9 @@ namespace EPPlus.Fonts.OpenType.Tests
         /// Performance test for text wrapping. 
         /// Fixed kerning pairs major bottle-neck.
         /// </summary>
-        [TestMethod, Ignore("This test should not run in a multithreaded test run. If we want to keep it, it should be moved to a separate benchmark project.")]
-        [TestCategory("Benchmark")]
+        [TestMethod]
+        //[TestMethod, Ignore("This test should not run in a multithreaded test run. If we want to keep it, it should be moved to a separate benchmark project.")]
+        //[TestCategory("Benchmark")]
         public void Wrap20Paragraphs100Times()
         {
             List<string> longTexts = new List<string>();
@@ -63,27 +64,6 @@ namespace EPPlus.Fonts.OpenType.Tests
             Trace.WriteLine(timer.ElapsedMilliseconds);
 
             Assert.IsTrue(timer.ElapsedMilliseconds < 1200, "timer.ElapsedMilliseconds was > 1200, actual value: " + timer.ElapsedMilliseconds);
-
-            ////Below is verification of previous text-wrapping.
-            ////Might be unnecesary and can be removed in the future.
-            ////Keep for now to ward against unintended text-wrap changes.
-            ////////////////////////////////////////////////////////////////////
-            //string outputStr = string.Join("\r\n", wrapped.ToArray());
-            //File.WriteAllText("C:\\temp\\Optimized.txt", outputStr);
-
-            //var currStr = File.ReadAllText("C:\\temp\\Optimized.txt");
-
-            //List<string> differingStrings;
-            //IEnumerable<string> ListNew = currStr.Split("\r\n").Distinct();
-            //IEnumerable<string> ListPrev = UnOptimizedOriginalWrappingString.Split("\r\n").Distinct();
-
-            //if (ListPrev.Count() > ListNew.Count())
-            //    differingStrings = ListPrev.Except(ListNew).ToList();
-            //else
-            //    differingStrings = ListNew.Except(ListPrev).ToList();
-
-            //Assert.AreEqual(0, differingStrings.Count());
-            //Assert.AreEqual(UnOptimizedOriginalWrappingString, currStr);
         }
 
         [TestMethod, Ignore("This test should not run in a multithreaded test run. If we want to keep it, it should be moved to a separate benchmark project.")]
@@ -120,27 +100,6 @@ namespace EPPlus.Fonts.OpenType.Tests
             Trace.WriteLine(timer.ElapsedMilliseconds);
 
             Assert.IsTrue(timer.ElapsedMilliseconds < 1000);
-
-            ////Below is verification of previous text-wrapping.
-            ////Might be unnecesary and can be removed in the future.
-            ////Keep for now to ward against unintended text-wrap changes.
-            ////////////////////////////////////////////////////////////////////
-            //string outputStr = string.Join("\r\n", wrapped.ToArray());
-            //File.WriteAllText("C:\\temp\\Optimized.txt", outputStr);
-
-            //var currStr = File.ReadAllText("C:\\temp\\Optimized.txt");
-
-            //List<string> differingStrings;
-            //IEnumerable<string> ListNew = currStr.Split("\r\n").Distinct();
-            //IEnumerable<string> ListPrev = UnOptimizedOriginalWrappingString.Split("\r\n").Distinct();
-
-            //if (ListPrev.Count() > ListNew.Count())
-            //    differingStrings = ListPrev.Except(ListNew).ToList();
-            //else
-            //    differingStrings = ListNew.Except(ListPrev).ToList();
-
-            //Assert.AreEqual(0, differingStrings.Count());
-            //Assert.AreEqual(UnOptimizedOriginalWrappingString, currStr);
         }
 
         [TestMethod]
