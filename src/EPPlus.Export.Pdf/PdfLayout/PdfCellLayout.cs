@@ -20,8 +20,6 @@ using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using System.Linq;
 using EPPlus.Export.Pdf.Pdfhelpers;
-using OfficeOpenXml.Style.Table;
-using OfficeOpenXml.Table;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {

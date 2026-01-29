@@ -55,7 +55,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal ExcelDxfBorderItem dxfHorizontal;
         internal ExcelDxfBorderItem dxfVertical;
 
-        internal ExcelFont Font;
+        internal ExcelFont xfFont;
+        internal ExcelDxfFontBase dxfFont;
 
 
         internal TableBorderStyle borderStyleType = TableBorderStyle.None;

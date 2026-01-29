@@ -30,6 +30,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellAlignmentData CellAlignmentData;
         public bool Clip;
         public Rect Clipping;
+        public PdfCellStyleOverride CellStyle;
 
         private double bottomMargin = 3.5d; //Guessed number
         private double rightMargin = 1.4d; //I guessed this one too..
@@ -37,19 +38,20 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal static FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
         internal static MeasurementFont font = new MeasurementFont();
 
-        public PdfCellContentLayout(ExcelRangeBase cell, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null, PdfDictionaries dictionaries = null)
+        public PdfCellContentLayout(ExcelRangeBase cell, PdfCellStyleOverride CellStyle, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null, PdfDictionaries dictionaries = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
+            this.CellStyle = CellStyle;
             if (cell.IsRichText)
             {
                 //HandleRichText(pageSettings, dictionaries, width, height, x, cell.Style.TextRotation);
-                HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation);
+                HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
             }
             else
             {
                 cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
-                HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation);
+                HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
                 //HandleText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation);
             }
             CellAlignmentData = new PdfCellAlignmentData();
@@ -66,10 +68,20 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CheckClipping(cell, width);
         }
 
-        private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation)
+        private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation, PdfCellStyleOverride CellStyle)
         {
             List<PdfCellTextItem> characters = new List<PdfCellTextItem>();
             List<PdfCellWord> Words = new List<PdfCellWord>();
+            bool bold = false, italic = false, underline = false, strike = false;
+            ExcelUnderLineType underLineType = ExcelUnderLineType.None;
+            if(CellStyle.dxfFont != null)
+            {
+                bold = CellStyle.dxfFont.Bold != null ? (bool)CellStyle.dxfFont.Bold : false;
+                italic = CellStyle.dxfFont.Italic != null ? (bool)CellStyle.dxfFont.Italic : false;
+                strike = CellStyle.dxfFont.Strike != null ? (bool)CellStyle.dxfFont.Strike : false;
+                underline = CellStyle.dxfFont.Underline != null;
+                underLineType = CellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)CellStyle.dxfFont.Underline : ExcelUnderLineType.None;
+            }
             for (int i = 0; i < cell.RichText.Count; i++)
             {
                 var rt = cell.RichText[i];
@@ -80,11 +92,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     character.FontName = rt.FontName;
                     character.FontFamily = rt.Family;
                     character.FontSize = rt.Size;
-                    character.Bold = rt.Bold;
-                    character.Italic = rt.Italic;
-                    character.Strike = rt.Strike;
-                    character.Underline = rt.UnderLine;
-                    character.UnderlineType = rt.UnderLineType;
+                    character.Bold = rt.Bold || bold;
+                    character.Italic = rt.Italic || italic;
+                    character.Strike = rt.Strike || strike;
+                    character.Underline = rt.UnderLine || underline;
+                    character.UnderlineType = rt.UnderLineType == ExcelUnderLineType.None ? underLineType : rt.UnderLineType;
                     character.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
                     character.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
                     character.FontColor = rt.Color;

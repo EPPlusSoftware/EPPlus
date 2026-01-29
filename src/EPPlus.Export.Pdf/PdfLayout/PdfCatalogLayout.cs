@@ -169,7 +169,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         }
                         else if (c is PdfCellContentLayout)
                         {
-                            var copy = new PdfCellContentLayout(c.cell, pageSettings, c.LocalPosition.X, c.LocalPosition.Y, c.Size.X, c.Size.Y, c.LocalScale.X, c.LocalScale.Y, c.LocalRotation, WorksheetLayout, dictionaries);
+                            var copy = new PdfCellContentLayout(c.cell, c.CellStyle, pageSettings, c.LocalPosition.X, c.LocalPosition.Y, c.Size.X, c.Size.Y, c.LocalScale.X, c.LocalScale.Y, c.LocalRotation, WorksheetLayout, dictionaries);
                             copy.Name = c.Name;
                             copy.Z = c.Z;
                             page.ChildObjects[0].AddChild(copy);
