@@ -36,19 +36,6 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Positioning
             {
                 _subtables = new List<MarkToBaseSubTableFormat1>();
             }
-            System.Diagnostics.Debug.WriteLine($"[MarkToBase] Initialized with {_subtables.Count} subtables");
-            if (_subtables.Count > 0)
-            {
-                System.Diagnostics.Debug.WriteLine($"[MarkToBase] Subtable details:");
-                foreach (var subtable in _subtables)
-                {
-                    System.Diagnostics.Debug.WriteLine($"  MarkCoverage: {subtable.MarkCoverage?.GetType().Name}");
-                    System.Diagnostics.Debug.WriteLine($"  BaseCoverage: {subtable.BaseCoverage?.GetType().Name}");
-                    System.Diagnostics.Debug.WriteLine($"  MarkClassCount: {subtable.MarkClassCount}");
-                    System.Diagnostics.Debug.WriteLine($"  MarkArray.MarkCount: {subtable.MarkArray?.MarkCount ?? 0}");
-                    System.Diagnostics.Debug.WriteLine($"  BaseArray.BaseCount: {subtable.BaseArray?.BaseCount ?? 0}");
-                }
-            }
         }
 
         /// <summary>
@@ -61,16 +48,11 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Positioning
             if (_subtables.Count == 0 || glyphs.Count < 2)
                 return;
 
-            System.Diagnostics.Debug.WriteLine($"[MarkToBase] Processing {glyphs.Count} glyphs");
-            System.Diagnostics.Debug.WriteLine($"[MarkToBase] Found {_subtables.Count} subtables");
-
             // Process glyphs left-to-right
             for (int i = 1; i < glyphs.Count; i++)
             {
                 var baseGlyph = glyphs[i - 1];
                 var markGlyph = glyphs[i];
-
-                System.Diagnostics.Debug.WriteLine($"[MarkToBase] Checking pair: base={baseGlyph.GlyphId}, mark={markGlyph.GlyphId}");
 
                 bool positioned = false;
 
@@ -79,19 +61,9 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Positioning
                 {
                     if (TryPositionMark(subtable, baseGlyph, markGlyph))
                     {
-                        System.Diagnostics.Debug.WriteLine($"  ✓ Positioned! Mark now: XAdv={markGlyph.XAdvance}, XOff={markGlyph.XOffset}, YOff={markGlyph.YOffset}");
-
-                        // Double check the glyph in the list
-                        System.Diagnostics.Debug.WriteLine($"  Verify list[{i}]: XAdv={glyphs[i].XAdvance}, YOff={glyphs[i].YOffset}");
-                        //System.Diagnostics.Debug.WriteLine($"  ✓ Positioned mark {markGlyph.GlyphId} over base {baseGlyph.GlyphId}");
                         positioned = true;
                         break;
                     }
-                }
-
-                if (!positioned)
-                {
-                    System.Diagnostics.Debug.WriteLine($"  ✗ No positioning found for mark {markGlyph.GlyphId}");
                 }
             }
         }

@@ -10,9 +10,9 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         public override TestContext? TestContext { get; set; }
 
         [TestMethod]
-        //[DataRow("Roboto")]
-        //[DataRow("OpenSans")]
-        //[DataRow("SourceSans3")]
+        [DataRow("Roboto")]
+        [DataRow("OpenSans")]
+        [DataRow("SourceSans3")]
         [DataRow("NotoEmoji")]
         public void GsubTableValidation_Test(string fontName)
         {
