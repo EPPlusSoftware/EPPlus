@@ -514,7 +514,7 @@ namespace TestProject1
                 var ix = 0;
                 var c = ws.Drawings[ix];
                 var svg = renderer.RenderDrawingToSvg(c);
-                SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
                 //var ix = 1;
                 //foreach (ExcelChart c in ws.Drawings)
                 //{

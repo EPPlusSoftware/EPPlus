@@ -600,7 +600,7 @@ namespace EPPlusImageRenderer.Svg
                 else
                 {
                     var diffFromZero = (max - min) / max;
-                    if (diffFromZero > 0.091)
+                    if (diffFromZero > 0.091 && min > 0D)
                     {
                         min = 0;
                     }
@@ -655,13 +655,20 @@ namespace EPPlusImageRenderer.Svg
 
         private double GetAutoUnit(double min, double max)
         {
-            var diff = max - min;
-            if (diff < 8)
+            //if (diff < 8)
+            //{
+            //    return 1;
+            //}
+            //else
+            //{
+            if (min < 0)
             {
-                return 1;
+                var diff = max - min;
+                return 0;
             }
             else
             {
+                var diff = max - min;
                 var rawMajorUnit = diff;
                 var exponent = Math.Floor(Math.Log10(rawMajorUnit));
                 var fraction = rawMajorUnit / (Math.Pow(10, exponent));
@@ -692,6 +699,7 @@ namespace EPPlusImageRenderer.Svg
                 axMax = Math.Ceiling(max / axMax) * axMax;
                 return axMax / 10;
             }
+            //}
         }
 
     }
