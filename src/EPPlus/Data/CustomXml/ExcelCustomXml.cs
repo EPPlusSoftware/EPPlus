@@ -44,6 +44,8 @@ namespace OfficeOpenXml.Data.CustomXml
         }
         internal ExcelCustomXml()
         {
+            SchemasReferences = [Schemas.schemaDataMashup];
+            CustomXml = new XmlDocument();
         }
         internal ExcelCustomXml(ZipPackagePart part)
         {
@@ -107,6 +109,7 @@ namespace OfficeOpenXml.Data.CustomXml
                 var nsm = CreateNsm();
                 _xmlHelper = XmlHelperFactory.Create(nsm, PropertiesXml.DocumentElement.SelectSingleNode("ds:schemaRefs", nsm));
             }
+
             if (_xmlHelper != null)
             {
                 _xmlHelper.TopNode.InnerXml = "";
@@ -117,15 +120,21 @@ namespace OfficeOpenXml.Data.CustomXml
                     _xmlHelper.TopNode.AppendChild(schemaRefNode);
                 }
             }
+
             var xmlSettings = new XmlWriterSettings();
 
-            var stream = Part.GetStream(FileMode.Create, FileAccess.Write);
-            var xmlWriter = XmlWriter.Create(stream, xmlSettings);
-            CustomXml.Save(xmlWriter);
-
-            stream = PropertiesPart.GetStream(FileMode.Create, FileAccess.Write);
-            xmlWriter = XmlWriter.Create(stream, xmlSettings);
-            PropertiesXml.Save(xmlWriter);
+            if (Part != null)
+            {
+                var stream = Part.GetStream(FileMode.Create, FileAccess.Write);
+                var xmlWriter = XmlWriter.Create(stream, xmlSettings);
+                CustomXml.Save(xmlWriter);
+            }
+            if (PropertiesPart != null)
+            {
+                var stream = PropertiesPart.GetStream(FileMode.Create, FileAccess.Write);
+                var xmlWriter = XmlWriter.Create(stream, xmlSettings);
+                PropertiesXml.Save(xmlWriter);
+            }
         }
     }
 }
