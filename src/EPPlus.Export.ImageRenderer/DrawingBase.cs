@@ -12,8 +12,11 @@
  *************************************************************************************************/
 
 using EPPlus.Export.ImageRenderer;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Collections.Generic;
 using System.Text;
@@ -22,17 +25,24 @@ namespace EPPlusImageRenderer
 {
     internal abstract class DrawingBase
     {
-         internal DrawingBase(ExcelDrawing drawing)
+        protected ExcelWorkbook _wb;
+        protected ExcelDrawing _drawing;
+        protected ExcelTheme _theme;
+
+        internal DrawingBase(ExcelDrawing drawing)
         {
             drawing.GetSizeInPixels(out int width, out int height);
             Drawing = drawing;
             Size = new DrawingSize(width, height);
             TextMeasurer = drawing._drawings._package.Settings.TextSettings.PrimaryTextMeasurer;
+
+            _wb = drawing._drawings.Worksheet.Workbook;
+            _theme = _wb.ThemeManager.GetOrCreateTheme();
         }
         public ExcelDrawing Drawing { get; }
         internal ITextMeasurer TextMeasurer { get; }
         public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
         public DrawingSize Size { get; internal set; }
-        public abstract void Render(StringBuilder sb);
+        internal BoundingBox Bounds = new BoundingBox();
     }
 }

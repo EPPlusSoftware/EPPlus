@@ -128,7 +128,7 @@ namespace EPPlus.Export.ImageRenderer.Text
 
             //if(AddDeltaHeight)
             //{
-            //    //Text boxes in excel have a slight additional pixel size roughly equal to difference between typoAscent and winAscent
+            //    //Textbox boxes in excel have a slight additional pixel size roughly equal to difference between typoAscent and winAscent
             //    var deltaAscent = _textMeasurerTrueType.GetDeltaAscent(TextUnit.Pixels);
             //    totalHeight += deltaAscent;
             //}

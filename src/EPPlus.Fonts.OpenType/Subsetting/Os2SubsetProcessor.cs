@@ -26,71 +26,73 @@ namespace EPPlus.Fonts.OpenType.Subsetting
     /// </summary>
     internal class Os2SubsetProcessor : IFontSubsetProcessor
     {
-        public void Process(FontSubsettingContext context)
+        public void Discover(FontSubsettingContext context)
+        {
+            // OS/2 discovery is usually not needed as it contains global metrics.
+            // We just ensure it's marked for inclusion if necessary.
+        }
+
+        public void Rewrite(FontSubsettingContext context)
         {
             var originalFont = context.OriginalFont;
-            var subsetFont = context.SubsetFont;
+            if (originalFont.Os2Table == null) return;
 
-            if (originalFont.Os2Table == null)
-                return; // inget OS/2 i originalet
-
+            // Clone the original OS/2 table
             Os2Table os2 = originalFont.Os2Table.Clone();
 
-            // --------------------------------------------------------------------
-            // 1. Set correct usFirstCharIndex / usLastCharIndex
-            // → Ensures Windows Font Viewer shows the preview text instead of a blank window
-            // --------------------------------------------------------------------
+            // 1. Unicode range (must match what Rewrite in CmapSubsetProcessor produces)
             if (context.UsedCodePoints.Count > 0)
             {
-                uint first = context.UsedCodePoints.Min();
-                uint last = context.UsedCodePoints.Max();
-
-                os2.usFirstCharIndex = (ushort)Math.Max(32, Math.Min(first, 0xFFFF));
-                os2.usLastCharIndex = (ushort)Math.Min(last, 0xFFFF);
-            }
-            else
-            {
-                os2.usFirstCharIndex = 32;
-                os2.usLastCharIndex = 32;
-            }
-
-            // --------------------------------------------------------------------
-            // 2. Recalculate usWinAscent / usWinDescent based on actual glyphs in the subset
-            // → Prevents clipped accents in Windows applications (especially important for åäö, č, đ, etc.)
-            // --------------------------------------------------------------------
-            short maxAscent = short.MinValue;
-            short minDescent = short.MaxValue;
-
-            foreach (var glyph in subsetFont.GlyfTable.Glyphs)
-            {
-                if (glyph?.Header != null)
+                // Only include points within the Basic Multilingual Plane (0-0xFFFF)
+                var bmpPoints = context.UsedCodePoints.Where(cp => cp <= 0xFFFF).ToList();
+                if (bmpPoints.Count > 0)
                 {
-                    if (glyph.Header.yMax > maxAscent) maxAscent = glyph.Header.yMax;
-                    if (glyph.Header.yMin < minDescent) minDescent = glyph.Header.yMin;
+                    os2.usFirstCharIndex = (ushort)bmpPoints.Min();
+                    os2.usLastCharIndex = (ushort)bmpPoints.Max();
                 }
             }
 
-            // Uppdatera bara om subset har högre/lägre värden än original
-            if (maxAscent > 0 && maxAscent > os2.usWinAscent)
-                os2.usWinAscent = (ushort)maxAscent;
-
-            if (minDescent < 0 && (ushort)(-minDescent) > os2.usWinDescent)
-                os2.usWinDescent = (ushort)(-minDescent);
-
-            // --------------------------------------------------------------------
-            // 3. Synchronize hhea table with OS/2 typo metrics (best practice)
-            // --------------------------------------------------------------------
-            if (subsetFont.HheaTable != null)
+            // 2. Sync Windows Metrics (usWinAscent / usWinDescent)
+            // We use the metrics from the original font's head table to ensure coverage
+            if (originalFont.HeadTable != null)
             {
-                subsetFont.HheaTable.ascender = os2.sTypoAscender;
-                subsetFont.HheaTable.descender = os2.sTypoDescender;
-                subsetFont.HheaTable.lineGap = os2.sTypoLineGap;
+                ushort headYMax = (ushort)Math.Max((short)0, originalFont.HeadTable.Ymax);
+                if (os2.usWinAscent < headYMax)
+                {
+                    os2.usWinAscent = headYMax;
+                }
+
+                ushort headYMinAbs = (ushort)Math.Abs(originalFont.HeadTable.Ymin);
+                if (os2.usWinDescent < headYMinAbs)
+                {
+                    os2.usWinDescent = headYMinAbs;
+                }
             }
 
-            // --------------------------------------------------------------------
-            // 4. Store the updated OS/2 table in the subset font
-            // --------------------------------------------------------------------
-            subsetFont.AddOrReplaceTable(os2);
+            // 3. Update xAvgCharWidth (Optional but good for validation)
+            // Many validators appreciate if this is recalculated based on the subset
+            UpdateAverageCharWidth(context, os2);
+
+            context.SubsetFont.AddOrReplaceTable(os2);
+        }
+
+        private void UpdateAverageCharWidth(FontSubsettingContext context, Os2Table os2)
+        {
+            // Simple average of all glyphs included in the subset
+            if (context.SubsetFont.HmtxTable != null && context.OldToNewGlyphId.Count > 0)
+            {
+                long totalWidth = 0;
+                int count = 0;
+                foreach (var newGid in context.OldToNewGlyphId.Values)
+                {
+                    totalWidth += context.SubsetFont.HmtxTable.GetAdvanceWidth(newGid);
+                    count++;
+                }
+                if (count > 0)
+                {
+                    os2.xAvgCharWidth = (short)(totalWidth / count);
+                }
+            }
         }
     }
 }

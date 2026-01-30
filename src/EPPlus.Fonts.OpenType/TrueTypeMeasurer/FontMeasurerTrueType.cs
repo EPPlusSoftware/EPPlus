@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -29,6 +30,8 @@ namespace EPPlus.Fonts.OpenType
     {
         private OpenTypeFont _defaultFont = TextData.GetFontData("Calibri", FontSubFamily.Regular);
         private double _defaultSize = 11d;
+
+        OpenTypeFont LastFont = null;
 
         OpenTypeFont CurrentFont;
         private double _widthInPoints;
@@ -92,7 +95,8 @@ namespace EPPlus.Fonts.OpenType
         public void SetFont(double fontSize, string fontName, FontSubFamily subFamily = FontSubFamily.Regular)
         {
             CurrentFontName = fontName;
-            CurrentFont = TextData.GetFontData(fontName, subFamily);
+            var newFont = TextData.GetFontData(fontName, subFamily);
+            CurrentFont = newFont;
             FontSize = fontSize;
         }
 
@@ -172,7 +176,11 @@ namespace EPPlus.Fonts.OpenType
         {
             return TextData.GetSingleLineSpacing(CurrentFont, FontSize);
         }
-
+        /// <summary>
+        /// ASCENT is in shapes in Excel the distance between
+        /// The top of the shape (or more likely for non-rect shapes the top of the inset rect textbox) 
+        /// and the baseline of the given text.
+        /// </summary>
         public double GetBaseLine()
         {
             return TextData.GetBaseLine(CurrentFont, FontSize);
@@ -294,7 +302,16 @@ namespace EPPlus.Fonts.OpenType
 
         public List<string> WrapMultipleTextFragments(List<string> textFragments, List<MeasurementFont> fonts, double maxWidthPoints)
         {
-            TextParagraph paragraph = new TextParagraph(textFragments, fonts);
+            TextFragmentCollection fragments = new TextFragmentCollection(textFragments);
+            TextParagraph paragraph = new TextParagraph(fragments, fonts);
+
+            //Wrap the fragments
+            return TextData.WrapMultipleTextFragments(paragraph, maxWidthPoints);
+        }
+
+        public List<string> WrapMultipleTextFragments(TextFragmentCollection fragments, List<MeasurementFont> fonts, double maxWidthPoints)
+        {
+            TextParagraph paragraph = new TextParagraph(fragments, fonts);
 
             //Wrap the fragments
             return TextData.WrapMultipleTextFragments(paragraph, maxWidthPoints);

@@ -46,13 +46,13 @@ namespace EPPlusImageRenderer.RenderItems
             {
                 sb.Append($"filter=\"{FilterName}\" ");
             }
-
-            if (BorderWidth.HasValue && string.IsNullOrEmpty(BorderColor) == false)
-            {
-                sb.Append($"stroke=\"{BorderColor}\" ");
-            }
+           
             if (BorderWidth.HasValue)
             {
+                if (string.IsNullOrEmpty(BorderColor) == false)
+                {
+                    sb.Append($"stroke=\"{BorderColor}\" ");
+                }
                 var v = BorderWidth.Value * ExcelDrawing.EMU_PER_POINT / ExcelDrawing.EMU_PER_PIXEL;
                 sb.Append($"stroke-width=\"{v.ToString(CultureInfo.InvariantCulture)}\" ");
 
@@ -65,7 +65,7 @@ namespace EPPlusImageRenderer.RenderItems
                 }
             }
 
-            sb.Append($"stroke-miterlimit =\"8\"");
+            sb.Append($"stroke-miterlimit =\"8\" ");
         }
         internal abstract SvgRenderItem Clone(SvgShape svgDocument);
     }

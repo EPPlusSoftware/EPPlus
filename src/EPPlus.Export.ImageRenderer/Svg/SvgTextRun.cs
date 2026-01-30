@@ -22,18 +22,16 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
+using System.Text.RegularExpressions;
 
 namespace EPPlusImageRenderer.Svg
 {
     internal class SvgTextRun : SvgRenderItem
     {
-        double LineSpacingPerNewLine;
-        double _yPositionOriginal;
-        double dyPos;
+        internal double LineSpacing { get; set; }
         double _yEndPos;
         double ClippingHeight = Double.NaN;
         double fontSizeInPixels;
-        eTextAlignment horizontalTextAlignment;
 
         internal RectBase BoundingBox = new RectBase();
         internal Coordinate origin = new Coordinate(0, 0);
@@ -44,7 +42,7 @@ namespace EPPlusImageRenderer.Svg
 
         //Unnecesary??
         double TextLengthInPixels;
-        double BaselineSpacing;
+        double LineSpacingAscendantOnly;
 
         string horizontalAttribute;
         internal readonly string originalText;
@@ -61,7 +59,7 @@ namespace EPPlusImageRenderer.Svg
         /// </summary>
         /// <param name="textRun"></param>
         /// <param name="lineSpacing"></param>
-        internal SvgTextRun(ExcelParagraphTextRunBase textRun, double lineSpacing, double textMaxX, double textMaxY, double xPosition, double yPosition, double baselineLineSpacing = double.NaN) : base()
+        internal SvgTextRun(ExcelParagraphTextRunBase textRun, double textMaxX, double textMaxY, double xPosition, double yPosition) : base()
         {
             originalText = textRun.Text;
             Lines = SplitIntoLines(originalText);
@@ -78,19 +76,15 @@ namespace EPPlusImageRenderer.Svg
 
             fmExact = new FontMeasurerTrueType(measurementFont);
 
-            horizontalTextAlignment = textRun.Paragraph.HorizontalAlignment;
-
-            LineSpacingPerNewLine = lineSpacing;
-
             //Used for the first line
-            BaselineSpacing = baselineLineSpacing;
+            LineSpacingAscendantOnly = fmExact.GetBaseLine().PointToPixel();
+
+            //LineSpacing = lineSpacing;
+            LineSpacing = fmExact.GetSingleLineSpacing().PointToPixel();
+
 
             _xPosition = xPosition;
-            _yPositionOriginal = yPosition;
             _yEndPos = yPosition;
-
-            //origin.X = xPosition;
-            //origin.Y = yPosition;
 
             fontSizeInPixels = ((double)measurementFont.Size).PointToPixel(true);
 
@@ -165,7 +159,7 @@ namespace EPPlusImageRenderer.Svg
         internal SvgTextRun(string text, ExcelTextFont font, double lineSpacing, double textMaxY, double xPosition, double yPosition, double baselineLineSpacing = double.NaN) : base()
         {
             originalText = text;
-
+            currentText = text;
             isFirstInParagraph = true;
             Lines = SplitIntoLines(originalText);
 
@@ -181,17 +175,16 @@ namespace EPPlusImageRenderer.Svg
 
             //horizontalTextAlignment = font..Paragraph.HorizontalAlignment;
 
-            LineSpacingPerNewLine = lineSpacing;
+            LineSpacing = lineSpacing;
 
             //Used for the first line
-            BaselineSpacing = baselineLineSpacing;
+            LineSpacingAscendantOnly = baselineLineSpacing;
 
             _xPosition = xPosition;
-            _yPositionOriginal = yPosition;
             _yEndPos = yPosition;
 
-            //origin.X = xPosition;
-            //origin.Y = yPosition;
+            //origin.Left = xPosition;
+            //origin.Top = yPosition;
 
             fontSizeInPixels = ((double)measurementFont.Size).PointToPixel(true);
 
@@ -200,11 +193,11 @@ namespace EPPlusImageRenderer.Svg
 
             if (font.Italic)
             {
-                fontStyleAttributes += " font-style=\"italic\" ";
+                fontStyleAttributes += " _measurementFont-style=\"italic\" ";
             }
             if (font.Bold)
             {
-                fontStyleAttributes += "font-weight=\"bold\" ";
+                fontStyleAttributes += "_measurementFont-weight=\"bold\" ";
             }
             if (font.UnderLine != eUnderLineType.None | font.Strike != eStrikeType.No)
             {
@@ -252,7 +245,7 @@ namespace EPPlusImageRenderer.Svg
 
         //internal SvgTextRun(ExcelRichText textRun, double lineSpacing, double textMaxX, double textMaxY, double xPosition, double yPosition, MeasurementFont mf, ExcelHorizontalAlignment horAlign, double baselineLineSpacing = double.NaN) : base()
         //{
-        //    originalText = textRun.Text;
+        //    originalText = textRun.Textbox;
         //    Lines = SplitIntoLines(originalText);
 
         //    fmExact = new FontMeasurerTrueType(mf);
@@ -260,10 +253,10 @@ namespace EPPlusImageRenderer.Svg
 
         //    horizontalTextAlignment = (eTextAlignment)horAlign;
 
-        //    LineSpacingPerNewLine = fmExact.GetSingleLineSpacing().PointToPixel(true);
+        //    LineSpacing = fmExact.GetSingleLineSpacing().PointToPixel(true);
 
         //    //Used for the first line
-        //    BaselineSpacing = fmExact.GetBaseLine().PointToPixel(true);
+        //    LineSpacingAscendantOnly = fmExact.GetBaseLine().PointToPixel(true);
 
         //    _xPosition = xPosition;
         //    _yPosition = yPosition;
@@ -338,15 +331,12 @@ namespace EPPlusImageRenderer.Svg
             fmExact = new FontMeasurerTrueType(mf);
             measurementFont = mf;
 
-            horizontalTextAlignment = (eTextAlignment)horAlign;
-
-            LineSpacingPerNewLine = fmExact.GetSingleLineSpacing().PointToPixel(true);
+            LineSpacing = fmExact.GetSingleLineSpacing().PointToPixel(true);
 
             //Used for the first line
-            BaselineSpacing = fmExact.GetBaseLine().PointToPixel(true);
+            LineSpacingAscendantOnly = fmExact.GetBaseLine().PointToPixel(true);
 
             _xPosition = xPosition;
-            _yPositionOriginal = yPosition;
             _yEndPos = yPosition;
 
             fontSizeInPixels = ((double)mf.Size).PointToPixel(true);
@@ -362,17 +352,17 @@ namespace EPPlusImageRenderer.Svg
 
         internal void AdjustLineSpacing(double lineMultiplier)
         {
-            LineSpacingPerNewLine = lineMultiplier * fmExact.GetSingleLineSpacing().PointToPixel(true);
+            LineSpacing = lineMultiplier * fmExact.GetSingleLineSpacing().PointToPixel(true);
         }
 
         public RectBase textArea;
 
-        public override SvgItemType Type => SvgItemType.TSpan;
+        public override RenderItemType Type => RenderItemType.TSpan;
 
         public override void Render(StringBuilder sb)
         {
             string finalString = "";
-            bool useBaselineSpacing = double.IsNaN(BaselineSpacing) == false;
+            bool useBaselineSpacing = double.IsNaN(LineSpacingAscendantOnly) == false;
             Lines = SplitIntoLines(currentText);
 
             foreach (var line in Lines)
@@ -385,7 +375,7 @@ namespace EPPlusImageRenderer.Svg
                 //This is important if for example we have rich text where two letters on the same line has different colors.
                 if (line != Lines[0] | isFirstInParagraph)
                 {
-                    var yIncrease = isFirstInParagraph && useBaselineSpacing ? BaselineSpacing : LineSpacingPerNewLine;
+                    var yIncrease = isFirstInParagraph && useBaselineSpacing ? LineSpacingAscendantOnly : LineSpacing;
                     isFirstInParagraph = false;
 
                     yIncrease = EPPlus.Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
@@ -420,7 +410,7 @@ namespace EPPlusImageRenderer.Svg
                 finalString += "</tspan>";
             }
 
-            sb.Append(finalString);                                                                                                                        
+            sb.Append(finalString);                                                                                                           
             //throw new NotImplementedException();
         }
 
@@ -451,12 +441,17 @@ namespace EPPlusImageRenderer.Svg
         {
             if (Lines == null) return 0;
 
-            return Lines.Count;
+            var count = 0;
+            foreach (var l in Lines)
+            {
+                count=Regex.Matches(l, Environment.NewLine).Count+1;
+            }
+            return count;
         }
 
         internal List<string> SplitIntoLines(string text)
         {
-            return text.Split(new string[] { "\r\n" }, StringSplitOptions.None).ToList();
+            return (text ?? "").Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
         }
 
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
@@ -529,7 +524,17 @@ namespace EPPlusImageRenderer.Svg
 
         internal void InsertLineBreak(int insertPosition)
         {
+            while(insertPosition < currentText.Length && char.IsWhiteSpace(currentText[insertPosition]))
+            {
+                currentText=currentText.Remove(insertPosition, 1);
+            }
             currentText = currentText.Insert(insertPosition, Environment.NewLine);
+            //if(Lines.Count==1)
+            //{
+            //    Lines.Clear();
+            //    Lines.Add(currentText.Substring(0, insertPosition));
+            //    Lines.Add(currentText.Substring(insertPosition + Environment.NewLine.Length, currentText.Length-(insertPosition + Environment.NewLine.Length)));
+            //}
         }
     }
 }

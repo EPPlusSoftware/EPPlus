@@ -14,13 +14,18 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 {
     internal class NameSubsetProcessor : IFontSubsetProcessor
     {
-        public void Process(FontSubsettingContext context)
+        public void Discover(FontSubsettingContext context)
         {
             var original = context.OriginalFont.NameTable;
             if (original == null) return;
 
             // Name table can be kept as-is – it's metadata
             context.SubsetFont.AddOrReplaceTable(original.Clone());
+        }
+
+        public void Rewrite(FontSubsettingContext context)
+        {
+            // No implementation
         }
     }
 }

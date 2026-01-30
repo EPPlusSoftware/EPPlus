@@ -40,27 +40,27 @@ namespace EPPlus.Graphics
         /// <summary>
         /// Y pos (min)
         /// </summary>
-        internal double Top;
+        internal virtual double Top { get; set; }
 
         /// <summary>
         /// Y pos (max)
         /// </summary>
-        internal double Bottom;
+        internal virtual double Bottom { get; set; }
 
         /// <summary>
         /// X pos (min)
         /// </summary>
-        internal double Left;
+        internal virtual double Left { get; set; }
 
         /// <summary>
         /// X pos (max)
         /// </summary>
-        internal double Right;
+        internal virtual double Right { get; set; }
 
         /// <summary>
         /// Get or Set Width via the properties above
         /// </summary>
-        internal double Width
+        internal virtual double Width
         {
             get
             {
@@ -75,7 +75,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// Gets or sets height via the properties above
         /// </summary>
-        internal double Height
+        internal virtual double Height
         {
             get
             {

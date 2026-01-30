@@ -253,5 +253,26 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             EncodingRecords.Clear();
             SubTables.Clear();
         }
+
+        public uint GetUnicodeCodePoint(ushort glyphId)
+        {
+            foreach (var subtable in SubTables)
+            {
+                var mappings = subtable.GetGlyphMappings();
+                if (mappings == null) continue;
+
+                foreach (var kvp in mappings.CharCodeToGlyphIndex)
+                {
+                    if (kvp.Value == glyphId) return kvp.Key;
+                }
+            }
+            return 0;
+        }
+
+        public ushort GetGlyphId(char ch)
+        {
+            TryGetGlyphId(ch, out ushort gid);
+            return gid;
+        }
     }
 }

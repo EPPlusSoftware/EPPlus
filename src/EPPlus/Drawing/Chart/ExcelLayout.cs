@@ -32,5 +32,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 return n != null && (n.Attributes.Count > 0 || n.ChildNodes.Count > 0);
             }
         }
+
     }
 }

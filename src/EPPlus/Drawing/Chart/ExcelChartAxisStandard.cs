@@ -81,7 +81,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     try
                     {
-                        return (eAxisTickMark)Enum.Parse(typeof(eAxisTickMark), v);
+                        return (eAxisTickMark)Enum.Parse(typeof(eAxisTickMark), v, true);
                     }
                     catch
                     {
@@ -111,7 +111,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     try
                     {
-                        return (eAxisTickMark)Enum.Parse(typeof(eAxisTickMark), v);
+                        return (eAxisTickMark)Enum.Parse(typeof(eAxisTickMark), v, true);
                     }
                     catch
                     {
@@ -159,7 +159,10 @@ namespace OfficeOpenXml.Drawing.Chart
                 return (ExcelChartTitleStandard)GetTitle();
             }
         }
-        public bool HasTitle
+        /// <summary>
+        /// True if the axis has a title.
+        /// </summary>
+        public override bool HasTitle
         {
             get
             {
@@ -687,9 +690,10 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         public int Index { get; private set; }
 
-        internal override object[] GetAxisValues()
+        internal override object[] GetAxisValues(out bool isCount)
         {            
             var hs = new HashSet<object>();
+            isCount = false;
             foreach (var ct in _chart.PlotArea.ChartTypes)
             {
                 foreach (var serie in _chart.Series)
@@ -699,6 +703,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         if(string.IsNullOrEmpty(serie.XSeries) && (serie.NumberLiteralsX == null || serie.NumberLiteralsX.Length==0) && (serie.StringLiteralsX==null || serie.StringLiteralsX?.Length==0))
                         {
                             AddCountFromSeries(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                            isCount = true;
                         }
                         else
                         {
@@ -715,6 +720,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 }            
             }
             var values = hs.ToList();
+            values.Sort();
             if(Orientation==eAxisOrientation.MaxMin)
             {
                 values.Reverse();
@@ -724,32 +730,36 @@ namespace OfficeOpenXml.Drawing.Chart
 
         private void AddCountFromSeries(HashSet<object> hs, string address, double[] numberLiterals, string[] stringLiterals)
         {
+            hs.Add(1);
             if (numberLiterals?.Length > 0)
             {
-                for(int i=1;i<= numberLiterals?.Length;i++)
-                {
-                    hs.Add(i);
-                }
+                hs.Add(numberLiterals.Length);
+                //for(int i=1;i<= numberLiterals?.Length;i++)
+                //{
+                //    hs.Add(i);
+                //}
             }
             else if (stringLiterals?.Length > 0)
             {
-                for (int i = 1; i <= stringLiterals?.Length; i++)
-                {
-                    hs.Add(i);
-                }
+                hs.Add(stringLiterals.Length);
+                //for (int i = 1; i <= stringLiterals?.Length; i++)
+                //{
+                //    hs.Add(i);
+                //}
             }
             else
             {
                 var a = new ExcelAddressBase(address);
-                var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
-                int i = 1;
-                if (ws != null)
-                {
-                    foreach (var c in ws.Cells[a.Address])
-                    {
-                        hs.Add(i++);
-                    }
-                }
+                hs.Add(Math.Max(a.Rows, a.Columns));
+                //var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
+                //int i = 1;
+                //if (ws != null)
+                //{
+                //    foreach (var c in ws.Cells[a.Address])
+                //    {
+                //        hs.Add(i++);
+                //    }
+                //}
             }
         }
 

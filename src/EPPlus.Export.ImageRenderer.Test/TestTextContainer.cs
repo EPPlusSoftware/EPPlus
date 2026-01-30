@@ -1,13 +1,18 @@
-﻿using EPPlus.Export.ImageRenderer.Text;
+﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Export.ImageRenderer.Text;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using EPPlus.Graphics;
-using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Fonts.OpenType;
+using EPPlusImageRenderer;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {
@@ -22,11 +27,11 @@ namespace EPPlus.Export.ImageRenderer.Tests
             var expectedHeight = 18d;
 
             var mf = new MeasurementFont() { FontFamily = "Aptos", Size = 11, Style = MeasurementFontStyles.Regular };
-            
+
             var container = new TextContainer(content, mf, true);
 
-            Assert.AreEqual(expectedWidth, Math.Round(container.Width,0));
-            Assert.AreEqual(expectedHeight, Math.Round(container.Height,0));
+            Assert.AreEqual(expectedWidth, Math.Round(container.Width, 0));
+            Assert.AreEqual(expectedHeight, Math.Round(container.Height, 0));
         }
 
         [TestMethod]
@@ -111,65 +116,17 @@ namespace EPPlus.Export.ImageRenderer.Tests
             shapeRect.Height = 10;
 
             FontMeasurerTrueType measurer = new FontMeasurerTrueType(12, "Aptos Narrow", FontSubFamily.Regular);
-            var body = new TextBody(measurer, shapeRect, true);
+            var body = new SvgTextBodyItem(shapeRect);
 
-            body.transform.Name = "TxtBody";
+            body.Bounds.transform.Name = "TxtBody";
 
-            body.AddText("A new Paragraph");
-            body.AddText("Second paragraph");
+            body.AddText("A new Paragraph", measurer);
+            body.AddText("Second paragraph", measurer);
 
-            Assert.AreEqual(2, body.transform.ChildObjects.Count);
-            Assert.AreEqual(body.transform.ChildObjects[0], body.Runs[0].transform);
+            Assert.AreEqual(2, body.Paragraphs[0].Bounds.transform.ChildObjects.Count);
+            Assert.AreEqual(body.Bounds.transform.ChildObjects[0], body.Paragraphs[0].Bounds.transform);
 
-            Assert.AreEqual(shapeRect.transform, body.transform.Parent);
+            Assert.AreEqual(shapeRect.transform, body.Bounds.transform.Parent);
         }
-
-        //[TestMethod]
-        //public void TextContainerGeneric()
-        //{
-        //    //Options
-
-        //    //1: One text-container per "shape/textbox"
-        //    //Pros: Resizes based on strings in a singular place, less "New" statements, Less broken down
-        //    //Cons: Individual fonts etc. get tricky, will still need to be broken down but more obfuscated, 
-
-        //    //2: Text-Container down to fragment/run level
-        //    //Pros: All positioning, fonts, etc. Come in by default. Each fragment knows where it is and what it is and how big it is, need only ever measure each fragment once
-        //    //Cons: Text-wrapping, resizing the shape, etc gets trickier, More new statements means larger overhead and less clear overview
-
-        //    //3: Text-container down to Paragraph level
-        //    //Pros: All paragraph properties; indentation, linespacing, alignment etc gets well contained and clear, 
-        //    //Cons: 
-
-        //    //I'm thinking of this all wrong.
-        //    //Either way we will need a transform for each object in a hierarchy.
-        //    //Lowest common denominator has to become some kind of baseclass
-        //    //Build from smallest (fragment) to Largest. All of the same base-class (Could be as simple as just containers for Transform for starters
-        //    //Then go upward. (Glyph?) -> Fragment/Run -> Run -> Paragraph -> Container
-        //    //Lowest needs: Rect. (Bounding box) that can also hold a string.
-        //    //Next: Same but basic font data
-        //    //Next: Full rich-text?
-
-        //    StringBuilder sb = new StringBuilder();
-
-        //    TextContainerBase Fragment1 = new TextContainerBase(true);
-
-        //    TextContainerBase Fragment2 = new TextContainerBase();
-
-        //    TextContainerBase Fragment3 = new TextContainerBase();
-        //    ////Test positioning and re-sizing
-        //    //TextContainer shapeTextBox = new TextContainer();
-
-        //    //shapeTextBox.transform.Position = new Graphics.Math.Vector2(5, 10);
-
-
-        //    //TextContainer paragraph1Container = new TextContainer();
-
-        //    //TextContainer para2 = new TextContainer();
-
-        //    //TextContainer para3 = new TextContainer();
-
-        //    //TextContainer para4 = new TextContainer();
-        //}
     }
 }

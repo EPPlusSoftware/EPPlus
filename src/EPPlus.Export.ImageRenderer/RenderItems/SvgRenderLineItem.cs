@@ -26,7 +26,7 @@ namespace EPPlusImageRenderer.RenderItems
         public float Y1 { get; set; }
         public float X2 { get; set; }
         public float Y2 { get; set; }
-        public override SvgItemType Type => SvgItemType.Line;
+        public override RenderItemType Type => RenderItemType.Line;
 
         public override void Render(StringBuilder sb)
         {
@@ -36,7 +36,10 @@ namespace EPPlusImageRenderer.RenderItems
                 X2.ToString(CultureInfo.InvariantCulture), 
                 Y2.ToString(CultureInfo.InvariantCulture));
             base.Render(sb);
-
+            if(LineCap!=eLineCap.Flat)
+            {
+                sb.AppendFormat(" stroke-linecap=\"{0}\"", LineCap == eLineCap.Round ? "round" : "square");
+            }
             sb.AppendFormat("/>");
         }
 

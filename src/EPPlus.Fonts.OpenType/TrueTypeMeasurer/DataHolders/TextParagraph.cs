@@ -1,5 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections;
@@ -14,21 +15,17 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
         //prevent creating multiple OpenTypeFonts via cache/indexing
         internal Dictionary<double, OpenTypeFont> FontIndexDict = new();
         internal Dictionary<double, GlyphMappings> GlyphMappings = new();
-        internal Dictionary<int, CharInfo> CharLookup = new();
         internal int TotalLength = 0;
 
         internal List<double> FontSizes = new();
-        internal List<string> TextFragments = new();
 
-        internal string AllText;
-        internal List<int> AllTextNewLineIndicies = new();
-        List<TextFragment> fragmentItems = new List<TextFragment>();
+        internal TextFragmentCollection Fragments;
 
-        public TextParagraph(List<string> textFragments, List<MeasurementFont> fonts)
+        public TextParagraph(TextFragmentCollection fragments, List<MeasurementFont> fonts)
         {
             List<OpenTypeFont> openTypeFonts = new List<OpenTypeFont>();
             FontSizes = new List<double>();
-            TextFragments = textFragments;
+            Fragments = fragments;
 
             var distinctFonts = fonts.Distinct().ToArray();
 
@@ -53,73 +50,6 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
                 }
                 FontSizes.Add(fonts[i].Size);
             }
-
-            //Set data for each fragment and for AllText
-            var currentTotalLength = 0;
-            for(int i = 0; i < textFragments.Count; i++)
-            {
-                var currString = textFragments[i];
-                var fragment = new TextFragment(currString, currentTotalLength);
-                currentTotalLength += currString.Length;
-                fragmentItems.Add(fragment);
-            }
-
-            AllText = string.Join(string.Empty, textFragments.ToArray());
-            //Get the indicies where newlines occur in the combined string
-            AllTextNewLineIndicies = GetStartIndicies(AllText);
-
-
-            //Save minor information about each char so each char knows its line/fragment
-            int charCount = 0;
-            int lineIndex = 0;
-
-            List<int> currFragments = new();
-            List<TextLine> lines = new List<TextLine>();
-            int lineStartCharIndex = 0;
-
-            //For each fragment
-            for (int i = 0; i < TextFragments.Count; i++)
-            {
-                var textFragment = TextFragments[i];
-                
-                //For each char in current fragment
-                for (int j = 0; j < textFragment.Length; j++)
-                {
-                    if (charCount >= AllTextNewLineIndicies[lineIndex])
-                    {
-                        var line = new TextLine()
-                        {   richTextIndicies = currFragments,
-                            content = AllText.Substring(lineStartCharIndex, charCount - lineStartCharIndex),
-                            startIndex = lineStartCharIndex,
-                        };
-
-                        lines.Add(line);
-                        currFragments.Clear();
-                        lineIndex++;
-                    }
-
-                    var info = new CharInfo(charCount, i, lineIndex);
-                    CharLookup.Add(charCount, info);
-                    charCount++;
-                }
-                currFragments.Add(i);
-            }
-        }
-
-        private List<int> GetStartIndicies(string stringsCombined)
-        {
-            List<int> combinedStartIndicies = new List<int>();
-
-            var strings = stringsCombined.Split([Environment.NewLine], StringSplitOptions.None);
-            TotalLength = 0;
-
-            for (int i = 0; i < strings.Count(); i++)
-            {
-                combinedStartIndicies.Add(strings[i].Length + TotalLength);
-                TotalLength += strings[i].Length;
-            }
-
-            return combinedStartIndicies;
         }
 
         public TextParagraph(List<string> textFragment, List<double> fontSizes, Dictionary<double, OpenTypeFont> fontIndexDict) 
@@ -148,13 +78,6 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
             }
 
             return FontSubFamily.Regular;
-        }
-
-
-
-        internal void GetNextFragmentInfo()
-        {
-
         }
     }
 }

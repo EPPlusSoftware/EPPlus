@@ -1,111 +1,204 @@
-﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  27/11/2025         EPPlus Software AB           EPPlus 9
- *************************************************************************************************/
-using EPPlus.Fonts.OpenType;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+﻿using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Graphics;
+using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-
-namespace EPPlusImageRenderer.RenderItems.Shared
+using System.Text;
+using System.Text.RegularExpressions;
+namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal abstract class TextRunItem
+    internal abstract class TextRunItem : SvgRenderItem
     {
-        internal RectBase BoundingBox = new RectBase();
+        public override RenderItemType Type => RenderItemType.Text;
 
-        internal Coordinate origin = new Coordinate(0,0);
-        internal ExcelParagraphTextRunBase TextRun;
+        internal readonly string _originalText;
+        protected string _currentText;
 
-        double defaultFontSize;
+        internal protected MeasurementFont _measurementFont;
+        internal protected bool _isFirstInParagraph;
+        FontMeasurerTrueType _measurer;
+        eTextAlignment _horizontalTextAlignment;
+        MeasurementFontStyles _fontStyles;
+        internal double FontSizeInPixels { get; private set; }
 
-        string FontName = "";
+        public List<string> Lines { get; private set; }
 
-        //Unnecesary??
-        double TextLengthInPixels;
+        /// <summary>
+        /// Aka total Delta Y
+        /// </summary>
+        double _yEndPos;
+        double BaselineSpacing;
 
-        List<string> Lines;
+        bool _wrapText;
+        double _maxWidthPixels = double.NaN;
 
-        const float minValueParagraphSize = int.MinValue;
-        MeasurementFont measurementFont;
+        protected internal bool _isItalic = false;
+        protected internal bool _isBold = false;
+        protected internal eUnderLineType _underLineType;
+        protected internal eStrikeType _strikeType;
+        protected internal Color _underlineColor;
 
-        internal TextRunItem(ExcelParagraphTextRunBase textRun)
+        internal double LineSpacingPerNewLine { get; set; }
+        internal double BaseLineSpacing { get; set; }
+
+        internal List<double> YIncreasePerLine { get; private set; } = new List<double>();
+        internal List<double> PerLineWidth { get; private set; } = new List<double>();
+        internal double ClippingHeight = double.NaN;
+
+        /// <summary>
+        /// If the run has been wrapped more line-breaks may have been added in displayText
+        /// </summary>
+        /// <param name="run"></param>
+        /// <param name="parent"></param>
+        /// <param name="displayText"></param>
+        internal TextRunItem(ExcelParagraphTextRunBase run, BoundingBox parent = null, string displayText = "")
         {
-            TextRun = textRun;
-            Lines = SplitIntoLines();
+            Bounds.transform.Name = "TextRun";
 
-            measurementFont = textRun.GetMeasurementFont();
+            _originalText = run.Text;
+            _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
 
-            FontName = measurementFont.FontFamily;
+            Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
 
-            //double fontSize = TextRun.FontSize < 0 || TextRun.FontSize == minValueParagraphSize ? defaultFontSize : TextRun.FontSize;
+            var measurer = run.Paragraph._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
+            _measurer = (FontMeasurerTrueType)measurer;
+
+            _measurementFont = run.GetMeasurementFont();
+            _measurer.SetFont(_measurementFont);
+
+            _isFirstInParagraph = run.IsFirstInParagraph;
+
+            if (parent != null)
+            {
+                Bounds.Parent = parent;
+            }
+
+            _fontStyles = _measurementFont.Style;
+
+            FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
+
+            _horizontalTextAlignment = run.Paragraph.HorizontalAlignment;
+
+            if (run.Fill.Style == eFillStyle.SolidFill)
+            {
+                FillColor = "#" + run.Fill.Color.To6CharHexString();
+            }
+
+            //To get clipping height we need to get the textbody bounds
+            if( parent!= null && parent.Parent != null && parent.Parent.Parent != null)
+            {
+               ClippingHeight = parent.Parent.Parent.Bottom;
+            }
+
+            _isItalic = run.FontItalic;
+            _isBold = run.FontBold;
+            _underLineType = run.FontUnderLine;
+            _underlineColor = run.UnderLineColor;
+            _strikeType = run.FontStrike;
+        }
+
+        internal double CalculateLineSpacing()
+        {
+            //---Calculation of total y-height---
+
+            //If already did this
+            if(YIncreasePerLine.Count > 0)
+            {
+                return Bounds.Height;
+            }
+
+            bool lineIsFirstInParagraph = _isFirstInParagraph;
+
+            foreach (var line in Lines)
+            {
+                //Despite new textrun it could still be on the same line as previous textrun
+                //Therefore only do line increase if we are first in paragraph or if we are not Lines[0].
+                //This as line == Lines[0] && isFirstInParagraph == false means we are continuing on the same line as previous textRun
+                //This is important if for example we have rich text where two letters on the same line has different colors.
+                if (line != Lines[0] || lineIsFirstInParagraph)
+                {
+                    var yIncrease = lineIsFirstInParagraph ? BaseLineSpacing : LineSpacingPerNewLine;
+                    lineIsFirstInParagraph = false;
+
+                    //yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
+
+                    YIncreasePerLine.Add(yIncrease);
+
+                    _yEndPos += yIncrease;
+                    //if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
+                    //{
+                    //    bool displayLine = false
+                    //}
+                }
+                else
+                {
+                    YIncreasePerLine.Add(0);
+                }
+            }
+
+            if(_yEndPos == 0)
+            {
+                Bounds.Height = FontSizeInPixels;
+            }
+            else
+            {
+                Bounds.Height = _yEndPos;
+            }
+
+            return _yEndPos;
+        }
+
+        internal List<string> GetLines(string text)
+        {
+            //var inputWidth = _wrapText ? _maxWidthPixels : double.NaN;
+            //Lines = TextWrapper.GetLines(text, _measurer, inputWidth);
+            return text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+        }
+
+        private int GetNumberOfLines()
+        {
+            return Lines.Count();
+        }
+
+        /// <summary>
+        /// Calculates right/bottom
+        /// </summary>
+        /// <param name="il"></param>
+        /// <param name="it"></param>
+        /// <param name="ir"></param>
+        /// <param name="ib"></param>
+        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
+        {
+            il = Bounds.Left;
+            it = Bounds.Top;
+
+            //Sets bounds bottom correctly
+            CalculateLineSpacing();
+            ib = Bounds.Bottom;
             
-            double fontSize = measurementFont.Size;
-        }
-        ///// <summary>
-        ///// Construct instance
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <returns></returns>
-        //public abstract T Create<T>(ExcelDrawing drawing, ExcelParagraphTextRunBase textRun) where T : TextRunItem;
-
-        //private void GetDefaultFontNameAndSize(ExcelFont? nsFont, ExcelShape shape, out string fontName, out double fontSize)
-        //{
-        //    fontName = string.IsNullOrEmpty(shape.Font.LatinFont) ? shape.Font.ComplexFont : shape.Font.LatinFont;
-
-        //    fontSize = shape.Font.Size;
-        //    if (string.IsNullOrEmpty(fontName)) fontName = nsFont?.Name ?? _theme.FontScheme.MajorFont.First().Typeface;
-        //    if (fontSize <= 0 && nsFont != null) fontSize = nsFont.Size;
-        //}
-
-        //public override SvgItemType Type => SvgItemType.Rect;
-
-        internal void GetBounds(out double il, out double it, out double ir, out double ib)
-        {
-            il = origin.X;
-            it = origin.Y;
-
+            //Caculate bounds right
             ir = CalculateRightPositionInPixels();
-            ib = CalculateBottomPositionInPixels();
-
-            BoundingBox.Left = il;
-            BoundingBox.Top = it;
-            BoundingBox.Right = ir;
-            BoundingBox.Bottom = ib;
-        }
-
-        internal double CalculateBottomPositionInPixels()
-        {
-            var bottomPosition = (((double)TextRun.FontSize).PointToPixel() + origin.Y) * GetNumberOfLines();
-            return bottomPosition;
-        }
-
-        internal double CalculateTextWidth(string targetString)
-        {
-            var textMesurer = new FontMeasurerTrueType(measurementFont);
-            textMesurer.MeasureWrappedTextCells = true;
-            var width = textMesurer.MeasureTextWidth(targetString);
-
-            return width;
+            Bounds.Right = ir;
         }
 
         internal double CalculateRightPositionInPixels()
         {
             var numLines = GetNumberOfLines();
-            double retPos = origin.X;
+            double retPos = Bounds.Left;
 
-            if (numLines <= 0 || string.IsNullOrEmpty(TextRun.Text))
+            double textLengthPixels = 0;
+
+            if (numLines <= 0 || string.IsNullOrEmpty(_originalText))
             {
-                TextLengthInPixels = 0;
+                textLengthPixels = 0;
                 return retPos;
             }
 
@@ -114,167 +207,40 @@ namespace EPPlusImageRenderer.RenderItems.Shared
             for (int i = 0; i < numLines; i++)
             {
                 var text = Lines[i];
-                var width = CalculateTextWidth(Lines[i]);
+                var width = CalculateTextWidth(Lines[i]).PointToPixel();
+                PerLineWidth.Add(width);
 
-                if(width > longestWidth)
+                if (width > longestWidth)
                 {
                     longestWidth = width;
                 }
             }
 
-            TextLengthInPixels = longestWidth;
+            textLengthPixels = longestWidth;
 
             retPos += longestWidth;
 
-            return retPos;
+            //Calculates right
+            Bounds.Width = textLengthPixels;
+
+            return Bounds.Right;
         }
 
-        internal double GetNumberOfLines()
+        internal double CalculateBottomPositionInPixels()
         {
-            if(TextRun != null)
-            {
-                SplitIntoLines();
-                return Lines.Count;
-            }
-            else
-            {
-                return 0;
-            }
+            return Bounds.Height;
         }
 
-        internal List<string> SplitIntoLines()
+        internal double CalculateTextWidth(string targetString)
         {
-            return TextRun.Text.Split(new string[]{ "\r\n"}, System.StringSplitOptions.None).ToList();
+            _measurer.SetFont(_measurementFont);
+            _measurer.MeasureWrappedTextCells = true;
+            var width = _measurer.MeasureTextWidth(targetString);
+
+            return width;
         }
-
-        //private string GetTextRunFontName(ExcelParagraphTextRunBase textRun)
-        //{
-        //    if (string.IsNullOrEmpty(textRun.LatinFont))
-        //    {
-        //        if (string.IsNullOrEmpty(textRun.ComplexFont))
-        //        {
-        //            return defaultFontName;
-        //        }
-        //        else
-        //        {
-        //            return textRun.ComplexFont;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return textRun.LatinFont;
-        //    }
-        //}
-
-        ////internal double CalculateRightPositionInPixels()
-        //{
-
-        //}
-
-        //internal Coordinate SetPosition(double x, double y)
-        //{
-        //    if (origin == null)
-        //    {
-        //        origin = new Coordinate(x, y);
-        //    }
-        //    else
-        //    {
-        //        origin.X = x; origin.Y = y;
-        //    }
-        //    return origin;
-        //}
-
-        //internal void SetPositionX(double x)
-        //{
-        //    if (origin == null)
-        //    {
-        //        origin = new Coordinate(0, 0);
-        //    }
-        //    origin.X = x;
-        //}
-
-        //internal void SetPositionY(double y)
-        //{
-        //    if (origin == null)
-        //    {
-        //        origin = new Coordinate(0, 0);
-        //    }
-        //    origin.Y = y;
-        //}
-
-        //public override void Render(StringBuilder sb)
-        //{
-        //    string finalString = "";
-
-        //    yPosition += TextUtils.RoundToWhole(SingleLineSpacingInPixels);
-        //    string visibility = "";
-        //    if (yPosition >= yClipHeight)
-        //    {
-        //        visibility = "display=\"none\"";
-        //    }
-        //    var xIndent = GetAlignmentHorizontal(horizontalTextAlignment);
-        //    var horizAttr = GetHorizontalAlignmentAttribute(xIndent);
-
-        //    finalString += $"<tspan {visibility} {horizAttr} font-size=\"{(fontSizeInPixels / 16).ToString(CultureInfo.InvariantCulture)}em\" dy=\"{dy.ToString(CultureInfo.InvariantCulture)}px\">";
-        //    finalString += textContent;
-        //    finalString += "</tspan>";
-
-        //    sb.Append(finalString);
-        //    //throw new NotImplementedException();
-        //}
-
-        //private string GetHorizontalAlignmentAttribute(double indentX)
-        //{
-        //    string ret = "";
-        //    var xStr = indentX.ToString(CultureInfo.InvariantCulture);
-
-        //    switch (horizontalTextAlignment)
-        //    {
-        //        default:
-        //        case eTextAlignment.Left:
-        //            ret = $"text-anchor=\"start\" x=\"{xStr}\" ";
-        //            break;
-        //        case eTextAlignment.Center:
-        //            ret = $"text-anchor=\"middle\" x=\"{xStr}\" ";
-        //            break;
-        //        case eTextAlignment.Right:
-
-        //            ret = $"text-anchor=\"end\" x=\"{xStr}\" ";
-        //            break;
-        //    }
-
-        //    return ret;
-        //}
-
-        //internal override RenderItem Clone(SvgShape svgDocument)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //internal override void GetBounds(out double il, out double it, out double ir, out double ib)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //internal double GetAlignmentHorizontal(eTextAlignment txAlignment)
-        //{
-        //    var area = TextBox.GetTextArea();
-        //    double x = 0;
-        //    switch (txAlignment)
-        //    {
-        //        case eTextAlignment.Left:
-        //        default:
-        //            x = area.Left;
-        //            break;
-        //        case eTextAlignment.Center:
-        //            x = (area.Right / 2) + TextBox.Margin.Left;
-        //            break;
-        //        case eTextAlignment.Right:
-        //            x = area.Right;
-        //            break;
-        //    }
-
-        //    return TextUtils.RoundToWhole(x);
-        //}
+        //        origin.Left = x; origin.Top = y;
+        //    origin.Left = x;
+        //    origin.Top = y;
     }
 }

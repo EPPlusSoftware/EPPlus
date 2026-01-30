@@ -18,10 +18,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Kern
     {
         internal KernSubTableFormat0(FontsBinaryReader reader)
         {
-            nPairs = reader.ReadUInt16BigEndian();
-            SearchRange = reader.ReadUInt16BigEndian();
-            EntrySelector = reader.ReadUInt16BigEndian();
-            RangeShift = reader.ReadUInt16BigEndian();
+            if(reader != null)
+            {
+                nPairs = reader.ReadUInt16BigEndian();
+                SearchRange = reader.ReadUInt16BigEndian();
+                EntrySelector = reader.ReadUInt16BigEndian();
+                RangeShift = reader.ReadUInt16BigEndian();
+            }
         }
 
         public ushort nPairs { get; set; }

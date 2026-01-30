@@ -47,7 +47,7 @@ namespace EPPlusImageRenderer.Utils
             {
                 if (item.GradientFill != null)
                 {
-                    string name = WriteGradient("Gradient", defSb, hs, item.GradientFill, item.FillColorSource);
+                    string name = WriteGradient("Gradient", defSb, hs, item.GradientFill, item.FillColorSource, true);
                     item.FillColor = $"Url(#{name})";
                 }
                 else if (item.PatternFill != null)
@@ -66,7 +66,7 @@ namespace EPPlusImageRenderer.Utils
                 }
                 if (item.BorderGradientFill != null)
                 {
-                    string name = WriteGradient("StrokeGradient", defSb, hs, item.BorderGradientFill, item.BorderColorSource);
+                    string name = WriteGradient("StrokeGradient", defSb, hs, item.BorderGradientFill, item.BorderColorSource, true);
                     item.BorderColor = $"Url(#{name})";
                 }
 
@@ -113,15 +113,16 @@ namespace EPPlusImageRenderer.Utils
             defSb.Append($"</pattern>");
             return name;
         }
-        private string WriteGradient(string namePrefix, StringBuilder defSb, HashSet<string> hs, DrawGradientFill gradientFill, PathFillMode fillMode)
+        private string WriteGradient(string namePrefix, StringBuilder defSb, HashSet<string> hs, DrawGradientFill gradientFill, PathFillMode fillMode, bool userSpaceOnUse)
         {
             var gs = gradientFill.Settings;
             var name = $"{namePrefix}{fillMode}";
+            var grUnits = userSpaceOnUse ? " gradientUnits=\"userSpaceOnUse\"" : "";
             if (gs.ShadePath == eShadePath.Linear && hs.Contains(name) == false)
             {
                 hs.Add(name);
                 var xy = GetXy(gs.LinearSettings?.Angle);
-                defSb.Append($"<linearGradient id=\"{name}\"{xy}>");
+                defSb.Append($"<linearGradient id=\"{name}\"{grUnits} {xy}>");
                 SetStopColors(defSb, gradientFill, fillMode);
                 defSb.Append("</linearGradient>");
             }
@@ -435,7 +436,7 @@ namespace EPPlusImageRenderer.Utils
             var opacetyTransform = c.Transforms?.FirstOrDefault(x => x.Type == OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType.Alpha);
             if (opacetyTransform == null) return "";
 
-            return $"stop-opacity=\"{opacetyTransform.Value.ToString("0%")}\"";
+            return $"stop-opacity=\"{opacetyTransform.Value.ToString("0")}%\"";
         }
 
         private string SetStretchTileProps(ExcelDrawingBlipFill blipFill)

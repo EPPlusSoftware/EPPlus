@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Xml.Schema;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -48,7 +49,7 @@ namespace EPPlusImageRenderer.Svg
             sb.Append("</text>");
         }
 
-        public override SvgItemType Type => SvgItemType.Text;
+        public override RenderItemType Type => RenderItemType.Text;
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {
@@ -75,7 +76,7 @@ namespace EPPlusImageRenderer.Svg
         RectBase ParagraphArea;
 
         /// <summary>
-        /// X position
+        /// Left position
         /// </summary>
         protected double XPos;
 
@@ -91,7 +92,6 @@ namespace EPPlusImageRenderer.Svg
 
         ITextMeasurerWrap fmtt;
 
-        eDrawingTextLineSpacing lnType;
         double? lnMultiplier = null;
         double paragraphHeight;
         private string text;
@@ -131,20 +131,17 @@ namespace EPPlusImageRenderer.Svg
             //Must be set before linespacing
             IsFirstParagraph = isFirstParagraph;
 
-            LineSpacing = GetParagraphLineSpacingInPixels(p, fmtt);
 
             XPos = GetAlignmentHorizontal(HorizontalAlignment);
 
             GetBounds(out double l, out double t, out double r, out double b);
             var textMaxWidth = r - l;
 
-            lnType = p.LineSpacing.LineSpacingType;
-
             foreach (var run in p.TextRuns)
             {
                 AddTextRun(run, paragraphArea.Bottom, yPosition);
             }
-
+            
             if (p._paragraphs.WrapText == eTextWrappingType.Square)
             {
                 List<string> textFragments = new List<string>();
@@ -207,6 +204,7 @@ namespace EPPlusImageRenderer.Svg
                         }
                     }
                 }
+                SetParagraphLineSpacingInPixels(p, fmtt);
             }
             else
             {
@@ -237,7 +235,7 @@ namespace EPPlusImageRenderer.Svg
             //0.5 inches per indent level 48 pixels
 
             ParagraphArea = paragraphArea;
-            HorizontalAlignment = eTextAlignment.Right;
+            HorizontalAlignment = eTextAlignment.Left;
 
             LineSpacingAscendantOnly = fmtt.GetBaseLine().PointToPixel();
             LineSpacing = fmtt.GetSingleLineSpacing().PointToPixel();
@@ -277,7 +275,7 @@ namespace EPPlusImageRenderer.Svg
             return ret;
         }
 
-        private double GetParagraphLineSpacingInPixels(ExcelDrawingParagraph p, ITextMeasurerWrap fmExact)
+        private void SetParagraphLineSpacingInPixels(ExcelDrawingParagraph p, ITextMeasurerWrap fmExact)
         {
             if (p.LineSpacing.LineSpacingType == eDrawingTextLineSpacing.Exactly)
             {
@@ -285,7 +283,17 @@ namespace EPPlusImageRenderer.Svg
                 {
                     LineSpacingAscendantOnly = p.LineSpacing.Value.PointToPixel();
                 }
-                return p.LineSpacing.Value.PointToPixel();
+                var lineSpacing= p.LineSpacing.Value.PointToPixel();
+                var lines = 1;
+                foreach (var tr in TextRuns)
+                {
+                    var lc = tr.GetLineCount();
+                    if(lc>1)
+                    {
+                        lines += lc - 1;
+                    }
+                }
+                LineSpacing = lineSpacing * lines;
             }
             else
             {
@@ -295,7 +303,33 @@ namespace EPPlusImageRenderer.Svg
                 {  
                     LineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine().PointToPixel();
                 }
-                return multiplier * fmExact.GetSingleLineSpacing().PointToPixel();
+                if (TextRuns.Count == 0)
+                {
+                    LineSpacing = multiplier * fmExact.GetSingleLineSpacing().PointToPixel();
+                }
+                else
+                {
+                    var lineSpacing=0D;
+                    var currentMaxLineSpacing = 0D;
+                    foreach(var tr in TextRuns)
+                    {
+                        if(currentMaxLineSpacing < tr.LineSpacing)
+                        {
+                            currentMaxLineSpacing = tr.LineSpacing;
+                        }
+                        var lc = tr.GetLineCount();
+                        if (lc > 1)
+                        {
+                            lineSpacing += currentMaxLineSpacing;
+                            currentMaxLineSpacing = tr.LineSpacing;
+                            if(lc>2)
+                            {
+                                lineSpacing += (lc - 2) * tr.LineSpacing;
+                            }
+                        }
+                    }
+                    LineSpacing = multiplier * (lineSpacing + currentMaxLineSpacing);
+                }
             }
         }
 
@@ -325,18 +359,15 @@ namespace EPPlusImageRenderer.Svg
             GetBounds(out double l, out double t, out double r, out double b);
             var textMaxWidth = r - l;
 
-            var lineSpacing = LineSpacing;
-
             SvgTextRun textRun;
 
-
-            if (TextRuns.Count == 0 && IsFirstParagraph == true)
-            {
-                textRun = new SvgTextRun(txtRun, lineSpacing, textMaxWidth, clippingHeight, XPos, yPosition, LineSpacingAscendantOnly);
-            }
-            else
-            {
-                textRun = new SvgTextRun(txtRun, lineSpacing, textMaxWidth, clippingHeight, XPos, yPosition);
+            //if (TextRuns.Count == 0 && IsFirstParagraph == true)
+            //{
+            //    textRun = new SvgTextRun(txtRun, textMaxWidth, clippingHeight, XPos, yPosition);
+            //}
+            //else
+            //{
+                textRun = new SvgTextRun(txtRun, textMaxWidth, clippingHeight, XPos, yPosition);
 
                 //If there are multiple sizes/multiple fonts with multiple sizes
                 //if (lnType != eDrawingTextLineSpacing.Exactly && txtRun.FontSize != _measurementFont.Size)
@@ -344,23 +375,23 @@ namespace EPPlusImageRenderer.Svg
                 {
                     textRun.AdjustLineSpacing(lnMultiplier.Value);
                 }
-            }
+            //}
 
             TextRuns.Add(textRun);
         }
 
         internal double GetBottomYPosition()
         {
-            double bottomY = 0;
-            if (IsFirstParagraph)
-            {
-                bottomY = LineSpacingAscendantOnly + LineSpacing * (numLines - 1);
-            }
-            else
-            {
-                bottomY = LineSpacing * numLines;
-            }
-            return ParagraphArea.Top + bottomY;
+            //double bottomY = 0;
+            //if (IsFirstParagraph)
+            //{
+            //    bottomY = LineSpacingAscendantOnly + LineSpacing * (numLines - 1);
+            //}
+            //else
+            //{
+            //    var bottomY = LineSpacing;
+            //}
+            return ParagraphArea.Top + LineSpacing;
         }
 
         internal void CalculateTextWrapping(double maxWidth, MeasurementFont mFont, string fullParagraphText)

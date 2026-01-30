@@ -19,12 +19,15 @@ namespace EPPlus.Fonts.OpenType
     {
         public static OpenTypeFont CreateFromFace(FontFaceInfo face)
         {
-            var stream = new FileStream(face.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            // Read entire file into memory first
+            byte[] fontData = File.ReadAllBytes(face.FilePath);
+            var stream = new MemoryStream(fontData);
+
             var reader = new FontsBinaryReader(stream);
             reader.BaseStream.Position = face.OffsetInFile;
 
             var format = face.OffsetInFile > 0
-               ? FontFormat.Ttf 
+               ? FontFormat.Ttf
                : Path.GetExtension(face.FilePath).ToLowerInvariant() == ".otf"
                    ? FontFormat.Otf
                    : FontFormat.Ttf;

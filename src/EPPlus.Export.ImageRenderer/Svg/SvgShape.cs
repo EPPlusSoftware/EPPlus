@@ -26,25 +26,23 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using EPPlus.Export.ImageRenderer.Text;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Graphics;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 
 namespace EPPlusImageRenderer.Svg
 {
     internal class SvgShape : DrawingShape
     {
-        SvgRenderRectItem _renderTextBox;
-        TextBox textBox;
-        private ExcelTheme _theme;
-        ExcelWorkbook _wb;
+        SvgRenderRectItem insetTextBox;
+        SvgTextBodyItem textBody;
 
         public SvgShape(ExcelShape shape) : base(shape)
         {
-            _wb = shape._drawings.Worksheet.Workbook;
-            _theme = _wb.ThemeManager.GetOrCreateTheme();
             var style = shape.Style;
 
-            if(style==eShapeStyle.CustomShape)
+            if (style==eShapeStyle.CustomShape)
             {
-                _renderTextBox = null;
                 foreach (var path in shape.CustomGeom.DrawingPaths)
                 {
                     AddFromPaths(path);
@@ -55,8 +53,7 @@ namespace EPPlusImageRenderer.Svg
                 var shapeDef = PresetShapeDefinitions.ShapeDefinitions[style].Clone();
                 shapeDef.Calculate(shape);
 
-                //RenderItems.Add(new SvgRenderPathItem(shape));
-                RenderItems.Add(new SvgGroupItem(shapeDef.GetTransform(shape.Rotation)));
+                RenderItems.Add(new SvgGroupItem(shape.Rotation, 0, 0));
 
                 //Draw Filled path's
                 foreach (var path in shapeDef.ShapePaths)
@@ -80,78 +77,30 @@ namespace EPPlusImageRenderer.Svg
                 {
                     if (shapeDef.TextBoxRect != null)
                     {
+                        insetTextBox = new SvgRenderRectItem(_shape);
+                        insetTextBox.Bounds.Left = (float)shapeDef.TextBoxRect.LeftValue;
+                        insetTextBox.Bounds.Top = (float)shapeDef.TextBoxRect.TopValue;
+                        insetTextBox.FillOpacity = 0.3d;
+
                         if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
                         {
-                            var rectItem = new SvgRenderRectItem(_shape);
-
-                            rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
-                            rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
-                            rectItem.Width = (float)shapeDef.TextBoxRect.RightValue - rectItem.X;
-                            rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue - rectItem.Y;
-                            rectItem.FillOpacity = 0.3d;
-                            _renderTextBox = rectItem;
+                            insetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue - (float)shapeDef.TextBoxRect.LeftValue;
+                            insetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue - (float)shapeDef.TextBoxRect.TopValue;
                         }
                         else
                         {
-                            var rectItem = new SvgRenderRectItem(_shape);
-
-                            rectItem.X = (float)shapeDef.TextBoxRect.LeftValue;
-                            rectItem.Y = (float)shapeDef.TextBoxRect.TopValue;
-                            rectItem.Width = (float)shapeDef.TextBoxRect.RightValue;
-                            rectItem.Height = (float)shapeDef.TextBoxRect.BottomValue;
-                            rectItem.FillOpacity = 0.3d;
-                            _renderTextBox = rectItem;
+                            insetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue;
+                            insetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue;
                         }
                     }
                     else
                     {
-                        _renderTextBox = null;
+                        insetTextBox = null;
                     }
 
-                    textBox = GetTextBox();
-                    LoadTextBox();
+                    textBody = CreateTextBodyItem();
+                    textBody.ImportTextBody(_shape.TextBody);
                 }
-            }
-        }
-
-        private void LoadTextBox()
-        {
-            textBox.VerticalAlignment = _shape.TextAnchoring;
-            textBox.WrapText = _shape.TextBody.WrapText != eTextWrappingType.None;
-            var fontMeasurer = (FontMeasurerTrueType)_shape._drawings._package.Settings.TextSettings.GenericTextMeasurerTrueType;
-
-            //Make width the doc width if meant to overflow
-            if (_shape.TextBody.HorizontalTextOverflow == eTextHorizontalOverflow.Overflow)
-            {
-                textBox.Width = Size.Width;
-            }
-
-            string color = "#" + GetFontColor();
-            textBox.fontColor = color;
-
-            var totalText = _shape.Text;
-            List<List<double>> charAdvanceWidths = new List<List<double>>();
-            var txtRunIndicies = LineFormatter.GetTextRunIndiciesAndWidths(_shape.TextBody, out charAdvanceWidths);
-
-            //List<string> substrings = new List<string>();
-            //int lastIndex = 0;
-
-            //List<char> startingChars = new List<char>();
-            //foreach (var index in txtRunIndicies)
-            //{
-            //    startingChars.Add(totalText[index]);
-            //}
-            //foreach( var txtRun in txtRunIndicies )
-            //{
-            //    substrings.Add(totalText.Substring(lastIndex, txt))
-            //}
-            //var substrings = _shape.Text.Substring();
-
-
-            //Paragraph level begins
-            foreach (var paragraph in _shape.TextBody.Paragraphs)
-            {
-                var svgParagraph = textBox.AddParagraph(paragraph);
             }
         }
 
@@ -252,9 +201,9 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        public override void Render(StringBuilder sb)
+        public void Render(StringBuilder sb)
         {
-            sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
+            sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
 
             //Write defs used for gradient colors
             var writer = new SvgDrawingWriter(this);
@@ -264,9 +213,13 @@ namespace EPPlusImageRenderer.Svg
             foreach(var item in RenderItems)
             {
                 item.Render(sb);
-                if(item.Type == SvgItemType.Group && gItemTest == null)
+                if(item.Type == RenderItemType.Group && gItemTest == null)
                 {
                     gItemTest = (SvgGroupItem)item;
+                }
+                if (item.IsEndOfGroup && gItemTest != null)
+                {
+                    gItemTest.RenderEndGroup(sb);
                 }
             }
             if (!string.IsNullOrEmpty(_shape.Text))
@@ -281,65 +234,54 @@ namespace EPPlusImageRenderer.Svg
             sb.AppendLine("</svg>");
         }
 
-        private string GetFontColor()
+        SvgTextBodyItem CreateTextBodyItem()
         {
-            string color;
-
-            if (_shape.Font.Fill.Style == eFillStyle.SolidFill)
-            {
-                var c = TypeConv.ColorConverter.GetThemeColor(_shape.Font.Fill.SolidFill.Color);
-                color = ((uint)c.ToArgb()).ToString("x").Substring(2, 6);
-            }
-            else
-            {
-                var c = TypeConv.ColorConverter.GetThemeColor(_wb.ThemeManager.CurrentTheme, _shape.ThemeStyles.FontReference.Color);
-                color = ((uint)c.ToArgb()).ToString("x").Substring(2, 6);
-            }
-
-            return color;
-        }
-
-        TextBox GetTextBox()
-        {
-            if(_renderTextBox != null)
-            {
-                return new TextBox(_shape.TextBody, _renderTextBox);
-            }
-            else
+            if (insetTextBox == null)
             {
                 GetShapeInnerBound(out double x, out double y, out double width, out double height);
-                return new TextBox(x, y, width, height);
+                insetTextBox = new SvgRenderRectItem();
+                insetTextBox.Bounds.Left = x;
+                insetTextBox.Bounds.Top = y;
+                insetTextBox.Width = width;
+                insetTextBox.Height = height;
+                insetTextBox.Bounds.Parent = textBody.Bounds; //TODO:Check that textBody is correct.
             }
-        }
+            var txtBodyItem = new SvgTextBodyItem(insetTextBox.Bounds);
 
-        private void GetFontNameAndSize(ExcelFont nsFont, out string fontName, out double fontSize)
-        {
-            fontName = string.IsNullOrEmpty(_shape.Font.LatinFont) ? _shape.Font.ComplexFont : _shape.Font.LatinFont;
-
-            fontSize = _shape.Font.Size;
-            if (string.IsNullOrEmpty(fontName)) fontName = nsFont?.Name ?? _theme.FontScheme.MajorFont.First().Typeface;
-            if (fontSize <= 0 && nsFont != null) fontSize = nsFont.Size;
+            return txtBodyItem;
         }
 
         private void RenderText(StringBuilder sb)
         {
-            RenderDebugTextBox(sb);
-            textBox.RenderParagraphs(sb);
+            //RenderDebugTextBox(sb);
+            textBody.Render(sb);
         }
 
         private void RenderDebugTextBox(StringBuilder sb)
         {
-            _renderTextBox.FillColor = "green";
-            _renderTextBox.Render(sb);
+            insetTextBox.FillColor = "green";
+            insetTextBox.Render(sb);
 
-            var area = textBox.GetTextArea();
+            insetTextBox.GetBounds(out double l, out double t, out double r, out double b);
 
-            _renderTextBox.X = (float)area.Left;
-            _renderTextBox.Y = (float)area.Top;
-            _renderTextBox.Width = (float)area.Width;
-            _renderTextBox.Height = (float)area.Height;
-            _renderTextBox.FillColor = "blue";
-            _renderTextBox.Render(sb);
+            //var area = textBody.Bounds;
+
+            ////Temporarily set as child bounds
+            //insetTextBox.Bounds.Left = (float)area.Left + l;
+            //insetTextBox.Bounds.Top = (float)area.Top + t;
+            //insetTextBox.Bounds.Width = (float)area.Width;
+            //insetTextBox.Bounds.Height = (float)area.Height;
+
+            //insetTextBox.FillColor = "blue";
+
+            ////Render the inner area
+            //insetTextBox.Render(sb);
+
+            ////Reset variables so that the rendering of children later aren't affected
+            //insetTextBox.Bounds.Left = l;
+            //insetTextBox.Bounds.Top = t;
+            //insetTextBox.Bounds.Right = r;
+            //insetTextBox.Bounds.Bottom = b;
         }
 
         private void GetShapeInnerBound(out double x, out double y, out double width, out double height)
@@ -352,14 +294,14 @@ namespace EPPlusImageRenderer.Svg
             {
                 switch (ri.Type)
                 {
-                    case SvgItemType.Rect:
+                    case RenderItemType.Rect:
                         var rectItem = (SvgRenderRectItem)ri;
-                        x = rectItem.X;
-                        y = rectItem.Y;
+                        x = rectItem.Left;
+                        y = rectItem.Top;
                         width = rectItem.Width;
                         height = rectItem.Height;
                         break;
-                    case SvgItemType.Path:
+                    case RenderItemType.Path:
                         var pathItem = (SvgRenderPathItem)ri;
                         foreach (var cmd in pathItem.Commands)
                         {

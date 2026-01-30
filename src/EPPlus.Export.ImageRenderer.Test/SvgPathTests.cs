@@ -346,7 +346,7 @@ namespace TestProject1
                 var ws = p.Workbook.Worksheets[0];
                 //var d = ws.Drawings[0].As.Shape;
                 //Assert.AreEqual(1, d.CustomGeom.DrawingPaths.Count);
-                //d.Text = "Rectangle Rectangle Rectangle Rectangle";
+                //d.Textbox = "Rectangle Rectangle Rectangle Rectangle";
                 //d.TextAlignment = OfficeOpenXml.Drawing.eTextAlignment.Left;
                 //d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Bottom;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
@@ -511,17 +511,39 @@ namespace TestProject1
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var svg = renderer.RenderDrawingToSvg(ws.Drawings[1]);
-                //File.WriteAllText($"c:\\temp\\ChartForSvg{1}.svg", svg);
-                int ix = 1;
-                foreach (ExcelChart d in ws.Drawings)
+                //var ix = 5;
+                //var c = ws.Drawings[ix];
+                //var svg = renderer.RenderDrawingToSvg(c);
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                var ix = 1;
+                foreach (ExcelChart c in ws.Drawings)
                 {
-                    var svg = renderer.RenderDrawingToSvg(d);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix}.svg", svg);
-                    ix++;
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
                 }
             }
         }
+        [TestMethod]
+        public void GenerateSvgForCharts_sheet2()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[1];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var ix = 1;
+                var c = ws.Drawings[ix];
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
+                //var ix = 1;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = renderer.RenderDrawingToSvg(c);
+                //    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                //}
+            }
+        }
+
         [TestMethod]
         public void CreateChartsWithDifferentSize()
         {
@@ -553,7 +575,6 @@ namespace TestProject1
                 chart3.SetSize(800, 400);
 
                 SaveAndCleanup(p);
-
             }
         }
 

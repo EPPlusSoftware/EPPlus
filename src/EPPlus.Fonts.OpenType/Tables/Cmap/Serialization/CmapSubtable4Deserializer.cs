@@ -12,9 +12,11 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
 {
@@ -30,9 +32,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
 
         public CmapSubtable4 Deserialize(uint startIndex)
         {
-
             _reader.BaseStream.Seek(startIndex, SeekOrigin.Begin);
-            var format = _reader.ReadUInt16();
+
+            var format = _reader.ReadUInt16BigEndian();
 
             var table = new CmapSubtable4
             {
@@ -52,15 +54,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
             table.IdDelta = _reader.ReadInt16ArrayBigEndian(segCount);
             table.IdRangeOffset = _reader.ReadUInt16ArrayBigEndian(segCount);
 
-            // Calculate how many bytes remain for the GlyphIdArray
-            int bytesRead = 14 + segCount * 8 + 2; // 14 bytes header + 4 arrays (each segCount entries) + ReservedPad
+            int bytesRead = 14 + segCount * 8 + 2;
             int glyphArrayBytes = (ushort)table.Length - bytesRead;
             int glyphCount = glyphArrayBytes / 2;
 
             table.GlyphIdArray = _reader.ReadUInt16ArrayBigEndian(glyphCount);
 
             return table;
-
         }
     }
 }

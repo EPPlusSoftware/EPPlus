@@ -10,13 +10,14 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using System.Collections.Generic;
-using OfficeOpenXml.Interfaces.Drawing.Text;
-using System.Linq;
-using System;
+using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Kern;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
-using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -114,6 +115,23 @@ namespace EPPlus.Fonts.OpenType
             var singleLineSpacing = font.Os2Table.UseTypoMetrics ? MeasureSingleLineSpacing_sTypo(font, fontSize) : MeasureFontHeight(font, fontSize);
 
             return singleLineSpacing;
+        }
+        internal static double GetSingleLineSpacing_new(OpenTypeFont font, double fontSize)
+        {
+            var singleLineSpacing = font.Os2Table.UseTypoMetrics ? MeasureSingleLineSpacing_sTypo(font, fontSize) : MeasureFontHeight_New(font, fontSize);
+
+            return singleLineSpacing;
+        }
+        internal static double MeasureFontHeight_New(OpenTypeFont font, double fontSize)
+        {
+            var asc = font.HheaTable.ascender;
+            var desc = font.HheaTable.descender;
+            var lineGap = font.HheaTable.lineGap;
+            var size = fontSize;
+            var em = font.HeadTable.UnitsPerEm;
+            var lineHeight = asc + desc + lineGap;
+            var lineHeightPt = lineHeight * (size / em);
+            return lineHeightPt;
         }
 
         /// <summary>
@@ -695,7 +713,7 @@ namespace EPPlus.Fonts.OpenType
 
             var factorTarget = ((double)targetFont.HeadTable.UnitsPerEm) / targetSize;
 
-            maxWidth = Convert.ToInt16(maxWidthInPoints * factorTarget);
+            maxWidth = maxWidthInPoints * factorTarget;
             lineWidth = Convert.ToInt16(lineWidthInPoints * factorTarget);
             wordWidth = Convert.ToInt16(wordWidthInPoints * factorTarget);
         }
@@ -721,23 +739,36 @@ namespace EPPlus.Fonts.OpenType
             //Does not take new text-strings into account
             int currentLineIndex = 0;
 
+            var fragments = paragraph.Fragments;
+            var allText = fragments.AllText;
+            var newLineIndicies = fragments.AllTextNewLineIndicies;
+
+            var len = allText.Length-7;
 
             //Iterate through All fragments as one concatenated text string
-            for (int i = 0; i < paragraph.AllText.Length; i++)
+            for (int i = 0; i < allText.Length; i++)
             {
                 //Get char info stored previously in the textParagraph class
-                var charInfo = paragraph.CharLookup[i];
+                var charInfo = fragments.CharLookup[i];
                 var lineIdx = charInfo.Line;
                 var fragmentIdx = charInfo.Fragment;
 
                 //If we hit a pre-existing line break. Reset line and wordwidths
-                if (i >= paragraph.AllTextNewLineIndicies[currentLineIndex])
+                var indexExists = newLineIndicies.Count() > currentLineIndex;
+                if(indexExists)
                 {
-                    lineWidth = 0;
-                    wordWidth = 0;
-                    leftOverLine = "";
-                    //prevLineEndIndex = i;
-                    currentLineIndex++;
+                    if (i >= newLineIndicies[currentLineIndex])
+                    {
+                        paragraph.Fragments.AddLineWidth(lineWidth / currentFont.HeadTable.UnitsPerEm * paragraph.FontSizes[fragmentIdx]);
+
+                        var addedLine = leftOverLine.Trim(['\r', '\n']);
+                        wrappedStrings.Add(addedLine);
+                        lineWidth = 0;
+                        wordWidth = 0;
+                        leftOverLine = "";
+                        //prevLineEndIndex = i;
+                        currentLineIndex++;
+                    }
                 }
 
                 //If this char has a different font, do the neccesary conversions
@@ -760,28 +791,44 @@ namespace EPPlus.Fonts.OpenType
                 fontSize = paragraph.FontSizes[fragmentIdx];
                 var glyphMapping = paragraph.GlyphMappings[fragmentIdx];
 
-                char c = paragraph.AllText[i];
+                char c = allText[i];
                 var advanceWidth = CalculateAdvanceWidth(c, glyphMapping, currentFont, ref lastGlyphIndex, ref lineWidth, ref wordWidth, ref applyKerning);
 
                 //Perform the actual wrapping
                 if (lineWidth > maxWidth)
                 {
-                    WrapAtCharPos(paragraph.AllText, i, ref prevLineEndIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings);
+                    WrapAtCharPos(allText, i, ref prevLineEndIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings);
+
+                    //Log where wrapping occured in order to keep track of fragment/run/richtext
+                    paragraph.Fragments.AddWrappingIndex(prevLineEndIndex);
+                    paragraph.Fragments.AddLineWidth(lineWidth / currentFont.HeadTable.UnitsPerEm * paragraph.FontSizes[fragmentIdx]);
 
                     //Since we're using the AllText, need to handle leftover line differently
                     if (i < prevLineEndIndex)
                     {
-                        leftOverLine = paragraph.AllText.Substring(prevLineEndIndex, prevLineEndIndex - i);
+                        if(lineWidth != 0)
+                        {
+                            leftOverLine = allText.Substring(prevLineEndIndex, prevLineEndIndex - i);
+                            //Since we've moved one beyond the last
+                            i = prevLineEndIndex;
+                        }
+                        else
+                        {
+                            leftOverLine = "";
+                        }
                     }
                     else
                     {
                         //Special case for only 1 or 0 chars in leftover line
-                        leftOverLine = paragraph.AllText.Substring(prevLineEndIndex, i - prevLineEndIndex);
+                        leftOverLine = allText.Substring(prevLineEndIndex, i - prevLineEndIndex);
+                        leftOverLine += allText.Substring(i, 1);
                     }
                 }
-
-                //Add the current char to current unwrapped line
-                leftOverLine += paragraph.AllText.Substring(i, 1);
+                else
+                {
+                    //Add the current char to current unwrapped line
+                    leftOverLine += allText.Substring(i, 1);
+                }
             }
 
             wrappedStrings.Add(leftOverLine);
