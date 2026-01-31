@@ -379,12 +379,13 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Contextual
 
         private ShapedGlyph CreateSubstitutedGlyph(ShapedGlyph original, ushort newGlyphId)
         {
-            var advanceWidth = (short)_font.HmtxTable.GetAdvanceWidth(newGlyphId);
+            var baseAdvance = (short)_font.HmtxTable.GetAdvanceWidth(newGlyphId);
 
             return new ShapedGlyph
             {
                 GlyphId = newGlyphId,
-                XAdvance = advanceWidth,
+                BaseAdvance = baseAdvance,      // ← New base advance for substituted glyph
+                XAdvance = baseAdvance,         // ← Reset to base (kerning will be reapplied)
                 YAdvance = 0,
                 XOffset = 0,
                 YOffset = 0,
@@ -399,13 +400,14 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Contextual
             byte componentCount,
             ushort ligatureGlyphId)
         {
-            var advanceWidth = (short)_font.HmtxTable.GetAdvanceWidth(ligatureGlyphId);
+            var baseAdvance = (short)_font.HmtxTable.GetAdvanceWidth(ligatureGlyphId);
             var clusterIndex = glyphs[startIndex].ClusterIndex;
 
             return new ShapedGlyph
             {
                 GlyphId = ligatureGlyphId,
-                XAdvance = advanceWidth,
+                BaseAdvance = baseAdvance,      // ← Base advance for ligature
+                XAdvance = baseAdvance,         // ← Will be adjusted by positioning
                 YAdvance = 0,
                 XOffset = 0,
                 YOffset = 0,
