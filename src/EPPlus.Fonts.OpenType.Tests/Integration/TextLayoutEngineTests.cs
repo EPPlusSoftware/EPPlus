@@ -380,5 +380,25 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         #endregion
+
+        [TestMethod]
+        public void WrapText_Continous_Long_Word()
+        {
+            var font = OpenTypeFonts.GetFontData(FontFolders, "Aptos Narrow", FontSubFamily.Regular);
+
+            var longWord = "pellentesquer";
+
+            ITextShaper shaper = new TextShaper(font);
+            using var layoutEngine = new TextLayoutEngine(shaper);
+            var wrappedLines = layoutEngine.WrapText(
+                longWord,
+                11f,
+                54,
+                ShapingOptions.Full
+            );
+
+            Assert.AreEqual("pellentesqu", wrappedLines[0]);
+            Assert.AreEqual("er", wrappedLines[1]);
+        }
     }
 }

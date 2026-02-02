@@ -158,142 +158,46 @@ namespace EPPlus.Fonts.OpenType.Integration
         }
 
         private List<string> WrapParagraph(
-     string text,
-     float fontSize,
-     double maxWidthPoints,
-     double startingWidthPoints,
-     ShapingOptions options)
+            string text,
+            float fontSize,
+            double maxWidthPoints,
+            double startingWidthPoints,
+            ShapingOptions options)
         {
             _lineListBuffer.Clear();
 
             if (string.IsNullOrEmpty(text))
             {
-                _lineListBuffer.Add(string.Empty);
-                return new List<string>(_lineListBuffer);
+                return CreateEmptyResult();
             }
 
-            // CHANGED: Use light shaping pipeline instead of full shaping
-            // This gives us 8 bytes/glyph instead of 56 bytes/glyph (85% reduction!)
-            var glyphs = _shaper.ShapeLight(text, options);
+            var charWidths = CalculateCharacterWidths(text, fontSize, options);
 
-            // Convert glyph widths to character widths
-            var charWidths = GetCharWidthBuffer(text.Length);
-            Array.Clear(charWidths, 0, text.Length);
+            var state = new WrapState(startingWidthPoints, GetCachedSpaceWidth(fontSize, options));
 
-            double scaleFactor = fontSize / _shaper.UnitsPerEm;
-
-            foreach (var glyph in glyphs)
-            {
-                int charIndex = glyph.ClusterIndex;
-                if (charIndex >= 0 && charIndex < text.Length)
-                {
-                    charWidths[charIndex] += glyph.XAdvance * scaleFactor;
-                }
-            }
-
-            // Use cached space width
-            double spaceWidth = GetCachedSpaceWidth(fontSize, options);
-
-            // Rest of wrapping logic unchanged...
-            int lineStart = 0;
-            int wordStart = 0;
-            double currentLineWidth = startingWidthPoints;
-            double currentWordWidth = 0;
-
-            _lineBuilder.Length = 0;
-            if (_lineBuilder.Capacity < text.Length / 4 + 20)
-            {
-                _lineBuilder.Capacity = text.Length / 4 + 20;
-            }
+           PrepareLineBuilder(text.Length);
 
             for (int i = 0; i <= text.Length; i++)
             {
-                bool isSpace = (i < text.Length && text[i] == ' ');
-                bool isEnd = (i == text.Length);
+                var charType = GetCharacterType(text, i);
 
-                if ((isSpace || isEnd) && wordStart < i)
+                if (state.IsCompleteWordReady(charType, i))  // ← Använd state
                 {
-                    double totalWidth = currentLineWidth + currentWordWidth;
-                    if (lineStart < wordStart)
-                    {
-                        totalWidth += spaceWidth;
-                    }
-
-                    if (totalWidth <= maxWidthPoints || lineStart == wordStart)
-                    {
-                        if (_lineBuilder.Length > 0)
-                        {
-                            _lineBuilder.Append(' ');
-                        }
-                        _lineBuilder.Append(text, wordStart, i - wordStart);
-                        currentLineWidth = totalWidth;
-                    }
-                    else
-                    {
-                        if (_lineBuilder.Length > 0 && _lineBuilder[_lineBuilder.Length - 1] == ' ')
-                        {
-                            _lineBuilder.Length--;
-                        }
-                        if (_lineBuilder.Length > 0)
-                        {
-                            _lineListBuffer.Add(_lineBuilder.ToString());
-                        }
-                        _lineBuilder.Length = 0;
-
-                        lineStart = wordStart;
-                        currentLineWidth = currentWordWidth;
-
-                        _lineBuilder.Append(text, wordStart, i - wordStart);
-                    }
-
-                    wordStart = i + 1;
-                    currentWordWidth = 0;
+                    ProcessCompleteWord(text, state, i, maxWidthPoints);
                 }
-                else if (isSpace)
+                else if (charType == CharacterType.Space)
                 {
-                    wordStart = i + 1;
+                    state.WordStart = i + 1;  // ← Använd state
                 }
-                else
+                else if (charType == CharacterType.Regular)
                 {
-                    currentWordWidth += charWidths[i];
-
-                    if (currentWordWidth > maxWidthPoints && lineStart < wordStart && currentLineWidth > 0)
-                    {
-                        if (_lineBuilder.Length > 0 && _lineBuilder[_lineBuilder.Length - 1] == ' ')
-                        {
-                            _lineBuilder.Length--;
-                        }
-                        if (_lineBuilder.Length > 0)
-                        {
-                            _lineListBuffer.Add(_lineBuilder.ToString());
-                        }
-                        _lineBuilder.Length = 0;
-
-                        lineStart = wordStart;
-                        currentLineWidth = 0;
-                    }
+                    ProcessCharacterInWord(text, charWidths, state, i, maxWidthPoints);
                 }
             }
 
-            if (lineStart < text.Length)
-            {
-                if (_lineBuilder.Length > 0 && _lineBuilder[_lineBuilder.Length - 1] == ' ')
-                {
-                    _lineBuilder.Length--;
-                }
-                if (_lineBuilder.Length > 0)
-                {
-                    _lineListBuffer.Add(_lineBuilder.ToString());
-                }
-            }
-
-            if (_lineListBuffer.Count == 0)
-            {
-                _lineListBuffer.Add(string.Empty);
-            }
-
-            return new List<string>(_lineListBuffer);
+            return FinalizeWrapping();
         }
+       
 
         private double MeasureText(string text, float fontSize, ShapingOptions options)
         {
@@ -304,18 +208,6 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var shaped = _shaper.Shape(text, options);
             return shaped.GetWidthInPoints(fontSize, _shaper.UnitsPerEm);
-        }
-
-        private double MeasureTextWithFont(string text, MeasurementFont font, ShapingOptions options)
-        {
-            if (string.IsNullOrEmpty(text))
-            {
-                return 0;
-            }
-
-            var shaper = GetShaperForFont(font);
-            var shaped = shaper.Shape(text, options ?? ShapingOptions.Default);
-            return shaped.GetWidthInPoints(font.Size, shaper.UnitsPerEm);
         }
 
         private ITextShaper GetShaperForFont(MeasurementFont font)
