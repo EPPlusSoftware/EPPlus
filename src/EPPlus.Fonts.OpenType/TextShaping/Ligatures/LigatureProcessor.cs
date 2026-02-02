@@ -185,21 +185,19 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
             byte componentCount,
             ushort ligatureGlyphId)
         {
-            // Get advance width for ligature glyph
-            var advanceWidth = (short)_font.HmtxTable.GetAdvanceWidth(ligatureGlyphId);
-
-            // Preserve cluster index from first component
+            var baseAdvance = (short)_font.HmtxTable.GetAdvanceWidth(ligatureGlyphId);
             var clusterIndex = glyphs[startIndex].ClusterIndex;
 
             return new ShapedGlyph
             {
                 GlyphId = ligatureGlyphId,
-                XAdvance = advanceWidth,
+                BaseAdvance = baseAdvance,      // ← Base advance for ligature
+                XAdvance = baseAdvance,         // ← Will be adjusted by positioning
                 YAdvance = 0,
                 XOffset = 0,
                 YOffset = 0,
                 ClusterIndex = clusterIndex,
-                CharCount = componentCount // Ligature represents multiple characters
+                CharCount = componentCount
             };
         }
     }

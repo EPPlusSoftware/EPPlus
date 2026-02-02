@@ -228,13 +228,14 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                     glyphId = 0; // .notdef
                 }
 
-                // Get advance width from hmtx
-                var advanceWidth = (short)hmtxTable.GetAdvanceWidth((ushort)glyphId);
+                // Get base advance width from hmtx (BEFORE any kerning)
+                var baseAdvance = (short)hmtxTable.GetAdvanceWidth((ushort)glyphId);
 
                 glyphs.Add(new ShapedGlyph
                 {
                     GlyphId = (ushort)glyphId,
-                    XAdvance = advanceWidth,
+                    BaseAdvance = baseAdvance,      // ← Store original advance
+                    XAdvance = baseAdvance,         // ← Initially same as base
                     YAdvance = 0,
                     XOffset = 0,
                     YOffset = 0,
