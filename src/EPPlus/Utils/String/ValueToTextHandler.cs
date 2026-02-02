@@ -231,7 +231,12 @@ namespace OfficeOpenXml.Utils.String
 
         private static string CheckAndRemoveNegativeSign(string format, string s, string ns)
         {
-            if ((s.StartsWith($"{ns}{ns}") || s.StartsWith($"{ns}-")) && (format.StartsWith(ns) || format.StartsWith("-")))
+            //This regex pattern ^(\[[^\]]+\]|[\\'\""\*_])* removes:
+            //                     \[[^\]]+\] : This part removes Anything inside square brackets
+            //                                [\\'\""\*_] : This part removes Backslashes, quotes, asterisks and underlines
+            string trimmedFormat = System.Text.RegularExpressions.Regex.Replace(format, @"^(\[[^\]]+\]|[\\'\""\*_])*", "");
+            bool formatStartsWithNegative = trimmedFormat.StartsWith(ns) || trimmedFormat.StartsWith("-");
+            if ((s.StartsWith($"{ns}{ns}") || s.StartsWith($"{ns}-")) && formatStartsWithNegative)
             {
                 return s.Remove(1, 1);
             }

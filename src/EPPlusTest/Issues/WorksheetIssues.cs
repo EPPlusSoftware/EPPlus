@@ -1079,5 +1079,17 @@ namespace EPPlusTest.Issues
             }
             SwitchBackToCurrentCulture();
         }
+
+        [TestMethod]
+        public void i2258()
+        {
+            var p = OpenTemplatePackage("repro2.xlsx");
+            var ws = p.Workbook.Worksheets.First();
+            var a1 = ws.Cells["A1"].Text;
+            var b1 = ws.Cells["B1"].Text;
+            Assert.AreEqual("-/- 1 000", a1);
+            Assert.AreEqual("-/- 2 000", b1);
+        }
+
     }
 }
