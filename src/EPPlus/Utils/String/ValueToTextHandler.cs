@@ -219,35 +219,7 @@ namespace OfficeOpenXml.Utils.String
         {
             var s = FormatNumberExcel(d, format, cultureInfo);
             var ns = cultureInfo?.NumberFormat?.NegativeSign ?? "-";
-            if (string.IsNullOrEmpty(s) == false && d < 0)
-            {
-                return CheckAndRemoveNegativeSign(format, s, ns);
-            }
-            else
-            {
-                return s;
-            }
-        }
-
-        private static string CheckAndRemoveNegativeSign(string format, string s, string ns)
-        {
-            //This regex pattern ^(\[[^\]]+\]|[\\'\""\*_])* removes:
-            //                     \[[^\]]+\] : This part removes Anything inside square brackets
-            //                                [\\'\""\*_] : This part removes Backslashes, quotes, asterisks and underlines
-            string trimmedFormat = System.Text.RegularExpressions.Regex.Replace(format, @"^(\[[^\]]+\]|[\\'\""\*_])*", "");
-            bool formatStartsWithNegative = trimmedFormat.StartsWith(ns) || trimmedFormat.StartsWith("-");
-            if ((s.StartsWith($"{ns}{ns}") || s.StartsWith($"{ns}-")) && formatStartsWithNegative)
-            {
-                return s.Remove(1, 1);
-            }
-            else if (s.StartsWith($"{ns}(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.IndexOf(")", StringComparison.OrdinalIgnoreCase) > 0)
-            {
-                return s.Substring(1);
-            }
-            else
-            {
-                return s;
-            }
+            return s;
         }
 
         private static string FormatNumberExcel(double d, string format, CultureInfo cultureInfo)
@@ -258,7 +230,7 @@ namespace OfficeOpenXml.Utils.String
             }
             else
             {
-                return d.ToString(format, cultureInfo);
+                return Math.Abs(d).ToString(format, cultureInfo);
             }
         }
 

@@ -6,6 +6,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.RichData;
 using OfficeOpenXml.SystemDrawing.Image;
 using OfficeOpenXml.SystemDrawing.Text;
 using System;
@@ -1085,10 +1086,15 @@ namespace EPPlusTest.Issues
         {
             var p = OpenTemplatePackage("repro2.xlsx");
             var ws = p.Workbook.Worksheets.First();
+
             var a1 = ws.Cells["A1"].Text;
-            var b1 = ws.Cells["B1"].Text;
             Assert.AreEqual("-/- 1 000", a1);
+
+            var b1 = ws.Cells["B1"].Text;
             Assert.AreEqual("-/- 2 000", b1);
+
+            var c1 = ws.Cells["C1"].Text;
+            Assert.AreEqual("3 000,00", c1);
         }
 
     }
