@@ -576,12 +576,24 @@ namespace EPPlusImageRenderer.Svg
                     max = d;
                 }
             }
-            var maxMajorTickmarks = 10; //TODO: Calculate based on rect size
-            GetAutoMinMaxValue(ax, maxMajorTickmarks, isCount, ref min, ref max, out majorUnit);
-            for (var v = min; v <= max; v += majorUnit)
+            var options = new ValueAxisScaleCalculator.AxisOptions
+            {
+                LockedMin = ax.MinValue,
+                LockedMax = ax.MaxValue,
+                LockedInterval = ax.MajorUnit,
+                AddPadding = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right
+            };
+            var length = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right ? SvgChart.Bounds.Height : SvgChart.Bounds.Width; //Fix and use plotarea width/height.
+            var res = ValueAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
+            for ( var v = res.Min; v <= res.Max; v += res.Interval)
             {
                 l.Add(v);
             }
+
+            min = res.Min;
+            max = res.Max;
+            majorUnit = res.Interval;
+            
             return l;
         }
 

@@ -712,10 +712,15 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        if ((Index == 1 && !ct.UseSecondaryAxis) || (Index == 2 && ct.UseSecondaryAxis))
+                        //if ((Index == 1 && !ct.UseSecondaryAxis) || (Index == 2 && ct.UseSecondaryAxis))
+                        if (ct.YAxis == this)
                         {
                             AddFromSerie(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false);
                         }
+                        else if(ct.XAxis == this)
+                        {
+                            AddFromSerie(hs, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, false);
+                        }   
                     }
                 }            
             }

@@ -250,7 +250,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     }
                     else
                     {
-                        widthOfCurrentLine += Runs.Last().PerLineWidth.Last();
+                        widthOfCurrentLine += Runs.Last().PerLineWidth.LastOrDefault();
                         if (i == p.TextRuns.Count - 1)
                         {
                             Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
