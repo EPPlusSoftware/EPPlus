@@ -112,7 +112,7 @@ namespace EPPlus.Export.Pdf
         //Get the label to use for pattern.
         internal string GetPatternLabel(PdfCellLayout layout)
         {
-            if ((layout.CellFillData.PattenStyle != ExcelFillStyle.Solid && layout.CellFillData.PattenStyle != ExcelFillStyle.None) || layout.CellFillData.GradientFillData != null)
+            if ((layout.CellFillData.PatternStyle != ExcelFillStyle.Solid && layout.CellFillData.PatternStyle != ExcelFillStyle.None) || layout.CellFillData.GradientFillData != null)
             {
                 var patternName = layout.CellFillData.id;
                 if (Dictionaries.Patterns.ContainsKey(patternName))
@@ -204,7 +204,7 @@ namespace EPPlus.Export.Pdf
                             contentStream.AddCellLayout(layout, GetPatternLabel(layout));
                             break;
                         case PdfCellContentLayout contentLayout:
-                            contentStream.AddCellContentLayout(contentLayout, GetFontResource(contentLayout.FontData.FullFontName, contentLayout.FontData.SubFamily, contentLayout.FontData.FontSize));
+                            contentStream.AddCellContentLayout(contentLayout, Dictionaries, PageSettings);
                             break;
                         case PdfCellBorderLayout borderLayout:
                             contentStream.AddBorderLayout(borderLayout);
@@ -212,14 +212,28 @@ namespace EPPlus.Export.Pdf
                     }
                 }
             }
-            //Close the clipping rectangle
+            //Close the clipping rectangle.
             contentStream.AddCommand("Q");
+            contentStream.AddCommand($"% Margin Clip End");
             if (PageSettings.ShowGridLines)
             {
                 contentStream.AddOuterGridBorder(pageLayout);
             }
+            //Add header and footer.
+            AddHeaderFooter(contentStream, pageLayout, page);
             Document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
+        }
+
+        //Add Header Footer
+        private void AddHeaderFooter(PdfContentStream contentStream, Transform pageLayout, PdfPage page)
+        {
+            var headerFooter = pageLayout.ChildObjects.Where(t => t is PdfHeaderFooterLayout);
+            foreach (var hf in headerFooter)
+            {
+                var headerFooterLayout = hf as PdfHeaderFooterLayout;
+                contentStream.AddCellContentLayout(headerFooterLayout, Dictionaries, PageSettings);
+            }
         }
 
         private PdfInfoObject AddInfoObject()

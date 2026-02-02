@@ -21,15 +21,17 @@ namespace EPPlus.Export.Pdf.PdfLayout
 {
     internal class PdfMergedCellLayout : PdfCellLayout
     {
-        public PdfMergedCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
-            : base(dictionaries, cell, x, y, width, height, scaleX, scaleY, rotation, parent)
+
+
+        public PdfMergedCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyleOverride CellStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+            : base(dictionaries, cell, CellStyle, x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
             var fill = cell.Style.Fill;
             if(!fill.HasGradient && fill.PatternType == ExcelFillStyle.None)
             {
                 CellFillData.BackgroundColor = Color.White;
-                CellFillData.PattenStyle = ExcelFillStyle.Solid;
+                CellFillData.PatternStyle = ExcelFillStyle.Solid;
                 CellFillData.enhanceGridLine = true;
             }
 
@@ -37,7 +39,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         public new void AdjustForGridLines()
         {
-            if (CellFillData.BackgroundColor.Equals(Color.White) && CellFillData.PattenStyle == ExcelFillStyle.Solid)
+            if (CellFillData.BackgroundColor.Equals(Color.White) && CellFillData.PatternStyle == ExcelFillStyle.Solid)
             {
                 Size = new Vector2(Size.X - GridLine.Width, Size.Y - GridLine.Width);
                 LocalPosition = new Vector2(LocalPosition.X + GridLine.HalfWidth, LocalPosition.Y + GridLine.HalfWidth);

@@ -319,10 +319,19 @@ namespace EPPlus.Graphics
 
         public static bool IntersectsFully(Rect contentBounds, Rect cellBounds)
         {
-            return cellBounds.Left   >= contentBounds.Left  &&
-                   cellBounds.Top    >= contentBounds.Top   &&
-                   cellBounds.Right  <= contentBounds.Right &&
-                   cellBounds.Bottom <= contentBounds.Bottom;
+            var l1 = System.Math.Round(contentBounds.Left, 4);
+            var l2 = System.Math.Round(cellBounds.Left, 4);
+            var t1 = System.Math.Round(contentBounds.Top, 4);
+            var t2 = System.Math.Round(cellBounds.Top, 4);
+            var r1 = System.Math.Round(contentBounds.Right, 4);
+            var r2 = System.Math.Round(cellBounds.Right, 4);
+            var b1 = System.Math.Round(contentBounds.Bottom, 4);
+            var b2 = System.Math.Round(cellBounds.Bottom, 4);
+
+            return l2 >= l1 &&
+                   t2 >= t1 &&
+                   r2 <= r1 &&
+                   b2 <= b1;
         }
 
         public string ToHierarchyString(int indentLevel = 0)

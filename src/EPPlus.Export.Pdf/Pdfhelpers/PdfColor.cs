@@ -26,13 +26,13 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
 
         public static Color SetColorFromHex(string hex)
         {
-            if (string.IsNullOrEmpty(hex) || hex == "0")
+            if (string.IsNullOrEmpty(hex) || hex == "0" || hex == "#0")
             {
                 return Color.Empty;
 
             }
             hex = hex.Trim().TrimStart('#');
-            int R=0, G=0, B=0, A=1;
+            int R=0, G=0, B=0, A=0;
             if (hex.Length == 3)
             {
                 R = Convert.ToByte(new string(hex[0], 2), 16);
@@ -64,7 +64,7 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
             {
                 throw new FormatException("Invalid hex color format.");
             }
-            return Color.FromArgb(1, R, G, B);
+            return Color.FromArgb(A, R, G, B);
         }
 
         public static string ToStrokeCommand(this Color c) => $"{c.GetR().ToString("F", CultureInfo.InvariantCulture)} {c.GetG().ToString("F", CultureInfo.InvariantCulture)} {c.GetB().ToString("F", CultureInfo.InvariantCulture)} RG";

@@ -4,7 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
-    <OutputType>Exe</OutputType>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>EPPlus.Graphics.Tests.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
@@ -17,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj" />
-    <ProjectReference Include="..\EPPlus\EPPlus.csproj" />
+    <ProjectReference Include="..\..\..\EPPlus\src\EPPlusTest\EPPlus.Test.csproj" />
   </ItemGroup>
 
   <ItemGroup>
