@@ -1095,6 +1095,21 @@ namespace EPPlusTest.Issues
 
             var c1 = ws.Cells["C1"].Text;
             Assert.AreEqual("3 000,00", c1);
+
+            var d1 = ws.Cells["D1"].Text;
+            Assert.AreEqual("(4000,000)", d1);
+
+            var a3 = ws.Cells["A3"].Text;
+            Assert.AreEqual("1000,000", a3);
+
+            var b3 = ws.Cells["B3"].Text;
+            Assert.AreEqual("(2000,000)", b3);
+            
+            var c3 = ws.Cells["C3"].Text;
+            Assert.AreEqual("-3000,000", c3);
+            
+            var d3 = ws.Cells["D3"].Text;
+            Assert.AreEqual("Negative 4000,000", d3);
         }
 
     }
