@@ -259,7 +259,7 @@ namespace OfficeOpenXml.Utils.String
             }
             else
             {
-                return Math.Abs(d).ToString(format, cultureInfo);
+                return d.ToString(format, cultureInfo);
             }
         }
 
