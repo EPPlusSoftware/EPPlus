@@ -231,6 +231,7 @@ namespace OfficeOpenXml.Utils.String
 
         private static string CheckAndRemoveNegativeSign(string format, string s, string ns)
         {
+            //We should not use regexp, but it will do for now.
             //This regex pattern ^(\[[^\]]+\]|[\\'\""\*_])* removes:
             //                     \[[^\]]+\] : This part removes Anything inside square brackets
             //                                [\\'\""\*_] : This part removes Backslashes, quotes, asterisks and underlines
