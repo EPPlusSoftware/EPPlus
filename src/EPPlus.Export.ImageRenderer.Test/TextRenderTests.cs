@@ -93,6 +93,83 @@ namespace EPPlus.Export.ImageRenderer.Tests
         }
 
         [TestMethod]
+        public void TextFragmentHandlesEndLines()
+        {
+            string strWEndLines = "TextBox\r\na";
+
+            List<string> inputFrags = new List<string>() { strWEndLines };
+            var textFragments = new TextFragmentCollection(inputFrags);
+
+        }
+
+        [TestMethod]
+        public void MeasureWrappedWidths()
+        {
+            List<string> lstOfRichText = new() { /*"TextBox\r\na",*/ "TextBox2", "ra underline", "La Strike", "Goudy size 16", "SvgSize 24" };
+
+            //var font1 = new MeasurementFont()
+            //{
+            //    FontFamily = "Aptos Narrow",
+            //    Size = 11,
+            //    Style = MeasurementFontStyles.Regular
+            //}; ;
+
+            var font2 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Italic | MeasurementFontStyles.Bold
+            };
+
+            var font3 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Underline
+            };
+
+            var font4 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Strikeout
+            };
+
+            var font5 = new MeasurementFont()
+            {
+                FontFamily = "Goudy Stout",
+                Size = 16,
+                Style = MeasurementFontStyles.Regular
+            };
+
+
+            var font6 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 24,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            List<MeasurementFont> fonts = new() { /*font1,*/ font2, font3, font4, font5, font6};
+
+            var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
+            var ttMeasurer = new FontMeasurerTrueType(font2);
+
+            var textFragments = new TextFragmentCollection(lstOfRichText);
+
+            var wrappedLines = ttMeasurer.WrapMultipleTextFragmentsToTextLines(textFragments, fonts, maxSizePoints);
+
+            Assert.AreEqual(wrappedLines[0].r)
+
+
+            //Line 1 45 px 34.5pt
+            //Line 2 6px 4.5 pt
+            //Line 3 137 px 102.75 pt //result: 104.6328125 pt width "whole
+            //Line 4 270 px 202.5 pt
+            //Line 5 169 px 126.75 pt
+        }
+
+        [TestMethod]
         public void VerifyTextRunBounds()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");

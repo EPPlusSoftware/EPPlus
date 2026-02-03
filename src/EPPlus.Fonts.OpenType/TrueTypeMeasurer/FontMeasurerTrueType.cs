@@ -81,14 +81,7 @@ namespace EPPlus.Fonts.OpenType
 
         public FontMeasurerTrueType(MeasurementFont mFont)
         {
-            CurrentFontName = string.IsNullOrEmpty(mFont.FontFamily) ? "" : mFont.FontFamily;
-
-            SetFont(mFont.Size, mFont.FontFamily);
-
-            if (CurrentFont == null)
-            {
-                CurrentFont = _defaultFont;
-            }
+            SetFont(mFont);
         }
 
 
