@@ -76,7 +76,7 @@ namespace OfficeOpenXml.Utils.String
             if (v == null) v = 0;
             var f = nf.GetFormatPart(v);
             isValidFormat = f.IsValid;
-            if(isValidFormat == false)
+            if (isValidFormat == false)
             {
                 return null;
             }
@@ -259,7 +259,7 @@ namespace OfficeOpenXml.Utils.String
             }
             else
             {
-                return d.ToString(format, cultureInfo);
+                return Math.Abs(d).ToString(format, cultureInfo);
             }
         }
 
