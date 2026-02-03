@@ -1,30 +1,22 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using OfficeOpenXml.Drawing.Chart;
+using System;
 using System.Collections.Generic;
 
 internal class ValueAxisScaleCalculator
 {
-    internal class AxisOptions
-    {
-        public double? LockedMin { get; set; }
-        public double? LockedMax { get; set; }
-        public double? LockedInterval { get; set; }
-        public bool AddPadding { get; set; } = false;
-    }
-    internal class AxisScale
-    {
-        public double Min { get; set; }
-        public double Max { get; set; }
-        public double Interval { get; set; }
-        public int TickCount { get; set; }
-    }
-
     internal static AxisScale Calculate(double dataMin, double dataMax, double chartHeightPixels, AxisOptions axisOptions = null)
     {
-        int desiredTicks = chartHeightPixels < 200 ? 4 :
-                             chartHeightPixels < 400 ? 5 : 6;
+        return GetNumberScale(ref dataMin, ref dataMax, chartHeightPixels, ref axisOptions);
+    }
+
+    private static AxisScale GetNumberScale(ref double dataMin, ref double dataMax, double chartHeightPixels, ref AxisOptions axisOptions)
+    {
+        var desiredTicks = chartHeightPixels < 200 ? 4 :
+                               chartHeightPixels < 400 ? 5 : 6;
 
         if (axisOptions == null)
-        { 
+        {
             axisOptions = new AxisOptions();
         }
 
@@ -55,7 +47,7 @@ internal class ValueAxisScaleCalculator
                 if (axisOptions.AddPadding)
                 {
                     dataMin = Math.Floor(dataMin * 0.1 / interval) * interval;
-                    if(isAllPositive && dataMin < 0 )
+                    if (isAllPositive && dataMin < 0)
                     {
                         dataMin = 0;
                     }
@@ -69,7 +61,7 @@ internal class ValueAxisScaleCalculator
             if (!axisOptions.LockedMax.HasValue)
             {
                 dataMax = Math.Ceiling(dataMax * 0.1 / interval) * interval;
-            } 
+            }
             else
             {
                 if (axisOptions.AddPadding)
@@ -83,11 +75,11 @@ internal class ValueAxisScaleCalculator
             }
 
             int tickCount = (int)Math.Round((dataMax - dataMin) / Math.Min(desiredTicks, interval)) + 1;
-            return new AxisScale    
+            return new AxisScale
             {
                 Min = dataMin,
                 Max = dataMax,
-                Interval = interval,
+                MajorInterval = interval,
                 TickCount = tickCount
             };
         }
@@ -104,36 +96,67 @@ internal class ValueAxisScaleCalculator
 
             double dataRange = dataMax - dataMin;
 
-            // Add padding (10%)
-            double paddedMin = dataMin - (dataRange * 0.1);
-            double paddedMax = dataMax + (dataRange * 0.1);
+            double axisMin;
+            double axisMax;
+            double roughInterval;
+            double scaleInterval;
 
-            //Normalize to zero if all data is positive or negative
-            if (paddedMin < 0 && isAllPositive)
+            if (axisOptions.AddPadding)
             {
-                paddedMin = 0;
+                // Add padding (10%)
+                if (axisOptions.LockedMin.HasValue)
+                {
+                    axisMin = axisOptions.LockedMin.Value;
+                }
+                else
+                {
+                    axisMin = dataMin - (dataRange * 0.1);
+                    //Normalize to zero if all data is positive or negative
+                    if (axisMin < 0 && isAllPositive)
+                    {
+                        axisMin = 0;
+                    }
+                }
+
+                if (axisOptions.LockedMax.HasValue)
+                {
+                    axisMax = axisOptions.LockedMax.Value;
+                }
+                else
+                {
+                    axisMax = dataMax + (dataRange * 0.1);
+
+                    if (axisMax > 0 && isAllNegativ)
+                    {
+                        axisMax = 0;
+                    }
+                }
+
+                // Calculate interval
+                roughInterval = (axisMax - axisMin) / desiredTicks;
+                scaleInterval = GetScaleNumber(roughInterval, true);
+
+                if (!axisOptions.LockedMin.HasValue) axisMin = Math.Floor(axisMin / scaleInterval) * scaleInterval;
+                if (!axisOptions.LockedMax.HasValue) axisMax = Math.Ceiling(axisMax / scaleInterval) * scaleInterval;
             }
-            if (paddedMax > 0 && isAllNegativ)
+            else
             {
-                paddedMax = 0;
+                // Calculate interval
+                roughInterval = (dataMax - dataMin) / desiredTicks;
+                scaleInterval = GetScaleNumber(roughInterval, true);
+
+                axisMin = dataMin;
+                axisMax = dataMax;
             }
 
-            // Calculate nice interval
-            double roughInterval = (paddedMax - paddedMin) / desiredTicks;
-            double scaleInterval = GetScaleNumber(roughInterval, true);
-
-            // Calculate false min and max
-            double axisMin = Math.Floor(paddedMin / scaleInterval) * scaleInterval;
-            double axisMax = Math.Ceiling(paddedMax / scaleInterval) * scaleInterval;
-
-            // Calculate actual tick count
-            int tickCount = (int)Math.Round((axisMax - axisMin) / scaleInterval) + 1;
+            var tickCount = (int)Math.Round((axisMax - axisMin) / scaleInterval) + 1;
             return new AxisScale
             {
                 Min = axisOptions.LockedMin ?? axisMin,
                 Max = axisOptions.LockedMax ?? axisMax,
-                Interval = scaleInterval,
-                TickCount = tickCount
+                MajorInterval = scaleInterval,
+                MinorInterval = scaleInterval / 5,
+                TickCount = tickCount,
             };
         }
     }
@@ -167,7 +190,7 @@ internal class ValueAxisScaleCalculator
         var ticks = new List<double>();
         for (int i = 0; i < scale.TickCount; i++)
         {
-            double tickValue = scale.Min + (i * scale.Interval);
+            double tickValue = scale.Min + (i * scale.MajorInterval);
             ticks.Add(Math.Round(tickValue, 10)); // Round to avoid floating point errors
         }
         return ticks;

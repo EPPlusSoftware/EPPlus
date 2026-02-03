@@ -1,7 +1,11 @@
 ﻿using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Utils.TypeConversion;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -11,15 +15,38 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
             RenderItems.Add(groupItem);
+            var isStacked = Chart.IsTypeStacked();
+            List<object> pXValues = null, pYValues = null;
             foreach (ExcelLineChartSerie serie in chartType.Series)
             {
                 var yValues = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                 var xValues = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
-                AddLine(chartType, serie, xValues, yValues);
+                if(isStacked)
+                {
+                    AddLine(chartType, serie, xValues, SumLists(yValues, pYValues));
+                }
+                else
+                {
+                    AddLine(chartType, serie, xValues, yValues);
+                }
+
+                if (isStacked)
+                {
+                    pYValues = yValues;
+                }
             }
             RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
         }
-
+        private List<object> SumLists(List<object> l1, List<object> l2)
+        {
+            if (l2 == null) return l1;
+            var sumList = new List<object>(l1.Count);
+            for (int i = 0; i < Math.Min(l1.Count, l2.Count); i++)
+            {
+                sumList.Add(ConvertUtil.GetValueDouble(l1[i]) + ConvertUtil.GetValueDouble(l2[i]));
+            }
+            return sumList;
+        }
         private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues)
         {
             var xAxis = _svgChart.HorizontalAxis;

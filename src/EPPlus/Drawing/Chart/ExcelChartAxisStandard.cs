@@ -10,14 +10,19 @@
  *************************************************************************************************
   04/22/2020         EPPlus Software AB       Added this class
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml;
+using static OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -53,7 +58,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             AddSchemaNodeOrder(new string[] { "axId", "scaling", "delete", "axPos", "majorGridlines", "minorGridlines", "title", "numFmt", "majorTickMark", "minorTickMark", "tickLblPos", "spPr", "txPr", "crossAx", "crosses", "crossesAt", "crossBetween", "auto", "lblOffset", "baseTimeUnit", "majorUnit", "majorTimeUnit", "minorUnit", "minorTimeUnit", "tickLblSkip", "tickMarkSkip", "dispUnits", "noMultiLvlLbl", "logBase", "orientation", "max", "min" },
                 ExcelDrawing._schemaNodeOrderSpPr);
-            
+
             Index = index;
         }
         internal override string Id
@@ -68,7 +73,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Get or Sets the major tick marks for the axis. 
         /// </summary>
-        public override eAxisTickMark MajorTickMark 
+        public override eAxisTickMark MajorTickMark
         {
             get
             {
@@ -592,7 +597,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (value == null)
                 {
-                    DeleteNode(_logbasePath,true);
+                    DeleteNode(_logbasePath, true);
                 }
                 else
                 {
@@ -689,25 +694,47 @@ namespace OfficeOpenXml.Drawing.Chart
         /// The index for the axis. 
         /// </summary>
         public int Index { get; private set; }
+        internal bool IsDate
+        {
+            get
+            {
+                if (AxisType == eAxisType.Date)
+                {
+                    return true;
+                }
+                else if (AxisType != eAxisType.Cat)
+                {
+                    var nf = new ExcelFormatTranslator(Format, 0);
+                    if (nf.DataType == eFormatType.DateTime)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
 
         internal override object[] GetAxisValues(out bool isCount)
-        {            
-            var hs = new HashSet<object>();
+        {
+            var values = new List<List<object>>();
             isCount = false;
+            List<object> pl = new List<object>();
             foreach (var ct in _chart.PlotArea.ChartTypes)
             {
                 foreach (var serie in _chart.Series)
                 {
-                    if(AxisType==eAxisType.Cat)
+                    var l = new List<object>();
+                    values.Add(l);
+                    if (AxisType == eAxisType.Cat)
                     {
-                        if(string.IsNullOrEmpty(serie.XSeries) && (serie.NumberLiteralsX == null || serie.NumberLiteralsX.Length==0) && (serie.StringLiteralsX==null || serie.StringLiteralsX?.Length==0))
+                        if (string.IsNullOrEmpty(serie.XSeries) && (serie.NumberLiteralsX == null || serie.NumberLiteralsX.Length == 0) && (serie.StringLiteralsX == null || serie.StringLiteralsX?.Length == 0))
                         {
-                            AddCountFromSeries(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                            AddCountFromSeries(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                             isCount = true;
                         }
                         else
                         {
-                            AddFromSerie(hs, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true);
+                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true);
                         }
                     }
                     else
@@ -715,30 +742,31 @@ namespace OfficeOpenXml.Drawing.Chart
                         //if ((Index == 1 && !ct.UseSecondaryAxis) || (Index == 2 && ct.UseSecondaryAxis))
                         if (ct.YAxis == this)
                         {
-                            AddFromSerie(hs, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false);
+                            AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, pl);
                         }
-                        else if(ct.XAxis == this)
+                        else if (ct.XAxis == this)
                         {
-                            AddFromSerie(hs, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, false);
-                        }   
+                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, false);
+                        }
                     }
-                }            
+                    pl = l;
+                }
             }
-            var values = hs.ToList();
-            values.Sort();
-            if(Orientation==eAxisOrientation.MaxMin)
+            var dl = values.SelectMany(x => x).Distinct().ToList();
+            dl.Sort();
+            if (Orientation == eAxisOrientation.MaxMin)
             {
-                values.Reverse();
+                dl.Reverse();
             }
-            return values.ToArray();
+            return dl.ToArray();
         }
 
-        private void AddCountFromSeries(HashSet<object> hs, string address, double[] numberLiterals, string[] stringLiterals)
+        private void AddCountFromSeries(List<object> l, string address, double[] numberLiterals, string[] stringLiterals)
         {
-            hs.Add(1);
+            l.Add(1);
             if (numberLiterals?.Length > 0)
             {
-                hs.Add(numberLiterals.Length);
+                l.Add(numberLiterals.Length);
                 //for(int i=1;i<= numberLiterals?.Length;i++)
                 //{
                 //    hs.Add(i);
@@ -746,7 +774,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             else if (stringLiterals?.Length > 0)
             {
-                hs.Add(stringLiterals.Length);
+                l.Add(stringLiterals.Length);
                 //for (int i = 1; i <= stringLiterals?.Length; i++)
                 //{
                 //    hs.Add(i);
@@ -755,7 +783,7 @@ namespace OfficeOpenXml.Drawing.Chart
             else
             {
                 var a = new ExcelAddressBase(address);
-                hs.Add(Math.Max(a.Rows, a.Columns));
+                l.Add(Math.Max(a.Rows, a.Columns));
                 //var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
                 //int i = 1;
                 //if (ws != null)
@@ -768,41 +796,71 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private void AddFromSerie(HashSet<object> hs, string address, double[] numberLiterals, string[] stringLiterals, bool useText)
+        private void AddFromSerie(List<object> list, string address, double[] numberLiterals, string[] stringLiterals, bool useText, List<object> prevList=null)
         {
+            var isStacked = _chart.IsTypeStacked() && prevList != null;
             if (numberLiterals?.Length > 0)
-            {                
-                foreach (var n in numberLiterals)
+            {
+                for (int i = 0; i < numberLiterals.Length; i++)
                 {
-                    hs.Add(n);
+                    var n = numberLiterals[i];
+                    if (isStacked)
+                    {
+                        n += GetSerieValue(prevList, i);
+                    }
+                    list.Add(n);
                 }
             }
             else if (stringLiterals?.Length > 0)
             {
                 foreach (var s in stringLiterals)
                 {
-                    hs.Add(s);
+                    list.Add(s);
                 }
             }
             else
             {
                 var a = new ExcelAddressBase(address);
                 var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
-                if(ws != null) 
+                if (ws != null)
                 {
-                    foreach(var c in ws.Cells[a.Address])
+                    var range = ws.Cells[a.Address];
+                    var i = 0;
+                    for(var r=0;r<range.Rows;r++)
                     {
-                        if(useText)
+                        for (var c = 0; c < range.Columns; c++)
                         {
-                            hs.Add(c.Text);
-                        }
-                        else
-                        {
-                            hs.Add(c.Value);
+                            var v = range.Offset(r, c, 1, 1);
+                            if (useText)
+                            {
+                                list.Add(v.Text);
+                            }
+                            else
+                            {
+                                double d=ConvertUtil.GetValueDouble(v.Value, false, true);
+                                if (double.IsNaN((double)d)) d = 0;
+                                if (isStacked)
+                                {                                    
+                                    var pv = GetSerieValue(prevList, i++);
+                                    d += pv;
+                                }
+                                list.Add(d);
+                            }
                         }
                     }
                 }
             }
+        }
+
+        private double GetSerieValue(List<object> prevList, int i)
+        {
+            if (prevList.Count > i && ConvertUtil.IsExcelNumeric(prevList[i]))
+            {
+                var v=ConvertUtil.GetValueDouble(prevList[i], true, true);
+                if (double.IsNaN(v)) return 0d;
+                return v;
+            }
+            return 0d;
         }
     }
 }
