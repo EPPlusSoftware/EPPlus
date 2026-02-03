@@ -187,7 +187,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 }
                 else if (charType == CharacterType.Space)
                 {
-                    state.WordStart = i + 1;  // ← Använd state
+                    ProcessNonEndingSpace(text, state, i, maxWidthPoints);
                 }
                 else if (charType == CharacterType.Regular)
                 {

@@ -4,6 +4,7 @@ using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
+using EPPlus.Fonts.OpenType.Utils;
 
 namespace EPPlus.Fonts.OpenType.Tests.Integration
 {
@@ -67,6 +68,29 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual("Line 1", lines[0]);
             Assert.AreEqual("Line 2", lines[1]);
             Assert.AreEqual("Line 3", lines[2]);
+        }
+
+        [TestMethod]
+        public void WrapText_TestWhenOnExactWrapPlusSpaces2()
+        {
+            var font = OpenTypeFonts.GetFontData(FontFolders, "Aptos Narrow", FontSubFamily.Regular);
+            //'sit amet non' is EXACTLY 72 pixels (54 points) in excel at 100% size/display
+            //So an added space should push 'non' over the edge to the next line
+            var text = "sit amet  non lacus.";
+            var comparison = new List<string>() {"sit amet", "non lacus."};
+
+            var maxWidthPoints = 54d;
+
+            ITextShaper shaper = new TextShaper(font);
+            using var layoutEngine = new TextLayoutEngine(shaper);
+            var wrappedLines = layoutEngine.WrapText(
+                text,
+                11f,
+                maxWidthPoints,
+                ShapingOptions.Full
+            );
+
+            Assert.IsTrue(comparison.SequenceEqual(wrappedLines));
         }
 
         [TestMethod]
