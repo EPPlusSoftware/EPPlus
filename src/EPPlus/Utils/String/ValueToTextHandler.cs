@@ -117,7 +117,7 @@ namespace OfficeOpenXml.Utils.String
                         }
                         else
                         {
-                            return FormatNumber(d, format, overrideCultureInfo ?? nf.Culture);
+                            return FormatNumber(d, format, overrideCultureInfo ?? nf.Culture, nf.Formats.Count > 1);
                         }
                     }
                     else
@@ -215,13 +215,13 @@ namespace OfficeOpenXml.Utils.String
             return v.ToString();
         }
 
-        private static string FormatNumber(double d, string format, CultureInfo cultureInfo)
+        private static string FormatNumber(double d, string format, CultureInfo cultureInfo, bool isNegativeFormat)
         {
             var s = FormatNumberExcel(d, format, cultureInfo);
             var ns = cultureInfo?.NumberFormat?.NegativeSign ?? "-";
             if (string.IsNullOrEmpty(s) == false && d < 0)
             {
-                return CheckAndRemoveNegativeSign(format, s, ns);
+                return CheckAndRemoveNegativeSign(format, s, ns, isNegativeFormat);
             }
             else
             {
@@ -229,7 +229,7 @@ namespace OfficeOpenXml.Utils.String
             }
         }
 
-        private static string CheckAndRemoveNegativeSign(string format, string s, string ns)
+        private static string CheckAndRemoveNegativeSign(string format, string s, string ns, bool isNegativeFormat)
         {
             //We should not use regexp, but it will do for now.
             //This regex pattern ^(\[[^\]]+\]|[\\'\""\*_])* removes:
@@ -244,6 +244,10 @@ namespace OfficeOpenXml.Utils.String
             else if (s.StartsWith($"{ns}(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.IndexOf(")", StringComparison.OrdinalIgnoreCase) > 0)
             {
                 return s.Substring(1);
+            }
+            else if ((s.StartsWith($"{ns}") || s.StartsWith($"-")) && !formatStartsWithNegative && isNegativeFormat)
+            {
+                return s.Remove(0, 1);
             }
             else
             {
