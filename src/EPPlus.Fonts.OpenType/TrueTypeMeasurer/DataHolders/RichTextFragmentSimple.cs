@@ -14,9 +14,17 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         internal int charStarIdxWithinCurrentLine { get; set; }
         //Width in points
         internal double Width { get; set; }
-        //Font-size in points
-        internal double FontSize { get; set; }
 
         public RichTextFragmentSimple() { }
+
+        internal RichTextFragmentSimple Clone()
+        {
+            var fragment = new RichTextFragmentSimple();
+            fragment.Width = Width;
+            fragment.OverallParagraphStartCharIdx = OverallParagraphStartCharIdx;
+            fragment.charStarIdxWithinCurrentLine = charStarIdxWithinCurrentLine;
+            fragment.Fragidx = Fragidx;
+            return fragment;
+        }
     }
 }
