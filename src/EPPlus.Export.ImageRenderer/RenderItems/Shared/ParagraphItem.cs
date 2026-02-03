@@ -34,19 +34,21 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         TextFragmentCollection _textFragments;
         internal protected MeasurementFont _paragraphFont;
-
+        internal TextBodyItem ParentTextBody { get; set; }
         internal double ParagraphLineSpacing { get; private set; }
         internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
-        public ParagraphItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
+            ParentTextBody = textBody;
             Bounds.Name = "Paragraph";
             var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
             _paragraphFont = defaultFont;
         }
 
-        public ParagraphItem(DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty=null) : base(renderer, parent)
+        public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty=null) : base(renderer, parent)
         {
+            ParentTextBody = textBody; 
             IsFirstParagraph = p == p._paragraphs[0];
 
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
@@ -166,12 +168,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public void AddText(string text, ExcelTextFont font)
         {
             var measurer = new FontMeasurerTrueType();
-            var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), Bounds.Parent.Size.X);
+            var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), ParentTextBody.MaxWidth);
             var container = CreateTextRun(text, font, Bounds, string.Join("\r\n", displayText.ToArray()));
             container.BaseLineSpacing = _lineSpacingAscendantOnly;
             container.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
             Runs.Add(container);
-
+            Bounds.Width = container.Bounds.Width + 0.001; //TODO: fix for equal width issue
             container.Bounds.Name = $"Container{Runs.Count}";
         }
 
@@ -257,6 +259,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
             {
                 AddText(textIfEmpty, p.DefaultRunProperties);
+                Bounds.Width = Runs.Sum(x=>x.Bounds.Width);
             }
             else
             {
@@ -321,84 +324,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                             //Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
                         }
                     }
-                    ////if(p.TextRuns[i].IsFirstInParagraph)
-                    ////{
-                    ////    lastAdded.BaseLineSpacing = _textFragments.GetAscent(currentLineIdx) * ;
-                    ////}
-                    ////if (Runs.Count == 0)
-                    ////{
-                    ////    targetTxtRun.BaseLineSpacing = _lineSpacingAscendantOnly;
-                    ////}
-
-                    //////If there are multiple sizes/multiple fonts with multiple sizes
-                    ////if (_lsMultiplier.HasValue)
-                    ////{
-                    ////    var runFont = origTxtRun.GetMeasurementFont();
-                    ////    _measurer.SetFont(runFont);
-                    ////    targetTxtRun.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
-                    ////    targetTxtRun.BaseLineSpacing = _lsMultiplier.Value * _measurer.GetBaseLine().PointToPixel(true);
-                    ////    //Reset measurer font
-                    ////    _measurer.SetFont(_paragraphFont);
-                    ////}
-
-                    ////targetTxtRun.Bounds.Left = startingX;
-                    ////targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
-
-                    ////for (int i = 1; i < targetTxtRun.Lines.Count; i++)
-                    ////{
-
-                    ////}
-                    ////targetTxtRun.SetPerLineWidths(_textFragments.GetFragmentWidths(fragIdx));
-
-                    ////lineIdxAfter = currentLineIdx + targetTxtRun.Lines.Count - 1;
-
-                    //if (lastAdded.YIncreasePerLine.Count > 1)
-                    //{
-                    //    //We are on a new line
-
-                    //    //Ensure bounds of the largest font size have been calculated
-                    //    //Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
-
-
-                    //    ////Add its height to the bounds height as smaller fonts are irrelevant for height increase
-                    //    //Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
-
-                    //    //if (firstRunInLineIdx != 0)
-                    //    //{
-                    //    //    //Excel in addition adds the height to the first y-value as well
-                    //    //    Runs[firstRunInLineIdx].YIncreasePerLine[1] = Runs[idxLargestFontSize].BaseLineSpacing;
-                    //    //}
-
-                    //    widthOfCurrentLine = Runs.Last().PerLineWidth.Last();
-
-                    //    idxLargestFontSize = i;
-                    //    firstRunInLineIdx = i;
-
-                    //    descentLastLine = _textFragments.GetDescent(currentLineIdx);
-                    //    //Update 
-                    //    currentLineIdx++;
-                    //    currentLine = _paragraphLines[currentLineIdx];
-                    //    ascentCurrentLine = _textFragments.GetAscent(currentLineIdx);
-                    //    //currentLineSize = lineSizes[currentLineIdx];
-                    //}
-                    //else
-                    //{
-                    //    widthOfCurrentLine += Runs.Last().PerLineWidth.Last();
-                    //    if (i == p.TextRuns.Count - 1)
-                    //    {
-                    //        Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
-                    //        Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
-                    //    }
-                    //}
+                    Bounds.Width = widthOfCurrentLine;
                 }
-
-                //var lastAdded = Runs.Last();
-                ////Apply correct linespacing to last line as well
-                //if (firstRunInLineIdx != 0)
-                //{
-                //    //Excel in addition adds the height to the first y-value as well
-                //    Runs[firstRunInLineIdx].YIncreasePerLine[1] = Runs[idxLargestFontSize].BaseLineSpacing;
-                //}
             }
         }
 

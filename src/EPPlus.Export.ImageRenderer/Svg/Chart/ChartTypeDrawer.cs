@@ -83,12 +83,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             internal LineChartTypeDrawer(SvgChart svgChart, ExcelChart chartType) : base(svgChart, chartType)
             {
+                var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+                RenderItems.Add(groupItem);
                 foreach (ExcelLineChartSerie serie in chartType.Series)
                 {
                     var yValues = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                     var xValues = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
                     AddLine(chartType, serie, xValues, yValues);
                 }
+                RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
             }
 
             private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues)
@@ -103,7 +106,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     yAxis = _svgChart.VerticalAxis;
                 }
-                var linePath = new SvgRenderPathItem(ChartRenderer, ChartRenderer.Bounds);
+                var linePath = new SvgRenderPathItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
                 var coords = new List<double>();
                 var markerItems = new List<RenderItem>();
 
@@ -147,7 +150,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 linePath.FillColor = "none"; // No fill for line
                 RenderItems.Add(linePath);
                 RenderItems.AddRange(markerItems);
-
             }
         }
         internal override void AppendRenderItems(List<RenderItem> renderItems)

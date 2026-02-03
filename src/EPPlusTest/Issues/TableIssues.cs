@@ -410,5 +410,14 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual("ROW()-1", sheet1.Cells["A2"].Formula);
             }
         }
+        [TestMethod]
+        public void s997()
+        {
+            using (var package = OpenTemplatePackage("s997.xlsx"))
+            {
+                var t = package.Workbook.Worksheets.First().Tables;
+                SaveAndCleanup(package);
+            }
+        }
+        }
     }
-}

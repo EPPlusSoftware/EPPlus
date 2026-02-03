@@ -7,6 +7,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -19,18 +20,34 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, bool clampedToParent = false) : base(renderer, parent)
         {
             Bounds.ClampedToParent = clampedToParent;
+            MaxWidth = parent.Width;
+            MaxHeight = parent.Height;
+            //Bounds.Width = MaxWidth;
+            //Bounds.Height = MaxHeight;
         }
-
+        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false) : base(renderer, parent)
+        {
+            Bounds.Left = left;
+            Bounds.Top = top;
+            Bounds.Width = maxWidth;
+            Bounds.Height = maxHeight;
+            MaxWidth = maxWidth;
+            MaxHeight = maxHeight;
+            Bounds.ClampedToParent = clampedToParent;
+        }
         internal override List<ParagraphItem> Paragraphs { get; set; } = new List<ParagraphItem>();
 
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            //sb.AppendLine($"<g transform=\"translate({Bounds.GlobalX.ToString(CultureInfo.InvariantCulture)},{Bounds.GlobalY.ToString(CultureInfo.InvariantCulture)})\" ");
-            ////base.Render(sb);
-            //sb.Append(" >");
-            //sb.AppendLine($"<title>txtBody</title>");
-            
-            var groupItem = new SvgGroupItem(DrawingRenderer, Bounds, Bounds.Rotation);
+            SvgGroupItem groupItem;
+            if (Bounds.Parent.Rotation == 0) //If the parent is rotated, we should not apply rotation again. This is usually when the parent is a textbox.
+            {
+                groupItem = new SvgGroupItem(DrawingRenderer, Bounds, Bounds.Rotation);
+            }
+            else
+            {
+                groupItem = new SvgGroupItem(DrawingRenderer, Bounds);
+            }
             renderItems.Add(groupItem);
             foreach (SvgParagraphItem item in Paragraphs)
             {
@@ -39,14 +56,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
         }
 
-        internal override ParagraphItem CreateParagraph(BoundingBox parent)
+        internal override ParagraphItem CreateParagraph(TextBodyItem textBody, BoundingBox parent)
         {
-            return new SvgParagraphItem(DrawingRenderer, parent);
+            return new SvgParagraphItem(this, DrawingRenderer, parent);
         }
 
-        internal override ParagraphItem CreateParagraph(ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty = null)
+        internal override ParagraphItem CreateParagraph(TextBodyItem textBody, ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty = null)
         {
-            return new SvgParagraphItem(DrawingRenderer, parent, paragraph, textIfEmpty);
+            return new SvgParagraphItem(this, DrawingRenderer, parent, paragraph, textIfEmpty);
         }
     }
 }

@@ -89,11 +89,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
             if(Lines.Count==1)
             {
-                Bounds.Width = parent.Width;
+                //Bounds.Width = parent.Width;
+                GetBounds(out double il, out double it, out double ir, out double ib); //TODO: remove when calc works
             }
             else
             {
                 //Measure text.
+                GetBounds(out double il, out double it, out double ir, out double ib); //TODO: remove when calc works
             }
             _isItalic = font.Italic;
             _isBold = font.Bold;

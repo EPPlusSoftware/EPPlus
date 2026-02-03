@@ -82,7 +82,7 @@ namespace EPPlusImageRenderer.Svg
                                 {
                                     ll = sc.Legend.Rectangle.Right + sc.Legend.RightMargin;
                                 }
-                                Rectangle.X = Title == null ? ll : Title.Rectangle.Right;
+                                Rectangle.Left = Title == null ? ll : Title.Rectangle.Right;
                             }
                             else
                             {
@@ -90,15 +90,15 @@ namespace EPPlusImageRenderer.Svg
                                 var lp = sc.ChartArea.Width - Rectangle.Width - 8D;
                                 if (sc.Chart.Legend.Position == eLegendPosition.Right)
                                 {
-                                    lp = sc.Legend.Rectangle.X + -Rectangle.Width;
+                                    lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
                                 }
-                                Rectangle.X = Title == null ? lp : Title.Rectangle.X - Rectangle.Width;
+                                Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width;
                             }
                         }
                         else
                         {
                             Rectangle.Height = GetTextHeight(sc, ax);
-                            Rectangle.Y = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Height - 8 - Rectangle.Height : Title.Rectangle.Y - Rectangle.Height - 8;
+                            Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
                         }
                     }
 
@@ -283,7 +283,18 @@ namespace EPPlusImageRenderer.Svg
             var mf = Axis.Font.GetMeasureFont();
             var axisStyle = GetAxisStyleEntry();
             var ret= new List<SvgTextBoxItem>();
-            for (var i=0;i < AxisValues.Count;i++)
+            double maxWidth, maxHeight;
+            if(Axis.AxisPosition==eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
+            {
+                maxWidth = SvgChart.ChartArea.Bounds.Width / 3; //TODO: Check this value.
+                maxHeight = Rectangle.Height / AxisValues.Count;
+            }
+            else
+            {
+                maxWidth = Rectangle.Width / AxisValues.Count;
+                maxHeight = SvgChart.ChartArea.Bounds.Height / 3; //TODO: Check this value.
+            }
+            for (var i = 0; i < AxisValues.Count; i++)
             {
                 var v = AxisValues[i];
                 var m = tm.MeasureText(v, mf);
@@ -294,8 +305,9 @@ namespace EPPlusImageRenderer.Svg
                 //bounds.Left = x;
                 //bounds.Top = y;
                 var width = m.Width.PointToPixel();
-                var height = m.Height.PointToPixel(); 
-                var tb = new SvgTextBoxItem(SvgChart, Rectangle.Bounds, x, y, width, height);
+                var height = m.Height.PointToPixel();
+                var tb = new SvgTextBoxItem(SvgChart, Rectangle.Bounds, x, y, width, height, maxWidth, maxHeight);
+
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
                 tb.TextBody.ImportParagraph(p, 0, v);
 
@@ -309,7 +321,7 @@ namespace EPPlusImageRenderer.Svg
         private double GetAxisItemLeft(int i, OfficeOpenXml.Interfaces.Drawing.Text.TextMeasurement m)
         {
             if (Axis.AxisPosition == eAxisPosition.Left)
-            {
+                {
                 return Rectangle.Left;
             }
             else if (Axis.AxisPosition == eAxisPosition.Right)
@@ -337,11 +349,11 @@ namespace EPPlusImageRenderer.Svg
         {
             if (Axis.AxisPosition == eAxisPosition.Top)
             {
-                return Rectangle.Top - m.Height.PointToPixel();
+                return Rectangle.Top - m.Height.PointToPixel() - TopMargin;
             }
             else if (Axis.AxisPosition == eAxisPosition.Bottom)
             {
-                return Rectangle.Bottom - m.Height.PointToPixel();
+                return Rectangle.Bottom - m.Height.PointToPixel() + BottomMargin;
             }
             else
             {
@@ -507,27 +519,23 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (Axis.AxisType == eAxisType.Cat)
                 {
-                    //var index = Values.IndexOf(val);
-                    //if (index < 0) return -1;
                     var majorHeight = SvgChart.Plotarea.Rectangle.Height / Max;
-                    return (/*SvgChart.Plotarea.Rectangle.Top +*/ majorHeight * (int)val + (majorHeight / 2));
+                    return (majorHeight * (int)val + (majorHeight / 2));
                 }
                 else
                 {
                     var dVal = ConvertUtil.GetValueDouble(val, false, true);
                     if (dVal < Min || dVal > Max) return double.NaN;
                     var diff = Max - Min;
-                    return (/*SvgChart.Plotarea.Rectangle.Top + */((Max-dVal) / diff * SvgChart.Plotarea.Rectangle.Height));
+                    return (((Max-dVal) / diff * SvgChart.Plotarea.Rectangle.Height));
                 }
             }
             else
             {
                 if (Axis.AxisType == eAxisType.Cat)
                 {
-                    //var index = Values[(int)val];
-                    //if (index < 0) return -1;
                     var majorWidth = SvgChart.Plotarea.Rectangle.Width / Max;
-                    return (/*SvgChart.Plotarea.Rectangle.Left + */majorWidth * (int)val + (majorWidth / 2));
+                    return (majorWidth * (int)val + (majorWidth / 2));
                 }
                 else
                 {
@@ -592,7 +600,7 @@ namespace EPPlusImageRenderer.Svg
                 else
                 {
                     var diffFromZero = (max - min) / max;
-                    if (diffFromZero > 0.091)
+                    if (diffFromZero > 0.091 && min > 0D)
                     {
                         min = 0;
                     }
@@ -647,13 +655,20 @@ namespace EPPlusImageRenderer.Svg
 
         private double GetAutoUnit(double min, double max)
         {
-            var diff = max - min;
-            if (diff < 8)
+            //if (diff < 8)
+            //{
+            //    return 1;
+            //}
+            //else
+            //{
+            if (min < 0)
             {
-                return 1;
+                var diff = max - min;
+                return 0;
             }
             else
             {
+                var diff = max - min;
                 var rawMajorUnit = diff;
                 var exponent = Math.Floor(Math.Log10(rawMajorUnit));
                 var fraction = rawMajorUnit / (Math.Pow(10, exponent));
@@ -684,6 +699,7 @@ namespace EPPlusImageRenderer.Svg
                 axMax = Math.Ceiling(max / axMax) * axMax;
                 return axMax / 10;
             }
+            //}
         }
 
     }

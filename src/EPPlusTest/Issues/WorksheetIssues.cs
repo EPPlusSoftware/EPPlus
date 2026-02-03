@@ -1069,5 +1069,25 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void testRepro()
+        {
+            SwitchToCulture("");
+            using (ExcelPackage p = OpenTemplatePackage("reproTimesheets - Copy.xlsx"))
+            {
+                var Styles = p.Workbook.Styles;
+
+                p.Workbook.Worksheets[0].Cells["A10"].Style.Font.Bold = true;
+                p.Workbook.Worksheets[0].Cells["A10"].Value = "Debugging";
+
+                p.Workbook.Worksheets.Add("SomeSheet");
+                p.Workbook.Worksheets[1].Cells["A10"].Value = "Debugging2";
+
+                Stream fs = File.Create(("C:\\epplusTest\\Testoutput\\" + "reproTimesheets.xlsx").Replace("file://", ""));
+                p.SaveAs(fs);
+                fs.Close();
+            }
+            SwitchBackToCurrentCulture();
+        }
     }
 }

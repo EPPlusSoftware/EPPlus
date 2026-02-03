@@ -57,8 +57,8 @@ namespace EPPlusImageRenderer.RenderItems
             }
             if(rotation!=0)
             {
-                var cx = parent.Width / 2 + parent.Left;
-                var cy = parent.Height / 2 + parent.Top;
+                var cx = parent.Width / 2;
+                var cy = parent.Height / 2;
                 if (cx == 0 && cy == 0)
                 {
                     rot = $"rotate({rotation.ToString(CultureInfo.InvariantCulture)}))";

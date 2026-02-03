@@ -270,10 +270,11 @@ namespace OfficeOpenXml.Data.Connection
             }
 
             cx.CustomXml.LoadXml($"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><DataMashup xmlns=\"{Schemas.schemaDataMashup}\">{Convert.ToBase64String(retMs.ToArray())}</DataMashup>");
-            customXml.Add(cx);
+            if (customXml.Contains(cx) == false)
+            {
+                customXml.Add(cx);
+            }
         }
-
-
         private byte[] GetMetaDataBytes()
         {
             var bw = new BinaryWriter(new MemoryStream());

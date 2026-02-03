@@ -8,32 +8,17 @@ namespace EPPlus.Graphics
 {
     internal class BoundingBox : Transform
     {
-        //internal Transform Transform { get; }
-
-        //private BoundingBox _parent = null;
-
-        //internal BoundingBox Parent { get { return base.; } set { _parent = value; Transform.Parent = value.Transform; } }
-
         internal bool ClampedToParent { get; set; } = false;
 
         internal BoundingBox() : base()
         {
-            //Transform = new Transform();
         }
 
         internal BoundingBox(double width, double height) : base(0, 0, width, height)
         {
-            //Left = 0;
-            //Top = 0;
-            //Right = width;
-            //Bottom = height;
         }
         internal BoundingBox(double left, double top, double right, double bottom) : base(left,top, right-left, bottom-top)
         {
-            //Left = left;
-            //Top = top;
-            //Right = right;
-            //Bottom = bottom;
         }
 
         /// <summary>
@@ -125,6 +110,20 @@ namespace EPPlus.Graphics
             set
             {
                 Size = new Vector2(Size.X, value);
+            }
+        }
+        internal double GlobalLeft
+        {
+            get
+            {
+                return Position.X;
+            }
+        }
+        internal double GlobalTop
+        {
+            get
+            {
+                return Position.Y;
             }
         }
     }
