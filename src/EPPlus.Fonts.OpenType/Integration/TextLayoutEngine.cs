@@ -1,0 +1,303 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  01/20/2025         EPPlus Software AB           TextLayoutEngine implementation
+  01/22/2025         EPPlus Software AB           Optimized with shaping cache
+  01/23/2025         EPPlus Software AB           Added ArrayPool optimization
+  01/23/2025         EPPlus Software AB           Added space width cache
+  01/24/2025         EPPlus Software AB           Added StringBuilder pooling (.NET 3.5 compatible)
+ *************************************************************************************************/
+using EPPlus.Fonts.OpenType.TextShaping;
+using EPPlus.Fonts.OpenType.Utilities;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace EPPlus.Fonts.OpenType.Integration
+{
+    /// <summary>
+    /// Handles text wrapping and layout using proper OpenType shaping.
+    /// Replaces the old TextData wrapping logic.
+    /// </summary>
+    public partial class TextLayoutEngine : IDisposable
+    {
+        private readonly ITextShaper _shaper;
+        private readonly List<string> _fontDirectories;
+        private readonly bool _searchSystemDirectories;
+        private readonly Dictionary<string, ITextShaper> _shaperCache;
+
+        // Space width cache - avoids repeated Shape(" ") calls
+        private readonly Dictionary<float, double> _spaceWidthCache;
+
+        // ArrayPool buffer - only ONE buffer for entire class
+        private double[] _charWidthBuffer = null;
+        private int _charWidthBufferCapacity = 0;
+
+        // StringBuilder pooling - reuse between wrapping operations
+        private readonly StringBuilder _lineBuilder = new StringBuilder(256);
+
+        private List<string> _lineListBuffer = new List<string>(256);
+        private bool _disposed = false;
+
+        /// <summary>
+        /// Creates a TextLayoutEngine for single-font text wrapping.
+        /// </summary>
+        public TextLayoutEngine(
+            ITextShaper shaper,
+            List<string> fontDirectories = null,
+            bool searchSystemDirectories = true)
+        {
+            _shaper = shaper ?? throw new ArgumentNullException(nameof(shaper));
+            _fontDirectories = fontDirectories ?? new List<string>();
+            _searchSystemDirectories = searchSystemDirectories;
+            _shaperCache = new Dictionary<string, ITextShaper>();
+            _spaceWidthCache = new Dictionary<float, double>();
+        }
+
+        public double GetLineHeightInPoints(double fontSize)
+        {
+            return _shaper.GetLineHeightInPoints(fontSize);
+        }
+
+        public double GetBaseLineInPoints(double fontSize)
+        {
+            return _shaper.GetBaseLineInPoints(fontSize);
+        }
+
+        public double GetDescentInPoints(double fontSize)
+        {
+            return _shaper.GetDescentInPoints(fontSize);
+        }
+
+        /// <summary>
+        /// Gets a char width buffer with at least the specified capacity.
+        /// Reuses existing buffer if large enough, otherwise rents larger one from pool.
+        /// </summary>
+        private double[] GetCharWidthBuffer(int minimumLength)
+        {
+            return ArrayPoolHelper<double>.EnsureCapacity(
+                ref _charWidthBuffer,
+                ref _charWidthBufferCapacity,
+                minimumLength,
+                clearArray: false
+            );
+        }
+
+        /// <summary>
+        /// Gets cached space width for the given font size.
+        /// Caches the result to avoid repeated Shape(" ") calls.
+        /// </summary>
+        private double GetCachedSpaceWidth(float fontSize, ShapingOptions options)
+        {
+            // Check cache first
+            if (_spaceWidthCache.TryGetValue(fontSize, out double cachedWidth))
+            {
+                return cachedWidth;
+            }
+
+            // Measure and cache
+            double width = MeasureText(" ", fontSize, options);
+            _spaceWidthCache[fontSize] = width;
+
+            return width;
+        }
+
+        public List<string> WrapText(
+            string text,
+            float fontSize,
+            double maxWidthPoints,
+            ShapingOptions options = null)
+        {
+            return WrapText(text, fontSize, maxWidthPoints, 0, options);
+        }
+
+        public List<string> WrapText(
+            string text,
+            float fontSize,
+            double maxWidthPoints,
+            double preExistingWidthPoints,
+            ShapingOptions options = null)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return new List<string> { string.Empty };
+            }
+
+            options = options ?? ShapingOptions.Default;
+            var lines = new List<string>();
+
+            var paragraphs = text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+
+            bool isFirstLine = true;
+            foreach (var paragraph in paragraphs)
+            {
+                if (string.IsNullOrEmpty(paragraph))
+                {
+                    lines.Add(string.Empty);
+                    isFirstLine = false;
+                    continue;
+                }
+
+                double startingWidth = isFirstLine ? preExistingWidthPoints : 0;
+                var wrappedLines = WrapParagraph(paragraph, fontSize, maxWidthPoints, startingWidth, options);
+                lines.AddRange(wrappedLines);
+
+                isFirstLine = false;
+            }
+
+            return lines;
+        }
+
+        private List<string> WrapParagraph(
+            string text,
+            float fontSize,
+            double maxWidthPoints,
+            double startingWidthPoints,
+            ShapingOptions options)
+        {
+            _lineListBuffer.Clear();
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return CreateEmptyResult();
+            }
+
+            var charWidths = CalculateCharacterWidths(text, fontSize, options);
+
+            var state = new WrapState(startingWidthPoints, GetCachedSpaceWidth(fontSize, options));
+
+           PrepareLineBuilder(text.Length);
+
+            for (int i = 0; i <= text.Length; i++)
+            {
+                var charType = GetCharacterType(text, i);
+
+                if (state.IsCompleteWordReady(charType, i))  // ← Använd state
+                {
+                    ProcessCompleteWord(text, state, i, maxWidthPoints);
+                }
+                else if (charType == CharacterType.Space)
+                {
+                    state.WordStart = i + 1;  // ← Använd state
+                }
+                else if (charType == CharacterType.Regular)
+                {
+                    ProcessCharacterInWord(text, charWidths, state, i, maxWidthPoints);
+                }
+            }
+
+            return FinalizeWrapping();
+        }
+       
+
+        private double MeasureText(string text, float fontSize, ShapingOptions options)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return 0;
+            }
+
+            var shaped = _shaper.Shape(text, options);
+            return shaped.GetWidthInPoints(fontSize, _shaper.UnitsPerEm);
+        }
+
+        private ITextShaper GetShaperForFont(MeasurementFont font)
+        {
+            string cacheKey = string.Format("{0}_{1}", font.FontFamily, GetFontSubFamily(font.Style));
+
+            if (_shaperCache.TryGetValue(cacheKey, out var cachedShaper))
+            {
+                return cachedShaper;
+            }
+
+            var openTypeFont = OpenTypeFonts.GetFontData(
+                fontDirectories: _fontDirectories,
+                fontName: font.FontFamily,
+                subFamily: GetFontSubFamily(font.Style),
+                searchSystemDirectories: _searchSystemDirectories
+            );
+
+            var shaper = new TextShaper(openTypeFont);
+            _shaperCache[cacheKey] = shaper;
+
+            return shaper;
+        }
+
+        private FontSubFamily GetFontSubFamily(MeasurementFontStyles style)
+        {
+            if ((style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) ==
+                (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
+            {
+                return FontSubFamily.BoldItalic;
+            }
+            else if ((style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
+            {
+                return FontSubFamily.Bold;
+            }
+            else if ((style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
+            {
+                return FontSubFamily.Italic;
+            }
+
+            return FontSubFamily.Regular;
+        }
+
+        #region IDisposable Implementation
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    // Return buffer to pool
+                    if (_charWidthBuffer != null)
+                    {
+                        ArrayPoolHelper<double>.SafeReturn(ref _charWidthBuffer, clearArray: false);
+                        _charWidthBufferCapacity = 0;
+                    }
+
+                    // Clear StringBuilder to release string references (.NET 3.5 compatible)
+                    _lineBuilder.Length = 0;
+
+                    // Dispose cached shapers
+                    foreach (var shaper in _shaperCache.Values)
+                    {
+                        if (shaper is IDisposable disposable)
+                        {
+                            disposable.Dispose();
+                        }
+                    }
+                    _shaperCache.Clear();
+
+                    // Clear space width cache
+                    _spaceWidthCache.Clear();
+                }
+
+                _disposed = true;
+            }
+        }
+
+        ~TextLayoutEngine()
+        {
+            Dispose(false);
+        }
+
+        #endregion
+    }
+}

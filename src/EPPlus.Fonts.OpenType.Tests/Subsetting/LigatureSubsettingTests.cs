@@ -20,13 +20,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
     [TestClass]
     public class LigatureSubsettingTests : FontTestBase
     {
-        public TestContext TestContext { get; set; }
-
-        [ClassInitialize]
-        public static void Initialize(TestContext testContext)
-        {
-            FontDirectoriesTestHelper.ClassInitialize(testContext);
-        }
+        public override TestContext? TestContext { get; set; }
 
         [TestMethod]
         public void Subset_Abc_ShouldHaveNoLigatures()
@@ -34,7 +28,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset(new[] { 'a', 'b', 'c' });
 
-            SaveFont("ligature_test_abc.ttf", subset);
+            SaveFontForCurrentTest(subset);
 
             int ligCount = FontTestHelper.CountLigatures(subset);
             Assert.AreEqual(0, ligCount, "abc should have NO ligatures");
@@ -46,7 +40,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("fiffig");
 
-            SaveFont("ligature_test_fiffig.ttf", subset);
+            SaveFontForCurrentTest(subset);
 
             int ligCount = FontTestHelper.CountLigatures(subset);
             Assert.AreEqual(3, ligCount, "fiffig should have fi, ff, ffi ligatures");
@@ -58,7 +52,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("fi");
 
-            SaveFont("ligature_test_fi.ttf", subset);
+            SaveFontForCurrentTest(subset);
 
             int ligCount = FontTestHelper.CountLigatures(subset);
             Assert.IsTrue(ligCount >= 1, "fi should have at least fi ligature");
@@ -70,7 +64,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("ff");
 
-            SaveFont("ligature_test_ff.ttf", subset);
+            SaveFontForCurrentTest(subset);
 
             int ligCount = FontTestHelper.CountLigatures(subset);
             Assert.IsTrue(ligCount >= 1, "ff should have ff ligature");
@@ -86,7 +80,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset(text);
 
-            SaveFont($"ligature_test_{text}.ttf", subset);
+            SaveFontForCurrentTest(subset, text);
 
             Assert.IsNotNull(subset);
             FontTestHelper.AssertFontValid(subset);
@@ -102,7 +96,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("f");
 
-            SaveFont("ligature_test_f_only.ttf", subset);
+            SaveFontForCurrentTest(subset);
 
             // Should not crash, may or may not have ligatures
             Assert.IsNotNull(subset);
@@ -117,7 +111,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("office");
 
-            SaveFont("ligature_test_office.ttf", subset);
+            SaveFontForCurrentTest(subset);
 
             int ligCount = FontTestHelper.CountLigatures(subset);
             Assert.IsTrue(ligCount >= 1, "office should trigger ffi ligature");

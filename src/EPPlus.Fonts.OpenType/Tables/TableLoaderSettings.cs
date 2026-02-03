@@ -9,25 +9,30 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  01/14/2026         EPPlus Software AB           Added loader cache reference
  *************************************************************************************************/
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tables
 {
     internal class TableLoaderSettings
     {
-        internal FontsBinaryReader _readerRef { get; private set; }
         internal Dictionary<string, TableRecord> _tableRecordsRef { get; private set; }
         internal TableCache _tblCacheRef { get; private set; }
+        internal TableLoaderCache _loaderCacheRef { get; private set; }
 
-        internal TableLoaderSettings(FontsBinaryReader reader, Dictionary<string, TableRecord> records, TableCache tblCache) 
+        internal FontTableReaderFactory TableReaderFactory { get; private set; }
+
+        internal TableLoaderSettings(
+            FontTableReaderFactory tableReaderFactory,
+            Dictionary<string, TableRecord> records,
+            TableCache tblCache,
+            TableLoaderCache loaderCache)
         {
-            _readerRef = reader;
+            TableReaderFactory = tableReaderFactory;
             _tableRecordsRef = records;
             _tblCacheRef = tblCache;
+            _loaderCacheRef = loaderCache;
         }
     }
 }

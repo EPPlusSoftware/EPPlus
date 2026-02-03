@@ -124,19 +124,39 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
             if (processor == null)
                 return null;
 
-            // Rewrite LookupList
-            var newLookupList = RewriteLookupList(context, processor);
-            if (newLookupList == null || newLookupList.Lookups.Count == 0)
-                return null; // No positioning data remains
+            // 1. Rewrite LookupList first - creates lookup index mapping
+            LookupRewriteResult lookupResult = null;
+            if (this.LookupList != null)
+            {
+                lookupResult = RewriteLookupList(context, processor);
+                if (lookupResult == null || lookupResult.NewLookupList == null || lookupResult.NewLookupList.Lookups.Count == 0)
+                    return null; // No positioning data remains
+            }
+
+            // 2. Rewrite FeatureList - pass lookup index mapping, get feature index mapping back
+            FeatureRewriteResult featureResult = null;
+            if (this.FeatureList != null && lookupResult != null)
+            {
+                featureResult = this.FeatureList.Rewrite(context, lookupResult.OldToNewIndexMap);
+                if (featureResult == null || featureResult.NewFeatureList == null || featureResult.NewFeatureList.FeatureRecords.Count == 0)
+                    return null; // No features remain
+            }
+
+            // 3. Rewrite ScriptList - pass feature index mapping
+            ScriptListTable newScriptList = null;
+            if (this.ScriptList != null && featureResult != null)
+            {
+                newScriptList = this.ScriptList.Rewrite(context, featureResult.OldToNewIndexMap);
+            }
 
             // Create new GPOS table
             var newGpos = new GposTable
             {
                 MajorVersion = this.MajorVersion,
                 MinorVersion = this.MinorVersion,
-                ScriptList = this.ScriptList,    // Keep all scripts
-                FeatureList = this.FeatureList,  // Keep all features
-                LookupList = newLookupList
+                ScriptList = newScriptList,
+                FeatureList = featureResult.NewFeatureList,
+                LookupList = lookupResult.NewLookupList
             };
 
             return newGpos;
@@ -145,18 +165,23 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
         /// <summary>
         /// Rewrites the LookupList by processing each lookup through its handler.
         /// </summary>
-        private LookupListTable RewriteLookupList(FontSubsettingContext context, GposSubsetProcessor processor)
+        private LookupRewriteResult RewriteLookupList(FontSubsettingContext context, GposSubsetProcessor processor)
         {
             if (this.LookupList == null)
                 return null;
 
             var newLookups = new List<LookupTable>();
+            var oldToNewIndexMap = new Dictionary<int, int>();
 
-            foreach (var lookup in this.LookupList.Lookups)
+            for (int oldIndex = 0; oldIndex < this.LookupList.Lookups.Count; oldIndex++)
             {
+                var lookup = this.LookupList.Lookups[oldIndex];
                 var rewrittenLookup = processor.RewriteLookup(context, lookup);
+
                 if (rewrittenLookup != null && rewrittenLookup.SubTables.Count > 0)
                 {
+                    int newIndex = newLookups.Count;
+                    oldToNewIndexMap[oldIndex] = newIndex;
                     newLookups.Add(rewrittenLookup);
                 }
             }
@@ -164,9 +189,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
             if (newLookups.Count == 0)
                 return null;
 
-            return new LookupListTable
+            return new LookupRewriteResult
             {
-                Lookups = newLookups
+                NewLookupList = new LookupListTable { Lookups = newLookups },
+                OldToNewIndexMap = oldToNewIndexMap
             };
         }
     }

@@ -11,10 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Subsetting;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
 {
@@ -122,33 +119,23 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
                 bool allComponentsMapped = true;
                 int baseCharacterCount = 0; // Track how many base characters we found
 
-                Debug.WriteLine($"\n=== Rewriting ligature: output={oldLig.LigatureGlyph} ===");
-                Debug.WriteLine($"Original components: [{string.Join(", ", oldLig.Components.Select(c => c.ToString()).ToArray())}]");
 
                 foreach (var oldCompGid in oldLig.Components)
                 {
-                    if (oldCompGid >= 400)
-                    {
-                        Debug.WriteLine($"  SKIP ligature component: {oldCompGid}");
-                        continue;
-                    }
 
                     baseCharacterCount++;
 
                     if (context.OldToNewGlyphId.TryGetValue(oldCompGid, out ushort newCompGid))
                     {
-                        Debug.WriteLine($"  MAP base character: {oldCompGid} → {newCompGid}");
                         newComponents.Add(newCompGid);
                     }
                     else
                     {
-                        Debug.WriteLine($"  MISSING in subset: {oldCompGid}");
                         allComponentsMapped = false;
                         break;
                     }
                 }
 
-                Debug.WriteLine($"Result components: [{string.Join(", ", newComponents.Select(c => c.ToString()).ToArray())}]");
 
                 // ✅ CRITICAL: Only add ligature if:
                 // 1. All required components mapped successfully

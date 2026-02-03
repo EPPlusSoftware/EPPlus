@@ -98,6 +98,8 @@ namespace EPPlus.Fonts.OpenType.Scanner
                 }
             }
 
+
+
             return faces;
         }
     }

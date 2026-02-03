@@ -358,5 +358,82 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             return null;
         }
 
+        /// <summary>
+        /// Returns the PostScript Name (nameID 6).
+        /// Follows OpenType recommendations:
+        /// 1. Prefer platform 3 (Windows) → UTF-16BE
+        /// 2. Then platform 1 (Macintosh) → MacRoman
+        /// 3. Then platform 0 (Unicode)
+        /// If no PostScript name exists, fallback to a sanitized FullFontName.
+        /// </summary>
+        public string PostScriptName
+        {
+            get
+            {
+                // 1. Windows (platform 3) – most reliable
+                var win = NameRecords
+                    .Where(r => r.RecordType == NameRecordTypes.PostScriptName && r.platformId == 3)
+                    .Select(r => r.Name)
+                    .FirstOrDefault(n => !string.IsNullOrEmpty(n));
+                if (!string.IsNullOrEmpty(win))
+                    return SanitizePsName(win);
+
+                // 2. Unicode (platform 0)
+                var uni = NameRecords
+                    .Where(r => r.RecordType == NameRecordTypes.PostScriptName && r.platformId == 0)
+                    .Select(r => r.Name)
+                    .FirstOrDefault(n => !string.IsNullOrEmpty(n));
+                if (!string.IsNullOrEmpty(uni))
+                    return SanitizePsName(uni);
+
+                // 3. Macintosh (platform 1)
+                var mac = NameRecords
+                    .Where(r => r.RecordType == NameRecordTypes.PostScriptName && r.platformId == 1)
+                    .Select(r => r.Name)
+                    .FirstOrDefault(n => !string.IsNullOrEmpty(n));
+                if (!string.IsNullOrEmpty(mac))
+                    return SanitizePsName(mac);
+
+                // 4. If nameID 6 is missing – fallback to FullFontName (Windows)
+                var full = GetFullFontName();
+                if (!string.IsNullOrEmpty(full))
+                    return SanitizePsName(full);
+
+                // 5. Last fallback
+                return "UnknownPSName";
+            }
+        }
+        /// <summary>
+        /// Sanitizes a name so it always becomes a valid PostScript-compatible font name.
+        /// Removes illegal characters and replaces whitespace with hyphens.
+        /// </summary>
+        private static string SanitizePsName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                return "UnknownPSName";
+
+            var sb = new StringBuilder(name.Length);
+
+            foreach (char c in name)
+            {
+                if (char.IsWhiteSpace(c))
+                {
+                    sb.Append('-');
+                    continue;
+                }
+
+                // Valid ASCII range for PostScript names
+                if (c >= 33 && c <= 126)
+                {
+                    sb.Append(c);
+                    continue;
+                }
+
+                // Skip invalid characters
+            }
+
+            // If everything got stripped
+            return sb.Length > 0 ? sb.ToString() : "UnknownPSName";
+        }
     }
 }

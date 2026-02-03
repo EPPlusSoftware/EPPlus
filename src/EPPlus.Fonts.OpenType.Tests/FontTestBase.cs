@@ -20,6 +20,11 @@ namespace EPPlus.Fonts.OpenType.Tests
     public abstract class FontTestBase
     {
         /// <summary>
+        /// Test context will be set by MsTest
+        /// </summary>
+        public abstract TestContext? TestContext { get; set; }
+
+        /// <summary>
         /// Gets the font folder path (for reading test fonts)
         /// </summary>
         protected static string FontFolder => FontDirectoriesTestHelper.FontFolder;
@@ -46,6 +51,31 @@ namespace EPPlus.Fonts.OpenType.Tests
         {
             return FontDirectoriesTestHelper.SaveFontToOutput(font, fileName);
         }
+
+        /// <summary>
+        /// Saves a font to the test output folder using the current test name as filename.
+        /// Automatically appends suffix if provided.
+        /// Skips silently if running in CI/CD environment.
+        /// </summary>
+        /// <param name="font">Font to save</param>
+        /// <param name="suffix">Optional suffix to append (e.g., "fi", "ff")</param>
+        /// <returns>FileInfo for saved file, or null if output not available</returns>
+        /// <example>
+        /// SaveFontForCurrentTest(subset);           // → "Subset_Ff_ShouldHaveFfLigature.ttf"
+        /// SaveFontForCurrentTest(subset, "fi");     // → "Subset_CommonLigatures_ShouldWork_fi.ttf"
+        /// </example>
+        protected FileInfo? SaveFontForCurrentTest(OpenTypeFont font, string suffix = "")
+        {
+            if (!IsTestOutputAvailable)
+                return null;
+
+            var testName = TestContext?.TestName ?? "UnknownTest";
+            var safeSuffix = string.IsNullOrWhiteSpace(suffix) ? "" : $"_{suffix}";
+            var fileName = $"{testName}{safeSuffix}.ttf";
+
+            return FontDirectoriesTestHelper.SaveFontToOutput(font, fileName);
+        }
+
 
         /// <summary>
         /// Gets a FileInfo for an output file in a subdirectory.
@@ -83,6 +113,12 @@ namespace EPPlus.Fonts.OpenType.Tests
         public void ClearAllCaches()
         {
             OpenTypeFonts.ClearFontCache();
+        }
+
+        [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
+        public static void BaseClassInitialize(TestContext context)
+        {
+            FontDirectoriesTestHelper.ClassInitialize(context);
         }
     }
 }

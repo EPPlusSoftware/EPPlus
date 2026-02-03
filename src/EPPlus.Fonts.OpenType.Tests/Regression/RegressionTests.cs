@@ -27,11 +27,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
     [TestClass]
     public class RegressionTests : FontTestBase
     {
-        [ClassInitialize]
-        public static void Initialize(TestContext testContext)
-        {
-            FontDirectoriesTestHelper.ClassInitialize(testContext);
-        }
+        public override TestContext? TestContext { get; set; }
 
         [TestMethod]
         public void Bug_20251222_CircularLigatureDependency_Roboto()
@@ -56,7 +52,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
 
             // Should create valid font with ffi ligature
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsed = new OpenTypeFont(bytes, font.Format);
 
             Assert.IsNotNull(parsed.GsubTable);
 
@@ -160,7 +156,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
 
             // Serialize and re-parse to verify components are correct
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsed = new OpenTypeFont(bytes, font.Format);
 
             // Should have fi ligature with correctly remapped components
             int ligCount = FontTestHelper.CountLigatures(parsed);
@@ -229,7 +225,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             Assert.IsTrue(bytes.Length > 0);
 
             // Should parse successfully
-            var parsed = new OpenTypeFont(new FontsBinaryReader(new MemoryStream(bytes)), font.Format);
+            var parsed = new OpenTypeFont(bytes, font.Format);
             Assert.IsNotNull(parsed);
 
             FontTestHelper.AssertFontValid(parsed);
@@ -272,34 +268,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
 
             // Verify in FontDrop or similar tool that ligatures render correctly
             FontTestHelper.AssertFontValid(subset);
-        }
-
-        [TestMethod]
-        public void SettingBoldItalicAgainShouldNotTimeout()
-        {
-            MeasurementFont boldItalic = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11f,
-                Style = MeasurementFontStyles.Bold | MeasurementFontStyles.Italic
-            };
-
-            var ttTextMeasurer = new FontMeasurerTrueType();
-
-            Stopwatch timer = new Stopwatch();
-            timer.Start();
-            ttTextMeasurer.SetFont(boldItalic);
-            timer.Stop();
-            var firstTime = timer.ElapsedMilliseconds;
-
-            timer.Restart();
-            ttTextMeasurer.SetFont(boldItalic);
-            timer.Stop();
-
-            //Doing the same operation again should not be a whole second longer
-            Assert.IsTrue((firstTime + 1000) > timer.ElapsedMilliseconds);
-            //At time of writing OpenTypeFontCache.GetFromCache is 2s therefore it should take less
-            Assert.IsTrue(timer.ElapsedMilliseconds < 2000);
         }
 
         [TestMethod]

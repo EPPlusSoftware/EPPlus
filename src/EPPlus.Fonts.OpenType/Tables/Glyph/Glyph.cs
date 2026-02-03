@@ -40,6 +40,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Glyph
 
         internal override void Serialize(FontsBinaryWriter writer)
         {
+            if (Header.numberOfContours == 0 && SimpleData == null && CompositeData == null)
+            {
+                return; // Don't write anything for empty glyphs!
+            }
             Header.Serialize(writer);
 
             if (Header.numberOfContours > 0 && SimpleData != null)

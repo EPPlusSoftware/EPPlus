@@ -10,14 +10,10 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tables.Head;
 using EPPlus.Fonts.OpenType.Tables.Loca;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -49,18 +45,14 @@ namespace EPPlus.Fonts.OpenType
                 ? HeadTable.IndexToLocFormats.Offset16
                 : HeadTable.IndexToLocFormats.Offset32;
 
-            // Uppdatera HeadTable också
+            // Update HeadTable
             subsetFont.HeadTable.IndexToLocFormat = indexToLocFormat;
 
-            // Bygg Loca-tabellen
+            // Build Loca-table for the subset
             subsetFont.AddOrReplaceTable(
                 LocaTable.CreateSubset(glyphSubsetResult.LocaOffsets, indexToLocFormat)
             );
 
-            //subsetFont.ReplaceTable(TableNames.Hmtx, BuildHmtxSubset(glyphIds));
-            //subsetFont.ReplaceTable(TableNames.Cmap, BuildCmapSubset(usedChars));
-
-            //subsetFont.RecalculateChecksums();
             return subsetFont;
         }
     }

@@ -16,7 +16,9 @@ using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts;
 using EPPlus.Fonts.OpenType.Utils;
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub
 {
@@ -107,27 +109,59 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
             newGsub.MajorVersion = this.MajorVersion;
             newGsub.MinorVersion = this.MinorVersion;
 
-            // 1. Skriv om Lookups först - detta skapar den nya listan OCH kartan över index-ändringar
+            // 1. Rewrite Lookups first - creates lookup index mapping
             LookupRewriteResult lookupResult = null;
             if (this.LookupList != null)
             {
                 lookupResult = this.LookupList.Rewrite(context);
+                if (lookupResult == null || lookupResult.NewLookupList == null || lookupResult.NewLookupList.Lookups.Count == 0)
+                {
+                    // No lookups remain - return null or minimal table
+                    return null;
+                }
                 newGsub.LookupList = lookupResult.NewLookupList;
             }
 
-            // 2. Skriv om FeatureList - skicka med kartan (OldToNewIndexMap)
+            // 2. Rewrite FeatureList - pass lookup index mapping, get feature index mapping back
+            FeatureRewriteResult featureResult = null;
             if (this.FeatureList != null && lookupResult != null)
             {
-                // Här behöver Rewrite-metoden ta emot kartan för att kunna peka om indexen korrekt
-                newGsub.FeatureList = this.FeatureList.Rewrite(context, lookupResult.OldToNewIndexMap);
+                featureResult = this.FeatureList.Rewrite(context, lookupResult.OldToNewIndexMap);
+                if (featureResult != null)
+                {
+                    Debug.WriteLine("\n=== FEATURE INDEX MAPPING ===");
+                    Debug.WriteLine($"Original features: {this.FeatureList.FeatureRecords.Count}");
+                    Debug.WriteLine($"New features: {featureResult.NewFeatureList.FeatureRecords.Count}");
+                    Debug.WriteLine($"Mapping entries: {featureResult.OldToNewIndexMap.Count}");
+
+                    Debug.WriteLine("\nMapping details:");
+                    foreach (var kvp in featureResult.OldToNewIndexMap.OrderBy(k => k.Key))
+                    {
+                        var oldFeature = this.FeatureList.FeatureRecords[kvp.Key];
+                        var newFeature = featureResult.NewFeatureList.FeatureRecords[kvp.Value];
+                        Debug.WriteLine($"  Old[{kvp.Key}] '{oldFeature.FeatureTag.Value}' → New[{kvp.Value}] '{newFeature.FeatureTag.Value}'");
+                    }
+
+                    Debug.WriteLine("\nOriginal script DFLT had features:");
+                    var origDflt = this.ScriptList.ScriptRecords.FirstOrDefault(s => s.ScriptTag.Value == "DFLT");
+                    if (origDflt?.ScriptTable?.DefaultLangSys != null)
+                    {
+                        var indices = string.Join(", ", origDflt.ScriptTable.DefaultLangSys.FeatureIndices.Select(i => i.ToString()).ToArray());
+                        Debug.WriteLine($"  [{indices}]");
+                    }
+                }
+                if (featureResult == null || featureResult.NewFeatureList == null || featureResult.NewFeatureList.FeatureRecords.Count == 0)
+                {
+                    // No features remain
+                    return null;
+                }
+                newGsub.FeatureList = featureResult.NewFeatureList;
             }
 
-            // 3. Skriv om ScriptList 
-            if (this.ScriptList != null)
+            // 3. Rewrite ScriptList - pass feature index mapping
+            if (this.ScriptList != null && featureResult != null)
             {
-                // ScriptList pekar på Feature-index. 
-                // Om du har tagit bort features i steg 2 behöver du en liknande karta här!
-                newGsub.ScriptList = this.ScriptList.Rewrite(context);
+                newGsub.ScriptList = this.ScriptList.Rewrite(context, featureResult.OldToNewIndexMap);
             }
 
             return newGsub;
