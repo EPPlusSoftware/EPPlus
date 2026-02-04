@@ -10,36 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using System.Globalization;
+using EPPlus.Export.Pdf.PdfSettings;
 
-namespace EPPlus.Export.Pdf.Pdfhelpers
+namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal static class PdfString
+    internal interface IShadingLayout
     {
-        internal static string ToPdfString(this double val)
-        {
-            return val.ToString(CultureInfo.InvariantCulture);
-        }
-        internal static string ToPdfStringF4(this double val)
-        {
-            return val.ToString("F4", CultureInfo.InvariantCulture);
-        }
-        internal static string ToPdfStringF0(this double val)
-        {
-            return val.ToString("F0", CultureInfo.InvariantCulture);
-        }
-
-        public static bool IsNullOrWhiteSpace(string s)
-        {
-            if (s == null)
-                return true;
-
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (!char.IsWhiteSpace(s[i]))
-                    return false;
-            }
-            return true;
-        }
+        abstract void UpdateShadingPositionMatrix(PdfPageSettings pageSettings);
     }
 }

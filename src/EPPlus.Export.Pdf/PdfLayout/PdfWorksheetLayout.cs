@@ -10,15 +10,18 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Graphics;
-using EPPlus.Graphics.Math;
-using EPPlus.Graphics.Units;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
+using EPPlus.Graphics.Units;
 using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Style.Table;
+using OfficeOpenXml.Table;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -43,37 +46,228 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if(worksheet.Column(col).Hidden) continue;
                     var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
                     var cell = worksheet.Cells[row, col];
+                    var cellStyle = new PdfCellStyleOverride();
+                    GetFillStyles(cell, cellStyle);
+                    GetBorderStyles(cell, cellStyle);
+                    GetFontStyles(cell, cellStyle);
+                    PdfCellBorderLayout border = HandleEdgeBorders(cell, cellStyle, x, y, width, height);
                     if (cell.Merge)
                     {
-                        HandleMergedCell(worksheet, pageSettings, dictionaries, cell, checkedMergedCells, x, y);
+                        HandleMergedCell(worksheet, pageSettings, dictionaries, cell, cellStyle, checkedMergedCells, x, y);
                     }
                     else
                     {
-                        HandleCell(pageSettings, dictionaries, cell, x, y, width, height);
+                        HandleCell(pageSettings, dictionaries, cell, x, y, width, height, cellStyle);
                     }
-                    HandleBorders(worksheet, cell, x, y, width, height);
+                    if (border != null) border.InitEdgeBorders(cell);
                     x += width;
                     totalWidth = System.Math.Max( x, totalWidth);
                 }
-                y += height;
+                y -= height;
             }
             HandleDrawings(worksheet);
             Size = new Vector2(totalWidth, y);
         }
 
+        private void GetBorderStyles(ExcelRangeBase cell, PdfCellStyleOverride cellStyle)
+        {
+
+            /* Kika på varje del av border top bottom left right
+             * om cell har top använd den
+             * om cell inte har border, gå igenom prio ordning på tabell borders och använd WholeTable om null.
+             * om cellein i tabellen är i mitten av tabellen använd horizontal och vertical border istället.
+             * I fallet top så ska om vi är i header row eller om cell fromrow är samma som table fromrow så ska top border vara top border. annar är det horizontal som gäller
+             * Glöm ej vertical border om fromcol är samma som tabell fromcol.
+             */
+            if (cell != null)
+            {
+                cellStyle.xfTop = cell.Style.Border.Top;
+                cellStyle.xfBottom = cell.Style.Border.Bottom;
+                cellStyle.xfLeft = cell.Style.Border.Left;
+                cellStyle.xfRight = cell.Style.Border.Right;
+                var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
+                if (tables.Count > 0)
+                {
+                    var table = tables[0].Value;
+                    ExcelTableNamedStyle tableStyle;
+                    if (table.TableStyle == TableStyles.Custom)
+                    {
+                        tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+                    }
+                    else
+                    {
+                        var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                        tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
+                        tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
+                    }
+                    cellStyle.dxfTop = PdfCellBorderLayout.GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle);
+                    cellStyle.dxfBottom = PdfCellBorderLayout.GetBottomBorderItem(cell, cellStyle.xfBottom, table, tableStyle);
+                    cellStyle.dxfLeft = PdfCellBorderLayout.GetLeftBorderItem(cell, cellStyle.xfLeft, table, tableStyle);
+                    cellStyle.dxfRight = PdfCellBorderLayout.GetRightBorderItem(cell, cellStyle.xfRight, table, tableStyle);
+                }
+            }
+        }
+
+        public void GetFillStyles( ExcelRangeBase cell, PdfCellStyleOverride cellStyle)
+        {
+            if (cell.Style.Fill.IsEmpty())
+            {
+                //Conditional Formating
+
+                //Table
+                var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
+                if (tables.Count > 0)
+                {
+                    var table = tables[0].Value;
+                    var range = table.Range;
+
+                    int tableRow = 0;
+                    int tableCol = 0;
+                    ExcelTableNamedStyle tableStyle;
+                    if (table.TableStyle == TableStyles.Custom)
+                    {
+                        tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+                    }
+                    else
+                    {
+                        var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                        tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
+                        tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
+                    }
+                    tableRow = cell._fromRow - range._fromRow;
+                    tableCol = cell._fromCol - range._fromCol;
+                    if (table.ShowHeader && tableRow == 0)
+                    {
+                        cellStyle.dxfFill = tableStyle.HeaderRow.Style.Fill;
+                    }
+                    else if (table.ShowTotal && range._toRow == cell._fromRow)
+                    {
+                        cellStyle.dxfFill = tableStyle.TotalRow.Style.Fill;
+                    }
+                    else if (table.ShowFirstColumn && tableCol == 0)
+                    {
+                        cellStyle.dxfFill = tableStyle.FirstColumn.Style.Fill;
+                    }
+                    else if (table.ShowLastColumn && range._toCol == cell._fromCol)
+                    {
+                        cellStyle.dxfFill = tableStyle.LastColumn.Style.Fill;
+                    }
+                    else if (table.ShowRowStripes)
+                    {
+                        cellStyle.dxfFill = (tableRow & 1) == 0 ? tableStyle.SecondRowStripe.Style.Fill : tableStyle.FirstRowStripe.Style.Fill;
+                    }
+                    else if (table.ShowColumnStripes)
+                    {
+                        cellStyle.dxfFill = (tableCol & 1) != 0 ? tableStyle.SecondColumnStripe.Style.Fill : tableStyle.FirstColumnStripe.Style.Fill;
+                    }
+                    else
+                    {
+                        cellStyle.dxfFill = tableStyle.WholeTable.Style.Fill;
+                    }
+                }
+            }
+            cellStyle.xfFill = cell.Style.Fill;
+        }
+        public void GetFontStyles(ExcelRangeBase cell, PdfCellStyleOverride cellStyle)
+        {
+            var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
+            if (tables.Count > 0)
+            {
+                var table = tables[0].Value;
+                var range = table.Range;
+                ExcelTableNamedStyle tableStyle;
+                if (table.TableStyle == TableStyles.Custom)
+                {
+                    tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+                }
+                else
+                {
+                    var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                    tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
+                    tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
+                }
+                int tableRow = cell._fromRow - range._fromRow;
+                int tableCol = cell._fromCol - range._fromCol;
+                var font = tableStyle.WholeTable.Style.Font;
+                if (table.ShowHeader && tableRow == 0)
+                {
+                    if (tableStyle.HeaderRow.Style.Font.HasValue)
+                    {
+                        font = tableStyle.HeaderRow.Style.Font;
+                    }
+                    if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Font.HasValue)
+                    {
+                        font = tableStyle.FirstHeaderCell.Style.Font;
+                    }
+                    if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Font.HasValue)
+                    {
+                        font = tableStyle.LastHeaderCell.Style.Font;
+                    }
+                }
+                else if (table.ShowTotal && cell._fromRow == range._toRow)
+                {
+                    if (tableStyle.TotalRow.Style.Font.HasValue)
+                    {
+                        font = tableStyle.TotalRow.Style.Font;
+                    }
+                    if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Font.HasValue)
+                    {
+                        font = tableStyle.FirstTotalCell.Style.Font;
+                    }
+                    if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Font.HasValue)
+                    {
+                        font = tableStyle.LastTotalCell.Style.Font;
+                    }
+                }
+                else
+                {
+                    if (table.ShowColumnStripes && (tableCol & 1) == 0)
+                    {
+                        font = tableStyle.FirstColumnStripe.Style.Font;
+                    }
+                    if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Top.HasValue && (tableCol & 1) != 0)
+                    {
+                        font = tableStyle.SecondColumnStripe.Style.Font;
+                    }
+                    if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Font.HasValue && (tableRow & 1) != 0)
+                    {
+                        font = tableStyle.FirstRowStripe.Style.Font;
+                    }
+                    if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Font.HasValue && (tableRow & 1) == 0)
+                    {
+                        font = tableStyle.SecondRowStripe.Style.Font;
+                    }
+                    if (table.ShowLastColumn && tableStyle.LastColumn.Style.Font.HasValue && cell._fromCol == range._toCol)
+                    {
+                        font = tableStyle.LastColumn.Style.Font;
+                    }
+                    if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Font.HasValue && tableCol == range._toCol)
+                    {
+                        font = tableStyle.FirstColumn.Style.Font;
+                    }
+                }
+                cellStyle.dxfFont = font;
+            }
+        }
+
         //Create cell.
-        private void HandleCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height)
+        private void HandleCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, PdfCellStyleOverride CellStyle)
         {
             //We add empty cells for gridline calculation later. We just marked them for deletion by addng * to their name.
             string deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol) ? "" : "*";
-            var cl0 = new PdfCellLayout(dictionaries, cell, x, y, width, height, 1, 1, 0, this);
+            var cl0 = new PdfCellLayout(dictionaries, cell, CellStyle, x, y, width, height, 1, 1, 0, this);
             cl0.Name = cell.Address + deleteMark;
             cl0.Z = 1;
-            AddCellContent(pageSettings, dictionaries, cell, x, y, width, height, 2);
+            AddCellContent(pageSettings, dictionaries, cell, CellStyle, x, y-height, width, height, 2);
+            var border = HandleDiagonalBorders(cell, CellStyle, x, y, width, height);
+            if (border != null)
+            {
+                border.InitDiagonalBorders(cell, width, height);
+            }
         }
 
         //Create merged cell.
-        private void HandleMergedCell(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, List<string> checkedMergedCells, double x, double y)
+        private void HandleMergedCell(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyleOverride CellStyle, List<string> checkedMergedCells, double x, double y)
         {
             string mergeAddress = worksheet.MergedCells[cell.Start.Row, cell.Start.Column];
             if (!checkedMergedCells.Contains(mergeAddress))
@@ -88,35 +282,58 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 {
                     width += UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
                 }
-                var mergedCell = AddChild(new PdfMergedCellLayout(dictionaries, worksheet.Cells[address._fromRow, address._fromCol], x, y, width, height));
-                mergedCell.Name = cell.Address;
+                var mergedCell = AddChild(new PdfMergedCellLayout(dictionaries, worksheet.Cells[address._fromRow, address._fromCol], CellStyle, x, y, width, height));
+                mergedCell.Name = cell.Address + "_m";
                 mergedCell.Z = 5;
-                AddCellContent(pageSettings, dictionaries, cell, x, y, width, height, 6);
+                AddCellContent(pageSettings, dictionaries, cell, CellStyle, x, y-height, width, height, 6);
                 checkedMergedCells.Add(mergeAddress);
+                var border = HandleDiagonalBorders(cell, null, x, y, width, height);
+                if (border != null)
+                {
+                    border.InitDiagonalBorders(cell, width, height);
+                    border.range = address.Address;
+                }
             }
         }
 
         //Create content.
-        private void AddCellContent(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, int zOrder)
+        private void AddCellContent(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyleOverride CellStyle, double x, double y, double width, double height, int zOrder)
         {
             if (!string.IsNullOrEmpty(cell.Text))
             {
-                var cellContent = new PdfCellContentLayout(cell, pageSettings, x, y, width, height, 1, 1, 0, this, dictionaries);
-                cellContent.Name = cell.Address;
+                var cellContent = new PdfCellContentLayout(cell, CellStyle, pageSettings, x, y, width, height, 1, 1, 0, this, dictionaries);
+                cellContent.Name = cell.Address + "_c";
                 cellContent.Z = zOrder;
             }
         }
 
-        //Create borders.
-        private void HandleBorders(ExcelWorksheet worksheet, ExcelRangeBase cell, double x, double y, double width, double height)
+        //Create Edge borders.
+        private PdfCellBorderLayout HandleEdgeBorders(ExcelRangeBase cell, PdfCellStyleOverride tableStyle, double x, double y, double width, double height)
         {
-            bool allNone = new[] { cell.Style.Border.Top.Style, cell.Style.Border.Bottom.Style, cell.Style.Border.Left.Style, cell.Style.Border.Right.Style, cell.Style.Border.Diagonal.Style }.All(s => s == ExcelBorderStyle.None);
-            if (!allNone)
+            bool edges = new[] { cell.Style.Border.Top.Style, cell.Style.Border.Bottom.Style, cell.Style.Border.Left.Style, cell.Style.Border.Right.Style }.All(s => s == ExcelBorderStyle.None);
+            bool edges2 = new[] { tableStyle.dxfTop, tableStyle.dxfBottom, tableStyle.dxfLeft, tableStyle.dxfRight }.Any(s => s != null && s.HasValue);
+            if (!edges || edges2)
             {
-                var clb0 = new PdfCellBorderLayout(cell, worksheet.Dimension, x, y, width, height, 1, 1, 0, this);
-                clb0.Name = cell.Address;
+                var clb0 = new PdfCellBorderLayout(cell, tableStyle, x, y, width, height, 1, 1, 0, this);
+                clb0.Name = cell.Address + "_b";
                 clb0.Z = 7;
+                return clb0;
             }
+            return null;
+        }
+
+        //Create Diagonal borders.
+        private PdfCellBorderLayout HandleDiagonalBorders(ExcelRangeBase cell, PdfCellStyleOverride TableStyle, double x, double y, double width, double height)
+        {
+            bool diagonals = new[] { cell.Style.Border.Diagonal.Style }.All(s => s == ExcelBorderStyle.None);
+            if (!diagonals)
+            {
+                var clb0 = new PdfCellBorderLayout(cell, TableStyle, x, y, width, height, 1, 1, 0, this);
+                clb0.Name = cell.Address + "_b";
+                clb0.Z = 7;
+                return clb0;
+            }
+            return null;
         }
 
         //Create drawings.

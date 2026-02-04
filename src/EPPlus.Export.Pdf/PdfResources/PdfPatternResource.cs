@@ -31,9 +31,9 @@ namespace EPPlus.Export.Pdf.PdfResources
         public PdfPattern GetPatternObject(int objectNumber, int version = 0)
         {
             this.objectNumber = objectNumber;
-            if (CellFillData.PattenStyle != ExcelFillStyle.None && CellFillData.PattenStyle != ExcelFillStyle.Solid)
+            if (CellFillData.PatternStyle != ExcelFillStyle.None && CellFillData.PatternStyle != ExcelFillStyle.Solid)
             {
-                switch (CellFillData.PattenStyle)
+                switch (CellFillData.PatternStyle)
                 {
                     case ExcelFillStyle.DarkGray:
                         return new PdfTilingPattern(objectNumber, new PdfPatternDarkGray(CellFillData.PatternColor, CellFillData.BackgroundColor), [0, 0, 4, 2], 4, 2, version);

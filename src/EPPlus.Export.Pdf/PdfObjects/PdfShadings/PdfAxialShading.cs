@@ -40,14 +40,14 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfShadings
                 func.Bounds = [0.5d];
                 func.Encode = [0d, 1d, 1d, 0d];
                 var f1 = new PdfExponentialInterpolationFunction(0);
-                f1.C0 = [GradientFillData.Color1.R, GradientFillData.Color1.G, GradientFillData.Color1.B];
-                f1.C1 = [GradientFillData.Color3.R, GradientFillData.Color3.G, GradientFillData.Color3.B];
+                f1.C0 = [GradientFillData.Color1.GetR(), GradientFillData.Color1.GetG(), GradientFillData.Color1.GetB()];
+                f1.C1 = [GradientFillData.Color3.GetR(), GradientFillData.Color3.GetG(), GradientFillData.Color3.GetB()];
                 f1.Domain = [0, 1];
                 f1.N = 1;
                 func.Functions.Add(f1);
                 var f2 = new PdfExponentialInterpolationFunction(0);
-                f2.C0 = [GradientFillData.Color2.R, GradientFillData.Color2.G, GradientFillData.Color2.B];
-                f2.C1 = [GradientFillData.Color3.R, GradientFillData.Color3.G, GradientFillData.Color3.B];
+                f2.C0 = [GradientFillData.Color2.GetR(), GradientFillData.Color2.GetG(), GradientFillData.Color2.GetB()];
+                f2.C1 = [GradientFillData.Color3.GetR(), GradientFillData.Color3.GetG(), GradientFillData.Color3.GetB()];
                 f2.Domain = [0, 1];
                 f2.N = 1;
                 func.Functions.Add(f2);
@@ -56,8 +56,8 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfShadings
             else
             {
                 var func = new PdfExponentialInterpolationFunction(0);
-                func.C0 = [GradientFillData.Color1.R, GradientFillData.Color1.G, GradientFillData.Color1.B];
-                func.C1 = [GradientFillData.Color2.R, GradientFillData.Color2.G, GradientFillData.Color2.B];
+                func.C0 = [GradientFillData.Color1.GetR(), GradientFillData.Color1.GetG(), GradientFillData.Color1.GetB()];
+                func.C1 = [GradientFillData.Color2.GetR(), GradientFillData.Color2.GetG(), GradientFillData.Color2.GetB()];
                 func.Domain = [0, 1];
                 func.N = 1;
                 Function = func;

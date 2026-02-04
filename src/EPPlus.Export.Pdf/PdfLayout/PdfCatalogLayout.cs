@@ -19,6 +19,7 @@ using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
+using OfficeOpenXml.Style.HeaderFooterTextFormat;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -48,8 +49,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
             HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
             string mergedCellsInPages = ToHierarchyString();
             ConvertToPDFCoordiantes(pageSettings, PagesLayout);
+            string ConvertedCoordinates = ToHierarchyString();
             AdjustAndSort(PagesLayout);
             RemoveChild(WorksheetLayout);
+            AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
             string FinalPagesLayout = ToHierarchyString();
         }
 
@@ -81,21 +84,21 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
             //Get y cooridiantes to break for new page
             List<double> yBreaks = new List<double>() { 0d };
-            double currentHeight = 0, boundsHegiht = pageSettings.ContentBounds.Height;
+            double currentHeight = 0, boundsHegiht = -pageSettings.ContentBounds.Height;
             for (int i = 1; i <= worksheet.Dimension._toRow; i++)
             {
                 if (worksheet.Row(i).Hidden) { continue; }
                 var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(i).Height);
-                if (currentHeight + height >= boundsHegiht)
+                if (currentHeight - height <= boundsHegiht)
                 {
                     yBreaks.Add(currentHeight);
-                    boundsHegiht = currentHeight + pageSettings.ContentBounds.Height;
+                    boundsHegiht = currentHeight - pageSettings.ContentBounds.Height;
                 }
-                currentHeight += height;
+                currentHeight -= height;
             }
             //calculate number of pages needed based on contentBounds and worksheetLayout.Size
             int horizontalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(worksheetLayout.Size.X / pageSettings.ContentBounds.Width));
-            int verticalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(worksheetLayout.Size.Y / pageSettings.ContentBounds.Height));
+            int verticalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(System.Math.Abs( worksheetLayout.Size.Y) / pageSettings.ContentBounds.Height));
             int totalPages = horizontalPageCount * verticalPageCount;
             //Create the new pages and place them in a grid.
             for (int i = 0; i < totalPages; i++)
@@ -112,13 +115,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     row = i / horizontalPageCount;
                 }
                 double x = col * pageSettings.PageSize.WidthPu;
-                double y = row * pageSettings.PageSize.HeightPu;
-                PdfPageLayout page = new PdfPageLayout(x, y, pageSettings.PageSize.WidthPu, pageSettings.PageSize.HeightPu);
+                double y = row * -pageSettings.PageSize.HeightPu;
+                PdfPageLayout page = new PdfPageLayout(x, y-pageSettings.PageSize.HeightPu, pageSettings.PageSize.WidthPu, pageSettings.PageSize.HeightPu);
                 page.Name = "Page " + (i + 1);
                 PdfContentLayout content = new PdfContentLayout(0, 0, pageSettings.ContentBounds);
                 content.Name = "Content " + (i + 1);
                 page.AddChild(content);
-                content.Position = new Vector2(xBreaks[col], yBreaks[row]); //We set position after making content a child of page otherwise positioning breaks and causes errors.
+                content.Position = new Vector2(xBreaks[col], yBreaks[row] - pageSettings.ContentBounds.Height); //We set position after making content a child of page otherwise positioning breaks and causes errors.
                 pages.AddChild(page);
             }
         }
@@ -145,11 +148,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
         //Handle merged cells and drawings by checking which pages intersects with them and then make copies for each page.
         private void HandleMergedCellsAndDrawings(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform WorksheetLayout, PdfPagesLayout pages)
         {
-            var mcd = WorksheetLayout.ChildObjects.Where(x => x is PdfMergedCellLayout || x is PdfCellContentLayout || x is PdfDrawingLayout).ToList();
+            var mcd = WorksheetLayout.ChildObjects.Where(x => x is PdfMergedCellLayout || x is PdfCellContentLayout || x is PdfCellBorderLayout || x is PdfDrawingLayout).ToList();
             foreach (var mergedCell in mcd)
             {
                 var m = mergedCell as PdfMergedCellLayout;
                 var c = mergedCell as PdfCellContentLayout;
+                var b = mergedCell as PdfCellBorderLayout;
                 var d = mergedCell as PdfDrawingLayout;
                 var bounds = mergedCell.GetGlobalBoundingbox();
                 foreach (var page in pages.ChildObjects)
@@ -158,16 +162,26 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     {
                         if (m is PdfMergedCellLayout)
                         {
-                            var copy = new PdfMergedCellLayout(dictionaries, m.cell, m.LocalPosition.X, m.LocalPosition.Y, m.Size.X, m.Size.Y, m.LocalScale.X, m.LocalScale.Y, m.LocalRotation, WorksheetLayout);
+                            var copy = new PdfMergedCellLayout(dictionaries, m.cell, m.CellStyle, m.LocalPosition.X, m.LocalPosition.Y + m.Size.Y, m.Size.X, m.Size.Y, m.LocalScale.X, m.LocalScale.Y, m.LocalRotation, WorksheetLayout);
                             copy.Name = m.Name;
                             copy.Z = m.Z;
                             page.ChildObjects[0].AddChild(copy);
                         }
                         else if (c is PdfCellContentLayout)
                         {
-                            var copy = new PdfCellContentLayout(c.cell, pageSettings, c.LocalPosition.X, c.LocalPosition.Y, c.Size.X, c.Size.Y, c.LocalScale.X, c.LocalScale.Y, c.LocalRotation, WorksheetLayout, dictionaries);
+                            var copy = new PdfCellContentLayout(c.cell, c.CellStyle, pageSettings, c.LocalPosition.X, c.LocalPosition.Y, c.Size.X, c.Size.Y, c.LocalScale.X, c.LocalScale.Y, c.LocalRotation, WorksheetLayout, dictionaries);
                             copy.Name = c.Name;
                             copy.Z = c.Z;
+                            page.ChildObjects[0].AddChild(copy);
+                        }
+                        else if (b is PdfCellBorderLayout)
+                        {
+                            var copy = new PdfCellBorderLayout(b.cell, null, b.LocalPosition.X, b.LocalPosition.Y + b.Size.Y, b.Size.X, b.Size.Y, b.LocalScale.X, b.LocalScale.Y, b.LocalRotation, WorksheetLayout);
+                            copy.Name = b.Name;
+                            copy.Z = b.Z;
+                            copy.BorderData = b.BorderData;
+                            copy.range = b.range;
+                            copy.IsMerged = b.IsMerged;
                             page.ChildObjects[0].AddChild(copy);
                         }
                         else if (d is PdfDrawingLayout) //NOT IMPLEMENTED
@@ -190,8 +204,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 foreach (var child in contentObjects)
                 {
                     page.AddChild(child);
-                    if (child is ILayout il)
-                        il.ConvertCoordinates(pageSettings);
+                    if (child is IShadingLayout iSl)
+                        iSl.UpdateShadingPositionMatrix(pageSettings);
+                    if (child is IBorderLayout iBl)
+                        iBl.UpdateLocalBorderPosition();
                 }
                 page.RemoveChild(page.ChildObjects[0]);
                 page.GenerateGridLines();
@@ -215,7 +231,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     {
                         contentLayout.CreateClippingRect(page.ChildObjects);
                     }
-                    if(child is PdfMergedCellLayout mergedLayout)
+                    if (child is PdfMergedCellLayout mergedLayout)
                     {
                         mergedLayout.AdjustForGridLines();
                     }
@@ -228,6 +244,85 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         return string.Compare(b.Name, a.Name, StringComparison.OrdinalIgnoreCase);
                     return cmp;
                 });
+            }
+        }
+
+        private void AddHeaderFooter(ExcelWorksheet ws, PdfPageSettings settings, PdfDictionaries dictionaries, PdfPagesLayout pages)
+        {
+            int pageNumber = 1;
+            //loop pages and check which header it should use
+            for (int i = 0; i < pages.ChildObjects.Count; i++)
+            {
+                ExcelHeaderFooterTextCollection leftH = null;
+                ExcelHeaderFooterTextCollection centerH = null;
+                ExcelHeaderFooterTextCollection rightH = null;
+                ExcelHeaderFooterTextCollection leftF = null;
+                ExcelHeaderFooterTextCollection centerF = null;
+                ExcelHeaderFooterTextCollection rightF = null;
+
+                if (ws.HeaderFooter.differentFirst && pageNumber == 1)
+                {
+                    leftH = ws.HeaderFooter.FirstHeader.LeftAligned;
+                    centerH = ws.HeaderFooter.FirstHeader.Centered;
+                    rightH =  ws.HeaderFooter.FirstHeader.RightAligned;
+                    leftF = ws.HeaderFooter.FirstFooter.LeftAligned;
+                    centerF = ws.HeaderFooter.FirstFooter.Centered;
+                    rightF = ws.HeaderFooter.FirstFooter.RightAligned;
+                    if (leftH.Text == "&L" && centerH.Text == "&C" && rightH.Text == "&R" && leftF.Text == "&L" && centerF.Text == "&C" && rightF.Text == "&R")
+                    {
+                        leftH = ws.HeaderFooter.OddHeader.LeftAligned;
+                        centerH = ws.HeaderFooter.OddHeader.Centered;
+                        rightH = ws.HeaderFooter.OddHeader.RightAligned;
+                        leftF = ws.HeaderFooter.OddFooter.LeftAligned;                                                                                                                                                                        
+                        centerF = ws.HeaderFooter.OddFooter.Centered;
+                        rightF = ws.HeaderFooter.OddFooter.RightAligned;
+                    }
+                }
+                else if (ws.HeaderFooter.differentOddEven && pageNumber % 2 == 0)
+                {
+                    leftH = ws.HeaderFooter.EvenHeader.LeftAligned;
+                    centerH = ws.HeaderFooter.EvenHeader.Centered;
+                    rightH = ws.HeaderFooter.EvenHeader.RightAligned;
+                    leftF = ws.HeaderFooter.EvenFooter.LeftAligned;
+                    centerF = ws.HeaderFooter.EvenFooter.Centered;
+                    rightF = ws.HeaderFooter.EvenFooter.RightAligned;
+                    if (leftH.Text == "&L" && centerH.Text == "&C" && rightH.Text == "&R" && leftF.Text == "&L" && centerF.Text == "&C" && rightF.Text == "&R")
+                    {
+                        leftH = ws.HeaderFooter.OddHeader.LeftAligned;
+                        centerH = ws.HeaderFooter.OddHeader.Centered;
+                        rightH = ws.HeaderFooter.OddHeader.RightAligned;
+                        leftF = ws.HeaderFooter.OddFooter.LeftAligned;
+                        centerF = ws.HeaderFooter.OddFooter.Centered;
+                        rightF = ws.HeaderFooter.OddFooter.RightAligned;
+                    }
+                }
+                else
+                {
+                    leftH = ws.HeaderFooter.OddHeader.LeftAligned;
+                    centerH = ws.HeaderFooter.OddHeader.Centered;
+                    rightH = ws.HeaderFooter.OddHeader.RightAligned;
+                    leftF = ws.HeaderFooter.OddFooter.LeftAligned;
+                    centerF = ws.HeaderFooter.OddFooter.Centered;
+                    rightF = ws.HeaderFooter.OddFooter.RightAligned;
+                }
+                var lh = (PdfHeaderFooterLayout)pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(leftH, ws, settings, dictionaries, pageNumber, pages.ChildObjects.Count));
+                lh.LocalPosition = new Vector2(settings.Margins.LeftPu, settings.PageSize.HeightPu - settings.Margins.HeaderPu);
+                lh.AdjustPositionByTextLength('l', 'h');
+                var ch = (PdfHeaderFooterLayout)pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(centerH, ws, settings, dictionaries, pageNumber, pages.ChildObjects.Count));
+                ch.LocalPosition = new Vector2(settings.PageSize.WidthPu / 2d, settings.PageSize.HeightPu - settings.Margins.HeaderPu);
+                ch.AdjustPositionByTextLength('c', 'h');
+                var rh = (PdfHeaderFooterLayout)pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(rightH, ws, settings, dictionaries, pageNumber, pages.ChildObjects.Count));
+                rh.LocalPosition = new Vector2(settings.PageSize.WidthPu - settings.Margins.RightPu, settings.PageSize.HeightPu - settings.Margins.HeaderPu);
+                rh.AdjustPositionByTextLength('r', 'h');
+                var lf = pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(leftF, ws, settings, dictionaries, pageNumber, pages.ChildObjects.Count));
+                lf.LocalPosition = new Vector2(settings.Margins.LeftPu, settings.Margins.FooterPu);
+                var cf = (PdfHeaderFooterLayout)pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(centerF, ws, settings, dictionaries, pageNumber, pages.ChildObjects.Count));
+                cf.LocalPosition = new Vector2(settings.PageSize.WidthPu / 2d, settings.Margins.FooterPu);
+                cf.AdjustPositionByTextLength('c', 'f');
+                var rf = (PdfHeaderFooterLayout)pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(rightF, ws, settings, dictionaries, pageNumber, pages.ChildObjects.Count));
+                rf.LocalPosition = new Vector2(settings.PageSize.WidthPu - settings.Margins.RightPu, settings.Margins.FooterPu);
+                rf.AdjustPositionByTextLength('r', 'f');
+                pageNumber++;
             }
         }
     }

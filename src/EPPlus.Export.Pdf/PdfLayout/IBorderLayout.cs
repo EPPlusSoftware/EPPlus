@@ -10,12 +10,11 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfSettings;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal interface ILayout
+    internal interface IBorderLayout
     {
-        void ConvertCoordinates(PdfPageSettings pageSettings);
+        abstract void UpdateLocalBorderPosition();
     }
 }

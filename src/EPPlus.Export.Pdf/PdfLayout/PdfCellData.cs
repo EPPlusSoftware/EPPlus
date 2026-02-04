@@ -10,49 +10,320 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Graphics.Math;
-using System.Drawing;
+using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
-using EPPlus.Export.Pdf.Pdfhelpers;
+using System.Drawing;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
-    internal class PdfTextLine
+    public enum PdfWritingMode
     {
+        HorizontalLtr,
+        HorizontalRtl,
+        VerticalTtb, // top-to-bottom
+        VerticalBtt, // bottom-to-top
+    }
+
+    internal class PdfCellLines
+    {
+        public bool IsRichText = false;
+        public PdfWritingMode WritingMode { get; set; } = PdfWritingMode.HorizontalLtr;
+
+        public List<PdfCellLine> Lines = new List<PdfCellLine>();
+        private string _text = null;
+        public string Text
+        {
+            get
+            {
+                _text = string.Empty;
+                foreach (var t in Lines)
+                {
+                    _text += t.Text;
+                }
+                return _text;
+            }
+        }
+
+        public double Height
+        {
+            get
+            {
+                double val = 0;
+                foreach (var l in Lines)
+                {
+                    val += l.LineHeight;
+                }
+                return val;
+            }
+        }
+
+        public double TextLength
+        {
+            get
+            {
+                double val = 0;
+                foreach (var tp in Lines)
+                {
+                    val = tp.TextLength > val ? tp.TextLength : val;
+                }
+                return val;
+            }
+        }
+        public double TextHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var tp in Lines)
+                {
+                    val = tp.TextHeight > val ? tp.TextHeight : val;
+                }
+                return val;
+            }
+        }
+        public double LineHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var tp in Lines)
+                {
+                    val = tp.LineHeight > val ? tp.LineHeight : val;
+                }
+                return val;
+            }
+        }
+        public double FontHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var tp in Lines)
+                {
+                    val = tp.FontHeight > val ? tp.FontHeight : val;
+                }
+                return val;
+            }
+        }
+    }
+
+    internal class PdfCellLine
+    {
+        public double Offset = 0d;
+        public List<PdfCellWord> Words = new List<PdfCellWord>();
+        private string _text = null;
+        public string Text
+        {
+            get
+            {
+                _text = string.Empty;
+                foreach (var t in Words)
+                {
+                    _text += t.Text;
+                }
+                return _text;
+            }
+        }
+
+        public double TextLength
+        {
+            get
+            {
+                double val = 0;
+                foreach (var w in Words)
+                {
+                    val += w.TextLength;
+                }
+                return val;
+            }
+        }
+        public double TextHeight
+        {
+            get
+            {
+                double val = 0;
+
+                int first = 0;
+                int last = Words.Count - 1;
+
+                while (first <= last && PdfString.IsNullOrWhiteSpace(Words[first].Text))
+                    first++;
+
+                while (last >= first && PdfString.IsNullOrWhiteSpace(Words[last].Text))
+                    last--;
+
+                // sum heights between them
+                for (int i = first; i <= last; i++)
+                {
+                    val += Words[i].TextHeight;
+                }
+
+                return val;
+            }
+        }
+        public double LineHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var w in Words)
+                {
+                    val = w.LineHeight > val ? w.LineHeight : val;
+                }
+                return val;
+            }
+        }
+        public double FontHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var w in Words)
+                {
+                    val = w.FontHeight > val ? w.FontHeight : val;
+                }
+                return val;
+            }
+        }
+    }
+
+    internal class PdfCellWord
+    {
+        public List<PdfCellTextItem> Characters = new List<PdfCellTextItem>();
+        private string _text = null;
+        public string Text
+        {
+            get
+            {
+                _text = string.Empty;
+                foreach (var t in Characters)
+                {
+                    _text += t.Text;
+                }
+                return _text;
+            } 
+        }
+
+        public double TextLength
+        {
+            get
+            {
+                double val = 0;
+                foreach (var c in Characters)
+                {
+                    val += c.TextLength;
+                }
+                return val;
+            }
+        }
+        public double TextHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var c in Characters)
+                {
+                    val += c.LineHeight;
+                }
+                return val;
+            }
+        }
+        public double LineHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var c in Characters)
+                {
+                    val = c.LineHeight > val ? c.LineHeight : val;
+                }
+                return val;
+            }
+        }
+        public double FontHeight
+        {
+            get
+            {
+                double val = 0;
+                foreach (var c in Characters)
+                {
+                    val = c.FontHeight > val ? c.FontHeight : val;
+                }
+                return val;
+            }
+        }
+    }
+
+    internal struct PdfCellTextItem
+    {
+        public string FontName;
+        public int FontFamily;
+        public FontSubFamily SubFamily;
+        public double FontSize;
+        public bool Bold;
+        public bool Italic;
+        public bool Strike;
+        public bool SubScript;
+        public bool SuperScript;
+        public bool Underline;
+        public ExcelUnderLineType UnderlineType;
         public string Text;
+        public Color FontColor;
         public double TextLength;
         public double LineHeight;
         public double FontHeight;
-        public double Offset;
-    }
-
-    internal class PdfCellFontData
-    {
-        public string FontName = "Aptos Narrow";
-        public int FontFamily = 0;
-        public FontSubFamily SubFamily = FontSubFamily.Regular;
-        public double FontSize = 11;
-        public bool Bold = false;
-        public bool Italic = false;
-        public bool Strike = false;
-        public bool SubScript = false;
-        public bool SuperScript = false;
-        public bool Underline = false;
-        public ExcelUnderLineType UnderlineType = ExcelUnderLineType.None;
-        public Color FontColor = Color.Black;
-        public List<PdfTextLine> Lines = new List<PdfTextLine>();
-        public double TextLength = 0d;
-        public double LineHeight = 0d;
-        public double FontHeight = 0d;
-        //public NumberFormatting;
-        //public ExcelRichTextCollection RichText;
+        public Rect GlyphBox;
+        public double characterOffset;
+        public List<GlyphPosition> GlyphPositions;
         public string FullFontName
         { get { return FontName + " " + SubFamily; } }
 
-        public PdfCellFontData() { }
+        //Compares stylings.
+        public bool Equals(PdfCellTextItem other)
+        {
+            if (!string.Equals(FontName, other.FontName))
+                return false;
+
+            if (FontFamily != other.FontFamily)
+                return false;
+
+            if (SubFamily != other.SubFamily)
+                return false;
+
+            if (FontSize != other.FontSize)
+                return false;
+
+            if (Bold != other.Bold ||
+                Italic != other.Italic ||
+                Strike != other.Strike ||
+                SubScript != other.SubScript ||
+                SuperScript != other.SuperScript ||
+                Underline != other.Underline)
+                return false;
+
+            if (UnderlineType != other.UnderlineType)
+                return false;
+
+            if (!FontColor.Equals(other.FontColor))
+                return false;
+
+            return true;
+        }
     }
+
+    internal class GlyphPosition
+    {
+        public char Character;
+        public double AdvanceX;
+        public double AdvanceY;
+        public double OffsetX;
+        public double OffsetY;
+        public Rect GlyphBox;
+    }
+
 
     internal class PdfCellGradientFillData
     {
@@ -78,7 +349,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
     {
         public string id;
         public Color BackgroundColor = Color.Empty;
-        public ExcelFillStyle PattenStyle = ExcelFillStyle.None;
+        public ExcelFillStyle PatternStyle = ExcelFillStyle.None;
         public Color PatternColor = Color.Black;
         //Fill Effects
         public PdfCellGradientFillData GradientFillData = null;
@@ -88,25 +359,55 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
     internal class PdfCellBordersData
     {
-        public PdfCellBorderData Top = new PdfCellBorderData(2, -2);
-        public PdfCellBorderData Bottom = new PdfCellBorderData(2, 2);
-        public PdfCellBorderData Left = new PdfCellBorderData(2, -2);
-        public PdfCellBorderData Right = new PdfCellBorderData(-2, -2);
-        public PdfCellBorderData DiagonalUp = new PdfCellBorderData(2, 2);
-        public PdfCellBorderData DiagonalDown = new PdfCellBorderData(2, 2);
+        public PdfCellBorderData Top = new PdfCellBorderData(LineType.Top);
+        public PdfCellBorderData Bottom = new PdfCellBorderData(LineType.Bottom);
+        public PdfCellBorderData Left = new PdfCellBorderData(LineType.Left);
+        public PdfCellBorderData Right = new PdfCellBorderData(LineType.Right);
+        public PdfCellBorderData DiagonalUp = new PdfCellBorderData(LineType.DiagonalUp);
+        public PdfCellBorderData DiagonalDown = new PdfCellBorderData(LineType.DiagonalDown);
 
         public PdfCellBordersData() { }
     }
 
+    internal enum LineType
+    {
+        Top = 0,
+        Bottom,
+        Left,
+        Right,
+        DiagonalUp,
+        DiagonalDown
+    }
+
     internal class PdfCellBorderData
     {
-        public ExcelBorderStyle BorderStyle = ExcelBorderStyle.None;
-        public Color BorderColor = Color.Black;
-        public Vector2 DoubleBorderOffsets;
+        internal const double Hair = 0.5d;
+        internal const double Thin = 0.85d;
+        internal const double Small = 1.1d;
+        internal const double Medium = 1.5d;
+        internal const double Thick = 2.0d;
+        internal const string NoDash = "[] 0 d";
+        internal const string Dotted = "[0 2] 0 d";
+        internal const string DashDot = "[4 2 1 2] 0 d";
+        internal const string DashDotDot = "[4 2 1 2 1 2] 0 d";
+        internal const string Dashed = "[4 3] 0 d";
+        internal const string MediumDashDot = "[6 3 2 3] 0 d";
+        internal const string MediumDashDotDot = "[6 3 2 3 2 3] 0 d";
+        internal const string MediumDashed = "[6 4] 0 d";
 
-        public PdfCellBorderData(double x, double y)
+        public ExcelBorderStyle BorderStyle = ExcelBorderStyle.None;
+        public readonly LineType LineType;
+        public Color BorderColor = Color.Black;
+        public double MergedDiagonalWidth = 0d;
+        public double MergedDiagonalHeight = 0d;
+        public double Width = 0;
+        public double Height = 0;
+        public double X = 0;
+        public double Y = 0;
+
+        public PdfCellBorderData(LineType LineType)
         {
-            DoubleBorderOffsets = new Vector2(x, y);
+            this.LineType = LineType;
         }
     }
 
@@ -119,6 +420,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public bool ShrinkToFit = false;
         public int TextRotation = 0;
         public ExcelReadingOrder TextDirection = ExcelReadingOrder.ContextDependent;
+        public bool IsVertical = false;
 
         public PdfCellAlignmentData() { }
     }

@@ -61,6 +61,37 @@ namespace EPPlus.Fonts.OpenType.Integration
             state.CurrentWordWidth = 0;
         }
 
+        private void ProcessNonEndingSpace(string text,
+            WrapState state,
+            int currentPos,
+            double maxWidth
+            )
+        {
+            var totalWidth = state.CurrentLineWidth + state.SpaceWidth;
+
+            if (totalWidth <= maxWidth)
+            {
+                // Space fits on current line
+                _lineBuilder.AppendSpaceIfNotEmpty();
+                _lineBuilder.AppendSubstring(text, state.WordStart, currentPos - state.WordStart);
+                state.CurrentLineWidth = totalWidth;
+            }
+            else
+            {
+                // Word doesn't fit - start new line
+                _lineBuilder.FlushToList(_lineListBuffer);
+
+                state.LineStart = state.WordStart;
+                state.CurrentLineWidth = state.CurrentWordWidth;
+
+                _lineBuilder.AppendSubstring(text, state.WordStart, currentPos - state.WordStart);
+            }
+
+            state.WordStart = currentPos + 1;
+            //Word width likely always 0 here before and after
+            //state.CurrentWordWidth = 0;
+        }
+
         private void ProcessCharacterInWord(
              string text,
              double[] charWidths,

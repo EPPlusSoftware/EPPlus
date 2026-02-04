@@ -269,7 +269,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Return the RGB value as a string for the color object that uses the Indexed or Tint property
         /// </summary>
         /// <returns>The RGB color starting with a #FF (alpha)</returns>
-        internal string LookupColor()
+        internal string LookupColor(DxfStyleBase objectType = null)
         {
             if (Index >= 0 && Index < _styles.IndexedColors.Length)
             {
@@ -283,8 +283,12 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 return GetThemeColor(Theme.Value, Convert.ToDouble(Tint));
             }
-            else if (Auto.Value)
+            else if (Auto != null && Auto.Value)
             {
+                if (objectType is ExcelDxfBorderItem)
+                {
+                    return "#FF000000";
+                }
                 return GetThemeColor(eThemeSchemeColor.Background1, Convert.ToDouble(Tint));
             }
             else
@@ -294,7 +298,7 @@ namespace OfficeOpenXml.Style.Dxf
                 {
                     c = ((int)(Math.Round((Tint.Value + 1) * 128))).ToString("X");
                 }
-                return "#FF" + c + c + c;
+                return "#FF" + c + c + c + c;
             }
         }
 

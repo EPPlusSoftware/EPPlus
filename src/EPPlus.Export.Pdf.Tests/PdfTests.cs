@@ -18,12 +18,11 @@ using System.Xml.Linq;
 using EPPlus.Export.Pdf;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
-using OfficeOpenXml;
 
 namespace EPPlusTest.PDF
 {
     [TestClass]
-    public class PdfTests
+    public class PdfTests : TestBase
     {
         /* BIG PDF TODO
          * This should be turned into tickets on github..
@@ -34,25 +33,25 @@ namespace EPPlusTest.PDF
          * Cells: Pictures in cells
          * Cells: Remove stroke from solid fill and adjust size and position of cell more precise and only use fill command.
          * 
-         * HeaderFooter: Header Footer implementation
+         * Merged Cells: Merged cells with no color set will have the color set to white to hide gridlines. They should not have color set to keep tranparency if we want to include background.
          * 
          * Tables: Table Implementation
+         * Tables: Fix order of applying table styling. Right now Table is used if it exsists, but cell styling should be prioritised and table should be ignored if cell has styluing.
          * 
          * Patterns: Adjust and make patterns look better. Fixed: DarkUp, DarkDown
          * 
          * Gradients: Make diamond gradients instead of radial gradtient in from corner and center gradient
          * 
-         * Text: Rich Text Implementation
          * Text: Bold (Can now do back up bold if bold font not found)
          * Text: Italic (Can now do back up italic if italic font not found)
          * Text: Underline (Basic underline done, need double and single and double accounting)
          * Text: Strikethrough (Done, small adjustments to line to match excel perhaps)
          * Text: Superscript (Done, might need adjustments such as moving it towrds top of cell more)
          * Text: Subscript (Done, might need adjustments. Excel adjusts cell height and moves subscript lower inside the cell)
-         * Text: Wrap text
          * Text: Equations
          * Text: Shrink To Fit
-         * Text: Rotation
+         * Text: Broken text hide when overlapping other cells with text
+         * Text: Center vertical text
          * 
          * Layout: Center on page Horizontal and vertical
          * Layout: Scaling
@@ -65,11 +64,9 @@ namespace EPPlusTest.PDF
          * Layout: Cell range to pdf
          * Layout: Remove empty last page
          * Layout: Calculate width and height of cells more correctly
+         * Layout: Fix Mask away stuff outside margins being broken
          * 
          * Borders: Adjust and make border look better
-         * Borders: Check Adjecent cells for border decied which cells border to use
-         * Borders: Handle Merged cells with borders
-         * Borders: Fix diagnal border in merged cell
          * 
          * Pivot Table: Pivot table implementation
          * 
@@ -86,7 +83,10 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void TestWritePdf()
         {
-            using var p = new ExcelPackage("C:\\epplusTest\\Workbooks\\PDFTest.xlsx");// OpenTemplatePackage("PDFTest.xlsx");
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            //using var p = OpenTemplatePackage("PDFTest - Copy (2).xlsx");
+            
+            //using var p = OpenTemplatePackage("PdfBorders.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
             //using var p = OpenTemplatePackage("Gradient.xlsx");
@@ -103,7 +103,7 @@ namespace EPPlusTest.PDF
             pageSettings.PrintAsText = true;
 
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest33.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest40.pdf");
         }
 
         static byte[] HexStringToBytes(string hex)
