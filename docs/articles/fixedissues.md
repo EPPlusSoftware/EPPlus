@@ -1,4 +1,11 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.4.2
+* Fixed an issue where the ExcelRange.Text property could format negative values with double minus signs in rare cases.
+* Fixed a performance issue when using FollowDependencyChain = false in the Calculate method. With this option, EPPlus no longer calculates dependent cells or dynamic array formula spills.
+* Fixed an issue where the ExcelPowerQueryMetadataItem class parsed dates using the supplied culture instead of the invariant culture, which could cause an unhandled exception.
+* Fixed an issue where a workbook could become corrupt when EPPlus adjusted the XML ignorable namespace list.
+* Fixed an unhandled exception that occurred when saving a workbook containing a customXml property file without a schemaRefs file.
+
 ## Version 8.4.1
 * Fixes several issues related to expanding (spilling) and contracting dynamic array formulas.
 	* Changing cell dependencies were not taken into account when recalculating dirty cells from dynamic array formulas.
