@@ -239,6 +239,13 @@ namespace EPPlus.Fonts.OpenType
             return wrappedStrings;
         }
 
+        public List<TextLineSimple> MeasureAndWrapTextLines(string text, MeasurementFont font, double MaxWidthInPixels, double preExistingWidthPixels = 0)
+        {
+            SetFont(font.Size, font.FontFamily);
+            var wrappedStrings = TextData.MeasureAndWrapTextLines(text, FontSize, CurrentFont, MaxWidthInPixels.PixelToPoint(), preExistingWidthPixels.PixelToPoint());
+            return wrappedStrings;
+        }
+
         public List<string> MeasureAndWrapTextPoints(string text, MeasurementFont font, double MaxWidthInPoints)
         {
             SetFont(font.Size, font.FontFamily);

@@ -8,6 +8,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
@@ -15,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
@@ -136,57 +138,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Runs.Add(targetTxtRun);
             return targetTxtRun;
         }
-        /// <summary>
-        /// DisplayString is the text altered for display with respect to bounds etc.
-        /// Containing line breaks appropriate for the given container
-        /// </summary>
-        /// <param name="origTxtRun"></param>
-        /// <param name="displayText"></param>
-        internal protected void AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText, double startingX)
-        {
-            //Create object of type
-            var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
-            targetTxtRun.lineSpacing = ParagraphLineSpacing;
-            targetTxtRun.Bounds.Left = startingX;
-            //if (Runs.Count == 0)
-            //{
-            //    targetTxtRun.BaseLineSpacing = _lineSpacingAscendantOnly;
-            //}
-
-            ////If there are multiple sizes/multiple fonts with multiple sizes
-            //if (_lsMultiplier.HasValue)
-            //{
-            //    var runFont = origTxtRun.GetMeasurementFont();
-            //    _measurer.SetFont(runFont);
-            //    targetTxtRun.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
-            //    targetTxtRun.BaseLineSpacing = _lsMultiplier.Value * _measurer.GetBaseLine().PointToPixel(true);
-            //    //Reset measurer font
-            //    _measurer.SetFont(_paragraphFont);
-            //}
-
-            //targetTxtRun.Bounds.Left = startingX;
-            //targetTxtRun.GetBounds(out double l, out double t, out double r, out double b);
-
-            //for (int i = 1; i < targetTxtRun.Lines.Count; i++)
-            //{
-
-            //}
-            //targetTxtRun.SetPerLineWidths(_textFragments.GetFragmentWidths(fragIdx));
-
-            //lineIdxAfter = currentLineIdx + targetTxtRun.Lines.Count - 1;
-
-            Runs.Add(targetTxtRun);
-        }
 
         public void AddText(string text, ExcelTextFont font)
         {
             var measurer = new FontMeasurerTrueType();
-            var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), ParentTextBody.MaxWidth);
-            var container = CreateTextRun(text, font, Bounds, string.Join("\r\n", displayText.ToArray()));
+            //var displayText = measurer.MeasureAndWrapTextLines(text, font.GetMeasureFont(), ParentTextBody.MaxWidth);
+
+            var container = CreateTextRun(text, font, Bounds, text);
             //container.BaseLineSpacing = _lineSpacingAscendantOnly;
             //container.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
             Runs.Add(container);
-            Bounds.Width = container.Bounds.Width + 0.001; //TODO: fix for equal width issue
+            //Bounds.Width = container.Bounds.Width + 0.001; //TODO: fix for equal width issue
             container.Bounds.Name = $"Container{Runs.Count}";
         }
 
@@ -212,74 +174,34 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _textFragments = new TextFragmentCollection(runContents, fontSizes);
         }
 
-        List<TextLineSimple> GetWrappedTextLines(ExcelDrawingTextRunCollection runs, TextFragmentCollection fragments)
-        {
-            var ttMeasurer = (FontMeasurerTrueType)_measurer;
-            List<MeasurementFont> fonts = new List<MeasurementFont>();
-
-            for (int i = 0; i < runs.Count(); i++)
-            {
-                var txtRun = runs[i];
-                var runFont = txtRun.GetMeasurementFont();
-                fonts.Add(runFont);
-            }
-
-            var maxSizePoints = Math.Round(Bounds.Width, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            return ttMeasurer.WrapMultipleTextFragmentsToTextLines(fragments, fonts, maxSizePoints);
-        }
-
-        List<string> GetWrappedText(ExcelDrawingTextRunCollection runs, TextFragmentCollection fragments)
-        {
-            var ttMeasurer = (FontMeasurerTrueType)_measurer;
-            List<MeasurementFont> fonts = new List<MeasurementFont>();
-
-            for (int i = 0; i < runs.Count(); i++)
-            {
-                var txtRun = runs[i];
-                var runFont = txtRun.GetMeasurementFont();
-                fonts.Add(runFont);
-            }
-
-            var maxSizePoints = Math.Round(Bounds.Width, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            return ttMeasurer.WrapMultipleTextFragments(fragments, fonts, maxSizePoints);
-        }
-        public List<ParagraphLine> Lines { get; set; }
-        private void AddLinesAndTextRuns2(ExcelDrawingParagraph p, string textIfEmpty)
-        {
-            //var line = new ParagraphLine();
-            foreach (var r in p.TextRuns)
-            {
-                foreach(var text in r.SplitIntoLines())
-                {
-                    var line = new ParagraphLine();
-
-                    //var textWidth = GetWidth(text, r);
-                    //if(line.Width+textWidth > maxWidth)
-                    //{
-
-                    //}
-                }
-            }
-        }
         private void AddLinesAndTextRuns(ExcelDrawingParagraph p, string textIfEmpty)
         {
             //Log line positions and run sizes
             GenerateTextFragments(p.TextRuns);
-            ////Calculate line breaks and/or wrapping to know how the text should be displayed
-            //CalculateDisplayText(p, _textFragments);
 
-            var lines = WrapToSimpleTextLines(p, _textFragments);
+            var lines = new List<TextLineSimple>();
             //In points
             double lastDescent = 0;
             bool lineSpacingIsExact = _lsMultiplier.HasValue == false;
             double runLineSpacing = 0;
             double greatestWidth = 0;
 
+            if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
+            {
+                var measurer = new FontMeasurerTrueType();
+                var maxWidth = ParentTextBody.MaxWidth + 0.001; //TODO: fix for equal width issue;
+                lines = measurer.MeasureAndWrapTextLines(textIfEmpty, p.DefaultRunProperties.GetMeasureFont(), maxWidth);
+            }
+            else
+            {
+                lines = WrapToSimpleTextLines(p, _textFragments);
+            }
+
             foreach (var line in lines)
             {
                 double prevWidth = 0;
-                
-                if(lineSpacingIsExact == false)
+
+                if (lineSpacingIsExact == false)
                 {
                     runLineSpacing += line.LargestAscent + lastDescent;
                 }
@@ -287,7 +209,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 {
                     runLineSpacing += ParagraphLineSpacing;
                 }
-                if(line.Width > greatestWidth)
+                if (line.Width > greatestWidth)
                 {
                     greatestWidth = line.Width;
                 }
@@ -295,7 +217,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 foreach (var rtFragment in line.RtFragments)
                 {
                     var displayText = line.GetFragmentText(rtFragment);
-                    var runItem = AddRenderItemTextRun(p.TextRuns[rtFragment.Fragidx], displayText, prevWidth, runLineSpacing);
+
+                    if(p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
+                    {
+                        AddText(displayText, p.DefaultRunProperties);
+                    }
+                    else
+                    {
+                        AddRenderItemTextRun(p.TextRuns[rtFragment.Fragidx], displayText, prevWidth, runLineSpacing);
+                    }
+
+                    TextRunItem runItem = Runs.Last();
+
                     runItem.Bounds.Width = rtFragment.Width;
                     prevWidth += rtFragment.Width;
                 }
@@ -303,124 +236,45 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 lastDescent = line.LargestDescent;
             }
             Bounds.Height = runLineSpacing + lastDescent;
-            //Bounds.Width = greatestWidth;
-            //string currentLine = _paragraphLines[0];
-            //int currentLineIdx = 0;
+            //Bounds.Width = Runs.Sum(x => x.Bounds.Width);
 
-            //double widthOfCurrentLine = 0;
-            //double largestFontSizeCurrentLine = 0;
-            //int idxLargestFontSize = 0;
-            //int firstRunInLineIdx = 0;
-
-            ////var lineSizes = _textFragments.GetLargestFontSizesOfEachLine();
-            ////var currentLineSize = lineSizes[currentLineIdx];
-            //double lineSpacing = 0;
-            //if(_lsMultiplier.HasValue == false)
+            //if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
             //{
-            //    //linespacing is exact
-            //    lineSpacing = ParagraphLineSpacing;
+            //    AddText(textIfEmpty, p.DefaultRunProperties);
+            //    Bounds.Width = Runs.Sum(x => x.Bounds.Width);
             //}
+            //else
+            //{
+            //    lines = WrapToSimpleTextLines(p, _textFragments);
+            //    foreach (var line in lines)
+            //    {
+            //        double prevWidth = 0;
 
-            if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
-            {
-                AddText(textIfEmpty, p.DefaultRunProperties);
-                Bounds.Width = Runs.Sum(x=>x.Bounds.Width);
-            }
-            else
-            {
-                //for (int i = 0; i < p.TextRuns.Count; i++)
-                //{
-                //    AddRenderItemTextRun(p.TextRuns[i], _textRunDisplayText[i], widthOfCurrentLine);
-                //    var lastAdded = Runs.Last();
+            //        if (lineSpacingIsExact == false)
+            //        {
+            //            runLineSpacing += line.LargestAscent + lastDescent;
+            //        }
+            //        else
+            //        {
+            //            runLineSpacing += ParagraphLineSpacing;
+            //        }
+            //        if (line.Width > greatestWidth)
+            //        {
+            //            greatestWidth = line.Width;
+            //        }
 
-                //    lastAdded.SetPerLineWidths(_textFragments.GetFragmentWidths(i));
+            //        foreach (var rtFragment in line.RtFragments)
+            //        {
+            //            var displayText = line.GetFragmentText(rtFragment);
+            //            var runItem = AddRenderItemTextRun(p.TextRuns[rtFragment.Fragidx], displayText, prevWidth, runLineSpacing);
+            //            runItem.Bounds.Width = rtFragment.Width;
+            //            prevWidth += rtFragment.Width;
+            //        }
 
-                //    if (lastAdded.Lines.Count > 1)
-                //    {
-                //        //Just in case. Should always be empty here
-                //        lastAdded.YIncreasePerLine.Clear();
-
-                //        //We are on a new line
-                //        for (int j = 0; j < lastAdded.Lines.Count; j++)
-                //        {
-                //            currentLine = _paragraphLines[currentLineIdx];
-
-                //            if (_lsMultiplier.HasValue)
-                //            {
-                //                //Add ascent to descent (Add ascent to Nothing for the first run)
-                //                lineSpacing += _textFragments.GetAscent(currentLineIdx).PointToPixel() * _lsMultiplier.Value;
-                //            }
-
-                //            lastAdded.AddLineSpacing(lineSpacing);
-
-                //            if (_lsMultiplier.HasValue)
-                //            {
-                //                //Set linespacing to descent
-                //                lineSpacing = _textFragments.GetDescent(currentLineIdx).PointToPixel();
-                //            }
-
-                //            //Last line in added lines we will continue on if there are more textruns
-                //            //Therefore the index will be added to after the next line-break or at the end
-                //            if (j < lastAdded.Lines.Count - 1)
-                //            {
-                //                Bounds.Height += lastAdded.Bounds.Height;
-                //                currentLineIdx++;
-                //            }
-                //        }
-
-                //        widthOfCurrentLine = Runs.Last().PerLineWidth.Last();
-                //    }
-                //    else
-                //    {
-                //        widthOfCurrentLine += Runs.Last().PerLineWidth.Last();
-
-                //        //If we are on the last run
-                //        if (i == p.TextRuns.Count - 1)
-                //        {
-                //            if (_lsMultiplier.HasValue)
-                //            {
-                //                //currentLineIdx++;
-                //                //Add ascent to descent (Add ascent to Nothing for the first run)
-                //                lineSpacing += _textFragments.GetAscent(currentLineIdx).PointToPixel() * _lsMultiplier.Value;
-                //            }
-                //            lastAdded.AddLineSpacing(lineSpacing);
-                //            Bounds.Height += lastAdded.Bounds.Height;
-                //            //Runs[idxLargestFontSize].GetBounds(out double l, out double t, out double r, out double b);
-                //            //Bounds.Height += Runs[idxLargestFontSize].Bounds.Height;
-                //        }
-                //    }
-                //    Bounds.Width = widthOfCurrentLine;
-                //}
-            }
-        }
-
-        private void CalculateTextLines(ExcelDrawingParagraph p, TextFragmentCollection fragments)
-        {
-            WrapToSimpleTextLines(p, fragments);
-        }
-
-        /// <summary>
-        /// Use textfragments to calculate wrapping/line-breaks
-        /// </summary>
-        /// <param name="p"></param>
-        private void CalculateDisplayText(ExcelDrawingParagraph p, TextFragmentCollection fragments)
-        {
-            //Gets the individual lines free of any line breaks
-            if (p._paragraphs.WrapText != eTextWrappingType.None)
-            {
-                _paragraphLines = GetWrappedText(p.TextRuns, fragments);
-            }
-            else
-            {
-                //Using Regex to avoid empty lines in windows.
-                //Which the alternative "paragraph.Text.Split(new [] '\r' '\n')" would result in.
-                _paragraphLines = Regex.Split(p.Text, "\r\n|\r|\n").ToList();
-            }
-            //Gets each actual text run, with linebreak symbols
-            _textRunDisplayText = fragments.GetFragmentsWithFinalLineBreaks();
-            //var test = fragments.GetFragmentsWithoutLineBreaks();
-            //var 
-            //var lineToRunMapping = 
+            //        lastDescent = line.LargestDescent;
+            //    }
+            //    Bounds.Height = runLineSpacing + lastDescent;
+            //}
         }
 
         List<TextLineSimple> WrapToSimpleTextLines(ExcelDrawingParagraph p, TextFragmentCollection fragments)
@@ -459,15 +313,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             return TextUtils.RoundToWhole(x);
         }
-
-        //internal override void GetBounds(out double il, out double it, out double ir, out double ib)
-        //{
-        //    il = Bounds.Left + _leftMargin;
-        //    it = Bounds.Top;
-        //    ir = Bounds.Right - _rightMargin;
-        //    ib = Bounds.Bottom;
-        //}
-
 
         /// <summary>
         /// Type of textrun defined by child type

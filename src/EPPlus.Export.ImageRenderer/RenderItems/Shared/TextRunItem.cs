@@ -61,10 +61,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
 
-            _measurer = new FontMeasurerTrueType();            
+            //_measurer = new FontMeasurerTrueType();            
 
             _measurementFont = font.GetMeasureFont();
-            _measurer.SetFont(_measurementFont);
+            //_measurer.SetFont(_measurementFont);
 
             _isFirstInParagraph = true;
 

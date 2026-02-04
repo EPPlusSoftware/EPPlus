@@ -344,6 +344,7 @@ namespace EPPlus.Fonts.OpenType
             return advanceWidth;
         }
 
+
         private static void MeasureAndWrapLines(string text, ref int totalAdvanceWidth, ref int totalWordWidth, OpenTypeFont fontData, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<string> wrappedStrings, bool applyKerning = true)
         {
             //Handle line-endings
@@ -359,6 +360,26 @@ namespace EPPlus.Fonts.OpenType
                     for (int i = 1; i < splitStrings.Count(); i++)
                     {
                         MeasureAndWrapLine(splitStrings[i], fontData, ref totalAdvanceWidth, ref totalWordWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
+                    }
+                }
+            }
+        }
+
+        private static void MeasureAndWrapTextLines(string text, ref int totalAdvanceWidth, ref int totalWordWidth, OpenTypeFont fontData, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<TextLineSimple> wrappedStrings, bool applyKerning = true)
+        {
+            //Handle line-endings
+            var splitStrings = text.Split([Environment.NewLine], StringSplitOptions.None);
+
+            if (splitStrings.Length != 0)
+            {
+                //Avoid using kerning for first char/line
+                MeasureAndWrapTextLine(splitStrings[0], fontData, ref totalAdvanceWidth, ref totalWordWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings, false);
+
+                if (splitStrings.Length > 1)
+                {
+                    for (int i = 1; i < splitStrings.Count(); i++)
+                    {
+                        MeasureAndWrapTextLine(splitStrings[i], fontData, ref totalAdvanceWidth, ref totalWordWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
                     }
                 }
             }
@@ -389,6 +410,38 @@ namespace EPPlus.Fonts.OpenType
             previousLineWidthPostWrap = prevLineWidth - lineWidth /*- trimmedSpaceWidth*/;
             //New line means both totals are equal
             wordWidth = lineWidth;
+        }
+
+        private static void MeasureAndWrapTextLine(string line, OpenTypeFont font, ref int lineWidth, ref int wordWidth, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<TextLineSimple> wrappedStrings, bool applyKerning = true)
+        {
+            int nextLineStartIndex = 0;
+            var spaceWidth = CalcGlyphWidth(glyphMappings, ' ', font, ref lastGlyphIndex, ref applyKerning);
+            var actualLine = new TextLineSimple();
+            for (int i = 0; i < line.Length; i++)
+            {
+                char c = line[i];
+                var advanceWidth = CalculateAdvanceWidth(c, glyphMappings, font, ref lastGlyphIndex, ref lineWidth, ref wordWidth, ref applyKerning);
+
+                if (lineWidth >= maxWidth)
+                {
+                    List<string> tmpLst = new List<string>();
+                    WrapAtCharPos(line, i, ref nextLineStartIndex, ref lineWidth, ref wordWidth, advanceWidth, tmpLst, spaceWidth, out int prevLineWidth);
+
+                    actualLine.Text = line;
+                    actualLine.Width = prevLineWidth;
+                }
+            }
+
+            var leftover = new TextLineSimple();
+            var remainingLine = line.Substring(nextLineStartIndex);
+            leftover.Text = remainingLine;
+            leftover.Width = maxWidth;
+
+            wrappedStrings.Add(leftover);
+
+            //Has to be done After instead of before for loop.
+            //For the case that we enter with an existing line width
+            lineWidth = 0;
         }
 
         private static void MeasureAndWrapLine(string line, OpenTypeFont font, ref int lineWidth, ref int wordWidth, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<string> wrappedStrings, bool applyKerning = true)
@@ -454,8 +507,64 @@ namespace EPPlus.Fonts.OpenType
             }
 
             // Execute:
-
             MeasureAndWrapLines(text, ref totalAdvanceWidth, ref wordWidth, fontData, glyphMappings, lastGlyphIndex, maxWidthInDesignUnits, wrappedStrings);
+
+            return wrappedStrings;
+        }
+
+
+        /// <summary>
+        /// Measures the text and breaks it into smaller strings so that none exceed the MaxWidth
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="fontSize"></param>
+        /// <param name="fontData"></param>
+        /// <param name="maxWidth"></param>
+        /// <param name="preExistingLineWidth">point size previously calculated width of starting line</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        internal static List<TextLineSimple> MeasureAndWrapTextLines(string text, double fontSize, OpenTypeFont fontData, double maxWidth, double preExistingLineWidth = 0, double preExistingWordWidth = 0)
+        {
+            //  Initialize:
+            int totalAdvanceWidth = 0;
+            ushort? lastGlyphIndex = 0;
+
+            //Initalise collection to return
+            List<TextLineSimple> wrappedStrings = new List<TextLineSimple>();
+
+            var inputMaxWidth = maxWidth;
+            //Convert maxWidth from points to font design units
+            var maxWidthInDesignUnits = Math.Round(((inputMaxWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize), 0, MidpointRounding.AwayFromZero);
+
+            var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
+
+            int wordWidth = 0;
+
+            //If the starting line width is not zero.
+            //Happens e.g. if other chars on the starting line have been measured with a different font.
+            if (preExistingLineWidth != 0)
+            {
+                //Convert from points to current fonts font design units
+                totalAdvanceWidth = Convert.ToInt16((preExistingLineWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize);
+            }
+            if (preExistingWordWidth != 0)
+            {
+                wordWidth = Convert.ToInt16((preExistingWordWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize);
+            }
+
+            // Execute:
+            MeasureAndWrapTextLines(text, ref totalAdvanceWidth, ref wordWidth, fontData, glyphMappings, lastGlyphIndex, maxWidthInDesignUnits, wrappedStrings);
+
+            var designUnitsToPoints = fontSize / (double)fontData.HeadTable.UnitsPerEm;
+
+            //Translate widths back to points
+            for (int i = 0; i< wrappedStrings.Count; i++)
+            {
+                wrappedStrings[i].Width *= designUnitsToPoints;
+                wrappedStrings[i].LargestFontSize = fontSize;
+                wrappedStrings[i].LargestAscent = GetBaseLine(fontData, fontSize);
+                wrappedStrings[i].LargestDescent = MeasureDescent(fontData, fontSize);
+            }
 
             return wrappedStrings;
         }
@@ -819,12 +928,6 @@ namespace EPPlus.Fonts.OpenType
 
             var prevFragmentIdx = 0;
             var prevFragWidths = 0;
-            ////Technically currentLineOfFragmentWidth
-            //int fragmentWidth = 0;
-            ////Technically lastLINEofFragmentWidth
-            ////lastFragmentWidth could be a different fragment OR current fragment on a previous line
-            ////Whichever the previous measured piece of text was
-            //int lastFragmentWidth = 0;
             //---Logger Variables end---
 
             int spaceWidth = 0;
@@ -1008,7 +1111,7 @@ namespace EPPlus.Fonts.OpenType
 
             int prevLineBreakIndex = 0;
 
-            //---Logger variables---
+            //---RichTextFragment variables---
             var fragmentCollection = paragraph.Fragments;
             var allText = fragmentCollection.AllText;
             var newLineIndicies = fragmentCollection.AllTextNewLineIndicies;
@@ -1017,13 +1120,7 @@ namespace EPPlus.Fonts.OpenType
 
             var prevFragmentIdx = 0;
             var prevFragWidths = 0;
-            ////Technically currentLineOfFragmentWidth
-            //int fragmentWidth = 0;
-            ////Technically lastLINEofFragmentWidth
-            ////lastFragmentWidth could be a different fragment OR current fragment on a previous line
-            ////Whichever the previous measured piece of text was
-            //int lastFragmentWidth = 0;
-            //---Logger Variables end---
+            //---RichTextFragment Variables end---
 
             int spaceWidth = 0;
 
