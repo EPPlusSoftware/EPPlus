@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Security.Cryptography;
 using System.Xml;
 
 namespace OfficeOpenXml.Data.Connection
@@ -35,7 +36,7 @@ namespace OfficeOpenXml.Data.Connection
                 object value;
                 var prefix = sv[0];
                 var s = sv.Substring(1);
-                switch (sv[0])
+                switch (prefix)
                 {
                     case 's':
                     case 'S':
@@ -43,7 +44,7 @@ namespace OfficeOpenXml.Data.Connection
                         break;
                     case 'l':
                     case 'L':
-                        if(long.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out long l))
+                        if (long.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out long l))
                         {
                             value = l;
                         }
@@ -54,7 +55,7 @@ namespace OfficeOpenXml.Data.Connection
                         break;
                     case 'b':
                     case 'B':
-                        if(bool.TryParse(s, out bool b))
+                        if (bool.TryParse(s, out bool b))
                         {
                             value = b;
                         }
@@ -65,7 +66,7 @@ namespace OfficeOpenXml.Data.Connection
                         break;
                     case 'd':
                     case 'D':
-                        if(DateTime.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTime dt))
+                        if (DateTime.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTime dt))
                         {
                             value = dt;
                         }
@@ -76,7 +77,7 @@ namespace OfficeOpenXml.Data.Connection
                         break;
                     case 'f':
                     case 'F':
-                        if(double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out double f))
+                        if (double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out double f))
                         {
                             value = f;
                         }
@@ -88,7 +89,7 @@ namespace OfficeOpenXml.Data.Connection
                     case 'c':
                     case 'C':
 #if (NET8_0_OR_GREATER)
-                        if(Guid.TryParse(s, CultureInfo.InvariantCulture, out Guid guid))
+                        if (Guid.TryParse(s, CultureInfo.InvariantCulture, out Guid guid))
                         {
                             value = guid;
                         }
@@ -108,7 +109,8 @@ namespace OfficeOpenXml.Data.Connection
 #endif
                         break;
                     default:
-                        throw new InvalidOperationException($"Invalid or no data type on Power Query meta data entry with name {type}");
+                        value = sv;
+                        break;
                 }
                 Entries.Add(new ExcelPowerQueryMetaDataEntry(type, value, true, false));
             }
@@ -124,9 +126,9 @@ namespace OfficeOpenXml.Data.Connection
         /// <summary>
         /// A collection of metadata entries.
         /// </summary>
-        public List<ExcelPowerQueryMetaDataEntry> Entries 
+        public List<ExcelPowerQueryMetaDataEntry> Entries
         {
-            get; 
+            get;
         } = new List<ExcelPowerQueryMetaDataEntry>();
     }
 }

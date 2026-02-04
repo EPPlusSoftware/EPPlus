@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Utils;
@@ -542,7 +543,7 @@ namespace EPPlusImageRenderer.Svg
                     var dVal = ConvertUtil.GetValueDouble(val, false, true);
                     if (dVal < Min || dVal > Max) return double.NaN;
                     var diff = Max - Min;
-                    return (/*SvgChart.Plotarea.Rectangle.Left + */((Max - dVal) / diff * SvgChart.Plotarea.Rectangle.Width));
+                    return (((dVal-Min) / diff * SvgChart.Plotarea.Rectangle.Width));
                 }
             }
         }
@@ -576,12 +577,55 @@ namespace EPPlusImageRenderer.Svg
                     max = d;
                 }
             }
-            var maxMajorTickmarks = 10; //TODO: Calculate based on rect size
-            GetAutoMinMaxValue(ax, maxMajorTickmarks, isCount, ref min, ref max, out majorUnit);
-            for (var v = min; v <= max; v += majorUnit)
+            var options = new AxisOptions
             {
-                l.Add(v);
+                LockedMin = ax.MinValue,
+                LockedMax = ax.MaxValue,
+                LockedInterval = ax.MajorUnit,
+                LockedIntervalUnit = ax.MajorTimeUnit,
+                AddPadding = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right,
+                Axis = ax
+            };
+            var length = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right ? SvgChart.Bounds.Height : SvgChart.Bounds.Width; //Fix and use plotarea width/height.
+            if (ax.IsDate)
+            {
+                var res = DateAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
+                var dt = DateTime.FromOADate(res.Min);
+                var maxDt = DateTime.FromOADate(res.Max);
+                while (dt < maxDt)
+                {
+                    l.Add(dt);
+                    switch(res.MajorDateUnit ?? eTimeUnit.Days)
+                    {
+                        case eTimeUnit.Years:
+                            dt = dt.AddYears((int)res.MajorInterval);
+                            break;
+                        case eTimeUnit.Months:
+                            dt = dt.AddMonths((int)res.MajorInterval);
+                            break;
+                        case eTimeUnit.Days:
+                            dt = dt.AddDays((int)res.MajorInterval);
+                            break;
+                    }
+                }
+
+                min = res.Min;
+                max = res.Max;
+                majorUnit = res.MajorInterval;
             }
+            else
+            {
+                var res = ValueAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
+                for (var v = res.Min; v <= res.Max; v += res.MajorInterval)
+                {
+                    l.Add(v);
+                }
+
+                min = res.Min;
+                max = res.Max;
+                majorUnit = res.MajorInterval;
+            }
+
             return l;
         }
 

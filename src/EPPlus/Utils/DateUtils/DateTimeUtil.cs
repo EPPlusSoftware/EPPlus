@@ -35,5 +35,9 @@ namespace OfficeOpenXml.Utils.DateUtils
             startDate = date;
             endDate = date.AddDays(6);
         }
+        internal static bool IsValidOADate(double date)
+        {
+            return date >= -657435 && date < 2958466;
+        }
     }
 }
