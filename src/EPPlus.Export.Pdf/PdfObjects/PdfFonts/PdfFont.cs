@@ -16,7 +16,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
 {
     public enum PdfFontSubType
     {
-        /*TODO*/Type0,      //Used for Asian fonts
+        Type0,      //Used for embedded fonts
         Type1,      //Used for built-in fonts
         MMType1,
         /*TODO*/Type3,      //Custom front

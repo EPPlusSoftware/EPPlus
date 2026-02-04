@@ -83,9 +83,10 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void TestWritePdf()
         {
-            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            //using var p = OpenTemplatePackage("PDFTest.xlsx");
+            using var p = OpenTemplatePackage("PdfGrids\\PdfTextTest.xlsx");
             //using var p = OpenTemplatePackage("PDFTest - Copy (2).xlsx");
-            
+
             //using var p = OpenTemplatePackage("PdfBorders.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
@@ -103,7 +104,7 @@ namespace EPPlusTest.PDF
             pageSettings.PrintAsText = true;
 
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest40.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest41.pdf");
         }
 
         static byte[] HexStringToBytes(string hex)

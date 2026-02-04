@@ -17,6 +17,7 @@ using EPPlus.Fonts.OpenType.Tables.Os2;
 using System;
 using System.Collections.Generic;
 using EPPlus.Graphics;
+using EPPlus.Export.Pdf.PdfLayout;
 
 namespace EPPlus.Export.Pdf.PdfResources
 {
@@ -30,11 +31,18 @@ namespace EPPlus.Export.Pdf.PdfResources
         private int firstChar = 32;
         private int lastChar = 255;
 
+        internal HashSet<char> Subset = new HashSet<char>();
+
         public PdfFontResource(string fontName, FontSubFamily subFamily, int labelNumber, PdfPageSettings pageSettings)
             : base("F", labelNumber)
         {
             this.fontName = fontName;
             fontData = OpenTypeFonts.GetFontData(pageSettings.FontDirectories, fontName, subFamily, pageSettings.SearchSystemDirectories);
+        }
+
+        internal void CreateSubset()
+        {
+            fontData = fontData.CreateSubset(Subset);
         }
 
         //Get the Font Descriptor object to write in PDF.
@@ -133,6 +141,11 @@ namespace EPPlus.Export.Pdf.PdfResources
         {
             fontObjectNumber = objectNumber;
             return new PdfFont(objectNumber, fontName, PdfFontSubType.Type1, firstChar, lastChar, widthObjectNumber, descObjectNumber, PdfFontEncoding.WinAnsiEncoding);
+        }
+
+        internal PdfCIDFont GetCIDFontObject(int objectNumber, int version = 0)
+        {
+            fontObjectNumber = objectNumber;
         }
     }
 }

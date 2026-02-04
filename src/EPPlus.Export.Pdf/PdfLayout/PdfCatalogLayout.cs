@@ -40,6 +40,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             Name = worksheet.Name + " Catalog";
             var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, dictionaries));
+            CreateFonSubsets(pageSettings, dictionaries.Fonts);
             string wsLayout = ToHierarchyString();
             var PagesLayout = CreatePagesLayoutObject();
             CreatePageLayoutObjects(worksheet, pageSettings, WorksheetLayout as PdfWorksheetLayout, PagesLayout);

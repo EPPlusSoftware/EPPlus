@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.PdfFontData;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
@@ -32,6 +33,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public Rect Clipping;
         public PdfCellStyleOverride CellStyle;
 
+
+        internal PdfCellTextItem fontdata;
+
         private double bottomMargin = 3.5d; //Guessed number
         private double rightMargin = 1.4d; //I guessed this one too..
 
@@ -51,7 +55,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
             else
             {
                 cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
-                HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
+                //HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
+                HandleText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
                 //HandleText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation);
             }
             CellAlignmentData = new PdfCellAlignmentData();
@@ -64,8 +69,71 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CellAlignmentData.IsVertical = cell.Style.TextRotation == 255 ? true : false;
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
             LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height);
-            Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y);
+            Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y); 
             CheckClipping(cell, width);
+        }
+
+        private void HandleText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation, PdfCellStyleOverride CellStyle)
+        {
+            bool bold = false, italic = false, underline = false, strike = false;
+            ExcelUnderLineType underLineType = ExcelUnderLineType.None;
+            if (CellStyle.dxfFont != null)
+            {
+                bold = CellStyle.dxfFont.Bold != null ? (bool)CellStyle.dxfFont.Bold : false;
+                italic = CellStyle.dxfFont.Italic != null ? (bool)CellStyle.dxfFont.Italic : false;
+                strike = CellStyle.dxfFont.Strike != null ? (bool)CellStyle.dxfFont.Strike : false;
+                underline = CellStyle.dxfFont.Underline != null;
+                underLineType = CellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)CellStyle.dxfFont.Underline : ExcelUnderLineType.None;
+            }
+            for (int i = 0; i < cell.RichText.Count; i++)
+            {
+                var rt = cell.RichText[i];
+                var font = rt.FontName;
+                var glyphs = rt.Text;
+                var fontdata = new PdfCellTextItem();
+                fontdata.Text = rt.Text;
+                fontdata.FontName = rt.FontName;
+                fontdata.FontFamily = rt.Family;
+                fontdata.FontSize = rt.Size;
+                fontdata.Bold = rt.Bold || bold;
+                fontdata.Italic = rt.Italic || italic;
+                fontdata.Strike = rt.Strike || strike;
+                fontdata.Underline = rt.UnderLine || underline;
+                fontdata.UnderlineType = rt.UnderLineType == ExcelUnderLineType.None ? underLineType : rt.UnderLineType;
+                fontdata.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
+                fontdata.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
+                fontdata.FontColor = rt.Color;
+                fontdata.SubFamily = FontSubFamily.Regular;
+                if (fontdata.Bold)
+                {
+                    fontdata.SubFamily = FontSubFamily.Bold;
+                    if (fontdata.Italic)
+                    {
+                        fontdata.SubFamily = FontSubFamily.BoldItalic;
+                    }
+                }
+                else if (fontdata.Italic)
+                {
+                    fontdata.SubFamily = FontSubFamily.Italic;
+                }
+                //OpenTypeFont ot = OpenTypeFonts.GetFontData(pageSettings.FontDirectories, fontdata.FontName, fontdata.SubFamily, true, false);
+                this.fontdata = fontdata;
+                if (!dictionaries.Fonts.ContainsKey(fontdata.FullFontName))
+                {
+                    int label = 1;
+                    if (dictionaries.Fonts.Count > 0)
+                    {
+                        label = dictionaries.Fonts.Last().Value.labelNumber + 1;
+                    }
+                    dictionaries.Fonts.Add(fontdata.FullFontName, new PdfFontResource(fontdata.FontName, fontdata.SubFamily,label, pageSettings));
+                }
+                foreach (char c in fontdata.Text)
+                {
+                    var hash = dictionaries.Fonts[fontdata.FullFontName].Subset;
+                    if (!hash.Contains(c))
+                        hash.Add(c);
+                }
+            }
         }
 
         private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation, PdfCellStyleOverride CellStyle)
