@@ -44,7 +44,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected internal eStrikeType _strikeType;
         protected internal Color _underlineColor;
 
-        internal double lineSpacing { get; set; }
+        internal double YPosition { get; set; }
         //internal double LineSpacingPerNewLine { get; set; }
         //internal double BaseLineSpacing { get; set; }
 

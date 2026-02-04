@@ -52,6 +52,11 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
                 throw new InvalidOperationException($"GetFragmentText failed. Cannot retrieve {rtFragment} since it is not part of this textLine: {this}");
             }
 
+            if(string.IsNullOrEmpty(Text))
+            {
+                return Text;
+            }
+
             var startIdx = rtFragment.charStarIdxWithinCurrentLine;
 
             var idxInLst = RtFragments.FindIndex(x => x ==  rtFragment);

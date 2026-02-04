@@ -435,7 +435,7 @@ namespace EPPlus.Fonts.OpenType
             var leftover = new TextLineSimple();
             var remainingLine = line.Substring(nextLineStartIndex);
             leftover.Text = remainingLine;
-            leftover.Width = maxWidth;
+            leftover.Width = lineWidth;
 
             wrappedStrings.Add(leftover);
 
@@ -564,6 +564,12 @@ namespace EPPlus.Fonts.OpenType
                 wrappedStrings[i].LargestFontSize = fontSize;
                 wrappedStrings[i].LargestAscent = GetBaseLine(fontData, fontSize);
                 wrappedStrings[i].LargestDescent = MeasureDescent(fontData, fontSize);
+
+                //Add "dummy" richtext item
+                var rtItem = new RichTextFragmentSimple();
+                rtItem.Width = wrappedStrings[i].Width;
+
+                wrappedStrings[i].RtFragments.Add(rtItem);
             }
 
             return wrappedStrings;
@@ -1083,6 +1089,11 @@ namespace EPPlus.Fonts.OpenType
 
         internal static List<TextLineSimple> WrapMultipleTextFragmentsToTextLines(TextParagraph paragraph, double maxWidthPoints)
         {
+            if(string.IsNullOrEmpty(paragraph.Fragments.AllText))
+            {
+                return new List<TextLineSimple>(); 
+            }
+
             //Initialize variables
             List<TextLineSimple> outputTextLines = new List<TextLineSimple>();
             List<RichTextFragmentSimple> currentLineRtFragments = new List<RichTextFragmentSimple>();

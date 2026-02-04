@@ -92,10 +92,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             string visibility = "";
 
             finalString += xString;
-            var yString = $" y=\"{lineSpacing.PointToPixel()}px\" ";
+            var yString = $" y=\"{YPosition.PointToPixel()}px\" ";
             finalString += yString;
 
-            currentYEndPos += lineSpacing;
+            currentYEndPos += YPosition;
 
             if (double.IsNaN(ClippingHeight) == false && currentYEndPos >= ClippingHeight)
             {

@@ -43,7 +43,7 @@ namespace EPPlusImageRenderer.Svg
         /// <summary>
         /// Textbox from memory
         /// </summary>
-        SvgTextBoxItem TextBox;
+        public SvgTextBoxItem TextBox { get; internal set; }
 
         public SvgShape(ExcelShape shape) : base(shape)
         {

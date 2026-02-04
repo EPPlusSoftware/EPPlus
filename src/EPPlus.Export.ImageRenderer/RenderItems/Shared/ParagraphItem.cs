@@ -129,15 +129,27 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
-        internal protected TextRunItem AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText, double startingX, double lineSpacing)
+        internal protected TextRunItem AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText, double startingX)
         {
             var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
-            targetTxtRun.lineSpacing = lineSpacing;
             targetTxtRun.Bounds.Left = startingX;
 
             Runs.Add(targetTxtRun);
             return targetTxtRun;
         }
+
+        public void AddText(string text, ExcelTextFont font, bool isOld)
+        {
+            var measurer = new FontMeasurerTrueType();
+            var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), ParentTextBody.MaxWidth);
+            var container = CreateTextRun(text, font, Bounds, string.Join("\r\n", displayText.ToArray()));
+            //container.BaseLineSpacing = _lineSpacingAscendantOnly;
+            //container.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
+            Runs.Add(container);
+            Bounds.Width = container.Bounds.Width + 0.001; //TODO: fix for equal width issue
+            container.Bounds.Name = $"Container{Runs.Count}";
+        }
+
 
         public void AddText(string text, ExcelTextFont font)
         {
@@ -224,10 +236,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     }
                     else
                     {
-                        AddRenderItemTextRun(p.TextRuns[rtFragment.Fragidx], displayText, prevWidth, runLineSpacing);
+                        AddRenderItemTextRun(p.TextRuns[rtFragment.Fragidx], displayText, prevWidth);
                     }
 
                     TextRunItem runItem = Runs.Last();
+                    runItem.YPosition = runLineSpacing;
 
                     runItem.Bounds.Width = rtFragment.Width;
                     prevWidth += rtFragment.Width;

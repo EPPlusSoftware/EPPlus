@@ -218,32 +218,19 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
                 cube.GetSizeInPixels(out int testWidth, out int testHeight);
 
+                //cube.SetPixelWidth(300);
+                //cube.SetPixelHeight(300);
+
                 var parentBB = new BoundingBox();
                 parentBB.Width = testWidth;
                 parentBB.Height = testHeight;
 
                 var svgShape = new SvgShape(cube);
-                SvgTextBodyItem tbItem = new SvgTextBodyItem(svgShape, parentBB);
 
-                ////Verify new method works at all
-                //for(int i = 1; i< cube.TextBody.Paragraphs.Count; i++)
-                //{
-                //    var fragments = GenerateTextFragments(cube.TextBody.Paragraphs[i].TextRuns);
+                SvgTextBodyItem tbItem = svgShape.TextBox.TextBody;
+                //SvgTextBodyItem tbItem = new SvgTextBodyItem(svgShape, parentBB);
 
-                //    var wrappedText = GetWrappedText(cube.TextBody.Paragraphs[i].TextRuns, fragments);
-                //    if(i == 0)
-                //    {
-                //        Assert.AreEqual("TextBox", wrappedText[0].Text);
-                //        Assert.AreEqual("a", wrappedText[1].Text);
-                //    }
-                //    if(i == 1)
-                //    {
-                //        Assert.AreEqual("TextBox2ra underlineLa", wrappedText[0].Text);
-                //        Assert.AreEqual("StrikeGoudy size", wrappedText[1].Text);
-                //        Assert.AreEqual("16SvgSize 24", wrappedText[2].Text);
-                //    }
-                //}
-                tbItem.ImportTextBody(cube.TextBody);
+                //tbItem.ImportTextBody(cube.TextBody);
 
                 var txtRun1Bounds = tbItem.Paragraphs[0].Runs[0].Bounds;
 

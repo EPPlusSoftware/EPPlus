@@ -17,7 +17,13 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         /// </summary>
         public double Width { get; internal set; }
 
-        public RichTextFragmentSimple() { }
+        public RichTextFragmentSimple() 
+        {
+            Width = 0;
+            Fragidx = 0;
+            OverallParagraphStartCharIdx = 0;
+            charStarIdxWithinCurrentLine = 0;
+        }
 
         internal RichTextFragmentSimple Clone()
         {

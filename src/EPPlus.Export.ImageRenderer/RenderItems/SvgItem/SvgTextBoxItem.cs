@@ -74,9 +74,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
             renderItems.Add(groupItem);
             //handled by group now
-            //Rectangle.Bounds.Top = 0;
-            //Rectangle.Bounds.Left = 0;
-            //renderItems.Add(Rectangle);
+            Rectangle.Bounds.Top = 0;
+            Rectangle.Bounds.Left = 0;
+            renderItems.Add(Rectangle);
             TextBody.AppendRenderItems(renderItems);
             renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
         }
