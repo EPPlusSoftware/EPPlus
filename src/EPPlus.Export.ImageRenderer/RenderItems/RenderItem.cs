@@ -217,7 +217,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         //internal void SetTheme(ExcelTheme theme)
         //{
-        //    _theme = theme;
+        //    theme = theme;
         //}
     }
     /// <summary>

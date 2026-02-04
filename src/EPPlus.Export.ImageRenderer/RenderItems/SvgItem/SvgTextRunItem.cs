@@ -1,4 +1,5 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
@@ -24,7 +25,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         }
         string GetFontStyleAttributes()
         {
-            string fontStyleAttributes = "";
+            string fontStyleAttributes = " ";
 
             if (_isItalic)
             {
@@ -37,7 +38,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             if (_underLineType != eUnderLineType.None | _strikeType != eStrikeType.No)
             {
 
-                fontStyleAttributes += "text-decoration=\"";
+                fontStyleAttributes += "text-decoration=\" ";
                 if (_underLineType != eUnderLineType.None)
                 {
                     switch (_underLineType)
@@ -84,60 +85,92 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void Render(StringBuilder sb)
         {
             string finalString = "";
-            var xString = $"x =\"{(Bounds.Left).ToString(CultureInfo.InvariantCulture)}\" ";
+            var xString = $"x =\"{(Bounds.Left.PointToPixel()).ToString(CultureInfo.InvariantCulture)}\" ";
 
             var currentYEndPos = Bounds.Position.Y; // Global position Y
+            finalString += $"<tspan ";
+            string visibility = "";
 
-            for (int i = 0; i < Lines.Count; i++)
+            finalString += xString;
+            var yString = $" y=\"{lineSpacing.PointToPixel()}px\" ";
+            finalString += yString;
+
+            currentYEndPos += lineSpacing;
+
+            if (double.IsNaN(ClippingHeight) == false && currentYEndPos >= ClippingHeight)
             {
-                var line = Lines[i];
-
-                finalString += $"<tspan ";
-                string visibility = "";
-
-                //Textrun may continue on same line or start a new line
-                //Refer to pre-calculated list
-                if (YIncreasePerLine.Count > 0 && YIncreasePerLine[i] != 0)
-                {
-                    var yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(YIncreasePerLine[i]);
-
-                    currentYEndPos += yIncrease;
-                    if (double.IsNaN(ClippingHeight) == false && currentYEndPos >= ClippingHeight)
-                    {
-                        visibility = "display=\"none\"";
-                    }
-
-                    var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
-                    var dyString = $"dy=\"{yIncreaseString}px\" ";
-                    finalString += dyString;
-                    finalString += "x=\"0\" ";
-                }
-                else
-                {
-                    finalString += xString;
-                }
-
-                finalString += $"{visibility} " + $"{GetFontStyleAttributes()} ";
-
-                if (_measurementFont != null)
-                {
-                    finalString += $"font-family=\"{_measurementFont.FontFamily},"
-                        + $"{_measurementFont.FontFamily}_MSFontService,sans-serif\" "
-                        + $"font-size=\"{FontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
-                }
-
-                sb.Append(finalString);
-
-                //Get color etc.
-                //Renders up until this point
-                SvgBaseRenderer.BaseRender(sb, this);
-                //Since final string has been written in base.render erase it.
-                finalString = "";
-
-                finalString += ">";
-                finalString += line;
-                finalString += "</tspan>";
+                visibility = " display=\"none\"";
             }
+            finalString += visibility;
+            finalString += $"{GetFontStyleAttributes()}";
+
+            if (_measurementFont != null)
+            {
+                finalString += $"font-family=\"{_measurementFont.FontFamily},"
+                    + $"{_measurementFont.FontFamily}_MSFontService,sans-serif\" "
+                    + $"font-size=\"{FontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
+            }
+
+            sb.Append(finalString);
+            //Get color etc.
+            //Renders up until this point
+            SvgBaseRenderer.BaseRender(sb, this);
+            //Since final string has been written in base.render erase it.
+            finalString = "";
+
+            finalString += ">";
+            finalString += _currentText;
+            finalString += "</tspan>";
+            //for (int i = 0; i < Lines.Count; i++)
+            //{
+            //    var line = Lines[i];
+
+            //    finalString += $"<tspan ";
+            //    string visibility = "";
+
+            //    //Textrun may continue on same line or start a new line
+            //    //Refer to pre-calculated list
+            //    if (YIncreasePerLine.Count > 0 && YIncreasePerLine[i] != 0)
+            //    {
+            //        var yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(YIncreasePerLine[i]);
+
+            //        currentYEndPos += yIncrease;
+            //        if (double.IsNaN(ClippingHeight) == false && currentYEndPos >= ClippingHeight)
+            //        {
+            //            visibility = "display=\"none\"";
+            //        }
+
+            //        var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
+            //        var dyString = $"dy=\"{yIncreaseString}px\" ";
+            //        finalString += dyString;
+            //        finalString += "x=\"0\" ";
+            //    }
+            //    else
+            //    {
+            //        finalString += xString;
+            //    }
+
+            //    finalString += $"{visibility} " + $"{GetFontStyleAttributes()} ";
+
+            //    if (_measurementFont != null)
+            //    {
+            //        finalString += $"font-family=\"{_measurementFont.FontFamily},"
+            //            + $"{_measurementFont.FontFamily}_MSFontService,sans-serif\" "
+            //            + $"font-size=\"{FontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
+            //    }
+
+            //    sb.Append(finalString);
+
+            //    //Get color etc.
+            //    //Renders up until this point
+            //    SvgBaseRenderer.BaseRender(sb, this);
+            //    //Since final string has been written in base.render erase it.
+            //    finalString = "";
+
+            //    finalString += ">";
+            //    finalString += line;
+            //    finalString += "</tspan>";
+            //}
             sb.Append(finalString);
         }
     }

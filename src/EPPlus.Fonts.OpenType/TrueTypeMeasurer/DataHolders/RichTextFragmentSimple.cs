@@ -7,13 +7,15 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
 {
     public class RichTextFragmentSimple
     {
-        internal int Fragidx { get; set; }
+        public int Fragidx { get; internal set; }
 
         internal int OverallParagraphStartCharIdx { get; set; }
         //Char length
         internal int charStarIdxWithinCurrentLine { get; set; }
-        //Width in points
-        internal double Width { get; set; }
+        /// <summary>
+        /// Width in points
+        /// </summary>
+        public double Width { get; internal set; }
 
         public RichTextFragmentSimple() { }
 

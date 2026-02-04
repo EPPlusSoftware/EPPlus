@@ -208,7 +208,7 @@ namespace EPPlusImageRenderer.Svg
                         b = ib;
                     }
                 }
-                return $"{(l * Bounds.Width).ToString(CultureInfo.InvariantCulture)},{(t * Bounds.Height).ToString(CultureInfo.InvariantCulture)},{((Math.Abs(l) + r) * Bounds.Width).ToString(CultureInfo.InvariantCulture)},{((Math.Abs(t) + b) * Bounds.Height).ToString(CultureInfo.InvariantCulture)}";
+                return $"{(Bounds.Left).ToString(CultureInfo.InvariantCulture)},{Bounds.Top.ToString(CultureInfo.InvariantCulture)},{Bounds.Right.ToString(CultureInfo.InvariantCulture)},{Bounds.Bottom.ToString(CultureInfo.InvariantCulture)}";
             }
         }
 

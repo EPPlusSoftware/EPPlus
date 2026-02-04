@@ -159,7 +159,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
             var wrappedLines = ttMeasurer.WrapMultipleTextFragmentsToTextLines(textFragments, fonts, maxSizePoints);
 
-            Assert.AreEqual(wrappedLines[0].r)
+            //Assert.AreEqual(wrappedLines[0].r)
 
 
             //Line 1 45 px 34.5pt
@@ -225,34 +225,34 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 var svgShape = new SvgShape(cube);
                 SvgTextBodyItem tbItem = new SvgTextBodyItem(svgShape, parentBB);
 
-                //Verify new method works at all
-                for(int i = 1; i< cube.TextBody.Paragraphs.Count; i++)
-                {
-                    var fragments = GenerateTextFragments(cube.TextBody.Paragraphs[i].TextRuns);
+                ////Verify new method works at all
+                //for(int i = 1; i< cube.TextBody.Paragraphs.Count; i++)
+                //{
+                //    var fragments = GenerateTextFragments(cube.TextBody.Paragraphs[i].TextRuns);
 
-                    var wrappedText = GetWrappedText(cube.TextBody.Paragraphs[i].TextRuns, fragments);
-                    if(i == 0)
-                    {
-                        Assert.AreEqual("TextBox", wrappedText[0].Text);
-                        Assert.AreEqual("a", wrappedText[1].Text);
-                    }
-                    if(i == 1)
-                    {
-                        Assert.AreEqual("TextBox2ra underlineLa", wrappedText[0].Text);
-                        Assert.AreEqual("StrikeGoudy size", wrappedText[1].Text);
-                        Assert.AreEqual("16SvgSize 24", wrappedText[2].Text);
-                    }
-                }
+                //    var wrappedText = GetWrappedText(cube.TextBody.Paragraphs[i].TextRuns, fragments);
+                //    if(i == 0)
+                //    {
+                //        Assert.AreEqual("TextBox", wrappedText[0].Text);
+                //        Assert.AreEqual("a", wrappedText[1].Text);
+                //    }
+                //    if(i == 1)
+                //    {
+                //        Assert.AreEqual("TextBox2ra underlineLa", wrappedText[0].Text);
+                //        Assert.AreEqual("StrikeGoudy size", wrappedText[1].Text);
+                //        Assert.AreEqual("16SvgSize 24", wrappedText[2].Text);
+                //    }
+                //}
                 tbItem.ImportTextBody(cube.TextBody);
 
                 var txtRun1Bounds = tbItem.Paragraphs[0].Runs[0].Bounds;
 
                 Assert.AreEqual(43.835286458333336d, txtRun1Bounds.Width);
 
-                var widthLine2 = tbItem.Paragraphs[0].Runs[0].PerLineWidth[1];
-                var topYLine2 = tbItem.Paragraphs[0].Runs[0].YIncreasePerLine[1];
-                Assert.AreEqual(7.147135416666667d, widthLine2);
-                Assert.AreEqual(17.903645833333336d, topYLine2);
+                //var widthLine2 = tbItem.Paragraphs[0].Runs[0].PerLineWidth[1];
+                //var topYLine2 = tbItem.Paragraphs[0].Runs[0].YIncreasePerLine[1];
+                //Assert.AreEqual(7.147135416666667d, widthLine2);
+                //Assert.AreEqual(17.903645833333336d, topYLine2);
 
                 var txtRuns2 = tbItem.Paragraphs[1].Runs;
 

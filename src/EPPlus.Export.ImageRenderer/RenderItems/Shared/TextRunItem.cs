@@ -44,11 +44,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected internal eStrikeType _strikeType;
         protected internal Color _underlineColor;
 
-        internal double LineSpacingPerNewLine { get; set; }
-        internal double BaseLineSpacing { get; set; }
+        internal double lineSpacing { get; set; }
+        //internal double LineSpacingPerNewLine { get; set; }
+        //internal double BaseLineSpacing { get; set; }
 
-        internal List<double> YIncreasePerLine { get; private set; } = new List<double>();
-        internal List<double> PerLineWidth { get; private set; } = new List<double>();
+        //internal List<double> YIncreasePerLine { get; private set; } = new List<double>();
+        //internal List<double> PerLineWidth { get; private set; } = new List<double>();
         internal double ClippingHeight = double.NaN;
 
         internal TextRunItem(DrawingBase renderer, BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(renderer, parent)
@@ -119,17 +120,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
 
-            var measurer = run.Paragraph._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
-            _measurer = (FontMeasurerTrueType)measurer;
-
             _measurementFont = run.GetMeasurementFont();
-            _measurer.SetFont(_measurementFont);
-
-            _isFirstInParagraph = run.IsFirstInParagraph;
 
             _fontStyles = _measurementFont.Style;
 
             FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
+            Bounds.Height = FontSizeInPixels;
 
             _horizontalTextAlignment = run.Paragraph.HorizontalAlignment;
 
@@ -151,59 +147,59 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _strikeType = run.FontStrike;
         }
 
-        internal double CalculateLineSpacing()
-        {
-            ////---Calculation of total y-height---
+        //internal double CalculateLineSpacing()
+        //{
+        //    ////---Calculation of total y-height---
 
-            ////If already did this
-            if (YIncreasePerLine.Count > 0)
-            {
-                return Bounds.Height;
-            }
+        //    ////If already did this
+        //    if (YIncreasePerLine.Count > 0)
+        //    {
+        //        return Bounds.Height;
+        //    }
 
-            //bool lineIsFirstInParagraph = _isFirstInParagraph;
+        //    //bool lineIsFirstInParagraph = _isFirstInParagraph;
 
-            //foreach (var line in Lines)
-            //{
-            //    //Despite new textrun it could still be on the same line as previous textrun
-            //    //Therefore only do line increase if we are first in paragraph or if we are not Lines[0].
-            //    //This as line == Lines[0] && isFirstInParagraph == false means we are continuing on the same line as previous textRun
-            //    //This is important if for example we have rich text where two letters on the same line has different colors.
-            //    if (line != Lines[0] || lineIsFirstInParagraph)
-            //    {
-            //        var yIncrease = lineIsFirstInParagraph ? BaseLineSpacing : LineSpacingPerNewLine;
-            //        lineIsFirstInParagraph = false;
+        //    //foreach (var line in Lines)
+        //    //{
+        //    //    //Despite new textrun it could still be on the same line as previous textrun
+        //    //    //Therefore only do line increase if we are first in paragraph or if we are not Lines[0].
+        //    //    //This as line == Lines[0] && isFirstInParagraph == false means we are continuing on the same line as previous textRun
+        //    //    //This is important if for example we have rich text where two letters on the same line has different colors.
+        //    //    if (line != Lines[0] || lineIsFirstInParagraph)
+        //    //    {
+        //    //        var yIncrease = lineIsFirstInParagraph ? BaseLineSpacing : LineSpacingPerNewLine;
+        //    //        lineIsFirstInParagraph = false;
 
-            //        //yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
+        //    //        //yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(yIncrease);
 
-            //        YIncreasePerLine.Add(yIncrease);
+        //    //        YIncreasePerLine.Add(yIncrease);
 
-            //        _yEndPos += yIncrease;
-            //        //if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
-            //        //{
-            //        //    bool displayLine = false
-            //        //}
-            //    }
-            //    else
-            //    {
-            //        YIncreasePerLine.Add(0);
-            //    }
-            //}
+        //    //        _yEndPos += yIncrease;
+        //    //        //if (Double.IsNaN(ClippingHeight) == false && _yEndPos >= ClippingHeight)
+        //    //        //{
+        //    //        //    bool displayLine = false
+        //    //        //}
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        YIncreasePerLine.Add(0);
+        //    //    }
+        //    //}
 
-            //for (int i = 0; i < YIncreasePerLine)
+        //    //for (int i = 0; i < YIncreasePerLine)
 
-            if (_yEndPos == 0)
-            {
-                Bounds.Height = FontSizeInPixels;
-            }
-            else
-            {
-                Bounds.Height = _yEndPos;
-            }
+        //    if (_yEndPos == 0)
+        //    {
+        //        Bounds.Height = FontSizeInPixels;
+        //    }
+        //    else
+        //    {
+        //        Bounds.Height = _yEndPos;
+        //    }
 
-            return _yEndPos;
+        //    return _yEndPos;
 
-        }
+        //}
 
         internal List<string> GetLines(string text)
         {
@@ -240,99 +236,99 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //Bounds.Width = ir-Bounds.Left;
         }
 
-        internal double CalculateRightPositionInPixels()
-        {
-            var numLines = GetNumberOfLines();
-            double retPos = Bounds.Left;
+        //internal double CalculateRightPositionInPixels()
+        //{
+        //    var numLines = GetNumberOfLines();
+        //    double retPos = Bounds.Left;
 
-            double textLengthPixels = 0;
+        //    double textLengthPixels = 0;
 
-            if (numLines <= 0 || string.IsNullOrEmpty(_originalText))
-            {
-                textLengthPixels = 0;
-                return retPos;
-            }
+        //    if (numLines <= 0 || string.IsNullOrEmpty(_originalText))
+        //    {
+        //        textLengthPixels = 0;
+        //        return retPos;
+        //    }
 
-            double longestWidth = -1;
+        //    double longestWidth = -1;
 
-            for (int i = 0; i < numLines; i++)
-            {
-                var text = Lines[i];
-                var width = CalculateTextWidth(Lines[i]).PointToPixel();
-                PerLineWidth.Add(width);
+        //    for (int i = 0; i < numLines; i++)
+        //    {
+        //        var text = Lines[i];
+        //        var width = CalculateTextWidth(Lines[i]).PointToPixel();
+        //        PerLineWidth.Add(width);
 
-                if (width > longestWidth)
-                {
-                    longestWidth = width;
-                }
-            }
+        //        if (width > longestWidth)
+        //        {
+        //            longestWidth = width;
+        //        }
+        //    }
 
-            textLengthPixels = longestWidth;
+        //    textLengthPixels = longestWidth;
 
-            retPos += longestWidth;
+        //    retPos += longestWidth;
 
-            //Calculates right
-            Bounds.Width = textLengthPixels;
+        //    //Calculates right
+        //    Bounds.Width = textLengthPixels;
 
-            return Bounds.Right;
-        }
+        //    return Bounds.Right;
+        //}
 
-        internal double CalculateBottomPositionInPixels()
-        {
-            return Bounds.Height;
-        }
+        //internal double CalculateBottomPositionInPixels()
+        //{
+        //    return Bounds.Height;
+        //}
 
-        internal double CalculateTextWidth(string targetString)
-        {
-            _measurer.SetFont(_measurementFont);
-            _measurer.MeasureWrappedTextCells = true;
-            var width = _measurer.MeasureTextWidth(targetString);
+        //internal double CalculateTextWidth(string targetString)
+        //{
+        //    _measurer.SetFont(_measurementFont);
+        //    _measurer.MeasureWrappedTextCells = true;
+        //    var width = _measurer.MeasureTextWidth(targetString);
 
-            return width;
-        }
+        //    return width;
+        //}
 
-        internal void SetPerLineWidths(List<double> widthsInPoints)
-        {
-            var newList = new List<double>();
-            for (int i = 0; i < widthsInPoints.Count; i++)
-            {
-                newList.Add(widthsInPoints[i].PointToPixel());
-            }
+        //internal void SetPerLineWidths(List<double> widthsInPoints)
+        //{
+        //    var newList = new List<double>();
+        //    for (int i = 0; i < widthsInPoints.Count; i++)
+        //    {
+        //        newList.Add(widthsInPoints[i].PointToPixel());
+        //    }
 
-            PerLineWidth.Clear();
-            PerLineWidth = newList;
-        }
+        //    PerLineWidth.Clear();
+        //    PerLineWidth = newList;
+        //}
 
-        internal void AddLineSpacing(double lineSpacing)
-        {
-            YIncreasePerLine.Add(lineSpacing);
-            _yEndPos += lineSpacing;
-            Bounds.Height = _yEndPos;
-            //bool lineIsFirstInParagraph = _isFirstInParagraph;
+        //internal void AddLineSpacing(double lineSpacing)
+        //{
+        //    YIncreasePerLine.Add(lineSpacing);
+        //    _yEndPos += lineSpacing;
+        //    Bounds.Height = _yEndPos;
+        //    //bool lineIsFirstInParagraph = _isFirstInParagraph;
 
-            //for(int i = 0; i< Lines.Count(); i++)
-            //{
-            //    if (Lines[i] != Lines[0] || lineIsFirstInParagraph)
-            //    {
-            //        var yIncrease = lineIsFirstInParagraph ? ascent : ascent + descent;
-            //        YIncreasePerLine.Add()
+        //    //for(int i = 0; i< Lines.Count(); i++)
+        //    //{
+        //    //    if (Lines[i] != Lines[0] || lineIsFirstInParagraph)
+        //    //    {
+        //    //        var yIncrease = lineIsFirstInParagraph ? ascent : ascent + descent;
+        //    //        YIncreasePerLine.Add()
 
-            //        lineIsFirstInParagraph = false;
-            //    }
-            //}
+        //    //        lineIsFirstInParagraph = false;
+        //    //    }
+        //    //}
 
-            //for (int i = 0; i < YIncreasePerLine)
+        //    //for (int i = 0; i < YIncreasePerLine)
 
-            //    if (_yEndPos == 0)
-            //    {
-            //        Bounds.Height = FontSizeInPixels;
-            //    }
-            //    else
-            //    {
-            //        Bounds.Height = _yEndPos;
-            //    }
+        //    //    if (_yEndPos == 0)
+        //    //    {
+        //    //        Bounds.Height = FontSizeInPixels;
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        Bounds.Height = _yEndPos;
+        //    //    }
 
-            //return _yEndPos;
-        }
+        //    //return _yEndPos;
+        //}
     }
 }

@@ -657,7 +657,7 @@ namespace EPPlus.Fonts.OpenType
                 //Remove the overflowing characters
                 var trimmedString = spacedString.TrimEnd(' ');
 
-                wrappedString = spacedString;
+                wrappedString = trimmedString;
 
                 //The start index of the first character in the overflow (After space)
                 startLineIdx += startIndex;
@@ -840,7 +840,6 @@ namespace EPPlus.Fonts.OpenType
                 //Happens at the end of a fragment/start of a new fragment
                 if(fragmentIdx != prevFragmentIdx)
                 {
-
                     LogFragmentWidth(paragraph.Fragments, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, prevFragmentIdx);
 
                     //Since there is no gurantee any wrapping has occured
@@ -911,6 +910,10 @@ namespace EPPlus.Fonts.OpenType
                 var glyphMapping = paragraph.GlyphMappings[fragmentIdx];
 
                 char c = allText[i];
+                if (c == '\r' || c == '\n')
+                {
+                    continue;
+                }
                 var advanceWidth = CalculateAdvanceWidth(c, glyphMapping, currentFont, ref lastGlyphIndex, ref lineWidth, ref wordWidth, ref applyKerning);
 
                 //Perform the actual wrapping
@@ -961,10 +964,16 @@ namespace EPPlus.Fonts.OpenType
                 prevFragmentIdx = fragmentIdx;
             }
 
-            LogLineData(paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, paragraph.Fragments.TextFragments.Count()-1);
-            LogFragmentWidth(paragraph.Fragments, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, paragraph.Fragments.TextFragments.Count() - 1);
+            if(lineWidth > 0)
+            {
+                LogLineData(paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, paragraph.Fragments.TextFragments.Count() - 1);
+                LogFragmentWidth(paragraph.Fragments, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, paragraph.Fragments.TextFragments.Count() - 1);
+            }
 
-            wrappedStrings.Add(leftOverLine);
+            if(string.IsNullOrEmpty(leftOverLine) == false)
+            {
+                wrappedStrings.Add(leftOverLine);
+            }
 
             return wrappedStrings;
         }
@@ -1026,28 +1035,15 @@ namespace EPPlus.Fonts.OpenType
                 var lineIdx = charInfo.Line;
                 var fragmentIdx = charInfo.Fragment;
 
-                //Happens at the end of a fragment/start of a new fragment
-                if (fragmentIdx != prevFragmentIdx)
-                {
-                    AddWidthToFragment(currentRtFragment, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, prevFragmentIdx);
-                    currentLineRtFragments.Add(currentRtFragment);
-
-                    currentRtFragment = new RichTextFragmentSimple();
-                    currentRtFragment.Fragidx = fragmentIdx;
-                    currentRtFragment.OverallParagraphStartCharIdx = i;
-
-                    prevFragWidths = ConvertDesignUnits(currentFont, fontSize, paragraph.FontIndexDict[fragmentIdx], paragraph.FontSizes[fragmentIdx], lineWidth);
-                }
-
                 //If we hit a pre-existing line break. Reset line and wordwidths
                 var indexExists = newLineIndicies.Count() > currentLineIndex;
                 if (indexExists)
                 {
                     if (i >= newLineIndicies[currentLineIndex])
                     {
-                        AddDataToSimpleLine(currentTextLine, paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, fragmentIdx);
+                        AddDataToSimpleLine(currentTextLine, paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, prevFragmentIdx);
                         //Log current fragment width
-                        AddWidthToFragment(currentRtFragment, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, fragmentIdx);
+                        AddWidthToFragment(currentRtFragment, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, prevFragmentIdx);
                         currentLineRtFragments.Add(currentRtFragment);
 
                         //We are on the same fragment but there's been a line break
@@ -1055,43 +1051,63 @@ namespace EPPlus.Fonts.OpenType
                         prevFragWidths = 0;
 
                         //Since we are on a new line the current largest font-size for this line is the current size
-                        CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
+                        CurrentLineLargestFontSize = paragraph.FontSizes[prevFragmentIdx];
                         largestFontCurrentLine = currentFont;
 
-                        prevLineBreakIndex = i;
-                        var addedLine = leftOverLine.Trim(['\r', '\n']);
                         for (int j = 0; j < currentLineRtFragments.Count(); j++)
                         {
-                            //Always true here?
-                            if (currentLineRtFragments[j].OverallParagraphStartCharIdx < prevLineBreakIndex)
-                            {
-                                currentLineRtFragments[j].charStarIdxWithinCurrentLine = prevLineBreakIndex - currentLineRtFragments[j].OverallParagraphStartCharIdx;
-                                currentTextLine.RtFragments.Add(currentLineRtFragments[j]);
-                            }
+                            currentLineRtFragments[j].charStarIdxWithinCurrentLine = prevLineBreakIndex - currentLineRtFragments[j].OverallParagraphStartCharIdx;
+                            currentTextLine.RtFragments.Add(currentLineRtFragments[j]);
                         }
+
+                        //no fragments but the current one should be applicable to next line in this case
+                        currentLineRtFragments.Clear();
+
+                        //prevLineBreakIndex = i;
+                        var addedLine = leftOverLine.Trim(['\r', '\n']);
                         ////In this case it goes all the way to the end
                         //currentRtFragment.charStarIdxWithinCurrentLine = addedLine.Length-1;
                         //currentTextLine.RtFragments.Add(currentRtFragment);
                         currentTextLine.Text = addedLine;
                         outputTextLines.Add(currentTextLine);
+                        prevFragWidths = 0;
 
 
-                        //var overallStartIdx = currentRtFragment.OverallParagraphStartCharIdx;
+                        var overallStartIdx = currentRtFragment.OverallParagraphStartCharIdx;
                         currentTextLine = new TextLineSimple();
-                        //currentRtFragment = new RichTextFragmentSimple();
-                        //currentRtFragment.Fragidx = fragmentIdx;
-                        //currentRtFragment.FontSize = paragraph.FontSizes[fragmentIdx];
-                        //currentRtFragment.charStarIdxWithinCurrentLine = 0;
-                        //currentRtFragment.OverallParagraphStartCharIdx = overallStartIdx;
+                        currentRtFragment = new RichTextFragmentSimple();
+                        currentRtFragment.Fragidx = fragmentIdx;
+                        currentRtFragment.charStarIdxWithinCurrentLine = 0;
+                        currentRtFragment.OverallParagraphStartCharIdx = overallStartIdx;
                         //currentLineRtFragments.Clear();
                         //currentLineRtFragments.Add(currentRtFragment);
 
                         lineWidth = 0;
                         wordWidth = 0;
                         leftOverLine = "";
-                        //prevLineEndIndex = i;
+                        prevLineEndIndex = i;
                         currentLineIndex++;
                     }
+                }
+
+                //Happens at the end of a fragment/start of a new fragment
+                if (fragmentIdx != prevFragmentIdx)
+                {
+                    if(lineWidth != 0)
+                    {
+                        AddWidthToFragment(currentRtFragment, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, prevFragmentIdx);
+                        currentLineRtFragments.Add(currentRtFragment);
+                    }
+                    else
+                    {
+                        string test = "should only happen after \r\n";
+                    }
+
+                    currentRtFragment = new RichTextFragmentSimple();
+                    currentRtFragment.Fragidx = fragmentIdx;
+                    currentRtFragment.OverallParagraphStartCharIdx = i;
+
+                    prevFragWidths = ConvertDesignUnits(currentFont, fontSize, paragraph.FontIndexDict[fragmentIdx], paragraph.FontSizes[fragmentIdx], lineWidth);
                 }
 
                 //If this char has a different font, do the neccesary conversions
@@ -1127,6 +1143,11 @@ namespace EPPlus.Fonts.OpenType
                 var glyphMapping = paragraph.GlyphMappings[fragmentIdx];
 
                 char c = allText[i];
+                if (c == '\r' || c == '\n')
+                {
+                    continue;
+                }
+
                 var advanceWidth = CalculateAdvanceWidth(c, glyphMapping, currentFont, ref lastGlyphIndex, ref lineWidth, ref wordWidth, ref applyKerning);
 
                 //Perform the actual wrapping
