@@ -55,6 +55,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             // Build mapping: Unicode code point → NEW glyph ID in subset
             Dictionary<uint, ushort> cmapMapping = new Dictionary<uint, ushort>();
 
+
             foreach (uint codePoint in context.UsedCodePoints)
             {
                 ushort oldGid;
@@ -72,6 +73,18 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                     }
                 }
             }
+
+            // DEBUG: Visa vad som faktiskt läggs in
+            Console.WriteLine("=== cmapMapping innehåll ===");
+            Console.WriteLine($"'T' (84) i cmapMapping: {(cmapMapping.ContainsKey(84) ? cmapMapping[84].ToString() : "SAKNAS")}");
+            Console.WriteLine($"'A' (65) i cmapMapping: {(cmapMapping.ContainsKey(65) ? cmapMapping[65].ToString() : "SAKNAS")}");
+
+            // Visa också OldToNewGlyphId för 'T'
+            ushort tOldGid;
+            context.OriginalFont.CmapTable.TryGetGlyphId(84, out tOldGid);
+            Console.WriteLine($"'T' OldGID: {tOldGid}");
+            Console.WriteLine($"OldToNewGlyphId[{tOldGid}]: {(context.OldToNewGlyphId.ContainsKey(tOldGid) ? context.OldToNewGlyphId[tOldGid].ToString() : "SAKNAS")}");
+
 
             // Always map code point 0 to .notdef (required by spec)
             cmapMapping[0] = 0;
@@ -104,6 +117,12 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             // Replace cmap in subset font. 
             // Now GetMinCharCode() will return the correct value to the validator.
             context.SubsetFont.AddOrReplaceTable(newCmap);
+
+            // DEBUG: Verifiera direkt efter att tabellen lagts till
+            Console.WriteLine("=== CmapSubsetProcessor.Rewrite DONE ===");
+            Console.WriteLine($"  SubsetFont hash: {context.SubsetFont.GetHashCode()}");
+            Console.WriteLine($"  CmapTable hash: {context.SubsetFont.CmapTable.GetHashCode()}");
+            Console.WriteLine($"  MapCharToGlyph('T'): {context.SubsetFont.CmapTable.MapCharToGlyph('T')}");
         }
     }
 }

@@ -88,6 +88,9 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 : HeadTable.IndexToLocFormats.Offset32;
 
             context.SubsetFont.AddOrReplaceTable(LocaTable.CreateSubset(offsets, context.SubsetFont.HeadTable.IndexToLocFormat));
+            Console.WriteLine($"=== GlyfAndLocaSubsetProcessor ===");
+            Console.WriteLine($"NewToOldGlyphId count: {context.NewToOldGlyphId.Count}");
+            Console.WriteLine($"NewGID 42 → OldGID: {context.NewToOldGlyphId[42]}");
         }
 
         private static bool IsEmpty(Glyph g)

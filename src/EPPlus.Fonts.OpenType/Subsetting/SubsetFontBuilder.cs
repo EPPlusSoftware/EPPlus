@@ -69,7 +69,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
             context.SubsetFont.UsedCodePointsForSubset = new List<uint>(context.UsedCodePoints);
 
-            //context.SubsetFont.SubsetGlyphMapping = new Dictionary<ushort, ushort>(context.OldToNewGlyphId);
+            context.SubsetFont.SubsetGlyphMapping = new Dictionary<ushort, ushort>(context.OldToNewGlyphId);
 
             return context.SubsetFont;
         }
@@ -80,6 +80,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             var sortedGlyphs = new List<ushort>(context.IncludedGlyphs);
             sortedGlyphs.Sort();
 
+            Console.WriteLine($"=== BuildGlyphMapping: {sortedGlyphs.Count} glyphs ===");
 
             for (ushort newId = 0; newId < sortedGlyphs.Count; newId++)
             {
@@ -87,6 +88,8 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 context.OldToNewGlyphId[oldId] = newId;
                 context.NewToOldGlyphId.Add(oldId);
 
+                if (newId < 20) // Visa första 20
+                    Console.WriteLine($"  OldGID:{oldId} → NewGID:{newId}");
             }
         }
     }

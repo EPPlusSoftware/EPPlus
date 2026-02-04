@@ -27,6 +27,7 @@ using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using EPPlus.Fonts.OpenType.Tables.Post;
+using EPPlus.Fonts.OpenType.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -512,59 +513,22 @@ namespace EPPlus.Fonts.OpenType
             if (usedChars == null)
                 throw new ArgumentNullException(nameof(usedChars));
 
-            if (usedChars.Count() == 0)
+            var charArray = usedChars.ToArray();
+            if (charArray.Length == 0)
                 throw new ArgumentException("Text cannot be empty", nameof(usedChars));
 
             var subsetBuilder = new SubsetFontBuilder();
 
-            // Konvertera chars till Unicode code points
-            var codePoints = usedChars
-                .Select(c => (uint)c)      // tvinga unsigned
-                .Distinct()
-                .Where(cp => cp <= 0x10FFFF) // validering
-                .Select(cp => (int)cp);
+            // Convert chars to Unicode code points (handling surrogate pairs)
+            var codePoints = CharacterUtil.ExtractCodePointsFromChars(charArray);
 
-            // Skapa subset-font
+            // Create subset font
             var newFont = subsetBuilder.CreateSubset(this, codePoints);
 
             var postProcessor = new SubsetPostProcessor();
             postProcessor.PostProcessSubset(newFont);
 
             return newFont;
-        }
-
-        public OpenTypeFont CreateSubset_Old(IEnumerable<char> usedChars)
-        {
-            // 1. Map chars to glyph IDs
-            var glyphIds = new HashSet<ushort>();
-            foreach (var ch in usedChars)
-            {
-                var glyphId = CmapTable.MapCharToGlyph(ch);
-                if (glyphId >= 0)
-                    glyphIds.Add((ushort)glyphId);
-            }
-            glyphIds.Add(0); // Always include .notdef
-
-            // 2. Handle composite glyphs
-            GlyfTable.ResolveCompositeGlyphs(glyphIds);
-
-            // 3. Create new font instance
-            var subsetFont = new OpenTypeFont(_fontBytes, Format);
-
-            // 4. Copy and filter tables
-            subsetFont.AddOrReplaceTable(HeadTable.Clone());
-            subsetFont.AddOrReplaceTable(MaxpTable.Clone());
-            subsetFont.MaxpTable.numGlyphs = (ushort)glyphIds.Count;
-
-            //subsetFont.ReplaceTable(TableNames.Glyf, GlyfTable.CreateSubset(glyphIds));
-            //subsetFont.LocaTable = this.LocaTable.CreateSubset(glyphIds);
-            //subsetFont.HmtxTable = this.HmtxTable.CreateSubset(glyphIds);
-            //subsetFont.CmapTable = this.CmapTable.CreateSubset(usedChars);
-
-            //// 5. Recalculate checksums
-            //subsetFont.RecalculateChecksums();
-
-            return subsetFont;
         }
 
         public static bool TryParseEnum<T>(string value, out T result) where T : struct
@@ -599,7 +563,7 @@ namespace EPPlus.Fonts.OpenType
         /// For subset fonts: Maps original glyph IDs to new subset glyph IDs.
         /// Null for non-subset fonts.
         /// </summary>
-        //public Dictionary<ushort, ushort> SubsetGlyphMapping { get; internal set; }
+        public Dictionary<ushort, ushort> SubsetGlyphMapping { get; internal set; }
 
 
         /// <summary>
