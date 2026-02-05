@@ -10,34 +10,76 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System.Drawing;
 using System.Globalization;
 using System.Text;
 
 namespace EPPlusImageRenderer.RenderItems
 {
-    internal class SvgGroupItem : SvgRenderItem
+    internal class SvgEndGroupItem : RenderItem
+    {
+        internal SvgEndGroupItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        {
+
+        }
+        public override RenderItemType Type => throw new System.NotImplementedException();
+        public override void Render(StringBuilder sb)
+        {
+                sb.Append("</g>");
+        }
+    }
+    internal class SvgGroupItem : RenderItem
     {
         public override RenderItemType Type => RenderItemType.Group;
 
         public string GroupTransform = "";
 
-        internal SvgGroupItem() : base()
+        internal SvgGroupItem(DrawingBase renderer, BoundingBox bounds) : base(renderer)
         {
-
+            Bounds = bounds;
+            if (Bounds.Left != 0 || Bounds.Top != 0)
+            {
+                GroupTransform = $"transform=\"translate({Bounds.Left.ToString(CultureInfo.InvariantCulture)}, {Bounds.Top.ToString(CultureInfo.InvariantCulture)})\"";
+            }
         }
-        internal SvgGroupItem(double rotation, double cx, double cy) : base()
+        internal SvgGroupItem(DrawingBase renderer, BoundingBox parent, double rotation) : base(renderer, parent)
         {
+            var bounds = "";
+            var rot = "";
+            Bounds = parent;
+            if (Bounds.Left!=0 || Bounds.Top!=0)
+            {
+                bounds = $"translate({Bounds.Left.ToString(CultureInfo.InvariantCulture)}, {Bounds.Top.ToString(CultureInfo.InvariantCulture)})";
+            }
             if(rotation!=0)
             {
+                var cx = parent.Width / 2;
+                var cy = parent.Height / 2;
                 if (cx == 0 && cy == 0)
                 {
-                    GroupTransform = $"transform=\"rotate({rotation}))\"";
+                    rot = $"rotate({rotation.ToString(CultureInfo.InvariantCulture)}))";
                 }
                 else
                 {
-                    GroupTransform = $"transform=\"rotate({rotation}, {cx.ToString(CultureInfo.InvariantCulture)}, {cy.ToString(CultureInfo.InvariantCulture)})\"";
+                    rot = $"rotate({rotation.ToString(CultureInfo.InvariantCulture)}, {cx.ToString(CultureInfo.InvariantCulture)}, {cy.ToString(CultureInfo.InvariantCulture)})";
                 }
+            }
+
+            if(string.IsNullOrEmpty(bounds)==false && string.IsNullOrEmpty(rot)==false)
+            {
+                GroupTransform = $"transform=\"{bounds} {rot}\"";
+            }
+            else if(string.IsNullOrEmpty(bounds)==false)
+            {
+                GroupTransform = $"transform=\"{bounds}\"";
+            }
+            else if (string.IsNullOrEmpty(rot) == false)
+            {
+                GroupTransform = $"transform=\"{rot}\"";
             }
         }
 
@@ -52,16 +94,11 @@ namespace EPPlusImageRenderer.RenderItems
                 sb.Append($"<g {GroupTransform}>");
             }
         }
-        internal void RenderEndGroup(StringBuilder sb)
-        {
-            sb.Append($"</g>");
-        }
 
-
-        internal override SvgRenderItem Clone(SvgShape svgDocument)
-        {
-            return this.Clone(svgDocument);
-        }
+        //internal override SvgRenderItem Clone(SvgShape svgDocument)
+        //{
+        //    return this.Clone(svgDocument);
+        //}
 
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {

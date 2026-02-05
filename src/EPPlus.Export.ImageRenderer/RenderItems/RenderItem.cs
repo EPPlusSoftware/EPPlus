@@ -10,37 +10,44 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
-using EPPlus.Export.ImageRenderer.Svg.Writer;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.Fill;
 using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Style;
 using System;
 using System.Drawing;
-using System.IO;
 using System.Text;
 using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 namespace EPPlusImageRenderer.RenderItems
 {
     internal abstract class RenderItem : RenderItemBase
     {
-        protected ExcelDrawing _drawing;
-        protected ExcelTheme _theme;
-        protected RenderItem()
+        internal protected DrawingBase DrawingRenderer { get; }
+        internal RenderItem(DrawingBase renderer)
         {
-                
+            DrawingRenderer = renderer;
         }
-        internal RenderItem(ExcelDrawing drawing) 
+
+        internal RenderItem(DrawingBase renderer, BoundingBox parent)
         {
-            _drawing = drawing; 
-            _theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
+            Bounds.Parent = parent;
+            DrawingRenderer = renderer; 
         }
-        internal bool IsEndOfGroup { get; set; } = false;
+        //internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
+        internal virtual void GetBounds(out double il, out double it, out double ir, out double ib)
+        {
+            il = Bounds.Left;
+            it = Bounds.Top;
+            ir = Bounds.Right;
+            ib = Bounds.Bottom;
+        }
+
+        //internal bool IsEndOfGroup { get; set; } = false;
         public string FillColor { get; set; }
         public string FilterName { get; set; }
         public DrawGradientFill GradientFill { get; set; }
@@ -58,6 +65,8 @@ namespace EPPlusImageRenderer.RenderItems
         public double? BorderOpacity { get; set; }
         public PathFillMode FillColorSource { get; set; } = PathFillMode.Norm;
         public PathFillMode BorderColorSource { get; set; } = PathFillMode.Norm;
+        public double? GlowRadius { get; private set; }
+        public string GlowColor { get; private set; }
 
         protected void CloneBase(RenderItem item)
         {
@@ -107,7 +116,7 @@ namespace EPPlusImageRenderer.RenderItems
                     FillColor = GetFillColor(fill, color, FillColorSource);
                     break;
                 case eFillStyle.GradientFill:
-                    GradientFill = new DrawGradientFill(_theme, fill.GradientFill);
+                    GradientFill = new DrawGradientFill(DrawingRenderer.Theme, fill.GradientFill);
                     FillColor = null;
                     break;
             }
@@ -131,7 +140,7 @@ namespace EPPlusImageRenderer.RenderItems
                     BorderGradientFill = null;
                     break;
                 case eFillStyle.GradientFill:
-                    BorderGradientFill = new DrawGradientFill(_theme, border.Fill.GradientFill);
+                    BorderGradientFill = new DrawGradientFill(DrawingRenderer.Theme, border.Fill.GradientFill);
                     BorderColor = null;
                     break;
             }
@@ -149,6 +158,16 @@ namespace EPPlusImageRenderer.RenderItems
                 }
             }
         }
+        internal void SetDrawingPropertiesEffects(ExcelDrawingEffectStyle effect)
+        {
+            if (effect.HasGlow)
+            {
+                GlowRadius = effect.Glow.Radius;
+                var gc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme, effect.Glow.Color);
+                GlowColor = "#" + gc.ToArgb().ToString("x8").Substring(2);
+            }
+        }
+
         private double[] GetDashArray(ExcelDrawingBorder border)
         {
             var lw = (int)Math.Round(border.Width * ExcelDrawing.EMU_PER_POINT / ExcelDrawing.EMU_PER_PIXEL);
@@ -190,16 +209,16 @@ namespace EPPlusImageRenderer.RenderItems
             {
                 if (styleFillColor == null)
                 {
-                    fc = EPPlusColorConverter.GetThemeColor(_theme.ColorScheme.Accent1);
+                    fc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme.ColorScheme.Accent1);
                 }
                 else
                 {
-                    fc = EPPlusColorConverter.GetThemeColor(_theme, styleFillColor);
+                    fc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme, styleFillColor);
                 }
             }
             else if (fill.Style == eFillStyle.SolidFill)
             {
-                fc = EPPlusColorConverter.GetThemeColor(_theme, fill.SolidFill.Color);
+                fc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme, fill.SolidFill.Color);
             }
             else
             {
@@ -210,19 +229,17 @@ namespace EPPlusImageRenderer.RenderItems
             return "#" + fc.ToArgb().ToString("x8").Substring(2);
         }
 
-        internal BoundingBox Bounds = new BoundingBox();
-        internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
-
-        internal void SetTheme(ExcelTheme theme)
-        {
-            _theme = theme;
-        }
+        //internal void SetTheme(ExcelTheme theme)
+        //{
+        //    theme = theme;
+        //}
     }
     /// <summary>
     /// Base class for any item rendered.
     /// </summary>
     internal abstract class RenderItemBase
     {
+        internal BoundingBox Bounds = new BoundingBox();
         public abstract RenderItemType Type { get; }
         public abstract void Render(StringBuilder sb);
     }

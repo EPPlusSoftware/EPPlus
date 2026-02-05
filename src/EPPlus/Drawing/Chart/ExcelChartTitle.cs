@@ -32,6 +32,7 @@ namespace OfficeOpenXml.Drawing.Chart
         internal string _nsPrefix = "";
         internal string _fontPropertiesPath = "";
         internal string _richTextPath = "";
+        internal string _defTxBodyPath = "";
         internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) :
             base(nameSpaceManager, node)
         {
@@ -39,6 +40,7 @@ namespace OfficeOpenXml.Drawing.Chart
             _nsPrefix = nsPrefix;
             _fontPropertiesPath = $"{_nsPrefix}:txPr";
             _richTextPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";
+            _defTxBodyPath = $"{_nsPrefix}:txPr";
             if (chart._isChartEx)
             {
                 AddSchemaNodeOrder(new string[] { "layout", "tx", "strRef", "rich", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
@@ -151,7 +153,22 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _textBody;
             }
         }
-		ExcelDrawingTextSettings _textSettings = null;
+        ExcelTextBody _defaultTextBody = null;
+        /// <summary>
+        /// Access to default text body properties
+        /// </summary>
+        public ExcelTextBody DefaultTextBody
+        {
+            get
+            {
+                if (_defaultTextBody == null)
+                {
+                    _defaultTextBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_defTxBodyPath}/a:bodyPr", SchemaNodeOrder);
+                }
+                return _defaultTextBody;
+            }
+        }
+        ExcelDrawingTextSettings _textSettings = null;
 		/// <summary>
 		/// Text settings like fills, text outlines and effects 
 		/// </summary>

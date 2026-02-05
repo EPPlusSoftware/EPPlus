@@ -52,7 +52,6 @@ namespace OfficeOpenXml.Style
             }
             _path = path;
         }
-
         internal void TriggerCreateTopNodeOnTextSet()
         {
             CreateTopNode();

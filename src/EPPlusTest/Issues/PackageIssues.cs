@@ -162,5 +162,13 @@ namespace EPPlusTest.Issues
             sheet.Calculate(o => o.EnableUnicodeAwareStringOperations = true);
             SaveAndCleanup(package);
         }
+        [TestMethod]
+        public void XmlIssue()
+        {
+            using var package = OpenTemplatePackage("test external connection.xlsx");
+            package.Workbook.CalculateAllPivotTables();
+
+            SaveAndCleanup(package);
+        }
     }
 }

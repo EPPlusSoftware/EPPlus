@@ -1,11 +1,19 @@
-﻿using OfficeOpenXml;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Style;
-using System.Globalization;
-using EPPlusImageRenderer;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
+using EPPlusImageRenderer;
+using EPPlusImageRenderer.Svg;
+using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Style;
 using System.Diagnostics;
+using System.Globalization;
+using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {
@@ -51,6 +59,115 @@ namespace EPPlus.Export.ImageRenderer.Tests
             }
         }
 
+        TextFragmentCollection GenerateTextFragments(ExcelDrawingTextRunCollection runs)
+        {
+            List<string> runContents = new List<string>();
+            List<float> fontSizes = new List<float>();
+
+            for (int i = 0; i < runs.Count(); i++)
+            {
+                var txtRun = runs[i];
+                var runFont = txtRun.GetMeasurementFont();
+
+                runContents.Add(txtRun.Text);
+                fontSizes.Add(runFont.Size);
+            }
+
+            return new TextFragmentCollection(runContents, fontSizes);
+        }
+
+        List<TextLineSimple> GetWrappedText(ExcelDrawingTextRunCollection runs, TextFragmentCollection fragments)
+        {
+            FontMeasurerTrueType ttMeasurer = new();
+            List<MeasurementFont> fonts = new List<MeasurementFont>();
+
+            for (int i = 0; i < runs.Count(); i++)
+            {
+                var txtRun = runs[i];
+                var runFont = txtRun.GetMeasurementFont();
+                fonts.Add(runFont);
+            }
+
+            var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
+            return ttMeasurer.WrapMultipleTextFragmentsToTextLines(fragments, fonts, maxSizePoints);
+        }
+
+        [TestMethod]
+        public void TextFragmentHandlesEndLines()
+        {
+            string strWEndLines = "TextBox\r\na";
+
+            List<string> inputFrags = new List<string>() { strWEndLines };
+            var textFragments = new TextFragmentCollection(inputFrags);
+
+        }
+
+        [TestMethod]
+        public void MeasureWrappedWidths()
+        {
+            List<string> lstOfRichText = new() { /*"TextBox\r\na",*/ "TextBox2", "ra underline", "La Strike", "Goudy size 16", "SvgSize 24" };
+
+            //var font1 = new MeasurementFont()
+            //{
+            //    FontFamily = "Aptos Narrow",
+            //    Size = 11,
+            //    Style = MeasurementFontStyles.Regular
+            //}; ;
+
+            var font2 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Italic | MeasurementFontStyles.Bold
+            };
+
+            var font3 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Underline
+            };
+
+            var font4 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Strikeout
+            };
+
+            var font5 = new MeasurementFont()
+            {
+                FontFamily = "Goudy Stout",
+                Size = 16,
+                Style = MeasurementFontStyles.Regular
+            };
+
+
+            var font6 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 24,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            List<MeasurementFont> fonts = new() { /*font1,*/ font2, font3, font4, font5, font6};
+
+            var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
+            var ttMeasurer = new FontMeasurerTrueType(font2);
+
+            var textFragments = new TextFragmentCollection(lstOfRichText);
+
+            var wrappedLines = ttMeasurer.WrapMultipleTextFragmentsToTextLines(textFragments, fonts, maxSizePoints);
+
+            //Assert.AreEqual(wrappedLines[0].r)
+
+
+            //Line 1 45 px 34.5pt
+            //Line 2 6px 4.5 pt
+            //Line 3 137 px 102.75 pt //result: 104.6328125 pt width "whole
+            //Line 4 270 px 202.5 pt
+            //Line 5 169 px 126.75 pt
+        }
 
         [TestMethod]
         public void VerifyTextRunBounds()
@@ -99,48 +216,75 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
                 var autofit = cube.TextBody.TextAutofit;
 
-                cube.GetSizeInPixels(out int testWidth, out int testHeight);
+                cube.ChangeCellAnchor(eEditAs.Absolute);
 
-                var parentBB = new BoundingBox();
-                parentBB.Width = testWidth;
-                parentBB.Height = testHeight;
+                cube.SetPixelWidth(5000);
+                var svgShape = new SvgShape(cube);
 
-                SvgTextBodyItem tbItem = new SvgTextBodyItem(parentBB);
+                SvgTextBodyItem tbItem = svgShape.TextBox.TextBody;
 
-                tbItem.ImportTextBody(cube.TextBody);
+                var txtRun1Bounds = tbItem.Paragraphs[0].Runs[0].Bounds;
+                var pxWidth = txtRun1Bounds.Width.PointToPixel();
+                Assert.AreEqual(43.835286458333336d, pxWidth);
 
-                var txtRun1Bounds = tbItem.Paragraphs[0]._textRunItems[0].Bounds;
+                var txtRuns2 = tbItem.Paragraphs[1].Runs;
 
-                Assert.AreEqual(43.835286458333336d, txtRun1Bounds.Width);
+                Assert.AreEqual(53.20963541666667d, txtRuns2[0].Bounds.Width.PointToPixel());
+                var currentLineWidth = txtRuns2[0].Bounds.Width.PointToPixel();
 
-                var widthLine2 = tbItem.Paragraphs[0]._textRunItems[0].PerLineWidth[1];
-                var topYLine2 = tbItem.Paragraphs[0]._textRunItems[0].YIncreasePerLine[1];
-                Assert.AreEqual(7.147135416666667d, widthLine2);
-                Assert.AreEqual(17.903645833333336d, topYLine2);
+                Assert.AreEqual(currentLineWidth, txtRuns2[1].Bounds.Left.PointToPixel());
+                Assert.AreEqual(69.55924479166667d, txtRuns2[1].Bounds.Width.PointToPixel());
+                currentLineWidth += txtRuns2[1].Bounds.Width.PointToPixel();
 
-                var txtRuns2 = tbItem.Paragraphs[1]._textRunItems;
+                Assert.AreEqual(currentLineWidth, txtRuns2[2].Bounds.Left.PointToPixel(),0.0001);
+                Assert.AreEqual(49.89388020833334, txtRuns2[2].Bounds.Width.PointToPixel(), 0.0001);
+                currentLineWidth += txtRuns2[2].Bounds.Width.PointToPixel();
 
-                Assert.AreEqual(53.20963541666667d, txtRuns2[0].Bounds.Width);
-                var currentLineWidth = txtRuns2[0].Bounds.Width;
+                Assert.AreEqual(21.333333333333332, txtRuns2[3].Bounds.Height.PointToPixel());
+                Assert.AreEqual(currentLineWidth, txtRuns2[3].Bounds.Left.PointToPixel(), 0.0001);
+                Assert.AreEqual(283.21875d, txtRuns2[3].Bounds.Width.PointToPixel(), 0.0001);
+                currentLineWidth += txtRuns2[3].Bounds.Width.PointToPixel();
 
-                Assert.AreEqual(currentLineWidth, txtRuns2[1].Bounds.Left);
-                Assert.AreEqual(69.55924479166667d, txtRuns2[1].Bounds.Width);
-                currentLineWidth += txtRuns2[1].Bounds.Width;
-
-                Assert.AreEqual(currentLineWidth, txtRuns2[2].Bounds.Left);
-                Assert.AreEqual(49.89388020833334, txtRuns2[2].Bounds.Width);
-                currentLineWidth += txtRuns2[2].Bounds.Width;
-
-                Assert.AreEqual(21.333333333333332, txtRuns2[3].Bounds.Height);
-                Assert.AreEqual(currentLineWidth, txtRuns2[3].Bounds.Left);
-                Assert.AreEqual(283.21875d, txtRuns2[3].Bounds.Width);
-                currentLineWidth += txtRuns2[3].Bounds.Width;
-
-                Assert.AreEqual(32, txtRuns2[4].Bounds.Height);
-                Assert.AreEqual(currentLineWidth, txtRuns2[4].Bounds.Left);
-                Assert.AreEqual(134.20312500000006d, txtRuns2[4].Bounds.Width);
-                currentLineWidth += txtRuns2[4].Bounds.Width;
+                Assert.AreEqual(32, txtRuns2[4].Bounds.Height.PointToPixel(), 0.0001);
+                Assert.AreEqual(currentLineWidth, txtRuns2[4].Bounds.Left.PointToPixel(), 0.0001);
+                Assert.AreEqual(134.20312500000006d, txtRuns2[4].Bounds.Width.PointToPixel(), 0.0001);
+                currentLineWidth += txtRuns2[4].Bounds.Width.PointToPixel();
             }
+        }
+
+        [TestMethod]
+        public void ConceptLines()
+        {
+            var currentChar = 'a';
+            var defaultFont = new MeasurementFont
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            List<string> manyRichText = new List<string>();
+            List<MeasurementFont> manyFonts = new List<MeasurementFont>();
+
+            for (int i = 0; i< 20; i++)
+            {
+                manyRichText.Add(currentChar.ToString());
+                manyFonts.Add(defaultFont);
+                currentChar++;
+                defaultFont.Size ++;
+            }
+
+            var fragments = new TextFragmentCollection(manyRichText);
+            var fontMeasurer = new FontMeasurerTrueType();
+
+            var strings = fontMeasurer.WrapMultipleTextFragments(fragments, manyFonts, 30d.PixelToPoint());
+
+            var outputLines = fragments.GetOutputLines();
+
+
+            //var paragraph = new TextParagraph(fragments, manyFonts);
+
+            //List<string> manyRichText = new List<string>() {"a","b","c","d","e","f","g" };
         }
 
         [TestMethod]

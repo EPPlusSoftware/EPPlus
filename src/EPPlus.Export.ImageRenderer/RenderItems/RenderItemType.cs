@@ -20,6 +20,7 @@ namespace EPPlusImageRenderer.RenderItems
         Line = 3,
         Ellipse = 4,
         Text = 5,
-        TSpan = 6
+        TSpan = 6,
+        Paragraph = 7,
     }
 }

@@ -1,159 +1,130 @@
-﻿using System;
+﻿using EPPlus.Graphics.Math;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace EPPlus.Graphics
 {
-    internal class BoundingBox : Rect
+    internal class BoundingBox : Transform
     {
-        internal Transform transform;
-
-        private BoundingBox _parent = null;
-
-        internal BoundingBox Parent { get { return _parent; } set { _parent = value; transform.Parent = value.transform; } }
-
-        bool ClampedToParent = false;
+        internal bool ClampedToParent { get; set; } = false;
 
         internal BoundingBox() : base()
         {
-            transform = new Transform();
         }
 
-        internal BoundingBox(double width, double height) : this()
+        internal BoundingBox(double width, double height) : base(0, 0, width, height)
         {
-            Left = 0;
-            Top = 0;
-            Right = width;
-            Bottom = height;
         }
-        internal BoundingBox(double left, double top, double right, double bottom) : this()
+        internal BoundingBox(double left, double top, double right, double bottom) : base(left,top, right-left, bottom-top)
         {
-            Left = left;
-            Top = top;
-            Right = right;
-            Bottom = bottom;
         }
 
         /// <summary>
         /// Y pos (min)
         /// </summary>
-        internal override double Top
+        internal double Top
         {
-            get { return transform.LocalPosition.Y; }
+            get { return LocalPosition.Y; }
             set
             {
-                var tmpHeight = Height != 0 ? Height : 0;
+                LocalPosition = new Vector2(LocalPosition.X, value);
+                //var tmpHeight = Height != 0 ? Height : 0;
 
-                var currentPosition = transform.LocalPosition;
-                currentPosition.Y = value;
-                transform.LocalPosition = currentPosition;
+                //var currentPosition = Transform.LocalPosition;
+                //currentPosition.Y = value;
+                //Transform.LocalPosition = currentPosition;
 
-                //Recalculate bottom position correctly
-                if (tmpHeight != 0)
-                {
-                    Height = tmpHeight;
-                }
+                ////Recalculate bottom position correctly
+                ////if (tmpHeight != 0)
+                ////{
+                //    //Height = tmpHeight;
+                //    Bottom = Top + tmpHeight;
+                ////}
             }
         }
         /// <summary>
         /// X pos (min)
         /// </summary>
-        internal override double Left
+        internal double Left
         {
-            get { return transform.LocalPosition.X; }
+            get { return LocalPosition.X; }
             set
             {
-                var tmpWidth = Width != 0 ? Width : 0;
+                //var tmpWidth = Width != 0 ? Width : 0;
 
-                var currentPosition = transform.LocalPosition;
-                currentPosition.X = value;
-                transform.LocalPosition = currentPosition;
+                //var currentPosition = Transform.LocalPosition;
+                //currentPosition.X = value;
+                //Transform.LocalPosition = currentPosition;
 
                 //Recalculate Right position correctly
-                if (tmpWidth != 0)
-                {
-                    Width = tmpWidth;
-                }
+                //if (tmpWidth != 0)
+                //{
+                    //Right = Left + tmpWidth;
+                    //Width = tmpWidth;
+                //}
+                LocalPosition = new Vector2(value, LocalPosition.Y);
             }
         }
 
         /// <summary>
         /// If @ClampedToParent is true will not set value beyond parent
         /// </summary>
-        internal override double Bottom { get => base.Bottom; set => SetBottom(value); }
+        internal double Bottom
+        {
+            get
+            {
+                return LocalPosition.Y + Size.Y;
+            }
+        }
 
         /// <summary>
         /// If @ClampedToParent is true will not set value beyond parent
         /// </summary>
-        internal override double Right { get => base.Right; set => SetRight(value); }
-
-        internal override double Width {
-            get
-            {
-                return Right - Left;
-            }
-            set
-            {
-                Right = Left + value;
-            }
-        
-        }
-
-        internal override double Height
+        internal double Right
         {
             get
             {
-                return Bottom - Top;
+                return LocalPosition.X + Size.X;
+            }
+        }
+        internal double Width 
+        {
+            get
+            {
+                return Size.X;
             }
             set
             {
-                Bottom = Top + value;
-            }
+                Size=new Vector2(value,Size.Y);
+            }        
         }
 
-        private void SetRight(double value)
+        internal double Height
         {
-            if(ClampedToParent)
+            get
             {
-                if(transform.Parent != null)
-                {
-                    var newValue = System.Math.Min(value, Parent.Right);
-                    base.Right = newValue;
-                }
+                return Size.Y;
             }
-            base.Right = value;
+            set
+            {
+                Size = new Vector2(Size.X, value);
+            }
         }
-
-        private void SetBottom(double value)
+        internal double GlobalLeft
         {
-            if (ClampedToParent)
+            get
             {
-                if (transform.Parent != null)
-                {
-                    var newValue = System.Math.Min(value, Parent.Bottom);
-                    base.Bottom = newValue;
-                }
+                return Position.X;
             }
-            base.Bottom = value;
         }
-
-        //Quick-access to underlying transform
-
-        /// <summary>
-        /// Local position X
-        /// X-position from parent transform position
-        /// </summary>
-        internal override double X { get { return Left; } set { Left = value; } }
-
-        /// <summary>
-        /// Local position Y
-        /// Y-position from parent transform position
-        /// </summary>
-        internal override double Y { get { return Top; } set { Top = value; } }
-
-        //Gets global position x and y
-        internal double GlobalX { get { return transform.Position.X; } }
-        internal double GlobalY { get { return transform.Position.Y; } }
+        internal double GlobalTop
+        {
+            get
+            {
+                return Position.Y;
+            }
+        }
     }
 }

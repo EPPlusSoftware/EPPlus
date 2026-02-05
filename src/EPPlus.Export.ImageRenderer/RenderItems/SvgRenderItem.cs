@@ -10,8 +10,11 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -25,11 +28,7 @@ namespace EPPlusImageRenderer.RenderItems
     }
     internal abstract class SvgRenderItem : RenderItem
     {
-        protected SvgRenderItem() : base()
-        {
-        }
-
-        internal SvgRenderItem(ExcelDrawing drawing) : base(drawing)
+        internal SvgRenderItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
         }
         public override void Render(StringBuilder sb)
@@ -37,10 +36,11 @@ namespace EPPlusImageRenderer.RenderItems
             if (string.IsNullOrEmpty(FillColor) == false)
             {
                 sb.Append($"fill=\"{FillColor}\" ");
-                if (FillOpacity != null && FillOpacity != 1)
-                {
-                    sb.Append($"opacity=\"{FillOpacity.Value.ToString(CultureInfo.InvariantCulture)}\" ");
-                }
+            }
+            //If fill is null it may in e.g. Rect still get the color black which can have an opacity
+            if (FillOpacity != null && FillOpacity != 1)
+            {
+                sb.Append($"opacity=\"{FillOpacity.Value.ToString(CultureInfo.InvariantCulture)}\" ");
             }
             if (string.IsNullOrEmpty(FilterName) == false)
             {

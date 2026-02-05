@@ -24,381 +24,380 @@ using System.Text;
 using System.Xml.Schema;
 
 namespace EPPlusImageRenderer.Svg
-{
-    internal class SvgParagraph : SvgRenderItem
-    {
-        int numLines = 0;
+{    //internal class SvgParagraph : SvgRenderItem
+    //{
+    //    int numLines = 0;
 
-        public override void Render(StringBuilder sb)
-        {
-            sb.Append("<text ");
-            base.Render(sb);
+    //    public override void Render(StringBuilder sb)
+    //    {
+    //        sb.Append("<text ");
+    //        base.Render(sb);
 
-            sb.Append($" {vertAlignAttribute} " + GetHorizontalAlignmentAttribute(XPos) +
-                $"font-family=\"{_measurementFont.FontFamily},{_measurementFont.FontFamily}_MSFontService,sans-serif\" " +
-                $"font-size=\"{_measurementFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture)}px\">");
+    //        sb.Append($" {vertAlignAttribute} " + GetHorizontalAlignmentAttribute(XPos) +
+    //            $"font-family=\"{_measurementFont.FontFamily},{_measurementFont.FontFamily}_MSFontService,sans-serif\" " +
+    //            $"font-size=\"{_measurementFont.Bounds.PointToPixel().ToString(CultureInfo.InvariantCulture)}px\">");
 
-            if (TextRuns.Count > 0)
-            {
-                foreach (var textRun in TextRuns)
-                {
-                    textRun.Render(sb);
-                }
-            }
+    //        if (TextRuns.Count > 0)
+    //        {
+    //            foreach (var textRun in TextRuns)
+    //            {
+    //                textRun.Render(sb);
+    //            }
+    //        }
 
-            sb.Append("</text>");
-        }
+    //        sb.Append("</text>");
+    //    }
 
-        public override RenderItemType Type => RenderItemType.Text;
+    //    public override RenderItemType Type => RenderItemType.Text;
 
-        internal override SvgRenderItem Clone(SvgShape svgDocument)
-        {
-            throw new NotImplementedException();
-        }
+    //    internal override SvgRenderItem Clone(SvgShape svgDocument)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
-        {
-            il = ParagraphArea.Left + LeftMargin;
-            it = ParagraphArea.Top;
-            ir = ParagraphArea.Right - RightMargin;
-            ib = ParagraphArea.Bottom;
-        }
+    //    internal override void GetBounds(out double il, out double it, out double ir, out double ib)
+    //    {
+    //        il = ParagraphArea.Left + LeftMargin;
+    //        it = ParagraphArea.Top;
+    //        ir = ParagraphArea.Right - RightMargin;
+    //        ib = ParagraphArea.Bottom;
+    //    }
 
-        string vertAlignAttribute = "";
-        protected List<SvgTextRun> TextRuns = new List<SvgTextRun>();
+    //    string vertAlignAttribute = "";
+    //    protected List<SvgTextRun> TextRuns = new List<SvgTextRun>();
 
-        //ExcelDrawingParagraph Paragraph;
-        double RightMargin;
-        double LeftMargin;
+    //    //ExcelDrawingParagraph Paragraph;
+    //    double RightMargin;
+    //    double LeftMargin;
 
-        eTextAlignment HorizontalAlignment;
+    //    eTextAlignment HorizontalAlignment;
 
-        RectBase ParagraphArea;
+    //    RectBase ParagraphArea;
 
-        /// <summary>
-        /// Left position
-        /// </summary>
-        protected double XPos;
+    //    /// <summary>
+    //    /// Left position
+    //    /// </summary>
+    //    protected double XPos;
 
-        /// <summary>
-        /// Line-Spacing in pixels
-        /// </summary>
-        protected double LineSpacing;
-        protected double LineSpacingAscendantOnly;
+    //    /// <summary>
+    //    /// Line-Spacing in pixels
+    //    /// </summary>
+    //    protected double LineSpacing;
+    //    protected double LineSpacingAscendantOnly;
 
-        MeasurementFont _measurementFont;
+    //    MeasurementFont _measurementFont;
 
-        bool IsFirstParagraph = false;
+    //    bool IsFirstParagraph = false;
 
-        ITextMeasurerWrap fmtt;
+    //    ITextMeasurerWrap fmtt;
 
-        double? lnMultiplier = null;
-        double paragraphHeight;
-        private string text;
-        private ExcelTextFont font;
-        private RectBase area;
-        private double posY;
-        /// <summary>
-        /// First paragraph must use different linespacing
-        /// </summary>
-        /// <param name="p">paragraph data. Ideally only used in constructor as datasource</param>
-        /// <param name="paragraphArea"></param>
-        /// <param name="fmtt"></param>
-        /// <param name="VertAlign"></param>
-        /// <param name="clippingHeight"></param>
-        /// <param name="isFirstParagraph"></param>
-        public SvgParagraph(ExcelDrawingParagraph p, RectBase paragraphArea, string VertAlign, double yPosition, bool isFirstParagraph = false)
-        {
-            fmtt = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
+    //    double? lnMultiplier = null;
+    //    double paragraphHeight;
+    //    private string text;
+    //    private ExcelTextFont font;
+    //    private RectBase area;
+    //    private double posY;
+    //    /// <summary>
+    //    /// First paragraph must use different linespacing
+    //    /// </summary>
+    //    /// <param name="p">paragraph data. Ideally only used in constructor as datasource</param>
+    //    /// <param name="paragraphArea"></param>
+    //    /// <param name="fmtt"></param>
+    //    /// <param name="VertAlign"></param>
+    //    /// <param name="clippingHeight"></param>
+    //    /// <param name="isFirstParagraph"></param>
+    //    public SvgParagraph(ExcelDrawingParagraph p, RectBase paragraphArea, string VertAlign, double yPosition, bool isFirstParagraph = false)
+    //    {
+    //        fmtt = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
 
-            _measurementFont = p.DefaultRunProperties.GetMeasureFont();
-            fmtt.SetFont(_measurementFont);
-            vertAlignAttribute = VertAlign;
+    //        _measurementFont = p.DefaultRunProperties.GetMeasureFont();
+    //        fmtt.SetFont(_measurementFont);
+    //        vertAlignAttribute = VertAlign;
 
-            //Seperated out in case of some final render item
-            //needing to adjust without changing the original values
-            RightMargin = p.RightMargin;
+    //        //Seperated out in case of some final render item
+    //        //needing to adjust without changing the original values
+    //        RightMargin = p.RightMargin;
 
-            //p.Indent
-            //0.5 inches per indent level 48 pixels
+    //        //p.Indent
+    //        //0.5 inches per indent level 48 pixels
 
-            var indent = 48 * p.IndentLevel;
-            LeftMargin = p.LeftMargin + p.Indent + indent;
+    //        var indent = 48 * p.IndentLevel;
+    //        LeftMargin = p.LeftMargin + p.Indent + indent;
 
-            ParagraphArea = paragraphArea;
-            HorizontalAlignment = p.HorizontalAlignment;
+    //        ParagraphArea = paragraphArea;
+    //        HorizontalAlignment = p.HorizontalAlignment;
 
-            //Must be set before linespacing
-            IsFirstParagraph = isFirstParagraph;
+    //        //Must be set before linespacing
+    //        IsFirstParagraph = isFirstParagraph;
 
 
-            XPos = GetAlignmentHorizontal(HorizontalAlignment);
+    //        XPos = GetAlignmentHorizontal(HorizontalAlignment);
 
-            GetBounds(out double l, out double t, out double r, out double b);
-            var textMaxWidth = r - l;
+    //        GetBounds(out double l, out double t, out double r, out double b);
+    //        var textMaxWidth = r - l;
 
-            foreach (var run in p.TextRuns)
-            {
-                AddTextRun(run, paragraphArea.Bottom, yPosition);
-            }
+    //        foreach (var run in p.TextRuns)
+    //        {
+    //            AddTextRun(run, paragraphArea.Bottom, yPosition);
+    //        }
             
-            if (p._paragraphs.WrapText == eTextWrappingType.Square)
-            {
-                List<string> textFragments = new List<string>();
-                List<MeasurementFont> fonts = new List<MeasurementFont>();
+    //        if (p._paragraphs.WrapText == eTextWrappingType.Square)
+    //        {
+    //            List<string> textFragments = new List<string>();
+    //            List<MeasurementFont> fonts = new List<MeasurementFont>();
 
-                foreach (var txtRun in p.TextRuns)
-                {
-                    textFragments.Add(txtRun.Text);
-                    fonts.Add(txtRun.GetMeasurementFont());
-                }
+    //            foreach (var txtRun in p.TextRuns)
+    //            {
+    //                textFragments.Add(txtRun.Text);
+    //                fonts.Add(txtRun.GetMeasurementFont());
+    //            }
 
-                var trueTypeMeasurer = (FontMeasurerTrueType)fmtt;
-                var maxWidthPoints = textMaxWidth.PixelToPoint();
-                var svgLines = trueTypeMeasurer.WrapMultipleTextFragments(textFragments, fonts, maxWidthPoints);
+    //            var trueTypeMeasurer = (FontMeasurerTrueType)fmtt;
+    //            var maxWidthPoints = textMaxWidth.PixelToPoint();
+    //            var svgLines = trueTypeMeasurer.WrapMultipleTextFragments(textFragments, fonts, maxWidthPoints);
 
-                numLines = svgLines.Count;
+    //            numLines = svgLines.Count;
 
-                List<string> txtRunStrings = new List<string>();
-                List<int> txtRunStartIndicies = new List<int>();
-                List<int> txtRunEndIndicies = new List<int>();
+    //            List<string> txtRunStrings = new List<string>();
+    //            List<int> txtRunStartIndicies = new List<int>();
+    //            List<int> txtRunEndIndicies = new List<int>();
 
-                int lastIndex = 0;
-                for (int i = 0; i < TextRuns.Count; i++)
-                {
-                    var txtString = TextRuns[i].originalText;
-                    txtRunStrings.Add(txtString);
-                    var indexOfRun = p.Text.IndexOf(txtString, lastIndex);
-                    txtRunStartIndicies.Add(indexOfRun);
-                    txtRunEndIndicies.Add(indexOfRun + txtString.Length);
-                    lastIndex = indexOfRun;
-                }
+    //            int lastIndex = 0;
+    //            for (int i = 0; i < TextRuns.Count; i++)
+    //            {
+    //                var txtString = TextRuns[i].originalText;
+    //                txtRunStrings.Add(txtString);
+    //                var indexOfRun = p.Text.IndexOf(txtString, lastIndex);
+    //                txtRunStartIndicies.Add(indexOfRun);
+    //                txtRunEndIndicies.Add(indexOfRun + txtString.Length);
+    //                lastIndex = indexOfRun;
+    //            }
 
-                List<int> lineIndicies = new List<int>();
-                lastIndex = 0;
+    //            List<int> lineIndicies = new List<int>();
+    //            lastIndex = 0;
                 
-                //Last line should be handled by paragraph handling
-                for (int i = 0; i< svgLines.Count(); i++)
-                {
-                    var txtString = svgLines[i];
-                    txtRunStrings.Add(txtString);
-                    var startIndex = p.Text.IndexOf(txtString, lastIndex);
-                    lastIndex = startIndex + txtString.Length;
-                    lineIndicies.Add(startIndex + txtString.Length);
-                }
+    //            //Last line should be handled by paragraph handling
+    //            for (int i = 0; i< svgLines.Count(); i++)
+    //            {
+    //                var txtString = svgLines[i];
+    //                txtRunStrings.Add(txtString);
+    //                var startIndex = p.Text.IndexOf(txtString, lastIndex);
+    //                lastIndex = startIndex + txtString.Length;
+    //                lineIndicies.Add(startIndex + txtString.Length);
+    //            }
 
-                for (int i = 0; i < lineIndicies.Count; i++)
-                {
-                    var lnBreakPosition = lineIndicies[i];
-                    for (int j = 0; j < txtRunEndIndicies.Count; j++)
-                    {
-                        var start = txtRunStartIndicies[j];
-                        var end = txtRunEndIndicies[j];
+    //            for (int i = 0; i < lineIndicies.Count; i++)
+    //            {
+    //                var lnBreakPosition = lineIndicies[i];
+    //                for (int j = 0; j < txtRunEndIndicies.Count; j++)
+    //                {
+    //                    var start = txtRunStartIndicies[j];
+    //                    var end = txtRunEndIndicies[j];
 
-                        bool containsBreak = (start <= lnBreakPosition && lnBreakPosition < end);
-                        if (containsBreak)
-                        {
-                            var localLnBreakPosition = lnBreakPosition - start;
-                            TextRuns[j].InsertLineBreak(localLnBreakPosition);
-                            break;
-                        }
-                    }
-                }
-                SetParagraphLineSpacingInPixels(p, fmtt);
-            }
-            else
-            {
-                numLines = p.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Count();
-            }
-        }
+    //                    bool containsBreak = (start <= lnBreakPosition && lnBreakPosition < end);
+    //                    if (containsBreak)
+    //                    {
+    //                        var localLnBreakPosition = lnBreakPosition - start;
+    //                        TextRuns[j].InsertLineBreak(localLnBreakPosition);
+    //                        break;
+    //                    }
+    //                }
+    //            }
+    //            SetParagraphLineSpacingInPixels(p, fmtt);
+    //        }
+    //        else
+    //        {
+    //            numLines = p.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Count();
+    //        }
+    //    }
 
         
 
-        /// <summary>
-        /// First paragraph must use different linespacing
-        /// </summary>
-        /// <param name="p">paragraph data. Ideally only used in constructor as datasource</param>
-        /// <param name="paragraphArea"></param>
-        /// <param name="fmtt"></param>
-        /// <param name="VertAlign"></param>
-        /// <param name="clippingHeight"></param>
-        /// <param name="isFirstParagraph"></param>
-        public SvgParagraph(string text, ExcelTextFont font, RectBase paragraphArea, string VertAlign, double yPosition)
-        {
-            fmtt = font.PictureRelationDocument.Package.Settings.TextSettings.GenericTextMeasurerTrueType; 
+    //    /// <summary>
+    //    /// First paragraph must use different linespacing
+    //    /// </summary>
+    //    /// <param name="p">paragraph data. Ideally only used in constructor as datasource</param>
+    //    /// <param name="paragraphArea"></param>
+    //    /// <param name="fmtt"></param>
+    //    /// <param name="VertAlign"></param>
+    //    /// <param name="clippingHeight"></param>
+    //    /// <param name="isFirstParagraph"></param>
+    //    public SvgParagraph(string text, ExcelTextFont font, RectBase paragraphArea, string VertAlign, double yPosition)
+    //    {
+    //        fmtt = font.PictureRelationDocument.Package.Settings.TextSettings.GenericTextMeasurerTrueType; 
 
-            _measurementFont = font.GetMeasureFont();
-            fmtt.SetFont(_measurementFont);
-            vertAlignAttribute = VertAlign;
+    //        _measurementFont = font.GetMeasureFont();
+    //        fmtt.SetFont(_measurementFont);
+    //        vertAlignAttribute = VertAlign;
             
-            //p.Indent
-            //0.5 inches per indent level 48 pixels
+    //        //p.Indent
+    //        //0.5 inches per indent level 48 pixels
 
-            ParagraphArea = paragraphArea;
-            HorizontalAlignment = eTextAlignment.Left;
+    //        ParagraphArea = paragraphArea;
+    //        HorizontalAlignment = eTextAlignment.Left;
 
-            LineSpacingAscendantOnly = fmtt.GetBaseLine().PointToPixel();
-            LineSpacing = fmtt.GetSingleLineSpacing().PointToPixel();
+    //        LineSpacingAscendantOnly = fmtt.GetBaseLine().PointToPixel();
+    //        LineSpacing = fmtt.GetSingleLineSpacing().PointToPixel();
 
-            //Must be set before linespacing
-            IsFirstParagraph = true;
+    //        //Must be set before linespacing
+    //        IsFirstParagraph = true;
 
-            XPos = GetAlignmentHorizontal(HorizontalAlignment);
+    //        XPos = GetAlignmentHorizontal(HorizontalAlignment);
 
-            //GetBounds(out double l, out double t, out double r, out double b);
-            //var textMaxWidth = r - l;
+    //        //GetBounds(out double l, out double t, out double r, out double b);
+    //        //var textMaxWidth = r - l;
 
-            var tr = new SvgTextRun(text, font, LineSpacing, paragraphArea.Bottom, XPos, yPosition, LineSpacingAscendantOnly);
-            TextRuns.Add(tr);
-        }
+    //        var tr = new SvgTextRun(text, font, LineSpacing, paragraphArea.Bottom, XPos, yPosition, LineSpacingAscendantOnly);
+    //        TextRuns.Add(tr);
+    //    }
 
-        private string GetHorizontalAlignmentAttribute(double indentX)
-        {
-            string ret = "";
-            var xStr = indentX.ToString(CultureInfo.InvariantCulture);
+    //    private string GetHorizontalAlignmentAttribute(double indentX)
+    //    {
+    //        string ret = "";
+    //        var xStr = indentX.ToString(CultureInfo.InvariantCulture);
 
-            switch (HorizontalAlignment)
-            {
-                default:
-                case eTextAlignment.Left:
-                    ret = $"text-anchor=\"start\" x=\"{xStr}\" ";
-                    break;
-                case eTextAlignment.Center:
-                    ret = $"text-anchor=\"middle\" x=\"{xStr}\" ";
-                    break;
-                case eTextAlignment.Right:
+    //        switch (HorizontalAlignment)
+    //        {
+    //            default:
+    //            case eTextAlignment.Left:
+    //                ret = $"text-anchor=\"start\" x=\"{xStr}\" ";
+    //                break;
+    //            case eTextAlignment.Center:
+    //                ret = $"text-anchor=\"middle\" x=\"{xStr}\" ";
+    //                break;
+    //            case eTextAlignment.Right:
 
-                    ret = $"text-anchor=\"end\" x=\"{xStr}\" ";
-                    break;
-            }
+    //                ret = $"text-anchor=\"end\" x=\"{xStr}\" ";
+    //                break;
+    //        }
 
-            return ret;
-        }
+    //        return ret;
+    //    }
 
-        private void SetParagraphLineSpacingInPixels(ExcelDrawingParagraph p, ITextMeasurerWrap fmExact)
-        {
-            if (p.LineSpacing.LineSpacingType == eDrawingTextLineSpacing.Exactly)
-            {
-                if (IsFirstParagraph)
-                {
-                    LineSpacingAscendantOnly = p.LineSpacing.Value.PointToPixel();
-                }
-                var lineSpacing= p.LineSpacing.Value.PointToPixel();
-                var lines = 1;
-                foreach (var tr in TextRuns)
-                {
-                    var lc = tr.GetLineCount();
-                    if(lc>1)
-                    {
-                        lines += lc - 1;
-                    }
-                }
-                LineSpacing = lineSpacing * lines;
-            }
-            else
-            {
-                var multiplier = (p.LineSpacing.Value / 100);
-                lnMultiplier = multiplier;
-                if (IsFirstParagraph)
-                {  
-                    LineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine().PointToPixel();
-                }
-                if (TextRuns.Count == 0)
-                {
-                    LineSpacing = multiplier * fmExact.GetSingleLineSpacing().PointToPixel();
-                }
-                else
-                {
-                    var lineSpacing=0D;
-                    var currentMaxLineSpacing = 0D;
-                    foreach(var tr in TextRuns)
-                    {
-                        if(currentMaxLineSpacing < tr.LineSpacing)
-                        {
-                            currentMaxLineSpacing = tr.LineSpacing;
-                        }
-                        var lc = tr.GetLineCount();
-                        if (lc > 1)
-                        {
-                            lineSpacing += currentMaxLineSpacing;
-                            currentMaxLineSpacing = tr.LineSpacing;
-                            if(lc>2)
-                            {
-                                lineSpacing += (lc - 2) * tr.LineSpacing;
-                            }
-                        }
-                    }
-                    LineSpacing = multiplier * (lineSpacing + currentMaxLineSpacing);
-                }
-            }
-        }
+    //    private void SetParagraphLineSpacingInPixels(ExcelDrawingParagraph p, ITextMeasurerWrap fmExact)
+    //    {
+    //        if (p.LineSpacing.LineSpacingType == eDrawingTextLineSpacing.Exactly)
+    //        {
+    //            if (IsFirstParagraph)
+    //            {
+    //                LineSpacingAscendantOnly = p.LineSpacing.Value.PointToPixel();
+    //            }
+    //            var lineSpacing= p.LineSpacing.Value.PointToPixel();
+    //            var lines = 1;
+    //            foreach (var tr in TextRuns)
+    //            {
+    //                var lc = tr.GetLineCount();
+    //                if(lc>1)
+    //                {
+    //                    lines += lc - 1;
+    //                }
+    //            }
+    //            LineSpacing = lineSpacing * lines;
+    //        }
+    //        else
+    //        {
+    //            var multiplier = (p.LineSpacing.Value / 100);
+    //            lnMultiplier = multiplier;
+    //            if (IsFirstParagraph)
+    //            {  
+    //                LineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine().PointToPixel();
+    //            }
+    //            if (TextRuns.Count == 0)
+    //            {
+    //                LineSpacing = multiplier * fmExact.GetSingleLineSpacing().PointToPixel();
+    //            }
+    //            else
+    //            {
+    //                var lineSpacing=0D;
+    //                var currentMaxLineSpacing = 0D;
+    //                foreach(var tr in TextRuns)
+    //                {
+    //                    if(currentMaxLineSpacing < tr.LineSpacing)
+    //                    {
+    //                        currentMaxLineSpacing = tr.LineSpacing;
+    //                    }
+    //                    var lc = tr.GetLineCount();
+    //                    if (lc > 1)
+    //                    {
+    //                        lineSpacing += currentMaxLineSpacing;
+    //                        currentMaxLineSpacing = tr.LineSpacing;
+    //                        if(lc>2)
+    //                        {
+    //                            lineSpacing += (lc - 2) * tr.LineSpacing;
+    //                        }
+    //                    }
+    //                }
+    //                LineSpacing = multiplier * (lineSpacing + currentMaxLineSpacing);
+    //            }
+    //        }
+    //    }
 
-        internal double GetAlignmentHorizontal(eTextAlignment txAlignment)
-        {
-            var area = ParagraphArea;
-            double x = 0;
-            switch (txAlignment)
-            {
-                case eTextAlignment.Left:
-                default:
-                    x = area.Left + LeftMargin;
-                    break;
-                case eTextAlignment.Center:
-                    x = (area.Right / 2) + LeftMargin - RightMargin;
-                    break;
-                case eTextAlignment.Right:
-                    x = area.Right - RightMargin;
-                    break;
-            }
+    //    internal double GetAlignmentHorizontal(eTextAlignment txAlignment)
+    //    {
+    //        var area = ParagraphArea;
+    //        double x = 0;
+    //        switch (txAlignment)
+    //        {
+    //            case eTextAlignment.Left:
+    //            default:
+    //                x = area.Left + LeftMargin;
+    //                break;
+    //            case eTextAlignment.Center:
+    //                x = (area.Right / 2) + LeftMargin - RightMargin;
+    //                break;
+    //            case eTextAlignment.Right:
+    //                x = area.Right - RightMargin;
+    //                break;
+    //        }
 
-            return TextUtils.RoundToWhole(x);
-        }
+    //        return TextUtils.RoundToWhole(x);
+    //    }
 
-        internal void AddTextRun(ExcelParagraphTextRunBase txtRun, double clippingHeight, double yPosition)
-        {
-            GetBounds(out double l, out double t, out double r, out double b);
-            var textMaxWidth = r - l;
+    //    internal void AddTextRun(ExcelParagraphTextRunBase txtRun, double clippingHeight, double yPosition)
+    //    {
+    //        GetBounds(out double l, out double t, out double r, out double b);
+    //        var textMaxWidth = r - l;
 
-            SvgTextRun textRun;
+    //        SvgTextRun textRun;
 
-            //if (TextRuns.Count == 0 && IsFirstParagraph == true)
-            //{
-            //    textRun = new SvgTextRun(txtRun, textMaxWidth, clippingHeight, XPos, yPosition);
-            //}
-            //else
-            //{
-                textRun = new SvgTextRun(txtRun, textMaxWidth, clippingHeight, XPos, yPosition);
+    //        //if (TextRuns.Count == 0 && IsFirstParagraph == true)
+    //        //{
+    //        //    textRun = new SvgTextRun(txtRun, textMaxWidth, clippingHeight, XPos, yPosition);
+    //        //}
+    //        //else
+    //        //{
+    //            textRun = new SvgTextRun(txtRun, textMaxWidth, clippingHeight, XPos, yPosition);
 
-                //If there are multiple sizes/multiple fonts with multiple sizes
-                //if (lnType != eDrawingTextLineSpacing.Exactly && txtRun.FontSize != _measurementFont.Size)
-                if(lnMultiplier.HasValue)
-                {
-                    textRun.AdjustLineSpacing(lnMultiplier.Value);
-                }
-            //}
+    //            //If there are multiple sizes/multiple fonts with multiple sizes
+    //            //if (lnType != eDrawingTextLineSpacing.Exactly && txtRun.FontSize != _measurementFont.Bounds)
+    //            if(lnMultiplier.HasValue)
+    //            {
+    //                textRun.AdjustLineSpacing(lnMultiplier.Value);
+    //            }
+    //        //}
 
-            TextRuns.Add(textRun);
-        }
+    //        TextRuns.Add(textRun);
+    //    }
 
-        internal double GetBottomYPosition()
-        {
-            //double bottomY = 0;
-            //if (IsFirstParagraph)
-            //{
-            //    bottomY = LineSpacingAscendantOnly + LineSpacing * (numLines - 1);
-            //}
-            //else
-            //{
-            //    var bottomY = LineSpacing;
-            //}
-            return ParagraphArea.Top + LineSpacing;
-        }
+    //    internal double GetBottomYPosition()
+    //    {
+    //        //double bottomY = 0;
+    //        //if (IsFirstParagraph)
+    //        //{
+    //        //    bottomY = LineSpacingAscendantOnly + LineSpacing * (numLines - 1);
+    //        //}
+    //        //else
+    //        //{
+    //        //    var bottomY = LineSpacing;
+    //        //}
+    //        return ParagraphArea.Top + LineSpacing;
+    //    }
 
-        internal void CalculateTextWrapping(double maxWidth, MeasurementFont mFont, string fullParagraphText)
-        {
-            List<string> NewContentLines = new List<string>();
-            fmtt.SetFont(mFont);
-            var textWidth = fmtt.MeasureText(fullParagraphText, mFont);
-        }
-    }
+    //    internal void CalculateTextWrapping(double maxWidth, MeasurementFont mFont, string fullParagraphText)
+    //    {
+    //        List<string> NewContentLines = new List<string>();
+    //        fmtt.SetFont(mFont);
+    //        var textWidth = fmtt.MeasureText(fullParagraphText, mFont);
+    //    }
+    //}
 }
