@@ -100,6 +100,10 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         public short Kerning => (short)(XAdvance - BaseAdvance);
 
         /// <summary>
+        /// 0 = primary, 1+ = fallbacks
+        /// </summary>
+        public byte FontId { get; set; }
+        /// <summary>
         /// Creates a new shaped glyph with specified glyph ID and advance width.
         /// Other fields are initialized to default values.
         /// </summary>

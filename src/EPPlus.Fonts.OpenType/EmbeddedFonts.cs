@@ -52,9 +52,55 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
+        /// <summary>
+        /// Reads all bytes from a stream into a byte array.
+        /// .NET 3.5 compatible (no CopyTo available).
+        /// </summary>
         private static byte[] ReadStreamFully(Stream stream)
         {
-            throw new NotImplementedException();
+            if (stream == null)
+                throw new ArgumentNullException("stream");
+
+            // Try to use stream length if available (e.g., MemoryStream, FileStream)
+            if (stream.CanSeek)
+            {
+                long length = stream.Length - stream.Position;
+                if (length > int.MaxValue)
+                    throw new InvalidOperationException("Stream is too large to read into memory");
+
+                byte[] buffer = new byte[(int)length];
+                int offset = 0;
+                int remaining = (int)length;
+
+                while (remaining > 0)
+                {
+                    int read = stream.Read(buffer, offset, remaining);
+                    if (read <= 0)
+                        throw new EndOfStreamException("Stream ended before reading all bytes");
+
+                    offset += read;
+                    remaining -= read;
+                }
+
+                return buffer;
+            }
+            else
+            {
+                // Non-seekable stream (rare for embedded resources, but handle it)
+                // Use MemoryStream to accumulate bytes
+                using (var ms = new MemoryStream())
+                {
+                    byte[] buffer = new byte[8192]; // 8KB buffer
+                    int bytesRead;
+
+                    while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        ms.Write(buffer, 0, bytesRead);
+                    }
+
+                    return ms.ToArray();
+                }
+            }
         }
     }
 }

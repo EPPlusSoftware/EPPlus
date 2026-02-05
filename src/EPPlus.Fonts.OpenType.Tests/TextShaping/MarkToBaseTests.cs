@@ -21,14 +21,19 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             var shaper = new TextShaper(font);
 
             string test = "A\u0302\u0309";
-            var shaped = shaper.Shape(test, ShapingOptions.Full);
-
-            Debug.WriteLine("Glyphs för 'Ẩn ặ':");
-            foreach (var g in shaped.Glyphs)
+            // Lägg till lite synchronization för att verifiera
+            lock (typeof(MarkToBaseTests))
             {
-                Debug.WriteLine($"GID={g.GlyphId,-4} XAdv={g.XAdvance,-5} YOff={g.YOffset,-4}");
+                var shaped = shaper.Shape(test, ShapingOptions.Full);
+
+                foreach (var g in shaped.Glyphs)
+                {
+                    Debug.WriteLine($"GID={g.GlyphId,-4} XAdv={g.XAdvance,-5} YOff={g.YOffset,-4}");
+                }
+
+                Assert.IsTrue(shaped.Glyphs.Any(x => x.YOffset > 0),
+                    $"Expected YOffset > 0. Got: {string.Join(", ", shaped.Glyphs.Select(g => $"Y={g.YOffset}"))}");
             }
-            Assert.IsTrue(shaped.Glyphs.Any(x => x.YOffset > 0));
         }
     }
 }

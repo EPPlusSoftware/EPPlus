@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/15/2025         EPPlus Software AB           Initial implementation
   01/19/2026         EPPlus Software AB           Added Single Adjustment support (GPOS Type 1)
+  02/05/2026         EPPlus Software AB           Added IFontProvider support for fallback fonts
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.TextShaping.Contextual;
 using EPPlus.Fonts.OpenType.TextShaping.Kerning;
@@ -33,6 +34,10 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         private readonly ChainingContextualProcessor _chainingContextualProcessor;
         private readonly IFontProvider _fontProvider;
 
+        // Font tracking for multi-font support
+        private readonly Dictionary<OpenTypeFont, byte> _fontToIdMap = new Dictionary<OpenTypeFont, byte>();
+        private readonly List<OpenTypeFont> _usedFonts = new List<OpenTypeFont>();
+
         private const ushort DEFAULT_UNITS_PER_EM = 1000;
 
         public ushort UnitsPerEm
@@ -47,17 +52,22 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             }
         }
 
+        /// <summary>
+        /// Creates a TextShaper with automatic emoji fallback (DefaultFontProvider).
+        /// </summary>
         public TextShaper(OpenTypeFont font)
             : this(new DefaultFontProvider(font))
         {
-
         }
 
+        /// <summary>
+        /// Creates a TextShaper with custom font provider.
+        /// </summary>
         public TextShaper(IFontProvider fontProvider)
         {
             if (fontProvider == null)
                 throw new ArgumentNullException("fontProvider");
-            if(fontProvider.PrimaryFont == null)
+            if (fontProvider.PrimaryFont == null)
                 throw new ArgumentException("Primary font cannot be null in font provider", "fontProvider");
 
             _fontProvider = fontProvider;
@@ -71,6 +81,47 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             _singleSubstitutionProcessor = new SingleSubstitutionProcessor(_primaryFont);
             _chainingContextualProcessor = new ChainingContextualProcessor(_primaryFont, _singleSubstitutionProcessor, _ligatureProcessor);
         }
+
+        #region Font Tracking API
+
+        /// <summary>
+        /// Gets all fonts used in the last shaping operation.
+        /// Used for subsetting and PDF embedding when text uses multiple fonts.
+        /// </summary>
+        public IEnumerable<OpenTypeFont> GetUsedFonts()
+        {
+            return _usedFonts;
+        }
+
+        /// <summary>
+        /// Clears font tracking between different texts.
+        /// Call this if you're reusing the same TextShaper for multiple unrelated texts.
+        /// </summary>
+        public void ResetFontTracking()
+        {
+            _usedFonts.Clear();
+            _fontToIdMap.Clear();
+        }
+
+        /// <summary>
+        /// Gets or registers a font ID for tracking.
+        /// Returns: 0 for primary font, 1+ for fallback fonts.
+        /// </summary>
+        private byte GetOrRegisterFontId(OpenTypeFont font)
+        {
+            byte fontId;
+            if (_fontToIdMap.TryGetValue(font, out fontId))
+            {
+                return fontId;
+            }
+
+            fontId = (byte)_usedFonts.Count;
+            _usedFonts.Add(font);
+            _fontToIdMap[font] = fontId;
+            return fontId;
+        }
+
+        #endregion
 
         #region Single-line Shaping
 
@@ -108,16 +159,16 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 options = ShapingOptions.Default;
             }
 
-            // Phase 1: Map characters to glyphs
+            // Phase 1: Map characters to glyphs (with font fallback support)
             var glyphs = MapToGlyphs(text);
 
-            // Phase 2: Apply GSUB substitutions (if enabled)
+            // Phase 2: Apply GSUB substitutions (if enabled) - ONLY on primary font glyphs
             if (options.ApplySubstitutions && _primaryFont.GsubTable != null)
             {
                 glyphs = ApplyGsubSubstitutions(glyphs, options);
             }
 
-            // Phase 3: Apply GPOS positioning (if enabled)
+            // Phase 3: Apply GPOS positioning (if enabled) - ONLY on primary font glyphs
             if (options.ApplyPositioning)
             {
                 ApplyPositioning(glyphs, options);
@@ -199,23 +250,20 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 ApplyPositioning(glyphs, options);
             }
 
-            // Phase 4: Extract widths directly from List<ShapedGlyph>
-            // No need to create ShapedText or copy to array!
-            double scaleFactor = fontSize / UnitsPerEm;
-
+            // Phase 4: Extract widths - must handle multi-font glyphs
             foreach (var glyph in glyphs)
             {
                 int charIndex = glyph.ClusterIndex;
                 if (charIndex >= 0 && charIndex < text.Length)
                 {
+                    // Get the font for this glyph
+                    OpenTypeFont font = _usedFonts[glyph.FontId];
+                    double scaleFactor = fontSize / font.HeadTable.UnitsPerEm;
+
                     targetArray[charIndex] += glyph.XAdvance * scaleFactor;
                 }
             }
-
-            // glyphs List<ShapedGlyph> goes out of scope and is collected by Gen0 GC
-            // We never created the ShapedText wrapper or its Glyphs array!
         }
-
 
         #endregion
 
@@ -223,12 +271,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         /// <summary>
         /// Maps characters to glyphs using the cmap table.
+        /// CORRECTLY handles surrogate pairs for emoji and supplementary plane characters.
+        /// Supports multi-font fallback via IFontProvider.
         /// </summary>
         private List<ShapedGlyph> MapToGlyphs(string text)
         {
             var glyphs = new List<ShapedGlyph>(text.Length);
-            var cmapTable = _primaryFont.CmapTable;
-            var hmtxTable = _primaryFont.HmtxTable;
 
             int i = 0;
             while (i < text.Length)
@@ -269,29 +317,32 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                     charCount = 1;
                 }
 
-                // Map code point to glyph ID
+                // Use font provider to find glyph (with fallback support)
+                OpenTypeFont font;
                 ushort glyphId;
-                if (!cmapTable.TryGetGlyphId(codePoint, out glyphId))
-                {
-                    glyphId = 0; // .notdef if not found
-                }
+                _fontProvider.TryGetGlyphFont(codePoint, out font, out glyphId);
 
-                // Get base advance width from hmtx (BEFORE any kerning)
-                var baseAdvance = (short)hmtxTable.GetAdvanceWidth((ushort)glyphId);
+                // Get font ID for multi-font tracking
+                byte fontId = GetOrRegisterFontId(font);
+
+                // Get advance width from the font that contains this glyph
+                var hmtxTable = font.HmtxTable;
+                var baseAdvance = (short)hmtxTable.GetAdvanceWidth(glyphId);
 
                 glyphs.Add(new ShapedGlyph
                 {
-                    GlyphId = (ushort)glyphId,
+                    GlyphId = glyphId,
                     BaseAdvance = baseAdvance,
                     XAdvance = baseAdvance,
                     YAdvance = 0,
                     XOffset = 0,
                     YOffset = 0,
-                    ClusterIndex = (ushort)i,      // Points to FIRST char of the cluster
-                    CharCount = (byte)charCount    // 1 for normal, 2 for surrogate pair
+                    ClusterIndex = (ushort)i,
+                    CharCount = (byte)charCount,
+                    FontId = fontId  // Track which font this glyph comes from
                 });
 
-                i += charCount;  // Skip both chars if surrogate pair
+                i += charCount;
             }
 
             return glyphs;
@@ -303,30 +354,88 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         /// <summary>
         /// Applies GSUB substitutions (ligatures, contextual alternates, etc.).
+        /// IMPORTANT: Only processes glyphs from primary font (FontId == 0).
+        /// Fallback font glyphs are not affected by substitutions.
         /// </summary>
         private List<ShapedGlyph> ApplyGsubSubstitutions(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
-            // Phase 1: Single Substitution (Type 1) - applies first
-            // Examples: small caps (smcp), oldstyle figures (onum), tabular figures (tnum)
+            // Quick check: If all glyphs are from primary font, process directly
+            bool hasNonPrimaryGlyphs = false;
+            foreach (var g in glyphs)
+            {
+                if (g.FontId != 0)
+                {
+                    hasNonPrimaryGlyphs = true;
+                    break;
+                }
+            }
+
+            if (!hasNonPrimaryGlyphs)
+            {
+                // All glyphs are primary - process directly (optimization)
+                glyphs = ApplyGsubSubstitutionsInternal(glyphs, options);
+                return glyphs;
+            }
+
+            // Mixed fonts: Extract primary glyphs, process, then merge back
+            var primaryGlyphs = new List<ShapedGlyph>();
+            var primaryIndices = new List<int>();
+
+            for (int i = 0; i < glyphs.Count; i++)
+            {
+                if (glyphs[i].FontId == 0)
+                {
+                    primaryGlyphs.Add(glyphs[i]);
+                    primaryIndices.Add(i);
+                }
+            }
+
+            if (primaryGlyphs.Count == 0)
+            {
+                return glyphs; // No primary font glyphs to process
+            }
+
+            // Process primary glyphs
+            primaryGlyphs = ApplyGsubSubstitutionsInternal(primaryGlyphs, options);
+
+            // Merge back: Replace primary glyphs in original list
+            var result = new List<ShapedGlyph>(glyphs);
+
+            // Remove old primary glyphs (in reverse to maintain indices)
+            for (int i = primaryIndices.Count - 1; i >= 0; i--)
+            {
+                result.RemoveAt(primaryIndices[i]);
+            }
+
+            // Insert processed primary glyphs at first primary position
+            int insertPosition = primaryIndices.Count > 0 ? primaryIndices[0] : 0;
+            result.InsertRange(insertPosition, primaryGlyphs);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Internal method that applies GSUB substitutions to a list of glyphs.
+        /// Assumes all glyphs are from the same font.
+        /// </summary>
+        private List<ShapedGlyph> ApplyGsubSubstitutionsInternal(List<ShapedGlyph> glyphs, ShapingOptions options)
+        {
+            // Phase 1: Single Substitution (Type 1)
             if (options.GsubFeatures != null && options.GsubFeatures.Count > 0)
             {
                 glyphs = _singleSubstitutionProcessor.ApplySubstitutions(glyphs, options.GsubFeatures);
             }
 
-
-            // Phase 2: Chaining Contextual Substitution (Type 6) for ligatures
-            // This handles context-sensitive ligatures (e.g., ffi in Roboto)
-            // Must come BEFORE simple ligatures to handle contextual cases first
+            // Phase 2: Chaining Contextual Substitution (Type 6)
             if (options.GsubFeatures != null && options.GsubFeatures.Contains("liga"))
             {
                 glyphs = _chainingContextualProcessor.ApplyContextualSubstitutions(glyphs, "liga");
             }
 
-            // Phase 3: Simple Ligatures (Type 4) - applies after contextual ligatures
-            // This catches any remaining non-contextual ligatures
+            // Phase 3: Simple Ligatures (Type 4)
             if (options.GsubFeatures != null && options.GsubFeatures.Contains("liga"))
             {
-               _ligatureProcessor.ApplyLigaturesInPlace(glyphs);
+                _ligatureProcessor.ApplyLigaturesInPlace(glyphs);
             }
 
             return glyphs;
@@ -338,46 +447,45 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         /// <summary>
         /// Applies positioning adjustments (kerning, mark positioning, etc.).
+        /// IMPORTANT: Only processes glyphs from primary font (FontId == 0).
         /// Order matters: Single adjustments → Kerning → Mark positioning
         /// </summary>
         private void ApplyPositioning(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
-            // Early return if positioning is disabled
             if (!options.ApplyPositioning)
             {
                 return;
             }
 
-            // Determine if we should apply all features or only specific ones
             bool applyAllFeatures = options.GposFeatures == null || options.GposFeatures.Count == 0;
 
-            // Phase 1: Single Adjustment (GPOS Type 1)
-            // ALWAYS applied when positioning is enabled - fundamental positioning
+            // Phase 1: Single Adjustment (GPOS Type 1) - primary font only
             ApplySingleAdjustment(glyphs, options);
 
-            // Phase 2: Kerning (GPOS Type 2 / kern table)
-            // Applied when: all features enabled OR "kern" is explicitly requested
+            // Phase 2: Kerning (GPOS Type 2 / kern table) - primary font only
             if (applyAllFeatures || (options.GposFeatures != null && options.GposFeatures.Contains("kern")))
             {
                 ApplyKerning(glyphs);
             }
 
-            // Phase 3: Mark-to-Base positioning (GPOS Type 4)
-            // ALWAYS applied when positioning is enabled - critical for diacritics
+            // Phase 3: Mark-to-Base positioning (GPOS Type 4) - primary font only
             _markToBaseProvider.ApplyMarkPositioning(glyphs);
         }
 
         /// <summary>
         /// Applies single glyph adjustments from GPOS Lookup Type 1.
-        /// Only applies adjustments from the specified features.
+        /// Only applies to primary font glyphs (FontId == 0).
         /// </summary>
         private void ApplySingleAdjustment(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
-            // Determine which features to use
             List<string> features = options.GposFeatures ?? new List<string>();
 
             for (int i = 0; i < glyphs.Count; i++)
             {
+                // Skip fallback font glyphs
+                if (glyphs[i].FontId != 0)
+                    continue;
+
                 ushort glyphId = glyphs[i].GlyphId;
 
                 if (_singleAdjustmentProvider.TryGetAdjustment(glyphId, features, out var valueRecord))
@@ -400,21 +508,23 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         /// <summary>
         /// Applies kerning adjustments to glyph pairs.
-        /// Uses KerningProvider which handles both GPOS and legacy kern table.
+        /// Only kerns between primary font glyphs (FontId == 0).
         /// </summary>
         private void ApplyKerning(List<ShapedGlyph> glyphs)
         {
             for (int i = 1; i < glyphs.Count; i++)
             {
+                // Only kern if BOTH glyphs are from primary font
+                if (glyphs[i - 1].FontId != 0 || glyphs[i].FontId != 0)
+                    continue;
+
                 ushort leftGlyph = glyphs[i - 1].GlyphId;
                 ushort rightGlyph = glyphs[i].GlyphId;
 
-                // Get kerning value (handles GPOS + kern table + caching)
                 short kernValue = _kerningProvider.GetKerning(leftGlyph, rightGlyph);
 
                 if (kernValue != 0)
                 {
-                    // Apply kerning to the left glyph's advance
                     var glyph = glyphs[i - 1];
                     glyph.XAdvance += kernValue;
                     glyphs[i - 1] = glyph;
@@ -510,44 +620,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             };
         }
 
-        /// <summary>
-        /// Get line height (ascent + descent + line gap) in points.
-        /// </summary>
-        public float GetLineHeightInPoints(float fontSize)
-        {
-            var hhea = _primaryFont.HheaTable;
-            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
-
-            // ascent is positive, descender is negative
-            int lineHeightUnits = hhea.ascender - hhea.descender + hhea.lineGap;
-
-            return (lineHeightUnits / unitsPerEm) * fontSize;
-        }
-
-        /// <summary>
-        /// Get font height (ascent + descent only, no line gap) in points.
-        /// </summary>
-        public float GetFontHeightInPoints(float fontSize)
-        {
-            var hhea = _primaryFont.HheaTable;
-            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
-
-            // ascent is positive, descender is negative
-            int fontHeightUnits = hhea.ascender - hhea.descender;
-
-            return (fontHeightUnits / unitsPerEm) * fontSize;
-        }
-
         #endregion
 
-        // Lägg till i TextShaper class:
-
-        #region Light Shaping Pipeline (optimized with InternalGlyph)
+        #region Light Shaping Pipeline
 
         /// <summary>
         /// Shapes text into lightweight GlyphWidth structs optimized for text measurement.
-        /// Uses internal 12-byte struct during processing, outputs 8-byte structs.
-        /// 79% more memory efficient than full shaping pipeline.
         /// </summary>
         public GlyphWidth[] ShapeLight(string text, ShapingOptions options = null)
         {
@@ -561,34 +639,29 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 options = ShapingOptions.Default;
             }
 
-            // Phase 1: Map to glyphs (now 36 bytes each - optimized class)
             var glyphs = MapToGlyphs(text);
 
-            // Phase 2: Apply GSUB substitutions (ligatures)
             if (options.ApplySubstitutions && _primaryFont.GsubTable != null)
             {
                 glyphs = ApplyGsubSubstitutions(glyphs, options);
             }
 
-            // Phase 3: Apply kerning only (skip other positioning for wrapping)
             if (options.ApplyPositioning)
             {
                 ApplyKerningOnly(glyphs);
             }
 
-            // Phase 4: Extract to ultra-light output (8 bytes each)
             return ExtractGlyphWidths(glyphs);
         }
 
-        /// <summary>
-        /// Applies only kerning adjustments for wrapping.
-        /// Skips other GPOS features (single adjustment, mark-to-base) as they
-        /// don't affect line breaking decisions.
-        /// </summary>
         private void ApplyKerningOnly(List<ShapedGlyph> glyphs)
         {
             for (int i = 1; i < glyphs.Count; i++)
             {
+                // Only kern primary font glyphs
+                if (glyphs[i - 1].FontId != 0 || glyphs[i].FontId != 0)
+                    continue;
+
                 ushort leftGlyph = glyphs[i - 1].GlyphId;
                 ushort rightGlyph = glyphs[i].GlyphId;
 
@@ -603,11 +676,6 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             }
         }
 
-        /// <summary>
-        /// Extracts essential fields from ShapedGlyph to GlyphWidth.
-        /// Keeps only XAdvance, ClusterIndex, CharCount (8 bytes).
-        /// Discards offsets as they don't affect line breaking.
-        /// </summary>
         private GlyphWidth[] ExtractGlyphWidths(List<ShapedGlyph> glyphs)
         {
             var result = new GlyphWidth[glyphs.Count];
@@ -626,41 +694,35 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             return result;
         }
 
-
-
         #endregion
+
+        #region Font Metrics
 
         /// <summary>
         /// Gets single line spacing (baseline-to-baseline distance).
-        /// Uses typo metrics if USE_TYPO_METRICS flag is set, otherwise uses Win metrics.
         /// </summary>
-        public double GetLineHeightInPoints(double fontSize)
+        public float GetLineHeightInPoints(float fontSize)
         {
             if (_primaryFont.Os2Table.UseTypoMetrics)
             {
-                // Modern fonts: use typo metrics
                 var typoAscent = _primaryFont.Os2Table.sTypoAscender;
                 var typoDescent = _primaryFont.Os2Table.sTypoDescender;
                 var typoLineGap = _primaryFont.Os2Table.sTypoLineGap;
-                double em = _primaryFont.HeadTable.UnitsPerEm;
-                double lineHeight = typoAscent - typoDescent + typoLineGap;
+                float em = _primaryFont.HeadTable.UnitsPerEm;
+                float lineHeight = typoAscent - typoDescent + typoLineGap;
                 return (lineHeight / em) * fontSize;
             }
             else
             {
-                // Legacy fonts: use Win metrics (same as font height)
                 return GetFontHeightInPoints(fontSize);
             }
         }
 
         /// <summary>
-        /// Calculates the total height of the font, in points, for the specified font size.
+        /// Calculates the total height of the font, in points.
         /// </summary>
-        /// <param name="fontSize">The font size, in points, for which to calculate the total font height. Must be a positive value.</param>
-        /// <returns>The total height of the font, in points, corresponding to the specified font size.</returns>
-        public double GetFontHeightInPoints(double fontSize)
+        public float GetFontHeightInPoints(float fontSize)
         {
-            // Total font height (ascent + descent)
             var ascent = _primaryFont.Os2Table.usWinAscent;
             var descent = _primaryFont.Os2Table.usWinDescent;
             var em = _primaryFont.HeadTable.UnitsPerEm;
@@ -669,37 +731,31 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         }
 
         /// <summary>
-        /// Calculates the distance from the top of the font's bounding box to the baseline, measured in points, for the
-        /// specified font size.
+        /// Calculates the distance from the top of the font's bounding box to the baseline.
         /// </summary>
-        /// <param name="fontSize">The font size, in points, for which to calculate the baseline position. Must be a positive value.</param>
-        /// <returns>The distance, in points, from the top of the font's bounding box to the baseline for the given font size.</returns>
-        public double GetBaseLineInPoints(double fontSize)
+        public float GetBaseLineInPoints(float fontSize)
         {
-            // Distance from top of box to baseline
             var ascent = _primaryFont.Os2Table.UseTypoMetrics
-                ? (double)_primaryFont.Os2Table.sTypoAscender
-                : (double)_primaryFont.Os2Table.usWinAscent;
+                ? (float)_primaryFont.Os2Table.sTypoAscender
+                : _primaryFont.Os2Table.usWinAscent;
 
             var em = _primaryFont.HeadTable.UnitsPerEm;
             return ascent * (fontSize / em);
         }
 
         /// <summary>
-        /// Calculates the font descent in points for the specified font size.
+        /// Calculates the font descent in points.
         /// </summary>
-        /// <remarks>The descent represents the distance from the baseline to the lowest point of the
-        /// font's glyphs. This value is typically used for layout calculations and text rendering.</remarks>
-        /// <param name="fontSize">The font size, in points, for which to calculate the descent. Must be a positive value.</param>
-        /// <returns>The descent of the font, in points, corresponding to the specified font size.</returns>
-        public double GetDescentInPoints(double fontSize)
+        public float GetDescentInPoints(float fontSize)
         {
             var descent = _primaryFont.Os2Table.UseTypoMetrics
-                ? (double)Math.Abs(_primaryFont.Os2Table.sTypoDescender)  // Descent är negativ
+                ? (float)Math.Abs(_primaryFont.Os2Table.sTypoDescender)
                 : _primaryFont.Os2Table.usWinDescent;
 
             var em = _primaryFont.HeadTable.UnitsPerEm;
             return descent * (fontSize / em);
         }
+
+        #endregion
     }
 }
