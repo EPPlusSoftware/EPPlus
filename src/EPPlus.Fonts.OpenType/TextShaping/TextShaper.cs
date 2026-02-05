@@ -24,13 +24,14 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 {
     public class TextShaper : ITextShaper
     {
-        private readonly OpenTypeFont _font;
+        private readonly OpenTypeFont _primaryFont;
         private readonly KerningProvider _kerningProvider;
         private readonly LigatureProcessor _ligatureProcessor;
         private readonly MarkToBaseProvider _markToBaseProvider;
         private readonly SingleAdjustmentProvider _singleAdjustmentProvider;
         private readonly SingleSubstitutionProcessor _singleSubstitutionProcessor;
         private readonly ChainingContextualProcessor _chainingContextualProcessor;
+        private readonly IFontProvider _fontProvider;
 
         private const ushort DEFAULT_UNITS_PER_EM = 1000;
 
@@ -38,23 +39,37 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         {
             get
             {
-                if (_font?.HeadTable?.UnitsPerEm == null || _font.HeadTable.UnitsPerEm == 0)
+                if (_primaryFont?.HeadTable?.UnitsPerEm == null || _primaryFont.HeadTable.UnitsPerEm == 0)
                 {
                     return DEFAULT_UNITS_PER_EM;
                 }
-                return _font.HeadTable.UnitsPerEm;
+                return _primaryFont.HeadTable.UnitsPerEm;
             }
         }
 
         public TextShaper(OpenTypeFont font)
+            : this(new DefaultFontProvider(font))
         {
-            _font = font ?? throw new ArgumentNullException(nameof(font));
-            _kerningProvider = new KerningProvider(font);
-            _ligatureProcessor = new LigatureProcessor(font);
-            _markToBaseProvider = new MarkToBaseProvider(font);
-            _singleAdjustmentProvider = new SingleAdjustmentProvider(font);
-            _singleSubstitutionProcessor = new SingleSubstitutionProcessor(font);
-            _chainingContextualProcessor = new ChainingContextualProcessor(font, _singleSubstitutionProcessor, _ligatureProcessor);
+
+        }
+
+        public TextShaper(IFontProvider fontProvider)
+        {
+            if (fontProvider == null)
+                throw new ArgumentNullException("fontProvider");
+            if(fontProvider.PrimaryFont == null)
+                throw new ArgumentException("Primary font cannot be null in font provider", "fontProvider");
+
+            _fontProvider = fontProvider;
+            _primaryFont = fontProvider.PrimaryFont;
+
+            // Initialize processors with primary font
+            _kerningProvider = new KerningProvider(_primaryFont);
+            _ligatureProcessor = new LigatureProcessor(_primaryFont);
+            _markToBaseProvider = new MarkToBaseProvider(_primaryFont);
+            _singleAdjustmentProvider = new SingleAdjustmentProvider(_primaryFont);
+            _singleSubstitutionProcessor = new SingleSubstitutionProcessor(_primaryFont);
+            _chainingContextualProcessor = new ChainingContextualProcessor(_primaryFont, _singleSubstitutionProcessor, _ligatureProcessor);
         }
 
         #region Single-line Shaping
@@ -97,7 +112,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             var glyphs = MapToGlyphs(text);
 
             // Phase 2: Apply GSUB substitutions (if enabled)
-            if (options.ApplySubstitutions && _font.GsubTable != null)
+            if (options.ApplySubstitutions && _primaryFont.GsubTable != null)
             {
                 glyphs = ApplyGsubSubstitutions(glyphs, options);
             }
@@ -173,7 +188,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             var glyphs = MapToGlyphs(text);
 
             // Phase 2: Apply GSUB substitutions (if enabled)
-            if (options.ApplySubstitutions && _font.GsubTable != null)
+            if (options.ApplySubstitutions && _primaryFont.GsubTable != null)
             {
                 glyphs = ApplyGsubSubstitutions(glyphs, options);
             }
@@ -212,8 +227,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         private List<ShapedGlyph> MapToGlyphs(string text)
         {
             var glyphs = new List<ShapedGlyph>(text.Length);
-            var cmapTable = _font.CmapTable;
-            var hmtxTable = _font.HmtxTable;
+            var cmapTable = _primaryFont.CmapTable;
+            var hmtxTable = _primaryFont.HmtxTable;
 
             int i = 0;
             while (i < text.Length)
@@ -426,7 +441,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public float MeasureTextInPoints(string text, float fontSize, ShapingOptions options = null)
         {
             var shaped = Shape(text, options);
-            float unitsPerEm = _font.HeadTable.UnitsPerEm;
+            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
             return shaped.GetWidthInPoints(fontSize, unitsPerEm);
         }
 
@@ -436,7 +451,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public float MeasureTextInPixels(string text, float fontSize, float dpi, ShapingOptions options = null)
         {
             var shaped = Shape(text, options);
-            float unitsPerEm = _font.HeadTable.UnitsPerEm;
+            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
             return shaped.GetWidthInPixels(fontSize, dpi, unitsPerEm);
         }
 
@@ -472,7 +487,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public MultiLineMetrics MeasureLines(string text, float fontSize, ShapingOptions options = null)
         {
             var shapedLines = ShapeLines(text, options);
-            float unitsPerEm = _font.HeadTable.UnitsPerEm;
+            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
 
             float maxWidth = 0;
             foreach (var line in shapedLines)
@@ -500,8 +515,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// </summary>
         public float GetLineHeightInPoints(float fontSize)
         {
-            var hhea = _font.HheaTable;
-            float unitsPerEm = _font.HeadTable.UnitsPerEm;
+            var hhea = _primaryFont.HheaTable;
+            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
 
             // ascent is positive, descender is negative
             int lineHeightUnits = hhea.ascender - hhea.descender + hhea.lineGap;
@@ -514,8 +529,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// </summary>
         public float GetFontHeightInPoints(float fontSize)
         {
-            var hhea = _font.HheaTable;
-            float unitsPerEm = _font.HeadTable.UnitsPerEm;
+            var hhea = _primaryFont.HheaTable;
+            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
 
             // ascent is positive, descender is negative
             int fontHeightUnits = hhea.ascender - hhea.descender;
@@ -550,7 +565,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             var glyphs = MapToGlyphs(text);
 
             // Phase 2: Apply GSUB substitutions (ligatures)
-            if (options.ApplySubstitutions && _font.GsubTable != null)
+            if (options.ApplySubstitutions && _primaryFont.GsubTable != null)
             {
                 glyphs = ApplyGsubSubstitutions(glyphs, options);
             }
@@ -621,13 +636,13 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// </summary>
         public double GetLineHeightInPoints(double fontSize)
         {
-            if (_font.Os2Table.UseTypoMetrics)
+            if (_primaryFont.Os2Table.UseTypoMetrics)
             {
                 // Modern fonts: use typo metrics
-                var typoAscent = _font.Os2Table.sTypoAscender;
-                var typoDescent = _font.Os2Table.sTypoDescender;
-                var typoLineGap = _font.Os2Table.sTypoLineGap;
-                double em = _font.HeadTable.UnitsPerEm;
+                var typoAscent = _primaryFont.Os2Table.sTypoAscender;
+                var typoDescent = _primaryFont.Os2Table.sTypoDescender;
+                var typoLineGap = _primaryFont.Os2Table.sTypoLineGap;
+                double em = _primaryFont.HeadTable.UnitsPerEm;
                 double lineHeight = typoAscent - typoDescent + typoLineGap;
                 return (lineHeight / em) * fontSize;
             }
@@ -646,9 +661,9 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public double GetFontHeightInPoints(double fontSize)
         {
             // Total font height (ascent + descent)
-            var ascent = _font.Os2Table.usWinAscent;
-            var descent = _font.Os2Table.usWinDescent;
-            var em = _font.HeadTable.UnitsPerEm;
+            var ascent = _primaryFont.Os2Table.usWinAscent;
+            var descent = _primaryFont.Os2Table.usWinDescent;
+            var em = _primaryFont.HeadTable.UnitsPerEm;
 
             return (ascent + descent) * (fontSize / em);
         }
@@ -662,11 +677,11 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public double GetBaseLineInPoints(double fontSize)
         {
             // Distance from top of box to baseline
-            var ascent = _font.Os2Table.UseTypoMetrics
-                ? (double)_font.Os2Table.sTypoAscender
-                : (double)_font.Os2Table.usWinAscent;
+            var ascent = _primaryFont.Os2Table.UseTypoMetrics
+                ? (double)_primaryFont.Os2Table.sTypoAscender
+                : (double)_primaryFont.Os2Table.usWinAscent;
 
-            var em = _font.HeadTable.UnitsPerEm;
+            var em = _primaryFont.HeadTable.UnitsPerEm;
             return ascent * (fontSize / em);
         }
 
@@ -679,11 +694,11 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <returns>The descent of the font, in points, corresponding to the specified font size.</returns>
         public double GetDescentInPoints(double fontSize)
         {
-            var descent = _font.Os2Table.UseTypoMetrics
-                ? (double)Math.Abs(_font.Os2Table.sTypoDescender)  // Descent är negativ
-                : _font.Os2Table.usWinDescent;
+            var descent = _primaryFont.Os2Table.UseTypoMetrics
+                ? (double)Math.Abs(_primaryFont.Os2Table.sTypoDescender)  // Descent är negativ
+                : _primaryFont.Os2Table.usWinDescent;
 
-            var em = _font.HeadTable.UnitsPerEm;
+            var em = _primaryFont.HeadTable.UnitsPerEm;
             return descent * (fontSize / em);
         }
     }
