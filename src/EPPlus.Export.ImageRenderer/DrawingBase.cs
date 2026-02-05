@@ -12,6 +12,7 @@
  *************************************************************************************************/
 
 using EPPlus.Export.ImageRenderer;
+using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
@@ -25,24 +26,19 @@ namespace EPPlusImageRenderer
 {
     internal abstract class DrawingBase
     {
-        protected ExcelWorkbook _wb;
-        protected ExcelDrawing _drawing;
-        protected ExcelTheme _theme;
-
         internal DrawingBase(ExcelDrawing drawing)
         {
-            drawing.GetSizeInPixels(out int width, out int height);
             Drawing = drawing;
-            Size = new DrawingSize(width, height);
-            TextMeasurer = drawing._drawings._package.Settings.TextSettings.PrimaryTextMeasurer;
+            Bounds = drawing.GetBoundingBox();
 
-            _wb = drawing._drawings.Worksheet.Workbook;
-            _theme = _wb.ThemeManager.GetOrCreateTheme();
+            var wb = drawing._drawings.Worksheet.Workbook;
+            Theme = wb.ThemeManager.GetOrCreateTheme();
         }
         public ExcelDrawing Drawing { get; }
+        public ExcelTheme Theme { get;}
+        public ExcelWorkbook Workbook => Drawing._drawings.Worksheet.Workbook;
         internal ITextMeasurer TextMeasurer { get; }
         public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
-        public DrawingSize Size { get; internal set; }
         internal BoundingBox Bounds = new BoundingBox();
     }
 }

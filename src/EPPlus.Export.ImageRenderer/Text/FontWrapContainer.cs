@@ -30,7 +30,7 @@ namespace EPPlus.Export.ImageRenderer.Text
             { 
                 if(Parent != null)
                 {
-                    return Parent.Width;
+                    return Parent.Size.X;
                 }
                 else
                 {
@@ -52,7 +52,7 @@ namespace EPPlus.Export.ImageRenderer.Text
         private void Initialize(FontMeasurerTrueType txtMeasurer)
         {
             _measurer = txtMeasurer;
-            //transform = parent.transform;
+            //Transform = parent.Transform;
             //if (parent != null)
             //{
             //    SetParent(parent);
@@ -61,8 +61,8 @@ namespace EPPlus.Export.ImageRenderer.Text
 
         //void SetParent(Rect parent)
         //{
-        //    Parent = parent;
-        //    transform.Parent = parent.transform;
+        //    TopDrawingHandler = parent;
+        //    Transform.TopDrawingHandler = parent.Transform;
         //}
 
         private void SplitContentToLines()

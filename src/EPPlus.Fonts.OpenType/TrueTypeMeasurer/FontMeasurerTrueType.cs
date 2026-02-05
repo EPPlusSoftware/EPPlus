@@ -81,14 +81,7 @@ namespace EPPlus.Fonts.OpenType
 
         public FontMeasurerTrueType(MeasurementFont mFont)
         {
-            CurrentFontName = string.IsNullOrEmpty(mFont.FontFamily) ? "" : mFont.FontFamily;
-
-            SetFont(mFont.Size, mFont.FontFamily);
-
-            if (CurrentFont == null)
-            {
-                CurrentFont = _defaultFont;
-            }
+            SetFont(mFont);
         }
 
 
@@ -246,6 +239,13 @@ namespace EPPlus.Fonts.OpenType
             return wrappedStrings;
         }
 
+        public List<TextLineSimple> MeasureAndWrapTextLines(string text, MeasurementFont font, double MaxWidthInPixels, double preExistingWidthPixels = 0)
+        {
+            SetFont(font.Size, font.FontFamily);
+            var wrappedStrings = TextData.MeasureAndWrapTextLines(text, FontSize, CurrentFont, MaxWidthInPixels.PixelToPoint(), preExistingWidthPixels.PixelToPoint());
+            return wrappedStrings;
+        }
+
         public List<string> MeasureAndWrapTextPoints(string text, MeasurementFont font, double MaxWidthInPoints)
         {
             SetFont(font.Size, font.FontFamily);
@@ -315,6 +315,14 @@ namespace EPPlus.Fonts.OpenType
 
             //Wrap the fragments
             return TextData.WrapMultipleTextFragments(paragraph, maxWidthPoints);
+        }
+
+        public List<TextLineSimple> WrapMultipleTextFragmentsToTextLines(TextFragmentCollection fragments, List<MeasurementFont> fonts, double maxWidthPoints)
+        {
+            TextParagraph paragraph = new TextParagraph(fragments, fonts);
+
+            //Wrap the fragments
+            return TextData.WrapMultipleTextFragmentsToTextLines(paragraph, maxWidthPoints);
         }
     }
 }

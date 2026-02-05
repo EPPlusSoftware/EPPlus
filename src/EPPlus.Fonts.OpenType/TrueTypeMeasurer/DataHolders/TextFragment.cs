@@ -16,7 +16,11 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
 
         internal List<int> IsPartOfLines;
         internal string ThisFragment;
+        internal List<double> PointWidthPerOutputLineInFragment = new();
+        internal List<double> PointYIncreasePerLine = new();
+
         List<int> positionsToBreakAt = new();
+
         internal float FontSize { get; set; } = float.NaN;
 
         internal TextFragment(string thisFragment, int startPos)

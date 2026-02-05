@@ -10,14 +10,16 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using OfficeOpenXml.Drawing;
-using System.Text;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlusImageRenderer.RenderItems;
 
-namespace EPPlusImageRenderer.RenderItems.Shared
+namespace EPPlusImageRenderer.Svg
 {
-    internal interface IRenderItem
+    internal class SvgLegendSerie
     {
-        void Render(StringBuilder sb);
-        RectBase GetBounds();
+        internal RenderItem SeriesIcon { get; set; }
+        internal RenderItem MarkerIcon { get; set; }
+        internal RenderItem MarkerBackground { get; set; }
+        internal TextBodyItem Textbox { get; set;}
     }
 }

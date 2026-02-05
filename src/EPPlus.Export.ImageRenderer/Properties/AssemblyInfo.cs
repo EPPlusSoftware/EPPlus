@@ -26,7 +26,7 @@ using System.Security;
 
 // Version information for an assembly consists of the following four values:
 //
-//      Major Version
+//      MajorInterval Version
 //      Minor Version 
 //      Build Number
 //      Revision

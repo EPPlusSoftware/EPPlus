@@ -361,7 +361,7 @@ namespace OfficeOpenXml.Drawing
                 var v = GetXmlNodeDoubleNull(_sizePath);
                 if (v == null)
                 {
-                    if(_dtr == null)
+                    if(_dtr == null || _dtr.Size == int.MinValue)
                     {
                         return _prd.Package.Workbook.Styles.GetNormalStyle().Style.Font.Size;
                     }

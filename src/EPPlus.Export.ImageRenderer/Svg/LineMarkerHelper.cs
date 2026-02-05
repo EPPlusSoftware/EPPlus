@@ -1,32 +1,31 @@
-﻿using EPPlusImageRenderer;
+﻿using EPPlus.Export.ImageRenderer.Utils;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using System;
 using System.Collections.Generic;
 
 namespace EPPlus.Export.ImageRenderer.Svg
 {
     internal class LineMarkerHelper
     {
-        internal static RenderItem GetMarkerItem(SvgChart sc, ExcelLineChartSerie ls, float x, float y, bool isLegend)
+        internal static RenderItem GetMarkerItem(SvgChart sc, ExcelLineChartSerie ls, double x, double y, bool isLegend)
         {
             SvgRenderItem item;
             var m = ls.Marker;
             float maxSize = isLegend ? 7f : float.MaxValue;
             var size = m.Size > maxSize ? maxSize : m.Size;
-            var halfSize = (float)size / 2;
-            //var line = sls.SeriesIcon as SvgRenderLineItem;
-            //var x = line.X1 + (line.X2 - line.X1) / 2;
-            var xPath = x / (float)sc.ChartArea.Width;
-            //var y = (float)line.Y1;
-            var yPath = y / (float)sc.ChartArea.Height;
-            var halfY = (float)halfSize / sc.ChartArea.Height;
-            var halfX = (float)halfSize / sc.ChartArea.Width;
+            var halfSize = size / 2;
+            var xPath = x / sc.ChartArea.Width;
+            var yPath = y / sc.ChartArea.Height;
+            var halfY = halfSize / sc.ChartArea.Height;
+            var halfX = halfSize / sc.ChartArea.Width;
             switch (m.Style)
             {
                 case eMarkerStyle.Circle:
-                    item = new SvgRenderEllipseItem(sc.Drawing)
+                    item = new SvgRenderEllipseItem(sc, sc.Bounds)
                     { 
                         Rx = halfSize,
                         Ry = halfSize,
@@ -35,7 +34,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                     };
                     break;
                 case eMarkerStyle.Triangle:
-                    item = new SvgRenderPathItem(sc.Drawing)
+                    item = new SvgRenderPathItem(sc, sc.Bounds)
                     {
                         Commands = new List<PathCommands>()
                     };
@@ -44,7 +43,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                     ((SvgRenderPathItem)item).Commands.Add(new PathCommands(PathCommandType.End, item));
                     break;
                 case eMarkerStyle.Diamond:
-                    item = new SvgRenderPathItem(sc.Drawing)
+                    item = new SvgRenderPathItem(sc, sc.Drawing.GetBoundingBox())
                     {
                         Commands = new List<PathCommands>()
                     };
@@ -63,7 +62,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                     {
                         if(m.Style == eMarkerStyle.Dot)
                         {
-                            item = new SvgRenderRectItem(sc.Drawing)
+                            item = new SvgRenderRectItem(sc, sc.Bounds)
                             {
                                 Left = x,
                                 Top = y - size / 8,
@@ -73,7 +72,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                         }
                         else //Dash
                         {
-                            item = new SvgRenderRectItem(sc.Drawing)
+                            item = new SvgRenderRectItem(sc, sc.Bounds)
                             {
                                 Left = x - size / 2,
                                 Top = y - size / 8,
@@ -84,7 +83,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                     }
                     break;
                 case eMarkerStyle.Square:
-                    item = new SvgRenderRectItem(sc.Drawing)
+                    item = new SvgRenderRectItem(sc, sc.Bounds)
                     {
                         Left = x - size / 2,
                         Top = y - size / 2,
@@ -95,7 +94,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
                 case eMarkerStyle.Plus:
                 case eMarkerStyle.Star:
                 case eMarkerStyle.X:
-                    var pathItem = new SvgRenderPathItem(sc.Drawing)
+                    var pathItem = new SvgRenderPathItem(sc, sc.Bounds)
                     {
                         Commands = new List<PathCommands>()
                     };
@@ -157,14 +156,14 @@ namespace EPPlus.Export.ImageRenderer.Svg
             }
             return item;
         }
-        internal static RenderItem GetMarkerBackground(SvgChart sc, ExcelLineChartSerie ls,  float x, float y, bool isLegend)
+        internal static RenderItem GetMarkerBackground(SvgChart sc, ExcelLineChartSerie ls,  double x, double y, bool isLegend)
         {
             SvgRenderItem item;
             var m = ls.Marker;
             float maxSize = isLegend ? 7f : float.MaxValue;
             var size = m.Size > maxSize ? maxSize : m.Size;
             //var line = sls.SeriesIcon as SvgRenderLineItem;
-            item = new SvgRenderRectItem(sc.Drawing)
+            item = new SvgRenderRectItem(sc, sc.Bounds)
             {
                 Left = x - (size / 2),// line.X1 + (line.X2 - line.X1 - size) / 2,
                 Top = y - (size / 2),

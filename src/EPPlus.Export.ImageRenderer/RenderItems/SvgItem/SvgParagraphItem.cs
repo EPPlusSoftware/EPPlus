@@ -1,55 +1,27 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Style;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class SvgParagraphItem : ParagraphContainer
+    internal class SvgParagraphItem : ParagraphItem
     {
-        public SvgParagraphItem()
+        public override RenderItemType Type => RenderItemType.Paragraph;
+
+        public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(textBody, renderer, parent)
         {
         }
 
-        public SvgParagraphItem(BoundingBox parent) : base(parent)
+        public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(textBody, renderer, parent, p, textIfEmpty)
         {
         }
-
-        public SvgParagraphItem(ExcelDrawingParagraph p, BoundingBox parent) : base(p, parent)
-        {
-        }
-
-        private string GetHorizontalAlignmentAttribute(double indentX)
-        {
-            string ret = "";
-            var xStr = indentX.ToString(CultureInfo.InvariantCulture);
-
-            switch (_hAlign)
-            {
-                default:
-                case eTextAlignment.Left:
-                    ret = $"text-anchor=\"start\" x=\"{xStr}\" ";
-                    break;
-                case eTextAlignment.Center:
-                    ret = $"text-anchor=\"middle\" x=\"{xStr}\" ";
-                    break;
-                case eTextAlignment.Right:
-
-                    ret = $"text-anchor=\"end\" x=\"{xStr}\" ";
-                    break;
-            }
-
-            return ret;
-        }
-
         //private string GetVerticalAlignAttribute(double textOrigY)
         //{
         //    string ret = "dominant-baseline=";
@@ -79,33 +51,33 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             var fontSize = _paragraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
 
-            sb.AppendLine($"<g transform=\"translate({Bounds.X},{Bounds.Y})\" >");
+            sb.AppendLine($"<g transform=\"translate({Bounds.Left.PointToPixel().ToString(CultureInfo.InvariantCulture)},{Bounds.Top.PointToPixel().ToString(CultureInfo.InvariantCulture)})\" >");
 
             sb.AppendLine("<title>paragraph</title> ");
 
-            var bb = new SvgRenderRectItem();
-            //The bb is affected by the transform so set pos to zero
-            if(IsFirstParagraph == false)
-            {
-                bb.Y = 0;
-            }
-            bb.X = 0;
+            //var bb = new SvgRenderRectItem(DrawingRenderer, Bounds);
+            ////The bb is affected by the Transform so set pos to zero
+            //if (IsFirstParagraph == false)
+            //{
+            //    bb.Y = 0;
+            //}
+            //bb.X = 0;
 
-            bb.Width = Bounds.Width;
-            bb.Height = Bounds.Height;
-            bb.FillColor = "gold";
-            bb.FillOpacity = 0.3;
-            bb.Render(sb);
+            //bb.Width = Bounds.Width;
+            //bb.Height = Bounds.Height;
+            //bb.FillColor = FillColor;
+            //bb.FillOpacity = 0.3;
+            //bb.Render(sb);
 
             //Render text run debug boxes as we cannot place the rects after or inside the text element
 
-            //if (_textRunItems.Count > 0)
+            //if (Runs.Count > 0)
             //{
             //    //double lastWidth = 0;
 
             //    var bbLines = new SvgRenderRectItem();
 
-            //    foreach (var textRun in _textRunItems)
+            //    foreach (var textRun in Runs)
             //    {
             //        ////render txtRun debug
             //        bbLines.X = textRun.Bounds.Left;
@@ -138,15 +110,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //}
 
             sb.Append("<text ");
-            base.Render(sb);
+            SvgBaseRenderer.BaseRender(sb, this);
+            //Render(sb);
 
             sb.Append(/*$"{GetHorizontalAlignmentAttribute(Bounds.X)} y=\"{Bounds.Y}\" " +*/
                 $"font-family=\"{_paragraphFont.FontFamily},{_paragraphFont.FontFamily}_MSFontService,sans-serif\" " +
-                $"font-size=\"{fontSize}px\" >");
+                $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" >");
 
-            if (_textRunItems.Count > 0)
+            if (Runs != null && Runs.Count > 0)
             {
-                foreach (var textRun in _textRunItems)
+                foreach (var textRun in Runs)
                 {
                     textRun.Render(sb);
                 }
@@ -155,15 +128,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             sb.AppendLine("</text>");
             sb.AppendLine("</g>");
         }
-
-        internal override SvgRenderItem Clone(SvgShape svgDocument)
-        {
-            throw new System.NotImplementedException();
-        }
-
         internal override TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText)
         {
-            return new SvgTextRunItem(run, parent, displayText);
+            return new SvgTextRunItem(DrawingRenderer, parent, run, displayText);
+        }
+        internal override TextRunItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText)
+        {
+            return new SvgTextRunItem(DrawingRenderer, parent, text, font, displayText);
         }
     }
 }

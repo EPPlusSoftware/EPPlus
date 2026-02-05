@@ -24,6 +24,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.Utils;
 using System;
@@ -41,45 +42,43 @@ namespace EPPlusImageRenderer
             if (drawing is ExcelShape shape)
             {
                 var svg = new SvgShape(shape);
-                svg.Size = new DrawingSize(width, height);
                 svg.Render(sb);
                 return sb.ToString();
             }
             else if(drawing is ExcelChart chart)
             {
                 var svg = new SvgChart(chart);
-                svg.Size = new DrawingSize(width, height);
                 svg.Render(sb);
                 return sb.ToString();
             }
 
             throw new NotImplementedException("Image rendering for drawing type not implemented.");
         }
-        public string RenderRangeToSvg(ExcelRange range)
-        {
-            var ws = range.Worksheet;
+        //public string RenderRangeToSvg(ExcelRange range)
+        //{
+        //    var ws = range.Worksheet;
 
-            //ws.Workbook.Styles.CellXfs.
+        //    //ws.Workbook.Styles.CellXfs.
 
-            double totalWidth = 0;
-            foreach (var col in range.EntireColumn)
-            {
-                totalWidth += ExcelColumn.ColumnWidthToPixels(col.Width, range.Worksheet.Workbook.MaxFontWidth);
-            }
-            double totalHeight = 0;
-            foreach (var row in range.EntireRow)
-            {
-                totalHeight = row.Height;
-            }
+        //    double totalWidth = 0;
+        //    foreach (var col in range.EntireColumn)
+        //    {
+        //        totalWidth += ExcelColumn.ColumnWidthToPixels(col.Width, range.Worksheet.Workbook.MaxFontWidth);
+        //    }
+        //    double totalHeight = 0;
+        //    foreach (var row in range.EntireRow)
+        //    {
+        //        totalHeight = row.Height;
+        //    }
 
-            var sRange = new SvgRange(range, totalWidth, totalHeight);
+        //    var sRange = new SvgRange(range, totalWidth, totalHeight);
 
-            var sb = new StringBuilder();
-            sb.Append($"<svg width=\"{500}\" height=\"{500}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\">");
-            sRange.Render(sb);
-            sb.Append($"</svg>");
-            return sb.ToString();
-        }
+        //    var sb = new StringBuilder();
+        //    sb.Append($"<svg width=\"{500}\" height=\"{500}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\">");
+        //    sRange.Render(sb);
+        //    sb.Append($"</svg>");
+        //    return sb.ToString();
+        //}
 
         public string RenderBox(string boxText)
         {
@@ -109,82 +108,27 @@ namespace EPPlusImageRenderer
             //return retStr;
         }
 
-        public string RenderTextBody(ExcelTextBody body, double shapeWidth, double shapeHeight)
-        {
-            var sb = new StringBuilder();
+        //public string RenderTextBody(ExcelTextBody body, double shapeWidth, double shapeHeight)
+        //{
+        //    var sb = new StringBuilder();
 
-            BoundingBox worldBounds = new BoundingBox();
-            worldBounds.Width = shapeWidth;
-            worldBounds.Height = shapeHeight;
+        //    BoundingBox worldBounds = new BoundingBox();
+        //    worldBounds.Width = shapeWidth;
+        //    worldBounds.Height = shapeHeight;
 
-            var doc = new SvgEpplusDocument((int)worldBounds.Width, (int)worldBounds.Height);
-            doc.Render(sb);
+        //    var doc = new SvgEpplusDocument((int)worldBounds.Width, (int)worldBounds.Height);
+        //    doc.Render(sb);
 
-            FontMeasurerTrueType measurer = new FontMeasurerTrueType(11, "Aptos Narrow", FontSubFamily.Regular);
-            var svgBody = new SvgTextBodyItem(worldBounds);
-            svgBody.ImportTextBody(body);
+        //    FontMeasurerTrueType measurer = new FontMeasurerTrueType(11, "Aptos Narrow", FontSubFamily.Regular);
 
-            svgBody.Render(sb);
-            sb.AppendLine("</svg>");
+        //    var svgBody = new SvgTextBodyItem(doc, worldBounds, null);
+        //    svgBody.ImportTextBody(body);
 
-            return sb.ToString();
-        }
+        //    svgBody.Render(sb);
+        //    sb.AppendLine("</svg>");
 
-        public string RenderTextBody(string txtBody)
-        {
-            BoundingBox worldBounds = new BoundingBox();
-            worldBounds.Width = 400;
-            worldBounds.Height = 400;
-
-            worldBounds.transform.Name = "World Bounds";
-
-            BoundingBox shapeRect = new BoundingBox();
-
-            shapeRect.Parent = worldBounds;
-
-            shapeRect.Width = 200;
-            shapeRect.Height = 200;
-
-            shapeRect.X = 20;
-            shapeRect.Y = 20;
-
-            shapeRect.transform.Name = "Shape";
-
-            FontMeasurerTrueType measurer = new FontMeasurerTrueType(11, "Aptos Narrow", FontSubFamily.Regular);
-            var body = new SvgTextBodyItem(shapeRect);
-
-            body.Bounds.transform.Name = "TxtBody";
-
-            body.Bounds.X = 20;
-            body.Bounds.Y = 20;
-
-            body.Bounds.Width = 100;
-            body.Bounds.Height = 100;
-
-            body.AddText(txtBody, measurer);
-
-            var para1 = body.Paragraphs[0];
-
-            para1.AddText("Extra Text", measurer);
-            para1.Runs[1].X = 10;
-            para1.Runs[1].Y = 20;
-
-            para1.Bounds.Width = 120;
-            para1.Bounds.Height = 100;
-
-            //body.AddParagraph("Paragraph2 text", measurer);
-            //var para2 = body.Paragraphs[1];
-
-            //para2.Bounds.Y = 40;
-
-            //para2.AddText("Para2 Run2", measurer);
-            //para2.Runs[1].X = 5;
-            //para2.Runs[1].Y = 20;
-
-            var svgBody = GenerateSvgTextBody(body, (int)worldBounds.Width, (int)worldBounds.Height);
-
-            return RenderSvgElement(svgBody);
-        }
+        //    return sb.ToString();
+        //}
 
         internal string RenderSvgElement(SvgElement element)
         {
@@ -203,112 +147,6 @@ namespace EPPlusImageRenderer
             }
         }
 
-        internal SvgElement GenerateSvgTextBody(SvgTextBodyItem body, int width, int height)
-        {
-            var fullString = body.GetContent();
-
-            var doc = new SvgEpplusDocument(width, height);
-
-            //Represents world bounds/svg node
-            var bg = new SvgElement("rect");
-            bg.AddAttribute("width", "100%");
-            bg.AddAttribute("height", "100%");
-            bg.AddAttribute("fill", "red");
-            bg.AddAttribute("opacity", "0.1");
-
-            body.AllowOverflow = false;
-
-            var svgDefs = GetDefinitions(body.Bounds, out string nameId, body.AllowOverflow);
-
-            var fontSizePx = 16d;
-
-            doc.AddChildElement(svgDefs);
-            doc.AddChildElement(bg);
-
-            var shapeRectBB = body.Bounds.Parent;
-
-            var shapeRoot = new SvgElement("g");
-            shapeRoot.AddAttribute("transform", $"translate({shapeRectBB.GlobalX},{shapeRectBB.GlobalY})");
-
-            doc.AddChildElement(shapeRoot);
-
-            var shapeTitle = new SvgElement("title");
-            shapeTitle.Content = "Shape Group";
-            shapeRoot.AddChildElement(shapeTitle);
-
-            var shapeVisual = new SvgElement("rect");
-            shapeVisual.AddAttribute("width", $"{shapeRectBB.Width}px");
-            shapeVisual.AddAttribute("height", $"{shapeRectBB.Height}px");
-            shapeVisual.AddAttribute("fill", "yellow");
-            shapeVisual.AddAttribute("opacity", "0.2");
-
-            shapeRoot.AddChildElement(shapeVisual);
-
-            var textBodyGroup = new SvgElement("g");
-            textBodyGroup.AddAttribute("transform", $"translate({body.Bounds.X},{body.Bounds.Y})");
-
-            shapeRoot.AddChildElement(textBodyGroup);
-
-            var txtBodyTitle = new SvgElement("title");
-            txtBodyTitle.Content = "txtBody";
-            textBodyGroup.AddChildElement(txtBodyTitle);
-
-
-            var txBodyVisual = new SvgElement("use");
-            txBodyVisual.AddAttribute("href", "#defaultRect");
-            txBodyVisual.AddAttribute("fill", "green");
-            txBodyVisual.AddAttribute("opacity", "0.5");
-
-            textBodyGroup.AddChildElement(txBodyVisual);
-
-            int paragraphCount = 1;
-
-            foreach(var paragraph in body.Paragraphs)
-            {
-                var paragraphGroup = new SvgElement("g");
-                paragraphGroup.AddAttribute("transform", $"translate({paragraph.Bounds.X},{paragraph.Bounds.Y})");
-
-                textBodyGroup.AddChildElement(paragraphGroup);
-
-                var paragraphTitle = new SvgElement("title");
-                paragraphTitle.Content = "Paragraph " + paragraphCount.ToString();
-                paragraphGroup.AddChildElement(paragraphTitle);
-
-                var paragraphElement = new SvgElement("text");
-                paragraphElement.AddAttribute("y", fontSizePx);
-                paragraphElement.AddAttribute("font-size", $"{fontSizePx}px");
-                paragraphElement.AddAttribute("clip-path", $"url(#{nameId})");
-
-                paragraphGroup.AddChildElement(paragraphElement);
-
-                foreach (var run in paragraph.Runs)
-                {
-                    var bbVisual = new SvgElement("rect");
-                    bbVisual.AddAttribute("x", run.X);
-                    bbVisual.AddAttribute("y", run.Y);
-                    bbVisual.AddAttribute("width", run.Width);
-                    bbVisual.AddAttribute("height", run.Height);
-                    bbVisual.AddAttribute("fill", "blue");
-                    bbVisual.AddAttribute("opacity", "0.5");
-
-                    paragraphGroup.AddChildElement(bbVisual);
-
-                    var runElement = new SvgElement("tspan");
-                    runElement.AddAttribute("x", run.X);
-                    runElement.AddAttribute("y", run.Y + fontSizePx);
-                    runElement.AddAttribute("font-size", $"{fontSizePx}px");
-
-                    runElement.Content = run.GetContent();
-                    paragraphElement.AddChildElement(runElement);
-                }
-
-                paragraphCount++;
-            }
-
-            doc.AddAttributes();
-
-            return doc;
-        }
 
         internal SvgElement GetDefinitions(BoundingBox boundingBox, out string nameId, bool AllowOverflow = false)
         {
@@ -360,8 +198,8 @@ namespace EPPlusImageRenderer
             def.AddChildElement(clipPath);
 
             var bb = new SvgElement("rect");
-            bb.AddAttribute("x", container.transform.Position.X);
-            bb.AddAttribute("y", container.transform.Position.Y);
+            bb.AddAttribute("x", container.Position.X);
+            bb.AddAttribute("y", container.Position.Y);
             bb.AddAttribute("width", container.Width);
             bb.AddAttribute("height", container.Height);
             //bb.AddAttribute("fill", "blue");
@@ -372,16 +210,16 @@ namespace EPPlusImageRenderer
             var fontSizePx = 16d;
 
             var renderElement = new SvgElement("text");
-            renderElement.AddAttribute("x", container.transform.Position.X);
-            renderElement.AddAttribute("y", container.transform.Position.Y + fontSizePx);
+            renderElement.AddAttribute("x", container.Position.X);
+            renderElement.AddAttribute("y", container.Position.Y + fontSizePx);
             renderElement.AddAttribute("_measurementFont-size", $"{fontSizePx}px");
             renderElement.AddAttribute("clip-path", $"url(#{nameId})");
 
             renderElement.Content = fullString;
 
             var bbVisual = new SvgElement("rect");
-            bbVisual.AddAttribute("x", container.transform.Position.X);
-            bbVisual.AddAttribute("y", container.transform.Position.Y);
+            bbVisual.AddAttribute("x", container.Position.X);
+            bbVisual.AddAttribute("y", container.Position.Y);
             bbVisual.AddAttribute("width", container.Width);
             bbVisual.AddAttribute("height", container.Height);
             bbVisual.AddAttribute("fill", "blue");

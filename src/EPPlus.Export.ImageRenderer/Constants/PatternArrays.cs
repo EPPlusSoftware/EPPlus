@@ -330,7 +330,7 @@ namespace EPPlusImageRenderer.Constants
             new short[] { 1, 1, 1, 1 }
         };
 
-        internal static readonly short[][] Shpere = new short[][] {
+        internal static readonly short[][] Sphere = new short[][] {
             new short[] { 1, 0, 0, 1, 1, 0, 0, 0 },
             new short[] { 1, 1, 1, 1, 1, 0, 0, 0 },
             new short[] { 1, 1, 1, 1, 1, 0, 0, 0 },

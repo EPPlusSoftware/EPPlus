@@ -10,8 +10,13 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Style.Effect;
+using OfficeOpenXml.Drawing.Theme;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,9 +24,10 @@ namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderPathItem : SvgRenderItem
     {
-        public SvgRenderPathItem(ExcelDrawing drawing) : base(drawing)
+        public SvgRenderPathItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
-            
+            Bounds.Width = parent.Width;
+            Bounds.Height = parent.Height;
         }
         public override RenderItemType Type { get => RenderItemType.Path; }
         public List<PathCommands> Commands { get; set; } = new List<PathCommands>();
@@ -29,7 +35,9 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
-            _drawing.GetSizeInPixels(out int width, out int height);
+            int width = (int)Bounds.Width;
+            int height = (int)Bounds.Height;
+
             sb.Append($"<path d=\"");
             for (int i = 0; i < Commands.Count; i++)
             {
@@ -42,8 +50,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
         {
-            var clone = new SvgRenderPathItem(_drawing);
-            clone._theme = _theme;
+            var clone = new SvgRenderPathItem(svgDocument, svgDocument.Bounds);
             CloneBase(clone);
             clone.Commands = CloneCommands(Commands);
             return clone;
@@ -93,5 +100,4 @@ namespace EPPlusImageRenderer.RenderItems
             }
         }
     }
-
 }

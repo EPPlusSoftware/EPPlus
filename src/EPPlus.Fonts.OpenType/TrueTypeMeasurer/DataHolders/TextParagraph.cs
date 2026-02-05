@@ -10,7 +10,7 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
 {
-    internal class TextParagraph
+    public class TextParagraph
     {
         //prevent creating multiple OpenTypeFonts via cache/indexing
         internal Dictionary<double, OpenTypeFont> FontIndexDict = new();

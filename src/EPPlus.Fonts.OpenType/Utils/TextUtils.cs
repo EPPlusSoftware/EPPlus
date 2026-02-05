@@ -27,8 +27,8 @@ namespace EPPlus.Fonts.OpenType.Utils
 
         public static double PixelToPoint(this double pixelSize)
         {
-            var roundedSize = (double)RoundToWhole(pixelSize);
-            return roundedSize / 96 * 72;
+            //var roundedSize = (double)RoundToWhole(pixelSize);
+            return pixelSize / 96 * 72;
         }
 
         public static double EmuToPoint(this double emuNumber)
