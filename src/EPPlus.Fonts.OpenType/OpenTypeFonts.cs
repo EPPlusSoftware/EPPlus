@@ -15,6 +15,7 @@
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Tables;
+using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Utils.Platform;
 using System;
 using System.Collections.Generic;
@@ -189,7 +190,18 @@ namespace EPPlus.Fonts.OpenType
             bool searchSystemDirectories = true,
             bool ignoreCache = false)
         {
-            return GetFontDataOpen(fontDirectories, fontName, subFamily, searchSystemDirectories, ignoreCache);
+            var font = GetFontDataOpen(fontDirectories, fontName, subFamily, searchSystemDirectories, ignoreCache);
+            uint[] codePoints = { 0x1F600, 97, 98, 99 }; // 😀, a, b, c
+
+            foreach (uint cp in codePoints)
+            {
+                ushort glyphId;
+                bool found = font.CmapTable.TryGetGlyphId(cp, out glyphId);
+
+                char display = cp <= 0xFFFF ? (char)cp : '?';
+                Console.WriteLine($"U+{cp:X} ('{display}'): found={found}, glyphId={glyphId}");
+            }
+            return font;
         }
 
         /// <summary>

@@ -215,17 +215,50 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             var cmapTable = _font.CmapTable;
             var hmtxTable = _font.HmtxTable;
 
-            for (ushort i = 0; i < text.Length; i++)
+            int i = 0;
+            while (i < text.Length)
             {
-                char c = text[i];
+                uint codePoint;
+                int charCount;
 
-                // Map character to glyph ID
-                int glyphId = cmapTable.MapCharToGlyph(c);
-
-                // Handle missing glyphs (use .notdef)
-                if (glyphId < 0)
+                // Check if this is a surrogate pair
+                if (i < text.Length - 1 && char.IsHighSurrogate(text[i]))
                 {
-                    glyphId = 0; // .notdef
+                    // Potential surrogate pair: 2 chars → 1 Unicode code point
+                    char high = text[i];
+                    char low = text[i + 1];
+
+                    if (char.IsLowSurrogate(low))
+                    {
+                        // Valid pair - convert to code point
+                        codePoint = (uint)char.ConvertToUtf32(high, low);
+                        charCount = 2;
+                    }
+                    else
+                    {
+                        // Invalid surrogate pair - treat as .notdef and skip high surrogate
+                        codePoint = 0;
+                        charCount = 1;
+                    }
+                }
+                else if (char.IsSurrogate(text[i]))
+                {
+                    // Lone surrogate (invalid) - treat as .notdef
+                    codePoint = 0;
+                    charCount = 1;
+                }
+                else
+                {
+                    // Normal BMP character
+                    codePoint = text[i];
+                    charCount = 1;
+                }
+
+                // Map code point to glyph ID
+                ushort glyphId;
+                if (!cmapTable.TryGetGlyphId(codePoint, out glyphId))
+                {
+                    glyphId = 0; // .notdef if not found
                 }
 
                 // Get base advance width from hmtx (BEFORE any kerning)
@@ -234,14 +267,16 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 glyphs.Add(new ShapedGlyph
                 {
                     GlyphId = (ushort)glyphId,
-                    BaseAdvance = baseAdvance,      // ← Store original advance
-                    XAdvance = baseAdvance,         // ← Initially same as base
+                    BaseAdvance = baseAdvance,
+                    XAdvance = baseAdvance,
                     YAdvance = 0,
                     XOffset = 0,
                     YOffset = 0,
-                    ClusterIndex = i,
-                    CharCount = 1
+                    ClusterIndex = (ushort)i,      // Points to FIRST char of the cluster
+                    CharCount = (byte)charCount    // 1 for normal, 2 for surrogate pair
                 });
+
+                i += charCount;  // Skip both chars if surrogate pair
             }
 
             return glyphs;
