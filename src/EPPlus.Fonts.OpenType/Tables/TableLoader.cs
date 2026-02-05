@@ -18,11 +18,11 @@ using System.Threading;
 namespace EPPlus.Fonts.OpenType.Tables
 {
     internal abstract class TableLoader<T>
-        where T : FontTableBase
+     where T : FontTableBase
     {
         public TableLoader(TableLoaderSettings tblSettings, string tableName)
         {
-            _reader = tblSettings._readerRef;
+            _reader = tblSettings.TableReaderFactory.CreateReader();
             if (tblSettings._tableRecordsRef.ContainsKey(tableName))
             {
                 _offset = tblSettings._tableRecordsRef[tableName].Offset;
@@ -31,6 +31,7 @@ namespace EPPlus.Fonts.OpenType.Tables
             _tables = tblSettings._tableRecordsRef;
             _tableName = tableName;
             tableCache = tblSettings._tblCacheRef;
+            _fontLock = tblSettings._loaderCacheRef.SyncLock;  // <-- Add this
         }
 
         protected FontsBinaryReader _reader;
@@ -39,12 +40,11 @@ namespace EPPlus.Fonts.OpenType.Tables
         protected readonly uint _length;
         protected Dictionary<string, TableRecord> _tables;
         internal TableCache tableCache;
+        private readonly object _fontLock;  // <-- Add this
 
         protected abstract T LoadInternal();
 
-        // ✅ Instance lock for this specific table loader
         private readonly object _instanceLock = new object();
-
         private bool _isLoading;
         private bool _isLoaded;
 
@@ -53,9 +53,10 @@ namespace EPPlus.Fonts.OpenType.Tables
             // First: Check cache with instance lock (fast path)
             lock (_instanceLock)
             {
-                if (_isLoaded && tableCache != null && tableCache.Contains(_tableName) && useCache)
+                object cached;
+                if (_isLoaded && tableCache != null && tableCache.TryGet(_tableName, out cached) && useCache)
                 {
-                    return tableCache.Get(_tableName) as T;
+                    return cached as T;  // ✅ Atomisk operation!
                 }
 
                 while (_isLoading && !_isLoaded)
@@ -63,9 +64,9 @@ namespace EPPlus.Fonts.OpenType.Tables
                     Monitor.Wait(_instanceLock);
                 }
 
-                if (_isLoaded && tableCache != null)
+                if (_isLoaded && tableCache != null && tableCache.TryGet(_tableName, out cached) && useCache)
                 {
-                    return tableCache.Get(_tableName) as T;
+                    return cached as T;  // ✅ Atomisk operation!
                 }
 
                 _isLoading = true;
@@ -73,26 +74,25 @@ namespace EPPlus.Fonts.OpenType.Tables
 
             T t;
 
-            // Second: Load table with reader lock
-            lock (_reader)
+            // Second: Load table with font-level lock (protects ALL reader access for this font)
+            lock (_fontLock)
             {
-                // ✅ CRITICAL: Save and restore stream position!
-                long savedPosition = _reader.BaseStream.Position;
-
-                try
+                // ✅ FIX: Triple-check med TryGet
+                object cached;
+                if (tableCache != null && tableCache.TryGet(_tableName, out cached) && useCache)
                 {
-                    // Seek to table start
-                    _reader.BaseStream.Position = _offset;
+                    lock (_instanceLock)
+                    {
+                        _isLoaded = true;
+                        _isLoading = false;
+                        Monitor.PulseAll(_instanceLock);
+                    }
+                    return cached as T;  // ✅ Atomisk operation!
+                }
 
-                    // Load the table
-                    t = LoadInternal();
-                }
-                finally
-                {
-                    // ✅ RESTORE position after loading
-                    // This prevents interfering with other loaders
-                    _reader.BaseStream.Position = savedPosition;
-                }
+                // Now safe to read - no other thread can access this font's reader
+                _reader.BaseStream.Position = _offset;
+                t = LoadInternal();
             }
 
             // Third: Update cache

@@ -17,6 +17,7 @@ namespace EPPlus.Graphics
     //REname and move class? Inherit from Transform? what do?
     internal class Rect
     {
+
         internal Rect()
         {
         }
@@ -49,7 +50,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// X pos (min)
         /// </summary>
-        internal virtual double Left{ get; set; }
+        internal virtual double Left { get; set; }
 
         /// <summary>
         /// X pos (max)
@@ -90,12 +91,12 @@ namespace EPPlus.Graphics
         /// Local position X
         /// X-position from parent Transform position
         /// </summary>
-        internal virtual double X { get { return Left; } set { Left = value; } }
+        internal double X;
 
         /// <summary>
         /// Local position Y
         /// Y-position from parent Transform position
         /// </summary>
-        internal virtual double Y { get { return Top; } set { Top = value; } }
+        internal double Y;
     }
 }

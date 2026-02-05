@@ -10,8 +10,10 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using System.Collections.Generic;
 using EPPlus.Fonts.OpenType.Subsetting;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Features
 {
@@ -57,29 +59,49 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Features
         /// <summary>
         /// Rewrites the feature list for a subset font.
         /// </summary>
-        internal FeatureListTable Rewrite(FontSubsettingContext context, Dictionary<int, int> lookupMap)
+        internal FeatureRewriteResult Rewrite(FontSubsettingContext context, Dictionary<int, int> lookupMap)
         {
+            var newFeatures = new List<FeatureRecord>();
+            var oldToNewFeatureMap = new Dictionary<int, int>();
 
-            var newList = new FeatureListTable();
-            newList.FeatureRecords = new List<FeatureRecord>();
-
-            for (int i = 0; i < this.FeatureRecords.Count; i++)
+            for (int oldIndex = 0; oldIndex < this.FeatureRecords.Count; oldIndex++)
             {
-                var oldRecord = this.FeatureRecords[i];
+                var feature = this.FeatureRecords[oldIndex];
 
-                // Skriv om featuren med den nya lookupmappen
-                var rewrittenRecord = oldRecord.Rewrite(context, lookupMap);
-
-                // ✅ FIX: Kolla om RECORDEN är null (inte featuren)
-                if (rewrittenRecord != null &&
-                    rewrittenRecord.FeatureTable != null &&
-                    rewrittenRecord.FeatureTable.LookupListIndices != null &&
-                    rewrittenRecord.FeatureTable.LookupListIndices.Length > 0)
+                if (oldIndex >= 5 && oldIndex <= 7) // Debug 'liga' features
                 {
-                    newList.FeatureRecords.Add(rewrittenRecord);
+                    Debug.WriteLine($"\n=== Processing feature[{oldIndex}]: '{feature.FeatureTag.Value}' ===");
+                    if (feature.FeatureTable != null)
+                    {
+                        Debug.WriteLine($"  Original lookups: [{string.Join(", ", feature.FeatureTable.LookupListIndices.Select(i => i.ToString()).ToArray())}]");
+                    }
+                }
+
+                var rewrittenFeature = feature.Rewrite(context, lookupMap);
+                if (oldIndex >= 5 && oldIndex <= 7)
+                {
+                    if (rewrittenFeature != null && rewrittenFeature.FeatureTable != null)
+                    {
+                        Debug.WriteLine($"  Rewritten lookups: [{string.Join(", ", rewrittenFeature.FeatureTable.LookupListIndices.Select(i => i.ToString()).ToArray())}]");
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"  ❌ REMOVED (no valid lookups remain)");
+                    }
+                }
+                if (rewrittenFeature != null)
+                {
+                    int newIndex = newFeatures.Count;
+                    oldToNewFeatureMap[oldIndex] = newIndex;
+                    newFeatures.Add(rewrittenFeature);
                 }
             }
-            return newList;
+
+            return new FeatureRewriteResult
+            {
+                NewFeatureList = new FeatureListTable { FeatureRecords = newFeatures },
+                OldToNewIndexMap = oldToNewFeatureMap
+            };
         }
     }
 }

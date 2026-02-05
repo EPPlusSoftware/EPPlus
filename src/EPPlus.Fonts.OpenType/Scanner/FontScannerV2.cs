@@ -50,31 +50,51 @@ namespace EPPlus.Fonts.OpenType.Scanner
         {
             int score = 0;
 
-            string faceFamilyLower = (face.FamilyName ?? "").ToLowerInvariant();
-            string requestedLower = requestedFamily.ToLowerInvariant();
+            // Normalize: remove whitespace and convert to lowercase for comparison
+            string faceFamily = face.FamilyName ?? "";
+            string faceFamilyNormalized = NormalizeFontName(faceFamily);
+            string requestedNormalized = NormalizeFontName(requestedFamily);
 
-            // Exact family name → decisive win
-            if (string.Equals(face.FamilyName, requestedFamily, StringComparison.OrdinalIgnoreCase))
+            // Exact family name (case-insensitive) → decisive win
+            if (string.Equals(faceFamily, requestedFamily, StringComparison.OrdinalIgnoreCase))
                 score += 10_000;
-
+            // Exact match after normalization (whitespace removed)
+            else if (faceFamilyNormalized == requestedNormalized)
+                score += 9_000;
             // One name is substring of the other (e.g. "Aptos Narrow" vs "Aptos")
-            else if (faceFamilyLower.Contains(requestedLower) || requestedLower.Contains(faceFamilyLower))
+            else if (faceFamilyNormalized.Contains(requestedNormalized) ||
+                     requestedNormalized.Contains(faceFamilyNormalized))
                 score += 5_000;
-
-            // Partial overlap
-            else if (faceFamilyLower.IndexOf(requestedLower, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                     requestedLower.IndexOf(faceFamilyLower, StringComparison.OrdinalIgnoreCase) >= 0)
+            // Partial overlap - using IndexOf with StringComparison
+            else if (faceFamilyNormalized.IndexOf(requestedNormalized, StringComparison.Ordinal) >= 0 ||
+                     requestedNormalized.IndexOf(faceFamilyNormalized, StringComparison.Ordinal) >= 0)
                 score += 1_000;
 
             // Style matching
             if (face.Subfamily == requestedStyle)
                 score += 2_000;
             else if (requestedStyle == FontSubFamily.Regular || face.Subfamily == FontSubFamily.Regular)
-                score += 500;                       // Regular is acceptable fallback
-            else if ((requestedStyle & face.Subfamily) != 0) // BoldItalic contains Bold, etc.
+                score += 500;
+            else if ((requestedStyle & face.Subfamily) != 0)
                 score += 1_000;
 
             return score;
+        }
+
+        /// <summary>
+        /// Normalizes a font name for fuzzy matching.
+        /// Removes whitespace, hyphens, and converts to lowercase.
+        /// </summary>
+        private static string NormalizeFontName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                return string.Empty;
+
+            // Remove common separators
+            return name.Replace(" ", "")
+                       .Replace("-", "")
+                       .Replace("_", "")
+                       .ToLowerInvariant();
         }
 
         internal static List<FontFaceInfo> EnumerateAllFaces(List<string> directories)

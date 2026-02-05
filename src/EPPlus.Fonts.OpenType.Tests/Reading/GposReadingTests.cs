@@ -14,12 +14,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
     [TestClass]
     public class GposReadingTests : FontTestBase
     {
+        public override TestContext? TestContext { get; set; }
 
-        [ClassInitialize]
-        public static void Initialize(TestContext testContext)
-        {
-            FontDirectoriesTestHelper.ClassInitialize(testContext);
-        }
 
         [TestMethod]
         public void ReadGposTable_Roboto()

@@ -10,7 +10,6 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.FontLocalization;
 using EPPlus.Fonts.OpenType.FontValidation;
 using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Subsetting;
@@ -31,7 +30,6 @@ using EPPlus.Fonts.OpenType.Tables.Post;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -41,46 +39,51 @@ namespace EPPlus.Fonts.OpenType
     public class OpenTypeFont
     {
         internal TableCache _localTableCache;
+        internal TableLoaderCache _loaderCache;
         internal TableLoaderSettings _tblSettings;
-        private readonly FontsBinaryReader _reader;
+        private readonly byte[] _fontBytes;
         protected Dictionary<string, TableRecord> _tableRecords;
         public FontFormat Format;
         private readonly object _syncRoot = new object();
 
 
-        internal OpenTypeFont(FontFormat format)
+        internal OpenTypeFont(FontFormat format, bool isSubset = false)
         {
             Format = format;
             _tableRecords = new Dictionary<string, TableRecord>();
             _localTableCache = new TableCache();
+            _loaderCache = new TableLoaderCache();
+            IsSubset = isSubset;
         }
 
 
-        internal OpenTypeFont(FontsBinaryReader reader, FontFormat format)
-            : this(reader, -1, format)
+        internal OpenTypeFont(byte[] fontBytes, FontFormat format)
+            : this(fontBytes, -1, format)
         {
         }
 
-        internal OpenTypeFont(FontsBinaryReader reader, long startOffset, FontFormat format)
+        internal OpenTypeFont(byte[] fontBytes, long startOffset, FontFormat format)
         {
             Format = format;
-            _reader = reader;
+            _fontBytes = fontBytes;
+            var tableReaderFactory = new FontTableReaderFactory(fontBytes);
+            using var reader = tableReaderFactory.CreateReader(startOffset);
 
             lock (_syncRoot)
             {
                 if (startOffset > -1)
                 {
-                    _reader.BaseStream.Position = startOffset;
+                    reader.BaseStream.Position = startOffset;
                 }
 
-                Initialize();        // Reads SFNT header
-                ReadTableRecords();  // Reads table directory
+                Initialize(reader);        // Reads SFNT header
+                ReadTableRecords(reader);  // Reads table directory
             }
 
 
             _localTableCache = new TableCache();
-
-            _tblSettings = new TableLoaderSettings(_reader, _tableRecords, _localTableCache);
+            _loaderCache = new TableLoaderCache();
+            _tblSettings = new TableLoaderSettings(tableReaderFactory, _tableRecords, _localTableCache, _loaderCache);
 
             //Ensure lazy-loading of individual tables via instanced table loaders.
             _os2TableLoader = TableLoaders.GetOs2TableLoader(_tblSettings);
@@ -357,35 +360,35 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
-        private void Initialize()
+        private void Initialize(FontsBinaryReader reader)
         {
-            SfntVersion = _reader.ReadUInt32BigEndian();
+            SfntVersion = reader.ReadUInt32BigEndian();
             // Number of tables.
-            NumTables = _reader.ReadUInt16BigEndian();
+            NumTables = reader.ReadUInt16BigEndian();
             // Maximum power of 2 less than or equal to numTables,
             // times 16 ((2**floor(log2(numTables))) * 16,
             // where “**” is an exponentiation operator).
-            SearchRange = _reader.ReadUInt16BigEndian();
+            SearchRange = reader.ReadUInt16BigEndian();
             // Log2 of the maximum power of 2 less than or equal to
             // numTables (log2(searchRange/16), which is equal to
             // floor(log2(numTables))).
-            EntrySelector = _reader.ReadUInt16BigEndian();
+            EntrySelector = reader.ReadUInt16BigEndian();
             // numTables times 16, minus searchRange
             // ((numTables * 16) - searchRange).
-            RangeShift = _reader.ReadUInt16BigEndian();
+            RangeShift = reader.ReadUInt16BigEndian();
         }
 
-        private void ReadTableRecords()
+        private void ReadTableRecords(FontsBinaryReader reader)
         {
             _tableRecords = new Dictionary<string, TableRecord>();
             for (var x = 0; x < NumTables; x++)
             {
                 var record = new TableRecord
                 {
-                    Tag = new Tag(_reader),
-                    Checksum = _reader.ReadUInt32BigEndian(),
-                    Offset = _reader.ReadUInt32BigEndian(),
-                    Length = _reader.ReadUInt32BigEndian()
+                    Tag = new Tag(reader),
+                    Checksum = reader.ReadUInt32BigEndian(),
+                    Offset = reader.ReadUInt32BigEndian(),
+                    Length = reader.ReadUInt32BigEndian()
                 };
                 _tableRecords.Add(record.Tag.Value, record);
             }
@@ -415,6 +418,11 @@ namespace EPPlus.Fonts.OpenType
                 }
                 return n;
             }
+        }
+
+        public bool IsSubset
+        {
+            get; private set;
         }
 
         public string GetEnglishFullFontFamilyName()
@@ -541,7 +549,7 @@ namespace EPPlus.Fonts.OpenType
             GlyfTable.ResolveCompositeGlyphs(glyphIds);
 
             // 3. Create new font instance
-            var subsetFont = new OpenTypeFont(_reader, Format);
+            var subsetFont = new OpenTypeFont(_fontBytes, Format);
 
             // 4. Copy and filter tables
             subsetFont.AddOrReplaceTable(HeadTable.Clone());
@@ -587,6 +595,12 @@ namespace EPPlus.Fonts.OpenType
 
         internal Dictionary<string, byte[]> PreprocessedPaddedTables { get; } = new Dictionary<string, byte[]>();
 
+        /// <summary>
+        /// For subset fonts: Maps original glyph IDs to new subset glyph IDs.
+        /// Null for non-subset fonts.
+        /// </summary>
+        //public Dictionary<ushort, ushort> SubsetGlyphMapping { get; internal set; }
+
 
         /// <summary>
         /// Total length (in bytes) of the underlying font stream.
@@ -596,20 +610,23 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                return _reader != null && _reader.BaseStream != null
-                    ? _reader.BaseStream.Length
-                    : 0L;
+                if(_tblSettings == null || _tblSettings.TableReaderFactory == null)
+                {
+                    return 0L;
+                }
+                return _tblSettings.TableReaderFactory.FontBytesLength;
             }
         }
 
         public byte[] GetTableData(string tag)
         {
-            if (_tableRecords.TryGetValue(tag, out var record))
+            if (_tableRecords.TryGetValue(tag, out var record) && _tblSettings != null && _tblSettings.TableReaderFactory != null)
             {
-                if(_reader != null && record.Offset > 0)
+                using var reader = _tblSettings.TableReaderFactory.CreateReader();
+                if (reader != null && record.Offset > 0)
                 {
-                    _reader.BaseStream.Position = record.Offset;
-                    return _reader.ReadBytes((int)record.Length);
+                    reader.BaseStream.Position = record.Offset;
+                    return reader.ReadBytes((int)record.Length);
                 }
             }
             var ctx = new FontSerializationContext(this);
@@ -650,17 +667,22 @@ namespace EPPlus.Fonts.OpenType
         {
             get
             {
-                if (_reader != null && _reader.BaseStream != null)
+                var reader = default(FontsBinaryReader);
+                if(_tblSettings != null && _tblSettings.TableReaderFactory != null)
                 {
-                    long originalPosition = _reader.BaseStream.Position;
+                    reader = _tblSettings.TableReaderFactory.CreateReader();
+                }
+                if (reader != null && reader.BaseStream != null)
+                {
+                    long originalPosition = reader.BaseStream.Position;
                     try
                     {
-                        _reader.BaseStream.Position = 0;
-                        return _reader.ReadBytes((int)_reader.BaseStream.Length);
+                        reader.BaseStream.Position = 0;
+                        return reader.ReadBytes((int)reader.BaseStream.Length);
                     }
                     finally
                     {
-                        _reader.BaseStream.Position = originalPosition;
+                        reader.BaseStream.Position = originalPosition;
                     }
                 }
                 return null;

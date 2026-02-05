@@ -8,14 +8,18 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  27/11/2025         EPPlus Software AB           EPPlus 9
+  01/20/2025         EPPlus Software AB           WrappedLine implementation
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfSettings;
+using System.Collections.Generic;
 
-namespace EPPlus.Export.Pdf.PdfLayout
+namespace EPPlus.Fonts.OpenType.Integration
 {
-    internal interface ILayout
+    /// <summary>
+    /// Represents a wrapped line with rich text information.
+    /// </summary>
+    public class WrappedLine
     {
-        void ConvertCoordinates(PdfPageSettings pageSettings);
+        public string Text { get; set; }
+        public List<TextRun> Runs { get; set; }
     }
 }

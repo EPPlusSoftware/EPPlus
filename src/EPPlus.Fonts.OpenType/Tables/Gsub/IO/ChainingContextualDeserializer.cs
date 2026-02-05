@@ -21,6 +21,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.IO
 {
     /// <summary>
     /// Deserializes Chaining Contextual Substitution subtables from the GSUB table.
+    /// Currently supports Format 3 (Coverage-based context) only.
+    /// Format 1 (Simple context) and Format 2 (Class-based context) are not implemented.
+    /// Format 3 is the most common format in modern fonts and sufficient for most use cases.
     /// </summary>
     internal class ChainingContextualDeserializer
     {

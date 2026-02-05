@@ -70,6 +70,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
 
                 for (int i = 0; i < numTables; i++)
                 {
+                    long tagPos = fs.Position;
                     var record = new TableRecord
                     {
                         Tag = new Tag(reader),

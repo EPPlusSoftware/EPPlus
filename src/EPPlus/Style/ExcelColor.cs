@@ -301,5 +301,20 @@ namespace OfficeOpenXml.Style
             }
             return "#" + color.ToArgb().ToString("X");
         }
+
+        internal bool IsEmpty()
+        {
+            if ( Index < 0    &&
+                 Theme == null &&
+                 Tint == 0d    &&
+                 Rgb == null   &&
+                 Auto == false &&
+                 Indexed < 0   )
+            {
+                return true;
+            }
+            return false;
+
+        }
     }
 }

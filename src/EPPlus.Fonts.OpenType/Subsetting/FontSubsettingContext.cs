@@ -45,7 +45,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             if (originalFont == null) throw new ArgumentNullException("originalFont");
 
             OriginalFont = originalFont;
-            SubsetFont = new OpenTypeFont(originalFont.Format);
+            SubsetFont = new OpenTypeFont(originalFont.Format, true);
 
             SubsetFont.AddOrReplaceTable(originalFont.HeadTable.Clone());
             if (originalFont.NameTable != null)

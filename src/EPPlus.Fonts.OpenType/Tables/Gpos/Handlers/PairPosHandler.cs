@@ -64,11 +64,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Handlers
                 {
                     rewritten = RewriteFormat1(context, format1);
                 }
-                // Format 2 not implemented yet
-                // else if (subtable is PairPosSubTableFormat2 format2)
-                // {
-                //     rewritten = RewriteFormat2(context, format2);
-                // }
+                else if (subtable is PairPosSubTableFormat2 format2) // ← Aktivera!
+                {
+                    rewritten = RewriteFormat2(context, format2);
+                }
 
                 if (rewritten != null)
                 {
@@ -150,6 +149,129 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Handlers
             };
 
             return rewritten;
+        }
+
+        /// <summary>
+        /// Rewrites a PairPos Format 2 subtable by expanding class-based kerning to Format 1.
+        /// This simplifies subsetting and ensures compatibility.
+        /// </summary>
+        private PairPosSubTableFormat1 RewriteFormat2(FontSubsettingContext context, PairPosSubTableFormat2 original)
+        {
+            // Strategy: Expand class matrix to individual pairs (Format 1)
+            // This is simpler than subsetting the class definitions and matrix
+
+            // Build map of first glyphs that are both:
+            // 1. In the original coverage
+            // 2. In our subset
+            var firstGlyphMappings = new List<GlyphMapping>();
+
+            for (ushort oldGlyphId = 0; oldGlyphId < 65535; oldGlyphId++)
+            {
+                // Must be in coverage
+                int coverageIndex = original.Coverage.GetGlyphIndex(oldGlyphId);
+                if (coverageIndex < 0)
+                    continue;
+
+                // Must be in subset
+                if (!context.OldToNewGlyphId.TryGetValue(oldGlyphId, out ushort newGlyphId))
+                    continue;
+
+                firstGlyphMappings.Add(new GlyphMapping
+                {
+                    OldGlyphId = oldGlyphId,
+                    NewGlyphId = newGlyphId,
+                    OldCoverageIndex = -1 // Not used for Format 2
+                });
+            }
+
+            if (firstGlyphMappings.Count == 0)
+                return null;
+
+            // Sort by NEW glyph ID for coverage
+            firstGlyphMappings.Sort((a, b) => a.NewGlyphId.CompareTo(b.NewGlyphId));
+
+            // Build PairSets by expanding class matrix
+            var newPairSets = new List<PairSet>();
+            var newCoverageGlyphs = new List<ushort>();
+
+            foreach (var firstMapping in firstGlyphMappings)
+            {
+                // Get class for first glyph
+                int class1 = original.ClassDef1.GetClass(firstMapping.OldGlyphId);
+                if (class1 < 0 || class1 >= original.Class1Count)
+                    continue;
+
+                // Collect all pairs for this first glyph
+                var pairRecords = new List<PairValueRecord>();
+
+                // Check all possible second glyphs in our subset
+                foreach (var oldSecondGlyph in context.IncludedGlyphs)
+                {
+                    // Skip if same glyph
+                    if (oldSecondGlyph == firstMapping.OldGlyphId)
+                        continue;
+
+                    // Get class for second glyph
+                    int class2 = original.ClassDef2.GetClass(oldSecondGlyph);
+                    if (class2 < 0 || class2 >= original.Class2Count)
+                        continue;
+
+                    // Look up in class matrix
+                    var record = original.ClassMatrix[class1, class2];
+                    if (record == null)
+                        continue;
+
+                    // Skip if no actual adjustment
+                    bool hasValue1 = record.Value1 != null && record.Value1.XAdvance != 0;
+                    bool hasValue2 = record.Value2 != null && record.Value2.XAdvance != 0;
+
+                    if (!hasValue1 && !hasValue2)
+                        continue;
+
+                    // Get remapped second glyph ID
+                    if (!context.OldToNewGlyphId.TryGetValue(oldSecondGlyph, out ushort newSecondGlyph))
+                        continue;
+
+                    // Add pair with remapped ID
+                    pairRecords.Add(new PairValueRecord
+                    {
+                        SecondGlyph = newSecondGlyph,
+                        Value1 = record.Value1,
+                        Value2 = record.Value2
+                    });
+                }
+
+                // Only include if we found pairs
+                if (pairRecords.Count > 0)
+                {
+                    newCoverageGlyphs.Add(firstMapping.NewGlyphId);
+                    newPairSets.Add(new PairSet
+                    {
+                        PairValueRecords = pairRecords
+                    });
+                }
+            }
+
+            if (newPairSets.Count == 0)
+                return null;
+
+            // Create new coverage
+            var newCoverage = new CoverageTableFormat1
+            {
+                CoverageFormat = 1,
+                GlyphCount = (ushort)newCoverageGlyphs.Count,
+                GlyphArray = newCoverageGlyphs.ToArray()
+            };
+
+            // Return as Format 1 (expanded from class-based)
+            return new PairPosSubTableFormat1
+            {
+                SubtableFormat = 1,
+                ValueFormat1 = original.ValueFormat1,
+                ValueFormat2 = original.ValueFormat2,
+                Coverage = newCoverage,
+                PairSets = newPairSets
+            };
         }
 
         /// <summary>

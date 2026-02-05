@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -28,52 +29,76 @@ namespace EPPlus.Fonts.OpenType
 
         public byte[] Serialize()
         {
-            using var stream = new MemoryStream();
-            using var writer = new FontsBinaryWriter(stream);
-
-            var sortedRecords = _font.TableRecords
-                .OrderBy(r => r.Key)
-                .Select(r => r.Value)
-                .ToList();
-
-            int numTables = sortedRecords.Count;
-
-            // 1. Write sfnt header
-            WriteSfntHeader(writer, numTables);
-
-            // 2. Write table directory
-            foreach (var record in sortedRecords)
+            using (var stream = new MemoryStream())
+            using (var writer = new FontsBinaryWriter(stream))
             {
-                WriteTableRecord(writer, record);
-            }
+                var sortedTags = _font.TableRecords.Keys.OrderBy(k => k).ToList();
+                int numTables = sortedTags.Count;
 
-            // 3. Write tables (use preprocessed padded bytes if available)
-            foreach (var record in sortedRecords)
-            {
-                var tag = record.Tag.Value;
-
-                byte[] tableBytes;
-                if (_font.PreprocessedPaddedTables != null &&
-                    _font.PreprocessedPaddedTables.TryGetValue(tag, out var cachedBytes))
+                // 1. First pass: serialize all tables to get their actual bytes
+                var tableBytes = new Dictionary<string, byte[]>();
+                foreach (var tag in sortedTags)
                 {
-                    tableBytes = cachedBytes; // Use preprocessed padded bytes
-                }
-                else
-                {
-                    // Fallback: get raw data and pad
-                    tableBytes = _font.GetTableData(tag);
-                    int rawLen = tableBytes.Length;
-                    int paddedLen = (rawLen + 3) & ~3;
-                    if (paddedLen > rawLen)
+                    byte[] data;
+                    if (_font.PreprocessedPaddedTables != null &&
+                        _font.PreprocessedPaddedTables.TryGetValue(tag, out var cachedBytes))
                     {
-                        Array.Resize(ref tableBytes, paddedLen);
+                        data = cachedBytes;
                     }
+                    else
+                    {
+                        data = _font.GetTableData(tag);
+                        // Pad to 4-byte boundary
+                        int rawLen = data.Length;
+                        int paddedLen = (rawLen + 3) & ~3;
+                        if (paddedLen > rawLen)
+                        {
+                            Array.Resize(ref data, paddedLen);
+                        }
+                    }
+                    tableBytes[tag] = data;
                 }
 
-                writer.Write(tableBytes);
-            }
+                // 2. Calculate correct offsets
+                // Header = 12 bytes, each table record = 16 bytes
+                uint currentOffset = (uint)(12 + numTables * 16);
 
-            return stream.ToArray();
+                var newRecords = new List<TableRecord>();
+                foreach (var tag in sortedTags)
+                {
+                    var data = tableBytes[tag];
+                    var originalRecord = _font.TableRecords[tag];
+
+                    var newRecord = new TableRecord
+                    {
+                        Tag = new Tag(tag),
+                        Checksum = originalRecord.Checksum, // Keep original checksum for now
+                        Offset = currentOffset,
+                        Length = originalRecord.Length
+                    };
+                    newRecords.Add(newRecord);
+
+                    // Move to next table (already padded)
+                    currentOffset += (uint)data.Length;
+                }
+
+                // 3. Write sfnt header
+                WriteSfntHeader(writer, numTables);
+
+                // 4. Write table directory with CORRECT offsets
+                foreach (var record in newRecords)
+                {
+                    WriteTableRecord(writer, record);
+                }
+
+                // 5. Write table data
+                foreach (var tag in sortedTags)
+                {
+                    writer.Write(tableBytes[tag]);
+                }
+
+                return stream.ToArray();
+            }
         }
 
         private void WriteSfntHeader(FontsBinaryWriter writer, int numTables)

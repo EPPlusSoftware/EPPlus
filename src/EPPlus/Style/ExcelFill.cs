@@ -162,5 +162,16 @@ namespace OfficeOpenXml.Style
             PatternType = fillStyle;
             BackgroundColor.SetColor(color);
         }
+
+        internal bool IsEmpty()
+        {
+            if( BackgroundColor.IsEmpty() &&
+                PatternColor.IsEmpty()    &&
+                !HasGradient)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

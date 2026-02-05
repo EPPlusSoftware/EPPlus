@@ -13,6 +13,7 @@
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 

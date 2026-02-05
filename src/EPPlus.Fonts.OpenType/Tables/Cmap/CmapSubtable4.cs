@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  01/19/2026         EPPlus Software AB           Performance optimization with binary search
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Cmap.Serialization;
@@ -28,7 +29,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         public override uint Length { get; internal set; }
 
-        public override  uint Language { get; internal set; }
+        public override uint Language { get; internal set; }
 
         public ushort SegCountX2 { get; internal set; }
         public ushort SearchRange { get; internal set; }
@@ -97,32 +98,66 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         internal override int MapCodePointToGlyph(int codePoint)
         {
-            var segCount = EndCode.Length;
+            // Performance optimization: Use binary search to find the segment
+            // EndCode array is sorted in ascending order per OpenType spec
 
-            for (int i = 0; i < segCount; i++)
+            if (codePoint < 0 || codePoint > 0xFFFF)
+                return -1;
+
+            int segCount = EndCode.Length;
+            if (segCount == 0)
+                return -1;
+
+            // Binary search for the segment containing this codePoint
+            // We're looking for the first EndCode >= codePoint
+            int left = 0;
+            int right = segCount - 1;
+            int segmentIndex = -1;
+
+            while (left <= right)
             {
-                if (codePoint >= StartCode[i] && codePoint <= EndCode[i])
-                {
-                    if (IdRangeOffset[i] == 0)
-                    {
-                        return (codePoint + IdDelta[i]) & 0xFFFF;
-                    }
-                    else
-                    {
-                        int offset = IdRangeOffset[i] / 2 + (codePoint - StartCode[i]) - (segCount - i);
+                int mid = left + (right - left) / 2;
 
-                        if (offset >= 0 && offset < GlyphIdArray.Length)
-                        {
-                            return GlyphIdArray[offset];
-                        }
+                if (EndCode[mid] >= codePoint)
+                {
+                    segmentIndex = mid;
+                    right = mid - 1;  // Continue searching left for earlier match
+                }
+                else
+                {
+                    left = mid + 1;
+                }
+            }
+
+            // If no segment found or codePoint is before the segment's start, return -1
+            if (segmentIndex == -1 || codePoint < StartCode[segmentIndex])
+                return -1;
+
+            // Found the segment, now map to glyph
+            int i = segmentIndex;
+
+            if (IdRangeOffset[i] == 0)
+            {
+                // Simple offset mapping
+                return (codePoint + IdDelta[i]) & 0xFFFF;
+            }
+            else
+            {
+                // Index into GlyphIdArray
+                int offset = IdRangeOffset[i] / 2 + (codePoint - StartCode[i]) - (segCount - i);
+
+                if (offset >= 0 && offset < GlyphIdArray.Length)
+                {
+                    ushort glyphId = GlyphIdArray[offset];
+                    if (glyphId != 0)
+                    {
+                        return (glyphId + IdDelta[i]) & 0xFFFF;
                     }
                 }
             }
 
             return -1;
         }
-
-
 
         internal override void Serialize(FontsBinaryWriter writer)
         {

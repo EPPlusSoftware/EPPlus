@@ -199,7 +199,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
         }
 
 
-        internal bool TryGetGlyphId(uint codePoint, out ushort glyphId)
+        public bool TryGetGlyphId(uint codePoint, out ushort glyphId)
         {
             glyphId = 0;
 

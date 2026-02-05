@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11217.181 d18.0
+VisualStudioVersion = 18.1.11312.151 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPPlus", "EPPlus\EPPlus.csproj", "{219F673E-6115-4858-9E07-E33D24E795FE}"
 EndProject
@@ -34,6 +34,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.Graphics", "EPPlus.Graphics\EPPlus.Graphics.csproj", "{DE84719D-C6D4-4189-B4CD-D4D7429DF8E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.Graphics.Tests", "EPPlus.Graphics.Tests\EPPlus.Graphics.Tests.csproj", "{AB5242C2-70DD-1D89-D731-92F4A334ABEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.Fonts.OpenType.Benchmarks", "EPPlus.Fonts.OpenType.Benchmarks\EPPlus.Fonts.OpenType.Benchmarks.csproj", "{0A9F017E-F24A-4E3B-B9A9-477D7A4724AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +116,12 @@ Global
 		{AB5242C2-70DD-1D89-D731-92F4A334ABEE}.Release 4.0|Any CPU.Build.0 = Release|Any CPU
 		{AB5242C2-70DD-1D89-D731-92F4A334ABEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB5242C2-70DD-1D89-D731-92F4A334ABEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A9F017E-F24A-4E3B-B9A9-477D7A4724AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A9F017E-F24A-4E3B-B9A9-477D7A4724AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A9F017E-F24A-4E3B-B9A9-477D7A4724AA}.Release 4.0|Any CPU.ActiveCfg = Release|Any CPU
+		{0A9F017E-F24A-4E3B-B9A9-477D7A4724AA}.Release 4.0|Any CPU.Build.0 = Release|Any CPU
+		{0A9F017E-F24A-4E3B-B9A9-477D7A4724AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A9F017E-F24A-4E3B-B9A9-477D7A4724AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +132,7 @@ Global
 		{72041196-84B2-47B4-974D-B9FC0F8EF71A} = {493FDAEB-6437-4804-8AC4-752B8F6E0400}
 		{5B32877D-0439-43FE-B0DA-8EECE71656FF} = {493FDAEB-6437-4804-8AC4-752B8F6E0400}
 		{AB5242C2-70DD-1D89-D731-92F4A334ABEE} = {493FDAEB-6437-4804-8AC4-752B8F6E0400}
+		{0A9F017E-F24A-4E3B-B9A9-477D7A4724AA} = {493FDAEB-6437-4804-8AC4-752B8F6E0400}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C73D0F5D-0C5D-4F85-8140-3598595AD2E1}

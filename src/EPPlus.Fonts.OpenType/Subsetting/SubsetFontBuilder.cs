@@ -11,7 +11,9 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Subsetting.Processors;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Subsetting
 {
@@ -67,6 +69,8 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
             context.SubsetFont.UsedCodePointsForSubset = new List<uint>(context.UsedCodePoints);
 
+            //context.SubsetFont.SubsetGlyphMapping = new Dictionary<ushort, ushort>(context.OldToNewGlyphId);
+
             return context.SubsetFont;
         }
 
@@ -76,11 +80,13 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             var sortedGlyphs = new List<ushort>(context.IncludedGlyphs);
             sortedGlyphs.Sort();
 
+
             for (ushort newId = 0; newId < sortedGlyphs.Count; newId++)
             {
                 ushort oldId = sortedGlyphs[newId];
                 context.OldToNewGlyphId[oldId] = newId;
                 context.NewToOldGlyphId.Add(oldId);
+
             }
         }
     }

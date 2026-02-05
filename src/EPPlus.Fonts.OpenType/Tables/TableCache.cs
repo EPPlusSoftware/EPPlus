@@ -14,39 +14,105 @@ using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.Tables
 {
+    using System.Threading;
+
     internal class TableCache
     {
-        private Dictionary<string, object> _cachedTables = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _cachedTables = new Dictionary<string, object>();
+        private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
+
+        public bool TryGet(string key, out object value)
+        {
+            _lock.EnterReadLock();
+            try
+            {
+                return _cachedTables.TryGetValue(key, out value);
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
+        }
 
         public object Get(string key)
         {
-            return _cachedTables[key];
+            _lock.EnterReadLock();
+            try
+            {
+                return _cachedTables[key];
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
         }
 
         public bool Contains(string key)
         {
-            return _cachedTables.ContainsKey(key);
+            _lock.EnterReadLock();
+            try
+            {
+                return _cachedTables.ContainsKey(key);
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
         }
 
         public void Add(string key, object val)
         {
-            _cachedTables.Add(key, val);
+            _lock.EnterWriteLock();
+            try
+            {
+                _cachedTables.Add(key, val);
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
         }
 
         public void AddOrReplace(string key, object val)
         {
-            if (_cachedTables.ContainsKey(key))
+            _lock.EnterWriteLock();
+            try
             {
-                _cachedTables.Remove(key);
+                _cachedTables[key] = val;  // Enklare än ContainsKey + Remove
             }
-            _cachedTables[key] = val;
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
         }
 
         public void Clear()
         {
-            _cachedTables.Clear();
+            _lock.EnterWriteLock();
+            try
+            {
+                _cachedTables.Clear();
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
         }
 
-        public int Count => _cachedTables.Keys.Count;
+        public int Count
+        {
+            get
+            {
+                _lock.EnterReadLock();
+                try
+                {
+                    return _cachedTables.Count;
+                }
+                finally
+                {
+                    _lock.ExitReadLock();
+                }
+            }
+        }
     }
 }

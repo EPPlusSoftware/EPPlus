@@ -28,5 +28,18 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
         {
             return val.ToString("F0", CultureInfo.InvariantCulture);
         }
+
+        public static bool IsNullOrWhiteSpace(string s)
+        {
+            if (s == null)
+                return true;
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (!char.IsWhiteSpace(s[i]))
+                    return false;
+            }
+            return true;
+        }
     }
 }
