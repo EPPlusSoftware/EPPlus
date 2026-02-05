@@ -71,10 +71,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _fontStyles = _measurementFont.Style;
 
             FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
-            Bounds.Height = FontSizeInPixels;
-            if (parent.Height < FontSizeInPixels)
+            Bounds.Height = _measurementFont.Size;
+            if (parent.Height < _measurementFont.Size)
             {
-                parent.Height = FontSizeInPixels;
+                parent.Height = _measurementFont.Size;
             }
             _horizontalTextAlignment = eTextAlignment.Center;
 
