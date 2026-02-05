@@ -92,7 +92,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             string visibility = "";
 
             finalString += xString;
-            var yString = $" y=\"{YPosition.PointToPixel()}px\" ";
+            var yString = $" y=\"{YPosition.PointToPixel().ToString(CultureInfo.InvariantCulture)}px\" ";
             finalString += yString;
 
             currentYEndPos += YPosition;

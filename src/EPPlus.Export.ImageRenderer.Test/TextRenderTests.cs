@@ -216,53 +216,39 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
                 var autofit = cube.TextBody.TextAutofit;
 
-                cube.GetSizeInPixels(out int testWidth, out int testHeight);
+                cube.ChangeCellAnchor(eEditAs.Absolute);
 
-                //cube.SetPixelWidth(300);
-                //cube.SetPixelHeight(300);
-
-                var parentBB = new BoundingBox();
-                parentBB.Width = testWidth;
-                parentBB.Height = testHeight;
-
+                cube.SetPixelWidth(5000);
                 var svgShape = new SvgShape(cube);
 
                 SvgTextBodyItem tbItem = svgShape.TextBox.TextBody;
-                //SvgTextBodyItem tbItem = new SvgTextBodyItem(svgShape, parentBB);
-
-                //tbItem.ImportTextBody(cube.TextBody);
 
                 var txtRun1Bounds = tbItem.Paragraphs[0].Runs[0].Bounds;
-
-                Assert.AreEqual(43.835286458333336d, txtRun1Bounds.Width);
-
-                //var widthLine2 = tbItem.Paragraphs[0].Runs[0].PerLineWidth[1];
-                //var topYLine2 = tbItem.Paragraphs[0].Runs[0].YIncreasePerLine[1];
-                //Assert.AreEqual(7.147135416666667d, widthLine2);
-                //Assert.AreEqual(17.903645833333336d, topYLine2);
+                var pxWidth = txtRun1Bounds.Width.PointToPixel();
+                Assert.AreEqual(43.835286458333336d, pxWidth);
 
                 var txtRuns2 = tbItem.Paragraphs[1].Runs;
 
-                Assert.AreEqual(53.20963541666667d, txtRuns2[0].Bounds.Width);
-                var currentLineWidth = txtRuns2[0].Bounds.Width;
+                Assert.AreEqual(53.20963541666667d, txtRuns2[0].Bounds.Width.PointToPixel());
+                var currentLineWidth = txtRuns2[0].Bounds.Width.PointToPixel();
 
-                Assert.AreEqual(currentLineWidth, txtRuns2[1].Bounds.Left);
-                Assert.AreEqual(69.55924479166667d, txtRuns2[1].Bounds.Width);
-                currentLineWidth += txtRuns2[1].Bounds.Width;
+                Assert.AreEqual(currentLineWidth, txtRuns2[1].Bounds.Left.PointToPixel());
+                Assert.AreEqual(69.55924479166667d, txtRuns2[1].Bounds.Width.PointToPixel());
+                currentLineWidth += txtRuns2[1].Bounds.Width.PointToPixel();
 
-                Assert.AreEqual(currentLineWidth, txtRuns2[2].Bounds.Left);
-                Assert.AreEqual(49.89388020833334, txtRuns2[2].Bounds.Width);
-                currentLineWidth += txtRuns2[2].Bounds.Width;
+                Assert.AreEqual(currentLineWidth, txtRuns2[2].Bounds.Left.PointToPixel(),0.0001);
+                Assert.AreEqual(49.89388020833334, txtRuns2[2].Bounds.Width.PointToPixel(), 0.0001);
+                currentLineWidth += txtRuns2[2].Bounds.Width.PointToPixel();
 
-                Assert.AreEqual(21.333333333333332, txtRuns2[3].Bounds.Height);
-                Assert.AreEqual(currentLineWidth, txtRuns2[3].Bounds.Left);
-                Assert.AreEqual(283.21875d, txtRuns2[3].Bounds.Width);
-                currentLineWidth += txtRuns2[3].Bounds.Width;
+                Assert.AreEqual(21.333333333333332, txtRuns2[3].Bounds.Height.PointToPixel());
+                Assert.AreEqual(currentLineWidth, txtRuns2[3].Bounds.Left.PointToPixel(), 0.0001);
+                Assert.AreEqual(283.21875d, txtRuns2[3].Bounds.Width.PointToPixel(), 0.0001);
+                currentLineWidth += txtRuns2[3].Bounds.Width.PointToPixel();
 
-                Assert.AreEqual(32, txtRuns2[4].Bounds.Height);
-                Assert.AreEqual(currentLineWidth, txtRuns2[4].Bounds.Left);
-                Assert.AreEqual(134.20312500000006d, txtRuns2[4].Bounds.Width);
-                currentLineWidth += txtRuns2[4].Bounds.Width;
+                Assert.AreEqual(32, txtRuns2[4].Bounds.Height.PointToPixel(), 0.0001);
+                Assert.AreEqual(currentLineWidth, txtRuns2[4].Bounds.Left.PointToPixel(), 0.0001);
+                Assert.AreEqual(134.20312500000006d, txtRuns2[4].Bounds.Width.PointToPixel(), 0.0001);
+                currentLineWidth += txtRuns2[4].Bounds.Width.PointToPixel();
             }
         }
 

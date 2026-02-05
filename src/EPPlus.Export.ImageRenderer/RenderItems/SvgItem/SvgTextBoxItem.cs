@@ -60,7 +60,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             TextBody.ImportTextBody(body);
         }
 
-
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             SvgGroupItem groupItem;

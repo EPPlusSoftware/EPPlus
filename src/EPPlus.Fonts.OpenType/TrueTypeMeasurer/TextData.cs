@@ -1432,13 +1432,9 @@ namespace EPPlus.Fonts.OpenType
 
             for (int j = 0; j < currentLineRtFragments.Count(); j++)
             {
-                if (currentLineRtFragments[j].OverallParagraphStartCharIdx < prevLineBreakIndex)
-                {
-                    currentLineRtFragments[j].charStarIdxWithinCurrentLine = Math.Max(0, currentLineRtFragments[j].OverallParagraphStartCharIdx - prevLineBreakIndex);
-                    currentTextLine.RtFragments.Add(currentLineRtFragments[j]);
-                }
+                currentLineRtFragments[j].charStarIdxWithinCurrentLine = Math.Max(0, currentLineRtFragments[j].OverallParagraphStartCharIdx - prevLineBreakIndex);
+                currentTextLine.RtFragments.Add(currentLineRtFragments[j]);
             }
-            currentTextLine.RtFragments.Add(currentRtFragment);
             currentTextLine.Text = leftOverLine;
             outputTextLines.Add(currentTextLine);
 

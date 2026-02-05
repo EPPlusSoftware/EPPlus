@@ -115,7 +115,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             sb.Append(/*$"{GetHorizontalAlignmentAttribute(Bounds.X)} y=\"{Bounds.Y}\" " +*/
                 $"font-family=\"{_paragraphFont.FontFamily},{_paragraphFont.FontFamily}_MSFontService,sans-serif\" " +
-                $"font-size=\"{fontSize}px\" >");
+                $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" >");
 
             if (Runs != null && Runs.Count > 0)
             {

@@ -125,9 +125,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _fontStyles = _measurementFont.Style;
 
             FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
-            Bounds.Height = FontSizeInPixels;
-
-            _horizontalTextAlignment = run.Paragraph.HorizontalAlignment;
+            Bounds.Height = _measurementFont.Size;
 
             if (run.Fill.IsEmpty == false && run.Fill.Style == eFillStyle.SolidFill)
             {
