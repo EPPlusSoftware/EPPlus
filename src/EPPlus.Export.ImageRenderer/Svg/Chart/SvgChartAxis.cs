@@ -62,7 +62,7 @@ namespace EPPlusImageRenderer.Svg
                 
                 Min = min ?? 0D;
                 Max = max ?? (Values.Count > 0 ? ConvertUtil.GetValueDouble(Values[Values.Count - 1], false, true) : 0D);
-                MajorUnit = majorUnit??1;
+                MajorUnit = majorUnit ?? 1;
                 MinorUnit = ax.MinorUnit ?? GetAutoMinUnit(MajorUnit);
                 if (ax.Deleted == false)
                 {
@@ -514,21 +514,20 @@ namespace EPPlusImageRenderer.Svg
             return axisStyle;
         }
 
-        internal double GetPositionInPlotarea(object val)
+        internal double GetPositionInPlotarea(double val)
         {
             if (Axis.AxisPosition == eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
                 if (Axis.AxisType == eAxisType.Cat)
                 {
                     var majorHeight = SvgChart.Plotarea.Rectangle.Height / Max;
-                    return (majorHeight * (int)val + (majorHeight / 2));
+                    return (majorHeight * val + (majorHeight / 2));
                 }
                 else
                 {
-                    var dVal = ConvertUtil.GetValueDouble(val, false, true);
-                    if (dVal < Min || dVal > Max) return double.NaN;
+                    if (val < Min || val > Max) return double.NaN;
                     var diff = Max - Min;
-                    return (((Max-dVal) / diff * SvgChart.Plotarea.Rectangle.Height));
+                    return (((Max-val) / diff * SvgChart.Plotarea.Rectangle.Height));
                 }
             }
             else
@@ -536,14 +535,13 @@ namespace EPPlusImageRenderer.Svg
                 if (Axis.AxisType == eAxisType.Cat)
                 {
                     var majorWidth = SvgChart.Plotarea.Rectangle.Width / Max;
-                    return (majorWidth * (int)val + (majorWidth / 2));
+                    return (majorWidth * val + (majorWidth / 2));
                 }
                 else
                 {
-                    var dVal = ConvertUtil.GetValueDouble(val, false, true);
-                    if (dVal < Min || dVal > Max) return double.NaN;
+                    if (val < Min || val > Max) return double.NaN;
                     var diff = Max - Min;
-                    return (((dVal-Min) / diff * SvgChart.Plotarea.Rectangle.Width));
+                    return (((val-Min) / diff * SvgChart.Plotarea.Rectangle.Width));
                 }
             }
         }
@@ -584,8 +582,10 @@ namespace EPPlusImageRenderer.Svg
                 LockedInterval = ax.MajorUnit,
                 LockedIntervalUnit = ax.MajorTimeUnit,
                 AddPadding = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right,
-                Axis = ax
+                Axis = ax,
+                IsStacked100 = Chart.IsTypePercentStacked()
             };
+
             var length = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right ? SvgChart.Bounds.Height : SvgChart.Bounds.Width; //Fix and use plotarea width/height.
             if (ax.IsDate)
             {

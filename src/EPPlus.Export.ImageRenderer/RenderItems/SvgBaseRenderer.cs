@@ -42,7 +42,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
                     sb.Append($"stroke-dasharray=\"" + $"{string.Join(",", BorderDashArrayStr)}\" ");
                 }
             }
-
             sb.Append($"stroke-miterlimit =\"8\" ");
         }
     }

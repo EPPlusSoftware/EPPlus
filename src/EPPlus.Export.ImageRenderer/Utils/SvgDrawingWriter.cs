@@ -43,8 +43,10 @@ namespace EPPlusImageRenderer.Utils
         {
             var defSb = new StringBuilder();
             var hs = new HashSet<string>();
+            var ix = 1;
             foreach (RenderItem item in renderItems)
             {
+                string filter = "";
                 if (item.GradientFill != null)
                 {
                     string name = WriteGradient("Gradient", defSb, hs, item.GradientFill, item.FillColorSource, true);
@@ -57,19 +59,38 @@ namespace EPPlusImageRenderer.Utils
                 }
                 else if (item.BlipFill != null)
                 {
-                    string name = WriteBlip("Blip", defSb, hs, item.BlipFill, item.FillColorSource);
-                    item.FillColor = $"Url(#{name})";
                     if (item.FillColorSource != PathFillMode.Norm)
                     {
-                        item.FilterName = $"Url(#{item.FillColorSource}Filter)";
+                        item.FilterName = GetFilterName(ix);
                     }
+
+                    string name = WriteBlip("Blip", defSb, hs, item, ref filter);
+                    item.FillColor = $"Url(#{name})";
                 }
                 if (item.BorderGradientFill != null)
                 {
                     string name = WriteGradient("StrokeGradient", defSb, hs, item.BorderGradientFill, item.BorderColorSource, true);
                     item.BorderColor = $"Url(#{name})";
                 }
-
+                if(item.GlowColor!=null)
+                {
+                    if(string.IsNullOrEmpty(item.FilterName))
+                    {
+                        var filterName = GetFilterName(ix);
+                        item.FilterName = $"Url(#{filterName})"; 
+                        filter = $"<filter id=\"{filterName}\">";
+                    }
+                    
+                    filter += $"<feGaussianBlur in=\"SourceAlpha\" stdDeviation=\"{item.GlowRadius ?? 0 / 2}\" result=\"blur\"/>" +
+                    $"<feFlood flood-color=\"{item.GlowColor}\" flood-opacity=\"0.8\" result=\"glowColor\"/>" +
+                    $"<feComposite in=\"glowColor\" in2=\"blur\" operator=\"in\" result=\"coloredBlur\"/>" +
+                    $"<feMerge><feMergeNode in=\"coloredBlur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge>";
+                }
+                if(string.IsNullOrEmpty(filter)==false)
+                {
+                    defSb.Append(filter+"</filter>");
+                }
+                ix++;
             }
             if (defSb.Length > 0)
             {
@@ -78,38 +99,45 @@ namespace EPPlusImageRenderer.Utils
                 sb.Append("</defs>");
             }
         }
-        private string WriteBlip(string namePrefix, StringBuilder defSb, HashSet<string> hs, ExcelDrawingBlipFill blipFill, PathFillMode fillMode)
+
+        private static string GetFilterName(int ix)
         {
+            return $"item{ix}Filter";
+        }
+
+        private string WriteBlip(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderItem item, ref string filter)
+        {
+            //, item.BlipFill, item.FillColorSource
             var name = $"{namePrefix}";
+            var fillMode = item.FillColorSource;
             if (fillMode != PathFillMode.Norm)
             {
-                var filterName = $"{fillMode}Filter";
-                if (hs.Contains(filterName) == false)
+                if (hs.Contains(item.FilterName) == false)
                 {
                     switch (fillMode)
                     {
                         case PathFillMode.Lighten:
-                            defSb.Append($"<filter id=\"{filterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.6 0 0 0 0.4\r\n0 0.6 0 0 0.4\r\n0 0 0.6 0 0.4\r\n0 0 0 1 0\" /></filter>");
+                            filter = $"<filter id=\"{item.FilterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.6 0 0 0 0.4\r\n0 0.6 0 0 0.4\r\n0 0 0.6 0 0.4\r\n0 0 0 1 0\" />";
                             break;
                         case PathFillMode.LightenLess:
-                            defSb.Append($"<filter id=\"{filterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.804 0 0 0 0.196\r\n0 0.804 0 0 0.196\r\n0 0 0.804 0 0.196\r\n0 0 0 1 0\" /></filter>");
+                            filter = $"<filter id=\"{item.FilterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.804 0 0 0 0.196\r\n0 0.804 0 0 0.196\r\n0 0 0.804 0 0.196\r\n0 0 0 1 0\" />";
                             break;
                         case PathFillMode.DarkenLess:
-                            defSb.Append($"<filter id=\"{filterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.804 0 0 0 0\r\n0 0.804 0 0 0\r\n0 0 0.804 0 0\r\n0 0 0 1 0\" /></filter>");
+                            filter = $"<filter id=\"{item.FilterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.804 0 0 0 0\r\n0 0.804 0 0 0\r\n0 0 0.804 0 0\r\n0 0 0 1 0\" />";
                             break;
                         case PathFillMode.Darken:
-                            defSb.Append($"<filter id=\"{filterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.6 0 0 0 0\r\n0 0.6 0 0 0\r\n0 0 0.6 0 0\r\n0 0 0 1 0\" /></filter>");
+                            filter = $"<filter id=\"{item.FilterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.6 0 0 0 0\r\n0 0.6 0 0 0\r\n0 0 0.6 0 0\r\n0 0 0 1 0\" />";
                             break;
                     }
                 }
-                hs.Add(filterName);
+                hs.Add(item.FilterName);
             }
 
             if (hs.Contains(name)) return name;
             hs.Add(name);
 
-            defSb.Append($"<pattern id=\"{name}\" width=\"{blipFill.Image.Bounds.Width}\" height=\"{blipFill.Image.Bounds.Height}\" patternUnits=\"userSpaceOnUse\">");
-            defSb.Append($"<image xlink:href=\"{GetImageAsHref(blipFill)}\" {SetStretchTileProps(blipFill)} />");
+            defSb.Append($"<pattern id=\"{name}\" width=\"{item.BlipFill.Image.Bounds.Width}\" height=\"{item.BlipFill.Image.Bounds.Height}\" patternUnits=\"userSpaceOnUse\">");
+            defSb.Append($"<image xlink:href=\"{GetImageAsHref(item.BlipFill)}\" {SetStretchTileProps(item.BlipFill)} />");
             defSb.Append($"</pattern>");
             return name;
         }

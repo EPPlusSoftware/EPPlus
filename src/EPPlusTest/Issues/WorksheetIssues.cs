@@ -1121,6 +1121,5 @@ namespace EPPlusTest.Issues
             var d3 = ws.Cells["D3"].Text;
             Assert.AreEqual("Negative 4000,000", d3);
         }
-
     }
 }

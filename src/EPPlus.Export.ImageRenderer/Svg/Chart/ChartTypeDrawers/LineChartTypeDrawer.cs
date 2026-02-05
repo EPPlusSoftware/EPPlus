@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using static OfficeOpenXml.ExcelErrorValue;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -16,36 +17,45 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
             RenderItems.Add(groupItem);
             var isStacked = Chart.IsTypeStacked();
-            List<object> pXValues = null, pYValues = null;
+            var isPercentStacked = Chart.IsTypePercentStacked();
+            var xValues = new List<List<object>>();
+            var yValues = new List<List<object>>();
             foreach (ExcelLineChartSerie serie in chartType.Series)
             {
-                var yValues = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
-                var xValues = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
-                if(isStacked)
-                {
-                    AddLine(chartType, serie, xValues, SumLists(yValues, pYValues));
-                }
-                else
-                {
-                    AddLine(chartType, serie, xValues, yValues);
-                }
-
-                if (isStacked)
-                {
-                    pYValues = yValues;
-                }
+                var yValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                var xValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
+                xValues.Add(xValue);
+                yValues.Add(yValue);
             }
+            
+            if (Chart.IsTypeStacked())
+            {
+                SumSeries(yValues);
+            }
+            else if (Chart.IsTypePercentStacked())
+            {
+                ExcelChartAxisStandard.CalculateStacked100(yValues);
+            }
+
+            for(var i= 0;i < xValues.Count;i++)
+            {
+                var xSerie = xValues[i];
+                var ySerie = yValues[i];
+                var serie = (ExcelLineChartSerie)chartType.Series[i];
+                AddLine(chartType, serie, xSerie, ySerie);
+            }
+
             RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
         }
-        private List<object> SumLists(List<object> l1, List<object> l2)
+        private void SumSeries(List<List<object>> series)
         {
-            if (l2 == null) return l1;
-            var sumList = new List<object>(l1.Count);
-            for (int i = 0; i < Math.Min(l1.Count, l2.Count); i++)
+            for(var i=1;i < series.Count;i++)
             {
-                sumList.Add(ConvertUtil.GetValueDouble(l1[i]) + ConvertUtil.GetValueDouble(l2[i]));
+                for(var j=0;j < series[i].Count;j++)
+                {
+                    series[i][j] = ConvertUtil.GetValueDouble(series[i][j]) + ConvertUtil.GetValueDouble(series[i-1][j]);
+                }
             }
-            return sumList;
         }
         private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues)
         {
@@ -65,17 +75,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             for (var i = 0; i < yValues.Count; i++)
             {
-                object x;
+                double x;
                 if (xValues == null)
                 {
-                    x = i + 1;
+                    x = (double)i;
                 }
                 else
                 {
-                    x = xValues[i];
+                    x = ConvertUtil.GetValueDouble(xValues[i], false, true);
                 }
 
-                var y = yValues[i];
+                var y = ConvertUtil.GetValueDouble(yValues[i], false, true);
                 var xPos = xAxis.GetPositionInPlotarea(x);
                 var yPos = yAxis.GetPositionInPlotarea(y);
 
@@ -100,6 +110,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             linePath.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, linePath, coords.ToArray()));
             linePath.SetDrawingPropertiesBorder(serie.Border, chartType.StyleManager.Style.SeriesLine.BorderReference.Color, true);
+            linePath.SetDrawingPropertiesEffects(serie.Effect);
             linePath.FillColor = "none"; // No fill for line
             RenderItems.Add(linePath);
             RenderItems.AddRange(markerItems);

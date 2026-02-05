@@ -35,7 +35,10 @@ internal class ValueAxisScaleCalculator
 
         var isAllPositive = dataMin > 0 && dataMax > 0;
         var isAllNegativ = dataMin < 0 && dataMax < 0;
-
+        if(dataMin < 0 && dataMax > 0 && axisOptions.IsStacked100)
+        {
+            desiredTicks *= 2;
+        }
         double interval;
         if (axisOptions.LockedInterval.HasValue)
         {
@@ -47,6 +50,10 @@ internal class ValueAxisScaleCalculator
                 if (axisOptions.AddPadding)
                 {
                     dataMin = Math.Floor(dataMin * 0.1 / interval) * interval;
+                    if(axisOptions.IsStacked100 && dataMin < -1)
+                    {
+                        dataMin = -1;
+                    }
                     if (isAllPositive && dataMin < 0)
                     {
                         dataMin = 0;
@@ -61,6 +68,10 @@ internal class ValueAxisScaleCalculator
             if (!axisOptions.LockedMax.HasValue)
             {
                 dataMax = Math.Ceiling(dataMax * 0.1 / interval) * interval;
+                if (axisOptions.IsStacked100 && dataMin > 1)
+                {
+                    dataMax = 1;
+                }
             }
             else
             {
@@ -111,6 +122,10 @@ internal class ValueAxisScaleCalculator
                 else
                 {
                     axisMin = dataMin - (dataRange * 0.1);
+                    if (axisOptions.IsStacked100 && axisMin < -1)
+                    {
+                        axisMin = -1;
+                    }
                     //Normalize to zero if all data is positive or negative
                     if (axisMin < 0 && isAllPositive)
                     {
@@ -125,6 +140,10 @@ internal class ValueAxisScaleCalculator
                 else
                 {
                     axisMax = dataMax + (dataRange * 0.1);
+                    if (axisOptions.IsStacked100 && axisMax > 1)
+                    {
+                        axisMax = 1;
+                    }
 
                     if (axisMax > 0 && isAllNegativ)
                     {

@@ -15,8 +15,10 @@ using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.Fill;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Style;
 using System;
 using System.Drawing;
 using System.Text;
@@ -63,6 +65,8 @@ namespace EPPlusImageRenderer.RenderItems
         public double? BorderOpacity { get; set; }
         public PathFillMode FillColorSource { get; set; } = PathFillMode.Norm;
         public PathFillMode BorderColorSource { get; set; } = PathFillMode.Norm;
+        public double? GlowRadius { get; private set; }
+        public string GlowColor { get; private set; }
 
         protected void CloneBase(RenderItem item)
         {
@@ -154,6 +158,16 @@ namespace EPPlusImageRenderer.RenderItems
                 }
             }
         }
+        internal void SetDrawingPropertiesEffects(ExcelDrawingEffectStyle effect)
+        {
+            if (effect.HasGlow)
+            {
+                GlowRadius = effect.Glow.Radius;
+                var gc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme, effect.Glow.Color);
+                GlowColor = "#" + gc.ToArgb().ToString("x8").Substring(2);
+            }
+        }
+
         private double[] GetDashArray(ExcelDrawingBorder border)
         {
             var lw = (int)Math.Round(border.Width * ExcelDrawing.EMU_PER_POINT / ExcelDrawing.EMU_PER_PIXEL);
