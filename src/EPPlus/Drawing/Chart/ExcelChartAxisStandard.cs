@@ -714,9 +714,50 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
+        internal bool IsYAxis 
+        { 
+            get
+            {
+                foreach(var ct in _chart.PlotArea.ChartTypes)
+                {
+                    if (ct.YAxis == this)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        internal bool IsXAxis
+        {
+            get
+            {
+                foreach (var ct in _chart.PlotArea.ChartTypes)
+                {
+                    if (ct.XAxis == this)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
         internal override object[] GetAxisValues(out bool isCount)
         {
-            var values = new List<List<object>>();
+            List<List<object>> values;
+            GetSeriesValues(out isCount, out values);
+            var dl = values.SelectMany(x => x).Distinct().ToList();
+            dl.Sort();
+            if (Orientation == eAxisOrientation.MaxMin)
+            {
+                dl.Reverse();
+            }
+            return dl.ToArray();
+        }
+
+        internal void GetSeriesValues(out bool isCount, out List<List<object>> values)
+        {
+            values = new List<List<object>>();
             isCount = false;
             List<object> pl = new List<object>();
             foreach (var ct in _chart.PlotArea.ChartTypes)
@@ -739,7 +780,6 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        //if ((Index == 1 && !ct.UseSecondaryAxis) || (Index == 2 && ct.UseSecondaryAxis))
                         if (ct.YAxis == this)
                         {
                             AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, pl);
@@ -752,15 +792,45 @@ namespace OfficeOpenXml.Drawing.Chart
                     pl = l;
                 }
             }
-            var dl = values.SelectMany(x => x).Distinct().ToList();
-            dl.Sort();
-            if (Orientation == eAxisOrientation.MaxMin)
+            if (_chart.IsTypePercentStacked() && IsYAxis)
             {
-                dl.Reverse();
+                CalculateStacked100(values);
             }
-            return dl.ToArray();
         }
 
+        internal static void CalculateStacked100(List<List<object>> values)
+        {
+            for (int i = 0; i < values[0].Count; i++)
+            {
+                double rowAbsSum = 0;
+                for (int k = 0; k < values.Count; k++)
+                {
+                    var v = values[k][i];
+                    if (ConvertUtil.IsExcelNumeric(v))
+                    {
+                        rowAbsSum += Math.Abs(ConvertUtil.GetValueDouble(v, true, true));
+                    }
+                }
+                var pv = 0D;
+                for (int j=0;j< values.Count;j++)
+                {
+                    var val = values[j][i];
+                    if (ConvertUtil.IsExcelNumeric(val))
+                    {
+                        double d = pv + ConvertUtil.GetValueDouble(val, true, true);
+                        if (rowAbsSum != 0)
+                        {
+                            values[j][i] = d / rowAbsSum;
+                        }   
+                        else
+                        {
+                            values[j][i] = 0;
+                        }
+                        pv = d;
+                    }
+                }
+            }
+        }
         private void AddCountFromSeries(List<object> l, string address, double[] numberLiterals, string[] stringLiterals)
         {
             l.Add(1);

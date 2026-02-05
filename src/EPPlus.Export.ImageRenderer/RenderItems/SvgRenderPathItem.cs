@@ -14,7 +14,9 @@ using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Theme;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -98,5 +100,4 @@ namespace EPPlusImageRenderer.RenderItems
             }
         }
     }
-
 }

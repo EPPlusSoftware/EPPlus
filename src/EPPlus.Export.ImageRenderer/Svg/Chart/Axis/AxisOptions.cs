@@ -7,5 +7,6 @@ internal class AxisOptions
     public double? LockedInterval { get; set; }
     public eTimeUnit? LockedIntervalUnit { get; set; }
     public bool AddPadding { get; set; } = false;
-    public ExcelChartAxisStandard Axis { get; internal set; }
+    public ExcelChartAxisStandard Axis { get; set; }
+    public bool IsStacked100 { get; set; }
 }
