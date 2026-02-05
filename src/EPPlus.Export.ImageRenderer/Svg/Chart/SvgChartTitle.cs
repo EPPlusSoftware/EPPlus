@@ -171,7 +171,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal void InitTextBox()
         {
-            TextBox = new SvgTextBoxItem(_svgChart, _svgChart.ChartArea.Bounds, Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height);
+            TextBox = new SvgTextBoxItem(_svgChart, _svgChart.ChartArea.Bounds, Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height, Rectangle.Width, Rectangle.Height);
             TextBox.LeftMargin = LeftMargin;
             TextBox.RightMargin = RightMargin;
             TextBox.TopMargin = TopMargin;
