@@ -19,8 +19,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             Bounds.Left = left;
             Bounds.Top = top;
-            Bounds.Width = width;
-            Bounds.Height = height;
+            Bounds.Width = maxWidth < width ? width : maxWidth;
+            Bounds.Height = maxHeight < width ? width : maxHeight;
             Init(renderer, parent, maxWidth, maxHeight);
         }
 
@@ -33,7 +33,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             TextBody.MaxHeight = maxHeight;
 
             Rectangle = new SvgRenderRectItem(renderer, parent);
-            Rectangle.Bounds = Bounds;
+
+            //NEVER do this. You are assigning this objects bounds to an underlying objects bounds
+            //Worst case you are making it its own parent. Set only the properties.
+            //Rectangle.Bounds = Bounds;
+
+            Rectangle.Bounds.Top = Bounds.Top;
+            Rectangle.Bounds.Left = Bounds.Left;
+
+            Rectangle.Bounds.Width = Bounds.Width;
+            Rectangle.Bounds.Height = Bounds.Height;
         }
 
         internal SvgTextBoxItem(DrawingBase renderer, BoundingBox parent, double maxWidth, double maxHeight) : base(renderer, parent)
@@ -43,7 +52,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         //Simplified input
         internal SvgTextBoxItem(DrawingBase renderer, BoundingBox parent, BoundingBox maxBounds) : this(
-                                            renderer, parent, maxBounds.Left, maxBounds.Top, maxBounds.Width, maxBounds.Height)
+                                            renderer, parent, maxBounds.Left, maxBounds.Top, maxBounds.Width, maxBounds.Height, maxBounds.Width, maxBounds.Height)
         {
         }
         
@@ -119,6 +128,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 Bounds.Width = TextBody.Bounds.Width + LeftMargin + RightMargin;
                 Bounds.Height = TextBody.Bounds.Height + TopMargin + BottomMargin;
+
+                Rectangle.Bounds.Width = Bounds.Width;
+                Rectangle.Bounds.Height = Bounds.Height;
             }
         }
 
@@ -138,6 +150,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //handled by group now
             Rectangle.Bounds.Top = 0;
             Rectangle.Bounds.Left = 0;
+            Rectangle.Bounds.Width = Bounds.Width;
+            Rectangle.Bounds.Height = Bounds.Height;
+
             renderItems.Add(Rectangle);
             TextBody.AppendRenderItems(renderItems);
             renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));

@@ -91,8 +91,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             _hAlign = p.HorizontalAlignment;
 
+            if (ParentTextBody.AutoSize == false)
+            {
             Bounds.Left = GetAlignmentHorizontal(_hAlign);
             Bounds.Width = parent.Width - _rightMargin - _leftMargin;
+            }
 
             //---Get measurer---
             _measurer = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
@@ -267,7 +270,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 fonts.Add(runFont);
             }
 
-            var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero).PixelToPoint();
+            var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero);
             return ttMeasurer.WrapMultipleTextFragmentsToTextLines(fragments, fonts, maxWidthPoints);
         }
 

@@ -22,11 +22,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// </summary>
     internal abstract class TextBodyItem : DrawingObject
     {
-        public TextBodyItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        public TextBodyItem(DrawingBase renderer, BoundingBox parent, bool autoSize) : base(renderer, parent)
         {
             Bounds.Name = "TxtBody";
-
             Bounds.Parent = parent;
+            AutoSize = autoSize;
         }
         public TextBodyItem(DrawingBase renderer, BoundingBox parent, double maxWidth, double maxHeight) : base(renderer, parent)
         {
@@ -34,7 +34,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Bounds.Parent = parent;
             MaxWidth = maxWidth;
             MaxHeight = maxHeight;
+            AutoSize = false;
         }
+        internal bool AutoSize { get; set; }
         internal double MaxWidth { get; set; }
         internal double MaxHeight { get; set; }
 

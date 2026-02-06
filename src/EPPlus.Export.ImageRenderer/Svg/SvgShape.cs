@@ -96,8 +96,8 @@ namespace EPPlusImageRenderer.Svg
 
                         if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
                         {
-                            InsetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue - (float)shapeDef.TextBoxRect.LeftValue.PixelToPoint();
-                            InsetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue - (float)shapeDef.TextBoxRect.TopValue.PixelToPoint();
+                            InsetTextBox.Width = ((double)((float)shapeDef.TextBoxRect.RightValue - (float)shapeDef.TextBoxRect.LeftValue)).PixelToPoint();
+                            InsetTextBox.Height = ((double)((float)shapeDef.TextBoxRect.BottomValue - (float)shapeDef.TextBoxRect.TopValue)).PixelToPoint();
                         }
                         else
                         {
@@ -111,6 +111,7 @@ namespace EPPlusImageRenderer.Svg
                     }
 
                     TextBox = CreateTextBodyItem();
+                    TextBox.Rectangle.FillOpacity = 0.3;
                     TextBox.ImportTextBody(_shape.TextBody, false);
                     TextBox.AppendRenderItems(RenderItems);
                 }

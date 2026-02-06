@@ -37,7 +37,6 @@ namespace EPPlusImageRenderer
     {
         public string RenderDrawingToSvg(ExcelDrawing drawing)
         {
-            drawing.GetSizeInPixels(out int width, out int height);
             var sb = new StringBuilder();
             if (drawing is ExcelShape shape)
             {
