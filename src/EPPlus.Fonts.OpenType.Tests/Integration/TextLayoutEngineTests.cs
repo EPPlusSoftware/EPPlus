@@ -1,10 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using EPPlus.Fonts.OpenType.Integration;
+﻿using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
+using EPPlus.Fonts.OpenType.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
-using EPPlus.Fonts.OpenType.Utils;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType.Tests.Integration
 {
@@ -309,6 +311,124 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // When joining wrapped lines with spaces, we get back close to original
             string rejoined = string.Join(" ", lines);
             Assert.AreEqual("This is mixed fonts", rejoined);
+        }
+
+
+        private FontSubFamily GetFontSubType(MeasurementFontStyles Style)
+        {
+            if ((Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) == (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
+            {
+                return FontSubFamily.BoldItalic;
+            }
+            else if ((Style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
+            {
+                return FontSubFamily.Bold;
+            }
+            else if ((Style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
+            {
+                return FontSubFamily.Italic;
+            }
+
+            return FontSubFamily.Regular;
+        }
+
+        [TestMethod]
+        public void WrapLongRichTextWord()
+        {
+            var mFont = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            var font = OpenTypeFonts.GetFontData(FontFolders, mFont.FontFamily, FontSubFamily.Regular);
+
+            var longWord = "pellentesquer";
+
+            var fragment = new TextFragment() { Text = longWord, Font = mFont };
+            var fragLst = new List<TextFragment>() { fragment };
+
+            ITextShaper shaper = new TextShaper(font);
+            using var layout = new TextLayoutEngine(shaper);
+
+            var wrappedLines = layout.WrapRichText(fragLst, 54);
+
+            Assert.AreEqual("pellentesqu", wrappedLines[0]);
+            Assert.AreEqual("er", wrappedLines[1]);
+        }
+
+        [TestMethod]
+        public void WrapRichTextDifficultCase()
+        {
+            List<string> lstOfRichText = new() { "TextBox\r\na\r\n", "TextBox2", "ra underline", "La Strike", "Goudy size 16", "SvgSize 24" };
+
+            var font1 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Regular
+            }; ;
+
+            var font2 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Bold
+            };
+
+            var font3 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Underline
+            };
+
+            var font4 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Strikeout
+            };
+
+            var font5 = new MeasurementFont()
+            {
+                FontFamily = "Goudy Stout",
+                Size = 16,
+                Style = MeasurementFontStyles.Regular
+            };
+
+
+            var font6 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 24,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            List<MeasurementFont> fonts = new() { font1, font2, font3, font4, font5, font6 };
+            var fragments = new List<TextFragment>();
+
+            for (int i = 0; i < lstOfRichText.Count(); i++)
+            {
+                var currentFrag = new TextFragment() {Text = lstOfRichText[i], Font = fonts[i] };
+                fragments.Add(currentFrag);
+            }
+
+            var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
+
+            var startFont = TextData.GetFontData(font1.FontFamily, GetFontSubType(font1.Style));
+
+            var shaper = new TextShaper(startFont);
+            var layout = new TextLayoutEngine(shaper);
+
+            var wrappedLines = layout.WrapRichText(fragments, maxSizePoints);
+
+            Assert.AreEqual("TextBox", wrappedLines[0]);
+            Assert.AreEqual("a", wrappedLines[1]);
+            Assert.AreEqual("TextBox2ra underlineLa", wrappedLines[2]);
+            Assert.AreEqual("StrikeGoudy size", wrappedLines[3]);
+            Assert.AreEqual("16SvgSize 24", wrappedLines[4]);
         }
 
         [TestMethod]
