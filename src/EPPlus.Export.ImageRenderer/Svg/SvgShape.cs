@@ -109,7 +109,7 @@ namespace EPPlusImageRenderer.Svg
                     }
 
                     TextBox = CreateTextBodyItem();
-                    TextBox.ImportTextBody(_shape.TextBody);
+                    TextBox.ImportTextBody(_shape.TextBody, true);
                     TextBox.AppendRenderItems(RenderItems);
                 }
             }

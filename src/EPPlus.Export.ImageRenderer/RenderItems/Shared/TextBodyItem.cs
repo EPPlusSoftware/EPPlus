@@ -71,11 +71,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _text = text;
             if(Paragraphs.Count == 0)
             {
-                Bounds.Width = paragraph.Bounds.Width;
+                Bounds.Height = paragraph.Bounds.Height;
             }
             else
             {
-                Bounds.Width += paragraph.Bounds.Width;
+                Bounds.Height += paragraph.Bounds.Height;
+            }
+
+            if(Bounds.Width < paragraph.Bounds.Width)
+            {
+                Bounds.Width = paragraph.Bounds.Width;
             }
             Paragraphs.Add(paragraph);
         }
@@ -133,7 +138,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 Bounds.Height = paragraphStartY;
             }
         }
-
         private double GetParagraphAscendantSpacingInPixels(eDrawingTextLineSpacing lineSpacingType, double spacingValue, ITextMeasurerWrap fmExact, out double multiplier)
         {
             if (lineSpacingType == eDrawingTextLineSpacing.Exactly)

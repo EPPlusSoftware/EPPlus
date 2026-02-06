@@ -23,7 +23,7 @@ namespace EPPlusImageRenderer.Svg
     internal abstract class DrawingObject
     {
         internal protected DrawingBase DrawingRenderer { get; }
-        internal BoundingBox Bounds { get; set; }
+        internal virtual BoundingBox Bounds { get; set; }
 
         protected DrawingObject(DrawingBase renderer, BoundingBox parent)
         {

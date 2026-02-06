@@ -12,6 +12,8 @@
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Text;
 using OfficeOpenXml;
@@ -65,35 +67,44 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
 
-            var rect = t.TextBody.Paragraphs.GetSizeInPixels(maxWidth, maxHeight, _titleText, t.Font, LeftMargin, TopMargin, t.Rotation);
+            //var rect = t.TextBody.Paragraphs.GetSizeInPixels(maxWidth, maxHeight, _titleText, t.Font, LeftMargin, TopMargin, t.Rotation);
             
             if (t.Layout.HasLayout)
             {
                 Rectangle = GetRectFromManualLayout(sc, t.Layout);
-                if (double.IsNaN(Rectangle.Width))
-                {
-                    Rectangle.Width = (float)(rect.Width);
-                }
-                if (double.IsNaN(Rectangle.Height))
-                {
-                    Rectangle.Height = (float)(rect.Height);
-                }
+                Rectangle.Width = (float)maxWidth;
+                Rectangle.Height = (float)maxHeight;
+                //if (double.IsNaN(Rectangle.Width))
+                //{
+                //    Rectangle.Width = (float)(rect.Width);
+                //}
+                //if (double.IsNaN(Rectangle.Height))
+                //{
+                //    Rectangle.Height = (float)(rect.Height);
+                //}
                 InitTextBox();
+                TextBox.Bounds.Top = Rectangle.Top;
+                TextBox.Bounds.Left = Rectangle.Left;
+                Rectangle.Width = TextBox.Bounds.Width;
+                Rectangle.Height = TextBox.Bounds.Height;
             }
             else
             {
                 Rectangle = new SvgRenderRectItem(sc, sc.Bounds);
                 if (axis==null)
-                {   
-                    Rectangle.Top = (float)8;                         //8 pixels for the chart title standard offset
-                    Rectangle.Left = (float)(sc.Bounds.Width - rect.Width) / 2;
-                    Rectangle.Height = (float)rect.Height;
-                    Rectangle.Width = (float)rect.Width;
+                {
+                    Rectangle.Width = (float)maxWidth;
+                    Rectangle.Height = (float)maxHeight;
+
                     InitTextBox();
+                    TextBox.Bounds.Top = (float)6;                                       //6 point for the chart title standard offset
+                    TextBox.Bounds.Left = (float)(sc.Bounds.Width - TextBox.Bounds.Width) / 2;
+                    Rectangle.Height = (float)TextBox.Bounds.Height;
+                    Rectangle.Width = (float)TextBox.Bounds.Width;
                 }
                 else
                 {
-                    SetAxisTitleRect(sc, axis, rect);
+                    //SetAxisTitleRect(sc, axis);
                 }
             }
 
@@ -171,31 +182,26 @@ namespace EPPlusImageRenderer.Svg
 
         internal void InitTextBox()
         {
-            TextBox = new SvgTextBoxItem(_svgChart, _svgChart.ChartArea.Bounds, Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height, Rectangle.Width, Rectangle.Height);
-            TextBox.LeftMargin = LeftMargin;
-            TextBox.RightMargin = RightMargin;
-            TextBox.TopMargin = TopMargin;
-            TextBox.BottomMargin = BottomMargin;
-            TextBox.TextBody.VerticalAlignment = eTextAnchoringType.Top;
+            TextBox = new SvgTextBoxItem(_svgChart, _svgChart.ChartArea.Bounds, Rectangle.Width, Rectangle.Height);
             if(_title.Rotation != 0)
             {
                 TextBox.Bounds.Rotation = _title.Rotation;
             }
             if (_title.TextBody.Paragraphs.Count > 0)
             {
-                //foreach (var p in _title.TextBody.Paragraphs)
-                //{
-                //    TextBox.TextBody.ImportParagraph(p, 0);
-                //}
-                TextBox.TextBody.ImportTextBody(_title.TextBody);
+                TextBox.ImportTextBody(_title.TextBody);
             }
             else
             {
-                //TextBox.AddText(string.IsNullOrEmpty(_title.Text) ? _titleText : _title.Text, _title.Font);
                 var text = string.IsNullOrEmpty(_title.Text) ? _titleText : _title.Text;
                 var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();                
-                TextBox.TextBody.ImportParagraph(p, 0, text);
+                TextBox.ImportParagraph(p, 0, text);                
             }
+            TextBox.LeftMargin = LeftMargin;
+            TextBox.RightMargin = RightMargin;
+            TextBox.TopMargin = TopMargin;
+            TextBox.BottomMargin = BottomMargin;
+            TextBox.TextBody.VerticalAlignment = eTextAnchoringType.Top;
         }
 
         public SvgTextBoxItem TextBox
@@ -204,7 +210,6 @@ namespace EPPlusImageRenderer.Svg
         }
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
-
             TextBox.AppendRenderItems(renderItems);
             TextBox.Rectangle.SetDrawingPropertiesFill(_title.Fill, _svgChart.Chart.StyleManager.Style.Title.FillReference.Color);
             TextBox.Rectangle.SetDrawingPropertiesBorder(_title.Border, _svgChart.Chart.StyleManager.Style.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, 0.75);

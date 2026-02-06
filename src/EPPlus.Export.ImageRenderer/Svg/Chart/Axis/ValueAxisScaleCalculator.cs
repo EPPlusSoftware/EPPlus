@@ -33,8 +33,8 @@ internal class ValueAxisScaleCalculator
             }
         }
 
-        var isAllPositive = dataMin > 0 && dataMax > 0;
-        var isAllNegativ = dataMin < 0 && dataMax < 0;
+        var isAllPositive = dataMin >= 0 && dataMax >= 0;
+        var isAllNegativ = dataMin <= 0 && dataMax <= 0;
         if(dataMin < 0 && dataMax > 0 && axisOptions.IsStacked100)
         {
             desiredTicks *= 2;

@@ -249,45 +249,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 lastDescent = line.LargestDescent;
             }
             Bounds.Height = runLineSpacing + lastDescent;
-            //Bounds.Width = Runs.Sum(x => x.Bounds.Width);
-
-            //if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
-            //{
-            //    AddText(textIfEmpty, p.DefaultRunProperties);
-            //    Bounds.Width = Runs.Sum(x => x.Bounds.Width);
-            //}
-            //else
-            //{
-            //    lines = WrapToSimpleTextLines(p, _textFragments);
-            //    foreach (var line in lines)
-            //    {
-            //        double prevWidth = 0;
-
-            //        if (lineSpacingIsExact == false)
-            //        {
-            //            runLineSpacing += line.LargestAscent + lastDescent;
-            //        }
-            //        else
-            //        {
-            //            runLineSpacing += ParagraphLineSpacing;
-            //        }
-            //        if (line.Width > greatestWidth)
-            //        {
-            //            greatestWidth = line.Width;
-            //        }
-
-            //        foreach (var rtFragment in line.RtFragments)
-            //        {
-            //            var displayText = line.GetFragmentText(rtFragment);
-            //            var runItem = AddRenderItemTextRun(p.TextRuns[rtFragment.Fragidx], displayText, prevWidth, runLineSpacing);
-            //            runItem.Bounds.Width = rtFragment.Width;
-            //            prevWidth += rtFragment.Width;
-            //        }
-
-            //        lastDescent = line.LargestDescent;
-            //    }
-            //    Bounds.Height = runLineSpacing + lastDescent;
-            //}
+            Bounds.Width = greatestWidth;
         }
 
         List<TextLineSimple> WrapToSimpleTextLines(ExcelDrawingParagraph p, TextFragmentCollection fragments)
@@ -302,7 +264,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 fonts.Add(runFont);
             }
 
-            var maxWidthPoints = Math.Round(Bounds.Width, 0, MidpointRounding.AwayFromZero).PixelToPoint();
+            var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero).PixelToPoint();
             return ttMeasurer.WrapMultipleTextFragmentsToTextLines(fragments, fonts, maxWidthPoints);
         }
 
