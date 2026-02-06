@@ -126,6 +126,55 @@ namespace EPPlus.Fonts.OpenType
 
         internal GlyfTableLoader _glyfTableLoader;
         internal KernTableLoader _kernTableLoader;
+        private volatile bool _fullyLoaded = false;
+
+        public bool FullyLoaded => _fullyLoaded;
+        internal bool IsReadOnly { get; set; }
+
+        internal void EnsureFullyLoaded()
+        {
+            if (_fullyLoaded)
+                return;
+
+            lock (_loaderCache.SyncLock)
+            {
+
+                // --- Required tables (always present in valid fonts) ---
+                // Each property accessor calls its TableLoader.Load() which
+                // reads from the byte[] stream and caches the result.
+                // By accessing them all here under the font-level lock,
+                // we guarantee no concurrent reader access.
+                FontTableBase _ = CmapTable;
+                _ = HeadTable;
+                _ = HheaTable;
+                _ = HmtxTable;
+                _ = MaxpTable;
+                _ = NameTable;
+                _ = Os2Table;
+                _ = PostTable;
+                _ = LocaTable;
+
+                // --- Optional tables (only if present in font) ---
+                if (_gsubTableLoader != null)
+                {
+                    var gsub = GsubTable;  // Forces full GSUB parse
+                }
+                if (_gposTableLoader != null)
+                {
+                    var gpos = GposTable;  // Forces full GPOS parse (incl. MarkToBase subtables)
+                }
+                if (_glyfTableLoader != null)
+                {
+                    var glyf = GlyfTable;  // Forces full glyph outline parse
+                }
+                if (_kernTableLoader != null)
+                {
+                    var kern = KernTable;  // Forces legacy kern table parse
+                }
+
+                _fullyLoaded = true;
+            }
+        }
 
         internal FontSerializationContext GetSerializationContext()
         {
@@ -488,6 +537,10 @@ namespace EPPlus.Fonts.OpenType
         internal void AddOrReplaceTable<T>(T table)
             where T : FontTableBase
         {
+            if (IsReadOnly)
+                throw new InvalidOperationException(
+                    $"Cannot modify a cached font instance. Table: {table.Name}. " +
+                    "Use CreateSubset() or create a new OpenTypeFont instance.");
             _localTableCache.AddOrReplace(table.Name, table);
 
 
@@ -509,25 +562,21 @@ namespace EPPlus.Fonts.OpenType
 
         public OpenTypeFont CreateSubset(IEnumerable<char> usedChars)
         {
-            // Validate input
             if (usedChars == null)
                 throw new ArgumentNullException(nameof(usedChars));
-
             var charArray = usedChars.ToArray();
             if (charArray.Length == 0)
                 throw new ArgumentException("Text cannot be empty", nameof(usedChars));
 
             var subsetBuilder = new SubsetFontBuilder();
-
-            // Convert chars to Unicode code points (handling surrogate pairs)
             var codePoints = CharacterUtil.ExtractCodePointsFromChars(charArray);
 
-            // Create subset font
+            // Använd "this" direkt — IsReadOnly-skyddet på AddOrReplaceTable 
+            // garanterar att denna instans aldrig modifieras av subsetting.
             var newFont = subsetBuilder.CreateSubset(this, codePoints);
 
             var postProcessor = new SubsetPostProcessor();
             postProcessor.PostProcessSubset(newFont);
-
             return newFont;
         }
 

@@ -112,7 +112,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestInitialize]
         public void ClearAllCaches()
         {
-            OpenTypeFonts.ClearFontCache();
+            //OpenTypeFonts.ClearFontCache();
         }
 
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]

@@ -20,6 +20,7 @@ using EPPlus.Fonts.OpenType.TextShaping.Substitutions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType.TextShaping
 {
@@ -69,6 +70,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 throw new ArgumentNullException("fontProvider");
             if (fontProvider.PrimaryFont == null)
                 throw new ArgumentException("Primary font cannot be null in font provider", "fontProvider");
+
+            var gposTable = fontProvider.PrimaryFont.GposTable;  // Force load now - thread-safe via TableLoader
 
             _fontProvider = fontProvider;
             _primaryFont = fontProvider.PrimaryFont;
