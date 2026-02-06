@@ -249,6 +249,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 lastDescent = line.LargestDescent;
             }
             Bounds.Height = runLineSpacing + lastDescent;
+            Bounds.Width = greatestWidth;
         }
 
         List<TextLineSimple> WrapToSimpleTextLines(ExcelDrawingParagraph p, TextFragmentCollection fragments)
@@ -263,7 +264,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 fonts.Add(runFont);
             }
 
-            var maxWidthPoints = Math.Round(Bounds.Width, 0, MidpointRounding.AwayFromZero).PixelToPoint();
+            var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero).PixelToPoint();
             return ttMeasurer.WrapMultipleTextFragmentsToTextLines(fragments, fonts, maxWidthPoints);
         }
 

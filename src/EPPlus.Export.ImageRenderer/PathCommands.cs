@@ -32,7 +32,7 @@ namespace EPPlusImageRenderer
         public SvgAdjustmentPoint AdjustmentPoint { get; set; }
         public int CommandIndex { get; set; }
 
-        public void Render(int width, int height, StringBuilder sb)
+        public void Render(double width, double height, StringBuilder sb)
         {
             sb.Append(Type.AsCommandChar());
             for (int i = 0; i < Coordinates.Length; i++)
@@ -90,80 +90,6 @@ namespace EPPlusImageRenderer
             {
                 x *= height;
             }
-            return x;
-        }
-
-        private double AdjustPointHalf(int width, int height, int i, double x, bool minus)
-        {
-            if (i % 2 == 0)
-            {
-                if (width > height)
-                {
-                    x *= Math.Max(width, height);
-                    if (minus)
-                    {
-                        x -= (Math.Abs(width - height) / 2);
-                    }
-                    else
-                    {
-                        x += (Math.Abs(width - height) / 2);
-                    }
-                }
-                else
-                {
-                    x *= width;
-                }
-            }
-            else
-            {
-                if (height > width)
-                {
-                    x *= Math.Max(width, height);
-                    if (minus)
-                    {
-                        x -= (Math.Abs(width - height) / 2);
-                    }
-                    else
-                    {
-                        x += (Math.Abs(width - height) / 2);
-                    }
-                }
-                else
-                {
-                    x *= height;
-                }
-            }
-
-            return x;
-        }
-
-        private static double AdjustToWidthHight(int width, int height, int i, double x)
-        {
-            if (i % 2 == 0)
-            {
-                if (width > height)
-                {
-                    x *= Math.Min(width, height);
-                    x += (Math.Abs(width - height) / 2);
-                }
-                else
-                {
-                    x *= width;
-                }
-            }
-            else
-            {
-                if (height > width)
-                {
-                    x *= Math.Min(width, height);
-                    x += (Math.Abs(width - height) / 2);
-                }
-                else
-                {
-                    x *= height;
-                }
-            }
-
             return x;
         }
         internal PathCommands Clone()

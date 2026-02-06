@@ -85,14 +85,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void Render(StringBuilder sb)
         {
             string finalString = "";
-            var xString = $"x =\"{(Bounds.Left.PointToPixel()).ToString(CultureInfo.InvariantCulture)}\" ";
+            var xString = $"x =\"{(Bounds.Left.PointToPixelString())}\" ";
 
             var currentYEndPos = Bounds.Position.Y; // Global position Y
             finalString += $"<tspan ";
             string visibility = "";
 
             finalString += xString;
-            var yString = $" y=\"{YPosition.PointToPixel().ToString(CultureInfo.InvariantCulture)}px\" ";
+            var yString = $" y=\"{YPosition.PointToPixelString()}px\" ";
             finalString += yString;
 
             currentYEndPos += YPosition;

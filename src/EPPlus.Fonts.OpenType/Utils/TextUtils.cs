@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.Drawing;
 using System;
+using System.Globalization;
 
 namespace EPPlus.Fonts.OpenType.Utils
 {
@@ -12,6 +13,11 @@ namespace EPPlus.Fonts.OpenType.Utils
         {
             //1 inch is 72 pts. "Inches * dots/inch = dots" aka Pixels
             return pointSize / 72 * 96;
+        }
+        public static string PointToPixelString(this double pointSize)
+        {
+            //1 inch is 72 pts. "Inches * dots/inch = dots" aka Pixels
+            return (pointSize / 72 * 96).ToString(CultureInfo.InvariantCulture);
         }
 
         public static double PointToPixel(this double pointSize, bool isFonts)
