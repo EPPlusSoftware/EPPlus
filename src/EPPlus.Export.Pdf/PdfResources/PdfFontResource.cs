@@ -146,6 +146,22 @@ namespace EPPlus.Export.Pdf.PdfResources
         internal PdfCIDFont GetCIDFontObject(int objectNumber, int version = 0)
         {
             fontObjectNumber = objectNumber;
+            CIDSystemInfo cidSystemInfo = new CIDSystemInfo();
+            return new PdfCIDFont(objectNumber, CIDFontSubtype.CIDFontType0, "", cidSystemInfo, -1);
+        }
+
+        internal PdfType0FontDict GetType0FontDictObject(int objectNumber, int version = 0)
+        {
+            fontObjectNumber = objectNumber;
+            int[] descendantRefs = new int[1] { -1 };
+            return new PdfType0FontDict(objectNumber, "", "", descendantRefs );
+        }
+
+        internal PdfToUnicodeCMap GetUnicodeCmapObject(int objectNumber, int version = 0)
+        {
+            fontObjectNumber = objectNumber;
+            var charactermappings = fontData //get cmap from font.
+            return new PdfToUnicodeCMap(objectNumber, charactermappings);
         }
     }
 }

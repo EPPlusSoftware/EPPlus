@@ -43,6 +43,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         private readonly int fontDescriptorObjectNumber;
 
 
+
         public PdfFont(int objectNumber, string fontName = "Helvetica", PdfFontSubType subType = PdfFontSubType.Type1, int firstChar = -1, int lastChar = -1, int widthObjectNumber = -1, int fontDescObjectNumner = -1, PdfFontEncoding encoding = PdfFontEncoding.WinAnsiEncoding)
             : base(objectNumber, 0)
         {

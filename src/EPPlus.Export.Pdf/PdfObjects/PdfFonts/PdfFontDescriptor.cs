@@ -34,7 +34,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
 
     internal class PdfFontDescriptor : PdfObject
     {
-        private readonly string fontName; //Same as PdfFont.BaseFont
+        private readonly string fontName;
         private readonly int flags;
         private readonly Rect fontBBox;
         private readonly double italicAngle;
@@ -42,6 +42,8 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         private readonly int descent;
         private readonly double stemV;
         private readonly int capheight;
+
+
 
         public PdfFontDescriptor(int objectNumber, string fontName, int flags, Rect fontBBox, double italicAngle, int ascent, int descent, double stemV, int capHeight, int version = 0)
             : base(objectNumber, version)
