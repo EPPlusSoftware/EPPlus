@@ -12,6 +12,7 @@
   01/22/2025         EPPlus Software AB           Optimized with shaping cache
   01/23/2025         EPPlus Software AB           Fixed lastSpaceIndex bug in multi-fragment wrapping
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
@@ -40,17 +41,18 @@ namespace EPPlus.Fonts.OpenType.Integration
             _lineListBuffer.Clear();
 
             var lineBuilder = new StringBuilder(512);
-            double lineWidth = 0;
-            int lastSpaceIndex = -1;
+            var state = new WrapStateRichText(0);
+            state.WordStart = -1;
+            state.LineStart = -1;
 
             foreach (var fragment in fragments)
             {
                 if (string.IsNullOrEmpty(fragment.Text)) continue;
 
-                ProcessFragment(fragment, maxWidthPoints, lineBuilder, ref lineWidth, ref lastSpaceIndex);
+                ProcessFragment(fragment, maxWidthPoints, lineBuilder, state);
             }
 
-            FinalizeCurrentLine(lineBuilder, lineWidth, lastSpaceIndex);
+            FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart);
 
             if (_lineListBuffer.Count == 0)
             {
@@ -64,8 +66,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             TextFragment fragment,
             double maxWidthPoints,
             StringBuilder lineBuilder,
-            ref double lineWidth,
-            ref int lastSpaceIndex)
+            WrapStateRichText state)
         {
             var shaper = GetShaperForFont(fragment.Font);
             var options = fragment.Options ?? ShapingOptions.Default;
@@ -87,28 +88,48 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                 if (IsLineBreak(c))
                 {
-                    HandleLineBreak(lineBuilder, lineWidth, lastSpaceIndex);
+                    HandleLineBreak(lineBuilder, state);
                     SkipLineBreakChars(fragment.Text, ref i);
-                    lineWidth = 0;
-                    lastSpaceIndex = -1;  // Reset after line break
+                    state.CurrentLineWidth = 0;
+                    state.CurrentWordWidth = 0;
+                    state.WordStart = -1;  // Reset after line break
+                    state.LineStart = -1;
                     continue;
                 }
 
+                state.CurrentLineWidth += charWidths[i];
+                state.CurrentWordWidth += charWidths[i];
+
                 lineBuilder.Append(c);
-                lineWidth += charWidths[i];
 
                 if (c == ' ')
                 {
-                    lastSpaceIndex = lineBuilder.Length - 1;
+                    state.WordStart = lineBuilder.Length - 1;
+                    state.CurrentWordWidth = 0;
                 }
 
-                if (lineWidth > maxWidthPoints)
+                if (state.CurrentLineWidth > maxWidthPoints)
                 {
-                    WrapCurrentLine(lineBuilder, lineWidth, lastSpaceIndex, maxWidthPoints);
-                    lineWidth = 0;
-                    lastSpaceIndex = -1;  // Reset after wrap
-                }
+                    WrapCurrentLine(lineBuilder, state, maxWidthPoints);
 
+                    state.CurrentWordWidth = state.CurrentLineWidth;
+
+                    state.WordStart = -1;
+                    state.LineStart = -1;
+                    //We do not append ending spaces to the new line
+                    if (c != ' ')
+                    {
+                        //lineBuilder.Append(c);
+                        if(state.CurrentWordWidth == 0)
+                        {
+                            //The char that made us move past maxWidth
+                            //must be added to the new line
+                            //A whole word being moved down is handled in wrapCurrentLine.
+                            state.CurrentWordWidth = charWidths[i];
+                            state.CurrentLineWidth = charWidths[i];
+                        }
+                    }
+                }
                 i++;
             }
         }
@@ -130,7 +151,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             return c == '\r' || c == '\n';
         }
 
-        private void HandleLineBreak(StringBuilder lineBuilder, double lineWidth, int lastSpaceIndex)
+        private void HandleLineBreak(StringBuilder lineBuilder, WrapStateRichText state)
         {
             if (lineBuilder.Length > 0 && lineBuilder[lineBuilder.Length - 1] == ' ')
             {
@@ -140,7 +161,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 _lineListBuffer.Add(lineBuilder.ToString());
             }
-            else if (lineWidth > 0)
+            else if (state.CurrentLineWidth > 0)
             {
                 _lineListBuffer.Add(string.Empty);
             }
@@ -157,20 +178,28 @@ namespace EPPlus.Fonts.OpenType.Integration
             i++;
         }
 
-        private void WrapCurrentLine(StringBuilder lineBuilder, double lineWidth, int lastSpaceIndex, double maxWidthPoints)
+        private void WrapCurrentLine(StringBuilder lineBuilder, WrapStateRichText state, double maxWidthPoints)
         {
             // Bounds check to prevent ArgumentOutOfRangeException
-            if (lastSpaceIndex >= 0 && lastSpaceIndex < lineBuilder.Length)
+            if (state.WordStart >= 0 && state.WordStart < lineBuilder.Length)
             {
-                string line = lineBuilder.ToString(0, lastSpaceIndex).TrimEnd();
+                string line = lineBuilder.ToString(0, state.WordStart).TrimEnd();
                 _lineListBuffer.Add(line);
-                lineBuilder.Remove(0, lastSpaceIndex + 1);
+                lineBuilder.Remove(0, state.WordStart + 1);
+
+                //A word was moved down. The new line must have the width and pos of the word.
+                state.CurrentLineWidth = state.CurrentWordWidth;
+                state.LineStart = state.WordStart;
             }
             else
             {
+                var lastChar = lineBuilder[lineBuilder.Length-1];
                 // No valid space found - wrap entire line
-                _lineListBuffer.Add(lineBuilder.ToString());
+                _lineListBuffer.Add(lineBuilder.ToString(0, lineBuilder.Length -1));
+                state.CurrentLineWidth = 0;
                 lineBuilder.Length = 0;
+                lineBuilder.Append(lastChar);
+
             }
         }
 
