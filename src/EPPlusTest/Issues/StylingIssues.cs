@@ -413,6 +413,50 @@ namespace EPPlusTest
             Assert.AreEqual(288, p.Workbook.Worksheets[0].Cells["E31"].StyleID);
             SaveWorkbook("i1839-saved.xlsx", p);
         }
+
+        [TestMethod]
+        public void s1005()
+        {
+            SwitchToCulture("de-DE");
+
+            if (!ExcelPackageSettings.CultureSpecificBuildInNumberFormats.ContainsKey("de-DE"))
+            {
+                  ExcelPackageSettings.CultureSpecificBuildInNumberFormats.Add("de-DE",
+                  new Dictionary<int, string>
+                  {
+                    {14, "dd.mm.yyyy"},
+                    {15, "dd. mmm yy"},
+                    {16, "dd. mmm"},
+                    {17, "mmm yy"},
+                    {18, "hh:mm AM/PM" },
+                    {22, "dd.mm.yyyy hh:mm"},
+                    {39, "#,##0.00;-#,##0.00"},
+                    {47, "mm:ss,f"}
+                   });
+            }
+
+            using (var p = OpenTemplatePackage("DE - Original.xlsx"))
+            {
+                var ws1 = p.Workbook.Worksheets[1];
+
+                var cell1 = ws1.Cells["D8"];
+                var cell2 = ws1.Cells["F8"];
+                var origText = cell1.Text;  //The text lacks thousand seperator
+                var origText2 = cell2.Text; //The text lacks thousand seperator
+
+                p.Workbook.Calculate();
+                var calc11Text = cell1.Text; //The text now contains the thousand seperator
+                var calc12Text = cell2.Text; //The text now contains the thousand seperator
+
+                var stopPoint = true;
+
+
+                SaveAndCleanup(p);
+            }
+
+            SwitchBackToCurrentCulture();
+        }
+
         public class TestData
         {
             public int Id { get; set; }
