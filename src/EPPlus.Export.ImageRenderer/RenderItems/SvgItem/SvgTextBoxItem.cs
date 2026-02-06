@@ -108,10 +108,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             double l, r, t, b;
             body.GetInsetsOrDefaults(out l, out t, out r, out b);
-            LeftMargin = l.PointToPixel();
-            TopMargin = t.PointToPixel();
-            RightMargin = r.PointToPixel();
-            BottomMargin = b.PointToPixel();
+            LeftMargin = l;
+            TopMargin = t;
+            RightMargin = r;
+            BottomMargin = b;
 
             TextBody.ImportTextBody(body);
 

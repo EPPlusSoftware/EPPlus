@@ -121,56 +121,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             finalString += ">";
             finalString += _currentText;
             finalString += "</tspan>";
-            //for (int i = 0; i < Lines.Count; i++)
-            //{
-            //    var line = Lines[i];
-
-            //    finalString += $"<tspan ";
-            //    string visibility = "";
-
-            //    //Textrun may continue on same line or start a new line
-            //    //Refer to pre-calculated list
-            //    if (YIncreasePerLine.Count > 0 && YIncreasePerLine[i] != 0)
-            //    {
-            //        var yIncrease = Fonts.OpenType.Utils.TextUtils.RoundToWhole(YIncreasePerLine[i]);
-
-            //        currentYEndPos += yIncrease;
-            //        if (double.IsNaN(ClippingHeight) == false && currentYEndPos >= ClippingHeight)
-            //        {
-            //            visibility = "display=\"none\"";
-            //        }
-
-            //        var yIncreaseString = yIncrease.ToString(CultureInfo.InvariantCulture);
-            //        var dyString = $"dy=\"{yIncreaseString}px\" ";
-            //        finalString += dyString;
-            //        finalString += "x=\"0\" ";
-            //    }
-            //    else
-            //    {
-            //        finalString += xString;
-            //    }
-
-            //    finalString += $"{visibility} " + $"{GetFontStyleAttributes()} ";
-
-            //    if (_measurementFont != null)
-            //    {
-            //        finalString += $"font-family=\"{_measurementFont.FontFamily},"
-            //            + $"{_measurementFont.FontFamily}_MSFontService,sans-serif\" "
-            //            + $"font-size=\"{FontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
-            //    }
-
-            //    sb.Append(finalString);
-
-            //    //Get color etc.
-            //    //Renders up until this point
-            //    SvgBaseRenderer.BaseRender(sb, this);
-            //    //Since final string has been written in base.render erase it.
-            //    finalString = "";
-
-            //    finalString += ">";
-            //    finalString += line;
-            //    finalString += "</tspan>";
-            //}
+            
             sb.Append(finalString);
         }
     }

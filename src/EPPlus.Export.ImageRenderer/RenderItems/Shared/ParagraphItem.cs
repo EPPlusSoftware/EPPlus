@@ -86,10 +86,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _leftMargin = p.LeftMargin + p.Indent + indent;
             _rightMargin = p.RightMargin;
 
+            _leftMargin = _leftMargin.PixelToPoint();
+            _rightMargin = _rightMargin.PixelToPoint();
+
             _hAlign = p.HorizontalAlignment;
 
             Bounds.Left = GetAlignmentHorizontal(_hAlign);
-            Bounds.Width = parent.Width - p.RightMargin - p.LeftMargin;
+            Bounds.Width = parent.Width - _rightMargin - _leftMargin;
 
             //---Get measurer---
             _measurer = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
@@ -97,7 +100,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //---Calculate linespacing---
             int numLines = _paragraphLines.Count;
             _lsType = p.LineSpacing.LineSpacingType;
-            ParagraphLineSpacing = GetParagraphLineSpacingInPixels(p.LineSpacing.Value, _measurer);
+            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(p.LineSpacing.Value, _measurer);
 
             //---Initialize / calculate lines and runs---
             //measurer must be set before AddLinesAndRichText
@@ -107,15 +110,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             AddLinesAndTextRuns(p, textIfEmpty);
         }
 
-        private double GetParagraphLineSpacingInPixels(double spacingValue, ITextMeasurerWrap fmExact)
+        private double GetParagraphLineSpacingInPoints(double spacingValue, ITextMeasurerWrap fmExact)
         {
             if (_lsType == eDrawingTextLineSpacing.Exactly)
             {
                 if (IsFirstParagraph)
                 {
-                    _lineSpacingAscendantOnly = spacingValue.PointToPixel();
+                    _lineSpacingAscendantOnly = spacingValue;
                 }
-                return spacingValue.PointToPixel();
+                return spacingValue;
             }
             else
             {
@@ -123,9 +126,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 _lsMultiplier = multiplier;
                 if (IsFirstParagraph)
                 {
-                    _lineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine().PointToPixel();
+                    _lineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine();
                 }
-                return multiplier * fmExact.GetSingleLineSpacing().PointToPixel();
+                return multiplier * fmExact.GetSingleLineSpacing();
             }
         }
 
