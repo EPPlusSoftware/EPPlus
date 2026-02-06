@@ -28,7 +28,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         private void ProcessCompleteWord(
             string text,
-            WrapState state,
+            WrapStateText state,
             int currentPos,
             double maxWidth)
         {
@@ -62,7 +62,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         }
 
         private void ProcessNonEndingSpace(string text,
-            WrapState state,
+            WrapStateText state,
             int currentPos,
             double maxWidth
             )
@@ -95,7 +95,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         private void ProcessCharacterInWord(
              string text,
              double[] charWidths,
-             WrapState state,
+             WrapStateText state,
              int currentPos,
              double maxWidth)
         {
@@ -125,7 +125,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         private void BreakLongWord(
             string text,
             double[] charWidths,
-            WrapState state,
+            WrapStateText state,
             int currentPos,
             double maxWidth)
         {
