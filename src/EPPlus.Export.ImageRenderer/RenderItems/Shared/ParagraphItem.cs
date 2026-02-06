@@ -88,9 +88,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             _hAlign = p.HorizontalAlignment;
 
-            Bounds.Left = GetAlignmentHorizontal(_hAlign);
-            Bounds.Width = parent.Width - p.RightMargin - p.LeftMargin;
-
+            if (ParentTextBody.AutoSize == false)
+            {
+                Bounds.Left = GetAlignmentHorizontal(_hAlign);
+                Bounds.Width = parent.Width - p.RightMargin - p.LeftMargin;
+            }
             //---Get measurer---
             _measurer = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
 
