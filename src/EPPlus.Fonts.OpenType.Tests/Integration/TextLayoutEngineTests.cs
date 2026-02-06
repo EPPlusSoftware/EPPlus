@@ -429,69 +429,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual("TextBox2ra underlineLa", wrappedLines[2]);
             Assert.AreEqual("StrikeGoudy size", wrappedLines[3]);
             Assert.AreEqual("16SvgSize 24", wrappedLines[4]);
-
-            //var ttMeasurer = new FontMeasurerTrueType(font1);
-
-            //var textFragments = new TextFragmentCollection(lstOfRichText);
-
-            //var wrappedLines = ttMeasurer.WrapMultipleTextFragmentsToTextLines(textFragments, fonts, maxSizePoints);
-
-            //var line1 = wrappedLines[0];
-
-            //var pixels11 = Math.Round(line1.RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            //var pixelsWholeline1 = Math.Round(line1.Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-
-            //Assert.AreEqual(44, pixels11);
-            //Assert.AreEqual(pixels11, pixelsWholeline1);
-
-            //var line2 = wrappedLines[1];
-
-            //var pixels21 = Math.Round(line2.RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            //var pixelsWholeline2 = Math.Round(line2.Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-
-            //Assert.AreEqual(7, pixels21);
-            //Assert.AreEqual(pixels21, pixelsWholeline2);
-
-            //var line3 = wrappedLines[2];
-
-            //var pixels31 = Math.Round(line3.RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            //var pixels32 = Math.Round(line3.RtFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            //var pixels33 = Math.Round(line3.RtFragments[2].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            //var pixelsWholeLine3 = Math.Round(line3.Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-
-            ////~54 px
-            //Assert.AreEqual(54, pixels31);
-            ////~70 px aka 51.75pt
-            //Assert.AreEqual(70, pixels32);
-            ////~16-17 px This line contains a space at the end
-            //Assert.AreEqual(17, pixels33);
-
-            ////Total Width: ~140
-            //Assert.AreEqual(140d, pixelsWholeLine3);
-
-            //var line4 = wrappedLines[3];
-
-            //var pixels41 = Math.Round(line4.RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            //var pixels42 = Math.Round(line4.RtFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            //var pixelsWholeLine4 = Math.Round(line4.Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            ////~34 px
-            //Assert.AreEqual(33, pixels41);
-            //// This line contains a space at the end
-            //Assert.AreEqual(248, pixels42);
-
-            //Assert.AreEqual(281, pixelsWholeLine4);
-
-            //var line5 = wrappedLines[4];
-
-            //var pixels51 = Math.Round(line5.RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            //var pixels52 = Math.Round(line5.RtFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            //var pixelsWholeLine5 = Math.Round(line5.Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            //Assert.AreEqual(35, pixels51);
-            ////This line does NOT contain a space at the end
-            //Assert.AreEqual(134, pixels52);
-
-
-            //Assert.AreEqual(169, pixelsWholeLine5);
         }
 
         [TestMethod]
