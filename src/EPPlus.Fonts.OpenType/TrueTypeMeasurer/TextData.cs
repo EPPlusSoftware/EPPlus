@@ -1430,7 +1430,7 @@ namespace EPPlus.Fonts.OpenType
             currentRtFragment.charStarIdxWithinCurrentLine = Math.Max(0, currentRtFragment.OverallParagraphStartCharIdx - prevLineBreakIndex);
             currentLineRtFragments.Add(currentRtFragment);
 
-            for (int j = 0; j < currentLineRtFragments.Count(); j++)
+            for (int j = 0; j < currentLineRtFragments.Count; j++)
             {
                 currentLineRtFragments[j].charStarIdxWithinCurrentLine = Math.Max(0, currentLineRtFragments[j].OverallParagraphStartCharIdx - prevLineBreakIndex);
                 currentTextLine.RtFragments.Add(currentLineRtFragments[j]);

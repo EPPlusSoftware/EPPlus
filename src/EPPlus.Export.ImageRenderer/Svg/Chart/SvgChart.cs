@@ -79,8 +79,9 @@ namespace EPPlusImageRenderer.Svg
 
                 if(VerticalAxis.Title!=null)
                 {
-                    VerticalAxis.Title.Rectangle.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (VerticalAxis.Title.Rectangle.Height / 2);
                     VerticalAxis.Title.InitTextBox();
+                    VerticalAxis.Title.TextBox.Bounds.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (VerticalAxis.Title.TextBox.Bounds.Height / 2);
+                    VerticalAxis.Title.TextBox.Bounds.Left = VerticalAxis.Title.Rectangle.Left;
                 }
                 
                 VerticalAxis.AddTickmarksAndValues();
@@ -97,8 +98,9 @@ namespace EPPlusImageRenderer.Svg
 
                 if (HorizontalAxis.Title != null)
                 {
-                    HorizontalAxis.Title.Rectangle.Left = Plotarea.Rectangle.Left + (Plotarea.Rectangle.Width / 2) - (HorizontalAxis.Title.Rectangle.Width / 2);
                     HorizontalAxis.Title.InitTextBox();
+                    HorizontalAxis.Title.TextBox.Bounds.Left = Plotarea.Rectangle.Left + (Plotarea.Rectangle.Width / 2) - (HorizontalAxis.Title.TextBox.Bounds.Width / 2);
+                    HorizontalAxis.Title.TextBox.Bounds.Top = HorizontalAxis.Title.Rectangle.Top;
                 }
                 HorizontalAxis.AddTickmarksAndValues();
             }

@@ -66,22 +66,12 @@ namespace EPPlusImageRenderer.Svg
                     _titleText = defaultText;
                 }
             }
-
-            //var rect = t.TextBody.Paragraphs.GetSizeInPixels(maxWidth, maxHeight, _titleText, t.Font, LeftMargin, TopMargin, t.Rotation);
-            
+           
             if (t.Layout.HasLayout)
             {
                 Rectangle = GetRectFromManualLayout(sc, t.Layout);
                 Rectangle.Width = (float)maxWidth;
                 Rectangle.Height = (float)maxHeight;
-                //if (double.IsNaN(Rectangle.Width))
-                //{
-                //    Rectangle.Width = (float)(rect.Width);
-                //}
-                //if (double.IsNaN(Rectangle.Height))
-                //{
-                //    Rectangle.Height = (float)(rect.Height);
-                //}
                 InitTextBox();
                 TextBox.Bounds.Top = Rectangle.Top;
                 TextBox.Bounds.Left = Rectangle.Left;
@@ -104,7 +94,7 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    //SetAxisTitleRect(sc, axis);
+                    SetAxisTitleRect(sc, axis);
                 }
             }
 
@@ -112,7 +102,7 @@ namespace EPPlusImageRenderer.Svg
             Rectangle.SetDrawingPropertiesBorder(t.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
         }
 
-        private void SetAxisTitleRect(SvgChart sc, SvgChartAxis axis, RectBase rect)
+        private void SetAxisTitleRect(SvgChart sc, SvgChartAxis axis)
         {
             var margin = 8F;
             switch (axis.Axis.AxisPosition)
@@ -122,12 +112,10 @@ namespace EPPlusImageRenderer.Svg
                     Rectangle.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Left ? sc.Legend.Rectangle.Right : margin;                               
                     break;
                 case eAxisPosition.Bottom:
-                    Rectangle.Top = sc.ChartArea.Height - margin - rect.Height;
+                    Rectangle.Top = sc.ChartArea.Height - margin - Rectangle.Height;
                     Rectangle.Left = GetHorizontalLeft(sc);
                     break;
             }
-            Rectangle.Width = rect.Width;
-            Rectangle.Height = rect.Height;
         }
 
         private double GetHorizontalLeft(SvgChart sc)
