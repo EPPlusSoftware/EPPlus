@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Xml.Serialization;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
