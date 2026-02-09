@@ -1,5 +1,4 @@
 ﻿using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.Text;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;

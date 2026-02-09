@@ -11,7 +11,6 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlusImageRenderer.Svg;
-using EPPlusImageRenderer.Text;
 using OfficeOpenXml.Drawing;
 using System.Collections.Generic;
 using System.Globalization;
