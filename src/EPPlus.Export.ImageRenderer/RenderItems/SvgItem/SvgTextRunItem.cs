@@ -99,7 +99,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (double.IsNaN(ClippingHeight) == false && currentYEndPos >= ClippingHeight)
             {
-                visibility = " display=\"none\"";
+                //visibility = " display=\"none\"";
             }
             finalString += visibility;
             finalString += $"{GetFontStyleAttributes()}";

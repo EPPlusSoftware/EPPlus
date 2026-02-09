@@ -1227,9 +1227,12 @@ namespace EPPlus.Fonts.OpenType
                             ref maxWidth, ref lineWidth, ref wordWidth);
                         //Font/fragment change
                         currentFont = paragraph.FontIndexDict[fragmentIdx];
-                        if (paragraph.FontSizes[fragmentIdx] > CurrentLineLargestFontSize)
+                        if (paragraph.FontSizes[fragmentIdx] >= CurrentLineLargestFontSize)
                         {
-                            largestFontCurrentLine = currentFont;
+                            if(GetSingleLineSpacing(currentFont, paragraph.FontSizes[fragmentIdx]) > GetSingleLineSpacing(largestFontCurrentLine, CurrentLineLargestFontSize))
+                            {
+                                largestFontCurrentLine = currentFont;
+                            }
                             CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
                         }
                         spaceWidth = CalcGlyphWidth(paragraph.GlyphMappings[fragmentIdx], ' ', currentFont, ref lastGlyphIndex, ref applyKerning);
@@ -1286,7 +1289,10 @@ namespace EPPlus.Fonts.OpenType
                     {
                         if (paragraph.FontSizes[j] > CurrentLineLargestFontSize)
                         {
-                            largestFontCurrentLine = paragraph.FontIndexDict[j];
+                            if (GetSingleLineSpacing(paragraph.FontIndexDict[j], paragraph.FontSizes[j]) > GetSingleLineSpacing(largestFontCurrentLine, CurrentLineLargestFontSize))
+                            {
+                                largestFontCurrentLine = paragraph.FontIndexDict[j];
+                            }
                             CurrentLineLargestFontSize = paragraph.FontSizes[j];
                         }
                     }
@@ -1301,7 +1307,10 @@ namespace EPPlus.Fonts.OpenType
                     {
                         if (paragraph.FontSizes[j] > CurrentLineLargestFontSize)
                         {
-                            largestFontCurrentLine = paragraph.FontIndexDict[j];
+                            if (GetSingleLineSpacing(paragraph.FontIndexDict[j], paragraph.FontSizes[j]) > GetSingleLineSpacing(largestFontCurrentLine, CurrentLineLargestFontSize))
+                            {
+                                largestFontCurrentLine = paragraph.FontIndexDict[j];
+                            }
                             CurrentLineLargestFontSize = paragraph.FontSizes[j];
                         }
                     }
@@ -1423,8 +1432,6 @@ namespace EPPlus.Fonts.OpenType
             }
 
             AddDataToSimpleLine(currentTextLine, paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, paragraph.Fragments.TextFragments.Count() - 1);
-
-
             AddWidthToFragment(currentRtFragment, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, currentRtFragment.Fragidx);
 
             currentRtFragment.charStarIdxWithinCurrentLine = Math.Max(0, currentRtFragment.OverallParagraphStartCharIdx - prevLineBreakIndex);

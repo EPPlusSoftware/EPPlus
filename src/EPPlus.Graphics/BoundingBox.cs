@@ -8,8 +8,6 @@ namespace EPPlus.Graphics
 {
     internal class BoundingBox : Transform
     {
-        internal bool ClampedToParent { get; set; } = false;
-
         internal BoundingBox() : base()
         {
         }
@@ -89,7 +87,7 @@ namespace EPPlus.Graphics
                 return LocalPosition.X + Size.X;
             }
         }
-        internal double Width 
+        internal virtual double Width 
         {
             get
             {
@@ -101,7 +99,7 @@ namespace EPPlus.Graphics
             }        
         }
 
-        internal double Height
+        internal virtual double Height
         {
             get
             {
