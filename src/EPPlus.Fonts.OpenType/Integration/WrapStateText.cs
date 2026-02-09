@@ -14,24 +14,14 @@ using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
-    internal class WrapState
+    internal class WrapStateText : WrapStateBase
     {
-        public WrapState(double lineWidth, double spaceWidth)
+        public WrapStateText(double lineWidth, double spaceWidth)
         {
             CurrentLineWidth = lineWidth;
             SpaceWidth = spaceWidth;
         }
 
-        public int LineStart { get; set; }
-        public int WordStart { get; set; }
-        public double CurrentLineWidth { get; set; }
-        public double CurrentWordWidth { get; set; }
         public double SpaceWidth { get; set; }
-
-        public bool IsCompleteWordReady(CharacterType charType, int currentPosition)
-        {
-            return (charType == CharacterType.Space || charType == CharacterType.EndOfText)
-                   && WordStart < currentPosition; 
-        }
     }
 }
