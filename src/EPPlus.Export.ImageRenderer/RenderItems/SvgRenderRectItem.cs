@@ -19,6 +19,7 @@ using System.Text;
 using EPPlus.Graphics;
 using EPPlus.Export.ImageRenderer.Utils;
 using OfficeOpenXml.Drawing.Theme;
+using EPPlus.Fonts.OpenType.Utils;
 
 namespace EPPlusImageRenderer.RenderItems
 {
@@ -53,10 +54,10 @@ namespace EPPlusImageRenderer.RenderItems
         internal void RenderRect(StringBuilder sb)
         {
             sb.AppendFormat("<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\" ",
-                Left.ToString(CultureInfo.InvariantCulture),
-                Top.ToString(CultureInfo.InvariantCulture),
-                Width.ToString(CultureInfo.InvariantCulture),
-                Height.ToString(CultureInfo.InvariantCulture));
+                Left.PointToPixelString(),
+                Top.PointToPixelString(),
+                Width.PointToPixelString(),
+                Height.PointToPixelString());
             base.Render(sb);
             sb.AppendFormat("/>");
         }

@@ -837,32 +837,15 @@ namespace OfficeOpenXml.Drawing.Chart
             if (numberLiterals?.Length > 0)
             {
                 l.Add(numberLiterals.Length);
-                //for(int i=1;i<= numberLiterals?.Length;i++)
-                //{
-                //    hs.Add(i);
-                //}
             }
             else if (stringLiterals?.Length > 0)
             {
                 l.Add(stringLiterals.Length);
-                //for (int i = 1; i <= stringLiterals?.Length; i++)
-                //{
-                //    hs.Add(i);
-                //}
             }
             else
             {
                 var a = new ExcelAddressBase(address);
                 l.Add(Math.Max(a.Rows, a.Columns));
-                //var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
-                //int i = 1;
-                //if (ws != null)
-                //{
-                //    foreach (var c in ws.Cells[a.Address])
-                //    {
-                //        hs.Add(i++);
-                //    }
-                //}
             }
         }
 

@@ -17,15 +17,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     internal class SvgTextBodyItem : TextBodyItem
     {
-        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, bool clampedToParent = false) : base(renderer, parent)
+        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(renderer, parent, autoSize)
         {
             Bounds.ClampedToParent = clampedToParent;
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
-            //Bounds.Width = MaxWidth;
-            //Bounds.Height = MaxHeight;
         }
-        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false) : base(renderer, parent)
+        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false) : base(renderer, parent, false)
         {
             Bounds.Left = left;
             Bounds.Top = top;

@@ -22,11 +22,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// </summary>
     internal abstract class TextBodyItem : DrawingObject
     {
-        public TextBodyItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        public TextBodyItem(DrawingBase renderer, BoundingBox parent, bool autoSize) : base(renderer, parent)
         {
             Bounds.Name = "TxtBody";
-
             Bounds.Parent = parent;
+            AutoSize = autoSize;
         }
         public TextBodyItem(DrawingBase renderer, BoundingBox parent, double maxWidth, double maxHeight) : base(renderer, parent)
         {
@@ -34,7 +34,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Bounds.Parent = parent;
             MaxWidth = maxWidth;
             MaxHeight = maxHeight;
+            AutoSize = false;
         }
+        internal bool AutoSize { get; set; }
         internal double MaxWidth { get; set; }
         internal double MaxHeight { get; set; }
 
@@ -71,11 +73,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _text = text;
             if(Paragraphs.Count == 0)
             {
-                Bounds.Width = paragraph.Bounds.Width;
+                Bounds.Height = paragraph.Bounds.Height;
             }
             else
             {
-                Bounds.Width += paragraph.Bounds.Width;
+                Bounds.Height += paragraph.Bounds.Height;
+            }
+
+            if(Bounds.Width < paragraph.Bounds.Width)
+            {
+                Bounds.Width = paragraph.Bounds.Width;
             }
             Paragraphs.Add(paragraph);
         }
@@ -133,7 +140,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 Bounds.Height = paragraphStartY;
             }
         }
-
         private double GetParagraphAscendantSpacingInPixels(eDrawingTextLineSpacing lineSpacingType, double spacingValue, ITextMeasurerWrap fmExact, out double multiplier)
         {
             if (lineSpacingType == eDrawingTextLineSpacing.Exactly)

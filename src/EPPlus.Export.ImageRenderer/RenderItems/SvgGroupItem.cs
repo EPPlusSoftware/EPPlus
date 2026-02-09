@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Theme;
@@ -43,7 +44,7 @@ namespace EPPlusImageRenderer.RenderItems
             Bounds = bounds;
             if (Bounds.Left != 0 || Bounds.Top != 0)
             {
-                GroupTransform = $"transform=\"translate({Bounds.Left.ToString(CultureInfo.InvariantCulture)}, {Bounds.Top.ToString(CultureInfo.InvariantCulture)})\"";
+                GroupTransform = $"transform=\"translate({Bounds.Left.PointToPixelString()}, {Bounds.Top.PointToPixelString()})\"";
             }
         }
         internal SvgGroupItem(DrawingBase renderer, BoundingBox parent, double rotation) : base(renderer, parent)
@@ -53,7 +54,7 @@ namespace EPPlusImageRenderer.RenderItems
             Bounds = parent;
             if (Bounds.Left!=0 || Bounds.Top!=0)
             {
-                bounds = $"translate({Bounds.Left.ToString(CultureInfo.InvariantCulture)}, {Bounds.Top.ToString(CultureInfo.InvariantCulture)})";
+                bounds = $"translate({Bounds.Left.PointToPixelString()}, {Bounds.Top.PointToPixelString()})";
             }
             if(rotation!=0)
             {
@@ -94,11 +95,6 @@ namespace EPPlusImageRenderer.RenderItems
                 sb.Append($"<g {GroupTransform}>");
             }
         }
-
-        //internal override SvgRenderItem Clone(SvgShape svgDocument)
-        //{
-        //    return this.Clone(svgDocument);
-        //}
 
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {

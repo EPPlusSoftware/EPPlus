@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlusImageRenderer.Svg;
@@ -92,10 +93,10 @@ namespace EPPlusImageRenderer.RenderItems
         public override void Render(StringBuilder sb)
         {
             sb.AppendFormat("<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" ", 
-                X1.ToString(CultureInfo.InvariantCulture), 
-                Y1.ToString(CultureInfo.InvariantCulture), 
-                X2.ToString(CultureInfo.InvariantCulture), 
-                Y2.ToString(CultureInfo.InvariantCulture));
+                X1.PointToPixelString(), 
+                Y1.PointToPixelString(), 
+                X2.PointToPixelString(), 
+                Y2.PointToPixelString());
             base.Render(sb);
             if(LineCap!=eLineCap.Flat)
             {

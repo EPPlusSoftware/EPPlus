@@ -511,20 +511,20 @@ namespace TestProject1
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 0;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
                 var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
-                }
+                var c = ws.Drawings[ix];
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
+                //var ix = 1;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = renderer.RenderDrawingToSvg(c);
+                //    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                //}
             }
         }
         [TestMethod]
-            public void GenerateSvgForLineCharts()
+        public void GenerateSvgForLineCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("LineChartRenderTest.xlsx"))
