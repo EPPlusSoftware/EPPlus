@@ -10,11 +10,11 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
     {
         private readonly string BaseFont;
         private readonly string Encoding;
-        private readonly int[] DescendantFontsObjectNumbers;
+        private readonly int DescendantFontsObjectNumbers;
 
         private readonly int ToUnicodeObjectNumber;
 
-        public PdfType0FontDict(int objectNumber, string basefont, string encoding, int[] descendantFontsObjectNumbers, int toUnicodeObjectNumber = -1, int version = 0)
+        public PdfType0FontDict(int objectNumber, string basefont, string encoding, int descendantFontsObjectNumbers, int toUnicodeObjectNumber = -1, int version = 0)
             : base(objectNumber, version)
         {
             BaseFont = basefont;
@@ -25,13 +25,13 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
 
         internal override string RenderDictionary()
         {
-            var DescendantFonts = string.Join(" ", DescendantFontsObjectNumbers.Select(w => ($"{w} 0 R ").ToString()).ToArray());
+            //var DescendantFonts = string.Join(" ", DescendantFontsObjectNumbers.Select(w => ($"{w} 0 R ").ToString()).ToArray());
             var sb = new StringBuilder();
             sb.AppendFormat($"<<  /Type /Font\n" +
                             $"    /SubType /Type0\n" +
                             $"    /BaseFont /{BaseFont}\n" +
                             $"    /Encoding /{Encoding}\n" +
-                            $"    /DescendantFonts [{DescendantFonts}]\n");
+                            $"    /DescendantFonts [{DescendantFontsObjectNumbers}]\n");
             if (ToUnicodeObjectNumber > 0)
             {
                 sb.AppendFormat($"\n    /ToUnicode {ToUnicodeObjectNumber}");

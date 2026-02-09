@@ -31,6 +31,11 @@ namespace EPPlus.Export.Pdf.PdfSettings
         public bool SearchSystemDirectories = true;
 
         /// <summary>
+        /// If true, subsetted fonts will be embedded into the PDF document.
+        /// </summary>
+        public bool EmbeddFonts = true;
+
+        /// <summary>
         /// The order in how to create pages.
         /// </summary>
         public PageOrders PageOrders = PageOrders.DownThenOver;

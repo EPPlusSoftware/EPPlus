@@ -40,7 +40,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             Name = worksheet.Name + " Catalog";
             var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, dictionaries));
-            CreateFonSubsets(pageSettings, dictionaries.Fonts);
+            CreateFontSubsets(pageSettings, dictionaries.Fonts);
             string wsLayout = ToHierarchyString();
             var PagesLayout = CreatePagesLayoutObject();
             CreatePageLayoutObjects(worksheet, pageSettings, WorksheetLayout as PdfWorksheetLayout, PagesLayout);
@@ -55,6 +55,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
             RemoveChild(WorksheetLayout);
             AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
             string FinalPagesLayout = ToHierarchyString();
+        }
+
+        private void CreateFontSubsets(PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fonts)
+        {
+            foreach (var font in fonts)
+            {
+                font.Value.CreateSubset();
+            }
         }
 
         //Create the pages layout.

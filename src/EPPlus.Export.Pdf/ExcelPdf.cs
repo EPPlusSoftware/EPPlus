@@ -24,6 +24,7 @@ using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using OfficeOpenXml.Style;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Export.Pdf.PdfObjects.PdfFonts;
 
 namespace EPPlus.Export.Pdf
 {
@@ -126,14 +127,29 @@ namespace EPPlus.Export.Pdf
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new?
         internal void AddFontData()
         {
-            foreach (var font in Dictionaries.Fonts)
+            if (PageSettings.EmbeddFonts)
             {
-                if (font.Key != "Courier New")
+                foreach (var font in Dictionaries.Fonts)
+                {
+                    Document.Add(font.Value.GetEmbeddedFontStreamObject(Document.Count + 1));
+                    Document.Add(font.Value.GetFontDescriptorObject(Document.Count + 1));
+                    Document.Add(font.Value.GetCIDFontObject(Document.Count + 1));
+                    Document.Add(font.Value.GetUnicodeCmapObject(Document.Count + 1));
+                    Document.Add(font.Value.GetType0FontDictObject(Document.Count + 1));
+                    if (font.Value.fontData.IsSubset)
+                    {
+                        //build cid set?
+                    }
+                }
+            }
+            else
+            {
+                foreach (var font in Dictionaries.Fonts)
                 {
                     Document.Add(font.Value.GetFontDescriptorObject(Document.Count + 1));
                     Document.Add(font.Value.GetWidthsObject(Document.Count + 1));
+                    Document.Add(font.Value.GetFontObject(Document.Count + 1));
                 }
-                Document.Add(font.Value.GetFontObject(Document.Count + 1));
             }
         }
 

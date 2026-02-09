@@ -1,10 +1,12 @@
-﻿using OfficeOpenXml.Encryption;
+﻿using EPPlus.Fonts.OpenType;
+using OfficeOpenXml.Encryption;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingConstants;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
 {
@@ -27,14 +29,21 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         private readonly List<object> W2;                       // Vertical writing metrics
         private readonly object CIDToGIDMap;                    // Can be string "Identity" or stream reference
 
-        public PdfCIDFont(int objectNumber, CIDFontSubtype subtype, string baseFont, CIDSystemInfo CIDSystemInfoObject, int fontDescriptorObjectNumber, int? dw = null, List<object> w = null, int[] dw2 = null, List<object> w2 = null, object CIDToGDI = null, int version = 0)
+        private HashSet<char> Subset;
+        OpenTypeFont FontData;
+
+        public PdfCIDFont(int objectNumber, OpenTypeFont fontData, HashSet<char> subset, CIDFontSubtype subtype, CIDSystemInfo CIDSystemInfoObject, int fontDescriptorObjectNumber, int? dw = null, List<object> w = null, int[] dw2 = null, List<object> w2 = null, object CIDToGDI = null, int version = 0)
             : base(objectNumber, version)
         {
             Subtype = subtype;
-            BaseFont = baseFont;
+            BaseFont = fontData.FullName;
             CIDInfoObject = CIDSystemInfoObject;
             FontDescriptorObjectNumber = fontDescriptorObjectNumber;
-            DW = dw;
+
+            FontData = fontData;
+            Subset = subset;
+
+            DW = (int)Math.Round(1000.0d * 1000.0d / FontData.HeadTable.UnitsPerEm);//dw;
             W = w;
             DW2 = dw2;
             W2 = w2;
@@ -56,7 +65,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             if (W != null)
             {
                 var widthsStr = string.Join(" ", W.Select(w => w.ToString()).ToArray());
-                sb.AppendFormat($"\n    /W [{widthsStr}]");
+                sb.AppendFormat($"\n    /W [{BuildWidthsArray()}]");
             }
             if (DW2 != null)
             {
@@ -75,6 +84,31 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
                     sb.AppendFormat($"\n    /CIDToGIDMap /Identity");
             }
             sb.Append(" >>");
+            return sb.ToString();
+        }
+
+        private string BuildWidthsArray()
+        {
+            var sortedGids = Subset.OrderBy(g => g).ToList();
+            var sb = new StringBuilder();
+
+            int i = 0;
+            while (i < sortedGids.Count)
+            {
+                ushort startGid = sortedGids[i];
+                var widths = new List<int>();
+
+                while (i < sortedGids.Count && sortedGids[i] == startGid + widths.Count)
+                {
+                    int rawWidth = FontData.HmtxTable.GetAdvanceWidth(sortedGids[i]);
+                    int scaledWidth = (int)Math.Round( 1000.0d * rawWidth / FontData.HeadTable.UnitsPerEm);
+                    widths.Add(scaledWidth);
+                    i++;
+                }
+                sb.Append($"{startGid} [");
+                sb.Append(string.Join(" ", widths.Select(w => w.ToString()).ToArray()));
+            }
+            sb.Append("]");
             return sb.ToString();
         }
     }

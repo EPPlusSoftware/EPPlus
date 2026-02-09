@@ -25,11 +25,18 @@ namespace EPPlus.Export.Pdf.PdfResources
     {
         internal string fontName;
         internal int fontObjectNumber = -1;
-        internal int descObjectNumber = -1;
-        internal int widthObjectNumber = -1;
+        internal int CIDFontObjectNumber = -1;
+        internal int type0FontObjectNumber = -1;
+        internal int unicodeCMapFontObjectNumber = -1;
+        internal int embedFontStreamObjectNumber = -1;
+        internal int fontDescObjectNumber = -1;
+        internal int fontWidthObjectNumber = -1;
         internal OpenTypeFont fontData;
         private int firstChar = 32;
         private int lastChar = 255;
+        private CIDSystemInfo cidSystemInfo = null;
+
+        internal string type0Encoding = "Identity-H";
 
         internal HashSet<char> Subset = new HashSet<char>();
 
@@ -94,7 +101,7 @@ namespace EPPlus.Export.Pdf.PdfResources
             fontBBox.Y = fontData.HeadTable.Ymin;
             fontBBox.Width = fontData.HeadTable.Xmax;
             fontBBox.Height = fontData.HeadTable.Ymax;
-            descObjectNumber = objectNumber;
+            fontDescObjectNumber = objectNumber;
             return new PdfFontDescriptor
             (
                 objectNumber,
@@ -106,6 +113,7 @@ namespace EPPlus.Export.Pdf.PdfResources
                 fontData.Os2Table.sTypoDescender,
                 0,
                 fontData.Os2Table.sCapHeight,
+                embedFontStreamObjectNumber,
                 version
             );
         }
@@ -132,7 +140,7 @@ namespace EPPlus.Export.Pdf.PdfResources
                     widths.Add(normalizedWidth);
                 }
             }
-            widthObjectNumber = objectNumber;
+            fontWidthObjectNumber = objectNumber;
             return new PdfFontWidths(objectNumber, widths, version);
         }
 
@@ -140,28 +148,40 @@ namespace EPPlus.Export.Pdf.PdfResources
         internal PdfFont GetFontObject(int objectNumber, int version = 0)
         {
             fontObjectNumber = objectNumber;
-            return new PdfFont(objectNumber, fontName, PdfFontSubType.Type1, firstChar, lastChar, widthObjectNumber, descObjectNumber, PdfFontEncoding.WinAnsiEncoding);
+            return new PdfFont(objectNumber, fontName, PdfFontSubType.Type1, firstChar, lastChar, fontWidthObjectNumber, fontDescObjectNumber, PdfFontEncoding.WinAnsiEncoding);
         }
 
         internal PdfCIDFont GetCIDFontObject(int objectNumber, int version = 0)
         {
-            fontObjectNumber = objectNumber;
-            CIDSystemInfo cidSystemInfo = new CIDSystemInfo();
-            return new PdfCIDFont(objectNumber, CIDFontSubtype.CIDFontType0, "", cidSystemInfo, -1);
+            CIDFontObjectNumber = objectNumber;
+            if (cidSystemInfo == null)
+            {
+                cidSystemInfo = new CIDSystemInfo();
+            }
+            cidSystemInfo.Registry = "(Adobe)";
+            cidSystemInfo.Ordering = "(Identity)";
+            cidSystemInfo.Supplement = 0;
+            return new PdfCIDFont(objectNumber, fontData, CIDFontSubtype.CIDFontType0, cidSystemInfo, fontDescObjectNumber);
         }
 
         internal PdfType0FontDict GetType0FontDictObject(int objectNumber, int version = 0)
         {
-            fontObjectNumber = objectNumber;
+            type0FontObjectNumber = objectNumber;
             int[] descendantRefs = new int[1] { -1 };
-            return new PdfType0FontDict(objectNumber, "", "", descendantRefs );
+            return new PdfType0FontDict(objectNumber, fontData.FullName, type0Encoding, descendantRefs );
         }
 
         internal PdfToUnicodeCMap GetUnicodeCmapObject(int objectNumber, int version = 0)
         {
-            fontObjectNumber = objectNumber;
-            var charactermappings = fontData //get cmap from font.
+            unicodeCMapFontObjectNumber = objectNumber;
+            var charactermappings = fontData; //get cmap from font.
             return new PdfToUnicodeCMap(objectNumber, charactermappings);
+        }
+
+        internal PdfFontStream GetEmbeddedFontStreamObject(int objectNumber, int version = 0)
+        {
+            embedFontStreamObjectNumber = objectNumber;
+            return new PdfFontStream(objectNumber, fontData, version);
         }
     }
 }

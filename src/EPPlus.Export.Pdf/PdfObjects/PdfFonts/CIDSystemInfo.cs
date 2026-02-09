@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
 {
-    internal struct CIDSystemInfo
+    internal class CIDSystemInfo
     {
         public string Registry { get; set; }
         public string Ordering { get; set; }

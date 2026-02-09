@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Graphics;
 using System;
+using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
 {
@@ -42,10 +43,10 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         private readonly int descent;
         private readonly double stemV;
         private readonly int capheight;
+        private readonly int FontFile2ObjectNumber;
 
 
-
-        public PdfFontDescriptor(int objectNumber, string fontName, int flags, Rect fontBBox, double italicAngle, int ascent, int descent, double stemV, int capHeight, int version = 0)
+        public PdfFontDescriptor(int objectNumber, string fontName, int flags, Rect fontBBox, double italicAngle, int ascent, int descent, double stemV, int capHeight, int fontFile2ObjectNumber = -1, int version = 0)
             : base(objectNumber, version)
         {
             this.fontName = fontName;
@@ -56,19 +57,27 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             this.descent = descent;
             this.stemV = stemV;
             capheight = capHeight;
+            FontFile2ObjectNumber = fontFile2ObjectNumber;
         }
 
         internal override string RenderDictionary()
         {
-            return $"<<  /Type /FontDescriptor\n" +
-                    $"   /FontName /{fontName.Replace(" ", "")}\n" +
-                    $"   /Flags {flags}\n" +
-                    $"   /FontBBox [{fontBBox.X} {fontBBox.Y} {fontBBox.Width} {fontBBox.Height}]\n" +
-                    $"   /Ascent {ascent}\n" +
-                    $"   /Descent {descent}\n" +
-                    $"   /CapHeight {capheight}\n" +
-                    $"   /ItalicAngle {(int)italicAngle}\n" +
-                    $"   /StemV {(int)stemV} >>";
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat($"<<  /Type /FontDescriptor\n" +
+                            $"    /FontName /{fontName.Replace(" ", "")}\n" +
+                            $"    /Flags {flags}\n" +
+                            $"    /FontBBox [{fontBBox.X} {fontBBox.Y} {fontBBox.Width} {fontBBox.Height}]\n" +
+                            $"    /Ascent {ascent}\n" +
+                            $"    /Descent {descent}\n" +
+                            $"    /CapHeight {capheight}\n" +
+                            $"    /ItalicAngle {(int)italicAngle}\n" +
+                            $"    /StemV {(int)stemV}");
+            if (FontFile2ObjectNumber > 0)
+            {
+                sb.AppendFormat($"\n    /FontFile2 {FontFile2ObjectNumber} 0 R");
+            }
+            sb.AppendFormat(" >>");
+            return sb.ToString();
         }
     }
 }
