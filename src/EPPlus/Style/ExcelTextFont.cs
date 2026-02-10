@@ -310,7 +310,7 @@ namespace OfficeOpenXml.Style
             if (bold) Bold = bold;
             if (italic) Italic = italic;
             if (underline) UnderLine = eUnderLineType.Single;
-            if (strikeout) Strike = eStrikeType.Single;            
+            if (strikeout) Strike = eStrikeType.Single;
         }
     }
 }

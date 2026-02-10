@@ -6,6 +6,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.RichData;
 using OfficeOpenXml.SystemDrawing.Image;
 using OfficeOpenXml.SystemDrawing.Text;
 using System;
@@ -1049,5 +1050,67 @@ namespace EPPlusTest.Issues
 
             Assert.AreEqual("B2", dbv.Address);
         }
+        [TestMethod]
+        public void i2240()
+        {
+            using (var package = OpenTemplatePackage("i2240.xlsx"))
+            {
+                var theText = package.Workbook.Worksheets.First().HeaderFooter.OddFooter.LeftAlignedText;
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void testRepro()
+        {
+            SwitchToCulture("");
+            using (ExcelPackage p = OpenTemplatePackage("reproTimesheets - Copy.xlsx"))
+            {
+                var Styles = p.Workbook.Styles;
+
+                p.Workbook.Worksheets[0].Cells["A10"].Style.Font.Bold = true;
+                p.Workbook.Worksheets[0].Cells["A10"].Value = "Debugging";
+
+                p.Workbook.Worksheets.Add("SomeSheet");
+                p.Workbook.Worksheets[1].Cells["A10"].Value = "Debugging2";
+
+                Stream fs = File.Create(("C:\\epplusTest\\Testoutput\\" + "reproTimesheets.xlsx").Replace("file://", ""));
+                p.SaveAs(fs);
+                fs.Close();
+            }
+            SwitchBackToCurrentCulture();
+        }
+
+        [TestMethod]
+        public void i2258()
+        {
+            var p = OpenTemplatePackage("repro2.xlsx");
+            var ws = p.Workbook.Worksheets.First();
+
+            var a1 = ws.Cells["A1"].Text;
+            Assert.AreEqual("-/- 1 000", a1);
+
+            var b1 = ws.Cells["B1"].Text;
+            Assert.AreEqual("-/- 2 000", b1);
+
+            var c1 = ws.Cells["C1"].Text;
+            Assert.AreEqual("3 000,00", c1);
+
+            var d1 = ws.Cells["D1"].Text;
+            Assert.AreEqual("(4000,000)", d1);
+
+            var a3 = ws.Cells["A3"].Text;
+            Assert.AreEqual("1000,000", a3);
+
+            var b3 = ws.Cells["B3"].Text;
+            Assert.AreEqual("(2000,000)", b3);
+            
+            var c3 = ws.Cells["C3"].Text;
+            Assert.AreEqual("-3000,000", c3);
+            
+            var d3 = ws.Cells["D3"].Text;
+            Assert.AreEqual("Negative 4000,000", d3);
+        }
+
     }
 }

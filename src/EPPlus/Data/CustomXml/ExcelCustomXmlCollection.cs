@@ -63,6 +63,10 @@ namespace OfficeOpenXml.Data.CustomXml
         {
             _list.Add(customXml);
         }
+        internal bool Contains(ExcelCustomXml customXml)
+        {
+            return _list.Contains(customXml);
+        }
         internal void Remove(ExcelCustomXml customXml)
         {
             _package.ZipPackage.DeletePart(customXml.Part.Uri);

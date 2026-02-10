@@ -1,4 +1,26 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.4.2
+* Fixed an issue where the ExcelRange.Text property could format negative values with double minus signs in rare cases.
+* Fixed a performance issue when using FollowDependencyChain = false in the Calculate method. With this option, EPPlus no longer calculates dependent cells or dynamic array formula spills.
+* Fixed an issue where the ExcelPowerQueryMetadataItem class parsed dates using the supplied culture instead of the invariant culture, which could cause an unhandled exception.
+* Fixed an issue where a workbook could become corrupt when EPPlus adjusted the XML ignorable namespace list.
+* Fixed an unhandled exception that occurred when saving a workbook containing a customXml property file without a schemaRefs file.
+
+## Version 8.4.1
+* Fixes several issues related to expanding (spilling) and contracting dynamic array formulas.
+	* Changing cell dependencies were not taken into account when recalculating dirty cells from dynamic array formulas.
+	* Clearing dynamic array formulas that reduced in size did not work correctly.
+	* Cells containing formulas with the INDIRECT function are now always treated as dynamic.
+* Invalid UTF-16 surrogate sequences in comment text are now sanitized before XML generation to prevent ´XmlException´.
+* Using the [@page] attribute in headers or footers did not return the next character in some cases.
+* The FILTER function always returned the third parameter if it contained an error value (for example, #VALUE!).
+* The FACT function returned (n-1)! instead of n!.
+* Formula inline arrays did not correctly convert scientific notation (for example, 1.0E-305) to numbers.
+* Defined names could use the wrong scope when a name existed in both worksheet and workbook scope and a formula was calculated using the ´Calculate(formula)´ method.
+* Using the ^ operator on non-numeric values returned 0 instead of #VALUE!.
+* Inserting columns into an empty worksheet throw an ´ArgumentExceptio´n when inserting more than 8 columns.
+* GROWTH and TREND did not handle a single-value newX parameter correctly.
+
 ## Version 8.4.0
 ### Features
 * Added targeting framework .NET 10.

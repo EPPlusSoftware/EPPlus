@@ -58,6 +58,7 @@ using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Data.QueryTable;
 using OfficeOpenXml.Data.Connection.IOHandlers;
+using System.Security.Permissions;
 
 namespace OfficeOpenXml
 {
@@ -85,8 +86,8 @@ namespace OfficeOpenXml
         {
             internal uint cm;
             internal uint vm;
-            internal bool aca;
-            internal bool ca;
+            //internal bool aca; //Removed, is set as a flag instead in the _flags store.
+            //internal bool ca;  //Removed, is set as a flag instead in the _flags store.
         }
         /// <summary>
         /// Removes all formulas within the entire worksheet, but keeps the calculated values.
@@ -2636,6 +2637,10 @@ namespace OfficeOpenXml
         {
             foreach (ExcelComment comment in _comments)
             {
+                foreach(var rt in comment.RichText)
+                {
+                    rt.Text = StringUtil.SanitizeUtf16(rt.Text);
+                }
                 var textNode = comment._commentHelper.GetNode("d:text");
                 textNode.InnerXml = comment.RichText.GetXML();
             }
@@ -2873,7 +2878,18 @@ namespace OfficeOpenXml
             }
             else
             {
-                var ignorablesConcatenated = string.Concat(mcIgnorables);
+                string ignorablesConcatenated = "";
+                for (int i = 0; i < mcIgnorables.Count; i++)
+                {
+                    if(i == 0)
+                    {
+                        ignorablesConcatenated += $"{mcIgnorables[i]}";
+                    }
+                    else
+                    {
+                        ignorablesConcatenated += $" {mcIgnorables[i]}";
+                    }
+                }
 
                 WorksheetXml.DocumentElement.SetAttributeNode("Ignorable", ExcelPackage.schemaMarkupCompatibility);
                 WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, ignorablesConcatenated);

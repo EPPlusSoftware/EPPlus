@@ -82,6 +82,34 @@ namespace OfficeOpenXml
                 workbook.FormulaParser.Logger.Log(msg);
             }
         }
+        internal static RpnOptimizedDependencyChain CalculateWithDC(this ExcelWorkbook workbook, Action<ExcelCalculationOption> configHandler)
+        {
+            var option = new ExcelCalculationOption();
+            configHandler.Invoke(option);
+            return CalculateWithDC(workbook, option);
+        }
+        internal static RpnOptimizedDependencyChain CalculateWithDC(this ExcelWorkbook workbook, ExcelCalculationOption options)
+        {
+            Init(workbook);
+
+            var filterInfo = new FilterInfo(workbook);
+            workbook.FormulaParser.InitNewCalc(filterInfo);
+
+            if (workbook.FormulaParser.Logger != null)
+            {
+                var msg = string.Format("Starting formula calculation.");
+                workbook.FormulaParser.Logger.Log(msg);
+            }
+
+            //CalcChain(workbook, workbook.FormulaParser, dc, options);
+            var dc = RpnFormulaExecution.Execute(workbook, options);
+            if (workbook.FormulaParser.Logger != null)
+            {
+                var msg = string.Format("Calculation done...number of cells parsed: {0}", dc.processedCells.Count);
+                workbook.FormulaParser.Logger.Log(msg);
+            }
+            return dc;
+        }
         /// <summary>
         /// Calculate all formulas in the current worksheet
         /// </summary>
