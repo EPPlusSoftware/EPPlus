@@ -8,6 +8,8 @@ using OfficeOpenXml;
 using System.IO;
 using System.Globalization;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.FormulaParsing;
+
 namespace EPPlusTest
 {
 	[TestClass]
@@ -414,6 +416,68 @@ namespace EPPlusTest
             SaveWorkbook("i1839-saved.xlsx", p);
         }
 
+        //[TestMethod]
+        //public void DirtyRichText()
+        //{
+        //    using(var pck = OpenPackage("dirtyRT.xlsx"))
+        //    {
+        //        var ws = pck.Workbook.Worksheets.Add("richText");
+
+        //        ws.Cells["A1"].Value = 1001.1d;
+        //        ws.Cells["C1"].Formula = "ROUND(A1, 1)";
+        //        ws.Cells["B1"].Formula = "\"My favorite number is: \"&TEXT(ROUND(A1,1),\"#,##0.00;(#,##0.00)\")";
+        //        ws.Cells["B1"].RichText.Add("My favorite number is: 1001.1", true);
+        //        var cell1 = ws.Cells["B1"];
+
+        //        var origRT = cell1.RichText;
+        //        //var origText = cell1.Text;
+
+        //        ws.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+        //        var afterRt1 = cell1.Text;
+        //        var cellRich = ws.Cells["B1"].RichText.Text; //A FRESH reference to the cell, yielding: 1001,10000
+
+
+        //        var OLDCellRich = cell1.RichText.Text; //Dirty COPY of the cell and its values, yielding: 1001.1\n
+
+        //        bool myBreak = true;//Place a breakpoint here
+        //        //If you in debug look at cell1.>RichText.Text<
+        //        //The debugger shows the value of the variable 'OLDCellRich'
+        //        //If you look at >cell1<.RichText.Text (open the dropdonwn) and then look at cell1.>RichText.Text<
+        //        //its value is now changed and no longer matches 'OLDCellRich'.
+        //        //Looking at the value in the debugger changes the actual value but not OLDCellRich
+
+        //        //Conclusion: Debugging and observing values changes what the value is.
+        //        //This is... unfortunate.
+
+        //        //Verification. This assert should be impossible to fail here.
+        //        //No real code change has been made
+        //        var OLDCellRichAfterDebug = cell1.RichText.Text;
+        //        Assert.AreEqual(OLDCellRich, OLDCellRichAfterDebug);
+
+        //        //If assert above is thrown you debugged correctly to cause the issue. If not:
+        //        //For clarification this assert throws no matter how you debug:
+        //        ws.Cells["B1"].Clear();
+        //        ws.Cells["B1"].Formula = "\"My favorite number is: \"&TEXT(ROUND(A1,1),\"#,##0.00;(#,##0.00)\")";
+        //        ws.Cells["B1"].RichText.Add("My favorite number is: 1001.1", true);
+
+        //        var newCell1 = ws.Cells["B1"];
+        //        var origRt2 = newCell1.RichText;
+
+        //        ws.Calculate();
+        //        var secondCalc = newCell1.Text;
+
+        //        var myRef = ws.Cells["B1"].RichText.Text; //A FRESH reference to the cell, yielding: 1001,10000
+        //        var myCopy = newCell1.RichText.Text; //Dirty COPY of the cell and its values, yielding: 1001.1\n
+
+        //        //Just Get the text (Note even looking at the properties in debug causes this to evaluate)
+        //        var observation = newCell1.RichText;
+
+        //        var myCopyPostObservartion = newCell1.RichText.Text;
+
+        //        Assert.AreEqual(myCopy, myCopyPostObservartion);
+        //    }
+        //}
+
         [TestMethod]
         public void s1005()
         {
@@ -421,40 +485,90 @@ namespace EPPlusTest
 
             if (!ExcelPackageSettings.CultureSpecificBuildInNumberFormats.ContainsKey("de-DE"))
             {
-                  ExcelPackageSettings.CultureSpecificBuildInNumberFormats.Add("de-DE",
-                  new Dictionary<int, string>
-                  {
-                    {14, "dd.mm.yyyy"},
-                    {15, "dd. mmm yy"},
-                    {16, "dd. mmm"},
-                    {17, "mmm yy"},
-                    {18, "hh:mm AM/PM" },
-                    {22, "dd.mm.yyyy hh:mm"},
-                    {39, "#,##0.00;-#,##0.00"},
-                    {47, "mm:ss,f"}
-                   });
+                ExcelPackageSettings.CultureSpecificBuildInNumberFormats.Add("de-DE",
+                new Dictionary<int, string>
+                {
+                    {14,"dd.MM.yyyy"},
+                    {15,"dd. MMM yy"},
+                    {16,"dd. MMM"},
+                    {17,"MMM yy"},
+                    {18,"hh:mm AM/PM" },
+                    {22,"dd.MM.yyyy hh:mm"},
+                    {37,"#,##0;-#,##0"},
+                    {38,"#,##0;[Rot]-#,##0"},
+                    {39,"#,##0.00;-#,##0.00"},
+                    {40,"#,##0.00;[Rot]-#,##0.00"},
+                    {47,"mm:ss,f"}
+                });
             }
+
 
             using (var p = OpenTemplatePackage("DE - Original.xlsx"))
             {
+                p.Workbook.NumberFormatToTextHandler = CustomNumberFormatToTextHandler;
+
                 var ws1 = p.Workbook.Worksheets[1];
 
-                var cell1 = ws1.Cells["D8"];
-                var cell2 = ws1.Cells["F8"];
-                var origText = cell1.Text;  //The text lacks thousand seperator
-                var origText2 = cell2.Text; //The text lacks thousand seperator
+                var origText = ws1.Cells["D8"].Text;
 
-                p.Workbook.Calculate();
-                var calc11Text = cell1.Text; //The text now contains the thousand seperator
-                var calc12Text = cell2.Text; //The text now contains the thousand seperator
+                ws1.Cells["D8"].Calculate();
+                var cellRich = ws1.Cells["D8"].RichText.Text;
 
-                var stopPoint = true;
-
+                Assert.AreEqual("Zahlung einer Dividende von EUR 0,80 je Stückaktie (26.895.559,00)\nauf das Grundkapital von 69.928.453,64 EUR", cellRich);
 
                 SaveAndCleanup(p);
             }
 
             SwitchBackToCurrentCulture();
+        }
+
+        private static string CustomNumberFormatToTextHandler(NumberFormatToTextArgs options)
+        {
+            var result = options.Text;
+
+            switch (options.Value)
+            {
+                case DateTime dt:
+                    {
+                        if (dt.Millisecond >= 500)
+                            dt = dt.AddSeconds(1).AddMilliseconds(-dt.Millisecond);
+
+                        switch (options.NumberFormat.Format)
+                        {
+                            case "[h]:mm:ss":
+                                var excelTime = dt - new DateTime(1899, 12, 30);
+                                result = $"{(int)excelTime.TotalHours}:{dt.Minute:00}:{dt.Second:00}";
+                                break;
+                            case "h:mm AM/PM":
+                            case "hh:mm AM/PM":
+                                result = dt.ToString("hh:mm tt", CultureInfo.InvariantCulture);
+                                break;
+                            case "h:mm:ss AM/PM":
+                            case "hh:mm:ss AM/PM":
+                                result = dt.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture);
+                                break;
+                            default:
+                                result = dt.ToString(options.NumberFormat.Format);
+                                break;
+                        }
+
+                        break;
+                    }
+                case double d:
+                    {
+                        switch (options.NumberFormat.Format)
+                        {
+                            case "#,##0.00;[Rot]-#,##0.00":
+                            case "#,##0;[Rot]-#,##0":
+                                result = d.ToString("N2", CultureInfo.InvariantCulture);
+                                break;
+                        }
+
+                        break;
+                    }
+            }
+
+            return result;
         }
 
         public class TestData
