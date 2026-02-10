@@ -31,10 +31,10 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
                             $"    /SubType /Type0\n" +
                             $"    /BaseFont /{BaseFont}\n" +
                             $"    /Encoding /{Encoding}\n" +
-                            $"    /DescendantFonts [{DescendantFontsObjectNumbers}]\n");
+                            $"    /DescendantFonts [{DescendantFontsObjectNumbers} 0 R]");
             if (ToUnicodeObjectNumber > 0)
             {
-                sb.AppendFormat($"\n    /ToUnicode {ToUnicodeObjectNumber}");
+                sb.AppendFormat($"\n    /ToUnicode {ToUnicodeObjectNumber} 0 R");
             }
             sb.Append(" >>");
             return sb.ToString();

@@ -18,6 +18,8 @@ using System;
 using System.Collections.Generic;
 using EPPlus.Graphics;
 using EPPlus.Export.Pdf.PdfLayout;
+using EPPlus.Fonts.OpenType.TextShaping;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 
 namespace EPPlus.Export.Pdf.PdfResources
 {
@@ -38,6 +40,9 @@ namespace EPPlus.Export.Pdf.PdfResources
 
         internal string type0Encoding = "Identity-H";
 
+        internal TextShaper Shaper = null;
+        internal List<ShapedText> Shaped = new List<ShapedText>();
+
         internal HashSet<char> Subset = new HashSet<char>();
 
         public PdfFontResource(string fontName, FontSubFamily subFamily, int labelNumber, PdfPageSettings pageSettings)
@@ -45,6 +50,7 @@ namespace EPPlus.Export.Pdf.PdfResources
         {
             this.fontName = fontName;
             fontData = OpenTypeFonts.GetFontData(pageSettings.FontDirectories, fontName, subFamily, pageSettings.SearchSystemDirectories);
+            Shaper = new TextShaper(fontData);
         }
 
         internal void CreateSubset()
@@ -158,24 +164,47 @@ namespace EPPlus.Export.Pdf.PdfResources
             {
                 cidSystemInfo = new CIDSystemInfo();
             }
-            cidSystemInfo.Registry = "(Adobe)";
-            cidSystemInfo.Ordering = "(Identity)";
+            cidSystemInfo.Registry = "Adobe";
+            cidSystemInfo.Ordering = "Identity";
             cidSystemInfo.Supplement = 0;
-            return new PdfCIDFont(objectNumber, fontData, CIDFontSubtype.CIDFontType0, cidSystemInfo, fontDescObjectNumber);
+            return new PdfCIDFont(objectNumber, fontData, Subset, CIDFontSubtype.CIDFontType0, cidSystemInfo, "Identity", fontDescObjectNumber);
         }
 
         internal PdfType0FontDict GetType0FontDictObject(int objectNumber, int version = 0)
         {
             type0FontObjectNumber = objectNumber;
-            int[] descendantRefs = new int[1] { -1 };
-            return new PdfType0FontDict(objectNumber, fontData.FullName, type0Encoding, descendantRefs );
+            return new PdfType0FontDict(objectNumber, fontData.FullName, type0Encoding, CIDFontObjectNumber, unicodeCMapFontObjectNumber );
         }
 
         internal PdfToUnicodeCMap GetUnicodeCmapObject(int objectNumber, int version = 0)
         {
             unicodeCMapFontObjectNumber = objectNumber;
-            var charactermappings = fontData; //get cmap from font.
+            var charactermappings = new Dictionary<int, string>();
+
+            foreach (var shape in Shaped)
+            {
+                foreach (var glyph in shape.Glyphs)
+                {
+                    if (!charactermappings.ContainsKey(glyph.GlyphId))
+                    {
+                        var chars = ExtractCharactersForGlyph(glyph, shape.OriginalText);
+                        if (!string.IsNullOrEmpty(chars))
+                        {
+                            charactermappings.Add(glyph.GlyphId, chars);
+                        }
+                    }
+                }
+            }
             return new PdfToUnicodeCMap(objectNumber, charactermappings);
+        }
+        private string ExtractCharactersForGlyph(ShapedGlyph glyph, string textLine)
+        {
+            var chars = new System.Text.StringBuilder();
+            for (int i = 0; i < glyph.CharCount && glyph.ClusterIndex + i < textLine.Length; i++)
+            {
+                chars.Append(textLine[glyph.ClusterIndex + i]);
+            }
+            return chars.ToString();
         }
 
         internal PdfFontStream GetEmbeddedFontStreamObject(int objectNumber, int version = 0)

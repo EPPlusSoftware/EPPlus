@@ -21,13 +21,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         /// <param name="codeSpaceMax">Maximum character code value (e.g., 255 for simple fonts, 0xFFFF for CID fonts)</param>
         /// <param name="bytesPerCode">Number of bytes per character code (1 for simple fonts, 2 for CID fonts)</param>
         /// <param name="version">PDF object version</param>
-        public PdfToUnicodeCMap(
-            int objectNumber,
-            Dictionary<int, string> characterMappings,
-            int codeSpaceMin = 0,
-            int codeSpaceMax = 255,
-            int bytesPerCode = 1,
-            int version = 0) : base(objectNumber, version)
+        public PdfToUnicodeCMap(int objectNumber, Dictionary<int, string> characterMappings, int codeSpaceMin = 0, int codeSpaceMax = 255, int bytesPerCode = 1, int version = 0) : base(objectNumber, version)
         {
             CharacterMappings = characterMappings ?? new Dictionary<int, string>();
             CodeSpaceMin = codeSpaceMin;
@@ -44,7 +38,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             sb.AppendLine(string.Format("<< /Length {0} >>", length));
             sb.AppendLine("stream");
             sb.Append(cmapContent);
-            sb.AppendLine("endstream");
+            sb.Append("endstream");
 
             return sb.ToString();
         }

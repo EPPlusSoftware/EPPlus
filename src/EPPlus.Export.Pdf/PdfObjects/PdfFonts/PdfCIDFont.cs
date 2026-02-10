@@ -4,6 +4,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using static OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingConstants;
@@ -27,12 +28,12 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         private readonly List<object> W;                        // Width array
         private readonly int[] DW2;                             // Default metrics for vertical writing (2 numbers)
         private readonly List<object> W2;                       // Vertical writing metrics
-        private readonly object CIDToGIDMap;                    // Can be string "Identity" or stream reference
+        private readonly string CIDToGIDMap;                    // Can be string "Identity" or stream reference
 
         private HashSet<char> Subset;
         OpenTypeFont FontData;
 
-        public PdfCIDFont(int objectNumber, OpenTypeFont fontData, HashSet<char> subset, CIDFontSubtype subtype, CIDSystemInfo CIDSystemInfoObject, int fontDescriptorObjectNumber, int? dw = null, List<object> w = null, int[] dw2 = null, List<object> w2 = null, object CIDToGDI = null, int version = 0)
+        public PdfCIDFont(int objectNumber, OpenTypeFont fontData, HashSet<char> subset, CIDFontSubtype subtype, CIDSystemInfo CIDSystemInfoObject, string CIDToGDI, int fontDescriptorObjectNumber, int version = 0)
             : base(objectNumber, version)
         {
             Subtype = subtype;
@@ -44,9 +45,6 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             Subset = subset;
 
             DW = (int)Math.Round(1000.0d * 1000.0d / FontData.HeadTable.UnitsPerEm);//dw;
-            W = w;
-            DW2 = dw2;
-            W2 = w2;
             CIDToGIDMap = CIDToGDI;
         }
 
@@ -62,9 +60,9 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             {
                 sb.AppendFormat($"\n    /DW {DW}");
             }
-            if (W != null)
+            if (Subset != null)
             {
-                var widthsStr = string.Join(" ", W.Select(w => w.ToString()).ToArray());
+                //var widthsStr = string.Join(" ", W.Select(w => w.ToString()).ToArray());
                 sb.AppendFormat($"\n    /W [{BuildWidthsArray()}]");
             }
             if (DW2 != null)
@@ -78,13 +76,50 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             }
             if (Subtype == CIDFontSubtype.CIDFontType2)
             {
-                if(CIDToGIDMap != null)
-                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap.ToString()}");
+                if(string.IsNullOrEmpty( CIDToGIDMap ))
+                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
                 else
                     sb.AppendFormat($"\n    /CIDToGIDMap /Identity");
             }
             sb.Append(" >>");
             return sb.ToString();
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat($"<<  /Type /Font\n" +
+                            $"    /SubType /{Subtype.ToString()}\n" +
+                            $"    /BaseFont /{BaseFont}\n" +
+                            $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement ({CIDInfoObject.Supplement}) >>\n" +
+                            $"    /FontDescriptor {FontDescriptorObjectNumber} 0 R");
+            if (DW != null)
+            {
+                sb.AppendFormat($"\n    /DW {DW}");
+            }
+            if (Subset != null)
+            {
+                //var widthsStr = string.Join(" ", W.Select(w => w.ToString()).ToArray());
+                sb.AppendFormat($"\n    /W [{BuildWidthsArray()}]");
+            }
+            if (DW2 != null)
+            {
+                sb.AppendFormat($"\n    /DW2 {DW2}");
+            }
+            if (W2 != null)
+            {
+                var widthsStr = string.Join(" ", W2.Select(w => w.ToString()).ToArray());
+                sb.AppendFormat($"\n    /W2 [{widthsStr}]");
+            }
+            if (Subtype == CIDFontSubtype.CIDFontType2)
+            {
+                if (string.IsNullOrEmpty(CIDToGIDMap))
+                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
+                else
+                    sb.AppendFormat($"\n    /CIDToGIDMap /Identity");
+            }
+            sb.Append(" >>");
+            WriteAscii(bw, sb.ToString());
         }
 
         private string BuildWidthsArray()
@@ -107,8 +142,8 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
                 }
                 sb.Append($"{startGid} [");
                 sb.Append(string.Join(" ", widths.Select(w => w.ToString()).ToArray()));
+                sb.Append("] ");
             }
-            sb.Append("]");
             return sb.ToString();
         }
     }

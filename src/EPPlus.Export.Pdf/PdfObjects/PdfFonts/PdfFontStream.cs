@@ -1,4 +1,5 @@
 ﻿using EPPlus.Fonts.OpenType;
+using System.IO;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
@@ -15,7 +16,16 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         internal override string RenderDictionary()
         {
             var fontBytes = FontData.Serialize();
-            return $"<< /Length {fontBytes.Length} >>\n" + $"stream\n{fontBytes}endstream";
+            var fontData = Encoding.ASCII.GetString(fontBytes);
+            return $"<< /Length {fontBytes.Length} >>\n" + $"stream\n|BINARY DATA|\nendstream";
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            var fontBytes = FontData.Serialize();
+            WriteAscii(bw, $"<< /Length {fontBytes.Length} >>\nstream\n");
+            bw.Write(fontBytes);
+            WriteAscii(bw, "\nendstream\n");
         }
     }
 }

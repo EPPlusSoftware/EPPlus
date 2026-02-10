@@ -15,9 +15,11 @@ using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
@@ -32,7 +34,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public bool Clip;
         public Rect Clipping;
         public PdfCellStyleOverride CellStyle;
-
+        public ShapedText ShapedText;
 
         internal PdfCellTextItem fontdata;
 
@@ -133,6 +135,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if (!hash.Contains(c))
                         hash.Add(c);
                 }
+                var shaper = dictionaries.Fonts[fontdata.FullFontName].Shaper;
+                var options = ShapingOptions.Default;
+                options.ApplyPositioning = true;
+                options.ApplySubstitutions = true;
+                ShapedText = shaper.Shape(fontdata.Text, options);
+                dictionaries.Fonts[fontdata.FullFontName].Shaped.Add(ShapedText);
             }
         }
 

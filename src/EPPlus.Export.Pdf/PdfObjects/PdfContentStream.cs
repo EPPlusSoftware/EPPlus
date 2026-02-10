@@ -15,13 +15,20 @@ using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Tables.Glyph;
+using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
@@ -118,6 +125,46 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 Dictionaries.Fonts.Add(fontName, fr);
             }
             return Dictionaries.Fonts[fontName];
+        }
+
+        public void AddText(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
+        {
+            var position = cell.Position;
+            var text = cell.ShapedText;
+            var alignment = cell.CellAlignmentData;
+            var fontData = cell.fontdata;
+            var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
+            //double rot = alignment.TextRotation * System.Math.PI / 180.0;
+            //bool isVertical = alignment.IsVertical;
+            //Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), position.X, position.Y);
+
+            commands.Add("BT");
+            commands.Add($"/{font.Label} {fontData.FontSize.ToPdfString()} Tf");
+            commands.Add($"{position.X.ToPdfString()} {position.Y.ToPdfString()} td");
+            var sb = new StringBuilder();
+            sb.Append("[");
+            for (int i = 0; i < text.Glyphs.Length; i++)
+            {
+                var glyph = text.Glyphs[i];
+                sb.Append($"<{glyph.GlyphId:X4}>");
+
+                int kerning = glyph.XAdvance - glyph.BaseAdvance;
+
+                if (kerning != 0)
+                {
+                    // Convert to PDF units (1000-based) and negate
+                    // PDF uses negative values to ADD space, positive to REMOVE space
+                    double adjustment = -(kerning * 1000.0 /  1000);
+                    sb.Append($" {adjustment.ToString("F0", CultureInfo.InvariantCulture)}");
+                }
+
+                if (i < text.Glyphs.Length - 1)
+                {
+                    sb.Append(" ");
+                }
+            }
+            commands.Add(sb.ToString() + "] TJ");
+            commands.Add("ET");
         }
 
         public void AddText(Vector2 position, PdfCellLines lines, PdfCellAlignmentData alignment, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
@@ -281,7 +328,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             commands.Add($"% Content Start: {cell.Name}");
             commands.Add("q");
-            AddText(cell.LocalPosition, cell.Lines, cell.CellAlignmentData, dictionaries, pageSettings);
+            AddText(cell, dictionaries, pageSettings);
+            //AddText(cell.LocalPosition, cell.Lines, cell.CellAlignmentData, dictionaries, pageSettings);
             commands.Add("Q");
             commands.Add($"% Content End: {cell.Name}");
         }
@@ -364,6 +412,13 @@ namespace EPPlus.Export.Pdf.PdfObjects
             var content = string.Join("\n", commands.ToArray()) + "\n";
             var bytes = Encoding.ASCII.GetBytes(content);
             return $"<< /Length {bytes.Length} >>\n" + $"stream\n{content}endstream";
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            var content = string.Join("\n", commands.ToArray()) + "\n";
+            var bytes = Encoding.ASCII.GetBytes(content);
+            WriteAscii(bw, $"<< / Length {bytes.Length} >>\nstream\n{content}\nendstream");
         }
 
         private string FixEscapeCharacters(string text)

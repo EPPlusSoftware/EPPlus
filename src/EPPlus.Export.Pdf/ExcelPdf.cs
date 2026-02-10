@@ -140,6 +140,7 @@ namespace EPPlus.Export.Pdf
                     {
                         //build cid set?
                     }
+                    font.Value.GetFontObject(Document.Count);
                 }
             }
             else

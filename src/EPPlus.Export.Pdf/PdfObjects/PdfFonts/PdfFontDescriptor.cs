@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Graphics;
 using System;
+using System.IO;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
@@ -78,6 +79,26 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             }
             sb.AppendFormat(" >>");
             return sb.ToString();
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat($"<<  /Type /FontDescriptor\n" +
+                            $"    /FontName /{fontName.Replace(" ", "")}\n" +
+                            $"    /Flags {flags}\n" +
+                            $"    /FontBBox [{fontBBox.X} {fontBBox.Y} {fontBBox.Width} {fontBBox.Height}]\n" +
+                            $"    /Ascent {ascent}\n" +
+                            $"    /Descent {descent}\n" +
+                            $"    /CapHeight {capheight}\n" +
+                            $"    /ItalicAngle {(int)italicAngle}\n" +
+                            $"    /StemV {(int)stemV}");
+            if (FontFile2ObjectNumber > 0)
+            {
+                sb.AppendFormat($"\n    /FontFile2 {FontFile2ObjectNumber} 0 R");
+            }
+            sb.AppendFormat(" >>");
+            WriteAscii(bw, sb.ToString());
         }
     }
 }

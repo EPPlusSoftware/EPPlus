@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System.IO;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects
@@ -29,7 +30,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             var sb = new StringBuilder();
             sb.AppendFormat("{0} {1} obj\n", objectNumber, version);
-            sb.Append(RenderDictionary());
+            //sb.Append(RenderDictionary());
             sb.Append("\nendobj\n");
             return sb.ToString();
         }
@@ -38,11 +39,24 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             var sb = new StringBuilder();
             sb.AppendFormat("{0} {1} obj\n", objectNumber, version);
-            sb.Append(RenderDictionary());
+            //sb.Append(RenderDictionary());
             sb.Append("\nendobj\n");
             return Encoding.ASCII.GetBytes(sb.ToString());
         }
 
-        internal abstract string RenderDictionary();
+        public virtual void ToPdfBytes(BinaryWriter bw)
+        {
+            var sb = new StringBuilder();
+            WriteAscii(bw, $"{objectNumber} {version} obj\n");
+            RenderDictionary(bw);
+            WriteAscii(bw, $"\nendobj\n");
+        }
+
+        protected static void WriteAscii(BinaryWriter bw, string s)
+        {
+            bw.Write(Encoding.ASCII.GetBytes(s));
+        }
+
+        internal abstract void RenderDictionary(BinaryWriter bw);
     }
 }

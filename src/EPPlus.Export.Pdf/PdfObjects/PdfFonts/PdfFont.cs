@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using System.IO;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
@@ -89,6 +90,43 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             }
             sb.AppendFormat($"   /Encoding /{encoding} >>");
             return sb.ToString();
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat($"<< /Type /Font\n" +
+                            $"   /Subtype /{subType}\n" +
+                            $"   /BaseFont /{baseFont.Replace(" ", "")}");
+            if (encoding == PdfFontEncoding.None)
+            {
+                sb.Append(" >>");
+                WriteAscii(bw, sb.ToString());
+                return;
+            }
+            else
+            {
+                sb.Append("\n");
+            }
+            if (firstChar > -1)
+            {
+                sb.AppendFormat($"   /FirstChar {firstChar}\n");
+            }
+            if (lastChar > -1)
+            {
+                sb.AppendFormat($"   /LastChar {lastChar}\n");
+            }
+            if (widthObjectNumber > -1)
+            {
+                sb.AppendFormat($"   /Widths {widthObjectNumber} 0 R\n");
+            }
+            if (fontDescriptorObjectNumber > -1)
+            {
+                sb.AppendFormat($"   /FontDescriptor {fontDescriptorObjectNumber} 0 R\n");
+            }
+            sb.AppendFormat($"   /Encoding /{encoding} >>");
+            WriteAscii(bw, sb.ToString());
+            return;
         }
     }
 }
