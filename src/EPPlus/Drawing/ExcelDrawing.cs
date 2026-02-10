@@ -2353,7 +2353,7 @@ namespace OfficeOpenXml.Drawing
 
         private XmlNode CopyShape(ExcelWorksheet worksheet, bool isGroupShape = false, XmlNode groupDrawNode = null)
         {
-            var sourceShape = this as ExcelShape;
+            var sourceShape = this as ExcelShapeBase;
             XmlNode drawNode = null;
             if (isGroupShape && groupDrawNode != null)
             {
@@ -2367,7 +2367,7 @@ namespace OfficeOpenXml.Drawing
                 drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
                 drawNode.InnerXml = TopNode.InnerXml;
                 //Asign new id
-                var targetShape = GetDrawing(worksheet._drawings, drawNode) as ExcelShape;
+                var targetShape = GetDrawing(worksheet._drawings, drawNode) as ExcelShapeBase;
                 targetShape.Id = ++worksheet.Drawings._nextDrawingId;
                 targetShape.Name = worksheet._drawings.GetUniqueDrawingName(sourceShape.Name);
             }
