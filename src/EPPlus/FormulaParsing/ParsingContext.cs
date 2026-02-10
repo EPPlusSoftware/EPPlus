@@ -123,8 +123,6 @@ namespace OfficeOpenXml.FormulaParsing
         {
             var context = new ParsingContext(package);
             context.Configuration = ParsingConfiguration.Create();
-            //context.Scopes = new ParsingScopes(context);
-            //context.AddressCache = new ExcelAddressCache();
             context.NameValueProvider = NvProvider.Empty;
             context.FunctionCompilerFactory = new FunctionCompilerFactory(context.Configuration.FunctionRepository);
             context.RangeCriteriaCache = new RangeCriteriaCache(package);

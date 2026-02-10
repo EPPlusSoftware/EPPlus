@@ -16,6 +16,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         public void Setup()
         {
             _package = new ExcelPackage();
+            _package.Settings.CalculationCacheSettings.MaxFlattenedRanges = RangeCriteriaCache.DEFAULT_MAX_FLATTENED_RANGES;
+            _package.Settings.CalculationCacheSettings.MaxMatchIndexes = RangeCriteriaCache.DEFAULT_MAX_MATCH_INDEXES;
             _package.Workbook.Worksheets.Add("Sheet1");
         }
 
@@ -43,7 +45,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         [TestMethod]
         public void FlattenedRange_FIFO_ShouldEvictOldest()
         {
-            _cache = new RangeCriteriaCache(_package, maxFlattenedRanges: 3);
+            _package.Settings.CalculationCacheSettings.MaxFlattenedRanges = 3;
+            _cache = new RangeCriteriaCache(_package);
 
             var address1 = new FormulaRangeAddress { WorksheetIx = 0, FromRow = 1, FromCol = 1, ToRow = 10, ToCol = 1 };
             var address2 = new FormulaRangeAddress { WorksheetIx = 0, FromRow = 11, FromCol = 1, ToRow = 20, ToCol = 1 };
@@ -93,7 +96,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         [TestMethod]
         public void MatchIndexes_FIFO_ShouldEvictOldest()
         {
-            _cache = new RangeCriteriaCache(_package, maxMatchIndexes: 3);
+            _package.Settings.CalculationCacheSettings.MaxMatchIndexes = 3;
+            _cache = new RangeCriteriaCache(_package);
 
             var address = new FormulaRangeAddress { WorksheetIx = 0, FromRow = 1, FromCol = 1, ToRow = 10, ToCol = 1 };
             var criteria1 = "A";
@@ -187,7 +191,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         [TestMethod]
         public void FlattenedRange_UpdateExisting_ShouldNotDuplicate()
         {
-            _cache = new RangeCriteriaCache(_package, maxFlattenedRanges: 2);
+            _package.Settings.CalculationCacheSettings.MaxFlattenedRanges = 2;
+            _cache = new RangeCriteriaCache(_package);
             var address = new FormulaRangeAddress { WorksheetIx = 0, FromRow = 1, FromCol = 1, ToRow = 10, ToCol = 1 };
 
             var data1 = new List<object> { 1, 2, 3 };
@@ -207,7 +212,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         [TestMethod]
         public void MatchIndexes_UpdateExisting_ShouldNotDuplicate()
         {
-            _cache = new RangeCriteriaCache(_package, maxMatchIndexes: 2);
+            _package.Settings.CalculationCacheSettings.MaxMatchIndexes = 2;
+            _cache = new RangeCriteriaCache(_package);
             var address = new FormulaRangeAddress { WorksheetIx = 0, FromRow = 1, FromCol = 1, ToRow = 10, ToCol = 1 };
             var criteria = "test";
 

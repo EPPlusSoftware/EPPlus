@@ -22,12 +22,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     /// </summary>
     internal class RangeCriteriaCache
     {
-        private const int DEFAULT_MAX_FLATTENED_RANGES = 100;
-        private const int DEFAULT_MAX_MATCH_INDEXES = 1000;
+        internal const int DEFAULT_MAX_FLATTENED_RANGES = 100;
+        internal const int DEFAULT_MAX_MATCH_INDEXES = 1000;
 
-        private readonly int _maxFlattenedRanges;
-        private readonly int _maxMatchIndexes;
         private readonly ExcelPackage _package;
+        private readonly ExcelCalculationCacheSettings _settings;
 
         private Dictionary<int, List<object>> _flattenedRanges;
         private Dictionary<int, List<int>> _matchIndexes;
@@ -43,14 +42,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         /// Creates a new RangeCriteriaCache with specified limits
         /// </summary>
         /// <param name="package"></param>The ExcelPackage where the cache operates.</param>
-        /// <param name="maxFlattenedRanges">Maximum number of flattened ranges to cache (default 100)</param>
-        /// <param name="maxMatchIndexes">Maximum number of matchIndexes to cache (default 1000)</param>
-        public RangeCriteriaCache(ExcelPackage package, int maxFlattenedRanges = DEFAULT_MAX_FLATTENED_RANGES,
-                                   int maxMatchIndexes = DEFAULT_MAX_MATCH_INDEXES)
+        public RangeCriteriaCache(ExcelPackage package)
         {
             _package = package;
-            _maxFlattenedRanges = maxFlattenedRanges;
-            _maxMatchIndexes = maxMatchIndexes;
+            if(package != null)
+            {
+                _settings = package.Settings.CalculationCacheSettings;
+            }
+            else
+            {
+                _settings = ExcelCalculationCacheSettings.Default;
+            }
         }
 
         /// <summary>
@@ -78,6 +80,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             if (address == null || flattenedRange == null) return;
 
+            // Guard against disabled caching
+            var maxCapacity = _settings?.MaxFlattenedRanges ?? DEFAULT_MAX_FLATTENED_RANGES;
+            if (maxCapacity <= 0) return;
+
             if (_flattenedRanges == null)
             {
                 _flattenedRanges = new Dictionary<int, List<object>>();
@@ -87,18 +93,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
             var key = CreateRangeKey(address);
 
-            // Get or create ID for this key
             if (!_keyToId.TryGetValue(key, out var id))
             {
                 id = _nextId++;
                 _keyToId[key] = id;
 
-                // Check if cache is full and evict oldest entry (FIFO)
-                if (_flattenedRanges.Count >= _maxFlattenedRanges)
+                // Evict entries until we're under the limit
+                // This handles both: cache full + capacity reduced scenarios
+                while (_flattenedRanges.Count >= maxCapacity)
                 {
                     var oldestId = _flattenedRangesOrder.Dequeue();
                     _flattenedRanges.Remove(oldestId);
-                    // Note: we keep the key in _keyToId to avoid ID reuse within same calculation
                 }
 
                 _flattenedRangesOrder.Enqueue(id);
@@ -139,9 +144,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         /// <summary>
         /// Stores match indexes for a range+criteria combination with FIFO eviction if cache is full
         /// </summary>
+        /// <summary>
+        /// Stores match indexes for a range+criteria combination with FIFO eviction if cache is full
+        /// </summary>
         public void SetMatchIndexes(FormulaRangeAddress rangeAddress, object criteriaValue, List<int> matchIndexes)
         {
             if (rangeAddress == null || criteriaValue == null || matchIndexes == null) return;
+
+            // Guard against disabled caching
+            var maxCapacity = _settings?.MaxMatchIndexes ?? DEFAULT_MAX_MATCH_INDEXES;
+            if (maxCapacity <= 0) return;
 
             if (_keyToId == null)
             {
@@ -181,8 +193,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 id = _nextId++;
                 _keyToId[key] = id;
 
-                // Check if cache is full and evict oldest entry (FIFO)
-                if (_matchIndexes.Count >= _maxMatchIndexes)
+                // Evict entries until we're under the limit
+                // This handles both: cache full + capacity reduced scenarios
+                while (_matchIndexes.Count >= maxCapacity)
                 {
                     var oldestId = _matchIndexesOrder.Dequeue();
                     _matchIndexes.Remove(oldestId);
