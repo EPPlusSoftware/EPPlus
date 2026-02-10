@@ -28,6 +28,11 @@ namespace OfficeOpenXml
         ExcelNumberFormatWithoutId fallbackNumberFormat = null;
 
         /// <summary>
+        /// If these args are provided from a formula
+        /// </summary>
+        public bool FromFormula = false;
+
+        /// <summary>
         /// Constructor when numberformat is not built in
         /// </summary>
         /// <param name="ws"></param>
@@ -53,8 +58,6 @@ namespace OfficeOpenXml
             Value = value;
             _styleId = styleId;            
         }
-
-        public bool FromFormula = false;
 
         /// <summary>
         /// The worksheet of the cell.

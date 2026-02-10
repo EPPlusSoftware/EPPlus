@@ -651,9 +651,6 @@ namespace OfficeOpenXml.FormulaParsing
                     //The format does not have a corresponding styleId
                     //Still allow the NumberFormatToTextHandler to see the format
                     arg = new NumberFormatToTextArgs(ws, _context.CurrentCell.Row, _context.CurrentCell.Column, value, format);
-                    //var ft = new ExcelFormatTranslator(format, -1);
-                    //var frmt = ValueToTextHandler.FormatValue(value, false, ft, null, out isValidFormat);
-                    //return frmt;
                 }
                 else
                 {
