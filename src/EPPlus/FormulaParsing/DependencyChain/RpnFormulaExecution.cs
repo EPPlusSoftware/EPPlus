@@ -1544,7 +1544,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     args = CompileFunctionArguments(f, funcExp);
                     funcExp.Status = ExpressionStatus.CanCompile;
-                    return funcExp.SetArguments(args);
+                    return funcExp.SetArguments(args, depChain._parsingContext);
                 }
                 else
                 {
@@ -1559,7 +1559,7 @@ namespace OfficeOpenXml.FormulaParsing
             else
             {
                 args = CompileFunctionArguments(f, funcExp);
-                return funcExp.SetArguments(args);
+                return funcExp.SetArguments(args, depChain._parsingContext);
             }
             return false;
         }

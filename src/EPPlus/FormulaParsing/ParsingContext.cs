@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using NvProvider = OfficeOpenXml.FormulaParsing.NameValueProvider;
 using OfficeOpenXml.Utils.RemoteCalls;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+
 
 
 #if (!NET35)
@@ -33,9 +35,11 @@ namespace OfficeOpenXml.FormulaParsing
     /// </summary>
     public class ParsingContext 
     {
-        private ParsingContext(ExcelPackage package) {
+        private ParsingContext(ExcelPackage package) 
+        {
             SubtotalAddresses = new HashSet<ulong>();
             Package = package;
+            ExpressionEvaluator = new ExpressionEvaluator(this);
         }
 
         internal FunctionCompilerFactory FunctionCompilerFactory
@@ -104,6 +108,13 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
         /// <summary>
+        /// Cache for RangeCriteria functions to improve performance during calculation
+        /// </summary>
+        internal RangeCriteriaCache RangeCriteriaCache { get; set; }
+
+        internal ExpressionEvaluator ExpressionEvaluator { get; private set; }
+
+        /// <summary>
         /// Factory method.
         /// </summary>
         /// <param name="package">The ExcelPackage where calculation is done</param>
@@ -116,6 +127,7 @@ namespace OfficeOpenXml.FormulaParsing
             //context.AddressCache = new ExcelAddressCache();
             context.NameValueProvider = NvProvider.Empty;
             context.FunctionCompilerFactory = new FunctionCompilerFactory(context.Configuration.FunctionRepository);
+            context.RangeCriteriaCache = new RangeCriteriaCache(package);
             return context;
         }
 

@@ -75,6 +75,7 @@ namespace OfficeOpenXml
 
             //CalcChain(workbook, workbook.FormulaParser, dc, options);
             var dc=RpnFormulaExecution.Execute(workbook, options);
+            dc._parsingContext.RangeCriteriaCache?.Clear();
             if (workbook.FormulaParser.Logger != null)
             {
                 var msg = string.Format("Calculation done...number of cells parsed: {0}", dc.processedCells.Count);
@@ -130,6 +131,7 @@ namespace OfficeOpenXml
         {
             Init(worksheet.Workbook);
             var dc = RpnFormulaExecution.Execute(worksheet, options);
+            dc._parsingContext.RangeCriteriaCache?.Clear();
         }
 
         /// <summary>
@@ -172,6 +174,8 @@ namespace OfficeOpenXml
             //var dc = DependencyChainFactory.Create(range, options);
             //CalcChain(range._workbook, parser, dc, options);
             var dc = RpnFormulaExecution.Execute(range, options);
+            // Clear RangeCriteriaCache after calculation completes
+            dc._parsingContext.RangeCriteriaCache?.Clear();
         }
 
         /// <summary>
@@ -202,7 +206,9 @@ namespace OfficeOpenXml
                 //var filterInfo = new FilterInfo(worksheet.Workbook);
                 //parser.InitNewCalc(filterInfo);
                 if (Formula[0] == '=') Formula = Formula.Substring(1); //Remove any starting equal sign
-                return RpnFormulaExecution.ExecuteFormula(worksheet.Workbook, Formula,new FormulaCellAddress(worksheet.IndexInList, -1, 0), options);
+                var result = RpnFormulaExecution.ExecuteFormula(worksheet.Workbook, Formula,new FormulaCellAddress(worksheet.IndexInList, -1, 0), options);
+                worksheet.Workbook.FormulaParser.ParsingContext?.RangeCriteriaCache?.Clear();
+                return result;
             }
             catch (Exception ex)
             {
