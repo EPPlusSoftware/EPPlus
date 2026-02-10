@@ -427,8 +427,10 @@ namespace EPPlus.Fonts.OpenType
                     List<string> tmpLst = new List<string>();
                     WrapAtCharPos(line, i, ref nextLineStartIndex, ref lineWidth, ref wordWidth, advanceWidth, tmpLst, spaceWidth, out int prevLineWidth);
 
-                    actualLine.Text = line;
+                    actualLine.Text = tmpLst.Last();
                     actualLine.Width = prevLineWidth;
+                    wrappedStrings.Add(actualLine);
+                    actualLine = new TextLineSimple();
                 }
             }
 
