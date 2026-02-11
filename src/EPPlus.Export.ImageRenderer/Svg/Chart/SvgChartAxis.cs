@@ -88,7 +88,7 @@ namespace EPPlusImageRenderer.Svg
                             else
                             {
                                 Rectangle.Width = GetTextWidest(sc, ax) + RightMargin;
-                                var lp = sc.ChartArea.Width - Rectangle.Width - 8D;
+                                var lp = sc.ChartArea.Rectangle.Width - Rectangle.Width - 8D;
                                 if (sc.Chart.Legend.Position == eLegendPosition.Right)
                                 {
                                     lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
@@ -99,7 +99,7 @@ namespace EPPlusImageRenderer.Svg
                         else
                         {
                             Rectangle.Height = GetTextHeight(sc, ax);
-                            Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
+                            Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Rectangle.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
                         }
                     }
 
@@ -182,7 +182,7 @@ namespace EPPlusImageRenderer.Svg
         public List<SvgRenderLineItem> MinorAxisPositions { get; private set; }
         public List<SvgRenderLineItem> MajorGridlinePositions { get; private set; }
         public List<SvgRenderLineItem> MinorGridlinePositions { get; private set; }
-        public List<SvgTextBoxItem> AxisValuesTextBoxes
+        public List<SvgTextBox> AxisValuesTextBoxes
         {
             get;
             private set;
@@ -278,16 +278,16 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private List<SvgTextBoxItem> GetAxisValueTextBoxes()
+        private List<SvgTextBox> GetAxisValueTextBoxes()
         {
             var tm = Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
             var mf = Axis.Font.GetMeasureFont();
             var axisStyle = GetAxisStyleEntry();
-            var ret= new List<SvgTextBoxItem>();
+            var ret= new List<SvgTextBox>();
             double maxWidth, maxHeight;
             if(Axis.AxisPosition==eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
-                maxWidth = SvgChart.ChartArea.Bounds.Width / 3; //TODO: Check this value.
+                maxWidth = SvgChart.ChartArea.Rectangle.Width / 3; //TODO: Check this value.
                 maxHeight = Rectangle.Height / AxisValues.Count;
             }
             else
@@ -307,7 +307,7 @@ namespace EPPlusImageRenderer.Svg
                 //bounds.Top = y;
                 var width = m.Width.PointToPixel();
                 var height = m.Height.PointToPixel();
-                var tb = new SvgTextBoxItem(SvgChart, Rectangle.Bounds, x, y, width, height, maxWidth, maxHeight);
+                var tb = new SvgTextBox(SvgChart, Rectangle.Bounds, x, y, width, height, maxWidth, maxHeight);
 
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
                 tb.TextBody.ImportParagraph(p, 0, v);

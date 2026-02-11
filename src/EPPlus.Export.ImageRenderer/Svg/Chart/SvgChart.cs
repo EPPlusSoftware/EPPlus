@@ -57,7 +57,7 @@ namespace EPPlusImageRenderer.Svg
             Plotarea = new SvgChartPlotarea(this);
 
             SetAxisPositionsFromPlotarea(this);
-            foreach(var ct in chart.PlotArea.ChartTypes)
+            foreach (var ct in chart.PlotArea.ChartTypes)
             {
                 Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
             }
@@ -79,9 +79,18 @@ namespace EPPlusImageRenderer.Svg
 
                 if(VerticalAxis.Title!=null)
                 {
+                    VerticalAxis.Title.Rectangle.Height = Plotarea.Rectangle.Height;
+                    VerticalAxis.Title.Rectangle.Width = sc.Bounds.Width / 4;
                     VerticalAxis.Title.InitTextBox();
-                    VerticalAxis.Title.TextBox.Bounds.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (VerticalAxis.Title.TextBox.Bounds.Height / 2);
-                    VerticalAxis.Title.TextBox.Bounds.Left = VerticalAxis.Title.Rectangle.Left;
+                    VerticalAxis.Title.TextBox.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (VerticalAxis.Title.TextBox.Height / 2);
+                    if (VerticalAxis.Rectangle == null)
+                    {
+                        VerticalAxis.Title.TextBox.Left = sc.ChartArea.LeftMargin;
+                    }
+                    else
+                    {
+                        VerticalAxis.Title.TextBox.Left = VerticalAxis.Rectangle.Left - VerticalAxis.Title.TextBox.Width ;
+                    }
                 }
                 
                 VerticalAxis.AddTickmarksAndValues();
@@ -98,31 +107,41 @@ namespace EPPlusImageRenderer.Svg
 
                 if (HorizontalAxis.Title != null)
                 {
+                    HorizontalAxis.Title.Rectangle.Height = sc.Bounds.Height / 4;
+                    HorizontalAxis.Title.Rectangle.Width = HorizontalAxis.Rectangle?.Width ?? sc.Plotarea.Rectangle.Width;
                     HorizontalAxis.Title.InitTextBox();
-                    HorizontalAxis.Title.TextBox.Bounds.Left = Plotarea.Rectangle.Left + (Plotarea.Rectangle.Width / 2) - (HorizontalAxis.Title.TextBox.Bounds.Width / 2);
-                    HorizontalAxis.Title.TextBox.Bounds.Top = HorizontalAxis.Title.Rectangle.Top;
+                    HorizontalAxis.Title.TextBox.Left = Plotarea.Rectangle.Left + (Plotarea.Rectangle.Width / 2) - (HorizontalAxis.Title.TextBox.Width / 2);
+                    HorizontalAxis.Title.TextBox.Top = HorizontalAxis.Rectangle.Bottom;
                 }
                 HorizontalAxis.AddTickmarksAndValues();
             }
 
             if (SecondVerticalAxis!=null)
             {
-                SecondVerticalAxis.Rectangle.Top = Plotarea.Rectangle.Top;
-                SecondVerticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
-                SecondVerticalAxis.Rectangle.Left = Plotarea.Rectangle.Right;
-                VerticalAxis.Line.X1 = VerticalAxis.Line.X2 = (float)Plotarea.Rectangle.Right;
-                SecondVerticalAxis.Line.Y1 = (float)SecondVerticalAxis.Rectangle.Top;
-                SecondVerticalAxis.Line.Y2 = (float)SecondVerticalAxis.Rectangle.Bottom;
+                if (SecondVerticalAxis.Rectangle != null)
+                {
+                    SecondVerticalAxis.Rectangle.Top = Plotarea.Rectangle.Top;
+                    SecondVerticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
+                    SecondVerticalAxis.Rectangle.Left = Plotarea.Rectangle.Left - SecondVerticalAxis.Rectangle.Width;
+                    SecondVerticalAxis.Line.X1 = SecondVerticalAxis.Line.X2 = (float)Plotarea.Rectangle.Left;
+                    SecondVerticalAxis.Line.Y1 = (float)SecondVerticalAxis.Rectangle.Top;
+                    SecondVerticalAxis.Line.Y2 = (float)SecondVerticalAxis.Rectangle.Bottom;
+                }
+
                 if (SecondVerticalAxis.Title != null)
                 {
-                    SecondVerticalAxis.Title.Rectangle.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (SecondVerticalAxis.Title.Rectangle.Height / 2);
+                    SecondVerticalAxis.Title.Rectangle.Height = SecondVerticalAxis.Rectangle.Height;
+                    SecondVerticalAxis.Title.Rectangle.Width = sc.Bounds.Width / 4;
                     SecondVerticalAxis.Title.InitTextBox();
+                    SecondVerticalAxis.Title.TextBox.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (SecondVerticalAxis.Title.TextBox.Height / 2);
+                    SecondVerticalAxis.Title.TextBox.Left = SecondVerticalAxis.Title.Rectangle.Left;
                 }
+
                 SecondVerticalAxis.AddTickmarksAndValues();
             }
         }
 
-        internal SvgRenderRectItem ChartArea { get; set; }
+        internal SvgChartObject ChartArea { get; set; }
         internal SvgChartLegend Legend { get; set; }
         internal SvgChartTitle Title { get; set; }
         internal SvgChartPlotarea Plotarea { get; set; }
@@ -135,12 +154,12 @@ namespace EPPlusImageRenderer.Svg
 
         private void SetChartArea()
         {
-            var item = new SvgRenderRectItem(this, Bounds);
-            item.Width = Bounds.Width;
-            item.Height = Bounds.Height;
-            item.SetDrawingPropertiesFill(Chart.Fill, Chart.StyleManager.Style.ChartArea.FillReference.Color);
-            item.SetDrawingPropertiesBorder(Chart.Border, Chart.StyleManager.Style.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
-            RenderItems.Add(item);
+            var item = new SvgChartArea(this);
+            item.Rectangle.Width = Bounds.Width;
+            item.Rectangle.Height = Bounds.Height;
+            item.Rectangle.SetDrawingPropertiesFill(Chart.Fill, Chart.StyleManager.Style.ChartArea.FillReference.Color);
+            item.Rectangle.SetDrawingPropertiesBorder(Chart.Border, Chart.StyleManager.Style.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
+            item.AppendRenderItems(RenderItems);
             ChartArea = item;
         }
         internal List<RenderItem> DefItems { get; } = new List<RenderItem>();
@@ -156,11 +175,13 @@ namespace EPPlusImageRenderer.Svg
             VerticalAxis?.AppendRenderItems(RenderItems);
             SecondVerticalAxis?.AppendRenderItems(RenderItems);
 
-            foreach (var drawer in Plotarea?.ChartTypeDrawers)
+            if (Plotarea != null)
             {
-                drawer.AppendRenderItems(RenderItems);
+                foreach (var drawer in Plotarea?.ChartTypeDrawers)
+                {
+                    drawer.AppendRenderItems(RenderItems);
+                }
             }
-
             Legend?.AppendRenderItems(RenderItems);
             Title?.AppendRenderItems(RenderItems);
 

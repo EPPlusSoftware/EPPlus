@@ -30,7 +30,7 @@ namespace EPPlusImageRenderer.Svg
         internal SvgRenderRectItem GetPlotAreaRectangle(SvgChart sc)
         {
             var pa = sc.Chart.PlotArea;
-            TopMargin = BottomMargin = LeftMargin = RightMargin = 14;
+            TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
             var rect = new SvgRenderRectItem(sc, sc.Bounds);
             if (pa.Layout.HasLayout)
             {
@@ -52,7 +52,7 @@ namespace EPPlusImageRenderer.Svg
 
                 rect.Width = (lp == eLegendPosition.Right || lp == eLegendPosition.TopRight ? 
                         sc.Legend.Bounds.GlobalLeft - RightMargin : 
-                        sc.ChartArea.Width - RightMargin) 
+                        sc.ChartArea.Rectangle.Width - RightMargin) 
                   - rect.GlobalLeft;
 
                 double vaHeight=0, vaTitleHeight=0;

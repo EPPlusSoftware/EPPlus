@@ -45,7 +45,7 @@ namespace EPPlusImageRenderer.Svg
         /// <summary>
         /// Textbox from memory
         /// </summary>
-        public SvgTextBoxItem TextBox { get; internal set; }
+        public SvgTextBox TextBox { get; internal set; }
 
         public SvgShape(ExcelShape shape) : base(shape)
         {
@@ -112,7 +112,7 @@ namespace EPPlusImageRenderer.Svg
 
                     TextBox = CreateTextBodyItem();
                     TextBox.Rectangle.FillOpacity = 0.3;
-                    TextBox.ImportTextBody(_shape.TextBody, false);
+                    TextBox.ImportTextBody(_shape.TextBody);
                     TextBox.AppendRenderItems(RenderItems);
                 }
             }
@@ -248,7 +248,7 @@ namespace EPPlusImageRenderer.Svg
             sb.AppendLine("</svg>");
         }
 
-        SvgTextBoxItem CreateTextBodyItem()
+        SvgTextBox CreateTextBodyItem()
         {
             if (InsetTextBox == null)
             {
@@ -258,9 +258,9 @@ namespace EPPlusImageRenderer.Svg
                 InsetTextBox.Bounds.Top = y.PixelToPoint();
                 InsetTextBox.Width = width.PixelToPoint();
                 InsetTextBox.Height = height.PixelToPoint();
-                InsetTextBox.Bounds.Parent = TextBox.Bounds; //TODO:Check that textBody is correct.
+                InsetTextBox.Bounds.Parent = TextBox.Parent; //TODO:Check that textBody is correct.
             }
-            var txtBodyItem = new SvgTextBoxItem(this, Bounds, InsetTextBox.Bounds);
+            var txtBodyItem = new SvgTextBox(this, Bounds, InsetTextBox.Bounds);
 
             return txtBodyItem;
         }
