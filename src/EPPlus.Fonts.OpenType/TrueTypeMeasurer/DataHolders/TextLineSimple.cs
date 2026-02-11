@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EPPlus.Fonts.OpenType.Integration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
     public class TextLineSimple
     {
         public List<RichTextFragmentSimple> RtFragments { get; private set; } = new List<RichTextFragmentSimple>();
+
+        public List<LineFragment> LineFragments { get; private set; } = new List<LineFragment>();
 
         public string Text { get; internal set; }
         /// <summary>

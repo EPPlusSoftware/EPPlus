@@ -1284,8 +1284,8 @@ namespace EPPlus.Fonts.OpenType
 
                     //Largest font might be wrong here as we may linebreak at a different font than current font if we break at the start of a word
                     //and not current i
-                    largestFontCurrentLine = null;
-                    CurrentLineLargestFontSize = 0;
+                    largestFontCurrentLine = paragraph.FontIndexDict[currentLineRtFragments[0].Fragidx];
+                    CurrentLineLargestFontSize =  paragraph.FontSizes[currentLineRtFragments[0].Fragidx];
 
                     for (int j = currentLineRtFragments[0].Fragidx; j < fragIdxAtBreak + 1; j++)
                     {
@@ -1302,8 +1302,8 @@ namespace EPPlus.Fonts.OpenType
                     AddDataToSimpleLine(currentTextLine, paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, prevLineWidth, fragmentIdx);
 
                     //Largest font is not neccesarily current font as word wrap might have wrapped another font between
-                    largestFontCurrentLine = null;
-                    CurrentLineLargestFontSize = 0;
+                    largestFontCurrentLine = paragraph.FontIndexDict[fragIdxAtBreak];
+                    CurrentLineLargestFontSize = paragraph.FontSizes[fragIdxAtBreak];
 
                     for (int j = fragIdxAtBreak; j < fragmentIdx + 1; j++)
                     {
