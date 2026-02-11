@@ -52,6 +52,8 @@ namespace EPPlusImageRenderer
 
             throw new NotImplementedException("Image rendering for drawing type not implemented.");
         }
+
+
         //public string RenderRangeToSvg(ExcelRange range)
         //{
         //    var ws = range.Worksheet;

@@ -12,11 +12,11 @@ namespace EPPlus.Fonts.OpenType.Integration
     {
         public int StartIdx { get; set; }
         public double Width { get; set; }
-        public int RtIdx { get; set; }
+        public int RtFragIdx { get; set; }
 
         internal LineFragment(int rtFragmentIdx, int idxWithinLine)
         {
-            RtIdx = rtFragmentIdx;
+            RtFragIdx = rtFragmentIdx;
             StartIdx = idxWithinLine;
         }
     }

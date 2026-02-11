@@ -10,7 +10,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
     {
         public List<RichTextFragmentSimple> RtFragments { get; private set; } = new List<RichTextFragmentSimple>();
 
-        public List<LineFragment> LineFragments { get; private set; } = new List<LineFragment>();
+        public List<LineFragment> LineFragments { get; internal set; } = new List<LineFragment>();
 
         public string Text { get; internal set; }
         /// <summary>
@@ -72,6 +72,17 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
                 var endIdx = RtFragments[idxInLst + 1].charStarIdxWithinCurrentLine;
                 return Text.Substring(startIdx, endIdx - startIdx);
             }
+        }
+
+        internal LineFragment SplitAndGetLeftoverLineFragment(ref LineFragment lf, double widthAtSplit)
+        {
+            //If we are splitting a fragment its position in the new line should be 0
+            var newLineFragment = new LineFragment(lf.RtFragIdx, 0);
+            newLineFragment.Width = lf.Width - widthAtSplit;
+
+            lf.Width = widthAtSplit;
+
+            return newLineFragment;
         }
     }
 }

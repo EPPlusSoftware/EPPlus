@@ -17,6 +17,7 @@ using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
@@ -54,6 +55,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
 
             FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart);
+            state.EndCurrentTextLine();
 
             if (_lineListBuffer.Count == 0)
             {
@@ -61,6 +63,42 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
 
             return new List<string>(_lineListBuffer);
+        }
+
+        public List<TextLineSimple> WrapRichTextLines(
+            List<TextFragment> fragments,
+            double maxWidthPoints)
+        {
+            if (fragments == null || fragments.Count == 0)
+            {
+                return new List<TextLineSimple>();
+            }
+
+            _lineListBuffer.Clear();
+
+            var lineBuilder = new StringBuilder(512);
+            var state = new WrapStateRichText(0);
+            state.WordStart = -1;
+            state.LineStart = -1;
+
+            foreach (var fragment in fragments)
+            {
+                if (string.IsNullOrEmpty(fragment.Text)) continue;
+
+                ProcessFragment(fragment, maxWidthPoints, lineBuilder, state);
+            }
+
+            FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart);
+            state.CurrentTextLine.Width = state.CurrentLineWidth;
+            state.CurrentTextLine.Text = lineBuilder.ToString();
+            state.EndCurrentTextLine();
+
+            if (_lineListBuffer.Count == 0)
+            {
+                _lineListBuffer.Add(string.Empty);
+            }
+
+            return state.Lines;
         }
 
         private void ProcessFragment(
@@ -84,7 +122,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length);
             state.LineFrag.StartIdx = lineBuilder.Length;
-            state.LineFrag.RtIdx = state.CurrentFragmentIdx;
+            state.LineFrag.RtFragIdx = state.CurrentFragmentIdx;
 
             int i = 0;
             while (i < len)
@@ -111,8 +149,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                 if (c == ' ')
                 {
-                    state.WordStart = lineBuilder.Length - 1;
-                    state.CurrentWordWidth = 0;
+                    state.SetAndLogWordStartState(lineBuilder.Length - 1);
                 }
 
                 if (state.CurrentLineWidth > maxWidthPoints)
@@ -122,7 +159,11 @@ namespace EPPlus.Fonts.OpenType.Integration
                 i++;
             }
 
-            state.CurrentTextLine.LineFragments.Add(state.LineFrag);
+            if(state.LineFrag.Width > 0)
+            {
+                state.CurrentTextLine.LineFragments.Add(state.LineFrag);
+            }
+
             state.CurrentFragmentIdx++;
         }
 
@@ -161,9 +202,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
 
             state.CurrentTextLine.Width = state.CurrentLineWidth;
-            state.CurrentTextLine.LineFragments.Add(state.LineFrag);
-            state.Lines.Add(state.CurrentTextLine);
-
             state.EndCurrentTextLineAndIntializeNext(state.CurrentFragmentIdx, 0);
 
             lineBuilder.Length = 0;
@@ -180,6 +218,9 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         private void WrapCurrentLine(StringBuilder lineBuilder, WrapStateRichText state, double maxWidthPoints, double advanceWidth)
         {
+            int fragIdxAtBreak = state.CurrentFragmentIdx;
+            LineFragment lineAfterBreak = null;
+
             // Bounds check to prevent ArgumentOutOfRangeException
             if (state.WordStart >= 0 && state.WordStart < lineBuilder.Length)
             {
@@ -190,6 +231,10 @@ namespace EPPlus.Fonts.OpenType.Integration
                 //handle line data
                 state.CurrentTextLine.Width = state.CurrentLineWidth - state.CurrentWordWidth;
                 state.CurrentTextLine.Text = line;
+
+                fragIdxAtBreak = state.GetFragIdxAtWordStart();
+                //Because of word-wrap we may have richTextFragments on the current line that is no longer part of it after wrap.
+                state.AdjustLineFragmentsForNextLine();
 
                 //A word was moved down. The new line must have the width and pos of the word.
                 state.CurrentLineWidth = state.CurrentWordWidth;
