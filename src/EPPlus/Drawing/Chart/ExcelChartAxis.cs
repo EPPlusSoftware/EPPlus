@@ -472,6 +472,14 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
         }
+        internal bool IsVertical 
+        { 
+            get 
+            { 
+                return AxisPosition == eAxisPosition.Left || AxisPosition == eAxisPosition.Right;
+            }
+        }
+
         /// <summary> 
         /// Removes Major and Minor gridlines from the Axis 
         /// </summary> 

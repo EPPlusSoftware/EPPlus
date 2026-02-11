@@ -43,9 +43,10 @@ namespace EPPlusImageRenderer.Svg
         internal SvgChartTitle(SvgChart sc, ExcelChartTitleStandard t, string defaultText, SvgChartAxis axis=null) : base(sc)
         {
             _svgChart = sc;
+
             //These are hard coded margins for the title box.
-            LeftMargin = RightMargin = 4;
-            TopMargin = BottomMargin = 2;
+            LeftMargin = RightMargin = 3; //4px
+            TopMargin = BottomMargin = 1.5; //2px
 
             var maxWidth = sc.Bounds.Width * 0.8;
             var maxHeight = sc.Bounds.Height / 2D;
@@ -66,16 +67,17 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
            
-            if (t.Layout.HasLayout)
+            if (t.Layout.HasLayout) //Only for the main chart title, axis titles don't support manual layout in Excel.
             {
                 Rectangle = GetRectFromManualLayout(sc, t.Layout);
+                var top = Rectangle.Top;
+                var left = Rectangle.Left;
                 Rectangle.Width = (float)maxWidth;
                 Rectangle.Height = (float)maxHeight;
+
                 InitTextBox();
-                TextBox.Bounds.Top = Rectangle.Top;
-                TextBox.Bounds.Left = Rectangle.Left;
-                Rectangle.Width = TextBox.Bounds.Width;
-                Rectangle.Height = TextBox.Bounds.Height;
+                TextBox.Top = top;
+                TextBox.Left = left;
             }
             else
             {
@@ -86,13 +88,17 @@ namespace EPPlusImageRenderer.Svg
                     Rectangle.Height = (float)maxHeight;
 
                     InitTextBox();
-                    TextBox.Bounds.Top = (float)6;                                       //6 point for the chart title standard offset
-                    TextBox.Bounds.Left = (float)(sc.Bounds.Width - TextBox.Bounds.Width) / 2;
-                    Rectangle.Height = (float)TextBox.Bounds.Height;
-                    Rectangle.Width = (float)TextBox.Bounds.Width;
+                    TextBox.Top = (float)6;                                       //6 point for the chart title standard offset.
+                    TextBox.Left = (float)(sc.Bounds.Width - TextBox.Width) / 2;
                 }
                 else
                 {
+                    var isVertical = axis.Axis.IsVertical;
+                    Rectangle.Width = sc.Bounds.Width * (isVertical ? 0.2 : 0.8);   //Max Width.
+                    Rectangle.Height = sc.Bounds.Height * (isVertical ? 0.8 : 0.2); //Max Height.
+
+                    InitTextBox();
+                    Rectangle = (SvgRenderRectItem)TextBox.Rectangle;
                     SetAxisTitleRect(sc, axis);
                 }
             }
@@ -111,7 +117,7 @@ namespace EPPlusImageRenderer.Svg
                     Rectangle.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Left ? sc.Legend.Rectangle.Right : margin;                               
                     break;
                 case eAxisPosition.Bottom:
-                    Rectangle.Top = sc.ChartArea.Height - margin - Rectangle.Height;
+                    Rectangle.Top = sc.ChartArea.Rectangle.Height - margin - Rectangle.Height;
                     Rectangle.Left = GetHorizontalLeft(sc);
                     break;
             }
@@ -169,10 +175,10 @@ namespace EPPlusImageRenderer.Svg
 
         internal void InitTextBox()
         {
-            TextBox = new SvgTextBoxItem(_svgChart, _svgChart.ChartArea.Bounds, Rectangle.Width, Rectangle.Height);
+            TextBox = new SvgTextBox(_svgChart, _svgChart.ChartArea.Bounds, Rectangle.Width, Rectangle.Height);
             if(_title.Rotation != 0)
             {
-                TextBox.Bounds.Rotation = _title.Rotation;
+                TextBox.Rotation = _title.Rotation;
             }
             if (_title.TextBody.Paragraphs.Count > 0)
             {
@@ -184,14 +190,16 @@ namespace EPPlusImageRenderer.Svg
                 var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();                
                 TextBox.ImportParagraph(p, 0, text);                
             }
+
             TextBox.LeftMargin = LeftMargin;
             TextBox.RightMargin = RightMargin;
             TextBox.TopMargin = TopMargin;
             TextBox.BottomMargin = BottomMargin;
             TextBox.TextBody.VerticalAlignment = eTextAnchoringType.Top;
+            Rectangle = (SvgRenderRectItem)TextBox.Rectangle;
         }
 
-        public SvgTextBoxItem TextBox
+        public SvgTextBox TextBox
         {
             get; private set;
         }

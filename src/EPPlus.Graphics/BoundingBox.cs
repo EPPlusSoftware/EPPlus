@@ -15,7 +15,7 @@ namespace EPPlus.Graphics
         internal BoundingBox(double width, double height) : base(0, 0, width, height)
         {
         }
-        internal BoundingBox(double left, double top, double right, double bottom) : base(left,top, right-left, bottom-top)
+        internal BoundingBox(double left, double top, double width, double height) : base(left,top, width, height)
         {
         }
 

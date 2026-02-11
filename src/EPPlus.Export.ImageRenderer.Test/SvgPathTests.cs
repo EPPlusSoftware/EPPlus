@@ -346,7 +346,7 @@ namespace TestProject1
                 var ws = p.Workbook.Worksheets[0];
                 //var d = ws.Drawings[0].As.Shape;
                 //Assert.AreEqual(1, d.CustomGeom.DrawingPaths.Count);
-                //d.Textbox = "Rectangle Rectangle Rectangle Rectangle";
+                //d.Textbox = "GetRectangle GetRectangle GetRectangle GetRectangle";
                 //d.TextAlignment = OfficeOpenXml.Drawing.eTextAlignment.Left;
                 //d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Bottom;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
@@ -511,10 +511,12 @@ namespace TestProject1
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var ix = 1;
+
+                var ix = 2;
                 var c = ws.Drawings[ix];
                 var svg = renderer.RenderDrawingToSvg(c);
                 SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
+
                 //var ix = 1;
                 //foreach (ExcelChart c in ws.Drawings)
                 //{

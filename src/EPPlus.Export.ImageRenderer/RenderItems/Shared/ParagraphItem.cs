@@ -25,8 +25,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         ITextMeasurerWrap _measurer;
 
         double _leftMargin;
-        double _rightMargin;
-        protected eTextAlignment _hAlign;
+        double _rightMargin;        
 
         eDrawingTextLineSpacing _lsType;
         double _lineSpacingAscendantOnly;
@@ -39,6 +38,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal protected MeasurementFont _paragraphFont;
         internal TextBodyItem ParentTextBody { get; set; }
         internal double ParagraphLineSpacing { get; private set; }
+        internal eTextAlignment HorizontalAlignment { get; private set; } = eTextAlignment.Left;
         internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
         public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
@@ -88,11 +88,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _leftMargin = _leftMargin.PixelToPoint();
             _rightMargin = _rightMargin.PixelToPoint();
 
-            _hAlign = p.HorizontalAlignment;
+            HorizontalAlignment = p.HorizontalAlignment;
 
             if (ParentTextBody.AutoSize == false)
             {
-            Bounds.Left = GetAlignmentHorizontal(_hAlign);
+            Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
             Bounds.Width = parent.Width - _rightMargin - _leftMargin;
             }
 

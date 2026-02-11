@@ -80,11 +80,40 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 Bounds.Height += paragraph.Bounds.Height;
             }
 
-            if(Bounds.Width < paragraph.Bounds.Width)
+            if(Bounds.Width < paragraph.Bounds.Width || (Bounds.Width == MaxWidth && Paragraphs.Count==0))
             {
                 Bounds.Width = paragraph.Bounds.Width;
             }
             Paragraphs.Add(paragraph);
+            SetHorizontalAlignmentPosition();
+        }
+
+        private void SetHorizontalAlignmentPosition()
+        {
+            if (AutoSize)
+            {
+                foreach (var p in Paragraphs)
+                {
+                    switch (p.HorizontalAlignment)
+                    {
+                        case eTextAlignment.Left:
+                            p.Bounds.Left = 0;
+                            break;
+                        case eTextAlignment.Center:
+                            p.Bounds.Left = Bounds.Width / 2 - p.Bounds.Width / 2;
+                            break;
+                        case eTextAlignment.Right:
+                            p.Bounds.Left = Bounds.Right - p.Bounds.Width;
+                            break;
+                        case eTextAlignment.Distributed:
+                        case eTextAlignment.Justified:
+                        case eTextAlignment.JustifiedLow:
+                        case eTextAlignment.ThaiDistributed:
+                            p.Bounds.Left = 0;                    //TODO: Set left for now as we do not support distributed spacing yet
+                            break;
+                    }
+                }
+            }
         }
 
         internal virtual void ImportTextBody(ExcelTextBody body)
@@ -205,7 +234,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     alignmentY = 0;
                     break;
                     //Center means center of a Shape's ENTIRE bounding box height.
-                    //Not center of the Inset Rectangle
+                    //Not center of the Inset GetRectangle
                 case eTextAnchoringType.Center:
                     var globalHeight = (DrawingRenderer.Bounds.Height / 2) + Bounds.Top+2;
                     var adjustedHeight = globalHeight - Bounds.Position.Y; //Global position.
