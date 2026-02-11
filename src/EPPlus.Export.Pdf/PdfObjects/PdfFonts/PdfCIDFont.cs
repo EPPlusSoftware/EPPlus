@@ -37,7 +37,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             : base(objectNumber, version)
         {
             Subtype = subtype;
-            BaseFont = fontData.FullName;
+            BaseFont = string.Concat(fontData.FullName.Where(c => !char.IsWhiteSpace(c)));
             CIDInfoObject = CIDSystemInfoObject;
             FontDescriptorObjectNumber = fontDescriptorObjectNumber;
 
@@ -52,7 +52,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         {
             var sb = new StringBuilder();
             sb.AppendFormat($"<<  /Type /Font\n" +
-                            $"    /SubType /{Subtype.ToString()}\n" +
+                            $"    /Subtype /{Subtype.ToString()}\n" +
                             $"    /BaseFont /{BaseFont}\n" +
                             $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement ({CIDInfoObject.Supplement}) >>\n" +
                             $"    /FontDescriptor {FontDescriptorObjectNumber} 0 R");
@@ -89,7 +89,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         {
             var sb = new StringBuilder();
             sb.AppendFormat($"<<  /Type /Font\n" +
-                            $"    /SubType /{Subtype.ToString()}\n" +
+                            $"    /Subtype /{Subtype.ToString()}\n" +
                             $"    /BaseFont /{BaseFont}\n" +
                             $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement ({CIDInfoObject.Supplement}) >>\n" +
                             $"    /FontDescriptor {FontDescriptorObjectNumber} 0 R");
@@ -100,7 +100,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             if (Subset != null)
             {
                 //var widthsStr = string.Join(" ", W.Select(w => w.ToString()).ToArray());
-                sb.AppendFormat($"\n    /W [{BuildWidthsArray()}]");
+                sb.AppendFormat($"\n    /W [ {BuildWidthsArray()} ]");
             }
             if (DW2 != null)
             {
@@ -109,7 +109,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             if (W2 != null)
             {
                 var widthsStr = string.Join(" ", W2.Select(w => w.ToString()).ToArray());
-                sb.AppendFormat($"\n    /W2 [{widthsStr}]");
+                sb.AppendFormat($"\n    /W2 [ {widthsStr} ]");
             }
             if (Subtype == CIDFontSubtype.CIDFontType2)
             {
@@ -136,13 +136,13 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
                 while (i < sortedGids.Count && sortedGids[i] == startGid + widths.Count)
                 {
                     int rawWidth = FontData.HmtxTable.GetAdvanceWidth(sortedGids[i]);
-                    int scaledWidth = (int)Math.Round( 1000.0d * rawWidth / FontData.HeadTable.UnitsPerEm);
+                    int scaledWidth = (int)Math.Round(1000.0d * rawWidth / FontData.HeadTable.UnitsPerEm);
                     widths.Add(scaledWidth);
                     i++;
                 }
-                sb.Append($"{startGid} [");
-                sb.Append(string.Join(" ", widths.Select(w => w.ToString()).ToArray()));
-                sb.Append("] ");
+                    sb.Append($"{startGid} [");
+                    sb.Append(string.Join(" ", widths.Select(w => w.ToString()).ToArray()));
+                    sb.Append("] ");
             }
             return sb.ToString();
         }

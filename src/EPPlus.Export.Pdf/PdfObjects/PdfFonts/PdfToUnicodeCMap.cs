@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -21,7 +22,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         /// <param name="codeSpaceMax">Maximum character code value (e.g., 255 for simple fonts, 0xFFFF for CID fonts)</param>
         /// <param name="bytesPerCode">Number of bytes per character code (1 for simple fonts, 2 for CID fonts)</param>
         /// <param name="version">PDF object version</param>
-        public PdfToUnicodeCMap(int objectNumber, Dictionary<int, string> characterMappings, int codeSpaceMin = 0, int codeSpaceMax = 255, int bytesPerCode = 1, int version = 0) : base(objectNumber, version)
+        public PdfToUnicodeCMap(int objectNumber, Dictionary<int, string> characterMappings, int codeSpaceMin = 0, int codeSpaceMax = 65535, int bytesPerCode = 2, int version = 0) : base(objectNumber, version)
         {
             CharacterMappings = characterMappings ?? new Dictionary<int, string>();
             CodeSpaceMin = codeSpaceMin;
@@ -38,9 +39,23 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             sb.AppendLine(string.Format("<< /Length {0} >>", length));
             sb.AppendLine("stream");
             sb.Append(cmapContent);
-            sb.Append("endstream");
+            sb.Append("\nendstream");
 
             return sb.ToString();
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            var cmapContent = GenerateCMapContent();
+            var cmapBytes = Encoding.ASCII.GetBytes(cmapContent);
+
+            var sb = new StringBuilder();
+            sb.AppendFormat(($"<< /Length {cmapBytes.Length} >>\n"));
+            sb.Append("stream\n");
+            sb.Append(cmapContent);
+            sb.Append("\nendstream");
+
+            WriteAscii(bw, sb.ToString());
         }
 
         private string GenerateCMapContent()
@@ -48,25 +63,25 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             var sb = new StringBuilder();
 
             // CMap header
-            sb.AppendLine("/CIDInit /ProcSet findresource begin");
-            sb.AppendLine("12 dict begin");
-            sb.AppendLine("begincmap");
+            sb.Append("/CIDInit /ProcSet findresource begin\n");
+            sb.Append("12 dict begin\n");
+            sb.Append("begincmap\n");
 
             // CIDSystemInfo - required for ToUnicode CMaps
-            sb.AppendLine("/CIDSystemInfo");
-            sb.AppendLine("<< /Registry (Adobe)");
-            sb.AppendLine("   /Ordering (UCS)");
-            sb.AppendLine("   /Supplement 0");
-            sb.AppendLine(">> def");
+            sb.Append("/CIDSystemInfo\n");
+            sb.Append("<< /Registry (Adobe)\n");
+            sb.Append("   /Ordering (UCS)\n");
+            sb.Append("   /Supplement 0\n");
+            sb.Append(">> def\n");
 
             // CMap name and type
-            sb.AppendLine("/CMapName /Adobe-Identity-UCS def");
-            sb.AppendLine("/CMapType 2 def");
+            sb.Append("/CMapName /Adobe-Identity-UCS def\n");
+            sb.Append("/CMapType 2 def\n");
 
             // Define codespace range
-            sb.AppendLine("1 begincodespacerange");
-            sb.AppendLine(string.Format("<{0}> <{1}>", FormatCode(CodeSpaceMin), FormatCode(CodeSpaceMax)));
-            sb.AppendLine("endcodespacerange");
+            sb.Append("1 begincodespacerange\n");
+            sb.AppendFormat($"<{FormatCode(CodeSpaceMin)}> <{FormatCode(CodeSpaceMax)}>\n");
+            sb.Append("endcodespacerange\n");
 
             // Generate character mappings
             if (CharacterMappings.Count > 0)
@@ -75,11 +90,10 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             }
 
             // CMap footer
-            sb.AppendLine("endcmap");
-            sb.AppendLine("CMapName currentdict /CMap defineresource pop");
-            sb.AppendLine("end");
-            sb.AppendLine("end");
-
+            sb.Append("endcmap\n");
+            sb.Append("CMapName currentdict /CMap defineresource pop\n");
+            sb.Append("end\n");
+            sb.Append("end");
             return sb.ToString();
         }
 
@@ -146,15 +160,12 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             // Output ranges
             if (ranges.Count > 0)
             {
-                sb.AppendLine(string.Format("{0} beginbfrange", ranges.Count));
+                sb.AppendFormat($"{ranges.Count} beginbfrange");
                 foreach (var range in ranges)
                 {
-                    sb.AppendLine(string.Format("<{0}> <{1}> <{2}>",
-                        FormatCode(range.Start),
-                        FormatCode(range.End),
-                        FormatUnicode(range.UnicodeStart)));
+                    sb.AppendFormat($"<{FormatCode(range.Start)}> <{FormatCode(range.End)}> <{FormatUnicode(range.UnicodeStart)}>\n");
                 }
-                sb.AppendLine("endbfrange");
+                sb.Append("endbfrange\n");
             }
 
             // Output individual character mappings
@@ -165,14 +176,13 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
                 for (int i = 0; i < individualMappings.Count; i += batchSize)
                 {
                     var batch = individualMappings.Skip(i).Take(batchSize).ToList();
-                    sb.AppendLine(string.Format("{0} beginbfchar", batch.Count));
+                    sb.AppendFormat($"{batch.Count} beginbfchar\n");
                     foreach (var mapping in batch)
                     {
-                        sb.AppendLine(string.Format("<{0}> <{1}>",
-                            FormatCode(mapping.Code),
-                            mapping.Unicode));
+                        string hex = ((int)mapping.Unicode[0]).ToString("X4");
+                        sb.AppendFormat($"<{FormatCode(mapping.Code)}> <{hex}>\n");
                     }
-                    sb.AppendLine("endbfchar");
+                    sb.Append("endbfchar\n");
                 }
             }
         }

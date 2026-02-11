@@ -129,7 +129,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
         public void AddText(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
         {
-            var position = cell.Position;
+            var position = cell.LocalPosition;
             var text = cell.ShapedText;
             var alignment = cell.CellAlignmentData;
             var fontData = cell.fontdata;
@@ -418,7 +418,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
             var bytes = Encoding.ASCII.GetBytes(content);
-            WriteAscii(bw, $"<< / Length {bytes.Length} >>\nstream\n{content}\nendstream");
+            WriteAscii(bw, $"<< /Length {bytes.Length} >>\nstream\n{content}\nendstream");
         }
 
         private string FixEscapeCharacters(string text)

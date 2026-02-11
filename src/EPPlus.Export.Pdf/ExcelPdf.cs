@@ -210,7 +210,7 @@ namespace EPPlus.Export.Pdf
             }
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
-            contentStream.AddMarginClipping(pageLayout, PageSettings.ContentBounds);
+            //contentStream.AddMarginClipping(pageLayout, PageSettings.ContentBounds);
             foreach (var cell in cells)
             {
                 foreach (var cellPart in cell)
@@ -237,7 +237,7 @@ namespace EPPlus.Export.Pdf
                 contentStream.AddOuterGridBorder(pageLayout);
             }
             //Add header and footer.
-            AddHeaderFooter(contentStream, pageLayout, page);
+            //AddHeaderFooter(contentStream, pageLayout, page);
             Document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
         }
@@ -302,7 +302,7 @@ namespace EPPlus.Export.Pdf
                     foreach (var pdfobj in Document)
                     {
                         crossRefTable.AddPosition(fs.Position);
-                        bw.Write(pdfobj.ToPdfBytes());
+                        pdfobj.ToPdfBytes(bw);
                         debugString += pdfobj.ToPdfString();
                     }
                     //Write CrossReference

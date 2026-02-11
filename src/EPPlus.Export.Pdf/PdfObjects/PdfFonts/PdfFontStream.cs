@@ -25,7 +25,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             var fontBytes = FontData.Serialize();
             WriteAscii(bw, $"<< /Length {fontBytes.Length} >>\nstream\n");
             bw.Write(fontBytes);
-            WriteAscii(bw, "\nendstream\n");
+            WriteAscii(bw, "\nendstream");
         }
     }
 }

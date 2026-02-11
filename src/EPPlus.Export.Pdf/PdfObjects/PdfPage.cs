@@ -14,7 +14,9 @@ using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects
 {
@@ -50,6 +52,25 @@ namespace EPPlus.Export.Pdf.PdfObjects
                    $"                 /Shading << {shadings} >> >>\n" +
                    $"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
                    $"   /Contents [ {string.Join(" ", contentEntries)} ] >>";
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            var fontEntries = dictionaries.Fonts.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber} 0 R").ToArray();
+            var fonts = string.Join(" ", fontEntries);
+            var patternEntries = dictionaries.Patterns.Select(p => $"/{p.Value.Label} {p.Value.objectNumber} 0 R").ToArray();
+            var patterns = string.Join(" ", patternEntries);
+            var shadingEntries = dictionaries.Shadings.Select(s => $"/{s.Value.Label} {s.Value.objectNumber} 0 R").ToArray();
+            var shadings = string.Join(" ", shadingEntries);
+            var contentEntries = contentObjectNumbers.Select(con => $"{con} 0 R").ToArray();
+            StringBuilder sb = new StringBuilder();
+            WriteAscii(bw, $"<< /Type /Page\n" +
+                           $"   /Parent {parentObjectNumber} 0 R\n" +
+                           $"   /Resources << /Font << {fonts} >>\n" +
+                           $"                 /Pattern << {patterns} >>\n" +
+                           $"                 /Shading << {shadings} >> >>\n" +
+                           $"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
+                           $"   /Contents [ {string.Join(" ", contentEntries)} ] >>");
         }
     }
 }

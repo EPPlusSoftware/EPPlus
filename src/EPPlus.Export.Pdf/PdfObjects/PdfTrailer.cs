@@ -32,13 +32,13 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
         internal static void Write(BinaryWriter bw, int bodyCount, int catalogObjectNumber, int infoObjectNumber, long crossRefStartPosition)
         {
-            bw.Write(Encoding.ASCII.GetBytes("trailer\n"));
-            bw.Write(Encoding.ASCII.GetBytes($"<< /Size {bodyCount + 1}\n" +
+            bw.Write(Encoding.ASCII.GetBytes($"trailer\n" +
+                                             $"<< /Size {bodyCount + 1}\n" +
                                              $"   /Root {catalogObjectNumber} 0 R\n" +
-                                             $"   /Info {infoObjectNumber} 0 R >>\n"));
-            bw.Write(Encoding.ASCII.GetBytes("startxref\n"));
-            bw.Write(Encoding.ASCII.GetBytes($"{crossRefStartPosition}\n"));
-            bw.Write(Encoding.ASCII.GetBytes("%%EOF\n"));
+                                             $"   /Info {infoObjectNumber} 0 R >>\n" +
+                                             $"startxref\n" +
+                                             $"{crossRefStartPosition}\n" +
+                                             $"%%EOF\n"));
         }
     }
 }

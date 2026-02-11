@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Pdfhelpers;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -41,6 +42,21 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfPatterns
             }
             sb.Append(" >>");
             return sb.ToString();
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat($"<< /Type /Pattern\n" +
+                            $"   /PatternType 2\n" +
+                            $"   /Shading {shadingObjectNumber} 0 R");
+            if (Matrix != null)
+            {
+                var matrixStr = string.Join(" ", Matrix.Select(w => w.ToPdfStringF4()).ToArray());
+                sb.AppendFormat($"\n   /Matrix [ {matrixStr} ]");
+            }
+            sb.Append(" >>");
+            WriteAscii(bw, sb.ToString());
         }
     }
 }

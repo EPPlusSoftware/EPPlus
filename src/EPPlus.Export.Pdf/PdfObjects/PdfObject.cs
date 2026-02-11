@@ -30,7 +30,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             var sb = new StringBuilder();
             sb.AppendFormat("{0} {1} obj\n", objectNumber, version);
-            //sb.Append(RenderDictionary());
+            sb.Append(RenderDictionary());
             sb.Append("\nendobj\n");
             return sb.ToString();
         }
@@ -39,7 +39,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             var sb = new StringBuilder();
             sb.AppendFormat("{0} {1} obj\n", objectNumber, version);
-            //sb.Append(RenderDictionary());
+            sb.Append(RenderDictionary());
             sb.Append("\nendobj\n");
             return Encoding.ASCII.GetBytes(sb.ToString());
         }
@@ -56,6 +56,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             bw.Write(Encoding.ASCII.GetBytes(s));
         }
+
+        internal abstract string RenderDictionary();
 
         internal abstract void RenderDictionary(BinaryWriter bw);
     }
