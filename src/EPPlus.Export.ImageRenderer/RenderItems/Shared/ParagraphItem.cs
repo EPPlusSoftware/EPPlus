@@ -1,5 +1,4 @@
-﻿using EPPlus.Export.ImageRenderer.Text;
-using EPPlus.Fonts.OpenType;
+﻿using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;

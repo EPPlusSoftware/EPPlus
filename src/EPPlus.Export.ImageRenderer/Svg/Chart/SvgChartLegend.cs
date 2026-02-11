@@ -14,7 +14,6 @@ using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg;
 using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.Text;
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing;
