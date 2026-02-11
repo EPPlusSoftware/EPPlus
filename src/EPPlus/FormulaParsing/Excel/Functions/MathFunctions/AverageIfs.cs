@@ -55,12 +55,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             if (index == 0 && args[0].Result is IRangeInfo valueRange)
             {
-                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args, ctx);
+                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args, ctx, convertNumericStrings: false);
                 EnqueueMatchingAddresses(valueRange, matchIndexes, ref addresses);
             }
             else if (args[index].Result is IRangeInfo criteriaRange)
             {
-                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args, ctx, index);
+                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args, ctx, index, convertNumericStrings: false);
                 EnqueueMatchingAddresses(criteriaRange, matchIndexes, ref addresses);
             }
         }

@@ -269,7 +269,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
             return addresses;
         }
-        protected IEnumerable<int> GetMatchingIndicesFromArguments(int argStartIx, IList<CompileResult> args, ParsingContext ctx, int maxIndex = 31)
+        protected IEnumerable<int> GetMatchingIndicesFromArguments(int argStartIx, IList<CompileResult> args, ParsingContext ctx, int maxIndex = 31, bool convertNumericStrings = true)
         {
             //Return the addresses matching the criteria in the queue
             var argRanges = new List<RangeOrValue>();
@@ -296,11 +296,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     criteria.Add(new RangeOrValue { Value = args[ix + 1].ResultValue });
                 }
             }
-            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criteria[0], ctx);
+            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criteria[0], ctx, convertNumericStrings);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
             for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
             {
-                var indexes = GetMatchIndexes(argRanges[ix], criteria[ix], ctx);
+                var indexes = GetMatchIndexes(argRanges[ix], criteria[ix], ctx, convertNumericStrings);
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
 
