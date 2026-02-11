@@ -232,7 +232,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             // Create a unique key combining range address and criteria value
             var rangeKey = CreateRangeKey(rangeAddress);
-            var criteriaKey = criteriaValue?.ToString() ?? "null";
+            var cv = criteriaValue;
+            if(criteriaValue is RangeOrValue rov)
+            {
+                cv = rov.Value != null ? rov.Value : rov?.Range?.Address.ToString() ?? "null";
+            }
+            var criteriaKey = cv?.ToString() ?? "null";
             return $"{rangeKey}|{criteriaKey}";
         }
     }
