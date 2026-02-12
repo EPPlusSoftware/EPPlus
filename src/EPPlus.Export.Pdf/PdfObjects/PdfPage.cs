@@ -13,10 +13,13 @@
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.Pdf.PdfObjects
 {
@@ -45,13 +48,23 @@ namespace EPPlus.Export.Pdf.PdfObjects
             var shadingEntries = dictionaries.Shadings.Select(s => $"/{s.Value.Label} {s.Value.objectNumber} 0 R").ToArray();
             var shadings = string.Join(" ", shadingEntries);
             var contentEntries = contentObjectNumbers.Select(con => $"{con} 0 R").ToArray();
-            return $"<< /Type /Page\n" +
-                   $"   /Parent {parentObjectNumber} 0 R\n" +
-                   $"   /Resources << /Font << {fonts} >>\n" +
-                   $"                 /Pattern << {patterns} >>\n" +
-                   $"                 /Shading << {shadings} >> >>\n" +
-                   $"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
-                   $"   /Contents [ {string.Join(" ", contentEntries)} ] >>";
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat($"<< /Type /Page\n" +
+                            $"   /Parent {parentObjectNumber} 0 R\n");
+            bool hasFont = !string.IsNullOrEmpty(fonts);
+            bool hasPattern = !string.IsNullOrEmpty(patterns);
+            bool hasShading = !string.IsNullOrEmpty(shadings);
+            if (hasFont || hasPattern || hasShading)
+            {
+                sb.AppendFormat($"   /Resources <<\n");
+                if (hasFont   ) sb.AppendFormat($"      /Font << {fonts} >>\n");
+                if (hasPattern) sb.AppendFormat($"      /Pattern << {patterns} >>\n");
+                if (hasShading) sb.AppendFormat($"      /Shading << {shadings} >>\n");
+                sb.AppendFormat($"   >>\n");
+            }
+            sb.AppendFormat($"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
+                            $"   /Contents [ {string.Join(" ", contentEntries)} ] >>");
+            return sb.ToString();
         }
 
         internal override void RenderDictionary(BinaryWriter bw)
@@ -64,13 +77,22 @@ namespace EPPlus.Export.Pdf.PdfObjects
             var shadings = string.Join(" ", shadingEntries);
             var contentEntries = contentObjectNumbers.Select(con => $"{con} 0 R").ToArray();
             StringBuilder sb = new StringBuilder();
-            WriteAscii(bw, $"<< /Type /Page\n" +
-                           $"   /Parent {parentObjectNumber} 0 R\n" +
-                           $"   /Resources << /Font << {fonts} >>\n" +
-                           $"                 /Pattern << {patterns} >>\n" +
-                           $"                 /Shading << {shadings} >> >>\n" +
-                           $"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
-                           $"   /Contents [ {string.Join(" ", contentEntries)} ] >>");
+            sb.AppendFormat($"<< /Type /Page\n" +
+                           $"   /Parent {parentObjectNumber} 0 R\n");
+            bool hasFont = !string.IsNullOrEmpty(fonts);
+            bool hasPattern = !string.IsNullOrEmpty(patterns);
+            bool hasShading = !string.IsNullOrEmpty(shadings);
+            if (hasFont || hasPattern || hasShading)
+            {
+                sb.AppendFormat($"   /Resources <<\n");
+                if (hasFont   ) sb.AppendFormat($"      /Font << {fonts} >>\n");
+                if (hasPattern) sb.AppendFormat($"      /Pattern << {patterns} >>\n");
+                if (hasShading) sb.AppendFormat($"      /Shading << {shadings} >>\n");
+                sb.AppendFormat($"   >>\n");
+            }
+            sb.AppendFormat($"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
+                            $"   /Contents [ {string.Join(" ", contentEntries)} ] >>");
+            WriteAscii(bw, sb.ToString());
         }
     }
 }

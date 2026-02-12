@@ -135,12 +135,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if (!hash.Contains(c))
                         hash.Add(c);
                 }
-                var shaper = dictionaries.Fonts[fontdata.FullFontName].Shaper;
-                var options = ShapingOptions.Default;
-                options.ApplyPositioning = true;
-                options.ApplySubstitutions = true;
-                ShapedText = shaper.Shape(fontdata.Text, options);
-                dictionaries.Fonts[fontdata.FullFontName].Shaped.Add(ShapedText);
             }
         }
 
@@ -545,6 +539,16 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     };
                 }
             }
+        }
+
+        internal void CreateTextShape(PdfDictionaries dictionaries)
+        {
+            var shaper = dictionaries.Fonts[fontdata.FullFontName].Shaper;
+            var options = ShapingOptions.Default;
+            options.ApplyPositioning = true;
+            options.ApplySubstitutions = true;
+            ShapedText = shaper.Shape(fontdata.Text, options);
+            dictionaries.Fonts[fontdata.FullFontName].Shaped.Add(ShapedText);
         }
     }
 }

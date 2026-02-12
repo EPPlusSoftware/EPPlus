@@ -51,7 +51,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             string mergedCellsInPages = ToHierarchyString();
             ConvertToPDFCoordiantes(pageSettings, PagesLayout);
             string ConvertedCoordinates = ToHierarchyString();
-            AdjustAndSort(PagesLayout);
+            AdjustAndSort(PagesLayout, dictionaries);
             RemoveChild(WorksheetLayout);
             AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
             string FinalPagesLayout = ToHierarchyString();
@@ -225,7 +225,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Make final adjustments and sort children for drawing order.
-        private void AdjustAndSort(PdfPagesLayout pages)
+        private void AdjustAndSort(PdfPagesLayout pages, PdfDictionaries dictionaries)
         {
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
@@ -239,6 +239,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if (child is PdfCellContentLayout contentLayout)
                     {
                         contentLayout.CreateClippingRect(page.ChildObjects);
+                        contentLayout.CreateTextShape(dictionaries);
                     }
                     if (child is PdfMergedCellLayout mergedLayout)
                     {

@@ -30,10 +30,10 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         private readonly List<object> W2;                       // Vertical writing metrics
         private readonly string CIDToGIDMap;                    // Can be string "Identity" or stream reference
 
-        private HashSet<char> Subset;
+        private HashSet<ushort> Gids;
         OpenTypeFont FontData;
 
-        public PdfCIDFont(int objectNumber, OpenTypeFont fontData, HashSet<char> subset, CIDFontSubtype subtype, CIDSystemInfo CIDSystemInfoObject, string CIDToGDI, int fontDescriptorObjectNumber, int version = 0)
+        public PdfCIDFont(int objectNumber, OpenTypeFont fontData, HashSet<ushort> gids, CIDFontSubtype subtype, CIDSystemInfo CIDSystemInfoObject, string CIDToGDI, int fontDescriptorObjectNumber, int version = 0)
             : base(objectNumber, version)
         {
             Subtype = subtype;
@@ -42,7 +42,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             FontDescriptorObjectNumber = fontDescriptorObjectNumber;
 
             FontData = fontData;
-            Subset = subset;
+            Gids = gids;
 
             DW = (int)Math.Round(1000.0d * 1000.0d / FontData.HeadTable.UnitsPerEm);//dw;
             CIDToGIDMap = CIDToGDI;
@@ -60,7 +60,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             {
                 sb.AppendFormat($"\n    /DW {DW}");
             }
-            if (Subset != null)
+            if (Gids != null)
             {
                 //var widthsStr = string.Join(" ", W.Select(w => w.ToString()).ToArray());
                 sb.AppendFormat($"\n    /W [{BuildWidthsArray()}]");
@@ -97,7 +97,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             {
                 sb.AppendFormat($"\n    /DW {DW}");
             }
-            if (Subset != null)
+            if (Gids != null)
             {
                 //var widthsStr = string.Join(" ", W.Select(w => w.ToString()).ToArray());
                 sb.AppendFormat($"\n    /W [ {BuildWidthsArray()} ]");
@@ -124,7 +124,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
 
         private string BuildWidthsArray()
         {
-            var sortedGids = Subset.OrderBy(g => g).ToList();
+            var sortedGids = Gids.OrderBy(g => g).ToList();
             var sb = new StringBuilder();
 
             int i = 0;
@@ -140,9 +140,9 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
                     widths.Add(scaledWidth);
                     i++;
                 }
-                    sb.Append($"{startGid} [");
-                    sb.Append(string.Join(" ", widths.Select(w => w.ToString()).ToArray()));
-                    sb.Append("] ");
+                sb.Append($"{startGid} [");
+                sb.Append(string.Join(" ", widths.Select(w => w.ToString()).ToArray()));
+                sb.Append("] ");
             }
             return sb.ToString();
         }

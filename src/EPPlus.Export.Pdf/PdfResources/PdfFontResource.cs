@@ -15,9 +15,9 @@ using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using EPPlus.Graphics;
-using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 
@@ -33,6 +33,7 @@ namespace EPPlus.Export.Pdf.PdfResources
         internal int embedFontStreamObjectNumber = -1;
         internal int fontDescObjectNumber = -1;
         internal int fontWidthObjectNumber = -1;
+        internal int cidSetObjectNumber = -1;
         internal OpenTypeFont fontData;
         private int firstChar = 32;
         private int lastChar = 255;
@@ -44,18 +45,20 @@ namespace EPPlus.Export.Pdf.PdfResources
         internal List<ShapedText> Shaped = new List<ShapedText>();
 
         internal HashSet<char> Subset = new HashSet<char>();
+        internal HashSet<ushort> Gids = new HashSet<ushort>();
+        internal Dictionary<int, string> charactermappings = new Dictionary<int, string>();
 
         public PdfFontResource(string fontName, FontSubFamily subFamily, int labelNumber, PdfPageSettings pageSettings)
             : base("F", labelNumber)
         {
             this.fontName = fontName;
             fontData = OpenTypeFonts.GetFontData(pageSettings.FontDirectories, fontName, subFamily, pageSettings.SearchSystemDirectories);
-            Shaper = new TextShaper(fontData);
         }
 
         internal void CreateSubset()
         {
             fontData = fontData.CreateSubset(Subset);
+            Shaper = new TextShaper(fontData);
         }
 
         //Get the Font Descriptor object to write in PDF.
@@ -120,6 +123,7 @@ namespace EPPlus.Export.Pdf.PdfResources
                 0,
                 fontData.Os2Table.sCapHeight,
                 embedFontStreamObjectNumber,
+                cidSetObjectNumber,
                 version
             );
         }
@@ -167,7 +171,8 @@ namespace EPPlus.Export.Pdf.PdfResources
             cidSystemInfo.Registry = "Adobe";
             cidSystemInfo.Ordering = "Identity";
             cidSystemInfo.Supplement = 0;
-            return new PdfCIDFont(objectNumber, fontData, Subset, CIDFontSubtype.CIDFontType2, cidSystemInfo, "Identity", fontDescObjectNumber);
+
+            return new PdfCIDFont(objectNumber, fontData, Gids, CIDFontSubtype.CIDFontType2, cidSystemInfo, "Identity", fontDescObjectNumber);
         }
 
         internal PdfType0FontDict GetType0FontDictObject(int objectNumber, int version = 0)
@@ -179,22 +184,6 @@ namespace EPPlus.Export.Pdf.PdfResources
         internal PdfToUnicodeCMap GetUnicodeCmapObject(int objectNumber, int version = 0)
         {
             unicodeCMapFontObjectNumber = objectNumber;
-            var charactermappings = new Dictionary<int, string>();
-
-            foreach (var shape in Shaped)
-            {
-                foreach (var glyph in shape.Glyphs)
-                {
-                    if (!charactermappings.ContainsKey(glyph.GlyphId))
-                    {
-                        var chars = ExtractCharactersForGlyph(glyph, shape.OriginalText);
-                        if (!string.IsNullOrEmpty(chars))
-                        {
-                            charactermappings.Add(glyph.GlyphId, chars);
-                        }
-                    }
-                }
-            }
             return new PdfToUnicodeCMap(objectNumber, charactermappings);
         }
         private string ExtractCharactersForGlyph(ShapedGlyph glyph, string textLine)
@@ -211,6 +200,44 @@ namespace EPPlus.Export.Pdf.PdfResources
         {
             embedFontStreamObjectNumber = objectNumber;
             return new PdfFontStream(objectNumber, fontData, version);
+        }
+
+        internal PdfCidSet GetCidSet(int objectNumber, int version = 0)
+        {
+            if (!fontData.IsSubset || Gids.Count == 0)
+                return null;
+
+            int maxGid = Gids.Max();
+            int numBytes = (maxGid / 8) + 1;
+            var cidSet = new byte[numBytes];
+
+            foreach (var gid in Gids)
+            {
+                int byteIndex = gid / 8;
+                int bitIndex = 7 - (gid % 8);
+                cidSet[byteIndex] |= (byte)(1 << bitIndex);
+            }
+            cidSetObjectNumber = objectNumber;
+            return new PdfCidSet(objectNumber, cidSet, version);
+        }
+
+        internal void CreateGidsAndCharMaps()
+        {
+            foreach (var shape in Shaped)
+            {
+                foreach (var glyph in shape.Glyphs)
+                {
+                    Gids.Add(glyph.GlyphId);
+                    if (!charactermappings.ContainsKey(glyph.GlyphId))
+                    {
+                        var chars = ExtractCharactersForGlyph(glyph, shape.OriginalText);
+                        if (!string.IsNullOrEmpty(chars))
+                        {
+                            charactermappings.Add(glyph.GlyphId, chars);
+                        }
+                    }
+                }
+            }
         }
     }
 }

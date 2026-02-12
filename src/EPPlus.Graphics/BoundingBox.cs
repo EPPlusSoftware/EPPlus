@@ -140,17 +140,17 @@ namespace EPPlus.Graphics
 
         //Quick-access to underlying transform
 
-        /// <summary>
-        /// Local position X
-        /// X-position from parent transform position
-        /// </summary>
-        internal override double X { get { return Left; } set { Left = value; } }
+        ///// <summary>
+        ///// Local position X
+        ///// X-position from parent transform position
+        ///// </summary>
+        //internal override double X { get { return Left; } set { Left = value; } }
 
-        /// <summary>
-        /// Local position Y
-        /// Y-position from parent transform position
-        /// </summary>
-        internal override double Y { get { return Top; } set { Top = value; } }
+        ///// <summary>
+        ///// Local position Y
+        ///// Y-position from parent transform position
+        ///// </summary>
+        //internal override double Y { get { return Top; } set { Top = value; } }
 
         //Gets global position x and y
         internal double GlobalX { get { return transform.Position.X; } }

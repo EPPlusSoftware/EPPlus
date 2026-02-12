@@ -44,10 +44,11 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         private readonly int descent;
         private readonly double stemV;
         private readonly int capheight;
+        private readonly int CidSetObjectNumber;
         private readonly int FontFile2ObjectNumber;
 
 
-        public PdfFontDescriptor(int objectNumber, string fontName, int flags, Rect fontBBox, double italicAngle, int ascent, int descent, double stemV, int capHeight, int fontFile2ObjectNumber = -1, int version = 0)
+        public PdfFontDescriptor(int objectNumber, string fontName, int flags, Rect fontBBox, double italicAngle, int ascent, int descent, double stemV, int capHeight, int fontFile2ObjectNumber = -1, int cidSetObjectNumber = -1, int version = 0)
             : base(objectNumber, version)
         {
             this.fontName = fontName;
@@ -58,6 +59,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             this.descent = descent;
             this.stemV = stemV;
             capheight = capHeight;
+            CidSetObjectNumber = cidSetObjectNumber;
             FontFile2ObjectNumber = fontFile2ObjectNumber;
         }
 
@@ -73,6 +75,10 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
                             $"    /CapHeight {capheight}\n" +
                             $"    /ItalicAngle {(int)italicAngle}\n" +
                             $"    /StemV {(int)stemV}");
+            if (CidSetObjectNumber > 0)
+            {
+                sb.AppendFormat($"\n    /CIDSet {CidSetObjectNumber} 0 R");
+            }
             if (FontFile2ObjectNumber > 0)
             {
                 sb.AppendFormat($"\n    /FontFile2 {FontFile2ObjectNumber} 0 R");

@@ -131,15 +131,14 @@ namespace EPPlus.Export.Pdf
             {
                 foreach (var font in Dictionaries.Fonts)
                 {
+                    font.Value.CreateGidsAndCharMaps();
+                    var CidSet = font.Value.GetCidSet(Document.Count + 1);
+                    if (CidSet != null) Document.Add(CidSet);
                     Document.Add(font.Value.GetEmbeddedFontStreamObject(Document.Count + 1));
                     Document.Add(font.Value.GetFontDescriptorObject(Document.Count + 1));
                     Document.Add(font.Value.GetCIDFontObject(Document.Count + 1));
                     Document.Add(font.Value.GetUnicodeCmapObject(Document.Count + 1));
                     Document.Add(font.Value.GetType0FontDictObject(Document.Count + 1));
-                    if (font.Value.fontData.IsSubset)
-                    {
-                        //build cid set?
-                    }
                     font.Value.GetFontObject(Document.Count);
                 }
             }
