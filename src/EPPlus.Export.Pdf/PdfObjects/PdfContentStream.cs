@@ -140,7 +140,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
             commands.Add("BT");
             commands.Add($"/{font.Label} {fontData.FontSize.ToPdfString()} Tf");
-            commands.Add($"{position.X.ToPdfString()} {position.Y.ToPdfString()} td");
+            commands.Add($"{position.X.ToPdfString()} {position.Y.ToPdfString()} Td");
             var sb = new StringBuilder();
             sb.Append("[");
             for (int i = 0; i < text.Glyphs.Length; i++)
