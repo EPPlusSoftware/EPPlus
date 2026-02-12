@@ -26,6 +26,11 @@ namespace EPPlus.Fonts.OpenType
             return LoadCached("NotoEmoji-Regular.ttf");
         }
 
+        internal static OpenTypeFont LoadNotoMath()
+        {
+            return LoadCached("NotoSansMath-Regular.ttf");
+        }
+
         private static OpenTypeFont LoadCached(string resourceName)
         {
             lock (_lock)
