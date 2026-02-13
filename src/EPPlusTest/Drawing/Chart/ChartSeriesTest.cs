@@ -1,14 +1,22 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Castle.Components.DictionaryAdapter.Xml;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace EPPlusTest.Drawing.Chart
 {
@@ -240,6 +248,173 @@ namespace EPPlusTest.Drawing.Chart
 
                 SaveAndCleanup(p);
             }
+        }
+
+        //[TestMethod]
+        //public void GenerateExample()
+        //{
+        //    using (var package = OpenPackage("manualLayoutChartCommentRange.xlsx", true))
+        //    {
+        //        var ws = package.Workbook.Worksheets.Add("ManualLayout");
+
+        //        //Create some values
+        //        ws.Cells["A1:A2"].Value = 5;
+        //        ws.Cells["B1:B2"].Value = 10;
+
+        //        //Create a column chart
+        //        var sChart = ws.Drawings.AddBarChart("ColumnChart", eBarChartType.ColumnClustered);
+
+        //        //Add series (clustered columns) to the chart. In this case 2 per series
+        //        var s1 = sChart.Series.Add(ws.Cells["A1:A2"]);
+        //        var s2 = sChart.Series.Add(ws.Cells["B1:B2"]);
+
+        //        //Add a general datalabel
+        //        var label = s1.DataLabel;
+        //        label.ShowValue = true;
+
+        //        //Add a specific datalabel to the first column in the cluster
+        //        var dl = label.DataLabels.Add(0);
+
+        //        var myLabel = s1.DataLabel.DataLabels[0];
+
+        //        //Offset the data label 10% of the charts width to the left
+        //        //AKA Remove 10 from x coordinate
+        //        dl.Layout.ManualLayout.Left = -10;
+
+        //        //Offset the data label 10% of the charts height to the top
+        //        //AKA remove 10 from y coordinate
+        //        dl.Layout.ManualLayout.Top = -10;
+
+        //        //Save the package at a path
+        //        package.SaveAs(@"C:\temp\manualLayoutChart.xlsx");
+        //    }
+        //}
+
+
+
+        [TestMethod]
+        public void ReadSimpleFile()
+        {
+            using (var package = OpenTemplatePackage("editedDataLabel.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                var myChart = ws.Drawings[0].As.Chart.BarChart;
+
+                var lbl = myChart.Series[0].DataLabel.DataLabels[0];
+
+                var lblTxtBody = myChart.Series[0].DataLabel.DataLabels[0].TextBody;
+
+                
+
+                //var serializedParent = JsonConvert.SerializeObject(test.Font);
+                //ExcelParagraph castedFont = JsonConvert.DeserializeObject<ExcelParagraph>(serializedParent);
+
+
+                //castedFont.Text = "My Overriding Comment";
+
+                //for (int i = 1; i < 4; i++)
+                //{
+                //    ws.Cells[i, 2].Value = $"Comment {i}";
+                //}
+
+                //var serie = myChart.Series.Add(ws.Cells["A1:A3"], ws.Cells["C1:C3"]);
+                //serie.DataLabel.ShowValue = true;
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void ReadFile()
+        {
+            using (var package = OpenTemplatePackage("S1008.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                //var myChart = ws.Drawings[0].As.Chart.ChartExtended;
+                var chart = ws.Drawings[0].As.Chart.LineChart;
+
+                //var myRect = ws.Drawings.AddShape("MyShape", eShapeStyle.Rect);
+
+                //ws.Calculate();
+
+                //ws.Workbook.Calculate();
+                ////chart.Series.lab
+                ////var chart = ws.Drawings[0].As.Chart.Type<typeof(cType)>;
+
+                //var theCustomLabels = chart.Series[0].DataLabel.DataLabels;
+
+                //var addedLabel = theCustomLabels.Add(21);
+
+                //var label21 = theCustomLabels[21];
+                //var label26 = theCustomLabels[26];
+
+                //var aNode = (XmlElement)label21.TopNode;
+
+                //var idxNodeUnderDataLabel = myChart.SelectSingleNode($@"//c:dLbl/c:idx[@val='{20}']", nsm);
+                //var paragraphNodeForTheText = idxNodeUnderDataLabel.ParentNode.SelectSingleNode("c:tx/c:rich/a:p", nsm);
+
+
+
+                var myChart = chart.ChartXml;
+
+                string myComment = "Mislabeled resistors - wrong part defects";
+
+                //CommentOnDataLabel(myChart, 0, 21, myComment);
+                CommentOnDataLabel(myChart, 0,20, myComment);
+                //ready namespace manager
+                //var nsm = new XmlNamespaceManager(myChart.NameTable);
+                //nsm.AddNamespace(@"c", @"http://schemas.openxmlformats.org/drawingml/2006/chart");
+                //nsm.AddNamespace(@"a", @"http://schemas.openxmlformats.org/drawingml/2006/main");
+
+                //int serieIdx = 0;
+
+                //var serieNode = myChart.ChildNodes[2].SelectSingleNode(@"c:chart/c:plotArea/c:lineChart/c:ser[c:idx[@val='" + serieIdx + "']]", nsm);
+                //int dlblIdx = 20;
+                //var dataLabelToComment = serieNode.SelectSingleNode(@"c:dLbls/c:dLbl[c:idx[@val='" + dlblIdx + "']]", nsm);
+
+
+                //dataLabelToComment.InnerXml = $"<a:r><a:rPr lang=\"en-US\"/><a:t>{myComment}</a:t></a:r>";
+
+                //"Mislabeled resistors - wrong part defects";
+                //var firstSeries = myChart.SelectSingleNode("//c:ser", myChart.namespa);
+                //var idxNode = firstSeries.SelectSingleNode("//c:idx[@val=\"21\"]");
+
+                //firstSeries.SelectSingleNode()
+
+                //var theSeries = chart.Series[0].DataPoints
+                //aNode.
+                //var myLitterals = chart.Series[0].StringLiteralsX;
+                //var myLitteralsOther = chart.Series[0].StringLiteralsY;
+
+                //chart.Series[0].CreateCache();
+
+                //var dataPoint = chart.Series[0].DataPoints[21];
+
+                //var element = label21.TextBody.PathElement;
+                //label26.
+                //var fldParagraph = label21.TextBody.Paragraphs[0];
+                //fldParagraph.Text
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        static void CommentOnDataLabel(XmlDocument chartXml, int seriesIdx, int datalabelIdx, string myComment)
+        {
+            var nsm = new XmlNamespaceManager(chartXml.NameTable);
+            nsm.AddNamespace(@"c", @"http://schemas.openxmlformats.org/drawingml/2006/chart");
+            nsm.AddNamespace(@"a", @"http://schemas.openxmlformats.org/drawingml/2006/main");
+
+            int serieIdx = 0;
+
+            var serieNode = chartXml.ChildNodes[2].SelectSingleNode(@"c:chart/c:plotArea/c:lineChart/c:ser[c:idx[@val='" + serieIdx + "']]", nsm);
+            
+            var dataLabelToComment = serieNode.SelectSingleNode(@"c:dLbls/c:dLbl[c:idx[@val='" + datalabelIdx + "']]", nsm);
+
+            var paragraphNodeForTheText = dataLabelToComment.SelectSingleNode("c:tx/c:rich/a:p", nsm);
+            paragraphNodeForTheText.InnerXml = $"<a:r><a:rPr lang=\"en-US\"/><a:t>{myComment}</a:t></a:r>";
         }
     }
 }
